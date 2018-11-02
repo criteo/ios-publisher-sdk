@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites name='AdViewerUITests.xctest' tests='5' failures='0'>
+  <testsuite name='AdViewerTests' tests='2' failures='0'>
+    <testcase classname='AdViewerTests' name='testExample' time='0.001'/>
+    <testcase classname='AdViewerTests' name='testPerformanceExample' time='0.576'/>
+  </testsuite>
+  <testsuite name='BasicTestOfNothing' tests='2' failures='0'>
+    <testcase classname='BasicTestOfNothing' name='testExample' time='0.000'/>
+    <testcase classname='BasicTestOfNothing' name='testPerformanceExample' time='0.252'/>
+  </testsuite>
+  <testsuite name='AdViewerUITests' tests='1' failures='0'>
+    <testcase classname='AdViewerUITests' name='testExample' time='4.616'/>
+  </testsuite>
+</testsuites>
