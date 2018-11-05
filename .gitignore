@@ -18,6 +18,15 @@ profile
 DerivedData
 *.hmap
 *.ipa
+*.xcuserstate
+xcuserdata/
 
-# CocoaPods
-Pods
+# CI job scripts
+scripts/
+build/
+
+
+#Buck
+.buckconfig
+buck-out/
+.buckd/
