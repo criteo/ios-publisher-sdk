@@ -21,8 +21,7 @@ DerivedData
 *.xcuserstate
 xcuserdata/
 
-# CI job scripts
-scripts/
+# Build artifacts
 build/
 
 

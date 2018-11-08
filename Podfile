@@ -1,9 +1,10 @@
-project 'AdViewer/AdViewer.xcodeproj'
+project 'DemoApp/AdViewer.xcodeproj'
 
 platform :ios, '8.0'
 
-target 'AdViewer' do
-  workspace 'fuji'
+target 'AdViewer'
+begin
+  workspace 'Fuji'
 
   # Pods for AdViewer
 
