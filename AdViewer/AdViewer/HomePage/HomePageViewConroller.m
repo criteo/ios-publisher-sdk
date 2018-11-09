@@ -2,7 +2,7 @@
 //  ViewController.m
 //  AdViewer
 //
-//  Created by Yahor Paulikau on 11/1/18.
+//  Created by Yegor Pavlikov on 11/1/18.
 //  Copyright © 2018 Criteo. All rights reserved.
 //
 
@@ -21,8 +21,15 @@
 
 
 - (IBAction)buttonGoogleDFPTouchUp:(id)sender {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+    UIViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"GoogleDFP"];
+    [self.navigationController pushViewController:vc animated:YES];
+    
 }
 
 - (IBAction)buttonMopubTouchUp:(id)sender {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+    UIViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"Mopub"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 @end

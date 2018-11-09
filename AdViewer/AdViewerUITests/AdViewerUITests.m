@@ -2,7 +2,7 @@
 //  AdViewerUITests.m
 //  AdViewerUITests
 //
-//  Created by Yahor Paulikau on 11/1/18.
+//  Created by Yegor Pavlikov on 11/1/18.
 //  Copyright © 2018 Criteo. All rights reserved.
 //
 

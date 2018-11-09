@@ -1,8 +1,9 @@
 #!/bin/bash -l
 
 set -o pipefail && xcodebuild \
-	-workspace fuji.xcworkspace \
+	-workspace fuji-test-app.xcworkspace \
         -scheme AdViewer \
+        -configuration debug \
         -IDEBuildOperationMaxNumberOfConcurrentCompileTasks=`sysctl -n hw.ncpu` \
         -derivedDataPath build/DerivedData  \
         -sdk iphonesimulator \

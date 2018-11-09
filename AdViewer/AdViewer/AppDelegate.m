@@ -2,7 +2,7 @@
 //  AppDelegate.m
 //  AdViewer
 //
-//  Created by Yahor Paulikau on 11/1/18.
+//  Created by Yegor Pavlikov on 11/1/18.
 //  Copyright © 2018 Criteo. All rights reserved.
 //
 
@@ -17,6 +17,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+
+
     return YES;
 }
 
