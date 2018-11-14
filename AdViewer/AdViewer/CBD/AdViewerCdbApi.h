@@ -11,6 +11,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+//#import <WebKit/WebKit.h>
 #import <sys/utsname.h>
 
 enum methodSelector
@@ -23,8 +24,10 @@ enum methodSelector
 
 @protocol AdViewerCdbApiDelegate <NSObject>
 
--(void)AdViewerAPI:(AdViewerCdbApi *)api didFinishLoading:(NSDictionary *)response message:(NSString *)message
-      selector:(enum methodSelector)selector;
+-(void)AdViewerAPI:(AdViewerCdbApi *)api didFinishLoading:(NSDictionary *)response
+            header:(NSDictionary *)header
+           message:(NSString *)message
+          selector:(enum methodSelector)selector;
     
 @end
 
@@ -40,8 +43,8 @@ enum methodSelector
 
 
 - (id)initWithSelector:(enum methodSelector)selector delegate:(id)delegate;
-- (NSString *)LoadAd: (NSDictionary *)requestData;
-
+- (NSString *)loadAdWithCDB: (NSDictionary *)requestData;
+- (NSString *)stringFromJSONObject: (NSDictionary*)jsonObject;
     
 @end
 

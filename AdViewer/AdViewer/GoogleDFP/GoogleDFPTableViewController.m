@@ -16,21 +16,25 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
+    self.textView.text = @"test";
+    self.textView.text = @"";
 }
 
 
 # pragma mark - actions
     
-- (IBAction)LoadAdClick:(id)sender {
+- (IBAction)loadAdClick:(id)sender {
     AdViewerCdbApi *apiCaller = [[AdViewerCdbApi alloc] initWithSelector: LoadAd delegate: self];
-    NSDictionary *profileData =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-        [NSNumber numberWithLong: 217], @"profileId",  // Add more keys and values to the dictionary to pass parameters to api caller
-        @"1139617", @"impId",
+
+    long profileId = [self.textPartnerId.text intValue];
+
+    NSDictionary *profileData = [NSDictionary dictionaryWithObjectsAndKeys:
+        [NSNumber numberWithLong: profileId], @"profileId",
+        self.textImpId.text,                  @"impId",
         nil];
 
-    NSString *message = [apiCaller LoadAd: profileData];
+    NSString *message = [apiCaller loadAdWithCDB: profileData];
     if (message) {
         NSLog(@"Error: %@", message);
         return;
@@ -39,16 +43,49 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
+- (IBAction)clearButtonClick:(id)sender {
+    self.textView.text = @"test";
+    self.textView.text = @"";
+}
 
--(void)AdViewerAPI:(AdViewerCdbApi *)api didFinishLoading:(NSDictionary *)response message:(NSString *)message
+
+-(void)AdViewerAPI:(AdViewerCdbApi *)api
+  didFinishLoading:(NSDictionary *)response
+            header:(NSDictionary *)header
+           message:(NSString *)message
       selector:(enum methodSelector)selector {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
     if (message) {
-        NSLog(@"Error: %@", message);
+        NSLog(@"Error in CBB call: %@", message);
+        self.textView.text = message;
         return;
     }
 
+    NSError *err = nil;
+    NSString *payloadString;
+    NSString *headerString;
+
+    NSData *headerData = [NSJSONSerialization dataWithJSONObject:header options:NSJSONWritingPrettyPrinted error:&err];
+    if (! headerData) {
+        NSLog(@"JSON Deserialization error: %@", err);
+    } else {
+        headerString = [[NSString alloc] initWithData:headerData encoding:NSUTF8StringEncoding] ;
+        NSLog(@"CDB Response header: %@", headerString);
+    }
+
+
+    if (response) {
+        NSData *payloadData = [NSJSONSerialization dataWithJSONObject:response options:NSJSONWritingPrettyPrinted error:&err];
+        if (! payloadData) {
+            NSLog(@"JSON Deserialization error: %@", err);
+        } else {
+            payloadString = [[NSString alloc] initWithData:payloadData encoding:NSUTF8StringEncoding];
+            NSLog(@"CDB Response payload: %@", payloadString);
+        }
+    }
+
+    self.textView.text = [NSString stringWithFormat:@"header: %@\npayload: %@@", headerString, payloadString];
 }
 
     

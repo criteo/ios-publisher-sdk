@@ -6,152 +6,165 @@
 //  Copyright © 2018 Criteo. All rights reserved.
 //
 
+
 #import "AdViewerCdbApi.h"
 
 
 // Constans - better defined in a separate file, keeping it here for simplicity
-#define kCDB_URL       @"https://bidder.criteo.com"
+#define kCDB_URL      @"http://directbidder-test-app.par.preprod.crto.in"
+//#define kCDB_URL      @"http://bidder.criteo.com"
+
+#ifndef DEBUG
+#define DebugLog(...)
+#else
+#define DebugLog(...) NSLog(__VA_ARGS__)
+#endif
+
 
 
 @interface AdViewerCdbApi() {}
 @end
 
-
 @implementation AdViewerCdbApi
 
 // We will use no libraries to call API to mimimize app footprint
 // Univercal REST calling (GET, POST, PUT, DELETE)
+// Example call: https://confluence.criteois.com/pages/viewpage.action?pageId=436430054
 
-// Example call from the doc: https://confluence.criteois.com/pages/viewpage.action?pageId=436430054
-//POST /cdb?profileId=217&debug=1 HTTP/1.1
-//Content-Type: application/json
-//User-Agent: Dalvik/2.1.0 (Linux; U; Android 8.1.0; Nexus 6P Build/OPM6.171019.030.H1)
-//Host: bidder.criteo.com
-//Connection: Keep-Alive
-//Accept-Encoding: gzip
-//Content-Length: 410
 
-- (NSString *)requestApiCall: (NSString*)requestHTTPMethod
+- (NSString *)requestApiCall: (NSString *)requestHTTPMethod
                  requestPath: (NSString *)requestPath
                 requestQuery: (NSString *)requestQuery
                  requestBody: (NSDictionary *)requestBody
 {
     NSString *kBaseURL = kCDB_URL;
-    
+
     NSString *urlAsString = [NSString stringWithFormat:@"%@/%@?%@", kBaseURL, requestPath, requestQuery];
     NSURL *url = [NSURL URLWithString: urlAsString];
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
     [urlRequest setTimeoutInterval: 30.0f];                                         // Adjust the timeout
-    
+
     [urlRequest setHTTPMethod:requestHTTPMethod];
     if (![requestHTTPMethod isEqualToString:@"GET"]) {
         NSError *error;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:requestBody options:NSJSONWritingPrettyPrinted error:&error];
         NSString *resultAsString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        NSLog(@"jsonData as string:\n%@", resultAsString);
-        
+        DebugLog(@"requestApiCall: Request as string:\n%@", resultAsString);
         [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         [urlRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [urlRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[resultAsString length]] forHTTPHeaderField:@"Content-Length"];
         [urlRequest setHTTPBody: jsonData];
     }
-    
-    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-    
-    [NSURLConnection
-     sendAsynchronousRequest: urlRequest
-     queue: queue
-     completionHandler: ^(NSURLResponse *response, NSData *data, NSError *error) {
-         NSInteger status = [(NSHTTPURLResponse *)response statusCode];
-         
-         BOOL expired = NO;
-         NSDictionary *jsonResponse;
-         
+
+
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *uploadTask = [session dataTaskWithRequest:urlRequest
+                                                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+
+         NSDictionary *responseBody;
+
+         NSHTTPURLResponse *httpurlresponse = (NSHTTPURLResponse *)response;
+         long responseStatus = [httpurlresponse statusCode];
+         NSDictionary *responseHeader = [httpurlresponse allHeaderFields];
+
+         DebugLog(@"requestApiCall: Response header %@", responseHeader);
+
          if (error != nil) {
-             if (error.code == -1012) {
-                 expired = YES;
-                 self->errorMessage = nil;
-                 //[self refreshSessionUsingToken];
-             } else {
-                 NSLog(@"Error = %@", error);
-                 self->errorMessage = [error localizedDescription];
-             }
+
+             NSLog(@"requestApiCall: sendAsynchronousRequest error: %@", error);
+             self->errorMessage = [error localizedDescription];
+
          } else {
-             
-             NSError *e = nil;
+
+             NSError *err = nil;
+
              if ([data length] > 0) {
-                 jsonResponse = [NSJSONSerialization JSONObjectWithData: data options: NSJSONReadingMutableContainers error: &e];
+                 responseBody = [NSJSONSerialization JSONObjectWithData: data options: NSJSONReadingMutableContainers error: &err];
              }
-             
-             if (e == nil)
+
+             if (err == nil)
              {
-#ifdef DEBUG
-                 NSLog(@"requestApiCall: Response - %@", jsonResponse);
-#endif
-                 if (status != 200)
+                 DebugLog(@"requestApiCall: Response payload %@", responseBody);
+                 if (responseStatus != 200)
                  {
-                     self->errorMessage = [jsonResponse objectForKey:@"Message"];
-                     int code = [[jsonResponse objectForKey:@"Code"] intValue];
-                     
-                     if (code == 401) {
-                         NSLog(@"401, session has expired, %@", self->errorMessage);
-                         expired = YES;
-                         self->errorMessage = nil;
-                         //[self refreshSessionUsingToken];
-                     }
-                     else {
-                         NSLog(@"requestApiCall: API Error %i, %@", code, self->errorMessage);
-                     }
+                     NSLog(@"requestApiCall: API Error: %ld, %@", responseStatus, self->errorMessage);
                  }
              }
              else {
-                 NSLog(@"requestApiCall: Error = %@", e);
-                 self->errorMessage = [e localizedDescription];
+                 NSLog(@"requestApiCall: JOSN Serialization Error: %@", err);
+                 self->errorMessage = [err localizedDescription];
              }
          }
-         if (self.delegate && !expired) {
+
+         if (self.delegate) {
              dispatch_async(dispatch_get_main_queue(), ^{
-                 [self.delegate AdViewerAPI: self didFinishLoading:
-                  jsonResponse message: self->errorMessage
-                              selector: self->selector];
+                 [self.delegate AdViewerAPI: self
+                           didFinishLoading: responseBody
+                                     header: responseHeader
+                                    message: self->errorMessage
+                                   selector: self->selector];
              });
          }
-     }
-     
-     ];
+    }];
+    [uploadTask resume];
+
     return errorMessage;
+
 }
-    
+
+
 - (id)initWithSelector:(enum methodSelector)selector delegate:(id)delegate {
     self.delegate = delegate;
     selector = selector;
     return self;
 }
 
-    
-- (void)AdViewerAPI:(AdViewerCdbApi *)api didFinishLoading:(NSDictionary *)response message:(NSString *)message
-    selector:(enum methodSelector)selector {
-   
+
+- (void)AdViewerAPI:(AdViewerCdbApi *)api
+   didFinishLoading:(NSDictionary *)response
+             header:(NSDictionary*)header
+            message:(NSString *)message
+           selector:(enum methodSelector)selector {
+
     if (self.delegate) {
         [self.delegate AdViewerAPI: self
                   didFinishLoading: nil
+                            header: nil
                            message: nil
                           selector: selector];
     }
 }
 
 
-- (NSString*) deviceName {
+- (NSString*)deviceName {
     struct utsname systemInfo;
     uname(&systemInfo);
 
-    return [NSString stringWithCString:systemInfo.machine
-                              encoding:NSUTF8StringEncoding];
+    return [NSString stringWithCString: systemInfo.machine
+                              encoding: NSUTF8StringEncoding];
 }
 
-#pragma mark Load Ad to display
 
-- (NSString *)LoadAd: (NSDictionary *)requestData
+- (NSString*)stringFromJSONObject: (NSDictionary*)jsonObject {
+    NSError *error;
+    NSString *jsonString;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject: jsonObject
+                                                       options: NSJSONWritingPrettyPrinted
+                                                         error: &error];
+
+    if (! jsonData) {
+        NSLog(@"Got an error: %@", error);
+    } else {
+        jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+
+    return jsonString;
+}
+
+
+#pragma mark Load Ad to store in memory
+
+- (NSString *)loadAdWithCDB: (NSDictionary *)requestData
 {
     NSString *path = @"cdb";
 
@@ -159,42 +172,25 @@
     NSString *query = [NSString stringWithFormat:@"profileId=%@&debug=1", requestData[@"profileId"]];
     NSString *impId = requestData[@"impId"];
 
-    // example from https://confluence.criteois.com/pages/viewpage.action?pageId=436430054
-    //{
-    //    "publisher": {
-    //        "bundleid": "com.criteo.criteopublishersdksample",  //The bundle ID identifying the app
-    //        "appname": "CriteoPublisherSDKSample",
-    //        "url": "https:\/\/play.google.com\/store\/apps\/details?id=com.olx.southasia"
-    //    },
-    //    "user": {
-    //        "deviceid": "b47032ee-497a-4324-9c52-4c19062d76c2", //The ID that uniquely identifies a device (IDFA, GAID or Hashed Android ID)
-    //        "deviceidtype": "GAID",                             //The device type. This parameter can only have two values: IDFA or GAID
-    //        "devicemodel": "Nexus 6P",
-    //        "deviceos": "Android",                              //The operating system of the device.
-    //        "sdkver": "1.3.0",                                  //SDK version
-    //        "lmt": "0",                                         //Limited Ad Tracking parameter signaling the tracking preferences of the user.
-    //        "connection": "WIFI",
-    //        "User-Agent": "Mozilla/5.0 (Linux; U; Android .."   //The webview user-agent of the device
-    //    },
-    //    "slots":
-    //              {
-    //                  "impid": "1139617",    //The adunit id provided in the request
-    //                  "zoneid": "1139617",   //The Criteo zoneid provided in the request
-    //                  "native": true         //Native assets
-    //              }
-    //              ],
-    //    "gdprConsent": {
-    //        "consentData": ".....",     // CDB is responsible for taking care
-    //        "gdprApplies": false,       // of GDPR. The response can be Ad or no Ad.
-    //        "consentGiven": true
-    //    }
-    //}
+    // example is at https://confluence.criteois.com/pages/viewpage.action?pageId=436430054
 
     NSString* deviceModel = [self deviceName];
     NSString* deviceId = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
 
     UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectZero];
     NSString* secretAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+
+//    static NSString* secretAgent;
+//    WKWebView* webKitView = [[WKWebView alloc] initWithFrame:CGRectZero];
+//    [webKitView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id __nullable userAgent, NSError * __nullable error) {
+//        if (error) {
+//            NSLog(@"%@", error.localizedDescription);
+//        } else {
+//            NSLog(@"%@", userAgent);
+//            secretAgent = userAgent;
+//        }
+//    }];
+
 
     NSString *bundleId = [[NSBundle mainBundle] bundleIdentifier];
     NSString *sdkVersion = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleShortVersionString"];
@@ -239,6 +235,8 @@
                    requestQuery: query
                     requestBody: reqData];
 }
+
+
 
 
 @end

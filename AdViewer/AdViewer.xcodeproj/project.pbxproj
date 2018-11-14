@@ -25,6 +25,7 @@
 		4077EBB7218BC48300C41E68 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBB6218BC48300C41E68 /* main.m */; };
 		4077EBC1218BC48400C41E68 /* AdViewerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBC0218BC48400C41E68 /* AdViewerTests.m */; };
 		4077EBCC218BC48400C41E68 /* AdViewerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBCB218BC48400C41E68 /* AdViewerUITests.m */; };
+		40DE984B219F533300C4BA05 /* AdViewerTest2.m in Sources */ = {isa = PBXBuildFile; fileRef = 40DE984A219F533300C4BA05 /* AdViewerTest2.m */; };
 		DBADC33A873B0A67EBFCC7AA /* libPods-AdViewer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 171E0465ABE00D7D6BC30ED7 /* libPods-AdViewer.a */; };
 		E4D40158F325A6DC4F02D3A9 /* libPods-AdViewerUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41B370E1BC561BAA35D19B67 /* libPods-AdViewerUITests.a */; };
 /* End PBXBuildFile section */
@@ -73,6 +74,7 @@
 		4077EBC7218BC48400C41E68 /* AdViewerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AdViewerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4077EBCB218BC48400C41E68 /* AdViewerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdViewerUITests.m; sourceTree = "<group>"; };
 		4077EBCD218BC48400C41E68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		40DE984A219F533300C4BA05 /* AdViewerTest2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdViewerTest2.m; sourceTree = "<group>"; };
 		41B370E1BC561BAA35D19B67 /* libPods-AdViewerUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AdViewerUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9973086566A769E8D9C28455 /* Pods-AdViewerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdViewerUITests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-AdViewerUITests/Pods-AdViewerUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		BCDE305717E3571CEC59216F /* libPods-AdViewerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AdViewerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -172,6 +174,7 @@
 			children = (
 				4077EBC0218BC48400C41E68 /* AdViewerTests.m */,
 				4077EBC2218BC48400C41E68 /* Info.plist */,
+				40DE984A219F533300C4BA05 /* AdViewerTest2.m */,
 			);
 			path = AdViewerTests;
 			sourceTree = "<group>";
@@ -237,7 +240,6 @@
 				4077EBA1218BC48300C41E68 /* Frameworks */,
 				4077EBA2218BC48300C41E68 /* Resources */,
 				779D7B98AF2FB9402A53CB83 /* [CP] Copy Pods Resources */,
-				404AC9462194CE13008C6267 /* Increment build */,
 			);
 			buildRules = (
 			);
@@ -422,24 +424,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		404AC9462194CE13008C6267 /* Increment build */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Increment build";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# TIncrement build number\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n";
-		};
 		779D7B98AF2FB9402A53CB83 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -524,6 +508,7 @@
 			files = (
 				404AC95121965716008C6267 /* GoogleDFPButtonCell.m in Sources */,
 				404AC95521975705008C6267 /* AdViewerCdbApi.m in Sources */,
+				40DE984B219F533300C4BA05 /* AdViewerTest2.m in Sources */,
 				4077EBC1218BC48400C41E68 /* AdViewerTests.m in Sources */,
 				404AC94C219650FF008C6267 /* GoogleDFPTableViewController.m in Sources */,
 			);
