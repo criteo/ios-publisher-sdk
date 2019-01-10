@@ -1,23 +1,8 @@
-project 'DemoApp/AdViewer.xcodeproj'
-
 platform :ios, '8.0'
 
-target 'AdViewer'
-begin
-  workspace 'Fuji'
+workspace 'fuji.xcworkspace'
+project 'pubsdk/pubsdk.xcodeproj'
 
-  # Pods for AdViewer
-
-  target 'AdViewerTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-  target 'AdViewerUITests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-  pod 'mopub-ios-sdk', '~> 5.4.0'
-  pod 'Google-Mobile-Ads-SDK'
+target 'pubsdkTests' do
+    pod 'OCMock','~> 3.4.3'
 end
