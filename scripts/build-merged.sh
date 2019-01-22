@@ -2,7 +2,7 @@
 
 set -o pipefail && xcodebuild \
 	-workspace fuji.xcworkspace \
-        -scheme AdViewer \
+        -scheme pubsdk \
         -IDEBuildOperationMaxNumberOfConcurrentCompileTasks=`sysctl -n hw.ncpu` \
         -derivedDataPath build/DerivedData  \
         -sdk iphonesimulator \
