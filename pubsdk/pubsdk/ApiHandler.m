@@ -6,10 +6,8 @@
 //  Copyright © 2018 Criteo. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import <WebKit/WebKit.h>
 #import "ApiHandler.h"
-#import "CdbBid.h"
 
 @implementation ApiHandler
 

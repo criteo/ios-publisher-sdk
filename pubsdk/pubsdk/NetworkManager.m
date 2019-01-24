@@ -6,7 +6,6 @@
 //  Copyright © 2018 Criteo. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "NetworkManager.h"
 
 @implementation NetworkManager;
@@ -53,8 +52,8 @@
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:postBody options:NSJSONWritingPrettyPrinted error:&jsonError];
 
     //debug code
-    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    NSLog(@"NetworkManager url: %@ \nbody:\n %@",url, jsonString);
+    //NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    //NSLog(@"NetworkManager url: %@ \nbody:\n %@",url, jsonString);
 
     //[postRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [postRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];

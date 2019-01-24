@@ -5,5 +5,5 @@ set -o pipefail && xcrun simctl list && xcodebuild \
         -IDEBuildOperationMaxNumberOfConcurrentCompileTasks=`sysctl -n hw.ncpu` \
         -derivedDataPath build/DerivedData  \
         -sdk iphonesimulator \
-        -destination 'platform=iOS Simulator,name=iPhone XS,OS=12.0' \
+        -destination 'platform=iOS Simulator,name=iPhone XS,OS=latest' \
         clean build test | xcpretty --report junit --report html

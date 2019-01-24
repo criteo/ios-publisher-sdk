@@ -29,7 +29,7 @@
     
     GdprUserConsent *gdpr = [[GdprUserConsent alloc] init];
     XCTAssertEqual([gdpr consentGiven], YES);
-    XCTAssertEqual([gdpr consentString], consentString);
+    XCTAssertTrue([consentString isEqualToString:[gdpr consentString]]);
     XCTAssertEqual([gdpr gdprApplies], (BOOL)gdprApplies);
 }
 
@@ -46,7 +46,7 @@
     
     GdprUserConsent *gdpr = [[GdprUserConsent alloc] init];
     XCTAssertEqual([gdpr consentGiven], NO);
-    XCTAssertEqual([gdpr consentString], consentString);
+    XCTAssertTrue([consentString isEqualToString:[gdpr consentString]]);
     XCTAssertEqual([gdpr gdprApplies], (BOOL)gdprApplies);
 }
 

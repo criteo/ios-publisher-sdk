@@ -13,9 +13,9 @@
 
 @interface GdprUserConsent: NSObject
 
-@property (readonly, atomic) NSString *consentString;
-@property (readonly, atomic) BOOL gdprApplies;
-@property (readonly, atomic) BOOL consentGiven;
+@property (readonly, nonatomic) NSString *consentString;
+@property (readonly, nonatomic) BOOL gdprApplies;
+@property (readonly, nonatomic) BOOL consentGiven;
 
 @end
 #endif /* GdprUserConsent_h */

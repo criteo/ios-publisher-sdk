@@ -8,6 +8,8 @@
 
 #ifndef AdUnit_h
 #define AdUnit_h
+
+#import <Foundation/Foundation.h>
 #include <CoreGraphics/CoreGraphics.h>
 
 @interface AdUnit : NSObject <NSCopying>

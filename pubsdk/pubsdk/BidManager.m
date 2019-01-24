@@ -6,7 +6,6 @@
 //  Copyright © 2018 Criteo. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "BidManager.h"
 
 @implementation BidManager

@@ -6,8 +6,6 @@
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <CoreGraphics/CoreGraphics.h>
 #import "AdUnit.h"
 
 @implementation AdUnit

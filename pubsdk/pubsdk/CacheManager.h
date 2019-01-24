@@ -10,7 +10,6 @@
 #define CacheManager_h
 
 #import <Foundation/Foundation.h>
-
 #import "CdbBid.h"
 #import "AdUnit.h"
 

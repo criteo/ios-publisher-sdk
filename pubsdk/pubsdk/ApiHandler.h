@@ -9,8 +9,8 @@
 #ifndef ApiHandler_h
 #define ApiHandler_h
 
-#import "NetworkManager.h"
 #import <Foundation/Foundation.h>
+#import "NetworkManager.h"
 #import "AdUnit.h"
 #import "CdbBid.h"
 #import "GdprUserConsent.h"
@@ -18,7 +18,7 @@
 typedef void (^AHCdbResponse)(NSArray<CdbBid*> *cdbBids);
 
 @interface ApiHandler : NSObject
-@property (strong, atomic) NetworkManager *networkManager;
+@property (strong, nonatomic) NetworkManager *networkManager;
 
 - (void) callCdb: (AdUnit *) adUnit
      gdprConsent:(GdprUserConsent *) gdprConsent

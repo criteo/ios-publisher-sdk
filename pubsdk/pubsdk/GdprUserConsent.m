@@ -6,7 +6,6 @@
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "GdprUserConsent.h"
 
 @implementation GdprUserConsent;
@@ -21,10 +20,8 @@
         _consentGiven = NO;
         NSString *vendorConsents = [userDefaults stringForKey:@"IABConsent_ParsedVendorConsents"];
         // Criteo is vendor id 91
-        if(vendorConsents && vendorConsents.length >= 90) {
-            if([vendorConsents characterAtIndex:90] == '1') {
-                _consentGiven = YES;
-            }
+        if(vendorConsents.length >= 90 && [vendorConsents characterAtIndex:90] == '1') {
+            _consentGiven = YES;
         }
     }
     return self;
