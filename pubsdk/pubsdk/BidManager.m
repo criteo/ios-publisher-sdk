@@ -43,8 +43,6 @@
     // if the cache returns nil it means the key wasn't in the cache
     // return an empty bid
     else {
-        // TODO: ideally store the pointer to the private static empty object exposed by CdbBid class
-        // instead of allocating a new empty object
         bid = [CdbBid emptyBid];
     }
     return bid;
@@ -52,9 +50,16 @@
 
 // TODO: Figure out a way to test this
 - (void) prefetchBid:(AdUnit *) slotId {
+    if(![self config]) {
+        NSLog(@"Config hasn't been fetched. So no bids will be fetched.");
+        return;
+    } else if ([[self config] killSwitch]) {
+        NSLog(@"killSwitch is engaged. No bid will be fetched.");
+        return;
+    }
     // move the async to the api handler
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self.apiHandler callCdb:slotId gdprConsent:[self gdpr] ahCdbResponseHandler:^(NSArray *cdbBids) {
+        [self.apiHandler callCdb:slotId gdprConsent:[self gdpr] config:[self config] ahCdbResponseHandler:^(NSArray *cdbBids) {
             for(CdbBid *bid in cdbBids) {
                 [self.cacheManager setBid:bid forAdUnit:slotId];
             }
@@ -62,29 +67,39 @@
     });
 }
 
-- (void) setNetworkId:(NSNumber *)networkId {
-    _networkId = networkId;
-}
-
-- (NSNumber *) getNetworkId {
-    return _networkId;
+- (void) initConfigWithNetworkId:(NSNumber *)networkId {
+    if(!networkId) {
+        NSLog(@"initConfigWithNetworkId is missing the following required value networkId = %@", networkId);
+        return;
+    }
+    if(![self config]) {
+        _config = [[Config alloc] initWithNetworkId:networkId];
+    }
+    [[self config] refreshConfig:[self apiHandler]];
 }
 
 - (void) addCriteoBidToRequest:(id) adRequest
                      forAdUnit:(AdUnit *) adUnit {
+    if(![self config]) {
+        NSLog(@"Config hasn't been fetched. So no bids will be fetched.");
+        return;
+    } else if ([[self config] killSwitch]) {
+        NSLog(@"killSwitch is engaged. No bid will be fetched.");
+        return;
+    }
     CdbBid *fetchedBid = [self getBid:adUnit];
     if ([fetchedBid isEmpty]) {
         return;
     }
-    
+
     SEL dfpCustomTargeting = @selector(customTargeting);
     SEL dfpSetCustomTargeting = @selector(setCustomTargeting:);
     if([adRequest respondsToSelector:dfpCustomTargeting] && [adRequest respondsToSelector:dfpSetCustomTargeting]) {
         id targeting = [adRequest performSelector:dfpCustomTargeting];
         if([targeting isKindOfClass:[NSDictionary class]]) {
             NSMutableDictionary *customTargeting = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *) targeting];
-            [customTargeting setObject:fetchedBid.cpm.stringValue forKey:@"CRTO_cpm"];
-            [customTargeting setObject:fetchedBid.displayUrl forKey:@"CRTO_displayUrl"];
+            [customTargeting setObject:fetchedBid.cpm.stringValue forKey:@"crt_cpm"];
+            [customTargeting setObject:fetchedBid.displayUrl forKey:@"crt_displayUrl"];
             NSDictionary *updatedDictionary = [NSDictionary dictionaryWithDictionary:customTargeting];
             [adRequest performSelector:dfpSetCustomTargeting withObject:updatedDictionary];
         }

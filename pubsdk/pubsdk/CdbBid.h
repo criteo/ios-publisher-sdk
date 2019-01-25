@@ -24,6 +24,11 @@
 @property (readonly, nonatomic) NSString *displayUrl;
 
 + (instancetype) emptyBid;
+
+/*
+ * Helper function to convert NSData returned from a network call
+ * to an Array of CDB-Bids
+ */
 + (NSArray *) getCdbResponsesFromData: (NSData *) data;
 
 - (instancetype) initWithZoneId:(NSNumber *) zoneId

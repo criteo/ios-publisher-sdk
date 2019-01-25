@@ -18,7 +18,6 @@
 }
 
 - (void) getFromUrl:(NSURL *) url
-        queryParams:(NSDictionary *) queryParams
     responseHandler:(NMResponse) responseHandler {
     NSURLSessionDataTask *task = [self.session dataTaskWithURL:url
                                              completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {

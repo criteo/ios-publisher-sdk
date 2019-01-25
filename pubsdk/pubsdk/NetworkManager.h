@@ -19,7 +19,6 @@ typedef void (^NMResponse)(NSData *data, NSError *error);
 @property (strong, nonatomic) NSURLSession *session;
 
 - (void) getFromUrl:(NSURL *) url
-        queryParams:(NSDictionary *) queryParams
     responseHandler:(NMResponse) responseHandler;
 
 // Assumes all POST calls are made via JSON

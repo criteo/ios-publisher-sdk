@@ -18,8 +18,10 @@
 @property (nonatomic, strong) NSMutableDictionary<AdUnit *, CdbBid *> *bidCache;
 
 - (void) initSlots: (NSArray<AdUnit*> *) slotIds;
+
 - (void) setBid: (CdbBid *) bid
       forAdUnit: (AdUnit *) adUnit;
+
 - (CdbBid *) getBid: (AdUnit *) slotId;
 
 @end

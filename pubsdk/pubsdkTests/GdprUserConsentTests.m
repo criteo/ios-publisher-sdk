@@ -20,7 +20,7 @@
     NSNumber *gdprApplies = @(1);
     NSString *consentString = @"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA";
     //Criteo is at 91
-    NSString *vendorString = @"0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001";
+    NSString *vendorString = @"0000000000000010000000000000000000000100000000000000000000000000000000000000000000000000001";
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:gdprApplies forKey:@"IABConsent_SubjectToGDPR"];

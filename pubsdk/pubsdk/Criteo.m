@@ -27,8 +27,6 @@ static BOOL hasPrefetched = NO;
 }
 
 - (void) registerAdUnit: (AdUnit *) adUnit {
-    
-    
     [registeredAdUnits addObject:adUnit];
     NSArray *adUnits = [[NSArray alloc] initWithObjects:adUnit, nil];
     [bidManager setSlots:adUnits];
@@ -36,16 +34,12 @@ static BOOL hasPrefetched = NO;
 }
 
 - (void) registerAdUnits:(NSArray<AdUnit *> *)adUnits {
-    
     [registeredAdUnits addObjectsFromArray:adUnits];
     [bidManager setSlots:adUnits];
-    
 }
 
 - (void) registerNetworkId:(NSNumber *)networkId {
-    
-    [bidManager setNetworkId:networkId];
-    
+    [bidManager initConfigWithNetworkId:networkId];
 }
 
 - (void) prefetchAll {

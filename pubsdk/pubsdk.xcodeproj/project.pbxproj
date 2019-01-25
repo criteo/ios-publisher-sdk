@@ -17,6 +17,8 @@
 		E104B6BD21F0253E004D86C4 /* DummyDfpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6BC21F0253E004D86C4 /* DummyDfpRequest.m */; };
 		E12A7F5621F8FD25002B4548 /* GdprUserConsent.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5521F8FD25002B4548 /* GdprUserConsent.m */; };
 		E12A7F5821F914DA002B4548 /* GdprUserConsentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5721F914DA002B4548 /* GdprUserConsentTests.m */; };
+		E12A7F5A21FA6FA4002B4548 /* Config.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5921FA6FA4002B4548 /* Config.m */; };
+		E12A7F5C21FBFAE6002B4548 /* ConfigTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5B21FBFAE6002B4548 /* ConfigTests.m */; };
 		E1F2736E21B5F08D00A2FBFA /* pubsdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F2736421B5F08D00A2FBFA /* pubsdk.framework */; };
 		E1F2737321B5F08D00A2FBFA /* pubsdkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F2737221B5F08D00A2FBFA /* pubsdkTests.m */; };
 		E1F2737521B5F08D00A2FBFA /* pubsdk.h in Headers */ = {isa = PBXBuildFile; fileRef = E1F2736721B5F08D00A2FBFA /* pubsdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -69,6 +71,8 @@
 		E12A7F5421F8FBD6002B4548 /* GdprUserConsent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GdprUserConsent.h; sourceTree = "<group>"; };
 		E12A7F5521F8FD25002B4548 /* GdprUserConsent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GdprUserConsent.m; sourceTree = "<group>"; };
 		E12A7F5721F914DA002B4548 /* GdprUserConsentTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GdprUserConsentTests.m; sourceTree = "<group>"; };
+		E12A7F5921FA6FA4002B4548 /* Config.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Config.m; sourceTree = "<group>"; };
+		E12A7F5B21FBFAE6002B4548 /* ConfigTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfigTests.m; sourceTree = "<group>"; };
 		E1F2736421B5F08D00A2FBFA /* pubsdk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = pubsdk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1F2736721B5F08D00A2FBFA /* pubsdk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pubsdk.h; sourceTree = "<group>"; };
 		E1F2736821B5F08D00A2FBFA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -151,14 +155,15 @@
 				E1F2738D21BF1AB300A2FBFA /* CdbBid.h */,
 				E1F273B821C87A2F00A2FBFA /* CdbBid.m */,
 				E104B6B621E92D4B004D86C4 /* Config.h */,
+				E12A7F5921FA6FA4002B4548 /* Config.m */,
 				E1F2738C21BB1B1400A2FBFA /* Criteo.h */,
 				E1F2738A21BB12C300A2FBFA /* Criteo.m */,
+				E12A7F5421F8FBD6002B4548 /* GdprUserConsent.h */,
+				E12A7F5521F8FD25002B4548 /* GdprUserConsent.m */,
 				E1F2736821B5F08D00A2FBFA /* Info.plist */,
 				E1F2738221B9B01200A2FBFA /* NetworkManager.h */,
 				E1F2738321B9B58900A2FBFA /* NetworkManager.m */,
 				E1F2736721B5F08D00A2FBFA /* pubsdk.h */,
-				E12A7F5421F8FBD6002B4548 /* GdprUserConsent.h */,
-				E12A7F5521F8FD25002B4548 /* GdprUserConsent.m */,
 			);
 			path = pubsdk;
 			sourceTree = "<group>";
@@ -176,6 +181,7 @@
 				E104B6BA21EFE733004D86C4 /* NetworkManagerTests.m */,
 				E1F2737221B5F08D00A2FBFA /* pubsdkTests.m */,
 				E12A7F5721F914DA002B4548 /* GdprUserConsentTests.m */,
+				E12A7F5B21FBFAE6002B4548 /* ConfigTests.m */,
 			);
 			path = pubsdkTests;
 			sourceTree = "<group>";
@@ -330,6 +336,7 @@
 				E1F2738421B9B58900A2FBFA /* NetworkManager.m in Sources */,
 				E1F2738721B9BF4900A2FBFA /* ApiHandler.m in Sources */,
 				E1F273C221C9765100A2FBFA /* CacheManager.m in Sources */,
+				E12A7F5A21FA6FA4002B4548 /* Config.m in Sources */,
 				E1F273BB21C9733800A2FBFA /* BidManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -343,6 +350,7 @@
 				E12A7F5821F914DA002B4548 /* GdprUserConsentTests.m in Sources */,
 				E104B6BD21F0253E004D86C4 /* DummyDfpRequest.m in Sources */,
 				E1F2737321B5F08D00A2FBFA /* pubsdkTests.m in Sources */,
+				E12A7F5C21FBFAE6002B4548 /* ConfigTests.m in Sources */,
 				E104B6B321E57F7B004D86C4 /* BidManagerTests.m in Sources */,
 				E104B6B121E57F0A004D86C4 /* AdUnitTests.m in Sources */,
 				E104B6B521E580E9004D86C4 /* CdbBidTests.m in Sources */,

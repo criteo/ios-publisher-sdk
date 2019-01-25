@@ -14,12 +14,13 @@
 #import "ApiHandler.h"
 #import "AdUnit.h"
 #import "GdprUserConsent.h"
+#import "Config.h"
 
 @interface BidManager : NSObject
 @property (strong, nonatomic) CacheManager *cacheManager;
 @property (strong, nonatomic) ApiHandler *apiHandler;
-@property (strong, nonatomic) NSNumber *networkId;
 @property (strong, nonatomic) GdprUserConsent *gdpr;
+@property (strong, nonatomic) Config *config;
 
 - (instancetype) init;
 
@@ -31,8 +32,7 @@
 
 - (void) prefetchBid: (AdUnit *) slotId;
 
-- (void) setNetworkId:(NSNumber *) networkId;
-- (NSNumber *) getNetworkId;
+- (void) initConfigWithNetworkId:(NSNumber *) networkId;
 
 - (void) addCriteoBidToRequest:(id) adRequest
                      forAdUnit:(AdUnit *) adUnit;

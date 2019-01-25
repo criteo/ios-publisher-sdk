@@ -11,14 +11,33 @@
 
 #import <Foundation/Foundation.h>
 
+@class ApiHandler;
 @interface Config : NSObject
 
-// should be provided when init is called by the publisher
-// move to bid manager
 @property (strong, nonatomic, readonly) NSNumber *networkId;
 @property (strong, nonatomic, readonly) NSNumber *profileId;
 @property (strong, nonatomic, readonly) NSString *cdbUrl;
 @property (strong, nonatomic, readonly) NSString *path;
+@property (strong, nonatomic, readonly) NSString *sdkVersion;
+@property (strong, nonatomic, readonly) NSString *appId;
+@property (nonatomic) BOOL killSwitch;
+
+- (instancetype) initWithNetworkId:(NSNumber *) networkId
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype) init NS_UNAVAILABLE;
+
+/*
+ * Helper function to convert NSData returned from a network call
+ * to an NSDictionary with config values
+ */
++ (NSDictionary *) getConfigValuesFromData: (NSData *) data;
+
+/*
+ * Fetches and refreshes the config object's values
+ * Uses the ApiHandler to make a get call to config end point
+ */
+- (void) refreshConfig:(ApiHandler *)apiHandler;
 
 @end
 

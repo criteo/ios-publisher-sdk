@@ -15,14 +15,28 @@
 #import "CdbBid.h"
 #import "GdprUserConsent.h"
 
+@class Config;
 typedef void (^AHCdbResponse)(NSArray<CdbBid*> *cdbBids);
+typedef void (^AHConfigResponse)(NSDictionary *configValues);
 
 @interface ApiHandler : NSObject
 @property (strong, nonatomic) NetworkManager *networkManager;
 
+/*
+ * Calls CDB and get the bid & creative for the adUnit
+ * adUnit must have an Id, width and length
+ */
 - (void) callCdb: (AdUnit *) adUnit
      gdprConsent:(GdprUserConsent *) gdprConsent
+          config:(Config *) config
  ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler;
+
+/*
+ * Calls the pub-sdk config endpoint and gets the config values for the publisher
+ * NetworkId, AppId/BundleId, sdkVersion must be present in the config
+ */
+- (void) getConfig: (Config *) config
+   ahConfigHandler:(AHConfigResponse) ahConfigHandler;
 
 @end
 
