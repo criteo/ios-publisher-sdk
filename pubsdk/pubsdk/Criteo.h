@@ -17,12 +17,12 @@
 
 /* @abstract Use sharedInstance */
 - (instancetype) init NS_UNAVAILABLE;
-+ (instancetype) sharedCriteo;
++ (nonnull instancetype) sharedCriteo;
 
 //- (void) initWithSlots:(NSArray *)slots;
 - (void) registerAdUnit:(AdUnit *) adUnit;
 - (void) registerAdUnits:(NSArray<AdUnit*> *) adUnits;
-- (void) registerNetworkId:(NSNumber *) networkId;
+- (void) registerNetworkId:(NSUInteger) networkId;
 - (void) prefetchAll;
 - (void) addCriteoBidToRequest:(id) request
                     forAdUnit:(AdUnit *) adUnit;

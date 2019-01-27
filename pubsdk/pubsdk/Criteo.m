@@ -8,28 +8,29 @@
 
 #import "Criteo.h"
 
+static NSMutableArray<AdUnit *> *registeredAdUnits;
+static BidManager *bidManager;
+static bool hasPrefetched;
+static Criteo *sharedInstance;
+
 @implementation Criteo
 
-static NSMutableArray<AdUnit *> *registeredAdUnits = nil;
-static BidManager *bidManager = nil;
-static BOOL hasPrefetched = NO;
++ (instancetype) sharedCriteo
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        registeredAdUnits = [[NSMutableArray alloc] init];
+        bidManager = [[BidManager alloc] init];
+        hasPrefetched = false;
+        sharedInstance = [[self alloc] init];
+    });
 
-+ (instancetype) sharedCriteo {
-    static Criteo *sharedCriteoInstance = nil;
-    @synchronized (self) {
-        if (sharedCriteoInstance == nil) {
-            sharedCriteoInstance = [[self alloc] init];
-            registeredAdUnits = [[NSMutableArray alloc] init];
-            bidManager = [[BidManager alloc] init];
-        }
-    }
-    return sharedCriteoInstance;
+    return sharedInstance;
 }
 
 - (void) registerAdUnit: (AdUnit *) adUnit {
     [registeredAdUnits addObject:adUnit];
-    NSArray *adUnits = [[NSArray alloc] initWithObjects:adUnit, nil];
-    [bidManager setSlots:adUnits];
+    [bidManager setSlots: @[ adUnit ] ];
     
 }
 
@@ -38,8 +39,8 @@ static BOOL hasPrefetched = NO;
     [bidManager setSlots:adUnits];
 }
 
-- (void) registerNetworkId:(NSNumber *)networkId {
-    [bidManager initConfigWithNetworkId:networkId];
+- (void) registerNetworkId:(NSUInteger)networkId {
+    [bidManager initConfigWithNetworkId:@(networkId)];
 }
 
 - (void) prefetchAll {
