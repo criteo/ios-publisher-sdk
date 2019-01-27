@@ -9,12 +9,17 @@
 #import "BidManager.h"
 
 @implementation BidManager
+{
+    ConfigManager *configManager;
+}
 
 - (instancetype) init {
     if(self = [super init]) {
         _cacheManager = [[CacheManager alloc] init];
         _apiHandler = [[ApiHandler alloc] init];
         _gdpr = [[GdprUserConsent alloc] init];
+
+        self->configManager = [[ConfigManager alloc] initWithApiHandler:_apiHandler];
     }
     return self;
 }
@@ -75,7 +80,14 @@
     if(![self config]) {
         _config = [[Config alloc] initWithNetworkId:networkId];
     }
-    [[self config] refreshConfig:[self apiHandler]];
+
+    [self refreshConfig];
+}
+
+- (void) refreshConfig {
+    if (self.config) {
+        [configManager refreshConfig:_config];
+    }
 }
 
 - (void) addCriteoBidToRequest:(id) adRequest

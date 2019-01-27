@@ -14,6 +14,7 @@
 #import "ApiHandler.h"
 #import "AdUnit.h"
 #import "GdprUserConsent.h"
+#import "ConfigManager.h"
 #import "Config.h"
 
 @interface BidManager : NSObject

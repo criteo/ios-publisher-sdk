@@ -11,7 +11,6 @@
 
 #import <Foundation/Foundation.h>
 
-@class ApiHandler;
 @interface Config : NSObject
 
 @property (strong, nonatomic, readonly) NSNumber *networkId;
@@ -32,12 +31,6 @@ NS_DESIGNATED_INITIALIZER;
  * to an NSDictionary with config values
  */
 + (NSDictionary *) getConfigValuesFromData: (NSData *) data;
-
-/*
- * Fetches and refreshes the config object's values
- * Uses the ApiHandler to make a get call to config end point
- */
-- (void) refreshConfig:(ApiHandler *)apiHandler;
 
 @end
 

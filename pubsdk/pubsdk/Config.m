@@ -33,12 +33,4 @@
     return configValues;
 }
 
-- (void) refreshConfig:(ApiHandler *)apiHandler {
-    [apiHandler getConfig:self ahConfigHandler:^(NSDictionary *configValues) {
-        if ([configValues objectForKey:@"killSwitch"]) {
-            self->_killSwitch = ((NSNumber*)configValues[@"killSwitch"]).boolValue;
-        }
-    }];
-}
-
 @end

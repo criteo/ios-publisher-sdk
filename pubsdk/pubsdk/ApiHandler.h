@@ -13,9 +13,9 @@
 #import "NetworkManager.h"
 #import "AdUnit.h"
 #import "CdbBid.h"
+#import "Config.h"
 #import "GdprUserConsent.h"
 
-@class Config;
 typedef void (^AHCdbResponse)(NSArray<CdbBid*> *cdbBids);
 typedef void (^AHConfigResponse)(NSDictionary *configValues);
 

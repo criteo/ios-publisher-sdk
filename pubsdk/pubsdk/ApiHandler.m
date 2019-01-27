@@ -20,9 +20,9 @@
     return self;
 }
 
-- (void) callCdb:(AdUnit *) adUnit
-     gdprConsent:(GdprUserConsent *)gdprConsent
-          config:(Config *)config
+- (void)     callCdb:(AdUnit *) adUnit
+         gdprConsent:(GdprUserConsent *)gdprConsent
+              config:(Config *)config
 ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
     if(adUnit.adUnitId.length == 0 ||
        adUnit.size.width == 0.0f ||
