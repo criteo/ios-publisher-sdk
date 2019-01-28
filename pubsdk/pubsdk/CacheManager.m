@@ -18,10 +18,8 @@
 }
 
 - (void) initSlots: (NSArray *) slots {
-    for(NSString *slot in slots) {
-        // ideally store the pointer to the private static empty object exposed by CdbBid class
-        // instead of allocating a new empty object
-        [_bidCache setObject:[CdbBid emptyBid] forKey:slot];
+    for(AdUnit *slot in slots) {
+        _bidCache[slot] = [CdbBid emptyBid];
     }
 }
 
@@ -29,7 +27,7 @@
       forAdUnit: (AdUnit *) adUnit {
     @synchronized (_bidCache) {
         if(adUnit) {
-            [_bidCache setObject:bid forKey:adUnit];
+            _bidCache[adUnit] = bid;
         } else {
             NSLog(@"Cache update failed because adUnit was nil. bid:  %@", bid);
         }
@@ -39,10 +37,11 @@
 - (CdbBid *) getBid: (AdUnit *) slotId {
     CdbBid *bid = [_bidCache objectForKey:slotId];
     if(bid) {
-        // Don't know if setting it to empty directly will leak
-        // so taking the safe route of remove first and then set to empty
-        [_bidCache removeObjectForKey:slotId];
-        [_bidCache setObject:[CdbBid emptyBid] forKey:slotId];
+        _bidCache[slotId] = [CdbBid emptyBid];
+        // check ttl hasn't elapsed
+        if (bid.isExpired) {
+            return [CdbBid emptyBid];
+        }
     }
     return bid;
 }

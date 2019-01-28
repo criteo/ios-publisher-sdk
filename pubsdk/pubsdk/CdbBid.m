@@ -22,9 +22,10 @@ static CdbBid *emptyBid;
                                          currency:nil
                                             width:@(0)
                                            height:@(0)
-                                              ttl:@(0)
+                                              ttl:0
                                          creative:nil
-                                       displayUrl:nil];
+                                       displayUrl:nil
+                                       insertTime:nil];
     }
 }
 
@@ -40,9 +41,10 @@ static CdbBid *emptyBid;
                        currency:@"EUR"
                           width:@(300)
                          height:@(250)
-                            ttl:@(6000)
+                            ttl:6000
                        creative:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
-                     displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js"];
+                     displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js"
+                     insertTime:[NSDate date]];
 }
 
 - (instancetype) initWithZoneId:(NSNumber *) zoneId
@@ -51,9 +53,10 @@ static CdbBid *emptyBid;
                        currency:(NSString *) currency
                           width:(NSNumber *) width
                          height:(NSNumber *) height
-                            ttl:(NSNumber *) ttl
+                            ttl:(NSTimeInterval) ttl
                        creative:(NSString *) creative
-                     displayUrl:(NSString *) displayUrl{
+                     displayUrl:(NSString *) displayUrl
+                     insertTime:(NSDate *) insertTime{
     if(self = [super init]) {
         _zoneId = zoneId;
         _placementId = placementId;
@@ -64,6 +67,7 @@ static CdbBid *emptyBid;
         _creative = creative;
         _ttl = ttl;
         _displayUrl = displayUrl;
+        _insertTime = insertTime;
     }
     return self;
 }
@@ -81,9 +85,11 @@ static CdbBid *emptyBid;
                     if((self.width == obj.width) || [self.width isEqual:obj.width]) {
                         if((self.height == obj.height) || [self.height isEqual:obj.height]) {
                             if((self.creative == obj.creative) || [self.creative isEqualToString:obj.creative]) {
-                                if((self.displayUrl == obj.displayUrl) || [self.displayUrl isEqualToString:obj.displayUrl]){
-                                    if((self.ttl == obj.ttl) || [self.ttl isEqual:obj.ttl]) {
-                                        return YES;
+                                if((self.displayUrl == obj.displayUrl) || [self.displayUrl isEqualToString:obj.displayUrl]) {
+                                    if(self.ttl == obj.ttl) {
+                                        if((self.insertTime == obj.insertTime) || [self.insertTime isEqualToDate:obj.insertTime]) {
+                                            return YES;
+                                        }
                                     }
                                 }
                             }
@@ -96,7 +102,9 @@ static CdbBid *emptyBid;
     return NO;
 }
 
-+ (NSArray *) getCdbResponsesFromData: (NSData *) data {
++ (NSArray *) getCdbResponsesFromData:(NSData *) data
+                           receivedAt:(NSDate *)receivedAt
+{
     NSMutableArray *responses = nil;
     NSError *e = nil;
     NSDictionary *slots = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
@@ -112,9 +120,11 @@ static CdbBid *emptyBid;
             NSNumber *width = slot[@"width"];
             NSNumber *height = slot[@"height"];
             NSString *creative = slot[@"creative"];
-            NSNumber *ttl = slot[@"ttl"];
+            // Hard coding to 15 minutes for now
+            // TODO: move this default to the config
+            NSTimeInterval ttl = slot[@"ttl"] ? [slot[@"ttl"] doubleValue]: 900;
             NSString *displayUrl = slot[@"displayUrl"];
-            CdbBid *response = [[CdbBid alloc] initWithZoneId:zoneId placementId:placementId cpm:cpm currency:currency width:width height:height ttl:ttl creative:creative displayUrl:displayUrl];
+            CdbBid *response = [[CdbBid alloc] initWithZoneId:zoneId placementId:placementId cpm:cpm currency:currency width:width height:height ttl:ttl creative:creative displayUrl:displayUrl insertTime:receivedAt];
             [responses addObject:response];
         }
     }
@@ -130,12 +140,19 @@ static CdbBid *emptyBid;
                                            height:self.height
                                               ttl:self.ttl
                                          creative:self.creative
-                                       displayUrl:self.displayUrl];
+                                       displayUrl:self.displayUrl
+                                       insertTime:self.insertTime];
     return copy;
 }
 
 - (BOOL) isEmpty {
     CdbBid *__emptyBid = [CdbBid emptyBid];
     return [self isEqual:__emptyBid];
+}
+
+- (BOOL) isExpired {
+    return
+    [[NSDate date]timeIntervalSinceReferenceDate] - [[self insertTime]timeIntervalSinceReferenceDate]
+    > self.ttl;
 }
 @end

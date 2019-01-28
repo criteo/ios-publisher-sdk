@@ -46,8 +46,8 @@
 
     NSArray *slots = @[testAdUnit, testAdUnit_2, unInitializedSlot];
     NSDictionary *bids = [bidManager getBids:slots];
-    XCTAssertTrue([testBid isEqual:bids[testAdUnit]]);
-    XCTAssertTrue([testBid_2 isEqual:bids[testAdUnit_2]]);
+    XCTAssertEqualObjects(testBid, bids[testAdUnit]);
+    XCTAssertEqualObjects(testBid_2, bids[testAdUnit_2]);
     XCTAssertTrue([bids[unInitializedSlot] isEmpty]);
     //NSLog(@"test bid creative is : %@ and cached creative is: %@", testBid.creative, bids[testAdUnit]);
 
@@ -98,7 +98,7 @@
 - (void) testAddCriteoBidToRequest {
     AdUnit *slot_1 = [[AdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
 
-    CdbBid *testBid_1 = [[CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@(1.1200000047683716) currency:@"EUR" width:@(300) height:@(250) ttl:@(600) creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js"];
+    CdbBid *testBid_1 = [[CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@(1.1200000047683716) currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
 
     CacheManager *cache = [[CacheManager alloc] init];
     [cache setBid:testBid_1 forAdUnit:slot_1];
@@ -117,14 +117,14 @@
     [bidManager addCriteoBidToRequest:dfpBidRequest forAdUnit:slot_1];
 
     XCTAssertTrue(dfpBidRequest.customTargeting.count > 2);
-    XCTAssertTrue([[testBid_1 displayUrl] isEqualToString:[dfpBidRequest.customTargeting objectForKey:@"crt_displayUrl"]]);
-    XCTAssertTrue([[testBid_1 cpm].stringValue isEqualToString:[dfpBidRequest.customTargeting objectForKey:@"crt_cpm"]]);
+    XCTAssertEqualObjects([testBid_1 displayUrl],[dfpBidRequest.customTargeting objectForKey:@"crt_displayUrl"]);
+    XCTAssertEqualObjects([testBid_1 cpm].stringValue, [dfpBidRequest.customTargeting objectForKey:@"crt_cpm"]);
 }
 
 - (void) testAddCriteoBidToRequestWhenKillSwitchIsEngaged {
     AdUnit *slot_1 = [[AdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
 
-    CdbBid *testBid_1 = [[CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@(1.1200000047683716) currency:@"EUR" width:@(300) height:@(250) ttl:@(600) creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js"];
+    CdbBid *testBid_1 = [[CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@(1.1200000047683716) currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
 
     CacheManager *cache = [[CacheManager alloc] init];
     [cache setBid:testBid_1 forAdUnit:slot_1];

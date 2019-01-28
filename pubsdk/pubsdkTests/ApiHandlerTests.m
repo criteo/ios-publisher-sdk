@@ -40,7 +40,7 @@
     ApiHandler *apiHandler = [[ApiHandler alloc] init];
     apiHandler.networkManager = mockNetworkManager;
 
-    CdbBid *testBid_1 = [[CdbBid alloc] initWithZoneId:nil placementId:@"adunitid_1" cpm:@(1.1200000047683716) currency:@"EUR" width:@(300) height:@(250) ttl:@(600) creative:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />" displayUrl:nil];
+    CdbBid *testBid_1 = [[CdbBid alloc] initWithZoneId:nil placementId:@"adunitid_1" cpm:@(1.1200000047683716) currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />" displayUrl:nil insertTime:[NSDate date]];
 
     AdUnit *testAdUnit_1 = [[AdUnit alloc] initWithAdUnitId:@"adunitid_1" width:300 height:250];
 
@@ -61,7 +61,12 @@
         NSLog(@"Data length is %ld", [cdbBids count]);
         XCTAssertNotNil(cdbBids);
         XCTAssertNotEqual(0, [cdbBids count]);
-        XCTAssertTrue([testBid_1 isEqual:cdbBids[0]]);
+        CdbBid *receivedBid = cdbBids[0];
+        XCTAssertEqualObjects(testBid_1.placementId, receivedBid.placementId);
+        XCTAssertEqualObjects(testBid_1.width, receivedBid.width);
+        XCTAssertEqualObjects(testBid_1.height, receivedBid.height);
+        XCTAssertEqualObjects(testBid_1.cpm, receivedBid.cpm);
+        XCTAssertEqual(testBid_1.ttl, receivedBid.ttl);
         [expectation fulfill];
     }];
 
