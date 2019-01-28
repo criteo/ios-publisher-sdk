@@ -118,7 +118,6 @@
 
     XCTAssertTrue(dfpBidRequest.customTargeting.count > 2);
     XCTAssertTrue([[testBid_1 displayUrl] isEqualToString:[dfpBidRequest.customTargeting objectForKey:@"crt_displayUrl"]]);
-    // TODO : [testBid_1 cpm] == 1.12 when it should be == 1.1200000047683716
     XCTAssertTrue([[testBid_1 cpm].stringValue isEqualToString:[dfpBidRequest.customTargeting objectForKey:@"crt_cpm"]]);
 }
 

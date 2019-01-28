@@ -58,6 +58,8 @@
     if(![self config]) {
         NSLog(@"Config hasn't been fetched. So no bids will be fetched.");
         return;
+        // TODO : move kill switch logic out of bid manager
+        // http://review.criteois.lan/#/c/461220/10/pubsdk/pubsdkTests/BidManagerTests.m
     } else if ([[self config] killSwitch]) {
         NSLog(@"killSwitch is engaged. No bid will be fetched.");
         return;
@@ -95,6 +97,8 @@
     if(![self config]) {
         NSLog(@"Config hasn't been fetched. So no bids will be fetched.");
         return;
+        // TODO : move kill switch logic out of bid manager
+        // http://review.criteois.lan/#/c/461220/10/pubsdk/pubsdkTests/BidManagerTests.m
     } else if ([[self config] killSwitch]) {
         NSLog(@"killSwitch is engaged. No bid will be fetched.");
         return;
