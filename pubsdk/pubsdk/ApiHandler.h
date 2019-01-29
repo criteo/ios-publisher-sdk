@@ -22,6 +22,9 @@ typedef void (^AHConfigResponse)(NSDictionary *configValues);
 @interface ApiHandler : NSObject
 @property (strong, nonatomic) NetworkManager *networkManager;
 
+- (instancetype) init NS_UNAVAILABLE;
+- (instancetype) initWithNetworkManager:(NetworkManager*)networkManager NS_DESIGNATED_INITIALIZER;
+
 /*
  * Calls CDB and get the bid & creative for the adUnit
  * adUnit must have an Id, width and length

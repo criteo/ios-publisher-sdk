@@ -8,13 +8,43 @@
 
 #import "NetworkManager.h"
 
-@implementation NetworkManager;
+@interface NetworkManager ()
 
-- (instancetype) init {
+- (NSURLSessionConfiguration*) getSessionConfiguration;
+
+@end
+
+@implementation NetworkManager
+{
+    DeviceInfo *deviceInfo;
+}
+
+- (instancetype) init
+{
+    NSAssert(false, @"Do not use this initializer");
+    return [self initWithDeviceInfo:[[DeviceInfo alloc] init]];
+}
+
+- (instancetype) initWithDeviceInfo:(DeviceInfo *)deviceInfo {
     self = [super init];
-    self.config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    self.config = [self getSessionConfiguration];
     self.session = [NSURLSession sessionWithConfiguration:self.config];
     return self;
+}
+
+- (NSURLSessionConfiguration*) getSessionConfiguration
+{
+    NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+
+    NSMutableDictionary *HTTPAdditionalHeaders = [NSMutableDictionary dictionaryWithDictionary:sessionConfig.HTTPAdditionalHeaders];
+
+    if (deviceInfo.userAgent) {
+        HTTPAdditionalHeaders[@"User-Agent"] = deviceInfo.userAgent;
+    }
+
+    sessionConfig.HTTPAdditionalHeaders = HTTPAdditionalHeaders;
+
+    return sessionConfig;
 }
 
 - (void) getFromUrl:(NSURL *) url

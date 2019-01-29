@@ -13,9 +13,15 @@
 
 @implementation ApiHandler
 
-- (instancetype) init {
+- (instancetype) init
+{
+    NSAssert(false, @"Do not use this initializer");
+    return [self initWithNetworkManager:nil];
+}
+
+- (instancetype) initWithNetworkManager:(NetworkManager*)networkManager {
     if(self = [super init]) {
-        self.networkManager = [[NetworkManager alloc] init];
+        self.networkManager = networkManager;
     }
     return self;
 }

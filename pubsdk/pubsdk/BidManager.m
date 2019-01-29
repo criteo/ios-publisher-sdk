@@ -11,16 +11,21 @@
 @implementation BidManager
 {
     ConfigManager *configManager;
+    DeviceInfo *deviceInfo;
+    NetworkManager *networkManager;
 }
 
 - (instancetype) init {
     if(self = [super init]) {
-        _cacheManager = [[CacheManager alloc] init];
-        _apiHandler = [[ApiHandler alloc] init];
-        _gdpr = [[GdprUserConsent alloc] init];
+        deviceInfo = [[DeviceInfo alloc] init];
+        networkManager = [[NetworkManager alloc] initWithDeviceInfo:deviceInfo];
+        _apiHandler = [[ApiHandler alloc] initWithNetworkManager:networkManager];
+        configManager = [[ConfigManager alloc] initWithApiHandler:_apiHandler];
 
-        self->configManager = [[ConfigManager alloc] initWithApiHandler:_apiHandler];
+        _cacheManager = [[CacheManager alloc] init];
+        _gdpr = [[GdprUserConsent alloc] init];
     }
+
     return self;
 }
 

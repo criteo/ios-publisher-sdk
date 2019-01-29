@@ -37,8 +37,7 @@
                                  postBody:[OCMArg isKindOfClass:[NSDictionary class]]
                           responseHandler:([OCMArg invokeBlockWithArgs:responseData, error, nil])]);
 
-    ApiHandler *apiHandler = [[ApiHandler alloc] init];
-    apiHandler.networkManager = mockNetworkManager;
+    ApiHandler *apiHandler = [[ApiHandler alloc] initWithNetworkManager:mockNetworkManager];
 
     CdbBid *testBid_1 = [[CdbBid alloc] initWithZoneId:nil placementId:@"adunitid_1" cpm:@(1.1200000047683716) currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />" displayUrl:nil insertTime:[NSDate date]];
 
@@ -106,8 +105,7 @@
     OCMStub([mockConfig sdkVersion]).andReturn(@"1.0");
     OCMStub([mockConfig appId]).andReturn(@"com.criteo.pubsdk");
 
-    ApiHandler *apiHandler = [[ApiHandler alloc] init];
-    apiHandler.networkManager = mockNetworkManager;
+    ApiHandler *apiHandler = [[ApiHandler alloc] initWithNetworkManager:mockNetworkManager];
 
     [apiHandler getConfig:mockConfig ahConfigHandler:^(NSDictionary *configValues){
         NSLog(@"Data length is %ld", [configValues count]);

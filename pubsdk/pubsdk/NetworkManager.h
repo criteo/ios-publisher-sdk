@@ -11,12 +11,17 @@
 
 #import <Foundation/Foundation.h>
 
+#import "DeviceInfo.h"
+
 typedef void (^NMResponse)(NSData *data, NSError *error);
 
 @interface NetworkManager : NSObject
 
 @property (strong, nonatomic) NSURLSessionConfiguration *config;
 @property (strong, nonatomic) NSURLSession *session;
+
+- (instancetype) init NS_UNAVAILABLE;
+- (instancetype) initWithDeviceInfo:(DeviceInfo*)deviceInfo NS_DESIGNATED_INITIALIZER;
 
 - (void) getFromUrl:(NSURL *) url
     responseHandler:(NMResponse) responseHandler;
