@@ -22,7 +22,7 @@
 @implementation ApiHandlerTests
 
 - (void) testCallCdb {
-    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"CDB call expectation"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"CDB call expectation"];
 
     NetworkManager *mockNetworkManager = OCMStrictClassMock([NetworkManager class]);
 
@@ -83,7 +83,7 @@
 }
 
 - (void) testGetConfig {
-    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"Config call expectation"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Config call expectation"];
 
     NetworkManager *mockNetworkManager = OCMStrictClassMock([NetworkManager class]);
 
