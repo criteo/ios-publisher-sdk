@@ -10,8 +10,8 @@
 #define Criteo_h
 
 #import <Foundation/Foundation.h>
+
 #import "AdUnit.h"
-#import "BidManager.h"
 
 @interface Criteo : NSObject
 

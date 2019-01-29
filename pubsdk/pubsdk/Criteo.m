@@ -8,6 +8,8 @@
 
 #import "Criteo.h"
 
+#import "BidManager.h"
+
 static NSMutableArray<AdUnit *> *registeredAdUnits;
 static BidManager *bidManager;
 static bool hasPrefetched;
@@ -15,12 +17,33 @@ static Criteo *sharedInstance;
 
 @implementation Criteo
 
++ (BidManager*) createBidManager
+{
+    DeviceInfo *deviceInfo = [[DeviceInfo alloc] init];
+    NetworkManager *networkManager = [[NetworkManager alloc] initWithDeviceInfo:deviceInfo];
+    ApiHandler *apiHandler = [[ApiHandler alloc] initWithNetworkManager:networkManager];
+    ConfigManager *configManager = [[ConfigManager alloc] initWithApiHandler:apiHandler];
+
+    CacheManager *cacheManager = [[CacheManager alloc] init];
+    GdprUserConsent *gdpr = [[GdprUserConsent alloc] init];
+
+    BidManager *bidManager = [[BidManager alloc] initWithApiHandler:apiHandler
+                                                       cacheManager:cacheManager
+                                                             config:nil
+                                                      configManager:configManager
+                                                         deviceInfo:deviceInfo
+                                                    gdprUserConsent:gdpr
+                                                     networkManager:networkManager];
+
+    return bidManager;
+}
+
 + (instancetype) sharedCriteo
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         registeredAdUnits = [[NSMutableArray alloc] init];
-        bidManager = [[BidManager alloc] init];
+        bidManager = [Criteo createBidManager];
         hasPrefetched = false;
         sharedInstance = [[self alloc] init];
     });

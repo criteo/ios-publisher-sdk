@@ -20,7 +20,6 @@
 @implementation BidManagerTests
 
 - (void) testGetBid {
-    BidManager *bidManager = [[BidManager alloc] init];
     // test cache
     CacheManager *cache = [[CacheManager alloc] init];
 
@@ -33,13 +32,18 @@
     AdUnit *testAdUnit_2 = [[AdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
     [cache.bidCache setObject:testBid_2 forKey:testAdUnit_2];
 
-    bidManager.cacheManager = cache;
-
     GdprUserConsent *mockUserConsent = OCMStrictClassMock([GdprUserConsent class]);
     OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
     OCMStub([mockUserConsent consentGiven]).andReturn(YES);
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
-    bidManager.gdpr = mockUserConsent;
+
+    BidManager *bidManager = [[BidManager alloc] initWithApiHandler:nil
+                                                       cacheManager:cache
+                                                             config:nil
+                                                      configManager:nil
+                                                         deviceInfo:nil
+                                                    gdprUserConsent:mockUserConsent
+                                                     networkManager:nil];
 
     // if the caller asks for a bid for an un initialized slot
     AdUnit *unInitializedSlot = [[AdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
@@ -54,7 +58,6 @@
 }
 
 - (void) testGetBidForSlotThatHasntBeenFetchedFromCdb {
-    BidManager *bidManager = [[BidManager alloc] init];
     // test cache
     CacheManager *cache = [[CacheManager alloc] init];
 
@@ -63,13 +66,18 @@
     AdUnit *testEmptyAdUnit = [[AdUnit alloc] initWithAdUnitId:@"thisShouldReturnEmptyBid" width:300 height:250];
     [cache.bidCache setObject:testEmptyBid forKey:testEmptyAdUnit];
 
-    bidManager.cacheManager = cache;
-
     GdprUserConsent *mockUserConsent = OCMStrictClassMock([GdprUserConsent class]);
     OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
     OCMStub([mockUserConsent consentGiven]).andReturn(YES);
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
-    bidManager.gdpr = mockUserConsent;
+
+    BidManager *bidManager = [[BidManager alloc] initWithApiHandler:nil
+                                                       cacheManager:cache
+                                                             config:nil
+                                                      configManager:nil
+                                                         deviceInfo:nil
+                                                    gdprUserConsent:mockUserConsent
+                                                     networkManager:nil];
 
     // an initialized slot that has no bid fetched for it
     NSArray *slots = @[[[AdUnit alloc] initWithAdUnitId:@"thisShouldReturnEmptyBid" width:300 height:250]];
@@ -78,7 +86,13 @@
 }
 
 - (void) testSetSlots {
-    BidManager *bidManager = [[BidManager alloc] init];
+    BidManager *bidManager = [[BidManager alloc] initWithApiHandler:nil
+                                                       cacheManager:[[CacheManager alloc] init]
+                                                             config:nil
+                                                      configManager:nil
+                                                         deviceInfo:nil
+                                                    gdprUserConsent:nil
+                                                     networkManager:nil];
 
     AdUnit *slot_1 = [[AdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
     AdUnit *slot_2 = [[AdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
@@ -103,16 +117,20 @@
     CacheManager *cache = [[CacheManager alloc] init];
     [cache setBid:testBid_1 forAdUnit:slot_1];
 
-    BidManager *bidManager = [[BidManager alloc] init];
-    bidManager.cacheManager = cache;
-
     NSDictionary *testDfpCustomTargeting = [NSDictionary dictionaryWithObjectsAndKeys:@"object 1", @"key_1", @"object_2", @"key_2", nil];
 
     DummyDfpRequest *dfpBidRequest = [[DummyDfpRequest alloc] init];
     dfpBidRequest.customTargeting = testDfpCustomTargeting;
 
     Config *config = [[Config alloc] initWithNetworkId:@(1234)];
-    bidManager.config = config;
+
+    BidManager *bidManager = [[BidManager alloc] initWithApiHandler:nil
+                                                       cacheManager:cache
+                                                             config:config
+                                                      configManager:nil
+                                                         deviceInfo:nil
+                                                    gdprUserConsent:nil
+                                                     networkManager:nil];
 
     [bidManager addCriteoBidToRequest:dfpBidRequest forAdUnit:slot_1];
 
@@ -129,9 +147,6 @@
     CacheManager *cache = [[CacheManager alloc] init];
     [cache setBid:testBid_1 forAdUnit:slot_1];
 
-    BidManager *bidManager = [[BidManager alloc] init];
-    bidManager.cacheManager = cache;
-
     NSDictionary *testDfpCustomTargeting = [NSDictionary dictionaryWithObjectsAndKeys:@"object 1", @"key_1", @"object_2", @"key_2", nil];
 
     DummyDfpRequest *dfpBidRequest = [[DummyDfpRequest alloc] init];
@@ -139,7 +154,14 @@
 
     Config *config = [[Config alloc] initWithNetworkId:@(1234)];
     config.killSwitch = YES;
-    bidManager.config = config;
+
+    BidManager *bidManager = [[BidManager alloc] initWithApiHandler:nil
+                                                       cacheManager:cache
+                                                             config:config
+                                                      configManager:nil
+                                                         deviceInfo:nil
+                                                    gdprUserConsent:nil
+                                                     networkManager:nil];
 
     [bidManager addCriteoBidToRequest:dfpBidRequest forAdUnit:slot_1];
     // there shouldn't be any enrichment

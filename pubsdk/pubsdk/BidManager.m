@@ -10,27 +10,49 @@
 
 @implementation BidManager
 {
-    ConfigManager *configManager;
-    DeviceInfo *deviceInfo;
-    NetworkManager *networkManager;
+    ApiHandler      *apiHandler;
+    CacheManager    *cacheManager;
+    Config          *config;
+    ConfigManager   *configManager;
+    DeviceInfo      *deviceInfo;
+    GdprUserConsent *gdprUserConsent;
+    NetworkManager  *networkManager;
 }
 
 - (instancetype) init {
-    if(self = [super init]) {
-        deviceInfo = [[DeviceInfo alloc] init];
-        networkManager = [[NetworkManager alloc] initWithDeviceInfo:deviceInfo];
-        _apiHandler = [[ApiHandler alloc] initWithNetworkManager:networkManager];
-        configManager = [[ConfigManager alloc] initWithApiHandler:_apiHandler];
+    NSAssert(false, @"Do not use this initializer");
+    return [self initWithApiHandler:nil
+                       cacheManager:nil
+                             config:nil
+                      configManager:nil
+                         deviceInfo:nil
+                    gdprUserConsent:nil
+                     networkManager:nil];
+}
 
-        _cacheManager = [[CacheManager alloc] init];
-        _gdpr = [[GdprUserConsent alloc] init];
+- (instancetype) initWithApiHandler:(ApiHandler*)apiHandler
+                       cacheManager:(CacheManager*)cacheManager
+                             config:(Config*)config
+                      configManager:(ConfigManager*)configManager
+                         deviceInfo:(DeviceInfo*)deviceInfo
+                    gdprUserConsent:(GdprUserConsent*)gdprUserConsent
+                     networkManager:(NetworkManager*)networkManager
+{
+    if(self = [super init]) {
+        self->apiHandler      = apiHandler;
+        self->cacheManager    = cacheManager;
+        self->config          = config;
+        self->configManager   = configManager;
+        self->deviceInfo      = deviceInfo;
+        self->gdprUserConsent = gdprUserConsent;
+        self->networkManager  = networkManager;
     }
 
     return self;
 }
 
 - (void) setSlots: (NSArray<AdUnit*> *) slots {
-    [_cacheManager initSlots:slots];
+    [cacheManager initSlots:slots];
     // TODO: should we prefetch here as well?
 }
 
@@ -44,7 +66,7 @@
 }
 
 - (CdbBid *) getBid:(AdUnit *) slot {
-    CdbBid *bid = [_cacheManager getBid:slot];
+    CdbBid *bid = [cacheManager getBid:slot];
     if(bid) {
         // Whether a valid bid was returned or not
         // fire call to prefetch here
@@ -60,20 +82,20 @@
 
 // TODO: Figure out a way to test this
 - (void) prefetchBid:(AdUnit *) slotId {
-    if(![self config]) {
+    if(!config) {
         NSLog(@"Config hasn't been fetched. So no bids will be fetched.");
         return;
         // TODO : move kill switch logic out of bid manager
         // http://review.criteois.lan/#/c/461220/10/pubsdk/pubsdkTests/BidManagerTests.m
-    } else if ([[self config] killSwitch]) {
+    } else if ([config killSwitch]) {
         NSLog(@"killSwitch is engaged. No bid will be fetched.");
         return;
     }
     // move the async to the api handler
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self.apiHandler callCdb:slotId gdprConsent:[self gdpr] config:[self config] ahCdbResponseHandler:^(NSArray *cdbBids) {
+        [self->apiHandler callCdb:slotId gdprConsent:self->gdprUserConsent config:self->config ahCdbResponseHandler:^(NSArray *cdbBids) {
             for(CdbBid *bid in cdbBids) {
-                [self.cacheManager setBid:bid forAdUnit:slotId];
+                [self->cacheManager setBid:bid forAdUnit:slotId];
             }
         }];
     });
@@ -84,27 +106,27 @@
         NSLog(@"initConfigWithNetworkId is missing the following required value networkId = %@", networkId);
         return;
     }
-    if(![self config]) {
-        _config = [[Config alloc] initWithNetworkId:networkId];
+    if(!config) {
+        config = [[Config alloc] initWithNetworkId:networkId];
     }
 
     [self refreshConfig];
 }
 
 - (void) refreshConfig {
-    if (self.config) {
-        [configManager refreshConfig:_config];
+    if (config) {
+        [configManager refreshConfig:config];
     }
 }
 
 - (void) addCriteoBidToRequest:(id) adRequest
                      forAdUnit:(AdUnit *) adUnit {
-    if(![self config]) {
+    if(!config) {
         NSLog(@"Config hasn't been fetched. So no bids will be fetched.");
         return;
         // TODO : move kill switch logic out of bid manager
         // http://review.criteois.lan/#/c/461220/10/pubsdk/pubsdkTests/BidManagerTests.m
-    } else if ([[self config] killSwitch]) {
+    } else if ([config killSwitch]) {
         NSLog(@"killSwitch is engaged. No bid will be fetched.");
         return;
     }
