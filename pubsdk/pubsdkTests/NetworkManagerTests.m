@@ -21,11 +21,8 @@
 
 // NOT a unit test as it uses the interwebs.
 - (void) testNetworkManagerPostCall {
-    // TODO: ignoring test for now because it crashes on jenkins
-    return;
-    /*
-    
-    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"CDB network call"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"CDB network call"];
+    DeviceInfo *deviceInfo = [[DeviceInfo alloc] init];
     // test values
     NSString *placementId = @"div-Test-DirectBidder";
     //NSNumber *zoneId = @(497747);
@@ -74,7 +71,7 @@
     
     NSURL *url = [NSURL URLWithString: @"http://directbidder-test-app.par.preprod.crto.in/inapp/v1?profileId=235"];
     
-    NetworkManager *networkManager = [[NetworkManager alloc] init];
+    NetworkManager *networkManager = [[NetworkManager alloc] initWithDeviceInfo:deviceInfo];
     NSLog(@"Test called the NetworkManager");
     NSError *jsonError;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:postBody options:NSJSONWritingPrettyPrinted error:&jsonError];
@@ -86,7 +83,7 @@
             XCTAssertNotNil(data);
             if(data) {
                 NSLog(@"CDB returned : %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-                NSArray *cdbBids = [CdbBid getCdbResponsesFromData:data];
+                NSArray *cdbBids = [CdbBid getCdbResponsesFromData:data receivedAt:[NSDate date]];
                 XCTAssertNotNil(cdbBids);
                 XCTAssertNotEqual(0, cdbBids.count);
             }
@@ -97,22 +94,17 @@
     }];
     
     [self waitForExpectations:@[expectation] timeout:250];
-
-
-     */
 }
 
 // NOT a unit test as it uses the interwebs.
 - (void) testNetworkManagerGetCall {
-    // TODO: ignoring test for now because it crashes on jenkins
-    return;
-    /*
-    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"Config network call"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Config network call"];
+    DeviceInfo *deviceInfo = [[DeviceInfo alloc] init];
     NSString *query = [NSString stringWithFormat:@"networkId=%@&sdkVersion=%@&appId=%@", @(4916), @"2.0", @"com.washingtonpost.iOS"];
     NSString *urlString = [NSString stringWithFormat:@"https://pub-sdk-cfg.par.preprod.crto.in/v1.0/api/config?%@", query];
     NSURL *url = [NSURL URLWithString: urlString];
     
-    NetworkManager *networkManager = [[NetworkManager alloc] init];
+    NetworkManager *networkManager = [[NetworkManager alloc] initWithDeviceInfo:deviceInfo];
     NSLog(@"Test called the NetworkManager");
     
     [networkManager getFromUrl:url responseHandler:^(NSData *data, NSError *error) {
@@ -130,7 +122,6 @@
         [expectation fulfill];
     }];
     [self waitForExpectations:@[expectation] timeout:250];
-     */
 }
 
 @end
