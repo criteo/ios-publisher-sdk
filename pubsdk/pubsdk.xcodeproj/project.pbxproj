@@ -10,6 +10,9 @@
 		258821D221FD3FB600398E9F /* ConfigManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 258821D021FD3FB600398E9F /* ConfigManager.h */; };
 		258821D321FD3FB600398E9F /* ConfigManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821D121FD3FB600398E9F /* ConfigManager.m */; };
 		258821D521FD5D8200398E9F /* ConfigManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821D421FD5D8200398E9F /* ConfigManagerTests.m */; };
+		258821D922000F8000398E9F /* DeviceInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 258821D722000F8000398E9F /* DeviceInfo.h */; };
+		258821DA22000F8000398E9F /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821D822000F8000398E9F /* DeviceInfo.m */; };
+		258821DD220015AF00398E9F /* DeviceInfoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821DC220015AF00398E9F /* DeviceInfoTests.m */; };
 		BB5361AECA2A9614E3B4A2C6 /* libPods-pubsdkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F187272CD050435F6D28BFA /* libPods-pubsdkTests.a */; };
 		E104B6AD21E41D60004D86C4 /* AdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6AC21E41D60004D86C4 /* AdUnit.m */; };
 		E104B6B121E57F0A004D86C4 /* AdUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6B021E57F0A004D86C4 /* AdUnitTests.m */; };
@@ -62,6 +65,9 @@
 		258821D021FD3FB600398E9F /* ConfigManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfigManager.h; sourceTree = "<group>"; };
 		258821D121FD3FB600398E9F /* ConfigManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfigManager.m; sourceTree = "<group>"; };
 		258821D421FD5D8200398E9F /* ConfigManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfigManagerTests.m; sourceTree = "<group>"; };
+		258821D722000F8000398E9F /* DeviceInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceInfo.h; sourceTree = "<group>"; };
+		258821D822000F8000398E9F /* DeviceInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceInfo.m; sourceTree = "<group>"; };
+		258821DC220015AF00398E9F /* DeviceInfoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceInfoTests.m; sourceTree = "<group>"; };
 		29D24DDAFFC9D3813C55AD78 /* Pods-pubsdkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdkTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdkTests/Pods-pubsdkTests.release.xcconfig"; sourceTree = "<group>"; };
 		4876E95088BFF48248FF7025 /* Pods-pubsdkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdkTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdkTests/Pods-pubsdkTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6F187272CD050435F6D28BFA /* libPods-pubsdkTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pubsdkTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -121,6 +127,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		258821D622000D3B00398E9F /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				E104B6B621E92D4B004D86C4 /* Config.h */,
+				E12A7F5921FA6FA4002B4548 /* Config.m */,
+				258821D021FD3FB600398E9F /* ConfigManager.h */,
+				258821D121FD3FB600398E9F /* ConfigManager.m */,
+				258821D722000F8000398E9F /* DeviceInfo.h */,
+				258821D822000F8000398E9F /* DeviceInfo.m */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		258821DB2200143A00398E9F /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				E12A7F5B21FBFAE6002B4548 /* ConfigTests.m */,
+				258821D421FD5D8200398E9F /* ConfigManagerTests.m */,
+				258821DC220015AF00398E9F /* DeviceInfoTests.m */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
 		58922C790615A11D1E6D635B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -162,10 +191,7 @@
 				E1F273C121C9765100A2FBFA /* CacheManager.m */,
 				E1F2738D21BF1AB300A2FBFA /* CdbBid.h */,
 				E1F273B821C87A2F00A2FBFA /* CdbBid.m */,
-				E104B6B621E92D4B004D86C4 /* Config.h */,
-				E12A7F5921FA6FA4002B4548 /* Config.m */,
-				258821D021FD3FB600398E9F /* ConfigManager.h */,
-				258821D121FD3FB600398E9F /* ConfigManager.m */,
+				258821D622000D3B00398E9F /* Configuration */,
 				E1F2738C21BB1B1400A2FBFA /* Criteo.h */,
 				E1F2738A21BB12C300A2FBFA /* Criteo.m */,
 				E12A7F5421F8FBD6002B4548 /* GdprUserConsent.h */,
@@ -191,9 +217,8 @@
 				E104B6BA21EFE733004D86C4 /* NetworkManagerTests.m */,
 				E1F2737221B5F08D00A2FBFA /* pubsdkTests.m */,
 				E12A7F5721F914DA002B4548 /* GdprUserConsentTests.m */,
-				E12A7F5B21FBFAE6002B4548 /* ConfigTests.m */,
-				258821D421FD5D8200398E9F /* ConfigManagerTests.m */,
 				E12A7F5D21FFBD2F002B4548 /* CacheManagerTests.m */,
+				258821DB2200143A00398E9F /* Configuration */,
 			);
 			path = pubsdkTests;
 			sourceTree = "<group>";
@@ -216,6 +241,7 @@
 			files = (
 				258821D221FD3FB600398E9F /* ConfigManager.h in Headers */,
 				E1F2737521B5F08D00A2FBFA /* pubsdk.h in Headers */,
+				258821D922000F8000398E9F /* DeviceInfo.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,6 +371,7 @@
 				E1F273B921C87A2F00A2FBFA /* CdbBid.m in Sources */,
 				E1F2738B21BB12C300A2FBFA /* Criteo.m in Sources */,
 				E12A7F5621F8FD25002B4548 /* GdprUserConsent.m in Sources */,
+				258821DA22000F8000398E9F /* DeviceInfo.m in Sources */,
 				E104B6AD21E41D60004D86C4 /* AdUnit.m in Sources */,
 				E1F2738421B9B58900A2FBFA /* NetworkManager.m in Sources */,
 				258821D321FD3FB600398E9F /* ConfigManager.m in Sources */,
@@ -368,6 +395,7 @@
 				E104B6B321E57F7B004D86C4 /* BidManagerTests.m in Sources */,
 				E104B6B121E57F0A004D86C4 /* AdUnitTests.m in Sources */,
 				E12A7F5E21FFBD2F002B4548 /* CacheManagerTests.m in Sources */,
+				258821DD220015AF00398E9F /* DeviceInfoTests.m in Sources */,
 				E104B6B521E580E9004D86C4 /* CdbBidTests.m in Sources */,
 				258821D521FD5D8200398E9F /* ConfigManagerTests.m in Sources */,
 			);

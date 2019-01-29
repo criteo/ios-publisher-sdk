@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
-#import "../pubsdk/NetworkManager.h"
-#import "../pubsdk/CdbBid.h"
-#import "../pubsdk/AdUnit.h"
-#import "../pubsdk/Config.h"
+#import "NetworkManager.h"
+#import "CdbBid.h"
+#import "AdUnit.h"
+#import "Config.h"
 
 @interface NetworkManagerTests : XCTestCase
 

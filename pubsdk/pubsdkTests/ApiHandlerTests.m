@@ -11,7 +11,7 @@
 #import <OCMock.h>
 #import "../pubsdk/BidManager.h"
 #import "../pubsdk/CacheManager.h"
-#import "../pubsdk/Config.h"
+#import "Config.h"
 #import "../pubsdk/NetworkManager.h"
 #import "../pubsdk/GdprUserConsent.h"
 

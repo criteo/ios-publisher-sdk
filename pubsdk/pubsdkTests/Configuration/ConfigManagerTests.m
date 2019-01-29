@@ -8,7 +8,8 @@
 
 #import <XCTest/XCTest.h>
 #import <OCMock.h>
-#import "../pubsdk/ConfigManager.h"
+
+#import "ConfigManager.h"
 
 @interface ConfigManagerTests : XCTestCase
 

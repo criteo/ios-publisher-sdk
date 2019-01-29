@@ -9,8 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 #import <OCMock.h>
-#import "../pubsdk/Config.h"
-#import "../pubsdk/ApiHandler.h"
+
+#import "Config.h"
+#import "ApiHandler.h"
 
 @interface ConfigTests: XCTestCase
 
