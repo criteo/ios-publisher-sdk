@@ -10,38 +10,35 @@
 
 #import "DeviceInfo.h"
 
-@interface DeviceInfo ()
-
-- (void) setupUserAgent;
-
-@end
+static WKWebView *webView = nil;
+static NSString *userAgent = nil;
 
 @implementation DeviceInfo
-{
-    WKWebView *webView;
-}
 
-- (instancetype) init
++ (void) initialize
 {
-    if (self = [super init])
+    if ([self class] == [DeviceInfo class])
     {
         [self setupUserAgent];
     }
-
-    return self;
 }
 
-- (void) setupUserAgent
++ (void) setupUserAgent
 {
     webView = [[WKWebView alloc] initWithFrame:CGRectZero];
 
     [webView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id _Nullable navigatorUserAgent, NSError * _Nullable error) {
         if (!error && [navigatorUserAgent isKindOfClass:NSString.class]) {
-            self->_userAgent = navigatorUserAgent;
+            userAgent = navigatorUserAgent;
         }
 
-        self->webView = nil;
+        webView = nil;
     }];
+}
+
+- (NSString*) userAgent
+{
+    return userAgent;
 }
 
 @end

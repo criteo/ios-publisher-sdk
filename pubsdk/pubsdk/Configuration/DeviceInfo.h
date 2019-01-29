@@ -14,8 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,readonly) NSString *userAgent;
 
-- (instancetype) init NS_DESIGNATED_INITIALIZER;
-
 @end
 
 NS_ASSUME_NONNULL_END
