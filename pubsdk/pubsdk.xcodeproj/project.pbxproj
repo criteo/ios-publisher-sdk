@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		255151B822012BF100F76E3F /* Criteo.h in Headers */ = {isa = PBXBuildFile; fileRef = E1F2738C21BB1B1400A2FBFA /* Criteo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		255151B922012BF800F76E3F /* AdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = E104B6AB21E41B6A004D86C4 /* AdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		258821D221FD3FB600398E9F /* ConfigManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 258821D021FD3FB600398E9F /* ConfigManager.h */; };
 		258821D321FD3FB600398E9F /* ConfigManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821D121FD3FB600398E9F /* ConfigManager.m */; };
 		258821D521FD5D8200398E9F /* ConfigManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821D421FD5D8200398E9F /* ConfigManagerTests.m */; };
@@ -239,9 +241,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				255151B822012BF100F76E3F /* Criteo.h in Headers */,
 				258821D221FD3FB600398E9F /* ConfigManager.h in Headers */,
 				E1F2737521B5F08D00A2FBFA /* pubsdk.h in Headers */,
 				258821D922000F8000398E9F /* DeviceInfo.h in Headers */,
+				255151B922012BF800F76E3F /* AdUnit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
