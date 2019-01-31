@@ -7,6 +7,13 @@
 //
 
 #import "CdbBid.h"
+#import "NSString+UrlEncoder.h"
+
+@interface CdbBid ()
+
+- (NSString*) dfpCompatibleDisplayUrlForDisplayUrl:(NSString*)displayUrl;
+
+@end
 
 @implementation CdbBid
 
@@ -67,9 +74,23 @@ static CdbBid *emptyBid;
         _creative = creative;
         _ttl = ttl;
         _displayUrl = displayUrl;
+        _dfpCompatibleDisplayUrl = [self dfpCompatibleDisplayUrlForDisplayUrl:displayUrl];
         _insertTime = insertTime;
     }
     return self;
+}
+
+- (NSString*) dfpCompatibleDisplayUrlForDisplayUrl:(NSString*)displayUrl
+{
+    NSString *dfpCompatibleDisplayUrl = nil;
+
+    if(displayUrl) {
+        NSData *displayUrlData = [_displayUrl dataUsingEncoding:NSUTF8StringEncoding];
+        NSString *display64String = [displayUrlData base64EncodedStringWithOptions:0];
+        dfpCompatibleDisplayUrl = [display64String urlEncode];
+    }
+
+    return dfpCompatibleDisplayUrl;
 }
 
 // TODO : If there is a cleaner way to write this please show me

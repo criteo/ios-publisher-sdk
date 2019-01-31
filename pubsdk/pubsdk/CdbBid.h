@@ -22,6 +22,7 @@
 @property (readonly, nonatomic) NSTimeInterval ttl;
 @property (readonly, nonatomic) NSString *creative;
 @property (readonly, nonatomic) NSString *displayUrl;
+@property (readonly, nonatomic) NSString *dfpCompatibleDisplayUrl;
 @property (readonly, nonatomic) NSDate *insertTime;
 
 + (instancetype) emptyBid;

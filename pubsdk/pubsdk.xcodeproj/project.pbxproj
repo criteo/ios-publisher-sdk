@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		255151B822012BF100F76E3F /* Criteo.h in Headers */ = {isa = PBXBuildFile; fileRef = E1F2738C21BB1B1400A2FBFA /* Criteo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		255151B922012BF800F76E3F /* AdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = E104B6AB21E41B6A004D86C4 /* AdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		255151C522027C9500F76E3F /* NSString+UrlEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 255151C322027C9500F76E3F /* NSString+UrlEncoder.h */; };
+		255151C622027C9500F76E3F /* NSString+UrlEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 255151C422027C9500F76E3F /* NSString+UrlEncoder.m */; };
 		258821D221FD3FB600398E9F /* ConfigManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 258821D021FD3FB600398E9F /* ConfigManager.h */; };
 		258821D321FD3FB600398E9F /* ConfigManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821D121FD3FB600398E9F /* ConfigManager.m */; };
 		258821D521FD5D8200398E9F /* ConfigManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821D421FD5D8200398E9F /* ConfigManagerTests.m */; };
@@ -64,6 +66,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		255151C322027C9500F76E3F /* NSString+UrlEncoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+UrlEncoder.h"; sourceTree = "<group>"; };
+		255151C422027C9500F76E3F /* NSString+UrlEncoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+UrlEncoder.m"; sourceTree = "<group>"; };
 		258821D021FD3FB600398E9F /* ConfigManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfigManager.h; sourceTree = "<group>"; };
 		258821D121FD3FB600398E9F /* ConfigManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfigManager.m; sourceTree = "<group>"; };
 		258821D421FD5D8200398E9F /* ConfigManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfigManagerTests.m; sourceTree = "<group>"; };
@@ -129,6 +133,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		255151C222027C6000F76E3F /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				255151C322027C9500F76E3F /* NSString+UrlEncoder.h */,
+				255151C422027C9500F76E3F /* NSString+UrlEncoder.m */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 		258821D622000D3B00398E9F /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -202,6 +215,7 @@
 				E1F2738221B9B01200A2FBFA /* NetworkManager.h */,
 				E1F2738321B9B58900A2FBFA /* NetworkManager.m */,
 				E1F2736721B5F08D00A2FBFA /* pubsdk.h */,
+				255151C222027C6000F76E3F /* Util */,
 			);
 			path = pubsdk;
 			sourceTree = "<group>";
@@ -242,6 +256,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				255151B822012BF100F76E3F /* Criteo.h in Headers */,
+				255151C522027C9500F76E3F /* NSString+UrlEncoder.h in Headers */,
 				258821D221FD3FB600398E9F /* ConfigManager.h in Headers */,
 				E1F2737521B5F08D00A2FBFA /* pubsdk.h in Headers */,
 				258821D922000F8000398E9F /* DeviceInfo.h in Headers */,
@@ -382,6 +397,7 @@
 				E1F2738721B9BF4900A2FBFA /* ApiHandler.m in Sources */,
 				E1F273C221C9765100A2FBFA /* CacheManager.m in Sources */,
 				E12A7F5A21FA6FA4002B4548 /* Config.m in Sources */,
+				255151C622027C9500F76E3F /* NSString+UrlEncoder.m in Sources */,
 				E1F273BB21C9733800A2FBFA /* BidManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
