@@ -135,11 +135,16 @@
         return;
     }
 
-    SEL dfpCustomTargeting = @selector(customTargeting);
-    SEL dfpSetCustomTargeting = @selector(setCustomTargeting:);
+    SEL dfpCustomTargeting = NSSelectorFromString(@"customTargeting");
+    SEL dfpSetCustomTargeting = NSSelectorFromString(@"setCustomTargeting:");
     if([adRequest respondsToSelector:dfpCustomTargeting] && [adRequest respondsToSelector:dfpSetCustomTargeting]) {
         id targeting = [adRequest performSelector:dfpCustomTargeting];
-        if([targeting isKindOfClass:[NSDictionary class]]) {
+
+        if (targeting == nil) {
+            targeting = [NSDictionary dictionary];
+        }
+
+        if ([targeting isKindOfClass:[NSDictionary class]]) {
             NSMutableDictionary *customTargeting = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *) targeting];
             [customTargeting setObject:fetchedBid.cpm.stringValue forKey:@"crt_cpm"];
             [customTargeting setObject:fetchedBid.dfpCompatibleDisplayUrl forKey:@"crt_displayUrl"];
