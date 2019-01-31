@@ -135,7 +135,7 @@
     [bidManager addCriteoBidToRequest:dfpBidRequest forAdUnit:slot_1];
 
     XCTAssertTrue(dfpBidRequest.customTargeting.count > 2);
-    XCTAssertEqualObjects([testBid_1 displayUrl],[dfpBidRequest.customTargeting objectForKey:@"crt_displayUrl"]);
+    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[dfpBidRequest.customTargeting objectForKey:@"crt_displayUrl"]);
     XCTAssertEqualObjects([testBid_1 cpm].stringValue, [dfpBidRequest.customTargeting objectForKey:@"crt_cpm"]);
 }
 
