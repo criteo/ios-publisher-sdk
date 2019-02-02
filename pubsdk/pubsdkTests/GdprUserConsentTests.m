@@ -30,7 +30,7 @@
     GdprUserConsent *gdpr = [[GdprUserConsent alloc] init];
     XCTAssertEqual([gdpr consentGiven], YES);
     XCTAssertTrue([consentString isEqualToString:[gdpr consentString]]);
-    XCTAssertEqual([gdpr gdprApplies], (BOOL)gdprApplies);
+    XCTAssertEqual([gdpr gdprApplies], (BOOL)gdprApplies.integerValue);
 }
 
 - (void) testGdprGetCriteoNotApprovedVendor {
@@ -47,7 +47,24 @@
     GdprUserConsent *gdpr = [[GdprUserConsent alloc] init];
     XCTAssertEqual([gdpr consentGiven], NO);
     XCTAssertTrue([consentString isEqualToString:[gdpr consentString]]);
-    XCTAssertEqual([gdpr gdprApplies], (BOOL)gdprApplies);
+    XCTAssertEqual([gdpr gdprApplies], (BOOL)gdprApplies.integerValue);
+}
+
+- (void) testTheTestThatIsnt {
+    NSNumber *gdprApplies = @(1);
+    NSString *consentString = @"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA";
+    //Criteo is at 91 but the vendor string is only 81 long
+    NSString *vendorString = @"000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:gdprApplies forKey:@"IABConsent_SubjectToGDPR"];
+    [userDefaults setObject:consentString forKey:@"IABConsent_ConsentString"];
+    [userDefaults setObject:vendorString forKey:@"IABConsent_ParsedVendorConsents"];
+
+    GdprUserConsent *gdpr = [[GdprUserConsent alloc] init];
+    XCTAssertEqual([gdpr consentGiven], NO);
+    XCTAssertTrue([consentString isEqualToString:[gdpr consentString]]);
+    XCTAssertEqual([gdpr gdprApplies], (BOOL)gdprApplies.integerValue);
 }
 
 
