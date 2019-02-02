@@ -87,7 +87,7 @@ static CdbBid *emptyBid;
     if(displayUrl) {
         NSData *displayUrlData = [_displayUrl dataUsingEncoding:NSUTF8StringEncoding];
         NSString *display64String = [displayUrlData base64EncodedStringWithOptions:0];
-        dfpCompatibleDisplayUrl = [display64String urlEncode];
+        dfpCompatibleDisplayUrl = [[display64String urlEncode] urlEncode];
     }
 
     return dfpCompatibleDisplayUrl;

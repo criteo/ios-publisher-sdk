@@ -80,4 +80,8 @@
     CdbBid *testBid = [[CdbBid alloc] initWithZoneId:nil placementId:@"a_test_placement" cpm:@(0.0312) currency:@"USD" width:@(300) height:@(200) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-100]];
     XCTAssertFalse([testBid isExpired]);
 }
+
+// TODO: Add an encoding test that compares a static string defined in the test compilation unit to the string generated at runtime
+// Idea is that at least one test breaks when we alter the encoding scheme.
+
 @end
