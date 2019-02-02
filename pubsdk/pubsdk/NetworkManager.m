@@ -34,21 +34,6 @@
     return self;
 }
 
-- (NSURLSessionConfiguration*) getSessionConfiguration
-{
-    NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
-
-    NSMutableDictionary *HTTPAdditionalHeaders = [NSMutableDictionary dictionaryWithDictionary:sessionConfig.HTTPAdditionalHeaders];
-
-    if (deviceInfo.userAgent) {
-        HTTPAdditionalHeaders[@"User-Agent"] = deviceInfo.userAgent;
-    }
-
-    sessionConfig.HTTPAdditionalHeaders = HTTPAdditionalHeaders;
-
-    return sessionConfig;
-}
-
 - (void) getFromUrl:(NSURL *) url
     responseHandler:(NMResponse) responseHandler {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
