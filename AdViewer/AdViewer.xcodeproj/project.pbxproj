@@ -14,9 +14,6 @@
 		404AC95021965716008C6267 /* GoogleDFPButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 404AC94F21965716008C6267 /* GoogleDFPButtonCell.m */; };
 		404AC95121965716008C6267 /* GoogleDFPButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 404AC94F21965716008C6267 /* GoogleDFPButtonCell.m */; };
 		404AC95221965716008C6267 /* GoogleDFPButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 404AC94F21965716008C6267 /* GoogleDFPButtonCell.m */; };
-		404AC95421975705008C6267 /* AdViewerCdbApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 404AC95321975705008C6267 /* AdViewerCdbApi.m */; };
-		404AC95521975705008C6267 /* AdViewerCdbApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 404AC95321975705008C6267 /* AdViewerCdbApi.m */; };
-		404AC95621975705008C6267 /* AdViewerCdbApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 404AC95321975705008C6267 /* AdViewerCdbApi.m */; };
 		4077EBA9218BC48300C41E68 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBA8218BC48300C41E68 /* AppDelegate.m */; };
 		4077EBAC218BC48300C41E68 /* HomePageViewConroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBAB218BC48300C41E68 /* HomePageViewConroller.m */; };
 		4077EBAF218BC48300C41E68 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4077EBAD218BC48300C41E68 /* Main.storyboard */; };
@@ -27,6 +24,8 @@
 		4077EBCC218BC48400C41E68 /* AdViewerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBCB218BC48400C41E68 /* AdViewerUITests.m */; };
 		40DE984B219F533300C4BA05 /* AdViewerTest2.m in Sources */ = {isa = PBXBuildFile; fileRef = 40DE984A219F533300C4BA05 /* AdViewerTest2.m */; };
 		DBADC33A873B0A67EBFCC7AA /* libPods-AdViewer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 171E0465ABE00D7D6BC30ED7 /* libPods-AdViewer.a */; };
+		E12A7F692204E513002B4548 /* pubsdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E12A7F6322012DE7002B4548 /* pubsdk.framework */; };
+		E12A7F6A2204E513002B4548 /* pubsdk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E12A7F6322012DE7002B4548 /* pubsdk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E4D40158F325A6DC4F02D3A9 /* libPods-AdViewerUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41B370E1BC561BAA35D19B67 /* libPods-AdViewerUITests.a */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +46,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		E12A7F6B2204E513002B4548 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E12A7F6A2204E513002B4548 /* pubsdk.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0EF455EE72EE01F7A6828CB6 /* Pods-AdViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdViewer.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-AdViewer/Pods-AdViewer.debug.xcconfig"; sourceTree = "<group>"; };
 		166EB132402129B59C168CE4 /* Pods-AdViewerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdViewerTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-AdViewerTests/Pods-AdViewerTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -56,8 +69,6 @@
 		404AC94A219650FF008C6267 /* GoogleDFPTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoogleDFPTableViewController.m; sourceTree = "<group>"; };
 		404AC94E21965716008C6267 /* GoogleDFPButtonCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleDFPButtonCell.h; sourceTree = "<group>"; };
 		404AC94F21965716008C6267 /* GoogleDFPButtonCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoogleDFPButtonCell.m; sourceTree = "<group>"; };
-		404AC95321975705008C6267 /* AdViewerCdbApi.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdViewerCdbApi.m; sourceTree = "<group>"; };
-		404AC957219770B9008C6267 /* AdViewerCdbApi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdViewerCdbApi.h; sourceTree = "<group>"; };
 		4077EBA4218BC48300C41E68 /* AdViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AdViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4077EBA7218BC48300C41E68 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4077EBA8218BC48300C41E68 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -79,6 +90,7 @@
 		9973086566A769E8D9C28455 /* Pods-AdViewerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdViewerUITests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-AdViewerUITests/Pods-AdViewerUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		BCDE305717E3571CEC59216F /* libPods-AdViewerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AdViewerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C105BF4A6807456DB5A1CDFD /* Pods-AdViewerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdViewerUITests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-AdViewerUITests/Pods-AdViewerUITests.release.xcconfig"; sourceTree = "<group>"; };
+		E12A7F6322012DE7002B4548 /* pubsdk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = pubsdk.framework; sourceTree = "<group>"; };
 		F83DBADEF55A94B9F33E78CC /* Pods-AdViewerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdViewerTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-AdViewerTests/Pods-AdViewerTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -88,6 +100,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DBADC33A873B0A67EBFCC7AA /* libPods-AdViewer.a in Frameworks */,
+				E12A7F692204E513002B4548 /* pubsdk.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,15 +123,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		404AC94721964C83008C6267 /* CBD */ = {
-			isa = PBXGroup;
-			children = (
-				404AC957219770B9008C6267 /* AdViewerCdbApi.h */,
-				404AC95321975705008C6267 /* AdViewerCdbApi.m */,
-			);
-			path = CBD;
-			sourceTree = "<group>";
-		};
 		404AC9482196509E008C6267 /* GoogleDFP */ = {
 			isa = PBXGroup;
 			children = (
@@ -156,7 +160,6 @@
 			isa = PBXGroup;
 			children = (
 				404AC9482196509E008C6267 /* GoogleDFP */,
-				404AC94721964C83008C6267 /* CBD */,
 				4077EBD9218CB5C000C41E68 /* Splash */,
 				4077EBDA218CB5E700C41E68 /* HomePage */,
 				4077EBA7218BC48300C41E68 /* AppDelegate.h */,
@@ -208,6 +211,7 @@
 		AEB379A3E47D7093DEBA6DA1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E12A7F6322012DE7002B4548 /* pubsdk.framework */,
 				171E0465ABE00D7D6BC30ED7 /* libPods-AdViewer.a */,
 				BCDE305717E3571CEC59216F /* libPods-AdViewerTests.a */,
 				41B370E1BC561BAA35D19B67 /* libPods-AdViewerUITests.a */,
@@ -240,6 +244,7 @@
 				4077EBA1218BC48300C41E68 /* Frameworks */,
 				4077EBA2218BC48300C41E68 /* Resources */,
 				779D7B98AF2FB9402A53CB83 /* [CP] Copy Pods Resources */,
+				E12A7F6B2204E513002B4548 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -498,7 +503,6 @@
 				404AC95021965716008C6267 /* GoogleDFPButtonCell.m in Sources */,
 				4077EBA9218BC48300C41E68 /* AppDelegate.m in Sources */,
 				404AC94B219650FF008C6267 /* GoogleDFPTableViewController.m in Sources */,
-				404AC95421975705008C6267 /* AdViewerCdbApi.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -507,7 +511,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				404AC95121965716008C6267 /* GoogleDFPButtonCell.m in Sources */,
-				404AC95521975705008C6267 /* AdViewerCdbApi.m in Sources */,
 				40DE984B219F533300C4BA05 /* AdViewerTest2.m in Sources */,
 				4077EBC1218BC48400C41E68 /* AdViewerTests.m in Sources */,
 				404AC94C219650FF008C6267 /* GoogleDFPTableViewController.m in Sources */,
@@ -519,7 +522,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				404AC95221965716008C6267 /* GoogleDFPButtonCell.m in Sources */,
-				404AC95621975705008C6267 /* AdViewerCdbApi.m in Sources */,
 				4077EBCC218BC48400C41E68 /* AdViewerUITests.m in Sources */,
 				404AC94D219650FF008C6267 /* GoogleDFPTableViewController.m in Sources */,
 			);
@@ -679,6 +681,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S655EV5659;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = AdViewer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -698,6 +704,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S655EV5659;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = AdViewer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -7,20 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AdViewerCdbApi.h"
+#import <pubsdk/pubsdk.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GoogleDFPTableViewController : UITableViewController
-<AdViewerCdbApiDelegate>
 
-@property (weak, nonatomic) IBOutlet UITextField *textPartnerId;
-@property (weak, nonatomic) IBOutlet UITextField *textImpId;
-@property (weak, nonatomic) IBOutlet UITextView *textView;
+@property (weak, nonatomic) IBOutlet UITextField *textNetworkId;
+@property (weak, nonatomic) IBOutlet UITextField *textAdUnitId;
+@property (weak, nonatomic) IBOutlet UITextField *textAdUnitWidth;
+@property (weak, nonatomic) IBOutlet UITextField *textAdUnitHeight;
+@property (nonatomic) Criteo *criteoSdk;
 
 
 - (IBAction)loadAdClick:(id)sender;
 - (IBAction)clearButtonClick:(id)sender;
+- (IBAction)registerAdUnitClick:(id)sender;
 
 @end
 
