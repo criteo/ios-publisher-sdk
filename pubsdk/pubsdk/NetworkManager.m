@@ -17,6 +17,7 @@
 @implementation NetworkManager
 {
     DeviceInfo *deviceInfo;
+    NSURLSession *session;
 }
 
 - (instancetype) init
@@ -26,9 +27,10 @@
 }
 
 - (instancetype) initWithDeviceInfo:(DeviceInfo *)deviceInfo {
-    self = [super init];
-    self.config = [self getSessionConfiguration];
-    self.session = [NSURLSession sessionWithConfiguration:self.config];
+    if (self = [super init]) {
+        self->deviceInfo = deviceInfo;
+        session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    }
     return self;
 }
 
@@ -49,8 +51,14 @@
 
 - (void) getFromUrl:(NSURL *) url
     responseHandler:(NMResponse) responseHandler {
-    NSURLSessionDataTask *task = [self.session dataTaskWithURL:url
-                                             completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+
+    if (deviceInfo.userAgent) {
+        [request setValue:deviceInfo.userAgent forHTTPHeaderField:@"User-Agent"];
+    }
+
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request
+                                            completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if(error) {
             // Add logging or metrics code here
             responseHandler(nil, error);
@@ -76,6 +84,10 @@
     NSMutableURLRequest *postRequest = [NSMutableURLRequest requestWithURL:url];
     [postRequest setTimeoutInterval: 30];
     [postRequest setHTTPMethod:@"POST"];
+
+    if (deviceInfo.userAgent) {
+        [postRequest setValue:deviceInfo.userAgent forHTTPHeaderField:@"User-Agent"];
+    }
     
     NSError *jsonError;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:postBody options:NSJSONWritingPrettyPrinted error:&jsonError];
@@ -89,7 +101,7 @@
     //[postRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[jsonData length]] forHTTPHeaderField:@"Content-Length"];
     [postRequest setHTTPBody: jsonData];
     
-    NSURLSessionDataTask *task = [self.session dataTaskWithRequest:postRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:postRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if(error) {
             // Add logging or metrics code here
             responseHandler(nil, error);
