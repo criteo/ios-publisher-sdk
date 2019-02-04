@@ -79,7 +79,7 @@
 
     //debug code
     //NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    //NSLog(@"NetworkManager url: %@ \nbody:\n %@",url, jsonString);
+    //CLog(@"NetworkManager url: %@ \nbody:\n %@",url, jsonString);
 
     //[postRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [postRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];

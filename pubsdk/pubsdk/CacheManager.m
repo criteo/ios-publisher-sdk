@@ -7,6 +7,7 @@
 //
 
 #import "CacheManager.h"
+#import "Logging.h"
 
 @implementation CacheManager
 
@@ -29,7 +30,7 @@
         if(adUnit) {
             _bidCache[adUnit] = bid;
         } else {
-            NSLog(@"Cache update failed because adUnit was nil. bid:  %@", bid);
+            CLog(@"Cache update failed because adUnit was nil. bid:  %@", bid);
         }
     }
 }

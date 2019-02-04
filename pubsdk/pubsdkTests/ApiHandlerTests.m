@@ -12,6 +12,7 @@
 #import "../pubsdk/BidManager.h"
 #import "../pubsdk/CacheManager.h"
 #import "Config.h"
+#import "Logging.h"
 #import "../pubsdk/NetworkManager.h"
 #import "../pubsdk/GdprUserConsent.h"
 
@@ -57,7 +58,7 @@
     OCMStub([mockConfig appId]).andReturn(@"com.criteo.pubsdk");
 
     [apiHandler callCdb:testAdUnit_1 gdprConsent:mockUserConsent config:mockConfig ahCdbResponseHandler:^(NSArray *cdbBids) {
-        NSLog(@"Data length is %ld", [cdbBids count]);
+        CLog(@"Data length is %ld", [cdbBids count]);
         XCTAssertNotNil(cdbBids);
         XCTAssertNotEqual(0, [cdbBids count]);
         CdbBid *receivedBid = cdbBids[0];
@@ -74,13 +75,13 @@
      queryParams:[NSDictionary dictionary]
      postBody:[NSDictionary dictionary]
      responseHandler:^(NSData *data, NSError *error) {
-     NSLog(@"Block ran!");
+     CLog(@"Block ran!");
      NSArray *cdbBids = [CdbBid getCdbResponsesFromData:data];
-     NSLog(@"Data length is %ld", [cdbBids count]);
+     CLog(@"Data length is %ld", [cdbBids count]);
      [expectation fulfill];
      }];
 
-     NSLog(@"%d", [mockNetworkManager isEqual:[NSNull null]]);
+     CLog(@"%d", [mockNetworkManager isEqual:[NSNull null]]);
      */
 
     [self waitForExpectations:@[expectation] timeout:100];
@@ -108,7 +109,7 @@
     ApiHandler *apiHandler = [[ApiHandler alloc] initWithNetworkManager:mockNetworkManager];
 
     [apiHandler getConfig:mockConfig ahConfigHandler:^(NSDictionary *configValues){
-        NSLog(@"Data length is %ld", [configValues count]);
+        CLog(@"Data length is %ld", [configValues count]);
         XCTAssertNotNil(configValues);
         [expectation fulfill];
     }];

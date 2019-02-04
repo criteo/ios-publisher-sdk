@@ -7,6 +7,7 @@
 //
 
 #import "CdbBid.h"
+#import "Logging.h"
 #import "NSString+UrlEncoder.h"
 
 @interface CdbBid ()
@@ -130,7 +131,7 @@ static CdbBid *emptyBid;
     NSError *e = nil;
     NSDictionary *slots = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
     if (!slots) {
-        NSLog(@"Error parsing JSON to CdbResponse: %@" , e);
+        CLog(@"Error parsing JSON to CdbResponse: %@" , e);
     } else {
         responses = [[NSMutableArray alloc] init];
         for (NSDictionary *slot in slots[@"slots"]) {

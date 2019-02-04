@@ -10,6 +10,7 @@
 #import <XCTest/XCTest.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import "../pubsdk/AdUnit.h"
+#import "Logging.h"
 
 @interface AdUnitTests : XCTestCase
 
@@ -22,7 +23,7 @@
     AdUnit *second = [[AdUnit alloc] initWithAdUnitId:@"testAdUnit" width:400 height:150];
     
     XCTAssertEqual(first.hash, second.hash);
-    NSLog(@"first.hash = %tu , second.hash = %tu", first.hash, second.hash);
+    CLog(@"first.hash = %tu , second.hash = %tu", first.hash, second.hash);
 }
 
 - (void) testAdUnitHash_2 {
@@ -31,7 +32,7 @@
     AdUnit *second = [[AdUnit alloc] initWithAdUnitId:@"testAdUnit" width:400 height:150];
     
     XCTAssertEqual(first.hash, second.hash);
-    NSLog(@"first.hash = %tu , second.hash = %tu", first.hash, second.hash);
+    CLog(@"first.hash = %tu , second.hash = %tu", first.hash, second.hash);
 }
 
 - (void) testAdUnitHashNotEqual {
@@ -39,7 +40,7 @@
     AdUnit *second = [[AdUnit alloc] initWithAdUnitId:@"testAdUnit_1" width:400 height:150];
     
     XCTAssertNotEqual(first.hash, second.hash);
-    NSLog(@"first.hash = %tu , second.hash = %tu", first.hash, second.hash);
+    CLog(@"first.hash = %tu , second.hash = %tu", first.hash, second.hash);
 }
 
 - (void) testAdUnitHashNotEqual_2 {
@@ -48,7 +49,7 @@
     AdUnit *second = [[AdUnit alloc] initWithAdUnitId:@"testAdUnit" size:sizeSecond];
     
     XCTAssertNotEqual(first.hash, second.hash);
-    NSLog(@"first.hash = %tu , second.hash = %tu", first.hash, second.hash);
+    CLog(@"first.hash = %tu , second.hash = %tu", first.hash, second.hash);
 }
 
 - (void) testAdUnitIsEqual {

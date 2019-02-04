@@ -7,6 +7,7 @@
 //
 
 #import "BidManager.h"
+#import "Logging.h"
 
 @implementation BidManager
 {
@@ -83,12 +84,12 @@
 // TODO: Figure out a way to test this
 - (void) prefetchBid:(AdUnit *) slotId {
     if(!config) {
-        NSLog(@"Config hasn't been fetched. So no bids will be fetched.");
+        CLog(@"Config hasn't been fetched. So no bids will be fetched.");
         return;
         // TODO : move kill switch logic out of bid manager
         // http://review.criteois.lan/#/c/461220/10/pubsdk/pubsdkTests/BidManagerTests.m
     } else if ([config killSwitch]) {
-        NSLog(@"killSwitch is engaged. No bid will be fetched.");
+        CLog(@"killSwitch is engaged. No bid will be fetched.");
         return;
     }
     // move the async to the api handler
@@ -103,7 +104,7 @@
 
 - (void) initConfigWithNetworkId:(NSNumber *)networkId {
     if(!networkId) {
-        NSLog(@"initConfigWithNetworkId is missing the following required value networkId = %@", networkId);
+        CLog(@"initConfigWithNetworkId is missing the following required value networkId = %@", networkId);
         return;
     }
     if(!config) {
@@ -122,12 +123,12 @@
 - (void) addCriteoBidToRequest:(id) adRequest
                      forAdUnit:(AdUnit *) adUnit {
     if(!config) {
-        NSLog(@"Config hasn't been fetched. So no bids will be fetched.");
+        CLog(@"Config hasn't been fetched. So no bids will be fetched.");
         return;
         // TODO : move kill switch logic out of bid manager
         // http://review.criteois.lan/#/c/461220/10/pubsdk/pubsdkTests/BidManagerTests.m
     } else if ([config killSwitch]) {
-        NSLog(@"killSwitch is engaged. No bid will be fetched.");
+        CLog(@"killSwitch is engaged. No bid will be fetched.");
         return;
     }
     CdbBid *fetchedBid = [self getBid:adUnit];

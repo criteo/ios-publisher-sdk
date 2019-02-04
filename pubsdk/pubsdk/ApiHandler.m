@@ -10,6 +10,7 @@
 #import <AdSupport/ASIdentifierManager.h>
 #import "ApiHandler.h"
 #import "Config.h"
+#import "Logging.h"
 
 @implementation ApiHandler
 
@@ -33,7 +34,7 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
     if(adUnit.adUnitId.length == 0 ||
        adUnit.size.width == 0.0f ||
        adUnit.size.height == 0.0f) {
-        NSLog(@"AdUnit is missing one of the following required values adUnitId = %@, width = %f, height = %f"
+        CLog(@"AdUnit is missing one of the following required values adUnitId = %@, width = %f, height = %f"
               , adUnit.adUnitId, adUnit.size.width, adUnit.size.height);
         ahCdbResponseHandler(nil);
     }
@@ -46,9 +47,9 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
     //    WKWebView* webKitView = [[WKWebView alloc] initWithFrame:CGRectZero];
     //    [webKitView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id __nullable userAgent, NSError * __nullable error) {
     //        if (error) {
-    //            NSLog(@"%@", error.localizedDescription);
+    //            CLog(@"%@", error.localizedDescription);
     //        } else {
-    //            NSLog(@"%@", userAgent);
+    //            CLog(@"%@", userAgent);
     //            secretAgent = userAgent;
     //        }
     //    }];
@@ -99,10 +100,10 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
                 NSArray *cdbBids = [CdbBid getCdbResponsesFromData:data receivedAt:[NSDate date]];
                 ahCdbResponseHandler(cdbBids);
             } else {
-                NSLog(@"Error on post to CDB : response from CDB was nil");
+                CLog(@"Error on post to CDB : response from CDB was nil");
             }
         } else {
-            NSLog(@"Error on post to CDB : %@", error);
+            CLog(@"Error on post to CDB : %@", error);
         }
     }];
 }
@@ -110,7 +111,7 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
 - (void) getConfig:(Config *) config
     ahConfigHandler:(AHConfigResponse) ahConfigHandler {
     if(![config networkId] || [config sdkVersion].length == 0 || [config appId].length == 0) {
-        NSLog(@"Config is is missing one of the following required values networkId = %@, sdkVersion = %@, appId = %@ "
+        CLog(@"Config is is missing one of the following required values networkId = %@, sdkVersion = %@, appId = %@ "
               , [config networkId], [config sdkVersion], [config appId]);
         if(ahConfigHandler) {
             ahConfigHandler(nil);
@@ -127,10 +128,10 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
                 NSDictionary *configValues = [Config getConfigValuesFromData:data];
                 ahConfigHandler(configValues);
             } else {
-                NSLog(@"Error on get from Config: response from Config was nil");
+                CLog(@"Error on get from Config: response from Config was nil");
             }
         } else {
-            NSLog(@"Error on get from Config : %@", error);
+            CLog(@"Error on get from Config : %@", error);
         }
     }];
 }

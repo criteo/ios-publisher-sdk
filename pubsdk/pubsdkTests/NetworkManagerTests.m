@@ -12,6 +12,7 @@
 #import "CdbBid.h"
 #import "AdUnit.h"
 #import "Config.h"
+#import "Logging.h"
 
 @interface NetworkManagerTests : XCTestCase
 
@@ -72,23 +73,23 @@
     NSURL *url = [NSURL URLWithString: @"http://directbidder-test-app.par.preprod.crto.in/inapp/v1?profileId=235"];
     
     NetworkManager *networkManager = [[NetworkManager alloc] initWithDeviceInfo:deviceInfo];
-    NSLog(@"Test called the NetworkManager");
+    CLog(@"Test called the NetworkManager");
     NSError *jsonError;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:postBody options:NSJSONWritingPrettyPrinted error:&jsonError];
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    NSLog(@"%@", jsonString);
+    CLog(@"%@", jsonString);
     [networkManager postToUrl:url postBody:postBody responseHandler:^(NSData *data, NSError *error) {
-        NSLog(@"NetworkManager called back!");
+        CLog(@"NetworkManager called back!");
         if(error == nil) {
             XCTAssertNotNil(data);
             if(data) {
-                NSLog(@"CDB returned : %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+                CLog(@"CDB returned : %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
                 NSArray *cdbBids = [CdbBid getCdbResponsesFromData:data receivedAt:[NSDate date]];
                 XCTAssertNotNil(cdbBids);
                 XCTAssertNotEqual(0, cdbBids.count);
             }
         } else {
-            NSLog(@"%@", error);
+            CLog(@"%@", error);
         }
         [expectation fulfill];
     }];
@@ -105,19 +106,19 @@
     NSURL *url = [NSURL URLWithString: urlString];
     
     NetworkManager *networkManager = [[NetworkManager alloc] initWithDeviceInfo:deviceInfo];
-    NSLog(@"Test called the NetworkManager");
+    CLog(@"Test called the NetworkManager");
     
     [networkManager getFromUrl:url responseHandler:^(NSData *data, NSError *error) {
-        NSLog(@"NetworkManager called back!");
+        CLog(@"NetworkManager called back!");
         if(error == nil) {
             if(data) {
                 NSDictionary *configValues = [Config getConfigValuesFromData:data];
                 XCTAssertTrue([configValues objectForKey:@"killSwitch"]);
             } else {
-                NSLog(@"Error on get from Config: response from Config was nil");
+                CLog(@"Error on get from Config: response from Config was nil");
             }
         } else {
-            NSLog(@"Error on get from Config : %@", error);
+            CLog(@"Error on get from Config : %@", error);
         }
         [expectation fulfill];
     }];

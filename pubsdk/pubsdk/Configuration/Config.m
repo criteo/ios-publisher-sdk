@@ -7,7 +7,7 @@
 //
 
 #import "Config.h"
-#import "ApiHandler.h"
+#import "Logging.h"
 
 @implementation Config
 
@@ -28,7 +28,7 @@
     NSError *e = nil;
     NSMutableDictionary *configValues = [NSJSONSerialization JSONObjectWithData:data options:0 error:&e];
     if (!configValues) {
-        NSLog(@"Error parsing config values: %@", e);
+        CLog(@"Error parsing config values: %@", e);
     }
     return configValues;
 }

@@ -53,7 +53,7 @@
     XCTAssertEqualObjects(testBid, bids[testAdUnit]);
     XCTAssertEqualObjects(testBid_2, bids[testAdUnit_2]);
     XCTAssertTrue([bids[unInitializedSlot] isEmpty]);
-    //NSLog(@"test bid creative is : %@ and cached creative is: %@", testBid.creative, bids[testAdUnit]);
+    //CLog(@"test bid creative is : %@ and cached creative is: %@", testBid.creative, bids[testAdUnit]);
 
 }
 
