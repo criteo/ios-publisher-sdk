@@ -20,6 +20,7 @@
 		258821DD220015AF00398E9F /* DeviceInfoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821DC220015AF00398E9F /* DeviceInfoTests.m */; };
 		25B6505A2206AB40008416D3 /* Logging.h in Headers */ = {isa = PBXBuildFile; fileRef = 25B650582206AB40008416D3 /* Logging.h */; };
 		25B6505B2206AB40008416D3 /* Logging.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B650592206AB40008416D3 /* Logging.m */; };
+		25B6505D2208C29D008416D3 /* LoggingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B6505C2208C29D008416D3 /* LoggingTests.m */; };
 		BB5361AECA2A9614E3B4A2C6 /* libPods-pubsdkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F187272CD050435F6D28BFA /* libPods-pubsdkTests.a */; };
 		E104B6AD21E41D60004D86C4 /* AdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6AC21E41D60004D86C4 /* AdUnit.m */; };
 		E104B6B121E57F0A004D86C4 /* AdUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6B021E57F0A004D86C4 /* AdUnitTests.m */; };
@@ -80,6 +81,7 @@
 		258821DC220015AF00398E9F /* DeviceInfoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceInfoTests.m; sourceTree = "<group>"; };
 		25B650582206AB40008416D3 /* Logging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Logging.h; sourceTree = "<group>"; };
 		25B650592206AB40008416D3 /* Logging.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Logging.m; sourceTree = "<group>"; };
+		25B6505C2208C29D008416D3 /* LoggingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LoggingTests.m; path = pubsdkTests/Util/LoggingTests.m; sourceTree = SOURCE_ROOT; };
 		29D24DDAFFC9D3813C55AD78 /* Pods-pubsdkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdkTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdkTests/Pods-pubsdkTests.release.xcconfig"; sourceTree = "<group>"; };
 		4876E95088BFF48248FF7025 /* Pods-pubsdkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdkTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdkTests/Pods-pubsdkTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6F187272CD050435F6D28BFA /* libPods-pubsdkTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pubsdkTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -177,6 +179,7 @@
 				E12A7F5B21FBFAE6002B4548 /* ConfigTests.m */,
 				258821D421FD5D8200398E9F /* ConfigManagerTests.m */,
 				258821DC220015AF00398E9F /* DeviceInfoTests.m */,
+				25B6505C2208C29D008416D3 /* LoggingTests.m */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -426,6 +429,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				255151C92202AEF800F76E3F /* NSString+UrlEncoderTests.m in Sources */,
+				25B6505D2208C29D008416D3 /* LoggingTests.m in Sources */,
 				E104B6BB21EFE733004D86C4 /* NetworkManagerTests.m in Sources */,
 				E104B6B821ED19A7004D86C4 /* ApiHandlerTests.m in Sources */,
 				E12A7F5821F914DA002B4548 /* GdprUserConsentTests.m in Sources */,

@@ -13,7 +13,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#ifdef DEBUG
+#if (defined(DEBUG) || defined(CLOG_ENABLE_FOR_TESTING))
+#define CLOG_ENABLE 1
+#endif
+
+#ifndef CLOG_ENABLE
+#define CLOG_ENABLE 0
+#endif
+
+
+#if (CLOG_ENABLE)
 
 #define CLog(args...) CLog_DoLog(__FILE__, __LINE__, __PRETTY_FUNCTION__, args)
 void CLog_DoLog(const char *filename, int lineNum, const char *funcname, NSString *fmt, ...);
