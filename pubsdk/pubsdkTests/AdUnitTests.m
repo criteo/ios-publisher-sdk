@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
-#import <CoreGraphics/CoreGraphics.h>
-#import "../pubsdk/AdUnit.h"
+
+#import "AdUnit.h"
 #import "Logging.h"
 
 @interface AdUnitTests : XCTestCase

@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
-#import "../pubsdk/BidManager.h"
-#import "../pubsdk/CdbBid.h"
-#import "DummyDfpRequest.h"
+
 #import <OCMock.h>
+
+#import "BidManager.h"
+#import "CdbBid.h"
+#import "DummyDfpRequest.h"
 
 @interface BidManagerTests : XCTestCase
 

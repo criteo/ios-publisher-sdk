@@ -8,13 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
+
 #import <OCMock.h>
-#import "../pubsdk/BidManager.h"
-#import "../pubsdk/CacheManager.h"
+
+#import "BidManager.h"
+#import "CacheManager.h"
 #import "Config.h"
+#import "GdprUserConsent.h"
 #import "Logging.h"
-#import "../pubsdk/NetworkManager.h"
-#import "../pubsdk/GdprUserConsent.h"
+#import "NetworkManager.h"
 
 @interface ApiHandlerTests : XCTestCase
 

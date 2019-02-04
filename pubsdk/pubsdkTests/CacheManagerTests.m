@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
-#import "../pubsdk/CacheManager.h"
-#import "../pubsdk/AdUnit.h"
+
+#import "AdUnit.h"
+#import "CacheManager.h"
 
 @interface CacheManagerTests : XCTestCase
 

@@ -9,6 +9,7 @@
 #define CLOG_ENABLE_FOR_TESTING 1
 
 #import <XCTest/XCTest.h>
+
 #import "Logging.h"
 
 @interface LoggingTests : XCTestCase
