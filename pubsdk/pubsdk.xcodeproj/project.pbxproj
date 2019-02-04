@@ -18,6 +18,8 @@
 		258821D922000F8000398E9F /* DeviceInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 258821D722000F8000398E9F /* DeviceInfo.h */; };
 		258821DA22000F8000398E9F /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821D822000F8000398E9F /* DeviceInfo.m */; };
 		258821DD220015AF00398E9F /* DeviceInfoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821DC220015AF00398E9F /* DeviceInfoTests.m */; };
+		25B6505A2206AB40008416D3 /* Logging.h in Headers */ = {isa = PBXBuildFile; fileRef = 25B650582206AB40008416D3 /* Logging.h */; };
+		25B6505B2206AB40008416D3 /* Logging.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B650592206AB40008416D3 /* Logging.m */; };
 		BB5361AECA2A9614E3B4A2C6 /* libPods-pubsdkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F187272CD050435F6D28BFA /* libPods-pubsdkTests.a */; };
 		E104B6AD21E41D60004D86C4 /* AdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6AC21E41D60004D86C4 /* AdUnit.m */; };
 		E104B6B121E57F0A004D86C4 /* AdUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6B021E57F0A004D86C4 /* AdUnitTests.m */; };
@@ -76,6 +78,8 @@
 		258821D722000F8000398E9F /* DeviceInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceInfo.h; sourceTree = "<group>"; };
 		258821D822000F8000398E9F /* DeviceInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceInfo.m; sourceTree = "<group>"; };
 		258821DC220015AF00398E9F /* DeviceInfoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceInfoTests.m; sourceTree = "<group>"; };
+		25B650582206AB40008416D3 /* Logging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Logging.h; sourceTree = "<group>"; };
+		25B650592206AB40008416D3 /* Logging.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Logging.m; sourceTree = "<group>"; };
 		29D24DDAFFC9D3813C55AD78 /* Pods-pubsdkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdkTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdkTests/Pods-pubsdkTests.release.xcconfig"; sourceTree = "<group>"; };
 		4876E95088BFF48248FF7025 /* Pods-pubsdkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdkTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdkTests/Pods-pubsdkTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6F187272CD050435F6D28BFA /* libPods-pubsdkTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pubsdkTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -140,6 +144,8 @@
 			children = (
 				255151C322027C9500F76E3F /* NSString+UrlEncoder.h */,
 				255151C422027C9500F76E3F /* NSString+UrlEncoder.m */,
+				25B650582206AB40008416D3 /* Logging.h */,
+				25B650592206AB40008416D3 /* Logging.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -269,6 +275,7 @@
 				255151B822012BF100F76E3F /* Criteo.h in Headers */,
 				255151C522027C9500F76E3F /* NSString+UrlEncoder.h in Headers */,
 				258821D221FD3FB600398E9F /* ConfigManager.h in Headers */,
+				25B6505A2206AB40008416D3 /* Logging.h in Headers */,
 				E1F2737521B5F08D00A2FBFA /* pubsdk.h in Headers */,
 				258821D922000F8000398E9F /* DeviceInfo.h in Headers */,
 				255151B922012BF800F76E3F /* AdUnit.h in Headers */,
@@ -398,6 +405,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25B6505B2206AB40008416D3 /* Logging.m in Sources */,
 				E1F273B921C87A2F00A2FBFA /* CdbBid.m in Sources */,
 				E1F2738B21BB12C300A2FBFA /* Criteo.m in Sources */,
 				E12A7F5621F8FD25002B4548 /* GdprUserConsent.m in Sources */,
