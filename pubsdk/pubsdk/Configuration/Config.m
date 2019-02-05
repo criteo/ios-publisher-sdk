@@ -15,7 +15,8 @@
     if (self = [super init]) {
         _networkId = networkId;
         _profileId = @(235);
-        _cdbUrl = @"http://directbidder-test-app.par.preprod.crto.in";
+        _cdbUrl = @"https://bidder.criteo.com";
+        //_cdbUrl = @"http://directbidder-test-app.par.preprod.crto.in";
         _path = @"inapp/v1";
         _sdkVersion = @"2.0";
         _appId = [[NSBundle mainBundle] bundleIdentifier];;
