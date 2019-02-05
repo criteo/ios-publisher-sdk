@@ -261,6 +261,7 @@
                         <outlet property="textAdUnitHeight" destination="VM9-Yf-poE" id="2V2-et-jCg"/>
                         <outlet property="textAdUnitId" destination="Yea-N3-kPk" id="y6S-Yr-LsV"/>
                         <outlet property="textAdUnitWidth" destination="nbr-zG-Btu" id="v9h-iB-rXb"/>
+                        <outlet property="textFeedback" destination="ZlQ-DA-pB0" id="nlw-1T-N2d"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uFa-Gs-hzp" userLabel="First Responder" sceneMemberID="firstResponder"/>

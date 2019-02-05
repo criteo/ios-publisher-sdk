@@ -24,8 +24,8 @@
     NSLog(@"Hello button!");
     /*UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
     UIViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"GoogleDFP"];
-    [self.navigationController pushViewController:vc animated:YES];*/
-    
+    [self.navigationController pushViewController:vc animated:YES];
+     */
 }
 
 - (IBAction)buttonMopubTouchUp:(id)sender {

@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UITextField *textAdUnitId;
 @property (weak, nonatomic) IBOutlet UITextField *textAdUnitWidth;
 @property (weak, nonatomic) IBOutlet UITextField *textAdUnitHeight;
+@property (weak, nonatomic) IBOutlet UITextView *textFeedback;
 @property (nonatomic) Criteo *criteoSdk;
 
 

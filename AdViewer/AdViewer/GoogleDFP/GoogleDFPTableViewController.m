@@ -13,6 +13,7 @@
 @interface GoogleDFPTableViewController ()
 
 @property (nonatomic) DFPBannerView *dfpBannerView;
+@property BOOL registeredAdUnit;
 
 @end
 
@@ -32,17 +33,26 @@
 }
 
 - (void)addBannerViewToView:(UIView *)bannerView {
+    CGRect viewFrame = self.view.frame;
+
+    CGRect bannerViewFrame = bannerView.frame;
+    bannerViewFrame.origin.x = (viewFrame.size.width - bannerViewFrame.size.width) / 2;
+
+    UIView *redView = [[UIView alloc] initWithFrame:bannerViewFrame];
+    redView.backgroundColor = [UIColor redColor];
+    [redView addSubview:bannerView];
+
     bannerView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.view addSubview:bannerView];
+    [self.view addSubview:redView];
     [self.view addConstraints:@[
-                                [NSLayoutConstraint constraintWithItem:bannerView
+                                [NSLayoutConstraint constraintWithItem:redView
                                                              attribute:NSLayoutAttributeBottom
                                                              relatedBy:NSLayoutRelationEqual
                                                                 toItem:self.bottomLayoutGuide
                                                              attribute:NSLayoutAttributeTop
                                                             multiplier:1
                                                               constant:0],
-                                [NSLayoutConstraint constraintWithItem:bannerView
+                                [NSLayoutConstraint constraintWithItem:redView
                                                              attribute:NSLayoutAttributeCenterX
                                                              relatedBy:NSLayoutRelationEqual
                                                                 toItem:self.view
@@ -55,13 +65,11 @@
 # pragma mark - actions
 
 - (IBAction)registerAdUnitClick:(id)sender {
-
-    //NSUInteger networkId = [self.textNetworkId.text intValue];
-    //[self.criteoSdk registerNetworkId:networkId];
     [self.criteoSdk registerAdUnits:[self createAdUnits]];
     [self.criteoSdk prefetchAll];
     //self.dfpBannerView.adUnitID = @"/140800857/Endeavour_320x50";
-    self.dfpBannerView.adUnitID = self.textAdUnitId.text;
+    [self.textFeedback setText:@"AdUnit registered!"];
+    self->_registeredAdUnit = YES;
 }
 
 - (NSArray<AdUnit*>*) createAdUnits
@@ -81,6 +89,7 @@
     double width = [self.textAdUnitWidth.text doubleValue];
     double height = [self.textAdUnitHeight.text doubleValue];
     AdUnit *adUnit = [[AdUnit alloc] initWithAdUnitId:adUnitId size:CGSizeMake(width, height)];
+    self.dfpBannerView.adUnitID = self.textAdUnitId.text;
 
     DFPRequest *request = [DFPRequest request];
     //request.testDevices = @[ kGADSimulatorID ];
@@ -93,8 +102,16 @@
     [self.criteoSdk addCriteoBidToRequest:request forAdUnit:adUnit];
 
     NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:request.customTargeting];
-    dict[@"crt_cpm"] = @"1.00";
-    request.customTargeting = dict;
+    NSString *debugStr = [NSString stringWithFormat:@"Bid loaded in the cache at %@:\n\nCRT_CPM VALUE : %@\n\nCRT_DISPLAYURL VALUE: %@", [NSDate date], dict[@"crt_cpm"], dict[@"crt_displayUrl"]];
+    [self.textFeedback setText:debugStr];
+
+    if (dict[@"crt_displayUrl"]) {
+        dict[@"crt_cpm"] = @"1.00";
+        request.customTargeting = dict;
+        NSLog(@"Reset @\"crt_cpm\" to @\"1.00\"");
+    }
+
+    [self debugPrintWebViewAfterSec:5];
 
     [self.dfpBannerView loadRequest:request];
     /*
@@ -106,6 +123,34 @@
     self.textAdUnitId.text = @"";
     self.textAdUnitWidth.text = @"";
     self.textAdUnitHeight.text = @"";
+}
+
+- (void) debugPrintWebViewAfterSec:(NSUInteger)sec
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(sec * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (self.dfpBannerView.subviews.count > 0) {
+            NSLog(@"Banner view has a GADOAdView!");
+            UIView *gadoAdView = self.dfpBannerView.subviews[0];
+
+            if (gadoAdView.subviews.count > 1) {
+                NSLog(@"GADOAdView has a GADOUIKitWebView!");
+                UIView *gadouikitwebview = gadoAdView.subviews[1];
+
+                if (gadouikitwebview.subviews.count > 0) {
+                    NSLog(@"GADOUIKitWebView has an inner web view!");
+                    UIWebView *innerWebView = (UIWebView*)gadouikitwebview.subviews[0];
+                    NSString *webViewContent = [innerWebView stringByEvaluatingJavaScriptFromString: @"document.body.innerHTML"];
+                    NSLog(@"\n\nINNER WEB VIEW CONTENTS\n\n%@\n\nEND INNER WEB VIEW CONTENTS\n\n", webViewContent);
+                } else {
+                    NSLog(@"GADOUIKitWebView has no subviews");
+                }
+            } else {
+                NSLog(@"GADOAdView has no subviews");
+            }
+        } else {
+            NSLog(@"DFP Banner view has no subviews");
+        }
+    });
 }
 
 @end
