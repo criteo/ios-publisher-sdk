@@ -184,6 +184,26 @@
 			path = Configuration;
 			sourceTree = "<group>";
 		};
+		25B6505E22091F1D008416D3 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				E1F2738521B9BE2700A2FBFA /* ApiHandler.h */,
+				E1F2738621B9BF4900A2FBFA /* ApiHandler.m */,
+				E1F2738221B9B01200A2FBFA /* NetworkManager.h */,
+				E1F2738321B9B58900A2FBFA /* NetworkManager.m */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		25E52F3222091FD8006BA63A /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				E104B6B721ED19A7004D86C4 /* ApiHandlerTests.m */,
+				E104B6BA21EFE733004D86C4 /* NetworkManagerTests.m */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		58922C790615A11D1E6D635B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -217,8 +237,6 @@
 			children = (
 				E104B6AB21E41B6A004D86C4 /* AdUnit.h */,
 				E104B6AC21E41D60004D86C4 /* AdUnit.m */,
-				E1F2738521B9BE2700A2FBFA /* ApiHandler.h */,
-				E1F2738621B9BF4900A2FBFA /* ApiHandler.m */,
 				E1F273B721C86E6900A2FBFA /* BidManager.h */,
 				E1F273BA21C9733800A2FBFA /* BidManager.m */,
 				E1F273C021C9763E00A2FBFA /* CacheManager.h */,
@@ -231,8 +249,7 @@
 				E12A7F5421F8FBD6002B4548 /* GdprUserConsent.h */,
 				E12A7F5521F8FD25002B4548 /* GdprUserConsent.m */,
 				E1F2736821B5F08D00A2FBFA /* Info.plist */,
-				E1F2738221B9B01200A2FBFA /* NetworkManager.h */,
-				E1F2738321B9B58900A2FBFA /* NetworkManager.m */,
+				25B6505E22091F1D008416D3 /* Network */,
 				E1F2736721B5F08D00A2FBFA /* pubsdk.h */,
 				255151C222027C6000F76E3F /* Util */,
 			);
@@ -243,14 +260,13 @@
 			isa = PBXGroup;
 			children = (
 				E104B6B021E57F0A004D86C4 /* AdUnitTests.m */,
-				E104B6B721ED19A7004D86C4 /* ApiHandlerTests.m */,
 				E104B6B221E57F7B004D86C4 /* BidManagerTests.m */,
 				E104B6B421E580E9004D86C4 /* CdbBidTests.m */,
 				E104B6B921EEA188004D86C4 /* DummyDfpRequest.h */,
 				E104B6BC21F0253E004D86C4 /* DummyDfpRequest.m */,
 				E1F2737421B5F08D00A2FBFA /* Info.plist */,
-				E104B6BA21EFE733004D86C4 /* NetworkManagerTests.m */,
 				E1F2737221B5F08D00A2FBFA /* pubsdkTests.m */,
+				25E52F3222091FD8006BA63A /* Network */,
 				E12A7F5721F914DA002B4548 /* GdprUserConsentTests.m */,
 				E12A7F5D21FFBD2F002B4548 /* CacheManagerTests.m */,
 				258821DB2200143A00398E9F /* Configuration */,
