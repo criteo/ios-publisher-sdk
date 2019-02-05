@@ -13,20 +13,58 @@
 @interface GoogleDFPTableViewController ()
 
 @property (nonatomic) DFPBannerView *dfpBannerView;
+@property (nonatomic) UIView *redView;
+@property (nonatomic) UITextView *errorTextView;
 @property BOOL registeredAdUnit;
 
 @end
 
 @implementation GoogleDFPTableViewController
 
+- (void)adView:(nonnull GADBannerView *)bannerView
+didFailToReceiveAdWithError:(nonnull GADRequestError *)error
+{
+    NSLog(@"ERROR Receiving Ad: %@", error);
+
+    [self.dfpBannerView removeFromSuperview];
+
+    self.errorTextView = [[UITextView alloc] initWithFrame:self.dfpBannerView.frame];
+    self.errorTextView.text = error.description;
+    self.errorTextView.backgroundColor = [UIColor clearColor];
+    self.errorTextView.textColor = [UIColor whiteColor];
+
+     [self.redView addSubview:self.errorTextView];
+}
+
+- (void) resetDfpBannerView {
+    if (self.dfpBannerView) {
+        [self.dfpBannerView removeFromSuperview];
+        self.dfpBannerView = nil;
+    }
+
+    if (self.errorTextView) {
+        [self.errorTextView removeFromSuperview];
+        self.errorTextView = nil;
+    }
+
+    if (self.redView) {
+        [self.redView removeFromSuperview];
+        self.redView = nil;
+    }
+
+    self.dfpBannerView = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+    self.dfpBannerView.rootViewController = self;
+    self.dfpBannerView.delegate = (id<GADBannerViewDelegate>)self;
+
+    [self addBannerViewToView:self.dfpBannerView];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.dfpBannerView = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeBanner];
     //self.dfpBannerView.adUnitID = @"/6499/example/banner";
-    self.dfpBannerView.rootViewController = self;
+    //self.dfpBannerView.rootViewController = self;
 
-    [self addBannerViewToView:self.dfpBannerView];
     Criteo *criteo = [Criteo sharedCriteo];
     _criteoSdk = criteo;
     [self.criteoSdk registerNetworkId:4916];
@@ -38,21 +76,21 @@
     CGRect bannerViewFrame = bannerView.frame;
     bannerViewFrame.origin.x = (viewFrame.size.width - bannerViewFrame.size.width) / 2;
 
-    UIView *redView = [[UIView alloc] initWithFrame:bannerViewFrame];
-    redView.backgroundColor = [UIColor redColor];
-    [redView addSubview:bannerView];
+    self.redView = [[UIView alloc] initWithFrame:bannerViewFrame];
+    self.redView.backgroundColor = [UIColor redColor];
+    [self.redView addSubview:bannerView];
 
     bannerView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.view addSubview:redView];
+    [self.view addSubview:self.redView];
     [self.view addConstraints:@[
-                                [NSLayoutConstraint constraintWithItem:redView
+                                [NSLayoutConstraint constraintWithItem:self.redView
                                                              attribute:NSLayoutAttributeBottom
                                                              relatedBy:NSLayoutRelationEqual
                                                                 toItem:self.bottomLayoutGuide
                                                              attribute:NSLayoutAttributeTop
                                                             multiplier:1
                                                               constant:0],
-                                [NSLayoutConstraint constraintWithItem:redView
+                                [NSLayoutConstraint constraintWithItem:self.redView
                                                              attribute:NSLayoutAttributeCenterX
                                                              relatedBy:NSLayoutRelationEqual
                                                                 toItem:self.view
@@ -74,7 +112,6 @@
 
 - (NSArray<AdUnit*>*) createAdUnits
 {
-
     NSString *adUnitId = self.textAdUnitId.text;
     double width = [self.textAdUnitWidth.text doubleValue];
     double height = [self.textAdUnitHeight.text doubleValue];
@@ -85,6 +122,8 @@
 }
 
 - (IBAction)loadAdClick:(id)sender {
+    [self resetDfpBannerView];
+
     NSString *adUnitId = self.textAdUnitId.text;
     double width = [self.textAdUnitWidth.text doubleValue];
     double height = [self.textAdUnitHeight.text doubleValue];
