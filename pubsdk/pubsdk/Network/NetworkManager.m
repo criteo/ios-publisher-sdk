@@ -8,12 +8,6 @@
 
 #import "NetworkManager.h"
 
-@interface NetworkManager ()
-
-- (NSURLSessionConfiguration*) getSessionConfiguration;
-
-@end
-
 @implementation NetworkManager
 {
     DeviceInfo *deviceInfo;
