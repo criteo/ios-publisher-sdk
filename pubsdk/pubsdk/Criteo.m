@@ -28,8 +28,9 @@ static Criteo *sharedInstance;
     bidManager.networkMangerDelegate = networkMangerDelegate;
 }
 
-+ (BidManager*) createBidManager
++ (BidManager*) createBidManagerWithNetworkId:(NSUInteger) networkId
 {
+    Config *config = [[Config alloc] initWithNetworkId:@(networkId)];
     DeviceInfo *deviceInfo = [[DeviceInfo alloc] init];
     NetworkManager *networkManager = [[NetworkManager alloc] initWithDeviceInfo:deviceInfo];
     ApiHandler *apiHandler = [[ApiHandler alloc] initWithNetworkManager:networkManager];
@@ -37,14 +38,19 @@ static Criteo *sharedInstance;
 
     CacheManager *cacheManager = [[CacheManager alloc] init];
     GdprUserConsent *gdpr = [[GdprUserConsent alloc] init];
+    AppEvents *appEvents = [[AppEvents alloc] initWithApiHandler:apiHandler
+                                                          config:config
+                                                            gdpr:gdpr
+                                                      deviceInfo:deviceInfo];
 
     BidManager *bidManager = [[BidManager alloc] initWithApiHandler:apiHandler
                                                        cacheManager:cacheManager
-                                                             config:nil
+                                                             config:config
                                                       configManager:configManager
                                                          deviceInfo:deviceInfo
                                                     gdprUserConsent:gdpr
-                                                     networkManager:networkManager];
+                                                     networkManager:networkManager
+                                                          appEvents:appEvents];
 
     return bidManager;
 }
@@ -54,7 +60,6 @@ static Criteo *sharedInstance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         registeredAdUnits = [[NSMutableArray alloc] init];
-        bidManager = [Criteo createBidManager];
         hasPrefetched = false;
         sharedInstance = [[self alloc] init];
     });
@@ -62,19 +67,15 @@ static Criteo *sharedInstance;
     return sharedInstance;
 }
 
-- (void) registerAdUnit: (AdUnit *) adUnit {
-    [registeredAdUnits addObject:adUnit];
-    [bidManager setSlots: @[ adUnit ] ];
-    
-}
+- (void) registerNetworkId:(NSUInteger) networkId
+               withAdUnits:(NSArray<AdUnit *> *)adUnits {
+    static dispatch_once_t registrationToken;
+    dispatch_once(&registrationToken, ^{
+        bidManager = [Criteo createBidManagerWithNetworkId:networkId];
+    });
 
-- (void) registerAdUnits:(NSArray<AdUnit *> *)adUnits {
     [registeredAdUnits addObjectsFromArray:adUnits];
     [bidManager setSlots:adUnits];
-}
-
-- (void) registerNetworkId:(NSUInteger)networkId {
-    [bidManager initConfigWithNetworkId:@(networkId)];
 }
 
 - (void) prefetchAll {

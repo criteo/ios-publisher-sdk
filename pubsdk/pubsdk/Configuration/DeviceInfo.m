@@ -7,11 +7,12 @@
 //
 
 #import <WebKit/WebKit.h>
-
+#import <AdSupport/ASIdentifierManager.h>
 #import "DeviceInfo.h"
 
 static WKWebView *webView = nil;
 static NSString *userAgent = nil;
+static NSString *deviceId = nil;
 
 @implementation DeviceInfo
 
@@ -39,6 +40,14 @@ static NSString *userAgent = nil;
 - (NSString*) userAgent
 {
     return userAgent;
+}
+
+- (NSString *) deviceId
+{
+    if (!deviceId) {
+        deviceId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+    }
+    return deviceId;
 }
 
 @end

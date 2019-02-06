@@ -45,7 +45,8 @@
                                                       configManager:nil
                                                          deviceInfo:nil
                                                     gdprUserConsent:mockUserConsent
-                                                     networkManager:nil];
+                                                     networkManager:nil
+                                                          appEvents:nil];
 
     // if the caller asks for a bid for an un initialized slot
     AdUnit *unInitializedSlot = [[AdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
@@ -79,7 +80,8 @@
                                                       configManager:nil
                                                          deviceInfo:nil
                                                     gdprUserConsent:mockUserConsent
-                                                     networkManager:nil];
+                                                     networkManager:nil
+                                                          appEvents:nil];
 
     // an initialized slot that has no bid fetched for it
     NSArray *slots = @[[[AdUnit alloc] initWithAdUnitId:@"thisShouldReturnEmptyBid" width:300 height:250]];
@@ -94,7 +96,8 @@
                                                       configManager:nil
                                                          deviceInfo:nil
                                                     gdprUserConsent:nil
-                                                     networkManager:nil];
+                                                     networkManager:nil
+                                                          appEvents:nil];
 
     AdUnit *slot_1 = [[AdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
     AdUnit *slot_2 = [[AdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
@@ -132,7 +135,8 @@
                                                       configManager:nil
                                                          deviceInfo:nil
                                                     gdprUserConsent:nil
-                                                     networkManager:nil];
+                                                     networkManager:nil
+                                                          appEvents:nil];
 
     [bidManager addCriteoBidToRequest:dfpBidRequest forAdUnit:slot_1];
 
@@ -163,7 +167,8 @@
                                                       configManager:nil
                                                          deviceInfo:nil
                                                     gdprUserConsent:nil
-                                                     networkManager:nil];
+                                                     networkManager:nil
+                                                          appEvents:nil];
 
     [bidManager addCriteoBidToRequest:dfpBidRequest forAdUnit:slot_1];
     // there shouldn't be any enrichment

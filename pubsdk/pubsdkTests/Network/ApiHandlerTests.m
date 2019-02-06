@@ -59,7 +59,15 @@
     OCMStub([mockConfig path]).andReturn(@"inApp");
     OCMStub([mockConfig appId]).andReturn(@"com.criteo.pubsdk");
 
-    [apiHandler callCdb:testAdUnit_1 gdprConsent:mockUserConsent config:mockConfig ahCdbResponseHandler:^(NSArray *cdbBids) {
+    DeviceInfo *mockDeviceInfo = OCMStrictClassMock([DeviceInfo class]);
+    OCMStub([mockDeviceInfo deviceId]).andReturn(@"A0AA0A0A-000A-0A00-AAA0-0A00000A0A0A");
+
+    [apiHandler callCdb:testAdUnit_1
+            gdprConsent:mockUserConsent
+                 config:mockConfig
+             deviceInfo:mockDeviceInfo
+   ahCdbResponseHandler:^(NSArray *cdbBids) {
+
         CLog(@"Data length is %ld", [cdbBids count]);
         XCTAssertNotNil(cdbBids);
         XCTAssertNotEqual(0, [cdbBids count]);

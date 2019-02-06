@@ -20,6 +20,8 @@
 @property (strong, nonatomic, readonly) NSString *sdkVersion;
 @property (strong, nonatomic, readonly) NSString *appId;
 @property (nonatomic) BOOL killSwitch;
+@property (strong, nonatomic, readonly) NSString *appEventsUrl;
+@property (strong, nonatomic, readonly) NSString *appEventsSenderId;
 
 - (instancetype) initWithNetworkId:(NSNumber *) networkId
 NS_DESIGNATED_INITIALIZER;

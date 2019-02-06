@@ -12,7 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DeviceInfo : NSObject
 
-@property (nonatomic,readonly) NSString *userAgent;
+@property (nonatomic, readonly) NSString *userAgent;
+@property (nonatomic, readonly) NSString *deviceId;
 
 @end
 

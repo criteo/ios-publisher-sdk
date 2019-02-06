@@ -7,9 +7,7 @@
 //
 
 #import <WebKit/WebKit.h>
-#import <AdSupport/ASIdentifierManager.h>
 #import "ApiHandler.h"
-#import "Config.h"
 #import "Logging.h"
 
 @implementation ApiHandler
@@ -30,44 +28,26 @@
 - (void)     callCdb:(AdUnit *) adUnit
          gdprConsent:(GdprUserConsent *)gdprConsent
               config:(Config *)config
+          deviceInfo:(DeviceInfo *)deviceInfo
 ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
     if(adUnit.adUnitId.length == 0 ||
        adUnit.size.width == 0.0f ||
        adUnit.size.height == 0.0f) {
         CLog(@"AdUnit is missing one of the following required values adUnitId = %@, width = %f, height = %f"
-              , adUnit.adUnitId, adUnit.size.width, adUnit.size.height);
+             , adUnit.adUnitId, adUnit.size.width, adUnit.size.height);
         ahCdbResponseHandler(nil);
     }
 
-    // https://confluence.criteois.com/pages/viewpage.action?pageId=436430054
-    // Apple has decided to make the getUserAgent async and a pain
-    // hard coding for now
-    NSString *userAgent = @"Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16B91";
-    //    NSString* userAgent;
-    //    WKWebView* webKitView = [[WKWebView alloc] initWithFrame:CGRectZero];
-    //    [webKitView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id __nullable userAgent, NSError * __nullable error) {
-    //        if (error) {
-    //            CLog(@"%@", error.localizedDescription);
-    //        } else {
-    //            CLog(@"%@", userAgent);
-    //            secretAgent = userAgent;
-    //        }
-    //    }];
-
-    // end hardcoded section
-
     // TODO: Move this to the config
     NSString *deviceModel = [[UIDevice currentDevice] name];
-    NSString *deviceId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
     NSString *osVersion = [[UIDevice currentDevice] systemVersion];
 
     NSDictionary *postBody = [NSDictionary dictionaryWithObjectsAndKeys:
                               [NSDictionary dictionaryWithObjectsAndKeys:
-                               deviceId,           @"deviceId",                            //The ID that uniquely identifies a device (IDFA, GAID or Hashed Android ID)
-                               @"IDFA",            @"deviceIdType",                        // The device type. This parameter can only have two values: IDFA or GAID
-                               deviceModel,        @"deviceModel",
-                               osVersion,          @"deviceOs",                            // The operating system of the device.
-                               userAgent,          @"userAgent",
+                               [deviceInfo deviceId],  @"deviceId",                            //The ID that uniquely identifies a device (IDFA, GAID or Hashed Android ID)
+                               @"IDFA",                @"deviceIdType",                        // The device type. This parameter can only have two values: IDFA or GAID
+                               deviceModel,            @"deviceModel",
+                               osVersion,              @"deviceOs",                            // The operating system of the device.
                                nil], @"user",
 
                               [NSDictionary dictionaryWithObjectsAndKeys:
@@ -109,10 +89,10 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
 }
 
 - (void) getConfig:(Config *) config
-    ahConfigHandler:(AHConfigResponse) ahConfigHandler {
+   ahConfigHandler:(AHConfigResponse) ahConfigHandler {
     if(![config networkId] || [config sdkVersion].length == 0 || [config appId].length == 0) {
         CLog(@"Config is is missing one of the following required values networkId = %@, sdkVersion = %@, appId = %@ "
-              , [config networkId], [config sdkVersion], [config appId]);
+             , [config networkId], [config sdkVersion], [config appId]);
         if(ahConfigHandler) {
             ahConfigHandler(nil);
         }
@@ -136,4 +116,33 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
     }];
 }
 
+- (void) sendAppEvent:(NSString *)event
+               gdprConsent:(GdprUserConsent *)gdprConsent
+                    config:(Config *)config
+                deviceInfo:(DeviceInfo *)deviceInfo
+            ahEventHandler:(AHAppEventsResponse)ahEventHandler {
+
+    NSString *query = [NSString stringWithFormat:@"idfa=%@&eventType=%@&appId=%@&limitedAdTracking=%d"
+                       , [deviceInfo deviceId], event, [config appId], ![gdprConsent isAdTrackingEnabled]];
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@?%@",[config appEventsUrl], [config appEventsSenderId], query];
+    NSURL *url = [NSURL URLWithString: urlString];
+    [self.networkManager getFromUrl:url responseHandler:^(NSData *data, NSError *error) {
+        if(error == nil) {
+            if(data && ahEventHandler) {
+                NSError *e = nil;
+                NSDictionary *response = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
+                if (!response) {
+                    CLog(@"Error parsing app event JSON to AppEvents. Error was: %@" , e);
+                } else {
+                    ahEventHandler(response, [NSDate date]);
+                }
+            }
+            else {
+                CLog(@"Error on get from app events end point; either value is nil: (response: %@) or (ahEventHandler: %p)", data, ahEventHandler);
+            }
+        } else {
+            CLog(@"Error on get from app events end point. Error was: %@", error);
+        }
+    }];
+}
 @end

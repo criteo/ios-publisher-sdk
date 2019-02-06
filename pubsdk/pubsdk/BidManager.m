@@ -8,6 +8,7 @@
 
 #import "BidManager.h"
 #import "Logging.h"
+#import "AppEvents.h"
 
 @implementation BidManager
 {
@@ -18,6 +19,7 @@
     DeviceInfo      *deviceInfo;
     GdprUserConsent *gdprUserConsent;
     NetworkManager  *networkManager;
+    AppEvents       *appEvents;
 }
 
 // Properties
@@ -39,7 +41,8 @@
                       configManager:nil
                          deviceInfo:nil
                     gdprUserConsent:nil
-                     networkManager:nil];
+                     networkManager:nil
+                          appEvents:nil];
 }
 
 - (instancetype) initWithApiHandler:(ApiHandler*)apiHandler
@@ -49,6 +52,7 @@
                          deviceInfo:(DeviceInfo*)deviceInfo
                     gdprUserConsent:(GdprUserConsent*)gdprUserConsent
                      networkManager:(NetworkManager*)networkManager
+                          appEvents:(AppEvents *)appEvents
 {
     if(self = [super init]) {
         self->apiHandler      = apiHandler;
@@ -58,6 +62,8 @@
         self->deviceInfo      = deviceInfo;
         self->gdprUserConsent = gdprUserConsent;
         self->networkManager  = networkManager;
+        self->appEvents       = appEvents;
+        [self refreshConfig];
     }
 
     return self;
@@ -105,24 +111,16 @@
     }
     // move the async to the api handler
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self->apiHandler callCdb:slotId gdprConsent:self->gdprUserConsent config:self->config ahCdbResponseHandler:^(NSArray *cdbBids) {
+        [self->apiHandler callCdb:slotId
+                      gdprConsent:self->gdprUserConsent
+                           config:self->config
+                       deviceInfo:self->deviceInfo
+             ahCdbResponseHandler:^(NSArray *cdbBids) {
             for(CdbBid *bid in cdbBids) {
                 [self->cacheManager setBid:bid forAdUnit:slotId];
             }
         }];
     });
-}
-
-- (void) initConfigWithNetworkId:(NSNumber *)networkId {
-    if(!networkId) {
-        CLog(@"initConfigWithNetworkId is missing the following required value networkId = %@", networkId);
-        return;
-    }
-    if(!config) {
-        config = [[Config alloc] initWithNetworkId:networkId];
-    }
-
-    [self refreshConfig];
 }
 
 - (void) refreshConfig {

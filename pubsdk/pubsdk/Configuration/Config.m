@@ -19,8 +19,10 @@
         //_cdbUrl = @"http://directbidder-test-app.par.preprod.crto.in";
         _path = @"inapp/v1";
         _sdkVersion = @"2.0";
-        _appId = [[NSBundle mainBundle] bundleIdentifier];;
+        _appId = [[NSBundle mainBundle] bundleIdentifier];
         _killSwitch = NO;
+        _appEventsUrl = @"https://gum.criteo.com/appevent/v1";
+        _appEventsSenderId = @"2379";
     }
     return self;
 }

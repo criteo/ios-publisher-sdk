@@ -20,6 +20,7 @@
 #import "GdprUserConsent.h"
 #import "NetworkManager.h"
 #import "NetworkManagerDelegate.h"
+#import "AppEvents.h"
 
 @interface BidManager : NSObject
 
@@ -34,6 +35,7 @@
                          deviceInfo:(DeviceInfo*)deviceInfo
                     gdprUserConsent:(GdprUserConsent*)gdprUserConsent
                      networkManager:(NetworkManager*)networkManager
+                          appEvents:(AppEvents *)appEvents
 NS_DESIGNATED_INITIALIZER;
 
 
@@ -44,8 +46,6 @@ NS_DESIGNATED_INITIALIZER;
 - (CdbBid *) getBid: (AdUnit *) slot;
 
 - (void) prefetchBid: (AdUnit *) slotId;
-
-- (void) initConfigWithNetworkId:(NSNumber *) networkId;
 
 - (void) addCriteoBidToRequest:(id) adRequest
                      forAdUnit:(AdUnit *) adUnit;

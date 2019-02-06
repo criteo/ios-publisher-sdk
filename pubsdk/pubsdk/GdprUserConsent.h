@@ -16,6 +16,7 @@
 @property (readonly, nonatomic) NSString *consentString;
 @property (readonly, nonatomic) BOOL gdprApplies;
 @property (readonly, nonatomic) BOOL consentGiven;
+@property (readonly, nonatomic) BOOL isAdTrackingEnabled;
 
 @end
 #endif /* GdprUserConsent_h */

@@ -15,9 +15,11 @@
 #import "CdbBid.h"
 #import "Config.h"
 #import "GdprUserConsent.h"
+#import "DeviceInfo.h"
 
 typedef void (^AHCdbResponse)(NSArray<CdbBid*> *cdbBids);
 typedef void (^AHConfigResponse)(NSDictionary *configValues);
+typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receivedAt);
 
 @interface ApiHandler : NSObject
 @property (strong, nonatomic) NetworkManager *networkManager;
@@ -32,7 +34,8 @@ typedef void (^AHConfigResponse)(NSDictionary *configValues);
 - (void) callCdb: (AdUnit *) adUnit
      gdprConsent:(GdprUserConsent *) gdprConsent
           config:(Config *) config
- ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler;
+      deviceInfo:(DeviceInfo *) deviceInfo
+ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler;
 
 /*
  * Calls the pub-sdk config endpoint and gets the config values for the publisher
@@ -40,6 +43,15 @@ typedef void (^AHConfigResponse)(NSDictionary *configValues);
  */
 - (void) getConfig: (Config *) config
    ahConfigHandler:(AHConfigResponse) ahConfigHandler;
+
+/*
+ * Calls the app event endpoint and gets the throttleSec value for the user
+ */
+- (void) sendAppEvent: (NSString *)event
+          gdprConsent:(GdprUserConsent *)gdprConsent
+               config:(Config *) config
+           deviceInfo:(DeviceInfo *) deviceInfo
+       ahEventHandler:(AHAppEventsResponse) ahEventHandler;
 
 @end
 

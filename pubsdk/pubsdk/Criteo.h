@@ -19,10 +19,8 @@
 - (instancetype) init NS_UNAVAILABLE;
 + (nonnull instancetype) sharedCriteo;
 
-//- (void) initWithSlots:(NSArray *)slots;
-- (void) registerAdUnit:(AdUnit *) adUnit;
-- (void) registerAdUnits:(NSArray<AdUnit*> *) adUnits;
-- (void) registerNetworkId:(NSUInteger) networkId;
+- (void) registerNetworkId:(NSUInteger)networkId
+               withAdUnits:(NSArray<AdUnit*> *) adUnits;
 - (void) prefetchAll;
 - (void) addCriteoBidToRequest:(id) request
                     forAdUnit:(AdUnit *) adUnit;
