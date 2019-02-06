@@ -123,7 +123,6 @@ didFailToReceiveAdWithError:(nonnull GADRequestError *)error
     Criteo *criteo = [Criteo sharedCriteo];
     _criteoSdk = criteo;
     _criteoSdk.networkMangerDelegate = self;
-    [self.criteoSdk registerNetworkId:4916];
 }
 
 - (void)addBannerViewToView:(UIView *)bannerView {
@@ -159,7 +158,7 @@ didFailToReceiveAdWithError:(nonnull GADRequestError *)error
 # pragma mark - actions
 
 - (IBAction)registerAdUnitClick:(id)sender {
-    [self.criteoSdk registerAdUnits:[self createAdUnits]];
+    [self.criteoSdk registerNetworkId:4916 withAdUnits:[self createAdUnits]];
     [self.criteoSdk prefetchAll];
     //self.dfpBannerView.adUnitID = @"/140800857/Endeavour_320x50";
     [self.textFeedback setText:@"AdUnit registered!"];
