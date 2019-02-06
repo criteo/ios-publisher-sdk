@@ -7,8 +7,11 @@
 //
 
 #import "GoogleDFPTableViewController.h"
+
 #import <Foundation/Foundation.h>
 @import GoogleMobileAds;
+
+#import "Criteo+Internal.h"
 
 @interface GoogleDFPTableViewController ()
 
@@ -20,6 +23,58 @@
 @end
 
 @implementation GoogleDFPTableViewController
+
+// Criteo NetworkManagerDelegate Implementation
+- (void) networkManager:(NetworkManager*)manager sentRequest:(NSURLRequest*)request
+{
+    _textFeedback.text = @"";
+
+    NSString *body = nil;
+
+    if (request.HTTPBody) {
+        body = [[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding];
+    }
+
+    _textFeedback.text = [_textFeedback.text stringByAppendingFormat:@"REQ:\n%@ %@\nHeaders: %@\nBody: %@",
+                          request.HTTPMethod,
+                          request.URL,
+                          request.allHTTPHeaderFields,
+                          body];
+}
+
+- (void) networkManager:(NetworkManager*)manager
+       receivedResponse:(NSURLResponse*)response
+               withData:(NSData*)data
+                  error:(NSError*)error
+{
+    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
+
+    if (error)
+    {
+        _textFeedback.text = [_textFeedback.text stringByAppendingFormat:@"\n\nRESP:\nError: %@\nReason: %@",
+                              error.localizedDescription,
+                              error.localizedFailureReason];
+
+        if (httpResponse) {
+            _textFeedback.text = [_textFeedback.text stringByAppendingFormat:@"\nStatus: %ld %@",
+                                  (long)httpResponse.statusCode,
+                                  [NSHTTPURLResponse localizedStringForStatusCode:httpResponse.statusCode]];
+        }
+
+        return;
+    }
+
+    NSString *body = nil;
+
+    if (data) {
+        body = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    }
+
+    _textFeedback.text = [_textFeedback.text stringByAppendingFormat:@"\n\nRESP:\nStatus: %ld %@\nBody: %@",
+                          (long)httpResponse.statusCode,
+                          [NSHTTPURLResponse localizedStringForStatusCode:httpResponse.statusCode],
+                          body];
+}
 
 - (void)adView:(nonnull GADBannerView *)bannerView
 didFailToReceiveAdWithError:(nonnull GADRequestError *)error
@@ -67,6 +122,7 @@ didFailToReceiveAdWithError:(nonnull GADRequestError *)error
 
     Criteo *criteo = [Criteo sharedCriteo];
     _criteoSdk = criteo;
+    _criteoSdk.networkMangerDelegate = self;
     [self.criteoSdk registerNetworkId:4916];
 }
 

@@ -65,6 +65,8 @@
 		166EB132402129B59C168CE4 /* Pods-AdViewerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdViewerTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-AdViewerTests/Pods-AdViewerTests.release.xcconfig"; sourceTree = "<group>"; };
 		171E0465ABE00D7D6BC30ED7 /* libPods-AdViewer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AdViewer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		24601BCB83F9792C7A771BB0 /* Pods-AdViewer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdViewer.release.xcconfig"; path = "../Pods/Target Support Files/Pods-AdViewer/Pods-AdViewer.release.xcconfig"; sourceTree = "<group>"; };
+		25022DE7220A72EF00FF8ACE /* Criteo+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Criteo+Internal.h"; sourceTree = "<group>"; };
+		25022DE8220A778600FF8ACE /* NetworkManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkManagerDelegate.h; sourceTree = "<group>"; };
 		404AC949219650FF008C6267 /* GoogleDFPTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleDFPTableViewController.h; sourceTree = "<group>"; };
 		404AC94A219650FF008C6267 /* GoogleDFPTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoogleDFPTableViewController.m; sourceTree = "<group>"; };
 		404AC94E21965716008C6267 /* GoogleDFPButtonCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleDFPButtonCell.h; sourceTree = "<group>"; };
@@ -123,6 +125,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		25022DE6220A72D300FF8ACE /* Criteo */ = {
+			isa = PBXGroup;
+			children = (
+				25022DE7220A72EF00FF8ACE /* Criteo+Internal.h */,
+				25022DE8220A778600FF8ACE /* NetworkManagerDelegate.h */,
+			);
+			path = Criteo;
+			sourceTree = "<group>";
+		};
 		404AC9482196509E008C6267 /* GoogleDFP */ = {
 			isa = PBXGroup;
 			children = (
@@ -159,6 +170,7 @@
 		4077EBA6218BC48300C41E68 /* AdViewer */ = {
 			isa = PBXGroup;
 			children = (
+				25022DE6220A72D300FF8ACE /* Criteo */,
 				404AC9482196509E008C6267 /* GoogleDFP */,
 				4077EBD9218CB5C000C41E68 /* Splash */,
 				4077EBDA218CB5E700C41E68 /* HomePage */,

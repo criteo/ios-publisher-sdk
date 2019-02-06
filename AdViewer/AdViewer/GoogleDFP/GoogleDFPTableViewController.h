@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <pubsdk/pubsdk.h>
 
+#import "NetworkManagerDelegate.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GoogleDFPTableViewController : UITableViewController
+@interface GoogleDFPTableViewController : UITableViewController <NetworkManagerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *textNetworkId;
 @property (weak, nonatomic) IBOutlet UITextField *textAdUnitId;
