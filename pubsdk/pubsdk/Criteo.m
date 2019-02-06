@@ -7,6 +7,7 @@
 //
 
 #import "Criteo.h"
+#import "Criteo+Internal.h"
 
 #import "BidManager.h"
 
@@ -16,6 +17,16 @@ static bool hasPrefetched;
 static Criteo *sharedInstance;
 
 @implementation Criteo
+
+- (id<NetworkManagerDelegate>) networkMangerDelegate
+{
+    return bidManager.networkMangerDelegate;
+}
+
+- (void) setNetworkMangerDelegate:(id<NetworkManagerDelegate>)networkMangerDelegate
+{
+    bidManager.networkMangerDelegate = networkMangerDelegate;
+}
 
 + (BidManager*) createBidManager
 {

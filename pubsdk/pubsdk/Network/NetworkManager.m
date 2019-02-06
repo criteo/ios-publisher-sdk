@@ -34,6 +34,24 @@
     return self;
 }
 
+- (void) signalSentRequest:(NSURLRequest*)request
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([self.delegate respondsToSelector:@selector(networkManager:sentRequest:)]) {
+            [self.delegate networkManager:self sentRequest:request];
+        }
+    });
+}
+
+- (void) signalReceivedResponse:(NSURLResponse*)response withData:(NSData*)data error:(NSError*)error
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([self.delegate respondsToSelector:@selector(networkManager:receivedResponse:withData:error:)]) {
+            [self.delegate networkManager:self receivedResponse:response withData:data error:error];
+        }
+    });
+}
+
 - (void) getFromUrl:(NSURL *) url
     responseHandler:(NMResponse) responseHandler {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -44,6 +62,9 @@
 
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request
                                             completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+
+        [self signalReceivedResponse:response withData:data error:error];
+
         if(error) {
             // Add logging or metrics code here
             responseHandler(nil, error);
@@ -60,6 +81,7 @@
         }
     }];
     [task resume];
+    [self signalSentRequest:request];
 }
 
 - (void) postToUrl:(NSURL *) url
@@ -87,6 +109,7 @@
     [postRequest setHTTPBody: jsonData];
     
     NSURLSessionDataTask *task = [session dataTaskWithRequest:postRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        [self signalReceivedResponse:response withData:data error:error];
         if(error) {
             // Add logging or metrics code here
             responseHandler(nil, error);
@@ -106,6 +129,7 @@
         }
     }];
     [task resume];
+    [self signalSentRequest:postRequest];
 }
 
 @end

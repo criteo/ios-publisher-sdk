@@ -20,6 +20,17 @@
     NetworkManager  *networkManager;
 }
 
+// Properties
+- (id<NetworkManagerDelegate>) networkMangerDelegate
+{
+    return self->networkManager.delegate;
+}
+
+- (void) setNetworkMangerDelegate:(id<NetworkManagerDelegate>)networkMangerDelegate
+{
+    self->networkManager.delegate = networkMangerDelegate;
+}
+
 - (instancetype) init {
     NSAssert(false, @"Do not use this initializer");
     return [self initWithApiHandler:nil

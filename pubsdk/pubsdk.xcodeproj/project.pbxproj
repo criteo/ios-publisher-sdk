@@ -70,6 +70,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		25022DE4220A3F0300FF8ACE /* NetworkManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkManagerDelegate.h; sourceTree = "<group>"; };
+		25022DE5220A709000FF8ACE /* Criteo+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Criteo+Internal.h"; sourceTree = "<group>"; };
 		255151C322027C9500F76E3F /* NSString+UrlEncoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+UrlEncoder.h"; sourceTree = "<group>"; };
 		255151C422027C9500F76E3F /* NSString+UrlEncoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+UrlEncoder.m"; sourceTree = "<group>"; };
 		255151C82202AEF800F76E3F /* NSString+UrlEncoderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+UrlEncoderTests.m"; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				E1F2738621B9BF4900A2FBFA /* ApiHandler.m */,
 				E1F2738221B9B01200A2FBFA /* NetworkManager.h */,
 				E1F2738321B9B58900A2FBFA /* NetworkManager.m */,
+				25022DE4220A3F0300FF8ACE /* NetworkManagerDelegate.h */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -245,6 +248,7 @@
 				E1F273B821C87A2F00A2FBFA /* CdbBid.m */,
 				258821D622000D3B00398E9F /* Configuration */,
 				E1F2738C21BB1B1400A2FBFA /* Criteo.h */,
+				25022DE5220A709000FF8ACE /* Criteo+Internal.h */,
 				E1F2738A21BB12C300A2FBFA /* Criteo.m */,
 				E12A7F5421F8FBD6002B4548 /* GdprUserConsent.h */,
 				E12A7F5521F8FD25002B4548 /* GdprUserConsent.m */,

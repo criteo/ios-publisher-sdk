@@ -12,10 +12,13 @@
 #import <Foundation/Foundation.h>
 
 #import "DeviceInfo.h"
+#import "NetworkManagerDelegate.h"
 
 typedef void (^NMResponse)(NSData *data, NSError *error);
 
 @interface NetworkManager : NSObject
+
+@property (nonatomic) id<NetworkManagerDelegate> delegate;
 
 - (instancetype) init NS_UNAVAILABLE;
 - (instancetype) initWithDeviceInfo:(DeviceInfo*)deviceInfo NS_DESIGNATED_INITIALIZER;

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <OCMock.h>
 #import <XCTest/XCTest.h>
 
 #import "AdUnit.h"
@@ -14,6 +15,7 @@
 #import "Config.h"
 #import "Logging.h"
 #import "NetworkManager.h"
+#import "NetworkManagerDelegate.h"
 
 @interface NetworkManagerTests : XCTestCase
 
@@ -74,6 +76,10 @@
     NSURL *url = [NSURL URLWithString: @"http://directbidder-test-app.par.preprod.crto.in/inapp/v1?profileId=235"];
     
     NetworkManager *networkManager = [[NetworkManager alloc] initWithDeviceInfo:deviceInfo];
+    id<NetworkManagerDelegate> delegateMock = [self stubNetworkManagerDelegateForNetworkManager:networkManager];
+
+    networkManager.delegate = delegateMock;
+
     CLog(@"Test called the NetworkManager");
     NSError *jsonError;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:postBody options:NSJSONWritingPrettyPrinted error:&jsonError];
@@ -92,6 +98,7 @@
         } else {
             CLog(@"%@", error);
         }
+        [self verifyNetworkManagerDelegate:delegateMock withNetworkManager:networkManager];
         [expectation fulfill];
     }];
     
@@ -107,6 +114,10 @@
     NSURL *url = [NSURL URLWithString: urlString];
     
     NetworkManager *networkManager = [[NetworkManager alloc] initWithDeviceInfo:deviceInfo];
+    id<NetworkManagerDelegate> delegateMock = [self stubNetworkManagerDelegateForNetworkManager:networkManager];
+
+    networkManager.delegate = delegateMock;
+
     CLog(@"Test called the NetworkManager");
     
     [networkManager getFromUrl:url responseHandler:^(NSData *data, NSError *error) {
@@ -121,9 +132,35 @@
         } else {
             CLog(@"Error on get from Config : %@", error);
         }
+
+        [self verifyNetworkManagerDelegate:delegateMock withNetworkManager:networkManager];
+
         [expectation fulfill];
     }];
     [self waitForExpectations:@[expectation] timeout:250];
+}
+
+- (id<NetworkManagerDelegate>) stubNetworkManagerDelegateForNetworkManager:(NetworkManager*)networkManager
+{
+    id<NetworkManagerDelegate> delegateMock = OCMStrictProtocolMock(@protocol(NetworkManagerDelegate));
+
+    OCMStub([delegateMock networkManager:networkManager sentRequest:[OCMArg isKindOfClass:NSURLRequest.class]]);
+    OCMStub([delegateMock networkManager:networkManager
+                        receivedResponse:[OCMArg isKindOfClass:NSHTTPURLResponse.class]
+                                withData:[OCMArg isKindOfClass:NSData.class]
+                                   error:[OCMArg isNil]]);
+
+    return delegateMock;
+}
+
+- (void) verifyNetworkManagerDelegate:(id<NetworkManagerDelegate>)delegateMock
+                   withNetworkManager:(NetworkManager*)networkManager
+{
+    OCMVerify([delegateMock networkManager:networkManager sentRequest:[OCMArg isKindOfClass:NSURLRequest.class]]);
+    OCMVerify([delegateMock networkManager:networkManager
+                          receivedResponse:[OCMArg isKindOfClass:NSHTTPURLResponse.class]
+                                  withData:[OCMArg isKindOfClass:NSData.class]
+                                     error:[OCMArg isNil]]);
 }
 
 @end

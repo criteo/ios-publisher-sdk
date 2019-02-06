@@ -19,8 +19,11 @@
 #import "DeviceInfo.h"
 #import "GdprUserConsent.h"
 #import "NetworkManager.h"
+#import "NetworkManagerDelegate.h"
 
 @interface BidManager : NSObject
+
+@property (nonatomic) id<NetworkManagerDelegate> networkMangerDelegate;
 
 - (instancetype) init NS_UNAVAILABLE;
 
