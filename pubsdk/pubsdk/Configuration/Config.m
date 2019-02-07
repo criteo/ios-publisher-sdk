@@ -8,6 +8,8 @@
 
 #import "Config.h"
 #import "Logging.h"
+#import <AdSupport/ASIdentifierManager.h>
+#import <UIKit/UIKit.h>
 
 @implementation Config
 
@@ -18,9 +20,11 @@
         _cdbUrl = @"https://bidder.criteo.com";
         //_cdbUrl = @"http://directbidder-test-app.par.preprod.crto.in";
         _path = @"inapp/v1";
-        _sdkVersion = @"2.0";
-        _appId = [[NSBundle mainBundle] bundleIdentifier];
+        _sdkVersion = @"2.0.0";
+        _appId = [[NSBundle mainBundle] bundleIdentifier];;
         _killSwitch = NO;
+        _deviceModel = [[UIDevice currentDevice] model];
+        _osVersion = [[UIDevice currentDevice] systemVersion];
         _appEventsUrl = @"https://gum.criteo.com/appevent/v1";
         _appEventsSenderId = @"2379";
     }

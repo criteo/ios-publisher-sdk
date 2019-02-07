@@ -58,9 +58,12 @@
     OCMStub([mockConfig cdbUrl]).andReturn(@"https://dummyCdb.com");
     OCMStub([mockConfig path]).andReturn(@"inApp");
     OCMStub([mockConfig appId]).andReturn(@"com.criteo.pubsdk");
+    OCMStub([mockConfig deviceModel]).andReturn(@"iPhone");
+    OCMStub([mockConfig osVersion]).andReturn(@"12.1");
 
     DeviceInfo *mockDeviceInfo = OCMStrictClassMock([DeviceInfo class]);
     OCMStub([mockDeviceInfo deviceId]).andReturn(@"A0AA0A0A-000A-0A00-AAA0-0A00000A0A0A");
+    OCMStub([mockDeviceInfo userAgent]).andReturn(@"Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16B91");
 
     [apiHandler callCdb:testAdUnit_1
             gdprConsent:mockUserConsent

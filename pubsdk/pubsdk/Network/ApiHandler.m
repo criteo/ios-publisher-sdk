@@ -38,20 +38,17 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
         ahCdbResponseHandler(nil);
     }
 
-    // TODO: Move this to the config
-    NSString *deviceModel = [[UIDevice currentDevice] name];
-    NSString *osVersion = [[UIDevice currentDevice] systemVersion];
-
     NSDictionary *postBody = [NSDictionary dictionaryWithObjectsAndKeys:
                               [NSDictionary dictionaryWithObjectsAndKeys:
-                               [deviceInfo deviceId],  @"deviceId",                            //The ID that uniquely identifies a device (IDFA, GAID or Hashed Android ID)
-                               @"IDFA",                @"deviceIdType",                        // The device type. This parameter can only have two values: IDFA or GAID
-                               deviceModel,            @"deviceModel",
-                               osVersion,              @"deviceOs",                            // The operating system of the device.
+                               [deviceInfo deviceId], @"deviceId",                            //The ID that uniquely identifies a device (IDFA, GAID or Hashed Android ID)
+                               @"IDFA",               @"deviceIdType",                        // The device type. This parameter can only have two values: IDFA or GAID
+                               [config deviceModel],  @"deviceModel",
+                               [config osVersion],    @"deviceOs",                            // The operating system of the device.
+                               [deviceInfo userAgent],@"userAgent",
                                nil], @"user",
 
                               [NSDictionary dictionaryWithObjectsAndKeys:
-                               [config appId],  @"bundleId",   // The bundle ID identifying the app
+                               [config appId],     @"bundleId",   // The bundle ID identifying the app
                                [config networkId], @"networkId",
                                nil], @"publisher",
 
