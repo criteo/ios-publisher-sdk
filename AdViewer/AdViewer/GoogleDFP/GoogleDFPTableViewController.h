@@ -21,11 +21,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UITextField *textAdUnitHeight;
 @property (weak, nonatomic) IBOutlet UITextView *textFeedback;
 @property (nonatomic) Criteo *criteoSdk;
+@property (weak, nonatomic) IBOutlet UISwitch *bannerInterstitialSwitch;
 
 
 - (IBAction)loadAdClick:(id)sender;
 - (IBAction)clearButtonClick:(id)sender;
 - (IBAction)registerAdUnitClick:(id)sender;
+- (IBAction)bannerInterstitialSwitched:(id)sender;
 
 @end
 

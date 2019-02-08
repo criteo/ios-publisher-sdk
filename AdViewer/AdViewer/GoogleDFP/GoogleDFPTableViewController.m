@@ -16,6 +16,7 @@
 @interface GoogleDFPTableViewController ()
 
 @property (nonatomic) DFPBannerView *dfpBannerView;
+@property (nonatomic) DFPInterstitial *dfpInterstitial;
 @property (nonatomic) UIView *redView;
 @property (nonatomic) UITextView *errorTextView;
 @property BOOL registeredAdUnit;
@@ -123,6 +124,8 @@ didFailToReceiveAdWithError:(nonnull GADRequestError *)error
     Criteo *criteo = [Criteo sharedCriteo];
     _criteoSdk = criteo;
     _criteoSdk.networkMangerDelegate = self;
+
+    self.bannerInterstitialSwitch.on = NO;
 }
 
 - (void)addBannerViewToView:(UIView *)bannerView {
@@ -165,6 +168,20 @@ didFailToReceiveAdWithError:(nonnull GADRequestError *)error
     self->_registeredAdUnit = YES;
 }
 
+- (IBAction)bannerInterstitialSwitched:(id)sender {
+    if(self.bannerInterstitialSwitch.on) {
+        // Interstitial mode
+        self.textAdUnitId.text = @"/140800857/Endeavour_Interstitial_320x480";
+        self.textAdUnitWidth.text = @"320";
+        self.textAdUnitHeight.text = @"480";
+    } else {
+        // Banner mode
+        self.textAdUnitId.text = @"/140800857/Endeavour_320x50";
+        self.textAdUnitWidth.text = @"320";
+        self.textAdUnitHeight.text = @"50";
+    }
+}
+
 - (NSArray<AdUnit*>*) createAdUnits
 {
     NSString *adUnitId = self.textAdUnitId.text;
@@ -177,13 +194,11 @@ didFailToReceiveAdWithError:(nonnull GADRequestError *)error
 }
 
 - (IBAction)loadAdClick:(id)sender {
-    [self resetDfpBannerView];
 
     NSString *adUnitId = self.textAdUnitId.text;
     double width = [self.textAdUnitWidth.text doubleValue];
     double height = [self.textAdUnitHeight.text doubleValue];
     AdUnit *adUnit = [[AdUnit alloc] initWithAdUnitId:adUnitId size:CGSizeMake(width, height)];
-    self.dfpBannerView.adUnitID = self.textAdUnitId.text;
 
     DFPRequest *request = [DFPRequest request];
     //request.testDevices = @[ kGADSimulatorID ];
@@ -207,10 +222,21 @@ didFailToReceiveAdWithError:(nonnull GADRequestError *)error
 
     [self debugPrintWebViewAfterSec:5];
 
-    [self.dfpBannerView loadRequest:request];
-    /*
-     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-     */
+    //Interstitial
+    if([self.bannerInterstitialSwitch isOn]) {
+        self.dfpInterstitial = [[DFPInterstitial alloc] initWithAdUnitID:self.textAdUnitId.text];
+        [self.dfpInterstitial loadRequest:request];
+        self.textFeedback.text = [self.textFeedback.text stringByAppendingString:@"\nREQUESTED INTERSTITIAL LOAD"];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if (self.dfpInterstitial.isReady) {
+                [self.dfpInterstitial presentFromRootViewController:self];
+            }
+        });
+    } else { //Banner
+        [self resetDfpBannerView];
+        self.dfpBannerView.adUnitID = self.textAdUnitId.text;
+        [self.dfpBannerView loadRequest:request];
+    }
 }
 
 - (IBAction)clearButtonClick:(id)sender {
