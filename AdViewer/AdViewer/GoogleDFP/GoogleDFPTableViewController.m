@@ -123,7 +123,6 @@ didFailToReceiveAdWithError:(nonnull GADRequestError *)error
 
     Criteo *criteo = [Criteo sharedCriteo];
     _criteoSdk = criteo;
-    _criteoSdk.networkMangerDelegate = self;
 
     self.bannerInterstitialSwitch.on = NO;
 }
@@ -162,6 +161,7 @@ didFailToReceiveAdWithError:(nonnull GADRequestError *)error
 
 - (IBAction)registerAdUnitClick:(id)sender {
     [self.criteoSdk registerNetworkId:4916 withAdUnits:[self createAdUnits]];
+    _criteoSdk.networkMangerDelegate = self;    // NetworkManager doesn't exist until you register now
     [self.criteoSdk prefetchAll];
     //self.dfpBannerView.adUnitID = @"/140800857/Endeavour_320x50";
     [self.textFeedback setText:@"AdUnit registered!"];
