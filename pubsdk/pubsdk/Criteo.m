@@ -76,6 +76,7 @@ static Criteo *sharedInstance;
 
     [registeredAdUnits addObjectsFromArray:adUnits];
     [bidManager setSlots:adUnits];
+    [self prefetchAll];
 }
 
 - (void) prefetchAll {
@@ -87,8 +88,8 @@ static Criteo *sharedInstance;
     }
 }
 
-- (void) addCriteoBidToRequest:(id)request
-                     forAdUnit:(AdUnit *)adUnit {
+- (void) setBidForRequest:(id)request
+               withAdUnit:(AdUnit *)adUnit {
     [bidManager addCriteoBidToRequest:request forAdUnit:adUnit];
 }
 @end
