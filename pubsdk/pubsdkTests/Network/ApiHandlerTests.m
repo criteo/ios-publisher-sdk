@@ -60,6 +60,7 @@
     OCMStub([mockConfig appId]).andReturn(@"com.criteo.pubsdk");
     OCMStub([mockConfig deviceModel]).andReturn(@"iPhone");
     OCMStub([mockConfig osVersion]).andReturn(@"12.1");
+    OCMStub([mockConfig deviceOs]).andReturn(@"ios");
 
     DeviceInfo *mockDeviceInfo = OCMStrictClassMock([DeviceInfo class]);
     OCMStub([mockDeviceInfo deviceId]).andReturn(@"A0AA0A0A-000A-0A00-AAA0-0A00000A0A0A");

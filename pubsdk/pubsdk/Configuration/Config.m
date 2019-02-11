@@ -25,6 +25,7 @@
         _killSwitch = NO;
         _deviceModel = [[UIDevice currentDevice] model];
         _osVersion = [[UIDevice currentDevice] systemVersion];
+        _deviceOs = @"ios";
         _appEventsUrl = @"https://gum.criteo.com/appevent/v1";
         _appEventsSenderId = @"2379";
     }

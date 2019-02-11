@@ -24,6 +24,7 @@
 @property (strong, nonatomic, readonly) NSString *appEventsSenderId;
 @property (strong, nonatomic, readonly) NSString *deviceModel;
 @property (strong, nonatomic, readonly) NSString *osVersion;
+@property (strong, nonatomic, readonly) NSString *deviceOs;
 
 - (instancetype) initWithNetworkId:(NSNumber *) networkId
 NS_DESIGNATED_INITIALIZER;

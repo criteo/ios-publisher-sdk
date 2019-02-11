@@ -43,7 +43,7 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
                                [deviceInfo deviceId], @"deviceId",                            //The ID that uniquely identifies a device (IDFA, GAID or Hashed Android ID)
                                @"IDFA",               @"deviceIdType",                        // The device type. This parameter can only have two values: IDFA or GAID
                                [config deviceModel],  @"deviceModel",
-                               [config osVersion],    @"deviceOs",                            // The operating system of the device.
+                               [config deviceOs],     @"deviceOs",                            // The operating system of the device.
                                [deviceInfo userAgent],@"userAgent",
                                nil], @"user",
 
