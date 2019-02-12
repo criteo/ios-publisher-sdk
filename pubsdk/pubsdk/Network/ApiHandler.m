@@ -38,7 +38,7 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
         ahCdbResponseHandler(nil);
     }
 
-    NSDictionary *postBody = [NSDictionary dictionaryWithObjectsAndKeys:
+    NSMutableDictionary    *postBody = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                               [NSDictionary dictionaryWithObjectsAndKeys:
                                [deviceInfo deviceId], @"deviceId",                            //The ID that uniquely identifies a device (IDFA, GAID or Hashed Android ID)
                                @"IDFA",               @"deviceIdType",                        // The device type. This parameter can only have two values: IDFA or GAID
@@ -61,11 +61,15 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
                                 [NSArray arrayWithObjects:[adUnit cdbSize], nil], @"sizes",
                                 nil],
                                nil], @"slots",
-                              [NSDictionary dictionaryWithObjectsAndKeys:
-                               gdprConsent.consentString, @"consentData",
-                               @(gdprConsent.gdprApplies), @"gdprApplies",
-                               @(gdprConsent.consentGiven), @"consentGiven", nil], @"gdprConsent",
                               nil];
+
+                              //iff gdpr consent value is set, pass it as a gdpr object. Else don't pass blank
+                              if(gdprConsent && gdprConsent.consentString){
+                                  postBody[@"gdprConsent"] = [NSDictionary dictionaryWithObjectsAndKeys:
+                                         gdprConsent.consentString, @"consentData",
+                                         @(gdprConsent.gdprApplies), @"gdprApplies",
+                                         @(gdprConsent.consentGiven), @"consentGiven", nil];
+                              }
 
     NSString *query = [NSString stringWithFormat:@"profileId=%@", [config profileId]];
     NSString *urlString = [NSString stringWithFormat:@"%@/%@?%@", [config cdbUrl], [config path], query];
