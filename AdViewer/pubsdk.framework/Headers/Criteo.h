@@ -21,9 +21,9 @@
 
 - (void) registerNetworkId:(NSUInteger)networkId
                withAdUnits:(NSArray<AdUnit*> *) adUnits;
-- (void) prefetchAll;
-- (void) addCriteoBidToRequest:(id) request
-                    forAdUnit:(AdUnit *) adUnit;
+
+- (void) setBidsForRequest:(id) request
+                withAdUnit:(AdUnit *) adUnit;
 
 @end
 

@@ -162,7 +162,6 @@ didFailToReceiveAdWithError:(nonnull GADRequestError *)error
 - (IBAction)registerAdUnitClick:(id)sender {
     [self.criteoSdk registerNetworkId:4916 withAdUnits:[self createAdUnits]];
     _criteoSdk.networkMangerDelegate = self;    // NetworkManager doesn't exist until you register now
-    [self.criteoSdk prefetchAll];
     //self.dfpBannerView.adUnitID = @"/140800857/Endeavour_320x50";
     [self.textFeedback setText:@"AdUnit registered!"];
     self->_registeredAdUnit = YES;
@@ -208,7 +207,7 @@ didFailToReceiveAdWithError:(nonnull GADRequestError *)error
      { @"/140800857/Endeavour_320x50", CGSize(320,50) } : { bid: 1.23, creative: @"test_string" }
      */
 
-    [self.criteoSdk addCriteoBidToRequest:request forAdUnit:adUnit];
+    [self.criteoSdk setBidsForRequest:request withAdUnit:adUnit];
 
     NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:request.customTargeting];
     NSString *debugStr = [NSString stringWithFormat:@"Bid loaded in the cache at %@:\n\nCRT_CPM VALUE : %@\n\nCRT_DISPLAYURL VALUE: %@", [NSDate date], dict[@"crt_cpm"], dict[@"crt_displayUrl"]];
