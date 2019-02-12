@@ -22,8 +22,8 @@
 - (void) registerNetworkId:(NSUInteger)networkId
                withAdUnits:(NSArray<AdUnit*> *) adUnits;
 
-- (void) setBidForRequest:(id) request
-               withAdUnit:(AdUnit *) adUnit;
+- (void) setBidsForRequest:(id) request
+                withAdUnit:(AdUnit *) adUnit;
 
 @end
 

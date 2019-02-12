@@ -88,8 +88,8 @@ static Criteo *sharedInstance;
     }
 }
 
-- (void) setBidForRequest:(id)request
-               withAdUnit:(AdUnit *)adUnit {
+- (void) setBidsForRequest:(id)request
+                withAdUnit:(AdUnit *)adUnit {
     [bidManager addCriteoBidToRequest:request forAdUnit:adUnit];
 }
 @end
