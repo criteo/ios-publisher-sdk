@@ -21,7 +21,7 @@
         _consentGiven = NO;
         NSString *vendorConsents = [userDefaults stringForKey:@"IABConsent_ParsedVendorConsents"];
         // Criteo is vendor id 91
-        if(vendorConsents.length >= 90 && [vendorConsents characterAtIndex:90] == '1') {
+        if(vendorConsents.length >= 91 && [vendorConsents characterAtIndex:90] == '1') {
             _consentGiven = YES;
         }
         _isAdTrackingEnabled = [[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled];
