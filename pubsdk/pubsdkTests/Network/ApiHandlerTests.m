@@ -30,7 +30,7 @@
     NetworkManager *mockNetworkManager = OCMStrictClassMock([NetworkManager class]);
 
     // Json response from CDB
-    NSString *rawJsonCdbResponse = @"{\"slots\":[{\"placementId\": \"adunitid_1\",\"cpm\":1.1200000047683716,\"currency\":\"EUR\",\"width\": 300,\"height\": 250, \"ttl\": 600, \"creative\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"}]}";
+    NSString *rawJsonCdbResponse = @"{\"slots\":[{\"placementId\": \"adunitid_1\",\"cpm\":1.1200000047683716,\"currency\":\"EUR\",\"width\": 300,\"height\": 250, \"ttl\": 600, \"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"}]}";
 
     NSData *responseData = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
     // OCM substitues "[NSNull null]" to nil at runtime
@@ -42,7 +42,10 @@
 
     ApiHandler *apiHandler = [[ApiHandler alloc] initWithNetworkManager:mockNetworkManager];
 
-    CdbBid *testBid_1 = [[CdbBid alloc] initWithZoneId:nil placementId:@"adunitid_1" cpm:@(1.1200000047683716) currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />" displayUrl:nil insertTime:[NSDate date]];
+    CdbBid *testBid_1 = [[CdbBid alloc] initWithZoneId:nil placementId:@"adunitid_1" cpm:@(1.1200000047683716)
+                                              currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil
+                                            displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
+                                            insertTime:[NSDate date]];
 
     AdUnit *testAdUnit_1 = [[AdUnit alloc] initWithAdUnitId:@"adunitid_1" width:300 height:250];
 
@@ -70,19 +73,19 @@
             gdprConsent:mockUserConsent
                  config:mockConfig
              deviceInfo:mockDeviceInfo
-   ahCdbResponseHandler:^(NSArray *cdbBids) {
+   ahCdbResponseHandler:^(CdbResponse *cdbResponse) {
 
-        CLog(@"Data length is %ld", [cdbBids count]);
-        XCTAssertNotNil(cdbBids);
-        XCTAssertNotEqual(0, [cdbBids count]);
-        CdbBid *receivedBid = cdbBids[0];
-        XCTAssertEqualObjects(testBid_1.placementId, receivedBid.placementId);
-        XCTAssertEqualObjects(testBid_1.width, receivedBid.width);
-        XCTAssertEqualObjects(testBid_1.height, receivedBid.height);
-        XCTAssertEqualObjects(testBid_1.cpm, receivedBid.cpm);
-        XCTAssertEqual(testBid_1.ttl, receivedBid.ttl);
-        [expectation fulfill];
-    }];
+       XCTAssertNotNil(cdbResponse.cdbBids);
+       CLog(@"Data length is %ld", [cdbResponse.cdbBids count]);
+       XCTAssertEqual(1, [cdbResponse.cdbBids count]);
+       CdbBid *receivedBid = cdbResponse.cdbBids[0];
+       XCTAssertEqualObjects(testBid_1.placementId, receivedBid.placementId);
+       XCTAssertEqualObjects(testBid_1.width, receivedBid.width);
+       XCTAssertEqualObjects(testBid_1.height, receivedBid.height);
+       XCTAssertEqualObjects(testBid_1.cpm, receivedBid.cpm);
+       XCTAssertEqual(testBid_1.ttl, receivedBid.ttl);
+       [expectation fulfill];
+   }];
 
     /*
      [mockNetworkManager postToUrl:[NSURL URLWithString:@"http://example.com"]

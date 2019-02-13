@@ -28,36 +28,45 @@
     // initialized slots with fetched bids
     CdbBid *testBid = [[CdbBid alloc] init];
     AdUnit *testAdUnit = [[AdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
-    [cache.bidCache setObject:testBid forKey:testAdUnit];
+    cache.bidCache[testAdUnit] = testBid;
 
     CdbBid *testBid_2 = [[CdbBid alloc] init];
     AdUnit *testAdUnit_2 = [[AdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
-    [cache.bidCache setObject:testBid_2 forKey:testAdUnit_2];
+    cache.bidCache[testAdUnit_2] = testBid_2;
+
+    Config *mockConfig = OCMStrictClassMock([Config class]);
+    OCMStub([mockConfig killSwitch]).andReturn(NO);
 
     GdprUserConsent *mockUserConsent = OCMStrictClassMock([GdprUserConsent class]);
     OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
     OCMStub([mockUserConsent consentGiven]).andReturn(YES);
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
 
-    BidManager *bidManager = [[BidManager alloc] initWithApiHandler:nil
+    // if the caller asks for a bid for an un initialized slot
+    AdUnit *unInitializedSlot = [[AdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
+
+    id mockApiHandler = OCMClassMock([ApiHandler class]);
+    // Do not call CDB for unregistered ad units
+    OCMReject([mockApiHandler callCdb:unInitializedSlot gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+
+    BidManager *bidManager = [[BidManager alloc] initWithApiHandler:mockApiHandler
                                                        cacheManager:cache
-                                                             config:nil
+                                                             config:mockConfig
                                                       configManager:nil
                                                          deviceInfo:nil
                                                     gdprUserConsent:mockUserConsent
                                                      networkManager:nil
-                                                          appEvents:nil];
-
-    // if the caller asks for a bid for an un initialized slot
-    AdUnit *unInitializedSlot = [[AdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
+                                                          appEvents:nil
+                                                     timeToNextCall:0];
 
     NSArray *slots = @[testAdUnit, testAdUnit_2, unInitializedSlot];
     NSDictionary *bids = [bidManager getBids:slots];
     XCTAssertEqualObjects(testBid, bids[testAdUnit]);
     XCTAssertEqualObjects(testBid_2, bids[testAdUnit_2]);
     XCTAssertTrue([bids[unInitializedSlot] isEmpty]);
-    //CLog(@"test bid creative is : %@ and cached creative is: %@", testBid.creative, bids[testAdUnit]);
-
+    // Only call [ApiHandler callCdb] for registered Ad Units
+    OCMVerify([mockApiHandler callCdb:testAdUnit gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMVerify([mockApiHandler callCdb:testAdUnit_2 gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
 }
 
 - (void) testGetBidForSlotThatHasntBeenFetchedFromCdb {
@@ -67,7 +76,7 @@
     // initialized slot that has no bid fetched for it
     CdbBid *testEmptyBid = [CdbBid emptyBid];
     AdUnit *testEmptyAdUnit = [[AdUnit alloc] initWithAdUnitId:@"thisShouldReturnEmptyBid" width:300 height:250];
-    [cache.bidCache setObject:testEmptyBid forKey:testEmptyAdUnit];
+    cache.bidCache[testEmptyAdUnit] = testEmptyBid;
 
     GdprUserConsent *mockUserConsent = OCMStrictClassMock([GdprUserConsent class]);
     OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
@@ -81,7 +90,8 @@
                                                          deviceInfo:nil
                                                     gdprUserConsent:mockUserConsent
                                                      networkManager:nil
-                                                          appEvents:nil];
+                                                          appEvents:nil
+                                                     timeToNextCall:0];
 
     // an initialized slot that has no bid fetched for it
     NSArray *slots = @[[[AdUnit alloc] initWithAdUnitId:@"thisShouldReturnEmptyBid" width:300 height:250]];
@@ -97,7 +107,8 @@
                                                          deviceInfo:nil
                                                     gdprUserConsent:nil
                                                      networkManager:nil
-                                                          appEvents:nil];
+                                                          appEvents:nil
+                                                     timeToNextCall:0];
 
     AdUnit *slot_1 = [[AdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
     AdUnit *slot_2 = [[AdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
@@ -136,7 +147,8 @@
                                                          deviceInfo:nil
                                                     gdprUserConsent:nil
                                                      networkManager:nil
-                                                          appEvents:nil];
+                                                          appEvents:nil
+                                                     timeToNextCall:0];
 
     [bidManager addCriteoBidToRequest:dfpBidRequest forAdUnit:slot_1];
 
@@ -168,13 +180,62 @@
                                                          deviceInfo:nil
                                                     gdprUserConsent:nil
                                                      networkManager:nil
-                                                          appEvents:nil];
+                                                          appEvents:nil
+                                                     timeToNextCall:0];
 
     [bidManager addCriteoBidToRequest:dfpBidRequest forAdUnit:slot_1];
     // there shouldn't be any enrichment
     XCTAssertTrue(dfpBidRequest.customTargeting.count == 2);
     XCTAssertNil([dfpBidRequest.customTargeting objectForKey:@"crt_displayUrl"]);
     XCTAssertNil([dfpBidRequest.customTargeting objectForKey:@"crt_cpm"]);
+}
+
+// TTNC -> Time to next call
+- (void) testGetBidTtncNotExpired {
+    // test cache
+    CacheManager *cache = [[CacheManager alloc] init];
+
+    // initialized slots with fetched bids
+    CdbBid *testBid = [[CdbBid alloc] init];
+    AdUnit *testAdUnit = [[AdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+    cache.bidCache[testAdUnit] = testBid;
+
+    CdbBid *testBid_2 = [[CdbBid alloc] init];
+    AdUnit *testAdUnit_2 = [[AdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
+    cache.bidCache[testAdUnit_2] = testBid_2;
+
+    Config *mockConfig = OCMStrictClassMock([Config class]);
+    OCMStub([mockConfig killSwitch]).andReturn(NO);
+
+    GdprUserConsent *mockUserConsent = OCMStrictClassMock([GdprUserConsent class]);
+    OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
+    OCMStub([mockUserConsent consentGiven]).andReturn(YES);
+    OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
+
+    // if the caller asks for a bid for an un initialized slot
+    AdUnit *unInitializedSlot = [[AdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
+
+    id mockApiHandler = OCMClassMock([ApiHandler class]);
+    // NO calls should be made to [ApiHandler callCdb]
+    OCMReject([mockApiHandler callCdb:testAdUnit gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMReject([mockApiHandler callCdb:testAdUnit_2 gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMReject([mockApiHandler callCdb:unInitializedSlot gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+
+    BidManager *bidManager = [[BidManager alloc] initWithApiHandler:mockApiHandler
+                                                       cacheManager:cache
+                                                             config:mockConfig
+                                                      configManager:nil
+                                                         deviceInfo:nil
+                                                    gdprUserConsent:mockUserConsent
+                                                     networkManager:nil
+                                                          appEvents:nil
+                                                     timeToNextCall:[[NSDate dateWithTimeIntervalSinceNow:360] timeIntervalSinceReferenceDate]];
+
+    NSArray *slots = @[testAdUnit, testAdUnit_2, unInitializedSlot];
+    NSDictionary *bids = [bidManager getBids:slots];
+    XCTAssertEqualObjects(testBid, bids[testAdUnit]);
+    XCTAssertEqualObjects(testBid_2, bids[testAdUnit_2]);
+    XCTAssertTrue([bids[unInitializedSlot] isEmpty]);
 }
 
 @end

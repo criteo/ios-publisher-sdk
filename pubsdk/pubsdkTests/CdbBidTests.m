@@ -43,24 +43,42 @@
     XCTAssertFalse([second isEqual:first]);
 }
 
-- (void) testCdbResponsesFromData {
+- (void) testCdbResponsesForData {
     // Bid Objects
     NSDate *testDate = [NSDate date];
-    CdbBid *testBid_1 = [[CdbBid alloc] initWithZoneId:@(497747) placementId:@"adunitid_1" cpm:@(1.1200000047683716) currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />" displayUrl:nil insertTime:testDate];
-    CdbBid *testBid_2 = [[CdbBid alloc] initWithZoneId:@(1234567) placementId:@"adunitid_2" cpm:@(5.1200000012345678) currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />" displayUrl:nil insertTime:testDate];
+    CdbBid *testBid_1 = [[CdbBid alloc] initWithZoneId:@(497747) placementId:@"adunitid_1"
+                                                   cpm:@(1.1200000047683716) currency:@"EUR"
+                                                 width:@(300) height:@(250) ttl:600
+                                              creative:nil
+                                            displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
+                                            insertTime:testDate];
+    CdbBid *testBid_2 = [[CdbBid alloc] initWithZoneId:@(1234567) placementId:@"adunitid_2"
+                                                   cpm:@(5.1200000012345678) currency:@"EUR"
+                                                 width:@(300) height:@(250) ttl:600
+                                              creative:nil
+                                            displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
+                                            insertTime:testDate];
 
-    CdbBid *testBid_3 = [[CdbBid alloc] initWithZoneId:@(1234567) placementId:@"adunitid_3" cpm:@(5.1200000012345678) currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />" displayUrl:nil insertTime:testDate];
+    CdbBid *testBid_3 = [[CdbBid alloc] initWithZoneId:@(1234567) placementId:@"adunitid_3"
+                                                   cpm:@(5.1200000012345678) currency:@"EUR" width:@(300) height:@(250) ttl:600
+                                              creative:nil
+                                            displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
+                                            insertTime:testDate];
 
-    CdbBid *testBid_4 = [[CdbBid alloc] initWithZoneId:@(1234567) placementId:@"adunitid_4" cpm:nil currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />" displayUrl:nil insertTime:testDate];
+    CdbBid *testBid_4 = [[CdbBid alloc] initWithZoneId:@(1234567) placementId:@"adunitid_4"
+                                                   cpm:nil currency:@"EUR" width:@(300) height:@(250) ttl:600
+                                              creative:nil
+                                            displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
+                                            insertTime:testDate];
 
     // Json response from CDB
-    NSString *rawJsonCdbResponse = @"{\"slots\":[{\"placementId\": \"adunitid_1\",\"zoneId\": 497747,\"cpm\":1.1200000047683716,\"currency\":\"EUR\", \"ttl\":600, \"width\": 300,\"height\": 250,\"creative\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"},\
-    {\"placementId\": \"adunitid_2\",\"zoneId\": 1234567,\"cpm\":5.1200000012345678,\"currency\":\"EUR\",\"width\": 300,\"height\": 250,\"creative\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />\"},\
-    {\"placementId\": \"adunitid_3\",\"zoneId\": 497747,\"cpm\":1.1200000047683716,\"currency\":\"EUR\", \"ttl\":600, \"width\": 300,\"height\": 250,\"creative\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"},\
-    {\"placementId\": \"adunitid_4\",\"zoneId\": 497747,\"currency\":\"EUR\", \"ttl\":600, \"width\": 300,\"height\": 250,\"creative\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"}]}";
+    NSString *rawJsonCdbResponse = @"{\"slots\":[{\"placementId\": \"adunitid_1\",\"zoneId\": 497747,\"cpm\":1.1200000047683716,\"currency\":\"EUR\", \"ttl\":600, \"width\": 300,\"height\": 250,\"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"},\
+    {\"placementId\": \"adunitid_2\",\"zoneId\": 1234567,\"cpm\":5.1200000012345678,\"currency\":\"EUR\",\"width\": 300,\"height\": 250,\"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />\"},\
+    {\"placementId\": \"adunitid_3\",\"zoneId\": 497747,\"cpm\":1.1200000047683716,\"currency\":\"EUR\", \"ttl\":600, \"width\": 300,\"height\": 250,\"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"},\
+    {\"placementId\": \"adunitid_4\",\"zoneId\": 497747,\"currency\":\"EUR\", \"ttl\":600, \"width\": 300,\"height\": 250,\"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"}]}";
     NSData *cdbApiResponse = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
 
-    NSArray *testBids = [CdbBid getCdbResponsesFromData:cdbApiResponse receivedAt:testDate];
+    NSArray *testBids = [CdbBid getCdbResponsesForData:cdbApiResponse receivedAt:testDate];
     XCTAssertNotNil(testBids);
     XCTAssertNotEqual(0, [testBids count]);
     XCTAssertTrue([testBid_1 isEqual:testBids[0]]);

@@ -1,5 +1,5 @@
 //
-//  CdbResponse.m
+//  CdbBid.m
 //  pubsdk
 //
 //  Created by Adwait Kulkarni on 12/17/18.
@@ -124,8 +124,8 @@ static CdbBid *emptyBid;
     return NO;
 }
 
-+ (NSArray *) getCdbResponsesFromData:(NSData *) data
-                           receivedAt:(NSDate *)receivedAt
++ (NSArray *) getCdbResponsesForData:(NSData *) data
+                          receivedAt:(NSDate *)receivedAt
 {
     NSMutableArray *responses = nil;
     NSError *e = nil;

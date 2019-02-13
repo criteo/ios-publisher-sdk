@@ -50,7 +50,8 @@ static Criteo *sharedInstance;
                                                          deviceInfo:deviceInfo
                                                     gdprUserConsent:gdpr
                                                      networkManager:networkManager
-                                                          appEvents:appEvents];
+                                                          appEvents:appEvents
+                                                     timeToNextCall:0];
 
     return bidManager;
 }

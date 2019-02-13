@@ -20,6 +20,7 @@
     GdprUserConsent *gdprUserConsent;
     NetworkManager  *networkManager;
     AppEvents       *appEvents;
+    NSTimeInterval  cdbTimeToNextCall;
 }
 
 // Properties
@@ -42,7 +43,8 @@
                          deviceInfo:nil
                     gdprUserConsent:nil
                      networkManager:nil
-                          appEvents:nil];
+                          appEvents:nil
+                     timeToNextCall:0];
 }
 
 - (instancetype) initWithApiHandler:(ApiHandler*)apiHandler
@@ -53,6 +55,7 @@
                     gdprUserConsent:(GdprUserConsent*)gdprUserConsent
                      networkManager:(NetworkManager*)networkManager
                           appEvents:(AppEvents *)appEvents
+                     timeToNextCall:(NSTimeInterval)timeToNextCall
 {
     if(self = [super init]) {
         self->apiHandler      = apiHandler;
@@ -64,6 +67,7 @@
         self->networkManager  = networkManager;
         self->appEvents       = appEvents;
         [self refreshConfig];
+        self->cdbTimeToNextCall=timeToNextCall;
     }
 
     return self;
@@ -71,7 +75,6 @@
 
 - (void) setSlots: (NSArray<AdUnit*> *) slots {
     [cacheManager initSlots:slots];
-    // TODO: should we prefetch here as well?
 }
 
 - (NSDictionary *) getBids: (NSArray<AdUnit*> *) slots {
@@ -88,7 +91,10 @@
     if(bid) {
         // Whether a valid bid was returned or not
         // fire call to prefetch here
-        [self prefetchBid:slot];
+        // only call cdb if time to next call has passed
+        if([[NSDate date]timeIntervalSinceReferenceDate] >= self->cdbTimeToNextCall){
+            [self prefetchBid:slot];
+        }
     }
     // if the cache returns nil it means the key wasn't in the cache
     // return an empty bid
@@ -109,18 +115,20 @@
         CLog(@"killSwitch is engaged. No bid will be fetched.");
         return;
     }
-    // move the async to the api handler
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self->apiHandler callCdb:slotId
-                      gdprConsent:self->gdprUserConsent
-                           config:self->config
-                       deviceInfo:self->deviceInfo
-             ahCdbResponseHandler:^(NSArray *cdbBids) {
-            for(CdbBid *bid in cdbBids) {
-                [self->cacheManager setBid:bid forAdUnit:slotId];
-            }
-        }];
-    });
+    
+    [self->apiHandler callCdb:slotId
+                  gdprConsent:self->gdprUserConsent
+                       config:self->config
+                   deviceInfo:self->deviceInfo
+         ahCdbResponseHandler:^(CdbResponse *cdbResponse) {
+             if(cdbResponse.timeToNextCall) {
+                 self->cdbTimeToNextCall = [[NSDate dateWithTimeIntervalSinceNow:cdbResponse.timeToNextCall]
+                                            timeIntervalSinceReferenceDate];
+             }
+             for(CdbBid *bid in cdbResponse.cdbBids) {
+                 [self->cacheManager setBid:bid forAdUnit:slotId];
+             }
+         }];
 }
 
 - (void) refreshConfig {

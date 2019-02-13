@@ -91,7 +91,7 @@
             XCTAssertNotNil(data);
             if(data) {
                 CLog(@"CDB returned : %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-                NSArray *cdbBids = [CdbBid getCdbResponsesFromData:data receivedAt:[NSDate date]];
+                NSArray *cdbBids = [CdbBid getCdbResponsesForData:data receivedAt:[NSDate date]];
                 XCTAssertNotNil(cdbBids);
                 XCTAssertNotEqual(0, cdbBids.count);
             }
@@ -101,7 +101,7 @@
         [self verifyNetworkManagerDelegate:delegateMock withNetworkManager:networkManager];
         [expectation fulfill];
     }];
-    
+
     [self waitForExpectations:@[expectation] timeout:250];
 }
 

@@ -1,13 +1,13 @@
 //
-//  CdbResponse.h
+//  CdbBid.h
 //  pubsdk
 //
 //  Created by Adwait Kulkarni on 12/10/18.
 //  Copyright © 2018 Criteo. All rights reserved.
 //
 
-#ifndef CdbResponse_h
-#define CdbResponse_h
+#ifndef CdbBid_h
+#define CdbBid_h
 
 #import <Foundation/Foundation.h>
 
@@ -31,8 +31,8 @@
  * Helper function to convert NSData returned from a network call
  * to an Array of CDB-Bids
  */
-+ (NSArray *) getCdbResponsesFromData: (NSData *) data
-                           receivedAt: (NSDate *) receivedAt;
++ (NSArray *) getCdbResponsesForData: (NSData *) data
+                          receivedAt: (NSDate *) receivedAt;
 
 - (instancetype) initWithZoneId:(NSNumber *) zoneId
                     placementId:(NSString *) placementId
@@ -43,6 +43,7 @@
                             ttl:(NSTimeInterval) ttl
                        creative:(NSString *) creative
                      displayUrl:(NSString *) displayUrl
+// TODO: Move this to a state object
                      insertTime:(NSDate *) insertTime
 NS_DESIGNATED_INITIALIZER;
 
@@ -52,4 +53,4 @@ NS_DESIGNATED_INITIALIZER;
 - (BOOL) isExpired;
 @end
 
-#endif /* CdbResponse_h */
+#endif /* CdbBid_h */

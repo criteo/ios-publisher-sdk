@@ -36,6 +36,7 @@
                     gdprUserConsent:(GdprUserConsent*)gdprUserConsent
                      networkManager:(NetworkManager*)networkManager
                           appEvents:(AppEvents *)appEvents
+                     timeToNextCall:(NSTimeInterval)timeToNextCall
 NS_DESIGNATED_INITIALIZER;
 
 

@@ -25,11 +25,27 @@
     return self;
 }
 
+// Wrapper method to make the cdb call async
 - (void)     callCdb:(AdUnit *) adUnit
          gdprConsent:(GdprUserConsent *)gdprConsent
               config:(Config *)config
           deviceInfo:(DeviceInfo *)deviceInfo
 ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self doCdbApiCall:adUnit
+               gdprConsent:gdprConsent
+                    config:config
+                deviceInfo:deviceInfo
+      ahCdbResponseHandler:ahCdbResponseHandler];
+    });
+}
+
+// Method that makes the actual call to CDB
+- (void) doCdbApiCall:(AdUnit *) adUnit
+          gdprConsent:(GdprUserConsent *)gdprConsent
+               config:(Config *)config
+           deviceInfo:(DeviceInfo *)deviceInfo
+ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
     if(adUnit.adUnitId.length == 0 ||
        adUnit.size.width == 0.0f ||
        adUnit.size.height == 0.0f) {
@@ -78,8 +94,8 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
     [self.networkManager postToUrl:url postBody:postBody responseHandler:^(NSData *data, NSError *error) {
         if(error == nil) {
             if(data && ahCdbResponseHandler) {
-                NSArray *cdbBids = [CdbBid getCdbResponsesFromData:data receivedAt:[NSDate date]];
-                ahCdbResponseHandler(cdbBids);
+                CdbResponse *cdbResponse = [CdbResponse getCdbResponseForData:data receivedAt:[NSDate date]];
+                ahCdbResponseHandler(cdbResponse);
             } else {
                 CLog(@"Error on post to CDB : response from CDB was nil");
             }
