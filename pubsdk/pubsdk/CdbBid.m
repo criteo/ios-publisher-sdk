@@ -26,7 +26,7 @@ static CdbBid *emptyBid;
     {
         emptyBid = [[CdbBid alloc] initWithZoneId:@(0)
                                       placementId:nil
-                                              cpm:@(0)
+                                              cpm:nil
                                          currency:nil
                                             width:@(0)
                                            height:@(0)
@@ -45,7 +45,7 @@ static CdbBid *emptyBid;
 - (instancetype) init {
     return [self initWithZoneId:@(497747)
                     placementId:@"adunitid"
-                            cpm:@(1.1200000047683716)
+                            cpm:@"0.00"
                        currency:@"EUR"
                           width:@(300)
                          height:@(250)
@@ -57,7 +57,7 @@ static CdbBid *emptyBid;
 
 - (instancetype) initWithZoneId:(NSNumber *) zoneId
                     placementId:(NSString *) placementId
-                            cpm:(NSNumber *) cpm
+                            cpm:(NSString *) cpm
                        currency:(NSString *) currency
                           width:(NSNumber *) width
                          height:(NSNumber *) height
@@ -102,7 +102,7 @@ static CdbBid *emptyBid;
     CdbBid *obj = (CdbBid *)object;
     if((self.zoneId == obj.zoneId) || [self.zoneId isEqual:obj.zoneId]) {
         if((self.placementId == obj.placementId) || [self.placementId isEqualToString:obj.placementId]) {
-            if((self.cpm == obj.cpm) || [self.cpm isEqual:obj.cpm]) {
+            if((self.cpm == obj.cpm) || [self.cpm isEqualToString:obj.cpm]) {
                 if((self.currency == obj.currency) || [self.currency isEqualToString:obj.currency]) {
                     if((self.width == obj.width) || [self.width isEqual:obj.width]) {
                         if((self.height == obj.height) || [self.height isEqual:obj.height]) {
@@ -137,7 +137,8 @@ static CdbBid *emptyBid;
         for (NSDictionary *slot in slots[@"slots"]) {
             NSNumber *zoneId = slot[@"zoneId"];
             NSString *placementId = slot[@"placementId"];
-            NSNumber *cpm = slot[@"cpm"];
+            // TODO: once CDB starts returning strings instead of floats, clean this up
+            NSString *cpm = [slot[@"cpm"] isKindOfClass:[NSString class]]? slot[@"cpm"] : [slot[@"cpm"] stringValue];
             NSString *currency = slot[@"currency"];
             NSNumber *width = slot[@"width"];
             NSNumber *height = slot[@"height"];

@@ -128,7 +128,7 @@
 - (void) testAddCriteoBidToRequest {
     AdUnit *slot_1 = [[AdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
 
-    CdbBid *testBid_1 = [[CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@(1.1200000047683716) currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
+    CdbBid *testBid_1 = [[CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
 
     CacheManager *cache = [[CacheManager alloc] init];
     [cache setBid:testBid_1 forAdUnit:slot_1];
@@ -154,13 +154,13 @@
 
     XCTAssertTrue(dfpBidRequest.customTargeting.count > 2);
     XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[dfpBidRequest.customTargeting objectForKey:@"crt_displayUrl"]);
-    XCTAssertEqualObjects([testBid_1 cpm].stringValue, [dfpBidRequest.customTargeting objectForKey:@"crt_cpm"]);
+    XCTAssertEqualObjects([testBid_1 cpm], [dfpBidRequest.customTargeting objectForKey:@"crt_cpm"]);
 }
 
 - (void) testAddCriteoBidToRequestWhenKillSwitchIsEngaged {
     AdUnit *slot_1 = [[AdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
 
-    CdbBid *testBid_1 = [[CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@(1.1200000047683716) currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
+    CdbBid *testBid_1 = [[CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
 
     CacheManager *cache = [[CacheManager alloc] init];
     [cache setBid:testBid_1 forAdUnit:slot_1];

@@ -30,7 +30,7 @@
     NetworkManager *mockNetworkManager = OCMStrictClassMock([NetworkManager class]);
 
     // Json response from CDB
-    NSString *rawJsonCdbResponse = @"{\"slots\":[{\"placementId\": \"adunitid_1\",\"cpm\":1.1200000047683716,\"currency\":\"EUR\",\"width\": 300,\"height\": 250, \"ttl\": 600, \"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"}]}";
+    NSString *rawJsonCdbResponse = @"{\"slots\":[{\"placementId\": \"adunitid_1\",\"cpm\":\"1.12\",\"currency\":\"EUR\",\"width\": 300,\"height\": 250, \"ttl\": 600, \"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"}]}";
 
     NSData *responseData = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
     // OCM substitues "[NSNull null]" to nil at runtime
@@ -42,7 +42,7 @@
 
     ApiHandler *apiHandler = [[ApiHandler alloc] initWithNetworkManager:mockNetworkManager];
 
-    CdbBid *testBid_1 = [[CdbBid alloc] initWithZoneId:nil placementId:@"adunitid_1" cpm:@(1.1200000047683716)
+    CdbBid *testBid_1 = [[CdbBid alloc] initWithZoneId:nil placementId:@"adunitid_1" cpm:@"1.12"
                                               currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil
                                             displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
                                             insertTime:[NSDate date]];

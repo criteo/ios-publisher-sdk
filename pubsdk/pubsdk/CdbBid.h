@@ -15,7 +15,7 @@
 
 @property (readonly, nonatomic) NSString *placementId;
 @property (readonly, nonatomic) NSNumber *zoneId;
-@property (readonly, nonatomic) NSNumber *cpm;
+@property (readonly, nonatomic) NSString *cpm;
 @property (readonly, nonatomic) NSString *currency;
 @property (readonly, nonatomic) NSNumber *width;
 @property (readonly, nonatomic) NSNumber *height;
@@ -36,7 +36,7 @@
 
 - (instancetype) initWithZoneId:(NSNumber *) zoneId
                     placementId:(NSString *) placementId
-                            cpm:(NSNumber *) cpm
+                            cpm:(NSString *) cpm
                        currency:(NSString *) currency
                           width:(NSNumber *) width
                          height:(NSNumber *) height
