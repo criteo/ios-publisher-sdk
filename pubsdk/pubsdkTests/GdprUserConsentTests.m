@@ -22,7 +22,6 @@
 
 - (void) tearDown {
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        NSLog(@"[tearDown] gdprApplies %@", [userDefaults objectForKey:@"IABConsent_SubjectToGDPR"]);
         [userDefaults setObject:nil forKey:@"IABConsent_SubjectToGDPR"];
         [userDefaults setObject:nil forKey:@"IABConsent_ConsentString"];
         [userDefaults setObject:nil forKey:@"IABConsent_ParsedVendorConsents"];
@@ -35,7 +34,6 @@
     NSString *vendorString = @"0000000000000010000000000000000000000100000000000000000000000000000000000000000000000000001";
 
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSLog(@"gdprApplies %@", [userDefaults objectForKey:@"IABConsent_SubjectToGDPR"]);
     [userDefaults setObject:gdprApplies forKey:@"IABConsent_SubjectToGDPR"];
     [userDefaults setObject:consentString forKey:@"IABConsent_ConsentString"];
     [userDefaults setObject:vendorString forKey:@"IABConsent_ParsedVendorConsents"];
@@ -44,9 +42,6 @@
     XCTAssertEqual([gdpr consentGiven], YES);
     XCTAssertTrue([consentString isEqualToString:[gdpr consentString]]);
     XCTAssertEqual([gdpr gdprApplies], (BOOL)gdprApplies.integerValue);
-
-    [self addTeardownBlock:^{
-    }];
 }
 
 - (void) testGdprGetCriteoNotApprovedVendor {
@@ -64,9 +59,6 @@
     XCTAssertEqual([gdpr consentGiven], NO);
     XCTAssertTrue([consentString isEqualToString:[gdpr consentString]]);
     XCTAssertEqual([gdpr gdprApplies], (BOOL)gdprApplies.integerValue);
-
-    [self addTeardownBlock:^{
-    }];
 }
 
 - (void) testTheTestThatIsnt {
@@ -101,9 +93,6 @@
     XCTAssertEqual([gdpr consentGiven], NO);
     XCTAssertTrue([consentString isEqualToString:[gdpr consentString]]);
     XCTAssertEqual([gdpr gdprApplies], (BOOL)gdprApplies.integerValue);
-
-    [self addTeardownBlock:^{
-    }];
 }
 
 @end
