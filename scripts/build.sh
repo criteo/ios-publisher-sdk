@@ -7,7 +7,8 @@ mkdir -p build/output/sim
 
 CONFIGURATION="Release"
 
-set -o pipefail && xcodebuild \
+set -Eeuo pipefail 
+    xcodebuild \
     -workspace fuji.xcworkspace \
         -scheme pubsdk \
         -configuration $CONFIGURATION \
@@ -18,13 +19,13 @@ set -o pipefail && xcodebuild \
         ARCHS='i386 x86_64' \
         VALID_ARCHS='i386 x86_64' \
         ONLY_ACTIVE_ARCH=NO \
-        clean build | xcpretty --report junit --report html
+        clean build | xcpretty
 
         cp -R "build/DerivedData/Build/Products/$CONFIGURATION-iphonesimulator/pubsdk.framework" build/output/sim
 
         mkdir -p build/output/device
 
-        xcodebuild \
+    xcodebuild \
     -workspace fuji.xcworkspace \
         -scheme pubsdk \
         -configuration $CONFIGURATION \
@@ -36,7 +37,7 @@ set -o pipefail && xcodebuild \
         ONLY_ACTIVE_ARCH=NO \
         CODE_SIGN_IDENTITY="" \
         CODE_SIGNING_REQUIRED=NO \
-        build | xcpretty --report junit --report html
+        build | xcpretty
 
         cp -R "build/DerivedData/Build/Products/$CONFIGURATION-iphoneos/pubsdk.framework" build/output/device
 
@@ -54,7 +55,7 @@ cd ../..
 
 CONFIGURATION="Debug"
 
-set -o pipefail && xcodebuild \
+    xcodebuild \
     -workspace fuji.xcworkspace \
         -scheme pubsdk \
         -configuration $CONFIGURATION \
@@ -65,13 +66,13 @@ set -o pipefail && xcodebuild \
         ARCHS='i386 x86_64' \
         VALID_ARCHS='i386 x86_64' \
         ONLY_ACTIVE_ARCH=NO \
-        clean build | xcpretty --report junit --report html
+        clean build test | xcpretty --report junit --report html
 
         cp -R "build/DerivedData/Build/Products/$CONFIGURATION-iphonesimulator/pubsdk.framework" build/output/sim
 
         mkdir -p build/output/device
 
-        xcodebuild \
+    xcodebuild \
     -workspace fuji.xcworkspace \
         -scheme pubsdk \
         -configuration $CONFIGURATION \
@@ -83,7 +84,7 @@ set -o pipefail && xcodebuild \
         ONLY_ACTIVE_ARCH=NO \
         CODE_SIGN_IDENTITY="" \
         CODE_SIGNING_REQUIRED=NO \
-        build | xcpretty --report junit --report html
+        build | xcpretty
 
         cp -R "build/DerivedData/Build/Products/$CONFIGURATION-iphoneos/pubsdk.framework" build/output/device
 
