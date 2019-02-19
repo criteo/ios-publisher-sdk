@@ -125,6 +125,13 @@ didFailToReceiveAdWithError:(nonnull GADRequestError *)error
     _criteoSdk = criteo;
 
     self.bannerInterstitialSwitch.on = NO;
+    [self clearUserDefaults];
+    self.gdprSwitch.on = YES;
+    [self setGdpr:self.gdprSwitch.on];
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+    [self clearUserDefaults];
 }
 
 - (void)addBannerViewToView:(UIView *)bannerView {
@@ -179,6 +186,32 @@ didFailToReceiveAdWithError:(nonnull GADRequestError *)error
         self.textAdUnitWidth.text = @"320";
         self.textAdUnitHeight.text = @"50";
     }
+}
+
+- (IBAction)gdprSwitched:(id)sender {
+    [self setGdpr:self.gdprSwitch.on];
+}
+
+- (void) setGdpr:(BOOL)applies {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setValue:@(applies) forKey:@"IABConsent_SubjectToGDPR"];
+    if(applies) {
+        [userDefaults setValue:@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA"
+                        forKey:@"IABConsent_ConsentString"];
+        //Criteo is at 91
+        [userDefaults setValue:@"0000000000000010000000000000000000000100000000000000000000000000000000000000000000000000001"
+                        forKey:@"IABConsent_ParsedVendorConsents"];
+    } else {
+        [userDefaults removeObjectForKey:@"IABConsent_ConsentString"];
+        [userDefaults removeObjectForKey:@"IABConsent_ParsedVendorConsents"];
+    }
+}
+
+- (void) clearUserDefaults {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults removeObjectForKey:@"IABConsent_SubjectToGDPR"];
+    [userDefaults removeObjectForKey:@"IABConsent_ConsentString"];
+    [userDefaults removeObjectForKey:@"IABConsent_ParsedVendorConsents"];
 }
 
 - (NSArray<AdUnit*>*) createAdUnits

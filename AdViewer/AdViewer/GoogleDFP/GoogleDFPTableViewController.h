@@ -15,19 +15,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface GoogleDFPTableViewController : UITableViewController <NetworkManagerDelegate>
 
-@property (weak, nonatomic) IBOutlet UITextField *textNetworkId;
-@property (weak, nonatomic) IBOutlet UITextField *textAdUnitId;
-@property (weak, nonatomic) IBOutlet UITextField *textAdUnitWidth;
-@property (weak, nonatomic) IBOutlet UITextField *textAdUnitHeight;
-@property (weak, nonatomic) IBOutlet UITextView *textFeedback;
+@property (nonatomic) IBOutlet UITextField *textNetworkId;
+@property (nonatomic) IBOutlet UITextField *textAdUnitId;
+@property (nonatomic) IBOutlet UITextField *textAdUnitWidth;
+@property (nonatomic) IBOutlet UITextField *textAdUnitHeight;
+@property (nonatomic) IBOutlet UITextView *textFeedback;
 @property (nonatomic) Criteo *criteoSdk;
-@property (weak, nonatomic) IBOutlet UISwitch *bannerInterstitialSwitch;
+@property (nonatomic) IBOutlet UISwitch *bannerInterstitialSwitch;
+@property (nonatomic) IBOutlet UISwitch *gdprSwitch;
 
 
 - (IBAction)loadAdClick:(id)sender;
 - (IBAction)clearButtonClick:(id)sender;
 - (IBAction)registerAdUnitClick:(id)sender;
 - (IBAction)bannerInterstitialSwitched:(id)sender;
+- (IBAction)gdprSwitched:(id)sender;
 
 @end
 
