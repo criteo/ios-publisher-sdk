@@ -13,7 +13,7 @@
 @implementation CR_BidManager
 {
     ApiHandler      *apiHandler;
-    CacheManager    *cacheManager;
+    CR_CacheManager *cacheManager;
     Config          *config;
     ConfigManager   *configManager;
     DeviceInfo      *deviceInfo;
@@ -48,7 +48,7 @@
 }
 
 - (instancetype) initWithApiHandler:(ApiHandler*)apiHandler
-                       cacheManager:(CacheManager*)cacheManager
+                       cacheManager:(CR_CacheManager*)cacheManager
                              config:(Config*)config
                       configManager:(ConfigManager*)configManager
                          deviceInfo:(DeviceInfo*)deviceInfo

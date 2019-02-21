@@ -13,7 +13,7 @@
 
 #import "CRAdUnit.h"
 #import "ApiHandler.h"
-#import "CacheManager.h"
+#import "CR_CacheManager.h"
 #import "Config.h"
 #import "ConfigManager.h"
 #import "DeviceInfo.h"
@@ -29,7 +29,7 @@
 - (instancetype) init NS_UNAVAILABLE;
 
 - (instancetype) initWithApiHandler:(ApiHandler*)apiHandler
-                       cacheManager:(CacheManager*)cacheManager
+                       cacheManager:(CR_CacheManager*)cacheManager
                              config:(Config*)config
                       configManager:(ConfigManager*)configManager
                          deviceInfo:(DeviceInfo*)deviceInfo

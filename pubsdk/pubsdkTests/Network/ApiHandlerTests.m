@@ -12,7 +12,7 @@
 #import <OCMock.h>
 
 #import "CR_BidManager.h"
-#import "CacheManager.h"
+#import "CR_CacheManager.h"
 #import "Config.h"
 #import "GdprUserConsent.h"
 #import "Logging.h"

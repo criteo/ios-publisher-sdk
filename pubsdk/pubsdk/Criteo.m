@@ -36,7 +36,7 @@ static Criteo *sharedInstance;
     ApiHandler *apiHandler = [[ApiHandler alloc] initWithNetworkManager:networkManager];
     ConfigManager *configManager = [[ConfigManager alloc] initWithApiHandler:apiHandler];
 
-    CacheManager *cacheManager = [[CacheManager alloc] init];
+    CR_CacheManager *cacheManager = [[CR_CacheManager alloc] init];
     GdprUserConsent *gdpr = [[GdprUserConsent alloc] init];
     CR_AppEvents *appEvents = [[CR_AppEvents alloc] initWithApiHandler:apiHandler
                                                                 config:config
