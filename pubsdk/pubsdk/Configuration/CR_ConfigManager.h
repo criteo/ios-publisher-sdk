@@ -1,13 +1,13 @@
 //
-//  ConfigManager.h
+//  CR_ConfigManager.h
 //  pubsdk
 //
 //  Created by Paul Davis on 1/26/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#ifndef ConfigManager_h
-#define ConfigManager_h
+#ifndef CR_ConfigManager_h
+#define CR_ConfigManager_h
 
 #import <Foundation/Foundation.h>
 #import "ApiHandler.h"
@@ -15,7 +15,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ConfigManager : NSObject
+@interface CR_ConfigManager : NSObject
 
 - (instancetype) init NS_UNAVAILABLE;
 - (instancetype) initWithApiHandler:(ApiHandler*)apiHandler NS_DESIGNATED_INITIALIZER;
@@ -25,4 +25,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_ASSUME_NONNULL_END
 
-#endif /* ConfigManager_h */
+#endif /* CR_ConfigManager_h */

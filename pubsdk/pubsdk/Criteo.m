@@ -34,7 +34,7 @@ static Criteo *sharedInstance;
     DeviceInfo *deviceInfo = [[DeviceInfo alloc] init];
     NetworkManager *networkManager = [[NetworkManager alloc] initWithDeviceInfo:deviceInfo];
     ApiHandler *apiHandler = [[ApiHandler alloc] initWithNetworkManager:networkManager];
-    ConfigManager *configManager = [[ConfigManager alloc] initWithApiHandler:apiHandler];
+    CR_ConfigManager *configManager = [[CR_ConfigManager alloc] initWithApiHandler:apiHandler];
 
     CR_CacheManager *cacheManager = [[CR_CacheManager alloc] init];
     GdprUserConsent *gdpr = [[GdprUserConsent alloc] init];

@@ -1,5 +1,5 @@
 //
-//  ConfigManagerTests.m
+//  CR_ConfigManagerTests.m
 //  pubsdkTests
 //
 //  Created by Paul Davis on 1/26/19.
@@ -10,13 +10,13 @@
 
 #import <OCMock.h>
 
-#import "ConfigManager.h"
+#import "CR_ConfigManager.h"
 
-@interface ConfigManagerTests : XCTestCase
+@interface CR_ConfigManagerTests : XCTestCase
 
 @end
 
-@implementation ConfigManagerTests
+@implementation CR_ConfigManagerTests
 {
     NSDictionary *remoteConfig;
     CR_Config *localConfig;
@@ -48,7 +48,7 @@
 {
     XCTAssertEqual(localConfig.killSwitch, YES, @"Kill switch should be activated at the start of the test");
 
-    ConfigManager *configManager = [[ConfigManager alloc] initWithApiHandler:mockApiHandler];
+    CR_ConfigManager *configManager = [[CR_ConfigManager alloc] initWithApiHandler:mockApiHandler];
     [configManager refreshConfig:localConfig];
 
     XCTAssertEqual(localConfig.killSwitch, NO, @"Kill switch should be deactivated after config is refreshed from remote API");

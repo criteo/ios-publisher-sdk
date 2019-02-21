@@ -1,14 +1,14 @@
 //
-//  ConfigManager.m
+//  CR_ConfigManager.m
 //  pubsdk
 //
 //  Created by Paul Davis on 1/26/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#import "ConfigManager.h"
+#import "CR_ConfigManager.h"
 
-@implementation ConfigManager
+@implementation CR_ConfigManager
 {
     ApiHandler *apiHandler;
 }

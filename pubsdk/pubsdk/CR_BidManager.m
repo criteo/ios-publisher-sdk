@@ -12,15 +12,15 @@
 
 @implementation CR_BidManager
 {
-    ApiHandler      *apiHandler;
-    CR_CacheManager *cacheManager;
-    CR_Config       *config;
-    ConfigManager   *configManager;
-    DeviceInfo      *deviceInfo;
-    GdprUserConsent *gdprUserConsent;
-    NetworkManager  *networkManager;
-    CR_AppEvents    *appEvents;
-    NSTimeInterval  cdbTimeToNextCall;
+    ApiHandler         *apiHandler;
+    CR_CacheManager    *cacheManager;
+    CR_Config          *config;
+    CR_ConfigManager   *configManager;
+    DeviceInfo         *deviceInfo;
+    GdprUserConsent    *gdprUserConsent;
+    NetworkManager     *networkManager;
+    CR_AppEvents       *appEvents;
+    NSTimeInterval     cdbTimeToNextCall;
 }
 
 // Properties
@@ -50,7 +50,7 @@
 - (instancetype) initWithApiHandler:(ApiHandler*)apiHandler
                        cacheManager:(CR_CacheManager*)cacheManager
                              config:(CR_Config*)config
-                      configManager:(ConfigManager*)configManager
+                      configManager:(CR_ConfigManager*)configManager
                          deviceInfo:(DeviceInfo*)deviceInfo
                     gdprUserConsent:(GdprUserConsent*)gdprUserConsent
                      networkManager:(NetworkManager*)networkManager

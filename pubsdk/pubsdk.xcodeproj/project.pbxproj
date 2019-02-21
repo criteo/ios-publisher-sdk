@@ -12,9 +12,9 @@
 		255151C522027C9500F76E3F /* NSString+UrlEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 255151C322027C9500F76E3F /* NSString+UrlEncoder.h */; };
 		255151C622027C9500F76E3F /* NSString+UrlEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 255151C422027C9500F76E3F /* NSString+UrlEncoder.m */; };
 		255151C92202AEF800F76E3F /* NSString+UrlEncoderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 255151C82202AEF800F76E3F /* NSString+UrlEncoderTests.m */; };
-		258821D221FD3FB600398E9F /* ConfigManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 258821D021FD3FB600398E9F /* ConfigManager.h */; };
-		258821D321FD3FB600398E9F /* ConfigManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821D121FD3FB600398E9F /* ConfigManager.m */; };
-		258821D521FD5D8200398E9F /* ConfigManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821D421FD5D8200398E9F /* ConfigManagerTests.m */; };
+		258821D221FD3FB600398E9F /* CR_ConfigManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 258821D021FD3FB600398E9F /* CR_ConfigManager.h */; };
+		258821D321FD3FB600398E9F /* CR_ConfigManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821D121FD3FB600398E9F /* CR_ConfigManager.m */; };
+		258821D521FD5D8200398E9F /* CR_ConfigManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821D421FD5D8200398E9F /* CR_ConfigManagerTests.m */; };
 		258821D922000F8000398E9F /* DeviceInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 258821D722000F8000398E9F /* DeviceInfo.h */; };
 		258821DA22000F8000398E9F /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821D822000F8000398E9F /* DeviceInfo.m */; };
 		258821DD220015AF00398E9F /* DeviceInfoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821DC220015AF00398E9F /* DeviceInfoTests.m */; };
@@ -79,9 +79,9 @@
 		255151C322027C9500F76E3F /* NSString+UrlEncoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+UrlEncoder.h"; sourceTree = "<group>"; };
 		255151C422027C9500F76E3F /* NSString+UrlEncoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+UrlEncoder.m"; sourceTree = "<group>"; };
 		255151C82202AEF800F76E3F /* NSString+UrlEncoderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+UrlEncoderTests.m"; sourceTree = "<group>"; };
-		258821D021FD3FB600398E9F /* ConfigManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfigManager.h; sourceTree = "<group>"; };
-		258821D121FD3FB600398E9F /* ConfigManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfigManager.m; sourceTree = "<group>"; };
-		258821D421FD5D8200398E9F /* ConfigManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfigManagerTests.m; sourceTree = "<group>"; };
+		258821D021FD3FB600398E9F /* CR_ConfigManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_ConfigManager.h; sourceTree = "<group>"; };
+		258821D121FD3FB600398E9F /* CR_ConfigManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_ConfigManager.m; sourceTree = "<group>"; };
+		258821D421FD5D8200398E9F /* CR_ConfigManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_ConfigManagerTests.m; sourceTree = "<group>"; };
 		258821D722000F8000398E9F /* DeviceInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceInfo.h; sourceTree = "<group>"; };
 		258821D822000F8000398E9F /* DeviceInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceInfo.m; sourceTree = "<group>"; };
 		258821DC220015AF00398E9F /* DeviceInfoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceInfoTests.m; sourceTree = "<group>"; };
@@ -177,8 +177,8 @@
 			children = (
 				E104B6B621E92D4B004D86C4 /* CR_Config.h */,
 				E12A7F5921FA6FA4002B4548 /* CR_Config.m */,
-				258821D021FD3FB600398E9F /* ConfigManager.h */,
-				258821D121FD3FB600398E9F /* ConfigManager.m */,
+				258821D021FD3FB600398E9F /* CR_ConfigManager.h */,
+				258821D121FD3FB600398E9F /* CR_ConfigManager.m */,
 				258821D722000F8000398E9F /* DeviceInfo.h */,
 				258821D822000F8000398E9F /* DeviceInfo.m */,
 			);
@@ -189,7 +189,7 @@
 			isa = PBXGroup;
 			children = (
 				E12A7F5B21FBFAE6002B4548 /* CR_ConfigTests.m */,
-				258821D421FD5D8200398E9F /* ConfigManagerTests.m */,
+				258821D421FD5D8200398E9F /* CR_ConfigManagerTests.m */,
 				258821DC220015AF00398E9F /* DeviceInfoTests.m */,
 				25B6505C2208C29D008416D3 /* LoggingTests.m */,
 			);
@@ -329,7 +329,7 @@
 			files = (
 				255151B822012BF100F76E3F /* Criteo.h in Headers */,
 				255151C522027C9500F76E3F /* NSString+UrlEncoder.h in Headers */,
-				258821D221FD3FB600398E9F /* ConfigManager.h in Headers */,
+				258821D221FD3FB600398E9F /* CR_ConfigManager.h in Headers */,
 				25B6505A2206AB40008416D3 /* Logging.h in Headers */,
 				E1F2737521B5F08D00A2FBFA /* pubsdk.h in Headers */,
 				258821D922000F8000398E9F /* DeviceInfo.h in Headers */,
@@ -467,7 +467,7 @@
 				258821DA22000F8000398E9F /* DeviceInfo.m in Sources */,
 				E104B6AD21E41D60004D86C4 /* CRAdUnit.m in Sources */,
 				E1F2738421B9B58900A2FBFA /* NetworkManager.m in Sources */,
-				258821D321FD3FB600398E9F /* ConfigManager.m in Sources */,
+				258821D321FD3FB600398E9F /* CR_ConfigManager.m in Sources */,
 				E1F2738721B9BF4900A2FBFA /* ApiHandler.m in Sources */,
 				E1F273C221C9765100A2FBFA /* CR_CacheManager.m in Sources */,
 				E12A7F5A21FA6FA4002B4548 /* CR_Config.m in Sources */,
@@ -497,7 +497,7 @@
 				E12A7F5E21FFBD2F002B4548 /* CR_CacheManagerTests.m in Sources */,
 				258821DD220015AF00398E9F /* DeviceInfoTests.m in Sources */,
 				E104B6B521E580E9004D86C4 /* CR_CdbBidTests.m in Sources */,
-				258821D521FD5D8200398E9F /* ConfigManagerTests.m in Sources */,
+				258821D521FD5D8200398E9F /* CR_ConfigManagerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
