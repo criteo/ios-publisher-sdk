@@ -1,5 +1,5 @@
 //
-//  NSString+UrlEncoder.h
+//  NSString+CR_UrlEncoder.h
 //  pubsdk
 //
 //  Created by Paul Davis on 1/30/19.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSString (UrlEncoder)
+@interface NSString (CR_UrlEncoder)
 
 - (NSString*) urlEncode;
 

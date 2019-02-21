@@ -8,7 +8,7 @@
 
 #import "CR_CdbBid.h"
 #import "Logging.h"
-#import "NSString+UrlEncoder.h"
+#import "NSString+CR_UrlEncoder.h"
 
 @interface CR_CdbBid ()
 

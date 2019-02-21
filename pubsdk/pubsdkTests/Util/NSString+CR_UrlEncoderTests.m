@@ -8,13 +8,13 @@
 
 #import <XCTest/XCTest.h>
 
-#import "NSString+UrlEncoder.h"
+#import "NSString+CR_UrlEncoder.h"
 
-@interface NSString_UrlEncoderTests : XCTestCase
+@interface NSString_CR_UrlEncoderTests : XCTestCase
 
 @end
 
-@implementation NSString_UrlEncoderTests
+@implementation NSString_CR_UrlEncoderTests
 
 - (void)setUp {
 }

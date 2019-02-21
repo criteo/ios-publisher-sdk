@@ -1,17 +1,17 @@
 //
-//  NSString+UrlEncoder.m
+//  NSString+CR_UrlEncoder.m
 //  pubsdk
 //
 //  Created by Paul Davis on 1/30/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#import "NSString+UrlEncoder.h"
+#import "NSString+CR_UrlEncoder.h"
 
 static NSString *charactersToEscape = @"!*'();:@&=+$,/?%#[]\" ";
 static NSCharacterSet *allowedCharacters = nil;
 
-@implementation NSString (UrlEncoder)
+@implementation NSString (CR_UrlEncoder)
 
 - (NSString*) urlEncode
 {
