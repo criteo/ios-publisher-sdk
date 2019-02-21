@@ -12,13 +12,13 @@
 #import <Foundation/Foundation.h>
 
 #import "CR_DeviceInfo.h"
-#import "NetworkManagerDelegate.h"
+#import "CR_NetworkManagerDelegate.h"
 
 typedef void (^CR_NMResponse)(NSData *data, NSError *error);
 
 @interface CR_NetworkManager : NSObject
 
-@property (nonatomic) id<NetworkManagerDelegate> delegate;
+@property (nonatomic) id<CR_NetworkManagerDelegate> delegate;
 
 - (instancetype) init NS_UNAVAILABLE;
 - (instancetype) initWithDeviceInfo:(CR_DeviceInfo*)deviceInfo NS_DESIGNATED_INITIALIZER;

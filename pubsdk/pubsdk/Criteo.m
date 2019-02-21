@@ -18,12 +18,12 @@ static Criteo *sharedInstance;
 
 @implementation Criteo
 
-- (id<NetworkManagerDelegate>) networkMangerDelegate
+- (id<CR_NetworkManagerDelegate>) networkMangerDelegate
 {
     return bidManager.networkMangerDelegate;
 }
 
-- (void) setNetworkMangerDelegate:(id<NetworkManagerDelegate>)networkMangerDelegate
+- (void) setNetworkMangerDelegate:(id<CR_NetworkManagerDelegate>)networkMangerDelegate
 {
     bidManager.networkMangerDelegate = networkMangerDelegate;
 }

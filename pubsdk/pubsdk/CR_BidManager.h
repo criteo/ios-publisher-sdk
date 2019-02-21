@@ -19,12 +19,12 @@
 #import "CR_DeviceInfo.h"
 #import "CR_GdprUserConsent.h"
 #import "CR_NetworkManager.h"
-#import "NetworkManagerDelegate.h"
+#import "CR_NetworkManagerDelegate.h"
 #import "CR_AppEvents.h"
 
 @interface CR_BidManager : NSObject
 
-@property (nonatomic) id<NetworkManagerDelegate> networkMangerDelegate;
+@property (nonatomic) id<CR_NetworkManagerDelegate> networkMangerDelegate;
 
 - (instancetype) init NS_UNAVAILABLE;
 

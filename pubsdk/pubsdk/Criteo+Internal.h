@@ -9,11 +9,11 @@
 #ifndef Criteo_Internal_h
 #define Criteo_Internal_h
 
-#import "NetworkManagerDelegate.h"
+#import "CR_NetworkManagerDelegate.h"
 
 @interface Criteo ()
 
-@property (nonatomic) id<NetworkManagerDelegate> networkMangerDelegate;
+@property (nonatomic) id<CR_NetworkManagerDelegate> networkMangerDelegate;
 
 @end
 

@@ -15,7 +15,7 @@
 #import "CR_Config.h"
 #import "Logging.h"
 #import "CR_NetworkManager.h"
-#import "NetworkManagerDelegate.h"
+#import "CR_NetworkManagerDelegate.h"
 
 @interface CR_NetworkManagerTests : XCTestCase
 
@@ -76,7 +76,7 @@
     NSURL *url = [NSURL URLWithString: @"http://directbidder-test-app.par.preprod.crto.in/inapp/v1?profileId=235"];
     
     CR_NetworkManager *networkManager = [[CR_NetworkManager alloc] initWithDeviceInfo:deviceInfo];
-    id<NetworkManagerDelegate> delegateMock = [self stubNetworkManagerDelegateForNetworkManager:networkManager];
+    id<CR_NetworkManagerDelegate> delegateMock = [self stubNetworkManagerDelegateForNetworkManager:networkManager];
 
     networkManager.delegate = delegateMock;
 
@@ -113,7 +113,7 @@
     NSURL *url = [NSURL URLWithString: urlString];
     
     CR_NetworkManager *networkManager = [[CR_NetworkManager alloc] initWithDeviceInfo:deviceInfo];
-    id<NetworkManagerDelegate> delegateMock = [self stubNetworkManagerDelegateForNetworkManager:networkManager];
+    id<CR_NetworkManagerDelegate> delegateMock = [self stubNetworkManagerDelegateForNetworkManager:networkManager];
 
     networkManager.delegate = delegateMock;
 
@@ -137,9 +137,9 @@
     [self waitForExpectations:@[expectation] timeout:250];
 }
 
-- (id<NetworkManagerDelegate>) stubNetworkManagerDelegateForNetworkManager:(CR_NetworkManager*)networkManager
+- (id<CR_NetworkManagerDelegate>) stubNetworkManagerDelegateForNetworkManager:(CR_NetworkManager*)networkManager
 {
-    id<NetworkManagerDelegate> delegateMock = OCMStrictProtocolMock(@protocol(NetworkManagerDelegate));
+    id<CR_NetworkManagerDelegate> delegateMock = OCMStrictProtocolMock(@protocol(CR_NetworkManagerDelegate));
 
     OCMStub([delegateMock networkManager:networkManager sentRequest:[OCMArg isKindOfClass:NSURLRequest.class]]);
     OCMStub([delegateMock networkManager:networkManager
@@ -150,7 +150,7 @@
     return delegateMock;
 }
 
-- (void) verifyNetworkManagerDelegate:(id<NetworkManagerDelegate>)delegateMock
+- (void) verifyNetworkManagerDelegate:(id<CR_NetworkManagerDelegate>)delegateMock
                    withNetworkManager:(CR_NetworkManager*)networkManager
                           expectation:(XCTestExpectation*)expectation
 {

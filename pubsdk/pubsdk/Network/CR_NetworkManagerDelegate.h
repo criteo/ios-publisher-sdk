@@ -1,13 +1,13 @@
 //
-//  NetworkManagerDelegate.h
+//  CR_NetworkManagerDelegate.h
 //  pubsdk
 //
 //  Created by Paul Davis on 2/5/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#ifndef NetworkManagerDelegate_h
-#define NetworkManagerDelegate_h
+#ifndef CR_NetworkManagerDelegate_h
+#define CR_NetworkManagerDelegate_h
 
 #import <Foundation/Foundation.h>
 
@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class CR_NetworkManager;
 
-@protocol NetworkManagerDelegate <NSObject>
+@protocol CR_NetworkManagerDelegate <NSObject>
 
 - (void) networkManager:(CR_NetworkManager*)manager sentRequest:(NSURLRequest*)request;
 - (void) networkManager:(CR_NetworkManager*)manager receivedResponse:(NSURLResponse*)response withData:(NSData*)data error:(NSError*)error;
@@ -24,4 +24,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_ASSUME_NONNULL_END
 
-#endif /* NetworkManagerDelegate_h */
+#endif /* CR_NetworkManagerDelegate_h */
