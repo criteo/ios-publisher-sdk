@@ -80,14 +80,14 @@
 - (NSDictionary *) getBids: (NSArray<CRAdUnit*> *) slots {
     NSMutableDictionary *bids = [[NSMutableDictionary alloc] init];
     for(CRAdUnit *slot in slots) {
-        CdbBid *bid = [self getBid:slot];
+        CR_CdbBid *bid = [self getBid:slot];
         [bids setObject:bid forKey:slot];
     }
     return bids;
 }
 
-- (CdbBid *) getBid:(CRAdUnit *) slot {
-    CdbBid *bid = [cacheManager getBid:slot];
+- (CR_CdbBid *) getBid:(CRAdUnit *) slot {
+    CR_CdbBid *bid = [cacheManager getBid:slot];
     if(bid) {
         // Whether a valid bid was returned or not
         // fire call to prefetch here
@@ -99,7 +99,7 @@
     // if the cache returns nil it means the key wasn't in the cache
     // return an empty bid
     else {
-        bid = [CdbBid emptyBid];
+        bid = [CR_CdbBid emptyBid];
     }
     return bid;
 }
@@ -125,7 +125,7 @@
                  self->cdbTimeToNextCall = [[NSDate dateWithTimeIntervalSinceNow:cdbResponse.timeToNextCall]
                                             timeIntervalSinceReferenceDate];
              }
-             for(CdbBid *bid in cdbResponse.cdbBids) {
+             for(CR_CdbBid *bid in cdbResponse.cdbBids) {
                  [self->cacheManager setBid:bid forAdUnit:slotId];
              }
          }];
@@ -148,7 +148,7 @@
         CLog(@"killSwitch is engaged. No bid will be fetched.");
         return;
     }
-    CdbBid *fetchedBid = [self getBid:adUnit];
+    CR_CdbBid *fetchedBid = [self getBid:adUnit];
     if ([fetchedBid isEmpty]) {
         return;
     }

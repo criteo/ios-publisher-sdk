@@ -44,7 +44,7 @@ NS_DESIGNATED_INITIALIZER;
 
 - (NSDictionary *) getBids: (NSArray<CRAdUnit*> *) slots;
 
-- (CdbBid *) getBid: (CRAdUnit *) slot;
+- (CR_CdbBid *) getBid: (CRAdUnit *) slot;
 
 - (void) prefetchBid: (CRAdUnit *) slotId;
 

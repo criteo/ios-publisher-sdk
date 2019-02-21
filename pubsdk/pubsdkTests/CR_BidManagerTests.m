@@ -12,7 +12,7 @@
 #import <OCMock.h>
 
 #import "CR_BidManager.h"
-#import "CdbBid.h"
+#import "CR_CdbBid.h"
 #import "DummyDfpRequest.h"
 
 @interface CR_BidManagerTests : XCTestCase
@@ -26,11 +26,11 @@
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
 
     // initialized slots with fetched bids
-    CdbBid *testBid = [[CdbBid alloc] init];
+    CR_CdbBid *testBid = [[CR_CdbBid alloc] init];
     CRAdUnit *testAdUnit = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
     cache.bidCache[testAdUnit] = testBid;
 
-    CdbBid *testBid_2 = [[CdbBid alloc] init];
+    CR_CdbBid *testBid_2 = [[CR_CdbBid alloc] init];
     CRAdUnit *testAdUnit_2 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
     cache.bidCache[testAdUnit_2] = testBid_2;
 
@@ -74,7 +74,7 @@
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
 
     // initialized slot that has no bid fetched for it
-    CdbBid *testEmptyBid = [CdbBid emptyBid];
+    CR_CdbBid *testEmptyBid = [CR_CdbBid emptyBid];
     CRAdUnit *testEmptyAdUnit = [[CRAdUnit alloc] initWithAdUnitId:@"thisShouldReturnEmptyBid" width:300 height:250];
     cache.bidCache[testEmptyAdUnit] = testEmptyBid;
 
@@ -128,7 +128,7 @@
 - (void) testAddCriteoBidToRequest {
     CRAdUnit *slot_1 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
 
-    CdbBid *testBid_1 = [[CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
+    CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
 
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
     [cache setBid:testBid_1 forAdUnit:slot_1];
@@ -160,7 +160,7 @@
 - (void) testAddCriteoBidToRequestWhenKillSwitchIsEngaged {
     CRAdUnit *slot_1 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
 
-    CdbBid *testBid_1 = [[CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
+    CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
 
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
     [cache setBid:testBid_1 forAdUnit:slot_1];
@@ -196,11 +196,11 @@
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
 
     // initialized slots with fetched bids
-    CdbBid *testBid = [[CdbBid alloc] init];
+    CR_CdbBid *testBid = [[CR_CdbBid alloc] init];
     CRAdUnit *testAdUnit = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
     cache.bidCache[testAdUnit] = testBid;
 
-    CdbBid *testBid_2 = [[CdbBid alloc] init];
+    CR_CdbBid *testBid_2 = [[CR_CdbBid alloc] init];
     CRAdUnit *testAdUnit_2 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
     cache.bidCache[testAdUnit_2] = testBid_2;
 

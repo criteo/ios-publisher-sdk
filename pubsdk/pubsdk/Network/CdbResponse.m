@@ -22,7 +22,7 @@
 + (CdbResponse *)getCdbResponseForData:(NSData *)data receivedAt:(NSDate *)receivedAt {
     CdbResponse *cdbResponse = [[CdbResponse alloc] init];
     cdbResponse.responseTime = receivedAt;
-    cdbResponse.cdbBids = [CdbBid getCdbResponsesForData:data receivedAt:receivedAt];
+    cdbResponse.cdbBids = [CR_CdbBid getCdbResponsesForData:data receivedAt:receivedAt];
     cdbResponse.timeToNextCall = 0;
 
     NSError *e = nil;

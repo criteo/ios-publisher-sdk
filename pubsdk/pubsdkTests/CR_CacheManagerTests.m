@@ -22,10 +22,10 @@
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
     CGSize adSize = CGSizeMake(200, 100);
     CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:@"a_test_placement" size:adSize];
-    CdbBid *testBid = [[CdbBid alloc] initWithZoneId:nil placementId:adUnit.adUnitId cpm:@"0.0312" currency:@"USD" width:@(adUnit.size.width) height:@(adUnit.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date]];
+    CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:adUnit.adUnitId cpm:@"0.0312" currency:@"USD" width:@(adUnit.size.width) height:@(adUnit.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date]];
 
     [cache setBid:testBid forAdUnit:adUnit];
-    CdbBid *retreivedBid = [cache getBid:adUnit];
+    CR_CdbBid *retreivedBid = [cache getBid:adUnit];
     XCTAssertNotNil(retreivedBid);
     XCTAssertEqualObjects(adUnit.adUnitId, retreivedBid.placementId);
 }
@@ -34,9 +34,9 @@
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
     CGSize adSize = CGSizeMake(200, 100);
     CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:@"a_test_placement" size:adSize];
-    CdbBid *testBid = [[CdbBid alloc] initWithZoneId:nil placementId:adUnit.adUnitId cpm:@"0.0312" currency:@"USD" width:@(adUnit.size.width) height:@(adUnit.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-400]];
+    CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:adUnit.adUnitId cpm:@"0.0312" currency:@"USD" width:@(adUnit.size.width) height:@(adUnit.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-400]];
     [cache setBid:testBid forAdUnit:adUnit];
-    CdbBid *retreivedBid = [cache getBid:adUnit];
-    XCTAssertEqualObjects([CdbBid emptyBid], retreivedBid);
+    CR_CdbBid *retreivedBid = [cache getBid:adUnit];
+    XCTAssertEqualObjects([CR_CdbBid emptyBid], retreivedBid);
 }
 @end

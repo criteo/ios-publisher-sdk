@@ -10,13 +10,13 @@
 #define CdbResponse_h
 
 #import <Foundation/Foundation.h>
-#import "CdbBid.h"
+#import "CR_CdbBid.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CdbResponse : NSObject
 
-@property (nonatomic) NSArray<CdbBid *> *cdbBids;
+@property (nonatomic) NSArray<CR_CdbBid *> *cdbBids;
 @property (nonatomic) NSUInteger timeToNextCall;
 @property (nonatomic) NSDate *responseTime;
 

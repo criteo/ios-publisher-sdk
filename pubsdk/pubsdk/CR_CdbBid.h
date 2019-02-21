@@ -1,17 +1,17 @@
 //
-//  CdbBid.h
+//  CR_CdbBid.h
 //  pubsdk
 //
 //  Created by Adwait Kulkarni on 12/10/18.
 //  Copyright © 2018 Criteo. All rights reserved.
 //
 
-#ifndef CdbBid_h
-#define CdbBid_h
+#ifndef CR_CdbBid_h
+#define CR_CdbBid_h
 
 #import <Foundation/Foundation.h>
 
-@interface CdbBid : NSObject <NSCopying>
+@interface CR_CdbBid : NSObject <NSCopying>
 
 @property (readonly, nonatomic) NSString *placementId;
 @property (readonly, nonatomic) NSNumber *zoneId;
@@ -48,9 +48,9 @@
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype) copyWithZone:(NSZone *) zone;
-- (BOOL) isEqual:(CdbBid *) object;
+- (BOOL) isEqual:(CR_CdbBid *) object;
 - (BOOL) isEmpty;
 - (BOOL) isExpired;
 @end
 
-#endif /* CdbBid_h */
+#endif /* CR_CdbBid_h */

@@ -20,11 +20,11 @@
 
 - (void) initSlots: (NSArray *) slots {
     for(CRAdUnit *slot in slots) {
-        _bidCache[slot] = [CdbBid emptyBid];
+        _bidCache[slot] = [CR_CdbBid emptyBid];
     }
 }
 
-- (void) setBid: (CdbBid *) bid
+- (void) setBid: (CR_CdbBid *) bid
       forAdUnit: (CRAdUnit *) adUnit {
     @synchronized (_bidCache) {
         if(adUnit) {
@@ -35,13 +35,13 @@
     }
 }
 
-- (CdbBid *) getBid: (CRAdUnit *) slotId {
-    CdbBid *bid = [_bidCache objectForKey:slotId];
+- (CR_CdbBid *) getBid: (CRAdUnit *) slotId {
+    CR_CdbBid *bid = [_bidCache objectForKey:slotId];
     if(bid) {
-        _bidCache[slotId] = [CdbBid emptyBid];
+        _bidCache[slotId] = [CR_CdbBid emptyBid];
         // check ttl hasn't elapsed
         if (bid.isExpired) {
-            return [CdbBid emptyBid];
+            return [CR_CdbBid emptyBid];
         }
     }
     return bid;

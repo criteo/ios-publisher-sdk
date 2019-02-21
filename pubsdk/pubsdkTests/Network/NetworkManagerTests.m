@@ -11,7 +11,7 @@
 #import <XCTest/XCTest.h>
 
 #import "CRAdUnit.h"
-#import "CdbBid.h"
+#import "CR_CdbBid.h"
 #import "Config.h"
 #import "Logging.h"
 #import "NetworkManager.h"
@@ -91,7 +91,7 @@
             XCTAssertNotNil(data);
             if(data) {
                 CLog(@"CDB returned : %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-                NSArray *cdbBids = [CdbBid getCdbResponsesForData:data receivedAt:[NSDate date]];
+                NSArray *cdbBids = [CR_CdbBid getCdbResponsesForData:data receivedAt:[NSDate date]];
                 XCTAssertNotNil(cdbBids);
                 XCTAssertNotEqual(0, cdbBids.count);
             }

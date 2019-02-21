@@ -25,7 +25,7 @@
 		E104B6AD21E41D60004D86C4 /* CRAdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6AC21E41D60004D86C4 /* CRAdUnit.m */; };
 		E104B6B121E57F0A004D86C4 /* CRAdUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6B021E57F0A004D86C4 /* CRAdUnitTests.m */; };
 		E104B6B321E57F7B004D86C4 /* CR_BidManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6B221E57F7B004D86C4 /* CR_BidManagerTests.m */; };
-		E104B6B521E580E9004D86C4 /* CdbBidTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6B421E580E9004D86C4 /* CdbBidTests.m */; };
+		E104B6B521E580E9004D86C4 /* CR_CdbBidTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6B421E580E9004D86C4 /* CR_CdbBidTests.m */; };
 		E104B6B821ED19A7004D86C4 /* ApiHandlerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6B721ED19A7004D86C4 /* ApiHandlerTests.m */; };
 		E104B6BB21EFE733004D86C4 /* NetworkManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6BA21EFE733004D86C4 /* NetworkManagerTests.m */; };
 		E104B6BD21F0253E004D86C4 /* DummyDfpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6BC21F0253E004D86C4 /* DummyDfpRequest.m */; };
@@ -45,7 +45,7 @@
 		E1F2738721B9BF4900A2FBFA /* ApiHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F2738621B9BF4900A2FBFA /* ApiHandler.m */; };
 		E1F2738B21BB12C300A2FBFA /* Criteo.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F2738A21BB12C300A2FBFA /* Criteo.m */; };
 		E1F273B421C85A2300A2FBFA /* pubsdk.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1F2736421B5F08D00A2FBFA /* pubsdk.framework */; };
-		E1F273B921C87A2F00A2FBFA /* CdbBid.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F273B821C87A2F00A2FBFA /* CdbBid.m */; };
+		E1F273B921C87A2F00A2FBFA /* CR_CdbBid.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F273B821C87A2F00A2FBFA /* CR_CdbBid.m */; };
 		E1F273BB21C9733800A2FBFA /* CR_BidManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F273BA21C9733800A2FBFA /* CR_BidManager.m */; };
 		E1F273C221C9765100A2FBFA /* CR_CacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F273C121C9765100A2FBFA /* CR_CacheManager.m */; };
 /* End PBXBuildFile section */
@@ -95,7 +95,7 @@
 		E104B6AC21E41D60004D86C4 /* CRAdUnit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRAdUnit.m; sourceTree = "<group>"; };
 		E104B6B021E57F0A004D86C4 /* CRAdUnitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRAdUnitTests.m; sourceTree = "<group>"; };
 		E104B6B221E57F7B004D86C4 /* CR_BidManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_BidManagerTests.m; sourceTree = "<group>"; };
-		E104B6B421E580E9004D86C4 /* CdbBidTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CdbBidTests.m; sourceTree = "<group>"; };
+		E104B6B421E580E9004D86C4 /* CR_CdbBidTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_CdbBidTests.m; sourceTree = "<group>"; };
 		E104B6B621E92D4B004D86C4 /* Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		E104B6B721ED19A7004D86C4 /* ApiHandlerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ApiHandlerTests.m; sourceTree = "<group>"; };
 		E104B6B921EEA188004D86C4 /* DummyDfpRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DummyDfpRequest.h; sourceTree = "<group>"; };
@@ -125,9 +125,9 @@
 		E1F2738621B9BF4900A2FBFA /* ApiHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ApiHandler.m; sourceTree = "<group>"; };
 		E1F2738A21BB12C300A2FBFA /* Criteo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Criteo.m; sourceTree = "<group>"; };
 		E1F2738C21BB1B1400A2FBFA /* Criteo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Criteo.h; sourceTree = "<group>"; };
-		E1F2738D21BF1AB300A2FBFA /* CdbBid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CdbBid.h; sourceTree = "<group>"; };
+		E1F2738D21BF1AB300A2FBFA /* CR_CdbBid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_CdbBid.h; sourceTree = "<group>"; };
 		E1F273B721C86E6900A2FBFA /* CR_BidManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_BidManager.h; sourceTree = "<group>"; };
-		E1F273B821C87A2F00A2FBFA /* CdbBid.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CdbBid.m; sourceTree = "<group>"; };
+		E1F273B821C87A2F00A2FBFA /* CR_CdbBid.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_CdbBid.m; sourceTree = "<group>"; };
 		E1F273BA21C9733800A2FBFA /* CR_BidManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_BidManager.m; sourceTree = "<group>"; };
 		E1F273C021C9763E00A2FBFA /* CR_CacheManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_CacheManager.h; sourceTree = "<group>"; };
 		E1F273C121C9765100A2FBFA /* CR_CacheManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_CacheManager.m; sourceTree = "<group>"; };
@@ -274,8 +274,8 @@
 				E1F273BA21C9733800A2FBFA /* CR_BidManager.m */,
 				E1F273C021C9763E00A2FBFA /* CR_CacheManager.h */,
 				E1F273C121C9765100A2FBFA /* CR_CacheManager.m */,
-				E1F2738D21BF1AB300A2FBFA /* CdbBid.h */,
-				E1F273B821C87A2F00A2FBFA /* CdbBid.m */,
+				E1F2738D21BF1AB300A2FBFA /* CR_CdbBid.h */,
+				E1F273B821C87A2F00A2FBFA /* CR_CdbBid.m */,
 				258821D622000D3B00398E9F /* Configuration */,
 				E1F2738C21BB1B1400A2FBFA /* Criteo.h */,
 				25022DE5220A709000FF8ACE /* Criteo+Internal.h */,
@@ -297,7 +297,7 @@
 				E12A7F73220A82D0002B4548 /* AppEvents */,
 				E104B6B221E57F7B004D86C4 /* CR_BidManagerTests.m */,
 				E12A7F5D21FFBD2F002B4548 /* CR_CacheManagerTests.m */,
-				E104B6B421E580E9004D86C4 /* CdbBidTests.m */,
+				E104B6B421E580E9004D86C4 /* CR_CdbBidTests.m */,
 				E1D7DF042215136C006090C0 /* CdbResponseTests.m */,
 				258821DB2200143A00398E9F /* Configuration */,
 				E104B6B921EEA188004D86C4 /* DummyDfpRequest.h */,
@@ -461,7 +461,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				25B6505B2206AB40008416D3 /* Logging.m in Sources */,
-				E1F273B921C87A2F00A2FBFA /* CdbBid.m in Sources */,
+				E1F273B921C87A2F00A2FBFA /* CR_CdbBid.m in Sources */,
 				E1F2738B21BB12C300A2FBFA /* Criteo.m in Sources */,
 				E12A7F5621F8FD25002B4548 /* GdprUserConsent.m in Sources */,
 				258821DA22000F8000398E9F /* DeviceInfo.m in Sources */,
@@ -496,7 +496,7 @@
 				E104B6B121E57F0A004D86C4 /* CRAdUnitTests.m in Sources */,
 				E12A7F5E21FFBD2F002B4548 /* CR_CacheManagerTests.m in Sources */,
 				258821DD220015AF00398E9F /* DeviceInfoTests.m in Sources */,
-				E104B6B521E580E9004D86C4 /* CdbBidTests.m in Sources */,
+				E104B6B521E580E9004D86C4 /* CR_CdbBidTests.m in Sources */,
 				258821D521FD5D8200398E9F /* ConfigManagerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,39 +1,39 @@
 //
-//  CdbBid.m
+//  CR_CdbBid.m
 //  pubsdk
 //
 //  Created by Adwait Kulkarni on 12/17/18.
 //  Copyright © 2018 Criteo. All rights reserved.
 //
 
-#import "CdbBid.h"
+#import "CR_CdbBid.h"
 #import "Logging.h"
 #import "NSString+UrlEncoder.h"
 
-@interface CdbBid ()
+@interface CR_CdbBid ()
 
 - (NSString*) dfpCompatibleDisplayUrlForDisplayUrl:(NSString*)displayUrl;
 
 @end
 
-@implementation CdbBid
+@implementation CR_CdbBid
 
-static CdbBid *emptyBid;
+static CR_CdbBid *emptyBid;
 
 + (void) initialize
 {
-    if (self == [CdbBid class])
+    if (self == [CR_CdbBid class])
     {
-        emptyBid = [[CdbBid alloc] initWithZoneId:@(0)
-                                      placementId:nil
-                                              cpm:nil
-                                         currency:nil
-                                            width:@(0)
-                                           height:@(0)
-                                              ttl:0
-                                         creative:nil
-                                       displayUrl:nil
-                                       insertTime:nil];
+        emptyBid = [[CR_CdbBid alloc] initWithZoneId:@(0)
+                                         placementId:nil
+                                                 cpm:nil
+                                            currency:nil
+                                               width:@(0)
+                                              height:@(0)
+                                                 ttl:0
+                                            creative:nil
+                                          displayUrl:nil
+                                          insertTime:nil];
     }
 }
 
@@ -96,10 +96,10 @@ static CdbBid *emptyBid;
 
 // TODO : If there is a cleaner way to write this please show me
 - (BOOL) isEqual:(id)object {
-    if (![object isKindOfClass:[CdbBid class]]) {
+    if (![object isKindOfClass:[CR_CdbBid class]]) {
         return NO;
     }
-    CdbBid *obj = (CdbBid *)object;
+    CR_CdbBid *obj = (CR_CdbBid *)object;
     if((self.zoneId == obj.zoneId) || [self.zoneId isEqual:obj.zoneId]) {
         if((self.placementId == obj.placementId) || [self.placementId isEqualToString:obj.placementId]) {
             if((self.cpm == obj.cpm) || [self.cpm isEqualToString:obj.cpm]) {
@@ -147,7 +147,7 @@ static CdbBid *emptyBid;
             // TODO: move this default to the config
             NSTimeInterval ttl = slot[@"ttl"] ? [slot[@"ttl"] doubleValue]: 900;
             NSString *displayUrl = slot[@"displayUrl"];
-            CdbBid *response = [[CdbBid alloc] initWithZoneId:zoneId placementId:placementId cpm:cpm currency:currency width:width height:height ttl:ttl creative:creative displayUrl:displayUrl insertTime:receivedAt];
+            CR_CdbBid *response = [[CR_CdbBid alloc] initWithZoneId:zoneId placementId:placementId cpm:cpm currency:currency width:width height:height ttl:ttl creative:creative displayUrl:displayUrl insertTime:receivedAt];
             [responses addObject:response];
         }
     }
@@ -155,21 +155,21 @@ static CdbBid *emptyBid;
 }
 
 - (instancetype) copyWithZone:(NSZone *) zone {
-    CdbBid *copy = [[CdbBid alloc] initWithZoneId:self.zoneId
-                                      placementId:self.placementId
-                                              cpm:self.cpm
-                                         currency:self.currency
-                                            width:self.width
-                                           height:self.height
-                                              ttl:self.ttl
-                                         creative:self.creative
-                                       displayUrl:self.displayUrl
-                                       insertTime:self.insertTime];
+    CR_CdbBid *copy = [[CR_CdbBid alloc] initWithZoneId:self.zoneId
+                                            placementId:self.placementId
+                                                    cpm:self.cpm
+                                               currency:self.currency
+                                                  width:self.width
+                                                 height:self.height
+                                                    ttl:self.ttl
+                                               creative:self.creative
+                                             displayUrl:self.displayUrl
+                                             insertTime:self.insertTime];
     return copy;
 }
 
 - (BOOL) isEmpty {
-    CdbBid *__emptyBid = [CdbBid emptyBid];
+    CR_CdbBid *__emptyBid = [CR_CdbBid emptyBid];
     return [self isEqual:__emptyBid];
 }
 

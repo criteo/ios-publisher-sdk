@@ -42,7 +42,7 @@
 
     ApiHandler *apiHandler = [[ApiHandler alloc] initWithNetworkManager:mockNetworkManager];
 
-    CdbBid *testBid_1 = [[CdbBid alloc] initWithZoneId:nil placementId:@"adunitid_1" cpm:@"1.12"
+    CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid_1" cpm:@"1.12"
                                               currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil
                                             displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
                                             insertTime:[NSDate date]];
@@ -78,7 +78,7 @@
        XCTAssertNotNil(cdbResponse.cdbBids);
        CLog(@"Data length is %ld", [cdbResponse.cdbBids count]);
        XCTAssertEqual(1, [cdbResponse.cdbBids count]);
-       CdbBid *receivedBid = cdbResponse.cdbBids[0];
+       CR_CdbBid *receivedBid = cdbResponse.cdbBids[0];
        XCTAssertEqualObjects(testBid_1.placementId, receivedBid.placementId);
        XCTAssertEqualObjects(testBid_1.width, receivedBid.width);
        XCTAssertEqualObjects(testBid_1.height, receivedBid.height);
@@ -93,7 +93,7 @@
      postBody:[NSDictionary dictionary]
      responseHandler:^(NSData *data, NSError *error) {
      CLog(@"Block ran!");
-     NSArray *cdbBids = [CdbBid getCdbResponsesFromData:data];
+     NSArray *cdbBids = [CR_CdbBid getCdbResponsesFromData:data];
      CLog(@"Data length is %ld", [cdbBids count]);
      [expectation fulfill];
      }];
