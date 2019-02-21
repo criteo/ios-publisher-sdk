@@ -13,7 +13,7 @@
 
 #import "CR_BidManager.h"
 #import "CR_CacheManager.h"
-#import "Config.h"
+#import "CR_Config.h"
 #import "GdprUserConsent.h"
 #import "Logging.h"
 #import "NetworkManager.h"
@@ -54,7 +54,7 @@
     OCMStub([mockUserConsent consentGiven]).andReturn(YES);
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
 
-    Config *mockConfig = OCMStrictClassMock([Config class]);
+    CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     OCMStub([mockConfig networkId]).andReturn(@(1));
     OCMStub([mockConfig sdkVersion]).andReturn(@"1.0");
     OCMStub([mockConfig profileId]).andReturn(@(235));
@@ -109,7 +109,7 @@
 
     NetworkManager *mockNetworkManager = OCMStrictClassMock([NetworkManager class]);
 
-    // Json response from Config
+    // Json response from CR_Config
     NSString *rawJsonCdbResponse = @"{\"killSwitch\":true}";
     NSData *responseData = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
     // OCM substitues "[NSNull null]" to nil at runtime
@@ -118,7 +118,7 @@
     OCMStub([mockNetworkManager getFromUrl:[OCMArg isKindOfClass:[NSURL class]]
                            responseHandler:([OCMArg invokeBlockWithArgs:responseData, error, nil])]);
 
-    Config *mockConfig = OCMStrictClassMock([Config class]);
+    CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     OCMStub([mockConfig networkId]).andReturn(@(1));
     OCMStub([mockConfig sdkVersion]).andReturn(@"1.0");
     OCMStub([mockConfig appId]).andReturn(@"com.criteo.pubsdk");

@@ -31,8 +31,8 @@
 		E104B6BD21F0253E004D86C4 /* DummyDfpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6BC21F0253E004D86C4 /* DummyDfpRequest.m */; };
 		E12A7F5621F8FD25002B4548 /* GdprUserConsent.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5521F8FD25002B4548 /* GdprUserConsent.m */; };
 		E12A7F5821F914DA002B4548 /* GdprUserConsentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5721F914DA002B4548 /* GdprUserConsentTests.m */; };
-		E12A7F5A21FA6FA4002B4548 /* Config.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5921FA6FA4002B4548 /* Config.m */; };
-		E12A7F5C21FBFAE6002B4548 /* ConfigTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5B21FBFAE6002B4548 /* ConfigTests.m */; };
+		E12A7F5A21FA6FA4002B4548 /* CR_Config.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5921FA6FA4002B4548 /* CR_Config.m */; };
+		E12A7F5C21FBFAE6002B4548 /* CR_ConfigTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5B21FBFAE6002B4548 /* CR_ConfigTests.m */; };
 		E12A7F5E21FFBD2F002B4548 /* CR_CacheManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5D21FFBD2F002B4548 /* CR_CacheManagerTests.m */; };
 		E12A7F6F220A20C3002B4548 /* CR_AppEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F6E220A20C3002B4548 /* CR_AppEvents.m */; };
 		E12A7F75220A82FD002B4548 /* CR_AppEventsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F74220A82FD002B4548 /* CR_AppEventsTests.m */; };
@@ -96,7 +96,7 @@
 		E104B6B021E57F0A004D86C4 /* CRAdUnitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRAdUnitTests.m; sourceTree = "<group>"; };
 		E104B6B221E57F7B004D86C4 /* CR_BidManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_BidManagerTests.m; sourceTree = "<group>"; };
 		E104B6B421E580E9004D86C4 /* CR_CdbBidTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_CdbBidTests.m; sourceTree = "<group>"; };
-		E104B6B621E92D4B004D86C4 /* Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
+		E104B6B621E92D4B004D86C4 /* CR_Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_Config.h; sourceTree = "<group>"; };
 		E104B6B721ED19A7004D86C4 /* ApiHandlerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ApiHandlerTests.m; sourceTree = "<group>"; };
 		E104B6B921EEA188004D86C4 /* DummyDfpRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DummyDfpRequest.h; sourceTree = "<group>"; };
 		E104B6BA21EFE733004D86C4 /* NetworkManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkManagerTests.m; sourceTree = "<group>"; };
@@ -104,8 +104,8 @@
 		E12A7F5421F8FBD6002B4548 /* GdprUserConsent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GdprUserConsent.h; sourceTree = "<group>"; };
 		E12A7F5521F8FD25002B4548 /* GdprUserConsent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GdprUserConsent.m; sourceTree = "<group>"; };
 		E12A7F5721F914DA002B4548 /* GdprUserConsentTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GdprUserConsentTests.m; sourceTree = "<group>"; };
-		E12A7F5921FA6FA4002B4548 /* Config.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Config.m; sourceTree = "<group>"; };
-		E12A7F5B21FBFAE6002B4548 /* ConfigTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfigTests.m; sourceTree = "<group>"; };
+		E12A7F5921FA6FA4002B4548 /* CR_Config.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_Config.m; sourceTree = "<group>"; };
+		E12A7F5B21FBFAE6002B4548 /* CR_ConfigTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_ConfigTests.m; sourceTree = "<group>"; };
 		E12A7F5D21FFBD2F002B4548 /* CR_CacheManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_CacheManagerTests.m; sourceTree = "<group>"; };
 		E12A7F6D220A1D40002B4548 /* CR_AppEvents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_AppEvents.h; sourceTree = "<group>"; };
 		E12A7F6E220A20C3002B4548 /* CR_AppEvents.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_AppEvents.m; sourceTree = "<group>"; };
@@ -175,8 +175,8 @@
 		258821D622000D3B00398E9F /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				E104B6B621E92D4B004D86C4 /* Config.h */,
-				E12A7F5921FA6FA4002B4548 /* Config.m */,
+				E104B6B621E92D4B004D86C4 /* CR_Config.h */,
+				E12A7F5921FA6FA4002B4548 /* CR_Config.m */,
 				258821D021FD3FB600398E9F /* ConfigManager.h */,
 				258821D121FD3FB600398E9F /* ConfigManager.m */,
 				258821D722000F8000398E9F /* DeviceInfo.h */,
@@ -188,7 +188,7 @@
 		258821DB2200143A00398E9F /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				E12A7F5B21FBFAE6002B4548 /* ConfigTests.m */,
+				E12A7F5B21FBFAE6002B4548 /* CR_ConfigTests.m */,
 				258821D421FD5D8200398E9F /* ConfigManagerTests.m */,
 				258821DC220015AF00398E9F /* DeviceInfoTests.m */,
 				25B6505C2208C29D008416D3 /* LoggingTests.m */,
@@ -470,7 +470,7 @@
 				258821D321FD3FB600398E9F /* ConfigManager.m in Sources */,
 				E1F2738721B9BF4900A2FBFA /* ApiHandler.m in Sources */,
 				E1F273C221C9765100A2FBFA /* CR_CacheManager.m in Sources */,
-				E12A7F5A21FA6FA4002B4548 /* Config.m in Sources */,
+				E12A7F5A21FA6FA4002B4548 /* CR_Config.m in Sources */,
 				255151C622027C9500F76E3F /* NSString+UrlEncoder.m in Sources */,
 				E1D7DF0322138F9A006090C0 /* CdbResponse.m in Sources */,
 				E1F273BB21C9733800A2FBFA /* CR_BidManager.m in Sources */,
@@ -491,7 +491,7 @@
 				E104B6BD21F0253E004D86C4 /* DummyDfpRequest.m in Sources */,
 				E1F2737321B5F08D00A2FBFA /* pubsdkTests.m in Sources */,
 				E1D7DF052215136C006090C0 /* CdbResponseTests.m in Sources */,
-				E12A7F5C21FBFAE6002B4548 /* ConfigTests.m in Sources */,
+				E12A7F5C21FBFAE6002B4548 /* CR_ConfigTests.m in Sources */,
 				E104B6B321E57F7B004D86C4 /* CR_BidManagerTests.m in Sources */,
 				E104B6B121E57F0A004D86C4 /* CRAdUnitTests.m in Sources */,
 				E12A7F5E21FFBD2F002B4548 /* CR_CacheManagerTests.m in Sources */,

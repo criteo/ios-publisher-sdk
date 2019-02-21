@@ -22,7 +22,7 @@
 // So this test should suffice
 - (void) testSendEvent {
     ApiHandler *mockApiHandler = OCMStrictClassMock([ApiHandler class]);
-    Config *mockConfig = OCMStrictClassMock([Config class]);
+    CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     GdprUserConsent *mockGdpr = OCMStrictClassMock([GdprUserConsent class]);
     DeviceInfo *mockDeviceInfo = OCMStrictClassMock([DeviceInfo class]);
     NSDictionary *appEventsDict = [NSDictionary dictionaryWithObjectsAndKeys:@(100), @"throttleSec", nil];
@@ -30,7 +30,7 @@
 
     OCMStub([mockApiHandler sendAppEvent:[OCMArg isKindOfClass:[NSString class]]
                              gdprConsent:[OCMArg isKindOfClass:[GdprUserConsent class]]
-                                  config:[OCMArg isKindOfClass:[Config class]]
+                                  config:[OCMArg isKindOfClass:[CR_Config class]]
                               deviceInfo:[OCMArg isKindOfClass:[DeviceInfo class]]
                           ahEventHandler:([OCMArg invokeBlockWithArgs:appEventsDict, testDate, nil])]);
 
@@ -46,7 +46,7 @@
 
 - (void) testThrottleExpiredZeroThrottle {
     ApiHandler *mockApiHandler = OCMStrictClassMock([ApiHandler class]);
-    Config *mockConfig = OCMStrictClassMock([Config class]);
+    CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     GdprUserConsent *mockGdpr = OCMStrictClassMock([GdprUserConsent class]);
     DeviceInfo *mockDeviceInfo = OCMStrictClassMock([DeviceInfo class]);
     NSDictionary *appEventsDict = [NSDictionary dictionaryWithObjectsAndKeys:@(0), @"throttleSec", nil];
@@ -54,7 +54,7 @@
 
     OCMStub([mockApiHandler sendAppEvent:[OCMArg isKindOfClass:[NSString class]]
                              gdprConsent:[OCMArg isKindOfClass:[GdprUserConsent class]]
-                                  config:[OCMArg isKindOfClass:[Config class]]
+                                  config:[OCMArg isKindOfClass:[CR_Config class]]
                               deviceInfo:[OCMArg isKindOfClass:[DeviceInfo class]]
                           ahEventHandler:([OCMArg invokeBlockWithArgs:appEventsDict, testDate, nil])]);
 
@@ -70,7 +70,7 @@
 
 - (void) testThrottleExpiredWithThrottleSecs {
     ApiHandler *mockApiHandler = OCMStrictClassMock([ApiHandler class]);
-    Config *mockConfig = OCMStrictClassMock([Config class]);
+    CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     GdprUserConsent *mockGdpr = OCMStrictClassMock([GdprUserConsent class]);
     DeviceInfo *mockDeviceInfo = OCMStrictClassMock([DeviceInfo class]);
     NSDictionary *appEventsDict = [NSDictionary dictionaryWithObjectsAndKeys:@(30), @"throttleSec", nil];
@@ -79,7 +79,7 @@
 
     OCMStub([mockApiHandler sendAppEvent:[OCMArg isKindOfClass:[NSString class]]
                              gdprConsent:[OCMArg isKindOfClass:[GdprUserConsent class]]
-                                  config:[OCMArg isKindOfClass:[Config class]]
+                                  config:[OCMArg isKindOfClass:[CR_Config class]]
                               deviceInfo:[OCMArg isKindOfClass:[DeviceInfo class]]
                           ahEventHandler:([OCMArg invokeBlockWithArgs:appEventsDict, testDate, nil])]);
 
@@ -94,7 +94,7 @@
 
 - (void) testThrottleNotExpiredWithThrottleSecs {
     ApiHandler *mockApiHandler = OCMStrictClassMock([ApiHandler class]);
-    Config *mockConfig = OCMStrictClassMock([Config class]);
+    CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     GdprUserConsent *mockGdpr = OCMStrictClassMock([GdprUserConsent class]);
     DeviceInfo *mockDeviceInfo = OCMStrictClassMock([DeviceInfo class]);
     NSDictionary *appEventsDict = [NSDictionary dictionaryWithObjectsAndKeys:@(30), @"throttleSec", nil];
@@ -103,7 +103,7 @@
 
     OCMStub([mockApiHandler sendAppEvent:[OCMArg isKindOfClass:[NSString class]]
                              gdprConsent:[OCMArg isKindOfClass:[GdprUserConsent class]]
-                                  config:[OCMArg isKindOfClass:[Config class]]
+                                  config:[OCMArg isKindOfClass:[CR_Config class]]
                               deviceInfo:[OCMArg isKindOfClass:[DeviceInfo class]]
                           ahEventHandler:([OCMArg invokeBlockWithArgs:appEventsDict, testDate, nil])]);
 
@@ -120,7 +120,7 @@
 // This is to test if CR_AppEvents makes one and only one call to the [apiHandler sendAppEvent]
 - (void) testNoApiCallIfThrottleIsOn {
     ApiHandler *mockApiHandler = OCMStrictClassMock([ApiHandler class]);
-    Config *mockConfig = OCMStrictClassMock([Config class]);
+    CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     GdprUserConsent *mockGdpr = OCMStrictClassMock([GdprUserConsent class]);
     DeviceInfo *mockDeviceInfo = OCMStrictClassMock([DeviceInfo class]);
     NSDictionary *appEventsDict = [NSDictionary dictionaryWithObjectsAndKeys:@(300), @"throttleSec", nil];
@@ -129,7 +129,7 @@
 
     OCMStub([mockApiHandler sendAppEvent:[OCMArg isKindOfClass:[NSString class]]
                              gdprConsent:[OCMArg isKindOfClass:[GdprUserConsent class]]
-                                  config:[OCMArg isKindOfClass:[Config class]]
+                                  config:[OCMArg isKindOfClass:[CR_Config class]]
                               deviceInfo:[OCMArg isKindOfClass:[DeviceInfo class]]
                           ahEventHandler:([OCMArg invokeBlockWithArgs:appEventsDict, testDate, nil])]);
 
@@ -140,7 +140,7 @@
     // The next call to send*Event should NOT fire a call to ApiHandler as the throttle is on
     OCMReject([mockApiHandler sendAppEvent:[OCMArg isKindOfClass:[NSString class]]
                                gdprConsent:[OCMArg isKindOfClass:[GdprUserConsent class]]
-                                    config:[OCMArg isKindOfClass:[Config class]]
+                                    config:[OCMArg isKindOfClass:[CR_Config class]]
                                 deviceInfo:[OCMArg isKindOfClass:[DeviceInfo class]]
                             ahEventHandler:([OCMArg invokeBlockWithArgs:appEventsDict, testDate, nil])]);
     [appEvents sendActiveEvent:[NSNotification notificationWithName:UIApplicationDidBecomeActiveNotification object:nil]];
@@ -150,7 +150,7 @@
 // This is to test if CR_AppEvents makes two calls to the [apiHandler sendAppEvent]
 - (void) testApiCallIfThrottleIsExpired {
     ApiHandler *mockApiHandler = OCMStrictClassMock([ApiHandler class]);
-    Config *mockConfig = OCMStrictClassMock([Config class]);
+    CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     GdprUserConsent *mockGdpr = OCMStrictClassMock([GdprUserConsent class]);
     DeviceInfo *mockDeviceInfo = OCMStrictClassMock([DeviceInfo class]);
     NSDictionary *appEventsDict = [NSDictionary dictionaryWithObjectsAndKeys:@(10), @"throttleSec", nil];
@@ -159,7 +159,7 @@
 
     OCMStub([mockApiHandler sendAppEvent:[OCMArg isKindOfClass:[NSString class]]
                              gdprConsent:[OCMArg isKindOfClass:[GdprUserConsent class]]
-                                  config:[OCMArg isKindOfClass:[Config class]]
+                                  config:[OCMArg isKindOfClass:[CR_Config class]]
                               deviceInfo:[OCMArg isKindOfClass:[DeviceInfo class]]
                           ahEventHandler:([OCMArg invokeBlockWithArgs:appEventsDict, testDate, nil])]);
 
@@ -170,7 +170,7 @@
     // The next call to send*Event should fire a call to ApiHandler as the throttle is off
     OCMReject([mockApiHandler sendAppEvent:[OCMArg isKindOfClass:[NSString class]]
                                gdprConsent:[OCMArg isKindOfClass:[GdprUserConsent class]]
-                                    config:[OCMArg isKindOfClass:[Config class]]
+                                    config:[OCMArg isKindOfClass:[CR_Config class]]
                                 deviceInfo:[OCMArg isKindOfClass:[DeviceInfo class]]
                             ahEventHandler:([OCMArg invokeBlockWithArgs:appEventsDict, testDate, nil])]);
     [appEvents sendActiveEvent:[NSNotification notificationWithName:UIApplicationDidBecomeActiveNotification object:nil]];

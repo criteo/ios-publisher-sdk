@@ -1,17 +1,17 @@
 //
-//  Config.h
+//  CR_Config.h
 //  pubsdk
 //
 //  Created by Adwait Kulkarni on 1/11/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#ifndef Config_h
-#define Config_h
+#ifndef CR_Config_h
+#define CR_Config_h
 
 #import <Foundation/Foundation.h>
 
-@interface Config : NSObject
+@interface CR_Config : NSObject
 
 @property (strong, nonatomic, readonly) NSNumber *networkId;
 @property (strong, nonatomic, readonly) NSNumber *profileId;
@@ -39,4 +39,4 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-#endif /* Config_h */
+#endif /* CR_Config_h */

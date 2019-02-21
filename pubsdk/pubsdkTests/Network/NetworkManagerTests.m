@@ -12,7 +12,7 @@
 
 #import "CRAdUnit.h"
 #import "CR_CdbBid.h"
-#import "Config.h"
+#import "CR_Config.h"
 #import "Logging.h"
 #import "NetworkManager.h"
 #import "NetworkManagerDelegate.h"
@@ -123,7 +123,7 @@
         CLog(@"NetworkManager called back!");
         if(error == nil) {
             if(data) {
-                NSDictionary *configValues = [Config getConfigValuesFromData:data];
+                NSDictionary *configValues = [CR_Config getConfigValuesFromData:data];
                 XCTAssertTrue([configValues objectForKey:@"killSwitch"]);
             } else {
                 CLog(@"Error on get from Config: response from Config was nil");

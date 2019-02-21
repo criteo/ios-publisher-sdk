@@ -13,7 +13,7 @@
 #import "NetworkManager.h"
 #import "CRAdUnit.h"
 #import "CdbResponse.h"
-#import "Config.h"
+#import "CR_Config.h"
 #import "GdprUserConsent.h"
 #import "DeviceInfo.h"
 
@@ -33,7 +33,7 @@ typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receiv
  */
 - (void) callCdb: (CRAdUnit *) adUnit
      gdprConsent:(GdprUserConsent *) gdprConsent
-          config:(Config *) config
+          config:(CR_Config *) config
       deviceInfo:(DeviceInfo *) deviceInfo
 ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler;
 
@@ -41,7 +41,7 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler;
  * Calls the pub-sdk config endpoint and gets the config values for the publisher
  * NetworkId, AppId/BundleId, sdkVersion must be present in the config
  */
-- (void) getConfig: (Config *) config
+- (void) getConfig: (CR_Config *) config
    ahConfigHandler:(AHConfigResponse) ahConfigHandler;
 
 /*
@@ -49,7 +49,7 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler;
  */
 - (void) sendAppEvent: (NSString *)event
           gdprConsent:(GdprUserConsent *)gdprConsent
-               config:(Config *) config
+               config:(CR_Config *) config
            deviceInfo:(DeviceInfo *) deviceInfo
        ahEventHandler:(AHAppEventsResponse) ahEventHandler;
 

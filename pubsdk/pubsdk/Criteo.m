@@ -30,7 +30,7 @@ static Criteo *sharedInstance;
 
 + (CR_BidManager*) createBidManagerWithNetworkId:(NSUInteger) networkId
 {
-    Config *config = [[Config alloc] initWithNetworkId:@(networkId)];
+    CR_Config *config = [[CR_Config alloc] initWithNetworkId:@(networkId)];
     DeviceInfo *deviceInfo = [[DeviceInfo alloc] init];
     NetworkManager *networkManager = [[NetworkManager alloc] initWithDeviceInfo:deviceInfo];
     ApiHandler *apiHandler = [[ApiHandler alloc] initWithNetworkManager:networkManager];

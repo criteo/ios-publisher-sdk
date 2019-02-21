@@ -14,7 +14,7 @@
 {
     ApiHandler      *apiHandler;
     CR_CacheManager *cacheManager;
-    Config          *config;
+    CR_Config       *config;
     ConfigManager   *configManager;
     DeviceInfo      *deviceInfo;
     GdprUserConsent *gdprUserConsent;
@@ -49,7 +49,7 @@
 
 - (instancetype) initWithApiHandler:(ApiHandler*)apiHandler
                        cacheManager:(CR_CacheManager*)cacheManager
-                             config:(Config*)config
+                             config:(CR_Config*)config
                       configManager:(ConfigManager*)configManager
                          deviceInfo:(DeviceInfo*)deviceInfo
                     gdprUserConsent:(GdprUserConsent*)gdprUserConsent

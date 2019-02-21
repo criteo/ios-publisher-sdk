@@ -1,17 +1,17 @@
 //
-//  Config.m
+//  CR_Config.m
 //  pubsdk
 //
 //  Created by Adwait Kulkarni on 1/24/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#import "Config.h"
+#import "CR_Config.h"
 #import "Logging.h"
 #import <AdSupport/ASIdentifierManager.h>
 #import <UIKit/UIKit.h>
 
-@implementation Config
+@implementation CR_Config
 
 - (instancetype) initWithNetworkId:(NSNumber *)networkId {
     if (self = [super init]) {

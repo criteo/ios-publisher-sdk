@@ -19,7 +19,7 @@
 @implementation ConfigManagerTests
 {
     NSDictionary *remoteConfig;
-    Config *localConfig;
+    CR_Config *localConfig;
     ApiHandler *mockApiHandler;
 }
 
@@ -28,7 +28,7 @@
     remoteConfig = @{ @"killSwitch" : @(NO) };
 
     // Local config hosted inside the app
-    localConfig = [[Config alloc] initWithNetworkId:nil];
+    localConfig = [[CR_Config alloc] initWithNetworkId:nil];
     localConfig.killSwitch = YES;
 
     // Mock remote config API, returns the remoteConfig dictionary above

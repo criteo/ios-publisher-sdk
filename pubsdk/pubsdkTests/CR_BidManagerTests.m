@@ -34,7 +34,7 @@
     CRAdUnit *testAdUnit_2 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
     cache.bidCache[testAdUnit_2] = testBid_2;
 
-    Config *mockConfig = OCMStrictClassMock([Config class]);
+    CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     OCMStub([mockConfig killSwitch]).andReturn(NO);
 
     GdprUserConsent *mockUserConsent = OCMStrictClassMock([GdprUserConsent class]);
@@ -138,7 +138,7 @@
     DummyDfpRequest *dfpBidRequest = [[DummyDfpRequest alloc] init];
     dfpBidRequest.customTargeting = testDfpCustomTargeting;
 
-    Config *config = [[Config alloc] initWithNetworkId:@(1234)];
+    CR_Config *config = [[CR_Config alloc] initWithNetworkId:@(1234)];
 
     CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
                                                              cacheManager:cache
@@ -170,7 +170,7 @@
     DummyDfpRequest *dfpBidRequest = [[DummyDfpRequest alloc] init];
     dfpBidRequest.customTargeting = testDfpCustomTargeting;
 
-    Config *config = [[Config alloc] initWithNetworkId:@(1234)];
+    CR_Config *config = [[CR_Config alloc] initWithNetworkId:@(1234)];
     config.killSwitch = YES;
 
     CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
@@ -204,7 +204,7 @@
     CRAdUnit *testAdUnit_2 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
     cache.bidCache[testAdUnit_2] = testBid_2;
 
-    Config *mockConfig = OCMStrictClassMock([Config class]);
+    CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     OCMStub([mockConfig killSwitch]).andReturn(NO);
 
     GdprUserConsent *mockUserConsent = OCMStrictClassMock([GdprUserConsent class]);

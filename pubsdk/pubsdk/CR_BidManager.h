@@ -14,7 +14,7 @@
 #import "CRAdUnit.h"
 #import "ApiHandler.h"
 #import "CR_CacheManager.h"
-#import "Config.h"
+#import "CR_Config.h"
 #import "ConfigManager.h"
 #import "DeviceInfo.h"
 #import "GdprUserConsent.h"
@@ -30,7 +30,7 @@
 
 - (instancetype) initWithApiHandler:(ApiHandler*)apiHandler
                        cacheManager:(CR_CacheManager*)cacheManager
-                             config:(Config*)config
+                             config:(CR_Config*)config
                       configManager:(ConfigManager*)configManager
                          deviceInfo:(DeviceInfo*)deviceInfo
                     gdprUserConsent:(GdprUserConsent*)gdprUserConsent

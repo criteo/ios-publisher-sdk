@@ -11,7 +11,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ApiHandler.h"
-#import "Config.h"
+#import "CR_Config.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype) init NS_UNAVAILABLE;
 - (instancetype) initWithApiHandler:(ApiHandler*)apiHandler NS_DESIGNATED_INITIALIZER;
-- (void) refreshConfig:(Config*)config;
+- (void) refreshConfig:(CR_Config*)config;
 
 @end
 

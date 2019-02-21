@@ -22,7 +22,7 @@
     return self;
 }
 
-- (void) refreshConfig:(Config*)config
+- (void) refreshConfig:(CR_Config*)config
 {
     [self->apiHandler getConfig:config
                 ahConfigHandler:^(NSDictionary *configValues) {

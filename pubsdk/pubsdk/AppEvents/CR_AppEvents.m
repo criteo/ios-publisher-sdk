@@ -14,12 +14,12 @@
 {
     ApiHandler *apiHandler;
     GdprUserConsent *gdpr;
-    Config *config;
+    CR_Config *config;
     DeviceInfo *deviceInfo;
 }
 
 - (instancetype) initWithApiHandler:(ApiHandler *)apiHandler
-                             config:(Config *)config
+                             config:(CR_Config *)config
                                gdpr:(GdprUserConsent *)gdpr
                          deviceInfo:(DeviceInfo *)deviceInfo {
     if (self = [super init]) {

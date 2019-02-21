@@ -28,7 +28,7 @@
 // Wrapper method to make the cdb call async
 - (void)     callCdb:(CRAdUnit *) adUnit
          gdprConsent:(GdprUserConsent *)gdprConsent
-              config:(Config *)config
+              config:(CR_Config *)config
           deviceInfo:(DeviceInfo *)deviceInfo
 ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -43,7 +43,7 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
 // Method that makes the actual call to CDB
 - (void) doCdbApiCall:(CRAdUnit *) adUnit
           gdprConsent:(GdprUserConsent *)gdprConsent
-               config:(Config *)config
+               config:(CR_Config *)config
            deviceInfo:(DeviceInfo *)deviceInfo
  ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
     if(adUnit.adUnitId.length == 0 ||
@@ -105,7 +105,7 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
     }];
 }
 
-- (void) getConfig:(Config *) config
+- (void) getConfig:(CR_Config *) config
    ahConfigHandler:(AHConfigResponse) ahConfigHandler {
     if(![config networkId] || [config sdkVersion].length == 0 || [config appId].length == 0) {
         CLog(@"Config is is missing one of the following required values networkId = %@, sdkVersion = %@, appId = %@ "
@@ -115,14 +115,14 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
         }
     }
 
-    // TODO: Move the url + query building logic to Config class
+    // TODO: Move the url + query building logic to CR_Config class
     NSString *query = [NSString stringWithFormat:@"networkId=%@&sdkVersion=%@&appId=%@", [config networkId], [config sdkVersion], [config appId]];
     NSString *urlString = [NSString stringWithFormat:@"https://pub-sdk-cfg.criteo.com/v1.0/api/config?%@", query];
     NSURL *url = [NSURL URLWithString: urlString];
     [self.networkManager getFromUrl:url responseHandler:^(NSData *data, NSError *error) {
         if(error == nil) {
             if(data && ahConfigHandler) {
-                NSDictionary *configValues = [Config getConfigValuesFromData:data];
+                NSDictionary *configValues = [CR_Config getConfigValuesFromData:data];
                 ahConfigHandler(configValues);
             } else {
                 CLog(@"Error on get from Config: response from Config was nil");
@@ -135,7 +135,7 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
 
 - (void) sendAppEvent:(NSString *)event
                gdprConsent:(GdprUserConsent *)gdprConsent
-                    config:(Config *)config
+                    config:(CR_Config *)config
                 deviceInfo:(DeviceInfo *)deviceInfo
             ahEventHandler:(AHAppEventsResponse)ahEventHandler {
 
