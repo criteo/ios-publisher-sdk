@@ -9,10 +9,10 @@
 #import "Criteo.h"
 #import "Criteo+Internal.h"
 
-#import "BidManager.h"
+#import "CR_BidManager.h"
 
 static NSMutableArray<CRAdUnit *> *registeredAdUnits;
-static BidManager *bidManager;
+static CR_BidManager *bidManager;
 static bool hasPrefetched;
 static Criteo *sharedInstance;
 
@@ -28,7 +28,7 @@ static Criteo *sharedInstance;
     bidManager.networkMangerDelegate = networkMangerDelegate;
 }
 
-+ (BidManager*) createBidManagerWithNetworkId:(NSUInteger) networkId
++ (CR_BidManager*) createBidManagerWithNetworkId:(NSUInteger) networkId
 {
     Config *config = [[Config alloc] initWithNetworkId:@(networkId)];
     DeviceInfo *deviceInfo = [[DeviceInfo alloc] init];
@@ -43,15 +43,15 @@ static Criteo *sharedInstance;
                                                                   gdpr:gdpr
                                                             deviceInfo:deviceInfo];
 
-    BidManager *bidManager = [[BidManager alloc] initWithApiHandler:apiHandler
-                                                       cacheManager:cacheManager
-                                                             config:config
-                                                      configManager:configManager
-                                                         deviceInfo:deviceInfo
-                                                    gdprUserConsent:gdpr
-                                                     networkManager:networkManager
-                                                          appEvents:appEvents
-                                                     timeToNextCall:0];
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:apiHandler
+                                                             cacheManager:cacheManager
+                                                                   config:config
+                                                            configManager:configManager
+                                                               deviceInfo:deviceInfo
+                                                          gdprUserConsent:gdpr
+                                                           networkManager:networkManager
+                                                                appEvents:appEvents
+                                                           timeToNextCall:0];
 
     return bidManager;
 }

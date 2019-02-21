@@ -1,5 +1,5 @@
 //
-//  BidManagerTests.m
+//  CR_BidManagerTests.m
 //  pubsdkTests
 //
 //  Created by Adwait Kulkarni on 1/8/19.
@@ -11,15 +11,15 @@
 
 #import <OCMock.h>
 
-#import "BidManager.h"
+#import "CR_BidManager.h"
 #import "CdbBid.h"
 #import "DummyDfpRequest.h"
 
-@interface BidManagerTests : XCTestCase
+@interface CR_BidManagerTests : XCTestCase
 
 @end
 
-@implementation BidManagerTests
+@implementation CR_BidManagerTests
 
 - (void) testGetBid {
     // test cache
@@ -49,15 +49,15 @@
     // Do not call CDB for unregistered ad units
     OCMReject([mockApiHandler callCdb:unInitializedSlot gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
 
-    BidManager *bidManager = [[BidManager alloc] initWithApiHandler:mockApiHandler
-                                                       cacheManager:cache
-                                                             config:mockConfig
-                                                      configManager:nil
-                                                         deviceInfo:nil
-                                                    gdprUserConsent:mockUserConsent
-                                                     networkManager:nil
-                                                          appEvents:nil
-                                                     timeToNextCall:0];
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:mockApiHandler
+                                                             cacheManager:cache
+                                                                   config:mockConfig
+                                                            configManager:nil
+                                                               deviceInfo:nil
+                                                          gdprUserConsent:mockUserConsent
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:0];
 
     NSArray *slots = @[testAdUnit, testAdUnit_2, unInitializedSlot];
     NSDictionary *bids = [bidManager getBids:slots];
@@ -83,15 +83,15 @@
     OCMStub([mockUserConsent consentGiven]).andReturn(YES);
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
 
-    BidManager *bidManager = [[BidManager alloc] initWithApiHandler:nil
-                                                       cacheManager:cache
-                                                             config:nil
-                                                      configManager:nil
-                                                         deviceInfo:nil
-                                                    gdprUserConsent:mockUserConsent
-                                                     networkManager:nil
-                                                          appEvents:nil
-                                                     timeToNextCall:0];
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
+                                                             cacheManager:cache
+                                                                   config:nil
+                                                            configManager:nil
+                                                               deviceInfo:nil
+                                                          gdprUserConsent:mockUserConsent
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:0];
 
     // an initialized slot that has no bid fetched for it
     NSArray *slots = @[[[CRAdUnit alloc] initWithAdUnitId:@"thisShouldReturnEmptyBid" width:300 height:250]];
@@ -100,15 +100,15 @@
 }
 
 - (void) testSetSlots {
-    BidManager *bidManager = [[BidManager alloc] initWithApiHandler:nil
-                                                       cacheManager:[[CacheManager alloc] init]
-                                                             config:nil
-                                                      configManager:nil
-                                                         deviceInfo:nil
-                                                    gdprUserConsent:nil
-                                                     networkManager:nil
-                                                          appEvents:nil
-                                                     timeToNextCall:0];
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
+                                                             cacheManager:[[CacheManager alloc] init]
+                                                                   config:nil
+                                                            configManager:nil
+                                                               deviceInfo:nil
+                                                          gdprUserConsent:nil
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:0];
 
     CRAdUnit *slot_1 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
     CRAdUnit *slot_2 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
@@ -140,15 +140,15 @@
 
     Config *config = [[Config alloc] initWithNetworkId:@(1234)];
 
-    BidManager *bidManager = [[BidManager alloc] initWithApiHandler:nil
-                                                       cacheManager:cache
-                                                             config:config
-                                                      configManager:nil
-                                                         deviceInfo:nil
-                                                    gdprUserConsent:nil
-                                                     networkManager:nil
-                                                          appEvents:nil
-                                                     timeToNextCall:0];
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
+                                                             cacheManager:cache
+                                                                   config:config
+                                                            configManager:nil
+                                                               deviceInfo:nil
+                                                          gdprUserConsent:nil
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:0];
 
     [bidManager addCriteoBidToRequest:dfpBidRequest forAdUnit:slot_1];
 
@@ -173,15 +173,15 @@
     Config *config = [[Config alloc] initWithNetworkId:@(1234)];
     config.killSwitch = YES;
 
-    BidManager *bidManager = [[BidManager alloc] initWithApiHandler:nil
-                                                       cacheManager:cache
-                                                             config:config
-                                                      configManager:nil
-                                                         deviceInfo:nil
-                                                    gdprUserConsent:nil
-                                                     networkManager:nil
-                                                          appEvents:nil
-                                                     timeToNextCall:0];
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
+                                                             cacheManager:cache
+                                                                   config:config
+                                                            configManager:nil
+                                                               deviceInfo:nil
+                                                          gdprUserConsent:nil
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:0];
 
     [bidManager addCriteoBidToRequest:dfpBidRequest forAdUnit:slot_1];
     // there shouldn't be any enrichment
@@ -221,15 +221,15 @@
     OCMReject([mockApiHandler callCdb:testAdUnit_2 gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
     OCMReject([mockApiHandler callCdb:unInitializedSlot gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
 
-    BidManager *bidManager = [[BidManager alloc] initWithApiHandler:mockApiHandler
-                                                       cacheManager:cache
-                                                             config:mockConfig
-                                                      configManager:nil
-                                                         deviceInfo:nil
-                                                    gdprUserConsent:mockUserConsent
-                                                     networkManager:nil
-                                                          appEvents:nil
-                                                     timeToNextCall:[[NSDate dateWithTimeIntervalSinceNow:360] timeIntervalSinceReferenceDate]];
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:mockApiHandler
+                                                             cacheManager:cache
+                                                                   config:mockConfig
+                                                            configManager:nil
+                                                               deviceInfo:nil
+                                                          gdprUserConsent:mockUserConsent
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:[[NSDate dateWithTimeIntervalSinceNow:360] timeIntervalSinceReferenceDate]];
 
     NSArray *slots = @[testAdUnit, testAdUnit_2, unInitializedSlot];
     NSDictionary *bids = [bidManager getBids:slots];

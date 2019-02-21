@@ -1,13 +1,13 @@
 //
-//  BidManager.h
+//  CR_BidManager.h
 //  pubsdk
 //
 //  Created by Adwait Kulkarni on 12/17/18.
 //  Copyright © 2018 Criteo. All rights reserved.
 //
 
-#ifndef BidManager_h
-#define BidManager_h
+#ifndef CR_BidManager_h
+#define CR_BidManager_h
 
 #import <Foundation/Foundation.h>
 
@@ -22,7 +22,7 @@
 #import "NetworkManagerDelegate.h"
 #import "CR_AppEvents.h"
 
-@interface BidManager : NSObject
+@interface CR_BidManager : NSObject
 
 @property (nonatomic) id<NetworkManagerDelegate> networkMangerDelegate;
 

@@ -1,16 +1,16 @@
 //
-//  BidManager.m
+//  CR_BidManager.m
 //  pubsdk
 //
 //  Created by Adwait Kulkarni on 12/18/18.
 //  Copyright © 2018 Criteo. All rights reserved.
 //
 
-#import "BidManager.h"
+#import "CR_BidManager.h"
 #import "Logging.h"
 #import "CR_AppEvents.h"
 
-@implementation BidManager
+@implementation CR_BidManager
 {
     ApiHandler      *apiHandler;
     CacheManager    *cacheManager;
@@ -110,7 +110,7 @@
         CLog(@"Config hasn't been fetched. So no bids will be fetched.");
         return;
         // TODO : move kill switch logic out of bid manager
-        // http://review.criteois.lan/#/c/461220/10/pubsdk/pubsdkTests/BidManagerTests.m
+        // http://review.criteois.lan/#/c/461220/10/pubsdk/pubsdkTests/CR_BidManagerTests.m
     } else if ([config killSwitch]) {
         CLog(@"killSwitch is engaged. No bid will be fetched.");
         return;
@@ -143,7 +143,7 @@
         CLog(@"Config hasn't been fetched. So no bids will be fetched.");
         return;
         // TODO : move kill switch logic out of bid manager
-        // http://review.criteois.lan/#/c/461220/10/pubsdk/pubsdkTests/BidManagerTests.m
+        // http://review.criteois.lan/#/c/461220/10/pubsdk/pubsdkTests/CR_BidManagerTests.m
     } else if ([config killSwitch]) {
         CLog(@"killSwitch is engaged. No bid will be fetched.");
         return;

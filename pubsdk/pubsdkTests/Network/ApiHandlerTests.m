@@ -11,7 +11,7 @@
 
 #import <OCMock.h>
 
-#import "BidManager.h"
+#import "CR_BidManager.h"
 #import "CacheManager.h"
 #import "Config.h"
 #import "GdprUserConsent.h"
