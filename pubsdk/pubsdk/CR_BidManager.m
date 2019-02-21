@@ -12,7 +12,7 @@
 
 @implementation CR_BidManager
 {
-    ApiHandler         *apiHandler;
+    CR_ApiHandler      *apiHandler;
     CR_CacheManager    *cacheManager;
     CR_Config          *config;
     CR_ConfigManager   *configManager;
@@ -47,7 +47,7 @@
                      timeToNextCall:0];
 }
 
-- (instancetype) initWithApiHandler:(ApiHandler*)apiHandler
+- (instancetype) initWithApiHandler:(CR_ApiHandler*)apiHandler
                        cacheManager:(CR_CacheManager*)cacheManager
                              config:(CR_Config*)config
                       configManager:(CR_ConfigManager*)configManager

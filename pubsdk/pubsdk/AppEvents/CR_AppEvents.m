@@ -12,13 +12,13 @@
 
 @implementation CR_AppEvents
 {
-    ApiHandler *apiHandler;
+    CR_ApiHandler *apiHandler;
     CR_GdprUserConsent *gdpr;
     CR_Config *config;
     CR_DeviceInfo *deviceInfo;
 }
 
-- (instancetype) initWithApiHandler:(ApiHandler *)apiHandler
+- (instancetype) initWithApiHandler:(CR_ApiHandler *)apiHandler
                              config:(CR_Config *)config
                                gdpr:(CR_GdprUserConsent *)gdpr
                          deviceInfo:(CR_DeviceInfo *)deviceInfo {

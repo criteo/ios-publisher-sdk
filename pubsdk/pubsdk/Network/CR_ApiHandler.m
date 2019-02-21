@@ -1,5 +1,5 @@
 //
-//  ApiHandler.m
+//  CR_ApiHandler.m
 //  pubsdk
 //
 //  Created by Adwait Kulkarni on 12/6/18.
@@ -7,10 +7,10 @@
 //
 
 #import <WebKit/WebKit.h>
-#import "ApiHandler.h"
+#import "CR_ApiHandler.h"
 #import "Logging.h"
 
-@implementation ApiHandler
+@implementation CR_ApiHandler
 
 - (instancetype) init
 {

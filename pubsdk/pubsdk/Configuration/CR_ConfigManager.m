@@ -10,10 +10,10 @@
 
 @implementation CR_ConfigManager
 {
-    ApiHandler *apiHandler;
+    CR_ApiHandler *apiHandler;
 }
 
-- (instancetype) initWithApiHandler:(ApiHandler*)apiHandler
+- (instancetype) initWithApiHandler:(CR_ApiHandler*)apiHandler
 {
     if (self = [super init]) {
         self->apiHandler = apiHandler;

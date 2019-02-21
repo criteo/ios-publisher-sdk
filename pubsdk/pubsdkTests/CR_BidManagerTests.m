@@ -45,7 +45,7 @@
     // if the caller asks for a bid for an un initialized slot
     CRAdUnit *unInitializedSlot = [[CRAdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
 
-    id mockApiHandler = OCMClassMock([ApiHandler class]);
+    id mockApiHandler = OCMClassMock([CR_ApiHandler class]);
     // Do not call CDB for unregistered ad units
     OCMReject([mockApiHandler callCdb:unInitializedSlot gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
 
@@ -64,7 +64,7 @@
     XCTAssertEqualObjects(testBid, bids[testAdUnit]);
     XCTAssertEqualObjects(testBid_2, bids[testAdUnit_2]);
     XCTAssertTrue([bids[unInitializedSlot] isEmpty]);
-    // Only call [ApiHandler callCdb] for registered Ad Units
+    // Only call [CR_ApiHandler callCdb] for registered Ad Units
     OCMVerify([mockApiHandler callCdb:testAdUnit gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
     OCMVerify([mockApiHandler callCdb:testAdUnit_2 gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
 }
@@ -215,8 +215,8 @@
     // if the caller asks for a bid for an un initialized slot
     CRAdUnit *unInitializedSlot = [[CRAdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
 
-    id mockApiHandler = OCMClassMock([ApiHandler class]);
-    // NO calls should be made to [ApiHandler callCdb]
+    id mockApiHandler = OCMClassMock([CR_ApiHandler class]);
+    // NO calls should be made to [CR_ApiHandler callCdb]
     OCMReject([mockApiHandler callCdb:testAdUnit gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
     OCMReject([mockApiHandler callCdb:testAdUnit_2 gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
     OCMReject([mockApiHandler callCdb:unInitializedSlot gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);

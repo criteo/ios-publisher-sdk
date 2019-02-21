@@ -9,7 +9,7 @@
 #ifndef CR_AppEvents_h
 #define CR_AppEvents_h
 
-#import "ApiHandler.h"
+#import "CR_ApiHandler.h"
 #import "CR_GdprUserConsent.h"
 #import "CR_Config.h"
 #import "CR_DeviceInfo.h"
@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic) BOOL throttleExpired;
 
 - (instancetype) init NS_UNAVAILABLE;
-- (instancetype) initWithApiHandler: (ApiHandler *) apiHandler
+- (instancetype) initWithApiHandler: (CR_ApiHandler *) apiHandler
                              config: (CR_Config *) config
                                gdpr: (CR_GdprUserConsent *) gdpr
                          deviceInfo: (CR_DeviceInfo *) deviceInfo;

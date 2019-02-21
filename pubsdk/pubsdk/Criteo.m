@@ -33,7 +33,7 @@ static Criteo *sharedInstance;
     CR_Config *config = [[CR_Config alloc] initWithNetworkId:@(networkId)];
     CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] init];
     CR_NetworkManager *networkManager = [[CR_NetworkManager alloc] initWithDeviceInfo:deviceInfo];
-    ApiHandler *apiHandler = [[ApiHandler alloc] initWithNetworkManager:networkManager];
+    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:networkManager];
     CR_ConfigManager *configManager = [[CR_ConfigManager alloc] initWithApiHandler:apiHandler];
 
     CR_CacheManager *cacheManager = [[CR_CacheManager alloc] init];

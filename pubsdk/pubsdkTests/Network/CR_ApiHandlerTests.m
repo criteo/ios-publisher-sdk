@@ -1,5 +1,5 @@
 //
-//  ApiHandlerTests.m
+//  CR_ApiHandlerTests.m
 //  pubsdkTests
 //
 //  Created by Adwait Kulkarni on 1/14/19.
@@ -18,11 +18,11 @@
 #import "Logging.h"
 #import "CR_NetworkManager.h"
 
-@interface ApiHandlerTests : XCTestCase
+@interface CR_ApiHandlerTests : XCTestCase
 
 @end
 
-@implementation ApiHandlerTests
+@implementation CR_ApiHandlerTests
 
 - (void) testCallCdb {
     XCTestExpectation *expectation = [self expectationWithDescription:@"CDB call expectation"];
@@ -40,7 +40,7 @@
                                  postBody:[OCMArg isKindOfClass:[NSDictionary class]]
                           responseHandler:([OCMArg invokeBlockWithArgs:responseData, error, nil])]);
 
-    ApiHandler *apiHandler = [[ApiHandler alloc] initWithNetworkManager:mockNetworkManager];
+    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager];
 
     CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid_1" cpm:@"1.12"
                                               currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil
@@ -123,7 +123,7 @@
     OCMStub([mockConfig sdkVersion]).andReturn(@"1.0");
     OCMStub([mockConfig appId]).andReturn(@"com.criteo.pubsdk");
 
-    ApiHandler *apiHandler = [[ApiHandler alloc] initWithNetworkManager:mockNetworkManager];
+    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager];
 
     [apiHandler getConfig:mockConfig ahConfigHandler:^(NSDictionary *configValues){
         CLog(@"Data length is %ld", [configValues count]);

@@ -12,7 +12,7 @@
 #import <OCMock.h>
 
 #import "CR_Config.h"
-#import "ApiHandler.h"
+#import "CR_ApiHandler.h"
 
 @interface CR_ConfigTests: XCTestCase
 

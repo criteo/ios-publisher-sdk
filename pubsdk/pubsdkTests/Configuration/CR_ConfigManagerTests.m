@@ -20,7 +20,7 @@
 {
     NSDictionary *remoteConfig;
     CR_Config *localConfig;
-    ApiHandler *mockApiHandler;
+    CR_ApiHandler *mockApiHandler;
 }
 
 - (void)setUp {
@@ -32,7 +32,7 @@
     localConfig.killSwitch = YES;
 
     // Mock remote config API, returns the remoteConfig dictionary above
-    mockApiHandler = OCMStrictClassMock(ApiHandler.class);
+    mockApiHandler = OCMStrictClassMock(CR_ApiHandler.class);
 
     OCMStub([mockApiHandler getConfig:localConfig
                       ahConfigHandler:([OCMArg invokeBlockWithArgs:remoteConfig, nil])]);

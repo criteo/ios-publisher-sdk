@@ -12,7 +12,7 @@
 #import <Foundation/Foundation.h>
 
 #import "CRAdUnit.h"
-#import "ApiHandler.h"
+#import "CR_ApiHandler.h"
 #import "CR_CacheManager.h"
 #import "CR_Config.h"
 #import "CR_ConfigManager.h"
@@ -28,7 +28,7 @@
 
 - (instancetype) init NS_UNAVAILABLE;
 
-- (instancetype) initWithApiHandler:(ApiHandler*)apiHandler
+- (instancetype) initWithApiHandler:(CR_ApiHandler*)apiHandler
                        cacheManager:(CR_CacheManager*)cacheManager
                              config:(CR_Config*)config
                       configManager:(CR_ConfigManager*)configManager

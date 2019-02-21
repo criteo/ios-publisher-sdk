@@ -10,7 +10,7 @@
 #define CR_ConfigManager_h
 
 #import <Foundation/Foundation.h>
-#import "ApiHandler.h"
+#import "CR_ApiHandler.h"
 #import "CR_Config.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CR_ConfigManager : NSObject
 
 - (instancetype) init NS_UNAVAILABLE;
-- (instancetype) initWithApiHandler:(ApiHandler*)apiHandler NS_DESIGNATED_INITIALIZER;
+- (instancetype) initWithApiHandler:(CR_ApiHandler*)apiHandler NS_DESIGNATED_INITIALIZER;
 - (void) refreshConfig:(CR_Config*)config;
 
 @end

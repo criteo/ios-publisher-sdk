@@ -10,7 +10,7 @@
 #import <XCTest/XCTest.h>
 #import <OCMock.h>
 #import "CR_AppEvents.h"
-#import "ApiHandler.h"
+#import "CR_ApiHandler.h"
 
 @interface CR_AppEventsTests : XCTestCase
 
@@ -21,7 +21,7 @@
 // Internally sendLaunchEvent, sendActiveEvent and sendInActiveEvent call the same method
 // So this test should suffice
 - (void) testSendEvent {
-    ApiHandler *mockApiHandler = OCMStrictClassMock([ApiHandler class]);
+    CR_ApiHandler *mockApiHandler = OCMStrictClassMock([CR_ApiHandler class]);
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     CR_GdprUserConsent *mockGdpr = OCMStrictClassMock([CR_GdprUserConsent class]);
     CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
@@ -45,7 +45,7 @@
 }
 
 - (void) testThrottleExpiredZeroThrottle {
-    ApiHandler *mockApiHandler = OCMStrictClassMock([ApiHandler class]);
+    CR_ApiHandler *mockApiHandler = OCMStrictClassMock([CR_ApiHandler class]);
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     CR_GdprUserConsent *mockGdpr = OCMStrictClassMock([CR_GdprUserConsent class]);
     CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
@@ -69,7 +69,7 @@
 }
 
 - (void) testThrottleExpiredWithThrottleSecs {
-    ApiHandler *mockApiHandler = OCMStrictClassMock([ApiHandler class]);
+    CR_ApiHandler *mockApiHandler = OCMStrictClassMock([CR_ApiHandler class]);
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     CR_GdprUserConsent *mockGdpr = OCMStrictClassMock([CR_GdprUserConsent class]);
     CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
@@ -93,7 +93,7 @@
 }
 
 - (void) testThrottleNotExpiredWithThrottleSecs {
-    ApiHandler *mockApiHandler = OCMStrictClassMock([ApiHandler class]);
+    CR_ApiHandler *mockApiHandler = OCMStrictClassMock([CR_ApiHandler class]);
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     CR_GdprUserConsent *mockGdpr = OCMStrictClassMock([CR_GdprUserConsent class]);
     CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
@@ -119,7 +119,7 @@
 /*
 // This is to test if CR_AppEvents makes one and only one call to the [apiHandler sendAppEvent]
 - (void) testNoApiCallIfThrottleIsOn {
-    ApiHandler *mockApiHandler = OCMStrictClassMock([ApiHandler class]);
+    CR_ApiHandler *mockApiHandler = OCMStrictClassMock([CR_ApiHandler class]);
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     CR_GdprUserConsent *mockGdpr = OCMStrictClassMock([CR_GdprUserConsent class]);
     CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
@@ -137,7 +137,7 @@
     [appEvents sendLaunchEvent];
     XCTAssertEqual(300, [appEvents throttleSec]);
     XCTAssertFalse([appEvents throttleExpired]);
-    // The next call to send*Event should NOT fire a call to ApiHandler as the throttle is on
+    // The next call to send*Event should NOT fire a call to CR_ApiHandler as the throttle is on
     OCMReject([mockApiHandler sendAppEvent:[OCMArg isKindOfClass:[NSString class]]
                                gdprConsent:[OCMArg isKindOfClass:[CR_GdprUserConsent class]]
                                     config:[OCMArg isKindOfClass:[CR_Config class]]
@@ -149,7 +149,7 @@
 
 // This is to test if CR_AppEvents makes two calls to the [apiHandler sendAppEvent]
 - (void) testApiCallIfThrottleIsExpired {
-    ApiHandler *mockApiHandler = OCMStrictClassMock([ApiHandler class]);
+    CR_ApiHandler *mockApiHandler = OCMStrictClassMock([CR_ApiHandler class]);
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     CR_GdprUserConsent *mockGdpr = OCMStrictClassMock([CR_GdprUserConsent class]);
     CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
@@ -167,7 +167,7 @@
     [appEvents sendLaunchEvent];
     XCTAssertEqual(10, [appEvents throttleSec]);
     XCTAssertTrue([appEvents throttleExpired]);
-    // The next call to send*Event should fire a call to ApiHandler as the throttle is off
+    // The next call to send*Event should fire a call to CR_ApiHandler as the throttle is off
     OCMReject([mockApiHandler sendAppEvent:[OCMArg isKindOfClass:[NSString class]]
                                gdprConsent:[OCMArg isKindOfClass:[CR_GdprUserConsent class]]
                                     config:[OCMArg isKindOfClass:[CR_Config class]]

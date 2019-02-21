@@ -1,13 +1,13 @@
 //
-//  ApiHandler.h
+//  CR_ApiHandler.h
 //  pubsdk
 //
 //  Created by Adwait Kulkarni on 12/6/18.
 //  Copyright © 2018 Criteo. All rights reserved.
 //
 
-#ifndef ApiHandler_h
-#define ApiHandler_h
+#ifndef CR_ApiHandler_h
+#define CR_ApiHandler_h
 
 #import <Foundation/Foundation.h>
 #import "CR_NetworkManager.h"
@@ -21,7 +21,7 @@ typedef void (^AHCdbResponse)(CR_CdbResponse *cdbResponse);
 typedef void (^AHConfigResponse)(NSDictionary *configValues);
 typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receivedAt);
 
-@interface ApiHandler : NSObject
+@interface CR_ApiHandler : NSObject
 @property (strong, nonatomic) CR_NetworkManager *networkManager;
 
 - (instancetype) init NS_UNAVAILABLE;
@@ -55,4 +55,4 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler;
 
 @end
 
-#endif /* ApiHandler_h */
+#endif /* CR_ApiHandler_h */
