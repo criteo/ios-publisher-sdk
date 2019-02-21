@@ -10,7 +10,7 @@
 #define ApiHandler_h
 
 #import <Foundation/Foundation.h>
-#import "NetworkManager.h"
+#import "CR_NetworkManager.h"
 #import "CRAdUnit.h"
 #import "CR_CdbResponse.h"
 #import "CR_Config.h"
@@ -22,10 +22,10 @@ typedef void (^AHConfigResponse)(NSDictionary *configValues);
 typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receivedAt);
 
 @interface ApiHandler : NSObject
-@property (strong, nonatomic) NetworkManager *networkManager;
+@property (strong, nonatomic) CR_NetworkManager *networkManager;
 
 - (instancetype) init NS_UNAVAILABLE;
-- (instancetype) initWithNetworkManager:(NetworkManager*)networkManager NS_DESIGNATED_INITIALIZER;
+- (instancetype) initWithNetworkManager:(CR_NetworkManager*)networkManager NS_DESIGNATED_INITIALIZER;
 
 /*
  * Calls CDB and get the bid & creative for the adUnit

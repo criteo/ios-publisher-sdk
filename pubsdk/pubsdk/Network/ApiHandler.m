@@ -18,7 +18,7 @@
     return [self initWithNetworkManager:nil];
 }
 
-- (instancetype) initWithNetworkManager:(NetworkManager*)networkManager {
+- (instancetype) initWithNetworkManager:(CR_NetworkManager*)networkManager {
     if(self = [super init]) {
         self.networkManager = networkManager;
     }

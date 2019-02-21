@@ -18,7 +18,7 @@
 #import "CR_ConfigManager.h"
 #import "CR_DeviceInfo.h"
 #import "CR_GdprUserConsent.h"
-#import "NetworkManager.h"
+#import "CR_NetworkManager.h"
 #import "NetworkManagerDelegate.h"
 #import "CR_AppEvents.h"
 
@@ -34,7 +34,7 @@
                       configManager:(CR_ConfigManager*)configManager
                          deviceInfo:(CR_DeviceInfo*)deviceInfo
                     gdprUserConsent:(CR_GdprUserConsent*)gdprUserConsent
-                     networkManager:(NetworkManager*)networkManager
+                     networkManager:(CR_NetworkManager*)networkManager
                           appEvents:(CR_AppEvents *)appEvents
                      timeToNextCall:(NSTimeInterval)timeToNextCall
 NS_DESIGNATED_INITIALIZER;

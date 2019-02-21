@@ -13,12 +13,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class NetworkManager;
+@class CR_NetworkManager;
 
 @protocol NetworkManagerDelegate <NSObject>
 
-- (void) networkManager:(NetworkManager*)manager sentRequest:(NSURLRequest*)request;
-- (void) networkManager:(NetworkManager*)manager receivedResponse:(NSURLResponse*)response withData:(NSData*)data error:(NSError*)error;
+- (void) networkManager:(CR_NetworkManager*)manager sentRequest:(NSURLRequest*)request;
+- (void) networkManager:(CR_NetworkManager*)manager receivedResponse:(NSURLResponse*)response withData:(NSData*)data error:(NSError*)error;
 
 @end
 

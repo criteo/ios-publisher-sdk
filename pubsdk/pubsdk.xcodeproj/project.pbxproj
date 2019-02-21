@@ -27,7 +27,7 @@
 		E104B6B321E57F7B004D86C4 /* CR_BidManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6B221E57F7B004D86C4 /* CR_BidManagerTests.m */; };
 		E104B6B521E580E9004D86C4 /* CR_CdbBidTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6B421E580E9004D86C4 /* CR_CdbBidTests.m */; };
 		E104B6B821ED19A7004D86C4 /* ApiHandlerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6B721ED19A7004D86C4 /* ApiHandlerTests.m */; };
-		E104B6BB21EFE733004D86C4 /* NetworkManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6BA21EFE733004D86C4 /* NetworkManagerTests.m */; };
+		E104B6BB21EFE733004D86C4 /* CR_NetworkManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6BA21EFE733004D86C4 /* CR_NetworkManagerTests.m */; };
 		E104B6BD21F0253E004D86C4 /* DummyDfpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6BC21F0253E004D86C4 /* DummyDfpRequest.m */; };
 		E12A7F5621F8FD25002B4548 /* CR_GdprUserConsent.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5521F8FD25002B4548 /* CR_GdprUserConsent.m */; };
 		E12A7F5821F914DA002B4548 /* CR_GdprUserConsentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5721F914DA002B4548 /* CR_GdprUserConsentTests.m */; };
@@ -41,7 +41,7 @@
 		E1F2736E21B5F08D00A2FBFA /* pubsdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F2736421B5F08D00A2FBFA /* pubsdk.framework */; };
 		E1F2737321B5F08D00A2FBFA /* pubsdkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F2737221B5F08D00A2FBFA /* pubsdkTests.m */; };
 		E1F2737521B5F08D00A2FBFA /* pubsdk.h in Headers */ = {isa = PBXBuildFile; fileRef = E1F2736721B5F08D00A2FBFA /* pubsdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E1F2738421B9B58900A2FBFA /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F2738321B9B58900A2FBFA /* NetworkManager.m */; };
+		E1F2738421B9B58900A2FBFA /* CR_NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F2738321B9B58900A2FBFA /* CR_NetworkManager.m */; };
 		E1F2738721B9BF4900A2FBFA /* ApiHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F2738621B9BF4900A2FBFA /* ApiHandler.m */; };
 		E1F2738B21BB12C300A2FBFA /* Criteo.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F2738A21BB12C300A2FBFA /* Criteo.m */; };
 		E1F273B421C85A2300A2FBFA /* pubsdk.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1F2736421B5F08D00A2FBFA /* pubsdk.framework */; };
@@ -99,7 +99,7 @@
 		E104B6B621E92D4B004D86C4 /* CR_Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_Config.h; sourceTree = "<group>"; };
 		E104B6B721ED19A7004D86C4 /* ApiHandlerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ApiHandlerTests.m; sourceTree = "<group>"; };
 		E104B6B921EEA188004D86C4 /* DummyDfpRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DummyDfpRequest.h; sourceTree = "<group>"; };
-		E104B6BA21EFE733004D86C4 /* NetworkManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkManagerTests.m; sourceTree = "<group>"; };
+		E104B6BA21EFE733004D86C4 /* CR_NetworkManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_NetworkManagerTests.m; sourceTree = "<group>"; };
 		E104B6BC21F0253E004D86C4 /* DummyDfpRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DummyDfpRequest.m; sourceTree = "<group>"; };
 		E12A7F5421F8FBD6002B4548 /* CR_GdprUserConsent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_GdprUserConsent.h; sourceTree = "<group>"; };
 		E12A7F5521F8FD25002B4548 /* CR_GdprUserConsent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_GdprUserConsent.m; sourceTree = "<group>"; };
@@ -119,8 +119,8 @@
 		E1F2736D21B5F08D00A2FBFA /* pubsdkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = pubsdkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1F2737221B5F08D00A2FBFA /* pubsdkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = pubsdkTests.m; sourceTree = "<group>"; };
 		E1F2737421B5F08D00A2FBFA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E1F2738221B9B01200A2FBFA /* NetworkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
-		E1F2738321B9B58900A2FBFA /* NetworkManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
+		E1F2738221B9B01200A2FBFA /* CR_NetworkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_NetworkManager.h; sourceTree = "<group>"; };
+		E1F2738321B9B58900A2FBFA /* CR_NetworkManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_NetworkManager.m; sourceTree = "<group>"; };
 		E1F2738521B9BE2700A2FBFA /* ApiHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApiHandler.h; sourceTree = "<group>"; };
 		E1F2738621B9BF4900A2FBFA /* ApiHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ApiHandler.m; sourceTree = "<group>"; };
 		E1F2738A21BB12C300A2FBFA /* Criteo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Criteo.m; sourceTree = "<group>"; };
@@ -203,8 +203,8 @@
 				E1F2738621B9BF4900A2FBFA /* ApiHandler.m */,
 				E1D7DF0122138E6D006090C0 /* CR_CdbResponse.h */,
 				E1D7DF0222138F9A006090C0 /* CR_CdbResponse.m */,
-				E1F2738221B9B01200A2FBFA /* NetworkManager.h */,
-				E1F2738321B9B58900A2FBFA /* NetworkManager.m */,
+				E1F2738221B9B01200A2FBFA /* CR_NetworkManager.h */,
+				E1F2738321B9B58900A2FBFA /* CR_NetworkManager.m */,
 				25022DE4220A3F0300FF8ACE /* NetworkManagerDelegate.h */,
 			);
 			path = Network;
@@ -214,7 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				E104B6B721ED19A7004D86C4 /* ApiHandlerTests.m */,
-				E104B6BA21EFE733004D86C4 /* NetworkManagerTests.m */,
+				E104B6BA21EFE733004D86C4 /* CR_NetworkManagerTests.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -466,7 +466,7 @@
 				E12A7F5621F8FD25002B4548 /* CR_GdprUserConsent.m in Sources */,
 				258821DA22000F8000398E9F /* CR_DeviceInfo.m in Sources */,
 				E104B6AD21E41D60004D86C4 /* CRAdUnit.m in Sources */,
-				E1F2738421B9B58900A2FBFA /* NetworkManager.m in Sources */,
+				E1F2738421B9B58900A2FBFA /* CR_NetworkManager.m in Sources */,
 				258821D321FD3FB600398E9F /* CR_ConfigManager.m in Sources */,
 				E1F2738721B9BF4900A2FBFA /* ApiHandler.m in Sources */,
 				E1F273C221C9765100A2FBFA /* CR_CacheManager.m in Sources */,
@@ -484,7 +484,7 @@
 			files = (
 				255151C92202AEF800F76E3F /* NSString+UrlEncoderTests.m in Sources */,
 				25B6505D2208C29D008416D3 /* LoggingTests.m in Sources */,
-				E104B6BB21EFE733004D86C4 /* NetworkManagerTests.m in Sources */,
+				E104B6BB21EFE733004D86C4 /* CR_NetworkManagerTests.m in Sources */,
 				E104B6B821ED19A7004D86C4 /* ApiHandlerTests.m in Sources */,
 				E12A7F75220A82FD002B4548 /* CR_AppEventsTests.m in Sources */,
 				E12A7F5821F914DA002B4548 /* CR_GdprUserConsentTests.m in Sources */,

@@ -1,5 +1,5 @@
 //
-//  NetworkManagerTests.m
+//  CR_NetworkManagerTests.m
 //  pubsdkTests
 //
 //  Created by Adwait Kulkarni on 1/16/19.
@@ -14,14 +14,14 @@
 #import "CR_CdbBid.h"
 #import "CR_Config.h"
 #import "Logging.h"
-#import "NetworkManager.h"
+#import "CR_NetworkManager.h"
 #import "NetworkManagerDelegate.h"
 
-@interface NetworkManagerTests : XCTestCase
+@interface CR_NetworkManagerTests : XCTestCase
 
 @end
 
-@implementation NetworkManagerTests
+@implementation CR_NetworkManagerTests
 
 // NOT a unit test as it uses the interwebs.
 - (void) testNetworkManagerPostCall {
@@ -75,7 +75,7 @@
     
     NSURL *url = [NSURL URLWithString: @"http://directbidder-test-app.par.preprod.crto.in/inapp/v1?profileId=235"];
     
-    NetworkManager *networkManager = [[NetworkManager alloc] initWithDeviceInfo:deviceInfo];
+    CR_NetworkManager *networkManager = [[CR_NetworkManager alloc] initWithDeviceInfo:deviceInfo];
     id<NetworkManagerDelegate> delegateMock = [self stubNetworkManagerDelegateForNetworkManager:networkManager];
 
     networkManager.delegate = delegateMock;
@@ -112,7 +112,7 @@
     NSString *urlString = [NSString stringWithFormat:@"https://pub-sdk-cfg.par.preprod.crto.in/v1.0/api/config?%@", query];
     NSURL *url = [NSURL URLWithString: urlString];
     
-    NetworkManager *networkManager = [[NetworkManager alloc] initWithDeviceInfo:deviceInfo];
+    CR_NetworkManager *networkManager = [[CR_NetworkManager alloc] initWithDeviceInfo:deviceInfo];
     id<NetworkManagerDelegate> delegateMock = [self stubNetworkManagerDelegateForNetworkManager:networkManager];
 
     networkManager.delegate = delegateMock;
@@ -137,7 +137,7 @@
     [self waitForExpectations:@[expectation] timeout:250];
 }
 
-- (id<NetworkManagerDelegate>) stubNetworkManagerDelegateForNetworkManager:(NetworkManager*)networkManager
+- (id<NetworkManagerDelegate>) stubNetworkManagerDelegateForNetworkManager:(CR_NetworkManager*)networkManager
 {
     id<NetworkManagerDelegate> delegateMock = OCMStrictProtocolMock(@protocol(NetworkManagerDelegate));
 
@@ -151,7 +151,7 @@
 }
 
 - (void) verifyNetworkManagerDelegate:(id<NetworkManagerDelegate>)delegateMock
-                   withNetworkManager:(NetworkManager*)networkManager
+                   withNetworkManager:(CR_NetworkManager*)networkManager
                           expectation:(XCTestExpectation*)expectation
 {
     dispatch_async(dispatch_get_main_queue(), ^{

@@ -1,14 +1,14 @@
 //
-//  NetworkManager.m
+//  CR_NetworkManager.m
 //  pubsdk
 //
 //  Created by Adwait Kulkarni on 12/6/18.
 //  Copyright © 2018 Criteo. All rights reserved.
 //
 
-#import "NetworkManager.h"
+#import "CR_NetworkManager.h"
 
-@implementation NetworkManager
+@implementation CR_NetworkManager
 {
     CR_DeviceInfo *deviceInfo;
     NSURLSession *session;
@@ -47,7 +47,7 @@
 }
 
 - (void) getFromUrl:(NSURL *) url
-    responseHandler:(NMResponse) responseHandler {
+    responseHandler:(CR_NMResponse) responseHandler {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
 
     if (deviceInfo.userAgent) {
@@ -80,7 +80,7 @@
 
 - (void) postToUrl:(NSURL *) url
           postBody:(NSDictionary *) postBody
-   responseHandler:(NMResponse) responseHandler {
+   responseHandler:(CR_NMResponse) responseHandler {
     
     NSMutableURLRequest *postRequest = [NSMutableURLRequest requestWithURL:url];
     [postRequest setTimeoutInterval: 30];
@@ -95,7 +95,7 @@
 
     //debug code
     //NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    //CLog(@"NetworkManager url: %@ \nbody:\n %@",url, jsonString);
+    //CLog(@"CR_NetworkManager url: %@ \nbody:\n %@",url, jsonString);
 
     //[postRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [postRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];

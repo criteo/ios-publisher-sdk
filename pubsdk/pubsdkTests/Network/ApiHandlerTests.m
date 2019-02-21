@@ -16,7 +16,7 @@
 #import "CR_Config.h"
 #import "CR_GdprUserConsent.h"
 #import "Logging.h"
-#import "NetworkManager.h"
+#import "CR_NetworkManager.h"
 
 @interface ApiHandlerTests : XCTestCase
 
@@ -27,7 +27,7 @@
 - (void) testCallCdb {
     XCTestExpectation *expectation = [self expectationWithDescription:@"CDB call expectation"];
 
-    NetworkManager *mockNetworkManager = OCMStrictClassMock([NetworkManager class]);
+    CR_NetworkManager *mockNetworkManager = OCMStrictClassMock([CR_NetworkManager class]);
 
     // Json response from CDB
     NSString *rawJsonCdbResponse = @"{\"slots\":[{\"placementId\": \"adunitid_1\",\"cpm\":\"1.12\",\"currency\":\"EUR\",\"width\": 300,\"height\": 250, \"ttl\": 600, \"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"}]}";
@@ -107,7 +107,7 @@
 - (void) testGetConfig {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Config call expectation"];
 
-    NetworkManager *mockNetworkManager = OCMStrictClassMock([NetworkManager class]);
+    CR_NetworkManager *mockNetworkManager = OCMStrictClassMock([CR_NetworkManager class]);
 
     // Json response from CR_Config
     NSString *rawJsonCdbResponse = @"{\"killSwitch\":true}";
