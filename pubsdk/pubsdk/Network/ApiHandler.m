@@ -94,7 +94,7 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
     [self.networkManager postToUrl:url postBody:postBody responseHandler:^(NSData *data, NSError *error) {
         if(error == nil) {
             if(data && ahCdbResponseHandler) {
-                CdbResponse *cdbResponse = [CdbResponse getCdbResponseForData:data receivedAt:[NSDate date]];
+                CR_CdbResponse *cdbResponse = [CR_CdbResponse getCdbResponseForData:data receivedAt:[NSDate date]];
                 ahCdbResponseHandler(cdbResponse);
             } else {
                 CLog(@"Error on post to CDB : response from CDB was nil");

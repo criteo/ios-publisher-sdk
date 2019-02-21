@@ -120,7 +120,7 @@
                   gdprConsent:self->gdprUserConsent
                        config:self->config
                    deviceInfo:self->deviceInfo
-         ahCdbResponseHandler:^(CdbResponse *cdbResponse) {
+         ahCdbResponseHandler:^(CR_CdbResponse *cdbResponse) {
              if(cdbResponse.timeToNextCall) {
                  self->cdbTimeToNextCall = [[NSDate dateWithTimeIntervalSinceNow:cdbResponse.timeToNextCall]
                                             timeIntervalSinceReferenceDate];

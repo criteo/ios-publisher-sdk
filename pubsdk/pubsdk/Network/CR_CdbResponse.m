@@ -1,15 +1,15 @@
 //
-//  CdbResponse.m
+//  CR_CdbResponse.m
 //  pubsdk
 //
 //  Created by Adwait Kulkarni on 2/12/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#import "CdbResponse.h"
+#import "CR_CdbResponse.h"
 #import "Logging.h"
 
-@implementation CdbResponse
+@implementation CR_CdbResponse
 
 - (instancetype)init {
     if(self = [super init]) {
@@ -19,8 +19,8 @@
     return self;
 }
 
-+ (CdbResponse *)getCdbResponseForData:(NSData *)data receivedAt:(NSDate *)receivedAt {
-    CdbResponse *cdbResponse = [[CdbResponse alloc] init];
++ (CR_CdbResponse *)getCdbResponseForData:(NSData *)data receivedAt:(NSDate *)receivedAt {
+    CR_CdbResponse *cdbResponse = [[CR_CdbResponse alloc] init];
     cdbResponse.responseTime = receivedAt;
     cdbResponse.cdbBids = [CR_CdbBid getCdbResponsesForData:data receivedAt:receivedAt];
     cdbResponse.timeToNextCall = 0;

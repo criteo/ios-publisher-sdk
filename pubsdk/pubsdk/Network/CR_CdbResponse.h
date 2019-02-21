@@ -1,5 +1,5 @@
 //
-//  CdbResponse.h
+//  CR_CdbResponse.h
 //  pubsdk
 //
 //  Created by Adwait Kulkarni on 2/12/19.
@@ -14,7 +14,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CdbResponse : NSObject
+@interface CR_CdbResponse : NSObject
 
 @property (nonatomic) NSArray<CR_CdbBid *> *cdbBids;
 @property (nonatomic) NSUInteger timeToNextCall;
@@ -22,9 +22,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*
  * Helper function to convert NSData returned from a network call
- * to a CdbResponse object
+ * to a CR_CdbResponse object
  */
-+ (CdbResponse *) getCdbResponseForData: (NSData *) data
++ (CR_CdbResponse *) getCdbResponseForData: (NSData *) data
                              receivedAt: (NSDate *) receivedAt;
 
 @end

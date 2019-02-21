@@ -73,7 +73,7 @@
             gdprConsent:mockUserConsent
                  config:mockConfig
              deviceInfo:mockDeviceInfo
-   ahCdbResponseHandler:^(CdbResponse *cdbResponse) {
+   ahCdbResponseHandler:^(CR_CdbResponse *cdbResponse) {
 
        XCTAssertNotNil(cdbResponse.cdbBids);
        CLog(@"Data length is %ld", [cdbResponse.cdbBids count]);

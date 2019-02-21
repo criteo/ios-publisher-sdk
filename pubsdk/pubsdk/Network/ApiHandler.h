@@ -12,12 +12,12 @@
 #import <Foundation/Foundation.h>
 #import "NetworkManager.h"
 #import "CRAdUnit.h"
-#import "CdbResponse.h"
+#import "CR_CdbResponse.h"
 #import "CR_Config.h"
 #import "CR_GdprUserConsent.h"
 #import "CR_DeviceInfo.h"
 
-typedef void (^AHCdbResponse)(CdbResponse *cdbResponse);
+typedef void (^AHCdbResponse)(CR_CdbResponse *cdbResponse);
 typedef void (^AHConfigResponse)(NSDictionary *configValues);
 typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receivedAt);
 

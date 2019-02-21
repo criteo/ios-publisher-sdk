@@ -1,5 +1,5 @@
 //
-//  CdbResponseTests.m
+//  CR_CdbResponseTests.m
 //  pubsdkTests
 //
 //  Created by Adwait Kulkarni on 2/13/19.
@@ -9,13 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 
-#import "CdbResponse.h"
+#import "CR_CdbResponse.h"
 
-@interface CdbResponseTests : XCTestCase
+@interface CR_CdbResponseTests : XCTestCase
 
 @end
 
-@implementation CdbResponseTests
+@implementation CR_CdbResponseTests
 
 - (void) testParsingWithNoTimeToNextCall {
 
@@ -39,7 +39,7 @@
     {\"placementId\": \"adunitid_2\",\"zoneId\": 1234567,\"cpm\":5.12,\"currency\":\"EUR\",\"width\": 300,\"height\": 250,\"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />\"}]}";
     NSData *cdbApiResponse = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
 
-    CdbResponse *cdbResponse = [CdbResponse getCdbResponseForData:cdbApiResponse receivedAt:testDate];
+    CR_CdbResponse *cdbResponse = [CR_CdbResponse getCdbResponseForData:cdbApiResponse receivedAt:testDate];
     XCTAssertNotNil(cdbResponse);
     XCTAssertNotNil(cdbResponse.cdbBids);
     XCTAssertEqual(2, cdbResponse.cdbBids.count);
@@ -70,7 +70,7 @@
     {\"placementId\": \"adunitid_2\",\"zoneId\": 1234567,\"cpm\":5.12,\"currency\":\"EUR\",\"width\": 300,\"height\": 250,\"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />\"}], \"timeToNextCall\":360}";
     NSData *cdbApiResponse = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
 
-    CdbResponse *cdbResponse = [CdbResponse getCdbResponseForData:cdbApiResponse receivedAt:testDate];
+    CR_CdbResponse *cdbResponse = [CR_CdbResponse getCdbResponseForData:cdbApiResponse receivedAt:testDate];
     XCTAssertNotNil(cdbResponse);
     XCTAssertNotNil(cdbResponse.cdbBids);
     XCTAssertEqual(2, cdbResponse.cdbBids.count);
@@ -86,7 +86,7 @@
     NSString *rawJsonCdbResponse = @"{\"slots\":[], \"timeToNextCall\":600}";
     NSData *cdbApiResponse = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
 
-    CdbResponse *cdbResponse = [CdbResponse getCdbResponseForData:cdbApiResponse receivedAt:testDate];
+    CR_CdbResponse *cdbResponse = [CR_CdbResponse getCdbResponseForData:cdbApiResponse receivedAt:testDate];
     XCTAssertNotNil(cdbResponse);
     XCTAssertNotNil(cdbResponse.cdbBids);
     XCTAssertEqual(0, cdbResponse.cdbBids.count);
@@ -100,7 +100,7 @@
     NSString *rawJsonCdbResponse = @"{\"timeToNextCall\":720}";
     NSData *cdbApiResponse = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
 
-    CdbResponse *cdbResponse = [CdbResponse getCdbResponseForData:cdbApiResponse receivedAt:testDate];
+    CR_CdbResponse *cdbResponse = [CR_CdbResponse getCdbResponseForData:cdbApiResponse receivedAt:testDate];
     XCTAssertNotNil(cdbResponse);
     XCTAssertNotNil(cdbResponse.cdbBids);
     XCTAssertEqual(0, cdbResponse.cdbBids.count);
@@ -121,7 +121,7 @@
     NSString *rawJsonCdbResponse = @"{\"slots\":[{\"placementId\": \"adunitid_1\",\"zoneId\": 497747,\"cpm\":1.12,\"currency\":\"EUR\", \"ttl\":600, \"width\": 300,\"height\": 250,\"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"}], \"timeToNextCall\":null}";
     NSData *cdbApiResponse = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
 
-    CdbResponse *cdbResponse = [CdbResponse getCdbResponseForData:cdbApiResponse receivedAt:testDate];
+    CR_CdbResponse *cdbResponse = [CR_CdbResponse getCdbResponseForData:cdbApiResponse receivedAt:testDate];
     XCTAssertNotNil(cdbResponse);
     XCTAssertNotNil(cdbResponse.cdbBids);
     XCTAssertEqual(1, cdbResponse.cdbBids.count);
@@ -144,7 +144,7 @@
     NSString *rawJsonCdbResponse = @"{\"slots\":[{\"placementId\": \"adunitid_1\",\"zoneId\": 497747,\"cpm\":1.12,\"currency\":\"EUR\", \"ttl\":600, \"width\": 300,\"height\": 250,\"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"}], \"timeToNextCall\":\"555\"}";
     NSData *cdbApiResponse = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
 
-    CdbResponse *cdbResponse = [CdbResponse getCdbResponseForData:cdbApiResponse receivedAt:testDate];
+    CR_CdbResponse *cdbResponse = [CR_CdbResponse getCdbResponseForData:cdbApiResponse receivedAt:testDate];
     XCTAssertNotNil(cdbResponse);
     XCTAssertNotNil(cdbResponse.cdbBids);
     XCTAssertEqual(1, cdbResponse.cdbBids.count);
