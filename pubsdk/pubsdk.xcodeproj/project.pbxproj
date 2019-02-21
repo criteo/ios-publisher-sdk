@@ -29,8 +29,8 @@
 		E104B6B821ED19A7004D86C4 /* ApiHandlerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6B721ED19A7004D86C4 /* ApiHandlerTests.m */; };
 		E104B6BB21EFE733004D86C4 /* NetworkManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6BA21EFE733004D86C4 /* NetworkManagerTests.m */; };
 		E104B6BD21F0253E004D86C4 /* DummyDfpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6BC21F0253E004D86C4 /* DummyDfpRequest.m */; };
-		E12A7F5621F8FD25002B4548 /* GdprUserConsent.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5521F8FD25002B4548 /* GdprUserConsent.m */; };
-		E12A7F5821F914DA002B4548 /* GdprUserConsentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5721F914DA002B4548 /* GdprUserConsentTests.m */; };
+		E12A7F5621F8FD25002B4548 /* CR_GdprUserConsent.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5521F8FD25002B4548 /* CR_GdprUserConsent.m */; };
+		E12A7F5821F914DA002B4548 /* CR_GdprUserConsentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5721F914DA002B4548 /* CR_GdprUserConsentTests.m */; };
 		E12A7F5A21FA6FA4002B4548 /* CR_Config.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5921FA6FA4002B4548 /* CR_Config.m */; };
 		E12A7F5C21FBFAE6002B4548 /* CR_ConfigTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5B21FBFAE6002B4548 /* CR_ConfigTests.m */; };
 		E12A7F5E21FFBD2F002B4548 /* CR_CacheManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5D21FFBD2F002B4548 /* CR_CacheManagerTests.m */; };
@@ -101,9 +101,9 @@
 		E104B6B921EEA188004D86C4 /* DummyDfpRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DummyDfpRequest.h; sourceTree = "<group>"; };
 		E104B6BA21EFE733004D86C4 /* NetworkManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkManagerTests.m; sourceTree = "<group>"; };
 		E104B6BC21F0253E004D86C4 /* DummyDfpRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DummyDfpRequest.m; sourceTree = "<group>"; };
-		E12A7F5421F8FBD6002B4548 /* GdprUserConsent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GdprUserConsent.h; sourceTree = "<group>"; };
-		E12A7F5521F8FD25002B4548 /* GdprUserConsent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GdprUserConsent.m; sourceTree = "<group>"; };
-		E12A7F5721F914DA002B4548 /* GdprUserConsentTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GdprUserConsentTests.m; sourceTree = "<group>"; };
+		E12A7F5421F8FBD6002B4548 /* CR_GdprUserConsent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_GdprUserConsent.h; sourceTree = "<group>"; };
+		E12A7F5521F8FD25002B4548 /* CR_GdprUserConsent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_GdprUserConsent.m; sourceTree = "<group>"; };
+		E12A7F5721F914DA002B4548 /* CR_GdprUserConsentTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_GdprUserConsentTests.m; sourceTree = "<group>"; };
 		E12A7F5921FA6FA4002B4548 /* CR_Config.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_Config.m; sourceTree = "<group>"; };
 		E12A7F5B21FBFAE6002B4548 /* CR_ConfigTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_ConfigTests.m; sourceTree = "<group>"; };
 		E12A7F5D21FFBD2F002B4548 /* CR_CacheManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_CacheManagerTests.m; sourceTree = "<group>"; };
@@ -280,8 +280,8 @@
 				E1F2738C21BB1B1400A2FBFA /* Criteo.h */,
 				25022DE5220A709000FF8ACE /* Criteo+Internal.h */,
 				E1F2738A21BB12C300A2FBFA /* Criteo.m */,
-				E12A7F5421F8FBD6002B4548 /* GdprUserConsent.h */,
-				E12A7F5521F8FD25002B4548 /* GdprUserConsent.m */,
+				E12A7F5421F8FBD6002B4548 /* CR_GdprUserConsent.h */,
+				E12A7F5521F8FD25002B4548 /* CR_GdprUserConsent.m */,
 				E1F2736821B5F08D00A2FBFA /* Info.plist */,
 				25B6505E22091F1D008416D3 /* Network */,
 				E1F2736721B5F08D00A2FBFA /* pubsdk.h */,
@@ -302,7 +302,7 @@
 				258821DB2200143A00398E9F /* Configuration */,
 				E104B6B921EEA188004D86C4 /* DummyDfpRequest.h */,
 				E104B6BC21F0253E004D86C4 /* DummyDfpRequest.m */,
-				E12A7F5721F914DA002B4548 /* GdprUserConsentTests.m */,
+				E12A7F5721F914DA002B4548 /* CR_GdprUserConsentTests.m */,
 				E1F2737421B5F08D00A2FBFA /* Info.plist */,
 				25E52F3222091FD8006BA63A /* Network */,
 				E1F2737221B5F08D00A2FBFA /* pubsdkTests.m */,
@@ -463,7 +463,7 @@
 				25B6505B2206AB40008416D3 /* Logging.m in Sources */,
 				E1F273B921C87A2F00A2FBFA /* CR_CdbBid.m in Sources */,
 				E1F2738B21BB12C300A2FBFA /* Criteo.m in Sources */,
-				E12A7F5621F8FD25002B4548 /* GdprUserConsent.m in Sources */,
+				E12A7F5621F8FD25002B4548 /* CR_GdprUserConsent.m in Sources */,
 				258821DA22000F8000398E9F /* CR_DeviceInfo.m in Sources */,
 				E104B6AD21E41D60004D86C4 /* CRAdUnit.m in Sources */,
 				E1F2738421B9B58900A2FBFA /* NetworkManager.m in Sources */,
@@ -487,7 +487,7 @@
 				E104B6BB21EFE733004D86C4 /* NetworkManagerTests.m in Sources */,
 				E104B6B821ED19A7004D86C4 /* ApiHandlerTests.m in Sources */,
 				E12A7F75220A82FD002B4548 /* CR_AppEventsTests.m in Sources */,
-				E12A7F5821F914DA002B4548 /* GdprUserConsentTests.m in Sources */,
+				E12A7F5821F914DA002B4548 /* CR_GdprUserConsentTests.m in Sources */,
 				E104B6BD21F0253E004D86C4 /* DummyDfpRequest.m in Sources */,
 				E1F2737321B5F08D00A2FBFA /* pubsdkTests.m in Sources */,
 				E1D7DF052215136C006090C0 /* CdbResponseTests.m in Sources */,

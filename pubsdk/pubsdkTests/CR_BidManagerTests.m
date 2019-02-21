@@ -37,7 +37,7 @@
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     OCMStub([mockConfig killSwitch]).andReturn(NO);
 
-    GdprUserConsent *mockUserConsent = OCMStrictClassMock([GdprUserConsent class]);
+    CR_GdprUserConsent *mockUserConsent = OCMStrictClassMock([CR_GdprUserConsent class]);
     OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
     OCMStub([mockUserConsent consentGiven]).andReturn(YES);
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
@@ -78,7 +78,7 @@
     CRAdUnit *testEmptyAdUnit = [[CRAdUnit alloc] initWithAdUnitId:@"thisShouldReturnEmptyBid" width:300 height:250];
     cache.bidCache[testEmptyAdUnit] = testEmptyBid;
 
-    GdprUserConsent *mockUserConsent = OCMStrictClassMock([GdprUserConsent class]);
+    CR_GdprUserConsent *mockUserConsent = OCMStrictClassMock([CR_GdprUserConsent class]);
     OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
     OCMStub([mockUserConsent consentGiven]).andReturn(YES);
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
@@ -207,7 +207,7 @@
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     OCMStub([mockConfig killSwitch]).andReturn(NO);
 
-    GdprUserConsent *mockUserConsent = OCMStrictClassMock([GdprUserConsent class]);
+    CR_GdprUserConsent *mockUserConsent = OCMStrictClassMock([CR_GdprUserConsent class]);
     OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
     OCMStub([mockUserConsent consentGiven]).andReturn(YES);
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");

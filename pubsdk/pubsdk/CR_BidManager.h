@@ -17,7 +17,7 @@
 #import "CR_Config.h"
 #import "CR_ConfigManager.h"
 #import "CR_DeviceInfo.h"
-#import "GdprUserConsent.h"
+#import "CR_GdprUserConsent.h"
 #import "NetworkManager.h"
 #import "NetworkManagerDelegate.h"
 #import "CR_AppEvents.h"
@@ -33,7 +33,7 @@
                              config:(CR_Config*)config
                       configManager:(CR_ConfigManager*)configManager
                          deviceInfo:(CR_DeviceInfo*)deviceInfo
-                    gdprUserConsent:(GdprUserConsent*)gdprUserConsent
+                    gdprUserConsent:(CR_GdprUserConsent*)gdprUserConsent
                      networkManager:(NetworkManager*)networkManager
                           appEvents:(CR_AppEvents *)appEvents
                      timeToNextCall:(NSTimeInterval)timeToNextCall

@@ -27,7 +27,7 @@
 
 // Wrapper method to make the cdb call async
 - (void)     callCdb:(CRAdUnit *) adUnit
-         gdprConsent:(GdprUserConsent *)gdprConsent
+         gdprConsent:(CR_GdprUserConsent *)gdprConsent
               config:(CR_Config *)config
           deviceInfo:(CR_DeviceInfo *)deviceInfo
 ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
@@ -42,7 +42,7 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
 
 // Method that makes the actual call to CDB
 - (void) doCdbApiCall:(CRAdUnit *) adUnit
-          gdprConsent:(GdprUserConsent *)gdprConsent
+          gdprConsent:(CR_GdprUserConsent *)gdprConsent
                config:(CR_Config *)config
            deviceInfo:(CR_DeviceInfo *)deviceInfo
  ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
@@ -134,7 +134,7 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
 }
 
 - (void) sendAppEvent:(NSString *)event
-               gdprConsent:(GdprUserConsent *)gdprConsent
+               gdprConsent:(CR_GdprUserConsent *)gdprConsent
                     config:(CR_Config *)config
                 deviceInfo:(CR_DeviceInfo *)deviceInfo
             ahEventHandler:(AHAppEventsResponse)ahEventHandler {

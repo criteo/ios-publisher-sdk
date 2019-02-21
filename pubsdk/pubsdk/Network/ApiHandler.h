@@ -14,7 +14,7 @@
 #import "CRAdUnit.h"
 #import "CdbResponse.h"
 #import "CR_Config.h"
-#import "GdprUserConsent.h"
+#import "CR_GdprUserConsent.h"
 #import "CR_DeviceInfo.h"
 
 typedef void (^AHCdbResponse)(CdbResponse *cdbResponse);
@@ -32,7 +32,7 @@ typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receiv
  * adUnit must have an Id, width and length
  */
 - (void) callCdb: (CRAdUnit *) adUnit
-     gdprConsent:(GdprUserConsent *) gdprConsent
+     gdprConsent:(CR_GdprUserConsent *) gdprConsent
           config:(CR_Config *) config
       deviceInfo:(CR_DeviceInfo *) deviceInfo
 ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler;
@@ -48,7 +48,7 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler;
  * Calls the app event endpoint and gets the throttleSec value for the user
  */
 - (void) sendAppEvent: (NSString *)event
-          gdprConsent:(GdprUserConsent *)gdprConsent
+          gdprConsent:(CR_GdprUserConsent *)gdprConsent
                config:(CR_Config *) config
            deviceInfo:(CR_DeviceInfo *) deviceInfo
        ahEventHandler:(AHAppEventsResponse) ahEventHandler;

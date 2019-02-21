@@ -1,17 +1,17 @@
 //
-//  GdprUserConsent.h
+//  CR_GdprUserConsent.h
 //  pubsdk
 //
 //  Created by Adwait Kulkarni on 1/23/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#ifndef GdprUserConsent_h
-#define GdprUserConsent_h
+#ifndef CR_GdprUserConsent_h
+#define CR_GdprUserConsent_h
 
 #import <Foundation/Foundation.h>
 
-@interface GdprUserConsent: NSObject
+@interface CR_GdprUserConsent: NSObject
 
 @property (readonly, nonatomic) NSString *consentString;
 @property (readonly, nonatomic) BOOL gdprApplies;
@@ -19,4 +19,4 @@
 @property (readonly, nonatomic) BOOL isAdTrackingEnabled;
 
 @end
-#endif /* GdprUserConsent_h */
+#endif /* CR_GdprUserConsent_h */

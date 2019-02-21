@@ -1,15 +1,15 @@
 //
-//  GdprUserConsent.m
+//  CR_GdprUserConsent.m
 //  pubsdk
 //
 //  Created by Adwait Kulkarni on 1/23/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#import "GdprUserConsent.h"
+#import "CR_GdprUserConsent.h"
 #import <AdSupport/ASIdentifierManager.h>
 
-@implementation GdprUserConsent;
+@implementation CR_GdprUserConsent;
 /* IAB spec is https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/Mobile%20In-App%20Consent%20APIs%20v1.0%20Final.md#structure
  */
 - (instancetype) init {

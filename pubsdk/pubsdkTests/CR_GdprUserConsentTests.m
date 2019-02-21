@@ -1,5 +1,5 @@
 //
-//  GdprUserConsentTests.m
+//  CR_GdprUserConsentTests.m
 //  pubsdkTests
 //
 //  Created by Adwait Kulkarni on 1/23/19.
@@ -9,13 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 
-#import "GdprUserConsent.h"
+#import "CR_GdprUserConsent.h"
 
-@interface GdprUserConsentTests : XCTestCase
+@interface CR_GdprUserConsentTests : XCTestCase
 
 @end
 
-@implementation GdprUserConsentTests
+@implementation CR_GdprUserConsentTests
 
 - (void) setUp {
 }
@@ -38,7 +38,7 @@
     [userDefaults setObject:consentString forKey:@"IABConsent_ConsentString"];
     [userDefaults setObject:vendorString forKey:@"IABConsent_ParsedVendorConsents"];
 
-    GdprUserConsent *gdpr = [[GdprUserConsent alloc] init];
+    CR_GdprUserConsent *gdpr = [[CR_GdprUserConsent alloc] init];
     XCTAssertEqual([gdpr consentGiven], YES);
     XCTAssertTrue([consentString isEqualToString:[gdpr consentString]]);
     XCTAssertEqual([gdpr gdprApplies], (BOOL)gdprApplies.integerValue);
@@ -55,7 +55,7 @@
     [userDefaults setObject:consentString forKey:@"IABConsent_ConsentString"];
     [userDefaults setObject:vendorString forKey:@"IABConsent_ParsedVendorConsents"];
 
-    GdprUserConsent *gdpr = [[GdprUserConsent alloc] init];
+    CR_GdprUserConsent *gdpr = [[CR_GdprUserConsent alloc] init];
     XCTAssertEqual([gdpr consentGiven], NO);
     XCTAssertTrue([consentString isEqualToString:[gdpr consentString]]);
     XCTAssertEqual([gdpr gdprApplies], (BOOL)gdprApplies.integerValue);
@@ -72,7 +72,7 @@
     [userDefaults setObject:consentString forKey:@"IABConsent_ConsentString"];
     [userDefaults setObject:vendorString forKey:@"IABConsent_ParsedVendorConsents"];
 
-    GdprUserConsent *gdpr = [[GdprUserConsent alloc] init];
+    CR_GdprUserConsent *gdpr = [[CR_GdprUserConsent alloc] init];
     XCTAssertEqual([gdpr consentGiven], NO);
     XCTAssertTrue([consentString isEqualToString:[gdpr consentString]]);
     XCTAssertEqual([gdpr gdprApplies], (BOOL)gdprApplies.integerValue);
@@ -89,7 +89,7 @@
     [userDefaults setObject:consentString forKey:@"IABConsent_ConsentString"];
     [userDefaults setObject:vendorString forKey:@"IABConsent_ParsedVendorConsents"];
 
-    GdprUserConsent *gdpr = [[GdprUserConsent alloc] init];
+    CR_GdprUserConsent *gdpr = [[CR_GdprUserConsent alloc] init];
     XCTAssertEqual([gdpr consentGiven], NO);
     XCTAssertTrue([consentString isEqualToString:[gdpr consentString]]);
     XCTAssertEqual([gdpr gdprApplies], (BOOL)gdprApplies.integerValue);

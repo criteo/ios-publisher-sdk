@@ -14,7 +14,7 @@
 #import "CR_BidManager.h"
 #import "CR_CacheManager.h"
 #import "CR_Config.h"
-#import "GdprUserConsent.h"
+#import "CR_GdprUserConsent.h"
 #import "Logging.h"
 #import "NetworkManager.h"
 
@@ -49,7 +49,7 @@
 
     CRAdUnit *testAdUnit_1 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid_1" width:300 height:250];
 
-    GdprUserConsent *mockUserConsent = OCMStrictClassMock([GdprUserConsent class]);
+    CR_GdprUserConsent *mockUserConsent = OCMStrictClassMock([CR_GdprUserConsent class]);
     OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
     OCMStub([mockUserConsent consentGiven]).andReturn(YES);
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");

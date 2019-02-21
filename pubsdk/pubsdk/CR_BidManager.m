@@ -17,7 +17,7 @@
     CR_Config          *config;
     CR_ConfigManager   *configManager;
     CR_DeviceInfo      *deviceInfo;
-    GdprUserConsent    *gdprUserConsent;
+    CR_GdprUserConsent *gdprUserConsent;
     NetworkManager     *networkManager;
     CR_AppEvents       *appEvents;
     NSTimeInterval     cdbTimeToNextCall;
@@ -52,7 +52,7 @@
                              config:(CR_Config*)config
                       configManager:(CR_ConfigManager*)configManager
                          deviceInfo:(CR_DeviceInfo*)deviceInfo
-                    gdprUserConsent:(GdprUserConsent*)gdprUserConsent
+                    gdprUserConsent:(CR_GdprUserConsent*)gdprUserConsent
                      networkManager:(NetworkManager*)networkManager
                           appEvents:(CR_AppEvents *)appEvents
                      timeToNextCall:(NSTimeInterval)timeToNextCall

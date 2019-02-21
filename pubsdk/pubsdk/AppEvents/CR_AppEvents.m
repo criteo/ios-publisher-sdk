@@ -13,14 +13,14 @@
 @implementation CR_AppEvents
 {
     ApiHandler *apiHandler;
-    GdprUserConsent *gdpr;
+    CR_GdprUserConsent *gdpr;
     CR_Config *config;
     CR_DeviceInfo *deviceInfo;
 }
 
 - (instancetype) initWithApiHandler:(ApiHandler *)apiHandler
                              config:(CR_Config *)config
-                               gdpr:(GdprUserConsent *)gdpr
+                               gdpr:(CR_GdprUserConsent *)gdpr
                          deviceInfo:(CR_DeviceInfo *)deviceInfo {
     if (self = [super init]) {
         self->apiHandler = apiHandler;
