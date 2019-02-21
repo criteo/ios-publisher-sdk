@@ -20,7 +20,7 @@
 #import "GdprUserConsent.h"
 #import "NetworkManager.h"
 #import "NetworkManagerDelegate.h"
-#import "AppEvents.h"
+#import "CR_AppEvents.h"
 
 @interface BidManager : NSObject
 
@@ -35,7 +35,7 @@
                          deviceInfo:(DeviceInfo*)deviceInfo
                     gdprUserConsent:(GdprUserConsent*)gdprUserConsent
                      networkManager:(NetworkManager*)networkManager
-                          appEvents:(AppEvents *)appEvents
+                          appEvents:(CR_AppEvents *)appEvents
                      timeToNextCall:(NSTimeInterval)timeToNextCall
 NS_DESIGNATED_INITIALIZER;
 

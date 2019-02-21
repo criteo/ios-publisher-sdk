@@ -8,7 +8,7 @@
 
 #import "BidManager.h"
 #import "Logging.h"
-#import "AppEvents.h"
+#import "CR_AppEvents.h"
 
 @implementation BidManager
 {
@@ -19,7 +19,7 @@
     DeviceInfo      *deviceInfo;
     GdprUserConsent *gdprUserConsent;
     NetworkManager  *networkManager;
-    AppEvents       *appEvents;
+    CR_AppEvents    *appEvents;
     NSTimeInterval  cdbTimeToNextCall;
 }
 
@@ -54,7 +54,7 @@
                          deviceInfo:(DeviceInfo*)deviceInfo
                     gdprUserConsent:(GdprUserConsent*)gdprUserConsent
                      networkManager:(NetworkManager*)networkManager
-                          appEvents:(AppEvents *)appEvents
+                          appEvents:(CR_AppEvents *)appEvents
                      timeToNextCall:(NSTimeInterval)timeToNextCall
 {
     if(self = [super init]) {

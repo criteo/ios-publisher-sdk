@@ -1,5 +1,5 @@
 //
-//  AppEvents.m
+//  CR_AppEvents.m
 //  pubsdk
 //
 //  Created by Adwait Kulkarni on 2/5/19.
@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "AppEvents.h"
+#import "CR_AppEvents.h"
 
-@implementation AppEvents
+@implementation CR_AppEvents
 {
     ApiHandler *apiHandler;
     GdprUserConsent *gdpr;

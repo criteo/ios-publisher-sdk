@@ -38,10 +38,10 @@ static Criteo *sharedInstance;
 
     CacheManager *cacheManager = [[CacheManager alloc] init];
     GdprUserConsent *gdpr = [[GdprUserConsent alloc] init];
-    AppEvents *appEvents = [[AppEvents alloc] initWithApiHandler:apiHandler
-                                                          config:config
-                                                            gdpr:gdpr
-                                                      deviceInfo:deviceInfo];
+    CR_AppEvents *appEvents = [[CR_AppEvents alloc] initWithApiHandler:apiHandler
+                                                                config:config
+                                                                  gdpr:gdpr
+                                                            deviceInfo:deviceInfo];
 
     BidManager *bidManager = [[BidManager alloc] initWithApiHandler:apiHandler
                                                        cacheManager:cacheManager

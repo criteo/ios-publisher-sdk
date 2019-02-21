@@ -34,8 +34,8 @@
 		E12A7F5A21FA6FA4002B4548 /* Config.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5921FA6FA4002B4548 /* Config.m */; };
 		E12A7F5C21FBFAE6002B4548 /* ConfigTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5B21FBFAE6002B4548 /* ConfigTests.m */; };
 		E12A7F5E21FFBD2F002B4548 /* CacheManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5D21FFBD2F002B4548 /* CacheManagerTests.m */; };
-		E12A7F6F220A20C3002B4548 /* AppEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F6E220A20C3002B4548 /* AppEvents.m */; };
-		E12A7F75220A82FD002B4548 /* AppEventsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F74220A82FD002B4548 /* AppEventsTests.m */; };
+		E12A7F6F220A20C3002B4548 /* CR_AppEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F6E220A20C3002B4548 /* CR_AppEvents.m */; };
+		E12A7F75220A82FD002B4548 /* CR_AppEventsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F74220A82FD002B4548 /* CR_AppEventsTests.m */; };
 		E1D7DF0322138F9A006090C0 /* CdbResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D7DF0222138F9A006090C0 /* CdbResponse.m */; };
 		E1D7DF052215136C006090C0 /* CdbResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D7DF042215136C006090C0 /* CdbResponseTests.m */; };
 		E1F2736E21B5F08D00A2FBFA /* pubsdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F2736421B5F08D00A2FBFA /* pubsdk.framework */; };
@@ -107,9 +107,9 @@
 		E12A7F5921FA6FA4002B4548 /* Config.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Config.m; sourceTree = "<group>"; };
 		E12A7F5B21FBFAE6002B4548 /* ConfigTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConfigTests.m; sourceTree = "<group>"; };
 		E12A7F5D21FFBD2F002B4548 /* CacheManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CacheManagerTests.m; sourceTree = "<group>"; };
-		E12A7F6D220A1D40002B4548 /* AppEvents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppEvents.h; sourceTree = "<group>"; };
-		E12A7F6E220A20C3002B4548 /* AppEvents.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppEvents.m; sourceTree = "<group>"; };
-		E12A7F74220A82FD002B4548 /* AppEventsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppEventsTests.m; sourceTree = "<group>"; };
+		E12A7F6D220A1D40002B4548 /* CR_AppEvents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_AppEvents.h; sourceTree = "<group>"; };
+		E12A7F6E220A20C3002B4548 /* CR_AppEvents.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_AppEvents.m; sourceTree = "<group>"; };
+		E12A7F74220A82FD002B4548 /* CR_AppEventsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_AppEventsTests.m; sourceTree = "<group>"; };
 		E1D7DF0122138E6D006090C0 /* CdbResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CdbResponse.h; sourceTree = "<group>"; };
 		E1D7DF0222138F9A006090C0 /* CdbResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CdbResponse.m; sourceTree = "<group>"; };
 		E1D7DF042215136C006090C0 /* CdbResponseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CdbResponseTests.m; sourceTree = "<group>"; };
@@ -230,8 +230,8 @@
 		E12A7F6C220A1D20002B4548 /* AppEvents */ = {
 			isa = PBXGroup;
 			children = (
-				E12A7F6D220A1D40002B4548 /* AppEvents.h */,
-				E12A7F6E220A20C3002B4548 /* AppEvents.m */,
+				E12A7F6D220A1D40002B4548 /* CR_AppEvents.h */,
+				E12A7F6E220A20C3002B4548 /* CR_AppEvents.m */,
 			);
 			path = AppEvents;
 			sourceTree = "<group>";
@@ -239,7 +239,7 @@
 		E12A7F73220A82D0002B4548 /* AppEvents */ = {
 			isa = PBXGroup;
 			children = (
-				E12A7F74220A82FD002B4548 /* AppEventsTests.m */,
+				E12A7F74220A82FD002B4548 /* CR_AppEventsTests.m */,
 			);
 			path = AppEvents;
 			sourceTree = "<group>";
@@ -474,7 +474,7 @@
 				255151C622027C9500F76E3F /* NSString+UrlEncoder.m in Sources */,
 				E1D7DF0322138F9A006090C0 /* CdbResponse.m in Sources */,
 				E1F273BB21C9733800A2FBFA /* BidManager.m in Sources */,
-				E12A7F6F220A20C3002B4548 /* AppEvents.m in Sources */,
+				E12A7F6F220A20C3002B4548 /* CR_AppEvents.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,7 +486,7 @@
 				25B6505D2208C29D008416D3 /* LoggingTests.m in Sources */,
 				E104B6BB21EFE733004D86C4 /* NetworkManagerTests.m in Sources */,
 				E104B6B821ED19A7004D86C4 /* ApiHandlerTests.m in Sources */,
-				E12A7F75220A82FD002B4548 /* AppEventsTests.m in Sources */,
+				E12A7F75220A82FD002B4548 /* CR_AppEventsTests.m in Sources */,
 				E12A7F5821F914DA002B4548 /* GdprUserConsentTests.m in Sources */,
 				E104B6BD21F0253E004D86C4 /* DummyDfpRequest.m in Sources */,
 				E1F2737321B5F08D00A2FBFA /* pubsdkTests.m in Sources */,

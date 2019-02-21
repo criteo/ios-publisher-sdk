@@ -1,13 +1,13 @@
 //
-//  AppEvents.h
+//  CR_AppEvents.h
 //  pubsdk
 //
 //  Created by Adwait Kulkarni on 2/5/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#ifndef AppEvents_h
-#define AppEvents_h
+#ifndef CR_AppEvents_h
+#define CR_AppEvents_h
 
 #import "ApiHandler.h"
 #import "GdprUserConsent.h"
@@ -16,7 +16,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AppEvents : NSObject
+@interface CR_AppEvents : NSObject
 
 @property (readonly, nonatomic) NSUInteger throttleSec;
 @property (readonly, nonatomic) NSDate *latestEventSent;
@@ -35,4 +35,4 @@ NS_ASSUME_NONNULL_END
 
 @end
 
-#endif /* AppEvents_h */
+#endif /* CR_AppEvents_h */

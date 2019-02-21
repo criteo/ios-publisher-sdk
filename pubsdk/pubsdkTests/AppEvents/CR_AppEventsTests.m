@@ -1,5 +1,5 @@
 //
-//  AppEventsTests.m
+//  CR_AppEventsTests.m
 //  pubsdkTests
 //
 //  Created by Adwait Kulkarni on 2/5/19.
@@ -9,14 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 #import <OCMock.h>
-#import "AppEvents.h"
+#import "CR_AppEvents.h"
 #import "ApiHandler.h"
 
-@interface AppEventsTests : XCTestCase
+@interface CR_AppEventsTests : XCTestCase
 
 @end
 
-@implementation AppEventsTests
+@implementation CR_AppEventsTests
 
 // Internally sendLaunchEvent, sendActiveEvent and sendInActiveEvent call the same method
 // So this test should suffice
@@ -34,7 +34,7 @@
                               deviceInfo:[OCMArg isKindOfClass:[DeviceInfo class]]
                           ahEventHandler:([OCMArg invokeBlockWithArgs:appEventsDict, testDate, nil])]);
 
-    AppEvents *appEvents = [[AppEvents alloc] initWithApiHandler:mockApiHandler
+    CR_AppEvents *appEvents = [[CR_AppEvents alloc] initWithApiHandler:mockApiHandler
                                                           config:mockConfig
                                                             gdpr:mockGdpr
                                                       deviceInfo:mockDeviceInfo];
@@ -58,7 +58,7 @@
                               deviceInfo:[OCMArg isKindOfClass:[DeviceInfo class]]
                           ahEventHandler:([OCMArg invokeBlockWithArgs:appEventsDict, testDate, nil])]);
 
-    AppEvents *appEvents = [[AppEvents alloc] initWithApiHandler:mockApiHandler
+    CR_AppEvents *appEvents = [[CR_AppEvents alloc] initWithApiHandler:mockApiHandler
                                                           config:mockConfig
                                                             gdpr:mockGdpr
                                                       deviceInfo:mockDeviceInfo];
@@ -83,7 +83,7 @@
                               deviceInfo:[OCMArg isKindOfClass:[DeviceInfo class]]
                           ahEventHandler:([OCMArg invokeBlockWithArgs:appEventsDict, testDate, nil])]);
 
-    AppEvents *appEvents = [[AppEvents alloc] initWithApiHandler:mockApiHandler
+    CR_AppEvents *appEvents = [[CR_AppEvents alloc] initWithApiHandler:mockApiHandler
                                                           config:mockConfig
                                                             gdpr:mockGdpr
                                                       deviceInfo:mockDeviceInfo];
@@ -107,7 +107,7 @@
                               deviceInfo:[OCMArg isKindOfClass:[DeviceInfo class]]
                           ahEventHandler:([OCMArg invokeBlockWithArgs:appEventsDict, testDate, nil])]);
 
-    AppEvents *appEvents = [[AppEvents alloc] initWithApiHandler:mockApiHandler
+    CR_AppEvents *appEvents = [[CR_AppEvents alloc] initWithApiHandler:mockApiHandler
                                                           config:mockConfig
                                                             gdpr:mockGdpr
                                                       deviceInfo:mockDeviceInfo];
@@ -117,7 +117,7 @@
 }
 
 /*
-// This is to test if AppEvents makes one and only one call to the [apiHandler sendAppEvent]
+// This is to test if CR_AppEvents makes one and only one call to the [apiHandler sendAppEvent]
 - (void) testNoApiCallIfThrottleIsOn {
     ApiHandler *mockApiHandler = OCMStrictClassMock([ApiHandler class]);
     Config *mockConfig = OCMStrictClassMock([Config class]);
@@ -133,7 +133,7 @@
                               deviceInfo:[OCMArg isKindOfClass:[DeviceInfo class]]
                           ahEventHandler:([OCMArg invokeBlockWithArgs:appEventsDict, testDate, nil])]);
 
-    AppEvents *appEvents = [[AppEvents alloc] initWithApiHandler:mockApiHandler config:mockConfig gdpr:mockGdpr deviceInfo:mockDeviceInfo];
+    CR_AppEvents *appEvents = [[CR_AppEvents alloc] initWithApiHandler:mockApiHandler config:mockConfig gdpr:mockGdpr deviceInfo:mockDeviceInfo];
     [appEvents sendLaunchEvent];
     XCTAssertEqual(300, [appEvents throttleSec]);
     XCTAssertFalse([appEvents throttleExpired]);
@@ -147,7 +147,7 @@
     OCMVerify(mockApiHandler);
 }
 
-// This is to test if AppEvents makes two calls to the [apiHandler sendAppEvent]
+// This is to test if CR_AppEvents makes two calls to the [apiHandler sendAppEvent]
 - (void) testApiCallIfThrottleIsExpired {
     ApiHandler *mockApiHandler = OCMStrictClassMock([ApiHandler class]);
     Config *mockConfig = OCMStrictClassMock([Config class]);
@@ -163,7 +163,7 @@
                               deviceInfo:[OCMArg isKindOfClass:[DeviceInfo class]]
                           ahEventHandler:([OCMArg invokeBlockWithArgs:appEventsDict, testDate, nil])]);
 
-    AppEvents *appEvents = [[AppEvents alloc] initWithApiHandler:mockApiHandler config:mockConfig gdpr:mockGdpr deviceInfo:mockDeviceInfo];
+    CR_AppEvents *appEvents = [[CR_AppEvents alloc] initWithApiHandler:mockApiHandler config:mockConfig gdpr:mockGdpr deviceInfo:mockDeviceInfo];
     [appEvents sendLaunchEvent];
     XCTAssertEqual(10, [appEvents throttleSec]);
     XCTAssertTrue([appEvents throttleExpired]);
