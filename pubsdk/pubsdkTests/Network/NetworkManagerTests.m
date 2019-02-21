@@ -10,7 +10,7 @@
 #import <OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "AdUnit.h"
+#import "CRAdUnit.h"
 #import "CdbBid.h"
 #import "Config.h"
 #import "Logging.h"
@@ -32,7 +32,7 @@
     //NSNumber *zoneId = @(497747);
     NSUInteger width = 300;
     NSUInteger height = 250;
-    AdUnit *adUnit = [[AdUnit alloc] initWithAdUnitId:placementId width:width height:height];
+    CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:placementId width:width height:height];
     
     NSString *userAgent = @"Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16B91";
     

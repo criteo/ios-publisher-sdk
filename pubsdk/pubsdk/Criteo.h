@@ -11,7 +11,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "AdUnit.h"
+#import "CRAdUnit.h"
 
 @interface Criteo : NSObject
 
@@ -20,10 +20,10 @@
 + (nonnull instancetype) sharedCriteo;
 
 - (void) registerNetworkId:(NSUInteger)networkId
-               withAdUnits:(NSArray<AdUnit*> *) adUnits;
+               withAdUnits:(NSArray<CRAdUnit*> *) adUnits;
 
 - (void) setBidsForRequest:(id) request
-                withAdUnit:(AdUnit *) adUnit;
+                withAdUnit:(CRAdUnit *) adUnit;
 
 @end
 

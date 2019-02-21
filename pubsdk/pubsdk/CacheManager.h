@@ -11,18 +11,18 @@
 
 #import <Foundation/Foundation.h>
 #import "CdbBid.h"
-#import "AdUnit.h"
+#import "CRAdUnit.h"
 
 @interface CacheManager : NSObject
 
-@property (nonatomic, strong) NSMutableDictionary<AdUnit *, CdbBid *> *bidCache;
+@property (nonatomic, strong) NSMutableDictionary<CRAdUnit *, CdbBid *> *bidCache;
 
-- (void) initSlots: (NSArray<AdUnit*> *) slotIds;
+- (void) initSlots: (NSArray<CRAdUnit*> *) slotIds;
 
 - (void) setBid: (CdbBid *) bid
-      forAdUnit: (AdUnit *) adUnit;
+      forAdUnit: (CRAdUnit *) adUnit;
 
-- (CdbBid *) getBid: (AdUnit *) slotId;
+- (CdbBid *) getBid: (CRAdUnit *) slotId;
 
 @end
 

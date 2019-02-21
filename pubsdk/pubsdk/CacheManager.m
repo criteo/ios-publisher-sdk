@@ -19,13 +19,13 @@
 }
 
 - (void) initSlots: (NSArray *) slots {
-    for(AdUnit *slot in slots) {
+    for(CRAdUnit *slot in slots) {
         _bidCache[slot] = [CdbBid emptyBid];
     }
 }
 
 - (void) setBid: (CdbBid *) bid
-      forAdUnit: (AdUnit *) adUnit {
+      forAdUnit: (CRAdUnit *) adUnit {
     @synchronized (_bidCache) {
         if(adUnit) {
             _bidCache[adUnit] = bid;
@@ -35,7 +35,7 @@
     }
 }
 
-- (CdbBid *) getBid: (AdUnit *) slotId {
+- (CdbBid *) getBid: (CRAdUnit *) slotId {
     CdbBid *bid = [_bidCache objectForKey:slotId];
     if(bid) {
         _bidCache[slotId] = [CdbBid emptyBid];

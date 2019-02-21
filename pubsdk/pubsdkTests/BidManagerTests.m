@@ -27,11 +27,11 @@
 
     // initialized slots with fetched bids
     CdbBid *testBid = [[CdbBid alloc] init];
-    AdUnit *testAdUnit = [[AdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+    CRAdUnit *testAdUnit = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
     cache.bidCache[testAdUnit] = testBid;
 
     CdbBid *testBid_2 = [[CdbBid alloc] init];
-    AdUnit *testAdUnit_2 = [[AdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
+    CRAdUnit *testAdUnit_2 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
     cache.bidCache[testAdUnit_2] = testBid_2;
 
     Config *mockConfig = OCMStrictClassMock([Config class]);
@@ -43,7 +43,7 @@
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
 
     // if the caller asks for a bid for an un initialized slot
-    AdUnit *unInitializedSlot = [[AdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
+    CRAdUnit *unInitializedSlot = [[CRAdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
 
     id mockApiHandler = OCMClassMock([ApiHandler class]);
     // Do not call CDB for unregistered ad units
@@ -75,7 +75,7 @@
 
     // initialized slot that has no bid fetched for it
     CdbBid *testEmptyBid = [CdbBid emptyBid];
-    AdUnit *testEmptyAdUnit = [[AdUnit alloc] initWithAdUnitId:@"thisShouldReturnEmptyBid" width:300 height:250];
+    CRAdUnit *testEmptyAdUnit = [[CRAdUnit alloc] initWithAdUnitId:@"thisShouldReturnEmptyBid" width:300 height:250];
     cache.bidCache[testEmptyAdUnit] = testEmptyBid;
 
     GdprUserConsent *mockUserConsent = OCMStrictClassMock([GdprUserConsent class]);
@@ -94,7 +94,7 @@
                                                      timeToNextCall:0];
 
     // an initialized slot that has no bid fetched for it
-    NSArray *slots = @[[[AdUnit alloc] initWithAdUnitId:@"thisShouldReturnEmptyBid" width:300 height:250]];
+    NSArray *slots = @[[[CRAdUnit alloc] initWithAdUnitId:@"thisShouldReturnEmptyBid" width:300 height:250]];
     NSDictionary *bids = [bidManager getBids:slots];
     XCTAssertTrue([bids[testEmptyAdUnit] isEmpty]);
 }
@@ -110,9 +110,9 @@
                                                           appEvents:nil
                                                      timeToNextCall:0];
 
-    AdUnit *slot_1 = [[AdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
-    AdUnit *slot_2 = [[AdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
-    AdUnit *slot_3 = [[AdUnit alloc] initWithAdUnitId:@"adunitid_2" width:200 height:100];
+    CRAdUnit *slot_1 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+    CRAdUnit *slot_2 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
+    CRAdUnit *slot_3 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid_2" width:200 height:100];
 
     NSArray *slots = @[slot_1, slot_2, slot_3];
 
@@ -126,7 +126,7 @@
 }
 
 - (void) testAddCriteoBidToRequest {
-    AdUnit *slot_1 = [[AdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+    CRAdUnit *slot_1 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
 
     CdbBid *testBid_1 = [[CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
 
@@ -158,7 +158,7 @@
 }
 
 - (void) testAddCriteoBidToRequestWhenKillSwitchIsEngaged {
-    AdUnit *slot_1 = [[AdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+    CRAdUnit *slot_1 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
 
     CdbBid *testBid_1 = [[CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
 
@@ -197,11 +197,11 @@
 
     // initialized slots with fetched bids
     CdbBid *testBid = [[CdbBid alloc] init];
-    AdUnit *testAdUnit = [[AdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+    CRAdUnit *testAdUnit = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
     cache.bidCache[testAdUnit] = testBid;
 
     CdbBid *testBid_2 = [[CdbBid alloc] init];
-    AdUnit *testAdUnit_2 = [[AdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
+    CRAdUnit *testAdUnit_2 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
     cache.bidCache[testAdUnit_2] = testBid_2;
 
     Config *mockConfig = OCMStrictClassMock([Config class]);
@@ -213,7 +213,7 @@
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
 
     // if the caller asks for a bid for an un initialized slot
-    AdUnit *unInitializedSlot = [[AdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
+    CRAdUnit *unInitializedSlot = [[CRAdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
 
     id mockApiHandler = OCMClassMock([ApiHandler class]);
     // NO calls should be made to [ApiHandler callCdb]

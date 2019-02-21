@@ -11,7 +11,7 @@
 
 #import "BidManager.h"
 
-static NSMutableArray<AdUnit *> *registeredAdUnits;
+static NSMutableArray<CRAdUnit *> *registeredAdUnits;
 static BidManager *bidManager;
 static bool hasPrefetched;
 static Criteo *sharedInstance;
@@ -69,7 +69,7 @@ static Criteo *sharedInstance;
 }
 
 - (void) registerNetworkId:(NSUInteger) networkId
-               withAdUnits:(NSArray<AdUnit *> *)adUnits {
+               withAdUnits:(NSArray<CRAdUnit *> *)adUnits {
     static dispatch_once_t registrationToken;
     dispatch_once(&registrationToken, ^{
         bidManager = [Criteo createBidManagerWithNetworkId:networkId];
@@ -82,7 +82,7 @@ static Criteo *sharedInstance;
 
 - (void) prefetchAll {
     if(!hasPrefetched) {
-        for(AdUnit *unit in registeredAdUnits) {
+        for(CRAdUnit *unit in registeredAdUnits) {
             [bidManager prefetchBid:unit];
         }
         hasPrefetched = YES;
@@ -90,7 +90,7 @@ static Criteo *sharedInstance;
 }
 
 - (void) setBidsForRequest:(id)request
-                withAdUnit:(AdUnit *)adUnit {
+                withAdUnit:(CRAdUnit *)adUnit {
     [bidManager addCriteoBidToRequest:request forAdUnit:adUnit];
 }
 @end

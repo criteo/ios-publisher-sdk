@@ -1,18 +1,18 @@
 //
-//  AdUnit.h
+//  CRAdUnit.h
 //  pubsdk
 //
 //  Created by Adwait Kulkarni on 1/7/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#ifndef AdUnit_h
-#define AdUnit_h
+#ifndef CRAdUnit_h
+#define CRAdUnit_h
 
 #import <Foundation/Foundation.h>
 #include <CoreGraphics/CoreGraphics.h>
 
-@interface AdUnit : NSObject <NSCopying>
+@interface CRAdUnit : NSObject <NSCopying>
 
 @property (readonly, nonatomic) NSString *adUnitId;
 @property (readonly, nonatomic) CGSize size;
@@ -36,4 +36,4 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-#endif /* AdUnit_h */
+#endif /* CRAdUnit_h */

@@ -11,7 +11,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "AdUnit.h"
+#import "CRAdUnit.h"
 #import "ApiHandler.h"
 #import "CacheManager.h"
 #import "Config.h"
@@ -40,16 +40,16 @@
 NS_DESIGNATED_INITIALIZER;
 
 
-- (void) setSlots: (NSArray<AdUnit*> *) slots;
+- (void) setSlots: (NSArray<CRAdUnit*> *) slots;
 
-- (NSDictionary *) getBids: (NSArray<AdUnit*> *) slots;
+- (NSDictionary *) getBids: (NSArray<CRAdUnit*> *) slots;
 
-- (CdbBid *) getBid: (AdUnit *) slot;
+- (CdbBid *) getBid: (CRAdUnit *) slot;
 
-- (void) prefetchBid: (AdUnit *) slotId;
+- (void) prefetchBid: (CRAdUnit *) slotId;
 
 - (void) addCriteoBidToRequest:(id) adRequest
-                     forAdUnit:(AdUnit *) adUnit;
+                     forAdUnit:(CRAdUnit *) adUnit;
 
 @end
 

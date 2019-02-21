@@ -11,7 +11,7 @@
 
 #import <Foundation/Foundation.h>
 #import "NetworkManager.h"
-#import "AdUnit.h"
+#import "CRAdUnit.h"
 #import "CdbResponse.h"
 #import "Config.h"
 #import "GdprUserConsent.h"
@@ -31,7 +31,7 @@ typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receiv
  * Calls CDB and get the bid & creative for the adUnit
  * adUnit must have an Id, width and length
  */
-- (void) callCdb: (AdUnit *) adUnit
+- (void) callCdb: (CRAdUnit *) adUnit
      gdprConsent:(GdprUserConsent *) gdprConsent
           config:(Config *) config
       deviceInfo:(DeviceInfo *) deviceInfo

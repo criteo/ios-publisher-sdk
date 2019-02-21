@@ -47,7 +47,7 @@
                                             displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
                                             insertTime:[NSDate date]];
 
-    AdUnit *testAdUnit_1 = [[AdUnit alloc] initWithAdUnitId:@"adunitid_1" width:300 height:250];
+    CRAdUnit *testAdUnit_1 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid_1" width:300 height:250];
 
     GdprUserConsent *mockUserConsent = OCMStrictClassMock([GdprUserConsent class]);
     OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
