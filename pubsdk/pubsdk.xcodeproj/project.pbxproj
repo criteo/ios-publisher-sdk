@@ -201,6 +201,8 @@
 			children = (
 				E1F2738521B9BE2700A2FBFA /* ApiHandler.h */,
 				E1F2738621B9BF4900A2FBFA /* ApiHandler.m */,
+				E1D7DF0122138E6D006090C0 /* CdbResponse.h */,
+				E1D7DF0222138F9A006090C0 /* CdbResponse.m */,
 				E1F2738221B9B01200A2FBFA /* NetworkManager.h */,
 				E1F2738321B9B58900A2FBFA /* NetworkManager.m */,
 				25022DE4220A3F0300FF8ACE /* NetworkManagerDelegate.h */,
@@ -284,8 +286,6 @@
 				25B6505E22091F1D008416D3 /* Network */,
 				E1F2736721B5F08D00A2FBFA /* pubsdk.h */,
 				255151C222027C6000F76E3F /* Util */,
-				E1D7DF0122138E6D006090C0 /* CdbResponse.h */,
-				E1D7DF0222138F9A006090C0 /* CdbResponse.m */,
 			);
 			path = pubsdk;
 			sourceTree = "<group>";
