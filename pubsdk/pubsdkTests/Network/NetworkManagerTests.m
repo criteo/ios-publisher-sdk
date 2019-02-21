@@ -98,8 +98,7 @@
         } else {
             CLog(@"%@", error);
         }
-        [self verifyNetworkManagerDelegate:delegateMock withNetworkManager:networkManager];
-        [expectation fulfill];
+        [self verifyNetworkManagerDelegate:delegateMock withNetworkManager:networkManager expectation:expectation];
     }];
 
     [self waitForExpectations:@[expectation] timeout:250];
@@ -133,9 +132,7 @@
             CLog(@"Error on get from Config : %@", error);
         }
 
-        [self verifyNetworkManagerDelegate:delegateMock withNetworkManager:networkManager];
-
-        [expectation fulfill];
+        [self verifyNetworkManagerDelegate:delegateMock withNetworkManager:networkManager expectation:expectation];
     }];
     [self waitForExpectations:@[expectation] timeout:250];
 }
@@ -155,12 +152,16 @@
 
 - (void) verifyNetworkManagerDelegate:(id<NetworkManagerDelegate>)delegateMock
                    withNetworkManager:(NetworkManager*)networkManager
+                          expectation:(XCTestExpectation*)expectation
 {
-    OCMVerify([delegateMock networkManager:networkManager sentRequest:[OCMArg isKindOfClass:NSURLRequest.class]]);
-    OCMVerify([delegateMock networkManager:networkManager
-                          receivedResponse:[OCMArg isKindOfClass:NSHTTPURLResponse.class]
-                                  withData:[OCMArg isKindOfClass:NSData.class]
-                                     error:[OCMArg isNil]]);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        OCMVerify([delegateMock networkManager:networkManager sentRequest:[OCMArg isKindOfClass:NSURLRequest.class]]);
+        OCMVerify([delegateMock networkManager:networkManager
+                              receivedResponse:[OCMArg isKindOfClass:NSHTTPURLResponse.class]
+                                      withData:[OCMArg isKindOfClass:NSData.class]
+                                         error:[OCMArg isNil]]);
+        [expectation fulfill];
+    });
 }
 
 @end
