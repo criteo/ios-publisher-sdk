@@ -15,9 +15,9 @@
 		258821D221FD3FB600398E9F /* CR_ConfigManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 258821D021FD3FB600398E9F /* CR_ConfigManager.h */; };
 		258821D321FD3FB600398E9F /* CR_ConfigManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821D121FD3FB600398E9F /* CR_ConfigManager.m */; };
 		258821D521FD5D8200398E9F /* CR_ConfigManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821D421FD5D8200398E9F /* CR_ConfigManagerTests.m */; };
-		258821D922000F8000398E9F /* DeviceInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 258821D722000F8000398E9F /* DeviceInfo.h */; };
-		258821DA22000F8000398E9F /* DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821D822000F8000398E9F /* DeviceInfo.m */; };
-		258821DD220015AF00398E9F /* DeviceInfoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821DC220015AF00398E9F /* DeviceInfoTests.m */; };
+		258821D922000F8000398E9F /* CR_DeviceInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 258821D722000F8000398E9F /* CR_DeviceInfo.h */; };
+		258821DA22000F8000398E9F /* CR_DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821D822000F8000398E9F /* CR_DeviceInfo.m */; };
+		258821DD220015AF00398E9F /* CR_DeviceInfoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821DC220015AF00398E9F /* CR_DeviceInfoTests.m */; };
 		25B6505A2206AB40008416D3 /* Logging.h in Headers */ = {isa = PBXBuildFile; fileRef = 25B650582206AB40008416D3 /* Logging.h */; };
 		25B6505B2206AB40008416D3 /* Logging.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B650592206AB40008416D3 /* Logging.m */; };
 		25B6505D2208C29D008416D3 /* LoggingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B6505C2208C29D008416D3 /* LoggingTests.m */; };
@@ -82,9 +82,9 @@
 		258821D021FD3FB600398E9F /* CR_ConfigManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_ConfigManager.h; sourceTree = "<group>"; };
 		258821D121FD3FB600398E9F /* CR_ConfigManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_ConfigManager.m; sourceTree = "<group>"; };
 		258821D421FD5D8200398E9F /* CR_ConfigManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_ConfigManagerTests.m; sourceTree = "<group>"; };
-		258821D722000F8000398E9F /* DeviceInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceInfo.h; sourceTree = "<group>"; };
-		258821D822000F8000398E9F /* DeviceInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceInfo.m; sourceTree = "<group>"; };
-		258821DC220015AF00398E9F /* DeviceInfoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceInfoTests.m; sourceTree = "<group>"; };
+		258821D722000F8000398E9F /* CR_DeviceInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_DeviceInfo.h; sourceTree = "<group>"; };
+		258821D822000F8000398E9F /* CR_DeviceInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_DeviceInfo.m; sourceTree = "<group>"; };
+		258821DC220015AF00398E9F /* CR_DeviceInfoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_DeviceInfoTests.m; sourceTree = "<group>"; };
 		25B650582206AB40008416D3 /* Logging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Logging.h; sourceTree = "<group>"; };
 		25B650592206AB40008416D3 /* Logging.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Logging.m; sourceTree = "<group>"; };
 		25B6505C2208C29D008416D3 /* LoggingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LoggingTests.m; path = pubsdkTests/Util/LoggingTests.m; sourceTree = SOURCE_ROOT; };
@@ -179,8 +179,8 @@
 				E12A7F5921FA6FA4002B4548 /* CR_Config.m */,
 				258821D021FD3FB600398E9F /* CR_ConfigManager.h */,
 				258821D121FD3FB600398E9F /* CR_ConfigManager.m */,
-				258821D722000F8000398E9F /* DeviceInfo.h */,
-				258821D822000F8000398E9F /* DeviceInfo.m */,
+				258821D722000F8000398E9F /* CR_DeviceInfo.h */,
+				258821D822000F8000398E9F /* CR_DeviceInfo.m */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -190,7 +190,7 @@
 			children = (
 				E12A7F5B21FBFAE6002B4548 /* CR_ConfigTests.m */,
 				258821D421FD5D8200398E9F /* CR_ConfigManagerTests.m */,
-				258821DC220015AF00398E9F /* DeviceInfoTests.m */,
+				258821DC220015AF00398E9F /* CR_DeviceInfoTests.m */,
 				25B6505C2208C29D008416D3 /* LoggingTests.m */,
 			);
 			path = Configuration;
@@ -332,7 +332,7 @@
 				258821D221FD3FB600398E9F /* CR_ConfigManager.h in Headers */,
 				25B6505A2206AB40008416D3 /* Logging.h in Headers */,
 				E1F2737521B5F08D00A2FBFA /* pubsdk.h in Headers */,
-				258821D922000F8000398E9F /* DeviceInfo.h in Headers */,
+				258821D922000F8000398E9F /* CR_DeviceInfo.h in Headers */,
 				255151B922012BF800F76E3F /* CRAdUnit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -464,7 +464,7 @@
 				E1F273B921C87A2F00A2FBFA /* CR_CdbBid.m in Sources */,
 				E1F2738B21BB12C300A2FBFA /* Criteo.m in Sources */,
 				E12A7F5621F8FD25002B4548 /* GdprUserConsent.m in Sources */,
-				258821DA22000F8000398E9F /* DeviceInfo.m in Sources */,
+				258821DA22000F8000398E9F /* CR_DeviceInfo.m in Sources */,
 				E104B6AD21E41D60004D86C4 /* CRAdUnit.m in Sources */,
 				E1F2738421B9B58900A2FBFA /* NetworkManager.m in Sources */,
 				258821D321FD3FB600398E9F /* CR_ConfigManager.m in Sources */,
@@ -495,7 +495,7 @@
 				E104B6B321E57F7B004D86C4 /* CR_BidManagerTests.m in Sources */,
 				E104B6B121E57F0A004D86C4 /* CRAdUnitTests.m in Sources */,
 				E12A7F5E21FFBD2F002B4548 /* CR_CacheManagerTests.m in Sources */,
-				258821DD220015AF00398E9F /* DeviceInfoTests.m in Sources */,
+				258821DD220015AF00398E9F /* CR_DeviceInfoTests.m in Sources */,
 				E104B6B521E580E9004D86C4 /* CR_CdbBidTests.m in Sources */,
 				258821D521FD5D8200398E9F /* CR_ConfigManagerTests.m in Sources */,
 			);

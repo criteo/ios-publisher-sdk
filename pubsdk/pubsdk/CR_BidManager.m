@@ -16,7 +16,7 @@
     CR_CacheManager    *cacheManager;
     CR_Config          *config;
     CR_ConfigManager   *configManager;
-    DeviceInfo         *deviceInfo;
+    CR_DeviceInfo      *deviceInfo;
     GdprUserConsent    *gdprUserConsent;
     NetworkManager     *networkManager;
     CR_AppEvents       *appEvents;
@@ -51,7 +51,7 @@
                        cacheManager:(CR_CacheManager*)cacheManager
                              config:(CR_Config*)config
                       configManager:(CR_ConfigManager*)configManager
-                         deviceInfo:(DeviceInfo*)deviceInfo
+                         deviceInfo:(CR_DeviceInfo*)deviceInfo
                     gdprUserConsent:(GdprUserConsent*)gdprUserConsent
                      networkManager:(NetworkManager*)networkManager
                           appEvents:(CR_AppEvents *)appEvents

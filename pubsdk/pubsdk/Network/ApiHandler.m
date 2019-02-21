@@ -29,7 +29,7 @@
 - (void)     callCdb:(CRAdUnit *) adUnit
          gdprConsent:(GdprUserConsent *)gdprConsent
               config:(CR_Config *)config
-          deviceInfo:(DeviceInfo *)deviceInfo
+          deviceInfo:(CR_DeviceInfo *)deviceInfo
 ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self doCdbApiCall:adUnit
@@ -44,7 +44,7 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
 - (void) doCdbApiCall:(CRAdUnit *) adUnit
           gdprConsent:(GdprUserConsent *)gdprConsent
                config:(CR_Config *)config
-           deviceInfo:(DeviceInfo *)deviceInfo
+           deviceInfo:(CR_DeviceInfo *)deviceInfo
  ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
     if(adUnit.adUnitId.length == 0 ||
        adUnit.size.width == 0.0f ||
@@ -136,7 +136,7 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
 - (void) sendAppEvent:(NSString *)event
                gdprConsent:(GdprUserConsent *)gdprConsent
                     config:(CR_Config *)config
-                deviceInfo:(DeviceInfo *)deviceInfo
+                deviceInfo:(CR_DeviceInfo *)deviceInfo
             ahEventHandler:(AHAppEventsResponse)ahEventHandler {
 
     NSString *query = [NSString stringWithFormat:@"idfa=%@&eventType=%@&appId=%@&limitedAdTracking=%d"

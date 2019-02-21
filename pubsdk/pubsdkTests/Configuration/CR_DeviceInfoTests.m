@@ -1,5 +1,5 @@
 //
-//  DeviceInfoTests.m
+//  CR_DeviceInfoTests.m
 //  pubsdkTests
 //
 //  Created by Paul Davis on 1/28/19.
@@ -8,13 +8,13 @@
 
 #import <XCTest/XCTest.h>
 
-#import "DeviceInfo.h"
+#import "CR_DeviceInfo.h"
 
-@interface DeviceInfoTests : XCTestCase
+@interface CR_DeviceInfoTests : XCTestCase
 
 @end
 
-@implementation DeviceInfoTests
+@implementation CR_DeviceInfoTests
 
 - (void)setUp {
 }
@@ -25,7 +25,7 @@
 - (void) testUserAgent {
     XCTestExpectation *expectation = [self expectationWithDescription:@"UserAgent is filled asynchronously"];
 
-    DeviceInfo *device = [[DeviceInfo alloc] init];
+    CR_DeviceInfo *device = [[CR_DeviceInfo alloc] init];
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         XCTAssertNotNil(device.userAgent, @"User-Agent should be filled in after a short period of time");

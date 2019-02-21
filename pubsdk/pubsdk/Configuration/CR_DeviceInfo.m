@@ -1,5 +1,5 @@
 //
-//  DeviceInfo.m
+//  CR_DeviceInfo.m
 //  pubsdk
 //
 //  Created by Paul Davis on 1/28/19.
@@ -8,17 +8,17 @@
 
 #import <WebKit/WebKit.h>
 #import <AdSupport/ASIdentifierManager.h>
-#import "DeviceInfo.h"
+#import "CR_DeviceInfo.h"
 
 static WKWebView *webView = nil;
 static NSString *userAgent = nil;
 static NSString *deviceId = nil;
 
-@implementation DeviceInfo
+@implementation CR_DeviceInfo
 
 + (void) initialize
 {
-    if ([self class] == [DeviceInfo class])
+    if ([self class] == [CR_DeviceInfo class])
     {
         [self setupUserAgent];
     }

@@ -65,7 +65,7 @@
     OCMStub([mockConfig osVersion]).andReturn(@"12.1");
     OCMStub([mockConfig deviceOs]).andReturn(@"ios");
 
-    DeviceInfo *mockDeviceInfo = OCMStrictClassMock([DeviceInfo class]);
+    CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
     OCMStub([mockDeviceInfo deviceId]).andReturn(@"A0AA0A0A-000A-0A00-AAA0-0A00000A0A0A");
     OCMStub([mockDeviceInfo userAgent]).andReturn(@"Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16B91");
 

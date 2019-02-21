@@ -16,7 +16,7 @@
 #import "CR_CacheManager.h"
 #import "CR_Config.h"
 #import "CR_ConfigManager.h"
-#import "DeviceInfo.h"
+#import "CR_DeviceInfo.h"
 #import "GdprUserConsent.h"
 #import "NetworkManager.h"
 #import "NetworkManagerDelegate.h"
@@ -32,7 +32,7 @@
                        cacheManager:(CR_CacheManager*)cacheManager
                              config:(CR_Config*)config
                       configManager:(CR_ConfigManager*)configManager
-                         deviceInfo:(DeviceInfo*)deviceInfo
+                         deviceInfo:(CR_DeviceInfo*)deviceInfo
                     gdprUserConsent:(GdprUserConsent*)gdprUserConsent
                      networkManager:(NetworkManager*)networkManager
                           appEvents:(CR_AppEvents *)appEvents

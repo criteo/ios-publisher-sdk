@@ -12,7 +12,7 @@
 #import "ApiHandler.h"
 #import "GdprUserConsent.h"
 #import "CR_Config.h"
-#import "DeviceInfo.h"
+#import "CR_DeviceInfo.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype) initWithApiHandler: (ApiHandler *) apiHandler
                              config: (CR_Config *) config
                                gdpr: (GdprUserConsent *) gdpr
-                         deviceInfo: (DeviceInfo *) deviceInfo;
+                         deviceInfo: (CR_DeviceInfo *) deviceInfo;
 - (void) sendLaunchEvent;
 - (void) sendActiveEvent:(NSNotification *) notification;
 - (void) sendInactiveEvent:(NSNotification *) notification;

@@ -26,7 +26,7 @@
 // NOT a unit test as it uses the interwebs.
 - (void) testNetworkManagerPostCall {
     XCTestExpectation *expectation = [self expectationWithDescription:@"CDB network call"];
-    DeviceInfo *deviceInfo = [[DeviceInfo alloc] init];
+    CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] init];
     // test values
     NSString *placementId = @"div-Test-DirectBidder";
     //NSNumber *zoneId = @(497747);
@@ -107,7 +107,7 @@
 // NOT a unit test as it uses the interwebs.
 - (void) testNetworkManagerGetCall {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Config network call"];
-    DeviceInfo *deviceInfo = [[DeviceInfo alloc] init];
+    CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] init];
     NSString *query = [NSString stringWithFormat:@"networkId=%@&sdkVersion=%@&appId=%@", @(4916), @"2.0", @"com.washingtonpost.iOS"];
     NSString *urlString = [NSString stringWithFormat:@"https://pub-sdk-cfg.par.preprod.crto.in/v1.0/api/config?%@", query];
     NSURL *url = [NSURL URLWithString: urlString];

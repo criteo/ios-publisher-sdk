@@ -1,5 +1,5 @@
 //
-//  DeviceInfo.h
+//  CR_DeviceInfo.h
 //  pubsdk
 //
 //  Created by Paul Davis on 1/28/19.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DeviceInfo : NSObject
+@interface CR_DeviceInfo : NSObject
 
 @property (nonatomic, readonly) NSString *userAgent;
 @property (nonatomic, readonly) NSString *deviceId;

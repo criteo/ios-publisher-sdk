@@ -11,7 +11,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "DeviceInfo.h"
+#import "CR_DeviceInfo.h"
 #import "NetworkManagerDelegate.h"
 
 typedef void (^NMResponse)(NSData *data, NSError *error);
@@ -21,7 +21,7 @@ typedef void (^NMResponse)(NSData *data, NSError *error);
 @property (nonatomic) id<NetworkManagerDelegate> delegate;
 
 - (instancetype) init NS_UNAVAILABLE;
-- (instancetype) initWithDeviceInfo:(DeviceInfo*)deviceInfo NS_DESIGNATED_INITIALIZER;
+- (instancetype) initWithDeviceInfo:(CR_DeviceInfo*)deviceInfo NS_DESIGNATED_INITIALIZER;
 
 - (void) getFromUrl:(NSURL *) url
     responseHandler:(NMResponse) responseHandler;

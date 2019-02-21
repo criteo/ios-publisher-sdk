@@ -10,17 +10,17 @@
 
 @implementation NetworkManager
 {
-    DeviceInfo *deviceInfo;
+    CR_DeviceInfo *deviceInfo;
     NSURLSession *session;
 }
 
 - (instancetype) init
 {
     NSAssert(false, @"Do not use this initializer");
-    return [self initWithDeviceInfo:[[DeviceInfo alloc] init]];
+    return [self initWithDeviceInfo:[[CR_DeviceInfo alloc] init]];
 }
 
-- (instancetype) initWithDeviceInfo:(DeviceInfo *)deviceInfo {
+- (instancetype) initWithDeviceInfo:(CR_DeviceInfo *)deviceInfo {
     if (self = [super init]) {
         self->deviceInfo = deviceInfo;
         session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
