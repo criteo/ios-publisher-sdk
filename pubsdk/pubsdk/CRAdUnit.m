@@ -15,7 +15,7 @@
 
 - (instancetype) init {
     CGSize size = CGSizeMake(0.0,0.0);
-    return [self initWithAdUnitId:nil size:size];
+    return [self initWithAdUnitId:@"" size:size];
 }
 
 - (instancetype) initWithAdUnitId:(NSString *)adUnitId
@@ -26,7 +26,7 @@
         // to get rid of the decimal point
         NSUInteger width = floor(size.width);
         NSUInteger height = floor(size.height);
-        _hash = [[NSString stringWithFormat:@"%@_x_%lu_x_%lu", _adUnitId, width, height] hash];
+        _hash = [[NSString stringWithFormat:@"%@_x_%lu_x_%lu", _adUnitId, (unsigned long)width, (unsigned long)height] hash];
     }
     return self;
 }
@@ -57,7 +57,7 @@
 
 - (NSString *) cdbSize {
     return [NSString stringWithFormat:@"%lux%lu"
-            , (NSUInteger)self.size.width
-            , (NSUInteger)self.size.height];
+            , (unsigned long)self.size.width
+            , (unsigned long)self.size.height];
 }
 @end

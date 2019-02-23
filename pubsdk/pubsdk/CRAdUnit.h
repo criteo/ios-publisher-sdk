@@ -30,7 +30,7 @@ NS_DESIGNATED_INITIALIZER;
 
 - (instancetype) init NS_UNAVAILABLE;
 
-- (instancetype) copyWithZone:(NSZone *)zone;
+- (instancetype) copyWithZone:(nullable NSZone *)zone;
 
 - (NSString *) cdbSize;
 

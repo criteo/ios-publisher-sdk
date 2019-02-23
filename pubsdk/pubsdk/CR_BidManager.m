@@ -156,6 +156,8 @@
     SEL dfpCustomTargeting = NSSelectorFromString(@"customTargeting");
     SEL dfpSetCustomTargeting = NSSelectorFromString(@"setCustomTargeting:");
     if([adRequest respondsToSelector:dfpCustomTargeting] && [adRequest respondsToSelector:dfpSetCustomTargeting]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
         id targeting = [adRequest performSelector:dfpCustomTargeting];
 
         if (targeting == nil) {
@@ -168,6 +170,7 @@
             [customTargeting setObject:fetchedBid.dfpCompatibleDisplayUrl forKey:@"crt_displayUrl"];
             NSDictionary *updatedDictionary = [NSDictionary dictionaryWithDictionary:customTargeting];
             [adRequest performSelector:dfpSetCustomTargeting withObject:updatedDictionary];
+#pragma clang diagnostic pop
         }
     }
 }
