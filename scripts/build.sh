@@ -11,9 +11,23 @@ CRITEO_SIM_ARCHS='i386 x86_64'
 
 CRITEO_CONFIGURATION="Release"
 
+    # We still have to build pubsdk scheme for testing
     xcodebuild \
     -workspace fuji.xcworkspace \
         -scheme pubsdk \
+        -configuration $CRITEO_CONFIGURATION \
+        -IDEBuildOperationMaxNumberOfConcurrentCompileTasks=`sysctl -n hw.ncpu` \
+        -derivedDataPath build/DerivedData  \
+        -sdk iphonesimulator \
+        -destination 'platform=iOS Simulator,name=iPhone XS,OS=latest' \
+        ARCHS="$CRITEO_SIM_ARCHS" \
+        VALID_ARCHS="$CRITEO_SIM_ARCHS" \
+        ONLY_ACTIVE_ARCH=NO \
+        clean build test | xcpretty
+
+    xcodebuild \
+    -workspace fuji.xcworkspace \
+        -scheme CriteoPublisherSdk \
         -configuration $CRITEO_CONFIGURATION \
         -IDEBuildOperationMaxNumberOfConcurrentCompileTasks=`sysctl -n hw.ncpu` \
         -derivedDataPath build/DerivedData  \
@@ -24,13 +38,13 @@ CRITEO_CONFIGURATION="Release"
         ONLY_ACTIVE_ARCH=NO \
         clean build | xcpretty
 
-        cp -R "build/DerivedData/Build/Products/$CRITEO_CONFIGURATION-iphonesimulator/pubsdk.framework" build/output/sim
+        cp -R "build/DerivedData/Build/Products/$CRITEO_CONFIGURATION-iphonesimulator/CriteoPublisherSdk.framework" build/output/sim
 
         mkdir -p build/output/device
 
     xcodebuild \
     -workspace fuji.xcworkspace \
-        -scheme pubsdk \
+        -scheme CriteoPublisherSdk \
         -configuration $CRITEO_CONFIGURATION \
         -IDEBuildOperationMaxNumberOfConcurrentCompileTasks=`sysctl -n hw.ncpu` \
         -derivedDataPath build/DerivedData  \
@@ -42,16 +56,16 @@ CRITEO_CONFIGURATION="Release"
         CODE_SIGNING_REQUIRED=NO \
         build | xcpretty
 
-        cp -R "build/DerivedData/Build/Products/$CRITEO_CONFIGURATION-iphoneos/pubsdk.framework" build/output/device
+        cp -R "build/DerivedData/Build/Products/$CRITEO_CONFIGURATION-iphoneos/CriteoPublisherSdk.framework" build/output/device
 
-cp -R build/output/device/pubsdk.framework build/output
-rm build/output/pubsdk.framework/pubsdk
+cp -R build/output/device/CriteoPublisherSdk.framework build/output
+rm build/output/CriteoPublisherSdk.framework/CriteoPublisherSdk
 
-lipo -create -output build/output/pubsdk.framework/pubsdk build/output/sim/pubsdk.framework/pubsdk build/output/device/pubsdk.framework/pubsdk
+lipo -create -output build/output/CriteoPublisherSdk.framework/CriteoPublisherSdk build/output/sim/CriteoPublisherSdk.framework/CriteoPublisherSdk build/output/device/CriteoPublisherSdk.framework/CriteoPublisherSdk
 
 cd build/output
 
-zip -r "pubsdk.framework.$CRITEO_CONFIGURATION.zip" pubsdk.framework
+zip -r "CriteoPublisherSdk.framework.$CRITEO_CONFIGURATION.zip" CriteoPublisherSdk.framework
 
 cd ../..
 
@@ -60,7 +74,7 @@ CRITEO_CONFIGURATION="Debug"
 
     xcodebuild \
     -workspace fuji.xcworkspace \
-        -scheme pubsdk \
+        -scheme CriteoPublisherSdk \
         -configuration $CRITEO_CONFIGURATION \
         -IDEBuildOperationMaxNumberOfConcurrentCompileTasks=`sysctl -n hw.ncpu` \
         -derivedDataPath build/DerivedData  \
@@ -69,15 +83,15 @@ CRITEO_CONFIGURATION="Debug"
         ARCHS="$CRITEO_SIM_ARCHS" \
         VALID_ARCHS="$CRITEO_SIM_ARCHS" \
         ONLY_ACTIVE_ARCH=NO \
-        clean build test | xcpretty --report junit --report html
+        clean build | xcpretty --report junit --report html
 
-        cp -R "build/DerivedData/Build/Products/$CRITEO_CONFIGURATION-iphonesimulator/pubsdk.framework" build/output/sim
+        cp -R "build/DerivedData/Build/Products/$CRITEO_CONFIGURATION-iphonesimulator/CriteoPublisherSdk.framework" build/output/sim
 
         mkdir -p build/output/device
 
     xcodebuild \
     -workspace fuji.xcworkspace \
-        -scheme pubsdk \
+        -scheme CriteoPublisherSdk \
         -configuration $CRITEO_CONFIGURATION \
         -IDEBuildOperationMaxNumberOfConcurrentCompileTasks=`sysctl -n hw.ncpu` \
         -derivedDataPath build/DerivedData  \
@@ -89,15 +103,15 @@ CRITEO_CONFIGURATION="Debug"
         CODE_SIGNING_REQUIRED=NO \
         build | xcpretty
 
-        cp -R "build/DerivedData/Build/Products/$CRITEO_CONFIGURATION-iphoneos/pubsdk.framework" build/output/device
+        cp -R "build/DerivedData/Build/Products/$CRITEO_CONFIGURATION-iphoneos/CriteoPublisherSdk.framework" build/output/device
 
-cp -R build/output/device/pubsdk.framework build/output
-rm build/output/pubsdk.framework/pubsdk
+cp -R build/output/device/CriteoPublisherSdk.framework build/output
+rm build/output/CriteoPublisherSdk.framework/CriteoPublisherSdk
 
-lipo -create -output build/output/pubsdk.framework/pubsdk build/output/sim/pubsdk.framework/pubsdk build/output/device/pubsdk.framework/pubsdk
+lipo -create -output build/output/CriteoPublisherSdk.framework/CriteoPublisherSdk build/output/sim/CriteoPublisherSdk.framework/CriteoPublisherSdk build/output/device/CriteoPublisherSdk.framework/CriteoPublisherSdk
 
 cd build/output
 
-zip -r "pubsdk.framework.$CRITEO_CONFIGURATION.zip" pubsdk.framework
+zip -r "CriteoPublisherSdk.framework.$CRITEO_CONFIGURATION.zip" CriteoPublisherSdk.framework
 
 cd ../..

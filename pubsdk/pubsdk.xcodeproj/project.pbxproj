@@ -21,6 +21,24 @@
 		25B6505A2206AB40008416D3 /* Logging.h in Headers */ = {isa = PBXBuildFile; fileRef = 25B650582206AB40008416D3 /* Logging.h */; };
 		25B6505B2206AB40008416D3 /* Logging.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B650592206AB40008416D3 /* Logging.m */; };
 		25B6505D2208C29D008416D3 /* LoggingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B6505C2208C29D008416D3 /* LoggingTests.m */; };
+		25BD5B5B2220D16D004DE311 /* CriteoPublisherSdk.h in Headers */ = {isa = PBXBuildFile; fileRef = 25BD5B592220D16D004DE311 /* CriteoPublisherSdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		25BD5B5F2220D183004DE311 /* CR_AppEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F6E220A20C3002B4548 /* CR_AppEvents.m */; };
+		25BD5B602220D189004DE311 /* CRAdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = E104B6AB21E41B6A004D86C4 /* CRAdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		25BD5B612220D1A2004DE311 /* CRAdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6AC21E41D60004D86C4 /* CRAdUnit.m */; };
+		25BD5B622220D1A8004DE311 /* CR_BidManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F273BA21C9733800A2FBFA /* CR_BidManager.m */; };
+		25BD5B632220D1AE004DE311 /* CR_CacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F273C121C9765100A2FBFA /* CR_CacheManager.m */; };
+		25BD5B642220D1B3004DE311 /* CR_CdbBid.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F273B821C87A2F00A2FBFA /* CR_CdbBid.m */; };
+		25BD5B652220D1BB004DE311 /* CR_Config.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5921FA6FA4002B4548 /* CR_Config.m */; };
+		25BD5B662220D1C6004DE311 /* CR_ConfigManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821D121FD3FB600398E9F /* CR_ConfigManager.m */; };
+		25BD5B672220D1CC004DE311 /* CR_DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821D822000F8000398E9F /* CR_DeviceInfo.m */; };
+		25BD5B682220D1D2004DE311 /* Criteo.h in Headers */ = {isa = PBXBuildFile; fileRef = E1F2738C21BB1B1400A2FBFA /* Criteo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		25BD5B692220D1D9004DE311 /* Criteo.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F2738A21BB12C300A2FBFA /* Criteo.m */; };
+		25BD5B6A2220D1DD004DE311 /* CR_GdprUserConsent.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5521F8FD25002B4548 /* CR_GdprUserConsent.m */; };
+		25BD5B6B2220D1E6004DE311 /* CR_ApiHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F2738621B9BF4900A2FBFA /* CR_ApiHandler.m */; };
+		25BD5B6C2220D1EC004DE311 /* CR_CdbResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D7DF0222138F9A006090C0 /* CR_CdbResponse.m */; };
+		25BD5B6D2220D1F0004DE311 /* CR_NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F2738321B9B58900A2FBFA /* CR_NetworkManager.m */; };
+		25BD5B6E2220D201004DE311 /* NSString+CR_UrlEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 255151C422027C9500F76E3F /* NSString+CR_UrlEncoder.m */; };
+		25BD5B6F2220D209004DE311 /* Logging.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B650592206AB40008416D3 /* Logging.m */; };
 		BB5361AECA2A9614E3B4A2C6 /* libPods-pubsdkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F187272CD050435F6D28BFA /* libPods-pubsdkTests.a */; };
 		E104B6AD21E41D60004D86C4 /* CRAdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6AC21E41D60004D86C4 /* CRAdUnit.m */; };
 		E104B6B121E57F0A004D86C4 /* CRAdUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6B021E57F0A004D86C4 /* CRAdUnitTests.m */; };
@@ -88,6 +106,9 @@
 		25B650582206AB40008416D3 /* Logging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Logging.h; sourceTree = "<group>"; };
 		25B650592206AB40008416D3 /* Logging.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Logging.m; sourceTree = "<group>"; };
 		25B6505C2208C29D008416D3 /* LoggingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = LoggingTests.m; path = pubsdkTests/Util/LoggingTests.m; sourceTree = SOURCE_ROOT; };
+		25BD5B572220D16D004DE311 /* CriteoPublisherSdk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CriteoPublisherSdk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		25BD5B592220D16D004DE311 /* CriteoPublisherSdk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CriteoPublisherSdk.h; sourceTree = "<group>"; };
+		25BD5B5A2220D16D004DE311 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		29D24DDAFFC9D3813C55AD78 /* Pods-pubsdkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdkTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdkTests/Pods-pubsdkTests.release.xcconfig"; sourceTree = "<group>"; };
 		4876E95088BFF48248FF7025 /* Pods-pubsdkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdkTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdkTests/Pods-pubsdkTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6F187272CD050435F6D28BFA /* libPods-pubsdkTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pubsdkTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,6 +155,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		25BD5B542220D16D004DE311 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E1F2736121B5F08D00A2FBFA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -210,6 +238,15 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
+		25BD5B582220D16D004DE311 /* CriteoPublisherSdk */ = {
+			isa = PBXGroup;
+			children = (
+				25BD5B592220D16D004DE311 /* CriteoPublisherSdk.h */,
+				25BD5B5A2220D16D004DE311 /* Info.plist */,
+			);
+			path = CriteoPublisherSdk;
+			sourceTree = "<group>";
+		};
 		25E52F3222091FD8006BA63A /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -249,6 +286,7 @@
 			children = (
 				E1F2736621B5F08D00A2FBFA /* pubsdk */,
 				E1F2737121B5F08D00A2FBFA /* pubsdkTests */,
+				25BD5B582220D16D004DE311 /* CriteoPublisherSdk */,
 				E1F2736521B5F08D00A2FBFA /* Products */,
 				E583F8C77CE6CA066448D92A /* Pods */,
 				58922C790615A11D1E6D635B /* Frameworks */,
@@ -260,6 +298,7 @@
 			children = (
 				E1F2736421B5F08D00A2FBFA /* pubsdk.framework */,
 				E1F2736D21B5F08D00A2FBFA /* pubsdkTests.xctest */,
+				25BD5B572220D16D004DE311 /* CriteoPublisherSdk.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -323,6 +362,16 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		25BD5B522220D16D004DE311 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				25BD5B682220D1D2004DE311 /* Criteo.h in Headers */,
+				25BD5B602220D189004DE311 /* CRAdUnit.h in Headers */,
+				25BD5B5B2220D16D004DE311 /* CriteoPublisherSdk.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E1F2735F21B5F08D00A2FBFA /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -340,6 +389,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		25BD5B562220D16D004DE311 /* CriteoPublisherSdk */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 25BD5B5E2220D16D004DE311 /* Build configuration list for PBXNativeTarget "CriteoPublisherSdk" */;
+			buildPhases = (
+				25BD5B522220D16D004DE311 /* Headers */,
+				25BD5B532220D16D004DE311 /* Sources */,
+				25BD5B542220D16D004DE311 /* Frameworks */,
+				25BD5B552220D16D004DE311 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CriteoPublisherSdk;
+			productName = CriteoPublisherSdk;
+			productReference = 25BD5B572220D16D004DE311 /* CriteoPublisherSdk.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		E1F2736321B5F08D00A2FBFA /* pubsdk */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E1F2737821B5F08D00A2FBFA /* Build configuration list for PBXNativeTarget "pubsdk" */;
@@ -387,6 +454,9 @@
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = Criteo;
 				TargetAttributes = {
+					25BD5B562220D16D004DE311 = {
+						CreatedOnToolsVersion = 10.1;
+					};
 					E1F2736321B5F08D00A2FBFA = {
 						CreatedOnToolsVersion = 10.1;
 					};
@@ -409,11 +479,19 @@
 			targets = (
 				E1F2736321B5F08D00A2FBFA /* pubsdk */,
 				E1F2736C21B5F08D00A2FBFA /* pubsdkTests */,
+				25BD5B562220D16D004DE311 /* CriteoPublisherSdk */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		25BD5B552220D16D004DE311 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E1F2736221B5F08D00A2FBFA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -456,6 +534,28 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		25BD5B532220D16D004DE311 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				25BD5B5F2220D183004DE311 /* CR_AppEvents.m in Sources */,
+				25BD5B692220D1D9004DE311 /* Criteo.m in Sources */,
+				25BD5B622220D1A8004DE311 /* CR_BidManager.m in Sources */,
+				25BD5B672220D1CC004DE311 /* CR_DeviceInfo.m in Sources */,
+				25BD5B652220D1BB004DE311 /* CR_Config.m in Sources */,
+				25BD5B6F2220D209004DE311 /* Logging.m in Sources */,
+				25BD5B6B2220D1E6004DE311 /* CR_ApiHandler.m in Sources */,
+				25BD5B612220D1A2004DE311 /* CRAdUnit.m in Sources */,
+				25BD5B6C2220D1EC004DE311 /* CR_CdbResponse.m in Sources */,
+				25BD5B642220D1B3004DE311 /* CR_CdbBid.m in Sources */,
+				25BD5B6E2220D201004DE311 /* NSString+CR_UrlEncoder.m in Sources */,
+				25BD5B6D2220D1F0004DE311 /* CR_NetworkManager.m in Sources */,
+				25BD5B6A2220D1DD004DE311 /* CR_GdprUserConsent.m in Sources */,
+				25BD5B662220D1C6004DE311 /* CR_ConfigManager.m in Sources */,
+				25BD5B632220D1AE004DE311 /* CR_CacheManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E1F2736021B5F08D00A2FBFA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -512,6 +612,58 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		25BD5B5C2220D16D004DE311 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = S655EV5659;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = CriteoPublisherSdk/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.CriteoPublisherSdk;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		25BD5B5D2220D16D004DE311 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = S655EV5659;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = CriteoPublisherSdk/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.CriteoPublisherSdk;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		E1F2737621B5F08D00A2FBFA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -716,6 +868,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		25BD5B5E2220D16D004DE311 /* Build configuration list for PBXNativeTarget "CriteoPublisherSdk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				25BD5B5C2220D16D004DE311 /* Debug */,
+				25BD5B5D2220D16D004DE311 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		E1F2735E21B5F08D00A2FBFA /* Build configuration list for PBXProject "pubsdk" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -1,8 +1,7 @@
 //
 //  CRAdUnit.h
-//  pubsdk
+//  Criteo Publisher Sdk
 //
-//  Created by Adwait Kulkarni on 1/7/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
@@ -12,6 +11,7 @@
 #import <Foundation/Foundation.h>
 #include <CoreGraphics/CoreGraphics.h>
 
+NS_ASSUME_NONNULL_BEGIN
 @interface CRAdUnit : NSObject <NSCopying>
 
 @property (readonly, nonatomic) NSString *adUnitId;
@@ -35,5 +35,6 @@ NS_DESIGNATED_INITIALIZER;
 - (NSString *) cdbSize;
 
 @end
+NS_ASSUME_NONNULL_END
 
 #endif /* CRAdUnit_h */

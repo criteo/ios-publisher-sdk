@@ -1,9 +1,8 @@
 //
 //  Criteo.h
-//  pubsdk
+//  CriteoPublisherSdk
 //
-//  Created by Adwait Kulkarni on 12/7/18.
-//  Copyright © 2018 Criteo. All rights reserved.
+//  Copyright © 2019 Criteo. All rights reserved.
 //
 
 #ifndef Criteo_h
@@ -13,6 +12,7 @@
 
 #import "CRAdUnit.h"
 
+NS_ASSUME_NONNULL_BEGIN
 @interface Criteo : NSObject
 
 /* @abstract Use sharedInstance */
@@ -26,5 +26,6 @@
                 withAdUnit:(CRAdUnit *) adUnit;
 
 @end
+NS_ASSUME_NONNULL_END
 
 #endif /* Criteo_h */
