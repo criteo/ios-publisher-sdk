@@ -5,6 +5,8 @@
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
+
 //! Project version number for CriteoPublisherSdk.
 FOUNDATION_EXPORT double CriteoPublisherSdkVersionNumber;
 
