@@ -1,18 +1,18 @@
 //
-//  AdUnit.h
-//  pubsdk
+//  CRAdUnit.h
+//  Criteo Publisher Sdk
 //
-//  Created by Adwait Kulkarni on 1/7/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#ifndef AdUnit_h
-#define AdUnit_h
+#ifndef CRAdUnit_h
+#define CRAdUnit_h
 
 #import <Foundation/Foundation.h>
 #include <CoreGraphics/CoreGraphics.h>
 
-@interface AdUnit : NSObject <NSCopying>
+NS_ASSUME_NONNULL_BEGIN
+@interface CRAdUnit : NSObject <NSCopying>
 
 @property (readonly, nonatomic) NSString *adUnitId;
 @property (readonly, nonatomic) CGSize size;
@@ -30,10 +30,11 @@ NS_DESIGNATED_INITIALIZER;
 
 - (instancetype) init NS_UNAVAILABLE;
 
-- (instancetype) copyWithZone:(NSZone *)zone;
+- (instancetype) copyWithZone:(nullable NSZone *)zone;
 
 - (NSString *) cdbSize;
 
 @end
+NS_ASSUME_NONNULL_END
 
-#endif /* AdUnit_h */
+#endif /* CRAdUnit_h */

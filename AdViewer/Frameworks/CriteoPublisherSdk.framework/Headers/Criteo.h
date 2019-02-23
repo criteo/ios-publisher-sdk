@@ -1,9 +1,8 @@
 //
 //  Criteo.h
-//  pubsdk
+//  CriteoPublisherSdk
 //
-//  Created by Adwait Kulkarni on 12/7/18.
-//  Copyright © 2018 Criteo. All rights reserved.
+//  Copyright © 2019 Criteo. All rights reserved.
 //
 
 #ifndef Criteo_h
@@ -11,8 +10,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import "AdUnit.h"
+#import "CRAdUnit.h"
 
+NS_ASSUME_NONNULL_BEGIN
 @interface Criteo : NSObject
 
 /* @abstract Use sharedInstance */
@@ -20,11 +20,12 @@
 + (nonnull instancetype) sharedCriteo;
 
 - (void) registerNetworkId:(NSUInteger)networkId
-               withAdUnits:(NSArray<AdUnit*> *) adUnits;
+               withAdUnits:(NSArray<CRAdUnit*> *) adUnits;
 
 - (void) setBidsForRequest:(id) request
-                withAdUnit:(AdUnit *) adUnit;
+                withAdUnit:(CRAdUnit *) adUnit;
 
 @end
+NS_ASSUME_NONNULL_END
 
 #endif /* Criteo_h */

@@ -214,13 +214,13 @@ didFailToReceiveAdWithError:(nonnull GADRequestError *)error
     [userDefaults removeObjectForKey:@"IABConsent_ParsedVendorConsents"];
 }
 
-- (NSArray<AdUnit*>*) createAdUnits
+- (NSArray<CRAdUnit*>*) createAdUnits
 {
     NSString *adUnitId = self.textAdUnitId.text;
     double width = [self.textAdUnitWidth.text doubleValue];
     double height = [self.textAdUnitHeight.text doubleValue];
-    AdUnit *adUnit = [[AdUnit alloc] initWithAdUnitId:adUnitId
-                                                 size:CGSizeMake(width, height)];
+    CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:adUnitId
+                                                     size:CGSizeMake(width, height)];
 
     return @[ adUnit ];
 }
@@ -230,7 +230,7 @@ didFailToReceiveAdWithError:(nonnull GADRequestError *)error
     NSString *adUnitId = self.textAdUnitId.text;
     double width = [self.textAdUnitWidth.text doubleValue];
     double height = [self.textAdUnitHeight.text doubleValue];
-    AdUnit *adUnit = [[AdUnit alloc] initWithAdUnitId:adUnitId size:CGSizeMake(width, height)];
+    CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:adUnitId size:CGSizeMake(width, height)];
 
     DFPRequest *request = [DFPRequest request];
     //request.testDevices = @[ kGADSimulatorID ];

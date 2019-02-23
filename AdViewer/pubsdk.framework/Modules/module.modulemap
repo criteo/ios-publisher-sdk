@@ -1,6 +1,0 @@
-framework module pubsdk {
-  umbrella header "pubsdk.h"
-
-  export *
-  module * { export * }
-}
