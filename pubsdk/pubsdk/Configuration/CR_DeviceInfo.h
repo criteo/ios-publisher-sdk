@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+@class WKWebView, UIWebView;
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_DeviceInfo : NSObject
@@ -15,7 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (atomic, strong) NSString *userAgent;
 @property (nonatomic, readonly) NSString *deviceId;
 
-- (void) waitForUserAgent:(void (^ _Nullable)(void))completion;
+- (instancetype)initWithWKWebView:(WKWebView *)wkWebView uiWebView:(UIWebView * _Nullable)uiWebView;
+- (void)waitForUserAgent:(void (^ _Nullable)(void))completion;
+
 
 @end
 

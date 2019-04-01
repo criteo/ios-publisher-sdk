@@ -18,11 +18,21 @@
 }
 
 - (instancetype)init {
+    Class uiWebViewClass = NSClassFromString(@"UIWebView");
+    UIWebView *uiWebView;
+    if(uiWebViewClass) {
+        uiWebView = [[uiWebViewClass alloc] init];
+    }
+    self = [self initWithWKWebView: [[WKWebView alloc] initWithFrame:CGRectZero] uiWebView:uiWebView];
+    return self;
+}
+
+- (instancetype)initWithWKWebView:(WKWebView *)wkWebView uiWebView:(UIWebView * _Nullable)uiWebView {
     self = [super init];
     if (self) {
         _loadUserAgentCompletionBlocks = [NSMutableSet new];
         _isLoadingUserAgent = NO;
-        [self setupUserAgent];
+        [self setupUserAgentWithWKWebView:wkWebView UIWebView:uiWebView];
     }
     return self;
 }
@@ -39,15 +49,14 @@
     }
 }
 
-- (void)setupUserAgent {
+- (void)setupUserAgentWithWKWebView:(WKWebView *)wkWebView UIWebView:(UIWebView *)uiWebView {
     if(_isLoadingUserAgent) {
         return;
     }
     _isLoadingUserAgent = YES;
     // Make sure we're on the main thread because we're calling WKWebView which isn't thread safe
     dispatch_async(dispatch_get_main_queue(), ^{
-        WKWebView __block *webView = [[WKWebView alloc] initWithFrame:CGRectZero];
-        [webView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id _Nullable navigatorUserAgent, NSError * _Nullable error) {
+        [wkWebView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id _Nullable navigatorUserAgent, NSError * _Nullable error) {
             
             // Make sure we're on the main thread because we could call UIWebView which isn't thread safe
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -55,7 +64,7 @@
                     self.userAgent = navigatorUserAgent;
                 } else {
                     // TODO: Client-side metrics for empty UA
-                    self.userAgent = [self userAgentFromUIWebView];
+                    self.userAgent = [self userAgentFromUIWebView:uiWebView];
                 }
                 
                 @synchronized (self->_loadUserAgentCompletionBlocks) {
@@ -70,12 +79,9 @@
     });
 }
 
-- (NSString*)userAgentFromUIWebView {
-    // UIWebView is deprecated so we ensure it exists.
-    // If not, well nevemind.
-    Class uiWebviewClass = NSClassFromString(@"UIWebView");
-    if (uiWebviewClass) {
-        return [(UIWebView *)[[uiWebviewClass alloc] init] stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+- (NSString*)userAgentFromUIWebView:(UIWebView *)uiWebView {
+    if (uiWebView) {
+        return [uiWebView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
         // TODO: Client-side metrics for still empty UA
     } else {
         // TODO: Client-side metrics for absence of UIWebView, we need to find a solution at this point
