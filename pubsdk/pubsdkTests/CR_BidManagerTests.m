@@ -41,7 +41,10 @@
     OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
     OCMStub([mockUserConsent consentGiven]).andReturn(YES);
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
-
+    
+    CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
+    OCMStub([mockDeviceInfo waitForUserAgent:[OCMArg invokeBlock]]);
+    
     // if the caller asks for a bid for an un initialized slot
     CRAdUnit *unInitializedSlot = [[CRAdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
 
@@ -53,7 +56,7 @@
                                                              cacheManager:cache
                                                                    config:mockConfig
                                                             configManager:nil
-                                                               deviceInfo:nil
+                                                               deviceInfo:mockDeviceInfo
                                                           gdprUserConsent:mockUserConsent
                                                            networkManager:nil
                                                                 appEvents:nil

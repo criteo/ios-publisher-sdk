@@ -12,8 +12,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_DeviceInfo : NSObject
 
-@property (nonatomic, readonly) NSString *userAgent;
+@property (atomic, strong) NSString *userAgent;
 @property (nonatomic, readonly) NSString *deviceId;
+
+- (void) waitForUserAgent:(void (^ _Nullable)(void))completion;
 
 @end
 

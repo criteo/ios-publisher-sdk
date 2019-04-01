@@ -116,19 +116,21 @@
         return;
     }
     
-    [self->apiHandler callCdb:slotId
-                  gdprConsent:self->gdprUserConsent
-                       config:self->config
-                   deviceInfo:self->deviceInfo
-         ahCdbResponseHandler:^(CR_CdbResponse *cdbResponse) {
-             if(cdbResponse.timeToNextCall) {
-                 self->cdbTimeToNextCall = [[NSDate dateWithTimeIntervalSinceNow:cdbResponse.timeToNextCall]
-                                            timeIntervalSinceReferenceDate];
-             }
-             for(CR_CdbBid *bid in cdbResponse.cdbBids) {
-                 [self->cacheManager setBid:bid forAdUnit:slotId];
-             }
-         }];
+    [deviceInfo waitForUserAgent:^{
+        [self->apiHandler callCdb:slotId
+                      gdprConsent:self->gdprUserConsent
+                           config:self->config
+                       deviceInfo:self->deviceInfo
+             ahCdbResponseHandler:^(CR_CdbResponse *cdbResponse) {
+                 if(cdbResponse.timeToNextCall) {
+                     self->cdbTimeToNextCall = [[NSDate dateWithTimeIntervalSinceNow:cdbResponse.timeToNextCall]
+                                                timeIntervalSinceReferenceDate];
+                 }
+                 for(CR_CdbBid *bid in cdbResponse.cdbBids) {
+                     [self->cacheManager setBid:bid forAdUnit:slotId];
+                 }
+             }];
+    }];
 }
 
 - (void) refreshConfig {

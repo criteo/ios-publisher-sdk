@@ -46,36 +46,38 @@
     });
 }
 
-- (void) getFromUrl:(NSURL *) url
-    responseHandler:(CR_NMResponse) responseHandler {
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-
-    if (deviceInfo.userAgent) {
-        [request setValue:deviceInfo.userAgent forHTTPHeaderField:@"User-Agent"];
-    }
-
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request
-                                            completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-
-        [self signalReceivedResponse:response withData:data error:error];
-
-        if(error) {
-            // Add logging or metrics code here
-            responseHandler(nil, error);
+- (void)getFromUrl:(NSURL *) url
+   responseHandler:(CR_NMResponse) responseHandler {
+    [deviceInfo waitForUserAgent:^{
+        
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+        if (self->deviceInfo.userAgent) {
+            [request setValue:self->deviceInfo.userAgent forHTTPHeaderField:@"User-Agent"];
         }
-        if (response) {
-            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
-            if (httpResponse.statusCode >=200 && httpResponse.statusCode <=299) {
-                responseHandler(data, error);
-            }
-            else {
-                // Add logging or metrics code here
-                // Need to figure out how to handle redirects
-            }
-        }
+
+        NSURLSessionDataTask *task = [self->session dataTaskWithRequest:request
+                                                completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                                                    
+                                                    [self signalReceivedResponse:response withData:data error:error];
+                                                    
+                                                    if(error) {
+                                                        // Add logging or metrics code here
+                                                        responseHandler(nil, error);
+                                                    }
+                                                    if (response) {
+                                                        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
+                                                        if (httpResponse.statusCode >=200 && httpResponse.statusCode <=299) {
+                                                            responseHandler(data, error);
+                                                        }
+                                                        else {
+                                                            // Add logging or metrics code here
+                                                            // Need to figure out how to handle redirects
+                                                        }
+                                                    }
+                                                }];
+        [task resume];
+        [self signalSentRequest:request];
     }];
-    [task resume];
-    [self signalSentRequest:request];
 }
 
 - (void) postToUrl:(NSURL *) url
