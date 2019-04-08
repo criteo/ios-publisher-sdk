@@ -87,21 +87,29 @@
 }
 
 - (CR_CdbBid *) getBid:(CRAdUnit *) slot {
-    CR_CdbBid *bid = [cacheManager getBid:slot];
+    CR_CdbBid *bid = [cacheManager getBidForAdUnit:slot];
     if(bid) {
-        // Whether a valid bid was returned or not
-        // fire call to prefetch here
-        // only call cdb if time to next call has passed
-        if([[NSDate date]timeIntervalSinceReferenceDate] >= self->cdbTimeToNextCall){
-            [self prefetchBid:slot];
+        if([[bid cpm] floatValue] == 0 && [bid ttl] == 0) {
+            // immediately invalidate current cache entry if cpm == 0 & ttl == 0
+            [cacheManager removeBidForAdUnit:slot];
+            // only call cdb if time to next call has passed
+            if([[NSDate date]timeIntervalSinceReferenceDate] >= self->cdbTimeToNextCall){
+                [self prefetchBid:slot];
+            }
+            return [CR_CdbBid emptyBid];
+        } else if ([[bid cpm] floatValue] == 0 && [bid ttl] > 0 && !bid.isExpired) {
+            // continue to do nothing as ttl hasn't expired on this silenced adUnit
+            return [CR_CdbBid emptyBid];
+        } else {
+            // remove it from the cache and consume the good bid
+            [cacheManager removeBidForAdUnit:slot];
+            if([[NSDate date]timeIntervalSinceReferenceDate] >= self->cdbTimeToNextCall){
+                [self prefetchBid:slot];
+            }
+            return bid;
         }
     }
-    // if the cache returns nil it means the key wasn't in the cache
-    // return an empty bid
-    else {
-        bid = [CR_CdbBid emptyBid];
-    }
-    return bid;
+    return [CR_CdbBid emptyBid];
 }
 
 // TODO: Figure out a way to test this

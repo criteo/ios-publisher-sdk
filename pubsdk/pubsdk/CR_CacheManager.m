@@ -35,16 +35,13 @@
     }
 }
 
-- (CR_CdbBid *) getBid: (CRAdUnit *) slotId {
-    CR_CdbBid *bid = [_bidCache objectForKey:slotId];
-    if(bid) {
-        _bidCache[slotId] = [CR_CdbBid emptyBid];
-        // check ttl hasn't elapsed
-        if (bid.isExpired) {
-            return [CR_CdbBid emptyBid];
-        }
-    }
+- (CR_CdbBid *) getBidForAdUnit: (CRAdUnit *) adUnit {
+    CR_CdbBid *bid = [_bidCache objectForKey:adUnit];
     return bid;
+}
+
+- (void) removeBidForAdUnit: (CRAdUnit *) adUnit {
+    _bidCache[adUnit] = nil;
 }
 
 @end

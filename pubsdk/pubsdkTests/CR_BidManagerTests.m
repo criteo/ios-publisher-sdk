@@ -26,12 +26,12 @@
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
 
     // initialized slots with fetched bids
-    CR_CdbBid *testBid = [[CR_CdbBid alloc] init];
     CRAdUnit *testAdUnit = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+    CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:testAdUnit.adUnitId cpm:@"2.0" currency:@"USD" width:@(testAdUnit.size.width) height:@(testAdUnit.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date]];
     cache.bidCache[testAdUnit] = testBid;
 
-    CR_CdbBid *testBid_2 = [[CR_CdbBid alloc] init];
     CRAdUnit *testAdUnit_2 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
+    CR_CdbBid *testBid_2 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:testAdUnit_2.adUnitId cpm:@"0.5" currency:@"USD" width:@(testAdUnit_2.size.width) height:@(testAdUnit_2.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl_2.com" insertTime:[NSDate date]];
     cache.bidCache[testAdUnit_2] = testBid_2;
 
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
@@ -199,12 +199,12 @@
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
 
     // initialized slots with fetched bids
-    CR_CdbBid *testBid = [[CR_CdbBid alloc] init];
     CRAdUnit *testAdUnit = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+    CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:testAdUnit.adUnitId cpm:@"2.0" currency:@"USD" width:@(testAdUnit.size.width) height:@(testAdUnit.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date]];
     cache.bidCache[testAdUnit] = testBid;
 
-    CR_CdbBid *testBid_2 = [[CR_CdbBid alloc] init];
     CRAdUnit *testAdUnit_2 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
+    CR_CdbBid *testBid_2 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:testAdUnit_2.adUnitId cpm:@"0.5" currency:@"USD" width:@(testAdUnit_2.size.width) height:@(testAdUnit_2.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl_2.com" insertTime:[NSDate date]];
     cache.bidCache[testAdUnit_2] = testBid_2;
 
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
@@ -239,6 +239,127 @@
     XCTAssertEqualObjects(testBid, bids[testAdUnit]);
     XCTAssertEqualObjects(testBid_2, bids[testAdUnit_2]);
     XCTAssertTrue([bids[unInitializedSlot] isEmpty]);
+}
+
+- (void) testGetBidCpmIsZeroSlotIsSilenced {
+    // cpm ==0 && ttl > 0 and ttl has NOT expired
+    // test cache
+    CR_CacheManager *cache = [[CR_CacheManager alloc] init];
+
+    // initialized slots with fetched bids
+    CRAdUnit *testAdUnit = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+    CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:testAdUnit.adUnitId cpm:@"0.0" currency:@"USD" width:@(testAdUnit.size.width) height:@(testAdUnit.size.height) ttl:600 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date]];
+    cache.bidCache[testAdUnit] = testBid;
+
+    CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
+    OCMStub([mockConfig killSwitch]).andReturn(NO);
+
+    CR_GdprUserConsent *mockUserConsent = OCMStrictClassMock([CR_GdprUserConsent class]);
+    OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
+    OCMStub([mockUserConsent consentGiven]).andReturn(YES);
+    OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
+
+    CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
+    OCMStub([mockDeviceInfo waitForUserAgent:[OCMArg invokeBlock]]);
+
+    id mockApiHandler = OCMClassMock([CR_ApiHandler class]);
+    OCMReject([mockApiHandler callCdb:testAdUnit gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:mockApiHandler
+                                                             cacheManager:cache
+                                                                   config:mockConfig
+                                                            configManager:nil
+                                                               deviceInfo:mockDeviceInfo
+                                                          gdprUserConsent:mockUserConsent
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:0];
+
+    NSArray *slots = @[testAdUnit];
+    NSDictionary *bids = [bidManager getBids:slots];
+    XCTAssertTrue([bids[testAdUnit] isEmpty]);
+}
+
+- (void) testGetBidCpmIsZeroSlotIsNotSilenced {
+    // cpm ==0 && ttl > 0 and ttl has expired
+    // test cache
+    CR_CacheManager *cache = [[CR_CacheManager alloc] init];
+
+    // initialized slots with fetched bids
+    CRAdUnit *testAdUnit = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+    CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:testAdUnit.adUnitId cpm:@"0.0" currency:@"USD" width:@(testAdUnit.size.width) height:@(testAdUnit.size.height) ttl:10 creative:nil displayUrl:@"https://someUrl.com" insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-400]];
+    cache.bidCache[testAdUnit] = testBid;
+
+    CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
+    OCMStub([mockConfig killSwitch]).andReturn(NO);
+
+    CR_GdprUserConsent *mockUserConsent = OCMStrictClassMock([CR_GdprUserConsent class]);
+    OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
+    OCMStub([mockUserConsent consentGiven]).andReturn(YES);
+    OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
+
+    CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
+    OCMStub([mockDeviceInfo waitForUserAgent:[OCMArg invokeBlock]]);
+
+    id mockApiHandler = OCMClassMock([CR_ApiHandler class]);
+
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:mockApiHandler
+                                                             cacheManager:cache
+                                                                   config:mockConfig
+                                                            configManager:nil
+                                                               deviceInfo:mockDeviceInfo
+                                                          gdprUserConsent:mockUserConsent
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:0];
+
+    NSArray *slots = @[testAdUnit];
+    NSDictionary *bids = [bidManager getBids:slots];
+    XCTAssertEqualObjects(testBid, bids[testAdUnit]);
+
+    // Only call [CR_ApiHandler callCdb] for registered Ad Units
+    OCMVerify([mockApiHandler callCdb:testAdUnit gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+}
+
+- (void) testGetBidWhenNoBid {
+    // cpm ==0 && ttl == 0
+    // test cache
+    CR_CacheManager *cache = [[CR_CacheManager alloc] init];
+
+    // initialized slots with fetched bids
+    CRAdUnit *testAdUnit = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+    CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:testAdUnit.adUnitId cpm:@"0.0" currency:@"USD" width:@(testAdUnit.size.width) height:@(testAdUnit.size.height) ttl:0 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date]];
+    cache.bidCache[testAdUnit] = testBid;
+
+    CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
+    OCMStub([mockConfig killSwitch]).andReturn(NO);
+
+    CR_GdprUserConsent *mockUserConsent = OCMStrictClassMock([CR_GdprUserConsent class]);
+    OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
+    OCMStub([mockUserConsent consentGiven]).andReturn(YES);
+    OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
+
+    CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
+    OCMStub([mockDeviceInfo waitForUserAgent:[OCMArg invokeBlock]]);
+
+    id mockApiHandler = OCMClassMock([CR_ApiHandler class]);
+
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:mockApiHandler
+                                                             cacheManager:cache
+                                                                   config:mockConfig
+                                                            configManager:nil
+                                                               deviceInfo:mockDeviceInfo
+                                                          gdprUserConsent:mockUserConsent
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:0];
+
+    NSArray *slots = @[testAdUnit];
+    NSDictionary *bids = [bidManager getBids:slots];
+    XCTAssertTrue([bids[testAdUnit] isEmpty]);
+
+    // Only call [CR_ApiHandler callCdb] for registered Ad Units
+    OCMVerify([mockApiHandler callCdb:testAdUnit gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
 }
 
 @end

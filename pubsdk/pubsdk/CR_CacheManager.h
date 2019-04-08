@@ -22,7 +22,9 @@
 - (void) setBid: (CR_CdbBid *) bid
       forAdUnit: (CRAdUnit *) adUnit;
 
-- (CR_CdbBid *) getBid: (CRAdUnit *) slotId;
+- (CR_CdbBid *) getBidForAdUnit: (CRAdUnit *) adUnit;
+
+- (void) removeBidForAdUnit: (CRAdUnit *) adUnit;
 
 @end
 
