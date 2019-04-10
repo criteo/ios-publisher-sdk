@@ -93,4 +93,13 @@ static Criteo *sharedInstance;
                 withAdUnit:(CRAdUnit *)adUnit {
     [bidManager addCriteoBidToRequest:request forAdUnit:adUnit];
 }
+
+- (CR_BidManager *)bidManager {
+    return bidManager;
+}
+
+- (CR_CdbBid *)getBid:(CRAdUnit *)slot {
+    return [self.bidManager getBid:slot];
+}
+
 @end

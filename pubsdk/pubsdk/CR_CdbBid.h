@@ -41,6 +41,7 @@
                           width:(NSNumber *) width
                          height:(NSNumber *) height
                             ttl:(NSTimeInterval) ttl
+                                // creative is an useless legacy field
                        creative:(NSString *) creative
                      displayUrl:(NSString *) displayUrl
 // TODO: Move this to a state object
