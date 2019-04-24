@@ -10,6 +10,7 @@
 #define CRBannerView_Internal_h
 
 @interface CRBannerView (Internal)
+
 - (instancetype)initWithFrame:(CGRect)frame criteo:(Criteo *)criteo webView:(WKWebView *)webView;
 
 @end

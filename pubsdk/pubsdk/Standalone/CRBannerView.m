@@ -50,12 +50,12 @@
                             "<head>"
                             "<meta charset=\"utf-8\">"
                             "<style>body{margin:0;padding:0}</style>"
-                            "<meta name=\"viewport\" content=\"width=%tu, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\" >"
+                            "<meta name=\"viewport\" content=\"width=%ld, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\" >"
                             "</head>"
                             "<body>"
                             "<script src=\"%@\"></script>"
                             "</body>"
-                            "</html>", (NSUInteger)self.frame.size.width , bid.displayUrl];
+                            "</html>", (long)self.frame.size.width , bid.displayUrl];
     [_webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"about:blank"]];
 }
 

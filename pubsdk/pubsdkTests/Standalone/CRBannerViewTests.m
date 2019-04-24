@@ -107,7 +107,6 @@
             XCTAssertTrue([(NSString *)result containsString:@"width=47"]);
             [viewportExpectation fulfill];
         }];
-
     };
     [self waitForExpectations:@[marginExpectation, paddingExpectation, viewportExpectation] timeout:5];
 }
@@ -124,7 +123,6 @@
     OCMStub([mockCriteo getBid:expectedAdUnit💡]).andReturn(nil);
     [bannerView loadAd:@"123"];
     OCMVerify([mockCriteo getBid:expectedAdUnit💡]);
-
 }
 
 @end
