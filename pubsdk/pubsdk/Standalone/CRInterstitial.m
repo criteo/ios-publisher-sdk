@@ -24,17 +24,19 @@
 
 @implementation CRInterstitial
 
-- (instancetype)initWithCriteo:(Criteo *)criteo webView:(WKWebView *)webView {
+- (instancetype)initWithCriteo:(Criteo *)criteo viewController:(CR_InterstitialViewController *)viewController {
     if(self = [super init]) {
         _criteo = criteo;
-        webView.navigationDelegate = self;
-        _viewController = [[CR_InterstitialViewController alloc] initWithWebView:webView];
+        viewController.webView.navigationDelegate = self;
+        _viewController = viewController;
     }
     return self;
 }
 
 - (instancetype)init {
-    return [self initWithCriteo:[Criteo sharedCriteo] webView:[WKWebView new]];
+    return [self initWithCriteo:[Criteo sharedCriteo]
+                 viewController:[[CR_InterstitialViewController alloc]
+                                 initWithWebView:[WKWebView new]]];
 }
 
 - (void)loadAd:(NSString *)adUnitId {

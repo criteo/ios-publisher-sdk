@@ -48,7 +48,7 @@
                                             insertTime:[NSDate date]];
     
     OCMStub([mockCriteo getBid:expectedAdUnit💡]).andReturn(bid);
-
+    
     [bannerView loadAd:@"123"];
     OCMVerify([mockCriteo getBid:expectedAdUnit💡]);
 

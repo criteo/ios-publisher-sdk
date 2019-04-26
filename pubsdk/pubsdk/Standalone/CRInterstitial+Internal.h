@@ -9,9 +9,13 @@
 #ifndef CRInterstitial_Internal_h
 #define CRInterstitial_Internal_h
 
+#import "Criteo.h"
+#import "CR_InterstitialViewController.h"
+
 @interface CRInterstitial (Internal)
 
-- (instancetype)initWithCriteo:(Criteo *)criteo webView:(WKWebView *)webView;
+- (instancetype)initWithCriteo:(Criteo *)criteo
+                viewController:(CR_InterstitialViewController *)viewController;
 
 @end
 
