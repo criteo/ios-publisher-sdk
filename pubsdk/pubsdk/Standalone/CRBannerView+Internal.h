@@ -8,10 +8,17 @@
 
 #ifndef CRBannerView_Internal_h
 #define CRBannerView_Internal_h
+@import WebKit;
 
 @interface CRBannerView (Internal)
 
-- (instancetype)initWithFrame:(CGRect)frame criteo:(Criteo *)criteo webView:(WKWebView *)webView;
+- (instancetype)initWithFrame:(CGRect)rect
+                       criteo:(Criteo *)criteo
+                      webView:(WKWebView *)webView
+                  application:(UIApplication *)application;
+
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
+decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler;
 
 @end
 

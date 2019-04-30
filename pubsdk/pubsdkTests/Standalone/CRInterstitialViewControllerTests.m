@@ -46,7 +46,8 @@
     CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView];
 
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:nil
-                                                           viewController:interstitialVC];
+                                                           viewController:interstitialVC
+                                                              application:nil];
     XCTestExpectation __block *vcDismissedExpectation = [self expectationWithDescription:@"View Controller dismissed on close button click"];
     UIViewController *vc = [UIViewController new];
     window.rootViewController = vc;
