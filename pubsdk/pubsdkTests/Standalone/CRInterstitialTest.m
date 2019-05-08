@@ -158,8 +158,9 @@
 
 - (void)testInterstitialFail {
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    CR_InterstitialViewController *interstitialVC = OCMStrictClassMock([CR_InterstitialViewController class]);
     WKWebView *realWebView = [WKWebView new];
-    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:realWebView];
+    OCMStub([interstitialVC webView]).andReturn(realWebView);
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
                                                             application:nil];
