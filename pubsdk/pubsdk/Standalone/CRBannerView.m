@@ -53,6 +53,12 @@
                                                      size:self.frame.size];
     CR_CdbBid *bid = [self.criteo getBid:adUnit];
     if([bid isEmpty]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if([self.delegate respondsToSelector:@selector(bannerDidFail:withError:)]) {
+                 [self.delegate bannerDidFail:self
+                                    withError:nil];
+            }
+        });
         return;
     }
     NSString *htmlString = [NSString stringWithFormat:@"<!doctype html>"
@@ -69,6 +75,14 @@
     [_webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"about:blank"]];
 }
 
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if([self.delegate respondsToSelector:@selector(bannerDidLoad:)]) {
+            [self.delegate bannerDidLoad:self];
+        }
+    });
+}
+
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
 decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     if(navigationAction.navigationType == WKNavigationTypeLinkActivated && [navigationAction.sourceFrame isMainFrame]) {
@@ -76,11 +90,52 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
             if([self.application canOpenURL:navigationAction.request.URL]) {
                 [self.application openURL:navigationAction.request.URL];
                 decisionHandler(WKNavigationActionPolicyCancel);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if([self.delegate respondsToSelector:@selector(bannerWillLeaveApplication:)]) {
+                        [self.delegate bannerWillLeaveApplication:self];
+                    }
+                });
                 return;
             }
         }
     }
     decisionHandler(WKNavigationActionPolicyAllow);
+}
+
+// Delegate errors that occur during web view navigation
+- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if([self.delegate respondsToSelector:@selector(bannerDidFail:withError:)]) {
+            [self.delegate bannerDidFail:self
+                               withError:nil];
+        }
+    });
+}
+
+// Delegate errors that occur while the web view is loading content.
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if([self.delegate respondsToSelector:@selector(bannerDidFail:withError:)]) {
+            [self.delegate bannerDidFail:self
+                               withError:nil];
+        };
+    });
+}
+
+// Delegate HTTP errors
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler {
+    if([navigationResponse.response isKindOfClass:[NSHTTPURLResponse class]]) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)navigationResponse.response;
+        if(httpResponse.statusCode >= 400) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if([self.delegate respondsToSelector:@selector(bannerDidFail:withError:)]) {
+                    [self.delegate bannerDidFail:self
+                                       withError:nil];
+                }
+            });
+        }
+    }
+    decisionHandler(WKNavigationResponsePolicyAllow);
 }
 
 @end

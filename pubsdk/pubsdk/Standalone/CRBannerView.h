@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CRBannerViewDelegate.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CRBannerView : UIView
+@property (nullable, nonatomic, weak) id<CRBannerViewDelegate> delegate;
 - (void)loadAd:(NSString *)adUnitId;
 @end
 

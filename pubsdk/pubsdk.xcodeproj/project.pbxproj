@@ -39,12 +39,16 @@
 		25BD5B6D2220D1F0004DE311 /* CR_NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F2738321B9B58900A2FBFA /* CR_NetworkManager.m */; };
 		25BD5B6E2220D201004DE311 /* NSString+CR_UrlEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 255151C422027C9500F76E3F /* NSString+CR_UrlEncoder.m */; };
 		25BD5B6F2220D209004DE311 /* Logging.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B650592206AB40008416D3 /* Logging.m */; };
+		543442FC2285F4A600805343 /* CRBannerViewDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 543F6F9C22838EDF00A5DBE2 /* CRBannerViewDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		543F6F6D22820C1800A5DBE2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 543F6F6C22820C1800A5DBE2 /* AppDelegate.m */; };
 		543F6F7022820C1800A5DBE2 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 543F6F6F22820C1800A5DBE2 /* ViewController.m */; };
 		543F6F7322820C1800A5DBE2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 543F6F7122820C1800A5DBE2 /* Main.storyboard */; };
 		543F6F7522820C1A00A5DBE2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 543F6F7422820C1A00A5DBE2 /* Assets.xcassets */; };
 		543F6F7822820C1A00A5DBE2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 543F6F7622820C1A00A5DBE2 /* LaunchScreen.storyboard */; };
 		543F6F7B22820C1A00A5DBE2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 543F6F7A22820C1A00A5DBE2 /* main.m */; };
+		543F6F9D22838EDF00A5DBE2 /* CRBannerViewDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 543F6F9C22838EDF00A5DBE2 /* CRBannerViewDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		543F6FA22283B5F500A5DBE2 /* CRBannerViewDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 543F6FA12283B5F500A5DBE2 /* CRBannerViewDelegateTests.m */; };
+		5488906E22848321009BCF42 /* pubsdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F2736421B5F08D00A2FBFA /* pubsdk.framework */; };
 		54ED19F322717E13009AA0B2 /* CRInterstitialViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 54ED19F222717E13009AA0B2 /* CRInterstitialViewControllerTests.m */; };
 		650915F72255622E001D6673 /* CRBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 650915F42255622E001D6673 /* CRBannerView.m */; };
 		650915F82255622E001D6673 /* CRBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 650915F42255622E001D6673 /* CRBannerView.m */; };
@@ -76,7 +80,6 @@
 		E12A7F75220A82FD002B4548 /* CR_AppEventsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F74220A82FD002B4548 /* CR_AppEventsTests.m */; };
 		E1D7DF0322138F9A006090C0 /* CR_CdbResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D7DF0222138F9A006090C0 /* CR_CdbResponse.m */; };
 		E1D7DF052215136C006090C0 /* CR_CdbResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D7DF042215136C006090C0 /* CR_CdbResponseTests.m */; };
-		E1F2736E21B5F08D00A2FBFA /* pubsdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F2736421B5F08D00A2FBFA /* pubsdk.framework */; };
 		E1F2737321B5F08D00A2FBFA /* pubsdkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F2737221B5F08D00A2FBFA /* pubsdkTests.m */; };
 		E1F2737521B5F08D00A2FBFA /* pubsdk.h in Headers */ = {isa = PBXBuildFile; fileRef = E1F2736721B5F08D00A2FBFA /* pubsdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1F2738421B9B58900A2FBFA /* CR_NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F2738321B9B58900A2FBFA /* CR_NetworkManager.m */; };
@@ -96,7 +99,7 @@
 			remoteGlobalIDString = 543F6F6822820C1800A5DBE2;
 			remoteInfo = iTestHostApp;
 		};
-		E1F2736F21B5F08D00A2FBFA /* PBXContainerItemProxy */ = {
+		5488906F2284844E009BCF42 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E1F2735B21B5F08D00A2FBFA /* Project object */;
 			proxyType = 1;
@@ -148,6 +151,8 @@
 		543F6F7722820C1A00A5DBE2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		543F6F7922820C1A00A5DBE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		543F6F7A22820C1A00A5DBE2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		543F6F9C22838EDF00A5DBE2 /* CRBannerViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRBannerViewDelegate.h; sourceTree = "<group>"; };
+		543F6FA12283B5F500A5DBE2 /* CRBannerViewDelegateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRBannerViewDelegateTests.m; sourceTree = "<group>"; };
 		54ED19F222717E13009AA0B2 /* CRInterstitialViewControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialViewControllerTests.m; sourceTree = "<group>"; };
 		650915F32255622E001D6673 /* CRBannerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRBannerView.h; sourceTree = "<group>"; };
 		650915F42255622E001D6673 /* CRBannerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRBannerView.m; sourceTree = "<group>"; };
@@ -230,7 +235,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1F2736E21B5F08D00A2FBFA /* pubsdk.framework in Frameworks */,
+				5488906E22848321009BCF42 /* pubsdk.framework in Frameworks */,
 				BB5361AECA2A9614E3B4A2C6 /* libPods-pubsdkTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -348,6 +353,7 @@
 				654858AD22653CB800DC471A /* CRInterstitial+Internal.h */,
 				65E3A56F2270CB7A004156E9 /* CR_InterstitialViewController.h */,
 				65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */,
+				543F6F9C22838EDF00A5DBE2 /* CRBannerViewDelegate.h */,
 			);
 			path = Standalone;
 			sourceTree = "<group>";
@@ -358,6 +364,7 @@
 				6524664022543083005058C5 /* CRBannerViewTests.m */,
 				654858AB2265394A00DC471A /* CRInterstitialTest.m */,
 				54ED19F222717E13009AA0B2 /* CRInterstitialViewControllerTests.m */,
+				543F6FA12283B5F500A5DBE2 /* CRBannerViewDelegateTests.m */,
 			);
 			path = Standalone;
 			sourceTree = "<group>";
@@ -478,6 +485,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				543442FC2285F4A600805343 /* CRBannerViewDelegate.h in Headers */,
 				25BD5B682220D1D2004DE311 /* Criteo.h in Headers */,
 				25BD5B602220D189004DE311 /* CRAdUnit.h in Headers */,
 				650915FD225565E6001D6673 /* CRBannerView.h in Headers */,
@@ -497,6 +505,7 @@
 				258821D221FD3FB600398E9F /* CR_ConfigManager.h in Headers */,
 				25B6505A2206AB40008416D3 /* Logging.h in Headers */,
 				E1F2737521B5F08D00A2FBFA /* pubsdk.h in Headers */,
+				543F6F9D22838EDF00A5DBE2 /* CRBannerViewDelegate.h in Headers */,
 				258821D922000F8000398E9F /* CR_DeviceInfo.h in Headers */,
 				255151B922012BF800F76E3F /* CRAdUnit.h in Headers */,
 			);
@@ -571,7 +580,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				E1F2737021B5F08D00A2FBFA /* PBXTargetDependency */,
+				548890702284844E009BCF42 /* PBXTargetDependency */,
 				543F6F8022820C2B00A5DBE2 /* PBXTargetDependency */,
 			);
 			name = pubsdkTests;
@@ -748,6 +757,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				543F6FA22283B5F500A5DBE2 /* CRBannerViewDelegateTests.m in Sources */,
 				255151C92202AEF800F76E3F /* NSString+CR_UrlEncoderTests.m in Sources */,
 				54ED19F322717E13009AA0B2 /* CRInterstitialViewControllerTests.m in Sources */,
 				25B6505D2208C29D008416D3 /* LoggingTests.m in Sources */,
@@ -779,10 +789,10 @@
 			target = 543F6F6822820C1800A5DBE2 /* iTestHostApp */;
 			targetProxy = 543F6F7F22820C2B00A5DBE2 /* PBXContainerItemProxy */;
 		};
-		E1F2737021B5F08D00A2FBFA /* PBXTargetDependency */ = {
+		548890702284844E009BCF42 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E1F2736321B5F08D00A2FBFA /* pubsdk */;
-			targetProxy = E1F2736F21B5F08D00A2FBFA /* PBXContainerItemProxy */;
+			targetProxy = 5488906F2284844E009BCF42 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
