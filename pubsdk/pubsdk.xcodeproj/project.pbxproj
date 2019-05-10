@@ -53,12 +53,10 @@
 		6524664122543083005058C5 /* CRBannerViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6524664022543083005058C5 /* CRBannerViewTests.m */; };
 		6540470F22581D32009235A1 /* MockWKWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6540470E22581D32009235A1 /* MockWKWebView.m */; };
 		654858A7226538D500DC471A /* CRInterstitial.h in Headers */ = {isa = PBXBuildFile; fileRef = 654858A5226538D500DC471A /* CRInterstitial.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		654858A8226538D500DC471A /* CRInterstitial.h in Headers */ = {isa = PBXBuildFile; fileRef = 654858A5226538D500DC471A /* CRInterstitial.h */; };
+		654858A8226538D500DC471A /* CRInterstitial.h in Headers */ = {isa = PBXBuildFile; fileRef = 654858A5226538D500DC471A /* CRInterstitial.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		654858A9226538D500DC471A /* CRInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 654858A6226538D500DC471A /* CRInterstitial.m */; };
 		654858AA226538D500DC471A /* CRInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 654858A6226538D500DC471A /* CRInterstitial.m */; };
 		654858AC2265394A00DC471A /* CRInterstitialTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 654858AB2265394A00DC471A /* CRInterstitialTest.m */; };
-		65E3A5712270CB7A004156E9 /* CR_InterstitialViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 65E3A56F2270CB7A004156E9 /* CR_InterstitialViewController.h */; };
-		65E3A5722270CB7A004156E9 /* CR_InterstitialViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 65E3A56F2270CB7A004156E9 /* CR_InterstitialViewController.h */; };
 		65E3A5732270CB7A004156E9 /* CR_InterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */; };
 		65E3A5742270CB7A004156E9 /* CR_InterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */; };
 		BB5361AECA2A9614E3B4A2C6 /* libPods-pubsdkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F187272CD050435F6D28BFA /* libPods-pubsdkTests.a */; };
@@ -480,11 +478,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65E3A5722270CB7A004156E9 /* CR_InterstitialViewController.h in Headers */,
 				25BD5B682220D1D2004DE311 /* Criteo.h in Headers */,
-				654858A8226538D500DC471A /* CRInterstitial.h in Headers */,
 				25BD5B602220D189004DE311 /* CRAdUnit.h in Headers */,
 				650915FD225565E6001D6673 /* CRBannerView.h in Headers */,
+				654858A8226538D500DC471A /* CRInterstitial.h in Headers */,
 				25BD5B5B2220D16D004DE311 /* CriteoPublisherSdk.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -497,7 +494,6 @@
 				255151C522027C9500F76E3F /* NSString+CR_UrlEncoder.h in Headers */,
 				654858A7226538D500DC471A /* CRInterstitial.h in Headers */,
 				650915FE225565E7001D6673 /* CRBannerView.h in Headers */,
-				65E3A5712270CB7A004156E9 /* CR_InterstitialViewController.h in Headers */,
 				258821D221FD3FB600398E9F /* CR_ConfigManager.h in Headers */,
 				25B6505A2206AB40008416D3 /* Logging.h in Headers */,
 				E1F2737521B5F08D00A2FBFA /* pubsdk.h in Headers */,
