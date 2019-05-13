@@ -16,3 +16,5 @@ FOUNDATION_EXPORT const unsigned char CriteoPublisherSdkVersionString[];
 // Public Headers
 #import <CriteoPublisherSdk/CRAdUnit.h>
 #import <CriteoPublisherSdk/Criteo.h>
+#import <CriteoPublisherSdk/CRBannerView.h>
+#import <CriteoPublisherSdk/CRInterstitial.h>
