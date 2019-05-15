@@ -130,6 +130,7 @@ static CR_CdbBid *emptyBid;
     NSMutableArray *responses = nil;
     NSError *e = nil;
     NSDictionary *slots = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
+    double defaultValue = 900;
     if (!slots) {
         CLog(@"Error parsing JSON to CdbResponse: %@" , e);
     } else {
@@ -145,7 +146,10 @@ static CR_CdbBid *emptyBid;
             NSString *creative = slot[@"creative"];
             // Hard coding to 15 minutes for now
             // TODO: move this default to the config
-            NSTimeInterval ttl = slot[@"ttl"] ? [slot[@"ttl"] doubleValue]: 900;
+            NSTimeInterval ttl = slot[@"ttl"] ? [slot[@"ttl"] doubleValue]: defaultValue;
+            if ([cpm doubleValue] > 0 && ttl == 0){
+                ttl = defaultValue;
+            }
             NSString *displayUrl = slot[@"displayUrl"];
             CR_CdbBid *response = [[CR_CdbBid alloc] initWithZoneId:zoneId placementId:placementId cpm:cpm currency:currency width:width height:height ttl:ttl creative:creative displayUrl:displayUrl insertTime:receivedAt];
             [responses addObject:response];

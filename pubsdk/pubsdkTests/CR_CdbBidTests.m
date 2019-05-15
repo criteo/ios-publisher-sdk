@@ -172,4 +172,78 @@
     XCTAssertEqualObjects(doubleUrlEncodedBase64DisplayUrl, testBid.dfpCompatibleDisplayUrl, @"dfpCompatibleDisplayUrl property is not a properly encoded version of displayUrl");
 }
 
+- (void) testCdbResponsesForDataForBidCachingCases {
+    // Bid Objects
+    NSDate *testDate = [NSDate date];
+    //case when no bid : cpm = 0 and ttl = 0
+    CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:@(497747)
+                                                 placementId:@"adunitid_1"
+                                                         cpm:@"0"
+                                                    currency:@"EUR"
+                                                       width:@(300)
+                                                      height:@(250)
+                                                         ttl:0
+                                                    creative:nil
+                                                  displayUrl:@""
+                                                  insertTime:testDate];
+
+    //case when silent mode : cpm = 0 and ttl > 0
+    CR_CdbBid *testBid_2 = [[CR_CdbBid alloc] initWithZoneId:@(497747)
+                                                 placementId:@"adunitid_2"
+                                                         cpm:@"0"
+                                                    currency:@"EUR"
+                                                       width:@(300)
+                                                      height:@(250)
+                                                         ttl:900
+                                                    creative:nil
+                                                  displayUrl:@""
+                                                  insertTime:testDate];
+
+    //case when bid : cpm > 0 and ttl = 0, but ttl set to 900
+    CR_CdbBid *testBid_3 = [[CR_CdbBid alloc] initWithZoneId:@(497747)
+                                                 placementId:@"adunitid_3"
+                                                         cpm:@"1.2"
+                                                    currency:@"EUR"
+                                                       width:@(300)
+                                                      height:@(250)
+                                                         ttl:900
+                                                    creative:nil
+                                                  displayUrl:@""
+                                                  insertTime:testDate];
+
+    //case when bid caching : cpm > 0 and ttl > 0
+    CR_CdbBid *testBid_4 = [[CR_CdbBid alloc] initWithZoneId:@(497747)
+                                                 placementId:@"adunitid_4"
+                                                         cpm:@"1.2"
+                                                    currency:@"EUR"
+                                                       width:@(300)
+                                                      height:@(250)
+                                                         ttl:700
+                                                    creative:nil
+                                                  displayUrl:@""
+                                                  insertTime:testDate];
+
+    // Json response from CDB
+    // The cpm is a number
+    NSString *rawJsonCdbResponse =
+    @"{\"slots\":[{\"placementId\": \"adunitid_1\",\"zoneId\": 497747,\"cpm\":0,\"currency\":\"EUR\", \"ttl\":0, \"width\": 300,\"height\": 250,\"displayUrl\": \"\"},\
+    {\"placementId\": \"adunitid_2\",\"zoneId\": 497747,\"cpm\":0,\"currency\":\"EUR\", \"ttl\":900, \"width\": 300,\"height\": 250,\"displayUrl\": \"\"},\
+    {\"placementId\": \"adunitid_3\",\"zoneId\": 497747,\"cpm\":1.2,\"currency\":\"EUR\", \"ttl\":0, \"width\": 300,\"height\": 250,\"displayUrl\": \"\"},\
+    {\"placementId\": \"adunitid_4\",\"zoneId\": 497747,\"cpm\":1.2,\"currency\":\"EUR\", \"ttl\":700, \"width\": 300,\"height\": 250,\"displayUrl\": \"\"}]}";
+
+    NSData *cdbApiResponse = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
+
+    NSArray *testBids = [CR_CdbBid getCdbResponsesForData:cdbApiResponse receivedAt:testDate];
+    XCTAssertNotNil(testBids);
+    XCTAssertEqual(4, [testBids count]);
+    XCTAssertTrue([testBid_1 isEqual:testBids[0]]);
+    // the json response is missing ttl
+    XCTAssertTrue([testBid_2 isEqual:testBids[1]]);
+    // the creative string is mismatched
+    XCTAssertTrue([testBid_3 isEqual:testBids[2]]);
+    // missing cpm
+    XCTAssertTrue([testBid_4 isEqual:testBids[3]]);
+
+}
+
 @end
