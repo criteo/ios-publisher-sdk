@@ -22,6 +22,15 @@
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
 decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler;
 
+- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation
+      withError:(NSError *)error;
+
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation
+      withError:(NSError *)error;
+
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse
+decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler;
+
 @end
 
 

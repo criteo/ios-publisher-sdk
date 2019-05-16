@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CRInterstitial.h"
 @import WebKit;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -15,8 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, strong) UIButton *closeButton;
+@property (nonatomic, weak) CRInterstitial *interstitial;
 
-- (instancetype)initWithWebView:(WKWebView *)webView;
+- (instancetype)initWithWebView:(WKWebView *)webView
+                   interstitial:(CRInterstitial *)interstitial;
 - (void)dismissViewController;
 
 @end

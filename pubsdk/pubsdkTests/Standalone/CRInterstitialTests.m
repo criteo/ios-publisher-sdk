@@ -1,5 +1,5 @@
 //
-//  CRInterstitialTest.m
+//  CRInterstitialTests.m
 //  pubsdkTests
 //
 //  Created by Julien Stoeffler on 4/15/19.
@@ -17,14 +17,14 @@
 #import "MockWKWebView.h"
 #import "CR_InterstitialViewController.h"
 
-@interface CRInterstitialTest : XCTestCase
+@interface CRInterstitialTests : XCTestCase
 {
     CR_CdbBid *_bid;
     CRAdUnit *_adUnit;
 }
 @end
 
-@implementation CRInterstitialTest
+@implementation CRInterstitialTests
 
 - (void)setUp {
     _bid = nil;
@@ -58,7 +58,8 @@
 - (void)testInterstitialSuccess {
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
     MockWKWebView *mockWebView = [MockWKWebView new];
-    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView];
+    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView
+                                                                                              interstitial:nil];
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
                                                               application:nil];
@@ -77,7 +78,8 @@
 - (void)testWebViewAddedToViewHierarchy {
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
     MockWKWebView *mockWebView = [MockWKWebView new];
-    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView];
+    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView
+                                                                                              interstitial:nil];
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
                                                               application:nil];
@@ -87,14 +89,14 @@
         if(interstitial.isLoaded) {
             [timer invalidate];
             UIViewController *vc = OCMStrictClassMock([UIViewController class]);
-            OCMStub([vc presentViewController:OCMArg.any animated:YES completion:nil]);
+            OCMStub([vc presentViewController:OCMArg.any animated:YES completion:[OCMArg isNotNil]]);
             [interstitial presentFromRootViewController:vc];
             OCMVerify([vc presentViewController:[OCMArg checkWithBlock:^(id value){
                 [(UIViewController *)value viewDidLoad];
                 XCTAssertNotNil(mockWebView.superview);
                 [webViewAddedToSuperviewExpectation fulfill];
                 return YES;
-            }] animated:YES completion:nil]);
+            }] animated:YES completion:[OCMArg isNotNil]]);
         }
     }];
 
@@ -110,7 +112,8 @@
 - (void)testWithRendering {
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
     WKWebView *realWebView = [WKWebView new];
-    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:realWebView];
+    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:realWebView
+                                                                                              interstitial:nil];
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
                                                               application:nil];
@@ -179,7 +182,8 @@
     WKWebView *realWebView = [WKWebView new];
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
     UIApplication *mockApplication = OCMStrictClassMock([UIApplication class]);
-    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:realWebView];
+    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:realWebView
+                                                                                              interstitial:nil];
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
                                                               application:mockApplication];
@@ -208,7 +212,8 @@
     WKWebView *realWebView = [WKWebView new];
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
     UIApplication *mockApplication = OCMStrictClassMock([UIApplication class]);
-    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:realWebView];
+    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:realWebView
+                                                                                              interstitial:nil];
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
                                                               application:mockApplication];

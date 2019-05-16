@@ -16,7 +16,7 @@
 
 @interface CRInterstitial() <WKNavigationDelegate>
 
-@property (nonatomic, readwrite, getter=isLoaded) BOOL loaded;
+@property (nonatomic, readwrite) BOOL isLoaded;
 @property (nonatomic, strong) Criteo *criteo;
 @property (nonatomic, strong) CR_InterstitialViewController *viewController;
 @property (nonatomic, weak) UIApplication *application;
@@ -39,18 +39,24 @@
 
 - (instancetype)init {
     return [self initWithCriteo:[Criteo sharedCriteo]
-                 viewController:[[CR_InterstitialViewController alloc]
-                                 initWithWebView:[WKWebView new]]
+                 viewController:[[CR_InterstitialViewController alloc] initWithWebView:[WKWebView new]
+                                                                          interstitial:self]
                     application:[UIApplication sharedApplication]];
 }
 
 - (void)loadAd:(NSString *)adUnitId {
-    self.loaded = NO;
+    self.isLoaded = NO;
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
     CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:adUnitId
                                                      size:screenSize];
     CR_CdbBid *bid = [self.criteo getBid:adUnit];
     if([bid isEmpty]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
+                [self.delegate interstitial:self
+                   didFailToLoadAdWithError:nil];
+            }
+        });
         return;
     }
     NSString *htmlString = [NSString stringWithFormat:@"<!doctype html>"
@@ -69,7 +75,12 @@
 
 -     (void)webView:(WKWebView *)webView
 didFinishNavigation:(WKNavigation *)navigation {
-    self.loaded = YES;
+    self.isLoaded = YES;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if([self.delegate respondsToSelector:@selector(interstitialDidLoadAd:)]) {
+            [self.delegate interstitialDidLoadAd:self];
+        }
+    });
 }
 
 - (void)presentFromRootViewController:(UIViewController *)rootViewController {
@@ -84,9 +95,20 @@ didFinishNavigation:(WKNavigation *)navigation {
         // TODO: Error handling
         return;
     }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if([self.delegate respondsToSelector:@selector(interstitialWillAppear:)]) {
+            [self.delegate interstitialWillAppear:self];
+        }
+    });
     [rootViewController presentViewController:self.viewController
                                      animated:YES
-                                   completion:nil];
+                                   completion:^{
+                                       dispatch_async(dispatch_get_main_queue(), ^{
+                                           if([self.delegate respondsToSelector:@selector(interstitialDidAppear:)]) {
+                                               [self.delegate interstitialDidAppear:self];
+                                           }
+                                       });
+                                   }];
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
@@ -98,6 +120,11 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
                 [self.application openURL:navigationAction.request.URL];
                 [self.viewController dismissViewController];
                 decisionHandler(WKNavigationActionPolicyCancel);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if([self.delegate respondsToSelector:@selector(interstitialWillLeaveApplication:)]) {
+                        [self.delegate interstitialWillLeaveApplication:self];
+                    }
+                });
                 return;
             }
         }
@@ -105,5 +132,40 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     // allow all other navigation Types for webView
     decisionHandler(WKNavigationActionPolicyAllow);
 }
+
+// Delegate errors that occur during web view navigation
+- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
+            [self.delegate interstitial:self
+               didFailToLoadAdWithError:nil];
+        }
+    });
+}
+
+// Delegate errors that occur while the web view is loading content.
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
+            [self.delegate interstitial:self
+               didFailToLoadAdWithError:nil];
+        }
+    });
+}
+
+// Delegate HTTP errors
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler {
+    if([navigationResponse.response isKindOfClass:[NSHTTPURLResponse class]]) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)navigationResponse.response;
+        if(httpResponse.statusCode >= 400) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
+                    [self.delegate interstitial:self
+                       didFailToLoadAdWithError:nil];
+                }
+            });
+        }
+    }
+    decisionHandler(WKNavigationResponsePolicyAllow);}
 
 @end

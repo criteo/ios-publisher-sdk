@@ -19,3 +19,4 @@ FOUNDATION_EXPORT const unsigned char CriteoPublisherSdkVersionString[];
 #import <CriteoPublisherSdk/CRBannerView.h>
 #import <CriteoPublisherSdk/CRInterstitial.h>
 #import <CriteoPublisherSdk/CRBannerViewDelegate.h>
+#import <CriteoPublisherSdk/CRInterstitialDelegate.h>

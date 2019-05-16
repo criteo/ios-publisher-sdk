@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "CRInterstitialDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CRInterstitial : NSObject
 
-@property (nonatomic, readonly, getter=isLoaded) BOOL loaded;
+@property (nonatomic, readonly) BOOL isLoaded;
+@property (nullable, nonatomic, weak) id <CRInterstitialDelegate> delegate;
 
 - (void)loadAd:(NSString *)adUnitId;
 - (void)presentFromRootViewController:(UIViewController *)rootViewController;

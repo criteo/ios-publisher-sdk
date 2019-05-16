@@ -21,7 +21,7 @@
 
 - (void)testCloseButtonInitialization {
     MockWKWebView *mockWebView = [MockWKWebView new];
-    CR_InterstitialViewController *interstitial = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView];
+    CR_InterstitialViewController *interstitial = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView interstitial:nil];
     XCTAssertNotNil(interstitial.view);
     XCTAssertNotNil(interstitial.closeButton);
     XCTAssertEqual(interstitial.closeButton.superview, interstitial.view);
@@ -43,7 +43,7 @@
     [window makeKeyAndVisible];
     MockWKWebView *mockWebView = [MockWKWebView new];
 
-    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView];
+    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView interstitial:nil];
 
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:nil
                                                            viewController:interstitialVC

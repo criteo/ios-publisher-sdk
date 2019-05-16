@@ -9,18 +9,18 @@
 #import "CR_InterstitialViewController.h"
 
 @interface CR_InterstitialViewController ()
-
 @end
 
 @implementation CR_InterstitialViewController
 
-- (instancetype)initWithWebView:(WKWebView *)webView {
+- (instancetype)initWithWebView:(WKWebView *)webView
+                   interstitial:(CRInterstitial *)interstitial {
     if(self = [super init]) {
         webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         webView.scrollView.scrollEnabled = false;
         webView.frame = [UIScreen mainScreen].bounds;
-
         _webView = webView;
+        _interstitial = interstitial;
     }
     return self;
 }
@@ -68,7 +68,19 @@
 }
 
 - (void)dismissViewController {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if([self.interstitial.delegate respondsToSelector:@selector(interstitialWillDisappear:)]) {
+            [self.interstitial.delegate interstitialWillDisappear:self.interstitial];
+        }
+    });
+    [self.presentingViewController dismissViewControllerAnimated:YES
+                                                      completion:^{
+                                                          dispatch_async(dispatch_get_main_queue(), ^{
+                                                              if([self.interstitial.delegate respondsToSelector:@selector(interstitialDidDisappear:)]) {
+                                                                  [self.interstitial.delegate interstitialDidDisappear:self.interstitial];
+                                                              }
+                                                          });
+                                                      }];
 }
 
 - (void)applySafeAreaConstraintsToWebView:(WKWebView *)webView {
