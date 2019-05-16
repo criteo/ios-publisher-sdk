@@ -141,7 +141,7 @@
     DummyDfpRequest *dfpBidRequest = [[DummyDfpRequest alloc] init];
     dfpBidRequest.customTargeting = testDfpCustomTargeting;
 
-    CR_Config *config = [[CR_Config alloc] initWithNetworkId:@(1234)];
+    CR_Config *config = [[CR_Config alloc] initWithCriteoPublisherId:@("1234")];
 
     CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
                                                              cacheManager:cache
@@ -173,7 +173,7 @@
     DummyDfpRequest *dfpBidRequest = [[DummyDfpRequest alloc] init];
     dfpBidRequest.customTargeting = testDfpCustomTargeting;
 
-    CR_Config *config = [[CR_Config alloc] initWithNetworkId:@(1234)];
+    CR_Config *config = [[CR_Config alloc] initWithCriteoPublisherId:@("1234")];
     config.killSwitch = YES;
 
     CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil

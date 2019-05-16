@@ -55,7 +55,7 @@
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
 
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
-    OCMStub([mockConfig networkId]).andReturn(@(1));
+    OCMStub([mockConfig criteoPublisherId]).andReturn(@("1"));
     OCMStub([mockConfig sdkVersion]).andReturn(@"1.0");
     OCMStub([mockConfig profileId]).andReturn(@(235));
     OCMStub([mockConfig cdbUrl]).andReturn(@"https://dummyCdb.com");
@@ -119,7 +119,7 @@
                            responseHandler:([OCMArg invokeBlockWithArgs:responseData, error, nil])]);
 
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
-    OCMStub([mockConfig networkId]).andReturn(@(1));
+    OCMStub([mockConfig criteoPublisherId]).andReturn(@("1"));
     OCMStub([mockConfig sdkVersion]).andReturn(@"1.0");
     OCMStub([mockConfig appId]).andReturn(@"com.criteo.pubsdk");
 

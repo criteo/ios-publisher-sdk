@@ -13,7 +13,7 @@
 
 @interface CR_Config : NSObject
 
-@property (strong, nonatomic, readonly) NSNumber *networkId;
+@property (strong, nonatomic, readonly) NSString *criteoPublisherId;
 @property (strong, nonatomic, readonly) NSNumber *profileId;
 @property (strong, nonatomic, readonly) NSString *cdbUrl;
 @property (strong, nonatomic, readonly) NSString *path;
@@ -26,7 +26,7 @@
 @property (strong, nonatomic, readonly) NSString *osVersion;
 @property (strong, nonatomic, readonly) NSString *deviceOs;
 
-- (instancetype) initWithNetworkId:(NSNumber *) networkId
+- (instancetype) initWithCriteoPublisherId:(NSString *) criteoPublisherId
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype) init NS_UNAVAILABLE;

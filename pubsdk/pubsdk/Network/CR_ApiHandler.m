@@ -65,7 +65,7 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
 
                               [NSDictionary dictionaryWithObjectsAndKeys:
                                [config appId],     @"bundleId",   // The bundle ID identifying the app
-                               [config networkId], @"networkId",
+                               [config criteoPublisherId], @"networkId",
                                nil], @"publisher",
 
                               [config sdkVersion], @"sdkVersion",
@@ -107,16 +107,16 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
 
 - (void) getConfig:(CR_Config *) config
    ahConfigHandler:(AHConfigResponse) ahConfigHandler {
-    if(![config networkId] || [config sdkVersion].length == 0 || [config appId].length == 0) {
-        CLog(@"Config is is missing one of the following required values networkId = %@, sdkVersion = %@, appId = %@ "
-             , [config networkId], [config sdkVersion], [config appId]);
+    if(![config criteoPublisherId] || [config sdkVersion].length == 0 || [config appId].length == 0) {
+        CLog(@"Config is is missing one of the following required values criteoPublisherId = %@, sdkVersion = %@, appId = %@ "
+             , [config criteoPublisherId], [config sdkVersion], [config appId]);
         if(ahConfigHandler) {
             ahConfigHandler(nil);
         }
     }
 
     // TODO: Move the url + query building logic to CR_Config class
-    NSString *query = [NSString stringWithFormat:@"networkId=%@&sdkVersion=%@&appId=%@", [config networkId], [config sdkVersion], [config appId]];
+    NSString *query = [NSString stringWithFormat:@"networkId=%@&sdkVersion=%@&appId=%@", [config criteoPublisherId], [config sdkVersion], [config appId]];
     NSString *urlString = [NSString stringWithFormat:@"https://pub-sdk-cfg.criteo.com/v1.0/api/config?%@", query];
     NSURL *url = [NSURL URLWithString: urlString];
     [self.networkManager getFromUrl:url responseHandler:^(NSData *data, NSError *error) {

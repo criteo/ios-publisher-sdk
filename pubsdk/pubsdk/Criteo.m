@@ -28,9 +28,9 @@ static Criteo *sharedInstance;
     bidManager.networkMangerDelegate = networkMangerDelegate;
 }
 
-+ (CR_BidManager*) createBidManagerWithNetworkId:(NSUInteger) networkId
++ (CR_BidManager*) createBidManagerWithCriteoPublisherId:(NSString *) criteoPublisherId
 {
-    CR_Config *config = [[CR_Config alloc] initWithNetworkId:@(networkId)];
+    CR_Config *config = [[CR_Config alloc] initWithCriteoPublisherId:criteoPublisherId];
     CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] init];
     CR_NetworkManager *networkManager = [[CR_NetworkManager alloc] initWithDeviceInfo:deviceInfo];
     CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:networkManager];
@@ -68,11 +68,11 @@ static Criteo *sharedInstance;
     return sharedInstance;
 }
 
-- (void) registerNetworkId:(NSUInteger) networkId
-               withAdUnits:(NSArray<CRAdUnit *> *)adUnits {
+- (void) registerCriteoPublisherId:(NSString *) criteoPublisherId
+                       withAdUnits:(NSArray<CRAdUnit *> *)adUnits {
     static dispatch_once_t registrationToken;
     dispatch_once(&registrationToken, ^{
-        bidManager = [Criteo createBidManagerWithNetworkId:networkId];
+        bidManager = [Criteo createBidManagerWithCriteoPublisherId:criteoPublisherId];
     });
 
     [registeredAdUnits addObjectsFromArray:adUnits];

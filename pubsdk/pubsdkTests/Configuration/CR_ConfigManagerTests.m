@@ -28,7 +28,7 @@
     remoteConfig = @{ @"killSwitch" : @(NO) };
 
     // Local config hosted inside the app
-    localConfig = [[CR_Config alloc] initWithNetworkId:nil];
+    localConfig = [[CR_Config alloc] initWithCriteoPublisherId:nil];
     localConfig.killSwitch = YES;
 
     // Mock remote config API, returns the remoteConfig dictionary above

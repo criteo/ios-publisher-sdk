@@ -19,8 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype) init NS_UNAVAILABLE;
 + (nonnull instancetype) sharedCriteo;
 
-- (void) registerNetworkId:(NSUInteger)networkId
-               withAdUnits:(NSArray<CRAdUnit*> *) adUnits;
+- (void) registerCriteoPublisherId:(NSString *) criteoPublisherId
+                       withAdUnits:(NSArray<CRAdUnit*> *) adUnits;
 
 - (void) setBidsForRequest:(id) request
                 withAdUnit:(CRAdUnit *) adUnit;

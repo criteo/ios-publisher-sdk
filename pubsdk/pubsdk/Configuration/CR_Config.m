@@ -13,9 +13,9 @@
 
 @implementation CR_Config
 
-- (instancetype) initWithNetworkId:(NSNumber *)networkId {
+- (instancetype) initWithCriteoPublisherId:(NSString *)criteoPublisherId {
     if (self = [super init]) {
-        _networkId = networkId;
+        _criteoPublisherId = criteoPublisherId;
         _profileId = @(235);
         _cdbUrl = @"https://bidder.criteo.com";
         //_cdbUrl = @"http://directbidder-test-app.par.preprod.crto.in";
