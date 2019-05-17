@@ -116,17 +116,15 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     // cancel webView navigation for clicks on Links from mainFrame and open in browser
     if(navigationAction.navigationType == WKNavigationTypeLinkActivated && [navigationAction.sourceFrame isMainFrame]) {
         if(navigationAction.request.URL != nil) {
-            if([self.application canOpenURL:navigationAction.request.URL]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if([self.delegate respondsToSelector:@selector(interstitialWillLeaveApplication:)]) {
+                    [self.delegate interstitialWillLeaveApplication:self];
+                }
                 [self.application openURL:navigationAction.request.URL];
                 [self.viewController dismissViewController];
-                decisionHandler(WKNavigationActionPolicyCancel);
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if([self.delegate respondsToSelector:@selector(interstitialWillLeaveApplication:)]) {
-                        [self.delegate interstitialWillLeaveApplication:self];
-                    }
-                });
-                return;
-            }
+            });
+            decisionHandler(WKNavigationActionPolicyCancel);
+            return;
         }
     }
     // allow all other navigation Types for webView

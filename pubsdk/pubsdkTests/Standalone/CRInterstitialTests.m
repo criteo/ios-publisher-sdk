@@ -229,12 +229,20 @@
     OCMStub([mockApplication canOpenURL:url]).andReturn(YES);
     OCMStub([mockApplication openURL:url]);
 
+    XCTestExpectation *openInBrowserExpectation = [self expectationWithDescription:@"URL opened in browser expectation"];
     [interstitial webView:realWebView decidePolicyForNavigationAction:mockNavigationAction
           decisionHandler:^(WKNavigationActionPolicy actionPolicy) {
               XCTAssertEqual(actionPolicy, WKNavigationActionPolicyCancel);
           }];
-    OCMVerify([mockApplication openURL:url]);
-    OCMVerify([interstitialVC dismissViewController]);
+    [NSTimer scheduledTimerWithTimeInterval:3
+                                    repeats:NO
+                                      block:^(NSTimer * _Nonnull timer) {
+                                          OCMVerify([mockApplication openURL:url]);
+                                          OCMVerify([interstitialVC dismissViewController]);
+                                          [openInBrowserExpectation fulfill];
+                                      }];
+    [self waitForExpectations:@[openInBrowserExpectation]
+                      timeout:5];
 }
 
 @end

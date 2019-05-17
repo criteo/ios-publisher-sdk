@@ -87,16 +87,14 @@
 decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     if(navigationAction.navigationType == WKNavigationTypeLinkActivated && [navigationAction.sourceFrame isMainFrame]) {
         if(navigationAction.request.URL != nil) {
-            if([self.application canOpenURL:navigationAction.request.URL]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if([self.delegate respondsToSelector:@selector(bannerWillLeaveApplication:)]) {
+                    [self.delegate bannerWillLeaveApplication:self];
+                }
                 [self.application openURL:navigationAction.request.URL];
-                decisionHandler(WKNavigationActionPolicyCancel);
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if([self.delegate respondsToSelector:@selector(bannerWillLeaveApplication:)]) {
-                        [self.delegate bannerWillLeaveApplication:self];
-                    }
-                });
-                return;
-            }
+            });
+            decisionHandler(WKNavigationActionPolicyCancel);
+            return;
         }
     }
     decisionHandler(WKNavigationActionPolicyAllow);
