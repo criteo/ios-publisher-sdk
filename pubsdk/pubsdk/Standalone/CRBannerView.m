@@ -11,6 +11,7 @@
 #import "CR_CdbBid.h"
 #import "Criteo+Internal.h"
 #import "CR_BidManager.h"
+#import "NSError+CRErrors.h"
 
 //TODO check import strategy
 @import WebKit;
@@ -56,7 +57,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             if([self.delegate respondsToSelector:@selector(bannerDidFail:withError:)]) {
                  [self.delegate bannerDidFail:self
-                                    withError:nil];
+                                    withError:[NSError CRErrors_errorWithCode:CRErrorCodeNoFill]];
             }
         });
         return;
@@ -105,7 +106,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     dispatch_async(dispatch_get_main_queue(), ^{
         if([self.delegate respondsToSelector:@selector(bannerDidFail:withError:)]) {
             [self.delegate bannerDidFail:self
-                               withError:nil];
+                               withError:[NSError CRErrors_errorWithCode:CRErrorCodeInternalError]];
         }
     });
 }
@@ -115,7 +116,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     dispatch_async(dispatch_get_main_queue(), ^{
         if([self.delegate respondsToSelector:@selector(bannerDidFail:withError:)]) {
             [self.delegate bannerDidFail:self
-                               withError:nil];
+                               withError:[NSError CRErrors_errorWithCode:CRErrorCodeInternalError]];
         };
     });
 }
@@ -128,7 +129,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
             dispatch_async(dispatch_get_main_queue(), ^{
                 if([self.delegate respondsToSelector:@selector(bannerDidFail:withError:)]) {
                     [self.delegate bannerDidFail:self
-                                       withError:nil];
+                                       withError:[NSError CRErrors_errorWithCode:CRErrorCodeNetworkError]];
                 }
             });
         }

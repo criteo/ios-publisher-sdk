@@ -14,6 +14,7 @@
 #import "CRBannerViewDelegate.h"
 #import "Criteo+Internal.h"
 #import "CR_CdbBid.h"
+#import "NSError+CRErrors.h"
 
 
 @interface CRBannerViewDelegateTests : XCTestCase
@@ -66,6 +67,7 @@
                                                        application:nil];
 
     id<CRBannerViewDelegate> mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
+    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNoFill];
     bannerView.delegate = mockBannerViewDelegate;
     OCMStub([mockBannerViewDelegate bannerDidFail:bannerView
                                         withError:[OCMArg any]]);
@@ -78,7 +80,7 @@
                                     repeats:NO
                                       block:^(NSTimer * _Nonnull timer) {
                                           OCMVerify([mockBannerViewDelegate bannerDidFail:bannerView
-                                                                                withError:[OCMArg any]]);
+                                                                                withError:expectedError]);
                                           [bannerAdFetchFailExpectation fulfill];
                                       }];
     [self waitForExpectations:@[bannerAdFetchFailExpectation]
@@ -125,6 +127,7 @@
                                                            webView:nil
                                                        application:nil];
     id<CRBannerViewDelegate> mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
+    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInternalError];
     bannerView.delegate = mockBannerViewDelegate;
     OCMStub([mockBannerViewDelegate bannerDidFail:bannerView
                                         withError:[OCMArg any]]);
@@ -135,7 +138,7 @@
                                     repeats:NO
                                       block:^(NSTimer * _Nonnull timer) {
                                           OCMVerify([mockBannerViewDelegate bannerDidFail:bannerView
-                                                                                withError:[OCMArg any]]);
+                                                                                withError:expectedError]);
                                           [bannerWebViewNavigationFailExpectation fulfill];
                                       }];
     [self waitForExpectations:@[bannerWebViewNavigationFailExpectation]
@@ -149,6 +152,7 @@
                                                            webView:nil
                                                        application:nil];
     id<CRBannerViewDelegate> mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
+    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInternalError];
     bannerView.delegate = mockBannerViewDelegate;
     OCMStub([mockBannerViewDelegate bannerDidFail:bannerView
                                         withError:[OCMArg any]]);
@@ -159,7 +163,7 @@
                                     repeats:NO
                                       block:^(NSTimer * _Nonnull timer) {
                                           OCMVerify([mockBannerViewDelegate bannerDidFail:bannerView
-                                                                                withError:[OCMArg any]]);
+                                                                                withError:expectedError]);
                                           [bannerWebViewLoadExpectation fulfill];
                                       }];
     [self waitForExpectations:@[bannerWebViewLoadExpectation]
@@ -173,6 +177,7 @@
                                                            webView:nil
                                                        application:nil];
     id<CRBannerViewDelegate> mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
+    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNetworkError];
     bannerView.delegate = mockBannerViewDelegate;
     OCMStub([mockBannerViewDelegate bannerDidFail:bannerView
                                         withError:[OCMArg any]]);
@@ -188,7 +193,7 @@
                                     repeats:NO
                                       block:^(NSTimer * _Nonnull timer) {
                                           OCMVerify([mockBannerViewDelegate bannerDidFail:bannerView
-                                                                                withError:[OCMArg any]]);
+                                                                                withError:expectedError]);
                                           [bannerHTTPErrorExpectation fulfill];
                                       }];
     [self waitForExpectations:@[bannerHTTPErrorExpectation]

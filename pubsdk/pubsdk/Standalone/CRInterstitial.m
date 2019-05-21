@@ -11,6 +11,7 @@
 #import "CR_CdbBid.h"
 #import "Criteo+Internal.h"
 #import "CR_InterstitialViewController.h"
+#import "NSError+CRErrors.h"
 
 @import WebKit;
 
@@ -54,7 +55,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
                 [self.delegate interstitial:self
-                   didFailToLoadAdWithError:nil];
+                   didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeNoFill]];
             }
         });
         return;
@@ -86,13 +87,25 @@ didFinishNavigation:(WKNavigation *)navigation {
 - (void)presentFromRootViewController:(UIViewController *)rootViewController {
     if (self.viewController.presentingViewController) {
         // Already presenting
-        // TODO: Error handling
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
+                [self.delegate interstitial:self
+                   didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeInvalidRequest
+                                             description:@"An Ad is already being presented."]];
+            }
+        });
         return;
     }
 
     if (!rootViewController) {
         // No view controller to present from
-        // TODO: Error handling
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
+                [self.delegate interstitial:self
+                   didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeInvalidParameter
+                                                       description:@"rootViewController parameter must not be null."]];
+            }
+        });
         return;
     }
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -136,7 +149,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     dispatch_async(dispatch_get_main_queue(), ^{
         if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
             [self.delegate interstitial:self
-               didFailToLoadAdWithError:nil];
+               didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeInternalError]];
         }
     });
 }
@@ -146,7 +159,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     dispatch_async(dispatch_get_main_queue(), ^{
         if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
             [self.delegate interstitial:self
-               didFailToLoadAdWithError:nil];
+               didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeInternalError]];
         }
     });
 }
@@ -159,7 +172,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
             dispatch_async(dispatch_get_main_queue(), ^{
                 if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
                     [self.delegate interstitial:self
-                       didFailToLoadAdWithError:nil];
+                       didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeNetworkError]];
                 }
             });
         }
