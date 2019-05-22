@@ -65,7 +65,7 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
 
                               [NSDictionary dictionaryWithObjectsAndKeys:
                                [config appId],     @"bundleId",   // The bundle ID identifying the app
-                               [config criteoPublisherId], @"networkId",
+                               [config criteoPublisherId], @"cpId",
                                nil], @"publisher",
 
                               [config sdkVersion], @"sdkVersion",
@@ -116,8 +116,8 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
     }
 
     // TODO: Move the url + query building logic to CR_Config class
-    NSString *query = [NSString stringWithFormat:@"networkId=%@&sdkVersion=%@&appId=%@", [config criteoPublisherId], [config sdkVersion], [config appId]];
-    NSString *urlString = [NSString stringWithFormat:@"https://pub-sdk-cfg.criteo.com/v1.0/api/config?%@", query];
+    NSString *query = [NSString stringWithFormat:@"cpId=%@&sdkVersion=%@&appId=%@", [config criteoPublisherId], [config sdkVersion], [config appId]];
+    NSString *urlString = [NSString stringWithFormat:@"https://pub-sdk-cfg.criteo.com/v2.0/api/config?%@", query];
     NSURL *url = [NSURL URLWithString: urlString];
     [self.networkManager getFromUrl:url responseHandler:^(NSData *data, NSError *error) {
         if(error == nil) {

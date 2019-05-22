@@ -19,7 +19,7 @@
         _profileId = @(235);
         _cdbUrl = @"https://bidder.criteo.com";
         //_cdbUrl = @"http://directbidder-test-app.par.preprod.crto.in";
-        _path = @"inapp/v1";
+        _path = @"inapp/v2";
         _sdkVersion = @"2.0.0";
         _appId = [[NSBundle mainBundle] bundleIdentifier];;
         _killSwitch = NO;
