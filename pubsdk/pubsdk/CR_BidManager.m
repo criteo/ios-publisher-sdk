@@ -109,6 +109,13 @@
             return bid;
         }
     }
+    //if the bid is empty meaning prefetch failed, check if time to next call is elapsed
+    else {
+        //call cdb if time to next call has passed
+        if([[NSDate date]timeIntervalSinceReferenceDate] >= self->cdbTimeToNextCall){
+            [self prefetchBid:slot];
+        }
+    }
     return [CR_CdbBid emptyBid];
 }
 

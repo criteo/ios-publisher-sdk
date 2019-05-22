@@ -41,16 +41,14 @@
     OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
     OCMStub([mockUserConsent consentGiven]).andReturn(YES);
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
-    
+
     CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
     OCMStub([mockDeviceInfo waitForUserAgent:[OCMArg invokeBlock]]);
-    
+
     // if the caller asks for a bid for an un initialized slot
     CRAdUnit *unInitializedSlot = [[CRAdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
 
     id mockApiHandler = OCMClassMock([CR_ApiHandler class]);
-    // Do not call CDB for unregistered ad units
-    OCMReject([mockApiHandler callCdb:unInitializedSlot gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
 
     CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:mockApiHandler
                                                              cacheManager:cache
@@ -63,6 +61,7 @@
                                                            timeToNextCall:0];
 
     NSArray *slots = @[testAdUnit, testAdUnit_2, unInitializedSlot];
+
     NSDictionary *bids = [bidManager getBids:slots];
     XCTAssertEqualObjects(testBid, bids[testAdUnit]);
     XCTAssertEqualObjects(testBid_2, bids[testAdUnit_2]);
@@ -100,6 +99,78 @@
     NSArray *slots = @[[[CRAdUnit alloc] initWithAdUnitId:@"thisShouldReturnEmptyBid" width:300 height:250]];
     NSDictionary *bids = [bidManager getBids:slots];
     XCTAssertTrue([bids[testEmptyAdUnit] isEmpty]);
+}
+
+- (void) testGetBidIfInitialPrefetchFromCdbFailsAndTimeElapsed {
+
+    CR_CacheManager *cache = OCMStrictClassMock([CR_CacheManager class]);
+    CRAdUnit *unInitializedSlot = [[CRAdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
+
+    OCMStub([cache getBidForAdUnit:unInitializedSlot]).andReturn(nil);
+
+    CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
+    OCMStub([mockConfig killSwitch]).andReturn(NO);
+
+    CR_GdprUserConsent *mockUserConsent = OCMStrictClassMock([CR_GdprUserConsent class]);
+    OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
+    OCMStub([mockUserConsent consentGiven]).andReturn(YES);
+    OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
+
+    CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
+    OCMStub([mockDeviceInfo waitForUserAgent:[OCMArg invokeBlock]]);
+
+    id mockApiHandler = OCMStrictClassMock([CR_ApiHandler class]);
+
+    CR_BidManager *bidManagerNotElapsed = [[CR_BidManager alloc] initWithApiHandler:mockApiHandler
+                                                             cacheManager:cache
+                                                                   config:mockConfig
+                                                            configManager:nil
+                                                               deviceInfo:mockDeviceInfo
+                                                          gdprUserConsent:mockUserConsent
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:-2];
+
+    //make sure CDB call was invoked
+    OCMStub([mockApiHandler callCdb:unInitializedSlot gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    [bidManagerNotElapsed getBid:unInitializedSlot];
+    OCMVerify([mockApiHandler callCdb:unInitializedSlot gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+}
+
+- (void)  testGetBidIfInitialPrefetchFromCdbFailsAndTimeNotElapsed {
+
+    CR_CacheManager *cache = OCMStrictClassMock([CR_CacheManager class]);
+    CRAdUnit *unInitializedSlot = [[CRAdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
+
+    OCMStub([cache getBidForAdUnit:unInitializedSlot]).andReturn(nil); // this implies initial prefetch failed
+
+    CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
+    OCMStub([mockConfig killSwitch]).andReturn(NO);
+
+    CR_GdprUserConsent *mockUserConsent = OCMStrictClassMock([CR_GdprUserConsent class]);
+    OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
+    OCMStub([mockUserConsent consentGiven]).andReturn(YES);
+    OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
+
+    CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
+    OCMStub([mockDeviceInfo waitForUserAgent:[OCMArg invokeBlock]]);
+
+    id mockApiHandler = OCMStrictClassMock([CR_ApiHandler class]);
+
+    // time to next call is really large which would make sure time is not elapsed
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:mockApiHandler
+                                                                    cacheManager:cache
+                                                                          config:mockConfig
+                                                                   configManager:nil
+                                                                      deviceInfo:mockDeviceInfo
+                                                                 gdprUserConsent:mockUserConsent
+                                                                  networkManager:nil
+                                                                       appEvents:nil
+                                                                  timeToNextCall:INFINITY];
+
+    //make sure CDB call was not invoked
+    OCMReject([mockApiHandler callCdb:unInitializedSlot gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    [bidManager getBid:unInitializedSlot];
 }
 
 - (void) testSetSlots {
@@ -140,7 +211,6 @@
 
     DummyDfpRequest *dfpBidRequest = [[DummyDfpRequest alloc] init];
     dfpBidRequest.customTargeting = testDfpCustomTargeting;
-
     CR_Config *config = [[CR_Config alloc] initWithCriteoPublisherId:@("1234")];
 
     CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil

@@ -13,6 +13,7 @@
 
 @implementation CR_Config
 
+
 - (instancetype) initWithCriteoPublisherId:(NSString *)criteoPublisherId {
     if (self = [super init]) {
         _criteoPublisherId = criteoPublisherId;
@@ -21,7 +22,7 @@
         //_cdbUrl = @"http://directbidder-test-app.par.preprod.crto.in";
         _path = @"inapp/v2";
         _sdkVersion = @"2.0.0";
-        _appId = [[NSBundle mainBundle] bundleIdentifier];;
+        _appId = [[NSBundle mainBundle] bundleIdentifier];
         _killSwitch = NO;
         _deviceModel = [[UIDevice currentDevice] model];
         _osVersion = [[UIDevice currentDevice] systemVersion];
