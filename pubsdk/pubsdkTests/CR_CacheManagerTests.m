@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 
-#import "CRAdUnit.h"
+#import "CRCacheAdUnit.h"
 #import "CR_CacheManager.h"
 
 @interface CR_CacheManagerTests : XCTestCase
@@ -21,7 +21,7 @@
 - (void) testGetBidWithinTtl {
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
     CGSize adSize = CGSizeMake(200, 100);
-    CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:@"a_test_placement" size:adSize];
+    CRCacheAdUnit *adUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"a_test_placement" size:adSize];
     CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:adUnit.adUnitId cpm:@"0.0312" currency:@"USD" width:@(adUnit.size.width) height:@(adUnit.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date]];
 
     [cache setBid:testBid forAdUnit:adUnit];

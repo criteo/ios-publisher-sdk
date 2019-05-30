@@ -10,11 +10,12 @@
 #define Criteo_Internal_h
 
 #import "CR_NetworkManagerDelegate.h"
+#import "CRCacheAdUnit.h"
 @class CR_CdbBid;
 @interface Criteo ()
 
 @property (nonatomic) id<CR_NetworkManagerDelegate> networkMangerDelegate;
-- (CR_CdbBid *)getBid:(CRAdUnit *)slot;
+- (CR_CdbBid *)getBid:(CRCacheAdUnit *)slot;
 @end
 
 

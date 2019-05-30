@@ -9,7 +9,6 @@
 #define Criteo_h
 
 #import <Foundation/Foundation.h>
-
 #import "CRAdUnit.h"
 
 NS_ASSUME_NONNULL_BEGIN

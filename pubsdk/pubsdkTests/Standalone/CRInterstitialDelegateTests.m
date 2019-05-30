@@ -19,7 +19,7 @@
 
 @interface CRInterstitialDelegateTests : XCTestCase
 {
-    CRAdUnit *adUnit;
+    CRCacheAdUnit *adUnit;
     CR_CdbBid *bid;
 }
 @end
@@ -47,9 +47,9 @@
     return bid;
 }
 
-- (CRAdUnit *)expectedAdUnit {
+- (CRCacheAdUnit *)expectedAdUnit {
     if(!adUnit) {
-        adUnit = [[CRAdUnit alloc] initWithAdUnitId:@"123"
+        adUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"123"
                                                 size:[UIScreen mainScreen].bounds.size];
     }
     return adUnit;

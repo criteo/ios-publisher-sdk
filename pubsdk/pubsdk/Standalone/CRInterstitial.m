@@ -12,6 +12,7 @@
 #import "Criteo+Internal.h"
 #import "CR_InterstitialViewController.h"
 #import "NSError+CRErrors.h"
+#import "CRCacheAdUnit.h"
 
 @import WebKit;
 
@@ -48,7 +49,7 @@
 - (void)loadAd:(NSString *)adUnitId {
     self.isLoaded = NO;
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
-    CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:adUnitId
+    CRCacheAdUnit *adUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:adUnitId
                                                      size:screenSize];
     CR_CdbBid *bid = [self.criteo getBid:adUnit];
     if([bid isEmpty]) {

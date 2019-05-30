@@ -73,20 +73,20 @@
     return self;
 }
 
-- (void) setSlots: (NSArray<CRAdUnit*> *) slots {
+- (void) setSlots: (NSArray<CRCacheAdUnit*> *) slots {
     [cacheManager initSlots:slots];
 }
 
-- (NSDictionary *) getBids: (NSArray<CRAdUnit*> *) slots {
+- (NSDictionary *) getBids: (NSArray<CRCacheAdUnit*> *) slots {
     NSMutableDictionary *bids = [[NSMutableDictionary alloc] init];
-    for(CRAdUnit *slot in slots) {
+    for(CRCacheAdUnit *slot in slots) {
         CR_CdbBid *bid = [self getBid:slot];
         [bids setObject:bid forKey:slot];
     }
     return bids;
 }
 
-- (CR_CdbBid *) getBid:(CRAdUnit *) slot {
+- (CR_CdbBid *) getBid:(CRCacheAdUnit *) slot {
     CR_CdbBid *bid = [cacheManager getBidForAdUnit:slot];
     if(bid) {
         if([[bid cpm] floatValue] == 0 && [bid ttl] == 0) {
@@ -120,7 +120,7 @@
 }
 
 // TODO: Figure out a way to test this
-- (void) prefetchBid:(CRAdUnit *) slotId {
+- (void) prefetchBid:(CRCacheAdUnit *) slotId {
     if(!config) {
         CLog(@"Config hasn't been fetched. So no bids will be fetched.");
         return;
@@ -155,7 +155,7 @@
 }
 
 - (void) addCriteoBidToRequest:(id) adRequest
-                     forAdUnit:(CRAdUnit *) adUnit {
+                     forAdUnit:(CRCacheAdUnit *) adUnit {
     if(!config) {
         CLog(@"Config hasn't been fetched. So no bids will be fetched.");
         return;

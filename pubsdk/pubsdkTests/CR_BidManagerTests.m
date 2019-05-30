@@ -26,11 +26,11 @@
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
 
     // initialized slots with fetched bids
-    CRAdUnit *testAdUnit = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+    CRCacheAdUnit *testAdUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
     CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:testAdUnit.adUnitId cpm:@"2.0" currency:@"USD" width:@(testAdUnit.size.width) height:@(testAdUnit.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date]];
     cache.bidCache[testAdUnit] = testBid;
 
-    CRAdUnit *testAdUnit_2 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
+    CRCacheAdUnit *testAdUnit_2 = [[CRCacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
     CR_CdbBid *testBid_2 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:testAdUnit_2.adUnitId cpm:@"0.5" currency:@"USD" width:@(testAdUnit_2.size.width) height:@(testAdUnit_2.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl_2.com" insertTime:[NSDate date]];
     cache.bidCache[testAdUnit_2] = testBid_2;
 
@@ -46,7 +46,7 @@
     OCMStub([mockDeviceInfo waitForUserAgent:[OCMArg invokeBlock]]);
 
     // if the caller asks for a bid for an un initialized slot
-    CRAdUnit *unInitializedSlot = [[CRAdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
+    CRCacheAdUnit *unInitializedSlot = [[CRCacheAdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
 
     id mockApiHandler = OCMClassMock([CR_ApiHandler class]);
 
@@ -77,7 +77,7 @@
 
     // initialized slot that has no bid fetched for it
     CR_CdbBid *testEmptyBid = [CR_CdbBid emptyBid];
-    CRAdUnit *testEmptyAdUnit = [[CRAdUnit alloc] initWithAdUnitId:@"thisShouldReturnEmptyBid" width:300 height:250];
+    CRCacheAdUnit *testEmptyAdUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"thisShouldReturnEmptyBid" width:300 height:250];
     cache.bidCache[testEmptyAdUnit] = testEmptyBid;
 
     CR_GdprUserConsent *mockUserConsent = OCMStrictClassMock([CR_GdprUserConsent class]);
@@ -96,7 +96,7 @@
                                                            timeToNextCall:0];
 
     // an initialized slot that has no bid fetched for it
-    NSArray *slots = @[[[CRAdUnit alloc] initWithAdUnitId:@"thisShouldReturnEmptyBid" width:300 height:250]];
+    NSArray *slots = @[[[CRCacheAdUnit alloc] initWithAdUnitId:@"thisShouldReturnEmptyBid" width:300 height:250]];
     NSDictionary *bids = [bidManager getBids:slots];
     XCTAssertTrue([bids[testEmptyAdUnit] isEmpty]);
 }
@@ -104,7 +104,7 @@
 - (void) testGetBidIfInitialPrefetchFromCdbFailsAndTimeElapsed {
 
     CR_CacheManager *cache = OCMStrictClassMock([CR_CacheManager class]);
-    CRAdUnit *unInitializedSlot = [[CRAdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
+    CRCacheAdUnit *unInitializedSlot = [[CRCacheAdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
 
     OCMStub([cache getBidForAdUnit:unInitializedSlot]).andReturn(nil);
 
@@ -140,7 +140,7 @@
 - (void)  testGetBidIfInitialPrefetchFromCdbFailsAndTimeNotElapsed {
 
     CR_CacheManager *cache = OCMStrictClassMock([CR_CacheManager class]);
-    CRAdUnit *unInitializedSlot = [[CRAdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
+    CRCacheAdUnit *unInitializedSlot = [[CRCacheAdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
 
     OCMStub([cache getBidForAdUnit:unInitializedSlot]).andReturn(nil); // this implies initial prefetch failed
 
@@ -184,9 +184,9 @@
                                                                 appEvents:nil
                                                            timeToNextCall:0];
 
-    CRAdUnit *slot_1 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
-    CRAdUnit *slot_2 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
-    CRAdUnit *slot_3 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid_2" width:200 height:100];
+    CRCacheAdUnit *slot_1 = [[CRCacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+    CRCacheAdUnit *slot_2 = [[CRCacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
+    CRCacheAdUnit *slot_3 = [[CRCacheAdUnit alloc] initWithAdUnitId:@"adunitid_2" width:200 height:100];
 
     NSArray *slots = @[slot_1, slot_2, slot_3];
 
@@ -200,7 +200,7 @@
 }
 
 - (void) testAddCriteoBidToRequest {
-    CRAdUnit *slot_1 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+    CRCacheAdUnit *slot_1 = [[CRCacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
 
     CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
 
@@ -231,7 +231,7 @@
 }
 
 - (void) testAddCriteoBidToRequestWhenKillSwitchIsEngaged {
-    CRAdUnit *slot_1 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+    CRCacheAdUnit *slot_1 = [[CRCacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
 
     CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
 
@@ -269,11 +269,11 @@
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
 
     // initialized slots with fetched bids
-    CRAdUnit *testAdUnit = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+    CRCacheAdUnit *testAdUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
     CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:testAdUnit.adUnitId cpm:@"2.0" currency:@"USD" width:@(testAdUnit.size.width) height:@(testAdUnit.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date]];
     cache.bidCache[testAdUnit] = testBid;
 
-    CRAdUnit *testAdUnit_2 = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
+    CRCacheAdUnit *testAdUnit_2 = [[CRCacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
     CR_CdbBid *testBid_2 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:testAdUnit_2.adUnitId cpm:@"0.5" currency:@"USD" width:@(testAdUnit_2.size.width) height:@(testAdUnit_2.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl_2.com" insertTime:[NSDate date]];
     cache.bidCache[testAdUnit_2] = testBid_2;
 
@@ -286,7 +286,7 @@
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
 
     // if the caller asks for a bid for an un initialized slot
-    CRAdUnit *unInitializedSlot = [[CRAdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
+    CRCacheAdUnit *unInitializedSlot = [[CRCacheAdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
 
     id mockApiHandler = OCMClassMock([CR_ApiHandler class]);
     // NO calls should be made to [CR_ApiHandler callCdb]
@@ -317,7 +317,7 @@
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
 
     // initialized slots with fetched bids
-    CRAdUnit *testAdUnit = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+    CRCacheAdUnit *testAdUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
     CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:testAdUnit.adUnitId cpm:@"0.0" currency:@"USD" width:@(testAdUnit.size.width) height:@(testAdUnit.size.height) ttl:600 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date]];
     cache.bidCache[testAdUnit] = testBid;
 
@@ -356,7 +356,7 @@
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
 
     // initialized slots with fetched bids
-    CRAdUnit *testAdUnit = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+    CRCacheAdUnit *testAdUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
     CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:testAdUnit.adUnitId cpm:@"0.0" currency:@"USD" width:@(testAdUnit.size.width) height:@(testAdUnit.size.height) ttl:10 creative:nil displayUrl:@"https://someUrl.com" insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-400]];
     cache.bidCache[testAdUnit] = testBid;
 
@@ -397,7 +397,7 @@
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
 
     // initialized slots with fetched bids
-    CRAdUnit *testAdUnit = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+    CRCacheAdUnit *testAdUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
     CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:testAdUnit.adUnitId cpm:@"0.0" currency:@"USD" width:@(testAdUnit.size.width) height:@(testAdUnit.size.height) ttl:0 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date]];
     cache.bidCache[testAdUnit] = testBid;
 

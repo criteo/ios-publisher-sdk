@@ -50,7 +50,7 @@
 }
 
 - (void)loadAd:(NSString *)adUnitId {
-    CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:adUnitId
+    CRCacheAdUnit *adUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:adUnitId
                                                      size:self.frame.size];
     CR_CdbBid *bid = [self.criteo getBid:adUnit];
     if([bid isEmpty]) {

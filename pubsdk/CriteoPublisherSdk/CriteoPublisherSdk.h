@@ -14,6 +14,7 @@ FOUNDATION_EXPORT double CriteoPublisherSdkVersionNumber;
 FOUNDATION_EXPORT const unsigned char CriteoPublisherSdkVersionString[];
 
 // Public Headers
+// TODO: Add CRBannerADUnit and CRInterstitialAdUnit
 #import <CriteoPublisherSdk/CRAdUnit.h>
 #import <CriteoPublisherSdk/Criteo.h>
 #import <CriteoPublisherSdk/CRBannerView.h>
