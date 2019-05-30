@@ -31,17 +31,17 @@ static NSString *const errorDomain = @"com.criteo.pubsdk";
 + (NSString *)descriptionForCRErrorCode:(CRErrorCodes)code {
     switch(code) {
         case CRErrorCodeNoFill:
-            return @"Ad request was successful but no ads were available.";
+            return @"Ad request succeeded but no ads are available.";
         case CRErrorCodeNetworkError:
-            return @"Ad request was unsuccessful due to network error.";
+            return @"Ad request failed due to network error.";
         case CRErrorCodeInvalidRequest:
-            return @"Ad request is invalid.";
+            return @"Invalid ad request.";
         case CRErrorCodeInternalError:
-            return @"Ad request has failed due to an internal error.";
+            return @"Ad request failed due to an internal error.";
         case CRErrorCodeInvalidParameter:
-            return @"Ad request has an invalid parameter.";
+            return @"Invalid ad request parameter.";
         default:
-            return @"An error has occured.";
+            return @"An unknown error occured.";
     }
 }
 
