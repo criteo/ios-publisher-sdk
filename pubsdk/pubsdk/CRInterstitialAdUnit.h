@@ -1,20 +1,18 @@
 //
-//  CRAdUnit.h
+//  CRInterstitialAdUnit.h
 //  pubsdk
 //
 //  Created by Robert Aung Hein Oo on 5/30/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "CRAdUnit.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CRAdUnit : NSObject
+@interface CRInterstitialAdUnit : CRAdUnit
 
-@property (readonly, nonatomic) NSString *adUnitId;
-
-- (instancetype) init NS_UNAVAILABLE;
+- (instancetype)initWithAdUnitId:(NSString *)adUnitId;
 
 @end
 
