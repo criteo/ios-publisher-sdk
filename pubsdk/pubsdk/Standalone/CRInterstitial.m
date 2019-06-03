@@ -13,6 +13,7 @@
 #import "CR_InterstitialViewController.h"
 #import "NSError+CRErrors.h"
 #import "CRCacheAdUnit.h"
+#import "CR_AdUnitHelper.h"
 
 @import WebKit;
 
@@ -48,9 +49,8 @@
 
 - (void)loadAd:(NSString *)adUnitId {
     self.isLoaded = NO;
-    CGSize screenSize = [UIScreen mainScreen].bounds.size;
-    CRCacheAdUnit *adUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:adUnitId
-                                                     size:screenSize];
+    CRCacheAdUnit *adUnit = [CR_AdUnitHelper interstitialCacheAdUnitForAdUnitId:adUnitId
+                                                                     screenSize:[[CR_DeviceInfo new] screenSize]] ;
     CR_CdbBid *bid = [self.criteo getBid:adUnit];
     if([bid isEmpty]) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -71,7 +71,7 @@
                             "<body>"
                             "<script src=\"%@\"></script>"
                             "</body>"
-                            "</html>", (long)screenSize.width, bid.displayUrl];
+                            "</html>", (long)adUnit.size.width, bid.displayUrl];
     [_viewController.webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"about:blank"]];
 }
 

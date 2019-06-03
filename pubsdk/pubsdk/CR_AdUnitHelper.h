@@ -17,7 +17,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSArray<CRCacheAdUnit *> *)cacheAdUnitsForAdUnits:(NSArray<CRAdUnit *> *)adUnits
                                           deviceInfo:(CR_DeviceInfo *)deviceInfo;
-+ (CGSize)interstitialSizeForCurrentScreenOrientation:(CGSize)screenSize;
+
++ (CRCacheAdUnit *)cacheAdUnitForAdUnit:(CRAdUnit *)adUnit
+                             deviceInfo:(CR_DeviceInfo *)deviceInfo;
+
++ (CRCacheAdUnit *)interstitialCacheAdUnitForAdUnitId:(NSString *)adUnitId
+                                           screenSize:(CGSize)size;
+// helper methods
++ (CGSize)closestSupportedInterstitialSize:(CGSize)screenSize;
 
 @end
 

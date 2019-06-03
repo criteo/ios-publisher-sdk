@@ -94,9 +94,9 @@ static Criteo *sharedInstance;
 
 - (void) setBidsForRequest:(id)request
                 withAdUnit:(CRAdUnit *)adUnit {
-     NSArray<CRCacheAdUnit *> * cachedAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:@[adUnit]
-                                                                             deviceInfo:[CR_DeviceInfo new]];
-    [bidManager addCriteoBidToRequest:request forAdUnit:[cachedAdUnits objectAtIndex:0]];
+    [bidManager addCriteoBidToRequest:request
+                            forAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit
+                                                                 deviceInfo:[CR_DeviceInfo new]]];
 }
 
 - (CR_BidManager *)bidManager {

@@ -21,15 +21,14 @@
 
 @implementation CR_AdUnitHelperTests
 
-- (void)testBannerAdUnitToCacheAdUnit {
+- (void)testBannerAdUnitsToCacheAdUnits {
     CRBannerAdUnit *bannerAdUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"1234" size:CGSizeMake(320.0, 50.0)];
     CRCacheAdUnit *expectedCacheAdUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"1234" size:CGSizeMake(320.0, 50.0)];
-    CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
     XCTAssertTrue([expectedCacheAdUnit isEqual:[[CR_AdUnitHelper cacheAdUnitsForAdUnits:@[bannerAdUnit]
-                                                                             deviceInfo:mockDeviceInfo] objectAtIndex:0]]);
+                                                                             deviceInfo:[CR_DeviceInfo new]] objectAtIndex:0]]);
 }
 
-- (void)testInterstitialAdUnitToCacheAdUnit {
+- (void)testInterstitialAdUnitsToCacheAdUnits {
     CRInterstitialAdUnit *interstitialAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"1234"];
     CRCacheAdUnit *expectedCacheAdUnitPortrait = [[CRCacheAdUnit alloc] initWithAdUnitId:@"1234"
                                                                                     size:CGSizeMake(360.0, 640.0)];
@@ -45,42 +44,65 @@
     XCTAssertTrue([expectedCacheAdUnitLandscape isEqual:[cacheAdUnits objectAtIndex:2]]);
 }
 
+- (void)testAdUnitToCacheAdUnit {
+    CRInterstitialAdUnit *interstitialAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"1234"];
+    CRCacheAdUnit *expectedInterstitialCacheAdUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"1234" size:CGSizeMake(360.0, 640.0)];
+    CRBannerAdUnit *bannerAdUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"1234" size:CGSizeMake(320.0, 50.0)];
+    CRCacheAdUnit *expectedBannerCacheAdUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"1234" size:CGSizeMake(320.0, 50.0)];
+    CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
+    OCMStub([mockDeviceInfo screenSize]).andReturn(CGSizeMake(400.0, 700.0));
+    // for banner and interstitial
+    XCTAssertTrue([expectedBannerCacheAdUnit isEqual:[CR_AdUnitHelper cacheAdUnitForAdUnit:bannerAdUnit
+                                                                                deviceInfo:mockDeviceInfo]]);
+    XCTAssertTrue([expectedInterstitialCacheAdUnit isEqual:[CR_AdUnitHelper cacheAdUnitForAdUnit:interstitialAdUnit
+                                                                                      deviceInfo:mockDeviceInfo]]);
+}
+
 - (void) testAdUnitSizesForInterstitial {
     CGSize tooSmall = CGSizeMake(300.0, 400.0);
-    CGSize size = [CR_AdUnitHelper interstitialSizeForCurrentScreenOrientation:tooSmall];
+    CGSize size = [CR_AdUnitHelper closestSupportedInterstitialSize:tooSmall];
     CGSize expectedSize = CGSizeMake(320.0, 480.0);
     XCTAssertTrue(size.width == expectedSize.width);
     XCTAssertTrue(size.height == expectedSize.height);
 
     CGSize tooLarge = CGSizeMake(700.0, 900.0);
-    size = [CR_AdUnitHelper interstitialSizeForCurrentScreenOrientation:tooLarge];
+    size = [CR_AdUnitHelper closestSupportedInterstitialSize:tooLarge];
     expectedSize = CGSizeMake(640.0, 360.0);
     XCTAssertTrue(size.width == expectedSize.width);
     XCTAssertTrue(size.height == expectedSize.height);
 
     CGSize iPhoneX = CGSizeMake(375.0, 812.0);
-    size = [CR_AdUnitHelper interstitialSizeForCurrentScreenOrientation:iPhoneX];
+    size = [CR_AdUnitHelper closestSupportedInterstitialSize:iPhoneX];
     expectedSize = CGSizeMake(360.0, 640.0);
     XCTAssertTrue(size.width == expectedSize.width);
     XCTAssertTrue(size.height == expectedSize.height);
 
     CGSize iPhone8PlusAnd7Plus = CGSizeMake(736.0, 414.0); //landscape
-    size = [CR_AdUnitHelper interstitialSizeForCurrentScreenOrientation:iPhone8PlusAnd7Plus];
+    size = [CR_AdUnitHelper closestSupportedInterstitialSize:iPhone8PlusAnd7Plus];
     expectedSize = CGSizeMake(640.0, 360.0);
     XCTAssertTrue(size.width == expectedSize.width);
     XCTAssertTrue(size.height == expectedSize.height);
 
     CGSize iPhone8And7And6 = CGSizeMake(375.0, 667.0);
-    size = [CR_AdUnitHelper interstitialSizeForCurrentScreenOrientation:iPhone8And7And6];
+    size = [CR_AdUnitHelper closestSupportedInterstitialSize:iPhone8And7And6];
     expectedSize = CGSizeMake(360.0, 640.0);
     XCTAssertTrue(size.width == expectedSize.width);
     XCTAssertTrue(size.height == expectedSize.height);
 
     CGSize iPhoneSE = CGSizeMake(320.0, 568.0);
-    size = [CR_AdUnitHelper interstitialSizeForCurrentScreenOrientation:iPhoneSE];
+    size = [CR_AdUnitHelper closestSupportedInterstitialSize:iPhoneSE];
     expectedSize = CGSizeMake(320.0, 480.0);
     XCTAssertTrue(size.width == expectedSize.width);
     XCTAssertTrue(size.height == expectedSize.height);
+}
+
+- (void) testCacheAdUnitForCurrentOrientation {
+    CGSize expectedSize = CGSizeMake(480.0, 320.0);
+    CRCacheAdUnit *expectedCacheAdUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"testCacheAdUnit" size:expectedSize];
+
+    CRCacheAdUnit *resultingCacheAdUnit = [CR_AdUnitHelper interstitialCacheAdUnitForAdUnitId:@"testCacheAdUnit"
+                                                                                   screenSize:CGSizeMake(500.0, 330.0)];
+    XCTAssertTrue([expectedCacheAdUnit isEqual:resultingCacheAdUnit]);
 }
 
 @end
