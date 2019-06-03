@@ -8,7 +8,9 @@
 
 #import "Criteo.h"
 #import "Criteo+Internal.h"
-
+#import "CRAdUnit.h"
+#import "CRAdUnit+Internal.h"
+#import "CR_AdUnitHelper.h"
 #import "CR_BidManager.h"
 
 static NSMutableArray<CRCacheAdUnit *> *registeredAdUnits;
@@ -74,9 +76,10 @@ static Criteo *sharedInstance;
     dispatch_once(&registrationToken, ^{
         bidManager = [Criteo createBidManagerWithCriteoPublisherId:criteoPublisherId];
     });
-    //TODO: convert adUnits to CRCachedAdUnit
-    [registeredAdUnits addObjectsFromArray:adUnits];
-    [bidManager setSlots:adUnits];
+    NSArray<CRCacheAdUnit *> *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:adUnits
+                                                                          deviceInfo:[CR_DeviceInfo new]];
+    [registeredAdUnits addObjectsFromArray:cacheAdUnits];
+    [bidManager setSlots:cacheAdUnits];
     [self prefetchAll];
 }
 
@@ -91,8 +94,9 @@ static Criteo *sharedInstance;
 
 - (void) setBidsForRequest:(id)request
                 withAdUnit:(CRAdUnit *)adUnit {
-    // TODO: convert adUnit to CRCachedAdUnit
-    [bidManager addCriteoBidToRequest:request forAdUnit:adUnit];
+     NSArray<CRCacheAdUnit *> * cachedAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:@[adUnit]
+                                                                             deviceInfo:[CR_DeviceInfo new]];
+    [bidManager addCriteoBidToRequest:request forAdUnit:[cachedAdUnits objectAtIndex:0]];
 }
 
 - (CR_BidManager *)bidManager {

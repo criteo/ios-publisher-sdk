@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
 @class WKWebView, UIWebView;
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,11 +15,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (atomic, strong) NSString *userAgent;
 @property (nonatomic, readonly) NSString *deviceId;
+@property (nonatomic) CGSize screenSize;
 
 - (instancetype)initWithWKWebView:(WKWebView *)wkWebView uiWebView:(UIWebView * _Nullable)uiWebView;
 - (void)waitForUserAgent:(void (^ _Nullable)(void))completion;
-
-
 @end
 
 NS_ASSUME_NONNULL_END

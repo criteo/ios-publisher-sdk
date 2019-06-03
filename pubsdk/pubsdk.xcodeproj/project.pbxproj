@@ -39,7 +39,6 @@
 		5397C09122A0885A00BC72FE /* CRAdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5397C08A22A0885700BC72FE /* CRAdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5397C09222A0885A00BC72FE /* CRInterstitialAdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5397C08B22A0885800BC72FE /* CRInterstitialAdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5397C09322A0885A00BC72FE /* CRAdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5397C08C22A0885800BC72FE /* CRAdUnit.m */; };
-		5397C09422A0885A00BC72FE /* CRInterstitialAdUnit+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 5397C08D22A0885800BC72FE /* CRInterstitialAdUnit+Internal.h */; };
 		5397C09522A0885A00BC72FE /* CRInterstitialAdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5397C08E22A0885900BC72FE /* CRInterstitialAdUnit.m */; };
 		5397C09622A0885A00BC72FE /* CRBannerAdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5397C08F22A0885900BC72FE /* CRBannerAdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5397C09722A0885A00BC72FE /* CRBannerAdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5397C09022A0885900BC72FE /* CRBannerAdUnit.m */; };
@@ -69,6 +68,9 @@
 		543F6FA22283B5F500A5DBE2 /* CRBannerViewDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 543F6FA12283B5F500A5DBE2 /* CRBannerViewDelegateTests.m */; };
 		54658897228C6DB1009746E0 /* CRInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6549B552228389930078F068 /* CRInterstitialDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5488906E22848321009BCF42 /* pubsdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F2736421B5F08D00A2FBFA /* pubsdk.framework */; };
+		5496875B22A1C49E007D2578 /* CR_AdUnitHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5496875A22A1C49E007D2578 /* CR_AdUnitHelperTests.m */; };
+		5496875F22A5A96D007D2578 /* CR_AdUnitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5496875D22A5A96D007D2578 /* CR_AdUnitHelper.m */; };
+		5496876022A5C774007D2578 /* CR_AdUnitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5496875D22A5A96D007D2578 /* CR_AdUnitHelper.m */; };
 		54ED19F322717E13009AA0B2 /* CRInterstitialViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 54ED19F222717E13009AA0B2 /* CRInterstitialViewControllerTests.m */; };
 		650915F72255622E001D6673 /* CRBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 650915F42255622E001D6673 /* CRBannerView.m */; };
 		650915F82255622E001D6673 /* CRBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 650915F42255622E001D6673 /* CRBannerView.m */; };
@@ -164,7 +166,6 @@
 		5397C08A22A0885700BC72FE /* CRAdUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRAdUnit.h; sourceTree = "<group>"; };
 		5397C08B22A0885800BC72FE /* CRInterstitialAdUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRInterstitialAdUnit.h; sourceTree = "<group>"; };
 		5397C08C22A0885800BC72FE /* CRAdUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRAdUnit.m; sourceTree = "<group>"; };
-		5397C08D22A0885800BC72FE /* CRInterstitialAdUnit+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CRInterstitialAdUnit+Internal.h"; sourceTree = "<group>"; };
 		5397C08E22A0885900BC72FE /* CRInterstitialAdUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialAdUnit.m; sourceTree = "<group>"; };
 		5397C08F22A0885900BC72FE /* CRBannerAdUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRBannerAdUnit.h; sourceTree = "<group>"; };
 		5397C09022A0885900BC72FE /* CRBannerAdUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRBannerAdUnit.m; sourceTree = "<group>"; };
@@ -190,6 +191,9 @@
 		543F6F7A22820C1A00A5DBE2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		543F6F9C22838EDF00A5DBE2 /* CRBannerViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRBannerViewDelegate.h; sourceTree = "<group>"; };
 		543F6FA12283B5F500A5DBE2 /* CRBannerViewDelegateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRBannerViewDelegateTests.m; sourceTree = "<group>"; };
+		5496875A22A1C49E007D2578 /* CR_AdUnitHelperTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_AdUnitHelperTests.m; sourceTree = "<group>"; };
+		5496875C22A5A96D007D2578 /* CR_AdUnitHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_AdUnitHelper.h; sourceTree = "<group>"; };
+		5496875D22A5A96D007D2578 /* CR_AdUnitHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_AdUnitHelper.m; sourceTree = "<group>"; };
 		54ED19F222717E13009AA0B2 /* CRInterstitialViewControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialViewControllerTests.m; sourceTree = "<group>"; };
 		650915F32255622E001D6673 /* CRBannerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRBannerView.h; sourceTree = "<group>"; };
 		650915F42255622E001D6673 /* CRBannerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRBannerView.m; sourceTree = "<group>"; };
@@ -469,9 +473,10 @@
 				5397C09022A0885900BC72FE /* CRBannerAdUnit.m */,
 				5397C08B22A0885800BC72FE /* CRInterstitialAdUnit.h */,
 				5397C08E22A0885900BC72FE /* CRInterstitialAdUnit.m */,
-				5397C08D22A0885800BC72FE /* CRInterstitialAdUnit+Internal.h */,
 				5397C08A22A0885700BC72FE /* CRAdUnit.h */,
 				5397C0B622A18F7B00BC72FE /* CRAdUnit+Internal.h */,
+				5496875C22A5A96D007D2578 /* CR_AdUnitHelper.h */,
+				5496875D22A5A96D007D2578 /* CR_AdUnitHelper.m */,
 				5397C08C22A0885800BC72FE /* CRAdUnit.m */,
 				650915F222555C21001D6673 /* Standalone */,
 				E12A7F6C220A1D20002B4548 /* AppEvents */,
@@ -501,6 +506,7 @@
 				5397C0BD22A1AE9700BC72FE /* CRCacheAdUnitTests.m */,
 				5397C0B922A1A43F00BC72FE /* CRAdUnitTests.m */,
 				5397C09922A0889700BC72FE /* CRBannerAdUnitTests.m */,
+				5496875A22A1C49E007D2578 /* CR_AdUnitHelperTests.m */,
 				5397C09822A0889700BC72FE /* CRInterstitialAdUnitTests.m */,
 				6540470C22581D13009235A1 /* Utility */,
 				6524663F22542FEF005058C5 /* Standalone */,
@@ -563,7 +569,6 @@
 				5397C09622A0885A00BC72FE /* CRBannerAdUnit.h in Headers */,
 				258821D221FD3FB600398E9F /* CR_ConfigManager.h in Headers */,
 				6549B553228389930078F068 /* CRInterstitialDelegate.h in Headers */,
-				5397C09422A0885A00BC72FE /* CRInterstitialAdUnit+Internal.h in Headers */,
 				25B6505A2206AB40008416D3 /* Logging.h in Headers */,
 				E1F2737521B5F08D00A2FBFA /* pubsdk.h in Headers */,
 				543F6F9D22838EDF00A5DBE2 /* CRBannerViewDelegate.h in Headers */,
@@ -759,6 +764,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				25BD5B5F2220D183004DE311 /* CR_AppEvents.m in Sources */,
+				5496876022A5C774007D2578 /* CR_AdUnitHelper.m in Sources */,
 				25BD5B692220D1D9004DE311 /* Criteo.m in Sources */,
 				25BD5B622220D1A8004DE311 /* CR_BidManager.m in Sources */,
 				5397C0B322A0AA6C00BC72FE /* CRInterstitialAdUnit.m in Sources */,
@@ -797,6 +803,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				25B6505B2206AB40008416D3 /* Logging.m in Sources */,
+				5496875F22A5A96D007D2578 /* CR_AdUnitHelper.m in Sources */,
 				E1F273B921C87A2F00A2FBFA /* CR_CdbBid.m in Sources */,
 				E1F2738B21BB12C300A2FBFA /* Criteo.m in Sources */,
 				5397C09522A0885A00BC72FE /* CRInterstitialAdUnit.m in Sources */,
@@ -848,6 +855,7 @@
 				E104B6B321E57F7B004D86C4 /* CR_BidManagerTests.m in Sources */,
 				E12A7F5E21FFBD2F002B4548 /* CR_CacheManagerTests.m in Sources */,
 				258821DD220015AF00398E9F /* CR_DeviceInfoTests.m in Sources */,
+				5496875B22A1C49E007D2578 /* CR_AdUnitHelperTests.m in Sources */,
 				6524664122543083005058C5 /* CRBannerViewTests.m in Sources */,
 				E104B6B521E580E9004D86C4 /* CR_CdbBidTests.m in Sources */,
 				258821D521FD5D8200398E9F /* CR_ConfigManagerTests.m in Sources */,
