@@ -55,7 +55,6 @@
 		5397C0BA22A1A44000BC72FE /* CRAdUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5397C0B922A1A43F00BC72FE /* CRAdUnitTests.m */; };
 		5397C0BE22A1AE9800BC72FE /* CRCacheAdUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5397C0BD22A1AE9700BC72FE /* CRCacheAdUnitTests.m */; };
 		543442FC2285F4A600805343 /* CRBannerViewDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 543F6F9C22838EDF00A5DBE2 /* CRBannerViewDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		543B672B2294689B006A99DF /* NSError+CRErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 543B67292294689B006A99DF /* NSError+CRErrors.h */; };
 		543B672C2294689B006A99DF /* NSError+CRErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 543B672A2294689B006A99DF /* NSError+CRErrors.m */; };
 		543B672E22948003006A99DF /* NSError+CRErrorsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 543B672D22948003006A99DF /* NSError+CRErrorsTests.m */; };
 		543F6F6D22820C1800A5DBE2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 543F6F6C22820C1800A5DBE2 /* AppDelegate.m */; };
@@ -66,6 +65,7 @@
 		543F6F7B22820C1A00A5DBE2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 543F6F7A22820C1A00A5DBE2 /* main.m */; };
 		543F6F9D22838EDF00A5DBE2 /* CRBannerViewDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 543F6F9C22838EDF00A5DBE2 /* CRBannerViewDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		543F6FA22283B5F500A5DBE2 /* CRBannerViewDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 543F6FA12283B5F500A5DBE2 /* CRBannerViewDelegateTests.m */; };
+		545A39A622A8210A00648957 /* NSError+CRErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 543B672A2294689B006A99DF /* NSError+CRErrors.m */; };
 		54658897228C6DB1009746E0 /* CRInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6549B552228389930078F068 /* CRInterstitialDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5488906E22848321009BCF42 /* pubsdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1F2736421B5F08D00A2FBFA /* pubsdk.framework */; };
 		5496875B22A1C49E007D2578 /* CR_AdUnitHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5496875A22A1C49E007D2578 /* CR_AdUnitHelperTests.m */; };
@@ -572,7 +572,6 @@
 				25B6505A2206AB40008416D3 /* Logging.h in Headers */,
 				E1F2737521B5F08D00A2FBFA /* pubsdk.h in Headers */,
 				543F6F9D22838EDF00A5DBE2 /* CRBannerViewDelegate.h in Headers */,
-				543B672B2294689B006A99DF /* NSError+CRErrors.h in Headers */,
 				258821D922000F8000398E9F /* CR_DeviceInfo.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -770,6 +769,7 @@
 				5397C0B322A0AA6C00BC72FE /* CRInterstitialAdUnit.m in Sources */,
 				5397C0B022A0AA5600BC72FE /* CRAdUnit.m in Sources */,
 				25BD5B672220D1CC004DE311 /* CR_DeviceInfo.m in Sources */,
+				545A39A622A8210A00648957 /* NSError+CRErrors.m in Sources */,
 				25BD5B652220D1BB004DE311 /* CR_Config.m in Sources */,
 				654858AA226538D500DC471A /* CRInterstitial.m in Sources */,
 				5397C0B122A0AA6600BC72FE /* CRCacheAdUnit.m in Sources */,
