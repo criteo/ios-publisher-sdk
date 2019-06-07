@@ -121,6 +121,36 @@
                       timeout:5];
 }
 
+- (void)testInterstitialAdFetchFailWhenBidIsNil {
+    Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
+                                                           viewController:nil
+                                                              application:nil];
+    OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn(nil);
+
+    id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
+    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNoFill];
+    interstitial.delegate = mockInterstitialDelegate;
+    OCMStub([mockInterstitialDelegate interstitial:interstitial
+                          didFailToLoadAdWithError:[OCMArg any]]);
+
+    id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
+    OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
+                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedAdUnit]);
+
+    XCTestExpectation *interstitialAdFetchFailExpectation = [self expectationWithDescription:@"interstitialDidFail delegate method called"];
+    [interstitial loadAd:@"123"];
+    [NSTimer scheduledTimerWithTimeInterval:3
+                                    repeats:NO
+                                      block:^(NSTimer * _Nonnull timer) {
+                                          OCMVerify([mockInterstitialDelegate interstitial:interstitial
+                                                                  didFailToLoadAdWithError:expectedError]);
+                                          [interstitialAdFetchFailExpectation fulfill];
+                                      }];
+    [self waitForExpectations:@[interstitialAdFetchFailExpectation]
+                      timeout:5];
+}
+
 - (void)testInterstitialWillLeaveApplication {
     UIApplication *mockApplication = OCMStrictClassMock([UIApplication class]);
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:nil

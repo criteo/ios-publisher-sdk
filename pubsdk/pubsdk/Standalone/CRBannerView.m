@@ -53,7 +53,7 @@
     CRCacheAdUnit *adUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:adUnitId
                                                      size:self.frame.size];
     CR_CdbBid *bid = [self.criteo getBid:adUnit];
-    if([bid isEmpty]) {
+    if(bid == nil || [bid isEmpty]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if([self.delegate respondsToSelector:@selector(bannerDidFail:withError:)]) {
                  [self.delegate bannerDidFail:self

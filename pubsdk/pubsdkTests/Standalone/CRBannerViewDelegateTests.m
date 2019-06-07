@@ -87,6 +87,35 @@
                       timeout:5];
 }
 
+// test banner fail when bid is nil
+- (void)testBannerAdFetchFailWhenBidIsNil {
+    Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
+                                                            criteo:mockCriteo
+                                                           webView:nil
+                                                       application:nil];
+
+    id<CRBannerViewDelegate> mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
+    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNoFill];
+    bannerView.delegate = mockBannerViewDelegate;
+    OCMStub([mockBannerViewDelegate bannerDidFail:bannerView
+                                        withError:[OCMArg any]]);
+    CRCacheAdUnit *expectedAdUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"123"
+                                                                       size:CGSizeMake(47.0f, 57.0f)];
+    OCMStub([mockCriteo getBid:expectedAdUnit]).andReturn(nil);
+    XCTestExpectation *bannerAdFetchFailExpectation = [self expectationWithDescription:@"bannerDidFail with error delegate method called"];
+    [bannerView loadAd:@"123"];
+    [NSTimer scheduledTimerWithTimeInterval:3
+                                    repeats:NO
+                                      block:^(NSTimer * _Nonnull timer) {
+                                          OCMVerify([mockBannerViewDelegate bannerDidFail:bannerView
+                                                                                withError:expectedError]);
+                                          [bannerAdFetchFailExpectation fulfill];
+                                      }];
+    [self waitForExpectations:@[bannerAdFetchFailExpectation]
+                      timeout:5];
+}
+
 - (void)testBannerWillLeaveApplication {
     UIApplication *mockApplication = OCMStrictClassMock([UIApplication class]);
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)

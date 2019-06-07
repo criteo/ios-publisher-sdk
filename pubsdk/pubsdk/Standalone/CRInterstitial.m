@@ -52,7 +52,7 @@
     CRCacheAdUnit *adUnit = [CR_AdUnitHelper interstitialCacheAdUnitForAdUnitId:adUnitId
                                                                      screenSize:[[CR_DeviceInfo new] screenSize]] ;
     CR_CdbBid *bid = [self.criteo getBid:adUnit];
-    if([bid isEmpty]) {
+    if(bid == nil || [bid isEmpty]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
                 [self.delegate interstitial:self
