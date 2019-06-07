@@ -6,6 +6,9 @@ set -Eeuo pipefail
 rm -rf build/output
 mkdir -p build/output/sim
 
+xcrun simctl shutdown all
+xcrun simctl erase all
+
 CRITEO_ARCHS='armv7 armv7s arm64'
 CRITEO_SIM_ARCHS='i386 x86_64'
 
