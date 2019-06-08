@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CRBidToken.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,11 +15,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly) double price;
 @property (nonatomic, readonly) BOOL bidSuccess;
-@property (nonatomic, readonly) NSUInteger bidToken;
+@property (nonatomic, readonly) CRBidToken *bidToken;
 
 - (instancetype) initWithPrice:(double) price
-                       bidSuccess:(BOOL) bidSuccess
-                         bidToken:(NSUInteger)bidToken
+                    bidSuccess:(BOOL) bidSuccess
+                      bidToken:(CRBidToken*)bidToken
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype) init NS_UNAVAILABLE;

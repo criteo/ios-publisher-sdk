@@ -32,6 +32,7 @@
 		25BD5B6D2220D1F0004DE311 /* CR_NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F2738321B9B58900A2FBFA /* CR_NetworkManager.m */; };
 		25BD5B6E2220D201004DE311 /* NSString+CR_UrlEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 255151C422027C9500F76E3F /* NSString+CR_UrlEncoder.m */; };
 		25BD5B6F2220D209004DE311 /* Logging.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B650592206AB40008416D3 /* Logging.m */; };
+		53374B7D22AED93A007084FB /* CRBidResponse+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 53374B7C22AED93A007084FB /* CRBidResponse+Internal.h */; };
 		5397C09122A0885A00BC72FE /* CRAdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5397C08A22A0885700BC72FE /* CRAdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5397C09222A0885A00BC72FE /* CRInterstitialAdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5397C08B22A0885800BC72FE /* CRInterstitialAdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5397C09322A0885A00BC72FE /* CRAdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5397C08C22A0885800BC72FE /* CRAdUnit.m */; };
@@ -176,6 +177,7 @@
 		25BD5B5A2220D16D004DE311 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		29D24DDAFFC9D3813C55AD78 /* Pods-pubsdkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdkTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdkTests/Pods-pubsdkTests.release.xcconfig"; sourceTree = "<group>"; };
 		4876E95088BFF48248FF7025 /* Pods-pubsdkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdkTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdkTests/Pods-pubsdkTests.debug.xcconfig"; sourceTree = "<group>"; };
+		53374B7C22AED93A007084FB /* CRBidResponse+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CRBidResponse+Internal.h"; path = "pubsdk/InHouseMediation/CRBidResponse+Internal.h"; sourceTree = SOURCE_ROOT; };
 		5397C08A22A0885700BC72FE /* CRAdUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRAdUnit.h; sourceTree = "<group>"; };
 		5397C08B22A0885800BC72FE /* CRInterstitialAdUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRInterstitialAdUnit.h; sourceTree = "<group>"; };
 		5397C08C22A0885800BC72FE /* CRAdUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRAdUnit.m; sourceTree = "<group>"; };
@@ -427,6 +429,7 @@
 				53CA0F7D22AAE2790098F96C /* CR_TokenValue.m */,
 				53CA0F7922AAE1D10098F96C /* CRBidResponse.h */,
 				53CA0F7A22AAE1D10098F96C /* CRBidResponse.m */,
+				53374B7C22AED93A007084FB /* CRBidResponse+Internal.h */,
 			);
 			name = InHouseMediation;
 			path = ../InHouseMediation;
@@ -641,6 +644,7 @@
 				53CA0F9822AB0B870098F96C /* CRBidToken.h in Headers */,
 				53CA0F9922AB0B870098F96C /* CRBidResponse.h in Headers */,
 				53CA0F9A22AB0B870098F96C /* CRInterstitialDelegate.h in Headers */,
+				53374B7D22AED93A007084FB /* CRBidResponse+Internal.h in Headers */,
 				543F6F9D22838EDF00A5DBE2 /* CRBannerViewDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

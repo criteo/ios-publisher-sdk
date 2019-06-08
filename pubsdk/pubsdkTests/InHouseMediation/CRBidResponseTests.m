@@ -7,7 +7,8 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "CRBidResponse.h"
+#import "CRBidResponse+Internal.h"
+#import "CRBidToken+Internal.h"
 
 @interface CRBidResponseTests : XCTestCase
 
@@ -16,10 +17,11 @@
 @implementation CRBidResponseTests
 
 - (void)testBidResponseInitialization {
-    CRBidResponse *testBidResponse = [[CRBidResponse alloc] initWithPrice:5.5 bidSuccess:YES bidToken:123];
+    CRBidToken *bidToken = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
+    CRBidResponse *testBidResponse = [[CRBidResponse alloc] initWithPrice:5.5 bidSuccess:YES bidToken:bidToken];
     XCTAssertEqual(testBidResponse.price, 5.5);
     XCTAssertEqual(testBidResponse.bidSuccess, YES);
-    XCTAssertEqual(testBidResponse.bidToken, 123);
+    XCTAssertEqual(testBidResponse.bidToken, bidToken);
 }
 
 @end
