@@ -45,4 +45,47 @@
     XCTAssertFalse([tokenValue isExpired]);
 }
 
+- (void)testSameTokenValues {
+    NSDate *date = [[NSDate alloc] initWithTimeIntervalSinceNow:-100];
+    CR_TokenValue *firstTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"123"
+                                                                    insertTime:date
+                                                                           ttl:200
+                                                                    adUnitType:CRAdUnitTypeBanner];
+    CR_TokenValue *secondTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"123"
+                                                                     insertTime:date
+                                                                            ttl:200
+                                                                     adUnitType:CRAdUnitTypeBanner];
+    XCTAssertTrue([firstTokenValue isEqual:secondTokenValue]);
+}
+
+- (void)testDifferentTokenValues {
+    CR_TokenValue *firstTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"123"
+                                                                    insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-100]
+                                                                           ttl:200
+                                                                    adUnitType:CRAdUnitTypeBanner];
+    CR_TokenValue *secondTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"456"
+                                                                     insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-500]
+                                                                            ttl:200
+                                                                     adUnitType:CRAdUnitTypeBanner];
+    XCTAssertFalse([firstTokenValue isEqual:secondTokenValue]);
+}
+
+- (void)testNullTokenValue {
+    CR_TokenValue *firstTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"123"
+                                                                    insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-100]
+                                                                           ttl:200
+                                                                    adUnitType:CRAdUnitTypeBanner];
+    CR_TokenValue *secondTokenValue = NULL;
+    XCTAssertFalse([firstTokenValue isEqual:secondTokenValue]);
+}
+
+- (void)testDifferentObjectType {
+    CR_TokenValue *firstTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"123"
+                                                                    insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-100]
+                                                                           ttl:200
+                                                                    adUnitType:CRAdUnitTypeBanner];
+    NSString *fakeTokenValue = @"fake";
+    XCTAssertFalse([firstTokenValue isEqual:fakeTokenValue]);
+}
+
 @end

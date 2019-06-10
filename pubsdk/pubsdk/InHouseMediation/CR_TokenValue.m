@@ -29,4 +29,18 @@
     > self.ttl;
 }
 
+- (BOOL)isEqual:(id)object{
+    if ([object isKindOfClass:[CR_TokenValue class]]) {
+        CR_TokenValue *other = object;
+
+        if ([self.displayUrl isEqualToString:other.displayUrl] &&
+            [self.insertTime isEqual:other.insertTime] &&
+            self.adUnitType == other.adUnitType &&
+            self.ttl == other.ttl) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 @end
