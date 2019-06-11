@@ -11,7 +11,7 @@
 #import "CR_BidManager.h"
 #import "Criteo.h"
 #import "Criteo+Internal.h"
-#import "CRCacheAdUnit.h"
+#import "CR_CacheAdUnit.h"
 #import "CRInterstitial.h"
 #import "CRInterstitial+Internal.h"
 #import "MockWKWebView.h"
@@ -21,7 +21,7 @@
 @interface CRInterstitialTests : XCTestCase
 {
     CR_CdbBid *_bid;
-    CRCacheAdUnit *_adUnit;
+    CR_CacheAdUnit *_adUnit;
 }
 @end
 
@@ -48,9 +48,9 @@
     return _bid;
 }
 
-- (CRCacheAdUnit *)expectedAdUnit {
+- (CR_CacheAdUnit *)expectedAdUnit {
     if(!_adUnit) {
-        _adUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"123"
+        _adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
                                                      size:CGSizeMake(320.0, 480.0)];
     }
     return _adUnit;

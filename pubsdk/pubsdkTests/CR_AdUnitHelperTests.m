@@ -23,22 +23,22 @@
 
 - (void)testBannerAdUnitsToCacheAdUnits {
     CRBannerAdUnit *bannerAdUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"1234" size:CGSizeMake(320.0, 50.0)];
-    CRCacheAdUnit *expectedCacheAdUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"1234" size:CGSizeMake(320.0, 50.0)];
+    CR_CacheAdUnit *expectedCacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"1234" size:CGSizeMake(320.0, 50.0)];
     XCTAssertTrue([expectedCacheAdUnit isEqual:[[CR_AdUnitHelper cacheAdUnitsForAdUnits:@[bannerAdUnit]
                                                                              deviceInfo:[CR_DeviceInfo new]] objectAtIndex:0]]);
 }
 
 - (void)testInterstitialAdUnitsToCacheAdUnits {
     CRInterstitialAdUnit *interstitialAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"1234"];
-    CRCacheAdUnit *expectedCacheAdUnitPortrait = [[CRCacheAdUnit alloc] initWithAdUnitId:@"1234"
+    CR_CacheAdUnit *expectedCacheAdUnitPortrait = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"1234"
                                                                                     size:CGSizeMake(360.0, 640.0)];
-    CRCacheAdUnit *expectedCacheAdUnitLandscape = [[CRCacheAdUnit alloc] initWithAdUnitId:@"1234"
+    CR_CacheAdUnit *expectedCacheAdUnitLandscape = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"1234"
                                                                                      size:CGSizeMake(480.0, 320.0)];
     CRBannerAdUnit *bannerAdUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"1234"
                                                                  size:CGSizeMake(320.0, 50.0)];
     CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
     OCMStub([mockDeviceInfo screenSize]).andReturn(CGSizeMake(400.0, 480.0));
-    NSArray<CRCacheAdUnit *> *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:@[bannerAdUnit, interstitialAdUnit]
+    NSArray<CR_CacheAdUnit *> *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:@[bannerAdUnit, interstitialAdUnit]
                                                                           deviceInfo:mockDeviceInfo];
     XCTAssertTrue([expectedCacheAdUnitPortrait isEqual:[cacheAdUnits objectAtIndex:1]]);
     XCTAssertTrue([expectedCacheAdUnitLandscape isEqual:[cacheAdUnits objectAtIndex:2]]);
@@ -46,9 +46,9 @@
 
 - (void)testAdUnitToCacheAdUnit {
     CRInterstitialAdUnit *interstitialAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"1234"];
-    CRCacheAdUnit *expectedInterstitialCacheAdUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"1234" size:CGSizeMake(360.0, 640.0)];
+    CR_CacheAdUnit *expectedInterstitialCacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"1234" size:CGSizeMake(360.0, 640.0)];
     CRBannerAdUnit *bannerAdUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"1234" size:CGSizeMake(320.0, 50.0)];
-    CRCacheAdUnit *expectedBannerCacheAdUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"1234" size:CGSizeMake(320.0, 50.0)];
+    CR_CacheAdUnit *expectedBannerCacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"1234" size:CGSizeMake(320.0, 50.0)];
     CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
     OCMStub([mockDeviceInfo screenSize]).andReturn(CGSizeMake(400.0, 700.0));
     // for banner and interstitial
@@ -98,9 +98,9 @@
 
 - (void) testCacheAdUnitForCurrentOrientation {
     CGSize expectedSize = CGSizeMake(480.0, 320.0);
-    CRCacheAdUnit *expectedCacheAdUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"testCacheAdUnit" size:expectedSize];
+    CR_CacheAdUnit *expectedCacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"testCacheAdUnit" size:expectedSize];
 
-    CRCacheAdUnit *resultingCacheAdUnit = [CR_AdUnitHelper interstitialCacheAdUnitForAdUnitId:@"testCacheAdUnit"
+    CR_CacheAdUnit *resultingCacheAdUnit = [CR_AdUnitHelper interstitialCacheAdUnitForAdUnitId:@"testCacheAdUnit"
                                                                                    screenSize:CGSizeMake(500.0, 330.0)];
     XCTAssertTrue([expectedCacheAdUnit isEqual:resultingCacheAdUnit]);
 }

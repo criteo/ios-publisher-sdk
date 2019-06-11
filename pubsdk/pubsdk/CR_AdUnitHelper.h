@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CRCacheAdUnit.h"
+#import "CR_CacheAdUnit.h"
 #import "CRInterstitialAdUnit.h"
 #import "CR_DeviceInfo.h"
 
@@ -15,13 +15,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_AdUnitHelper : NSObject
 
-+ (NSArray<CRCacheAdUnit *> *)cacheAdUnitsForAdUnits:(NSArray<CRAdUnit *> *)adUnits
++ (NSArray<CR_CacheAdUnit *> *)cacheAdUnitsForAdUnits:(NSArray<CRAdUnit *> *)adUnits
                                           deviceInfo:(CR_DeviceInfo *)deviceInfo;
 
-+ (CRCacheAdUnit *)cacheAdUnitForAdUnit:(CRAdUnit *)adUnit
++ (CR_CacheAdUnit *)cacheAdUnitForAdUnit:(CRAdUnit *)adUnit
                              deviceInfo:(CR_DeviceInfo *)deviceInfo;
 
-+ (CRCacheAdUnit *)interstitialCacheAdUnitForAdUnitId:(NSString *)adUnitId
++ (CR_CacheAdUnit *)interstitialCacheAdUnitForAdUnitId:(NSString *)adUnitId
                                            screenSize:(CGSize)size;
 // helper methods
 + (CGSize)closestSupportedInterstitialSize:(CGSize)screenSize;

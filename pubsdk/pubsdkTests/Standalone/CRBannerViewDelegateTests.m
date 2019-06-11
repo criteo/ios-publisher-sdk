@@ -32,7 +32,7 @@
     id<CRBannerViewDelegate> mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
     bannerView.delegate = mockBannerViewDelegate;
     OCMStub([mockBannerViewDelegate bannerDidLoad:bannerView]);
-    CRCacheAdUnit *expectedAdUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"123"
+    CR_CacheAdUnit *expectedAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
                                                              size:CGSizeMake(47.0f, 57.0f)];
     CR_CdbBid *expectedBid = [[CR_CdbBid alloc] initWithZoneId:@123
                                                    placementId:@"placementId"
@@ -71,7 +71,7 @@
     bannerView.delegate = mockBannerViewDelegate;
     OCMStub([mockBannerViewDelegate bannerDidFail:bannerView
                                         withError:[OCMArg any]]);
-    CRCacheAdUnit *expectedAdUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"123"
+    CR_CacheAdUnit *expectedAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
                                                              size:CGSizeMake(47.0f, 57.0f)];
     OCMStub([mockCriteo getBid:expectedAdUnit]).andReturn([CR_CdbBid emptyBid]);
     XCTestExpectation *bannerAdFetchFailExpectation = [self expectationWithDescription:@"bannerDidFail with error delegate method called"];
@@ -100,7 +100,7 @@
     bannerView.delegate = mockBannerViewDelegate;
     OCMStub([mockBannerViewDelegate bannerDidFail:bannerView
                                         withError:[OCMArg any]]);
-    CRCacheAdUnit *expectedAdUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"123"
+    CR_CacheAdUnit *expectedAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
                                                                        size:CGSizeMake(47.0f, 57.0f)];
     OCMStub([mockCriteo getBid:expectedAdUnit]).andReturn(nil);
     XCTestExpectation *bannerAdFetchFailExpectation = [self expectationWithDescription:@"bannerDidFail with error delegate method called"];

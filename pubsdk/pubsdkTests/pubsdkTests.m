@@ -42,7 +42,7 @@
     return;
     /*
      
-     CRCacheAdUnit *adUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"div-Test-DirectBidder" width:300 height:250];
+     CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"div-Test-DirectBidder" width:300 height:250];
      Criteo *pubSdk = [Criteo sharedCriteo];
      [pubSdk registerAdUnit:adUnit];
      DummyDfpRequest *dfpRequest = [[DummyDfpRequest alloc] init];

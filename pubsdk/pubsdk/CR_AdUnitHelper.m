@@ -32,13 +32,13 @@ static const CGSize supportedInterstitialSizes[] = {
 }
 
 // return an array as interstitial will return two cache adUnits for both orientations
-+ (NSArray<CRCacheAdUnit *> *)cacheAdUnitsForAdUnits:(NSArray<CRAdUnit *> *)adUnits
++ (NSArray<CR_CacheAdUnit *> *)cacheAdUnitsForAdUnits:(NSArray<CRAdUnit *> *)adUnits
                                           deviceInfo:(CR_DeviceInfo *)deviceInfo{
-    NSMutableArray<CRCacheAdUnit *> *cacheAdUnits = [NSMutableArray new];
+    NSMutableArray<CR_CacheAdUnit *> *cacheAdUnits = [NSMutableArray new];
     for(int i = 0; i < [adUnits count]; i++) {
         switch([adUnits[i] adUnitType]) {
             case CRAdUnitTypeBanner:
-                [cacheAdUnits addObject:[[CRCacheAdUnit alloc] initWithAdUnitId:adUnits[i].adUnitId
+                [cacheAdUnits addObject:[[CR_CacheAdUnit alloc] initWithAdUnitId:adUnits[i].adUnitId
                                                                            size:[(CRBannerAdUnit *)adUnits[i] size]]];
                 break;
             case CRAdUnitTypeInterstitial:
@@ -60,11 +60,11 @@ static const CGSize supportedInterstitialSizes[] = {
     return [cacheAdUnits copy];
 }
 
-+ (CRCacheAdUnit *)cacheAdUnitForAdUnit:(CRAdUnit *)adUnit
++ (CR_CacheAdUnit *)cacheAdUnitForAdUnit:(CRAdUnit *)adUnit
                              deviceInfo:(CR_DeviceInfo *)deviceInfo {
     switch([adUnit adUnitType]) {
         case CRAdUnitTypeBanner:
-            return [[CRCacheAdUnit alloc] initWithAdUnitId:[adUnit adUnitId]
+            return [[CR_CacheAdUnit alloc] initWithAdUnitId:[adUnit adUnitId]
                                                       size:[(CRBannerAdUnit *)adUnit size]];
             break;
         case CRAdUnitTypeInterstitial:
@@ -77,10 +77,10 @@ static const CGSize supportedInterstitialSizes[] = {
     }
 }
 // used by loadAd
-+ (CRCacheAdUnit *)interstitialCacheAdUnitForAdUnitId:(NSString *)adUnitId
++ (CR_CacheAdUnit *)interstitialCacheAdUnitForAdUnitId:(NSString *)adUnitId
                                            screenSize:(CGSize)size{
     CGSize adSize = [CR_AdUnitHelper closestSupportedInterstitialSize:size];
-    return [[CRCacheAdUnit alloc] initWithAdUnitId:adUnitId size:adSize];
+    return [[CR_CacheAdUnit alloc] initWithAdUnitId:adUnitId size:adSize];
 }
 
 @end

@@ -21,7 +21,7 @@
 
 @interface CRInterstitialDelegateTests : XCTestCase
 {
-    CRCacheAdUnit *adUnit;
+    CR_CacheAdUnit *adUnit;
     CR_CdbBid *bid;
 }
 @end
@@ -51,9 +51,9 @@
 
 
 
-- (CRCacheAdUnit *)expectedAdUnit {
+- (CR_CacheAdUnit *)expectedAdUnit {
     if(!adUnit) {
-        adUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"123"
+        adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
                                                     size:CGSizeMake(320.0, 480.0)];
     }
     return adUnit;
