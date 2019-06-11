@@ -19,7 +19,8 @@
     NSUUID *uuid = [NSUUID UUID];
     CRBidToken *firstToken = [[CRBidToken alloc] initWithUUID:uuid];
     CRBidToken *secondToken = [[CRBidToken alloc] initWithUUID:uuid];
-    XCTAssertTrue([firstToken isEqual:secondToken]);
+    XCTAssertEqualObjects(firstToken, secondToken);
+    XCTAssertEqual(firstToken.bidTokenUUID, secondToken.bidTokenUUID);
 }
 
 - (void)testDifferentBidTokens {
@@ -27,21 +28,24 @@
     NSUUID *otherUuid = [NSUUID UUID];
     CRBidToken *firstToken = [[CRBidToken alloc] initWithUUID:uuid];
     CRBidToken *secondToken = [[CRBidToken alloc] initWithUUID:otherUuid];
-    XCTAssertFalse([firstToken isEqual:secondToken]);
+    XCTAssertNotEqualObjects(firstToken, secondToken);
+    XCTAssertNotEqual(firstToken.bidTokenUUID, secondToken.bidTokenUUID);
 }
 
-- (void)testNullBidToken {
+- (void)testNilBidToken {
     NSUUID *uuid = [NSUUID UUID];
     CRBidToken *firstToken = [[CRBidToken alloc] initWithUUID:uuid];
-    CRBidToken *randomToken = [[CRBidToken alloc] initWithUUID:NULL];
-    XCTAssertFalse([firstToken isEqual:randomToken]);
+    CRBidToken *randomToken = [[CRBidToken alloc] initWithUUID:nil];
+    XCTAssertNotEqualObjects(firstToken, randomToken);
+    XCTAssertNotNil(randomToken.bidTokenUUID);
+    XCTAssertNotEqual(firstToken.bidTokenUUID, randomToken.bidTokenUUID);
 }
 
 - (void)testNonBidTokenObject {
     NSUUID *uuid = [NSUUID UUID];
     CRBidToken *firstToken = [[CRBidToken alloc] initWithUUID:uuid];
     NSUUID *randomObject = [NSUUID UUID];
-    XCTAssertFalse([firstToken isEqual:randomObject]);
+    XCTAssertNotEqualObjects(firstToken, randomObject);
 }
 
 - (void)testSameHash {
@@ -63,7 +67,7 @@
     NSUUID *uuid = [NSUUID UUID];
     CRBidToken *firstToken = [[CRBidToken alloc] initWithUUID:uuid];
     CRBidToken *secondToken = [firstToken copy];
-    XCTAssertTrue([firstToken isEqual:secondToken]);
+    XCTAssertEqualObjects(firstToken, secondToken);
     XCTAssertEqual([firstToken hash], [secondToken hash]);
 }
 

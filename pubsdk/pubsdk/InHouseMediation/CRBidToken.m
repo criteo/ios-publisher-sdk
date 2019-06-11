@@ -9,47 +9,34 @@
 #import "CRBidToken.h"
 #import "CRBidToken+Internal.h"
 
-@interface CRBidToken ()
-
-@property (nonatomic, readonly) NSUUID* bidTokenUUID;
-
-@end
-
 @implementation CRBidToken
 
-- (instancetype) init
-{
+- (instancetype) init {
     return [self initWithUUID:nil];
 }
 
-- (instancetype) initWithUUID:(NSUUID *)uuid
-{
+- (instancetype) initWithUUID:(NSUUID *)uuid {
     if (self = [super init]) {
         _bidTokenUUID = uuid ? uuid : [NSUUID UUID];
     }
     return self;
 }
 
-- (instancetype) copyWithZone:(NSZone *)zone
-{
+- (instancetype) copyWithZone:(NSZone *)zone {
     return self;
 }
 
-- (NSUInteger) hash
-{
+- (NSUInteger) hash {
     return _bidTokenUUID.hash;
 }
 
-- (BOOL)isEqual:(id)object
-{
+- (BOOL)isEqual:(id)object {
     if ([object isKindOfClass:[CRBidToken class]]) {
         CRBidToken *other = object;
-
         if ([self.bidTokenUUID isEqual:other.bidTokenUUID]) {
             return YES;
         }
     }
-
     return NO;
 }
 

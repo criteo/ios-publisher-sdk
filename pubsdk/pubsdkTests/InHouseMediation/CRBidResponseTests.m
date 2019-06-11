@@ -19,9 +19,9 @@
 - (void)testBidResponseInitialization {
     CRBidToken *bidToken = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
     CRBidResponse *testBidResponse = [[CRBidResponse alloc] initWithPrice:5.5 bidSuccess:YES bidToken:bidToken];
-    XCTAssertEqual(testBidResponse.price, 5.5);
-    XCTAssertEqual(testBidResponse.bidSuccess, YES);
-    XCTAssertEqual(testBidResponse.bidToken, bidToken);
+    XCTAssertEqual(5.5, testBidResponse.price);
+    XCTAssertEqual(YES, testBidResponse.bidSuccess);
+    XCTAssertEqual(bidToken, testBidResponse.bidToken);
 }
 
 @end
