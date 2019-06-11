@@ -18,9 +18,53 @@
 
 
 @interface CRBannerViewDelegateTests : XCTestCase
+{
+    CR_CacheAdUnit *adUnit;
+    CR_CdbBid *bid;
+    WKNavigationResponse *validNavigationResponse;
+}
 @end
 
 @implementation CRBannerViewDelegateTests
+
+- (void)setUp {
+    bid = nil;
+    adUnit = nil;
+}
+
+- (CR_CacheAdUnit *)expectedAdUnit {
+    if(!adUnit) {
+        adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
+                                                     size:CGSizeMake(47.0f, 57.0f)];
+    }
+    return adUnit;
+}
+
+- (WKNavigationResponse *)validNavigationResponse {
+    if(!validNavigationResponse) {
+        validNavigationResponse = OCMStrictClassMock([WKNavigationResponse class]);
+        NSHTTPURLResponse *response = OCMStrictClassMock([NSHTTPURLResponse class]);
+        OCMStub(response.statusCode).andReturn(200);
+        OCMStub(validNavigationResponse.response).andReturn(response);
+    }
+    return validNavigationResponse;
+}
+
+- (CR_CdbBid *)bidWithDisplayURL:(NSString *)displayURL {
+    if(!bid) {
+        bid = [[CR_CdbBid alloc] initWithZoneId:@123
+                                    placementId:@"placementId"
+                                            cpm:@"4.2"
+                                       currency:@"₹😀"
+                                          width:@47.0f
+                                         height:[NSNumber numberWithFloat:57.0f]
+                                            ttl:26
+                                       creative:@"THIS IS USELESS LEGACY"
+                                     displayUrl:displayURL
+                                     insertTime:[NSDate date]];
+    }
+    return bid;
+}
 
 - (void)testBannerDidLoad {
     WKWebView *realWebView = [WKWebView new];
@@ -32,21 +76,12 @@
     id<CRBannerViewDelegate> mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
     bannerView.delegate = mockBannerViewDelegate;
     OCMStub([mockBannerViewDelegate bannerDidLoad:bannerView]);
-    CR_CacheAdUnit *expectedAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
-                                                             size:CGSizeMake(47.0f, 57.0f)];
-    CR_CdbBid *expectedBid = [[CR_CdbBid alloc] initWithZoneId:@123
-                                                   placementId:@"placementId"
-                                                           cpm:@"4.2"
-                                                      currency:@"₹😀"
-                                                         width:@47.0f
-                                                        height:[NSNumber numberWithFloat:57.0f]
-                                                           ttl:26
-                                                      creative:@"THIS IS USELESS LEGACY"
-                                                    displayUrl:@""
-                                                    insertTime:[NSDate date]];
 
-    OCMStub([mockCriteo getBid:expectedAdUnit]).andReturn(expectedBid);
+    OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn([self bidWithDisplayURL:@"test"]);
     [bannerView loadAd:@"123"];
+    [bannerView webView:realWebView decidePolicyForNavigationResponse:[self validNavigationResponse] decisionHandler:^(WKNavigationResponsePolicy policy) {
+
+    }];
     XCTestExpectation *bannerLoadDelegateExpectation = [self expectationWithDescription:@"bannerDidLoad delegate method called"];
     [NSTimer scheduledTimerWithTimeInterval:3
                                     repeats:NO
@@ -197,6 +232,33 @@
                                           [bannerHTTPErrorExpectation fulfill];
                                       }];
     [self waitForExpectations:@[bannerHTTPErrorExpectation]
+                      timeout:5];
+}
+
+- (void)testBannerFailWhenNoHttpResponse {
+    WKWebView *realWebView = [WKWebView new];
+    Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
+                                                            criteo:mockCriteo
+                                                           webView:realWebView
+                                                       application:nil];
+    id<CRBannerViewDelegate> mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
+    bannerView.delegate = mockBannerViewDelegate;
+    OCMStub([mockBannerViewDelegate banner:bannerView
+                  didFailToLoadAdWithError:[OCMArg any]]);
+    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNetworkError];
+
+    OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn([self bidWithDisplayURL:@""]);
+    [bannerView loadAd:@"123"];
+    XCTestExpectation *bannerNoHTTPResponseExpectation = [self expectationWithDescription:@"bannerDidFail delegate method called"];
+    [NSTimer scheduledTimerWithTimeInterval:3
+                                    repeats:NO
+                                      block:^(NSTimer * _Nonnull timer) {
+                                          OCMVerify([mockBannerViewDelegate banner:bannerView
+                                                          didFailToLoadAdWithError:expectedError]);
+                                          [bannerNoHTTPResponseExpectation fulfill];
+                                      }];
+    [self waitForExpectations:@[bannerNoHTTPResponseExpectation]
                       timeout:5];
 }
 

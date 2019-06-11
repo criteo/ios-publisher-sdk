@@ -17,7 +17,8 @@
 
 - (instancetype)initWithCriteo:(Criteo *)criteo
                 viewController:(CR_InterstitialViewController *)viewController
-                   application:(UIApplication *)application;
+                   application:(UIApplication *)application
+                    isAdLoaded:(BOOL)isAdLoaded;
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
 decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler;
@@ -30,6 +31,9 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler;
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse
 decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler;
+
+-     (void)webView:(WKWebView *)webView
+didFinishNavigation:(WKNavigation *)navigation;
 
 @end
 

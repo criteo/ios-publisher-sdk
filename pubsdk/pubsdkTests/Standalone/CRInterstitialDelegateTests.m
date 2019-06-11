@@ -23,6 +23,7 @@
 {
     CR_CacheAdUnit *adUnit;
     CR_CdbBid *bid;
+    WKNavigationResponse *validNavigationResponse;
 }
 @end
 
@@ -31,32 +32,7 @@
 - (void)setUp {
     bid = nil;
     adUnit = nil;
-}
-
-- (CR_CdbBid *)expectedBid {
-    if(!bid) {
-        bid = [[CR_CdbBid alloc] initWithZoneId:@123
-                                     placementId:@"placementId"
-                                             cpm:@"4.2"
-                                        currency:@"₹😀"
-                                           width:@47.0f
-                                          height:[NSNumber numberWithFloat:57.0f]
-                                             ttl:26
-                                        creative:@"THIS IS USELESS LEGACY"
-                                      displayUrl:@""
-                                      insertTime:[NSDate date]];
-    }
-    return bid;
-}
-
-
-
-- (CR_CacheAdUnit *)expectedAdUnit {
-    if(!adUnit) {
-        adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
-                                                    size:CGSizeMake(320.0, 480.0)];
-    }
-    return adUnit;
+    validNavigationResponse = nil;
 }
 
 - (CR_CdbBid *)bidWithDisplayURL:(NSString *)displayURL {
@@ -75,35 +51,78 @@
     return bid;
 }
 
+- (CR_CacheAdUnit *)expectedAdUnit {
+    if(!adUnit) {
+        adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
+                                                    size:CGSizeMake(320.0, 480.0)];
+    }
+    return adUnit;
+}
+
+- (WKNavigationResponse *)validNavigationResponse {
+    if(!validNavigationResponse) {
+        validNavigationResponse = OCMStrictClassMock([WKNavigationResponse class]);
+        NSHTTPURLResponse *response = OCMStrictClassMock([NSHTTPURLResponse class]);
+        OCMStub(response.statusCode).andReturn(200);
+        OCMStub(validNavigationResponse.response).andReturn(response);
+    }
+    return validNavigationResponse;
+}
+
+- (NSString *)htmlString {
+    return [NSString stringWithFormat:@"<!doctype html>"
+                  "<html>"
+                  "<head>"
+                  "<meta charset=\"utf-8\">"
+                  "<style>body{margin:0;padding:0}</style>"
+                  "<meta name=\"viewport\" content=\"width=%ld, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\" >"
+                  "</head>"
+                  "<body>"
+                  "<script src=\"%@\"></script>"
+                  "</body>"
+                  "</html>", (long)[self expectedAdUnit].size.width,@"test"];
+}
+
 - (void)testInterstitialDidLoad {
+    // create mock objects
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
-    WKWebView *realWebView = [WKWebView new];
-    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:realWebView
+    WKWebView *mockWebView = OCMClassMock([WKWebView class]);
+    UIView *mockView = OCMClassMock([UIView class]);
+    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView
+                                                                                                      view:mockView
                                                                                               interstitial:nil];
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
-                                                              application:nil];
-    OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn([self expectedBid]);
-    
+                                                              application:nil
+                                                               isAdLoaded:NO];
+
+    // stub methods for loadAd
     id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
     OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
                                                       screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedAdUnit]);
-
+    OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn([self bidWithDisplayURL:@"test"]);
     id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
     interstitial.delegate = mockInterstitialDelegate;
     OCMStub([mockInterstitialDelegate interstitialDidLoadAd:interstitial]);
+    OCMStub([mockWebView loadHTMLString:[self htmlString] baseURL:[NSURL URLWithString:@"about:blank"]]).andDo(^(NSInvocation* args) {
+        [interstitial webView:mockWebView decidePolicyForNavigationResponse:[self validNavigationResponse] decisionHandler:^(WKNavigationResponsePolicy policy) {
+
+        }];
+    }).andDo(^(NSInvocation* args) {
+        [interstitial webView:mockWebView didFinishNavigation:nil];
+    });
 
     XCTestExpectation *interstitialDidLoadExpectation = [self expectationWithDescription:@"InterstitialDidLoad delegate method called"];
-    [NSTimer scheduledTimerWithTimeInterval:2
-                                    repeats:YES
-                                      block:^(NSTimer * _Nonnull timer) {
-                                          if(interstitial.isAdLoaded) {
-                                              [timer invalidate];
+    [interstitial loadAd:@"123"];
+    if(interstitial.isAdLoaded) {
+        [NSTimer scheduledTimerWithTimeInterval:0.1
+                                        repeats:NO
+                                          block:^(NSTimer * _Nonnull timer) {
                                               OCMVerify([mockInterstitialDelegate interstitialDidLoadAd:interstitial]);
                                               [interstitialDidLoadExpectation fulfill];
-                                          }
-                                      }];
-    [interstitial loadAd:@"123"];
+                                          }];
+
+    }
     [self waitForExpectations:@[interstitialDidLoadExpectation] timeout:5];
 }
 
@@ -111,7 +130,8 @@
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                             viewController:nil
-                                                               application:nil];
+                                                               application:nil
+                                                               isAdLoaded:NO];
     OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn([CR_CdbBid emptyBid]);
 
     id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
@@ -126,7 +146,7 @@
 
     XCTestExpectation *interstitialAdFetchFailExpectation = [self expectationWithDescription:@"interstitialDidFail delegate method called"];
     [interstitial loadAd:@"123"];
-    [NSTimer scheduledTimerWithTimeInterval:3
+    [NSTimer scheduledTimerWithTimeInterval:2
                                     repeats:NO
                                       block:^(NSTimer * _Nonnull timer) {
                                           OCMVerify([mockInterstitialDelegate interstitial:interstitial
@@ -141,7 +161,8 @@
     UIApplication *mockApplication = OCMStrictClassMock([UIApplication class]);
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:nil
                                                            viewController:nil
-                                                              application:mockApplication];
+                                                              application:mockApplication
+                                                               isAdLoaded:NO];
 
     id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
     interstitial.delegate = mockInterstitialDelegate;
@@ -172,15 +193,17 @@
                       timeout:5];
 }
 
-// iTest
-- (void)testInterstitialAppearAndDisappear {
+- (void)testInterstitialWillAndDidAppear {
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
-    WKWebView *realWebView = [WKWebView new];
-    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:realWebView
+    WKWebView *mockWebView = OCMClassMock([WKWebView class]);
+    UIView *mockView = OCMClassMock([UIView class]);
+    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView
+                                                                                                      view:mockView
                                                                                               interstitial:nil];
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
-                                                              application:nil];
+                                                              application:nil
+                                                               isAdLoaded:NO];
 
     id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
     [mockInterstitialDelegate setExpectationOrderMatters:YES];
@@ -189,73 +212,107 @@
     OCMExpect([mockInterstitialDelegate interstitialDidLoadAd:interstitial]);
     OCMExpect([mockInterstitialDelegate interstitialWillAppear:interstitial]);
     OCMExpect([mockInterstitialDelegate interstitialDidAppear:interstitial]);
-    OCMExpect([mockInterstitialDelegate interstitialWillDisappear:interstitial]);
-    OCMExpect([mockInterstitialDelegate interstitialDidDisappear:interstitial]);
 
     OCMStub([mockInterstitialDelegate interstitialDidLoadAd:interstitial]);
+    OCMStub([mockInterstitialDelegate interstitialWillAppear:interstitial]);
+    OCMStub([mockInterstitialDelegate interstitialDidAppear:interstitial]);
+
+    interstitialVC.interstitial = interstitial;
+    UIViewController *rootViewController = OCMStrictClassMock([UIViewController class]);
+    OCMStub([rootViewController presentViewController:interstitialVC animated:YES completion:[OCMArg invokeBlock]]);
+
+    id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
+    OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
+                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedAdUnit]);
+    OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn([self bidWithDisplayURL:@"test"]);
+    OCMStub([mockWebView loadHTMLString:[self htmlString] baseURL:[NSURL URLWithString:@"about:blank"]]).andDo(^(NSInvocation* args) {
+        [interstitial webView:mockWebView decidePolicyForNavigationResponse:[self validNavigationResponse] decisionHandler:^(WKNavigationResponsePolicy policy) {
+
+        }];
+    }).andDo(^(NSInvocation* args) {
+        [interstitial webView:mockWebView didFinishNavigation:nil];
+    });
+
+     XCTestExpectation *interstitialPresentationExpectation = [self expectationWithDescription:@"InterstitialWillAppear and InterstitialDidAppear delegate methods called in order"];
+    [interstitial loadAd:@"123"];
+    if(interstitial.isAdLoaded) {
+        [interstitial presentFromRootViewController:rootViewController];
+        [NSTimer scheduledTimerWithTimeInterval:2
+                                        repeats:NO
+                                          block:^(NSTimer * _Nonnull timer) {
+                                              OCMVerify([mockInterstitialDelegate interstitialWillAppear:interstitial]);
+                                              OCMVerify([mockInterstitialDelegate interstitialDidAppear:interstitial]);
+                                              [interstitialPresentationExpectation fulfill];
+                                          }];
+    }
+    [self waitForExpectations:@[interstitialPresentationExpectation]
+                      timeout:5];
+
+}
+
+- (void)testInterstitialWillandDidDisappear {
+    Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:[WKWebView new]
+                                                                                                      view:nil
+                                                                                              interstitial:nil];
+    CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
+                                                           viewController:interstitialVC
+                                                              application:nil
+                                                               isAdLoaded:YES];
+
+    id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
+    [mockInterstitialDelegate setExpectationOrderMatters:YES];
+    interstitial.delegate = mockInterstitialDelegate;
+    OCMExpect([mockInterstitialDelegate interstitialWillAppear:interstitial]);
+    OCMExpect([mockInterstitialDelegate interstitialDidAppear:interstitial]);
+    OCMExpect([mockInterstitialDelegate interstitialWillDisappear:interstitial]);
+    OCMExpect([mockInterstitialDelegate interstitialDidDisappear:interstitial]);
     OCMStub([mockInterstitialDelegate interstitialWillAppear:interstitial]);
     OCMStub([mockInterstitialDelegate interstitialDidAppear:interstitial]);
     OCMStub([mockInterstitialDelegate interstitialWillDisappear:interstitial]);
     OCMStub([mockInterstitialDelegate interstitialDidDisappear:interstitial]);
 
-    interstitialVC.interstitial = interstitial;
-    UIViewController *rootViewController = [UIViewController new];
+    XCTestExpectation *interstitialDismissExpectation = [self expectationWithDescription:@"InterstitialWillDisappear and InterstitialDidDisappear delegate method called"];
+
     UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
     [window makeKeyAndVisible];
-    window.rootViewController = rootViewController;
+    UIViewController *vc = [UIViewController new];
+    window.rootViewController = vc;
+    interstitialVC.interstitial = interstitial;
 
-    CR_CdbBid *bid = [self bidWithDisplayURL:@""];
+    [interstitial presentFromRootViewController:vc];
+    [NSTimer scheduledTimerWithTimeInterval:2
+                                    repeats:YES
+                                      block:^(NSTimer * _Nonnull timer) {
+                                          if(vc && vc.presentedViewController) {
+                                              [timer invalidate];
+                                              [interstitialVC.closeButton sendActionsForControlEvents:UIControlEventTouchUpInside];
+                                              [NSTimer scheduledTimerWithTimeInterval:0.1
+                                                                              repeats:YES
+                                                                                block:^(NSTimer * _Nonnull timer) {
+                                                                                    if(vc && !vc.presentedViewController) {
+                                                                                        [timer invalidate];
+                                                                                        OCMVerify([mockInterstitialDelegate interstitialWillDisappear:interstitial]);
+                                                                                        OCMVerify([mockInterstitialDelegate interstitialDidDisappear:interstitial]);
+                                                                                        [interstitialDismissExpectation fulfill];
+                                                                                    }
+                                                                                }];
+                                          }
+                                      }];
 
-    id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
-    OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
-                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedAdUnit]);
-
-    OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn(bid);
-    [interstitial loadAd:@"123"];
-
-    XCTestExpectation *interstitialPresentationExpectation = [self expectationWithDescription:@"InterstitialWillAppear and InterstitialDidAppear delegate methods called in order"];
-     XCTestExpectation *interstitialDismissExpectation = [self expectationWithDescription:@"InterstitialWillDisappear and InterstitialDidDisappear delegate method called"];
-
-    [NSTimer scheduledTimerWithTimeInterval:2 repeats:YES block:^(NSTimer * _Nonnull timer) {
-        if(interstitial.isAdLoaded) {
-            [timer invalidate];
-            [interstitial presentFromRootViewController:rootViewController];
-            [NSTimer scheduledTimerWithTimeInterval:2
-                                            repeats:YES
-                                              block:^(NSTimer * _Nonnull timer) {
-                                                  if(rootViewController && rootViewController.presentedViewController) {
-                                                      [timer invalidate];
-                                                      OCMVerify([mockInterstitialDelegate interstitialWillAppear:interstitial]);
-                                                      OCMVerify([mockInterstitialDelegate interstitialDidAppear:interstitial]);
-                                                      [interstitialPresentationExpectation fulfill];
-                                                      [interstitialVC.closeButton sendActionsForControlEvents:UIControlEventTouchUpInside];
-                                                      [NSTimer scheduledTimerWithTimeInterval:2
-                                                                                      repeats:YES
-                                                                                        block:^(NSTimer * _Nonnull timer) {
-                                                                                            if(rootViewController && !rootViewController.presentedViewController) {
-                                                                                                [timer invalidate];
-                                                                                                OCMVerify([mockInterstitialDelegate interstitialWillDisappear:interstitial]);
-                                                                                                OCMVerify([mockInterstitialDelegate interstitialDidDisappear:interstitial]);
-                                                                                                [interstitialDismissExpectation fulfill];
-                                                                                            }
-                                                                                        }
-                                                       ];
-                                                  }
-                                              }
-             ];
-        }
-    }];
-    [self waitForExpectations:@[interstitialPresentationExpectation, interstitialDismissExpectation]
-                      timeout:7];
+    [self waitForExpectations:@[interstitialDismissExpectation]
+                      timeout:5];
 }
 
 // test interstitial fail delegate method called when webView navigation fails
 - (void)testInterstitialFailWhenWebViewFailsToNavigate {
     CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:[WKWebView new]
+                                                                                                      view:nil
                                                                                               interstitial:nil];
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:nil
                                                            viewController:interstitialVC
-                                                              application:nil];
+                                                              application:nil
+                                                               isAdLoaded:NO];
 
     id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
     NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInternalError];
@@ -355,7 +412,8 @@
 - (void)testInterstitialFailWhenRootViewControllerIsNil {
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:nil
                                                            viewController:nil
-                                                              application:nil];
+                                                              application:nil
+                                                               isAdLoaded:NO];
     id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
     NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidParameter
                                         description:@"rootViewController parameter must not be null."];
@@ -380,7 +438,8 @@
     OCMStub(mockInterstitialVC.webView.navigationDelegate).andReturn(nil);
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:nil
                                                                viewController:mockInterstitialVC
-                                                                  application:nil];
+                                                                  application:nil
+                                                               isAdLoaded:NO];
     id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
     NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidRequest
                                         description:@"An Ad is already being presented."];
@@ -408,7 +467,8 @@
     OCMStub(mockInterstitialVC.webView).andReturn(nil);
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:nil
                                                            viewController:mockInterstitialVC
-                                                              application:nil];
+                                                              application:nil
+                                                               isAdLoaded:NO];
     id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
     NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidRequest
                                                  description:@"Interstitial Ad is not loaded."];
@@ -431,5 +491,41 @@
     [self waitForExpectations:@[adNotLoadedExpectation]
                       timeout:5];
 }
+
+- (void)testInterstitialFailWhenNoHttpResponse {
+    Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    WKWebView *realWebView = [WKWebView new];
+    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:realWebView
+                                                                                                      view:nil
+                                                                                              interstitial:nil];
+    CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
+                                                           viewController:interstitialVC
+                                                              application:nil
+                                                               isAdLoaded:NO];
+
+    id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
+    OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
+                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedAdUnit]);
+
+    OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn([self bidWithDisplayURL:@""]);
+
+    id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
+    interstitial.delegate = mockInterstitialDelegate;
+    OCMStub([mockInterstitialDelegate interstitial:interstitial didFailToLoadAdWithError:[OCMArg any]]);
+    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNetworkError];
+
+    XCTestExpectation *interstitialNoHttpResponseExpectation = [self expectationWithDescription:@"InterstitialDidFail delegate method called"];
+    [NSTimer scheduledTimerWithTimeInterval:3
+                                    repeats:NO
+                                      block:^(NSTimer * _Nonnull timer) {
+                                          XCTAssertFalse(interstitial.isAdLoaded);
+                                          OCMVerify([mockInterstitialDelegate interstitial:interstitial
+                                                                  didFailToLoadAdWithError:expectedError]);
+                                          [interstitialNoHttpResponseExpectation fulfill];
+                                      }];
+    [interstitial loadAd:@"123"];
+    [self waitForExpectations:@[interstitialNoHttpResponseExpectation] timeout:5];
+}
+
 
 @end

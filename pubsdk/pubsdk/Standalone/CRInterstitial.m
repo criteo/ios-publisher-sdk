@@ -18,8 +18,8 @@
 @import WebKit;
 
 @interface CRInterstitial() <WKNavigationDelegate>
-
 @property (nonatomic, readwrite) BOOL isAdLoaded;
+@property (nonatomic) BOOL isResponseValid;
 @property (nonatomic, strong) Criteo *criteo;
 @property (nonatomic, strong) CR_InterstitialViewController *viewController;
 @property (nonatomic, weak) UIApplication *application;
@@ -30,12 +30,14 @@
 
 - (instancetype)initWithCriteo:(Criteo *)criteo
                 viewController:(CR_InterstitialViewController *)viewController
-                   application:(UIApplication *)application{
+                   application:(UIApplication *)application
+                    isAdLoaded:(BOOL)isAdLoaded {
     if(self = [super init]) {
         _criteo = criteo;
         viewController.webView.navigationDelegate = self;
         _viewController = viewController;
         _application = application;
+        _isAdLoaded = isAdLoaded;
     }
     return self;
 }
@@ -43,12 +45,15 @@
 - (instancetype)init {
     return [self initWithCriteo:[Criteo sharedCriteo]
                  viewController:[[CR_InterstitialViewController alloc] initWithWebView:[WKWebView new]
+                                                                                  view:nil
                                                                           interstitial:self]
-                    application:[UIApplication sharedApplication]];
+                    application:[UIApplication sharedApplication]
+                     isAdLoaded:NO];
 }
 
 - (void)loadAd:(NSString *)adUnitId {
     self.isAdLoaded = NO;
+    self.isResponseValid = NO;
     CR_CacheAdUnit *adUnit = [CR_AdUnitHelper interstitialCacheAdUnitForAdUnitId:adUnitId
                                                                      screenSize:[[CR_DeviceInfo new] screenSize]] ;
     CR_CdbBid *bid = [self.criteo getBid:adUnit];
@@ -77,12 +82,22 @@
 
 -     (void)webView:(WKWebView *)webView
 didFinishNavigation:(WKNavigation *)navigation {
-    self.isAdLoaded = YES;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if([self.delegate respondsToSelector:@selector(interstitialDidLoadAd:)]) {
-            [self.delegate interstitialDidLoadAd:self];
-        }
-    });
+    if(self.isResponseValid) {
+        self.isAdLoaded = YES;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if([self.delegate respondsToSelector:@selector(interstitialDidLoadAd:)]) {
+                [self.delegate interstitialDidLoadAd:self];
+            }
+        });
+    }
+    else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
+                [self.delegate interstitial:self
+                   didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeNetworkError]];
+            }
+        });
+    }
 }
 
 - (void)presentFromRootViewController:(UIViewController *)rootViewController {
@@ -183,6 +198,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     if([navigationResponse.response isKindOfClass:[NSHTTPURLResponse class]]) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)navigationResponse.response;
         if(httpResponse.statusCode >= 400) {
+            self.isResponseValid = NO;
             dispatch_async(dispatch_get_main_queue(), ^{
                 if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
                     [self.delegate interstitial:self
@@ -190,7 +206,11 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
                 }
             });
         }
+        else {
+            self.isResponseValid = YES;
+        }
     }
-    decisionHandler(WKNavigationResponsePolicyAllow);}
+    decisionHandler(WKNavigationResponsePolicyAllow);
+}
 
 @end

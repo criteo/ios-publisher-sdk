@@ -14,6 +14,7 @@
 @implementation CR_InterstitialViewController
 
 - (instancetype)initWithWebView:(WKWebView *)webView
+                           view:(UIView *)view
                    interstitial:(CRInterstitial *)interstitial {
     if(self = [super init]) {
         webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -21,6 +22,9 @@
         webView.frame = [UIScreen mainScreen].bounds;
         _webView = webView;
         _interstitial = interstitial;
+        if(view) {
+            self.view = view;
+        }
     }
     return self;
 }

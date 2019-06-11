@@ -18,6 +18,7 @@
 
 
 @interface CRBannerView() <WKNavigationDelegate>
+@property (nonatomic) BOOL isResponseValid;
 @property (nonatomic, strong) Criteo *criteo;
 @property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, weak) UIApplication *application;
@@ -50,6 +51,7 @@
 }
 
 - (void)loadAd:(NSString *)adUnitId {
+    self.isResponseValid = NO;
     CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:adUnitId
                                                      size:self.frame.size];
     CR_CdbBid *bid = [self.criteo getBid:adUnit];
@@ -77,11 +79,21 @@
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if([self.delegate respondsToSelector:@selector(bannerDidLoad:)]) {
-            [self.delegate bannerDidLoad:self];
-        }
-    });
+    if(self.isResponseValid) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if([self.delegate respondsToSelector:@selector(bannerDidLoad:)]) {
+                [self.delegate bannerDidLoad:self];
+            }
+        });
+    }
+    else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if([self.delegate respondsToSelector:@selector(banner:didFailToLoadAdWithError:)]) {
+                [self.delegate banner:self
+             didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeNetworkError]];
+            }
+        });
+    }
 }
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
@@ -126,12 +138,16 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     if([navigationResponse.response isKindOfClass:[NSHTTPURLResponse class]]) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)navigationResponse.response;
         if(httpResponse.statusCode >= 400) {
+            self.isResponseValid = NO;
             dispatch_async(dispatch_get_main_queue(), ^{
                 if([self.delegate respondsToSelector:@selector(banner:didFailToLoadAdWithError:)]) {
                     [self.delegate banner:self
                                        didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeNetworkError]];
                 }
             });
+        }
+        else {
+            self.isResponseValid = YES;
         }
     }
     decisionHandler(WKNavigationResponsePolicyAllow);
