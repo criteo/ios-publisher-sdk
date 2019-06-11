@@ -19,13 +19,13 @@
 }
 
 - (void) initSlots: (NSArray *) slots {
-    for(CRCacheAdUnit *slot in slots) {
+    for(CR_CacheAdUnit *slot in slots) {
         _bidCache[slot] = [CR_CdbBid emptyBid];
     }
 }
 
 - (void) setBid: (CR_CdbBid *) bid
-      forAdUnit: (CRCacheAdUnit *) adUnit {
+      forAdUnit: (CR_CacheAdUnit *) adUnit {
     @synchronized (_bidCache) {
         if(adUnit) {
             _bidCache[adUnit] = bid;
@@ -35,12 +35,12 @@
     }
 }
 
-- (CR_CdbBid *) getBidForAdUnit: (CRCacheAdUnit *) adUnit {
+- (CR_CdbBid *) getBidForAdUnit: (CR_CacheAdUnit *) adUnit {
     CR_CdbBid *bid = [_bidCache objectForKey:adUnit];
     return bid;
 }
 
-- (void) removeBidForAdUnit: (CRCacheAdUnit *) adUnit {
+- (void) removeBidForAdUnit: (CR_CacheAdUnit *) adUnit {
     _bidCache[adUnit] = nil;
 }
 

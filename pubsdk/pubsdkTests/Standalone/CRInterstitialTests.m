@@ -11,16 +11,17 @@
 #import "CR_BidManager.h"
 #import "Criteo.h"
 #import "Criteo+Internal.h"
-#import "CRCacheAdUnit.h"
+#import "CR_CacheAdUnit.h"
 #import "CRInterstitial.h"
 #import "CRInterstitial+Internal.h"
 #import "MockWKWebView.h"
 #import "CR_InterstitialViewController.h"
+#import "CR_AdUnitHelper.h"
 
 @interface CRInterstitialTests : XCTestCase
 {
     CR_CdbBid *_bid;
-    CRCacheAdUnit *_adUnit;
+    CR_CacheAdUnit *_adUnit;
 }
 @end
 
@@ -47,10 +48,10 @@
     return _bid;
 }
 
-- (CRCacheAdUnit *)expectedAdUnit {
+- (CR_CacheAdUnit *)expectedAdUnit {
     if(!_adUnit) {
-        _adUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"123"
-                                                size:[UIScreen mainScreen].bounds.size];
+        _adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
+                                                     size:CGSizeMake(320.0, 480.0)];
     }
     return _adUnit;
 }
@@ -66,6 +67,10 @@
     NSString *displayURL = @"https://rdi.eu.criteo.com/delivery/r/ajs.php?did=5c98e9d9c574a3589f8e9465fce67b00&u=%7Cx8O2jgV2RMISbZvm2b09FrpmynuoN27jeqtp1aMfZdU%3D%7C&c1=oP5_e7JVVt0EkjVehxP6aIOIWS-fm2fzhyMXUboeuR1zkGydE3HlloxT1QAbHNNgeH7t9e1IR6mv0biMxm46ZSFdAXZXreJVeP6QwU8IPLUsA32HNafhqgpnKTwmx9RrrJm4CS5Wqj07vNY7UTgDei8AWqc5CGPT2wm7W02JRvgN2kA-oWbWifmmm6EPpqVZijDHDzXwaNgzrfsaEodEmYAjFepGF0mdElHoFUCPKuOtc7mUQijLG0BSS9RhwrCTcAv42KkEQ359Et_eDnQcSt9OAF3bL64QIvLQxt2ekYFNuv3zng03qL0DIHS2bDJwRb3ieUlvZCWHI49OqM5PqoGDpSzdhdwfTE18L6cOOVKqPQ0dPofN4dkSs9IbVGiYlPnjfibL88PwTspYvki2svidSDIa2agQMHVgEof8YY4x4VgPjA8XY-s93ttw_i-RN3lcQn2mGEp6FYmRsyjFEDxHgGfJ0j6U";
 
     CR_CdbBid *bid = [self bidWithDisplayURL:displayURL];
+
+    id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
+    OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
+                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedAdUnit]);
 
     OCMExpect([mockCriteo getBid:[self expectedAdUnit]]).andReturn(bid);
 
@@ -102,6 +107,10 @@
 
     CR_CdbBid *bid = [self bidWithDisplayURL:@""];
 
+    id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
+    OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
+                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedAdUnit]);
+
     OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn(bid);
     [interstitial loadAd:@"123"];
     OCMVerify([mockCriteo getBid:[self expectedAdUnit]]);
@@ -119,6 +128,10 @@
                                                               application:nil];
 
     CR_CdbBid *bid = [self bidWithDisplayURL:@""];
+
+    id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
+    OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
+                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedAdUnit]);
 
     XCTestExpectation __block *marginExpectation = [self expectationWithDescription:@"WebView body has 0px margin"];
     XCTestExpectation __block *paddingExpectation = [self expectationWithDescription:@"WebView body has 0px padding"];
@@ -144,7 +157,7 @@
                                               [realWebView evaluateJavaScript:@"document.querySelector('meta[name=viewport]').getAttribute('content')"
                                                             completionHandler:^(id _Nullable result, NSError * _Nullable error) {
                                                                 XCTAssertNil(error);
-                                                                CGFloat width = [UIScreen mainScreen].bounds.size.width;
+                                                                CGFloat width = [self expectedAdUnit].size.width;
                                                                 NSString *searchString = [NSString stringWithFormat:@"width=%tu",(NSUInteger)width];
                                                                 XCTAssertTrue([(NSString *)result containsString:searchString]);
                                                                 [viewportExpectation fulfill];
@@ -167,6 +180,10 @@
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
                                                             application:nil];
+
+    id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
+    OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
+                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedAdUnit]);
 
     OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn(nil);
     [interstitial loadAd:@"123"];

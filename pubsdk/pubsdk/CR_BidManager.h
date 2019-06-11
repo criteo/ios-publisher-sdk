@@ -11,7 +11,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "CRCacheAdUnit.h"
+#import "CR_CacheAdUnit.h"
 #import "CR_ApiHandler.h"
 #import "CR_CacheManager.h"
 #import "CR_Config.h"
@@ -40,16 +40,16 @@
 NS_DESIGNATED_INITIALIZER;
 
 
-- (void) setSlots: (NSArray<CRCacheAdUnit*> *) slots;
+- (void) setSlots: (NSArray<CR_CacheAdUnit*> *) slots;
 
-- (NSDictionary *) getBids: (NSArray<CRCacheAdUnit*> *) slots;
+- (NSDictionary *) getBids: (NSArray<CR_CacheAdUnit*> *) slots;
 
-- (CR_CdbBid *) getBid: (CRCacheAdUnit *) slot;
+- (CR_CdbBid *) getBid: (CR_CacheAdUnit *) slot;
 
-- (void) prefetchBid: (CRCacheAdUnit *) slotId;
+- (void) prefetchBid: (CR_CacheAdUnit *) slotId;
 
 - (void) addCriteoBidToRequest:(id) adRequest
-                     forAdUnit:(CRCacheAdUnit *) adUnit;
+                     forAdUnit:(CR_CacheAdUnit *) adUnit;
 
 @end
 

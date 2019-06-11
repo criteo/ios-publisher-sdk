@@ -1,18 +1,18 @@
 //
-//  CRCacheAdUnit.h
+//  CR_CacheAdUnit.h
 //  Criteo Publisher Sdk
 //
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#ifndef CRCacheAdUnit_h
-#define CRCacheAdUnit_h
+#ifndef CR_CacheAdUnit_h
+#define CR_CacheAdUnit_h
 
 #import <Foundation/Foundation.h>
 #include <CoreGraphics/CoreGraphics.h>
 
 NS_ASSUME_NONNULL_BEGIN
-@interface CRCacheAdUnit : NSObject <NSCopying>
+@interface CR_CacheAdUnit : NSObject <NSCopying>
 
 @property (readonly, nonatomic) NSString *adUnitId;
 @property (readonly, nonatomic) CGSize size;
@@ -37,4 +37,4 @@ NS_DESIGNATED_INITIALIZER;
 @end
 NS_ASSUME_NONNULL_END
 
-#endif /* CRCacheAdUnit_h */
+#endif /* CR_CacheAdUnit_h */

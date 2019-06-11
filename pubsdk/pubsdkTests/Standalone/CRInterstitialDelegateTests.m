@@ -16,10 +16,11 @@
 #import "CRInterstitialDelegate.h"
 #import "CR_CdbBid.h"
 #import "NSError+CRErrors.h"
+#import "CR_AdUnitHelper.h"
 
 @interface CRInterstitialDelegateTests : XCTestCase
 {
-    CRCacheAdUnit *adUnit;
+    CR_CacheAdUnit *adUnit;
     CR_CdbBid *bid;
 }
 @end
@@ -47,10 +48,10 @@
     return bid;
 }
 
-- (CRCacheAdUnit *)expectedAdUnit {
+- (CR_CacheAdUnit *)expectedAdUnit {
     if(!adUnit) {
-        adUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:@"123"
-                                                size:[UIScreen mainScreen].bounds.size];
+        adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
+                                                    size:CGSizeMake(320.0, 480.0)];
     }
     return adUnit;
 }
@@ -64,6 +65,10 @@
                                                            viewController:interstitialVC
                                                               application:nil];
     OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn([self expectedBid]);
+
+    id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
+    OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
+                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedAdUnit]);
 
     id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
     interstitial.delegate = mockInterstitialDelegate;
@@ -95,6 +100,10 @@
     interstitial.delegate = mockInterstitialDelegate;
     OCMStub([mockInterstitialDelegate interstitial:interstitial
                           didFailToLoadAdWithError:[OCMArg any]]);
+
+    id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
+    OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
+                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedAdUnit]);
 
     XCTestExpectation *interstitialAdFetchFailExpectation = [self expectationWithDescription:@"interstitialDidFail delegate method called"];
     [interstitial loadAd:@"123"];

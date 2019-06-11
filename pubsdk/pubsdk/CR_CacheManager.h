@@ -11,20 +11,20 @@
 
 #import <Foundation/Foundation.h>
 #import "CR_CdbBid.h"
-#import "CRCacheAdUnit.h"
+#import "CR_CacheAdUnit.h"
 
 @interface CR_CacheManager : NSObject
 
-@property (nonatomic, strong) NSMutableDictionary<CRCacheAdUnit *, CR_CdbBid *> *bidCache;
+@property (nonatomic, strong) NSMutableDictionary<CR_CacheAdUnit *, CR_CdbBid *> *bidCache;
 
-- (void) initSlots: (NSArray<CRCacheAdUnit*> *) slotIds;
+- (void) initSlots: (NSArray<CR_CacheAdUnit*> *) slotIds;
 
 - (void) setBid: (CR_CdbBid *) bid
-      forAdUnit: (CRCacheAdUnit *) adUnit;
+      forAdUnit: (CR_CacheAdUnit *) adUnit;
 
-- (CR_CdbBid *) getBidForAdUnit: (CRCacheAdUnit *) adUnit;
+- (CR_CdbBid *) getBidForAdUnit: (CR_CacheAdUnit *) adUnit;
 
-- (void) removeBidForAdUnit: (CRCacheAdUnit *) adUnit;
+- (void) removeBidForAdUnit: (CR_CacheAdUnit *) adUnit;
 
 @end
 

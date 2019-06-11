@@ -10,7 +10,7 @@
 #import <OCMock.h>
 #import <XCTest/XCTest.h>
 
-#import "CRCacheAdUnit.h"
+#import "CR_CacheAdUnit.h"
 #import "CR_CdbBid.h"
 #import "CR_Config.h"
 #import "Logging.h"
@@ -34,7 +34,7 @@
     //NSNumber *zoneId = @(497747);
     NSUInteger width = 300;
     NSUInteger height = 250;
-    CRCacheAdUnit *adUnit = [[CRCacheAdUnit alloc] initWithAdUnitId:placementId width:width height:height];
+    CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:placementId width:width height:height];
     
     NSString *userAgent = @"Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16B91";
     

@@ -1,14 +1,14 @@
 //
-//  CRCacheAdUnit.m
+//  CR_CacheAdUnit.m
 //  pubsdk
 //
 //  Created by Adwait Kulkarni on 1/7/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#import "CRCacheAdUnit.h"
+#import "CR_CacheAdUnit.h"
 
-@implementation CRCacheAdUnit
+@implementation CR_CacheAdUnit
 {
     NSUInteger _hash;
 }
@@ -43,15 +43,15 @@
 }
 
 - (BOOL) isEqual:(id)object {
-    if (![object isKindOfClass:[CRCacheAdUnit class]]) {
+    if (![object isKindOfClass:[CR_CacheAdUnit class]]) {
         return NO;
     }
-    CRCacheAdUnit *obj = (CRCacheAdUnit *) object;
+    CR_CacheAdUnit *obj = (CR_CacheAdUnit *) object;
     return self.hash == obj.hash;
 }
 
 - (instancetype) copyWithZone:(NSZone *)zone {
-    CRCacheAdUnit *copy = [[CRCacheAdUnit alloc] initWithAdUnitId:self.adUnitId size:self.size];
+    CR_CacheAdUnit *copy = [[CR_CacheAdUnit alloc] initWithAdUnitId:self.adUnitId size:self.size];
     return copy;
 }
 

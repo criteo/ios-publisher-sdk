@@ -20,7 +20,7 @@ static const CGSize supportedInterstitialSizes[] = {
     { .width = 640.0, .height = 360.0 }
 };
 
-+ (CGSize)interstitialSizeForCurrentScreenOrientation:(CGSize)screenSize {
++ (CGSize)closestSupportedInterstitialSize:(CGSize)screenSize {
     CGSize interstitialSize = supportedInterstitialSizes[0];
     for (int i = 0; i < ((sizeof supportedInterstitialSizes) / (sizeof supportedInterstitialSizes[0])); ++i){
         //original orientation of the device
@@ -31,39 +31,56 @@ static const CGSize supportedInterstitialSizes[] = {
     return interstitialSize;
 }
 
-+ (NSArray<CRCacheAdUnit *> *) interstitialCacheAdUnitsForAdUnit:(CRInterstitialAdUnit *)adUnit
-                                                      deviceInfo:(CR_DeviceInfo *)deviceInfo{
-    //first get the screen size
-    CGSize screenSizeCurrentOrientation = [deviceInfo screenSize];
-    // supported size check happens here
-    CGSize interstitialSizeCurrentOrientation = [CR_AdUnitHelper interstitialSizeForCurrentScreenOrientation:screenSizeCurrentOrientation];
-    CRCacheAdUnit *cacheAdUnitCurrentOrientation = [[CRCacheAdUnit alloc] initWithAdUnitId:[adUnit adUnitId] size:interstitialSizeCurrentOrientation];
-
-    CGSize screenSizeOtherOrientation = CGSizeMake(screenSizeCurrentOrientation.height, screenSizeCurrentOrientation.width);
-    CGSize interstitialSizeOtherOrientation = [CR_AdUnitHelper interstitialSizeForCurrentScreenOrientation:screenSizeOtherOrientation];
-    CRCacheAdUnit *cacheAdUnitOtherOrientation = [[CRCacheAdUnit alloc] initWithAdUnitId:[adUnit adUnitId] size:interstitialSizeOtherOrientation];
-    return @[cacheAdUnitCurrentOrientation, cacheAdUnitOtherOrientation];
-}
-
-+ (NSArray<CRCacheAdUnit *> *)cacheAdUnitsForAdUnits:(NSArray<CRAdUnit *> *)adUnits
-                                          deviceInfo:(CR_DeviceInfo *)deviceInfo{
-    NSMutableArray<CRCacheAdUnit *> *cacheAdUnits = [NSMutableArray new];
+// return an array as interstitial will return two cache adUnits for both orientations
++ (NSArray<CR_CacheAdUnit *> *)cacheAdUnitsForAdUnits:(NSArray<CRAdUnit *> *)adUnits
+                                           deviceInfo:(CR_DeviceInfo *)deviceInfo{
+    NSMutableArray<CR_CacheAdUnit *> *cacheAdUnits = [NSMutableArray new];
     for(int i = 0; i < [adUnits count]; i++) {
         switch([adUnits[i] adUnitType]) {
             case CRAdUnitTypeBanner:
-                [cacheAdUnits addObject:[[CRCacheAdUnit alloc] initWithAdUnitId:[adUnits[i] adUnitId]
-                                                                           size:[(CRBannerAdUnit *)adUnits[i] size]]];
+                [cacheAdUnits addObject:[[CR_CacheAdUnit alloc] initWithAdUnitId:adUnits[i].adUnitId
+                                                                            size:[(CRBannerAdUnit *)adUnits[i] size]]];
                 break;
             case CRAdUnitTypeInterstitial:
-                [cacheAdUnits addObjectsFromArray:[CR_AdUnitHelper interstitialCacheAdUnitsForAdUnit:(CRInterstitialAdUnit *)adUnits[i]
-                                                                                          deviceInfo:deviceInfo]];
+            {
+                CGSize currentOrientationSize = [deviceInfo screenSize];
+                [cacheAdUnits addObject:[CR_AdUnitHelper interstitialCacheAdUnitForAdUnitId:[adUnits[i] adUnitId]
+                                                                                 screenSize:currentOrientationSize]];
+                //other orientation
+                CGSize otherOrientationSize = CGSizeMake(currentOrientationSize.height, currentOrientationSize.width);
+                [cacheAdUnits addObject:[CR_AdUnitHelper interstitialCacheAdUnitForAdUnitId:[adUnits[i] adUnitId]
+                                                                                 screenSize:otherOrientationSize]];
                 break;
+            }
             default:
                 CLog(@"cacheAdUnitsFromAdUnits got an unexpected AdUnitType: %d", [adUnits[i] adUnitType]);
                 break;
         }
     }
     return [cacheAdUnits copy];
+}
+
++ (CR_CacheAdUnit *)cacheAdUnitForAdUnit:(CRAdUnit *)adUnit
+                              deviceInfo:(CR_DeviceInfo *)deviceInfo {
+    switch([adUnit adUnitType]) {
+        case CRAdUnitTypeBanner:
+            return [[CR_CacheAdUnit alloc] initWithAdUnitId:[adUnit adUnitId]
+                                                       size:[(CRBannerAdUnit *)adUnit size]];
+            break;
+        case CRAdUnitTypeInterstitial:
+            return [CR_AdUnitHelper interstitialCacheAdUnitForAdUnitId:[adUnit adUnitId]
+                                                            screenSize:[deviceInfo screenSize]];
+            break;
+        default:
+            CLog(@"cacheAdUnitsFromAdUnits got an unexpected AdUnitType: %d", [adUnit adUnitType]);
+            break;
+    }
+}
+// used by loadAd
++ (CR_CacheAdUnit *)interstitialCacheAdUnitForAdUnitId:(NSString *)adUnitId
+                                            screenSize:(CGSize)size{
+    CGSize adSize = [CR_AdUnitHelper closestSupportedInterstitialSize:size];
+    return [[CR_CacheAdUnit alloc] initWithAdUnitId:adUnitId size:adSize];
 }
 
 @end
