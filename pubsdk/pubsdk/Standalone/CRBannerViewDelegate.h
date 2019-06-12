@@ -14,7 +14,7 @@
 @protocol CRBannerViewDelegate <NSObject>
 
 @optional
-- (void)bannerDidFail:(CRBannerView *)bannerView withError:(NSError *)error;
+- (void)banner:(CRBannerView *)bannerView didFailToLoadAdWithError:(NSError *)error;
 - (void)bannerDidLoad:(CRBannerView *)bannerView;
 - (void)bannerWillLeaveApplication:(CRBannerView *)bannerView;
 

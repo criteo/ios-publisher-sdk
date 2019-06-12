@@ -19,7 +19,7 @@
 
 @interface CRInterstitial() <WKNavigationDelegate>
 
-@property (nonatomic, readwrite) BOOL isLoaded;
+@property (nonatomic, readwrite) BOOL isAdLoaded;
 @property (nonatomic, strong) Criteo *criteo;
 @property (nonatomic, strong) CR_InterstitialViewController *viewController;
 @property (nonatomic, weak) UIApplication *application;
@@ -48,7 +48,7 @@
 }
 
 - (void)loadAd:(NSString *)adUnitId {
-    self.isLoaded = NO;
+    self.isAdLoaded = NO;
     CR_CacheAdUnit *adUnit = [CR_AdUnitHelper interstitialCacheAdUnitForAdUnitId:adUnitId
                                                                      screenSize:[[CR_DeviceInfo new] screenSize]] ;
     CR_CdbBid *bid = [self.criteo getBid:adUnit];
@@ -77,7 +77,7 @@
 
 -     (void)webView:(WKWebView *)webView
 didFinishNavigation:(WKNavigation *)navigation {
-    self.isLoaded = YES;
+    self.isAdLoaded = YES;
     dispatch_async(dispatch_get_main_queue(), ^{
         if([self.delegate respondsToSelector:@selector(interstitialDidLoadAd:)]) {
             [self.delegate interstitialDidLoadAd:self];

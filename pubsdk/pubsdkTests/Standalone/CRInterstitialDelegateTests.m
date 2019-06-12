@@ -81,7 +81,7 @@
     [NSTimer scheduledTimerWithTimeInterval:2
                                     repeats:YES
                                       block:^(NSTimer * _Nonnull timer) {
-                                          if(interstitial.isLoaded) {
+                                          if(interstitial.isAdLoaded) {
                                               [timer invalidate];
                                               OCMVerify([mockInterstitialDelegate interstitialDidLoadAd:interstitial]);
                                               [interstitialDidLoadExpectation fulfill];

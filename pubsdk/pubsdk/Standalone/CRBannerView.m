@@ -55,9 +55,9 @@
     CR_CdbBid *bid = [self.criteo getBid:adUnit];
     if(bid == nil || [bid isEmpty]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            if([self.delegate respondsToSelector:@selector(bannerDidFail:withError:)]) {
-                 [self.delegate bannerDidFail:self
-                                    withError:[NSError CRErrors_errorWithCode:CRErrorCodeNoFill]];
+            if([self.delegate respondsToSelector:@selector(banner:didFailToLoadAdWithError:)]) {
+                 [self.delegate banner:self
+                                    didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeNoFill]];
             }
         });
         return;
@@ -104,9 +104,9 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 // Delegate errors that occur during web view navigation
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if([self.delegate respondsToSelector:@selector(bannerDidFail:withError:)]) {
-            [self.delegate bannerDidFail:self
-                               withError:[NSError CRErrors_errorWithCode:CRErrorCodeInternalError]];
+        if([self.delegate respondsToSelector:@selector(banner:didFailToLoadAdWithError:)]) {
+            [self.delegate banner:self
+                               didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeInternalError]];
         }
     });
 }
@@ -114,9 +114,9 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 // Delegate errors that occur while the web view is loading content.
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if([self.delegate respondsToSelector:@selector(bannerDidFail:withError:)]) {
-            [self.delegate bannerDidFail:self
-                               withError:[NSError CRErrors_errorWithCode:CRErrorCodeInternalError]];
+        if([self.delegate respondsToSelector:@selector(banner:didFailToLoadAdWithError:)]) {
+            [self.delegate banner:self
+                               didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeInternalError]];
         };
     });
 }
@@ -127,9 +127,9 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)navigationResponse.response;
         if(httpResponse.statusCode >= 400) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                if([self.delegate respondsToSelector:@selector(bannerDidFail:withError:)]) {
-                    [self.delegate bannerDidFail:self
-                                       withError:[NSError CRErrors_errorWithCode:CRErrorCodeNetworkError]];
+                if([self.delegate respondsToSelector:@selector(banner:didFailToLoadAdWithError:)]) {
+                    [self.delegate banner:self
+                                       didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeNetworkError]];
                 }
             });
         }

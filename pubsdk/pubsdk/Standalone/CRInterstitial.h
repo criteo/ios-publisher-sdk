@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CRInterstitial : NSObject
 
-@property (nonatomic, readonly) BOOL isLoaded;
+@property (nonatomic, readonly) BOOL isAdLoaded;
 @property (nullable, nonatomic, weak) id <CRInterstitialDelegate> delegate;
 
 - (void)loadAd:(NSString *)adUnitId;

@@ -92,7 +92,7 @@
     XCTestExpectation __block *webViewAddedToSuperviewExpectation = [self expectationWithDescription:@"WebView added to superview"];
 
     [NSTimer scheduledTimerWithTimeInterval:0.1 repeats:YES block:^(NSTimer * _Nonnull timer) {
-        if(interstitial.isLoaded) {
+        if(interstitial.isAdLoaded) {
             [timer invalidate];
             UIViewController *vc = OCMStrictClassMock([UIViewController class]);
             OCMStub([vc presentViewController:OCMArg.any animated:YES completion:[OCMArg isNotNil]]);
@@ -141,7 +141,7 @@
     [NSTimer scheduledTimerWithTimeInterval:0.1
                                     repeats:YES
                                       block:^(NSTimer * _Nonnull timer) {
-                                          if(interstitial.isLoaded) {
+                                          if(interstitial.isAdLoaded) {
                                               [timer invalidate];
                                               [realWebView evaluateJavaScript:@"window.getComputedStyle(document.getElementsByTagName('body')[0]).getPropertyValue('margin')"
                                                             completionHandler:^(id _Nullable result, NSError * _Nullable error) {
