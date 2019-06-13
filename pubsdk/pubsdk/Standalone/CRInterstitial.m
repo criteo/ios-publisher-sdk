@@ -52,7 +52,7 @@
     CR_CacheAdUnit *adUnit = [CR_AdUnitHelper interstitialCacheAdUnitForAdUnitId:adUnitId
                                                                      screenSize:[[CR_DeviceInfo new] screenSize]] ;
     CR_CdbBid *bid = [self.criteo getBid:adUnit];
-    if(bid == nil || [bid isEmpty]) {
+    if([bid isEmpty]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
                 [self.delegate interstitial:self
@@ -109,6 +109,19 @@ didFinishNavigation:(WKNavigation *)navigation {
         });
         return;
     }
+
+    if(!self.isAdLoaded) {
+        // Ad not loaded
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
+                [self.delegate interstitial:self
+                   didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeInvalidRequest
+                                                                description:@"Interstitial Ad is not loaded."]];
+            }
+        });
+        return;
+    }
+
     dispatch_async(dispatch_get_main_queue(), ^{
         if([self.delegate respondsToSelector:@selector(interstitialWillAppear:)]) {
             [self.delegate interstitialWillAppear:self];
