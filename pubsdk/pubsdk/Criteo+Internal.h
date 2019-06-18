@@ -11,6 +11,8 @@
 
 #import "CR_NetworkManagerDelegate.h"
 #import "CR_CacheAdUnit.h"
+#import "Criteo.h"
+
 @class CR_CdbBid;
 @interface Criteo ()
 
