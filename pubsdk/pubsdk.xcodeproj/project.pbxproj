@@ -435,8 +435,7 @@
 				53CA0F7A22AAE1D10098F96C /* CRBidResponse.m */,
 				53374B7C22AED93A007084FB /* CRBidResponse+Internal.h */,
 			);
-			name = InHouseMediation;
-			path = ../InHouseMediation;
+			path = InHouseMediation;
 			sourceTree = "<group>";
 		};
 		545A39F822A8818000648957 /* InHouseMediation */ = {
