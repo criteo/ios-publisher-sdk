@@ -7,6 +7,7 @@
 //
 
 #import "CR_InterstitialViewController.h"
+#import "CRInterstitial+Internal.h"
 
 @interface CR_InterstitialViewController ()
 @end
@@ -17,16 +18,28 @@
                            view:(UIView *)view
                    interstitial:(CRInterstitial *)interstitial {
     if(self = [super init]) {
-        webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        webView.scrollView.scrollEnabled = false;
-        webView.frame = [UIScreen mainScreen].bounds;
         _webView = webView;
+        [self setUpWebView];
         _interstitial = interstitial;
         if(view) {
             self.view = view;
         }
     }
     return self;
+}
+
+- (void)setUpWebView {
+    _webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    _webView.scrollView.scrollEnabled = false;
+    _webView.frame = [UIScreen mainScreen].bounds;
+    _webView.navigationDelegate = self.interstitial;
+}
+
+- (void)initWebViewIfNeeded {
+    if(!_webView) {
+        _webView = [WKWebView new];
+        [self setUpWebView];
+    }
 }
 
 - (void)viewDidLoad {
@@ -84,11 +97,22 @@
     [self.presentingViewController dismissViewControllerAnimated:YES
                                                       completion:^{
                                                           dispatch_async(dispatch_get_main_queue(), ^{
+                                                              [self releaseWebView];
                                                               if([self.interstitial.delegate respondsToSelector:@selector(interstitialDidDisappear:)]) {
                                                                   [self.interstitial.delegate interstitialDidDisappear:self.interstitial];
                                                               }
                                                           });
                                                       }];
+}
+
+- (void)releaseWebView {
+    [self.closeButton removeFromSuperview];
+    [self setCloseButton:nil];
+    [self.webView stopLoading];
+    [self.webView removeFromSuperview];
+    [self.webView setNavigationDelegate:nil];
+    [self setWebView:nil];
+    [self.interstitial setIsAdLoaded:NO];
 }
 
 - (void)applySafeAreaConstraintsToWebView:(WKWebView *)webView {

@@ -73,6 +73,10 @@
                                                                                 block:^(NSTimer * _Nonnull timer) {
                                                                                     if(vc && !vc.presentedViewController) {
                                                                                         [timer invalidate];
+                                                                                        XCTAssertNil(interstitialVC.webView);
+                                                                                        XCTAssertNil(interstitialVC.closeButton);
+                                                                                        XCTAssertEqual([interstitialVC.view subviews].count, 0);
+                                                                                        XCTAssertFalse([interstitial isAdLoaded]);
                                                                                         [vcDismissedExpectation fulfill];
                                                                                     }
                                                                                 }];

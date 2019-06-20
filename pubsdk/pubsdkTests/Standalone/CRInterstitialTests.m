@@ -66,7 +66,7 @@
                                                            viewController:interstitialVC
                                                               application:nil
                                                                isAdLoaded:NO];
-    
+
     id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
     OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
                                                       screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedAdUnit]);
@@ -112,7 +112,7 @@
                                                                isAdLoaded:NO];
 
     CR_CdbBid *bid = [self bidWithDisplayURL:@"test"];
-    
+
     id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
     OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
                                                       screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedAdUnit]);
@@ -162,12 +162,12 @@
                                                            viewController:interstitialVC
                                                             application:nil
                                                                isAdLoaded:NO];
-    
+
     id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
     OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
                                                       screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedAdUnit]);
 
-    OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn(nil);
+    OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn([CR_CdbBid emptyBid]);
     OCMStub([interstitialVC presentingViewController]).andReturn(nil);
     [interstitial loadAd:@"123"];
     OCMVerify([mockCriteo getBid:[self expectedAdUnit]]);

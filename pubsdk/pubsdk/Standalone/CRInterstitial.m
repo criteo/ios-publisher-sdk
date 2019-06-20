@@ -6,12 +6,11 @@
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
+#import "Criteo+Internal.h"
 #import "CRInterstitial.h"
 #import "CRInterstitial+Internal.h"
 #import "Criteo.h"
 #import "CR_CdbBid.h"
-#import "Criteo+Internal.h"
-#import "CR_InterstitialViewController.h"
 #import "NSError+CRErrors.h"
 #import "CR_CacheAdUnit.h"
 #import "CR_AdUnitHelper.h"
@@ -83,6 +82,7 @@
         self.isAdLoading = NO;
         return;
     }
+    [self.viewController initWebViewIfNeeded];
     NSString *htmlString = [NSString stringWithFormat:@"<!doctype html>"
                             "<html>"
                             "<head>"

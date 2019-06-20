@@ -14,14 +14,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_InterstitialViewController : UIViewController
 
-@property (nonatomic, strong) WKWebView *webView;
-@property (nonatomic, strong) UIButton *closeButton;
+@property (nonatomic, strong, nullable) WKWebView *webView;
+@property (nonatomic, strong, nullable) UIButton *closeButton;
 @property (nonatomic, weak) CRInterstitial *interstitial;
 
 - (instancetype)initWithWebView:(WKWebView *)webView
                            view:(UIView *)view
                    interstitial:(CRInterstitial *)interstitial;
 - (void)dismissViewController;
+- (void)initWebViewIfNeeded;
 
 @end
 
