@@ -13,7 +13,13 @@
 @import WebKit;
 #import "CR_InterstitialViewController.h"
 
-@interface CRInterstitial (Internal)
+@interface CRInterstitial () <WKNavigationDelegate>
+@property (nonatomic) BOOL isAdLoading;
+@property (nonatomic, readwrite) BOOL isAdLoaded;
+@property (nonatomic) BOOL isResponseValid;
+@property (nonatomic, strong) Criteo *criteo;
+@property (nonatomic, strong) CR_InterstitialViewController *viewController;
+@property (nonatomic, weak) UIApplication *application;
 
 - (instancetype)initWithCriteo:(Criteo *)criteo
                 viewController:(CR_InterstitialViewController *)viewController

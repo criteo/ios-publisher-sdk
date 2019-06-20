@@ -168,6 +168,7 @@
                                                       screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedAdUnit]);
 
     OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn(nil);
+    OCMStub([interstitialVC presentingViewController]).andReturn(nil);
     [interstitial loadAd:@"123"];
     OCMVerify([mockCriteo getBid:[self expectedAdUnit]]);
 }

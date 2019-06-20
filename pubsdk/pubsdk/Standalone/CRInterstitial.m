@@ -7,6 +7,7 @@
 //
 
 #import "CRInterstitial.h"
+#import "CRInterstitial+Internal.h"
 #import "Criteo.h"
 #import "CR_CdbBid.h"
 #import "Criteo+Internal.h"
@@ -16,15 +17,6 @@
 #import "CR_AdUnitHelper.h"
 
 @import WebKit;
-
-@interface CRInterstitial() <WKNavigationDelegate>
-@property (nonatomic, readwrite) BOOL isAdLoaded;
-@property (nonatomic) BOOL isResponseValid;
-@property (nonatomic, strong) Criteo *criteo;
-@property (nonatomic, strong) CR_InterstitialViewController *viewController;
-@property (nonatomic, weak) UIApplication *application;
-
-@end
 
 @implementation CRInterstitial
 
@@ -52,6 +44,30 @@
 }
 
 - (void)loadAd:(NSString *)adUnitId {
+    if(self.isAdLoading) {
+        // Already loading
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
+                [self.delegate interstitial:self
+                   didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeInvalidRequest
+                                                                description:@"An Ad is already being loaded."]];
+            }
+        });
+        return;
+    }
+    if(self.viewController.presentingViewController) {
+        // Already presenting
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
+                [self.delegate interstitial:self
+                   didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeInvalidRequest
+                                                                description:@"Ad cannot load as another is already being presented."]];
+            }
+        });
+        return;
+    }
+
+    self.isAdLoading = YES;
     self.isAdLoaded = NO;
     self.isResponseValid = NO;
     CR_CacheAdUnit *adUnit = [CR_AdUnitHelper interstitialCacheAdUnitForAdUnitId:adUnitId
@@ -64,6 +80,7 @@
                    didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeNoFill]];
             }
         });
+        self.isAdLoading = NO;
         return;
     }
     NSString *htmlString = [NSString stringWithFormat:@"<!doctype html>"
@@ -82,6 +99,7 @@
 
 -     (void)webView:(WKWebView *)webView
 didFinishNavigation:(WKNavigation *)navigation {
+    self.isAdLoading = NO;
     if(self.isResponseValid) {
         self.isAdLoaded = YES;
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -175,6 +193,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 
 // Delegate errors that occur during web view navigation
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+    self.isAdLoading = NO;
     dispatch_async(dispatch_get_main_queue(), ^{
         if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
             [self.delegate interstitial:self
@@ -185,6 +204,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 
 // Delegate errors that occur while the web view is loading content.
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+    self.isAdLoading = NO;
     dispatch_async(dispatch_get_main_queue(), ^{
         if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
             [self.delegate interstitial:self
@@ -199,6 +219,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)navigationResponse.response;
         if(httpResponse.statusCode >= 400) {
             self.isResponseValid = NO;
+            self.isAdLoading = NO;
             dispatch_async(dispatch_get_main_queue(), ^{
                 if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
                     [self.delegate interstitial:self

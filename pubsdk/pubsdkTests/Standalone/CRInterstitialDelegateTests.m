@@ -435,7 +435,7 @@
 
 - (void)testInterstitialFailWhenAdIsBeingPresented {
     CR_InterstitialViewController *mockInterstitialVC = OCMStrictClassMock([CR_InterstitialViewController class]);
-    OCMStub(mockInterstitialVC.webView.navigationDelegate).andReturn(nil);
+    OCMStub(mockInterstitialVC.webView).andReturn(nil);
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:nil
                                                                viewController:mockInterstitialVC
                                                                   application:nil
@@ -502,11 +502,9 @@
                                                            viewController:interstitialVC
                                                               application:nil
                                                                isAdLoaded:NO];
-
     id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
     OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
                                                       screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedAdUnit]);
-
     OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn([self bidWithDisplayURL:@""]);
 
     id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
@@ -527,5 +525,50 @@
     [self waitForExpectations:@[interstitialNoHttpResponseExpectation] timeout:5];
 }
 
+- (void)testInterstitialFailWhenAdIsBeingLoaded {
+    Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    WKWebView *realWebView = [WKWebView new];
+    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:realWebView
+                                                                                                      view:nil
+                                                                                              interstitial:nil];
+    CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
+                                                           viewController:interstitialVC
+                                                              application:nil
+                                                               isAdLoaded:NO];
+    id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
+    OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
+                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedAdUnit]);
+    OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn([self bidWithDisplayURL:@"test"]);
+    id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
+    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidRequest
+                                                 description:@"An Ad is already being loaded."];
+    interstitial.delegate = mockInterstitialDelegate;
+    OCMExpect([mockInterstitialDelegate interstitial:interstitial
+                          didFailToLoadAdWithError:expectedError]);
+
+    [interstitial loadAd:@"123"];
+    XCTAssertTrue([interstitial isAdLoading]);
+    [interstitial loadAd:@"123"];
+    OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
+}
+
+- (void)testInterstitialLoadFailWhenAdIsBeingPresented {
+    CR_InterstitialViewController *mockInterstitialVC = OCMStrictClassMock([CR_InterstitialViewController class]);
+    OCMStub(mockInterstitialVC.webView).andReturn(nil);
+    CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:nil
+                                                           viewController:mockInterstitialVC
+                                                              application:nil
+                                                               isAdLoaded:NO];
+    id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
+    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidRequest
+                                                 description:@"Ad cannot load as another is already being presented."];
+    interstitial.delegate = mockInterstitialDelegate;
+    OCMStub([mockInterstitialDelegate interstitial:interstitial
+                          didFailToLoadAdWithError:expectedError]);
+
+    OCMStub([mockInterstitialVC presentingViewController]).andReturn([UIViewController new]);
+    [interstitial loadAd:@"123"];
+    OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
+}
 
 @end
