@@ -35,6 +35,10 @@
     [self.webView layoutIfNeeded];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [self dispatchTimerForDismiss:7.0];
+}
+
 - (void)initCloseButton {
     self.closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.closeButton addTarget:self action:@selector(dismissViewController) forControlEvents:UIControlEventTouchUpInside];
@@ -103,6 +107,15 @@
     NSLayoutConstraint *leftConstraint = [NSLayoutConstraint constraintWithItem:closeButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.webView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
 
     [NSLayoutConstraint activateConstraints:@[widthConstraint, heightConstraint, topConstraint, leftConstraint]];
+}
+
+- (void)dispatchTimerForDismiss:(double) timeInSeconds {
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timeInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        if ([self presentingViewController]){
+            [self dismissViewController];
+        }
+    });
 }
 
 @end

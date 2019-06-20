@@ -129,4 +129,39 @@
                       timeout:5];
 }
 
+- (void)testDismissAfterSevenSeconds {
+    UIWindow __block *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+    [window makeKeyAndVisible];
+    MockWKWebView *mockWebView = [MockWKWebView new];
+
+    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView interstitial:nil];
+
+    CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:nil
+                                                           viewController:interstitialVC
+                                                              application:nil];
+    XCTestExpectation __block *vcDismissedExpectation = [self expectationWithDescription:@"View Controller dismissed after seven seconds"];
+    UIViewController *vc = [UIViewController new];
+    window.rootViewController = vc;
+    [interstitial presentFromRootViewController:vc];
+
+    //8.5 seconds alloted for the view to display and automatically close itself.
+    NSDate *start = [NSDate date];
+    [NSTimer scheduledTimerWithTimeInterval:0.1
+                                    repeats:YES
+                                      block:^(NSTimer * _Nonnull timer) {
+                                          if(vc && !vc.presentedViewController) {
+                                              [timer invalidate];
+                                              [vcDismissedExpectation fulfill];
+                                              NSDate * finish = [NSDate date];
+                                              NSTimeInterval interstitialLifeTime = [finish timeIntervalSinceDate:start];
+                                              NSLog(@"Interstitial lifetime was %f", interstitialLifeTime);
+                                              XCTAssertTrue(interstitialLifeTime < 8.5 && interstitialLifeTime > 7.0);
+                                          }
+                                      }
+     ];
+
+    [self waitForExpectations:@[vcDismissedExpectation]
+                      timeout:9];
+}
+
 @end
