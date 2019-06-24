@@ -12,6 +12,7 @@
 #import "Criteo+Internal.h"
 #import "CR_BidManager.h"
 #import "NSError+CRErrors.h"
+#import "CR_TokenValue.h"
 
 //TODO check import strategy
 @import WebKit;
@@ -50,20 +51,7 @@
     return self;
 }
 
-- (void)loadAd:(NSString *)adUnitId {
-    self.isResponseValid = NO;
-    CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:adUnitId
-                                                     size:self.frame.size];
-    CR_CdbBid *bid = [self.criteo getBid:adUnit];
-    if([bid isEmpty]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if([self.delegate respondsToSelector:@selector(banner:didFailToLoadAdWithError:)]) {
-                 [self.delegate banner:self
-                                    didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeNoFill]];
-            }
-        });
-        return;
-    }
+- (void)loadWebViewWithDisplayUrl:(NSString *)displayUrl {
     NSString *htmlString = [NSString stringWithFormat:@"<!doctype html>"
                             "<html>"
                             "<head>"
@@ -74,8 +62,41 @@
                             "<body>"
                             "<script src=\"%@\"></script>"
                             "</body>"
-                            "</html>", (long)self.frame.size.width , bid.displayUrl];
+                            "</html>", (long)self.frame.size.width , displayUrl];
     [_webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"about:blank"]];
+}
+
+- (void)loadAd:(NSString *)adUnitId {
+    self.isResponseValid = NO;
+    CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:adUnitId
+                                                                 size:self.frame.size];
+    CR_CdbBid *bid = [self.criteo getBid:adUnit];
+    if([bid isEmpty]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if([self.delegate respondsToSelector:@selector(banner:didFailToLoadAdWithError:)]) {
+                 [self.delegate banner:self
+              didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeNoFill]];
+            }
+        });
+        return;
+    }
+    [self loadWebViewWithDisplayUrl:bid.displayUrl];
+}
+
+- (void)loadAdWithBidToken:(CRBidToken *)bidToken {
+    self.isResponseValid = NO;
+    CR_TokenValue *tokenValue = [self.criteo tokenValueForBidToken:bidToken
+                                                        adUnitType:CRAdUnitTypeBanner];
+    if (tokenValue == nil) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if([self.delegate respondsToSelector:@selector(banner:didFailToLoadAdWithError:)]) {
+                [self.delegate banner:self
+             didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeNoFill]];
+            }
+        });
+        return;
+    }
+    [self loadWebViewWithDisplayUrl:tokenValue.displayUrl];
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {

@@ -15,6 +15,7 @@
 #import "Criteo+Internal.h"
 #import "CR_CdbBid.h"
 #import "NSError+CRErrors.h"
+#import "CRBidToken+Internal.h"
 
 
 @interface CRBannerViewDelegateTests : XCTestCase
@@ -259,6 +260,35 @@
                                           [bannerNoHTTPResponseExpectation fulfill];
                                       }];
     [self waitForExpectations:@[bannerNoHTTPResponseExpectation]
+                      timeout:5];
+}
+
+# pragma inhouseSpecificTests
+
+- (void)testBannerFailWhenTokenNotFound {
+    Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    WKWebView *mockWebView = [WKWebView new];
+    CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
+                                                            criteo:mockCriteo
+                                                           webView:mockWebView
+                                                       application:nil];
+    CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
+    OCMStub([mockCriteo tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner]).andReturn(nil);
+    id<CRBannerViewDelegate>mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
+    bannerView.delegate = mockBannerViewDelegate;
+    OCMStub([mockBannerViewDelegate banner:bannerView
+                  didFailToLoadAdWithError:[OCMArg any]]);
+    [bannerView loadAdWithBidToken:token];
+    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNoFill];
+    XCTestExpectation *bannerAdFetchFailExpectation = [self expectationWithDescription:@"bannerDidFail due to nil tokenValue with error delegate method called"];
+    [NSTimer scheduledTimerWithTimeInterval:3
+                                    repeats:NO
+                                      block:^(NSTimer * _Nonnull timer) {
+                                          OCMVerify([mockBannerViewDelegate banner:bannerView
+                                                          didFailToLoadAdWithError:expectedError]);
+                                          [bannerAdFetchFailExpectation fulfill];
+                                      }];
+    [self waitForExpectations:@[bannerAdFetchFailExpectation]
                       timeout:5];
 }
 
