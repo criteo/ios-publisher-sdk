@@ -9,6 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "CR_TokenCache.h"
 #import "CRAdUnit+Internal.h"
+#import "CRBidToken.h"
 #import "CRBidToken+Internal.h"
 
 @interface CR_TokenCacheTests : XCTestCase

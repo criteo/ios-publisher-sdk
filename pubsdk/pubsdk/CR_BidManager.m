@@ -207,4 +207,19 @@
     }
 }
 
+- (CRBidResponse *)bidResponseForCacheAdUnit:(CR_CacheAdUnit *)cacheAdUnit
+                                  adUnitType:(CRAdUnitType)adUnitType {
+    CR_CdbBid *bid = [self getBid:cacheAdUnit];
+    if([bid isEmpty]) {
+        return [[CRBidResponse alloc]initWithPrice:0.0
+                                        bidSuccess:NO
+                                          bidToken:nil];
+    }
+    CRBidToken *bidToken = [tokenCache getTokenForBid:bid
+                                           adUnitType:adUnitType];
+    return [[CRBidResponse alloc] initWithPrice:[bid.cpm doubleValue]
+                                     bidSuccess:YES
+                                       bidToken:bidToken];
+}
+
 @end

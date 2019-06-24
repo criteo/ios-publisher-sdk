@@ -22,6 +22,7 @@
 #import "CR_NetworkManagerDelegate.h"
 #import "CR_AppEvents.h"
 #import "CR_TokenCache.h"
+#import "CRBidResponse+Internal.h"
 
 @interface CR_BidManager : NSObject
 
@@ -47,6 +48,9 @@ NS_DESIGNATED_INITIALIZER;
 - (NSDictionary *) getBids: (NSArray<CR_CacheAdUnit*> *) slots;
 
 - (CR_CdbBid *) getBid: (CR_CacheAdUnit *) slot;
+
+- (CRBidResponse *)bidResponseForCacheAdUnit:(CR_CacheAdUnit *)cacheAdUnit
+                                  adUnitType:(CRAdUnitType)adUnitType;
 
 - (void) prefetchBid: (CR_CacheAdUnit *) slotId;
 

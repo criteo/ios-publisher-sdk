@@ -103,6 +103,12 @@ static Criteo *sharedInstance;
     return bidManager;
 }
 
+- (CRBidResponse *)getBidForAdUnit:(CRAdUnit *)adUnit {
+    return [self.bidManager bidResponseForCacheAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit
+                                                                                 deviceInfo:[CR_DeviceInfo new]]
+                                           adUnitType:adUnit.adUnitType];
+}
+
 - (CR_CdbBid *)getBid:(CR_CacheAdUnit *)slot {
     // bidManager is nil when adUnit is not registered
     if(self.bidManager == nil) {

@@ -10,6 +10,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CRAdUnit.h"
+#import "CRBidResponse.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @interface Criteo : NSObject
@@ -23,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void) setBidsForRequest:(id) request
                 withAdUnit:(CRAdUnit *) adUnit;
+
+- (CRBidResponse *)getBidForAdUnit:(CRAdUnit *)adUnit;
 
 @end
 NS_ASSUME_NONNULL_END

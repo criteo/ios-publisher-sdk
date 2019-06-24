@@ -401,6 +401,76 @@
     OCMVerify([mockApiHandler callCdb:testAdUnit gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
 }
 
+- (void)testBidResponseForEmptyBid {
+    CR_TokenCache *mockTokenCache = OCMStrictClassMock([CR_TokenCache class]);
+    CR_CacheManager *mockCacheManager = OCMStrictClassMock([CR_CacheManager class]);
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
+                                                             cacheManager:mockCacheManager
+                                                               tokenCache:mockTokenCache
+                                                                   config:nil
+                                                            configManager:nil
+                                                               deviceInfo:nil
+                                                          gdprUserConsent:nil
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:0];
+
+    CR_CacheAdUnit *expectedAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
+                                                                         size:CGSizeMake(320, 50)];
+
+    CRBidResponse *expectedBidResponse = [[CRBidResponse alloc] initWithPrice:0.0
+                                                                   bidSuccess:NO
+                                                                     bidToken:nil];
+    OCMStub([mockCacheManager getBidForAdUnit:expectedAdUnit]).andReturn(nil);
+    CRBidResponse *bidResponse = [bidManager bidResponseForCacheAdUnit:expectedAdUnit
+                               adUnitType:CRAdUnitTypeBanner];
+    XCTAssertEqualWithAccuracy(expectedBidResponse.price, bidResponse.price, 0.1);
+    XCTAssertEqual(expectedBidResponse.bidToken, bidResponse.bidToken);
+    XCTAssertEqual(expectedBidResponse.bidSuccess, bidResponse.bidSuccess);
+}
+
+- (void)testBidResponseForValidBid {
+    CR_TokenCache *mockTokenCache = OCMStrictClassMock([CR_TokenCache class]);
+    CR_CacheManager *mockCacheManager = OCMStrictClassMock([CR_CacheManager class]);
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
+                                                             cacheManager:mockCacheManager
+                                                               tokenCache:mockTokenCache
+                                                                   config:nil
+                                                            configManager:nil
+                                                               deviceInfo:nil
+                                                          gdprUserConsent:nil
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:0];
+
+    CR_CacheAdUnit *expectedAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
+                                                                         size:CGSizeMake(320, 50)];
+    CRBidToken *bidToken = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
+
+    CRBidResponse *expectedBidResponse = [[CRBidResponse alloc] initWithPrice:4.2
+                                                                   bidSuccess:YES
+                                                                     bidToken:bidToken];
+    CR_CdbBid *expectedBid = [[CR_CdbBid alloc] initWithZoneId:@123
+                                                   placementId:@"placementId"
+                                                           cpm:@"4.2"
+                                                      currency:@"₹😀"
+                                                         width:@47.0f
+                                                        height:[NSNumber numberWithFloat:57.0f]
+                                                           ttl:26
+                                                      creative:@"THIS IS USELESS LEGACY"
+                                                    displayUrl:@"123"
+                                                    insertTime:[NSDate date]];
+
+    OCMStub([mockCacheManager getBidForAdUnit:expectedAdUnit]).andReturn(expectedBid);
+    OCMStub([mockCacheManager removeBidForAdUnit:expectedAdUnit]);
+    OCMStub([mockTokenCache getTokenForBid:expectedBid adUnitType:CRAdUnitTypeBanner]).andReturn(bidToken);
+    CRBidResponse *bidResponse = [bidManager bidResponseForCacheAdUnit:expectedAdUnit
+                                                            adUnitType:CRAdUnitTypeBanner];
+    XCTAssertEqualWithAccuracy(expectedBidResponse.price, bidResponse.price, 0.1);
+    XCTAssertEqual(expectedBidResponse.bidToken, bidResponse.bidToken);
+    XCTAssertEqual(expectedBidResponse.bidSuccess, bidResponse.bidSuccess);
+}
+
 - (void) testGetBidWhenNoBid {
     // cpm ==0 && ttl == 0
     // test cache

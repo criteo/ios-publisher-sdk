@@ -17,11 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) BOOL bidSuccess;
 @property (nonatomic, readonly) CRBidToken *bidToken;
 
-- (instancetype) initWithPrice:(double) price
-                    bidSuccess:(BOOL) bidSuccess
-                      bidToken:(CRBidToken*)bidToken
-NS_DESIGNATED_INITIALIZER;
-
 - (instancetype) init NS_UNAVAILABLE;
 
 @end
