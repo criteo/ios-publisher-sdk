@@ -21,6 +21,7 @@
 #import "CR_NetworkManager.h"
 #import "CR_NetworkManagerDelegate.h"
 #import "CR_AppEvents.h"
+#import "CR_TokenCache.h"
 
 @interface CR_BidManager : NSObject
 
@@ -30,6 +31,7 @@
 
 - (instancetype) initWithApiHandler:(CR_ApiHandler*)apiHandler
                        cacheManager:(CR_CacheManager*)cacheManager
+                         tokenCache:(CR_TokenCache *)tokenCache
                              config:(CR_Config*)config
                       configManager:(CR_ConfigManager*)configManager
                          deviceInfo:(CR_DeviceInfo*)deviceInfo

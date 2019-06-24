@@ -52,6 +52,7 @@
 
     CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:mockApiHandler
                                                              cacheManager:cache
+                                                               tokenCache:nil
                                                                    config:mockConfig
                                                             configManager:nil
                                                                deviceInfo:mockDeviceInfo
@@ -87,6 +88,7 @@
 
     CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
                                                              cacheManager:cache
+                                                               tokenCache:nil
                                                                    config:nil
                                                             configManager:nil
                                                                deviceInfo:nil
@@ -122,14 +124,15 @@
     id mockApiHandler = OCMStrictClassMock([CR_ApiHandler class]);
 
     CR_BidManager *bidManagerNotElapsed = [[CR_BidManager alloc] initWithApiHandler:mockApiHandler
-                                                             cacheManager:cache
-                                                                   config:mockConfig
-                                                            configManager:nil
-                                                               deviceInfo:mockDeviceInfo
-                                                          gdprUserConsent:mockUserConsent
-                                                           networkManager:nil
-                                                                appEvents:nil
-                                                           timeToNextCall:-2];
+                                                                       cacheManager:cache
+                                                                         tokenCache:nil
+                                                                             config:mockConfig
+                                                                      configManager:nil
+                                                                         deviceInfo:mockDeviceInfo
+                                                                    gdprUserConsent:mockUserConsent
+                                                                     networkManager:nil
+                                                                          appEvents:nil
+                                                                     timeToNextCall:-2];
 
     //make sure CDB call was invoked
     OCMStub([mockApiHandler callCdb:unInitializedSlot gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
@@ -159,14 +162,15 @@
 
     // time to next call is really large which would make sure time is not elapsed
     CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:mockApiHandler
-                                                                    cacheManager:cache
-                                                                          config:mockConfig
-                                                                   configManager:nil
-                                                                      deviceInfo:mockDeviceInfo
-                                                                 gdprUserConsent:mockUserConsent
-                                                                  networkManager:nil
-                                                                       appEvents:nil
-                                                                  timeToNextCall:INFINITY];
+                                                             cacheManager:cache
+                                                               tokenCache:nil
+                                                                   config:mockConfig
+                                                            configManager:nil
+                                                               deviceInfo:mockDeviceInfo
+                                                          gdprUserConsent:mockUserConsent
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:INFINITY];
 
     //make sure CDB call was not invoked
     OCMReject([mockApiHandler callCdb:unInitializedSlot gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
@@ -175,7 +179,7 @@
 
 - (void) testSetSlots {
     CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
-                                                             cacheManager:[[CR_CacheManager alloc] init]
+                                                             cacheManager:[[CR_CacheManager alloc] init] tokenCache:nil
                                                                    config:nil
                                                             configManager:nil
                                                                deviceInfo:nil
@@ -215,6 +219,7 @@
 
     CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
                                                              cacheManager:cache
+                                                               tokenCache:nil
                                                                    config:config
                                                             configManager:nil
                                                                deviceInfo:nil
@@ -248,6 +253,7 @@
 
     CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
                                                              cacheManager:cache
+                                                               tokenCache:nil
                                                                    config:config
                                                             configManager:nil
                                                                deviceInfo:nil
@@ -296,6 +302,7 @@
 
     CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:mockApiHandler
                                                              cacheManager:cache
+                                                               tokenCache:nil
                                                                    config:mockConfig
                                                             configManager:nil
                                                                deviceInfo:nil
@@ -337,6 +344,7 @@
 
     CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:mockApiHandler
                                                              cacheManager:cache
+                                                               tokenCache:nil
                                                                    config:mockConfig
                                                             configManager:nil
                                                                deviceInfo:mockDeviceInfo
@@ -375,6 +383,7 @@
 
     CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:mockApiHandler
                                                              cacheManager:cache
+                                                               tokenCache:nil
                                                                    config:mockConfig
                                                             configManager:nil
                                                                deviceInfo:mockDeviceInfo
@@ -416,6 +425,7 @@
 
     CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:mockApiHandler
                                                              cacheManager:cache
+                                                               tokenCache:nil
                                                                    config:mockConfig
                                                             configManager:nil
                                                                deviceInfo:mockDeviceInfo

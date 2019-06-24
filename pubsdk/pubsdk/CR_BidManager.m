@@ -14,6 +14,7 @@
 {
     CR_ApiHandler      *apiHandler;
     CR_CacheManager    *cacheManager;
+    CR_TokenCache      *tokenCache;
     CR_Config          *config;
     CR_ConfigManager   *configManager;
     CR_DeviceInfo      *deviceInfo;
@@ -38,6 +39,7 @@
     NSAssert(false, @"Do not use this initializer");
     return [self initWithApiHandler:nil
                        cacheManager:nil
+                         tokenCache:nil
                              config:nil
                       configManager:nil
                          deviceInfo:nil
@@ -49,6 +51,7 @@
 
 - (instancetype) initWithApiHandler:(CR_ApiHandler*)apiHandler
                        cacheManager:(CR_CacheManager*)cacheManager
+                         tokenCache:(CR_TokenCache *)tokenCache
                              config:(CR_Config*)config
                       configManager:(CR_ConfigManager*)configManager
                          deviceInfo:(CR_DeviceInfo*)deviceInfo
