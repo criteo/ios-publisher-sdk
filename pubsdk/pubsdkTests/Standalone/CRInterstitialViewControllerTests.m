@@ -88,11 +88,14 @@
     [window makeKeyAndVisible];
     MockWKWebView *mockWebView = [MockWKWebView new];
 
-    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView interstitial:nil];
+    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView
+                                                                                                      view:nil
+                                                                                              interstitial:nil];
 
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:nil
                                                            viewController:interstitialVC
-                                                              application:nil];
+                                                              application:nil
+                                                               isAdLoaded:YES];
     XCTestExpectation __block *vcDismissedExpectation = [self expectationWithDescription:@"View Controller dismissed after seven seconds"];
     UIViewController *vc = [UIViewController new];
     window.rootViewController = vc;
