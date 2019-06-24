@@ -8,8 +8,6 @@
 
 #import "Criteo.h"
 #import "Criteo+Internal.h"
-#import "CRAdUnit.h"
-#import "CRAdUnit+Internal.h"
 #import "CR_AdUnitHelper.h"
 #import "CR_BidManager.h"
 
@@ -111,6 +109,11 @@ static Criteo *sharedInstance;
         return [CR_CdbBid emptyBid];
     }
     return [self.bidManager getBid:slot];
+}
+
+- (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken
+                              adUnitType:(CRAdUnitType)adUnitType {
+    return [self.bidManager tokenValueForBidToken:bidToken adUnitType:adUnitType];
 }
 
 @end

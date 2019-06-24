@@ -14,6 +14,7 @@
 #import "CR_BidManager.h"
 #import "CR_CdbBid.h"
 #import "DummyDfpRequest.h"
+#import "CRBidToken+Internal.h"
 
 @interface CR_BidManagerTests : XCTestCase
 
@@ -440,6 +441,78 @@
 
     // Only call [CR_ApiHandler callCdb] for registered Ad Units
     OCMVerify([mockApiHandler callCdb:testAdUnit gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+}
+
+- (void)testTokenValueForValidBidToken {
+    CR_TokenCache *mockTokenCache = OCMStrictClassMock([CR_TokenCache class]);
+    CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
+    CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"123"
+                                                                       insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-100]
+                                                                              ttl:200
+                                                                       adUnitType:CRAdUnitTypeBanner];
+    OCMStub([mockTokenCache getValueForToken:token]).andReturn(expectedTokenValue);
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
+                                                             cacheManager:nil
+                                                               tokenCache:mockTokenCache
+                                                                   config:nil
+                                                            configManager:nil
+                                                               deviceInfo:nil
+                                                          gdprUserConsent:nil
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:0];
+
+    CR_TokenValue *tokenValue = [bidManager tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner];
+    OCMVerify([mockTokenCache getValueForToken:token]);
+    XCTAssertEqual(expectedTokenValue, tokenValue);
+}
+
+- (void)testTokenValueForExpiredBidToken {
+    CR_TokenCache *mockTokenCache = OCMStrictClassMock([CR_TokenCache class]);
+    CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
+    CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@""
+                                                                       insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-400]
+                                                                              ttl:200
+                                                                       adUnitType:CRAdUnitTypeBanner];
+    OCMStub([mockTokenCache getValueForToken:token]).andReturn(expectedTokenValue);
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
+                                                             cacheManager:nil
+                                                               tokenCache:mockTokenCache
+                                                                   config:nil
+                                                            configManager:nil
+                                                               deviceInfo:nil
+                                                          gdprUserConsent:nil
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:0];
+
+    CR_TokenValue *tokenValue = [bidManager tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner];
+    OCMVerify([mockTokenCache getValueForToken:token]);
+    XCTAssertNil(tokenValue);
+}
+
+- (void)testTokenValueForBidTokenWithDifferentAdUnitType {
+    CR_TokenCache *mockTokenCache = OCMStrictClassMock([CR_TokenCache class]);
+    CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
+    CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@""
+                                                                       insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-100]
+                                                                              ttl:200
+                                                                       adUnitType:CRAdUnitTypeInterstitial];
+    OCMStub([mockTokenCache getValueForToken:token]).andReturn(expectedTokenValue);
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
+                                                             cacheManager:nil
+                                                               tokenCache:mockTokenCache
+                                                                   config:nil
+                                                            configManager:nil
+                                                               deviceInfo:nil
+                                                          gdprUserConsent:nil
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:0];
+
+    CR_TokenValue *tokenValue = [bidManager tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner];
+    OCMVerify([mockTokenCache getValueForToken:token]);
+    XCTAssertNil(tokenValue);
 }
 
 @end

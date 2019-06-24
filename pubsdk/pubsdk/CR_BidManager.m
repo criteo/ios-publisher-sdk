@@ -63,6 +63,7 @@
     if(self = [super init]) {
         self->apiHandler      = apiHandler;
         self->cacheManager    = cacheManager;
+        self->tokenCache      = tokenCache;
         self->config          = config;
         self->configManager   = configManager;
         self->deviceInfo      = deviceInfo;
@@ -120,6 +121,17 @@
         }
     }
     return [CR_CdbBid emptyBid];
+}
+
+- (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken
+                              adUnitType:(CRAdUnitType)adUnitType {
+    CR_TokenValue *tokenValue = [tokenCache getValueForToken:bidToken];
+    if(tokenValue) {
+        if([tokenValue adUnitType] != adUnitType || [tokenValue isExpired]) {
+            return nil;
+        }
+    }
+    return tokenValue;
 }
 
 // TODO: Figure out a way to test this
