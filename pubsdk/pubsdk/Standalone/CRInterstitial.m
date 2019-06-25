@@ -14,6 +14,7 @@
 #import "NSError+CRErrors.h"
 #import "CR_CacheAdUnit.h"
 #import "CR_AdUnitHelper.h"
+#import "CR_TokenValue.h"
 
 @import WebKit;
 
@@ -91,6 +92,26 @@
     }
     [self.viewController initWebViewIfNeeded];
     [self.viewController loadWebViewWithDisplayURL:bid.displayUrl];
+}
+
+- (void)loadAdWithBidToken:(CRBidToken *)bidToken {
+    if(![self checkSafeToLoad]) {
+        return;
+    }
+    CR_TokenValue *tokenValue = [self.criteo tokenValueForBidToken:bidToken
+                                                        adUnitType:CRAdUnitTypeInterstitial];
+    if(tokenValue == nil) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
+                [self.delegate interstitial:self
+                   didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeNoFill]];
+            }
+        });
+        self.isAdLoading = NO;
+        return;
+    }
+    [self.viewController initWebViewIfNeeded];
+    [self.viewController loadWebViewWithDisplayURL:tokenValue.displayUrl];
 }
 
 -     (void)webView:(WKWebView *)webView

@@ -18,6 +18,8 @@
 #import "NSError+CRErrors.h"
 #import "CR_DeviceInfo.h"
 #import "CR_AdUnitHelper.h"
+#import "CRBidToken+Internal.h"
+#import "CR_TokenValue.h"
 
 @interface CRInterstitialDelegateTests : XCTestCase
 {
@@ -568,6 +570,60 @@
 
     OCMStub([mockInterstitialVC presentingViewController]).andReturn([UIViewController new]);
     [interstitial loadAd:@"123"];
+    OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
+}
+
+- (void)testInterstitialLoadFailWhenTokenValueIsNil {
+    Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
+                                                           viewController:nil
+                                                              application:nil
+                                                               isAdLoaded:NO];
+    CRBidToken *bidToken = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
+    OCMStub([mockCriteo tokenValueForBidToken:bidToken
+                                   adUnitType:CRAdUnitTypeInterstitial]).andReturn(nil);
+
+    id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
+    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNoFill];
+    interstitial.delegate = mockInterstitialDelegate;
+    OCMExpect([mockInterstitialDelegate interstitial:interstitial
+                          didFailToLoadAdWithError:expectedError]);
+    [interstitial loadAdWithBidToken:bidToken];
+    OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
+}
+
+- (void)testInterstitialDidLoadForValidTokenValue {
+    // create mock objects
+    Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    WKWebView *mockWebView = OCMClassMock([WKWebView class]);
+    UIView *mockView = OCMClassMock([UIView class]);
+    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView
+                                                                                                      view:mockView
+                                                                                              interstitial:nil];
+    CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
+                                                           viewController:interstitialVC
+                                                              application:nil
+                                                               isAdLoaded:NO];
+
+    CRBidToken *bidToken = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
+    CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"test"
+                                                                       insertTime:[NSDate date]
+                                                                              ttl:200
+                                                                       adUnitType:CRAdUnitTypeInterstitial];
+    OCMStub([mockCriteo tokenValueForBidToken:bidToken
+                                   adUnitType:CRAdUnitTypeInterstitial]).andReturn(expectedTokenValue);
+
+    id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
+    interstitial.delegate = mockInterstitialDelegate;
+    OCMExpect([mockInterstitialDelegate interstitialDidLoadAd:interstitial]);
+    OCMStub([mockWebView loadHTMLString:[self htmlString] baseURL:[NSURL URLWithString:@"about:blank"]]).andDo(^(NSInvocation* args) {
+        [interstitial webView:mockWebView decidePolicyForNavigationResponse:[self validNavigationResponse] decisionHandler:^(WKNavigationResponsePolicy policy) {
+
+        }];
+    }).andDo(^(NSInvocation* args) {
+        [interstitial webView:mockWebView didFinishNavigation:nil];
+    });
+    [interstitial loadAdWithBidToken:bidToken];
     OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
 }
 
