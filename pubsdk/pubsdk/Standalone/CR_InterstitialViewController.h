@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
                    interstitial:(CRInterstitial *)interstitial;
 - (void)dismissViewController;
 - (void)initWebViewIfNeeded;
+- (void)loadWebViewWithDisplayURL:(NSString *)displayURL;
 
 @end
 

@@ -56,6 +56,21 @@
     [self dispatchTimerForDismiss:7.0];
 }
 
+- (void)loadWebViewWithDisplayURL:(NSString *)displayURL {
+    NSString *htmlString = [NSString stringWithFormat:@"<!doctype html>"
+                            "<html>"
+                            "<head>"
+                            "<meta charset=\"utf-8\">"
+                            "<style>body{margin:0;padding:0}</style>"
+                            "<meta name=\"viewport\" content=\"width=%ld, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\" >"
+                            "</head>"
+                            "<body>"
+                            "<script src=\"%@\"></script>"
+                            "</body>"
+                            "</html>", (long)[UIScreen mainScreen].bounds.size.width, displayURL];
+    [self.webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"about:blank"]];
+}
+
 - (void)initCloseButton {
     self.closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.closeButton addTarget:self action:@selector(dismissViewController) forControlEvents:UIControlEventTouchUpInside];

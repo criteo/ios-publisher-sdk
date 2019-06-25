@@ -139,7 +139,7 @@
                                               [realWebView evaluateJavaScript:@"document.querySelector('meta[name=viewport]').getAttribute('content')"
                                                             completionHandler:^(id _Nullable result, NSError * _Nullable error) {
                                                                 XCTAssertNil(error);
-                                                                CGFloat width = [self expectedAdUnit].size.width;
+                                                                CGFloat width = [UIScreen mainScreen].bounds.size.width;
                                                                 NSString *searchString = [NSString stringWithFormat:@"width=%tu",(NSUInteger)width];
                                                                 XCTAssertTrue([(NSString *)result containsString:searchString]);
                                                                 [viewportExpectation fulfill];

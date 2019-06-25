@@ -80,7 +80,7 @@
                   "<body>"
                   "<script src=\"%@\"></script>"
                   "</body>"
-                  "</html>", (long)[self expectedAdUnit].size.width,@"test"];
+                  "</html>", (long)[UIScreen mainScreen].bounds.size.width,@"test"];
 }
 
 - (void)testInterstitialDidLoad {

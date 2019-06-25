@@ -42,7 +42,7 @@
                      isAdLoaded:NO];
 }
 
-- (void)loadAd:(NSString *)adUnitId {
+- (BOOL)checkSafeToLoad {
     if(self.isAdLoading) {
         // Already loading
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -52,7 +52,7 @@
                                                                 description:@"An Ad is already being loaded."]];
             }
         });
-        return;
+        return NO;
     }
     if(self.viewController.presentingViewController) {
         // Already presenting
@@ -63,12 +63,19 @@
                                                                 description:@"Ad cannot load as another is already being presented."]];
             }
         });
-        return;
+        return NO;
     }
 
     self.isAdLoading = YES;
     self.isAdLoaded = NO;
     self.isResponseValid = NO;
+    return YES;
+}
+
+- (void)loadAd:(NSString *)adUnitId {
+    if(![self checkSafeToLoad]) {
+        return;
+    }
     CR_CacheAdUnit *adUnit = [CR_AdUnitHelper interstitialCacheAdUnitForAdUnitId:adUnitId
                                                                      screenSize:[[CR_DeviceInfo new] screenSize]] ;
     CR_CdbBid *bid = [self.criteo getBid:adUnit];
@@ -83,18 +90,7 @@
         return;
     }
     [self.viewController initWebViewIfNeeded];
-    NSString *htmlString = [NSString stringWithFormat:@"<!doctype html>"
-                            "<html>"
-                            "<head>"
-                            "<meta charset=\"utf-8\">"
-                            "<style>body{margin:0;padding:0}</style>"
-                            "<meta name=\"viewport\" content=\"width=%ld, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\" >"
-                            "</head>"
-                            "<body>"
-                            "<script src=\"%@\"></script>"
-                            "</body>"
-                            "</html>", (long)adUnit.size.width, bid.displayUrl];
-    [_viewController.webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"about:blank"]];
+    [self.viewController loadWebViewWithDisplayURL:bid.displayUrl];
 }
 
 -     (void)webView:(WKWebView *)webView
