@@ -65,6 +65,7 @@
 		53CA0F9822AB0B870098F96C /* CRBidToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 53CA0F8822AB0A390098F96C /* CRBidToken.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		53CA0F9922AB0B870098F96C /* CRBidResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 53CA0F7922AAE1D10098F96C /* CRBidResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		53CA0F9A22AB0B870098F96C /* CRInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6549B552228389930078F068 /* CRInterstitialDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		53D6429822C2C615005791D4 /* CR_TokenCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 53374B7E22AEDBE4007084FB /* CR_TokenCache.m */; };
 		543442FC2285F4A600805343 /* CRBannerViewDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 543F6F9C22838EDF00A5DBE2 /* CRBannerViewDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		543B672C2294689B006A99DF /* NSError+CRErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 543B672A2294689B006A99DF /* NSError+CRErrors.m */; };
 		543B672E22948003006A99DF /* NSError+CRErrorsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 543B672D22948003006A99DF /* NSError+CRErrorsTests.m */; };
@@ -837,6 +838,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				25BD5B5F2220D183004DE311 /* CR_AppEvents.m in Sources */,
+				53D6429822C2C615005791D4 /* CR_TokenCache.m in Sources */,
 				5496876022A5C774007D2578 /* CR_AdUnitHelper.m in Sources */,
 				25BD5B692220D1D9004DE311 /* Criteo.m in Sources */,
 				25BD5B622220D1A8004DE311 /* CR_BidManager.m in Sources */,
