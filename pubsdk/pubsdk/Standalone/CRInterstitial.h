@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CRInterstitialDelegate.h"
 #import "CRBidToken.h"
+#import "CRInterstitialAdUnit.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,7 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) BOOL isAdLoaded;
 @property (nullable, nonatomic, weak) id <CRInterstitialDelegate> delegate;
 
-- (void)loadAd:(NSString *)adUnitId;
+- (instancetype) init NS_UNAVAILABLE;
+
+- (instancetype) initWithAdUnit:(CRInterstitialAdUnit *)adUnit;
+- (void)loadAd;
 - (void)loadAdWithBidToken:(CRBidToken *)bidToken;
 - (void)presentFromRootViewController:(UIViewController *)rootViewController;
 

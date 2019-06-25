@@ -23,24 +23,27 @@
 - (instancetype)initWithCriteo:(Criteo *)criteo
                 viewController:(CR_InterstitialViewController *)viewController
                    application:(UIApplication *)application
-                    isAdLoaded:(BOOL)isAdLoaded {
+                    isAdLoaded:(BOOL)isAdLoaded
+                        adUnit:(CRInterstitialAdUnit *)adUnit{
     if(self = [super init]) {
         _criteo = criteo;
         viewController.webView.navigationDelegate = self;
         _viewController = viewController;
         _application = application;
         _isAdLoaded = isAdLoaded;
+        _adUnit = adUnit;
     }
     return self;
 }
 
-- (instancetype)init {
+- (instancetype)initWithAdUnit:(CRInterstitialAdUnit *)adUnit {
     return [self initWithCriteo:[Criteo sharedCriteo]
                  viewController:[[CR_InterstitialViewController alloc] initWithWebView:[WKWebView new]
                                                                                   view:nil
                                                                           interstitial:self]
                     application:[UIApplication sharedApplication]
-                     isAdLoaded:NO];
+                     isAdLoaded:NO
+                         adUnit:adUnit];
 }
 
 - (BOOL)checkSafeToLoad {
@@ -73,13 +76,13 @@
     return YES;
 }
 
-- (void)loadAd:(NSString *)adUnitId {
+- (void)loadAd {
     if(![self checkSafeToLoad]) {
         return;
     }
-    CR_CacheAdUnit *adUnit = [CR_AdUnitHelper interstitialCacheAdUnitForAdUnitId:adUnitId
-                                                                     screenSize:[[CR_DeviceInfo new] screenSize]] ;
-    CR_CdbBid *bid = [self.criteo getBid:adUnit];
+    CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper interstitialCacheAdUnitForAdUnitId:self.adUnit.adUnitId
+                                                                           screenSize:[[CR_DeviceInfo new] screenSize]] ;
+    CR_CdbBid *bid = [self.criteo getBid:cacheAdUnit];
     if([bid isEmpty]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {

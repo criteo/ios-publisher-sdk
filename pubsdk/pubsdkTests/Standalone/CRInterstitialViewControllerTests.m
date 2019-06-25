@@ -17,11 +17,26 @@
 #import "CRInterstitial.h"
 #import "CRInterstitial+Internal.h"
 #import "CR_AdUnitHelper.h"
+#import "CRInterstitialAdUnit.h"
 
 @interface CRInterstitialViewControllerTests : XCTestCase
+{
+    CRInterstitialAdUnit *_adUnit;
+}
 @end
 
 @implementation CRInterstitialViewControllerTests
+
+- (void)setUp {
+    _adUnit = nil;
+}
+
+- (CRInterstitialAdUnit *)adUnit {
+    if(!_adUnit) {
+        _adUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"123"];
+    }
+    return _adUnit;
+}
 
 - (void)testCloseButtonInitialization {
     MockWKWebView *mockWebView = [MockWKWebView new];
@@ -52,7 +67,8 @@
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
                                                               application:nil
-                                                               isAdLoaded:YES];
+                                                               isAdLoaded:YES
+                                                                   adUnit:self.adUnit];
     XCTestExpectation *vcDismissedExpectation = [self expectationWithDescription:@"View Controller dismissed on close button click"];
 
     UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
@@ -99,7 +115,8 @@
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:nil
                                                            viewController:interstitialVC
                                                               application:nil
-                                                               isAdLoaded:YES];
+                                                               isAdLoaded:YES
+                                                                   adUnit:self.adUnit];
     XCTestExpectation __block *vcDismissedExpectation = [self expectationWithDescription:@"View Controller dismissed after seven seconds"];
     UIViewController *vc = [UIViewController new];
     window.rootViewController = vc;

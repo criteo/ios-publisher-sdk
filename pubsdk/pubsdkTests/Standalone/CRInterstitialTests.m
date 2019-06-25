@@ -11,6 +11,7 @@
 #import "CR_BidManager.h"
 #import "Criteo.h"
 #import "Criteo+Internal.h"
+#import "CRInterstitialAdUnit.h"
 #import "CR_CacheAdUnit.h"
 #import "CRInterstitial.h"
 #import "CRInterstitial+Internal.h"
@@ -21,7 +22,8 @@
 @interface CRInterstitialTests : XCTestCase
 {
     CR_CdbBid *_bid;
-    CR_CacheAdUnit *_adUnit;
+    CR_CacheAdUnit *_cacheAdUnit;
+    CRInterstitialAdUnit *_adUnit;
 }
 @end
 
@@ -29,6 +31,7 @@
 
 - (void)setUp {
     _bid = nil;
+    _cacheAdUnit = nil;
     _adUnit = nil;
 }
 
@@ -48,10 +51,17 @@
     return _bid;
 }
 
-- (CR_CacheAdUnit *)expectedAdUnit {
-    if(!_adUnit) {
-        _adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
+- (CR_CacheAdUnit *)expectedCacheAdUnit {
+    if(!_cacheAdUnit) {
+        _cacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
                                                      size:CGSizeMake(320.0, 480.0)];
+    }
+    return _cacheAdUnit;
+}
+
+- (CRInterstitialAdUnit *)adUnit {
+    if(!_adUnit) {
+        _adUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"123"];
     }
     return _adUnit;
 }
@@ -65,15 +75,16 @@
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
                                                               application:nil
-                                                               isAdLoaded:NO];
+                                                               isAdLoaded:NO
+                                                                   adUnit:self.adUnit];
 
     id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
     OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
-                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedAdUnit]);
+                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedCacheAdUnit]);
 
-    OCMExpect([mockCriteo getBid:[self expectedAdUnit]]).andReturn([self bidWithDisplayURL:@"test"]);
+    OCMExpect([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([self bidWithDisplayURL:@"test"]);
 
-    [interstitial loadAd:@"123"];
+    [interstitial loadAd];
 
     XCTAssertTrue([mockWebView.loadedHTMLString containsString:@"<script src=\"test\"></script>"]);
     XCTAssertEqualObjects([NSURL URLWithString:@"about:blank"],mockWebView.loadedBaseURL);
@@ -89,7 +100,8 @@
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
                                                               application:nil
-                                                               isAdLoaded:YES];
+                                                               isAdLoaded:YES
+                                                                   adUnit:self.adUnit];
     UIViewController *vc = OCMStrictClassMock([UIViewController class]);
     OCMStub([vc presentViewController:OCMArg.any animated:YES completion:[OCMArg isNotNil]]);
     [interstitial presentFromRootViewController:vc];
@@ -109,13 +121,14 @@
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
                                                               application:nil
-                                                               isAdLoaded:NO];
+                                                               isAdLoaded:NO
+                                                                   adUnit:self.adUnit];
 
     CR_CdbBid *bid = [self bidWithDisplayURL:@"test"];
 
     id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
     OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
-                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedAdUnit]);
+                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedCacheAdUnit]);
 
     XCTestExpectation __block *marginExpectation = [self expectationWithDescription:@"WebView body has 0px margin"];
     XCTestExpectation __block *paddingExpectation = [self expectationWithDescription:@"WebView body has 0px padding"];
@@ -146,9 +159,9 @@
                                                             }];
                                           }];
 
-    OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn(bid);
-    [interstitial loadAd:@"123"];
-    OCMVerify([mockCriteo getBid:[self expectedAdUnit]]);
+    OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn(bid);
+    [interstitial loadAd];
+    OCMVerify([mockCriteo getBid:[self expectedCacheAdUnit]]);
 
     [self waitForExpectations:@[marginExpectation, paddingExpectation, viewportExpectation] timeout:5];
 }
@@ -161,16 +174,17 @@
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
                                                             application:nil
-                                                               isAdLoaded:NO];
+                                                               isAdLoaded:NO
+                                                                   adUnit:self.adUnit];
 
     id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
     OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
-                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedAdUnit]);
+                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedCacheAdUnit]);
 
-    OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn([CR_CdbBid emptyBid]);
+    OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([CR_CdbBid emptyBid]);
     OCMStub([interstitialVC presentingViewController]).andReturn(nil);
-    [interstitial loadAd:@"123"];
-    OCMVerify([mockCriteo getBid:[self expectedAdUnit]]);
+    [interstitial loadAd];
+    OCMVerify([mockCriteo getBid:[self expectedCacheAdUnit]]);
 }
 
 // TODO: UITests for "click" on a "real" webview with a real link
@@ -188,7 +202,8 @@
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
                                                               application:mockApplication
-                                                               isAdLoaded:NO];
+                                                               isAdLoaded:NO
+                                                                   adUnit:self.adUnit];
     WKNavigationAction *mockNavigationAction = OCMStrictClassMock([WKNavigationAction class]);
     OCMStub(mockNavigationAction.navigationType).andReturn(WKNavigationTypeOther);
     [interstitial webView:realWebView decidePolicyForNavigationAction:mockNavigationAction
@@ -220,7 +235,8 @@
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
                                                               application:mockApplication
-                                                               isAdLoaded:NO];
+                                                               isAdLoaded:NO
+                                                                   adUnit:self.adUnit];
 
     WKNavigationAction *mockNavigationAction = OCMStrictClassMock([WKNavigationAction class]);
     OCMStub(mockNavigationAction.navigationType).andReturn(WKNavigationTypeLinkActivated);

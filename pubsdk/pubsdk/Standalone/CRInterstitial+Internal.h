@@ -20,11 +20,13 @@
 @property (nonatomic, strong) Criteo *criteo;
 @property (nonatomic, strong) CR_InterstitialViewController *viewController;
 @property (nonatomic, weak) UIApplication *application;
+@property (nonatomic, readonly) CRInterstitialAdUnit *adUnit;
 
 - (instancetype)initWithCriteo:(Criteo *)criteo
                 viewController:(CR_InterstitialViewController *)viewController
                    application:(UIApplication *)application
-                    isAdLoaded:(BOOL)isAdLoaded;
+                    isAdLoaded:(BOOL)isAdLoaded
+                        adUnit:(CRAdUnit *)adUnit;
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
 decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler;
