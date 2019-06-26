@@ -16,11 +16,12 @@
 #import "CR_CdbBid.h"
 #import "NSError+CRErrors.h"
 #import "CRBidToken+Internal.h"
-
+#import "CRBannerAdUnit.h"
 
 @interface CRBannerViewDelegateTests : XCTestCase
 {
-    CR_CacheAdUnit *adUnit;
+    CR_CacheAdUnit *cacheAdUnit;
+    CRBannerAdUnit *adUnit;
     CR_CdbBid *bid;
     WKNavigationResponse *validNavigationResponse;
 }
@@ -30,12 +31,21 @@
 
 - (void)setUp {
     bid = nil;
+    cacheAdUnit = nil;
     adUnit = nil;
 }
 
 - (CR_CacheAdUnit *)expectedAdUnit {
+    if(!cacheAdUnit) {
+        cacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
+                                                          size:CGSizeMake(47.0f, 57.0f)];
+    }
+    return cacheAdUnit;
+}
+
+- (CRBannerAdUnit *)adUnit {
     if(!adUnit) {
-        adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
+        adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"123"
                                                      size:CGSizeMake(47.0f, 57.0f)];
     }
     return adUnit;
@@ -73,13 +83,14 @@
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:mockCriteo
                                                            webView:realWebView
-                                                       application:nil];
+                                                       application:nil
+                                                            adUnit:self.adUnit];
     id<CRBannerViewDelegate> mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
     bannerView.delegate = mockBannerViewDelegate;
     OCMStub([mockBannerViewDelegate bannerDidLoad:bannerView]);
 
     OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn([self bidWithDisplayURL:@"test"]);
-    [bannerView loadAd:@"123"];
+    [bannerView loadAd];
     [bannerView webView:realWebView decidePolicyForNavigationResponse:[self validNavigationResponse] decisionHandler:^(WKNavigationResponsePolicy policy) {
 
     }];
@@ -100,7 +111,8 @@
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:mockCriteo
                                                            webView:nil
-                                                       application:nil];
+                                                       application:nil
+                                                            adUnit:self.adUnit];
 
     id<CRBannerViewDelegate> mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
     NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNoFill];
@@ -111,7 +123,7 @@
                                                              size:CGSizeMake(47.0f, 57.0f)];
     OCMStub([mockCriteo getBid:expectedAdUnit]).andReturn([CR_CdbBid emptyBid]);
     XCTestExpectation *bannerAdFetchFailExpectation = [self expectationWithDescription:@"bannerDidFail with error delegate method called"];
-    [bannerView loadAd:@"123"];
+    [bannerView loadAd];
     [NSTimer scheduledTimerWithTimeInterval:3
                                     repeats:NO
                                       block:^(NSTimer * _Nonnull timer) {
@@ -128,7 +140,8 @@
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:nil
                                                            webView:nil
-                                                       application:mockApplication];
+                                                       application:mockApplication
+                                                            adUnit:self.adUnit];
     id<CRBannerViewDelegate> mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
     bannerView.delegate = mockBannerViewDelegate;
     OCMStub([mockBannerViewDelegate bannerWillLeaveApplication:bannerView]);
@@ -161,7 +174,8 @@
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:nil
                                                            webView:nil
-                                                       application:nil];
+                                                       application:nil
+                                                            adUnit:self.adUnit];
     id<CRBannerViewDelegate> mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
     NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInternalError];
     bannerView.delegate = mockBannerViewDelegate;
@@ -186,7 +200,8 @@
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:nil
                                                            webView:nil
-                                                       application:nil];
+                                                       application:nil
+                                                            adUnit:self.adUnit];
     id<CRBannerViewDelegate> mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
     NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInternalError];
     bannerView.delegate = mockBannerViewDelegate;
@@ -211,7 +226,8 @@
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:nil
                                                            webView:nil
-                                                       application:nil];
+                                                       application:nil
+                                                            adUnit:self.adUnit];
     id<CRBannerViewDelegate> mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
     NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNetworkError];
     bannerView.delegate = mockBannerViewDelegate;
@@ -242,7 +258,8 @@
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:mockCriteo
                                                            webView:realWebView
-                                                       application:nil];
+                                                       application:nil
+                                                            adUnit:self.adUnit];
     id<CRBannerViewDelegate> mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
     bannerView.delegate = mockBannerViewDelegate;
     OCMStub([mockBannerViewDelegate banner:bannerView
@@ -250,7 +267,7 @@
     NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNetworkError];
 
     OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn([self bidWithDisplayURL:@""]);
-    [bannerView loadAd:@"123"];
+    [bannerView loadAd];
     XCTestExpectation *bannerNoHTTPResponseExpectation = [self expectationWithDescription:@"bannerDidFail delegate method called"];
     [NSTimer scheduledTimerWithTimeInterval:3
                                     repeats:NO
@@ -271,7 +288,8 @@
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:mockCriteo
                                                            webView:mockWebView
-                                                       application:nil];
+                                                       application:nil
+                                                            adUnit:self.adUnit];
     CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
     OCMStub([mockCriteo tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner]).andReturn(nil);
     id<CRBannerViewDelegate>mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));

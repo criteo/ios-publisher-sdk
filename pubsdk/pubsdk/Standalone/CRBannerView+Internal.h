@@ -15,7 +15,8 @@
 - (instancetype)initWithFrame:(CGRect)rect
                        criteo:(Criteo *)criteo
                       webView:(WKWebView *)webView
-                  application:(UIApplication *)application;
+                  application:(UIApplication *)application
+                       adUnit:(CRBannerAdUnit *)adUnit;
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
 decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler;

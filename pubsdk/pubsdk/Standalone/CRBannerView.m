@@ -23,22 +23,24 @@
 @property (nonatomic, strong) Criteo *criteo;
 @property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, weak) UIApplication *application;
+@property (nonatomic, readonly) CRBannerAdUnit *adUnit;
 @end
 
 @implementation CRBannerView
 
-
-- (instancetype)initWithFrame:(CGRect)rect {
-    return [self initWithFrame:rect
+- (instancetype)initWithAdUnit:(CRBannerAdUnit *)adUnit {
+    return [self initWithFrame:CGRectMake(.0, .0, adUnit.size.width, adUnit.size.height)
                         criteo:[Criteo sharedCriteo]
-                       webView:[[WKWebView alloc] initWithFrame:CGRectMake(.0, .0,rect.size.width, rect.size.height)]
-                   application:[UIApplication sharedApplication]];
+                       webView:[[WKWebView alloc] initWithFrame:CGRectMake(.0, .0,adUnit.size.width, adUnit.size.height)]
+                   application:[UIApplication sharedApplication]
+                        adUnit:adUnit];
 }
 
 - (instancetype)initWithFrame:(CGRect)rect
                        criteo:(Criteo *)criteo
                       webView:(WKWebView *)webView
-                  application:(UIApplication *)application {
+                  application:(UIApplication *)application
+                       adUnit:(CRBannerAdUnit *)adUnit {
     if(self = [super initWithFrame:rect]) {
         _criteo = criteo;
         _webView = webView;
@@ -47,6 +49,7 @@
         _webView.navigationDelegate = self;
         [self addSubview:webView];
         _application = application;
+        _adUnit = adUnit;
     }
     return self;
 }
@@ -66,11 +69,11 @@
     [_webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"about:blank"]];
 }
 
-- (void)loadAd:(NSString *)adUnitId {
+- (void)loadAd {
     self.isResponseValid = NO;
-    CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:adUnitId
-                                                                 size:self.frame.size];
-    CR_CdbBid *bid = [self.criteo getBid:adUnit];
+    CR_CacheAdUnit *cacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:_adUnit.adUnitId
+                                                                      size:self.frame.size];
+    CR_CdbBid *bid = [self.criteo getBid:cacheAdUnit];
     if([bid isEmpty]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if([self.delegate respondsToSelector:@selector(banner:didFailToLoadAdWithError:)]) {
