@@ -6,10 +6,13 @@ set -Eeuo pipefail
 rm -rf build/output
 mkdir -p build/output/sim
 
-CRITEO_ARCHS='armv7 armv7k armv7s arm64'
+CRITEO_WATCH_ARCHS='armv7k'
+CRITEO_DEVICE_ARCHS='armv7 armv7s arm64'
+CRITEO_ARCHS="$CRITEO_DEVICE_ARCHS $CRITEO_WATCH_ARCHS"
 CRITEO_SIM_ARCHS='i386 x86_64'
 
 CRITEO_CONFIGURATION="Release"
+printf "Launching $CRITEO_CONFIGURATION build\nARCHS: $CRITEO_ARCHS\nSIM ARCHS: $CRITEO_SIM_ARCHS\n"
 
     # We still have to build pubsdk scheme for testing
     xcodebuild \
@@ -76,6 +79,7 @@ cd ../..
 
 
 CRITEO_CONFIGURATION="Debug"
+printf "Launching $CRITEO_CONFIGURATION build\nARCHS: $CRITEO_ARCHS\nSIM ARCHS: $CRITEO_SIM_ARCHS\n"
 
     xcodebuild \
     -workspace fuji.xcworkspace \
