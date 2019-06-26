@@ -125,13 +125,8 @@
 
 - (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken
                               adUnitType:(CRAdUnitType)adUnitType {
-    CR_TokenValue *tokenValue = [tokenCache getValueForToken:bidToken];
-    if(tokenValue) {
-        if([tokenValue adUnitType] != adUnitType || [tokenValue isExpired]) {
-            return nil;
-        }
-    }
-    return tokenValue;
+    return [tokenCache getValueForToken:bidToken
+                             adUnitType:adUnitType];
 }
 
 // TODO: Figure out a way to test this
