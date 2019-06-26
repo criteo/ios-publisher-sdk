@@ -13,7 +13,8 @@
 
 #import "CR_BidManager.h"
 #import "CR_CdbBid.h"
-#import "DummyDfpRequest.h"
+#import "DFPRequest.h"
+#import "MPAdView.h"
 #import "CRBidToken+Internal.h"
 
 @interface CR_BidManagerTests : XCTestCase
@@ -204,7 +205,7 @@
     XCTAssertTrue([bids[slot_3] isEmpty]);
 }
 
-- (void) testAddCriteoBidToRequest {
+- (void) testAddCriteoBidToDfpRequest {
     CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
 
     CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
@@ -214,7 +215,7 @@
 
     NSDictionary *testDfpCustomTargeting = [NSDictionary dictionaryWithObjectsAndKeys:@"object 1", @"key_1", @"object_2", @"key_2", nil];
 
-    DummyDfpRequest *dfpBidRequest = [[DummyDfpRequest alloc] init];
+    DFPRequest *dfpBidRequest = [[DFPRequest alloc] init];
     dfpBidRequest.customTargeting = testDfpCustomTargeting;
     CR_Config *config = [[CR_Config alloc] initWithCriteoPublisherId:@("1234")];
 
@@ -236,6 +237,38 @@
     XCTAssertEqualObjects([testBid_1 cpm], [dfpBidRequest.customTargeting objectForKey:@"crt_cpm"]);
 }
 
+- (void) testAddCriteoBidToMopubRequest {
+    CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+
+    CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
+
+    CR_CacheManager *cache = [[CR_CacheManager alloc] init];
+    [cache setBid:testBid_1 forAdUnit:slot_1];
+
+    NSString *testMopubCustomTargeting = @"key1:object_1,key_2:object_2";
+
+    MPAdView *mopubBidRequest = [[MPAdView alloc] init];
+    mopubBidRequest.keywords = testMopubCustomTargeting;
+
+    CR_Config *config = [[CR_Config alloc] initWithCriteoPublisherId:@("1234")];
+
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
+                                                             cacheManager:cache
+                                                               tokenCache:nil
+                                                                   config:config
+                                                            configManager:nil
+                                                               deviceInfo:nil
+                                                          gdprUserConsent:nil
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:0];
+
+    [bidManager addCriteoBidToRequest:mopubBidRequest forAdUnit:slot_1];
+
+    XCTAssertTrue([mopubBidRequest.keywords containsString:[testBid_1 mopubCompatibleDisplayUrl]]);
+    XCTAssertTrue([mopubBidRequest.keywords containsString:[testBid_1 cpm]]);
+}
+
 - (void) testAddCriteoBidToRequestWhenKillSwitchIsEngaged {
     CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
 
@@ -246,7 +279,7 @@
 
     NSDictionary *testDfpCustomTargeting = [NSDictionary dictionaryWithObjectsAndKeys:@"object 1", @"key_1", @"object_2", @"key_2", nil];
 
-    DummyDfpRequest *dfpBidRequest = [[DummyDfpRequest alloc] init];
+    DFPRequest *dfpBidRequest = [[DFPRequest alloc] init];
     dfpBidRequest.customTargeting = testDfpCustomTargeting;
 
     CR_Config *config = [[CR_Config alloc] initWithCriteoPublisherId:@("1234")];

@@ -13,6 +13,7 @@
 @interface CR_CdbBid ()
 
 - (NSString*) dfpCompatibleDisplayUrlForDisplayUrl:(NSString*)displayUrl;
+- (NSString*) mopubCompatibleDisplayUrlForDisplayUrl:(NSString*)displayUrl;
 
 @end
 
@@ -76,6 +77,7 @@ static CR_CdbBid *emptyBid;
         _ttl = ttl;
         _displayUrl = displayUrl;
         _dfpCompatibleDisplayUrl = [self dfpCompatibleDisplayUrlForDisplayUrl:displayUrl];
+        _mopubCompatibleDisplayUrl = [self mopubCompatibleDisplayUrlForDisplayUrl:displayUrl];
         _insertTime = insertTime;
     }
     return self;
@@ -92,6 +94,11 @@ static CR_CdbBid *emptyBid;
     }
 
     return dfpCompatibleDisplayUrl;
+}
+
+- (NSString*) mopubCompatibleDisplayUrlForDisplayUrl:(NSString*)displayUrl
+{
+    return displayUrl;
 }
 
 // TODO : If there is a cleaner way to write this please show me

@@ -8,7 +8,7 @@
 
 #import <XCTest/XCTest.h>
 
-#import "DummyDfpRequest.h"
+#import "DFPRequest.h"
 
 @interface pubsdkTests : XCTestCase
 

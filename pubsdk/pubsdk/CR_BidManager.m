@@ -175,6 +175,17 @@
         CLog(@"killSwitch is engaged. No bid will be fetched.");
         return;
     }
+
+    if([adRequest isKindOfClass:NSClassFromString(@"DFPRequest")]) {
+        [self addCriteoBidToDfpRequest:adRequest forAdUnit:adUnit];
+    } else if ([adRequest isKindOfClass:NSClassFromString(@"MPAdView")] ||
+               [adRequest isKindOfClass:NSClassFromString(@"MPInterstitialAdController")]) {
+        [self addCriteoBidToMopubRequest:adRequest forAdUnit:adUnit];
+    }
+}
+
+- (void) addCriteoBidToDfpRequest:(id) adRequest
+                        forAdUnit:(CR_CacheAdUnit *) adUnit {
     CR_CdbBid *fetchedBid = [self getBid:adUnit];
     if ([fetchedBid isEmpty]) {
         return;
@@ -197,6 +208,39 @@
             [customTargeting setObject:fetchedBid.dfpCompatibleDisplayUrl forKey:@"crt_displayUrl"];
             NSDictionary *updatedDictionary = [NSDictionary dictionaryWithDictionary:customTargeting];
             [adRequest performSelector:dfpSetCustomTargeting withObject:updatedDictionary];
+#pragma clang diagnostic pop
+        }
+    }
+}
+
+- (void) addCriteoBidToMopubRequest:(id) adRequest
+                          forAdUnit:(CR_CacheAdUnit *) adUnit {
+    CR_CdbBid *fetchedBid = [self getBid:adUnit];
+    if ([fetchedBid isEmpty]) {
+        return;
+    }
+
+    SEL mopubKeywords = NSSelectorFromString(@"keywords");
+    if([adRequest respondsToSelector:mopubKeywords]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+        id targeting = [adRequest performSelector:mopubKeywords];
+
+        if (targeting == nil) {
+            targeting = @"";
+        }
+
+        if ([targeting isKindOfClass:[NSString class]]) {
+            NSMutableString *keywords = [[NSMutableString alloc] initWithString:targeting];
+            if ([keywords length] > 0) {
+                [keywords appendString:@","];
+            }
+            [keywords appendString:@"crt_cpm:"];
+            [keywords appendString:fetchedBid.cpm];
+            [keywords appendString:@","];
+            [keywords appendString:@"crt_displayUrl:"];
+            [keywords appendString:fetchedBid.mopubCompatibleDisplayUrl];
+            [adRequest setValue:keywords forKey:@"keywords"];
 #pragma clang diagnostic pop
         }
     }
