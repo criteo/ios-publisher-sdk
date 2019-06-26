@@ -66,6 +66,10 @@ cp -R build/output/device/CriteoPublisherSdk.framework build/output
 rm build/output/CriteoPublisherSdk.framework/CriteoPublisherSdk
 
 lipo -create -output build/output/CriteoPublisherSdk.framework/CriteoPublisherSdk build/output/sim/CriteoPublisherSdk.framework/CriteoPublisherSdk build/output/device/CriteoPublisherSdk.framework/CriteoPublisherSdk
+echo "Fat Binary Contents for $CRITEO_CONFIGURATION Build:"
+echo "----------------------------------------------------"
+objdump -macho -universal-headers -arch all build/output/CriteoPublisherSdk.framework/CriteoPublisherSdk
+echo "----------------------------------------------------"
 
 cd build/output
 
@@ -114,6 +118,10 @@ cp -R build/output/device/CriteoPublisherSdk.framework build/output
 rm build/output/CriteoPublisherSdk.framework/CriteoPublisherSdk
 
 lipo -create -output build/output/CriteoPublisherSdk.framework/CriteoPublisherSdk build/output/sim/CriteoPublisherSdk.framework/CriteoPublisherSdk build/output/device/CriteoPublisherSdk.framework/CriteoPublisherSdk
+echo "Fat Binary Contents for $CRITEO_CONFIGURATION Build:"
+echo "----------------------------------------------------"
+objdump -macho -universal-headers -arch all build/output/CriteoPublisherSdk.framework/CriteoPublisherSdk
+echo "----------------------------------------------------"
 
 cd build/output
 
