@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void) setBidsForRequest:(id) request
                 withAdUnit:(CRAdUnit *) adUnit;
 
-- (CRBidResponse *)getBidForAdUnit:(CRAdUnit *)adUnit;
+- (CRBidResponse *)getBidResponseForAdUnit:(CRAdUnit *)adUnit;
 
 @end
 NS_ASSUME_NONNULL_END

@@ -1,8 +1,7 @@
 //
 //  CRInterstitialDelegate.h
-//  pubsdk
+//  CriteoPublisherSdk
 //
-//  Created by Julien Stoeffler on 5/8/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

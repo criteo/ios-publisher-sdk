@@ -103,7 +103,7 @@ static Criteo *sharedInstance;
     return bidManager;
 }
 
-- (CRBidResponse *)getBidForAdUnit:(CRAdUnit *)adUnit {
+- (CRBidResponse *)getBidResponseForAdUnit:(CRAdUnit *)adUnit {
     return [self.bidManager bidResponseForCacheAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit
                                                                                  deviceInfo:[CR_DeviceInfo new]]
                                            adUnitType:adUnit.adUnitType];

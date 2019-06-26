@@ -1,8 +1,7 @@
 //
 //  CRBannerViewDelegate.h
-//  pubsdk
+//  CriteoPublisherSdk
 //
-//  Created by Sneha Pathrose on 5/8/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
