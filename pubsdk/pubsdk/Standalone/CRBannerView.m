@@ -18,7 +18,7 @@
 @import WebKit;
 
 
-@interface CRBannerView() <WKNavigationDelegate>
+@interface CRBannerView() <WKNavigationDelegate, WKUIDelegate>
 @property (nonatomic) BOOL isResponseValid;
 @property (nonatomic, strong) Criteo *criteo;
 @property (nonatomic, strong) WKWebView *webView;
@@ -47,6 +47,7 @@
         _webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         _webView.scrollView.scrollEnabled = false;
         _webView.navigationDelegate = self;
+        _webView.UIDelegate = self;
         [self addSubview:webView];
         _application = application;
         _adUnit = adUnit;
@@ -120,21 +121,41 @@
     }
 }
 
+// When the creative uses window.open(url) to open the URL, this method will be called
+- (WKWebView *)webView:(WKWebView *)webView
+createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
+   forNavigationAction:(WKNavigationAction *)navigationAction
+        windowFeatures:(WKWindowFeatures *)windowFeatures {
+    [self handlePotentialClickForNavigationAction:navigationAction decisionHandler:nil allowedNavigationType:WKNavigationTypeOther];
+    return nil;
+}
+
+// When the creative uses <a href="url"> to open the URL, this method will be called
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
 decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
-    if(navigationAction.navigationType == WKNavigationTypeLinkActivated && [navigationAction.sourceFrame isMainFrame]) {
-        if(navigationAction.request.URL != nil) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if([self.delegate respondsToSelector:@selector(bannerWillLeaveApplication:)]) {
-                    [self.delegate bannerWillLeaveApplication:self];
-                }
-                [self.application openURL:navigationAction.request.URL];
-            });
-            decisionHandler(WKNavigationActionPolicyCancel);
-            return;
-        }
+    [self handlePotentialClickForNavigationAction:navigationAction decisionHandler:decisionHandler allowedNavigationType:WKNavigationTypeLinkActivated];
+}
+
+- (void)handlePotentialClickForNavigationAction:(WKNavigationAction *)navigationAction
+    decisionHandler:(nullable void (^)(WKNavigationActionPolicy))decisionHandler
+    allowedNavigationType:(WKNavigationType)allowedNavigationType {
+         if(navigationAction.navigationType == allowedNavigationType
+            && navigationAction.sourceFrame.isMainFrame
+            && navigationAction.request.URL != nil) {
+                 dispatch_async(dispatch_get_main_queue(), ^{
+                     if([self.delegate respondsToSelector:@selector(bannerWillLeaveApplication:)]) {
+                         [self.delegate bannerWillLeaveApplication:self];
+                     }
+                     [self.application openURL:navigationAction.request.URL];
+                 });
+             if(decisionHandler){
+                 decisionHandler(WKNavigationActionPolicyCancel);
+             }
+                 return;
+             }
+    if(decisionHandler){
+        decisionHandler(WKNavigationActionPolicyAllow);
     }
-    decisionHandler(WKNavigationActionPolicyAllow);
 }
 
 // Delegate errors that occur during web view navigation

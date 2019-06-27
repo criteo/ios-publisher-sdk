@@ -43,6 +43,11 @@ decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler;
 -     (void)webView:(WKWebView *)webView
 didFinishNavigation:(WKNavigation *)navigation;
 
+- (WKWebView *)webView:(WKWebView *)webView
+createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
+   forNavigationAction:(WKNavigationAction *)navigationAction
+        windowFeatures:(WKWindowFeatures *)windowFeatures;
+
 @end
 
 

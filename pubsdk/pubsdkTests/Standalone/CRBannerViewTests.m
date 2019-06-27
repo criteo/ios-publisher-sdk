@@ -53,6 +53,7 @@
 - (void)testBannerSuccess {
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
     MockWKWebView *mockWebView = [MockWKWebView new];
+
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:mockCriteo
                                                            webView:mockWebView
@@ -220,15 +221,51 @@ didFinishNavigation:(WKNavigation *)navigation {
           decisionHandler:^(WKNavigationActionPolicy actionPolicy) {
               XCTAssertEqual(actionPolicy, WKNavigationActionPolicyCancel);
           }];
-    [NSTimer scheduledTimerWithTimeInterval:3
-                                    repeats:NO
-                                      block:^(NSTimer * _Nonnull timer) {
-                                          OCMVerify([mockApplication openURL:url]);
-                                          [openInBrowserExpectation fulfill];
-                                      }];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        OCMVerify([mockApplication openURL:url]);
+        [openInBrowserExpectation fulfill];
+    });
+
+
     [self waitForExpectations:@[openInBrowserExpectation]
-                      timeout:5];
+                      timeout:1];
 }
+
+
+// Test window.open navigation delegate
+// TODO: (U)ITests for "window.open" in a "real" webview
+- (void)testCreateWebViewWithConfiguration {
+    WKWebView *realWebView = [WKWebView new];
+    Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    UIApplication *mockApplication = OCMStrictClassMock([UIApplication class]);
+    CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f) criteo:mockCriteo webView:realWebView application:mockApplication adUnit:nil];
+
+    WKNavigationAction *mockNavigationAction = OCMStrictClassMock([WKNavigationAction class]);
+
+    OCMStub(mockNavigationAction.navigationType).andReturn(WKNavigationTypeOther);
+    WKFrameInfo *mockFrame = OCMStrictClassMock([WKFrameInfo class]);
+    OCMStub(mockNavigationAction.sourceFrame).andReturn(mockFrame);
+    OCMStub([mockFrame isMainFrame]).andReturn(YES);
+    NSURL *url = [[NSURL alloc] initWithString:@"123"];
+    NSURLRequest *request =  [[NSURLRequest alloc] initWithURL:url];
+    OCMStub(mockNavigationAction.request).andReturn(request);
+    OCMStub([mockApplication canOpenURL:url]).andReturn(YES);
+    OCMStub([mockApplication openURL:url]);
+
+    XCTestExpectation *openInBrowserExpectation = [self expectationWithDescription:@"URL opened in browser expectation"];
+    [bannerView webView:realWebView createWebViewWithConfiguration:nil forNavigationAction:mockNavigationAction windowFeatures:nil];
+
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        OCMVerify([mockApplication openURL:url]);
+        [openInBrowserExpectation fulfill];
+    });
+
+    [self waitForExpectations:@[openInBrowserExpectation]
+                      timeout:1];
+}
+
 
 #pragma inhouseSpecificTests
 
@@ -252,5 +289,7 @@ didFinishNavigation:(WKNavigation *)navigation {
     XCTAssertTrue([mockWebView.loadedHTMLString containsString:@"<script src=\"https://rdi.eu.criteo.com/delivery/r/ajs.php?did=5c98e9d9c574a3589f8e9465fce67b00&u=%7Cx8O2jgV2RMISbZvm2b09FrpmynuoN27jeqtp1aMfZdU%3D%7C&c1=oP5_e7JVVt0EkjVehxP6aIOIWS-fm2fzhyMXUboeuR1zkGydE3HlloxT1QAbHNNgeH7t9e1IR6mv0biMxm46ZSFdAXZXreJVeP6QwU8IPLUsA32HNafhqgpnKTwmx9RrrJm4CS5Wqj07vNY7UTgDei8AWqc5CGPT2wm7W02JRvgN2kA-oWbWifmmm6EPpqVZijDHDzXwaNgzrfsaEodEmYAjFepGF0mdElHoFUCPKuOtc7mUQijLG0BSS9RhwrCTcAv42KkEQ359Et_eDnQcSt9OAF3bL64QIvLQxt2ekYFNuv3zng03qL0DIHS2bDJwRb3ieUlvZCWHI49OqM5PqoGDpSzdhdwfTE18L6cOOVKqPQ0dPofN4dkSs9IbVGiYlPnjfibL88PwTspYvki2svidSDIa2agQMHVgEof8YY4x4VgPjA8XY-s93ttw_i-RN3lcQn2mGEp6FYmRsyjFEDxHgGfJ0j6U\"></script>"]);
     XCTAssertEqualObjects([NSURL URLWithString:@"about:blank"],mockWebView.loadedBaseURL);
 }
+
+
 
 @end

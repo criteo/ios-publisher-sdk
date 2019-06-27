@@ -18,6 +18,10 @@
 
 @import WebKit;
 
+@interface CRInterstitial() <WKNavigationDelegate, WKUIDelegate>
+
+@end
+
 @implementation CRInterstitial
 
 - (instancetype)initWithCriteo:(Criteo *)criteo
@@ -28,6 +32,7 @@
     if(self = [super init]) {
         _criteo = criteo;
         viewController.webView.navigationDelegate = self;
+        viewController.webView.UIDelegate = self;
         _viewController = viewController;
         _application = application;
         _isAdLoaded = isAdLoaded;
@@ -191,24 +196,41 @@ didFinishNavigation:(WKNavigation *)navigation {
                                    }];
 }
 
+// When the creative uses window.open(url) to open the URL, this method will be called
+- (WKWebView *)webView:(WKWebView *)webView
+createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
+   forNavigationAction:(WKNavigationAction *)navigationAction
+        windowFeatures:(WKWindowFeatures *)windowFeatures {
+    [self handlePotentialClickForNavigationAction:navigationAction decisionHandler:nil allowedNavigationType:WKNavigationTypeOther];
+    return nil;
+}
+// When the creative uses <a href="url"> to open the URL, this method will be called
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
 decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
-    // cancel webView navigation for clicks on Links from mainFrame and open in browser
-    if(navigationAction.navigationType == WKNavigationTypeLinkActivated && [navigationAction.sourceFrame isMainFrame]) {
-        if(navigationAction.request.URL != nil) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if([self.delegate respondsToSelector:@selector(interstitialWillLeaveApplication:)]) {
-                    [self.delegate interstitialWillLeaveApplication:self];
-                }
-                [self.application openURL:navigationAction.request.URL];
-                [self.viewController dismissViewController];
-            });
+    [self handlePotentialClickForNavigationAction:navigationAction decisionHandler:decisionHandler allowedNavigationType:WKNavigationTypeLinkActivated];
+}
+
+- (void)handlePotentialClickForNavigationAction:(WKNavigationAction *)navigationAction
+                                decisionHandler:(nullable void (^)(WKNavigationActionPolicy))decisionHandler
+                          allowedNavigationType:(WKNavigationType)allowedNavigationType {
+    if(navigationAction.navigationType == allowedNavigationType
+       && navigationAction.sourceFrame.isMainFrame
+       && navigationAction.request.URL != nil) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if([self.delegate respondsToSelector:@selector(interstitialWillLeaveApplication:)]) {
+                [self.delegate interstitialWillLeaveApplication:self];
+            }
+            [self.application openURL:navigationAction.request.URL];
+            [self.viewController dismissViewController];
+        });
+        if(decisionHandler) {
             decisionHandler(WKNavigationActionPolicyCancel);
-            return;
         }
+        return;
     }
-    // allow all other navigation Types for webView
-    decisionHandler(WKNavigationActionPolicyAllow);
+    if(decisionHandler) {
+        decisionHandler(WKNavigationActionPolicyAllow);
+    }
 }
 
 // Delegate errors that occur during web view navigation

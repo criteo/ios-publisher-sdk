@@ -254,15 +254,57 @@
           decisionHandler:^(WKNavigationActionPolicy actionPolicy) {
               XCTAssertEqual(actionPolicy, WKNavigationActionPolicyCancel);
           }];
-    [NSTimer scheduledTimerWithTimeInterval:3
-                                    repeats:NO
-                                      block:^(NSTimer * _Nonnull timer) {
-                                          OCMVerify([mockApplication openURL:url]);
-                                          OCMVerify([interstitialVC dismissViewController]);
-                                          [openInBrowserExpectation fulfill];
-                                      }];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        OCMVerify([mockApplication openURL:url]);
+        OCMVerify([interstitialVC dismissViewController]);
+        [openInBrowserExpectation fulfill];
+    });
+
+
     [self waitForExpectations:@[openInBrowserExpectation]
-                      timeout:5];
+                      timeout:1];
 }
+
+
+// Test window.open navigation delegate
+// TODO: UITests for "window.open" in a "real" webview
+- (void)testCreateWebViewWithConfiguration {
+    WKWebView *realWebView = [WKWebView new];
+    Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    UIApplication *mockApplication = OCMStrictClassMock([UIApplication class]);
+    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:realWebView
+                                                                                                      view:nil
+                                                                                              interstitial:nil];
+    CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
+                                                           viewController:interstitialVC
+                                                              application:mockApplication
+                                                               isAdLoaded:NO
+                                                                adUnit:nil];
+
+    WKNavigationAction *mockNavigationAction = OCMStrictClassMock([WKNavigationAction class]);
+    OCMStub(mockNavigationAction.navigationType).andReturn(WKNavigationTypeOther);
+    WKFrameInfo *mockFrame = OCMStrictClassMock([WKFrameInfo class]);
+    OCMStub(mockNavigationAction.sourceFrame).andReturn(mockFrame);
+    OCMStub([mockFrame isMainFrame]).andReturn(YES);
+    NSURL *url = [[NSURL alloc] initWithString:@"123"];
+    NSURLRequest *request =  [[NSURLRequest alloc] initWithURL:url];
+    OCMStub(mockNavigationAction.request).andReturn(request);
+    OCMStub([mockApplication canOpenURL:url]).andReturn(YES);
+    OCMStub([mockApplication openURL:url]);
+
+    XCTestExpectation *openInBrowserExpectation = [self expectationWithDescription:@"URL opened in browser expectation"];
+    [interstitial webView:realWebView createWebViewWithConfiguration:nil forNavigationAction:mockNavigationAction windowFeatures:nil];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        OCMVerify([mockApplication openURL:url]);
+        OCMVerify([interstitialVC dismissViewController]);
+        [openInBrowserExpectation fulfill];
+    });
+
+    [self waitForExpectations:@[openInBrowserExpectation]
+                      timeout:1];
+}
+
 
 @end
