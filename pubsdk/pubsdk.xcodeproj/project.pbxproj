@@ -92,6 +92,8 @@
 		650915FE225565E7001D6673 /* CRBannerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 650915F32255622E001D6673 /* CRBannerView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6519C0DB2285FA8300111A5F /* CRInterstitialDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6519C0DA2285FA8300111A5F /* CRInterstitialDelegateTests.m */; };
 		6524664122543083005058C5 /* CRBannerViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6524664022543083005058C5 /* CRBannerViewTests.m */; };
+		653CA6F622C3808500D74412 /* CR_TokenCache.h in Sources */ = {isa = PBXBuildFile; fileRef = 53374B7F22AEDBE4007084FB /* CR_TokenCache.h */; };
+		653CA6F722C389A600D74412 /* CR_TokenCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 53374B7E22AEDBE4007084FB /* CR_TokenCache.m */; };
 		6540470F22581D32009235A1 /* MockWKWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6540470E22581D32009235A1 /* MockWKWebView.m */; };
 		654858A7226538D500DC471A /* CRInterstitial.h in Headers */ = {isa = PBXBuildFile; fileRef = 654858A5226538D500DC471A /* CRInterstitial.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		654858A9226538D500DC471A /* CRInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 654858A6226538D500DC471A /* CRInterstitial.m */; };
@@ -842,6 +844,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				653CA6F722C389A600D74412 /* CR_TokenCache.m in Sources */,
 				25BD5B5F2220D183004DE311 /* CR_AppEvents.m in Sources */,
 				53D6429822C2C615005791D4 /* CR_TokenCache.m in Sources */,
 				5496876022A5C774007D2578 /* CR_AdUnitHelper.m in Sources */,
@@ -886,6 +889,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				653CA6F622C3808500D74412 /* CR_TokenCache.h in Sources */,
 				25B6505B2206AB40008416D3 /* Logging.m in Sources */,
 				53374B8022AEDBE5007084FB /* CR_TokenCache.m in Sources */,
 				5496875F22A5A96D007D2578 /* CR_AdUnitHelper.m in Sources */,
