@@ -29,6 +29,15 @@
                     if(configValues[@"killSwitch"] && [configValues[@"killSwitch"] isKindOfClass:NSNumber.class]) {
                         config.killSwitch = ((NSNumber*)configValues[@"killSwitch"]).boolValue;
                     }
+                    if(configValues[@"iOSAdTagUrlMode"] && [configValues[@"iOSAdTagUrlMode"] isKindOfClass:NSString.class]) {
+                        config.adTagUrlMode = (NSString*)configValues[@"iOSAdTagUrlMode"];
+                    }
+                    if(configValues[@"iOSDisplayUrlMacro"] && [configValues[@"iOSDisplayUrlMacro"] isKindOfClass:NSString.class]) {
+                        config.displayURLMacro = (NSString*)configValues[@"iOSDisplayUrlMacro"];
+                    }
+                    if(configValues[@"iOSWidthMacro"] && [configValues[@"iOSWidthMacro"] isKindOfClass:NSString.class]) {
+                        config.viewportWidthMacro = (NSString*)configValues[@"iOSWidthMacro"];
+                    }
                 }];
 }
 

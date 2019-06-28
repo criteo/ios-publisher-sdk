@@ -29,6 +29,9 @@
         _deviceOs = @"ios";
         _appEventsUrl = @"https://gum.criteo.com/appevent/v1";
         _appEventsSenderId = @"2379";
+        _adTagUrlMode = @"<!doctype html><html><head><meta charset=\"utf-8\"><style>body{margin:0;padding:0}</style><meta name=\"viewport\" content=\"width=%%width%%, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\" ></head><body><script src=\"%%displayUrl%%\"></script></body></html>";
+        _viewportWidthMacro = @"%%width%%";
+        _displayURLMacro = @"%%displayUrl%%";
     }
     return self;
 }

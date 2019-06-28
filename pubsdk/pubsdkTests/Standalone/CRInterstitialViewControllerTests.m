@@ -107,7 +107,6 @@
     UIWindow __block *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
     [window makeKeyAndVisible];
     MockWKWebView *mockWebView = [MockWKWebView new];
-
     CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView
                                                                                                       view:nil
                                                                                               interstitial:nil];

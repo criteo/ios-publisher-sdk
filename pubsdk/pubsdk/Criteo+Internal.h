@@ -18,12 +18,14 @@
 @class CR_CdbBid;
 @class CR_TokenValue;
 @class CRBidToken;
+@class CR_Config;
 @interface Criteo ()
 
 @property (nonatomic) id<CR_NetworkManagerDelegate> networkMangerDelegate;
 - (CR_CdbBid *)getBid:(CR_CacheAdUnit *)slot;
 - (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken
                               adUnitType:(CRAdUnitType)adUnitType;
+- (CR_Config *)getConfig;
 @end
 
 

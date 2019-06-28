@@ -52,6 +52,7 @@
 
 - (void)testBannerSuccess {
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    OCMStub([mockCriteo getConfig]).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
     MockWKWebView *mockWebView = [MockWKWebView new];
 
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
@@ -95,6 +96,7 @@
 
 - (void)testWithRendering {
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    OCMStub([mockCriteo getConfig]).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
     WKWebView *realWebView = [WKWebView new];
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:mockCriteo
@@ -153,6 +155,7 @@ didFinishNavigation:(WKNavigation *)navigation {
 
 - (void) testBannerFail {
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    OCMStub([mockCriteo getConfig]).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
     WKWebView *realWebView = [WKWebView new];
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:mockCriteo
@@ -271,6 +274,7 @@ didFinishNavigation:(WKNavigation *)navigation {
 
 - (void)testLoadingSuccess {
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    OCMStub([mockCriteo getConfig]).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
     MockWKWebView *mockWebView = [MockWKWebView new];
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:mockCriteo
@@ -290,6 +294,32 @@ didFinishNavigation:(WKNavigation *)navigation {
     XCTAssertEqualObjects([NSURL URLWithString:@"about:blank"],mockWebView.loadedBaseURL);
 }
 
+- (void)testTemplatingFromConfig {
+    Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    CR_Config *config = [CR_Config new];
+    config.adTagUrlMode = @"Good Morning, my width is #WEEDTH# and my URL is ˆURLˆ";
+    config.viewportWidthMacro = @"#WEEDTH#";
+    config.displayURLMacro = @"ˆURLˆ";
+    OCMExpect([mockCriteo getConfig]).andReturn(config);
 
+    MockWKWebView *mockWebView = [MockWKWebView new];
+    CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
+                                                            criteo:mockCriteo
+                                                           webView:mockWebView
+                                                       application:nil
+                                                            adUnit:nil];
+
+
+    CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
+    NSString *displayURL = @"whatDoYouMean";
+    CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:displayURL
+                                                                       insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-100]
+                                                                              ttl:200
+                                                                       adUnitType:CRAdUnitTypeBanner];
+    OCMStub([mockCriteo tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner]).andReturn(expectedTokenValue);
+
+    [bannerView loadAdWithBidToken:token];
+    XCTAssertEqualObjects(mockWebView.loadedHTMLString, @"Good Morning, my width is 47 and my URL is whatDoYouMean");
+}
 
 @end

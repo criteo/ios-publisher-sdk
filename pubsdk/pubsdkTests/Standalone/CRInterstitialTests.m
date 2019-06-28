@@ -68,6 +68,7 @@
 
 - (void)testInterstitialSuccess {
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    OCMStub([mockCriteo getConfig]).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
     MockWKWebView *mockWebView = [MockWKWebView new];
     CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView
                                                                                                       view:nil
@@ -89,6 +90,38 @@
     XCTAssertTrue([mockWebView.loadedHTMLString containsString:@"<script src=\"test\"></script>"]);
     XCTAssertEqualObjects([NSURL URLWithString:@"about:blank"],mockWebView.loadedBaseURL);
 }
+
+- (void)testTemplatingFromConfig {
+    Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    CR_Config *config = [CR_Config new];
+    config.adTagUrlMode = @"Good Morning, my width is #WEEDTH# and my URL is ˆURLˆ";
+    config.viewportWidthMacro = @"#WEEDTH#";
+    config.displayURLMacro = @"ˆURLˆ";
+    OCMExpect([mockCriteo getConfig]).andReturn(config);
+
+    MockWKWebView *mockWebView = [MockWKWebView new];
+    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView
+                                                                                                      view:nil
+                                                                                              interstitial:nil];
+    CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
+                                                           viewController:interstitialVC
+                                                              application:nil
+                                                               isAdLoaded:NO
+                                                                   adUnit:nil];
+
+    id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
+    OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
+                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedCacheAdUnit]);
+
+    OCMExpect([mockCriteo getBid:OCMArg.any]).andReturn([self bidWithDisplayURL:@"whatDoYouMean"]);
+
+    [interstitial loadAd];
+
+    NSString *expectedHtml = [NSString stringWithFormat:@"Good Morning, my width is %ld and my URL is whatDoYouMean", (long)[UIScreen mainScreen].bounds.size.width];
+
+    XCTAssertEqualObjects(mockWebView.loadedHTMLString, expectedHtml);
+}
+
 
 - (void)testWebViewAddedToViewHierarchy {
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
@@ -114,6 +147,7 @@
 
 - (void)testWithRendering {
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    OCMStub([mockCriteo getConfig]).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
     WKWebView *realWebView = [WKWebView new];
     CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:realWebView
                                                                                                       view:nil

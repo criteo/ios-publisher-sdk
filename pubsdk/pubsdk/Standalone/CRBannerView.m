@@ -56,17 +56,17 @@
 }
 
 - (void)loadWebViewWithDisplayUrl:(NSString *)displayUrl {
-    NSString *htmlString = [NSString stringWithFormat:@"<!doctype html>"
-                            "<html>"
-                            "<head>"
-                            "<meta charset=\"utf-8\">"
-                            "<style>body{margin:0;padding:0}</style>"
-                            "<meta name=\"viewport\" content=\"width=%ld, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\" >"
-                            "</head>"
-                            "<body>"
-                            "<script src=\"%@\"></script>"
-                            "</body>"
-                            "</html>", (long)self.frame.size.width , displayUrl];
+    // Will crash the app if nil is passed to stringByReplacingOccurrencesOfString
+    if(!displayUrl){
+        return;
+    }
+
+    CR_Config *config = [_criteo getConfig];
+
+    NSString *viewportWidth = [NSString stringWithFormat:@"%ld", (long)self.frame.size.width];
+
+    NSString *htmlString = [[config.adTagUrlMode stringByReplacingOccurrencesOfString:config.viewportWidthMacro withString:viewportWidth] stringByReplacingOccurrencesOfString:config.displayURLMacro withString:displayUrl];
+
     [_webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"about:blank"]];
 }
 

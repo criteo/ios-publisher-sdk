@@ -49,6 +49,8 @@ NS_DESIGNATED_INITIALIZER;
 
 - (CR_CdbBid *) getBid: (CR_CacheAdUnit *) slot;
 
+- (CR_Config *)getConfig;
+
 - (CRBidResponse *)bidResponseForCacheAdUnit:(CR_CacheAdUnit *)cacheAdUnit
                                   adUnitType:(CRAdUnitType)adUnitType;
 

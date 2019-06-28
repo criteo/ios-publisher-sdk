@@ -122,4 +122,8 @@ static Criteo *sharedInstance;
     return [self.bidManager tokenValueForBidToken:bidToken adUnitType:adUnitType];
 }
 
+- (CR_Config *)getConfig {
+    return [self.bidManager getConfig];
+}
+
 @end

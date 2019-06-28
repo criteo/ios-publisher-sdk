@@ -9,6 +9,7 @@
 #import "Criteo+Internal.h"
 #import "CRInterstitial.h"
 #import "CRInterstitial+Internal.h"
+#import "CR_Config.h"
 #import "Criteo.h"
 #import "CR_CdbBid.h"
 #import "NSError+CRErrors.h"
@@ -99,8 +100,24 @@
         return;
     }
     [self.viewController initWebViewIfNeeded];
-    [self.viewController loadWebViewWithDisplayURL:bid.displayUrl];
+    [self loadWebViewWithDisplayURL:bid.displayUrl];
 }
+
+- (void)loadWebViewWithDisplayURL:(NSString *)displayURL {
+    // Will crash the app if nil is passed to stringByReplacingOccurrencesOfString
+    if(!displayURL){
+        return;
+    }
+
+    CR_Config *config = [_criteo getConfig];
+
+    NSString *viewportWidth = [NSString stringWithFormat:@"%ld", (long)[UIScreen mainScreen].bounds.size.width];
+
+    NSString *htmlString = [[config.adTagUrlMode stringByReplacingOccurrencesOfString:config.viewportWidthMacro withString:viewportWidth] stringByReplacingOccurrencesOfString:config.displayURLMacro withString:displayURL];
+
+    [self.viewController.webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"about:blank"]];
+}
+
 
 - (void)loadAdWithBidToken:(CRBidToken *)bidToken {
     if(![self checkSafeToLoad]) {
@@ -119,7 +136,7 @@
         return;
     }
     [self.viewController initWebViewIfNeeded];
-    [self.viewController loadWebViewWithDisplayURL:tokenValue.displayUrl];
+    [self loadWebViewWithDisplayURL:tokenValue.displayUrl];
 }
 
 -     (void)webView:(WKWebView *)webView

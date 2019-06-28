@@ -20,6 +20,7 @@
 #import "CR_AdUnitHelper.h"
 #import "CRBidToken+Internal.h"
 #import "CR_TokenValue.h"
+#import "CR_Config.h"
 
 @interface CRInterstitialDelegateTests : XCTestCase
 {
@@ -97,6 +98,7 @@
 - (void)testInterstitialDidLoad {
     // create mock objects
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    OCMStub([mockCriteo getConfig]).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
     WKWebView *mockWebView = OCMClassMock([WKWebView class]);
     UIView *mockView = OCMClassMock([UIView class]);
     CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView
@@ -209,6 +211,7 @@
 
 - (void)testInterstitialWillAndDidAppear {
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    OCMStub([mockCriteo getConfig]).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
     WKWebView *mockWebView = OCMClassMock([WKWebView class]);
     UIView *mockView = OCMClassMock([UIView class]);
     CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView
@@ -514,6 +517,7 @@
 
 - (void)testInterstitialFailWhenNoHttpResponse {
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    OCMStub([mockCriteo getConfig]).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
     WKWebView *realWebView = [WKWebView new];
     CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:realWebView
                                                                                                       view:nil
@@ -548,6 +552,7 @@
 
 - (void)testInterstitialFailWhenAdIsBeingLoaded {
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    OCMStub([mockCriteo getConfig]).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
     WKWebView *realWebView = [WKWebView new];
     CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:realWebView
                                                                                                       view:nil
@@ -617,6 +622,7 @@
 - (void)testInterstitialDidLoadForValidTokenValue {
     // create mock objects
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    OCMStub([mockCriteo getConfig]).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
     WKWebView *mockWebView = OCMClassMock([WKWebView class]);
     UIView *mockView = OCMClassMock([UIView class]);
     CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView
