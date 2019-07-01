@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) CRInterstitial *interstitial;
 
 - (instancetype)initWithWebView:(WKWebView *)webView
-                           view:(UIView *)view
+                           view:(nullable UIView *)view
                    interstitial:(CRInterstitial *)interstitial;
 - (void)dismissViewController;
 - (void)initWebViewIfNeeded;
