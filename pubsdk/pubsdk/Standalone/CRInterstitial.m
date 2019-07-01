@@ -215,7 +215,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     decisionHandler(WKNavigationResponsePolicyAllow);
 }
 
-- (void)safelyNotifyAdLoadFail:(CRErrorCodes)errorCode description:(NSString *)optionalDescription {
+- (void)safelyNotifyAdLoadFail:(CRErrorCode)errorCode description:(NSString *)optionalDescription {
     dispatch_async(dispatch_get_main_queue(), ^{
         if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
             NSError *error = optionalDescription

@@ -12,12 +12,12 @@ static NSString *const errorDomain = @"com.criteo.pubsdk";
 
 @implementation NSError (CRErrors)
 
-+ (NSError *)CRErrors_errorWithCode:(CRErrorCodes)code {
++ (NSError *)CRErrors_errorWithCode:(CRErrorCode)code {
     return [NSError CRErrors_errorWithCode:code
                       description:nil];
 }
 
-+ (NSError *)CRErrors_errorWithCode:(CRErrorCodes)code
++ (NSError *)CRErrors_errorWithCode:(CRErrorCode)code
                description:(NSString *)description {
     NSString *finalDescription = [NSError descriptionForCRErrorCode:code];
     if(description != nil) {
@@ -28,7 +28,7 @@ static NSString *const errorDomain = @"com.criteo.pubsdk";
                            userInfo:@{@"Description": finalDescription}];
 }
 
-+ (NSString *)descriptionForCRErrorCode:(CRErrorCodes)code {
++ (NSString *)descriptionForCRErrorCode:(CRErrorCode)code {
     switch(code) {
         case CRErrorCodeNoFill:
             return @"Ad request succeeded but no ads are available.";

@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger, CRErrorCodes) {
+typedef NS_ENUM(NSInteger, CRErrorCode) {
     CRErrorCodeInternalError,
     CRErrorCodeNoFill,
     CRErrorCodeNetworkError,
@@ -22,10 +22,10 @@ typedef NS_ENUM(NSInteger, CRErrorCodes) {
 
 @interface NSError (CRErrors)
 
-+ (NSError *)CRErrors_errorWithCode:(CRErrorCodes)code;
-+ (NSError *)CRErrors_errorWithCode:(CRErrorCodes)code
++ (NSError *)CRErrors_errorWithCode:(CRErrorCode)code;
++ (NSError *)CRErrors_errorWithCode:(CRErrorCode)code
                description:(nullable NSString *)description;
-+ (NSString *)descriptionForCRErrorCode:(CRErrorCodes)code;
++ (NSString *)descriptionForCRErrorCode:(CRErrorCode)code;
 
 @end
 

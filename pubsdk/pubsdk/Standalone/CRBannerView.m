@@ -162,7 +162,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 }
 
 
-- (void)safelyNotifyAdLoadFail:(CRErrorCodes)errorCode description:(NSString *)optionalDescription {
+- (void)safelyNotifyAdLoadFail:(CRErrorCode)errorCode description:(NSString *)optionalDescription {
     dispatch_async(dispatch_get_main_queue(), ^{
         if([self.delegate respondsToSelector:@selector(banner:didFailToLoadAdWithError:)]) {
             NSError *error = optionalDescription
