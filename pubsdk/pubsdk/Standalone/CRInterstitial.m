@@ -128,15 +128,9 @@ didFinishNavigation:(WKNavigation *)navigation {
 }
 
 - (void)presentFromRootViewController:(UIViewController *)rootViewController {
-    if (self.viewController.presentingViewController) {
-        // Already presenting
-        return [self safelyNotifyAdLoadFail:CRErrorCodeInvalidRequest description:@"An Ad is already being presented."];
-    }
+    if (self.viewController.presentingViewController) return [self safelyNotifyAdLoadFail:CRErrorCodeInvalidRequest description:@"An Ad is already being presented."];
 
-    if (!rootViewController) {
-        // No view controller to present from
-        return [self safelyNotifyAdLoadFail:CRErrorCodeInvalidParameter description:@"rootViewController parameter must not be nil."];
-    }
+    if (!rootViewController) return [self safelyNotifyAdLoadFail:CRErrorCodeInvalidParameter description:@"rootViewController parameter must not be nil."];
 
     if(!self.isAdLoaded) return [self safelyNotifyAdLoadFail:CRErrorCodeInvalidRequest description:@"Interstitial Ad is not loaded."];
 
