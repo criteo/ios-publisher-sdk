@@ -57,10 +57,7 @@
 
 - (void)loadWebViewWithDisplayUrl:(NSString *)displayUrl {
     // Will crash the app if nil is passed to stringByReplacingOccurrencesOfString
-    if(!displayUrl) {
-        return;
-    }
-
+    if(!displayUrl) return [self safelyNotifyAdLoadFail:CRErrorCodeInternalError description:@"No display URL in bid response"];
 
     CR_Config *config = [_criteo getConfig];
 
