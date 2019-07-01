@@ -437,7 +437,7 @@
                                                                    adUnit:self.adUnit];
     id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
     NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidParameter
-                                        description:@"rootViewController parameter must not be null."];
+                                        description:@"rootViewController parameter must not be nil."];
     interstitial.delegate = mockInterstitialDelegate;
     OCMStub([mockInterstitialDelegate interstitial:interstitial
                           didFailToLoadAdWithError:[OCMArg any]]);

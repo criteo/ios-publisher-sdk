@@ -57,9 +57,10 @@
 
 - (void)loadWebViewWithDisplayUrl:(NSString *)displayUrl {
     // Will crash the app if nil is passed to stringByReplacingOccurrencesOfString
-    if(!displayUrl){
+    if(!displayUrl) {
         return;
     }
+
 
     CR_Config *config = [_criteo getConfig];
 
@@ -75,15 +76,9 @@
     CR_CacheAdUnit *cacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:_adUnit.adUnitId
                                                                       size:self.frame.size];
     CR_CdbBid *bid = [self.criteo getBid:cacheAdUnit];
-    if([bid isEmpty]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if([self.delegate respondsToSelector:@selector(banner:didFailToLoadAdWithError:)]) {
-                 [self.delegate banner:self
-              didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeNoFill]];
-            }
-        });
-        return;
-    }
+
+    if([bid isEmpty]) return [self safelyNotifyAdLoadFail:CRErrorCodeNoFill description:nil];
+
     [self loadWebViewWithDisplayUrl:bid.displayUrl];
 }
 
@@ -91,34 +86,20 @@
     self.isResponseValid = NO;
     CR_TokenValue *tokenValue = [self.criteo tokenValueForBidToken:bidToken
                                                         adUnitType:CRAdUnitTypeBanner];
-    if (tokenValue == nil) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if([self.delegate respondsToSelector:@selector(banner:didFailToLoadAdWithError:)]) {
-                [self.delegate banner:self
-             didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeNoFill]];
-            }
-        });
-        return;
-    }
+
+    if (!tokenValue) return [self safelyNotifyAdLoadFail:CRErrorCodeNoFill description:nil];
+
     [self loadWebViewWithDisplayUrl:tokenValue.displayUrl];
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    if(self.isResponseValid) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if([self.delegate respondsToSelector:@selector(bannerDidLoad:)]) {
-                [self.delegate bannerDidLoad:self];
-            }
-        });
-    }
-    else {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if([self.delegate respondsToSelector:@selector(banner:didFailToLoadAdWithError:)]) {
-                [self.delegate banner:self
-             didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeNetworkError]];
-            }
-        });
-    }
+    if(!self.isResponseValid) return [self safelyNotifyAdLoadFail:CRErrorCodeNetworkError description:nil];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if([self.delegate respondsToSelector:@selector(bannerDidLoad:)]) {
+            [self.delegate bannerDidLoad:self];
+        }
+    });
 }
 
 // When the creative uses window.open(url) to open the URL, this method will be called
@@ -148,9 +129,9 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
                      }
                      [self.application openURL:navigationAction.request.URL];
                  });
-             if(decisionHandler){
-                 decisionHandler(WKNavigationActionPolicyCancel);
-             }
+                 if(decisionHandler){
+                     decisionHandler(WKNavigationActionPolicyCancel);
+                 }
                  return;
              }
     if(decisionHandler){
@@ -160,22 +141,12 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 
 // Delegate errors that occur during web view navigation
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if([self.delegate respondsToSelector:@selector(banner:didFailToLoadAdWithError:)]) {
-            [self.delegate banner:self
-                               didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeInternalError]];
-        }
-    });
+    [self safelyNotifyAdLoadFail:CRErrorCodeInternalError description:nil];
 }
 
 // Delegate errors that occur while the web view is loading content.
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if([self.delegate respondsToSelector:@selector(banner:didFailToLoadAdWithError:)]) {
-            [self.delegate banner:self
-                               didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeInternalError]];
-        };
-    });
+    [self safelyNotifyAdLoadFail:CRErrorCodeInternalError description:nil];
 }
 
 // Delegate HTTP errors
@@ -184,18 +155,26 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)navigationResponse.response;
         if(httpResponse.statusCode >= 400) {
             self.isResponseValid = NO;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if([self.delegate respondsToSelector:@selector(banner:didFailToLoadAdWithError:)]) {
-                    [self.delegate banner:self
-                                       didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeNetworkError]];
-                }
-            });
+            [self safelyNotifyAdLoadFail:CRErrorCodeNetworkError description:nil];
         }
         else {
             self.isResponseValid = YES;
         }
     }
     decisionHandler(WKNavigationResponsePolicyAllow);
+}
+
+
+- (void)safelyNotifyAdLoadFail:(CRErrorCodes)errorCode description:(NSString *)optionalDescription {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if([self.delegate respondsToSelector:@selector(banner:didFailToLoadAdWithError:)]) {
+            NSError *error = optionalDescription
+            ? [NSError CRErrors_errorWithCode:errorCode description:optionalDescription]
+            : [NSError CRErrors_errorWithCode:errorCode];
+
+            [self.delegate banner:self didFailToLoadAdWithError:error];
+        }
+    });
 }
 
 @end

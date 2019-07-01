@@ -55,24 +55,12 @@
 - (BOOL)checkSafeToLoad {
     if(self.isAdLoading) {
         // Already loading
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
-                [self.delegate interstitial:self
-                   didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeInvalidRequest
-                                                                description:@"An Ad is already being loaded."]];
-            }
-        });
+        [self safelyNotifyAdLoadFail:CRErrorCodeInvalidRequest description:@"An Ad is already being loaded."];
         return NO;
     }
     if(self.viewController.presentingViewController) {
         // Already presenting
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
-                [self.delegate interstitial:self
-                   didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeInvalidRequest
-                                                                description:@"Ad cannot load as another is already being presented."]];
-            }
-        });
+        [self safelyNotifyAdLoadFail:CRErrorCodeInvalidRequest description:@"Ad cannot load as another is already being presented."];
         return NO;
     }
 
@@ -90,14 +78,8 @@
                                                                            screenSize:[[CR_DeviceInfo new] screenSize]] ;
     CR_CdbBid *bid = [self.criteo getBid:cacheAdUnit];
     if([bid isEmpty]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
-                [self.delegate interstitial:self
-                   didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeNoFill]];
-            }
-        });
         self.isAdLoading = NO;
-        return;
+        return [self safelyNotifyAdLoadFail:CRErrorCodeNoFill description:nil];
     }
     [self.viewController initWebViewIfNeeded];
     [self loadWebViewWithDisplayURL:bid.displayUrl];
@@ -126,12 +108,7 @@
     CR_TokenValue *tokenValue = [self.criteo tokenValueForBidToken:bidToken
                                                         adUnitType:CRAdUnitTypeInterstitial];
     if(tokenValue == nil) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
-                [self.delegate interstitial:self
-                   didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeNoFill]];
-            }
-        });
+        [self safelyNotifyAdLoadFail:CRErrorCodeNoFill description:nil];
         self.isAdLoading = NO;
         return;
     }
@@ -142,60 +119,28 @@
 -     (void)webView:(WKWebView *)webView
 didFinishNavigation:(WKNavigation *)navigation {
     self.isAdLoading = NO;
-    if(self.isResponseValid) {
-        self.isAdLoaded = YES;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if([self.delegate respondsToSelector:@selector(interstitialDidLoadAd:)]) {
-                [self.delegate interstitialDidLoadAd:self];
-            }
-        });
-    }
-    else {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
-                [self.delegate interstitial:self
-                   didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeNetworkError]];
-            }
-        });
-    }
+    if(!self.isResponseValid) return [self safelyNotifyAdLoadFail:CRErrorCodeNetworkError description:nil];
+
+    self.isAdLoaded = YES;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if([self.delegate respondsToSelector:@selector(interstitialDidLoadAd:)]) {
+            [self.delegate interstitialDidLoadAd:self];
+        }
+    });
 }
 
 - (void)presentFromRootViewController:(UIViewController *)rootViewController {
     if (self.viewController.presentingViewController) {
         // Already presenting
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
-                [self.delegate interstitial:self
-                   didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeInvalidRequest
-                                             description:@"An Ad is already being presented."]];
-            }
-        });
-        return;
+        return [self safelyNotifyAdLoadFail:CRErrorCodeInvalidRequest description:@"An Ad is already being presented."];
     }
 
     if (!rootViewController) {
         // No view controller to present from
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
-                [self.delegate interstitial:self
-                   didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeInvalidParameter
-                                                       description:@"rootViewController parameter must not be null."]];
-            }
-        });
-        return;
+        return [self safelyNotifyAdLoadFail:CRErrorCodeInvalidParameter description:@"rootViewController parameter must not be nil."];
     }
 
-    if(!self.isAdLoaded) {
-        // Ad not loaded
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
-                [self.delegate interstitial:self
-                   didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeInvalidRequest
-                                                                description:@"Interstitial Ad is not loaded."]];
-            }
-        });
-        return;
-    }
+    if(!self.isAdLoaded) return [self safelyNotifyAdLoadFail:CRErrorCodeInvalidRequest description:@"Interstitial Ad is not loaded."];
 
     dispatch_async(dispatch_get_main_queue(), ^{
         if([self.delegate respondsToSelector:@selector(interstitialWillAppear:)]) {
@@ -253,23 +198,13 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 // Delegate errors that occur during web view navigation
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     self.isAdLoading = NO;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
-            [self.delegate interstitial:self
-               didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeInternalError]];
-        }
-    });
+    [self safelyNotifyAdLoadFail:CRErrorCodeInternalError description:nil];
 }
 
 // Delegate errors that occur while the web view is loading content.
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     self.isAdLoading = NO;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
-            [self.delegate interstitial:self
-               didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeInternalError]];
-        }
-    });
+    [self safelyNotifyAdLoadFail:CRErrorCodeInternalError description:nil];
 }
 
 // Delegate HTTP errors
@@ -279,18 +214,25 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
         if(httpResponse.statusCode >= 400) {
             self.isResponseValid = NO;
             self.isAdLoading = NO;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
-                    [self.delegate interstitial:self
-                       didFailToLoadAdWithError:[NSError CRErrors_errorWithCode:CRErrorCodeNetworkError]];
-                }
-            });
+            [self safelyNotifyAdLoadFail:CRErrorCodeNetworkError description:nil];
         }
         else {
             self.isResponseValid = YES;
         }
     }
     decisionHandler(WKNavigationResponsePolicyAllow);
+}
+
+- (void)safelyNotifyAdLoadFail:(CRErrorCodes)errorCode description:(NSString *)optionalDescription {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
+            NSError *error = optionalDescription
+            ? [NSError CRErrors_errorWithCode:errorCode description:optionalDescription]
+            : [NSError CRErrors_errorWithCode:errorCode];
+
+            [self.delegate interstitial:self didFailToLoadAdWithError:error];
+        }
+    });
 }
 
 @end
