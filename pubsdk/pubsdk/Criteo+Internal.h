@@ -22,10 +22,12 @@
 @interface Criteo ()
 
 @property (nonatomic) id<CR_NetworkManagerDelegate> networkMangerDelegate;
+@property (nonatomic, readonly) CR_Config *config;
+
 - (CR_CdbBid *)getBid:(CR_CacheAdUnit *)slot;
 - (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken
                               adUnitType:(CRAdUnitType)adUnitType;
-- (CR_Config *)getConfig;
+
 @end
 
 

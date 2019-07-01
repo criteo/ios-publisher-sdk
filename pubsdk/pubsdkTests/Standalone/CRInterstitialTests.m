@@ -68,7 +68,7 @@
 
 - (void)testInterstitialSuccess {
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
-    OCMStub([mockCriteo getConfig]).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
+    OCMStub(mockCriteo.config).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
     MockWKWebView *mockWebView = [MockWKWebView new];
     CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView
                                                                                                       view:nil
@@ -97,7 +97,7 @@
     config.adTagUrlMode = @"Good Morning, my width is #WEEDTH# and my URL is ˆURLˆ";
     config.viewportWidthMacro = @"#WEEDTH#";
     config.displayURLMacro = @"ˆURLˆ";
-    OCMExpect([mockCriteo getConfig]).andReturn(config);
+    OCMExpect(mockCriteo.config).andReturn(config);
 
     MockWKWebView *mockWebView = [MockWKWebView new];
     CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView
@@ -147,7 +147,7 @@
 
 - (void)testWithRendering {
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
-    OCMStub([mockCriteo getConfig]).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
+    OCMStub(mockCriteo.config).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
     WKWebView *realWebView = [WKWebView new];
     CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:realWebView
                                                                                                       view:nil

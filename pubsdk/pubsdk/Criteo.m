@@ -123,7 +123,7 @@ static Criteo *sharedInstance;
 }
 
 - (CR_Config *)getConfig {
-    return [self.bidManager getConfig];
+    return self.bidManager.config;
 }
 
 @end

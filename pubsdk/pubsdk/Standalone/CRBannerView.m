@@ -59,7 +59,7 @@
     // Will crash the app if nil is passed to stringByReplacingOccurrencesOfString
     if(!displayUrl) return [self safelyNotifyAdLoadFail:CRErrorCodeInternalError description:@"No display URL in bid response"];
 
-    CR_Config *config = [_criteo getConfig];
+    CR_Config *config = _criteo.config;
 
     NSString *viewportWidth = [NSString stringWithFormat:@"%ld", (long)self.frame.size.width];
 

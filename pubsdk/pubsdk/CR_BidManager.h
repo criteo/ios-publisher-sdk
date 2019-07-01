@@ -27,6 +27,7 @@
 @interface CR_BidManager : NSObject
 
 @property (nonatomic) id<CR_NetworkManagerDelegate> networkMangerDelegate;
+@property (nonatomic, readonly) CR_Config *config;
 
 - (instancetype) init NS_UNAVAILABLE;
 
@@ -48,8 +49,6 @@ NS_DESIGNATED_INITIALIZER;
 - (NSDictionary *) getBids: (NSArray<CR_CacheAdUnit*> *) slots;
 
 - (CR_CdbBid *) getBid: (CR_CacheAdUnit *) slot;
-
-- (CR_Config *)getConfig;
 
 - (CRBidResponse *)bidResponseForCacheAdUnit:(CR_CacheAdUnit *)cacheAdUnit
                                   adUnitType:(CRAdUnitType)adUnitType;
