@@ -79,7 +79,7 @@
     CR_CdbBid *bid = [self.criteo getBid:cacheAdUnit];
     if([bid isEmpty]) {
         self.isAdLoading = NO;
-        return [self safelyNotifyAdLoadFail:CRErrorCodeNoFill description:nil];
+        return [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
     }
     [self.viewController initWebViewIfNeeded];
     [self loadWebViewWithDisplayURL:bid.displayUrl];
@@ -106,7 +106,7 @@
     CR_TokenValue *tokenValue = [self.criteo tokenValueForBidToken:bidToken
                                                         adUnitType:CRAdUnitTypeInterstitial];
     if(tokenValue == nil) {
-        [self safelyNotifyAdLoadFail:CRErrorCodeNoFill description:nil];
+        [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
         self.isAdLoading = NO;
         return;
     }
@@ -117,7 +117,7 @@
 -     (void)webView:(WKWebView *)webView
 didFinishNavigation:(WKNavigation *)navigation {
     self.isAdLoading = NO;
-    if(!self.isResponseValid) return [self safelyNotifyAdLoadFail:CRErrorCodeNetworkError description:nil];
+    if(!self.isResponseValid) return [self safelyNotifyAdLoadFail:CRErrorCodeNetworkError];
 
     self.isAdLoaded = YES;
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -190,13 +190,13 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 // Delegate errors that occur during web view navigation
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     self.isAdLoading = NO;
-    [self safelyNotifyAdLoadFail:CRErrorCodeInternalError description:nil];
+    [self safelyNotifyAdLoadFail:CRErrorCodeInternalError];
 }
 
 // Delegate errors that occur while the web view is loading content.
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     self.isAdLoading = NO;
-    [self safelyNotifyAdLoadFail:CRErrorCodeInternalError description:nil];
+    [self safelyNotifyAdLoadFail:CRErrorCodeInternalError];
 }
 
 // Delegate HTTP errors
@@ -206,7 +206,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
         if(httpResponse.statusCode >= 400) {
             self.isResponseValid = NO;
             self.isAdLoading = NO;
-            [self safelyNotifyAdLoadFail:CRErrorCodeNetworkError description:nil];
+            [self safelyNotifyAdLoadFail:CRErrorCodeNetworkError];
         }
         else {
             self.isResponseValid = YES;
@@ -215,11 +215,15 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     decisionHandler(WKNavigationResponsePolicyAllow);
 }
 
-- (void)safelyNotifyAdLoadFail:(CRErrorCode)errorCode description:(NSString *)optionalDescription {
+- (void)safelyNotifyAdLoadFail:(CRErrorCode)errorCode {
+    return [self safelyNotifyAdLoadFail:errorCode description:nil];
+}
+
+- (void)safelyNotifyAdLoadFail:(CRErrorCode)errorCode description:(NSString *)description {
     dispatch_async(dispatch_get_main_queue(), ^{
         if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
-            NSError *error = optionalDescription
-            ? [NSError CRErrors_errorWithCode:errorCode description:optionalDescription]
+            NSError *error = description
+            ? [NSError CRErrors_errorWithCode:errorCode description:description]
             : [NSError CRErrors_errorWithCode:errorCode];
 
             [self.delegate interstitial:self didFailToLoadAdWithError:error];
