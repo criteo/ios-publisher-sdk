@@ -46,10 +46,6 @@ static const CGSize supportedInterstitialSizes[] = {
                 CGSize currentOrientationSize = [deviceInfo screenSize];
                 [cacheAdUnits addObject:[CR_AdUnitHelper interstitialCacheAdUnitForAdUnitId:[adUnits[i] adUnitId]
                                                                                  screenSize:currentOrientationSize]];
-                //other orientation
-                CGSize otherOrientationSize = CGSizeMake(currentOrientationSize.height, currentOrientationSize.width);
-                [cacheAdUnits addObject:[CR_AdUnitHelper interstitialCacheAdUnitForAdUnitId:[adUnits[i] adUnitId]
-                                                                                 screenSize:otherOrientationSize]];
                 break;
             }
             default:

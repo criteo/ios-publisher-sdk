@@ -30,18 +30,15 @@
 
 - (void)testInterstitialAdUnitsToCacheAdUnits {
     CRInterstitialAdUnit *interstitialAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"1234"];
-    CR_CacheAdUnit *expectedCacheAdUnitPortrait = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"1234"
+    CR_CacheAdUnit *expectedInterstitialCacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"1234"
                                                                                     size:CGSizeMake(360.0, 640.0)];
-    CR_CacheAdUnit *expectedCacheAdUnitLandscape = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"1234"
-                                                                                     size:CGSizeMake(480.0, 320.0)];
     CRBannerAdUnit *bannerAdUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"1234"
                                                                  size:CGSizeMake(320.0, 50.0)];
     CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
     OCMStub([mockDeviceInfo screenSize]).andReturn(CGSizeMake(400.0, 480.0));
     NSArray<CR_CacheAdUnit *> *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:@[bannerAdUnit, interstitialAdUnit]
                                                                           deviceInfo:mockDeviceInfo];
-    XCTAssertTrue([expectedCacheAdUnitPortrait isEqual:[cacheAdUnits objectAtIndex:1]]);
-    XCTAssertTrue([expectedCacheAdUnitLandscape isEqual:[cacheAdUnits objectAtIndex:2]]);
+    XCTAssertTrue([expectedInterstitialCacheAdUnit isEqual:[cacheAdUnits objectAtIndex:1]]);
 }
 
 - (void)testAdUnitToCacheAdUnit {
