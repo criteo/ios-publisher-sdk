@@ -261,7 +261,7 @@
                                        bidToken:bidToken];
 }
 
-- (CR_Config *)getConfig {
+- (CR_Config *)config {
     return self->config;
 }
 
