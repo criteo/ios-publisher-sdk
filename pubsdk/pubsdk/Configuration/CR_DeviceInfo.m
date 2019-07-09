@@ -97,9 +97,8 @@
     return _deviceId;
 }
 
-- (CGSize)screenSize {
-    _screenSize = [UIScreen mainScreen].bounds.size;
-    return _screenSize;
++ (CGSize)getScreenSize {
+    return [UIScreen mainScreen].bounds.size;
 }
 
 @end

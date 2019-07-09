@@ -15,10 +15,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (atomic, strong) NSString *userAgent;
 @property (nonatomic, readonly) NSString *deviceId;
-@property (nonatomic) CGSize screenSize;
 
 - (instancetype)initWithWKWebView:(WKWebView *)wkWebView uiWebView:(UIWebView * _Nullable)uiWebView;
 - (void)waitForUserAgent:(void (^ _Nullable)(void))completion;
++ (CGSize)getScreenSize;
 @end
 
 NS_ASSUME_NONNULL_END

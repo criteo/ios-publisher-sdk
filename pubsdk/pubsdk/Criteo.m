@@ -76,8 +76,7 @@ static Criteo *sharedInstance;
     dispatch_once(&registrationToken, ^{
         bidManager = [Criteo createBidManagerWithCriteoPublisherId:criteoPublisherId];
     });
-    NSArray<CR_CacheAdUnit *> *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:adUnits
-                                                                          deviceInfo:[CR_DeviceInfo new]];
+    NSArray<CR_CacheAdUnit *> *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:adUnits];
     [registeredAdUnits addObjectsFromArray:cacheAdUnits];
     [bidManager setSlots:cacheAdUnits];
     [self prefetchAll];
@@ -95,8 +94,7 @@ static Criteo *sharedInstance;
 - (void) setBidsForRequest:(id)request
                 withAdUnit:(CRAdUnit *)adUnit {
     [bidManager addCriteoBidToRequest:request
-                            forAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit
-                                                                 deviceInfo:[CR_DeviceInfo new]]];
+                            forAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit]];
 }
 
 - (CR_BidManager *)bidManager {
@@ -104,8 +102,7 @@ static Criteo *sharedInstance;
 }
 
 - (CRBidResponse *)getBidResponseForAdUnit:(CRAdUnit *)adUnit {
-    return [self.bidManager bidResponseForCacheAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit
-                                                                                 deviceInfo:[CR_DeviceInfo new]]
+    return [self.bidManager bidResponseForCacheAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit]
                                            adUnitType:adUnit.adUnitType];
 }
 

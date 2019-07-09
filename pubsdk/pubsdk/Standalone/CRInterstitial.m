@@ -75,7 +75,7 @@
         return;
     }
     CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper interstitialCacheAdUnitForAdUnitId:self.adUnit.adUnitId
-                                                                           screenSize:[[CR_DeviceInfo new] screenSize]] ;
+                                                                           screenSize:[CR_DeviceInfo getScreenSize]] ;
     CR_CdbBid *bid = [self.criteo getBid:cacheAdUnit];
     if([bid isEmpty]) {
         self.isAdLoading = NO;

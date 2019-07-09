@@ -81,7 +81,7 @@
 
     id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
     OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
-                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedCacheAdUnit]);
+                                                      screenSize:[CR_DeviceInfo getScreenSize]]).andReturn([self expectedCacheAdUnit]);
 
     OCMExpect([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([self bidWithDisplayURL:@"test"]);
 
@@ -111,7 +111,7 @@
 
     id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
     OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
-                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedCacheAdUnit]);
+                                                      screenSize:[CR_DeviceInfo getScreenSize]]).andReturn([self expectedCacheAdUnit]);
 
     OCMExpect([mockCriteo getBid:OCMArg.any]).andReturn([self bidWithDisplayURL:@"whatDoYouMean"]);
 
@@ -162,7 +162,7 @@
 
     id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
     OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
-                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedCacheAdUnit]);
+                                                      screenSize:[CR_DeviceInfo getScreenSize]]).andReturn([self expectedCacheAdUnit]);
 
     XCTestExpectation __block *marginExpectation = [self expectationWithDescription:@"WebView body has 0px margin"];
     XCTestExpectation __block *paddingExpectation = [self expectationWithDescription:@"WebView body has 0px padding"];
@@ -213,7 +213,7 @@
 
     id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
     OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
-                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedCacheAdUnit]);
+                                                      screenSize:[CR_DeviceInfo getScreenSize]]).andReturn([self expectedCacheAdUnit]);
 
     OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([CR_CdbBid emptyBid]);
     OCMStub([interstitialVC presentingViewController]).andReturn(nil);

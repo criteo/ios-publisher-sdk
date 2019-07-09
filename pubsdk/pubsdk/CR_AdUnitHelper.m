@@ -32,8 +32,7 @@ static const CGSize supportedInterstitialSizes[] = {
 }
 
 // return an array as interstitial will return two cache adUnits for both orientations
-+ (NSArray<CR_CacheAdUnit *> *)cacheAdUnitsForAdUnits:(NSArray<CRAdUnit *> *)adUnits
-                                          deviceInfo:(CR_DeviceInfo *)deviceInfo{
++ (NSArray<CR_CacheAdUnit *> *)cacheAdUnitsForAdUnits:(NSArray<CRAdUnit *> *)adUnits {
     NSMutableArray<CR_CacheAdUnit *> *cacheAdUnits = [NSMutableArray new];
     for(int i = 0; i < [adUnits count]; i++) {
         switch([adUnits[i] adUnitType]) {
@@ -43,7 +42,7 @@ static const CGSize supportedInterstitialSizes[] = {
                 break;
             case CRAdUnitTypeInterstitial:
             {
-                CGSize currentOrientationSize = [deviceInfo screenSize];
+                CGSize currentOrientationSize = [CR_DeviceInfo getScreenSize];
                 [cacheAdUnits addObject:[CR_AdUnitHelper interstitialCacheAdUnitForAdUnitId:[adUnits[i] adUnitId]
                                                                                  screenSize:currentOrientationSize]];
                 break;
@@ -56,8 +55,7 @@ static const CGSize supportedInterstitialSizes[] = {
     return [cacheAdUnits copy];
 }
 
-+ (CR_CacheAdUnit *)cacheAdUnitForAdUnit:(CRAdUnit *)adUnit
-                             deviceInfo:(CR_DeviceInfo *)deviceInfo {
++ (CR_CacheAdUnit *)cacheAdUnitForAdUnit:(CRAdUnit *)adUnit {
     switch([adUnit adUnitType]) {
         case CRAdUnitTypeBanner:
             return [[CR_CacheAdUnit alloc] initWithAdUnitId:[adUnit adUnitId]
@@ -65,7 +63,7 @@ static const CGSize supportedInterstitialSizes[] = {
             break;
         case CRAdUnitTypeInterstitial:
             return [CR_AdUnitHelper interstitialCacheAdUnitForAdUnitId:[adUnit adUnitId]
-                                                            screenSize:[deviceInfo screenSize]];
+                                                            screenSize:[CR_DeviceInfo getScreenSize]];
             break;
         default:
             CLog(@"cacheAdUnitsFromAdUnits got an unexpected AdUnitType: %d", [adUnit adUnitType]);

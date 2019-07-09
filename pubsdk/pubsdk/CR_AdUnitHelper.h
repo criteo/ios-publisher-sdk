@@ -15,11 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_AdUnitHelper : NSObject
 
-+ (NSArray<CR_CacheAdUnit *> *)cacheAdUnitsForAdUnits:(NSArray<CRAdUnit *> *)adUnits
-                                          deviceInfo:(CR_DeviceInfo *)deviceInfo;
++ (NSArray<CR_CacheAdUnit *> *)cacheAdUnitsForAdUnits:(NSArray<CRAdUnit *> *)adUnits;
 
-+ (CR_CacheAdUnit *)cacheAdUnitForAdUnit:(CRAdUnit *)adUnit
-                             deviceInfo:(CR_DeviceInfo *)deviceInfo;
++ (CR_CacheAdUnit *)cacheAdUnitForAdUnit:(CRAdUnit *)adUnit;
 
 + (CR_CacheAdUnit *)interstitialCacheAdUnitForAdUnitId:(NSString *)adUnitId
                                            screenSize:(CGSize)size;

@@ -24,8 +24,7 @@
 - (void)testBannerAdUnitsToCacheAdUnits {
     CRBannerAdUnit *bannerAdUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"1234" size:CGSizeMake(320.0, 50.0)];
     CR_CacheAdUnit *expectedCacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"1234" size:CGSizeMake(320.0, 50.0)];
-    XCTAssertTrue([expectedCacheAdUnit isEqual:[[CR_AdUnitHelper cacheAdUnitsForAdUnits:@[bannerAdUnit]
-                                                                             deviceInfo:[CR_DeviceInfo new]] objectAtIndex:0]]);
+    XCTAssertTrue([expectedCacheAdUnit isEqual:[[CR_AdUnitHelper cacheAdUnitsForAdUnits:@[bannerAdUnit]] objectAtIndex:0]]);
 }
 
 - (void)testInterstitialAdUnitsToCacheAdUnits {
@@ -34,10 +33,9 @@
                                                                                     size:CGSizeMake(360.0, 640.0)];
     CRBannerAdUnit *bannerAdUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"1234"
                                                                  size:CGSizeMake(320.0, 50.0)];
-    CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
-    OCMStub([mockDeviceInfo screenSize]).andReturn(CGSizeMake(400.0, 480.0));
-    NSArray<CR_CacheAdUnit *> *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:@[bannerAdUnit, interstitialAdUnit]
-                                                                          deviceInfo:mockDeviceInfo];
+    id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
+    OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(400.0, 480.0));
+    NSArray<CR_CacheAdUnit *> *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:@[bannerAdUnit, interstitialAdUnit]];
     XCTAssertTrue([expectedInterstitialCacheAdUnit isEqual:[cacheAdUnits objectAtIndex:1]]);
 }
 
@@ -46,13 +44,11 @@
     CR_CacheAdUnit *expectedInterstitialCacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"1234" size:CGSizeMake(360.0, 640.0)];
     CRBannerAdUnit *bannerAdUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"1234" size:CGSizeMake(320.0, 50.0)];
     CR_CacheAdUnit *expectedBannerCacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"1234" size:CGSizeMake(320.0, 50.0)];
-    CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
-    OCMStub([mockDeviceInfo screenSize]).andReturn(CGSizeMake(400.0, 700.0));
+    id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
+    OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(400.0, 700.0));
     // for banner and interstitial
-    XCTAssertTrue([expectedBannerCacheAdUnit isEqual:[CR_AdUnitHelper cacheAdUnitForAdUnit:bannerAdUnit
-                                                                                deviceInfo:mockDeviceInfo]]);
-    XCTAssertTrue([expectedInterstitialCacheAdUnit isEqual:[CR_AdUnitHelper cacheAdUnitForAdUnit:interstitialAdUnit
-                                                                                      deviceInfo:mockDeviceInfo]]);
+    XCTAssertTrue([expectedBannerCacheAdUnit isEqual:[CR_AdUnitHelper cacheAdUnitForAdUnit:bannerAdUnit]]);
+    XCTAssertTrue([expectedInterstitialCacheAdUnit isEqual:[CR_AdUnitHelper cacheAdUnitForAdUnit:interstitialAdUnit]]);
 }
 
 - (void) testAdUnitSizesForInterstitial {

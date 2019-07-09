@@ -113,7 +113,7 @@
     // stub methods for loadAd
     id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
     OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
-                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedCacheAdUnit]);
+                                                      screenSize:[CR_DeviceInfo getScreenSize]]).andReturn([self expectedCacheAdUnit]);
     OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([self bidWithDisplayURL:@"test"]);
     id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
     interstitial.delegate = mockInterstitialDelegate;
@@ -157,7 +157,7 @@
 
     id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
     OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
-                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedCacheAdUnit]);
+                                                      screenSize:[CR_DeviceInfo getScreenSize]]).andReturn([self expectedCacheAdUnit]);
 
     XCTestExpectation *interstitialAdFetchFailExpectation = [self expectationWithDescription:@"interstitialDidFail delegate method called"];
     [interstitial loadAd];
@@ -241,7 +241,7 @@
 
     id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
     OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
-                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedCacheAdUnit]);
+                                                      screenSize:[CR_DeviceInfo getScreenSize]]).andReturn([self expectedCacheAdUnit]);
     OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([self bidWithDisplayURL:@"test"]);
     OCMStub([mockWebView loadHTMLString:[self htmlString] baseURL:[NSURL URLWithString:@"about:blank"]]).andDo(^(NSInvocation* args) {
         [interstitial webView:mockWebView decidePolicyForNavigationResponse:[self validNavigationResponse] decisionHandler:^(WKNavigationResponsePolicy policy) {
@@ -529,7 +529,7 @@
                                                                    adUnit:self.adUnit];
     id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
     OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
-                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedCacheAdUnit]);
+                                                      screenSize:[CR_DeviceInfo getScreenSize]]).andReturn([self expectedCacheAdUnit]);
     OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([self bidWithDisplayURL:@""]);
 
     id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
@@ -564,7 +564,7 @@
                                                                    adUnit:self.adUnit];
     id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
     OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
-                                                      screenSize:[[CR_DeviceInfo new] screenSize]]).andReturn([self expectedCacheAdUnit]);
+                                                      screenSize:[CR_DeviceInfo getScreenSize]]).andReturn([self expectedCacheAdUnit]);
     OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([self bidWithDisplayURL:@"test"]);
     id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
     NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidRequest
