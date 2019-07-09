@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (CRBidToken *) getTokenForBid:(CR_CdbBid *)cdbBid
                      adUnitType:(CRAdUnitType)adUnitType;
 
-- (CR_TokenValue *) getValueForToken:(CRBidToken *)token
+- (nullable CR_TokenValue *) getValueForToken:(CRBidToken *)token
                           adUnitType:(CRAdUnitType)adUnitType;
 
 - (void)setTokenMapWithValue:(CR_TokenValue *)tokenValue

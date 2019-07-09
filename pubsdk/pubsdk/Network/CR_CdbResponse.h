@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_CdbResponse : NSObject
 
-@property (nonatomic) NSArray<CR_CdbBid *> *cdbBids;
+@property (nonatomic, nullable) NSArray<CR_CdbBid *> *cdbBids;
 @property (nonatomic) NSUInteger timeToNextCall;
 @property (nonatomic) NSDate *responseTime;
 

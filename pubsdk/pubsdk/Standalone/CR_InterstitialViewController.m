@@ -43,6 +43,7 @@
 }
 
 - (void)viewDidLoad {
+    [super viewDidLoad];
     _webView.frame = self.view.bounds;
     [self initCloseButton];
     [self.view addSubview:_webView];
@@ -53,6 +54,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     [self dispatchTimerForDismiss:7.0];
 }
 
