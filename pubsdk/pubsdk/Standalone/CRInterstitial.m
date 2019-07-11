@@ -168,7 +168,6 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
                                 decisionHandler:(nullable void (^)(WKNavigationActionPolicy))decisionHandler
                           allowedNavigationType:(WKNavigationType)allowedNavigationType {
     if(navigationAction.navigationType == allowedNavigationType
-       && navigationAction.sourceFrame.isMainFrame
        && navigationAction.request.URL != nil) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if([self.delegate respondsToSelector:@selector(interstitialWillLeaveApplication:)]) {
