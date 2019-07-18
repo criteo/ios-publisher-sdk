@@ -13,9 +13,9 @@
 
 #import "CR_BidManager.h"
 #import "CR_CdbBid.h"
-#import "DFPRequest.h"
-#import "MPAdView.h"
 #import "CRBidToken+Internal.h"
+#import "DFPRequestClasses.h"
+#import "MPClasses.h"
 
 @interface CR_BidManagerTests : XCTestCase
 
@@ -237,7 +237,127 @@
     XCTAssertEqualObjects([testBid_1 cpm], [dfpBidRequest.customTargeting objectForKey:@"crt_cpm"]);
 }
 
-- (void) testAddCriteoBidToMopubRequest {
+- (void) testConditionAddCriteoBidToDifferentDfpRequestTypes {
+    CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+    CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
+    CR_CacheManager *cache = [[CR_CacheManager alloc] init];
+    [cache setBid:testBid_1 forAdUnit:slot_1];
+
+    // DFPRequest test
+    CR_BidManager *bidManagerDFP = [[CR_BidManager alloc] initWithApiHandler:nil
+                                                             cacheManager:cache
+                                                               tokenCache:nil
+                                                                   config:[[CR_Config alloc] initWithCriteoPublisherId:@("1234")]
+                                                            configManager:nil
+                                                               deviceInfo:nil
+                                                          gdprUserConsent:nil
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:0];
+
+    id mockDfpRequest = OCMClassMock([DFPRequest class]);
+    SEL dfpCustomTargeting = NSSelectorFromString(@"customTargeting");
+    OCMStub([mockDfpRequest performSelector:dfpCustomTargeting]).andReturn(nil);
+    [bidManagerDFP addCriteoBidToRequest:mockDfpRequest forAdUnit:slot_1];
+    OCMVerify([mockDfpRequest performSelector:dfpCustomTargeting]);
+
+    // DFPORequest test
+    CR_CacheManager *cacheDFPO = [[CR_CacheManager alloc] init];
+    [cacheDFPO setBid:testBid_1 forAdUnit:slot_1];
+    CR_BidManager *bidManagerDFPO = [[CR_BidManager alloc] initWithApiHandler:nil
+                                                                cacheManager:cacheDFPO
+                                                                  tokenCache:nil
+                                                                      config:[[CR_Config alloc] initWithCriteoPublisherId:@("1234")]
+                                                               configManager:nil
+                                                                  deviceInfo:nil
+                                                             gdprUserConsent:nil
+                                                              networkManager:nil
+                                                                   appEvents:nil
+                                                              timeToNextCall:0];
+
+    id mockDfpoRequest = OCMClassMock([DFPORequest class]);
+    OCMStub([mockDfpoRequest performSelector:dfpCustomTargeting]).andReturn(nil);
+    [bidManagerDFPO addCriteoBidToRequest:mockDfpoRequest forAdUnit:slot_1];
+    OCMVerify([mockDfpoRequest performSelector:dfpCustomTargeting]);
+
+    // DFPNRequest test
+    CR_CacheManager *cacheDFPN = [[CR_CacheManager alloc] init];
+    [cacheDFPN setBid:testBid_1 forAdUnit:slot_1];
+    CR_BidManager *bidManagerDFPN = [[CR_BidManager alloc] initWithApiHandler:nil
+                                                                 cacheManager:cacheDFPN
+                                                                   tokenCache:nil
+                                                                       config:[[CR_Config alloc] initWithCriteoPublisherId:@("1234")]
+                                                                configManager:nil
+                                                                   deviceInfo:nil
+                                                              gdprUserConsent:nil
+                                                               networkManager:nil
+                                                                    appEvents:nil
+                                                               timeToNextCall:0];
+
+    id mockDfpnRequest = OCMClassMock([DFPNRequest class]);
+    OCMStub([mockDfpnRequest performSelector:dfpCustomTargeting]).andReturn(nil);
+    [bidManagerDFPN addCriteoBidToRequest:mockDfpnRequest forAdUnit:slot_1];
+    OCMVerify([mockDfpnRequest performSelector:dfpCustomTargeting]);
+
+    // GADRequest test
+    CR_CacheManager *cacheGAD = [[CR_CacheManager alloc] init];
+    [cacheGAD setBid:testBid_1 forAdUnit:slot_1];
+    CR_BidManager *bidManagerGAD = [[CR_BidManager alloc] initWithApiHandler:nil
+                                                                 cacheManager:cacheGAD
+                                                                   tokenCache:nil
+                                                                       config:[[CR_Config alloc] initWithCriteoPublisherId:@("1234")]
+                                                                configManager:nil
+                                                                   deviceInfo:nil
+                                                              gdprUserConsent:nil
+                                                               networkManager:nil
+                                                                    appEvents:nil
+                                                               timeToNextCall:0];
+
+    id mockGadRequest = OCMClassMock([GADRequest class]);
+    OCMStub([mockGadRequest performSelector:dfpCustomTargeting]).andReturn(nil);
+    [bidManagerGAD addCriteoBidToRequest:mockGadRequest forAdUnit:slot_1];
+    OCMVerify([mockGadRequest performSelector:dfpCustomTargeting]);
+
+    // GADORequest test
+    CR_CacheManager *cacheGADO = [[CR_CacheManager alloc] init];
+    [cacheGADO setBid:testBid_1 forAdUnit:slot_1];
+    CR_BidManager *bidManagerGADO = [[CR_BidManager alloc] initWithApiHandler:nil
+                                                                cacheManager:cacheGADO
+                                                                  tokenCache:nil
+                                                                      config:[[CR_Config alloc] initWithCriteoPublisherId:@("1234")]
+                                                               configManager:nil
+                                                                  deviceInfo:nil
+                                                             gdprUserConsent:nil
+                                                              networkManager:nil
+                                                                   appEvents:nil
+                                                              timeToNextCall:0];
+
+    id mockGadoRequest = OCMClassMock([GADORequest class]);
+    OCMStub([mockGadoRequest performSelector:dfpCustomTargeting]).andReturn(nil);
+    [bidManagerGADO addCriteoBidToRequest:mockGadoRequest forAdUnit:slot_1];
+    OCMVerify([mockGadoRequest performSelector:dfpCustomTargeting]);
+
+    // GADNRequest test
+    CR_CacheManager *cacheGADN = [[CR_CacheManager alloc] init];
+    [cacheGADN setBid:testBid_1 forAdUnit:slot_1];
+    CR_BidManager *bidManagerGADN = [[CR_BidManager alloc] initWithApiHandler:nil
+                                                                 cacheManager:cacheGADN
+                                                                   tokenCache:nil
+                                                                       config:[[CR_Config alloc] initWithCriteoPublisherId:@("1234")]
+                                                                configManager:nil
+                                                                   deviceInfo:nil
+                                                              gdprUserConsent:nil
+                                                               networkManager:nil
+                                                                    appEvents:nil
+                                                               timeToNextCall:0];
+
+    id mockGadnRequest = OCMClassMock([GADNRequest class]);
+    OCMStub([mockGadnRequest performSelector:dfpCustomTargeting]).andReturn(nil);
+    [bidManagerGADN addCriteoBidToRequest:mockGadnRequest forAdUnit:slot_1];
+    OCMVerify([mockGadnRequest performSelector:dfpCustomTargeting]);
+}
+
+- (void) testAddCriteoBidToMopubAdViewRequest {
     CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
 
     CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
@@ -267,6 +387,32 @@
 
     XCTAssertTrue([mopubBidRequest.keywords containsString:[testBid_1 mopubCompatibleDisplayUrl]]);
     XCTAssertTrue([mopubBidRequest.keywords containsString:[testBid_1 cpm]]);
+}
+
+- (void) testConditionAddCriteoBidToMopubInterstitialAdController {
+    CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+    CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
+    CR_CacheManager *cache = [[CR_CacheManager alloc] init];
+    [cache setBid:testBid_1 forAdUnit:slot_1];
+    CR_Config *config = [[CR_Config alloc] initWithCriteoPublisherId:@("1234")];
+
+    // DFPRequest test
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
+                                                                cacheManager:cache
+                                                                  tokenCache:nil
+                                                                      config:config
+                                                               configManager:nil
+                                                                  deviceInfo:nil
+                                                             gdprUserConsent:nil
+                                                              networkManager:nil
+                                                                   appEvents:nil
+                                                              timeToNextCall:0];
+
+    id mockMPInterstitialAdController = OCMClassMock([MPInterstitialAdController class]);
+    SEL mopubKeywords = NSSelectorFromString(@"keywords");
+    OCMStub([mockMPInterstitialAdController performSelector:mopubKeywords]).andReturn(nil);
+    [bidManager addCriteoBidToRequest:mockMPInterstitialAdController forAdUnit:slot_1];
+    OCMVerify([mockMPInterstitialAdController performSelector:mopubKeywords]);
 }
 
 - (void) testAddCriteoBidToRequestWhenKillSwitchIsEngaged {

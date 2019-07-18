@@ -176,10 +176,16 @@
         return;
     }
 
-    if([adRequest isKindOfClass:NSClassFromString(@"DFPRequest")]) {
+    NSString *adRequestClassName = NSStringFromClass([adRequest class]);
+    if([adRequestClassName isEqualToString:@"DFPRequest"] ||
+       [adRequestClassName isEqualToString:@"DFPNRequest"] ||
+       [adRequestClassName isEqualToString:@"DFPORequest"] ||
+       [adRequestClassName isEqualToString:@"GADRequest"] ||
+       [adRequestClassName isEqualToString:@"GADORequest"] ||
+       [adRequestClassName isEqualToString:@"GADNRequest"]) {
         [self addCriteoBidToDfpRequest:adRequest forAdUnit:adUnit];
-    } else if ([adRequest isKindOfClass:NSClassFromString(@"MPAdView")] ||
-               [adRequest isKindOfClass:NSClassFromString(@"MPInterstitialAdController")]) {
+    } else if ([adRequestClassName isEqualToString:@"MPAdView"] ||
+               [adRequestClassName isEqualToString:@"MPInterstitialAdController"]) {
         [self addCriteoBidToMopubRequest:adRequest forAdUnit:adUnit];
     }
 }

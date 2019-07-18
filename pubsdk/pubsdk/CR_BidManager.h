@@ -58,6 +58,12 @@ NS_DESIGNATED_INITIALIZER;
 - (void) addCriteoBidToRequest:(id) adRequest
                      forAdUnit:(CR_CacheAdUnit *) adUnit;
 
+- (void) addCriteoBidToDfpRequest:(id) adRequest
+                        forAdUnit:(CR_CacheAdUnit *) adUnit;
+
+- (void) addCriteoBidToMopubRequest:(id) adRequest
+                          forAdUnit:(CR_CacheAdUnit *) adUnit;
+
 - (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken
                               adUnitType:(CRAdUnitType)adUnitType;
 
