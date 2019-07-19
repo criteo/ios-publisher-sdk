@@ -121,8 +121,8 @@ didFinishNavigation:(WKNavigation *)navigation {
 
     self.isAdLoaded = YES;
     dispatch_async(dispatch_get_main_queue(), ^{
-        if([self.delegate respondsToSelector:@selector(interstitialDidLoadAd:)]) {
-            [self.delegate interstitialDidLoadAd:self];
+        if([self.delegate respondsToSelector:@selector(interstitialDidReceiveAd:)]) {
+            [self.delegate interstitialDidReceiveAd:self];
         }
     });
 }
@@ -220,12 +220,12 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 
 - (void)safelyNotifyAdLoadFail:(CRErrorCode)errorCode description:(NSString *)description {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if([self.delegate respondsToSelector:@selector(interstitial:didFailToLoadAdWithError:)]) {
+        if([self.delegate respondsToSelector:@selector(interstitial:didFailToReceiveAdWithError:)]) {
             NSError *error = description
             ? [NSError CRErrors_errorWithCode:errorCode description:description]
             : [NSError CRErrors_errorWithCode:errorCode];
 
-            [self.delegate interstitial:self didFailToLoadAdWithError:error];
+            [self.delegate interstitial:self didFailToReceiveAdWithError:error];
         }
     });
 }

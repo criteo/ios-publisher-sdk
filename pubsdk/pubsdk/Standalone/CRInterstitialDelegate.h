@@ -13,8 +13,8 @@
 @protocol CRInterstitialDelegate  <NSObject>
 @optional
 
-- (void)interstitialDidLoadAd:(CRInterstitial *)interstitial;
-- (void)interstitial:(CRInterstitial *)interstitial didFailToLoadAdWithError:(NSError *)error;
+- (void)interstitialDidReceiveAd:(CRInterstitial *)interstitial;
+- (void)interstitial:(CRInterstitial *)interstitial didFailToReceiveAdWithError:(NSError *)error;
 
 - (void)interstitialWillAppear:(CRInterstitial *)interstitial;
 - (void)interstitialDidAppear:(CRInterstitial *)interstitial;

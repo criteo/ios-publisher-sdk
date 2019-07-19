@@ -93,8 +93,8 @@
     if(!self.isResponseValid) return [self safelyNotifyAdLoadFail:CRErrorCodeNetworkError];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        if([self.delegate respondsToSelector:@selector(bannerDidLoad:)]) {
-            [self.delegate bannerDidLoad:self];
+        if([self.delegate respondsToSelector:@selector(bannerDidReceiveAd:)]) {
+            [self.delegate bannerDidReceiveAd:self];
         }
     });
 }
@@ -166,12 +166,12 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 
 - (void)safelyNotifyAdLoadFail:(CRErrorCode)errorCode description:(NSString *)description {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if([self.delegate respondsToSelector:@selector(banner:didFailToLoadAdWithError:)]) {
+        if([self.delegate respondsToSelector:@selector(banner:didFailToReceiveAdWithError:)]) {
             NSError *error = description
             ? [NSError CRErrors_errorWithCode:errorCode description:description]
             : [NSError CRErrors_errorWithCode:errorCode];
 
-            [self.delegate banner:self didFailToLoadAdWithError:error];
+            [self.delegate banner:self didFailToReceiveAdWithError:error];
         }
     });
 }
