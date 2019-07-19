@@ -95,7 +95,7 @@
                   "</html>", (long)[UIScreen mainScreen].bounds.size.width,@"test"];
 }
 
-- (void)testInterstitialDidLoad {
+- (void)testInterstitialDidReceiveAd {
     // create mock objects
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
     OCMStub(mockCriteo.config).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
@@ -115,29 +115,12 @@
     OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
                                                       screenSize:[CR_DeviceInfo getScreenSize]]).andReturn([self expectedCacheAdUnit]);
     OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([self bidWithDisplayURL:@"test"]);
-    id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
+    id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
     interstitial.delegate = mockInterstitialDelegate;
-    OCMStub([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
-    OCMStub([mockWebView loadHTMLString:[self htmlString] baseURL:[NSURL URLWithString:@"about:blank"]]).andDo(^(NSInvocation* args) {
-        [interstitial webView:mockWebView decidePolicyForNavigationResponse:[self validNavigationResponse] decisionHandler:^(WKNavigationResponsePolicy policy) {
+    OCMExpect([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
 
-        }];
-    }).andDo(^(NSInvocation* args) {
-        [interstitial webView:mockWebView didFinishNavigation:nil];
-    });
-
-    XCTestExpectation *interstitialDidLoadExpectation = [self expectationWithDescription:@"InterstitialDidLoad delegate method called"];
     [interstitial loadAd];
-    if(interstitial.isAdLoaded) {
-        [NSTimer scheduledTimerWithTimeInterval:0.1
-                                        repeats:NO
-                                          block:^(NSTimer * _Nonnull timer) {
-                                              OCMVerify([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
-                                              [interstitialDidLoadExpectation fulfill];
-                                          }];
-
-    }
-    [self waitForExpectations:@[interstitialDidLoadExpectation] timeout:5];
+    OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
 }
 
 - (void)testInterstitialAdFetchFail {
@@ -323,8 +306,8 @@
                       timeout:5];
 }
 
-// test interstitial fail delegate method called when webView navigation fails
-- (void)testInterstitialFailWhenWebViewFailsToNavigate {
+// test no delegate method called when webView navigation fails
+- (void)testNoDelegateWhenWebViewFailsToNavigate {
     CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:[WKWebView new]
                                                                                                       view:nil
                                                                                               interstitial:nil];
@@ -335,59 +318,55 @@
                                                                    adUnit:self.adUnit];
 
     id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
-    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInternalError];
     interstitial.delegate = mockInterstitialDelegate;
-    OCMStub([mockInterstitialDelegate interstitial:interstitial
-                          didFailToReceiveAdWithError:[OCMArg any]]);
+    OCMReject([mockInterstitialDelegate interstitial:interstitial
+                         didFailToReceiveAdWithError:[OCMArg any]]);
+    OCMReject([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
 
-    XCTestExpectation *interstitialWebViewNavigationFailExpectation = [self expectationWithDescription:@"interstitialDidFail delegate method called"];
+    XCTestExpectation *interstitialWebViewNavigationFailExpectation = [self expectationWithDescription:@"No delegate method called"];
     [interstitial webView:nil
         didFailNavigation:nil
                 withError:nil];
-    [NSTimer scheduledTimerWithTimeInterval:3
+    [NSTimer scheduledTimerWithTimeInterval:2
                                     repeats:NO
                                       block:^(NSTimer * _Nonnull timer) {
-                                          OCMVerify([mockInterstitialDelegate interstitial:interstitial
-                                                                  didFailToReceiveAdWithError:expectedError]);
                                           [interstitialWebViewNavigationFailExpectation fulfill];
                                       }];
     [self waitForExpectations:@[interstitialWebViewNavigationFailExpectation]
-                      timeout:5];
+                      timeout:3];
 }
 
-// test interstitial fail delegate method called when webView load fails
-- (void)testInterstitialFailWhenWebViewFailsToLoad {
+// test no delegate method called when webView load fails
+- (void)testNoDelegateWhenWebViewFailsToLoad {
     CRInterstitial *interstitial = [CRInterstitial new];
     id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
-    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInternalError];
     interstitial.delegate = mockInterstitialDelegate;
-    OCMStub([mockInterstitialDelegate interstitial:interstitial
-                          didFailToReceiveAdWithError:[OCMArg any]]);
+    OCMReject([mockInterstitialDelegate interstitial:interstitial
+                         didFailToReceiveAdWithError:[OCMArg any]]);
+    OCMReject([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
 
-    XCTestExpectation *interstitialWebViewLoadExpectation = [self expectationWithDescription:@"interstitialDidFail delegate method called"];
+    XCTestExpectation *interstitialWebViewLoadExpectation = [self expectationWithDescription:@"No delegate method called"];
     [interstitial webView:nil didFailProvisionalNavigation:nil
                 withError:nil];
-    [NSTimer scheduledTimerWithTimeInterval:3
+    [NSTimer scheduledTimerWithTimeInterval:2
                                     repeats:NO
                                       block:^(NSTimer * _Nonnull timer) {
-                                          OCMVerify([mockInterstitialDelegate interstitial:interstitial
-                                                                  didFailToReceiveAdWithError:expectedError]);
                                           [interstitialWebViewLoadExpectation fulfill];
                                       }];
     [self waitForExpectations:@[interstitialWebViewLoadExpectation]
-                      timeout:5];
+                      timeout:3];
 }
 
-// test interstitial fail delegate method called when HTTP error
-- (void)testInterstitialFailWhenHTTPError {
+// test no delegate method called when HTTP error
+- (void)testNoDelegateWhenHTTPError {
     CRInterstitial *interstitial = [CRInterstitial new];
     id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
-    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNetworkError];
     interstitial.delegate = mockInterstitialDelegate;
-    OCMStub([mockInterstitialDelegate interstitial:interstitial
-                          didFailToReceiveAdWithError:[OCMArg any]]);
+    OCMReject([mockInterstitialDelegate interstitial:interstitial
+                         didFailToReceiveAdWithError:[OCMArg any]]);
+    OCMReject([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
 
-    XCTestExpectation *interstitialHTTPErrorExpectation = [self expectationWithDescription:@"interstitialDidFail delegate method called"];
+    XCTestExpectation *interstitialHTTPErrorExpectation = [self expectationWithDescription:@"no delegate method called"];
     WKNavigationResponse *navigationResponse = OCMStrictClassMock([WKNavigationResponse class]);
     NSHTTPURLResponse *response = OCMStrictClassMock([NSHTTPURLResponse class]);
     OCMStub(response.statusCode).andReturn(404);
@@ -395,15 +374,13 @@
     [interstitial webView:nil decidePolicyForNavigationResponse:navigationResponse
           decisionHandler:^(WKNavigationResponsePolicy decisionHandler) {
         }];
-    [NSTimer scheduledTimerWithTimeInterval:3
+    [NSTimer scheduledTimerWithTimeInterval:2
                                     repeats:NO
                                       block:^(NSTimer * _Nonnull timer) {
-                                          OCMVerify([mockInterstitialDelegate interstitial:interstitial
-                                                                  didFailToReceiveAdWithError:expectedError]);
                                           [interstitialHTTPErrorExpectation fulfill];
                                       }];
     [self waitForExpectations:@[interstitialHTTPErrorExpectation]
-                      timeout:5];
+                      timeout:3];
 }
 
 // test no delegate method called when 3xx HTTP status code
@@ -411,6 +388,9 @@
     CRInterstitial *interstitial = [CRInterstitial new];
     id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
     interstitial.delegate = mockInterstitialDelegate;
+    OCMReject([mockInterstitialDelegate interstitial:interstitial
+                         didFailToReceiveAdWithError:[OCMArg any]]);
+    OCMReject([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
 
     XCTestExpectation *interstitialHTTPErrorExpectation = [self expectationWithDescription:@"interstitial delegate methods not called"];
     WKNavigationResponse *navigationResponse = OCMStrictClassMock([WKNavigationResponse class]);
@@ -420,13 +400,13 @@
     [interstitial webView:nil decidePolicyForNavigationResponse:navigationResponse
           decisionHandler:^(WKNavigationResponsePolicy decisionHandler) {
           }];
-    [NSTimer scheduledTimerWithTimeInterval:3
+    [NSTimer scheduledTimerWithTimeInterval:2
                                     repeats:NO
                                       block:^(NSTimer * _Nonnull timer) {
                                           [interstitialHTTPErrorExpectation fulfill];
                                       }];
     [self waitForExpectations:@[interstitialHTTPErrorExpectation]
-                      timeout:5];
+                      timeout:3];
 }
 
 - (void)testInterstitialFailWhenRootViewControllerIsNil {
@@ -515,7 +495,8 @@
                       timeout:5];
 }
 
-- (void)testInterstitialFailWhenNoHttpResponse {
+// test the only delegate called is didReceiveAd: when no HTTP response
+- (void)testDidReceiveAdWhenNoHttpResponse {
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
     OCMStub(mockCriteo.config).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
     WKWebView *realWebView = [WKWebView new];
@@ -530,24 +511,14 @@
     id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
     OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
                                                       screenSize:[CR_DeviceInfo getScreenSize]]).andReturn([self expectedCacheAdUnit]);
-    OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([self bidWithDisplayURL:@""]);
+    OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([self bidWithDisplayURL:@"test"]);
 
-    id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
+    id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
     interstitial.delegate = mockInterstitialDelegate;
-    OCMStub([mockInterstitialDelegate interstitial:interstitial didFailToReceiveAdWithError:[OCMArg any]]);
-    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNetworkError];
+    OCMExpect([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
 
-    XCTestExpectation *interstitialNoHttpResponseExpectation = [self expectationWithDescription:@"InterstitialDidFail delegate method called"];
-    [NSTimer scheduledTimerWithTimeInterval:3
-                                    repeats:NO
-                                      block:^(NSTimer * _Nonnull timer) {
-                                          XCTAssertFalse(interstitial.isAdLoaded);
-                                          OCMVerify([mockInterstitialDelegate interstitial:interstitial
-                                                                  didFailToReceiveAdWithError:expectedError]);
-                                          [interstitialNoHttpResponseExpectation fulfill];
-                                      }];
     [interstitial loadAd];
-    [self waitForExpectations:@[interstitialNoHttpResponseExpectation] timeout:5];
+    OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
 }
 
 - (void)testInterstitialFailWhenAdIsBeingLoaded {
@@ -570,11 +541,13 @@
     NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidRequest
                                                  description:@"An Ad is already being loaded."];
     interstitial.delegate = mockInterstitialDelegate;
-    OCMExpect([mockInterstitialDelegate interstitial:interstitial
-                          didFailToReceiveAdWithError:expectedError]);
+    OCMExpect([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
 
     [interstitial loadAd];
     XCTAssertTrue([interstitial isAdLoading]);
+    OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
+    OCMExpect([mockInterstitialDelegate interstitial:interstitial
+                         didFailToReceiveAdWithError:expectedError]);
     [interstitial loadAd];
     OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
 }
@@ -645,13 +618,7 @@
     id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
     interstitial.delegate = mockInterstitialDelegate;
     OCMExpect([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
-    OCMStub([mockWebView loadHTMLString:[self htmlString] baseURL:[NSURL URLWithString:@"about:blank"]]).andDo(^(NSInvocation* args) {
-        [interstitial webView:mockWebView decidePolicyForNavigationResponse:[self validNavigationResponse] decisionHandler:^(WKNavigationResponsePolicy policy) {
 
-        }];
-    }).andDo(^(NSInvocation* args) {
-        [interstitial webView:mockWebView didFinishNavigation:nil];
-    });
     [interstitial loadAdWithBidToken:bidToken];
     OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
 }

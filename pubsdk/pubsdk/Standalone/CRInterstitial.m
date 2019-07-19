@@ -95,9 +95,18 @@
 
     NSString *htmlString = [[config.adTagUrlMode stringByReplacingOccurrencesOfString:config.viewportWidthMacro withString:viewportWidth] stringByReplacingOccurrencesOfString:config.displayURLMacro withString:displayURL];
 
+    [self dispatchDidReceiveAdDelegate];
+
     [self.viewController.webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"about:blank"]];
 }
 
+- (void)dispatchDidReceiveAdDelegate {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if([self.delegate respondsToSelector:@selector(interstitialDidReceiveAd:)]) {
+            [self.delegate interstitialDidReceiveAd:self];
+        }
+    });
+}
 
 - (void)loadAdWithBidToken:(CRBidToken *)bidToken {
     if(![self checkSafeToLoad]) {
@@ -117,14 +126,7 @@
 -     (void)webView:(WKWebView *)webView
 didFinishNavigation:(WKNavigation *)navigation {
     self.isAdLoading = NO;
-    if(!self.isResponseValid) return [self safelyNotifyAdLoadFail:CRErrorCodeNetworkError];
-
     self.isAdLoaded = YES;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if([self.delegate respondsToSelector:@selector(interstitialDidReceiveAd:)]) {
-            [self.delegate interstitialDidReceiveAd:self];
-        }
-    });
 }
 
 - (void)presentFromRootViewController:(UIViewController *)rootViewController {
@@ -189,13 +191,11 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 // Delegate errors that occur during web view navigation
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     self.isAdLoading = NO;
-    [self safelyNotifyAdLoadFail:CRErrorCodeInternalError];
 }
 
 // Delegate errors that occur while the web view is loading content.
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     self.isAdLoading = NO;
-    [self safelyNotifyAdLoadFail:CRErrorCodeInternalError];
 }
 
 // Delegate HTTP errors
@@ -205,7 +205,6 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
         if(httpResponse.statusCode >= 400) {
             self.isResponseValid = NO;
             self.isAdLoading = NO;
-            [self safelyNotifyAdLoadFail:CRErrorCodeNetworkError];
         }
         else {
             self.isResponseValid = YES;
