@@ -81,21 +81,20 @@
         self.isAdLoading = NO;
         return [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
     }
+
+    if(!bid.displayUrl) return [self safelyNotifyAdLoadFail:CRErrorCodeInternalError description:@"No display URL in bid response"];
+
     [self.viewController initWebViewIfNeeded];
+    [self dispatchDidReceiveAdDelegate];
     [self loadWebViewWithDisplayURL:bid.displayUrl];
 }
 
 - (void)loadWebViewWithDisplayURL:(NSString *)displayURL {
-    // Will crash the app if nil is passed to stringByReplacingOccurrencesOfString
-    if(!displayURL) return [self safelyNotifyAdLoadFail:CRErrorCodeInternalError description:@"No display URL in bid response"];
-
     CR_Config *config = _criteo.config;
 
     NSString *viewportWidth = [NSString stringWithFormat:@"%ld", (long)[UIScreen mainScreen].bounds.size.width];
 
     NSString *htmlString = [[config.adTagUrlMode stringByReplacingOccurrencesOfString:config.viewportWidthMacro withString:viewportWidth] stringByReplacingOccurrencesOfString:config.displayURLMacro withString:displayURL];
-
-    [self dispatchDidReceiveAdDelegate];
 
     [self.viewController.webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"about:blank"]];
 }
@@ -119,7 +118,11 @@
         self.isAdLoading = NO;
         return;
     }
+
+    if(!tokenValue.displayUrl) return [self safelyNotifyAdLoadFail:CRErrorCodeInternalError description:@"No display URL in bid response"];
+
     [self.viewController initWebViewIfNeeded];
+    [self dispatchDidReceiveAdDelegate];
     [self loadWebViewWithDisplayURL:tokenValue.displayUrl];
 }
 
