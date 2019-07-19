@@ -65,7 +65,17 @@
 
     NSString *htmlString = [[config.adTagUrlMode stringByReplacingOccurrencesOfString:config.viewportWidthMacro withString:viewportWidth] stringByReplacingOccurrencesOfString:config.displayURLMacro withString:displayUrl];
 
+    [self dispatchDidReceiveAdDelegate];
+
     [_webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"about:blank"]];
+}
+
+- (void)dispatchDidReceiveAdDelegate {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if([self.delegate respondsToSelector:@selector(bannerDidReceiveAd:)]) {
+            [self.delegate bannerDidReceiveAd:self];
+        }
+    });
 }
 
 - (void)loadAd {
@@ -87,16 +97,6 @@
     if (!tokenValue) return [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
 
     [self loadWebViewWithDisplayUrl:tokenValue.displayUrl];
-}
-
-- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    if(!self.isResponseValid) return [self safelyNotifyAdLoadFail:CRErrorCodeNetworkError];
-
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if([self.delegate respondsToSelector:@selector(bannerDidReceiveAd:)]) {
-            [self.delegate bannerDidReceiveAd:self];
-        }
-    });
 }
 
 // When the creative uses window.open(url) to open the URL, this method will be called
@@ -137,21 +137,19 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 
 // Delegate errors that occur during web view navigation
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
-    [self safelyNotifyAdLoadFail:CRErrorCodeInternalError];
 }
 
 // Delegate errors that occur while the web view is loading content.
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
-    [self safelyNotifyAdLoadFail:CRErrorCodeInternalError];
 }
 
-// Delegate HTTP errors
+
+// Potential place for invoking didReceiveAd:
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler {
     if([navigationResponse.response isKindOfClass:[NSHTTPURLResponse class]]) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)navigationResponse.response;
         if(httpResponse.statusCode >= 400) {
             self.isResponseValid = NO;
-            [self safelyNotifyAdLoadFail:CRErrorCodeNetworkError];
         }
         else {
             self.isResponseValid = YES;
