@@ -118,8 +118,16 @@
     id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
     interstitial.delegate = mockInterstitialDelegate;
     OCMExpect([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
+    OCMStub([mockWebView loadHTMLString:[self htmlString] baseURL:[NSURL URLWithString:@"about:blank"]]).andDo(^(NSInvocation* args) {
+        [interstitial webView:mockWebView decidePolicyForNavigationResponse:[self validNavigationResponse] decisionHandler:^(WKNavigationResponsePolicy policy) {
+
+        }];
+    }).andDo(^(NSInvocation* args) {
+        [interstitial webView:mockWebView didFinishNavigation:nil];
+    });
 
     [interstitial loadAd];
+    XCTAssertTrue(interstitial.isAdLoaded);
     OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
 }
 

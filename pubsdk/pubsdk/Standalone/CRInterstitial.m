@@ -129,7 +129,9 @@
 -     (void)webView:(WKWebView *)webView
 didFinishNavigation:(WKNavigation *)navigation {
     self.isAdLoading = NO;
-    self.isAdLoaded = YES;
+    if(self.isResponseValid) {
+        self.isAdLoaded = YES;
+    }
 }
 
 - (void)presentFromRootViewController:(UIViewController *)rootViewController {
