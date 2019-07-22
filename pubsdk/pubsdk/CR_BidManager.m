@@ -93,15 +93,15 @@
 - (CR_CdbBid *) getBid:(CR_CacheAdUnit *) slot {
     CR_CdbBid *bid = [cacheManager getBidForAdUnit:slot];
     if(bid) {
-        if([[bid cpm] floatValue] == 0 && [bid ttl] == 0) {
-            // immediately invalidate current cache entry if cpm == 0 & ttl == 0
+        if(bid.isExpired) {
+            // immediately invalidate current cache entry if bid is expired
             [cacheManager removeBidForAdUnit:slot];
             // only call cdb if time to next call has passed
             if([[NSDate date]timeIntervalSinceReferenceDate] >= self->cdbTimeToNextCall){
                 [self prefetchBid:slot];
             }
             return [CR_CdbBid emptyBid];
-        } else if ([[bid cpm] floatValue] == 0 && [bid ttl] > 0 && !bid.isExpired) {
+        } else if ([[bid cpm] floatValue] == 0 && [bid ttl] > 0) {
             // continue to do nothing as ttl hasn't expired on this silenced adUnit
             return [CR_CdbBid emptyBid];
         } else {

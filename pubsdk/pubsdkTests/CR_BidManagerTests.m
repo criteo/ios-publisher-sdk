@@ -574,7 +574,7 @@
 
     NSArray *slots = @[testAdUnit];
     NSDictionary *bids = [bidManager getBids:slots];
-    XCTAssertEqualObjects(testBid, bids[testAdUnit]);
+    XCTAssertTrue([bids[testAdUnit] isEmpty]);
 
     // Only call [CR_ApiHandler callCdb] for registered Ad Units
     OCMVerify([mockApiHandler callCdb:testAdUnit gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
@@ -690,6 +690,43 @@
 
     // Only call [CR_ApiHandler callCdb] for registered Ad Units
     OCMVerify([mockApiHandler callCdb:testAdUnit gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+}
+
+- (void)testGetBidWhenBidExpired {
+    CR_CacheManager *cache = [[CR_CacheManager alloc] init];
+
+    // initialized slots with fetched bids
+    CR_CacheAdUnit *testAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid"
+                                                                    width:300
+                                                                   height:250];
+    CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil
+                                               placementId:testAdUnit.adUnitId
+                                                       cpm:@"0.04"
+                                                  currency:@"USD"
+                                                     width:@(testAdUnit.size.width)
+                                                    height:@(testAdUnit.size.height)
+                                                       ttl:10
+                                                  creative:nil
+                                                displayUrl:@"https://someUrl.com"
+                                                insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-400]];
+    cache.bidCache[testAdUnit] = testBid;
+
+    CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
+    OCMStub([mockConfig killSwitch]).andReturn(NO);
+
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
+                                                             cacheManager:cache
+                                                               tokenCache:nil
+                                                                   config:mockConfig
+                                                            configManager:nil
+                                                               deviceInfo:nil
+                                                          gdprUserConsent:nil
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:0];
+
+    CR_CdbBid *expectedBid = [bidManager getBid:testAdUnit];
+    XCTAssertTrue([expectedBid isEmpty]);
 }
 
 @end
