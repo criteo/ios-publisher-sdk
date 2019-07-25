@@ -1,5 +1,5 @@
 //
-//  DummyDfpRequest.m
+//  DFPRequest.m
 //  pubsdkTests
 //
 //  Created by Adwait Kulkarni on 1/16/19.
@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DummyDfpRequest.h"
-@implementation DummyDfpRequest
+#import "DFPRequest.h"
+@implementation DFPRequest
 
 @end
