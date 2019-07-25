@@ -185,8 +185,10 @@ static CR_CdbBid *emptyBid;
 }
 
 - (BOOL) isExpired {
-    return
-    [[NSDate date]timeIntervalSinceReferenceDate] - [[self insertTime]timeIntervalSinceReferenceDate]
-    > self.ttl;
+    if (self.ttl <= 0) {
+        return true;
+    }
+
+    return [[NSDate date]timeIntervalSinceReferenceDate] - [[self insertTime]timeIntervalSinceReferenceDate] > self.ttl;
 }
 @end

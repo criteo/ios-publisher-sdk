@@ -140,15 +140,49 @@
     XCTAssertFalse([testBid_4 isEqual:testBids[3]]);
 }
 
+- (CR_CdbBid*) testBidWithTTL:(NSTimeInterval)ttl insertTimeDiff:(NSTimeInterval)diff
+{
+    return [[CR_CdbBid alloc] initWithZoneId:nil
+                                 placementId:@"a_test_placement"
+                                         cpm:@"0.0312"
+                                    currency:@"USD"
+                                       width:@(300)
+                                      height:@(200)
+                                         ttl:ttl
+                                    creative:nil
+                                  displayUrl:@"https://someUrl.com"
+                                  insertTime:[NSDate dateWithTimeIntervalSinceNow:diff]];
+}
+
 
 - (void) testBidIsExpired {
-    CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"a_test_placement" cpm:@"0.0312" currency:@"USD" width:@(300) height:@(200) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-400]];
-    XCTAssertTrue([testBid isExpired]);
+    CR_CdbBid *testBid = [self testBidWithTTL:200 insertTimeDiff:-400];
+    XCTAssertTrue(testBid.isExpired);
+}
+
+- (void) testTtlLTEZeroIsAlwaysExpired {
+    CR_CdbBid *testBid = [self testBidWithTTL:0 insertTimeDiff:0];
+    XCTAssertTrue(testBid.isExpired);
+
+    CR_CdbBid *testBid2 = [self testBidWithTTL:0 insertTimeDiff:-100];
+    XCTAssertTrue(testBid2.isExpired);
+
+    CR_CdbBid *testBid3 = [self testBidWithTTL:0 insertTimeDiff:100];
+    XCTAssertTrue(testBid3.isExpired);
+
+    CR_CdbBid *testBid4 = [self testBidWithTTL:-100 insertTimeDiff:0];
+    XCTAssertTrue(testBid4.isExpired);
+
+    CR_CdbBid *testBid5 = [self testBidWithTTL:-100 insertTimeDiff:-100];
+    XCTAssertTrue(testBid5.isExpired);
+
+    CR_CdbBid *testBid6 = [self testBidWithTTL:-100 insertTimeDiff:100];
+    XCTAssertTrue(testBid6.isExpired);
 }
 
 - (void) testBidIsNotExpired {
-    CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"a_test_placement" cpm:@"0.0312" currency:@"USD" width:@(300) height:@(200) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-100]];
-    XCTAssertFalse([testBid isExpired]);
+    CR_CdbBid *testBid = [self testBidWithTTL:200 insertTimeDiff:-100];
+    XCTAssertFalse(testBid.isExpired);
 }
 
 - (void) testDfpCompatibleUrlIsDoubleUrlEncodedBase64
