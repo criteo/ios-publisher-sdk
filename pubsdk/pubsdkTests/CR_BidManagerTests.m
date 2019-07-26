@@ -389,7 +389,90 @@
     XCTAssertTrue([mopubBidRequest.keywords containsString:[testBid_1 cpm]]);
 }
 
-- (void) testConditionAddCriteoBidToMopubInterstitialAdController {
+- (void) testLoadMopubInterstitial {
+    CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+
+    CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
+
+    CR_CacheManager *cache = [[CR_CacheManager alloc] init];
+    [cache setBid:testBid_1 forAdUnit:slot_1];
+
+    NSString *testMopubCustomTargeting = @"key1:object_1,key_2:object_2";
+
+    MPInterstitialAdController *mopubBidRequest = [[MPInterstitialAdController alloc] init];
+    mopubBidRequest.keywords = testMopubCustomTargeting;
+
+    CR_Config *config = [[CR_Config alloc] initWithCriteoPublisherId:@("1234")];
+
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
+                                                             cacheManager:cache
+                                                               tokenCache:nil
+                                                                   config:config
+                                                            configManager:nil
+                                                               deviceInfo:nil
+                                                          gdprUserConsent:nil
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:0];
+
+    [bidManager addCriteoBidToRequest:mopubBidRequest forAdUnit:slot_1];
+    XCTAssertTrue([mopubBidRequest.keywords containsString:[testBid_1 mopubCompatibleDisplayUrl]]);
+    XCTAssertTrue([mopubBidRequest.keywords containsString:[testBid_1 cpm]]);
+
+    [mopubBidRequest loadAd];
+    XCTAssertFalse([mopubBidRequest.keywords containsString:[testBid_1 mopubCompatibleDisplayUrl]]);
+    XCTAssertFalse([mopubBidRequest.keywords containsString:[testBid_1 cpm]]);
+    XCTAssertFalse([mopubBidRequest.keywords containsString:@"crt_"]);
+}
+
+- (void)testDuplicateEnrichment {
+    CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+    CR_CacheAdUnit *slot_2 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid2" width:300 height:250];
+
+    CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.237293459023" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"url_1" insertTime:[NSDate date]];
+    CR_CdbBid *testBid_2 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid2" cpm:@"2.29357205730" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"url_2" insertTime:[NSDate date]];
+
+    CR_CacheManager *cache = [[CR_CacheManager alloc] init];
+    [cache setBid:testBid_1 forAdUnit:slot_1];
+    [cache setBid:testBid_2 forAdUnit:slot_2];
+
+    NSString *testMopubCustomTargeting = @"key1:object_1,key_2:object_2";
+
+    MPInterstitialAdController *mopubBidRequest = [[MPInterstitialAdController alloc] init];
+    mopubBidRequest.keywords = testMopubCustomTargeting;
+
+    CR_Config *config = [[CR_Config alloc] initWithCriteoPublisherId:@("1234")];
+
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
+                                                             cacheManager:cache
+                                                               tokenCache:nil
+                                                                   config:config
+                                                            configManager:nil
+                                                               deviceInfo:nil
+                                                          gdprUserConsent:nil
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:0];
+
+    [bidManager addCriteoBidToRequest:mopubBidRequest forAdUnit:slot_1];
+    XCTAssertTrue([mopubBidRequest.keywords containsString:[testBid_1 mopubCompatibleDisplayUrl]]);
+    XCTAssertTrue([mopubBidRequest.keywords containsString:[testBid_1 cpm]]);
+
+    [bidManager addCriteoBidToRequest:mopubBidRequest forAdUnit:slot_2];
+    XCTAssertFalse([mopubBidRequest.keywords containsString:[testBid_1 mopubCompatibleDisplayUrl]]);
+    XCTAssertFalse([mopubBidRequest.keywords containsString:[testBid_1 cpm]]);
+    XCTAssertTrue([mopubBidRequest.keywords containsString:[testBid_2 mopubCompatibleDisplayUrl]]);
+    XCTAssertTrue([mopubBidRequest.keywords containsString:[testBid_2 cpm]]);
+
+    NSUInteger displayUrlCount = [CR_BidManagerTests checkNumOcurrencesOf:[testBid_2 mopubCompatibleDisplayUrl] inString:mopubBidRequest.keywords];
+    NSUInteger cpmCount = [CR_BidManagerTests checkNumOcurrencesOf:[testBid_2 cpm] inString:mopubBidRequest.keywords];
+    NSUInteger crtCount = [CR_BidManagerTests checkNumOcurrencesOf:@"crt_" inString:mopubBidRequest.keywords];
+    XCTAssertEqual(displayUrlCount, 1);
+    XCTAssertEqual(cpmCount, 1);
+    XCTAssertEqual(crtCount, 2);
+}
+
+- (void)testConditionAddCriteoBidToMopubInterstitialAdController {
     CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
     CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
@@ -727,6 +810,22 @@
 
     CR_CdbBid *expectedBid = [bidManager getBid:testAdUnit];
     XCTAssertTrue([expectedBid isEmpty]);
+}
+
++ (NSUInteger)checkNumOcurrencesOf:(NSString *)substring
+                          inString:(NSString *)string {
+    NSUInteger count = 0, length = [string length];
+    NSRange range = NSMakeRange(0, length);
+    while(range.location != NSNotFound)
+    {
+        range = [string rangeOfString: substring options:0 range:range];
+        if(range.location != NSNotFound)
+        {
+            range = NSMakeRange(range.location + range.length, length - (range.location + range.length));
+            count++;
+        }
+    }
+    return count;
 }
 
 @end
