@@ -86,7 +86,6 @@
 		E104B6B521E580E9004D86C4 /* CR_CdbBidTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6B421E580E9004D86C4 /* CR_CdbBidTests.m */; };
 		E104B6B821ED19A7004D86C4 /* CR_ApiHandlerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6B721ED19A7004D86C4 /* CR_ApiHandlerTests.m */; };
 		E104B6BB21EFE733004D86C4 /* CR_NetworkManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6BA21EFE733004D86C4 /* CR_NetworkManagerTests.m */; };
-		E104B6BD21F0253E004D86C4 /* DFPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = E104B6BC21F0253E004D86C4 /* DFPRequest.m */; };
 		E12A7F5621F8FD25002B4548 /* CR_GdprUserConsent.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5521F8FD25002B4548 /* CR_GdprUserConsent.m */; };
 		E12A7F5821F914DA002B4548 /* CR_GdprUserConsentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5721F914DA002B4548 /* CR_GdprUserConsentTests.m */; };
 		E12A7F5A21FA6FA4002B4548 /* CR_Config.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5921FA6FA4002B4548 /* CR_Config.m */; };
@@ -157,6 +156,8 @@
 		25BD5B5A2220D16D004DE311 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		29D24DDAFFC9D3813C55AD78 /* Pods-pubsdkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdkTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdkTests/Pods-pubsdkTests.release.xcconfig"; sourceTree = "<group>"; };
 		4876E95088BFF48248FF7025 /* Pods-pubsdkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdkTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdkTests/Pods-pubsdkTests.debug.xcconfig"; sourceTree = "<group>"; };
+		53044D1C22E0E8470083E158 /* DFPRequestClasses.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DFPRequestClasses.h; sourceTree = "<group>"; };
+		53044D2022E110640083E158 /* MPClasses.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPClasses.h; sourceTree = "<group>"; };
 		5397C08A22A0885700BC72FE /* CRAdUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRAdUnit.h; sourceTree = "<group>"; };
 		5397C08B22A0885800BC72FE /* CRInterstitialAdUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRInterstitialAdUnit.h; sourceTree = "<group>"; };
 		5397C08C22A0885800BC72FE /* CRAdUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRAdUnit.m; sourceTree = "<group>"; };
@@ -206,15 +207,11 @@
 		65E3A56F2270CB7A004156E9 /* CR_InterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_InterstitialViewController.h; sourceTree = "<group>"; };
 		65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_InterstitialViewController.m; sourceTree = "<group>"; };
 		6F187272CD050435F6D28BFA /* libPods-pubsdkTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pubsdkTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		917D8A8A22C1A4FA00BE7031 /* MPAdView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPAdView.h; sourceTree = "<group>"; };
-		917D8A8B22C1A4FA00BE7031 /* MPAdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPAdView.m; sourceTree = "<group>"; };
 		E104B6B221E57F7B004D86C4 /* CR_BidManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_BidManagerTests.m; sourceTree = "<group>"; };
 		E104B6B421E580E9004D86C4 /* CR_CdbBidTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_CdbBidTests.m; sourceTree = "<group>"; };
 		E104B6B621E92D4B004D86C4 /* CR_Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_Config.h; sourceTree = "<group>"; };
 		E104B6B721ED19A7004D86C4 /* CR_ApiHandlerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_ApiHandlerTests.m; sourceTree = "<group>"; };
-		E104B6B921EEA188004D86C4 /* DFPRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DFPRequest.h; sourceTree = "<group>"; };
 		E104B6BA21EFE733004D86C4 /* CR_NetworkManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_NetworkManagerTests.m; sourceTree = "<group>"; };
-		E104B6BC21F0253E004D86C4 /* DFPRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DFPRequest.m; sourceTree = "<group>"; };
 		E12A7F5421F8FBD6002B4548 /* CR_GdprUserConsent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_GdprUserConsent.h; sourceTree = "<group>"; };
 		E12A7F5521F8FD25002B4548 /* CR_GdprUserConsent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_GdprUserConsent.m; sourceTree = "<group>"; };
 		E12A7F5721F914DA002B4548 /* CR_GdprUserConsentTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_GdprUserConsentTests.m; sourceTree = "<group>"; };
@@ -514,10 +511,8 @@
 				E104B6B421E580E9004D86C4 /* CR_CdbBidTests.m */,
 				E1D7DF042215136C006090C0 /* CR_CdbResponseTests.m */,
 				258821DB2200143A00398E9F /* Configuration */,
-				E104B6B921EEA188004D86C4 /* DFPRequest.h */,
-				E104B6BC21F0253E004D86C4 /* DFPRequest.m */,
-				917D8A8A22C1A4FA00BE7031 /* MPAdView.h */,
-				917D8A8B22C1A4FA00BE7031 /* MPAdView.m */,
+				53044D1C22E0E8470083E158 /* DFPRequestClasses.h */,
+				53044D2022E110640083E158 /* MPClasses.h */,
 				E12A7F5721F914DA002B4548 /* CR_GdprUserConsentTests.m */,
 				E1F2737421B5F08D00A2FBFA /* Info.plist */,
 				25E52F3222091FD8006BA63A /* Network */,
@@ -826,7 +821,6 @@
 			files = (
 				543F6FA22283B5F500A5DBE2 /* CRBannerViewDelegateTests.m in Sources */,
 				255151C92202AEF800F76E3F /* NSString+CR_UrlEncoderTests.m in Sources */,
-				917D8A8C22C1A4FA00BE7031 /* MPAdView.m in Sources */,
 				5397C0BE22A1AE9800BC72FE /* CR_CacheAdUnitTests.m in Sources */,
 				54ED19F322717E13009AA0B2 /* CRInterstitialViewControllerTests.m in Sources */,
 				6519C0DB2285FA8300111A5F /* CRInterstitialDelegateTests.m in Sources */,

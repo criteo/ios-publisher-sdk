@@ -8,8 +8,6 @@
 
 #import <XCTest/XCTest.h>
 
-#import "DFPRequest.h"
-
 @interface pubsdkTests : XCTestCase
 
 @end
