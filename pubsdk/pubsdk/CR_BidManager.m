@@ -9,6 +9,7 @@
 #import "CR_BidManager.h"
 #import "Logging.h"
 #import "CR_AppEvents.h"
+#import "CR_BidManagerHelper.h"
 
 @implementation CR_BidManager
 {
@@ -211,6 +212,8 @@
 
 - (void) addCriteoBidToMopubRequest:(id) adRequest
                           forAdUnit:(CR_CacheAdUnit *) adUnit {
+    [CR_BidManagerHelper removeCriteoBidsFromMoPubRequest:adRequest];
+
     CR_CdbBid *fetchedBid = [self getBid:adUnit];
     if ([fetchedBid isEmpty]) {
         return;
