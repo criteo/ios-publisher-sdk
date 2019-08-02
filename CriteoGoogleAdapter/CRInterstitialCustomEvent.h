@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+@import CriteoPublisherSdk;
 @import GoogleMobileAds;
 
 NS_ASSUME_NONNULL_BEGIN

@@ -8,6 +8,10 @@
 
 #import "CRInterstitialCustomEvent.h"
 
+@interface CRInterstitialCustomEvent ()
+@property (nonatomic, strong)CRInterstitial *interstitial;
+@end
+
 @implementation CRInterstitialCustomEvent
 
 @synthesize delegate;

@@ -6,6 +6,7 @@ set -Eeuo pipefail
 rm -rf build/output
 mkdir -p build/output/sim
 
+pod install
 xcrun simctl shutdown all
 xcrun simctl erase all
 

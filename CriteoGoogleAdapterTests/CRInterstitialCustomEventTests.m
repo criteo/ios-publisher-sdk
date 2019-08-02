@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-
+#import "CRInterstitialCustomEvent.h"
 @interface CRInterstitialCustomEventTests : XCTestCase
 
 @end
