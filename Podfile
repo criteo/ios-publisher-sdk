@@ -1,7 +1,7 @@
 platform :ios, '8.0'
 
 workspace 'CriteoGoogleAdapter.xcworkspace'
-project 'CriteoGoogleAdapter/CriteoGoogleAdapter.xcodeproj'
+project 'CriteoGoogleAdapter.xcodeproj'
 
 target 'CriteoGoogleAdapterTests' do
     pod 'OCMock','~> 3.4.3'

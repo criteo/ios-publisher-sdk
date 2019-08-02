@@ -16,7 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		54FC7DAB22F4136100202164 /* PBXContainerItemProxy */ = {
+		541ABDC722F4AA3200485B53 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 54FC7D9722F4136100202164 /* Project object */;
 			proxyType = 1;
@@ -166,7 +166,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				54FC7DAC22F4136100202164 /* PBXTargetDependency */,
+				541ABDC822F4AA3200485B53 /* PBXTargetDependency */,
 			);
 			name = CriteoGoogleAdapterTests;
 			productName = CriteoGoogleAdapterTests;
@@ -292,10 +292,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		54FC7DAC22F4136100202164 /* PBXTargetDependency */ = {
+		541ABDC822F4AA3200485B53 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 54FC7D9F22F4136100202164 /* CriteoGoogleAdapter */;
-			targetProxy = 54FC7DAB22F4136100202164 /* PBXContainerItemProxy */;
+			targetProxy = 541ABDC722F4AA3200485B53 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
