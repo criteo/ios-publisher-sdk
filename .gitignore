@@ -3,6 +3,9 @@
 
 # Xcode
 build/
+Pods/
+fuji/
+CriteoPublisherSdk.Framework/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
