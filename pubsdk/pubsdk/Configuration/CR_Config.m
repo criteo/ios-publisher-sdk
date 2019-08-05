@@ -20,7 +20,7 @@
         _cdbUrl = @"https://bidder.criteo.com";
         //_cdbUrl = @"http://directbidder-test-app.par.preprod.crto.in";
         _path = @"inapp/v2";
-        _sdkVersion = @"3.0.0";
+        _sdkVersion = @"3.0.1";
         _appId = [[NSBundle mainBundle] bundleIdentifier];
         _killSwitch = [[NSUserDefaults standardUserDefaults] boolForKey:killSwitchKey];
         _deviceModel = [[UIDevice currentDevice] model];
