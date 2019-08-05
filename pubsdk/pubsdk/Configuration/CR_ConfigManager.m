@@ -28,6 +28,7 @@
                 ahConfigHandler:^(NSDictionary *configValues) {
                     if(configValues[@"killSwitch"] && [configValues[@"killSwitch"] isKindOfClass:NSNumber.class]) {
                         config.killSwitch = ((NSNumber*)configValues[@"killSwitch"]).boolValue;
+                        [[NSUserDefaults standardUserDefaults] setBool:config.killSwitch forKey:killSwitchKey];
                     }
                     if(configValues[@"iOSAdTagUrlMode"] && [configValues[@"iOSAdTagUrlMode"] isKindOfClass:NSString.class]) {
                         config.adTagUrlMode = (NSString*)configValues[@"iOSAdTagUrlMode"];

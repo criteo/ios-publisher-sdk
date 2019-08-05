@@ -13,7 +13,6 @@
 
 @implementation CR_Config
 
-
 - (instancetype) initWithCriteoPublisherId:(NSString *)criteoPublisherId {
     if (self = [super init]) {
         _criteoPublisherId = criteoPublisherId;
@@ -23,7 +22,7 @@
         _path = @"inapp/v2";
         _sdkVersion = @"3.0.0";
         _appId = [[NSBundle mainBundle] bundleIdentifier];
-        _killSwitch = NO;
+        _killSwitch = [[NSUserDefaults standardUserDefaults] boolForKey:killSwitchKey];
         _deviceModel = [[UIDevice currentDevice] model];
         _osVersion = [[UIDevice currentDevice] systemVersion];
         _deviceOs = @"ios";
