@@ -37,10 +37,10 @@
 		1DCEFA360467E4609048B381 /* Pods-CriteoGoogleAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapter.debug.xcconfig"; path = "Target Support Files/Pods-CriteoGoogleAdapter/Pods-CriteoGoogleAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 		26D9C65D4FFAA50128EE5DB4 /* libPods-CriteoGoogleAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoGoogleAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		282330E581BEC0B05B9B0D3D /* Pods-CriteoGoogleAdapterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapterTests.debug.xcconfig"; path = "Target Support Files/Pods-CriteoGoogleAdapterTests/Pods-CriteoGoogleAdapterTests.debug.xcconfig"; sourceTree = "<group>"; };
+		54865DA022FA1BA1001F9A67 /* CRInterstitialCustomEventTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialCustomEventTests.m; sourceTree = "<group>"; };
 		54FC7DA022F4136100202164 /* CriteoGoogleAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CriteoGoogleAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		54FC7DA422F4136100202164 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54FC7DA922F4136100202164 /* CriteoGoogleAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CriteoGoogleAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		54FC7DAE22F4136100202164 /* CRInterstitialCustomEventTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialCustomEventTests.m; sourceTree = "<group>"; };
 		54FC7DB022F4136100202164 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54FC7DBA22F4147100202164 /* CRInterstitialCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRInterstitialCustomEvent.h; sourceTree = "<group>"; };
 		54FC7DBB22F4147100202164 /* CRInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialCustomEvent.m; sourceTree = "<group>"; };
@@ -129,6 +129,7 @@
 				DF4356A7230485FA0051AC45 /* CRBannerCustomEventTests.m */,
 				54FC7DAE22F4136100202164 /* CRInterstitialCustomEventTests.m */,
 				54FC7DB022F4136100202164 /* Info.plist */,
+				54865DA022FA1BA1001F9A67 /* CRInterstitialCustomEventTests.m */,
 			);
 			path = CriteoGoogleAdapterTests;
 			sourceTree = "<group>";
@@ -467,7 +468,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = Y2G9CL9C3G;
+				DEVELOPMENT_TEAM = S655EV5659;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -500,7 +501,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = Y2G9CL9C3G;
+				DEVELOPMENT_TEAM = S655EV5659;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
