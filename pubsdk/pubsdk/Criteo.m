@@ -75,11 +75,12 @@ static Criteo *sharedInstance;
     static dispatch_once_t registrationToken;
     dispatch_once(&registrationToken, ^{
         bidManager = [Criteo createBidManagerWithCriteoPublisherId:criteoPublisherId];
+
+        NSArray<CR_CacheAdUnit *> *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:adUnits];
+        [registeredAdUnits addObjectsFromArray:cacheAdUnits];
+        [bidManager setSlots:cacheAdUnits];
+        [self prefetchAll];
     });
-    NSArray<CR_CacheAdUnit *> *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:adUnits];
-    [registeredAdUnits addObjectsFromArray:cacheAdUnits];
-    [bidManager setSlots:cacheAdUnits];
-    [self prefetchAll];
 }
 
 - (void) prefetchAll {
