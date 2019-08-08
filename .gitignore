@@ -2,6 +2,9 @@
 .DS_Store
 
 # Xcode
+CriteoPublisherSdk.framework/
+Pods/
+fuji/
 build/
 *.pbxuser
 !default.pbxuser

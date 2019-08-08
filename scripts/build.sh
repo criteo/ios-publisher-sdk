@@ -21,9 +21,26 @@ git clone ssh://qabot@review.criteois.lan:29418/pub-sdk/fuji
 
 cd fuji
 
+mkdir -p build/output/sim
+
+xcodebuild \
+    -workspace fuji.xcworkspace \
+        -scheme CriteoPublisherSdk \
+        -configuration $CRITEO_CONFIGURATION \
+        -IDEBuildOperationMaxNumberOfConcurrentCompileTasks=`sysctl -n hw.ncpu` \
+        -derivedDataPath build/DerivedData  \
+        -sdk iphonesimulator \
+        -destination 'platform=iOS Simulator,name=iPhone XS,OS=latest' \
+        ARCHS="$CRITEO_SIM_ARCHS" \
+        VALID_ARCHS="$CRITEO_SIM_ARCHS" \
+        ONLY_ACTIVE_ARCH=NO \
+        clean build | xcpretty
+
+        cp -R "build/DerivedData/Build/Products/$CRITEO_CONFIGURATION-iphonesimulator/CriteoPublisherSdk.framework" build/output/sim
+
 mkdir -p build/output/device
 
-  xcodebuild \
+xcodebuild \
     -workspace fuji.xcworkspace \
         -scheme CriteoPublisherSdk \
         -configuration $CRITEO_CONFIGURATION \
@@ -40,7 +57,16 @@ mkdir -p build/output/device
 
         cp -R "build/DerivedData/Build/Products/$CRITEO_CONFIGURATION-iphoneos/CriteoPublisherSdk.framework" build/output/device
 
-cp -R build/output/device/CriteoPublisherSdk.framework ../
+cp -R build/output/device/CriteoPublisherSdk.framework build/output
+rm build/output/CriteoPublisherSdk.framework/CriteoPublisherSdk
+
+lipo -create -output build/output/CriteoPublisherSdk.framework/CriteoPublisherSdk build/output/sim/CriteoPublisherSdk.framework/CriteoPublisherSdk build/output/device/CriteoPublisherSdk.framework/CriteoPublisherSdk
+echo "Fat Binary Contents for $CRITEO_CONFIGURATION Build:"
+echo "----------------------------------------------------"
+objdump -macho -universal-headers -arch all build/output/CriteoPublisherSdk.framework/CriteoPublisherSdk
+echo "----------------------------------------------------"
+
+cp -R build/output/CriteoPublisherSdk.framework ../
 
 cd ..
 
