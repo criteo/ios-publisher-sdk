@@ -21,9 +21,18 @@
 
 @interface CRInterstitialCustomEvent ()
 @property (nonatomic, strong)CRInterstitial *interstitial;
+@property (nonatomic, strong)CRInterstitialAdUnit *interstitialAdUnit;
 @end
 
 @implementation CRInterstitialCustomEvent
+
+- (instancetype)initWithInterstitial:(CRInterstitial *)interstitial adUnit:(CRInterstitialAdUnit *)adUnit {
+    if(self = [super init]) {
+        _interstitial = interstitial;
+        _interstitialAdUnit = adUnit;
+    }
+    return self;
+}
 
 - (void)presentFromRootViewController:(nonnull UIViewController *)rootViewController {
     [self.interstitial presentFromRootViewController:rootViewController];
@@ -36,19 +45,71 @@
     CRGoogleMediationParameters *parameters = [CRGoogleMediationParameters parametersFromJSONString:serverParameter
                                                                                               error:&jsonError];
     if(jsonError) {
-        [self dispatchCustomEventDidFailAdWithError:jsonError];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if([self.delegate respondsToSelector:@selector(customEventInterstitial:didFailAd:)]) {
+                [self.delegate customEventInterstitial:self didFailAd:jsonError];
+            }
+        });
         return;
     }
-    CRInterstitialAdUnit *interstitialAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:parameters.adUnitId];
-    Criteo *criteo = [Criteo sharedCriteo];
-    [criteo registerCriteoPublisherId:parameters.publisherId withAdUnits:@[interstitialAdUnit]];
-    self.interstitial = [[CRInterstitial alloc] initWithAdUnit:interstitialAdUnit];
+    if(!_interstitialAdUnit) {
+        self.interstitialAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:parameters.adUnitId];
+    }
+    [Criteo.sharedCriteo registerCriteoPublisherId:parameters.publisherId
+                                       withAdUnits:@[self.interstitialAdUnit]];
+    if(!_interstitial) {
+        self.interstitial = [[CRInterstitial alloc] initWithAdUnit:self.interstitialAdUnit];
+    }
+    self.interstitial.delegate = self;
     [self.interstitial loadAd];
 }
 
-- (void)dispatchCustomEventDidFailAdWithError:(NSError *)error {
+#pragma mark CRInterstitialDelegate Implementation
+
+- (void)interstitialDidReceiveAd:(CRInterstitial *)interstitial {
+    if([self.delegate respondsToSelector:@selector(customEventInterstitialDidReceiveAd:)]) {
+        [self.delegate customEventInterstitialDidReceiveAd:self];
+    }
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if([self.delegate respondsToSelector:@selector(customEventInterstitial:didReceiveAd:)]) {
+        [self.delegate customEventInterstitial:self didReceiveAd:interstitial];
+    }
+    #pragma clang diagnostic pop
+}
+
+- (void)interstitial:(CRInterstitial *)interstitial didFailToReceiveAdWithError:(NSError *)error {
     if([self.delegate respondsToSelector:@selector(customEventInterstitial:didFailAd:)]) {
-        [self.delegate customEventInterstitial:self didFailAd:error];
+        [self.delegate customEventInterstitial:self didFailAd:[NSError errorWithDomain:kGADErrorDomain
+                                                                                  code:kGADErrorNoFill
+                                                                              userInfo:[NSDictionary dictionaryWithObject:error.description forKey:NSLocalizedDescriptionKey]]];
+    }
+}
+
+- (void)interstitialWillAppear:(CRInterstitial *)interstitial {
+    if([self.delegate respondsToSelector:@selector(customEventInterstitialWillPresent:)]) {
+        [self.delegate customEventInterstitialWillPresent:self];
+    }
+}
+
+- (void)interstitialWillDisappear:(CRInterstitial *)interstitial {
+    if([self.delegate respondsToSelector:@selector(customEventInterstitialWillDismiss:)]) {
+        [self.delegate customEventInterstitialWillDismiss:self];
+    }
+}
+
+- (void)interstitialDidDisappear:(CRInterstitial *)interstitial {
+    if([self.delegate respondsToSelector:@selector(customEventInterstitialDidDismiss:)]) {
+        [self.delegate customEventInterstitialDidDismiss:self];
+    }
+}
+
+- (void)interstitialWillLeaveApplication:(CRInterstitial *)interstitial {
+    if([self.delegate respondsToSelector:@selector(customEventInterstitialWasClicked:)]) {
+        [self.delegate customEventInterstitialWasClicked:self];
+    }
+    if([self.delegate respondsToSelector:@selector(customEventInterstitialWillLeaveApplication:)]) {
+        [self.delegate customEventInterstitialWillLeaveApplication:self];
     }
 }
 

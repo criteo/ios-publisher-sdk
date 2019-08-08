@@ -22,8 +22,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CRInterstitialCustomEvent : NSObject<GADCustomEventInterstitial>
-
+@interface CRInterstitialCustomEvent : NSObject<GADCustomEventInterstitial, CRInterstitialDelegate>
 @property(nonatomic, weak, nullable) id<GADCustomEventInterstitialDelegate> delegate;
 
 - (void)requestInterstitialAdWithParameter:(nullable NSString *)serverParameter
