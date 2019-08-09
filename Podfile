@@ -1,16 +1,14 @@
 # Uncomment the next line to define a global platform for your project
 platform :ios, '8.0'
 
-target 'CriteoMoPubAdapter' do
-  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
-  # use_frameworks!
+workspace 'CriteoMoPubAdapter.xcworkspace'
+project 'CriteoMoPubAdapter.xcodeproj'
 
-  # Pods for CriteoMoPubAdapter
-  pod 'mopub-ios-sdk'
-  target 'CriteoMoPubAdapterTests' do
-    inherit! :search_paths
+ target 'CriteoMoPubAdapterTests' do
     # Pods for testing
     pod 'OCMock','~> 3.4.3'
-  end
+ end
 
+target 'CriteoMoPubAdapter' do
+   pod 'mopub-ios-sdk'
 end

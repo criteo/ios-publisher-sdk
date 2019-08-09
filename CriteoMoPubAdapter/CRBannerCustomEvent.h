@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <MPBannerCustomEvent.h>
+#import <MoPub.h>
 @import CriteoPublisherSdk;
 
 NS_ASSUME_NONNULL_BEGIN

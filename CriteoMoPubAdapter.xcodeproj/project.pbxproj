@@ -3,21 +3,21 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		33F65F070FCC7E1B510C0658 /* libPods-CriteoMoPubAdapterTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83E3107D9C413F9A9779C9DE /* libPods-CriteoMoPubAdapterTests.a */; };
-		5439D11B22FDD85000BB94A2 /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5439D11A22FDD85000BB94A2 /* CriteoPublisherSdk.framework */; };
-		54FC7D8222F403F100202164 /* CriteoMoPubAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54FC7D7822F403F100202164 /* CriteoMoPubAdapter.framework */; };
+		538F0C3E22F9EE9E0034E6CB /* CRBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 538F0C3522F9EE9D0034E6CB /* CRBannerCustomEvent.m */; };
+		538F0C4022F9EE9E0034E6CB /* CRBannerCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 538F0C3722F9EE9D0034E6CB /* CRBannerCustomEvent.h */; };
+		53EAD13322FDEAEE00ECF2B3 /* CriteoMoPubAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54FC7D7822F403F100202164 /* CriteoMoPubAdapter.framework */; };
+		53EAD13422FDEBB300ECF2B3 /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5439D11A22FDD85000BB94A2 /* CriteoPublisherSdk.framework */; };
 		54FC7D8722F403F100202164 /* CRBannerCustomEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 54FC7D8622F403F100202164 /* CRBannerCustomEventTests.m */; };
-		54FC7D9422F4043300202164 /* CRBannerCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 54FC7D9222F4043300202164 /* CRBannerCustomEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		54FC7D9522F4043300202164 /* CRBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 54FC7D9322F4043300202164 /* CRBannerCustomEvent.m */; };
 		59874FBF04B8B6CF99722025 /* libPods-CriteoMoPubAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D6F45D78DE4CB8F292D985A5 /* libPods-CriteoMoPubAdapter.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		54FC7D8322F403F100202164 /* PBXContainerItemProxy */ = {
+		53EAD13122FDEAEB00ECF2B3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 54FC7D6F22F403F100202164 /* Project object */;
 			proxyType = 1;
@@ -28,6 +28,8 @@
 
 /* Begin PBXFileReference section */
 		31D3405CE68AF9AB700C5E72 /* Pods-CriteoMoPubAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapter.debug.xcconfig"; path = "Target Support Files/Pods-CriteoMoPubAdapter/Pods-CriteoMoPubAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		538F0C3522F9EE9D0034E6CB /* CRBannerCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRBannerCustomEvent.m; sourceTree = "<group>"; };
+		538F0C3722F9EE9D0034E6CB /* CRBannerCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRBannerCustomEvent.h; sourceTree = "<group>"; };
 		5439D11A22FDD85000BB94A2 /* CriteoPublisherSdk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CriteoPublisherSdk.framework; sourceTree = "<group>"; };
 		54FC7D7822F403F100202164 /* CriteoMoPubAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CriteoMoPubAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		54FC7D7C22F403F100202164 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -57,7 +59,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54FC7D8222F403F100202164 /* CriteoMoPubAdapter.framework in Frameworks */,
+				53EAD13422FDEBB300ECF2B3 /* CriteoPublisherSdk.framework in Frameworks */,
+				53EAD13322FDEAEE00ECF2B3 /* CriteoMoPubAdapter.framework in Frameworks */,
 				33F65F070FCC7E1B510C0658 /* libPods-CriteoMoPubAdapterTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -76,9 +79,21 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		538F0C3422F9EE9D0034E6CB /* CriteoMoPubAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				538F0C3522F9EE9D0034E6CB /* CRBannerCustomEvent.m */,
+				538F0C3622F9EE9D0034E6CB /* CRAdapterConfiguration.h */,
+				538F0C3722F9EE9D0034E6CB /* CRBannerCustomEvent.h */,
+				538F0C3822F9EE9D0034E6CB /* CRAdapterConfiguration.m */,
+			);
+			path = CriteoMoPubAdapter;
+			sourceTree = "<group>";
+		};
 		54FC7D6E22F403F100202164 = {
 			isa = PBXGroup;
 			children = (
+				538F0C3422F9EE9D0034E6CB /* CriteoMoPubAdapter */,
 				54FC7D7A22F403F100202164 /* CriteoMoPubAdapter */,
 				54FC7D8522F403F100202164 /* CriteoMoPubAdapterTests */,
 				54FC7D7922F403F100202164 /* Products */,
@@ -167,11 +182,12 @@
 				54FC7D7D22F403F100202164 /* Sources */,
 				54FC7D7E22F403F100202164 /* Frameworks */,
 				54FC7D7F22F403F100202164 /* Resources */,
+				F41E94D1E38CB95FDB265555 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				54FC7D8422F403F100202164 /* PBXTargetDependency */,
+				53EAD13222FDEAEB00ECF2B3 /* PBXTargetDependency */,
 			);
 			name = CriteoMoPubAdapterTests;
 			productName = CriteoMoPubAdapterTests;
@@ -292,6 +308,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		F41E94D1E38CB95FDB265555 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CriteoMoPubAdapterTests/Pods-CriteoMoPubAdapterTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CriteoMoPubAdapterTests/Pods-CriteoMoPubAdapterTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CriteoMoPubAdapterTests/Pods-CriteoMoPubAdapterTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -314,10 +347,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		54FC7D8422F403F100202164 /* PBXTargetDependency */ = {
+		53EAD13222FDEAEB00ECF2B3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 54FC7D7722F403F100202164 /* CriteoMoPubAdapter */;
-			targetProxy = 54FC7D8322F403F100202164 /* PBXContainerItemProxy */;
+			targetProxy = 53EAD13122FDEAEB00ECF2B3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -508,6 +541,10 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S655EV5659;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = CriteoMoPubAdapterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -527,6 +564,10 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S655EV5659;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = CriteoMoPubAdapterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
