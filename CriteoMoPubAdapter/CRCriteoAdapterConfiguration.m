@@ -1,6 +1,6 @@
 //
-//  CRBannerCustomEventTests.m
-//  CriteoMoPubAdapterTests
+//  CRCriteoAdapterConfiguration.m
+//  CriteoMoPubAdapter
 //
 //  Copyright © 2019 Criteo. All rights reserved.
 //
@@ -16,15 +16,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <XCTest/XCTest.h>
+#import "CRCriteoAdapterConfiguration.h"
 
-@interface CRBannerCustomEventTests : XCTestCase
+@implementation CRCriteoAdapterConfiguration
 
-@end
+- (NSString *)adapterVersion{
+    return [NSString stringWithFormat:@"%@.%@", [self networkSdkVersion], @"1"];
+}
 
-@implementation CRBannerCustomEventTests
+- (NSString *)biddingToken {
+    return nil;
+}
 
-- (void)testSample{
+- (NSString *)moPubNetworkName{
+    return @"criteo";
+}
+
+- (NSString *)networkSdkVersion{
+    return @"1.0.0";
+}
+
+- (void)initializeNetworkWithConfiguration:(NSDictionary<NSString *, id> *)configuration complete:(void(^)(NSError *))complete {
+    complete(nil);
 }
 
 @end

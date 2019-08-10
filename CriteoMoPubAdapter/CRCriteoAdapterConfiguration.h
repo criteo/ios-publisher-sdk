@@ -1,5 +1,5 @@
 //
-//  CRCustomBannerEvent.h
+//  CRCriteoAdapterConfiguration.h
 //  CriteoMoPubAdapter
 //
 //  Copyright © 2019 Criteo. All rights reserved.
@@ -16,13 +16,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import <MoPub.h>
-@import CriteoPublisherSdk;
+#import <CriteoPublisherSdk/CriteoPublisherSdk.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CRBannerCustomEvent : NSObject
+extern BOOL isRegistered;
+
+@interface CRCriteoAdapterConfiguration : MPBaseAdapterConfiguration
+
+@property (nonatomic, copy, readonly) NSString * adapterVersion;
+@property (nonatomic, copy, readonly) NSString * biddingToken;
+@property (nonatomic, copy, readonly) NSString * moPubNetworkName;
+@property (nonatomic, copy, readonly) NSString * networkSdkVersion;
+
+- (void)initializeNetworkWithConfiguration:(NSDictionary<NSString *, id> * _Nullable)configuration complete:(void(^ _Nullable)(NSError * _Nullable))complete;
 
 @end
 

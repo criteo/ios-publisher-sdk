@@ -32,3 +32,6 @@ build/
 .buckconfig
 buck-out/
 .buckd/
+
+MopubSDKFramework.framework
+Pods/
