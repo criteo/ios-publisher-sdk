@@ -17,14 +17,121 @@
 // limitations under the License.
 
 #import <XCTest/XCTest.h>
+#import "CRBannerCustomEvent.h"
+#import "CRBannerCustomEvent+Internal.h"
+#import <MoPub.h>
+#import <OCMock.h>
 
 @interface CRBannerCustomEventTests : XCTestCase
+
+{
+    NSString *bannerAdUnitId;
+    CGSize adUnitSize;
+    NSDictionary *info;
+}
 
 @end
 
 @implementation CRBannerCustomEventTests
 
-- (void)testSample{
+- (void) setUp {
+    bannerAdUnitId = @"banner adunit id";
+    adUnitSize = CGSizeMake(320.0, 50.0);
+    info = @{ @"cpId" : @"criteo publisher id", @"adUnitId" : bannerAdUnitId };
 }
+
+- (void) tearDown {
+    bannerAdUnitId = nil;
+    adUnitSize = CGSizeZero;
+    info = nil;
+}
+
+- (void) testRequestWithInvalidInfo {
+    NSDictionary *invalidInfo = [[NSDictionary alloc] initWithObjects:@[@"value"] forKeys:@[@"invalidKey"]];
+    CRBannerCustomEvent *bannerCustomEvent = [[CRBannerCustomEvent alloc] init];
+    id mockBannerCustomEventDelegate = OCMStrictProtocolMock(@protocol(MPBannerCustomEventDelegate));
+    bannerCustomEvent.delegate = mockBannerCustomEventDelegate;
+    NSString *expectedErrorDescription = [NSString stringWithFormat:@"MoPub Banner ad request failed due to invalid server parameters."];
+    OCMExpect([mockBannerCustomEventDelegate bannerCustomEvent:bannerCustomEvent didFailToLoadAdWithError:[NSError errorWithCode:MOPUBErrorServerError localizedDescription:expectedErrorDescription]]);
+    [bannerCustomEvent requestAdWithSize:CGSizeMake(320.0, 50.0) customEventInfo:invalidInfo];
+    OCMVerifyAllWithDelay(mockBannerCustomEventDelegate, 2);
+}
+
+- (void) testCriteoIsRegistered {
+    id mockCriteo = [OCMockObject partialMockForObject:[Criteo sharedCriteo]];
+    id mockBannerAdUnit = OCMStrictClassMock([CRBannerAdUnit class]);
+    id mockBannerView = OCMClassMock([CRBannerView class]);
+    CRBannerCustomEvent *bannerCustomEvent = [[CRBannerCustomEvent alloc] initWithBannerView:mockBannerView bannerAdUnit:mockBannerAdUnit];
+    OCMExpect([mockCriteo registerCriteoPublisherId:info[@"cpId"] withAdUnits:@[mockBannerAdUnit]]);
+    [bannerCustomEvent requestAdWithSize:adUnitSize customEventInfo:info];
+    OCMVerifyAll(mockCriteo);
+}
+
+- (void) testBannerViewCorrect {
+    CRBannerCustomEvent *bannerCustomEvent = [[CRBannerCustomEvent alloc] init];
+    [bannerCustomEvent requestAdWithSize:adUnitSize customEventInfo:info];
+    XCTAssertEqual(bannerCustomEvent.bannerView.frame.size.width, adUnitSize.width);
+    XCTAssertEqual(bannerCustomEvent.bannerView.frame.size.height, adUnitSize.height);
+}
+
+- (void) testBannerViewLoadedAndDelegateIsSet {
+    id mockBannerView = OCMStrictClassMock([CRBannerView class]);
+    CRBannerCustomEvent *bannerCustomEvent = [[CRBannerCustomEvent alloc] initWithBannerView:mockBannerView];
+    OCMExpect([mockBannerView setDelegate:bannerCustomEvent]);
+    OCMExpect([mockBannerView loadAd]);
+    [bannerCustomEvent requestAdWithSize:adUnitSize customEventInfo:info];
+    OCMVerifyAll(mockBannerView);
+}
+
+# pragma mark - Delegate tests
+
+- (void) testDelegateSuccessfulAdRequest {
+    id mockBannerView = OCMClassMock([CRBannerView class]);
+    CRBannerCustomEvent *bannerCustomEvent = [[CRBannerCustomEvent alloc] initWithBannerView:mockBannerView];
+
+    id mockBannerCustomEventDelegate = OCMStrictProtocolMock(@protocol(MPBannerCustomEventDelegate));
+    bannerCustomEvent.delegate = mockBannerCustomEventDelegate;
+    OCMStub([mockBannerView loadAd]).andDo(^(NSInvocation *invocation){
+        [bannerCustomEvent bannerDidReceiveAd:mockBannerView];
+    });
+
+    OCMExpect([mockBannerCustomEventDelegate bannerCustomEvent:bannerCustomEvent didLoadAd:mockBannerView]);
+    [bannerCustomEvent requestAdWithSize:adUnitSize customEventInfo:info];
+    OCMVerifyAll(mockBannerCustomEventDelegate);
+}
+
+- (void) testDelegateFailedAdRequest {
+    id mockBannerView = OCMClassMock([CRBannerView class]);
+    CRBannerCustomEvent *bannerCustomEvent = [[CRBannerCustomEvent alloc] initWithBannerView:mockBannerView];
+    NSError *expectedCriteoError = [NSError errorWithCode:1];
+    NSString *errorDescription = [NSString stringWithFormat:@"MoPub Banner failed to load with error: %@", expectedCriteoError.localizedDescription];
+    NSError *expectedMopubError = [NSError errorWithCode:MOPUBErrorAdapterFailedToLoadAd localizedDescription:errorDescription];
+
+    id mockBannerCustomEventDelegate = OCMStrictProtocolMock(@protocol(MPBannerCustomEventDelegate));
+    bannerCustomEvent.delegate = mockBannerCustomEventDelegate;
+    OCMStub([mockBannerView loadAd]).andDo(^(NSInvocation *invocation){
+        [bannerCustomEvent banner:mockBannerView didFailToReceiveAdWithError:expectedCriteoError];
+    });
+
+    OCMExpect([mockBannerCustomEventDelegate bannerCustomEvent:bannerCustomEvent didFailToLoadAdWithError:expectedMopubError]);
+    [bannerCustomEvent requestAdWithSize:adUnitSize customEventInfo:info];
+    OCMVerifyAll(mockBannerCustomEventDelegate);
+}
+
+- (void) testDelegateBannerLeaveApplication {
+    id mockBannerView = OCMClassMock([CRBannerView class]);
+    CRBannerCustomEvent *bannerCustomEvent = [[CRBannerCustomEvent alloc] initWithBannerView:mockBannerView];
+
+    id mockBannerCustomEventDelegate = OCMStrictProtocolMock(@protocol(MPBannerCustomEventDelegate));
+    bannerCustomEvent.delegate = mockBannerCustomEventDelegate;
+    OCMStub([mockBannerView loadAd]).andDo(^(NSInvocation *invocation){
+        [bannerCustomEvent bannerWillLeaveApplication:mockBannerView];
+    });
+
+    OCMExpect([mockBannerCustomEventDelegate bannerCustomEventWillLeaveApplication:bannerCustomEvent]);
+    [bannerCustomEvent requestAdWithSize:adUnitSize customEventInfo:info];
+    OCMVerifyAll(mockBannerCustomEventDelegate);
+}
+
 
 @end

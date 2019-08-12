@@ -1,5 +1,5 @@
 //
-//  CRCustomBannerEvent.h
+//  CRBannerCustomEvent+Internal.h
 //  CriteoMoPubAdapter
 //
 //  Copyright © 2019 Criteo. All rights reserved.
@@ -16,17 +16,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <Foundation/Foundation.h>
-#import <MoPub.h>
-#import "CRCriteoAdapterConfiguration.h"
-@import CriteoPublisherSdk;
+#ifndef CRBannerCustomEvent_Internal_h
+#define CRBannerCustomEvent_Internal_h
 
-NS_ASSUME_NONNULL_BEGIN
+@interface CRBannerCustomEvent()
 
-@interface CRBannerCustomEvent : MPBannerCustomEvent <CRBannerViewDelegate>
+@property (nonatomic, strong) CRBannerView *bannerView;
+@property (nonatomic, strong) CRBannerAdUnit *bannerAdUnit;
 
-- (instancetype) init;
+- (instancetype) initWithBannerView:(CRBannerView *)bannerView;
+- (instancetype) initWithBannerView:(CRBannerView *)bannerView bannerAdUnit:(CRBannerAdUnit *)bannerAdUnit;
 
 @end
 
-NS_ASSUME_NONNULL_END
+#endif /* CRBannerCustomEvent_Internal_h */
