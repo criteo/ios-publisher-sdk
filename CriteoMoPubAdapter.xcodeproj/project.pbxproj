@@ -11,6 +11,9 @@
 		5326033A22FE0C72000C5BAB /* CriteoMoPubAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54FC7D7822F403F100202164 /* CriteoMoPubAdapter.framework */; };
 		5326033D22FE0C93000C5BAB /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5439D11A22FDD85000BB94A2 /* CriteoPublisherSdk.framework */; };
 		5326033E22FE0DAA000C5BAB /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5439D11A22FDD85000BB94A2 /* CriteoPublisherSdk.framework */; };
+		532603412301DD83000C5BAB /* CR_CustomEventHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5326033F2301DD83000C5BAB /* CR_CustomEventHelper.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		532603422301DD83000C5BAB /* CR_CustomEventHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 532603402301DD83000C5BAB /* CR_CustomEventHelper.m */; };
+		532603442301DEAC000C5BAB /* CR_CustomEventHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 532603432301DEAC000C5BAB /* CR_CustomEventHelperTests.m */; };
 		532603482301F275000C5BAB /* CRCriteoAdapterConfigurationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 532603472301F274000C5BAB /* CRCriteoAdapterConfigurationTests.m */; };
 		538ADDEF22FA465D0047A8A5 /* CRBannerCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 54FC7D9222F4043300202164 /* CRBannerCustomEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		538ADDF022FA46620047A8A5 /* CRBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 54FC7D9322F4043300202164 /* CRBannerCustomEvent.m */; };
@@ -34,6 +37,9 @@
 		5326033222FDF99C000C5BAB /* CRBannerCustomEventTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRBannerCustomEventTests.m; sourceTree = "<group>"; };
 		5326033322FDF99C000C5BAB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		532603472301F274000C5BAB /* CRCriteoAdapterConfigurationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRCriteoAdapterConfigurationTests.m; sourceTree = "<group>"; };
+		5326033F2301DD83000C5BAB /* CR_CustomEventHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_CustomEventHelper.h; sourceTree = "<group>"; };
+		532603402301DD83000C5BAB /* CR_CustomEventHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_CustomEventHelper.m; sourceTree = "<group>"; };
+		532603432301DEAC000C5BAB /* CR_CustomEventHelperTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_CustomEventHelperTests.m; sourceTree = "<group>"; };
 		538ADDF822FC86E20047A8A5 /* MoPubSDKFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MoPubSDKFramework.framework; sourceTree = "<group>"; };
 		538ADE1122FCA1030047A8A5 /* CriteoMoPubAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CriteoMoPubAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		538ADE1322FCA1030047A8A5 /* CriteoMoPubAdapterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CriteoMoPubAdapterTests.m; sourceTree = "<group>"; };
@@ -104,6 +110,7 @@
 			children = (
 				532603472301F274000C5BAB /* CRCriteoAdapterConfigurationTests.m */,
 				5326033222FDF99C000C5BAB /* CRBannerCustomEventTests.m */,
+				532603432301DEAC000C5BAB /* CR_CustomEventHelperTests.m */,
 				5326033322FDF99C000C5BAB /* Info.plist */,
 			);
 			path = CriteoMoPubAdapterTests;
@@ -138,6 +145,8 @@
 				54FC7D9322F4043300202164 /* CRBannerCustomEvent.m */,
 				538F0B8622F50EC30034E6CB /* CRCriteoAdapterConfiguration.h */,
 				538F0B8722F50EC30034E6CB /* CRCriteoAdapterConfiguration.m */,
+				5326033F2301DD83000C5BAB /* CR_CustomEventHelper.h */,
+				532603402301DD83000C5BAB /* CR_CustomEventHelper.m */,
 			);
 			path = CriteoMoPubAdapter;
 			sourceTree = "<group>";
@@ -345,6 +354,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				532603442301DEAC000C5BAB /* CR_CustomEventHelperTests.m in Sources */,
 				5326033522FDF99C000C5BAB /* CRBannerCustomEventTests.m in Sources */,
 				532603482301F275000C5BAB /* CRCriteoAdapterConfigurationTests.m in Sources */,
 			);
@@ -356,6 +366,7 @@
 			files = (
 				538ADDF022FA46620047A8A5 /* CRBannerCustomEvent.m in Sources */,
 				538F0B8922F50EC30034E6CB /* CRCriteoAdapterConfiguration.m in Sources */,
+				532603422301DD83000C5BAB /* CR_CustomEventHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
