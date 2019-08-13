@@ -139,8 +139,6 @@ didFinishNavigation:(WKNavigation *)navigation {
 
     if (!rootViewController) return [self safelyNotifyAdLoadFail:CRErrorCodeInvalidParameter description:@"rootViewController parameter must not be nil."];
 
-    if(!self.isAdLoaded) return [self safelyNotifyAdLoadFail:CRErrorCodeInvalidRequest description:@"Interstitial Ad is not loaded."];
-
     dispatch_async(dispatch_get_main_queue(), ^{
         if([self.delegate respondsToSelector:@selector(interstitialWillAppear:)]) {
             [self.delegate interstitialWillAppear:self];
