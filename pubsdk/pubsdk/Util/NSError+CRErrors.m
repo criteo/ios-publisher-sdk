@@ -25,7 +25,8 @@ static NSString *const errorDomain = @"com.criteo.pubsdk";
     }
     return [NSError errorWithDomain:errorDomain
                                code:code
-                           userInfo:@{@"Description": finalDescription}];
+                           userInfo:[NSDictionary dictionaryWithObject:finalDescription
+                                                                forKey:NSLocalizedDescriptionKey]];
 }
 
 + (NSString *)descriptionForCRErrorCode:(CRErrorCode)code {

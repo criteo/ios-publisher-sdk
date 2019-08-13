@@ -15,42 +15,38 @@
 
 @implementation NSError_CRErrorsTests
 
+- (NSError *)expectedErrorWithCode:(CRErrorCode)errorCode description:(NSString *)description {
+    return [NSError errorWithDomain:@"com.criteo.pubsdk"
+                               code:errorCode
+                           userInfo:[NSDictionary dictionaryWithObject:description forKey:NSLocalizedDescriptionKey]];
+}
+
 - (void)testErrorCodesWithDefaultDescription {
-    NSError *internalError =[NSError errorWithDomain:@"com.criteo.pubsdk"
-                                                code:CRErrorCodeInternalError
-                                            userInfo:@{@"Description": @"Ad request failed due to an internal error."}];
+    NSError *internalError = [self expectedErrorWithCode:CRErrorCodeInternalError
+                                             description:@"Ad request failed due to an internal error."];
     XCTAssertEqualObjects(internalError, [NSError CRErrors_errorWithCode:CRErrorCodeInternalError]);
 
-    NSError *noFillError =[NSError errorWithDomain:@"com.criteo.pubsdk"
-                                              code:CRErrorCodeNoFill
-                                          userInfo:@{@"Description": @"Ad request succeeded but no ads are available."}];
+    NSError *noFillError = [self expectedErrorWithCode:CRErrorCodeNoFill
+                                           description:@"Ad request succeeded but no ads are available."];
     XCTAssertEqualObjects(noFillError, [NSError CRErrors_errorWithCode:CRErrorCodeNoFill]);
 
-    NSError *invalidRequestError =[NSError errorWithDomain:@"com.criteo.pubsdk"
-                                                      code:CRErrorCodeInvalidRequest
-                                                  userInfo:@{@"Description": @"Invalid ad request."}];
+    NSError *invalidRequestError = [self expectedErrorWithCode:CRErrorCodeInvalidRequest
+                                                   description:@"Invalid ad request."];
     XCTAssertEqualObjects(invalidRequestError, [NSError CRErrors_errorWithCode:CRErrorCodeInvalidRequest]);
 
-    NSError *networkError =[NSError errorWithDomain:@"com.criteo.pubsdk"
-                                               code:CRErrorCodeNetworkError
-                                           userInfo:@{@"Description": @"Ad request failed due to network error."}];
+    NSError *networkError = [self expectedErrorWithCode:CRErrorCodeNetworkError description:@"Ad request failed due to network error."];
     XCTAssertEqualObjects(networkError, [NSError CRErrors_errorWithCode:CRErrorCodeNetworkError]);
 
-    NSError *invalidParameterError =[NSError errorWithDomain:@"com.criteo.pubsdk"
-                                                        code:CRErrorCodeInvalidParameter
-                                                    userInfo:@{@"Description": @"Invalid ad request parameter."}];
+    NSError *invalidParameterError = [self expectedErrorWithCode:CRErrorCodeInvalidParameter
+                                                     description:@"Invalid ad request parameter."];
     XCTAssertEqualObjects(invalidParameterError, [NSError CRErrors_errorWithCode:CRErrorCodeInvalidParameter]);
 
-    NSError *invalidErrorCodeError =[NSError errorWithDomain:@"com.criteo.pubsdk"
-                                                        code:CRErrorCodeInvalidErrorCode
-                                                    userInfo:@{@"Description": @"An unknown error occured."}];
+    NSError *invalidErrorCodeError = [self expectedErrorWithCode:CRErrorCodeInvalidErrorCode description:@"An unknown error occured."];
     XCTAssertEqualObjects(invalidErrorCodeError, [NSError CRErrors_errorWithCode:CRErrorCodeInvalidErrorCode]);
 }
 
 - (void)testErrorCodeWithCustomDescription {
-    NSError *errorWithCustomDescription =[NSError errorWithDomain:@"com.criteo.pubsdk"
-                                                             code:CRErrorCodeInvalidParameter
-                                                         userInfo:@{@"Description": @"Invalid ad request parameter. TestParameter"}];
+    NSError *errorWithCustomDescription = [self expectedErrorWithCode:CRErrorCodeInvalidParameter description:@"Invalid ad request parameter. TestParameter"];
     XCTAssertEqualObjects(errorWithCustomDescription, [NSError CRErrors_errorWithCode:CRErrorCodeInvalidParameter description:@"TestParameter"]);
 }
 
@@ -63,15 +59,12 @@
 
 //default ErrorCode is CRErrorCodeInternalError
 - (void)testDefaultAndNotInEnumErrorCodes {
-    NSError *defaultError = [NSError errorWithDomain:@"com.criteo.pubsdk"
-                                                code:CRErrorCodeInternalError
-                                            userInfo:@{@"Description": @"Ad request failed due to an internal error."}];
+    NSError *defaultError = [self expectedErrorWithCode:CRErrorCodeInternalError
+                                            description:@"Ad request failed due to an internal error."];
     NSInteger defaultErrorCode = 0;
     XCTAssertEqualObjects(defaultError, [NSError CRErrors_errorWithCode:defaultErrorCode]);
     NSInteger errorCodeNotInEnum = NSIntegerMax;
-    NSError *notInEnumError = [NSError errorWithDomain:@"com.criteo.pubsdk"
-                                                  code:NSIntegerMax
-                                              userInfo:@{@"Description": @"An unknown error occured."}];
+    NSError *notInEnumError = [self expectedErrorWithCode:NSIntegerMax description:@"An unknown error occured."];
     XCTAssertEqualObjects(notInEnumError, [NSError CRErrors_errorWithCode:errorCodeNotInEnum]);
 }
 
