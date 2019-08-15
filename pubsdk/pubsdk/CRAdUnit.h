@@ -15,6 +15,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype) init NS_UNAVAILABLE;
 
+- (NSUInteger) hash;
+- (BOOL) isEqual:(id)object;
+- (BOOL) isEqualToAdUnit:(CRAdUnit *)adUnit;
+
 @end
 
 NS_ASSUME_NONNULL_END

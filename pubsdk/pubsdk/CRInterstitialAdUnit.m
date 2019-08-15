@@ -17,4 +17,27 @@
     return self;
 }
 
+- (NSUInteger) hash
+{
+    return super.hash ^ (NSUInteger)14559042078869117629ull;
+}
+
+- (BOOL) isEqual:(id)object
+{
+    if (self == object) {
+        return YES;
+    }
+
+    if (![object isKindOfClass:CRInterstitialAdUnit.class]) {
+        return NO;
+    }
+
+    return [self isEqualToInterstitialAdUnit:object];
+}
+
+- (BOOL) isEqualToInterstitialAdUnit:(CRInterstitialAdUnit *)adUnit
+{
+    return [adUnit isMemberOfClass:self.class] && [self isEqualToAdUnit:adUnit];
+}
+
 @end

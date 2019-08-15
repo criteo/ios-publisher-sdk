@@ -13,6 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithAdUnitId:(NSString *)adUnitId;
 
+- (NSUInteger) hash;
+- (BOOL) isEqual:(id)object;
+- (BOOL) isEqualToInterstitialAdUnit:(CRInterstitialAdUnit *)adUnit;
+
 @end
 
 NS_ASSUME_NONNULL_END

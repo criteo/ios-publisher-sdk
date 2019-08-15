@@ -36,4 +36,51 @@
     XCTAssertEqual([adUnit adUnitType], invalidType);
 }
 
+- (void) testSameAdUnitsHaveSameHash
+{
+    CRAdUnit *adUnit1 = [[CRAdUnit alloc] initWithAdUnitId:@"String1" adUnitType:CRAdUnitTypeBanner];
+    CRAdUnit *adUnit2 = [[CRAdUnit alloc] initWithAdUnitId:[@"Str" stringByAppendingString:@"ing1"] adUnitType:CRAdUnitTypeBanner];
+
+    XCTAssertEqual(adUnit1.hash, adUnit2.hash);
+}
+
+- (void) testSameAdUnitsAreEqual
+{
+    CRAdUnit *adUnit1 = [[CRAdUnit alloc] initWithAdUnitId:@"String1" adUnitType:CRAdUnitTypeBanner];
+    CRAdUnit *adUnit2 = [[CRAdUnit alloc] initWithAdUnitId:[@"Str" stringByAppendingString:@"ing1"] adUnitType:CRAdUnitTypeBanner];
+
+    XCTAssert([adUnit1 isEqual:adUnit2]);
+    XCTAssert([adUnit2 isEqual:adUnit1]);
+
+    XCTAssert([adUnit1 isEqualToAdUnit:adUnit2]);
+    XCTAssert([adUnit2 isEqualToAdUnit:adUnit1]);
+
+    XCTAssertEqualObjects(adUnit1, adUnit2);
+}
+
+- (void) testDifferentAdUnitsHaveDifferentHash
+{
+    CRAdUnit *adUnit1 = [[CRAdUnit alloc] initWithAdUnitId:@"String1" adUnitType:CRAdUnitTypeInterstitial];
+    CRAdUnit *adUnit2 = [[CRAdUnit alloc] initWithAdUnitId:[@"Str" stringByAppendingString:@"ing1"] adUnitType:CRAdUnitTypeBanner];
+    XCTAssertNotEqual(adUnit1.hash, adUnit2.hash);
+
+    CRAdUnit *adUnit3 = [[CRAdUnit alloc] initWithAdUnitId:@"String1" adUnitType:CRAdUnitTypeBanner];
+    CRAdUnit *adUnit4 = [[CRAdUnit alloc] initWithAdUnitId:@"Changed" adUnitType:CRAdUnitTypeBanner];
+    XCTAssertNotEqual(adUnit3.hash, adUnit4.hash);
+}
+
+- (void) testDifferentAdUnitsAreNotEqual
+{
+    CRAdUnit *adUnit1 = [[CRAdUnit alloc] initWithAdUnitId:@"String1" adUnitType:CRAdUnitTypeBanner];
+    CRAdUnit *adUnit2 = [[CRAdUnit alloc] initWithAdUnitId:@"Changed" adUnitType:CRAdUnitTypeBanner];
+
+    XCTAssertFalse([adUnit1 isEqual:adUnit2]);
+    XCTAssertFalse([adUnit2 isEqual:adUnit1]);
+
+    XCTAssertFalse([adUnit1 isEqualToAdUnit:adUnit2]);
+    XCTAssertFalse([adUnit2 isEqualToAdUnit:adUnit1]);
+
+    XCTAssertNotEqualObjects(adUnit1, adUnit2);
+}
+
 @end

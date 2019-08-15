@@ -19,4 +19,27 @@
     return self;
 }
 
+- (NSUInteger) hash
+{
+    return [super hash] ^ (NSUInteger)_size.height ^ (NSUInteger)_size.width;
+}
+
+- (BOOL) isEqual:(id)object
+{
+    if (self == object) {
+        return YES;
+    }
+
+    if (![object isKindOfClass:CRBannerAdUnit.class]) {
+        return NO;
+    }
+
+    return [self isEqualToBannerAdUnit:object];
+}
+
+- (BOOL) isEqualToBannerAdUnit:(CRBannerAdUnit *)adUnit
+{
+    return CGSizeEqualToSize(_size, adUnit->_size) && [self isEqualToAdUnit:adUnit];
+}
+
 @end
