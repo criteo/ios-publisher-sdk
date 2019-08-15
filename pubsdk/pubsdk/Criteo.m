@@ -33,7 +33,7 @@ static Criteo *sharedInstance;
     CR_Config *config = [[CR_Config alloc] initWithCriteoPublisherId:criteoPublisherId];
     CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] init];
     CR_NetworkManager *networkManager = [[CR_NetworkManager alloc] initWithDeviceInfo:deviceInfo];
-    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:networkManager];
+    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:networkManager bidFetchTracker:[CR_BidFetchTracker new]];
     CR_ConfigManager *configManager = [[CR_ConfigManager alloc] initWithApiHandler:apiHandler];
 
     CR_CacheManager *cacheManager = [[CR_CacheManager alloc] init];

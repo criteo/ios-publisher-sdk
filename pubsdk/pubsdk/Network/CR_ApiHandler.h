@@ -16,6 +16,7 @@
 #import "CR_Config.h"
 #import "CR_GdprUserConsent.h"
 #import "CR_DeviceInfo.h"
+#import "CR_BidFetchTracker.h"
 
 typedef void (^AHCdbResponse)(CR_CdbResponse *cdbResponse);
 typedef void (^AHConfigResponse)(NSDictionary *configValues);
@@ -23,9 +24,10 @@ typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receiv
 
 @interface CR_ApiHandler : NSObject
 @property (strong, nonatomic) CR_NetworkManager *networkManager;
+@property (nonatomic, strong) CR_BidFetchTracker *bidFetchTracker;
 
 - (instancetype) init NS_UNAVAILABLE;
-- (instancetype) initWithNetworkManager:(CR_NetworkManager*)networkManager NS_DESIGNATED_INITIALIZER;
+- (instancetype) initWithNetworkManager:(CR_NetworkManager *)networkManager bidFetchTracker:(CR_BidFetchTracker *)bidFetchTracker NS_DESIGNATED_INITIALIZER;
 
 /*
  * Calls CDB and get the bid & creative for the adUnit

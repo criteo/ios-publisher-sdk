@@ -15,12 +15,13 @@
 - (instancetype) init
 {
     NSAssert(false, @"Do not use this initializer");
-    return [self initWithNetworkManager:nil];
+    return [self initWithNetworkManager:nil bidFetchTracker:nil];
 }
 
-- (instancetype) initWithNetworkManager:(CR_NetworkManager*)networkManager {
+- (instancetype) initWithNetworkManager:(CR_NetworkManager *)networkManager bidFetchTracker:(CR_BidFetchTracker *)bidFetchTracker {
     if(self = [super init]) {
         self.networkManager = networkManager;
+        self.bidFetchTracker = bidFetchTracker;
     }
     return self;
 }
@@ -52,6 +53,10 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
         CLog(@"AdUnit is missing one of the following required values adUnitId = %@, width = %f, height = %f"
              , adUnit.adUnitId, adUnit.size.width, adUnit.size.height);
         ahCdbResponseHandler(nil);
+    }
+
+    if (![self.bidFetchTracker trySetBidFetchInProgressForAdUnit:adUnit]) {
+        return;
     }
 
     NSMutableDictionary    *postBody = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -102,6 +107,7 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
         } else {
             CLog(@"Error on post to CDB : %@", error);
         }
+        [self.bidFetchTracker clearBidFetchInProgressForAdUnit:adUnit];
     }];
 }
 
