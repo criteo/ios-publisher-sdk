@@ -65,17 +65,10 @@
 }
 
 #pragma mark CRInterstitialDelegate Implementation
-
+// These callbacks are called on the main thread from the Criteo SDK
 - (void)interstitialDidReceiveAd:(CRInterstitial *)interstitial {
-    if([self.delegate respondsToSelector:@selector(customEventInterstitialDidReceiveAd:)]) {
-        [self.delegate customEventInterstitialDidReceiveAd:self];
-    }
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    else if([self.delegate respondsToSelector:@selector(customEventInterstitial:didReceiveAd:)]) {
-        [self.delegate customEventInterstitial:self didReceiveAd:interstitial];
-    }
-    #pragma clang diagnostic pop
+    // Signals that Criteo is willing to display an ad
+    // Intentionally left blank
 }
 
 - (void)interstitial:(CRInterstitial *)interstitial didFailToReceiveAdWithError:(NSError *)error {
@@ -110,6 +103,27 @@
     }
     if([self.delegate respondsToSelector:@selector(customEventInterstitialWillLeaveApplication:)]) {
         [self.delegate customEventInterstitialWillLeaveApplication:self];
+    }
+}
+
+- (void) interstitialIsReadyToPresent:(CRInterstitial *)interstitial {
+    if([self.delegate respondsToSelector:@selector(customEventInterstitialDidReceiveAd:)]) {
+        [self.delegate customEventInterstitialDidReceiveAd:self];
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if([self.delegate respondsToSelector:@selector(customEventInterstitial:didReceiveAd:)]) {
+        [self.delegate customEventInterstitial:self didReceiveAd:interstitial];
+    }
+#pragma clang diagnostic pop
+}
+
+- (void) interstitial:(CRInterstitial *)interstitial didFailToReceiveAdContentWithError:(NSError *)error {
+    // Signals that there was an error when Criteo was attempting to fetch the ad content
+    if([self.delegate respondsToSelector:@selector(customEventInterstitial:didFailAd:)]) {
+        [self.delegate customEventInterstitial:self didFailAd:[NSError errorWithDomain:kGADErrorDomain
+                                                                                  code:kGADErrorNetworkError
+                                                                              userInfo:[NSDictionary dictionaryWithObject:error.description forKey:NSLocalizedDescriptionKey]]];
     }
 }
 

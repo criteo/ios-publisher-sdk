@@ -68,7 +68,7 @@
 - (void)testDidReceiveAdDelegate {
     CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
     id mockGADInterstitialDelegate = OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
-    OCMExpect([mockGADInterstitialDelegate customEventInterstitialDidReceiveAd:customEvent]);
+    OCMReject([mockGADInterstitialDelegate customEventInterstitialDidReceiveAd:customEvent]);
 
     customEvent.delegate = mockGADInterstitialDelegate;
     [customEvent interstitialDidReceiveAd:[CRInterstitial new]];
@@ -131,6 +131,34 @@
 
     customEvent.delegate = mockGADInterstitialDelegate;
     [customEvent interstitialWillLeaveApplication:[CRInterstitial new]];
+    OCMVerifyAll(mockGADInterstitialDelegate);
+}
+
+- (void)testInterstitialIsReadyToPresentDelegate {
+    CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
+    id mockGADInterstitialDelegate = OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
+    OCMExpect([mockGADInterstitialDelegate customEventInterstitialDidReceiveAd:customEvent]);
+
+    customEvent.delegate = mockGADInterstitialDelegate;
+    [customEvent interstitialIsReadyToPresent:[CRInterstitial new]];
+    OCMVerifyAll(mockGADInterstitialDelegate);
+}
+
+- (void)testInterstitialDidFailToReceiveAdContentWithErrorDelegate {
+    CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
+    id mockGADInterstitialDelegate = OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
+    OCMExpect([mockGADInterstitialDelegate customEventInterstitial:customEvent didFailAd:[OCMArg any]]);
+
+    customEvent.delegate = mockGADInterstitialDelegate;
+    NSError *CriteoError = [NSError errorWithDomain:@"test domain"
+                                               code:0
+                                           userInfo:[NSDictionary dictionaryWithObject:@"test description"
+                                                                                forKey:NSLocalizedDescriptionKey]];
+    NSError *expectedError = [NSError errorWithDomain:kGADErrorDomain
+                                                 code:kGADErrorNetworkError
+                                             userInfo:[NSDictionary dictionaryWithObject:CriteoError.description
+                                                                                  forKey:NSLocalizedDescriptionKey]];
+    [customEvent interstitial:[CRInterstitial new] didFailToReceiveAdContentWithError:expectedError];
     OCMVerifyAll(mockGADInterstitialDelegate);
 }
 
