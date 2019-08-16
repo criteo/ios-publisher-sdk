@@ -24,6 +24,9 @@
 
 - (void)interstitialWillLeaveApplication:(CRInterstitial *)interstitial;
 
+- (void)interstitialIsReadyToPresent:(CRInterstitial *)interstitial;
+- (void)interstitial:(CRInterstitial *)interstitial didFailToReceiveAdContentWithError:(NSError *)error;
+
 @end
 
 #endif /* CRInterstitialDelegate_h */

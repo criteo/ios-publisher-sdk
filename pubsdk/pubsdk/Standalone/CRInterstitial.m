@@ -131,6 +131,9 @@ didFinishNavigation:(WKNavigation *)navigation {
     self.isAdLoading = NO;
     if(self.isResponseValid) {
         self.isAdLoaded = YES;
+        [self safelyNotifyInterstitialCanPresent];
+    } else {
+        [self safelyNotifyInterstitialCannotPresent:CRErrorCodeNetworkError];
     }
 }
 
@@ -194,11 +197,13 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 // Delegate errors that occur during web view navigation
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     self.isAdLoading = NO;
+    [self safelyNotifyInterstitialCannotPresent:CRErrorCodeNetworkError];
 }
 
 // Delegate errors that occur while the web view is loading content.
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     self.isAdLoading = NO;
+    [self safelyNotifyInterstitialCannotPresent:CRErrorCodeNetworkError];
 }
 
 // Delegate HTTP errors
@@ -228,6 +233,22 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
             : [NSError CRErrors_errorWithCode:errorCode];
 
             [self.delegate interstitial:self didFailToReceiveAdWithError:error];
+        }
+    });
+}
+
+- (void)safelyNotifyInterstitialCanPresent {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if([self.delegate respondsToSelector:@selector(interstitialIsReadyToPresent:)]) {
+            [self.delegate interstitialIsReadyToPresent:self];
+        }
+    });
+}
+
+- (void)safelyNotifyInterstitialCannotPresent:(CRErrorCode) errorCode {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if([self.delegate respondsToSelector:@selector(interstitial:didFailToReceiveAdContentWithError:)]) {
+            [self.delegate interstitial:self didFailToReceiveAdContentWithError:[NSError CRErrors_errorWithCode:errorCode]];
         }
     });
 }
