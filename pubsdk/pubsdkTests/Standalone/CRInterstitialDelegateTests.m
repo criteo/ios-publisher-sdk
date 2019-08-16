@@ -516,25 +516,23 @@
 
 }
 
-- (void)testInterstitialPresentationSuccessWhenAdNotLoaded {
-    WKWebView *mockWebView = OCMClassMock([WKWebView class]);
-    UIView *mockView = OCMClassMock([UIView class]);
-    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView
-                                                                                                      view:mockView
-                                                                                              interstitial:nil];
+- (void)testInterstitialPresentationFailWhenAdNotLoaded {
+    CR_InterstitialViewController *mockInterstitialVC = OCMStrictClassMock([CR_InterstitialViewController class]);
+    OCMStub(mockInterstitialVC.webView).andReturn(nil);
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:nil
-                                                           viewController:interstitialVC
+                                                           viewController:mockInterstitialVC
                                                               application:nil
                                                                isAdLoaded:NO
                                                                    adUnit:self.adUnit];
     id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
+    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidRequest
+                                                 description:@"Interstitial Ad is not loaded."];
     interstitial.delegate = mockInterstitialDelegate;
-    OCMReject([mockInterstitialDelegate interstitial:interstitial
-                          didFailToReceiveAdWithError:[OCMArg any]]);
-    OCMStub([mockInterstitialDelegate interstitialWillAppear:interstitial]);
-    OCMStub([mockInterstitialDelegate interstitialDidAppear:interstitial]);
-    UIViewController *rootViewController = OCMStrictClassMock([UIViewController class]);
-    OCMStub([rootViewController presentViewController:interstitialVC animated:YES completion:[OCMArg invokeBlock]]);
+    OCMExpect([mockInterstitialDelegate interstitial:interstitial
+                         didFailToReceiveAdWithError:expectedError]);
+
+    OCMStub(mockInterstitialVC.presentingViewController).andReturn(nil);
+    UIViewController *rootViewController = [UIViewController new];
     [interstitial presentFromRootViewController:rootViewController];
     OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
 }
