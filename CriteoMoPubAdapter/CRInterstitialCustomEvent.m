@@ -72,9 +72,8 @@
 # pragma mark - MoPub required delegate methods
 // These callbacks are called on the main thread from the Criteo SDK
 - (void) interstitialDidReceiveAd:(CRInterstitial *)interstitial {
-    if([self.delegate respondsToSelector:@selector(interstitialCustomEvent:didLoadAd:)]) {
-        [self.delegate interstitialCustomEvent:self didLoadAd:interstitial];
-    }
+    // Signals that Criteo is willing to display an ad
+    // Intentionally left blank
 }
 
 - (void) interstitial:(CRInterstitial *)interstitial didFailToReceiveAdWithError:(NSError *)error {
@@ -111,6 +110,23 @@
 - (void) interstitialDidDisappear:(CRInterstitial *)interstitial {
     if([self.delegate respondsToSelector:(@selector(interstitialCustomEventDidDisappear:))]) {
         [self.delegate interstitialCustomEventDidDisappear:self];
+    }
+}
+
+- (void) interstitialIsReadyToPresent:(CRInterstitial *)interstitial {
+    if([self.delegate respondsToSelector:@selector(interstitialCustomEvent:didLoadAd:)]) {
+        [self.delegate interstitialCustomEvent:self didLoadAd:interstitial];
+    }
+}
+
+- (void) interstitial:(CRInterstitial *)interstitial didFailToReceiveAdContentWithError:(NSError *)error {
+    // Signals that there was an error when Criteo was attempting to fetch the ad content
+    if([self.delegate respondsToSelector:@selector(interstitialCustomEvent:didFailToLoadAdWithError:)]) {
+        NSString *failure = [NSString stringWithFormat:@"Criteo Interstitial failed to load ad content with error : %@"
+                             , error.localizedDescription];
+        NSError *finalError = [NSError errorWithCode:MOPUBErrorAdapterFailedToLoadAd localizedDescription:failure];
+        [self.delegate interstitialCustomEvent:self
+                      didFailToLoadAdWithError:finalError];
     }
 }
 

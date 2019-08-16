@@ -75,7 +75,7 @@
 
     OCMExpect([mockDelegate interstitialCustomEvent:event
                            didFailToLoadAdWithError:[NSError errorWithCode:MOPUBErrorServerError
-                                                      localizedDescription:@"MoPub Interstitial ad request failed due to invalid server parameters."]]);
+                                                      localizedDescription:@"Criteo Interstitial ad request failed due to invalid server parameters."]]);
 
     [event requestInterstitialWithCustomEventInfo:badInfoFromMoPub];
     OCMVerifyAllWithDelay(mockDelegate, 2);
@@ -87,6 +87,7 @@
 
     OCMStub([mockInterstitial loadAd]).andDo(^(NSInvocation *invocation){
         [event interstitialDidReceiveAd:self->mockInterstitial];
+        [event interstitialIsReadyToPresent:self->mockInterstitial];
     });
 
     OCMExpect([mockDelegate interstitialCustomEvent:event didLoadAd:mockInterstitial]);
@@ -117,6 +118,25 @@
 
     NSError *criteoError = [NSError errorWithCode:1];
     NSString *description = [NSString stringWithFormat:@"Criteo Interstitial failed to load with error : %@"
+                             , criteoError.localizedDescription];
+    NSError *expectedError = [NSError errorWithCode:MOPUBErrorAdapterFailedToLoadAd localizedDescription:description];
+
+    OCMExpect([mockDelegate interstitialCustomEvent:event didFailToLoadAdWithError:expectedError]);
+    [event requestInterstitialWithCustomEventInfo:info];
+    OCMVerifyAll(mockDelegate);
+}
+
+- (void) testAdReceivedButFailedToLoadContent {
+    CRInterstitialCustomEvent *event = [[CRInterstitialCustomEvent alloc] initWithInterstitial:mockInterstitial];
+    event.delegate = mockDelegate;
+
+    OCMStub([mockInterstitial loadAd]).andDo(^(NSInvocation *invocation){
+        [event interstitialDidReceiveAd:self->mockInterstitial];
+        [event interstitial:self->mockInterstitial didFailToReceiveAdContentWithError:[NSError errorWithCode:1]];
+    });
+
+    NSError *criteoError = [NSError errorWithCode:1];
+    NSString *description = [NSString stringWithFormat:@"Criteo Interstitial failed to load ad content with error : %@"
                              , criteoError.localizedDescription];
     NSError *expectedError = [NSError errorWithCode:MOPUBErrorAdapterFailedToLoadAd localizedDescription:description];
 
