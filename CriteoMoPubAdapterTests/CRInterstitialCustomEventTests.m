@@ -187,6 +187,7 @@
 
     OCMExpect([mockDelegate interstitialCustomEventWillLeaveApplication:event]);
     OCMExpect([mockDelegate trackClick]);
+    OCMExpect([mockDelegate interstitialCustomEventDidReceiveTapEvent:event]);
 
     [event requestInterstitialWithCustomEventInfo:info];
     OCMVerifyAll(mockDelegate);

@@ -138,6 +138,9 @@
     if([self.delegate respondsToSelector:@selector(trackClick)]) {
         [self.delegate trackClick];
     }
+    if([self.delegate respondsToSelector:@selector(interstitialCustomEventDidReceiveTapEvent:)]) {
+        [self.delegate interstitialCustomEventDidReceiveTapEvent:self];
+    }
 }
 
 @end
