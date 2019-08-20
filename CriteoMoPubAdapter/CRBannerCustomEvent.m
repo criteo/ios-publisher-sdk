@@ -18,7 +18,7 @@
 
 #import "CRBannerCustomEvent.h"
 #import "CRBannerCustomEvent+Internal.h"
-#import "CR_CustomEventHelper.h"
+#import "CRCustomEventHelper.h"
 
 @implementation CRBannerCustomEvent
 
@@ -44,7 +44,7 @@
 }
 
 - (void) requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info {
-    if (![CR_CustomEventHelper checkValidInfo:info]) {
+    if (![CRCustomEventHelper checkValidInfo:info]) {
         if ([self.delegate respondsToSelector:@selector(bannerCustomEvent:didFailToLoadAdWithError:)]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSString *errorDescription = [NSString stringWithFormat:@"MoPub Banner ad request failed due to invalid server parameters."];

@@ -1,16 +1,16 @@
 //
-//  CR_CustomEventHelper.m
+//  CRCustomEventHelper.m
 //  CriteoMoPubAdapter
 //
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#import "CR_CustomEventHelper.h"
+#import "CRCustomEventHelper.h"
 
 NSString * const cpId = @"cpId";
 NSString * const adUnitId = @"adUnitId";
 
-@implementation CR_CustomEventHelper
+@implementation CRCustomEventHelper
 
 + (BOOL) checkValidInfo:(NSDictionary *)info {
     if (info){

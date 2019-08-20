@@ -1,5 +1,5 @@
 //
-//  CR_CustomEventHelper.h
+//  CRCustomEventHelper.h
 //  CriteoMoPubAdapter
 //
 //  Copyright © 2019 Criteo. All rights reserved.
@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CR_CustomEventHelper : NSObject
+@interface CRCustomEventHelper : NSObject
 
 + (BOOL) checkValidInfo:(NSDictionary *)info;
 

@@ -19,7 +19,7 @@
 #import <Foundation/Foundation.h>
 #import "CRInterstitialCustomEvent.h"
 #import "CRInterstitialCustomEvent+Internal.h"
-#import "CR_CustomEventHelper.h"
+#import "CRCustomEventHelper.h"
 
 @interface CRInterstitialCustomEvent ()
 @property (nonatomic, strong) CRInterstitial *interstitial;
@@ -44,7 +44,7 @@
 }
 
 - (void) requestInterstitialWithCustomEventInfo:(NSDictionary *)info {
-    if(![CR_CustomEventHelper checkValidInfo:info]) {
+    if(![CRCustomEventHelper checkValidInfo:info]) {
         if([self.delegate respondsToSelector:@selector(interstitialCustomEvent:didFailToLoadAdWithError:)]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.delegate interstitialCustomEvent:self

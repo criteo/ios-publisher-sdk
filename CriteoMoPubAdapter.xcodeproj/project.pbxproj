@@ -10,20 +10,20 @@
 		5326033522FDF99C000C5BAB /* CRBannerCustomEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5326033222FDF99C000C5BAB /* CRBannerCustomEventTests.m */; };
 		5326033A22FE0C72000C5BAB /* CriteoMoPubAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54FC7D7822F403F100202164 /* CriteoMoPubAdapter.framework */; };
 		5326033E22FE0DAA000C5BAB /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5439D11A22FDD85000BB94A2 /* CriteoPublisherSdk.framework */; };
-		532603422301DD83000C5BAB /* CR_CustomEventHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 532603402301DD83000C5BAB /* CR_CustomEventHelper.m */; };
-		532603442301DEAC000C5BAB /* CR_CustomEventHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 532603432301DEAC000C5BAB /* CR_CustomEventHelperTests.m */; };
+		532603422301DD83000C5BAB /* CRCustomEventHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 532603402301DD83000C5BAB /* CRCustomEventHelper.m */; };
+		532603442301DEAC000C5BAB /* CRCustomEventHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 532603432301DEAC000C5BAB /* CRCustomEventHelperTests.m */; };
 		532603482301F275000C5BAB /* CRCriteoAdapterConfigurationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 532603472301F274000C5BAB /* CRCriteoAdapterConfigurationTests.m */; };
-		5326034B2302370B000C5BAB /* CR_CustomEventHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5326033F2301DD83000C5BAB /* CR_CustomEventHelper.h */; };
+		5326034B2302370B000C5BAB /* CRCustomEventHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 5326033F2301DD83000C5BAB /* CRCustomEventHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		538ADDEF22FA465D0047A8A5 /* CRBannerCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 54FC7D9222F4043300202164 /* CRBannerCustomEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		538ADDF022FA46620047A8A5 /* CRBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 54FC7D9322F4043300202164 /* CRBannerCustomEvent.m */; };
 		538F0B8822F50EC30034E6CB /* CRCriteoAdapterConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 538F0B8622F50EC30034E6CB /* CRCriteoAdapterConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		538F0B8922F50EC30034E6CB /* CRCriteoAdapterConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 538F0B8722F50EC30034E6CB /* CRCriteoAdapterConfiguration.m */; };
-		E1BC78D9230353EC003FB9E2 /* CRInterstitialCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = E1BC78D8230353EC003FB9E2 /* CRInterstitialCustomEvent.h */; };
+		53F2BA16230473B400D046D5 /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5439D11A22FDD85000BB94A2 /* CriteoPublisherSdk.framework */; };
+		53F2BA182304CCB300D046D5 /* CRBannerCustomEvent+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 53F2BA172304CCB300D046D5 /* CRBannerCustomEvent+Internal.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1BC78D9230353EC003FB9E2 /* CRInterstitialCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = E1BC78D8230353EC003FB9E2 /* CRInterstitialCustomEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1BC78DB23035C5D003FB9E2 /* CRInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC78DA23035C5D003FB9E2 /* CRInterstitialCustomEvent.m */; };
 		E1BC78DD2303A1AB003FB9E2 /* CRInterstitialCustomEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC78DC2303A1AB003FB9E2 /* CRInterstitialCustomEventTests.m */; };
-		E1BC78DF2304C3AE003FB9E2 /* CRInterstitialCustomEvent+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = E1BC78DE2304C2F8003FB9E2 /* CRInterstitialCustomEvent+Internal.h */; };
-		53F2BA16230473B400D046D5 /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5439D11A22FDD85000BB94A2 /* CriteoPublisherSdk.framework */; };
-		53F2BA182304CCB300D046D5 /* CRBannerCustomEvent+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 53F2BA172304CCB300D046D5 /* CRBannerCustomEvent+Internal.h */; };
+		E1BC78DF2304C3AE003FB9E2 /* CRInterstitialCustomEvent+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = E1BC78DE2304C2F8003FB9E2 /* CRInterstitialCustomEvent+Internal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F6952EC254DDD2B2099A3099 /* libPods-CriteoMoPubAdapterTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 723A18C84F38211EF6A89DA5 /* libPods-CriteoMoPubAdapterTests.a */; };
 		F7103A3B3D4D582BF0F8168F /* libPods-CriteoMoPubAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E36D96B9F6BA73F79BB4D7F0 /* libPods-CriteoMoPubAdapter.a */; };
 /* End PBXBuildFile section */
@@ -39,12 +39,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4ED161E7D6EAAA02757CDD4E /* Pods-CriteoMoPubAdapterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapterTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CriteoMoPubAdapterTests/Pods-CriteoMoPubAdapterTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5326033222FDF99C000C5BAB /* CRBannerCustomEventTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRBannerCustomEventTests.m; sourceTree = "<group>"; };
 		5326033322FDF99C000C5BAB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5326033F2301DD83000C5BAB /* CR_CustomEventHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_CustomEventHelper.h; sourceTree = "<group>"; };
-		532603402301DD83000C5BAB /* CR_CustomEventHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_CustomEventHelper.m; sourceTree = "<group>"; };
-		532603432301DEAC000C5BAB /* CR_CustomEventHelperTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_CustomEventHelperTests.m; sourceTree = "<group>"; };
+		5326033F2301DD83000C5BAB /* CRCustomEventHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRCustomEventHelper.h; sourceTree = "<group>"; };
+		532603402301DD83000C5BAB /* CRCustomEventHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRCustomEventHelper.m; sourceTree = "<group>"; };
+		532603432301DEAC000C5BAB /* CRCustomEventHelperTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRCustomEventHelperTests.m; sourceTree = "<group>"; };
 		532603472301F274000C5BAB /* CRCriteoAdapterConfigurationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRCriteoAdapterConfigurationTests.m; sourceTree = "<group>"; };
 		538ADDF822FC86E20047A8A5 /* MoPubSDKFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MoPubSDKFramework.framework; sourceTree = "<group>"; };
 		538ADE1122FCA1030047A8A5 /* CriteoMoPubAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CriteoMoPubAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -57,13 +56,9 @@
 		54FC7D7C22F403F100202164 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54FC7D9222F4043300202164 /* CRBannerCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRBannerCustomEvent.h; sourceTree = "<group>"; };
 		54FC7D9322F4043300202164 /* CRBannerCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRBannerCustomEvent.m; sourceTree = "<group>"; };
-		71631D746A3B361923AF59D2 /* Pods-CriteoMoPubAdapter-CriteoMoPubAdapterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapter-CriteoMoPubAdapterTests.debug.xcconfig"; path = "Target Support Files/Pods-CriteoMoPubAdapter-CriteoMoPubAdapterTests/Pods-CriteoMoPubAdapter-CriteoMoPubAdapterTests.debug.xcconfig"; sourceTree = "<group>"; };
 		723A18C84F38211EF6A89DA5 /* libPods-CriteoMoPubAdapterTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoMoPubAdapterTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		776A65F5EB82A80972AA06F1 /* Pods-CriteoMoPubAdapterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapterTests.release.xcconfig"; path = "Target Support Files/Pods-CriteoMoPubAdapterTests/Pods-CriteoMoPubAdapterTests.release.xcconfig"; sourceTree = "<group>"; };
-		7BB8434C22584EEBED4F0462 /* Pods-CriteoMoPubAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapter.release.xcconfig"; path = "Pods/Target Support Files/Pods-CriteoMoPubAdapter/Pods-CriteoMoPubAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		85A1F7B1A22A801A0E50683C /* Pods-CriteoMoPubAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapter.debug.xcconfig"; path = "Target Support Files/Pods-CriteoMoPubAdapter/Pods-CriteoMoPubAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		A546BEAE8BBBCD06314BAF06 /* Pods-CriteoMoPubAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CriteoMoPubAdapter/Pods-CriteoMoPubAdapter.debug.xcconfig"; sourceTree = "<group>"; };
-		E15B87A30FF9C0C98E6CE3D3 /* Pods-CriteoMoPubAdapter-CriteoMoPubAdapterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapter-CriteoMoPubAdapterTests.release.xcconfig"; path = "Target Support Files/Pods-CriteoMoPubAdapter-CriteoMoPubAdapterTests/Pods-CriteoMoPubAdapter-CriteoMoPubAdapterTests.release.xcconfig"; sourceTree = "<group>"; };
 		E1BC78D8230353EC003FB9E2 /* CRInterstitialCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRInterstitialCustomEvent.h; sourceTree = "<group>"; };
 		E1BC78DA23035C5D003FB9E2 /* CRInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialCustomEvent.m; sourceTree = "<group>"; };
 		E1BC78DC2303A1AB003FB9E2 /* CRInterstitialCustomEventTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialCustomEventTests.m; sourceTree = "<group>"; };
@@ -71,7 +66,6 @@
 		E36D96B9F6BA73F79BB4D7F0 /* libPods-CriteoMoPubAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoMoPubAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7657D6BD0787096C41E7E89 /* Pods-CriteoMoPubAdapterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapterTests.debug.xcconfig"; path = "Target Support Files/Pods-CriteoMoPubAdapterTests/Pods-CriteoMoPubAdapterTests.debug.xcconfig"; sourceTree = "<group>"; };
 		EB338E184F171C1A1896056F /* Pods-CriteoMoPubAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapter.release.xcconfig"; path = "Target Support Files/Pods-CriteoMoPubAdapter/Pods-CriteoMoPubAdapter.release.xcconfig"; sourceTree = "<group>"; };
-		F6A12BA3BF965BE23947F59A /* Pods-CriteoMoPubAdapterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapterTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CriteoMoPubAdapterTests/Pods-CriteoMoPubAdapterTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,14 +96,8 @@
 			children = (
 				85A1F7B1A22A801A0E50683C /* Pods-CriteoMoPubAdapter.debug.xcconfig */,
 				EB338E184F171C1A1896056F /* Pods-CriteoMoPubAdapter.release.xcconfig */,
-				71631D746A3B361923AF59D2 /* Pods-CriteoMoPubAdapter-CriteoMoPubAdapterTests.debug.xcconfig */,
-				E15B87A30FF9C0C98E6CE3D3 /* Pods-CriteoMoPubAdapter-CriteoMoPubAdapterTests.release.xcconfig */,
 				E7657D6BD0787096C41E7E89 /* Pods-CriteoMoPubAdapterTests.debug.xcconfig */,
 				776A65F5EB82A80972AA06F1 /* Pods-CriteoMoPubAdapterTests.release.xcconfig */,
-				A546BEAE8BBBCD06314BAF06 /* Pods-CriteoMoPubAdapter.debug.xcconfig */,
-				7BB8434C22584EEBED4F0462 /* Pods-CriteoMoPubAdapter.release.xcconfig */,
-				4ED161E7D6EAAA02757CDD4E /* Pods-CriteoMoPubAdapterTests.debug.xcconfig */,
-				F6A12BA3BF965BE23947F59A /* Pods-CriteoMoPubAdapterTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -128,7 +116,7 @@
 			children = (
 				532603472301F274000C5BAB /* CRCriteoAdapterConfigurationTests.m */,
 				5326033222FDF99C000C5BAB /* CRBannerCustomEventTests.m */,
-				532603432301DEAC000C5BAB /* CR_CustomEventHelperTests.m */,
+				532603432301DEAC000C5BAB /* CRCustomEventHelperTests.m */,
 				5326033322FDF99C000C5BAB /* Info.plist */,
 				E1BC78DC2303A1AB003FB9E2 /* CRInterstitialCustomEventTests.m */,
 			);
@@ -165,8 +153,8 @@
 				54FC7D9322F4043300202164 /* CRBannerCustomEvent.m */,
 				538F0B8622F50EC30034E6CB /* CRCriteoAdapterConfiguration.h */,
 				538F0B8722F50EC30034E6CB /* CRCriteoAdapterConfiguration.m */,
-				5326033F2301DD83000C5BAB /* CR_CustomEventHelper.h */,
-				532603402301DD83000C5BAB /* CR_CustomEventHelper.m */,
+				5326033F2301DD83000C5BAB /* CRCustomEventHelper.h */,
+				532603402301DD83000C5BAB /* CRCustomEventHelper.m */,
 				E1BC78D8230353EC003FB9E2 /* CRInterstitialCustomEvent.h */,
 				E1BC78DA23035C5D003FB9E2 /* CRInterstitialCustomEvent.m */,
 				E1BC78DE2304C2F8003FB9E2 /* CRInterstitialCustomEvent+Internal.h */,
@@ -195,7 +183,7 @@
 				E1BC78D9230353EC003FB9E2 /* CRInterstitialCustomEvent.h in Headers */,
 				53F2BA182304CCB300D046D5 /* CRBannerCustomEvent+Internal.h in Headers */,
 				538F0B8822F50EC30034E6CB /* CRCriteoAdapterConfiguration.h in Headers */,
-				5326034B2302370B000C5BAB /* CR_CustomEventHelper.h in Headers */,
+				5326034B2302370B000C5BAB /* CRCustomEventHelper.h in Headers */,
 				538ADDEF22FA465D0047A8A5 /* CRBannerCustomEvent.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -382,7 +370,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1BC78DD2303A1AB003FB9E2 /* CRInterstitialCustomEventTests.m in Sources */,
-				532603442301DEAC000C5BAB /* CR_CustomEventHelperTests.m in Sources */,
+				532603442301DEAC000C5BAB /* CRCustomEventHelperTests.m in Sources */,
 				5326033522FDF99C000C5BAB /* CRBannerCustomEventTests.m in Sources */,
 				532603482301F275000C5BAB /* CRCriteoAdapterConfigurationTests.m in Sources */,
 			);
@@ -395,7 +383,7 @@
 				E1BC78DB23035C5D003FB9E2 /* CRInterstitialCustomEvent.m in Sources */,
 				538ADDF022FA46620047A8A5 /* CRBannerCustomEvent.m in Sources */,
 				538F0B8922F50EC30034E6CB /* CRCriteoAdapterConfiguration.m in Sources */,
-				532603422301DD83000C5BAB /* CR_CustomEventHelper.m in Sources */,
+				532603422301DD83000C5BAB /* CRCustomEventHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
