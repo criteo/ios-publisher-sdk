@@ -96,9 +96,6 @@
     if([self.delegate respondsToSelector:@selector(interstitialCustomEventDidAppear:)]) {
         [self.delegate interstitialCustomEventDidAppear:self];
     }
-    if([self.delegate respondsToSelector:@selector(trackImpression)]) {
-        [self.delegate trackImpression];
-    }
 }
 
 - (void) interstitialWillDisappear:(CRInterstitial *)interstitial {
@@ -134,9 +131,6 @@
 - (void) interstitialWillLeaveApplication:(CRInterstitial *)interstitial {
     if ([self.delegate respondsToSelector:@selector(interstitialCustomEventWillLeaveApplication:)]) {
         [self.delegate interstitialCustomEventWillLeaveApplication:self];
-    }
-    if([self.delegate respondsToSelector:@selector(trackClick)]) {
-        [self.delegate trackClick];
     }
     if([self.delegate respondsToSelector:@selector(interstitialCustomEventDidReceiveTapEvent:)]) {
         [self.delegate interstitialCustomEventDidReceiveTapEvent:self];

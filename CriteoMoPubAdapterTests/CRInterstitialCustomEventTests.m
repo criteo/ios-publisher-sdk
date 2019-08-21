@@ -56,11 +56,8 @@
 
 - (void) testCriteoRegistration {
     id mockCriteo = [OCMockObject partialMockForObject:[Criteo sharedCriteo]];
-    // TODO: Remove the [OCMArg any] and replace with the following lines once we have a way to
-    // check equality of adunits
-//    CRInterstitialAdUnit *adUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:adUnitId];
-//    OCMExpect([mockCriteo registerCriteoPublisherId:info[@"cpId"] withAdUnits:@[adUnit]]);
-    OCMExpect([mockCriteo registerCriteoPublisherId:info[@"cpId"] withAdUnits:[OCMArg any]]);
+    CRInterstitialAdUnit *adUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:adUnitId];
+    OCMExpect([mockCriteo registerCriteoPublisherId:info[@"cpId"] withAdUnits:@[adUnit]]);
 
     CRInterstitialCustomEvent *interstitialEvent = [[CRInterstitialCustomEvent alloc] initWithInterstitial:mockInterstitial];
     [interstitialEvent requestInterstitialWithCustomEventInfo:info];
@@ -156,7 +153,6 @@
 
     OCMExpect([mockDelegate interstitialCustomEventWillAppear:event]);
     OCMExpect([mockDelegate interstitialCustomEventDidAppear:event]);
-    OCMExpect([mockDelegate trackImpression]);
     [event requestInterstitialWithCustomEventInfo:info];
     OCMVerifyAll(mockDelegate);
 }
@@ -186,7 +182,6 @@
     });
 
     OCMExpect([mockDelegate interstitialCustomEventWillLeaveApplication:event]);
-    OCMExpect([mockDelegate trackClick]);
     OCMExpect([mockDelegate interstitialCustomEventDidReceiveTapEvent:event]);
 
     [event requestInterstitialWithCustomEventInfo:info];
