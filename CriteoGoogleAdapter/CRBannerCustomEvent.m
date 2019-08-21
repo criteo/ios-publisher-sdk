@@ -49,8 +49,6 @@
         }
         return;
     }
-    NSLog(@"requestBannerAd: cpId: %@, adUnitId: %@, adSize = %fx%f", params.publisherId, params.adUnitId,
-          adSize.size.width, adSize.size.height);
     CRBannerAdUnit *adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:params.adUnitId size:adSize.size];
     [Criteo.sharedCriteo registerCriteoPublisherId:params.publisherId withAdUnits:@[adUnit]];
     self.bannerView = [[CRBannerView alloc] initWithAdUnit:adUnit];
@@ -78,6 +76,12 @@
     if ([self.delegate respondsToSelector:@selector(customEventBannerWasClicked:)]) {
         [self.delegate customEventBannerWasClicked:self];
     }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    else if ([self.delegate respondsToSelector:@selector(customEventBanner:clickDidOccurInAd:)]) {
+        [self.delegate customEventBanner:self clickDidOccurInAd:bannerView];
+    }
+#pragma clang diagnostic pop
     if ([self.delegate respondsToSelector:@selector(customEventBannerWillLeaveApplication:)]) {
         [self.delegate customEventBannerWillLeaveApplication:self];
     }
