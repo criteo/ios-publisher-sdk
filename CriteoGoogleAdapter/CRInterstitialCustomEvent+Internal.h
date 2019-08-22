@@ -21,7 +21,7 @@
 
 @interface CRInterstitialCustomEvent()
 
-- (instancetype)initWithInterstitial:(CRInterstitial *)interstitial adUnit:(CRInterstitialAdUnit *)adUnit;
+- (instancetype)initWithInterstitial:(CRInterstitial *)interstitial;
 
 @end
 

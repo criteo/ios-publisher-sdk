@@ -21,15 +21,13 @@
 
 @interface CRInterstitialCustomEvent ()
 @property (nonatomic, strong)CRInterstitial *interstitial;
-@property (nonatomic, strong)CRInterstitialAdUnit *interstitialAdUnit;
 @end
 
 @implementation CRInterstitialCustomEvent
 
-- (instancetype)initWithInterstitial:(CRInterstitial *)interstitial adUnit:(CRInterstitialAdUnit *)adUnit {
+- (instancetype)initWithInterstitial:(CRInterstitial *)interstitial {
     if(self = [super init]) {
         _interstitial = interstitial;
-        _interstitialAdUnit = adUnit;
     }
     return self;
 }
@@ -52,13 +50,11 @@
         });
         return;
     }
-    if(!_interstitialAdUnit) {
-        self.interstitialAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:parameters.adUnitId];
-    }
+    CRInterstitialAdUnit *interstitialAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:parameters.adUnitId];
     [Criteo.sharedCriteo registerCriteoPublisherId:parameters.publisherId
-                                       withAdUnits:@[self.interstitialAdUnit]];
+                                       withAdUnits:@[interstitialAdUnit]];
     if(!_interstitial) {
-        self.interstitial = [[CRInterstitial alloc] initWithAdUnit:self.interstitialAdUnit];
+        self.interstitial = [[CRInterstitial alloc] initWithAdUnit:interstitialAdUnit];
     }
     self.interstitial.delegate = self;
     [self.interstitial loadAd];

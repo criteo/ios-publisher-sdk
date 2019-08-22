@@ -8,20 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		174087F82C298114175BCBB5 /* libPods-CriteoGoogleAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 26D9C65D4FFAA50128EE5DB4 /* libPods-CriteoGoogleAdapter.a */; };
-		54FC7DAF22F4136100202164 /* CRInterstitialCustomEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 54FC7DAE22F4136100202164 /* CRInterstitialCustomEventTests.m */; };
-		547BC9162304BE1100FB8599 /* CRInterstitialCustomEvent+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 547BC9152304BE1100FB8599 /* CRInterstitialCustomEvent+Internal.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5474B966230F0E3600CBD47E /* CRInterstitialCustomEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 54865DA022FA1BA1001F9A67 /* CRInterstitialCustomEventTests.m */; };
+		5474B967230F0EA300CBD47E /* CRInterstitialCustomEvent+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 547BC9152304BE1100FB8599 /* CRInterstitialCustomEvent+Internal.h */; };
 		54FC7DBC22F4147100202164 /* CRInterstitialCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 54FC7DBA22F4147100202164 /* CRInterstitialCustomEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		54FC7DBD22F4147100202164 /* CRInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 54FC7DBB22F4147100202164 /* CRInterstitialCustomEvent.m */; };
 		A36837911ADA01CEDFA729A9 /* libPods-CriteoGoogleAdapterTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF43AF45DE0BEECB9A9247A6 /* libPods-CriteoGoogleAdapterTests.a */; };
 		DF4356A8230485FA0051AC45 /* CRBannerCustomEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DF4356A7230485FA0051AC45 /* CRBannerCustomEventTests.m */; };
 		DF4356B12304E7B30051AC45 /* CriteoGoogleAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54FC7DA022F4136100202164 /* CriteoGoogleAdapter.framework */; };
 		DFC3F49B23035A9200318644 /* CRBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = DFC3F49923035A9100318644 /* CRBannerCustomEvent.m */; };
-		DFC3F49C23035A9200318644 /* CRBannerCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = DFC3F49A23035A9100318644 /* CRBannerCustomEvent.h */; };
-		DFC3F4A023035AF800318644 /* CRGoogleMediationParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = DFC3F49D23035AF800318644 /* CRGoogleMediationParameters.h */; };
+		DFC3F49C23035A9200318644 /* CRBannerCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = DFC3F49A23035A9100318644 /* CRBannerCustomEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DFC3F4A023035AF800318644 /* CRGoogleMediationParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = DFC3F49D23035AF800318644 /* CRGoogleMediationParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DFC3F4A223035AF800318644 /* CRGoogleMediationParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = DFC3F49F23035AF800318644 /* CRGoogleMediationParameters.m */; };
 		DFC3F4A423035EF500318644 /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFC3F4A323035EF500318644 /* CriteoPublisherSdk.framework */; };
 		DFC3F4AE230370F700318644 /* CRGoogleMediationParametersTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DFC3F4AD230370F700318644 /* CRGoogleMediationParametersTests.m */; };
-		DFC3F4B0230371B700318644 /* CRGoogleMediationParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = DFC3F49D23035AF800318644 /* CRGoogleMediationParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,7 +129,6 @@
 			children = (
 				DFC3F4AD230370F700318644 /* CRGoogleMediationParametersTests.m */,
 				DF4356A7230485FA0051AC45 /* CRBannerCustomEventTests.m */,
-				54FC7DAE22F4136100202164 /* CRInterstitialCustomEventTests.m */,
 				54FC7DB022F4136100202164 /* Info.plist */,
 				54865DA022FA1BA1001F9A67 /* CRInterstitialCustomEventTests.m */,
 			);
@@ -155,6 +153,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5474B967230F0EA300CBD47E /* CRInterstitialCustomEvent+Internal.h in Headers */,
 				54FC7DBC22F4147100202164 /* CRInterstitialCustomEvent.h in Headers */,
 				DFC3F49C23035A9200318644 /* CRBannerCustomEvent.h in Headers */,
 				DFC3F4A023035AF800318644 /* CRGoogleMediationParameters.h in Headers */,
@@ -165,9 +164,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DFC3F4B0230371B700318644 /* CRGoogleMediationParameters.h in Headers */,
-				DF3C4AB922F4E324003A05EC /* CRBannerCustomEvent.h in Headers */,
-				547BC9162304BE1100FB8599 /* CRInterstitialCustomEvent+Internal.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,9 +323,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5474B966230F0E3600CBD47E /* CRInterstitialCustomEventTests.m in Sources */,
 				DF4356A8230485FA0051AC45 /* CRBannerCustomEventTests.m in Sources */,
 				DFC3F4AE230370F700318644 /* CRGoogleMediationParametersTests.m in Sources */,
-				54FC7DAF22F4136100202164 /* CRInterstitialCustomEventTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

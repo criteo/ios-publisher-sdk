@@ -32,7 +32,9 @@
 - (void)testCustomEventDelegateFailWhenParametersIsNil {
     CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
     id mockGADInterstitialDelegate = OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
-    OCMExpect([mockGADInterstitialDelegate customEventInterstitial:customEvent didFailAd:[OCMArg any]]);
+    OCMExpect([mockGADInterstitialDelegate customEventInterstitial:customEvent didFailAd:[NSError errorWithDomain:@"com.criteo.pubsdk"
+                                                                                                             code:kGADErrorInvalidArgument
+                                                                                                         userInfo:nil]]);
     NSString *invalidServerParameter = @"{\"cpIDD\":\"testCpId\"}";
     customEvent.delegate = mockGADInterstitialDelegate;
     [customEvent requestInterstitialAdWithParameter:invalidServerParameter label:nil request:[GADCustomEventRequest new]];
@@ -41,9 +43,8 @@
 
 - (void)testLoadAndPresentFromRootViewController {
     CRInterstitial *mockCRInterstitial = OCMStrictClassMock([CRInterstitial class]);
-    CRInterstitialAdUnit *mockInterstitialAdUnit = OCMStrictClassMock([CRInterstitialAdUnit class]);
-    CRInterstitialCustomEvent *customEvent = [[CRInterstitialCustomEvent alloc] initWithInterstitial:mockCRInterstitial
-                                                                                              adUnit:mockInterstitialAdUnit];
+    CRInterstitialAdUnit *interstitialAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"testAdUnitId"];
+    CRInterstitialCustomEvent *customEvent = [[CRInterstitialCustomEvent alloc] initWithInterstitial:mockCRInterstitial];
 
     OCMStub([mockCRInterstitial loadAd]);
     OCMStub([mockCRInterstitial setDelegate:customEvent]);
@@ -52,7 +53,7 @@
 
     id mockCriteo = OCMStrictClassMock([Criteo class]);
     OCMStub([mockCriteo sharedCriteo]).andReturn(mockCriteo);
-    OCMStub([mockCriteo registerCriteoPublisherId:@"testCpId" withAdUnits:@[mockInterstitialAdUnit]]);
+    OCMStub([mockCriteo registerCriteoPublisherId:@"testCpId" withAdUnits:@[interstitialAdUnit]]);
 
     [customEvent requestInterstitialAdWithParameter:SERVER_PARAMETER label:nil request:[GADCustomEventRequest new]];
     [customEvent presentFromRootViewController:realVC];
@@ -60,7 +61,7 @@
     OCMVerify([mockCRInterstitial loadAd]);
     OCMVerify([mockCRInterstitial setDelegate:customEvent]);
     OCMVerify([mockCRInterstitial presentFromRootViewController:realVC]);
-    OCMVerify([mockCriteo registerCriteoPublisherId:@"testCpId" withAdUnits:@[mockInterstitialAdUnit]]);
+    OCMVerify([mockCriteo registerCriteoPublisherId:@"testCpId" withAdUnits:@[interstitialAdUnit]]);
 }
 
 #pragma mark CRInterstitial Delegate tests
