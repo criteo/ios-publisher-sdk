@@ -18,11 +18,13 @@
 
 #import <Foundation/Foundation.h>
 #import "CRInterstitialCustomEvent.h"
-#import "CRInterstitialCustomEvent+Internal.h"
 #import "CRCustomEventHelper.h"
 
+// Private property
 @interface CRInterstitialCustomEvent ()
+
 @property (nonatomic, strong) CRInterstitial *interstitial;
+
 @end
 
 @implementation CRInterstitialCustomEvent
@@ -34,13 +36,6 @@
 
 - (void) dealloc {
     self.interstitial.delegate = nil;
-}
-
-- (instancetype) initWithInterstitial:(CRInterstitial *)crInterstitial {
-    if(self = [super init]) {
-        self.interstitial = crInterstitial;
-    }
-    return self;
 }
 
 - (void) requestInterstitialWithCustomEventInfo:(NSDictionary *)info {

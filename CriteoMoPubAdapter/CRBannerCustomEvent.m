@@ -17,29 +17,20 @@
 // limitations under the License.
 
 #import "CRBannerCustomEvent.h"
-#import "CRBannerCustomEvent+Internal.h"
 #import "CRCustomEventHelper.h"
+
+// Private properties
+@interface CRBannerCustomEvent()
+
+@property (nonatomic, strong) CRBannerView *bannerView;
+@property (nonatomic, strong) CRBannerAdUnit *bannerAdUnit;
+
+@end
 
 @implementation CRBannerCustomEvent
 
 - (instancetype) init {
     self = [super init];
-    return self;
-}
-
-- (instancetype) initWithBannerView:(CRBannerView *)bannerView {
-    if (self = [super init]) {
-        _bannerView = bannerView;
-    }
-    return self;
-}
-
-- (instancetype) initWithBannerView:(CRBannerView *)bannerView
-                       bannerAdUnit:(CRBannerAdUnit *)bannerAdUnit {
-    if (self = [super init]) {
-        _bannerView = bannerView;
-        _bannerAdUnit = bannerAdUnit;
-    }
     return self;
 }
 

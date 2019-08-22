@@ -18,9 +18,43 @@
 
 #import <XCTest/XCTest.h>
 #import "CRBannerCustomEvent.h"
-#import "CRBannerCustomEvent+Internal.h"
 #import <MoPub.h>
 #import <OCMock.h>
+
+// Private properties (duplicates code in CRBannerCustomEvent.m so that we can use them in testing)
+@interface CRBannerCustomEvent()
+
+@property (nonatomic, strong) CRBannerView *bannerView;
+@property (nonatomic, strong) CRBannerAdUnit *bannerAdUnit;
+
+@end
+
+// Test-only initializers
+@interface CRBannerCustomEvent(Test)
+
+- (instancetype) initWithBannerView:(CRBannerView *)bannerView;
+- (instancetype) initWithBannerView:(CRBannerView *)bannerView bannerAdUnit:(CRBannerAdUnit *)bannerAdUnit;
+
+@end
+
+@implementation CRBannerCustomEvent(Test)
+
+- (instancetype) initWithBannerView:(CRBannerView *)bannerView {
+    if (self = [super init]) {
+        self.bannerView = bannerView;
+    }
+    return self;
+}
+
+- (instancetype) initWithBannerView:(CRBannerView *)bannerView bannerAdUnit:(CRBannerAdUnit *)bannerAdUnit {
+    if (self = [super init]) {
+        self.bannerView = bannerView;
+        self.bannerAdUnit = bannerAdUnit;
+    }
+    return self;
+}
+
+@end
 
 @interface CRBannerCustomEventTests : XCTestCase
 
