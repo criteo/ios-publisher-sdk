@@ -23,7 +23,6 @@
 @interface CRBannerCustomEvent()
 
 @property (nonatomic, strong) CRBannerView *bannerView;
-@property (nonatomic, strong) CRBannerAdUnit *bannerAdUnit;
 
 @end
 
@@ -44,14 +43,12 @@
         }
         return;
     }
-    if (!self.bannerAdUnit) {
-        self.bannerAdUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:info[@"adUnitId"] size:size];
-    }
-    [[Criteo sharedCriteo] registerCriteoPublisherId:info[@"cpId"] withAdUnits:@[self.bannerAdUnit]];
+    CRBannerAdUnit *bannerAdUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:info[@"adUnitId"] size:size];
+    [[Criteo sharedCriteo] registerCriteoPublisherId:info[@"cpId"] withAdUnits:@[bannerAdUnit]];
     // MoPub SDK instantiates a new CustomEvent object on every ad call so the bannerView will not be reused.
     // This check is done so that a mock bannerView can be injected without being replaced again during testing.
     if (!self.bannerView) {
-        self.bannerView = [[CRBannerView alloc] initWithAdUnit:self.bannerAdUnit];
+        self.bannerView = [[CRBannerView alloc] initWithAdUnit:bannerAdUnit];
     }
     self.bannerView.delegate = self;
     [self.bannerView loadAd];

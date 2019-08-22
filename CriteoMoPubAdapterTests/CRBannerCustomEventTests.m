@@ -25,7 +25,6 @@
 @interface CRBannerCustomEvent()
 
 @property (nonatomic, strong) CRBannerView *bannerView;
-@property (nonatomic, strong) CRBannerAdUnit *bannerAdUnit;
 
 @end
 
@@ -33,7 +32,6 @@
 @interface CRBannerCustomEvent(Test)
 
 - (instancetype) initWithBannerView:(CRBannerView *)bannerView;
-- (instancetype) initWithBannerView:(CRBannerView *)bannerView bannerAdUnit:(CRBannerAdUnit *)bannerAdUnit;
 
 @end
 
@@ -42,14 +40,6 @@
 - (instancetype) initWithBannerView:(CRBannerView *)bannerView {
     if (self = [super init]) {
         self.bannerView = bannerView;
-    }
-    return self;
-}
-
-- (instancetype) initWithBannerView:(CRBannerView *)bannerView bannerAdUnit:(CRBannerAdUnit *)bannerAdUnit {
-    if (self = [super init]) {
-        self.bannerView = bannerView;
-        self.bannerAdUnit = bannerAdUnit;
     }
     return self;
 }
@@ -93,10 +83,10 @@
 
 - (void) testCriteoIsRegistered {
     id mockCriteo = [OCMockObject partialMockForObject:[Criteo sharedCriteo]];
-    id mockBannerAdUnit = OCMStrictClassMock([CRBannerAdUnit class]);
+    CRBannerAdUnit *bannerAdUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:bannerAdUnitId size:adUnitSize];
     id mockBannerView = OCMClassMock([CRBannerView class]);
-    CRBannerCustomEvent *bannerCustomEvent = [[CRBannerCustomEvent alloc] initWithBannerView:mockBannerView bannerAdUnit:mockBannerAdUnit];
-    OCMExpect([mockCriteo registerCriteoPublisherId:info[@"cpId"] withAdUnits:@[mockBannerAdUnit]]);
+    CRBannerCustomEvent *bannerCustomEvent = [[CRBannerCustomEvent alloc] initWithBannerView:mockBannerView];
+    OCMExpect([mockCriteo registerCriteoPublisherId:info[@"cpId"] withAdUnits:@[bannerAdUnit]]);
     [bannerCustomEvent requestAdWithSize:adUnitSize customEventInfo:info];
     OCMVerifyAll(mockCriteo);
 }
