@@ -43,7 +43,7 @@
 
 - (void)testNetworkSdkVersion{
     CRCriteoAdapterConfiguration *config = [[CRCriteoAdapterConfiguration alloc] init];
-    XCTAssertEqual([config networkSdkVersion], @"1.0.0");
+    XCTAssertEqual([config networkSdkVersion], @"3.1.0");
 }
 
 @end
