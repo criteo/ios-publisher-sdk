@@ -18,10 +18,36 @@
 
 #import <XCTest/XCTest.h>
 #import "CRInterstitialCustomEvent.h"
-#import "CRInterstitialCustomEvent+Internal.h"
 #import <OCMock.h>
 
+@import CriteoPublisherSdk;
+
 @interface CRInterstitialCustomEventTests : XCTestCase
+
+@end
+
+// Private property (duplicates code in CRIntrstitialCustomEvent.m so that we can use it in testing)
+@interface CRInterstitialCustomEvent ()
+
+@property (nonatomic, strong)CRInterstitial *interstitial;
+
+@end
+
+// Test-only initializer
+@interface CRInterstitialCustomEvent (Test)
+
+- (instancetype)initWithInterstitial:(CRInterstitial *)interstitial;
+
+@end
+
+@implementation CRInterstitialCustomEvent (Test)
+
+- (instancetype)initWithInterstitial:(CRInterstitial *)interstitial {
+    if(self = [super init]) {
+        self.interstitial = interstitial;
+    }
+    return self;
+}
 
 @end
 

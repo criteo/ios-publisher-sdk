@@ -19,18 +19,14 @@
 #import "CRInterstitialCustomEvent.h"
 #import "CRGoogleMediationParameters.h"
 
+// Private property
 @interface CRInterstitialCustomEvent ()
+
 @property (nonatomic, strong)CRInterstitial *interstitial;
+
 @end
 
 @implementation CRInterstitialCustomEvent
-
-- (instancetype)initWithInterstitial:(CRInterstitial *)interstitial {
-    if(self = [super init]) {
-        _interstitial = interstitial;
-    }
-    return self;
-}
 
 - (void)presentFromRootViewController:(nonnull UIViewController *)rootViewController {
     [self.interstitial presentFromRootViewController:rootViewController];
