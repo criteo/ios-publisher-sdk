@@ -17,15 +17,12 @@
 #import "CRBannerCustomEvent.h"
 #import "CRGoogleMediationParameters.h"
 
-// Class extension
-
+// Private property
 @interface CRBannerCustomEvent ()
 
 @property(nonatomic, strong) CRBannerView *bannerView;
 
 @end
-
-// Class implementation
 
 @implementation CRBannerCustomEvent
 
@@ -51,7 +48,9 @@
     }
     CRBannerAdUnit *adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:params.adUnitId size:adSize.size];
     [Criteo.sharedCriteo registerCriteoPublisherId:params.publisherId withAdUnits:@[adUnit]];
-    self.bannerView = [[CRBannerView alloc] initWithAdUnit:adUnit];
+    if (self.bannerView == nil) {
+        self.bannerView = [[CRBannerView alloc] initWithAdUnit:adUnit];
+    }
     self.bannerView.delegate = self;
     [self.bannerView loadAd];
 }

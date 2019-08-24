@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CRGoogleMediationParameters : NSObject
 
 - (instancetype) init NS_UNAVAILABLE;
-// Create the object with a string such as {"cpid":"B-056946", "adUnitId": "/140800857/Endeavour_320x50"}
+// Create the object with a string such as {"cpId":"B-056946", "adUnitId": "/140800857/Endeavour_320x50"}
 - (id)initWithPublisherId:(NSString *)publisherId adUnitId:(NSString *)adUnitId;
 + (nullable CRGoogleMediationParameters *)parametersFromJSONString: (NSString *)jsonString error:(NSError **)outError;
 
