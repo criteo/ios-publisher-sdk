@@ -139,7 +139,7 @@
     OCMStub([vc presentViewController:OCMArg.any animated:YES completion:[OCMArg isNotNil]]);
     [interstitial presentFromRootViewController:vc];
     OCMVerify([vc presentViewController:[OCMArg checkWithBlock:^(id value){
-        [(UIViewController *)value viewDidLoad];
+        [(UIViewController *)value viewDidAppear:YES];
         XCTAssertEqual(mockWebView.superview, interstitialVC.view);
         return YES;
     }] animated:YES completion:[OCMArg isNotNil]]);

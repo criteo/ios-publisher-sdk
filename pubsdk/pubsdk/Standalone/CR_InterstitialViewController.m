@@ -9,7 +9,12 @@
 #import "CR_InterstitialViewController.h"
 #import "CRInterstitial+Internal.h"
 
-@interface CR_InterstitialViewController ()
+@interface CR_InterstitialViewController () {
+    BOOL _hasBeenDismissed;
+}
+
+@property (nonatomic, strong) dispatch_block_t timeoutDismissBlock;
+
 @end
 
 @implementation CR_InterstitialViewController
@@ -42,8 +47,8 @@
     }
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     _webView.frame = self.view.bounds;
     [self initCloseButton];
     [self.view addSubview:_webView];
@@ -51,16 +56,24 @@
     [self.view addSubview:self.closeButton];
     [self applySafeAreaConstraintsToCloseButton:self.closeButton];
     [self.webView layoutIfNeeded];
+    _hasBeenDismissed = NO;
+    [self dispatchTimerForDismiss:7.0];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [self dispatchTimerForDismiss:7.0];
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self.closeButton removeFromSuperview];
+    [self setCloseButton:nil];
+    [self.webView stopLoading];
+    [self.webView removeFromSuperview];
+    [self.webView setNavigationDelegate:nil];
+    [self setWebView:nil];
+    [self.interstitial setIsAdLoaded:NO];
 }
 
 - (void)initCloseButton {
     self.closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.closeButton addTarget:self action:@selector(dismissViewController) forControlEvents:UIControlEventTouchUpInside];
+    [self.closeButton addTarget:self action:@selector(closeButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     CGRect circleBounds = CGRectMake(10, 10, 25, 25);
     [self.closeButton.layer addSublayer:[self circleLayerInBounds:circleBounds]];
     [self.closeButton.layer addSublayer:[self xLayerInBounds:circleBounds]];
@@ -90,31 +103,33 @@
     return xLayer;
 }
 
+- (void)closeButtonPressed {
+    dispatch_block_cancel(self.timeoutDismissBlock);
+    self.timeoutDismissBlock = nil;
+    [self dismissViewController];
+}
+
 - (void)dismissViewController {
+    // In the unlikely event that this is called by both closeButtonPressed and timeoutDismissBlock
+    @synchronized(self) {
+        if (_hasBeenDismissed) {
+            return;
+        }
+        _hasBeenDismissed = YES;
+    }
     dispatch_async(dispatch_get_main_queue(), ^{
-        if([self.interstitial.delegate respondsToSelector:@selector(interstitialWillDisappear:)]) {
+        if ([self.interstitial.delegate respondsToSelector:@selector(interstitialWillDisappear:)]) {
             [self.interstitial.delegate interstitialWillDisappear:self.interstitial];
         }
     });
     [self.presentingViewController dismissViewControllerAnimated:YES
                                                       completion:^{
                                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                                              [self releaseWebView];
                                                               if([self.interstitial.delegate respondsToSelector:@selector(interstitialDidDisappear:)]) {
                                                                   [self.interstitial.delegate interstitialDidDisappear:self.interstitial];
                                                               }
                                                           });
                                                       }];
-}
-
-- (void)releaseWebView {
-    [self.closeButton removeFromSuperview];
-    [self setCloseButton:nil];
-    [self.webView stopLoading];
-    [self.webView removeFromSuperview];
-    [self.webView setNavigationDelegate:nil];
-    [self setWebView:nil];
-    [self.interstitial setIsAdLoaded:NO];
 }
 
 - (void)applySafeAreaConstraintsToWebView:(WKWebView *)webView {
@@ -141,11 +156,13 @@
 
 - (void)dispatchTimerForDismiss:(double) timeInSeconds {
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timeInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        if ([self presentingViewController]){
-            [self dismissViewController];
+    CR_InterstitialViewController * __weak weakSelf = self;
+    self.timeoutDismissBlock = dispatch_block_create(0, ^(void) {
+        if (weakSelf.presentingViewController != nil) {
+            [weakSelf dismissViewController];
         }
     });
+    dispatch_after(popTime, dispatch_get_main_queue(), self.timeoutDismissBlock);
 }
 
 @end
