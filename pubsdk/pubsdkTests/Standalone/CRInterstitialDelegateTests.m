@@ -131,7 +131,7 @@
     interstitial.delegate = mockInterstitialDelegate;
     OCMExpect([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
     OCMExpect([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
-    OCMStub([mockWebView loadHTMLString:[self htmlString] baseURL:[NSURL URLWithString:@"about:blank"]]).andDo(^(NSInvocation* args) {
+    OCMStub([mockWebView loadHTMLString:[self htmlString] baseURL:[NSURL URLWithString:@"https://criteo.com"]]).andDo(^(NSInvocation* args) {
         [interstitial webView:mockWebView decidePolicyForNavigationResponse:[self validNavigationResponse] decisionHandler:^(WKNavigationResponsePolicy policy) {
 
         }];
@@ -249,7 +249,7 @@
     OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
                                                       screenSize:[CR_DeviceInfo getScreenSize]]).andReturn([self expectedCacheAdUnit]);
     OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([self bidWithDisplayURL:@"test"]);
-    OCMStub([mockWebView loadHTMLString:[self htmlString] baseURL:[NSURL URLWithString:@"about:blank"]]).andDo(^(NSInvocation* args) {
+    OCMStub([mockWebView loadHTMLString:[self htmlString] baseURL:[NSURL URLWithString:@"https://criteo.com"]]).andDo(^(NSInvocation* args) {
         [interstitial webView:mockWebView decidePolicyForNavigationResponse:[self validNavigationResponse] decisionHandler:^(WKNavigationResponsePolicy policy) {
 
         }];
@@ -672,7 +672,7 @@
     OCMReject([mockInterstitialDelegate interstitial:interstitial didFailToReceiveAdWithError:[OCMArg any]]);
     OCMReject([mockInterstitialDelegate interstitial:interstitial didFailToReceiveAdContentWithError:[OCMArg any]]);
 
-    OCMStub([mockWebView loadHTMLString:[self htmlString] baseURL:[NSURL URLWithString:@"about:blank"]]).andDo(^(NSInvocation* args) {
+    OCMStub([mockWebView loadHTMLString:[self htmlString] baseURL:[NSURL URLWithString:@"https://criteo.com"]]).andDo(^(NSInvocation* args) {
         [interstitial webView:mockWebView decidePolicyForNavigationResponse:[self validNavigationResponse]
               decisionHandler:^(WKNavigationResponsePolicy policy) {}];
     }).andDo(^(NSInvocation* args) {
@@ -713,7 +713,7 @@
     NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNetworkError description:@"Ad request failed due to network error"];
     OCMStub([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:expectedError]);
-    OCMStub([mockWebView loadHTMLString:[self htmlString] baseURL:[NSURL URLWithString:@"about:blank"]]).andDo(^(NSInvocation* args) {
+    OCMStub([mockWebView loadHTMLString:[self htmlString] baseURL:[NSURL URLWithString:@"https://criteo.com"]]).andDo(^(NSInvocation* args) {
         [interstitial webView:mockWebView decidePolicyForNavigationResponse:[self invalidNavigationResponse] decisionHandler:^(WKNavigationResponsePolicy policy) {
 
         }];

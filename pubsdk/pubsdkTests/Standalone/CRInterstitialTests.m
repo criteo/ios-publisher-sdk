@@ -88,7 +88,7 @@
     [interstitial loadAd];
 
     XCTAssertTrue([mockWebView.loadedHTMLString containsString:@"<script src=\"test\"></script>"]);
-    XCTAssertEqualObjects([NSURL URLWithString:@"about:blank"],mockWebView.loadedBaseURL);
+    XCTAssertEqualObjects([NSURL URLWithString:@"https://criteo.com"],mockWebView.loadedBaseURL);
 }
 
 - (void)testTemplatingFromConfig {

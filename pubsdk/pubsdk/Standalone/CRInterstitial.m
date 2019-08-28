@@ -96,7 +96,7 @@
 
     NSString *htmlString = [[config.adTagUrlMode stringByReplacingOccurrencesOfString:config.viewportWidthMacro withString:viewportWidth] stringByReplacingOccurrencesOfString:config.displayURLMacro withString:displayURL];
 
-    [self.viewController.webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"about:blank"]];
+    [self.viewController.webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"https://criteo.com"]];
 }
 
 - (void)dispatchDidReceiveAdDelegate {
