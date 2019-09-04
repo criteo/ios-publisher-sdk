@@ -22,8 +22,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern BOOL isRegistered;
-
 @interface CRCriteoAdapterConfiguration : MPBaseAdapterConfiguration
 
 @property (nonatomic, copy, readonly) NSString * adapterVersion;
