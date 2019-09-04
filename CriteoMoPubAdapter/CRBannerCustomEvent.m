@@ -37,7 +37,7 @@
     if (![CRCustomEventHelper checkValidInfo:info]) {
         if ([self.delegate respondsToSelector:@selector(bannerCustomEvent:didFailToLoadAdWithError:)]) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                NSString *errorDescription = [NSString stringWithFormat:@"MoPub Banner ad request failed due to invalid server parameters."];
+                NSString *errorDescription = [NSString stringWithFormat:@"Criteo Banner ad request failed due to invalid server parameters."];
                 [self.delegate bannerCustomEvent:self didFailToLoadAdWithError:[NSError errorWithCode:MOPUBErrorServerError localizedDescription:errorDescription]];
             });
         }
@@ -63,7 +63,7 @@
 
 - (void) banner:(CRBannerView *)bannerView didFailToReceiveAdWithError:(NSError *)error {
     if ([self.delegate respondsToSelector:@selector(bannerCustomEvent:didFailToLoadAdWithError:)]) {
-        NSString *errorDescription = [NSString stringWithFormat:@"MoPub Banner failed to load with error: %@", error.localizedDescription];
+        NSString *errorDescription = [NSString stringWithFormat:@"Criteo Banner failed to load with error: %@", error.localizedDescription];
         NSError *mopubError = [NSError errorWithCode:MOPUBErrorAdapterFailedToLoadAd localizedDescription:errorDescription];
         [self.delegate bannerCustomEvent:self didFailToLoadAdWithError:mopubError];
     }

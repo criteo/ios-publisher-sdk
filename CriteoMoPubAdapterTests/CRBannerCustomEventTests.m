@@ -75,7 +75,7 @@
     CRBannerCustomEvent *bannerCustomEvent = [[CRBannerCustomEvent alloc] init];
     id mockBannerCustomEventDelegate = OCMStrictProtocolMock(@protocol(MPBannerCustomEventDelegate));
     bannerCustomEvent.delegate = mockBannerCustomEventDelegate;
-    NSString *expectedErrorDescription = [NSString stringWithFormat:@"MoPub Banner ad request failed due to invalid server parameters."];
+    NSString *expectedErrorDescription = [NSString stringWithFormat:@"Criteo Banner ad request failed due to invalid server parameters."];
     OCMExpect([mockBannerCustomEventDelegate bannerCustomEvent:bannerCustomEvent didFailToLoadAdWithError:[NSError errorWithCode:MOPUBErrorServerError localizedDescription:expectedErrorDescription]]);
     [bannerCustomEvent requestAdWithSize:CGSizeMake(320.0, 50.0) customEventInfo:invalidInfo];
     OCMVerifyAllWithDelay(mockBannerCustomEventDelegate, 2);
@@ -128,7 +128,7 @@
     id mockBannerView = OCMClassMock([CRBannerView class]);
     CRBannerCustomEvent *bannerCustomEvent = [[CRBannerCustomEvent alloc] initWithBannerView:mockBannerView];
     NSError *expectedCriteoError = [NSError errorWithCode:1];
-    NSString *errorDescription = [NSString stringWithFormat:@"MoPub Banner failed to load with error: %@", expectedCriteoError.localizedDescription];
+    NSString *errorDescription = [NSString stringWithFormat:@"Criteo Banner failed to load with error: %@", expectedCriteoError.localizedDescription];
     NSError *expectedMopubError = [NSError errorWithCode:MOPUBErrorAdapterFailedToLoadAd localizedDescription:errorDescription];
 
     id mockBannerCustomEventDelegate = OCMStrictProtocolMock(@protocol(MPBannerCustomEventDelegate));
