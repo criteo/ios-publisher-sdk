@@ -87,7 +87,9 @@
 - (void)testRequestBannerAdFail {
     CRBannerCustomEvent *customEvent = [CRBannerCustomEvent new];
     id mockGADBannerDelegate = OCMStrictProtocolMock(@protocol(GADCustomEventBannerDelegate));
-    OCMExpect([mockGADBannerDelegate customEventBanner:customEvent didFailAd:[OCMArg any]]);
+    OCMExpect([mockGADBannerDelegate customEventBanner:customEvent didFailAd:[NSError errorWithDomain:kGADErrorDomain
+                                                                                                 code:kGADErrorInvalidArgument
+                                                                                             userInfo:nil]]);
     NSString *invalid = @"{\"cpIDD\":\"testCpId\"}";
     customEvent.delegate = mockGADBannerDelegate;
     GADCustomEventRequest *request = [GADCustomEventRequest new];

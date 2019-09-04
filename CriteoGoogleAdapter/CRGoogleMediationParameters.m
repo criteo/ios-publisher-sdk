@@ -22,7 +22,7 @@ static NSString * const criteoGoogleMediationAdUnitIdKey = @"adUnitId";
 
 static void setJSONParsingError(NSError **error) {
     if (error != nil) {
-        *error = [NSError errorWithDomain:CRErrorDomain code:kGADErrorInvalidArgument userInfo:nil];
+        *error = [NSError errorWithDomain:kGADErrorDomain code:kGADErrorInvalidArgument userInfo:nil];
     }
 }
 

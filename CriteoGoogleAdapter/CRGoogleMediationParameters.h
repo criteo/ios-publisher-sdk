@@ -19,8 +19,6 @@
 
 #import <Foundation/Foundation.h>
 
-static NSString * _Nonnull const CRErrorDomain = @"com.criteo.pubsdk";
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CRGoogleMediationParameters : NSObject

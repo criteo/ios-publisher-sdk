@@ -58,7 +58,7 @@
 - (void)testCustomEventDelegateFailWhenParametersIsNil {
     CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
     id mockGADInterstitialDelegate = OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
-    OCMExpect([mockGADInterstitialDelegate customEventInterstitial:customEvent didFailAd:[NSError errorWithDomain:@"com.criteo.pubsdk"
+    OCMExpect([mockGADInterstitialDelegate customEventInterstitial:customEvent didFailAd:[NSError errorWithDomain:kGADErrorDomain
                                                                                                              code:kGADErrorInvalidArgument
                                                                                                          userInfo:nil]]);
     NSString *invalidServerParameter = @"{\"cpIDD\":\"testCpId\"}";
