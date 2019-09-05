@@ -24,7 +24,7 @@
     CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"a_test_placement" size:adSize];
     CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:adUnit.adUnitId cpm:@"0.0312" currency:@"USD" width:@(adUnit.size.width) height:@(adUnit.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date]];
 
-    [cache setBid:testBid forAdUnit:adUnit];
+    [cache setBid:testBid];
     CR_CdbBid *retreivedBid = [cache getBidForAdUnit:adUnit];
     XCTAssertNotNil(retreivedBid);
     XCTAssertEqualObjects(adUnit.adUnitId, retreivedBid.placementId);

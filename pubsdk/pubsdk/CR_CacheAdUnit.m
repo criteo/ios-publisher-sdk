@@ -24,8 +24,8 @@
         _adUnitId = adUnitId;
         _size = size;
         // to get rid of the decimal point
-        NSUInteger width = floor(size.width);
-        NSUInteger height = floor(size.height);
+        NSUInteger width = roundf(size.width);
+        NSUInteger height = roundf(size.height);
         _hash = [[NSString stringWithFormat:@"%@_x_%lu_x_%lu", _adUnitId, (unsigned long)width, (unsigned long)height] hash];
     }
     return self;
@@ -48,6 +48,10 @@
     }
     CR_CacheAdUnit *obj = (CR_CacheAdUnit *) object;
     return self.hash == obj.hash;
+}
+
+- (BOOL) isValid {
+    return self.adUnitId.length > 0 && roundf(self.size.width) > 0 && roundf(self.size.height) > 0;
 }
 
 - (instancetype) copyWithZone:(NSZone *)zone {

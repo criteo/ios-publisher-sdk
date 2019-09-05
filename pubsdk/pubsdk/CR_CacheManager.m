@@ -24,14 +24,17 @@
     }
 }
 
-- (void) setBid: (CR_CdbBid *) bid
-      forAdUnit: (CR_CacheAdUnit *) adUnit {
+- (void) setBid: (CR_CdbBid *) bid {
+    if (!bid) { return; }
+    CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:bid.placementId
+                                                                width:bid.width.floatValue
+                                                               height:bid.height.floatValue];
+    if (!adUnit.isValid) {
+        CLog(@"Cache update failed because adUnit was not valid. bid:  %@", bid);
+        return;
+    }
     @synchronized (_bidCache) {
-        if(adUnit) {
-            _bidCache[adUnit] = bid;
-        } else {
-            CLog(@"Cache update failed because adUnit was nil. bid:  %@", bid);
-        }
+        _bidCache[adUnit] = bid;
     }
 }
 

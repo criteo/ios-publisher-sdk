@@ -153,7 +153,7 @@
                                                 timeIntervalSinceReferenceDate];
                  }
                  for(CR_CdbBid *bid in cdbResponse.cdbBids) {
-                     [self->cacheManager setBid:bid forAdUnit:slotId];
+                     [self->cacheManager setBid:bid];
                  }
              }];
     }];

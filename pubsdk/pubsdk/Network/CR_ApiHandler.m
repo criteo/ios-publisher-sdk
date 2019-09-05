@@ -47,14 +47,11 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
                config:(CR_Config *)config
            deviceInfo:(CR_DeviceInfo *)deviceInfo
  ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
-    if(adUnit.adUnitId.length == 0 ||
-       adUnit.size.width == 0.0f ||
-       adUnit.size.height == 0.0f) {
-        CLog(@"AdUnit is missing one of the following required values adUnitId = %@, width = %f, height = %f"
-             , adUnit.adUnitId, adUnit.size.width, adUnit.size.height);
-        ahCdbResponseHandler(nil);
+    if (!adUnit.isValid) {
+        CLog(@"AdUnit is missing one of the following required values adUnitId = %@, width = %f, height = %f",
+             adUnit.adUnitId, adUnit.size.width, adUnit.size.height);
+        return;
     }
-
     if (![self.bidFetchTracker trySetBidFetchInProgressForAdUnit:adUnit]) {
         return;
     }

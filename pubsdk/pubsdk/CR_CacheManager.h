@@ -19,8 +19,7 @@
 
 - (void) initSlots: (NSArray<CR_CacheAdUnit*> *) slotIds;
 
-- (void) setBid: (CR_CdbBid *) bid
-      forAdUnit: (CR_CacheAdUnit *) adUnit;
+- (void) setBid: (CR_CdbBid *) bid;
 
 - (CR_CdbBid *) getBidForAdUnit: (CR_CacheAdUnit *) adUnit;
 

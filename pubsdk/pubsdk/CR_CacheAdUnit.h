@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic) NSString *adUnitId;
 @property (readonly, nonatomic) CGSize size;
 @property (readonly) NSUInteger hash;
+@property (readonly, nonatomic) BOOL isValid;
 
 - (BOOL) isEqual:(id) object;
 

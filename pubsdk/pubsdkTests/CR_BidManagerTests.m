@@ -211,7 +211,7 @@
     CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
 
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
-    [cache setBid:testBid_1 forAdUnit:slot_1];
+    [cache setBid:testBid_1];
 
     NSDictionary *testDfpCustomTargeting = [NSDictionary dictionaryWithObjectsAndKeys:@"object 1", @"key_1", @"object_2", @"key_2", nil];
 
@@ -241,7 +241,7 @@
     CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
     CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
-    [cache setBid:testBid_1 forAdUnit:slot_1];
+    [cache setBid:testBid_1];
 
     // DFPRequest test
     CR_BidManager *bidManagerDFP = [[CR_BidManager alloc] initWithApiHandler:nil
@@ -263,7 +263,7 @@
 
     // DFPORequest test
     CR_CacheManager *cacheDFPO = [[CR_CacheManager alloc] init];
-    [cacheDFPO setBid:testBid_1 forAdUnit:slot_1];
+    [cacheDFPO setBid:testBid_1];
     CR_BidManager *bidManagerDFPO = [[CR_BidManager alloc] initWithApiHandler:nil
                                                                 cacheManager:cacheDFPO
                                                                   tokenCache:nil
@@ -282,7 +282,7 @@
 
     // DFPNRequest test
     CR_CacheManager *cacheDFPN = [[CR_CacheManager alloc] init];
-    [cacheDFPN setBid:testBid_1 forAdUnit:slot_1];
+    [cacheDFPN setBid:testBid_1];
     CR_BidManager *bidManagerDFPN = [[CR_BidManager alloc] initWithApiHandler:nil
                                                                  cacheManager:cacheDFPN
                                                                    tokenCache:nil
@@ -301,7 +301,7 @@
 
     // GADRequest test
     CR_CacheManager *cacheGAD = [[CR_CacheManager alloc] init];
-    [cacheGAD setBid:testBid_1 forAdUnit:slot_1];
+    [cacheGAD setBid:testBid_1];
     CR_BidManager *bidManagerGAD = [[CR_BidManager alloc] initWithApiHandler:nil
                                                                  cacheManager:cacheGAD
                                                                    tokenCache:nil
@@ -320,7 +320,7 @@
 
     // GADORequest test
     CR_CacheManager *cacheGADO = [[CR_CacheManager alloc] init];
-    [cacheGADO setBid:testBid_1 forAdUnit:slot_1];
+    [cacheGADO setBid:testBid_1];
     CR_BidManager *bidManagerGADO = [[CR_BidManager alloc] initWithApiHandler:nil
                                                                 cacheManager:cacheGADO
                                                                   tokenCache:nil
@@ -339,7 +339,7 @@
 
     // GADNRequest test
     CR_CacheManager *cacheGADN = [[CR_CacheManager alloc] init];
-    [cacheGADN setBid:testBid_1 forAdUnit:slot_1];
+    [cacheGADN setBid:testBid_1];
     CR_BidManager *bidManagerGADN = [[CR_BidManager alloc] initWithApiHandler:nil
                                                                  cacheManager:cacheGADN
                                                                    tokenCache:nil
@@ -363,7 +363,7 @@
     CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
 
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
-    [cache setBid:testBid_1 forAdUnit:slot_1];
+    [cache setBid:testBid_1];
 
     NSString *testMopubCustomTargeting = @"key1:object_1,key_2:object_2";
 
@@ -395,7 +395,7 @@
     CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
 
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
-    [cache setBid:testBid_1 forAdUnit:slot_1];
+    [cache setBid:testBid_1];
 
     NSString *testMopubCustomTargeting = @"key1:object_1,key_2:object_2";
 
@@ -433,8 +433,8 @@
     CR_CdbBid *testBid_2 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid2" cpm:@"2.29357205730" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"url_2" insertTime:[NSDate date]];
 
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
-    [cache setBid:testBid_1 forAdUnit:slot_1];
-    [cache setBid:testBid_2 forAdUnit:slot_2];
+    [cache setBid:testBid_1];
+    [cache setBid:testBid_2];
 
     NSString *testMopubCustomTargeting = @"key1:object_1,key_2:object_2";
 
@@ -476,7 +476,7 @@
     CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
     CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
-    [cache setBid:testBid_1 forAdUnit:slot_1];
+    [cache setBid:testBid_1];
     CR_Config *config = [[CR_Config alloc] initWithCriteoPublisherId:@("1234")];
 
     // DFPRequest test
@@ -504,7 +504,7 @@
     CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date]];
 
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
-    [cache setBid:testBid_1 forAdUnit:slot_1];
+    [cache setBid:testBid_1];
 
     NSDictionary *testDfpCustomTargeting = [NSDictionary dictionaryWithObjectsAndKeys:@"object 1", @"key_1", @"object_2", @"key_2", nil];
 
