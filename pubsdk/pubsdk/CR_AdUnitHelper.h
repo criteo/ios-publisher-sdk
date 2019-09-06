@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_AdUnitHelper : NSObject
 
-+ (NSArray<CR_CacheAdUnit *> *)cacheAdUnitsForAdUnits:(NSArray<CRAdUnit *> *)adUnits;
++ (CR_CacheAdUnitArray *)cacheAdUnitsForAdUnits:(NSArray<CRAdUnit *> *)adUnits;
 
 + (CR_CacheAdUnit *)cacheAdUnitForAdUnit:(CRAdUnit *)adUnit;
 

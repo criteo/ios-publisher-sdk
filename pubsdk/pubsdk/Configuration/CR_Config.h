@@ -15,21 +15,21 @@ static NSString * killSwitchKey = @"CRITEO_KillSwitch";
 
 @interface CR_Config : NSObject
 
-@property (strong, nonatomic, readonly) NSString *criteoPublisherId;
-@property (strong, nonatomic, readonly) NSNumber *profileId;
-@property (strong, nonatomic, readonly) NSString *cdbUrl;
-@property (strong, nonatomic, readonly) NSString *path;
-@property (strong, nonatomic, readonly) NSString *sdkVersion;
-@property (strong, nonatomic, readonly) NSString *appId;
+@property (copy, nonatomic, readonly) NSString *criteoPublisherId;
+@property (copy, nonatomic, readonly) NSNumber *profileId;
+@property (copy, nonatomic, readonly) NSString *cdbUrl;
+@property (copy, nonatomic, readonly) NSString *path;
+@property (copy, nonatomic, readonly) NSString *sdkVersion;
+@property (copy, nonatomic, readonly) NSString *appId;
 @property (nonatomic) BOOL killSwitch;
-@property (strong, nonatomic) NSString *adTagUrlMode;
-@property (strong, nonatomic) NSString *viewportWidthMacro;
-@property (strong, nonatomic) NSString *displayURLMacro;
-@property (strong, nonatomic, readonly) NSString *appEventsUrl;
-@property (strong, nonatomic, readonly) NSString *appEventsSenderId;
-@property (strong, nonatomic, readonly) NSString *deviceModel;
-@property (strong, nonatomic, readonly) NSString *osVersion;
-@property (strong, nonatomic, readonly) NSString *deviceOs;
+@property (copy, nonatomic) NSString *adTagUrlMode;
+@property (copy, nonatomic) NSString *viewportWidthMacro;
+@property (copy, nonatomic) NSString *displayURLMacro;
+@property (copy, nonatomic, readonly) NSString *appEventsUrl;
+@property (copy, nonatomic, readonly) NSString *appEventsSenderId;
+@property (copy, nonatomic, readonly) NSString *deviceModel;
+@property (copy, nonatomic, readonly) NSString *osVersion;
+@property (copy, nonatomic, readonly) NSString *deviceOs;
 
 - (instancetype) initWithCriteoPublisherId:(NSString *) criteoPublisherId
 NS_DESIGNATED_INITIALIZER;

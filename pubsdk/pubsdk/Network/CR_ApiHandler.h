@@ -33,11 +33,11 @@ typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receiv
  * Calls CDB and get the bid & creative for the adUnit
  * adUnit must have an Id, width and length
  */
-- (void) callCdb: (CR_CacheAdUnit *) adUnit
-     gdprConsent:(CR_GdprUserConsent *) gdprConsent
-          config:(CR_Config *) config
-      deviceInfo:(CR_DeviceInfo *) deviceInfo
-ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler;
+- (void) callCdb:(CR_CacheAdUnitArray *)adUnits
+     gdprConsent:(CR_GdprUserConsent *)gdprConsent
+          config:(CR_Config *)config
+      deviceInfo:(CR_DeviceInfo *)deviceInfo
+ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler;
 
 /*
  * Calls the pub-sdk config endpoint and gets the config values for the publisher
@@ -54,6 +54,15 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler;
                config:(CR_Config *) config
            deviceInfo:(CR_DeviceInfo *) deviceInfo
        ahEventHandler:(AHAppEventsResponse) ahEventHandler;
+
+/*
+ * Exposed for testing only
+ */
+- (CR_CacheAdUnitArray *)filterRequestAdUnitsAndSetProgressFlags:(CR_CacheAdUnitArray *)adUnits;
+- (NSMutableDictionary *)postBodyWithGdprConsent:(CR_GdprUserConsent *)gdprConsent
+                                          config:(CR_Config *)config
+                                      deviceInfo:(CR_DeviceInfo *)deviceInfo;
+- (NSArray *)slotsForRequest:(CR_CacheAdUnitArray *)adUnits;
 
 @end
 

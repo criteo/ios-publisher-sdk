@@ -70,7 +70,7 @@
                               [NSArray arrayWithObjects:
                                [NSDictionary dictionaryWithObjectsAndKeys:
                                 placementId,         @"placementId",                               // The adunit id provided in the request
-                                [NSArray arrayWithObjects:[adUnit cdbSize], nil], @"sizes",
+                                [NSArray arrayWithObjects:adUnit.cdbSize, nil], @"sizes",
                                 nil],
                                nil], @"slots",
                               nil];

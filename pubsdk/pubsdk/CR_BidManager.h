@@ -44,16 +44,18 @@
 NS_DESIGNATED_INITIALIZER;
 
 
-- (void) setSlots: (NSArray<CR_CacheAdUnit*> *) slots;
+- (void) setSlots: (CR_CacheAdUnitArray *) slots;
 
-- (NSDictionary *) getBids: (NSArray<CR_CacheAdUnit*> *) slots;
+- (NSDictionary *) getBids: (CR_CacheAdUnitArray *) slots;
 
 - (CR_CdbBid *) getBid: (CR_CacheAdUnit *) slot;
 
 - (CRBidResponse *)bidResponseForCacheAdUnit:(CR_CacheAdUnit *)cacheAdUnit
                                   adUnitType:(CRAdUnitType)adUnitType;
 
-- (void) prefetchBid: (CR_CacheAdUnit *) slotId;
+- (void) prefetchBid:(CR_CacheAdUnit *) adUnit;
+
+- (void) prefetchBids:(CR_CacheAdUnitArray *) adUnits;
 
 - (void) addCriteoBidToRequest:(id) adRequest
                      forAdUnit:(CR_CacheAdUnit *) adUnit;

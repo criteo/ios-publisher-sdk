@@ -32,7 +32,7 @@ static const CGSize supportedInterstitialSizes[] = {
 }
 
 // return an array as interstitial will return two cache adUnits for both orientations
-+ (NSArray<CR_CacheAdUnit *> *)cacheAdUnitsForAdUnits:(NSArray<CRAdUnit *> *)adUnits {
++ (CR_CacheAdUnitArray *)cacheAdUnitsForAdUnits:(NSArray<CRAdUnit *> *)adUnits {
     NSMutableArray<CR_CacheAdUnit *> *cacheAdUnits = [NSMutableArray new];
     for(int i = 0; i < [adUnits count]; i++) {
         switch([adUnits[i] adUnitType]) {

@@ -9,6 +9,10 @@
 #import <WebKit/WebKit.h>
 #import "CR_ApiHandler.h"
 #import "Logging.h"
+#import "NSArray+Additions.h"
+
+// 8 is suggested by Jean Sebastien Faure as a reasonable group size for CDB calls
+static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 
 @implementation CR_ApiHandler
 
@@ -26,14 +30,76 @@
     return self;
 }
 
+// Filter out bad ad units, or ones that are already being fetched. The ones that pass have their "BidFetchInProgress"
+// flags set in bidFetchTracker.
+- (CR_CacheAdUnitArray *)filterRequestAdUnitsAndSetProgressFlags:(CR_CacheAdUnitArray *)adUnits {
+    MutableCR_CacheAdUnitArray *requestAdUnits = [MutableCR_CacheAdUnitArray new];
+    for (CR_CacheAdUnit *adUnit in adUnits) {
+        if (adUnit.isValid) {
+            if ([self.bidFetchTracker trySetBidFetchInProgressForAdUnit:adUnit]) {
+                [requestAdUnits addObject:adUnit];
+            }
+        } else {
+            CLog(@"AdUnit is missing one of the following required values adUnitId = %@, width = %f, height = %f",
+                 adUnit.adUnitId, adUnit.size.width, adUnit.size.height);
+        }
+    }
+    return requestAdUnits;
+}
+
+// Create the postBody dictionary for the CDB request
+- (NSMutableDictionary *)postBodyWithGdprConsent:(CR_GdprUserConsent *)gdprConsent
+                                          config:(CR_Config *)config
+                                      deviceInfo:(CR_DeviceInfo *)deviceInfo {
+    NSMutableDictionary *postBody = [NSMutableDictionary new];
+    postBody[@"sdkVersion"] = config.sdkVersion;
+    postBody[@"profileId"]  = config.profileId;
+
+    NSMutableDictionary *userDict = [NSMutableDictionary new];
+    userDict[@"deviceModel"]  = config.deviceModel;
+    userDict[@"deviceOs"]     = config.deviceOs;
+    userDict[@"deviceId"]     = deviceInfo.deviceId;
+    userDict[@"userAgent"]    = deviceInfo.userAgent;
+    userDict[@"deviceIdType"] = @"IDFA";
+    postBody[@"user"] = userDict;
+
+    NSMutableDictionary *publisherDict = [NSMutableDictionary new];
+    publisherDict[@"bundleId"] = config.appId;
+    publisherDict[@"cpId"]     = config.criteoPublisherId;
+    postBody[@"publisher"] = publisherDict;
+
+    //iff gdpr consent value is set, pass it as a gdpr object. Else don't pass blank
+    if (gdprConsent && gdprConsent.consentString) {
+        NSMutableDictionary *gdprDict = [NSMutableDictionary new];
+        gdprDict[@"consentData"]  = gdprConsent.consentString;
+        gdprDict[@"gdprApplies"]  = @(gdprConsent.gdprApplies);
+        gdprDict[@"consentGiven"] = @(gdprConsent.consentGiven);
+        postBody[@"gdprConsent"]  = gdprDict;
+    }
+
+    return postBody;
+}
+
+// Create the slots for the CDB request
+- (NSArray *)slotsForRequest:(CR_CacheAdUnitArray *)adUnits {
+    NSMutableArray *slots = [NSMutableArray new];
+    for (CR_CacheAdUnit *adUnit in adUnits) {
+        NSMutableDictionary *slotDict = [NSMutableDictionary new];
+        slotDict[@"placementId"] = adUnit.adUnitId;
+        slotDict[@"sizes"] = @[adUnit.cdbSize];
+        [slots addObject:slotDict];
+    }
+    return slots;
+}
+
 // Wrapper method to make the cdb call async
-- (void)     callCdb:(CR_CacheAdUnit *) adUnit
+- (void)     callCdb:(CR_CacheAdUnitArray *)adUnits
          gdprConsent:(CR_GdprUserConsent *)gdprConsent
               config:(CR_Config *)config
           deviceInfo:(CR_DeviceInfo *)deviceInfo
-ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
+ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self doCdbApiCall:adUnit
+        [self doCdbApiCall:adUnits
                gdprConsent:gdprConsent
                     config:config
                 deviceInfo:deviceInfo
@@ -42,77 +108,52 @@ ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
 }
 
 // Method that makes the actual call to CDB
-- (void) doCdbApiCall:(CR_CacheAdUnit *) adUnit
+- (void) doCdbApiCall:(CR_CacheAdUnitArray *)adUnits
           gdprConsent:(CR_GdprUserConsent *)gdprConsent
                config:(CR_Config *)config
            deviceInfo:(CR_DeviceInfo *)deviceInfo
- ahCdbResponseHandler: (AHCdbResponse) ahCdbResponseHandler {
-    if (!adUnit.isValid) {
-        CLog(@"AdUnit is missing one of the following required values adUnitId = %@, width = %f, height = %f",
-             adUnit.adUnitId, adUnit.size.width, adUnit.size.height);
+ ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler {
+
+    CR_CacheAdUnitArray *requestAdUnits = [self filterRequestAdUnitsAndSetProgressFlags:adUnits];
+    if (requestAdUnits.count == 0) {
         return;
     }
-    if (![self.bidFetchTracker trySetBidFetchInProgressForAdUnit:adUnit]) {
-        return;
-    }
-
-    NSMutableDictionary    *postBody = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                              [NSDictionary dictionaryWithObjectsAndKeys:
-                               [deviceInfo deviceId], @"deviceId",                            //The ID that uniquely identifies a device (IDFA, GAID or Hashed Android ID)
-                               @"IDFA",               @"deviceIdType",                        // The device type. This parameter can only have two values: IDFA or GAID
-                               [config deviceModel],  @"deviceModel",
-                               [config deviceOs],     @"deviceOs",                            // The operating system of the device.
-                               [deviceInfo userAgent],@"userAgent",
-                               nil], @"user",
-
-                              [NSDictionary dictionaryWithObjectsAndKeys:
-                               [config appId],     @"bundleId",   // The bundle ID identifying the app
-                               [config criteoPublisherId], @"cpId",
-                               nil], @"publisher",
-
-                              [config sdkVersion], @"sdkVersion",
-                              [config profileId], @"profileId",
-
-                              [NSArray arrayWithObjects:
-                               [NSDictionary dictionaryWithObjectsAndKeys:
-                                adUnit.adUnitId,         @"placementId",                   // The adunit id provided in the request
-                                [NSArray arrayWithObjects:[adUnit cdbSize], nil], @"sizes",
-                                nil],
-                               nil], @"slots",
-                              nil];
-
-                              //iff gdpr consent value is set, pass it as a gdpr object. Else don't pass blank
-                              if(gdprConsent && gdprConsent.consentString){
-                                  postBody[@"gdprConsent"] = [NSDictionary dictionaryWithObjectsAndKeys:
-                                         gdprConsent.consentString, @"consentData",
-                                         @(gdprConsent.gdprApplies), @"gdprApplies",
-                                         @(gdprConsent.consentGiven), @"consentGiven", nil];
-                              }
-
+    NSArray<CR_CacheAdUnitArray *> *adUnitChunks = [requestAdUnits splitIntoChunks:maxAdUnitsPerCdbRequest];
+    NSMutableDictionary *postBody = [self postBodyWithGdprConsent:gdprConsent
+                                                           config:config
+                                                       deviceInfo:deviceInfo];
     NSString *query = [NSString stringWithFormat:@"profileId=%@", [config profileId]];
     NSString *urlString = [NSString stringWithFormat:@"%@/%@?%@", [config cdbUrl], [config path], query];
     NSURL *url = [NSURL URLWithString: urlString];
 
-    [self.networkManager postToUrl:url postBody:postBody responseHandler:^(NSData *data, NSError *error) {
-        if(error == nil) {
-            if(data && ahCdbResponseHandler) {
-                CR_CdbResponse *cdbResponse = [CR_CdbResponse getCdbResponseForData:data receivedAt:[NSDate date]];
-                ahCdbResponseHandler(cdbResponse);
+    for (CR_CacheAdUnitArray *adUnitChunk in adUnitChunks) {
+
+        // Set up the request for this chunk
+        postBody[@"slots"] = [self slotsForRequest:adUnitChunk];
+
+        // Send the request
+        [self.networkManager postToUrl:url postBody:postBody responseHandler:^(NSData *data, NSError *error) {
+            if (error == nil) {
+                if (data && ahCdbResponseHandler) {
+                    CR_CdbResponse *cdbResponse = [CR_CdbResponse getCdbResponseForData:data receivedAt:[NSDate date]];
+                    ahCdbResponseHandler(cdbResponse);
+                } else {
+                    CLog(@"Error on post to CDB : response from CDB was nil");
+                }
             } else {
-                CLog(@"Error on post to CDB : response from CDB was nil");
+                CLog(@"Error on post to CDB : %@", error);
             }
-        } else {
-            CLog(@"Error on post to CDB : %@", error);
-        }
-        [self.bidFetchTracker clearBidFetchInProgressForAdUnit:adUnit];
-    }];
+            for (CR_CacheAdUnit *adUnit in adUnitChunk) {
+                [self.bidFetchTracker clearBidFetchInProgressForAdUnit:adUnit];
+            }
+        }];
+    }
 }
 
 - (void) getConfig:(CR_Config *) config
    ahConfigHandler:(AHConfigResponse) ahConfigHandler {
     if(![config criteoPublisherId] || [config sdkVersion].length == 0 || [config appId].length == 0) {
-        CLog(@"Config is is missing one of the following required values criteoPublisherId = %@, sdkVersion = %@, appId = %@ "
-             , [config criteoPublisherId], [config sdkVersion], [config appId]);
+        CLog(@"Config is is missing one of the following required values criteoPublisherId = %@, sdkVersion = %@, appId = %@", [config criteoPublisherId], [config sdkVersion], [config appId]);
         if(ahConfigHandler) {
             ahConfigHandler(nil);
         }

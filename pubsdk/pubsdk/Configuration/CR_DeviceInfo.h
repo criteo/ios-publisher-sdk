@@ -13,8 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_DeviceInfo : NSObject
 
-@property (atomic, strong) NSString *userAgent;
-@property (nonatomic, readonly) NSString *deviceId;
+@property (copy, atomic) NSString *userAgent;
+@property (copy, nonatomic, readonly) NSString *deviceId;
 
 - (instancetype)initWithWKWebView:(WKWebView *)wkWebView uiWebView:(UIWebView * _Nullable)uiWebView;
 - (void)waitForUserAgent:(void (^ _Nullable)(void))completion;

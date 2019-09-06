@@ -78,11 +78,11 @@
     return self;
 }
 
-- (void) setSlots: (NSArray<CR_CacheAdUnit*> *) slots {
+- (void) setSlots: (CR_CacheAdUnitArray *) slots {
     [cacheManager initSlots:slots];
 }
 
-- (NSDictionary *) getBids: (NSArray<CR_CacheAdUnit*> *) slots {
+- (NSDictionary *) getBids: (CR_CacheAdUnitArray *) slots {
     NSMutableDictionary *bids = [[NSMutableDictionary alloc] init];
     for(CR_CacheAdUnit *slot in slots) {
         CR_CdbBid *bid = [self getBid:slot];
@@ -131,7 +131,12 @@
 }
 
 // TODO: Figure out a way to test this
-- (void) prefetchBid:(CR_CacheAdUnit *) slotId {
+
+- (void) prefetchBid:(CR_CacheAdUnit *) adUnit {
+    [self prefetchBids:@[adUnit]];
+}
+
+- (void) prefetchBids:(CR_CacheAdUnitArray *) adUnits {
     if(!config) {
         CLog(@"Config hasn't been fetched. So no bids will be fetched.");
         return;
@@ -143,7 +148,7 @@
     }
     
     [deviceInfo waitForUserAgent:^{
-        [self->apiHandler callCdb:slotId
+        [self->apiHandler callCdb:adUnits
                       gdprConsent:self->gdprUserConsent
                            config:self->config
                        deviceInfo:self->deviceInfo

@@ -70,8 +70,8 @@
     XCTAssertEqualObjects(testBid_2, bids[testAdUnit_2]);
     XCTAssertTrue([bids[unInitializedSlot] isEmpty]);
     // Only call [CR_ApiHandler callCdb] for registered Ad Units
-    OCMVerify([mockApiHandler callCdb:testAdUnit gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
-    OCMVerify([mockApiHandler callCdb:testAdUnit_2 gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMVerify([mockApiHandler callCdb:@[testAdUnit] gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMVerify([mockApiHandler callCdb:@[testAdUnit_2] gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
 }
 
 - (void) testGetBidForSlotThatHasntBeenFetchedFromCdb {
@@ -137,9 +137,9 @@
                                                                      timeToNextCall:-2];
 
     //make sure CDB call was invoked
-    OCMStub([mockApiHandler callCdb:unInitializedSlot gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMStub([mockApiHandler callCdb:@[unInitializedSlot] gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
     [bidManagerNotElapsed getBid:unInitializedSlot];
-    OCMVerify([mockApiHandler callCdb:unInitializedSlot gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMVerify([mockApiHandler callCdb:@[unInitializedSlot] gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
 }
 
 - (void)  testGetBidIfInitialPrefetchFromCdbFailsAndTimeNotElapsed {
@@ -175,7 +175,7 @@
                                                            timeToNextCall:INFINITY];
 
     //make sure CDB call was not invoked
-    OCMReject([mockApiHandler callCdb:unInitializedSlot gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMReject([mockApiHandler callCdb:@[unInitializedSlot] gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
     [bidManager getBid:unInitializedSlot];
 }
 
@@ -559,9 +559,9 @@
 
     id mockApiHandler = OCMClassMock([CR_ApiHandler class]);
     // NO calls should be made to [CR_ApiHandler callCdb]
-    OCMReject([mockApiHandler callCdb:testAdUnit gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
-    OCMReject([mockApiHandler callCdb:testAdUnit_2 gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
-    OCMReject([mockApiHandler callCdb:unInitializedSlot gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMReject([mockApiHandler callCdb:@[testAdUnit] gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMReject([mockApiHandler callCdb:@[testAdUnit_2] gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMReject([mockApiHandler callCdb:@[unInitializedSlot] gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
 
     CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:mockApiHandler
                                                              cacheManager:cache
@@ -603,7 +603,7 @@
     OCMStub([mockDeviceInfo waitForUserAgent:[OCMArg invokeBlock]]);
 
     id mockApiHandler = OCMClassMock([CR_ApiHandler class]);
-    OCMReject([mockApiHandler callCdb:testAdUnit gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMReject([mockApiHandler callCdb:@[testAdUnit] gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
 
     CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:mockApiHandler
                                                              cacheManager:cache
@@ -660,7 +660,7 @@
     XCTAssertTrue([bids[testAdUnit] isEmpty]);
 
     // Only call [CR_ApiHandler callCdb] for registered Ad Units
-    OCMVerify([mockApiHandler callCdb:testAdUnit gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMVerify([mockApiHandler callCdb:@[testAdUnit] gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
 }
 
 - (void)testBidResponseForEmptyBid {
@@ -772,7 +772,7 @@
     XCTAssertTrue([bids[testAdUnit] isEmpty]);
 
     // Only call [CR_ApiHandler callCdb] for registered Ad Units
-    OCMVerify([mockApiHandler callCdb:testAdUnit gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMVerify([mockApiHandler callCdb:@[testAdUnit] gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
 }
 
 - (void)testGetBidWhenBidExpired {

@@ -17,7 +17,7 @@
 
 @property (nonatomic, strong) NSMutableDictionary<CR_CacheAdUnit *, CR_CdbBid *> *bidCache;
 
-- (void) initSlots: (NSArray<CR_CacheAdUnit*> *) slotIds;
+- (void) initSlots: (CR_CacheAdUnitArray *) slotIds;
 
 - (void) setBid: (CR_CdbBid *) bid;
 
