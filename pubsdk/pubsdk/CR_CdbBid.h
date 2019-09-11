@@ -19,12 +19,13 @@
 @property (readonly, nonatomic) NSString *currency;
 @property (readonly, nonatomic) NSNumber *width;
 @property (readonly, nonatomic) NSNumber *height;
-@property (readonly, nonatomic) NSTimeInterval ttl;
+@property (readonly) NSTimeInterval ttl;
 @property (readonly, nonatomic) NSString *creative;
 @property (readonly, nonatomic) NSString *displayUrl;
 @property (readonly, nonatomic) NSString *dfpCompatibleDisplayUrl;
 @property (readonly, nonatomic) NSString *mopubCompatibleDisplayUrl;
 @property (readonly, nonatomic) NSDate *insertTime;
+@property (copy, nonatomic) NSString *nativeAssets; // This will change to CR_NativeAssets EE-492
 
 + (instancetype) emptyBid;
 

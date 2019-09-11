@@ -30,4 +30,22 @@
     XCTAssertEqualObjects(adUnit.adUnitId, retreivedBid.placementId);
 }
 
+- (void)testSetBidForNonNative {
+    CR_CacheManager *cacheManager = [CR_CacheManager new];
+    CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"a_test_placement" size:CGSizeMake(320, 50)];
+    CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:adUnit.adUnitId cpm:@"0.0312" currency:@"USD" width:@(adUnit.size.width) height:@(adUnit.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date]];
+    [cacheManager setBid:testBid];
+    XCTAssertTrue([[cacheManager getBidForAdUnit:adUnit] isEqual:testBid]);
+}
+
+// this test needs change when EE-492 is complete
+- (void)testSetBidForNative {
+    CR_CacheManager *cacheManager = [CR_CacheManager new];
+    CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"a_test_placement" size:CGSizeMake(320, 50) isNative:YES];
+    CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:adUnit.adUnitId cpm:@"0.0312" currency:@"USD" width:@(adUnit.size.width) height:@(adUnit.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date]];
+    testBid.nativeAssets = @"";
+    [cacheManager setBid:testBid];
+    XCTAssertTrue([[cacheManager getBidForAdUnit:adUnit] isEqual:testBid]);
+}
+
 @end
