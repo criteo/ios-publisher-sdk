@@ -16,10 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CRNativeAdUnit : CRAdUnit
 
 - (instancetype)initWithAdUnitId:(NSString *)adUnitId;
-
-- (NSUInteger) hash;
-- (BOOL)isEqual:(id)object;
-- (BOOL)isEqualToNativeAdUnit:(CRNativeAdUnit *)adUnit;
+- (BOOL)isEqualToNativeAdUnit:(CRNativeAdUnit *)other;
 
 @end
 

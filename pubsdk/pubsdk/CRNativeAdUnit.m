@@ -17,21 +17,16 @@
 }
 
 - (NSUInteger) hash {
-    return super.hash ^ (NSUInteger)11748390512345843219ull;
+    return self.adUnitId.hash ^ (NSUInteger)11748390512345843219ull;
 }
 
-- (BOOL)isEqual:(id)object {
-    if (self == object) {
-        return YES;
-    }
-    if (![object isKindOfClass:CRNativeAdUnit.class]) {
-        return NO;
-    }
-    return [self isEqualToNativeAdUnit:object];
+- (BOOL)isEqual:(id)other {
+    if (!other || ![other isMemberOfClass:CRNativeAdUnit.class]) { return NO; }
+    return [self isEqualToNativeAdUnit:(CRNativeAdUnit *)other];
 }
 
-- (BOOL) isEqualToNativeAdUnit:(CRNativeAdUnit *)adUnit {
-    return [adUnit isMemberOfClass:self.class] && [self isEqualToAdUnit:adUnit];
+- (BOOL)isEqualToNativeAdUnit:(CRNativeAdUnit *)other {
+    return [self.adUnitId isEqualToString:other.adUnitId];
 }
 
 @end

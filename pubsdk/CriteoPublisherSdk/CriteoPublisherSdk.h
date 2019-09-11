@@ -23,4 +23,5 @@ FOUNDATION_EXPORT const unsigned char CriteoPublisherSdkVersionString[];
 #import <CriteoPublisherSdk/CRInterstitial.h>
 #import <CriteoPublisherSdk/CRInterstitialAdUnit.h>
 #import <CriteoPublisherSdk/CRInterstitialDelegate.h>
+#import <CriteoPublisherSdk/CRNativeAdUnit.h>
 #import <CriteoPublisherSdk/Criteo.h>

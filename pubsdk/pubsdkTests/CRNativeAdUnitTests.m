@@ -37,6 +37,9 @@
     CRNativeAdUnit *adUnit1 = [[CRNativeAdUnit alloc] initWithAdUnitId:@"String1"];
     CRNativeAdUnit *adUnit2 = [[CRNativeAdUnit alloc] initWithAdUnitId:[@"Str" stringByAppendingString:@"ing1"]];
 
+    XCTAssert([adUnit1 isEqual:adUnit1]);
+    XCTAssert([adUnit2 isEqual:adUnit2]);
+
     XCTAssert([adUnit1 isEqual:adUnit2]);
     XCTAssert([adUnit2 isEqual:adUnit1]);
 
@@ -61,9 +64,6 @@
 
     XCTAssertFalse([adUnit1 isEqual:adUnit2]);
     XCTAssertFalse([adUnit2 isEqual:adUnit1]);
-
-    XCTAssertFalse([adUnit1 isEqualToNativeAdUnit:adUnit2]);
-    XCTAssertFalse([adUnit2 isEqualToNativeAdUnit:adUnit1]);
 
     XCTAssertNotEqualObjects(adUnit1, adUnit2);
 }
