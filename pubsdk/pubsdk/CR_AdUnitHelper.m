@@ -60,14 +60,12 @@ static const CGSize supportedInterstitialSizes[] = {
         case CRAdUnitTypeBanner:
             return [[CR_CacheAdUnit alloc] initWithAdUnitId:[adUnit adUnitId]
                                                       size:[(CRBannerAdUnit *)adUnit size]];
-            break;
         case CRAdUnitTypeInterstitial:
             return [CR_AdUnitHelper interstitialCacheAdUnitForAdUnitId:[adUnit adUnitId]
                                                             screenSize:[CR_DeviceInfo getScreenSize]];
-            break;
         default:
             CLog(@"cacheAdUnitsFromAdUnits got an unexpected AdUnitType: %d", [adUnit adUnitType]);
-            break;
+            return nil;
     }
 }
 // used by loadAd

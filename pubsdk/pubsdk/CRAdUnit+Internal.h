@@ -12,7 +12,8 @@
 // TODO: Make sure we only pass valid Enum values when initializing
 typedef NS_ENUM(NSInteger, CRAdUnitType) {
     CRAdUnitTypeInterstitial,
-    CRAdUnitTypeBanner
+    CRAdUnitTypeBanner,
+    CRAdUnitTypeNative
 };
 
 NS_ASSUME_NONNULL_BEGIN

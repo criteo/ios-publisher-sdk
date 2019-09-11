@@ -114,6 +114,11 @@
 		65E3A5732270CB7A004156E9 /* CR_InterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */; };
 		65E3A5742270CB7A004156E9 /* CR_InterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */; };
 		BB5361AECA2A9614E3B4A2C6 /* libPods-pubsdkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F187272CD050435F6D28BFA /* libPods-pubsdkTests.a */; };
+		DF367C86232971820044807B /* CRNativeAdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = DF367C84232971810044807B /* CRNativeAdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DF367C87232971820044807B /* CRNativeAdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = DF367C85232971810044807B /* CRNativeAdUnit.m */; };
+		DF367C892329725D0044807B /* CRNativeAdUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DF367C882329725D0044807B /* CRNativeAdUnitTests.m */; };
+		DF367C8A232974210044807B /* CRNativeAdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = DF367C84232971810044807B /* CRNativeAdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DF367C8B2329743C0044807B /* CRNativeAdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = DF367C85232971810044807B /* CRNativeAdUnit.m */; };
 		DF3E3D3B23232C80009E8CB5 /* NSArray+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = DF3E3D3923232C80009E8CB5 /* NSArray+Additions.m */; };
 		DF3E3D3D23233020009E8CB5 /* NSArray+AdditionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DF3E3D3C23233020009E8CB5 /* NSArray+AdditionsTests.m */; };
 		DF3E3D4123233936009E8CB5 /* NSArray+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = DF3E3D3923232C80009E8CB5 /* NSArray+Additions.m */; };
@@ -269,6 +274,9 @@
 		65E3A56F2270CB7A004156E9 /* CR_InterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_InterstitialViewController.h; sourceTree = "<group>"; };
 		65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_InterstitialViewController.m; sourceTree = "<group>"; };
 		6F187272CD050435F6D28BFA /* libPods-pubsdkTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pubsdkTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DF367C84232971810044807B /* CRNativeAdUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNativeAdUnit.h; sourceTree = "<group>"; };
+		DF367C85232971810044807B /* CRNativeAdUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdUnit.m; sourceTree = "<group>"; };
+		DF367C882329725D0044807B /* CRNativeAdUnitTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdUnitTests.m; sourceTree = "<group>"; };
 		DF3E3D3923232C80009E8CB5 /* NSArray+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Additions.m"; sourceTree = "<group>"; };
 		DF3E3D3C23233020009E8CB5 /* NSArray+AdditionsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+AdditionsTests.m"; sourceTree = "<group>"; };
 		DF3E3D3E23233809009E8CB5 /* NSArray+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+Additions.h"; sourceTree = "<group>"; };
@@ -575,17 +583,19 @@
 		E1F2736621B5F08D00A2FBFA /* pubsdk */ = {
 			isa = PBXGroup;
 			children = (
-				5397C0AB22A0A66D00BC72FE /* CR_CacheAdUnit.h */,
-				5397C0AC22A0A66E00BC72FE /* CR_CacheAdUnit.m */,
+				5397C08A22A0885700BC72FE /* CRAdUnit.h */,
+				5397C08C22A0885800BC72FE /* CRAdUnit.m */,
 				5397C08F22A0885900BC72FE /* CRBannerAdUnit.h */,
 				5397C09022A0885900BC72FE /* CRBannerAdUnit.m */,
 				5397C08B22A0885800BC72FE /* CRInterstitialAdUnit.h */,
 				5397C08E22A0885900BC72FE /* CRInterstitialAdUnit.m */,
-				5397C08A22A0885700BC72FE /* CRAdUnit.h */,
+				DF367C84232971810044807B /* CRNativeAdUnit.h */,
+				DF367C85232971810044807B /* CRNativeAdUnit.m */,
 				5397C0B622A18F7B00BC72FE /* CRAdUnit+Internal.h */,
+				5397C0AB22A0A66D00BC72FE /* CR_CacheAdUnit.h */,
+				5397C0AC22A0A66E00BC72FE /* CR_CacheAdUnit.m */,
 				5496875C22A5A96D007D2578 /* CR_AdUnitHelper.h */,
 				5496875D22A5A96D007D2578 /* CR_AdUnitHelper.m */,
-				5397C08C22A0885800BC72FE /* CRAdUnit.m */,
 				545A39F522A880BD00648957 /* InHouseMediation */,
 				650915F222555C21001D6673 /* Standalone */,
 				E12A7F6C220A1D20002B4548 /* AppEvents */,
@@ -617,11 +627,12 @@
 			isa = PBXGroup;
 			children = (
 				545A39F822A8818000648957 /* InHouseMediation */,
-				5397C0BD22A1AE9700BC72FE /* CR_CacheAdUnitTests.m */,
 				5397C0B922A1A43F00BC72FE /* CRAdUnitTests.m */,
 				5397C09922A0889700BC72FE /* CRBannerAdUnitTests.m */,
-				5496875A22A1C49E007D2578 /* CR_AdUnitHelperTests.m */,
 				5397C09822A0889700BC72FE /* CRInterstitialAdUnitTests.m */,
+				DF367C882329725D0044807B /* CRNativeAdUnitTests.m */,
+				5397C0BD22A1AE9700BC72FE /* CR_CacheAdUnitTests.m */,
+				5496875A22A1C49E007D2578 /* CR_AdUnitHelperTests.m */,
 				6540470C22581D13009235A1 /* Utility */,
 				6524663F22542FEF005058C5 /* Standalone */,
 				E12A7F73220A82D0002B4548 /* AppEvents */,
@@ -668,6 +679,7 @@
 				5397C0B422A0AA7E00BC72FE /* CRBannerAdUnit.h in Headers */,
 				54658897228C6DB1009746E0 /* CRInterstitialDelegate.h in Headers */,
 				650915FD225565E6001D6673 /* CRBannerView.h in Headers */,
+				DF367C8A232974210044807B /* CRNativeAdUnit.h in Headers */,
 				25BD5B5B2220D16D004DE311 /* CriteoPublisherSdk.h in Headers */,
 				53CA0F9522AB0ABD0098F96C /* CRBidToken.h in Headers */,
 				545A39F422A8794F00648957 /* CRInterstitial.h in Headers */,
@@ -688,6 +700,7 @@
 				650915FE225565E7001D6673 /* CRBannerView.h in Headers */,
 				5397C09622A0885A00BC72FE /* CRBannerAdUnit.h in Headers */,
 				E1F2737521B5F08D00A2FBFA /* pubsdk.h in Headers */,
+				DF367C86232971820044807B /* CRNativeAdUnit.h in Headers */,
 				53CA0F9822AB0B870098F96C /* CRBidToken.h in Headers */,
 				53CA0F9922AB0B870098F96C /* CRBidResponse.h in Headers */,
 				53CA0F9A22AB0B870098F96C /* CRInterstitialDelegate.h in Headers */,
@@ -893,6 +906,7 @@
 				545A39A622A8210A00648957 /* NSError+CRErrors.m in Sources */,
 				25BD5B652220D1BB004DE311 /* CR_Config.m in Sources */,
 				654858AA226538D500DC471A /* CRInterstitial.m in Sources */,
+				DF367C8B2329743C0044807B /* CRNativeAdUnit.m in Sources */,
 				5397C0B122A0AA6600BC72FE /* CR_CacheAdUnit.m in Sources */,
 				25BD5B6F2220D209004DE311 /* Logging.m in Sources */,
 				25BD5B6B2220D1E6004DE311 /* CR_ApiHandler.m in Sources */,
@@ -929,6 +943,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF367C87232971820044807B /* CRNativeAdUnit.m in Sources */,
 				653CA6F622C3808500D74412 /* CR_TokenCache.h in Sources */,
 				25B6505B2206AB40008416D3 /* Logging.m in Sources */,
 				53374B8022AEDBE5007084FB /* CR_TokenCache.m in Sources */,
@@ -990,6 +1005,7 @@
 				53374B8322AEDBF5007084FB /* CR_TokenCacheTests.m in Sources */,
 				E1D7DF052215136C006090C0 /* CR_CdbResponseTests.m in Sources */,
 				6540470F22581D32009235A1 /* MockWKWebView.m in Sources */,
+				DF367C892329725D0044807B /* CRNativeAdUnitTests.m in Sources */,
 				5397C09B22A0889800BC72FE /* CRInterstitialAdUnitTests.m in Sources */,
 				E12A7F5C21FBFAE6002B4548 /* CR_ConfigTests.m in Sources */,
 				53CA0F8522AAF70B0098F96C /* CRBidResponseTests.m in Sources */,
