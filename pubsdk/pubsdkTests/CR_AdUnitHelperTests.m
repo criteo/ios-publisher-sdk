@@ -12,6 +12,7 @@
 #import "Criteo+Internal.h"
 #import "CRBannerAdUnit.h"
 #import "CRInterstitialAdUnit.h"
+#import "CRNativeAdUnit.h"
 #import "CR_DeviceInfo.h"
 #import "CR_AdUnitHelper.h"
 
@@ -44,11 +45,14 @@
     CR_CacheAdUnit *expectedInterstitialCacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"1234" size:CGSizeMake(360.0, 640.0)];
     CRBannerAdUnit *bannerAdUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"1234" size:CGSizeMake(320.0, 50.0)];
     CR_CacheAdUnit *expectedBannerCacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"1234" size:CGSizeMake(320.0, 50.0)];
+    CRNativeAdUnit *nativeAdUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"1234"];
+    CR_CacheAdUnit *expectedNativeCacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"1234" size:CGSizeMake(2.0, 2.0) isNative:YES];
     id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
     OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(400.0, 700.0));
-    // for banner and interstitial
+    // for banner, interstitial and native
     XCTAssertTrue([expectedBannerCacheAdUnit isEqual:[CR_AdUnitHelper cacheAdUnitForAdUnit:bannerAdUnit]]);
     XCTAssertTrue([expectedInterstitialCacheAdUnit isEqual:[CR_AdUnitHelper cacheAdUnitForAdUnit:interstitialAdUnit]]);
+    XCTAssertTrue([expectedNativeCacheAdUnit isEqual:[CR_AdUnitHelper cacheAdUnitForAdUnit:nativeAdUnit]]);
 }
 
 - (void) testAdUnitSizesForInterstitial {
@@ -96,6 +100,12 @@
     CR_CacheAdUnit *resultingCacheAdUnit = [CR_AdUnitHelper interstitialCacheAdUnitForAdUnitId:@"testCacheAdUnit"
                                                                                    screenSize:CGSizeMake(500.0, 330.0)];
     XCTAssertTrue([expectedCacheAdUnit isEqual:resultingCacheAdUnit]);
+}
+
+- (void)testNativeAdUnitToCacheAdUnit {
+    CRNativeAdUnit *nativeAdUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"1234"];
+    CR_CacheAdUnit *expectedCacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"1234" size:CGSizeMake(2.0, 2.0) isNative:YES];
+    XCTAssertTrue([expectedCacheAdUnit isEqual:[[CR_AdUnitHelper cacheAdUnitsForAdUnits:@[nativeAdUnit]] objectAtIndex:0]]);
 }
 
 @end
