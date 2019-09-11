@@ -340,15 +340,7 @@
     CR_BidFetchTracker *bidFetchTracker = [CR_BidFetchTracker new];
     [bidFetchTracker trySetBidFetchInProgressForAdUnit:adUnit4];
     // Make a CR_ApiHandler
-    CR_NetworkManager *mockNetworkManager = OCMStrictClassMock([CR_NetworkManager class]);
-    NSString *rawJsonCdbResponse = @"{\"slots\":[{\"placementId\": \"adunitid_1\",\"cpm\":\"1.12\",\"currency\":\"EUR\",\"width\": 300,\"height\": 250, \"ttl\": 600, \"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"}]}";
-    NSData *responseData = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
-    // OCM substitues "[NSNull null]" to nil at runtime
-    id error = [NSNull null];
-    OCMStub([mockNetworkManager postToUrl:[OCMArg isKindOfClass:[NSURL class]]
-                                 postBody:[OCMArg isKindOfClass:[NSDictionary class]]
-                          responseHandler:([OCMArg invokeBlockWithArgs:responseData, error, nil])]);
-    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager bidFetchTracker:bidFetchTracker];
+    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:nil bidFetchTracker:bidFetchTracker];
 
     CR_CacheAdUnitArray *adUnits1 = @[adUnit1, adUnit2, adUnit3, adUnit4];
     CR_CacheAdUnitArray *filteredAdUnits1 = [apiHandler filterRequestAdUnitsAndSetProgressFlags:adUnits1];
@@ -388,16 +380,7 @@
     OCMStub([mockDeviceInfo userAgent]).andReturn(@"Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16B91");
 
     // Make a CR_ApiHandler
-    CR_BidFetchTracker *bidFetchTracker = [CR_BidFetchTracker new];
-    CR_NetworkManager *mockNetworkManager = OCMStrictClassMock([CR_NetworkManager class]);
-    NSString *rawJsonCdbResponse = @"{\"slots\":[{\"placementId\": \"adunitid_1\",\"cpm\":\"1.12\",\"currency\":\"EUR\",\"width\": 300,\"height\": 250, \"ttl\": 600, \"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"}]}";
-    NSData *responseData = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
-    // OCM substitues "[NSNull null]" to nil at runtime
-    id error = [NSNull null];
-    OCMStub([mockNetworkManager postToUrl:[OCMArg isKindOfClass:[NSURL class]]
-                                 postBody:[OCMArg isKindOfClass:[NSDictionary class]]
-                          responseHandler:([OCMArg invokeBlockWithArgs:responseData, error, nil])]);
-    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager bidFetchTracker:bidFetchTracker];
+    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:nil bidFetchTracker:nil];
 
     // With consent
     NSMutableDictionary *postBody = [apiHandler postBodyWithGdprConsent:mockUserConsent
@@ -470,17 +453,7 @@
     CR_CacheAdUnit *adUnit3  = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"slot2" width:43 height:33];
     CR_CacheAdUnitArray *adUnits = @[adUnit1, adUnit2, adUnit3];
 
-    // Make a CR_ApiHandler
-    CR_BidFetchTracker *bidFetchTracker = [CR_BidFetchTracker new];
-    CR_NetworkManager *mockNetworkManager = OCMStrictClassMock([CR_NetworkManager class]);
-    NSString *rawJsonCdbResponse = @"{\"slots\":[{\"placementId\": \"adunitid_1\",\"cpm\":\"1.12\",\"currency\":\"EUR\",\"width\": 300,\"height\": 250, \"ttl\": 600, \"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"}]}";
-    NSData *responseData = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
-    // OCM substitues "[NSNull null]" to nil at runtime
-    id error = [NSNull null];
-    OCMStub([mockNetworkManager postToUrl:[OCMArg isKindOfClass:[NSURL class]]
-                                 postBody:[OCMArg isKindOfClass:[NSDictionary class]]
-                          responseHandler:([OCMArg invokeBlockWithArgs:responseData, error, nil])]);
-    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager bidFetchTracker:bidFetchTracker];
+    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:nil bidFetchTracker:nil];
 
     NSArray *slots = [apiHandler slotsForRequest:adUnits];
     XCTAssertEqual(slots.count, adUnits.count);
