@@ -18,17 +18,25 @@
     return [self initWithAdUnitId:@"" size:size];
 }
 
-- (instancetype) initWithAdUnitId:(NSString *)adUnitId
-                             size:(CGSize)size {
+- (instancetype)initWithAdUnitId:(NSString *)adUnitId
+                            size:(CGSize)size
+                        isNative:(BOOL)isNative {
+
     if(self = [super init]) {
         _adUnitId = adUnitId;
         _size = size;
+        _isNative = isNative;
         // to get rid of the decimal point
         NSUInteger width = roundf(size.width);
         NSUInteger height = roundf(size.height);
-        _hash = [[NSString stringWithFormat:@"%@_x_%lu_x_%lu", _adUnitId, (unsigned long)width, (unsigned long)height] hash];
+        _hash = [[NSString stringWithFormat:@"%@_x_%lu_x_%lu_x_%@", _adUnitId, (unsigned long)width, (unsigned long)height, @(_isNative)] hash];
     }
     return self;
+}
+
+- (instancetype) initWithAdUnitId:(NSString *)adUnitId
+                             size:(CGSize)size {
+    return [self initWithAdUnitId:adUnitId size:size isNative:NO];
 }
 
 - (instancetype) initWithAdUnitId:(NSString *)adUnitId
@@ -55,7 +63,7 @@
 }
 
 - (instancetype) copyWithZone:(NSZone *)zone {
-    CR_CacheAdUnit *copy = [[CR_CacheAdUnit alloc] initWithAdUnitId:self.adUnitId size:self.size];
+    CR_CacheAdUnit *copy = [[CR_CacheAdUnit alloc] initWithAdUnitId:self.adUnitId size:self.size isNative:self.isNative];
     return copy;
 }
 

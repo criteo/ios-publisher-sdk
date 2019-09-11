@@ -15,10 +15,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CR_CacheAdUnit : NSObject <NSCopying>
 
 @property (copy, readonly, nonatomic) NSString *adUnitId;
-@property (readonly, nonatomic) CGSize size;
+@property (readonly, atomic) CGSize size;
 @property (readonly) NSUInteger hash;
-@property (readonly, nonatomic) BOOL isValid;
+@property (readonly) BOOL isValid;
 @property (copy, readonly, nonatomic) NSString *cdbSize;
+@property (readonly) BOOL isNative;
 
 - (BOOL) isEqual:(id) object;
 
@@ -27,10 +28,14 @@ NS_ASSUME_NONNULL_BEGIN
                            height:(CGFloat) height;
 
 - (instancetype) initWithAdUnitId:(NSString *) adUnitId
-                             size:(CGSize) size
-NS_DESIGNATED_INITIALIZER;
+                             size:(CGSize) size;
 
 - (instancetype) init NS_UNAVAILABLE;
+
+- (instancetype)initWithAdUnitId:(NSString *)adUnitId
+                            size:(CGSize)size
+                        isNative:(BOOL)isNative
+NS_DESIGNATED_INITIALIZER;
 
 - (instancetype) copyWithZone:(nullable NSZone *)zone;
 
