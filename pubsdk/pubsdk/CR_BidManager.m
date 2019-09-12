@@ -217,7 +217,9 @@
         if ([targeting isKindOfClass:[NSDictionary class]]) {
             NSMutableDictionary *customTargeting = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *) targeting];
             [customTargeting setObject:fetchedBid.cpm forKey:@"crt_cpm"];
-            [customTargeting setObject:fetchedBid.dfpCompatibleDisplayUrl forKey:@"crt_displayUrl"];
+            if(!adUnit.isNative) {
+                [customTargeting setObject:fetchedBid.dfpCompatibleDisplayUrl forKey:@"crt_displayUrl"];
+            }
             NSDictionary *updatedDictionary = [NSDictionary dictionaryWithDictionary:customTargeting];
             [adRequest performSelector:dfpSetCustomTargeting withObject:updatedDictionary];
 #pragma clang diagnostic pop
