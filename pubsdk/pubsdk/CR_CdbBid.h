@@ -54,6 +54,7 @@ NS_DESIGNATED_INITIALIZER;
 - (BOOL) isEqual:(CR_CdbBid *) object;
 - (BOOL) isEmpty;
 - (BOOL) isExpired;
+- (NSString *)dfpCompatibleString:(NSString*)string;
 @end
 
 #endif /* CR_CdbBid_h */

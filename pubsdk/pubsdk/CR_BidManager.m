@@ -25,6 +25,25 @@
     NSTimeInterval     cdbTimeToNextCall;
 }
 
+static NSString * const crtCpm = @"crt_cpm";
+static NSString * const crtDisplayUrl = @"crt_displayUrl";
+// native asset keys
+static NSString * const crtnTitle = @"crtn_title";
+static NSString * const crtnDesc = @"crtn_desc";
+static NSString * const crtnPrice = @"crtn_price";
+static NSString * const crtnClickUrl = @"crtn_clickurl";
+static NSString * const crtnCta = @"crtn_cta";
+static NSString * const crtnImageUrl = @"crtn_imageurl";
+static NSString * const crtnAdvName = @"crtn_advname";
+static NSString * const crtnAdvDomain = @"crtn_advdomain";
+static NSString * const crtnAdvLogoUrl = @"crtn_advlogourl";
+static NSString * const crtnAdvUrl = @"crtn_advurl";
+static NSString * const crtnPrUrl = @"crtn_prurl";
+static NSString * const crtnPrImageUrl = @"crtn_primageurl";
+static NSString * const crtnPrText = @"crtn_prtext";
+static NSString * const crtnPixCount = @"crtn_pixcount";
+static NSString * const crtnPixUrl = @"crtn_pixurl_";
+
 // Properties
 - (id<CR_NetworkManagerDelegate>) networkMangerDelegate
 {
@@ -216,9 +235,9 @@
 
         if ([targeting isKindOfClass:[NSDictionary class]]) {
             NSMutableDictionary *customTargeting = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *) targeting];
-            [customTargeting setObject:fetchedBid.cpm forKey:@"crt_cpm"];
+            [customTargeting setObject:fetchedBid.cpm forKey:crtCpm];
             if(!adUnit.isNative) {
-                [customTargeting setObject:fetchedBid.dfpCompatibleDisplayUrl forKey:@"crt_displayUrl"];
+                [customTargeting setObject:fetchedBid.dfpCompatibleDisplayUrl forKey:crtDisplayUrl];
             }
             NSDictionary *updatedDictionary = [NSDictionary dictionaryWithDictionary:customTargeting];
             [adRequest performSelector:dfpSetCustomTargeting withObject:updatedDictionary];
@@ -251,10 +270,12 @@
             if ([keywords length] > 0) {
                 [keywords appendString:@","];
             }
-            [keywords appendString:@"crt_cpm:"];
+            [keywords appendString:crtCpm];
+            [keywords appendString:@":"];
             [keywords appendString:fetchedBid.cpm];
             [keywords appendString:@","];
-            [keywords appendString:@"crt_displayUrl:"];
+            [keywords appendString:crtDisplayUrl];
+            [keywords appendString:@":"];
             [keywords appendString:fetchedBid.mopubCompatibleDisplayUrl];
             [adRequest setValue:keywords forKey:@"keywords"];
 #pragma clang diagnostic pop

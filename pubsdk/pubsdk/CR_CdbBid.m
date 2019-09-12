@@ -12,7 +12,7 @@
 
 @interface CR_CdbBid ()
 
-- (NSString*) dfpCompatibleDisplayUrlForDisplayUrl:(NSString*)displayUrl;
+- (NSString*) dfpCompatibleString:(NSString*)displayUrl;
 - (NSString*) mopubCompatibleDisplayUrlForDisplayUrl:(NSString*)displayUrl;
 
 @end
@@ -76,24 +76,24 @@ static CR_CdbBid *emptyBid;
         _creative = creative;
         _ttl = ttl;
         _displayUrl = displayUrl;
-        _dfpCompatibleDisplayUrl = [self dfpCompatibleDisplayUrlForDisplayUrl:displayUrl];
+        _dfpCompatibleDisplayUrl = [self dfpCompatibleString:displayUrl];
         _mopubCompatibleDisplayUrl = [self mopubCompatibleDisplayUrlForDisplayUrl:displayUrl];
         _insertTime = insertTime;
     }
     return self;
 }
 
-- (NSString*) dfpCompatibleDisplayUrlForDisplayUrl:(NSString*)displayUrl
+- (NSString *)dfpCompatibleString:(NSString *)string
 {
-    NSString *dfpCompatibleDisplayUrl = nil;
+    NSString *dfpCompatibleString = nil;
 
-    if(displayUrl) {
-        NSData *displayUrlData = [_displayUrl dataUsingEncoding:NSUTF8StringEncoding];
-        NSString *display64String = [displayUrlData base64EncodedStringWithOptions:0];
-        dfpCompatibleDisplayUrl = [[display64String urlEncode] urlEncode];
+    if(string) {
+        NSData *encodedStringData = [string dataUsingEncoding:NSUTF8StringEncoding];
+        NSString *base64String = [encodedStringData base64EncodedStringWithOptions:0];
+        dfpCompatibleString = [[base64String urlEncode] urlEncode];
     }
 
-    return dfpCompatibleDisplayUrl;
+    return dfpCompatibleString;
 }
 
 - (NSString*) mopubCompatibleDisplayUrlForDisplayUrl:(NSString*)displayUrl
