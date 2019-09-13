@@ -1,6 +1,0 @@
-framework module CriteoPublisherSdk {
-  umbrella header "CriteoPublisherSdk.h"
-
-  export *
-  module * { export * }
-}

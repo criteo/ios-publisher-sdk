@@ -167,7 +167,7 @@ didFailToReceiveAdWithError:(nonnull GADRequestError *)error
 # pragma mark - actions
 
 - (IBAction)registerAdUnitClick:(id)sender {
-    [self.criteoSdk registerNetworkId:4916 withAdUnits:[self createAdUnits]];
+    [self.criteoSdk registerCriteoPublisherId:@"" withAdUnits:[self createAdUnits]];
     _criteoSdk.networkMangerDelegate = self;    // NetworkManager doesn't exist until you register now
     //self.dfpBannerView.adUnitID = @"/140800857/Endeavour_320x50";
     [self.textFeedback setText:@"AdUnit registered!"];
@@ -219,9 +219,13 @@ didFailToReceiveAdWithError:(nonnull GADRequestError *)error
     NSString *adUnitId = self.textAdUnitId.text;
     double width = [self.textAdUnitWidth.text doubleValue];
     double height = [self.textAdUnitHeight.text doubleValue];
-    CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:adUnitId
-                                                     size:CGSizeMake(width, height)];
-
+    CRAdUnit *adUnit = nil;
+    if([self.bannerInterstitialSwitch isOn]) {
+        adUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:adUnitId];
+    }
+    else {
+        adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:adUnitId size:CGSizeMake(width, height)];
+    }
     return @[ adUnit ];
 }
 
@@ -230,8 +234,13 @@ didFailToReceiveAdWithError:(nonnull GADRequestError *)error
     NSString *adUnitId = self.textAdUnitId.text;
     double width = [self.textAdUnitWidth.text doubleValue];
     double height = [self.textAdUnitHeight.text doubleValue];
-    CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:adUnitId size:CGSizeMake(width, height)];
-
+    CRAdUnit *adUnit = nil;
+    if([self.bannerInterstitialSwitch isOn]) {
+        adUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:adUnitId];
+    }
+    else {
+        adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:adUnitId size:CGSizeMake(width, height)];
+    }
     DFPRequest *request = [DFPRequest request];
     //request.testDevices = @[ kGADSimulatorID ];
 

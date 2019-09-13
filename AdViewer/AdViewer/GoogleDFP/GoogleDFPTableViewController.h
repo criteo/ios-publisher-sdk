@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CriteoPublisherSdk/CriteoPublisherSdk.h>
+@import CriteoPublisherSdk;
 
 #import "NetworkManagerDelegate.h"
 
