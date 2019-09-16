@@ -1,5 +1,5 @@
 //
-//  NSArray+AdditionsTests.m
+//  NSArray+CriteoTests.m
 //  pubsdkTests
 //
 //  Created by Richard Clark on 9/6/19.
@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "CR_CacheAdUnit.h"
 #import "NSError+CRErrors.h"
-#import "NSArray+Additions.h"
+#import "NSArray+Criteo.h"
 
 @interface NSArray_AdditionsTests : XCTestCase
 

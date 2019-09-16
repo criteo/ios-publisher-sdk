@@ -9,7 +9,7 @@
 #import <WebKit/WebKit.h>
 #import "CR_ApiHandler.h"
 #import "Logging.h"
-#import "NSArray+Additions.h"
+#import "NSArray+Criteo.h"
 
 // 8 is suggested by Jean Sebastien Faure as a reasonable group size for CDB calls
 static NSUInteger const maxAdUnitsPerCdbRequest = 8;

@@ -1,12 +1,12 @@
 //
-//  NSArray+Additions.m
+//  NSArray+Criteo.m
 //  pubsdk
 //
 //  Created by Richard Clark on 9/6/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#import "NSArray+Additions.h"
+#import "NSArray+Criteo.h"
 
 @implementation NSArray (Criteo)
 

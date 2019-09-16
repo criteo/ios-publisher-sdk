@@ -1,13 +1,13 @@
 //
-//  NSArray+Additions.h
+//  NSArray+Criteo.h
 //  pubsdk
 //
 //  Created by Richard Clark on 9/6/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#ifndef NSArray_Additions_h
-#define NSArray_Additions_h
+#ifndef NSArray_Criteo_h
+#define NSArray_Criteo_h
 
 #import <Foundation/Foundation.h>
 
@@ -24,4 +24,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_ASSUME_NONNULL_END
 
-#endif /* NSArray_Additions_h */
+#endif /* NSArray_Criteo_h */

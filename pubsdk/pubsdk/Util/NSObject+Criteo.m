@@ -12,6 +12,14 @@
 
 @implementation NSObject (Criteo)
 
++ (BOOL)object:(nullable id)obj1 isEqualTo:(nullable id)obj2 {
+    if (obj1) {
+        return [obj1 isEqual:obj2];   // isEqual returns NO if obj2 is nil
+    } else {
+        return !obj2;   // returns YES if obj1 and obj2 are both nil
+    }
+}
+
 + (void)load {
     static dispatch_once_t once_token;
     dispatch_once(&once_token,  ^{

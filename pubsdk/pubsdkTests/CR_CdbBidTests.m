@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
-
+#import "NSDictionary+Criteo.h"
 #import "CR_CdbBid.h"
+#import "CR_NativeAssets.h"
 
 @interface CR_CdbBidTests : XCTestCase
 

@@ -1,0 +1,21 @@
+//
+//  NSString+Criteo.m
+//  pubsdk
+//
+//  Created by Richard Clark on 9/16/19.
+//  Copyright © 2019 Criteo. All rights reserved.
+//
+
+#import "NSString+Criteo.h"
+
+@implementation NSString (Criteo)
+
++ (nullable NSString *)stringWithStringOrNil:(nullable NSString *)string {
+    if (string && [string isKindOfClass:NSString.class]) {
+        return [NSString stringWithString:string];
+    } else {
+        return nil;
+    }
+}
+
+@end
