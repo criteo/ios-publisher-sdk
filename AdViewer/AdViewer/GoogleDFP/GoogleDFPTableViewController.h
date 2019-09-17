@@ -8,28 +8,14 @@
 
 #import <UIKit/UIKit.h>
 @import CriteoPublisherSdk;
-
-#import "NetworkManagerDelegate.h"
+#import "HomePageTableViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GoogleDFPTableViewController : UITableViewController <NetworkManagerDelegate>
+@interface GoogleDFPTableViewController : UITableViewController
 
-@property (nonatomic) IBOutlet UITextField *textNetworkId;
-@property (nonatomic) IBOutlet UITextField *textAdUnitId;
-@property (nonatomic) IBOutlet UITextField *textAdUnitWidth;
-@property (nonatomic) IBOutlet UITextField *textAdUnitHeight;
+@property (nonatomic, strong) HomePageTableViewController *homePageVC;
 @property (nonatomic) IBOutlet UITextView *textFeedback;
-@property (nonatomic) Criteo *criteoSdk;
-@property (nonatomic) IBOutlet UISwitch *bannerInterstitialSwitch;
-@property (nonatomic) IBOutlet UISwitch *gdprSwitch;
-
-
-- (IBAction)loadAdClick:(id)sender;
-- (IBAction)clearButtonClick:(id)sender;
-- (IBAction)registerAdUnitClick:(id)sender;
-- (IBAction)bannerInterstitialSwitched:(id)sender;
-- (IBAction)gdprSwitched:(id)sender;
 
 @end
 

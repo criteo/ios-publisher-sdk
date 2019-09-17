@@ -8,9 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		404AC94B219650FF008C6267 /* GoogleDFPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 404AC94A219650FF008C6267 /* GoogleDFPTableViewController.m */; };
-		404AC95021965716008C6267 /* GoogleDFPButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 404AC94F21965716008C6267 /* GoogleDFPButtonCell.m */; };
 		4077EBA9218BC48300C41E68 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBA8218BC48300C41E68 /* AppDelegate.m */; };
-		4077EBAC218BC48300C41E68 /* HomePageViewConroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBAB218BC48300C41E68 /* HomePageViewConroller.m */; };
+		4077EBAC218BC48300C41E68 /* HomePageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBAB218BC48300C41E68 /* HomePageTableViewController.m */; };
 		4077EBAF218BC48300C41E68 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4077EBAD218BC48300C41E68 /* Main.storyboard */; };
 		4077EBB1218BC48300C41E68 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4077EBB0218BC48300C41E68 /* Assets.xcassets */; };
 		4077EBB4218BC48300C41E68 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4077EBB2218BC48300C41E68 /* LaunchScreen.storyboard */; };
@@ -18,6 +17,9 @@
 		4077EBC1218BC48400C41E68 /* AdViewerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBC0218BC48400C41E68 /* AdViewerTests.m */; };
 		4077EBCC218BC48400C41E68 /* AdViewerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBCB218BC48400C41E68 /* AdViewerUITests.m */; };
 		40DE984B219F533300C4BA05 /* AdViewerTest2.m in Sources */ = {isa = PBXBuildFile; fileRef = 40DE984A219F533300C4BA05 /* AdViewerTest2.m */; };
+		54CAF8CE232C5DB90050D8D9 /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CAF8CD232C5DB90050D8D9 /* CriteoPublisherSdk.framework */; };
+		54CAF8D2232C5EC70050D8D9 /* MopubTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CAF8D1232C5EC70050D8D9 /* MopubTableViewController.m */; };
+		E73EE276C44A5021AC3258C6 /* libPods-AdViewer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE22D35658ED0F4914AE6FB /* libPods-AdViewer.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,17 +53,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		25022DE7220A72EF00FF8ACE /* Criteo+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Criteo+Internal.h"; sourceTree = "<group>"; };
-		25022DE8220A778600FF8ACE /* NetworkManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkManagerDelegate.h; sourceTree = "<group>"; };
-		404AC949219650FF008C6267 /* GoogleDFPTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleDFPTableViewController.h; sourceTree = "<group>"; };
-		404AC94A219650FF008C6267 /* GoogleDFPTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoogleDFPTableViewController.m; sourceTree = "<group>"; };
-		404AC94E21965716008C6267 /* GoogleDFPButtonCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleDFPButtonCell.h; sourceTree = "<group>"; };
-		404AC94F21965716008C6267 /* GoogleDFPButtonCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoogleDFPButtonCell.m; sourceTree = "<group>"; };
+		25022DE7220A72EF00FF8ACE /* Criteo+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Criteo+Internal.h"; path = "AdViewer/Criteo/Criteo+Internal.h"; sourceTree = SOURCE_ROOT; };
+		25022DE8220A778600FF8ACE /* NetworkManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NetworkManagerDelegate.h; path = AdViewer/Criteo/NetworkManagerDelegate.h; sourceTree = SOURCE_ROOT; };
+		404AC949219650FF008C6267 /* GoogleDFPTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GoogleDFPTableViewController.h; path = AdViewer/GoogleDFP/GoogleDFPTableViewController.h; sourceTree = SOURCE_ROOT; };
+		404AC94A219650FF008C6267 /* GoogleDFPTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = GoogleDFPTableViewController.m; path = AdViewer/GoogleDFP/GoogleDFPTableViewController.m; sourceTree = SOURCE_ROOT; };
 		4077EBA4218BC48300C41E68 /* AdViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AdViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4077EBA7218BC48300C41E68 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4077EBA8218BC48300C41E68 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		4077EBAA218BC48300C41E68 /* HomePageViewConroller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomePageViewConroller.h; sourceTree = "<group>"; };
-		4077EBAB218BC48300C41E68 /* HomePageViewConroller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomePageViewConroller.m; sourceTree = "<group>"; };
+		4077EBAA218BC48300C41E68 /* HomePageTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HomePageTableViewController.h; path = AdViewer/HomePage/HomePageTableViewController.h; sourceTree = SOURCE_ROOT; };
+		4077EBAB218BC48300C41E68 /* HomePageTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HomePageTableViewController.m; path = AdViewer/HomePage/HomePageTableViewController.m; sourceTree = SOURCE_ROOT; };
 		4077EBAE218BC48300C41E68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4077EBB0218BC48300C41E68 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4077EBB3218BC48300C41E68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -75,6 +75,12 @@
 		4077EBCD218BC48400C41E68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		40DE984A219F533300C4BA05 /* AdViewerTest2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdViewerTest2.m; sourceTree = "<group>"; };
 		54CAF8C9232C2F990050D8D9 /* CriteoPublisherSdk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CriteoPublisherSdk.framework; sourceTree = "<group>"; };
+		54CAF8CD232C5DB90050D8D9 /* CriteoPublisherSdk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CriteoPublisherSdk.framework; path = ../../fuji/build/output/CriteoPublisherSdk.framework; sourceTree = "<group>"; };
+		54CAF8D0232C5EC70050D8D9 /* MopubTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MopubTableViewController.h; path = AdViewer/MopubHB/MopubTableViewController.h; sourceTree = SOURCE_ROOT; };
+		54CAF8D1232C5EC70050D8D9 /* MopubTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MopubTableViewController.m; path = AdViewer/MopubHB/MopubTableViewController.m; sourceTree = SOURCE_ROOT; };
+		64AA5508A38A4FE3F3B75508 /* Pods-AdViewer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdViewer.release.xcconfig"; path = "Target Support Files/Pods-AdViewer/Pods-AdViewer.release.xcconfig"; sourceTree = "<group>"; };
+		6F9FE320C665D130C4D90CEC /* Pods-AdViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdViewer.debug.xcconfig"; path = "Target Support Files/Pods-AdViewer/Pods-AdViewer.debug.xcconfig"; sourceTree = "<group>"; };
+		BAE22D35658ED0F4914AE6FB /* libPods-AdViewer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AdViewer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +88,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54CAF8CE232C5DB90050D8D9 /* CriteoPublisherSdk.framework in Frameworks */,
+				E73EE276C44A5021AC3258C6 /* libPods-AdViewer.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,25 +110,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1CB942FBAD7B51564EEC0EAF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6F9FE320C665D130C4D90CEC /* Pods-AdViewer.debug.xcconfig */,
+				64AA5508A38A4FE3F3B75508 /* Pods-AdViewer.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../Pods;
+			sourceTree = "<group>";
+		};
 		25022DE6220A72D300FF8ACE /* Criteo */ = {
 			isa = PBXGroup;
 			children = (
 				25022DE7220A72EF00FF8ACE /* Criteo+Internal.h */,
 				25022DE8220A778600FF8ACE /* NetworkManagerDelegate.h */,
 			);
-			path = Criteo;
-			sourceTree = "<group>";
+			name = Criteo;
+			path = AdViewer/Criteo;
+			sourceTree = SOURCE_ROOT;
 		};
 		404AC9482196509E008C6267 /* GoogleDFP */ = {
 			isa = PBXGroup;
 			children = (
 				404AC949219650FF008C6267 /* GoogleDFPTableViewController.h */,
 				404AC94A219650FF008C6267 /* GoogleDFPTableViewController.m */,
-				404AC94E21965716008C6267 /* GoogleDFPButtonCell.h */,
-				404AC94F21965716008C6267 /* GoogleDFPButtonCell.m */,
 			);
-			path = GoogleDFP;
-			sourceTree = "<group>";
+			name = GoogleDFP;
+			path = AdViewer/GoogleDFP;
+			sourceTree = SOURCE_ROOT;
 		};
 		4077EB9B218BC48300C41E68 = {
 			isa = PBXGroup;
@@ -131,6 +149,7 @@
 				4077EBCA218BC48400C41E68 /* AdViewerUITests */,
 				4077EBA5218BC48300C41E68 /* Products */,
 				AEB379A3E47D7093DEBA6DA1 /* Frameworks */,
+				1CB942FBAD7B51564EEC0EAF /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -147,6 +166,7 @@
 		4077EBA6218BC48300C41E68 /* AdViewer */ = {
 			isa = PBXGroup;
 			children = (
+				54CAF8CF232C5E8B0050D8D9 /* MopubHB */,
 				25022DE6220A72D300FF8ACE /* Criteo */,
 				404AC9482196509E008C6267 /* GoogleDFP */,
 				4077EBD9218CB5C000C41E68 /* Splash */,
@@ -191,15 +211,28 @@
 		4077EBDA218CB5E700C41E68 /* HomePage */ = {
 			isa = PBXGroup;
 			children = (
-				4077EBAB218BC48300C41E68 /* HomePageViewConroller.m */,
-				4077EBAA218BC48300C41E68 /* HomePageViewConroller.h */,
+				4077EBAB218BC48300C41E68 /* HomePageTableViewController.m */,
+				4077EBAA218BC48300C41E68 /* HomePageTableViewController.h */,
 			);
-			path = HomePage;
-			sourceTree = "<group>";
+			name = HomePage;
+			path = AdViewer/HomePage;
+			sourceTree = SOURCE_ROOT;
+		};
+		54CAF8CF232C5E8B0050D8D9 /* MopubHB */ = {
+			isa = PBXGroup;
+			children = (
+				54CAF8D0232C5EC70050D8D9 /* MopubTableViewController.h */,
+				54CAF8D1232C5EC70050D8D9 /* MopubTableViewController.m */,
+			);
+			name = MopubHB;
+			path = AdViewer/MopubHB;
+			sourceTree = SOURCE_ROOT;
 		};
 		AEB379A3E47D7093DEBA6DA1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				54CAF8CD232C5DB90050D8D9 /* CriteoPublisherSdk.framework */,
+				BAE22D35658ED0F4914AE6FB /* libPods-AdViewer.a */,
 			);
 			path = Frameworks;
 			sourceTree = "<group>";
@@ -211,10 +244,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4077EBD0218BC48400C41E68 /* Build configuration list for PBXNativeTarget "AdViewer" */;
 			buildPhases = (
+				CD19B3480BF07D422DEFCF36 /* [CP] Check Pods Manifest.lock */,
 				4077EBA0218BC48300C41E68 /* Sources */,
 				4077EBA1218BC48300C41E68 /* Frameworks */,
 				4077EBA2218BC48300C41E68 /* Resources */,
 				54CAF8C6232C05B10050D8D9 /* Embed Frameworks */,
+				FBC468A9BBED60E159789B4F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -330,14 +365,56 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		CD19B3480BF07D422DEFCF36 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AdViewer-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FBC468A9BBED60E159789B4F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AdViewer/Pods-AdViewer-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AdViewer/Pods-AdViewer-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AdViewer/Pods-AdViewer-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		4077EBA0218BC48300C41E68 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4077EBAC218BC48300C41E68 /* HomePageViewConroller.m in Sources */,
+				54CAF8D2232C5EC70050D8D9 /* MopubTableViewController.m in Sources */,
+				4077EBAC218BC48300C41E68 /* HomePageTableViewController.m in Sources */,
 				4077EBB7218BC48300C41E68 /* main.m in Sources */,
-				404AC95021965716008C6267 /* GoogleDFPButtonCell.m in Sources */,
 				4077EBA9218BC48300C41E68 /* AppDelegate.m in Sources */,
 				404AC94B219650FF008C6267 /* GoogleDFPTableViewController.m in Sources */,
 			);
@@ -509,8 +586,9 @@
 		};
 		4077EBD1218BC48400C41E68 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F9FE320C665D130C4D90CEC /* Pods-AdViewer.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S655EV5659;
@@ -533,7 +611,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/**",
 					"$(PROJECT_DIR)/Frameworks/CriteoPublisherSdk.framework/Headers",
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
@@ -543,8 +621,9 @@
 		};
 		4077EBD2218BC48400C41E68 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 64AA5508A38A4FE3F3B75508 /* Pods-AdViewer.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S655EV5659;
@@ -567,7 +646,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/**",
 					"$(PROJECT_DIR)/Frameworks/CriteoPublisherSdk.framework/Headers",
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
@@ -599,7 +678,12 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				"LIBRARY_SEARCH_PATHS[arch=*]" = "$(inherited) \"${PODS_CONFIGURATION_BUILD_DIR}/mopub-ios-sdk\" \"${PODS_ROOT}/Google-Mobile-Ads-SDK/Libraries\" \"${PODS_ROOT}/mopub-ios-sdk/MoPubSDK/Viewability/Avid\"";
+				"LIBRARY_SEARCH_PATHS[arch=*]" = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/mopub-ios-sdk\"",
+					"\"${PODS_ROOT}/Google-Mobile-Ads-SDK/Libraries\"",
+					"\"${PODS_ROOT}/mopub-ios-sdk/MoPubSDK/Viewability/Avid\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.AdViewerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
