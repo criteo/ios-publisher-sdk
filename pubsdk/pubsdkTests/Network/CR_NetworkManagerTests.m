@@ -107,37 +107,37 @@
 }
 
 // NOT a unit test as it uses the interwebs.
-- (void) testNetworkManagerGetCall {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Config network call"];
-    CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] init];
-    NSString *query = [NSString stringWithFormat:@"networkId=%@&sdkVersion=%@&appId=%@", @(9138), @"2.0", @"com.washingtonpost.iOS"];
-    NSString *urlString = [NSString stringWithFormat:@"https://pub-sdk-cfg.par.preprod.crto.in/v1.0/api/config?%@", query];
-    NSURL *url = [NSURL URLWithString: urlString];
-    
-    CR_NetworkManager *networkManager = [[CR_NetworkManager alloc] initWithDeviceInfo:deviceInfo];
-    id<CR_NetworkManagerDelegate> delegateMock = [self stubNetworkManagerDelegateForNetworkManager:networkManager];
-
-    networkManager.delegate = delegateMock;
-
-    CLog(@"Test called the NetworkManager");
-    
-    [networkManager getFromUrl:url responseHandler:^(NSData *data, NSError *error) {
-        CLog(@"NetworkManager called back!");
-        if(error == nil) {
-            if(data) {
-                NSDictionary *configValues = [CR_Config getConfigValuesFromData:data];
-                XCTAssertTrue([configValues objectForKey:@"killSwitch"]);
-            } else {
-                CLog(@"Error on get from Config: response from Config was nil");
-            }
-        } else {
-            CLog(@"Error on get from Config : %@", error);
-        }
-
-        [self verifyNetworkManagerDelegate:delegateMock withNetworkManager:networkManager expectation:expectation];
-    }];
-    [self waitForExpectations:@[expectation] timeout:250];
-}
+//- (void) testNetworkManagerGetCall {
+//    XCTestExpectation *expectation = [self expectationWithDescription:@"Config network call"];
+//    CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] init];
+//    NSString *query = [NSString stringWithFormat:@"networkId=%@&sdkVersion=%@&appId=%@", @(9138), @"2.0", @"com.washingtonpost.iOS"];
+//    NSString *urlString = [NSString stringWithFormat:@"https://pub-sdk-cfg.par.preprod.crto.in/v1.0/api/config?%@", query];
+//    NSURL *url = [NSURL URLWithString: urlString];
+//
+//    CR_NetworkManager *networkManager = [[CR_NetworkManager alloc] initWithDeviceInfo:deviceInfo];
+//    id<CR_NetworkManagerDelegate> delegateMock = [self stubNetworkManagerDelegateForNetworkManager:networkManager];
+//
+//    networkManager.delegate = delegateMock;
+//
+//    CLog(@"Test called the NetworkManager");
+//
+//    [networkManager getFromUrl:url responseHandler:^(NSData *data, NSError *error) {
+//        CLog(@"NetworkManager called back!");
+//        if(error == nil) {
+//            if(data) {
+//                NSDictionary *configValues = [CR_Config getConfigValuesFromData:data];
+//                XCTAssertTrue([configValues objectForKey:@"killSwitch"]);
+//            } else {
+//                CLog(@"Error on get from Config: response from Config was nil");
+//            }
+//        } else {
+//            CLog(@"Error on get from Config : %@", error);
+//        }
+//
+//        [self verifyNetworkManagerDelegate:delegateMock withNetworkManager:networkManager expectation:expectation];
+//    }];
+//    [self waitForExpectations:@[expectation] timeout:250];
+//}
 
 - (id<CR_NetworkManagerDelegate>) stubNetworkManagerDelegateForNetworkManager:(CR_NetworkManager*)networkManager
 {

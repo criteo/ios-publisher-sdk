@@ -27,6 +27,10 @@
 - (void) setBid: (CR_CdbBid *) bid {
     if (!bid) { return; }
     BOOL isNative = bid.nativeAssets ? YES : NO;
+    if (isNative && !bid.nativeAssets.impressionPixels) {
+        CLog(@"Cache update failed because native bid has no impression pixels:  %@", bid);
+        return;
+    }
     CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:bid.placementId
                                                                  size:CGSizeMake(bid.width.floatValue, bid.height.floatValue)
                                                              isNative:isNative];

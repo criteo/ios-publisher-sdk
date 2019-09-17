@@ -737,6 +737,7 @@
 				DF367CD8232F2EE80044807B /* NSObject+CriteoTests.m */,
 				53BDFDCE22EBA6F20051EB40 /* MPClasses.h */,
 				53BDFDCC22EBA6DA0051EB40 /* MPClasses.m */,
+				DF367CE6233169B70044807B /* SampleBid.json */,
 				E12A7F73220A82D0002B4548 /* AppEvents */,
 				258821DB2200143A00398E9F /* Configuration */,
 				545A39F822A8818000648957 /* InHouseMediation */,
@@ -939,6 +940,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF367CE923316AB60044807B /* SampleBid.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -949,6 +951,7 @@
 				543F6F7822820C1A00A5DBE2 /* LaunchScreen.storyboard in Resources */,
 				543F6F7522820C1A00A5DBE2 /* Assets.xcassets in Resources */,
 				543F6F7322820C1800A5DBE2 /* Main.storyboard in Resources */,
+				DF367CEA23316AB70044807B /* SampleBid.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -956,6 +959,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF367CE823316AB50044807B /* SampleBid.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -963,6 +967,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF367CE7233169B70044807B /* SampleBid.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,36 +12,205 @@
 #import "CR_CdbBid.h"
 #import "CR_NativeAssets.h"
 
+
 @interface CR_CdbBidTests : XCTestCase
+
+@property (strong) NSDictionary *jdict;
+@property (strong) CR_CdbBid *bid1;
+@property (strong) CR_CdbBid *bid2;
+@property (strong) NSDate *now;
 
 @end
 
 @implementation CR_CdbBidTests
 
-- (void) testCdbBidIsEqual {
-    NSDate *testDate = [NSDate date];
-    CR_CdbBid *first = [[CR_CdbBid alloc] initWithZoneId:@(497747) placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />" displayUrl:@"" insertTime:testDate];
-    CR_CdbBid *second = [[CR_CdbBid alloc] initWithZoneId:@(497747) placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />" displayUrl:@"" insertTime:testDate];
+- (void)setUp {
+    NSError *e = nil;
+    self.now = [NSDate date];
 
-    XCTAssertTrue([first isEqual:second]);
-    XCTAssertTrue([second isEqual:first]);
+    NSURL *jsonURL = [[NSBundle mainBundle] URLForResource:@"SampleBid" withExtension:@"json"];
+    NSLog(@"SampleBid.json URL: %@", jsonURL);
+
+    NSString *jsonText = [NSString stringWithContentsOfURL:jsonURL encoding:NSUTF8StringEncoding error:&e];
+    if (e) { XCTFail(@"%@", e); }
+    NSLog(@"SampleBid.json contents: %@", jsonText);
+
+    NSData *jsonData = [jsonText dataUsingEncoding:NSUTF8StringEncoding];
+    if (e) { XCTFail(@"%@", e); }
+
+    NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&e];
+    if (e) { XCTFail(@"%@", e); }
+    self.jdict = responseDict[@"slots"][0];
+    XCTAssertNotNil(self.jdict);
+
+    NSArray<CR_CdbBid *> *bids = [CR_CdbBid getCdbResponsesForData:jsonData receivedAt:self.now];
+    XCTAssertEqual(bids.count, 2);
+    self.bid1 = bids[0];
+    XCTAssertNotNil(self.bid1);
+    self.bid2 = bids[1];
+    XCTAssertNotNil(self.bid2);
 }
 
-- (void) testCdbBidIsEqualDuex {
-    NSDate *testDate = [NSDate date];
-    CR_CdbBid *first = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />" displayUrl:@"" insertTime:testDate];
-    CR_CdbBid *second = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />" displayUrl:@"" insertTime:testDate];
+- (BOOL)testHashAndIsEqualForUnequalObjects:(NSDictionary *)dict key:(id)key modValue:(id)modValue {
+    NSDictionary *modDict      = [dict dictionaryWithNewValue:modValue forKey:key];
+    NSDictionary *dictWithNil1 = [dict dictionaryWithNewValue:nil forKey:key];
+    NSDictionary *dictWithNil2 = [dict dictionaryWithNewValue:nil forKey:key];
 
-    XCTAssertTrue([first isEqual:second]);
-    XCTAssertTrue([second isEqual:first]);
+    CR_CdbBid *bid         = [[CR_CdbBid alloc] initWithDict:dict receivedAt:self.now];
+    CR_CdbBid *modBid      = [[CR_CdbBid alloc] initWithDict:modDict receivedAt:self.now];
+    CR_CdbBid *bidNewTime1 = [[CR_CdbBid alloc] initWithDict:dict
+                                                      receivedAt:[self.now dateByAddingTimeInterval:50000]];
+    CR_CdbBid *bidNewTime2 = [[CR_CdbBid alloc] initWithDict:dict
+                                                      receivedAt:[self.now dateByAddingTimeInterval:50000]];
+    CR_CdbBid *bidWithNil1 = [[CR_CdbBid alloc] initWithDict:dictWithNil1 receivedAt:self.now];
+    CR_CdbBid *bidWithNil2 = [[CR_CdbBid alloc] initWithDict:dictWithNil2 receivedAt:self.now];
+
+    XCTAssertNotEqual(bid.hash,         modBid.hash);
+    XCTAssertNotEqual(bid.hash,         bidWithNil1.hash);
+    XCTAssertEqual(   bidWithNil1.hash, bidWithNil2.hash);
+    XCTAssertNotEqual(bid.hash,         bidNewTime1.hash);
+    XCTAssertEqual(   bidNewTime1.hash, bidNewTime2.hash);
+
+    XCTAssertFalse([bid         isEqual:modBid]);
+    XCTAssertFalse([modBid      isEqual:bid]);
+    XCTAssertFalse([bid         isEqual:bidWithNil1]);
+    XCTAssertFalse([bidWithNil1 isEqual:bid]);
+    XCTAssertTrue( [bidWithNil1 isEqual:bidWithNil2]);
+    XCTAssertTrue( [bidWithNil2 isEqual:bidWithNil1]);
+    XCTAssertFalse([bid         isEqual:bidNewTime1]);
+    XCTAssertFalse([bidNewTime1 isEqual:bid]);
+    XCTAssertTrue( [bidNewTime1 isEqual:bidNewTime2]);
+    XCTAssertTrue( [bidNewTime2 isEqual:bidNewTime1]);
+
+    XCTAssertNotEqualObjects(bid,         modBid);
+    XCTAssertNotEqualObjects(modBid,      bid);
+    XCTAssertNotEqualObjects(bid,         bidWithNil1);
+    XCTAssertNotEqualObjects(bidWithNil1, bid);
+    XCTAssertEqualObjects(   bidWithNil1, bidWithNil2);
+    XCTAssertEqualObjects(   bidWithNil2, bidWithNil1);
+    XCTAssertNotEqualObjects(bid,         bidNewTime1);
+    XCTAssertNotEqualObjects(bidNewTime1, bid);
+    XCTAssertEqualObjects(   bidNewTime1, bidNewTime2);
+    XCTAssertEqualObjects(   bidNewTime2, bidNewTime1);
+
+    XCTAssertNotEqualObjects(bid,         nil);
+    XCTAssertNotEqualObjects(bid,         @"astring");
 }
 
-- (void) testCdbBidIsNotEqual {
-    CR_CdbBid *first = [[CR_CdbBid alloc] initWithZoneId:@(497747) placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />" displayUrl:@"" insertTime:[NSDate date]];
-    CR_CdbBid *second = [[CR_CdbBid alloc] initWithZoneId:@(497747) placementId:@"adunitid_1" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:nil ttl:600 creative:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />" displayUrl:@"" insertTime:[NSDate date]];
+- (void)testInitialization {
+    NSDate *now = [NSDate date];
+    CR_CdbBid *bid = [[CR_CdbBid alloc] initWithDict:self.jdict receivedAt:now];
 
-    XCTAssertFalse([first isEqual:second]);
-    XCTAssertFalse([second isEqual:first]);
+    XCTAssertEqualObjects(bid.placementId, @"/140800857/Endeavour_Native");
+    XCTAssertEqualObjects(bid.cpm, @"0.04");
+    XCTAssertEqualObjects(bid.currency, @"USD");
+    XCTAssertEqualObjects(bid.zoneId, @(497747));
+    XCTAssertEqualObjects(bid.displayUrl,
+           @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250'>");
+    XCTAssertEqualObjects(bid.creative, @"HelloWorld");
+    XCTAssertEqualObjects(bid.width, @(2));
+    XCTAssertEqualObjects(bid.height, @(2));
+    XCTAssertEqual(bid.ttl, 3600);
+
+    XCTAssertEqualObjects(bid.nativeAssets.products[0].title, @"\"Stripe Pima Dress\" - $99");
+    XCTAssertEqualObjects(bid.nativeAssets.products[0].description, @"We're All About Comfort.");
+    XCTAssertEqualObjects(bid.nativeAssets.products[0].price, @"$99");
+    XCTAssertEqualObjects(bid.nativeAssets.products[0].clickUrl, @"https://cat.sv.us.criteo.com/delivery/ckn.php?");
+    XCTAssertEqualObjects(bid.nativeAssets.products[0].callToAction, @"scipio");
+    XCTAssertEqualObjects(bid.nativeAssets.products[0].image.url, @"https://pix.us.criteo.net/img/img?");
+    XCTAssertEqual(bid.nativeAssets.products[0].image.width, 502);
+    XCTAssertEqual(bid.nativeAssets.products[0].image.height, 501);
+
+    XCTAssertEqualObjects(bid.nativeAssets.products[1].title, @"\"Just a Dress\" - $9999");
+    XCTAssertEqualObjects(bid.nativeAssets.products[1].description, @"We're NOT About Comfort.");
+    XCTAssertEqualObjects(bid.nativeAssets.products[1].price, @"$9999");
+    XCTAssertEqualObjects(bid.nativeAssets.products[1].clickUrl, @"https://cat.sv.us.criteo.com/delivery/ckn2.php?");
+    XCTAssertEqualObjects(bid.nativeAssets.products[1].callToAction, @"Buy this blinkin dress");
+    XCTAssertEqualObjects(bid.nativeAssets.products[1].image.url, @"https://pix.us.criteo.net/img/img2?");
+    XCTAssertEqual(bid.nativeAssets.products[1].image.width, 402);
+    XCTAssertEqual(bid.nativeAssets.products[1].image.height, 401);
+
+    XCTAssertEqualObjects(bid.nativeAssets.advertiser.description, @"The Company Store");
+    XCTAssertEqualObjects(bid.nativeAssets.advertiser.domain, @"thecompanystore.com");
+    XCTAssertEqualObjects(bid.nativeAssets.advertiser.logoClickUrl, @"https://cat.sv.us.criteo.com/delivery/ckn.php?");
+    XCTAssertEqualObjects(bid.nativeAssets.advertiser.logoImage.url, @"https://pix.us.criteo.net/img/img?");
+    XCTAssertEqual(bid.nativeAssets.advertiser.logoImage.width, 300);
+    XCTAssertEqual(bid.nativeAssets.advertiser.logoImage.height, 200);
+
+    XCTAssertEqualObjects(bid.nativeAssets.privacy.optoutClickUrl, @"https://privacy.us.criteo.com/adcenter?");
+    XCTAssertEqualObjects(bid.nativeAssets.privacy.optoutImageUrl, @"https://static.criteo.net/flash/icon/nai_small.png");
+    XCTAssertEqualObjects(bid.nativeAssets.privacy.longLegalText, @"Blah blah blah");
+
+    XCTAssertEqualObjects(bid.nativeAssets.impressionPixels[0], @"https://cat.sv.us.criteo.com/delivery/lgn.php?");
+    XCTAssertEqualObjects(bid.nativeAssets.impressionPixels[1], @"https://cat.sv.us.criteo.com/delivery2/lgn.php?");
+}
+
+- (void)testEmptyInitialization {
+    CR_CdbBid *bid = [[CR_CdbBid alloc] initWithDict:[NSDictionary new] receivedAt:self.now];
+    XCTAssertNil(bid.placementId);
+    XCTAssertNil(bid.zoneId);
+    XCTAssertNil(bid.cpm);
+    XCTAssertNil(bid.currency);
+    XCTAssertNil(bid.width);
+    XCTAssertNil(bid.height);
+    XCTAssertEqual(bid.ttl, 900);
+    XCTAssertNil(bid.creative);
+    XCTAssertNil(bid.displayUrl);
+    XCTAssertNil(bid.dfpCompatibleDisplayUrl);
+    XCTAssertNil(bid.mopubCompatibleDisplayUrl);
+    XCTAssertNil(bid.nativeAssets);
+ }
+
+- (void)testNilInitialization {
+    CR_CdbBid *bid = [[CR_CdbBid alloc] initWithDict:nil receivedAt:self.now];
+    XCTAssertNil(bid.placementId);
+    XCTAssertNil(bid.zoneId);
+    XCTAssertNil(bid.cpm);
+    XCTAssertNil(bid.currency);
+    XCTAssertNil(bid.width);
+    XCTAssertNil(bid.height);
+    XCTAssertEqual(bid.ttl, 900);
+    XCTAssertNil(bid.creative);
+    XCTAssertNil(bid.displayUrl);
+    XCTAssertNil(bid.dfpCompatibleDisplayUrl);
+    XCTAssertNil(bid.mopubCompatibleDisplayUrl);
+    XCTAssertNil(bid.nativeAssets);
+}
+
+- (void)testHashEquality {
+    XCTAssertEqual(self.bid1.hash, self.bid2.hash);
+}
+
+- (void)testIsEqualTrue {
+    XCTAssertEqualObjects(self.bid1, self.bid1);
+    XCTAssertEqualObjects(self.bid1, self.bid2);
+    XCTAssertEqualObjects(self.bid2, self.bid1);
+}
+
+- (void)testUnequalObjects {
+    [self testHashAndIsEqualForUnequalObjects:self.jdict key:@"placementId" modValue:@"baerf"];
+    [self testHashAndIsEqualForUnequalObjects:self.jdict key:@"zoneId" modValue:@(234)];
+    [self testHashAndIsEqualForUnequalObjects:self.jdict key:@"cpm" modValue:@"crud"];
+    [self testHashAndIsEqualForUnequalObjects:self.jdict key:@"currency" modValue:@"sdfgasdf"];
+    [self testHashAndIsEqualForUnequalObjects:self.jdict key:@"width" modValue:@(23455)];
+    [self testHashAndIsEqualForUnequalObjects:self.jdict key:@"height" modValue:@(111234)];
+    [self testHashAndIsEqualForUnequalObjects:self.jdict key:@"ttl" modValue:@(2346578)];
+    [self testHashAndIsEqualForUnequalObjects:self.jdict key:@"creative" modValue:@";kawrfpoqjew "];
+    [self testHashAndIsEqualForUnequalObjects:self.jdict key:@"displayUrl" modValue:@"rfdcb54x"];
+    NSMutableDictionary *modAssetsDict = [[NSMutableDictionary alloc] initWithDictionary:self.jdict[@"native"]];
+    modAssetsDict[@"privacy"] = nil;
+    [self testHashAndIsEqualForUnequalObjects:self.jdict key:@"native" modValue:modAssetsDict];
+}
+
+- (void)testCopy {
+    CR_CdbBid *bid1Copy = [self.bid1 copy];
+    XCTAssertNotNil(bid1Copy);
+    XCTAssertFalse(self.bid1 == bid1Copy);
+    XCTAssertEqualObjects(self.bid1, bid1Copy);
+
+    CR_CdbBid *bid2Copy = [self.bid2 copy];
+    XCTAssertNotNil(bid2Copy);
+    XCTAssertEqualObjects(bid1Copy, bid2Copy);
 }
 
 - (void) testCdbResponsesForData {
@@ -52,26 +221,33 @@
                                                        width:@(300) height:@(250) ttl:600
                                                     creative:nil
                                                   displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
-                                                  insertTime:testDate];
+                                                  insertTime:testDate
+                                                nativeAssets:nil];
 
     CR_CdbBid *testBid_2 = [[CR_CdbBid alloc] initWithZoneId:@(1234567) placementId:@"adunitid_2"
                                                          cpm:@"5.12" currency:@"EUR"
                                                        width:@(300) height:@(250) ttl:600
                                                     creative:nil
                                                   displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
-                                                  insertTime:testDate];
+                                                  insertTime:testDate
+                                                nativeAssets:nil];
+
 
     CR_CdbBid *testBid_3 = [[CR_CdbBid alloc] initWithZoneId:@(1234567) placementId:@"adunitid_3"
                                                          cpm:@"5.12" currency:@"EUR" width:@(300) height:@(250) ttl:600
                                                     creative:nil
                                                   displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
-                                                  insertTime:testDate];
+                                                  insertTime:testDate
+                                                nativeAssets:nil];
+
 
     CR_CdbBid *testBid_4 = [[CR_CdbBid alloc] initWithZoneId:@(1234567) placementId:@"adunitid_4"
                                                          cpm:nil currency:@"EUR" width:@(300) height:@(250) ttl:600
                                                     creative:nil
                                                   displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
-                                                  insertTime:testDate];
+                                                  insertTime:testDate
+                                                nativeAssets:nil];
+
 
     // Json response from CDB
     // The cpm is a number
@@ -101,25 +277,31 @@
                                                          cpm:@"1.12" currency:@"EUR" width:@(300) height:@(250) ttl:600
                                                     creative:nil
                                                   displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
-                                                  insertTime:testDate];
+                                                  insertTime:testDate
+                                                nativeAssets:nil];
+
 
     CR_CdbBid *testBid_2 = [[CR_CdbBid alloc] initWithZoneId:@(1234567) placementId:@"adunitid_2"
                                                          cpm:@"5.12" currency:@"EUR" width:@(300) height:@(250) ttl:600
                                                     creative:nil
                                                   displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
-                                                  insertTime:testDate];
+                                                  insertTime:testDate
+                                                nativeAssets:nil];
+
 
     CR_CdbBid *testBid_3 = [[CR_CdbBid alloc] initWithZoneId:@(1234567) placementId:@"adunitid_3"
                                                          cpm:@"5.12" currency:@"EUR" width:@(300) height:@(250) ttl:600
                                                     creative:nil
                                                   displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
-                                                  insertTime:testDate];
+                                                  insertTime:testDate
+                                                nativeAssets:nil];
 
     CR_CdbBid *testBid_4 = [[CR_CdbBid alloc] initWithZoneId:@(1234567) placementId:@"adunitid_4"
                                                          cpm:nil currency:@"EUR" width:@(300) height:@(250) ttl:600
                                                     creative:nil
                                                   displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
-                                                  insertTime:testDate];
+                                                  insertTime:testDate
+                                                nativeAssets:nil];
 
     // Json response from CDB
     // The CPM is a string
@@ -152,7 +334,9 @@
                                          ttl:ttl
                                     creative:nil
                                   displayUrl:@"https://someUrl.com"
-                                  insertTime:[NSDate dateWithTimeIntervalSinceNow:diff]];
+                                  insertTime:[NSDate dateWithTimeIntervalSinceNow:diff]
+                                nativeAssets:nil];
+
 }
 
 
@@ -201,7 +385,8 @@
                                                        ttl:0.0
                                                   creative:nil
                                                 displayUrl:displayUrl
-                                                insertTime:nil];
+                                                insertTime:nil
+                                              nativeAssets:nil];
 
     XCTAssertEqualObjects(displayUrl, testBid.displayUrl, @"displayUrl property should not alter displayUrl");
     XCTAssertEqualObjects(doubleUrlEncodedBase64DisplayUrl, testBid.dfpCompatibleDisplayUrl, @"dfpCompatibleDisplayUrl property is not a properly encoded version of displayUrl");
@@ -220,7 +405,8 @@
                                                          ttl:0
                                                     creative:nil
                                                   displayUrl:@""
-                                                  insertTime:testDate];
+                                                  insertTime:testDate
+                                                nativeAssets:nil];
 
     //case when silent mode : cpm = 0 and ttl > 0
     CR_CdbBid *testBid_2 = [[CR_CdbBid alloc] initWithZoneId:@(497747)
@@ -232,7 +418,8 @@
                                                          ttl:900
                                                     creative:nil
                                                   displayUrl:@""
-                                                  insertTime:testDate];
+                                                  insertTime:testDate
+                                                nativeAssets:nil];
 
     //case when bid : cpm > 0 and ttl = 0, but ttl set to 900
     CR_CdbBid *testBid_3 = [[CR_CdbBid alloc] initWithZoneId:@(497747)
@@ -244,7 +431,8 @@
                                                          ttl:900
                                                     creative:nil
                                                   displayUrl:@""
-                                                  insertTime:testDate];
+                                                  insertTime:testDate
+                                                nativeAssets:nil];
 
     //case when bid caching : cpm > 0 and ttl > 0
     CR_CdbBid *testBid_4 = [[CR_CdbBid alloc] initWithZoneId:@(497747)
@@ -256,7 +444,8 @@
                                                          ttl:700
                                                     creative:nil
                                                   displayUrl:@""
-                                                  insertTime:testDate];
+                                                  insertTime:testDate
+                                                nativeAssets:nil];
 
     // Json response from CDB
     // The cpm is a number
@@ -278,7 +467,6 @@
     XCTAssertTrue([testBid_3 isEqual:testBids[2]]);
     // missing cpm
     XCTAssertTrue([testBid_4 isEqual:testBids[3]]);
-
 }
 
 @end

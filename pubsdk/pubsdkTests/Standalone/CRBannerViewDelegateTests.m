@@ -73,7 +73,8 @@
                                             ttl:26
                                        creative:@"THIS IS USELESS LEGACY"
                                      displayUrl:displayURL
-                                     insertTime:[NSDate date]];
+                                     insertTime:[NSDate date]
+                                    nativeAssets:nil];
     }
     return bid;
 }

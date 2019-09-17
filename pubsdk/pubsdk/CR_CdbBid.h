@@ -10,6 +10,7 @@
 #define CR_CdbBid_h
 
 #import <Foundation/Foundation.h>
+#import "CR_NativeAssets.h"
 
 @interface CR_CdbBid : NSObject <NSCopying>
 
@@ -25,7 +26,7 @@
 @property (readonly, nonatomic) NSString *dfpCompatibleDisplayUrl;
 @property (readonly, nonatomic) NSString *mopubCompatibleDisplayUrl;
 @property (readonly, nonatomic) NSDate *insertTime;
-@property (copy, nonatomic) NSString *nativeAssets; // This will change to CR_NativeAssets EE-492
+@property (readonly, copy, nonatomic) CR_NativeAssets *nativeAssets;
 
 + (instancetype) emptyBid;
 
@@ -43,15 +44,12 @@
                           width:(NSNumber *) width
                          height:(NSNumber *) height
                             ttl:(NSTimeInterval) ttl
-                                // creative is an useless legacy field
-                       creative:(NSString *) creative
+                       creative:(NSString *) creative   // creative is an useless legacy field
                      displayUrl:(NSString *) displayUrl
-// TODO: Move this to a state object
-                     insertTime:(NSDate *) insertTime
-NS_DESIGNATED_INITIALIZER;
+                     insertTime:(NSDate *) insertTime   // TODO: Move this to a state object
+                   nativeAssets:(CR_NativeAssets *) nativeAssets;
 
-- (instancetype) copyWithZone:(NSZone *) zone;
-- (BOOL) isEqual:(CR_CdbBid *) object;
+- (instancetype) initWithDict:(NSDictionary *)slot receivedAt:(NSDate *)receivedAt;
 - (BOOL) isEmpty;
 - (BOOL) isExpired;
 - (NSString *)dfpCompatibleString:(NSString*)string;

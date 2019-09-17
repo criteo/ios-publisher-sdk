@@ -41,7 +41,7 @@
             }
             _products = productArray.count > 0 ? productArray : nil;
         }
-        
+
         // Impression pixel array
         _impressionPixels = nil;
         NSArray<NSDictionary *> *imprPixelDicts = jdict[@"impressionPixels"];
@@ -63,14 +63,6 @@
         _privacy    = [CR_NativePrivacy    nativePrivacyWithDict:    jdict[@"privacy"]];
     }
     return self;
-}
-
-+ (CR_NativeAssets *)nativeAssetsWithDict:(NSDictionary *)dict {
-    if (dict && [dict isKindOfClass:NSDictionary.class]) {
-        return [[CR_NativeAssets alloc] initWithDict:dict];
-    } else {
-        return nil;
-    }
 }
 
 // Hash values of two CR_NativeAssets objects must be the same if the objects are equal. The reverse is not

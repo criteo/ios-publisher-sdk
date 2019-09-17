@@ -20,6 +20,5 @@
 @property (readonly, copy, nonatomic) NSArray<NSString *> *impressionPixels;
 
 - (instancetype)initWithDict:(NSDictionary *)jdict;
-+ (CR_NativeAssets *)nativeAssetsWithDict:(NSDictionary *)dict;
 
 @end

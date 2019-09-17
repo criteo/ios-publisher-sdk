@@ -1,0 +1,118 @@
+{
+    "slots": [{
+        "placementId": "/140800857/Endeavour_Native",
+        "cpm": "0.04",
+        "currency": "USD",
+        "zoneId": 497747,
+        "displayUrl": "<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250'>",
+        "creative": "HelloWorld",
+        "width": 2,
+        "height": 2,
+        "ttl": 3600,
+        "native": {
+            "products": [{
+                "title": "\"Stripe Pima Dress\" - $99",
+                "description": "We're All About Comfort.",
+                "price": "$99",
+                "clickUrl": "https://cat.sv.us.criteo.com/delivery/ckn.php?",
+                "callToAction": "scipio",
+                "image": {
+                    "url": "https://pix.us.criteo.net/img/img?",
+                    "height": 501,
+                    "width": 502
+                }
+            },
+            {
+                "title": "\"Just a Dress\" - $9999",
+                "description": "We're NOT About Comfort.",
+                "price": "$9999",
+                "clickUrl": "https://cat.sv.us.criteo.com/delivery/ckn2.php?",
+                "callToAction": "Buy this blinkin dress",
+                "image": {
+                    "url": "https://pix.us.criteo.net/img/img2?",
+                    "height": 401,
+                    "width": 402
+                }
+            }],
+            "advertiser": {
+                "description": "The Company Store",
+                "domain": "thecompanystore.com",
+                "logo": {
+                    "url": "https://pix.us.criteo.net/img/img?",
+                    "height": 200,
+                    "width": 300
+                },
+                "logoClickUrl": "https://cat.sv.us.criteo.com/delivery/ckn.php?"
+            },
+            "privacy": {
+                "optoutClickUrl": "https://privacy.us.criteo.com/adcenter?",
+                "optoutImageUrl": "https://static.criteo.net/flash/icon/nai_small.png",
+                "longLegalText": "Blah blah blah"
+            },
+            "impressionPixels": [{
+                "url": "https://cat.sv.us.criteo.com/delivery/lgn.php?"
+            },
+            {
+                "url": "https://cat.sv.us.criteo.com/delivery2/lgn.php?"
+            }]
+        }
+    },
+    {
+        "placementId": "/140800857/Endeavour_Native",
+        "cpm": "0.04",
+        "currency": "USD",
+        "zoneId": 497747,
+        "displayUrl": "<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250'>",
+        "creative": "HelloWorld",
+        "width": 2,
+        "height": 2,
+        "ttl": 3600,
+        "native": {
+            "products": [{
+                "title": "\"Stripe Pima Dress\" - $99",
+                "description": "We're All About Comfort.",
+                "price": "$99",
+                "clickUrl": "https://cat.sv.us.criteo.com/delivery/ckn.php?",
+                "callToAction": "scipio",
+                "image": {
+                    "url": "https://pix.us.criteo.net/img/img?",
+                    "height": 501,
+                    "width": 502
+                }
+            },
+            {
+                "title": "\"Just a Dress\" - $9999",
+                "description": "We're NOT About Comfort.",
+                "price": "$9999",
+                "clickUrl": "https://cat.sv.us.criteo.com/delivery/ckn2.php?",
+                "callToAction": "Buy this blinkin dress",
+                "image": {
+                    "url": "https://pix.us.criteo.net/img/img2?",
+                    "height": 401,
+                    "width": 402
+                }
+            }],
+            "advertiser": {
+                "description": "The Company Store",
+                "domain": "thecompanystore.com",
+                "logo": {
+                    "url": "https://pix.us.criteo.net/img/img?",
+                    "height": 200,
+                    "width": 300
+                },
+                "logoClickUrl": "https://cat.sv.us.criteo.com/delivery/ckn.php?"
+            },
+            "privacy": {
+                "optoutClickUrl": "https://privacy.us.criteo.com/adcenter?",
+                "optoutImageUrl": "https://static.criteo.net/flash/icon/nai_small.png",
+                "longLegalText": "Blah blah blah"
+            },
+            "impressionPixels": [{
+                "url": "https://cat.sv.us.criteo.com/delivery/lgn.php?"
+            },
+            {
+                "url": "https://cat.sv.us.criteo.com/delivery2/lgn.php?"
+            }]
+        }
+    }]
+}

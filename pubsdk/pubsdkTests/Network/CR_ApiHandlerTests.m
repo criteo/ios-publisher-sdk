@@ -46,7 +46,8 @@
     CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid_1" cpm:@"1.12"
                                                     currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil
                                                   displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
-                                                  insertTime:[NSDate date]];
+                                                  insertTime:[NSDate date]
+                                                nativeAssets:nil];
 
     CR_GdprUserConsent *mockUserConsent = OCMStrictClassMock([CR_GdprUserConsent class]);
     OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
@@ -125,11 +126,14 @@
     CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid_1" cpm:@"1.12"
                                                     currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil
                                                   displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
-                                                  insertTime:[NSDate date]];
+                                                  insertTime:[NSDate date]
+                                                nativeAssets:nil];
+
     CR_CdbBid *testBid_2 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid_2" cpm:@"1.6"
                                                     currency:@"USD" width:@(320) height:@(50) ttl:700 creative:nil
                                                   displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative2.png' width='300' height='250' />"
-                                                  insertTime:[NSDate date]];
+                                                  insertTime:[NSDate date]
+                                                nativeAssets:nil];
 
     CR_GdprUserConsent *mockUserConsent = OCMStrictClassMock([CR_GdprUserConsent class]);
     OCMStub([mockUserConsent gdprApplies]).andReturn(YES);

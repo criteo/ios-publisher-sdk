@@ -206,12 +206,6 @@
     [self checkIsAllNormal:assets];
 }
 
-- (void)checkFactoryMethod {
-    XCTAssertNil([CR_NativeAssets nativeAssetsWithDict:nil]);
-    CR_NativeAssets *assets = [CR_NativeAssets nativeAssetsWithDict:self.jdict];
-    [self checkIsAllNormal:assets];
-}
-
 - (void)checkIsAllNil:(CR_NativeAssets *)assets {
     XCTAssertNil(assets.products);
     XCTAssertNil(assets.advertiser);
@@ -232,8 +226,8 @@
                                    @"privacy": @(1),
                                    @"impressionPixels": @[@(3), @(4)]
                                    };
-    CR_NativeAssets *assets1 = [CR_NativeAssets nativeAssetsWithDict:badJsonDict1];
-    CR_NativeAssets *assets2 = [CR_NativeAssets nativeAssetsWithDict:badJsonDict2];
+    CR_NativeAssets *assets1 = [[CR_NativeAssets alloc] initWithDict:badJsonDict1];
+    CR_NativeAssets *assets2 = [[CR_NativeAssets alloc] initWithDict:badJsonDict2];
     [self checkIsAllNil:assets1];
     [self checkIsAllNil:assets2];
 }
