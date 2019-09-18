@@ -19,7 +19,11 @@
 #import <XCTest/XCTest.h>
 #import "CRInterstitialCustomEvent.h"
 #import <OCMock.h>
+#ifdef CRTO_BUILD
 #import <MoPub.h>
+#else
+#import <MoPub/MoPub.h>
+#endif
 @import CriteoPublisherSdk;
 
 // Private property (duplicates code in CRIntrstitialCustomEvent.m so that we can use it in testing)

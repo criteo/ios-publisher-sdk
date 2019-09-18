@@ -18,7 +18,11 @@
 
 #import <XCTest/XCTest.h>
 #import "CRBannerCustomEvent.h"
+#ifdef CRTO_BUILD
 #import <MoPub.h>
+#else
+#import <MoPub/MoPub.h>
+#endif
 #import <OCMock.h>
 
 // Private properties (duplicates code in CRBannerCustomEvent.m so that we can use them in testing)
