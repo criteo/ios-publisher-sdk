@@ -12,12 +12,14 @@
 #import "CR_CdbBid.h"
 #import "CR_NativeAssets.h"
 
-
 @interface CR_CdbBidTests : XCTestCase
 
-@property (strong) NSDictionary *jdict;
-@property (strong) CR_CdbBid *bid1;
-@property (strong) CR_CdbBid *bid2;
+@property (strong) NSDictionary *nativeJDict;
+@property (strong) NSDictionary *bannerJDict;
+@property (strong) NSData *jsonData;
+@property (strong) CR_CdbBid *nativeBid1;
+@property (strong) CR_CdbBid *nativeBid2;
+@property (strong) CR_CdbBid *bannerBid;
 @property (strong) NSDate *now;
 
 @end
@@ -35,20 +37,24 @@
     if (e) { XCTFail(@"%@", e); }
     NSLog(@"SampleBid.json contents: %@", jsonText);
 
-    NSData *jsonData = [jsonText dataUsingEncoding:NSUTF8StringEncoding];
+    self.jsonData = [jsonText dataUsingEncoding:NSUTF8StringEncoding];
     if (e) { XCTFail(@"%@", e); }
 
-    NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&e];
+    NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:self.jsonData options:0 error:&e];
     if (e) { XCTFail(@"%@", e); }
-    self.jdict = responseDict[@"slots"][0];
-    XCTAssertNotNil(self.jdict);
+    self.nativeJDict = responseDict[@"slots"][0];
+    self.bannerJDict = responseDict[@"slots"][2];
+    XCTAssertNotNil(self.nativeJDict);
+    XCTAssertNotNil(self.bannerJDict);
 
-    NSArray<CR_CdbBid *> *bids = [CR_CdbBid getCdbResponsesForData:jsonData receivedAt:self.now];
-    XCTAssertEqual(bids.count, 2);
-    self.bid1 = bids[0];
-    XCTAssertNotNil(self.bid1);
-    self.bid2 = bids[1];
-    XCTAssertNotNil(self.bid2);
+    NSArray<CR_CdbBid *> *bids = [CR_CdbBid getCdbResponsesForData:self.jsonData receivedAt:self.now];
+    XCTAssertEqual(bids.count, 3);
+    self.nativeBid1 = bids[0];
+    XCTAssertNotNil(self.nativeBid1);
+    self.nativeBid2 = bids[1];
+    XCTAssertNotNil(self.nativeBid2);
+    self.bannerBid = bids[2];
+    XCTAssertNotNil(self.bannerBid);
 }
 
 - (BOOL)testHashAndIsEqualForUnequalObjects:(NSDictionary *)dict key:(id)key modValue:(id)modValue {
@@ -99,50 +105,47 @@
 
 - (void)testInitialization {
     NSDate *now = [NSDate date];
-    CR_CdbBid *bid = [[CR_CdbBid alloc] initWithDict:self.jdict receivedAt:now];
+    CR_CdbBid *nativeBid = [[CR_CdbBid alloc] initWithDict:self.nativeJDict receivedAt:now];
 
-    XCTAssertEqualObjects(bid.placementId, @"/140800857/Endeavour_Native");
-    XCTAssertEqualObjects(bid.cpm, @"0.04");
-    XCTAssertEqualObjects(bid.currency, @"USD");
-    XCTAssertEqualObjects(bid.zoneId, @(497747));
-    XCTAssertEqualObjects(bid.displayUrl,
-           @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250'>");
-    XCTAssertEqualObjects(bid.creative, @"HelloWorld");
-    XCTAssertEqualObjects(bid.width, @(2));
-    XCTAssertEqualObjects(bid.height, @(2));
-    XCTAssertEqual(bid.ttl, 3600);
+    XCTAssertEqualObjects(nativeBid.placementId, @"/140800857/Endeavour_Native");
+    XCTAssertEqualObjects(nativeBid.cpm, @"0.04");
+    XCTAssertEqualObjects(nativeBid.currency, @"USD");
+    XCTAssertEqualObjects(self.bannerBid.displayUrl, @"https://rdi.us.criteo.com/delivery/r/ajs");
+    XCTAssertEqualObjects(nativeBid.width, @(2));
+    XCTAssertEqualObjects(nativeBid.height, @(2));
+    XCTAssertEqual(nativeBid.ttl, 3600);
 
-    XCTAssertEqualObjects(bid.nativeAssets.products[0].title, @"\"Stripe Pima Dress\" - $99");
-    XCTAssertEqualObjects(bid.nativeAssets.products[0].description, @"We're All About Comfort.");
-    XCTAssertEqualObjects(bid.nativeAssets.products[0].price, @"$99");
-    XCTAssertEqualObjects(bid.nativeAssets.products[0].clickUrl, @"https://cat.sv.us.criteo.com/delivery/ckn.php?");
-    XCTAssertEqualObjects(bid.nativeAssets.products[0].callToAction, @"scipio");
-    XCTAssertEqualObjects(bid.nativeAssets.products[0].image.url, @"https://pix.us.criteo.net/img/img?");
-    XCTAssertEqual(bid.nativeAssets.products[0].image.width, 502);
-    XCTAssertEqual(bid.nativeAssets.products[0].image.height, 501);
+    XCTAssertEqualObjects(nativeBid.nativeAssets.products[0].title, @"\"Stripe Pima Dress\" - $99");
+    XCTAssertEqualObjects(nativeBid.nativeAssets.products[0].description, @"We're All About Comfort.");
+    XCTAssertEqualObjects(nativeBid.nativeAssets.products[0].price, @"$99");
+    XCTAssertEqualObjects(nativeBid.nativeAssets.products[0].clickUrl, @"https://cat.sv.us.criteo.com/delivery/ckn.php?");
+    XCTAssertEqualObjects(nativeBid.nativeAssets.products[0].callToAction, @"scipio");
+    XCTAssertEqualObjects(nativeBid.nativeAssets.products[0].image.url, @"https://pix.us.criteo.net/img/img?");
+    XCTAssertEqual(nativeBid.nativeAssets.products[0].image.width, 502);
+    XCTAssertEqual(nativeBid.nativeAssets.products[0].image.height, 501);
 
-    XCTAssertEqualObjects(bid.nativeAssets.products[1].title, @"\"Just a Dress\" - $9999");
-    XCTAssertEqualObjects(bid.nativeAssets.products[1].description, @"We're NOT About Comfort.");
-    XCTAssertEqualObjects(bid.nativeAssets.products[1].price, @"$9999");
-    XCTAssertEqualObjects(bid.nativeAssets.products[1].clickUrl, @"https://cat.sv.us.criteo.com/delivery/ckn2.php?");
-    XCTAssertEqualObjects(bid.nativeAssets.products[1].callToAction, @"Buy this blinkin dress");
-    XCTAssertEqualObjects(bid.nativeAssets.products[1].image.url, @"https://pix.us.criteo.net/img/img2?");
-    XCTAssertEqual(bid.nativeAssets.products[1].image.width, 402);
-    XCTAssertEqual(bid.nativeAssets.products[1].image.height, 401);
+    XCTAssertEqualObjects(nativeBid.nativeAssets.products[1].title, @"\"Just a Dress\" - $9999");
+    XCTAssertEqualObjects(nativeBid.nativeAssets.products[1].description, @"We're NOT About Comfort.");
+    XCTAssertEqualObjects(nativeBid.nativeAssets.products[1].price, @"$9999");
+    XCTAssertEqualObjects(nativeBid.nativeAssets.products[1].clickUrl, @"https://cat.sv.us.criteo.com/delivery/ckn2.php?");
+    XCTAssertEqualObjects(nativeBid.nativeAssets.products[1].callToAction, @"Buy this blinkin dress");
+    XCTAssertEqualObjects(nativeBid.nativeAssets.products[1].image.url, @"https://pix.us.criteo.net/img/img2?");
+    XCTAssertEqual(nativeBid.nativeAssets.products[1].image.width, 402);
+    XCTAssertEqual(nativeBid.nativeAssets.products[1].image.height, 401);
 
-    XCTAssertEqualObjects(bid.nativeAssets.advertiser.description, @"The Company Store");
-    XCTAssertEqualObjects(bid.nativeAssets.advertiser.domain, @"thecompanystore.com");
-    XCTAssertEqualObjects(bid.nativeAssets.advertiser.logoClickUrl, @"https://cat.sv.us.criteo.com/delivery/ckn.php?");
-    XCTAssertEqualObjects(bid.nativeAssets.advertiser.logoImage.url, @"https://pix.us.criteo.net/img/img?");
-    XCTAssertEqual(bid.nativeAssets.advertiser.logoImage.width, 300);
-    XCTAssertEqual(bid.nativeAssets.advertiser.logoImage.height, 200);
+    XCTAssertEqualObjects(nativeBid.nativeAssets.advertiser.description, @"The Company Store");
+    XCTAssertEqualObjects(nativeBid.nativeAssets.advertiser.domain, @"thecompanystore.com");
+    XCTAssertEqualObjects(nativeBid.nativeAssets.advertiser.logoClickUrl, @"https://cat.sv.us.criteo.com/delivery/ckn.php?");
+    XCTAssertEqualObjects(nativeBid.nativeAssets.advertiser.logoImage.url, @"https://pix.us.criteo.net/img/img?");
+    XCTAssertEqual(nativeBid.nativeAssets.advertiser.logoImage.width, 300);
+    XCTAssertEqual(nativeBid.nativeAssets.advertiser.logoImage.height, 200);
 
-    XCTAssertEqualObjects(bid.nativeAssets.privacy.optoutClickUrl, @"https://privacy.us.criteo.com/adcenter?");
-    XCTAssertEqualObjects(bid.nativeAssets.privacy.optoutImageUrl, @"https://static.criteo.net/flash/icon/nai_small.png");
-    XCTAssertEqualObjects(bid.nativeAssets.privacy.longLegalText, @"Blah blah blah");
+    XCTAssertEqualObjects(nativeBid.nativeAssets.privacy.optoutClickUrl, @"https://privacy.us.criteo.com/adcenter?");
+    XCTAssertEqualObjects(nativeBid.nativeAssets.privacy.optoutImageUrl, @"https://static.criteo.net/flash/icon/nai_small.png");
+    XCTAssertEqualObjects(nativeBid.nativeAssets.privacy.longLegalText, @"Blah blah blah");
 
-    XCTAssertEqualObjects(bid.nativeAssets.impressionPixels[0], @"https://cat.sv.us.criteo.com/delivery/lgn.php?");
-    XCTAssertEqualObjects(bid.nativeAssets.impressionPixels[1], @"https://cat.sv.us.criteo.com/delivery2/lgn.php?");
+    XCTAssertEqualObjects(nativeBid.nativeAssets.impressionPixels[0], @"https://cat.sv.us.criteo.com/delivery/lgn.php?");
+    XCTAssertEqualObjects(nativeBid.nativeAssets.impressionPixels[1], @"https://cat.sv.us.criteo.com/delivery2/lgn.php?");
 }
 
 - (void)testEmptyInitialization {
@@ -178,39 +181,41 @@
 }
 
 - (void)testHashEquality {
-    XCTAssertEqual(self.bid1.hash, self.bid2.hash);
+    XCTAssertEqual(self.nativeBid1.hash, self.nativeBid2.hash);
 }
 
 - (void)testIsEqualTrue {
-    XCTAssertEqualObjects(self.bid1, self.bid1);
-    XCTAssertEqualObjects(self.bid1, self.bid2);
-    XCTAssertEqualObjects(self.bid2, self.bid1);
+    XCTAssertEqualObjects(self.nativeBid1, self.nativeBid1);
+    XCTAssertEqualObjects(self.nativeBid1, self.nativeBid2);
+    XCTAssertEqualObjects(self.nativeBid2, self.nativeBid1);
 }
 
 - (void)testUnequalObjects {
-    [self testHashAndIsEqualForUnequalObjects:self.jdict key:@"placementId" modValue:@"baerf"];
-    [self testHashAndIsEqualForUnequalObjects:self.jdict key:@"zoneId" modValue:@(234)];
-    [self testHashAndIsEqualForUnequalObjects:self.jdict key:@"cpm" modValue:@"crud"];
-    [self testHashAndIsEqualForUnequalObjects:self.jdict key:@"currency" modValue:@"sdfgasdf"];
-    [self testHashAndIsEqualForUnequalObjects:self.jdict key:@"width" modValue:@(23455)];
-    [self testHashAndIsEqualForUnequalObjects:self.jdict key:@"height" modValue:@(111234)];
-    [self testHashAndIsEqualForUnequalObjects:self.jdict key:@"ttl" modValue:@(2346578)];
-    [self testHashAndIsEqualForUnequalObjects:self.jdict key:@"creative" modValue:@";kawrfpoqjew "];
-    [self testHashAndIsEqualForUnequalObjects:self.jdict key:@"displayUrl" modValue:@"rfdcb54x"];
-    NSMutableDictionary *modAssetsDict = [[NSMutableDictionary alloc] initWithDictionary:self.jdict[@"native"]];
+    [self testHashAndIsEqualForUnequalObjects:self.nativeJDict key:@"placementId" modValue:@"baerf"];
+    [self testHashAndIsEqualForUnequalObjects:self.nativeJDict key:@"cpm" modValue:@"crud"];
+    [self testHashAndIsEqualForUnequalObjects:self.nativeJDict key:@"currency" modValue:@"sdfgasdf"];
+    [self testHashAndIsEqualForUnequalObjects:self.nativeJDict key:@"width" modValue:@(23455)];
+    [self testHashAndIsEqualForUnequalObjects:self.nativeJDict key:@"height" modValue:@(111234)];
+    [self testHashAndIsEqualForUnequalObjects:self.nativeJDict key:@"ttl" modValue:@(2346578)];
+    [self testHashAndIsEqualForUnequalObjects:self.bannerJDict key:@"displayUrl" modValue:@"rfdcb54x"];
+    NSMutableDictionary *modAssetsDict = [[NSMutableDictionary alloc] initWithDictionary:self.nativeJDict[@"native"]];
     modAssetsDict[@"privacy"] = nil;
-    [self testHashAndIsEqualForUnequalObjects:self.jdict key:@"native" modValue:modAssetsDict];
+    [self testHashAndIsEqualForUnequalObjects:self.nativeJDict key:@"native" modValue:modAssetsDict];
 }
 
 - (void)testCopy {
-    CR_CdbBid *bid1Copy = [self.bid1 copy];
+    CR_CdbBid *bid1Copy = [self.nativeBid1 copy];
     XCTAssertNotNil(bid1Copy);
-    XCTAssertFalse(self.bid1 == bid1Copy);
-    XCTAssertEqualObjects(self.bid1, bid1Copy);
+    XCTAssertFalse(self.nativeBid1 == bid1Copy);
+    XCTAssertEqualObjects(self.nativeBid1, bid1Copy);
 
-    CR_CdbBid *bid2Copy = [self.bid2 copy];
+    CR_CdbBid *bid2Copy = [self.nativeBid2 copy];
     XCTAssertNotNil(bid2Copy);
     XCTAssertEqualObjects(bid1Copy, bid2Copy);
+
+    CR_CdbBid *bid3Copy = [self.bannerBid copy];
+    XCTAssertNotNil(bid3Copy);
+    XCTAssertEqualObjects(self.bannerBid, bid3Copy);
 }
 
 - (void) testCdbResponsesForData {
@@ -467,6 +472,57 @@
     XCTAssertTrue([testBid_3 isEqual:testBids[2]]);
     // missing cpm
     XCTAssertTrue([testBid_4 isEqual:testBids[3]]);
+}
+
+- (void)testValidBid {
+    XCTAssertTrue(self.nativeBid1.isValid);
+    XCTAssertTrue(self.nativeBid2.isValid);
+    XCTAssertTrue(self.bannerBid.isValid);
+}
+
+- (NSMutableDictionary *)createMutableDictionaryFromJSONFileWithNative:(BOOL)isNative {
+    NSError *e = nil;
+    NSMutableDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:self.jsonData options:NSJSONReadingMutableContainers error:&e];
+    return isNative ? responseDict[@"slots"][0] : responseDict[@"slots"][2];
+}
+
+- (void)testBidWithInvalidValue:(NSString *)value forKey:(NSString *)key {
+    NSMutableDictionary *mutableDict = [self createMutableDictionaryFromJSONFileWithNative:NO];
+    mutableDict[key] = value;
+    CR_CdbBid *bid = [[CR_CdbBid alloc] initWithDict:mutableDict receivedAt:self.now];
+    XCTAssertFalse(bid.isValid);
+}
+
+- (void)testInvalidBidForCpmAndDisplayUrl {
+    [self testBidWithInvalidValue:@"0.0" forKey:@"cpm"];
+    [self testBidWithInvalidValue:@"" forKey:@"displayUrl"];
+    [self testBidWithInvalidValue:nil forKey:@"cpm"];
+    [self testBidWithInvalidValue:nil forKey:@"displayUrl"];
+}
+
+- (void)testInvalidBidForNative {
+    NSMutableArray <NSMutableDictionary *> *mutableDict = [NSMutableArray new];
+    for(int i = 0; i < 11; i++) {
+        [mutableDict addObject:[self createMutableDictionaryFromJSONFileWithNative:YES]];
+    }
+
+    mutableDict[0][@"native"][@"products"] = nil;
+    mutableDict[1][@"native"][@"privacy"] = nil;
+    mutableDict[2][@"native"][@"impressionPixels"] = nil;
+    mutableDict[3][@"native"][@"privacy"][@"optoutClickUrl"] = nil;
+    mutableDict[4][@"native"][@"privacy"][@"optoutImageUrl"] = nil;
+    mutableDict[5][@"native"][@"products"] = @[];
+    mutableDict[6][@"native"][@"impressionPixels"] = @[];
+    mutableDict[7][@"native"][@"privacy"][@"optoutClickUrl"] = @"";
+    mutableDict[8][@"native"][@"privacy"][@"optoutImageUrl"] = @"";
+    mutableDict[9][@"native"][@"privacy"][@"optoutImageUrl"] = @(2);
+    mutableDict[10][@"native"][@"impressionPixels"] = @[@"", @""];
+
+    NSMutableArray <CR_CdbBid *> *bids = [NSMutableArray new];
+    for(int i = 0; i < 11; i++) {
+        [bids addObject:[[CR_CdbBid alloc] initWithDict:mutableDict[i] receivedAt:self.now]];
+        XCTAssertFalse(bids[i].isValid, @"Case %d failed", i);
+    }
 }
 
 @end

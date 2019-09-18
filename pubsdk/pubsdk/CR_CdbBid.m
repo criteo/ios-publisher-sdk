@@ -212,4 +212,22 @@ static CR_CdbBid *emptyBid;
 
     return [[NSDate date]timeIntervalSinceReferenceDate] - [[self insertTime]timeIntervalSinceReferenceDate] > self.ttl;
 }
+
+- (BOOL)isValid {
+    return self.cpm.floatValue > 0.0f   &&
+           [self isValidNativeAssetsOrUrl];
+}
+
+- (BOOL)isValidNativeAssetsOrUrl {
+    if (self.nativeAssets) {
+        return self.nativeAssets.privacy.optoutClickUrl.length > 0 &&
+               self.nativeAssets.privacy.optoutImageUrl.length > 0 &&
+               self.nativeAssets.products.count > 0                &&
+               self.nativeAssets.impressionPixels.count > 0;
+    }
+    else {
+        return self.displayUrl.length > 0;
+    }
+}
+
 @end

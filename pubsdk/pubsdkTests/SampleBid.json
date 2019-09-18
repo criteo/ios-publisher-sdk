@@ -3,9 +3,6 @@
         "placementId": "/140800857/Endeavour_Native",
         "cpm": "0.04",
         "currency": "USD",
-        "zoneId": 497747,
-        "displayUrl": "<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250'>",
-        "creative": "HelloWorld",
         "width": 2,
         "height": 2,
         "ttl": 3600,
@@ -61,9 +58,6 @@
         "placementId": "/140800857/Endeavour_Native",
         "cpm": "0.04",
         "currency": "USD",
-        "zoneId": 497747,
-        "displayUrl": "<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250'>",
-        "creative": "HelloWorld",
         "width": 2,
         "height": 2,
         "ttl": 3600,
@@ -114,5 +108,15 @@
                 "url": "https://cat.sv.us.criteo.com/delivery2/lgn.php?"
             }]
         }
-    }]
+    },
+    {
+        "placementId": "\/140800857\/Endeavour_320x50",
+        "cpm": "0.04",
+        "currency": "USD",
+        "width": 320,
+        "height": 50,
+        "ttl": 300,
+        "displayUrl": "https://rdi.us.criteo.com/delivery/r/ajs"
+    }
+    ]
 }

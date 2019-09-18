@@ -27,6 +27,7 @@
 @property (readonly, nonatomic) NSString *mopubCompatibleDisplayUrl;
 @property (readonly, nonatomic) NSDate *insertTime;
 @property (readonly, copy, nonatomic) CR_NativeAssets *nativeAssets;
+@property (readonly) BOOL isValid;
 
 + (instancetype) emptyBid;
 
@@ -52,7 +53,8 @@
 - (instancetype) initWithDict:(NSDictionary *)slot receivedAt:(NSDate *)receivedAt;
 - (BOOL) isEmpty;
 - (BOOL) isExpired;
-- (NSString *)dfpCompatibleString:(NSString*)string;
+- (BOOL) isValid;
+
 @end
 
 #endif /* CR_CdbBid_h */
