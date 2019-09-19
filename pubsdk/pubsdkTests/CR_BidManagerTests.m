@@ -10,7 +10,7 @@
 #import <XCTest/XCTest.h>
 
 #import <OCMock.h>
-
+#import "NSString+CR_UrlEncoder.h"
 #import "CR_BidManager.h"
 #import "CR_CdbBid.h"
 #import "CRBidToken+Internal.h"
@@ -19,9 +19,29 @@
 
 @interface CR_BidManagerTests : XCTestCase
 
+@property (strong) NSData *jsonData;
+@property (strong) NSMutableDictionary *mutableJsonDict;
+
 @end
 
 @implementation CR_BidManagerTests
+
+- (void)setUp {
+    NSError *e = nil;
+
+    NSURL *jsonURL = [[NSBundle mainBundle] URLForResource:@"SampleBid" withExtension:@"json"];
+
+    NSString *jsonText = [NSString stringWithContentsOfURL:jsonURL encoding:NSUTF8StringEncoding error:&e];
+    if (e) { XCTFail(@"%@", e); }
+
+    self.jsonData = [jsonText dataUsingEncoding:NSUTF8StringEncoding];
+    if (e) { XCTFail(@"%@", e); }
+
+    NSMutableDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:self.jsonData options:NSJSONReadingMutableContainers error:&e];
+    if (e) { XCTFail(@"%@", e); }
+    self.mutableJsonDict = responseDict[@"slots"][0];
+    XCTAssertNotNil(self.mutableJsonDict);
+}
 
 - (void) testGetBid {
     // test cache
@@ -768,6 +788,100 @@
     XCTAssertTrue(dfpRequest.customTargeting.count == 2);
     XCTAssertNil([dfpRequest.customTargeting objectForKey:@"crt_displayUrl"]);
     XCTAssertNil([dfpRequest.customTargeting objectForKey:@"crt_cpm"]);
+}
+
+- (void)checkMandatoryNativeAssets:(DFPRequest *)dfpBidRequest nativeBid:(CR_CdbBid *)nativeBid {
+    XCTAssert(nativeBid.nativeAssets.products.count > 0);
+    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.products[0].title],[dfpBidRequest.customTargeting objectForKey:@"crtn_title"]);
+    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.products[0].description],[dfpBidRequest.customTargeting objectForKey:@"crtn_desc"]);
+    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.products[0].price],[dfpBidRequest.customTargeting objectForKey:@"crtn_price"]);
+    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.products[0].clickUrl],[dfpBidRequest.customTargeting objectForKey:@"crtn_clickurl"]);
+    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.products[0].callToAction],[dfpBidRequest.customTargeting objectForKey:@"crtn_cta"]);
+    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.products[0].image.url],[dfpBidRequest.customTargeting objectForKey:@"crtn_imageurl"]);
+    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.privacy.optoutClickUrl],[dfpBidRequest.customTargeting objectForKey:@"crtn_prurl"]);
+    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.privacy.optoutImageUrl],[dfpBidRequest.customTargeting objectForKey:@"crtn_primageurl"]);
+    XCTAssertEqual(nativeBid.nativeAssets.impressionPixels.count,[[dfpBidRequest.customTargeting objectForKey:@"crtn_pixcount"] integerValue]);
+    for(int i = 0; i < nativeBid.nativeAssets.impressionPixels.count; i++) {
+        NSString *key = [NSString stringWithFormat:@"%@%d", @"crtn_pixurl_", i];
+       XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.impressionPixels[i]],[dfpBidRequest.customTargeting objectForKey:key]);
+    }
+}
+
+- (void) testAddCriteoNativeBidToDfpRequest {
+    CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"/140800857/Endeavour_Native" size:CGSizeMake(2, 2) isNative:YES];
+    CR_CdbBid *nativeBid = [[CR_CdbBid alloc] initWithDict:self.mutableJsonDict receivedAt:[NSDate date]];
+    CR_CacheManager *cache = [[CR_CacheManager alloc] init];
+    [cache setBid:nativeBid];
+
+    NSDictionary *testDfpCustomTargeting = [NSDictionary dictionaryWithObjectsAndKeys:@"object 1", @"key_1", @"object_2", @"key_2", nil];
+
+    DFPRequest *dfpBidRequest = [[DFPRequest alloc] init];
+    dfpBidRequest.customTargeting = testDfpCustomTargeting;
+
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
+                                                             cacheManager:cache
+                                                               tokenCache:nil
+                                                                   config:[[CR_Config alloc] initWithCriteoPublisherId:@("1234")]
+                                                            configManager:nil
+                                                               deviceInfo:nil
+                                                          gdprUserConsent:nil
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:0];
+
+    [bidManager addCriteoBidToRequest:dfpBidRequest forAdUnit:adUnit];
+
+    XCTAssertTrue(dfpBidRequest.customTargeting.count > 2);
+    XCTAssertNil([dfpBidRequest.customTargeting objectForKey:@"crt_displayUrl"]);
+    XCTAssertEqual(nativeBid.cpm, [dfpBidRequest.customTargeting objectForKey:@"crt_cpm"]);
+    [self checkMandatoryNativeAssets:dfpBidRequest nativeBid:nativeBid];
+    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.advertiser.description],[dfpBidRequest.customTargeting objectForKey:@"crtn_advname"]);
+    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.advertiser.domain],[dfpBidRequest.customTargeting objectForKey:@"crtn_advdomain"]);
+    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.advertiser.logoImage.url],[dfpBidRequest.customTargeting objectForKey:@"crtn_advlogourl"]);
+    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.advertiser.logoClickUrl],[dfpBidRequest.customTargeting objectForKey:@"crtn_advurl"]);
+    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.privacy.longLegalText],[dfpBidRequest.customTargeting objectForKey:@"crtn_prtext"]);
+
+}
+
+- (void) testAddCriteoToDfpRequestForInCompleteNativeBid {
+    CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"/140800857/Endeavour_Native" size:CGSizeMake(2, 2) isNative:YES];
+    self.mutableJsonDict[@"native"][@"advertiser"][@"description"] = @"";
+    self.mutableJsonDict[@"native"][@"advertiser"][@"domain"] = @"";
+    self.mutableJsonDict[@"native"][@"advertiser"][@"logo"][@"url"] = nil;
+    self.mutableJsonDict[@"native"][@"advertiser"][@"logoClickUrl"] = @"";
+    self.mutableJsonDict[@"native"][@"privacy"][@"longLegalText"] = nil;
+    CR_CdbBid *nativeBid = [[CR_CdbBid alloc] initWithDict:self.mutableJsonDict receivedAt:[NSDate date]];
+    CR_CacheManager *cache = [[CR_CacheManager alloc] init];
+    [cache setBid:nativeBid];
+
+    NSDictionary *testDfpCustomTargeting = [NSDictionary dictionaryWithObjectsAndKeys:@"object 1", @"key_1", @"object_2", @"key_2", nil];
+
+    DFPRequest *dfpBidRequest = [[DFPRequest alloc] init];
+    dfpBidRequest.customTargeting = testDfpCustomTargeting;
+
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
+                                                             cacheManager:cache
+                                                               tokenCache:nil
+                                                                   config:[[CR_Config alloc] initWithCriteoPublisherId:@("1234")]
+                                                            configManager:nil
+                                                               deviceInfo:nil
+                                                          gdprUserConsent:nil
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:0];
+
+    [bidManager addCriteoBidToRequest:dfpBidRequest forAdUnit:adUnit];
+
+    XCTAssertTrue(dfpBidRequest.customTargeting.count > 2);
+    XCTAssertNil([dfpBidRequest.customTargeting objectForKey:@"crt_displayUrl"]);
+    XCTAssertEqual(nativeBid.cpm, [dfpBidRequest.customTargeting objectForKey:@"crt_cpm"]);
+    [self checkMandatoryNativeAssets:dfpBidRequest nativeBid:nativeBid];
+    XCTAssertNil([dfpBidRequest.customTargeting objectForKey:@"crtn_advname"]);
+    XCTAssertNil([dfpBidRequest.customTargeting objectForKey:@"crtn_advdomain"]);
+    XCTAssertNil([dfpBidRequest.customTargeting objectForKey:@"crtn_advlogourl"]);
+    XCTAssertNil([dfpBidRequest.customTargeting objectForKey:@"crtn_advurl"]);
+    XCTAssertNil([dfpBidRequest.customTargeting objectForKey:@"crtn_prtext"]);
+
 }
 
 + (NSUInteger)checkNumOcurrencesOf:(NSString *)substring

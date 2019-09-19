@@ -25,4 +25,22 @@ static NSCharacterSet *allowedCharacters = nil;
     return encodedString;
 }
 
++ (NSString *)dfpCompatibleString:(NSString *)string
+{
+    NSString *dfpCompatibleString = nil;
+
+    if(string) {
+        NSData *encodedStringData = [string dataUsingEncoding:NSUTF8StringEncoding];
+        NSString *base64String = [encodedStringData base64EncodedStringWithOptions:0];
+        dfpCompatibleString = [[base64String urlEncode] urlEncode];
+    }
+
+    return dfpCompatibleString;
+}
+
++ (NSString *)mopubCompatibleDisplayUrlForDisplayUrl:(NSString *)displayUrl
+{
+    return displayUrl;
+}
+
 @end

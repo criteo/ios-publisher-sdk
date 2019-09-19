@@ -13,9 +13,6 @@
 
 @interface CR_CdbBid ()
 
-- (NSString*) dfpCompatibleString:(NSString*)displayUrl;
-- (NSString*) mopubCompatibleDisplayUrlForDisplayUrl:(NSString*)displayUrl;
-
 @end
 
 @implementation CR_CdbBid
@@ -80,8 +77,8 @@ static CR_CdbBid *emptyBid;
         _creative = creative;
         _ttl = ttl;
         _displayUrl = displayUrl;
-        _dfpCompatibleDisplayUrl = [self dfpCompatibleString:displayUrl];
-        _mopubCompatibleDisplayUrl = [self mopubCompatibleDisplayUrlForDisplayUrl:displayUrl];
+        _dfpCompatibleDisplayUrl = [NSString dfpCompatibleString:displayUrl];
+        _mopubCompatibleDisplayUrl = [NSString mopubCompatibleDisplayUrlForDisplayUrl:displayUrl];
         _insertTime = insertTime;
         _nativeAssets = [nativeAssets copy];
     }
@@ -112,24 +109,6 @@ static CR_CdbBid *emptyBid;
         self = [[CR_CdbBid alloc] initWithZoneId:zoneId placementId:placementId cpm:cpm currency:currency width:width height:height ttl:ttl creative:creative displayUrl:displayUrl insertTime:receivedAt nativeAssets:nativeAssets];
     }
     return self;
-}
-
-- (NSString *)dfpCompatibleString:(NSString *)string
-{
-    NSString *dfpCompatibleString = nil;
-
-    if(string) {
-        NSData *encodedStringData = [string dataUsingEncoding:NSUTF8StringEncoding];
-        NSString *base64String = [encodedStringData base64EncodedStringWithOptions:0];
-        dfpCompatibleString = [[base64String urlEncode] urlEncode];
-    }
-
-    return dfpCompatibleString;
-}
-
-- (NSString*) mopubCompatibleDisplayUrlForDisplayUrl:(NSString*)displayUrl
-{
-    return displayUrl;
 }
 
 // Hash values of two CR_NativeAssets objects must be the same if the objects are equal. The reverse is not
