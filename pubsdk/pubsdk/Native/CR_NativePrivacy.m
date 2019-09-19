@@ -25,9 +25,9 @@
 - (instancetype)initWithDict:(NSDictionary *)dict {
     self = [super init];
     if (self) {
-        _optoutClickUrl = [NSString stringWithStringOrNil: dict[@"optoutClickUrl"]];
-        _optoutImageUrl = [NSString stringWithStringOrNil: dict[@"optoutImageUrl"]];
-        _longLegalText  = [NSString stringWithStringOrNil: dict[@"longLegalText"]];
+        _optoutClickUrl = [NSString nonEmptyStringWithStringOrNil:dict[@"optoutClickUrl"]];
+        _optoutImageUrl = [NSString nonEmptyStringWithStringOrNil:dict[@"optoutImageUrl"]];
+        _longLegalText  = [NSString nonEmptyStringWithStringOrNil:dict[@"longLegalText"]];
     }
     return self;
 }

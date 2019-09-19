@@ -24,7 +24,7 @@
 - (instancetype)initWithDict:(NSDictionary *)dict {
     self = [super init];
     if (self) {
-        _url    = [NSString stringWithStringOrNil:dict[@"url"]];
+        _url    = [NSString nonEmptyStringWithStringOrNil:dict[@"url"]];
         _width  = [(NSNumber *)dict[@"width"] intValue];
         _height = [(NSNumber *)dict[@"height"] intValue];
     }
