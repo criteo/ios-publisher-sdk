@@ -227,6 +227,8 @@ static NSString * const crtnPixUrl = @"crtn_pixurl_";
     SEL dfpCustomTargeting = NSSelectorFromString(@"customTargeting");
     SEL dfpSetCustomTargeting = NSSelectorFromString(@"setCustomTargeting:");
     if([adRequest respondsToSelector:dfpCustomTargeting] && [adRequest respondsToSelector:dfpSetCustomTargeting]) {
+
+// this is for ignoring warning related to performSelector: on unknown selectors
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
         id targeting = [adRequest performSelector:dfpCustomTargeting];
@@ -258,7 +260,7 @@ static NSString * const crtnPixUrl = @"crtn_pixurl_";
                 [self setCustomTargetingValue:fetchedBid.nativeAssets.privacy.optoutClickUrl forKey:crtnPrUrl];
                 [self setCustomTargetingValue:fetchedBid.nativeAssets.privacy.optoutImageUrl forKey:crtnPrImageUrl];
                 [self setCustomTargetingValue:fetchedBid.nativeAssets.privacy.longLegalText forKey:crtnPrText];
-                [customTargeting setObject:[NSString stringWithFormat:@"%lu", fetchedBid.nativeAssets.impressionPixels.count]  forKey:crtnPixCount];
+                [customTargeting setObject:[NSString stringWithFormat:@"%lu", (unsigned long)fetchedBid.nativeAssets.impressionPixels.count]  forKey:crtnPixCount];
                 for(int i = 0; i < fetchedBid.nativeAssets.impressionPixels.count; i++) {
                     [self setCustomTargetingValue:fetchedBid.nativeAssets.impressionPixels[i] forKey:[NSString stringWithFormat:@"%@%d", crtnPixUrl, i]];
                 }
