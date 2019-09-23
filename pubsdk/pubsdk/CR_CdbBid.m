@@ -10,6 +10,7 @@
 #import "Logging.h"
 #import "NSString+CR_UrlEncoder.h"
 #import "NSObject+Criteo.h"
+#import "NSString+Criteo.h"
 
 @interface CR_CdbBid ()
 
@@ -103,7 +104,7 @@ static CR_CdbBid *emptyBid;
         if ([cpm doubleValue] > 0 && ttl == 0){
             ttl = defaultValue;
         }
-        NSString *displayUrl = slot[@"displayUrl"];
+        NSString *displayUrl = [NSString stringWithStringOrNil:slot[@"displayUrl"]];
         NSDictionary *assetsDict = slot[@"native"];
         CR_NativeAssets *nativeAssets = assetsDict ? [[CR_NativeAssets alloc] initWithDict:assetsDict] : nil;
         self = [[CR_CdbBid alloc] initWithZoneId:zoneId placementId:placementId cpm:cpm currency:currency width:width height:height ttl:ttl creative:creative displayUrl:displayUrl insertTime:receivedAt nativeAssets:nativeAssets];
@@ -193,7 +194,8 @@ static CR_CdbBid *emptyBid;
 }
 
 - (BOOL)isValid {
-    return self.cpm.floatValue > 0.0f   &&
+    return [[NSScanner scannerWithString:self.cpm] scanFloat:NULL] &&
+           self.cpm.floatValue >= 0.0f                             &&
            [self isValidNativeAssetsOrUrl];
 }
 

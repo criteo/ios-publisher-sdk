@@ -486,18 +486,39 @@
     return isNative ? responseDict[@"slots"][0] : responseDict[@"slots"][2];
 }
 
-- (void)testBidWithInvalidValue:(NSString *)value forKey:(NSString *)key {
+- (void)testBidWithInvalidValue:(id)value forKey:(NSString *)key {
     NSMutableDictionary *mutableDict = [self createMutableDictionaryFromJSONFileWithNative:NO];
     mutableDict[key] = value;
     CR_CdbBid *bid = [[CR_CdbBid alloc] initWithDict:mutableDict receivedAt:self.now];
-    XCTAssertFalse(bid.isValid);
+    XCTAssertFalse(bid.isValid, @"Test failed for key: %@ value:%@", key, value);
 }
 
 - (void)testInvalidBidForCpmAndDisplayUrl {
-    [self testBidWithInvalidValue:@"0.0" forKey:@"cpm"];
+    [self testBidWithInvalidValue:@"-0.3" forKey:@"cpm"];
     [self testBidWithInvalidValue:@"" forKey:@"displayUrl"];
     [self testBidWithInvalidValue:nil forKey:@"cpm"];
     [self testBidWithInvalidValue:nil forKey:@"displayUrl"];
+    [self testBidWithInvalidValue:@(1) forKey:@"displayUrl"];
+    [self testBidWithInvalidValue:@"hey" forKey:@"cpm"];
+    [self testBidWithInvalidValue:@"test###$" forKey:@"cpm"];
+    [self testBidWithInvalidValue:@"" forKey:@"cpm"];
+}
+
+- (void)testBidWithValidValue:(id)value forKey:(NSString *)key {
+    NSMutableDictionary *mutableDict = [self createMutableDictionaryFromJSONFileWithNative:NO];
+    mutableDict[key] = value;
+    CR_CdbBid *bid = [[CR_CdbBid alloc] initWithDict:mutableDict receivedAt:self.now];
+    XCTAssertTrue(bid.isValid, @"Test failed for key: %@ value:%@", key, value);
+}
+
+- (void)testValidBidForCpmAndDisplayURL {
+    [self testBidWithValidValue:@"0.0001" forKey:@"cpm"];
+    [self testBidWithValidValue:@"0.000" forKey:@"cpm"];
+    [self testBidWithValidValue:@"3.200" forKey:@"cpm"];
+    [self testBidWithValidValue:@(3.2) forKey:@"cpm"];
+    [self testBidWithValidValue:@(3) forKey:@"cpm"];
+    [self testBidWithValidValue:@"3" forKey:@"cpm"];
+    [self testBidWithValidValue:@"TestDisplayUrl" forKey:@"displayUrl"];
 }
 
 - (void)testInvalidBidForNative {
