@@ -17,11 +17,7 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#ifdef CRTO_BUILD
 #import <MoPub.h>
-#else
-#import <MoPub/MoPub.h>
-#endif
 @import CriteoPublisherSdk;
 
 NS_ASSUME_NONNULL_BEGIN
