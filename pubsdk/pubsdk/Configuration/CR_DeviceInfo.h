@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithWKWebView:(WKWebView *)wkWebView uiWebView:(UIWebView * _Nullable)uiWebView;
 - (void)waitForUserAgent:(void (^ _Nullable)(void))completion;
 + (CGSize)getScreenSize;
++ (BOOL)validScreenSize:(CGSize)size;
 @end
 
 NS_ASSUME_NONNULL_END

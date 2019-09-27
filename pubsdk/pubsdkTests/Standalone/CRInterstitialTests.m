@@ -81,9 +81,8 @@
                                                                isAdLoaded:NO
                                                                    adUnit:self.adUnit];
 
-    id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
-    OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
-                                                      screenSize:[CR_DeviceInfo getScreenSize]]).andReturn([self expectedCacheAdUnit]);
+    id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
+    OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(320, 480));
 
     OCMExpect([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([self bidWithDisplayURL:@"test"]);
 
@@ -112,8 +111,8 @@
                                                                    adUnit:nil];
 
     id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
-    OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
-                                                      screenSize:[CR_DeviceInfo getScreenSize]]).andReturn([self expectedCacheAdUnit]);
+//    OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
+//                                                      screenSize:[CR_DeviceInfo getScreenSize]]).andReturn([self expectedCacheAdUnit]);
 
     OCMExpect([mockCriteo getBid:OCMArg.any]).andReturn([self bidWithDisplayURL:@"whatDoYouMean"]);
 
@@ -162,9 +161,8 @@
 
     CR_CdbBid *bid = [self bidWithDisplayURL:@"test"];
 
-    id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
-    OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
-                                                      screenSize:[CR_DeviceInfo getScreenSize]]).andReturn([self expectedCacheAdUnit]);
+    id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
+    OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(320, 480));
 
     XCTestExpectation __block *marginExpectation = [self expectationWithDescription:@"WebView body has 0px margin"];
     XCTestExpectation __block *paddingExpectation = [self expectationWithDescription:@"WebView body has 0px padding"];
@@ -213,9 +211,8 @@
                                                                isAdLoaded:NO
                                                                    adUnit:self.adUnit];
 
-    id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
-    OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
-                                                      screenSize:[CR_DeviceInfo getScreenSize]]).andReturn([self expectedCacheAdUnit]);
+    id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
+    OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(320, 480));
 
     OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([CR_CdbBid emptyBid]);
     OCMStub([interstitialVC presentingViewController]).andReturn(nil);

@@ -74,8 +74,9 @@
     if(![self checkSafeToLoad]) {
         return;
     }
-    CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper interstitialCacheAdUnitForAdUnitId:self.adUnit.adUnitId
-                                                                           screenSize:[CR_DeviceInfo getScreenSize]] ;
+    CR_CacheAdUnit *cacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:self.adUnit.adUnitId
+                                                                      size:[CR_DeviceInfo getScreenSize]
+                                                                adUnitType:CRAdUnitTypeInterstitial];
     CR_CdbBid *bid = [self.criteo getBid:cacheAdUnit];
     if([bid isEmpty]) {
         self.isAdLoading = NO;

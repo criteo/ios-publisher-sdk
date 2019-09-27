@@ -8,6 +8,7 @@
 
 #import "CR_CacheManager.h"
 #import "Logging.h"
+#import "CR_DeviceInfo.h"
 
 @implementation CR_CacheManager
 
@@ -28,7 +29,9 @@
     if(bid.nativeAssets) {
         return CRAdUnitTypeNative;
     }
-    // add logic for CRAdUnitTypeInterstitial
+    if([CR_DeviceInfo validScreenSize:CGSizeMake(bid.width.floatValue, bid.height.floatValue)]) {
+        return CRAdUnitTypeInterstitial;
+    }
     return CRAdUnitTypeBanner;
 }
 

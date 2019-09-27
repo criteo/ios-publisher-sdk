@@ -101,4 +101,9 @@
     return [UIScreen mainScreen].bounds.size;
 }
 
++ (BOOL)validScreenSize:(CGSize)size {
+    CGSize currentScreenSize = [CR_DeviceInfo getScreenSize];
+    return CGSizeEqualToSize(size, currentScreenSize) || CGSizeEqualToSize(size, CGSizeMake(currentScreenSize.height, currentScreenSize.width));
+}
+
 @end

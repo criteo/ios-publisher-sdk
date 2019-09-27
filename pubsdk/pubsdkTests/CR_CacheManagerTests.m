@@ -8,9 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
-
+#import <OCMock.h>
 #import "CR_CacheAdUnit.h"
 #import "CR_CacheManager.h"
+#import "CR_DeviceInfo.h"
 
 @interface CR_CacheManagerTests : XCTestCase
 
@@ -85,12 +86,27 @@
     XCTAssertEqualObjects(adUnit.adUnitId, retreivedBid.placementId);
 }
 
-- (void)testSetBidForNonNative {
+- (void)testSetBidForBanner {
     CR_CacheManager *cacheManager = [CR_CacheManager new];
     CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"a_test_placement" size:CGSizeMake(320, 50) adUnitType:CRAdUnitTypeBanner];
     CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:adUnit.adUnitId cpm:@"0.0312" currency:@"USD" width:@(adUnit.size.width) height:@(adUnit.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date] nativeAssets:nil];
     [cacheManager setBid:testBid];
     XCTAssertTrue([[cacheManager getBidForAdUnit:adUnit] isEqual:testBid]);
+}
+
+- (void)testSetBidForInterstitial {
+    CR_CacheManager *cacheManager = [CR_CacheManager new];
+    id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
+    OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(320, 50));
+
+    CR_CacheAdUnit *adUnit_portrait = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"a_test_placement" size:CGSizeMake(320, 50) adUnitType:CRAdUnitTypeInterstitial];
+    CR_CdbBid *testBid_portrait = [[CR_CdbBid alloc] initWithZoneId:nil placementId:adUnit_portrait.adUnitId cpm:@"0.0312" currency:@"USD" width:@(adUnit_portrait.size.width) height:@(adUnit_portrait.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date] nativeAssets:nil];
+    [cacheManager setBid:testBid_portrait];
+    XCTAssertTrue([[cacheManager getBidForAdUnit:adUnit_portrait] isEqual:testBid_portrait]);
+
+    OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(50, 320));
+    [cacheManager setBid:testBid_portrait];
+    XCTAssertTrue([[cacheManager getBidForAdUnit:adUnit_portrait] isEqual:testBid_portrait]);
 }
 
 - (void)testSetBidForNative {

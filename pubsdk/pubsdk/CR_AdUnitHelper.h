@@ -19,11 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (CR_CacheAdUnit *)cacheAdUnitForAdUnit:(CRAdUnit *)adUnit;
 
-+ (CR_CacheAdUnit *)interstitialCacheAdUnitForAdUnitId:(NSString *)adUnitId
-                                           screenSize:(CGSize)size;
-// helper methods
-+ (CGSize)closestSupportedInterstitialSize:(CGSize)screenSize;
-
 @end
 
 NS_ASSUME_NONNULL_END

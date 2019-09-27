@@ -125,9 +125,9 @@
                                                                    adUnit:self.adUnit];
 
     // stub methods for loadAd
-    id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
-    OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
-                                                      screenSize:[CR_DeviceInfo getScreenSize]]).andReturn([self expectedCacheAdUnit]);
+    id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
+    OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(320, 480));
+
     OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([self bidWithDisplayURL:@"test"]);
     id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
     interstitial.delegate = mockInterstitialDelegate;
@@ -161,9 +161,8 @@
     OCMStub([mockInterstitialDelegate interstitial:interstitial
                           didFailToReceiveAdWithError:[OCMArg any]]);
 
-    id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
-    OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
-                                                      screenSize:[CR_DeviceInfo getScreenSize]]).andReturn([self expectedCacheAdUnit]);
+    id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
+    OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(320, 480));
 
     XCTestExpectation *interstitialAdFetchFailExpectation = [self expectationWithDescription:@"interstitialDidFail delegate method called"];
     [interstitial loadAd];
@@ -247,9 +246,9 @@
     UIViewController *rootViewController = OCMStrictClassMock([UIViewController class]);
     OCMStub([rootViewController presentViewController:interstitialVC animated:YES completion:[OCMArg invokeBlock]]);
 
-    id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
-    OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
-                                                      screenSize:[CR_DeviceInfo getScreenSize]]).andReturn([self expectedCacheAdUnit]);
+    id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
+    OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(320, 480));
+
     OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([self bidWithDisplayURL:@"test"]);
     OCMStub([mockWebView loadHTMLString:[self htmlString] baseURL:[NSURL URLWithString:@"https://criteo.com"]]).andDo(^(NSInvocation* args) {
         [interstitial webView:mockWebView decidePolicyForNavigationResponse:[self validNavigationResponse] decisionHandler:^(WKNavigationResponsePolicy policy) {
@@ -552,9 +551,9 @@
                                                               application:nil
                                                                isAdLoaded:NO
                                                                    adUnit:self.adUnit];
-    id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
-    OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
-                                                      screenSize:[CR_DeviceInfo getScreenSize]]).andReturn([self expectedCacheAdUnit]);
+    id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
+    OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(320, 480));
+
     OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([self bidWithDisplayURL:@"test"]);
 
     id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
@@ -579,9 +578,9 @@
                                                               application:nil
                                                                isAdLoaded:NO
                                                                    adUnit:self.adUnit];
-    id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
-    OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
-                                                      screenSize:[CR_DeviceInfo getScreenSize]]).andReturn([self expectedCacheAdUnit]);
+    id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
+    OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(320, 480));
+
     OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([self bidWithDisplayURL:@"test"]);
     id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
     NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidRequest
@@ -701,9 +700,9 @@
                                                                    adUnit:self.adUnit];
 
     // stub methods for loadAd
-    id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
-    OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
-                                                      screenSize:[CR_DeviceInfo getScreenSize]]).andReturn([self expectedCacheAdUnit]);
+    id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
+    OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(320, 480));
+
     OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([self bidWithDisplayURL:@"test"]);
     id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
     interstitial.delegate = mockInterstitialDelegate;
