@@ -240,10 +240,7 @@ static NSString * const crtnPixUrl = @"crtn_pixurl_";
         if ([targeting isKindOfClass:[NSDictionary class]]) {
             customTargeting = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *) targeting];
             [customTargeting setObject:fetchedBid.cpm forKey:crtCpm];
-            if(!adUnit.isNative) {
-                [customTargeting setObject:fetchedBid.dfpCompatibleDisplayUrl forKey:crtDisplayUrl];
-            }
-            else {
+            if(adUnit.adUnitType == CRAdUnitTypeNative) {
                 // bid will contain atleast one product, a privacy section and atleast one impression pixel
                 if(fetchedBid.nativeAssets.products.count > 0) {
                     [self setCustomTargetingValue:fetchedBid.nativeAssets.products[0].title forKey:crtnTitle];
@@ -264,6 +261,9 @@ static NSString * const crtnPixUrl = @"crtn_pixurl_";
                 for(int i = 0; i < fetchedBid.nativeAssets.impressionPixels.count; i++) {
                     [self setCustomTargetingValue:fetchedBid.nativeAssets.impressionPixels[i] forKey:[NSString stringWithFormat:@"%@%d", crtnPixUrl, i]];
                 }
+            }
+            else {
+                [customTargeting setObject:fetchedBid.dfpCompatibleDisplayUrl forKey:crtDisplayUrl];
             }
             NSDictionary *updatedDictionary = [NSDictionary dictionaryWithDictionary:customTargeting];
             [adRequest performSelector:dfpSetCustomTargeting withObject:updatedDictionary];

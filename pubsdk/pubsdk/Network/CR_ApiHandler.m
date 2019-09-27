@@ -87,8 +87,11 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
         NSMutableDictionary *slotDict = [NSMutableDictionary new];
         slotDict[@"placementId"] = adUnit.adUnitId;
         slotDict[@"sizes"] = @[adUnit.cdbSize];
-        if(adUnit.isNative) {
+        if(adUnit.adUnitType == CRAdUnitTypeNative) {
             slotDict[@"isNative"] = @(YES);
+        }
+        else if(adUnit.adUnitType == CRAdUnitTypeInterstitial) {
+            slotDict[@"interstitial"] = @(YES);
         }
         [slots addObject:slotDict];
     }

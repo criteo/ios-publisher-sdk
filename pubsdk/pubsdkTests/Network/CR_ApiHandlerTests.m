@@ -472,14 +472,14 @@
 }
 
 - (void)testNativeSlotForRequest {
-    CR_CacheAdUnit *nativeAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"testAdUnit" size:CGSizeMake(2, 2) isNative:YES];
+    CR_CacheAdUnit *nativeAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"testAdUnit" size:CGSizeMake(2, 2) adUnitType:CRAdUnitTypeNative];
     CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:nil bidFetchTracker:nil];
     NSArray *slots = [apiHandler slotsForRequest:@[nativeAdUnit]];
     XCTAssertTrue([slots[0][@"placementId"] isEqualToString:nativeAdUnit.adUnitId]);
     XCTAssertTrue([slots[0][@"sizes"] isEqual:@[nativeAdUnit.cdbSize]]);
     XCTAssertTrue(slots[0][@"isNative"]);
 
-    CR_CacheAdUnit *nonNativeAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"testAdUnit" size:CGSizeMake(2, 2) isNative:NO];
+    CR_CacheAdUnit *nonNativeAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"testAdUnit" size:CGSizeMake(2, 2) adUnitType:CRAdUnitTypeInterstitial];
     NSArray *nonNativeSlots = [apiHandler slotsForRequest:@[nonNativeAdUnit]];
     XCTAssertTrue([nonNativeSlots[0][@"placementId"] isEqualToString:nonNativeAdUnit.adUnitId]);
     XCTAssertTrue([nonNativeSlots[0][@"sizes"] isEqual:@[nonNativeAdUnit.cdbSize]]);

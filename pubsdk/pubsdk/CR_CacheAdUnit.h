@@ -10,6 +10,8 @@
 
 #import <Foundation/Foundation.h>
 #include <CoreGraphics/CoreGraphics.h>
+#import "CRAdUnit.h"
+#import "CRAdUnit+Internal.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @interface CR_CacheAdUnit : NSObject <NSCopying>
@@ -19,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) NSUInteger hash;
 @property (readonly) BOOL isValid;
 @property (copy, readonly, nonatomic) NSString *cdbSize;
-@property (readonly) BOOL isNative;
+@property (nonatomic, readonly) CRAdUnitType adUnitType;
 
 - (BOOL) isEqual:(id) object;
 
@@ -27,15 +29,11 @@ NS_ASSUME_NONNULL_BEGIN
                             width:(CGFloat) width
                            height:(CGFloat) height;
 
-- (instancetype) initWithAdUnitId:(NSString *) adUnitId
-                             size:(CGSize) size;
-
 - (instancetype) init NS_UNAVAILABLE;
 
 - (instancetype)initWithAdUnitId:(NSString *)adUnitId
                             size:(CGSize)size
-                        isNative:(BOOL)isNative
-NS_DESIGNATED_INITIALIZER;
+                      adUnitType:(CRAdUnitType)adUnitType NS_DESIGNATED_INITIALIZER;
 
 - (instancetype) copyWithZone:(nullable NSZone *)zone;
 

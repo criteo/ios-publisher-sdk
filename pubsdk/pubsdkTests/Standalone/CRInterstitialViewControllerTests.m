@@ -158,7 +158,8 @@
 - (CR_CacheAdUnit *)expectedCacheAdUnit {
     if(!_cacheAdUnit) {
         _cacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
-                                                           size:CGSizeMake(360, 640)];
+                                                           size:CGSizeMake(360, 640)
+                                                     adUnitType:CRAdUnitTypeInterstitial];
     }
     return _cacheAdUnit;
 }

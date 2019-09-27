@@ -76,7 +76,7 @@
 - (void) testGetBidWithinTtl {
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
     CGSize adSize = CGSizeMake(200, 100);
-    CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"a_test_placement" size:adSize];
+    CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"a_test_placement" size:adSize adUnitType:CRAdUnitTypeBanner];
     CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:adUnit.adUnitId cpm:@"0.0312" currency:@"USD" width:@(adUnit.size.width) height:@(adUnit.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date] nativeAssets:nil];
 
     [cache setBid:testBid];
@@ -87,7 +87,7 @@
 
 - (void)testSetBidForNonNative {
     CR_CacheManager *cacheManager = [CR_CacheManager new];
-    CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"a_test_placement" size:CGSizeMake(320, 50)];
+    CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"a_test_placement" size:CGSizeMake(320, 50) adUnitType:CRAdUnitTypeBanner];
     CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:adUnit.adUnitId cpm:@"0.0312" currency:@"USD" width:@(adUnit.size.width) height:@(adUnit.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date] nativeAssets:nil];
     [cacheManager setBid:testBid];
     XCTAssertTrue([[cacheManager getBidForAdUnit:adUnit] isEqual:testBid]);
@@ -96,8 +96,8 @@
 - (void)testSetBidForNative {
     CR_CacheManager *cacheManager = [CR_CacheManager new];
     CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"a_test_placement"
-                                                                 size:CGSizeMake(320, 50)
-                                                             isNative:YES];
+                                                                 size:CGSizeMake(2, 2)
+                                                             adUnitType:CRAdUnitTypeNative];
     CR_NativeAssets *nativeAssets = [[CR_NativeAssets alloc] initWithDict:self.assetsDict];
     CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:adUnit.adUnitId cpm:@"0.0312" currency:@"USD" width:@(adUnit.size.width) height:@(adUnit.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date] nativeAssets:nativeAssets];
     [cacheManager setBid:testBid];
@@ -114,7 +114,7 @@
     CR_CacheManager *cacheManager = [CR_CacheManager new];
     CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"a_test_placement"
                                                                  size:CGSizeMake(320, 50)
-                                                             isNative:YES];
+                                                           adUnitType:CRAdUnitTypeNative];
    CR_NativeAssets *badNativeAssets = [[CR_NativeAssets alloc] initWithDict:badAssetsDict];
     CR_CdbBid *badTestBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:adUnit.adUnitId cpm:@"0.0312" currency:@"USD" width:@(adUnit.size.width) height:@(adUnit.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date] nativeAssets:badNativeAssets];
     [cacheManager setBid:badTestBid];

@@ -46,14 +46,15 @@ static const CGSize nativeSize = {2.0, 2.0};
     switch([adUnit adUnitType]) {
         case CRAdUnitTypeBanner:
             return [[CR_CacheAdUnit alloc] initWithAdUnitId:[adUnit adUnitId]
-                                                      size:[(CRBannerAdUnit *)adUnit size]];
+                                                      size:[(CRBannerAdUnit *)adUnit size]
+                                                 adUnitType:CRAdUnitTypeBanner];
         case CRAdUnitTypeInterstitial:
             return [CR_AdUnitHelper interstitialCacheAdUnitForAdUnitId:[adUnit adUnitId]
                                                             screenSize:[CR_DeviceInfo getScreenSize]];
         case CRAdUnitTypeNative:
             return [[CR_CacheAdUnit alloc] initWithAdUnitId:adUnit.adUnitId
                                                        size:nativeSize
-                                                   isNative:YES];
+                                                   adUnitType:CRAdUnitTypeNative];
         default:
             CLog(@"cacheAdUnitsFromAdUnits got an unexpected AdUnitType: %d", [adUnit adUnitType]);
             return nil;
@@ -63,7 +64,7 @@ static const CGSize nativeSize = {2.0, 2.0};
 + (CR_CacheAdUnit *)interstitialCacheAdUnitForAdUnitId:(NSString *)adUnitId
                                            screenSize:(CGSize)size{
     CGSize adSize = [CR_AdUnitHelper closestSupportedInterstitialSize:size];
-    return [[CR_CacheAdUnit alloc] initWithAdUnitId:adUnitId size:adSize];
+    return [[CR_CacheAdUnit alloc] initWithAdUnitId:adUnitId size:adSize adUnitType:CRAdUnitTypeInterstitial];
 }
 
 @end

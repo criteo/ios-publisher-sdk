@@ -24,16 +24,23 @@
     }
 }
 
+- (CRAdUnitType)adUnitTypeFromBid:(CR_CdbBid *)bid {
+    if(bid.nativeAssets) {
+        return CRAdUnitTypeNative;
+    }
+    // add logic for CRAdUnitTypeInterstitial
+    return CRAdUnitTypeBanner;
+}
+
 - (void) setBid: (CR_CdbBid *) bid {
     if (!bid) { return; }
-    BOOL isNative = bid.nativeAssets ? YES : NO;
     if (!bid.isValid) {
         CLog(@"Cache update failed because bid is not valid. bid:  %@", bid);
         return;
     }
     CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:bid.placementId
                                                                  size:CGSizeMake(bid.width.floatValue, bid.height.floatValue)
-                                                             isNative:isNative];
+                                                           adUnitType:[self adUnitTypeFromBid:bid]];
     if (!adUnit.isValid) {
         CLog(@"Cache update failed because adUnit was not valid. bid:  %@", bid);
         return;

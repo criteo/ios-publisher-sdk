@@ -629,7 +629,8 @@
                                                            timeToNextCall:0];
 
     CR_CacheAdUnit *expectedAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
-                                                                         size:CGSizeMake(320, 50)];
+                                                                         size:CGSizeMake(320, 50)
+                                                                   adUnitType:CRAdUnitTypeBanner];
 
     CRBidResponse *expectedBidResponse = [[CRBidResponse alloc] initWithPrice:0.0
                                                                    bidSuccess:NO
@@ -657,7 +658,8 @@
                                                            timeToNextCall:0];
 
     CR_CacheAdUnit *expectedAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
-                                                                         size:CGSizeMake(320, 50)];
+                                                                         size:CGSizeMake(320, 50)
+                                                                   adUnitType:CRAdUnitTypeBanner];
     CRBidToken *bidToken = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
 
     CRBidResponse *expectedBidResponse = [[CRBidResponse alloc] initWithPrice:4.2
@@ -808,7 +810,7 @@
 }
 
 - (void) testAddCriteoNativeBidToDfpRequest {
-    CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"/140800857/Endeavour_Native" size:CGSizeMake(2, 2) isNative:YES];
+    CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"/140800857/Endeavour_Native" size:CGSizeMake(2, 2) adUnitType:CRAdUnitTypeNative];
     CR_CdbBid *nativeBid = [[CR_CdbBid alloc] initWithDict:self.mutableJsonDict receivedAt:[NSDate date]];
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
     [cache setBid:nativeBid];
@@ -844,7 +846,7 @@
 }
 
 - (void) testAddCriteoToDfpRequestForInCompleteNativeBid {
-    CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"/140800857/Endeavour_Native" size:CGSizeMake(2, 2) isNative:YES];
+    CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"/140800857/Endeavour_Native" size:CGSizeMake(2, 2) adUnitType:CRAdUnitTypeNative];
     self.mutableJsonDict[@"native"][@"advertiser"][@"description"] = @"";
     self.mutableJsonDict[@"native"][@"advertiser"][@"domain"] = @"";
     self.mutableJsonDict[@"native"][@"advertiser"][@"logo"][@"url"] = nil;

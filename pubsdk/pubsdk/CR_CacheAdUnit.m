@@ -15,35 +15,30 @@
 
 - (instancetype) init {
     CGSize size = CGSizeMake(0.0,0.0);
-    return [self initWithAdUnitId:@"" size:size];
+    return [self initWithAdUnitId:@"" size:size adUnitType:CRAdUnitTypeBanner];
 }
 
 - (instancetype)initWithAdUnitId:(NSString *)adUnitId
                             size:(CGSize)size
-                        isNative:(BOOL)isNative {
+                      adUnitType:(CRAdUnitType)adUnitType {
 
     if(self = [super init]) {
         _adUnitId = adUnitId;
         _size = size;
-        _isNative = isNative;
+        _adUnitType = adUnitType;
         // to get rid of the decimal point
         NSUInteger width = roundf(size.width);
         NSUInteger height = roundf(size.height);
-        _hash = [[NSString stringWithFormat:@"%@_x_%lu_x_%lu_x_%@", _adUnitId, (unsigned long)width, (unsigned long)height, @(_isNative)] hash];
+        _hash = [[NSString stringWithFormat:@"%@_x_%lu_x_%lu_x_%@", _adUnitId, (unsigned long)width, (unsigned long)height, @(_adUnitType)] hash];
     }
     return self;
-}
-
-- (instancetype) initWithAdUnitId:(NSString *)adUnitId
-                             size:(CGSize)size {
-    return [self initWithAdUnitId:adUnitId size:size isNative:NO];
 }
 
 - (instancetype) initWithAdUnitId:(NSString *)adUnitId
                             width:(CGFloat)width
                            height:(CGFloat)height {
     CGSize size = CGSizeMake(width, height);
-    return [self initWithAdUnitId:adUnitId size:size];
+    return [self initWithAdUnitId:adUnitId size:size adUnitType:CRAdUnitTypeBanner];
 }
 
 - (NSUInteger) hash {
@@ -63,7 +58,7 @@
 }
 
 - (instancetype) copyWithZone:(NSZone *)zone {
-    CR_CacheAdUnit *copy = [[CR_CacheAdUnit alloc] initWithAdUnitId:self.adUnitId size:self.size isNative:self.isNative];
+    CR_CacheAdUnit *copy = [[CR_CacheAdUnit alloc] initWithAdUnitId:self.adUnitId size:self.size adUnitType:self.adUnitType];
     return copy;
 }
 

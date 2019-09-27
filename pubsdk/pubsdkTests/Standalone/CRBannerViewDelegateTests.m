@@ -39,7 +39,8 @@
 - (CR_CacheAdUnit *)expectedAdUnit {
     if(!cacheAdUnit) {
         cacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
-                                                          size:CGSizeMake(47.0f, 57.0f)];
+                                                          size:CGSizeMake(47.0f, 57.0f)
+                                                    adUnitType:CRAdUnitTypeBanner];
     }
     return cacheAdUnit;
 }
@@ -112,7 +113,8 @@
     OCMExpect([mockBannerViewDelegate banner:bannerView
                  didFailToReceiveAdWithError:expectedError]);
     CR_CacheAdUnit *expectedAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
-                                                             size:CGSizeMake(47.0f, 57.0f)];
+                                                                         size:CGSizeMake(47.0f, 57.0f)
+                                                                   adUnitType:CRAdUnitTypeBanner];
     OCMStub([mockCriteo getBid:expectedAdUnit]).andReturn([CR_CdbBid emptyBid]);
     [bannerView loadAd];
     OCMVerifyAllWithDelay(mockBannerViewDelegate, 1);
