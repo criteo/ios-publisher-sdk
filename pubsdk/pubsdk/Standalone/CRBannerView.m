@@ -94,8 +94,15 @@
     CR_TokenValue *tokenValue = [self.criteo tokenValueForBidToken:bidToken
                                                         adUnitType:CRAdUnitTypeBanner];
 
-    if (!tokenValue) return [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
-
+    if (!tokenValue) {
+        [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
+        return;
+    }
+    if (![tokenValue.adUnit isEqual:self.adUnit]) {
+        [self safelyNotifyAdLoadFail:CRErrorCodeInvalidParameter description:
+         @"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRBannerView was initialized with"];
+        return;
+    }
     if(!tokenValue.displayUrl) return [self safelyNotifyAdLoadFail:CRErrorCodeInternalError description:@"No display URL in bid response"];
 
     [self dispatchDidReceiveAdDelegate];

@@ -114,12 +114,17 @@
     }
     CR_TokenValue *tokenValue = [self.criteo tokenValueForBidToken:bidToken
                                                         adUnitType:CRAdUnitTypeInterstitial];
-    if(tokenValue == nil) {
+    if (!tokenValue) {
         [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
         self.isAdLoading = NO;
         return;
     }
-
+    if (![tokenValue.adUnit isEqual:self.adUnit]) {
+        [self safelyNotifyAdLoadFail:CRErrorCodeInvalidParameter description:
+         @"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRInterstitial was initialized with"];
+        self.isAdLoading = NO;
+        return;
+    }
     if(!tokenValue.displayUrl) return [self safelyNotifyAdLoadFail:CRErrorCodeInternalError description:@"No display URL in bid response"];
 
     [self.viewController initWebViewIfNeeded];

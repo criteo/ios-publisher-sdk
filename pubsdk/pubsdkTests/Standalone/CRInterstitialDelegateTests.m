@@ -21,6 +21,7 @@
 #import "CRBidToken+Internal.h"
 #import "CR_TokenValue.h"
 #import "CR_Config.h"
+#import "CRBannerAdUnit.h"
 
 @interface CRInterstitialDelegateTests : XCTestCase
 {
@@ -623,11 +624,12 @@
 
 - (void)testInterstitialLoadFailWhenTokenValueIsNil {
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    CRInterstitialAdUnit *adUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"Yup"];
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:nil
                                                               application:nil
                                                                isAdLoaded:NO
-                                                                   adUnit:self.adUnit];
+                                                                   adUnit:adUnit];
     CRBidToken *bidToken = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
     OCMStub([mockCriteo tokenValueForBidToken:bidToken
                                    adUnitType:CRAdUnitTypeInterstitial]).andReturn(nil);
@@ -636,7 +638,65 @@
     NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNoFill];
     interstitial.delegate = mockInterstitialDelegate;
     OCMExpect([mockInterstitialDelegate interstitial:interstitial
-                          didFailToReceiveAdWithError:expectedError]);
+                         didFailToReceiveAdWithError:expectedError]);
+    OCMReject([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
+    OCMReject([mockInterstitialDelegate interstitial:interstitial didFailToReceiveAdWithError:[OCMArg any]]);
+    [interstitial loadAdWithBidToken:bidToken];
+    OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
+}
+
+- (void)testInterstitialLoadFailWhenTokenValueDoesntMatchAdUnitId {
+    Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    CRInterstitialAdUnit *adUnit1 = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"Yup"];
+    CRInterstitialAdUnit *adUnit2 = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"Yo"];
+    CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
+                                                           viewController:nil
+                                                              application:nil
+                                                               isAdLoaded:NO
+                                                                   adUnit:adUnit1];
+    CRBidToken *bidToken = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
+    CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"test"
+                                                                       insertTime:[NSDate date]
+                                                                              ttl:200
+                                                                           adUnit:adUnit2];
+    OCMStub([mockCriteo tokenValueForBidToken:bidToken
+                                   adUnitType:CRAdUnitTypeInterstitial]).andReturn(expectedTokenValue);
+
+    id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
+    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidParameter description:
+                              @"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRInterstitial was initialized with"];
+    interstitial.delegate = mockInterstitialDelegate;
+    OCMExpect([mockInterstitialDelegate interstitial:interstitial
+                         didFailToReceiveAdWithError:expectedError]);
+    OCMReject([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
+    OCMReject([mockInterstitialDelegate interstitial:interstitial didFailToReceiveAdWithError:[OCMArg any]]);
+    [interstitial loadAdWithBidToken:bidToken];
+    OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
+}
+
+- (void)testInterstitialLoadFailWhenTokenValueDoesntMatchAdUnitType {
+    Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    CRInterstitialAdUnit *adUnit1 = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"Yo"];
+    CRBannerAdUnit       *adUnit2 = [[CRBannerAdUnit alloc]       initWithAdUnitId:@"Yo" size:CGSizeMake(200, 200)];
+    CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
+                                                           viewController:nil
+                                                              application:nil
+                                                               isAdLoaded:NO
+                                                                   adUnit:adUnit1];
+    CRBidToken *bidToken = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
+    CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"test"
+                                                                       insertTime:[NSDate date]
+                                                                              ttl:200
+                                                                           adUnit:adUnit2];
+    OCMStub([mockCriteo tokenValueForBidToken:bidToken
+                                   adUnitType:CRAdUnitTypeInterstitial]).andReturn(expectedTokenValue);
+
+    id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
+    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidParameter description:
+                              @"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRInterstitial was initialized with"];
+    interstitial.delegate = mockInterstitialDelegate;
+    OCMExpect([mockInterstitialDelegate interstitial:interstitial
+                         didFailToReceiveAdWithError:expectedError]);
     OCMReject([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
     OCMReject([mockInterstitialDelegate interstitial:interstitial didFailToReceiveAdWithError:[OCMArg any]]);
     [interstitial loadAdWithBidToken:bidToken];
@@ -652,18 +712,19 @@
     CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView
                                                                                                       view:mockView
                                                                                               interstitial:nil];
+    CRInterstitialAdUnit *adUnit1 = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"Yo"];
+    CRInterstitialAdUnit *adUnit2 = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"Yo"];
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
                                                               application:nil
                                                                isAdLoaded:NO
-                                                                   adUnit:self.adUnit];
+                                                                   adUnit:adUnit1];
 
     CRBidToken *bidToken = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
-    CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:@"Yo" adUnitType:CRAdUnitTypeInterstitial];
     CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"test"
                                                                        insertTime:[NSDate date]
                                                                               ttl:200
-                                                                           adUnit:adUnit];
+                                                                           adUnit:adUnit2];
     OCMStub([mockCriteo tokenValueForBidToken:bidToken
                                    adUnitType:CRAdUnitTypeInterstitial]).andReturn(expectedTokenValue);
 

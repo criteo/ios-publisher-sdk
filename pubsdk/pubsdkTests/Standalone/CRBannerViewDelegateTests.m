@@ -15,9 +15,11 @@
 #import "Criteo+Internal.h"
 #import "CR_CdbBid.h"
 #import "NSError+CRErrors.h"
+#import "CR_TokenValue.h"
 #import "CRBidToken+Internal.h"
 #import "CRBannerAdUnit.h"
 #import "CR_Config.h"
+#import "CRInterstitialAdUnit.h"
 
 @interface CRBannerViewDelegateTests : XCTestCase
 {
@@ -251,14 +253,15 @@
 
 # pragma mark inhouseSpecificTests
 
-- (void)testBannerFailWhenTokenNotFound {
+- (void)testBannerLoadFailWhenTokenValueIsNil {
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
     WKWebView *mockWebView = [WKWebView new];
+    CRBannerAdUnit *adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"Yup" size:CGSizeMake(200, 200)];
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:mockCriteo
                                                            webView:mockWebView
                                                        application:nil
-                                                            adUnit:self.adUnit];
+                                                            adUnit:adUnit];
     CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
     OCMStub([mockCriteo tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner]).andReturn(nil);
     id<CRBannerViewDelegate>mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
@@ -276,6 +279,106 @@
                                           [bannerAdFetchFailExpectation fulfill];
                                       }];
     [self waitForExpectations:@[bannerAdFetchFailExpectation]
+                      timeout:5];
+}
+
+- (void)testBannerLoadFailWhenTokenValueDoesntMatchAdUnitId {
+    Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    WKWebView *mockWebView = [WKWebView new];
+    CRBannerAdUnit *adUnit1 = [[CRBannerAdUnit alloc] initWithAdUnitId:@"Yup" size:CGSizeMake(200, 200)];
+    CRBannerAdUnit *adUnit2 = [[CRBannerAdUnit alloc] initWithAdUnitId:@"Yo"  size:CGSizeMake(200, 200)];
+    CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
+                                                            criteo:mockCriteo
+                                                           webView:mockWebView
+                                                       application:nil
+                                                            adUnit:adUnit1];
+    CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
+    CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"test"
+                                                                       insertTime:[NSDate date]
+                                                                              ttl:200
+                                                                           adUnit:adUnit2];
+    OCMStub([mockCriteo tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner]).andReturn(expectedTokenValue);
+    id<CRBannerViewDelegate>mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
+    bannerView.delegate = mockBannerViewDelegate;
+    OCMStub([mockBannerViewDelegate banner:bannerView
+               didFailToReceiveAdWithError:[OCMArg any]]);
+    [bannerView loadAdWithBidToken:token];
+    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidParameter description:@"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRBannerView was initialized with"];
+    XCTestExpectation *bannerAdFetchFailExpectation = [self expectationWithDescription:@"bannerDidFail due to nil tokenValue with error delegate method called"];
+    [NSTimer scheduledTimerWithTimeInterval:3
+                                    repeats:NO
+                                      block:^(NSTimer * _Nonnull timer) {
+                                          OCMVerify([mockBannerViewDelegate banner:bannerView
+                                                       didFailToReceiveAdWithError:expectedError]);
+                                          [bannerAdFetchFailExpectation fulfill];
+                                      }];
+    [self waitForExpectations:@[bannerAdFetchFailExpectation]
+                      timeout:5];
+}
+
+- (void)testBannerLoadFailWhenTokenValueDoesntMatchAdUnitType {
+    Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    WKWebView *mockWebView = [WKWebView new];
+    CRBannerAdUnit *adUnit1 = [[CRBannerAdUnit alloc] initWithAdUnitId:@"Yup" size:CGSizeMake(200, 200)];
+    CRInterstitialAdUnit *adUnit2 = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"Yo"];
+    CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
+                                                            criteo:mockCriteo
+                                                           webView:mockWebView
+                                                       application:nil
+                                                            adUnit:adUnit1];
+    CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
+    CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"test"
+                                                                       insertTime:[NSDate date]
+                                                                              ttl:200
+                                                                           adUnit:adUnit2];
+    OCMStub([mockCriteo tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner]).andReturn(expectedTokenValue);
+    id<CRBannerViewDelegate>mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
+    bannerView.delegate = mockBannerViewDelegate;
+    OCMStub([mockBannerViewDelegate banner:bannerView
+               didFailToReceiveAdWithError:[OCMArg any]]);
+    [bannerView loadAdWithBidToken:token];
+    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidParameter description:@"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRBannerView was initialized with"];
+    XCTestExpectation *bannerAdFetchFailExpectation = [self expectationWithDescription:@"bannerDidFail due to nil tokenValue with error delegate method called"];
+    [NSTimer scheduledTimerWithTimeInterval:3
+                                    repeats:NO
+                                      block:^(NSTimer * _Nonnull timer) {
+                                          OCMVerify([mockBannerViewDelegate banner:bannerView
+                                                       didFailToReceiveAdWithError:expectedError]);
+                                          [bannerAdFetchFailExpectation fulfill];
+                                      }];
+    [self waitForExpectations:@[bannerAdFetchFailExpectation]
+                      timeout:5];
+}
+
+- (void)testBannerDidLoadForValidTokenValue {
+    Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+    OCMStub(mockCriteo.config).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
+    WKWebView *mockWebView = [WKWebView new];
+    CRBannerAdUnit *adUnit1 = [[CRBannerAdUnit alloc] initWithAdUnitId:@"Yo" size:CGSizeMake(200, 200)];
+    CRBannerAdUnit *adUnit2 = [[CRBannerAdUnit alloc] initWithAdUnitId:@"Yo" size:CGSizeMake(200, 200)];
+    CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
+                                                            criteo:mockCriteo
+                                                           webView:mockWebView
+                                                       application:nil
+                                                            adUnit:adUnit1];
+    CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
+    CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"test"
+                                                                       insertTime:[NSDate date]
+                                                                              ttl:200
+                                                                           adUnit:adUnit2];
+    OCMStub([mockCriteo tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner]).andReturn(expectedTokenValue);
+    id<CRBannerViewDelegate>mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
+    bannerView.delegate = mockBannerViewDelegate;
+    OCMStub([mockBannerViewDelegate bannerDidReceiveAd:bannerView]);
+    [bannerView loadAdWithBidToken:token];
+    XCTestExpectation *bannerAdFetchExpectation = [self expectationWithDescription:@"bannerDidReceiveAd called"];
+    [NSTimer scheduledTimerWithTimeInterval:3
+                                    repeats:NO
+                                      block:^(NSTimer * _Nonnull timer) {
+                                          OCMVerify([mockBannerViewDelegate bannerDidReceiveAd:bannerView]);
+                                          [bannerAdFetchExpectation fulfill];
+                                      }];
+    [self waitForExpectations:@[bannerAdFetchExpectation]
                       timeout:5];
 }
 
