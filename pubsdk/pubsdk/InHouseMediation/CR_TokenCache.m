@@ -40,11 +40,12 @@
         return nil;
     }
     CRBidToken *token = [CR_TokenCache generateToken];
-    [self.tokenMap setObject:[[CR_TokenValue alloc] initWithDisplayURL:cdbBid.displayUrl
-                                                            insertTime:cdbBid.insertTime
-                                                                   ttl:cdbBid.ttl
-                                                            adUnitType:adUnitType]
-                      forKey:token];
+    CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:cdbBid.placementId adUnitType:adUnitType];
+    CR_TokenValue *tokenValue = [[CR_TokenValue alloc] initWithDisplayURL:cdbBid.displayUrl
+                                                               insertTime:cdbBid.insertTime
+                                                                      ttl:cdbBid.ttl
+                                                                   adUnit:adUnit];
+    [self.tokenMap setObject:tokenValue forKey:token];
     return token;
 }
 
@@ -52,7 +53,7 @@
                          adUnitType:(CRAdUnitType)adUnitType {
     CR_TokenValue *value = [self tokenValueForKey:token];
     if(value) {
-        if([value adUnitType] != adUnitType) {
+        if(value.adUnit.adUnitType != adUnitType) {
             return nil;
         }
         if([value isExpired]) {

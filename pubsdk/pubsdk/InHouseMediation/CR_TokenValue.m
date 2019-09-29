@@ -13,11 +13,11 @@
 - (instancetype)initWithDisplayURL:(NSString *)displayURL
                         insertTime:(NSDate *)insertTime
                                ttl:(NSTimeInterval)ttl
-                        adUnitType:(CRAdUnitType)adUnitType {
+                            adUnit:(CRAdUnit *)adUnit {
     if(self = [super init]) {
         _displayUrl = displayURL;
         _insertTime = insertTime;
-        _adUnitType = adUnitType;
+        _adUnit = adUnit;
         _ttl = ttl;
     }
     return self;
@@ -35,7 +35,7 @@
 
         if ([self.displayUrl isEqualToString:other.displayUrl] &&
             [self.insertTime isEqual:other.insertTime] &&
-            self.adUnitType == other.adUnitType &&
+            [self.adUnit isEqualToAdUnit:other.adUnit] &&
             self.ttl == other.ttl) {
             return YES;
         }

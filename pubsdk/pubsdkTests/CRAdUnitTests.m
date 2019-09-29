@@ -69,10 +69,24 @@
     XCTAssertNotEqual(adUnit3.hash, adUnit4.hash);
 }
 
-- (void) testDifferentAdUnitsAreNotEqual
+- (void) testAdUnitsDifferById
 {
     CRAdUnit *adUnit1 = [[CRAdUnit alloc] initWithAdUnitId:@"String1" adUnitType:CRAdUnitTypeBanner];
     CRAdUnit *adUnit2 = [[CRAdUnit alloc] initWithAdUnitId:@"Changed" adUnitType:CRAdUnitTypeBanner];
+
+    XCTAssertFalse([adUnit1 isEqual:adUnit2]);
+    XCTAssertFalse([adUnit2 isEqual:adUnit1]);
+
+    XCTAssertFalse([adUnit1 isEqualToAdUnit:adUnit2]);
+    XCTAssertFalse([adUnit2 isEqualToAdUnit:adUnit1]);
+
+    XCTAssertNotEqualObjects(adUnit1, adUnit2);
+}
+
+- (void) testAdUnitsDifferByType
+{
+    CRAdUnit *adUnit1 = [[CRAdUnit alloc] initWithAdUnitId:@"String1" adUnitType:CRAdUnitTypeBanner];
+    CRAdUnit *adUnit2 = [[CRAdUnit alloc] initWithAdUnitId:@"String1" adUnitType:CRAdUnitTypeInterstitial];
 
     XCTAssertFalse([adUnit1 isEqual:adUnit2]);
     XCTAssertFalse([adUnit2 isEqual:adUnit1]);

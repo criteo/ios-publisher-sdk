@@ -17,12 +17,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic) NSString *displayUrl;
 @property (readonly, nonatomic) NSDate *insertTime;
 @property (readonly, nonatomic) NSTimeInterval ttl;
-@property (readonly, nonatomic) CRAdUnitType adUnitType;
+@property (readonly, nonatomic) CRAdUnit *adUnit;
 
 - (instancetype)initWithDisplayURL:(NSString *)displayURL
                         insertTime:(NSDate *)timeStamp
                                ttl:(NSTimeInterval)ttl
-                        adUnitType:(CRAdUnitType)adUnitType;
+                            adUnit:(CRAdUnit *)adUnit;
 
 - (BOOL)isExpired;
 

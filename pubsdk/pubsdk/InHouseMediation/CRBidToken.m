@@ -23,7 +23,7 @@
 }
 
 - (instancetype) copyWithZone:(NSZone *)zone {
-    return self;
+    return [[CRBidToken alloc] initWithUUID:_bidTokenUUID];
 }
 
 - (NSUInteger) hash {

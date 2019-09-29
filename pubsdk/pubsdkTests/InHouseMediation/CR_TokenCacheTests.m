@@ -62,12 +62,16 @@
     CRBidToken *secondToken = [tokenCache getTokenForBid:secondCdbBid adUnitType:CRAdUnitTypeBanner];
     CRBidToken *thirdToken = [tokenCache getTokenForBid:thirdCdbBid adUnitType:CRAdUnitTypeBanner];
 
+    CRAdUnit *firstAdUnit = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid1" adUnitType:CRAdUnitTypeBanner];
+    CRAdUnit *secondAdUnit = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid2" adUnitType:CRAdUnitTypeBanner];
+    CRAdUnit *thirdAdUnit = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid3" adUnitType:CRAdUnitTypeBanner];
+
     XCTAssertFalse([firstToken isEqual:secondToken]);
     XCTAssertFalse([secondToken isEqual:thirdToken]);
 
-    CR_TokenValue *firstExpectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"someJS1" insertTime:firstDate ttl:4000 adUnitType:CRAdUnitTypeBanner];
-    CR_TokenValue *secondExpectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"someJS2" insertTime:secondDate ttl:5000 adUnitType:CRAdUnitTypeBanner];
-    CR_TokenValue *thirdExpectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"someJS3" insertTime:thirdDate ttl:6000 adUnitType:CRAdUnitTypeBanner];
+    CR_TokenValue *firstExpectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"someJS1" insertTime:firstDate ttl:4000 adUnit:firstAdUnit];
+    CR_TokenValue *secondExpectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"someJS2" insertTime:secondDate ttl:5000 adUnit:secondAdUnit];
+    CR_TokenValue *thirdExpectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"someJS3" insertTime:thirdDate ttl:6000 adUnit:thirdAdUnit];
 
     XCTAssertTrue([firstExpectedTokenValue isEqual:[tokenCache getValueForToken:firstToken
                                                                      adUnitType:CRAdUnitTypeBanner]]);
@@ -104,7 +108,8 @@
 
 
     CR_TokenCache *tokenCache = [[CR_TokenCache alloc] init];
-    CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"someJS1" insertTime:firstDate ttl:4000 adUnitType:CRAdUnitTypeBanner];
+    CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid1" adUnitType:CRAdUnitTypeBanner];
+    CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"someJS1" insertTime:firstDate ttl:4000 adUnit:adUnit];
     CRBidToken *token = [tokenCache getTokenForBid:cdbBid adUnitType:CRAdUnitTypeBanner];
 
     CR_TokenValue *consumedTokenValue = [tokenCache getValueForToken:token
@@ -125,10 +130,11 @@
 - (void)testTokenValueForExpiredBidToken {
     CR_TokenCache *tokenCache = [[CR_TokenCache alloc] init];
     CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
+    CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:@"Hello" adUnitType:CRAdUnitTypeBanner];
     CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@""
                                                                        insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-400]
                                                                               ttl:200
-                                                                       adUnitType:CRAdUnitTypeBanner];
+                                                                           adUnit:adUnit];
     [tokenCache setTokenMapWithValue:expectedTokenValue
                               forKey:token];
     CR_TokenValue *tokenValue = [tokenCache getValueForToken:token
@@ -140,10 +146,11 @@
 - (void)testTokenValueForBidTokenWithDifferentAdUnitType {
     CR_TokenCache *tokenCache = [[CR_TokenCache alloc] init];
     CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
+    CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:@"Hello" adUnitType:CRAdUnitTypeInterstitial];
     CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@""
                                                                        insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-400]
                                                                               ttl:200
-                                                                       adUnitType:CRAdUnitTypeInterstitial];
+                                                                           adUnit:adUnit];
     [tokenCache setTokenMapWithValue:expectedTokenValue
                               forKey:token];
     CR_TokenValue *tokenValue = [tokenCache getValueForToken:token

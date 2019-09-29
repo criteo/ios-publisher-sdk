@@ -659,10 +659,11 @@
                                                                    adUnit:self.adUnit];
 
     CRBidToken *bidToken = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
+    CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:@"Yo" adUnitType:CRAdUnitTypeInterstitial];
     CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"test"
                                                                        insertTime:[NSDate date]
                                                                               ttl:200
-                                                                       adUnitType:CRAdUnitTypeInterstitial];
+                                                                           adUnit:adUnit];
     OCMStub([mockCriteo tokenValueForBidToken:bidToken
                                    adUnitType:CRAdUnitTypeInterstitial]).andReturn(expectedTokenValue);
 
