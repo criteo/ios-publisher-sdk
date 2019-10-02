@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
-@class WKWebView, UIWebView;
+@class WKWebView;
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_DeviceInfo : NSObject
@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, atomic) NSString *userAgent;
 @property (copy, nonatomic, readonly) NSString *deviceId;
 
-- (instancetype)initWithWKWebView:(WKWebView *)wkWebView uiWebView:(UIWebView * _Nullable)uiWebView;
+- (instancetype)initWithWKWebView:(WKWebView *)wkWebView;
 - (void)waitForUserAgent:(void (^ _Nullable)(void))completion;
 + (CGSize)getScreenSize;
 + (BOOL)validScreenSize:(CGSize)size;
