@@ -24,7 +24,6 @@
     CR_NetworkManager  *networkManager;
     CR_AppEvents       *appEvents;
     NSTimeInterval     cdbTimeToNextCall;
-    NSMutableDictionary *customTargeting;
 }
 
 static NSString * const crtCpm = @"crt_cpm";
@@ -238,28 +237,30 @@ static NSString * const crtnPixUrl = @"crtn_pixurl_";
         }
 
         if ([targeting isKindOfClass:[NSDictionary class]]) {
-            customTargeting = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *) targeting];
+            NSMutableDictionary* customTargeting = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *) targeting];
             [customTargeting setObject:fetchedBid.cpm forKey:crtCpm];
             if(adUnit.adUnitType == CRAdUnitTypeNative) {
                 // bid will contain atleast one product, a privacy section and atleast one impression pixel
                 if(fetchedBid.nativeAssets.products.count > 0) {
-                    [self setCustomTargetingValue:fetchedBid.nativeAssets.products[0].title forKey:crtnTitle];
-                    [self setCustomTargetingValue:fetchedBid.nativeAssets.products[0].description forKey:crtnDesc];
-                    [self setCustomTargetingValue:fetchedBid.nativeAssets.products[0].price forKey:crtnPrice];
-                    [self setCustomTargetingValue:fetchedBid.nativeAssets.products[0].clickUrl forKey:crtnClickUrl];
-                    [self setCustomTargetingValue:fetchedBid.nativeAssets.products[0].callToAction forKey:crtnCta];
-                    [self setCustomTargetingValue:fetchedBid.nativeAssets.products[0].image.url forKey:crtnImageUrl];
+                    [self setDfpValue:fetchedBid.nativeAssets.products[0].title forKey:crtnTitle inDictionary:customTargeting];
+                    [self setDfpValue:fetchedBid.nativeAssets.products[0].description forKey:crtnDesc inDictionary:customTargeting];
+                    [self setDfpValue:fetchedBid.nativeAssets.products[0].price forKey:crtnPrice inDictionary:customTargeting];
+                    [self setDfpValue:fetchedBid.nativeAssets.products[0].clickUrl forKey:crtnClickUrl inDictionary:customTargeting];
+                    [self setDfpValue:fetchedBid.nativeAssets.products[0].callToAction forKey:crtnCta inDictionary:customTargeting];
+                    [self setDfpValue:fetchedBid.nativeAssets.products[0].image.url forKey:crtnImageUrl inDictionary:customTargeting];
                 }
-                [self setCustomTargetingValue:fetchedBid.nativeAssets.advertiser.description forKey:crtnAdvName];
-                [self setCustomTargetingValue:fetchedBid.nativeAssets.advertiser.domain forKey:crtnAdvDomain];
-                [self setCustomTargetingValue:fetchedBid.nativeAssets.advertiser.logoImage.url forKey:crtnAdvLogoUrl];
-                [self setCustomTargetingValue:fetchedBid.nativeAssets.advertiser.logoClickUrl forKey:crtnAdvUrl];
-                [self setCustomTargetingValue:fetchedBid.nativeAssets.privacy.optoutClickUrl forKey:crtnPrUrl];
-                [self setCustomTargetingValue:fetchedBid.nativeAssets.privacy.optoutImageUrl forKey:crtnPrImageUrl];
-                [self setCustomTargetingValue:fetchedBid.nativeAssets.privacy.longLegalText forKey:crtnPrText];
+                [self setDfpValue:fetchedBid.nativeAssets.advertiser.description forKey:crtnAdvName inDictionary:customTargeting];
+                [self setDfpValue:fetchedBid.nativeAssets.advertiser.domain forKey:crtnAdvDomain inDictionary:customTargeting];
+                [self setDfpValue:fetchedBid.nativeAssets.advertiser.logoImage.url forKey:crtnAdvLogoUrl inDictionary:customTargeting];
+                [self setDfpValue:fetchedBid.nativeAssets.advertiser.logoClickUrl forKey:crtnAdvUrl inDictionary:customTargeting];
+                [self setDfpValue:fetchedBid.nativeAssets.privacy.optoutClickUrl forKey:crtnPrUrl inDictionary:customTargeting];
+                [self setDfpValue:fetchedBid.nativeAssets.privacy.optoutImageUrl forKey:crtnPrImageUrl inDictionary:customTargeting];
+                [self setDfpValue:fetchedBid.nativeAssets.privacy.longLegalText forKey:crtnPrText inDictionary:customTargeting];
                 [customTargeting setObject:[NSString stringWithFormat:@"%lu", (unsigned long)fetchedBid.nativeAssets.impressionPixels.count]  forKey:crtnPixCount];
                 for(int i = 0; i < fetchedBid.nativeAssets.impressionPixels.count; i++) {
-                    [self setCustomTargetingValue:fetchedBid.nativeAssets.impressionPixels[i] forKey:[NSString stringWithFormat:@"%@%d", crtnPixUrl, i]];
+                    [self setDfpValue:fetchedBid.nativeAssets.impressionPixels[i]
+                               forKey:[NSString stringWithFormat:@"%@%d", crtnPixUrl, i]
+                         inDictionary:customTargeting];
                 }
             }
             else {
@@ -328,9 +329,11 @@ static NSString * const crtnPixUrl = @"crtn_pixurl_";
     return self->config;
 }
 
-- (void)setCustomTargetingValue:(NSString *)value forKey:(NSString *)key {
+- (void)setDfpValue:(NSString *)value
+             forKey:(NSString *)key
+       inDictionary:(NSMutableDictionary*)dict {
     if(value.length > 0) {
-        [customTargeting setObject:[NSString dfpCompatibleString:value] forKey:key];
+        [dict setObject:[NSString dfpCompatibleString:value] forKey:key];
     }
 }
 
