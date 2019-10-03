@@ -225,6 +225,77 @@
     XCTAssertTrue([bids[slot_3] isEmpty]);
 }
 
+- (void) testAddCriteoBidToMutableDictionary
+{
+    CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+
+    CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil
+                                                 placementId:@"adunitid"
+                                                         cpm:@"1.1200000047683716"
+                                                    currency:@"EUR"
+                                                       width:@(300)
+                                                      height:@(250)
+                                                         ttl:600
+                                                    creative:nil
+                                                  displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js"
+                                                  insertTime:[NSDate date]
+                                                nativeAssets:nil];
+
+    CR_CacheManager *cache = [CR_CacheManager new];
+    [cache setBid:testBid_1];
+
+    CR_Config *config = [[CR_Config alloc] initWithCriteoPublisherId:@("1234")];
+
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
+                                                             cacheManager:cache
+                                                               tokenCache:nil
+                                                                   config:config
+                                                            configManager:nil
+                                                               deviceInfo:nil
+                                                          gdprUserConsent:nil
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:0];
+
+    NSMutableDictionary<NSString*,NSString*> *biddableDictionary = [NSMutableDictionary new];
+
+    [bidManager addCriteoBidToRequest:biddableDictionary forAdUnit:slot_1];
+
+    XCTAssert(biddableDictionary.count == 2);
+    XCTAssertEqualObjects(biddableDictionary[@"crt_displayUrl"], testBid_1.displayUrl);
+    XCTAssertEqualObjects(biddableDictionary[@"crt_cpm"], testBid_1.cpm);
+}
+
+- (void) testAddCriteoBidToNonBiddableObjectsDoesNotCrash
+{
+    CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+
+    CR_Config *config = [[CR_Config alloc] initWithCriteoPublisherId:@("1234")];
+
+    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
+                                                             cacheManager:nil
+                                                               tokenCache:nil
+                                                                   config:config
+                                                            configManager:nil
+                                                               deviceInfo:nil
+                                                          gdprUserConsent:nil
+                                                           networkManager:nil
+                                                                appEvents:nil
+                                                           timeToNextCall:0];
+
+    NSDictionary *nonBiddableDictionary = [NSDictionary new];
+    [bidManager addCriteoBidToRequest:nonBiddableDictionary forAdUnit:slot_1];
+
+    NSSet *nonBiddableSet = [NSSet new];
+    [bidManager addCriteoBidToRequest:nonBiddableSet forAdUnit:slot_1];
+
+    NSString *aString = @"1234abcd";
+    [bidManager addCriteoBidToRequest:aString forAdUnit:slot_1];
+
+    NSMutableDictionary *nilDictionary = nil;
+    [bidManager addCriteoBidToRequest:nilDictionary forAdUnit:slot_1];
+}
+
 - (void) testAddCriteoBidToDfpRequest {
     CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
 

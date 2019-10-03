@@ -213,7 +213,21 @@ static NSString * const crtnPixUrl = @"crtn_pixurl_";
     } else if ([adRequestClassName isEqualToString:@"MPAdView"] ||
                [adRequestClassName isEqualToString:@"MPInterstitialAdController"]) {
         [self addCriteoBidToMopubRequest:adRequest forAdUnit:adUnit];
+    } else if ([adRequest isKindOfClass:NSMutableDictionary.class]) {
+        [self addCriteoBidToDictionary:adRequest forAdUnit:adUnit];
     }
+}
+
+- (void) addCriteoBidToDictionary:(NSMutableDictionary*)dictionary
+                        forAdUnit:(CR_CacheAdUnit*)adUnit
+{
+    CR_CdbBid *fetchedBid = [self getBid:adUnit];
+    if ([fetchedBid isEmpty]) {
+        return;
+    }
+
+    dictionary[crtDisplayUrl] = fetchedBid.displayUrl;
+    dictionary[crtCpm] = fetchedBid.cpm;
 }
 
 - (void) addCriteoBidToDfpRequest:(id) adRequest
