@@ -919,7 +919,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DF367CE923316AB60044807B /* SampleBid.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -938,7 +937,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DF367CE823316AB50044807B /* SampleBid.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -946,7 +944,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DF367CE7233169B70044807B /* SampleBid.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1172,7 +1169,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3200;
+				CURRENT_PROJECT_VERSION = 3210;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = S655EV5659;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1199,7 +1196,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3200;
+				CURRENT_PROJECT_VERSION = 3210;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = S655EV5659;
 				DYLIB_COMPATIBILITY_VERSION = 1;
