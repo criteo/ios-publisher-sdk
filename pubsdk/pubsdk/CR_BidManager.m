@@ -184,7 +184,7 @@
         CLog(@"Config hasn't been fetched. So no bids will be fetched.");
         return YES;
         // TODO : move kill switch logic out of bid manager
-        // http://review.criteois.lan/#/c/461220/10/pubsdk/pubsdkTests/CR_BidManagerTests.m
+        // https://review.crto.in/#/c/461220/10/pubsdk/pubsdkTests/CR_BidManagerTests.m
     } else if ([config killSwitch]) {
         CLog(@"killSwitch is engaged. No bid will be fetched.");
         return YES;
@@ -234,7 +234,7 @@
         CLog(@"Config hasn't been fetched. So no bids will be fetched.");
         return;
         // TODO : move kill switch logic out of bid manager
-        // http://review.criteois.lan/#/c/461220/10/pubsdk/pubsdkTests/CR_BidManagerTests.m
+        // https://review.crto.in/#/c/461220/10/pubsdk/pubsdkTests/CR_BidManagerTests.m
     } else if ([config killSwitch]) {
         CLog(@"killSwitch is engaged. No bid will be fetched.");
         return;
