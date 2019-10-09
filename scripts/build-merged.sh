@@ -18,7 +18,7 @@ printf "Launching $CRITEO_CONFIGURATION build\nARCHS: $CRITEO_ARCHS\nSIM ARCHS: 
 
 rm -rf fuji
 rm -rf CriteoPublisher.framework
-git clone ssh://qabot@review.criteois.lan:29418/pub-sdk/fuji
+git clone ssh://qabot@review.crto.in:29418/pub-sdk/fuji
 
 cd fuji
 
