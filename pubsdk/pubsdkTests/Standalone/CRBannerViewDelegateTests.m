@@ -122,16 +122,17 @@
     OCMVerifyAllWithDelay(mockBannerViewDelegate, 1);
 }
 
-- (void)testBannerWillLeaveApplication {
+- (void)testBannerWillLeaveApplicationAndWasClicked {
     UIApplication *mockApplication = OCMStrictClassMock([UIApplication class]);
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:nil
                                                            webView:nil
                                                        application:mockApplication
                                                             adUnit:self.adUnit];
-    id<CRBannerViewDelegate> mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
+    id mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
     bannerView.delegate = mockBannerViewDelegate;
-    OCMStub([mockBannerViewDelegate bannerWillLeaveApplication:bannerView]);
+    OCMExpect([mockBannerViewDelegate bannerWillLeaveApplication:bannerView]);
+    OCMExpect([mockBannerViewDelegate bannerWasClicked:bannerView]);
     WKNavigationAction *mockNavigationAction = OCMStrictClassMock([WKNavigationAction class]);
     OCMStub(mockNavigationAction.navigationType).andReturn(WKNavigationTypeLinkActivated);
     WKFrameInfo *mockFrame = OCMStrictClassMock([WKFrameInfo class]);
@@ -142,18 +143,10 @@
     OCMStub(mockNavigationAction.request).andReturn(request);
     OCMStub([mockApplication canOpenURL:url]).andReturn(YES);
     OCMStub([mockApplication openURL:url]);
-    XCTestExpectation *bannerWillLeaveApplication = [self expectationWithDescription:@"bannerWillLeaveApplication delegate method called"];
     [bannerView webView:nil decidePolicyForNavigationAction:mockNavigationAction
         decisionHandler:^(WKNavigationActionPolicy decisionHandler) {
         }];
-    [NSTimer scheduledTimerWithTimeInterval:3
-                                    repeats:NO
-                                      block:^(NSTimer * _Nonnull timer) {
-                                          OCMVerify([mockBannerViewDelegate bannerWillLeaveApplication:bannerView]);
-                                          [bannerWillLeaveApplication fulfill];
-                                      }];
-    [self waitForExpectations:@[bannerWillLeaveApplication]
-                      timeout:5];
+    OCMVerifyAllWithDelay(mockBannerViewDelegate, 1);
 }
 
 // test no delegate method called when webView navigation fails

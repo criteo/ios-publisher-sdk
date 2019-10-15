@@ -186,6 +186,9 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     if(navigationAction.navigationType == allowedNavigationType
        && navigationAction.request.URL != nil) {
         dispatch_async(dispatch_get_main_queue(), ^{
+            if([self.delegate respondsToSelector:@selector(interstitialWasClicked:)]) {
+                [self.delegate interstitialWasClicked:self];
+            }
             if([self.delegate respondsToSelector:@selector(interstitialWillLeaveApplication:)]) {
                 [self.delegate interstitialWillLeaveApplication:self];
             }

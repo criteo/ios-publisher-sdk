@@ -23,6 +23,7 @@
 - (void)interstitialDidDisappear:(CRInterstitial *)interstitial;
 
 - (void)interstitialWillLeaveApplication:(CRInterstitial *)interstitial;
+- (void)interstitialWasClicked:(CRInterstitial *)interstitial;
 
 - (void)interstitialIsReadyToPresent:(CRInterstitial *)interstitial;
 - (void)interstitial:(CRInterstitial *)interstitial didFailToReceiveAdContentWithError:(NSError *)error;

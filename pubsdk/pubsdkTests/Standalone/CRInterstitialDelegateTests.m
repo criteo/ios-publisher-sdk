@@ -178,7 +178,7 @@
                       timeout:5];
 }
 
-- (void)testInterstitialWillLeaveApplication {
+- (void)testInterstitialWillLeaveApplicationAndWasClicked {
     UIApplication *mockApplication = OCMStrictClassMock([UIApplication class]);
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:nil
                                                            viewController:nil
@@ -186,9 +186,10 @@
                                                                isAdLoaded:NO
                                                                    adUnit:self.adUnit];
 
-    id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
+    id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
     interstitial.delegate = mockInterstitialDelegate;
-    OCMStub([mockInterstitialDelegate interstitialWillLeaveApplication:interstitial]);
+    OCMExpect([mockInterstitialDelegate interstitialWillLeaveApplication:interstitial]);
+    OCMExpect([mockInterstitialDelegate interstitialWasClicked:interstitial]);
 
     WKNavigationAction *mockNavigationAction = OCMStrictClassMock([WKNavigationAction class]);
     OCMStub(mockNavigationAction.navigationType).andReturn(WKNavigationTypeLinkActivated);
@@ -201,18 +202,10 @@
     OCMStub([mockApplication canOpenURL:url]).andReturn(YES);
     OCMStub([mockApplication openURL:url]);
 
-    XCTestExpectation *interstitialWillLeaveApplication = [self expectationWithDescription:@"interstitialWillLeaveApplication delegate method called"];
     [interstitial webView:nil decidePolicyForNavigationAction:mockNavigationAction
           decisionHandler:^(WKNavigationActionPolicy decisionHandler) {
     }];
-    [NSTimer scheduledTimerWithTimeInterval:3
-                                    repeats:NO
-                                      block:^(NSTimer * _Nonnull timer) {
-                                          OCMVerify([mockInterstitialDelegate interstitialWillLeaveApplication:interstitial]);
-                                          [interstitialWillLeaveApplication fulfill];
-                                      }];
-    [self waitForExpectations:@[interstitialWillLeaveApplication]
-                      timeout:5];
+    OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
 }
 
 - (void)testInterstitialWillAndDidAppear {

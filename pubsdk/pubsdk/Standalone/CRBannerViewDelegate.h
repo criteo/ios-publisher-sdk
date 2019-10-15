@@ -16,6 +16,7 @@
 - (void)banner:(CRBannerView *)bannerView didFailToReceiveAdWithError:(NSError *)error;
 - (void)bannerDidReceiveAd:(CRBannerView *)bannerView;
 - (void)bannerWillLeaveApplication:(CRBannerView *)bannerView;
+- (void)bannerWasClicked:(CRBannerView *)bannerView;
 
 @end
 
