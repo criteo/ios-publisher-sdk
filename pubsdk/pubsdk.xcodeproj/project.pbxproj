@@ -114,6 +114,10 @@
 		654858AC2265394A00DC471A /* CRInterstitialTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 654858AB2265394A00DC471A /* CRInterstitialTests.m */; };
 		65E3A5732270CB7A004156E9 /* CR_InterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */; };
 		65E3A5742270CB7A004156E9 /* CR_InterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */; };
+		7D3E41D62387EE8100BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D3E41D42387EE8000BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.h */; };
+		7D3E41D72387EE8100BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D3E41D42387EE8000BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.h */; };
+		7D3E41D82387EE8100BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41D52387EE8000BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.m */; };
+		7D3E41D92387EE8100BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41D52387EE8000BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.m */; };
 		7DF2A06C236889CC00178D8C /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25BD5B572220D16D004DE311 /* CriteoPublisherSdk.framework */; };
 		7DF2A07223688AF500178D8C /* CRAdUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5397C0B922A1A43F00BC72FE /* CRAdUnitTests.m */; };
 		7DF2A07323688AF500178D8C /* CRBannerAdUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5397C09922A0889700BC72FE /* CRBannerAdUnitTests.m */; };
@@ -344,6 +348,8 @@
 		65E3A56F2270CB7A004156E9 /* CR_InterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_InterstitialViewController.h; sourceTree = "<group>"; };
 		65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_InterstitialViewController.m; sourceTree = "<group>"; };
 		6F187272CD050435F6D28BFA /* libPods-pubsdkTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pubsdkTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D3E41D42387EE8000BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+CRPrivateKeysAndUtils.h"; sourceTree = "<group>"; };
+		7D3E41D52387EE8000BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+CRPrivateKeysAndUtils.m"; sourceTree = "<group>"; };
 		7DF2A067236889CC00178D8C /* SDKUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SDKUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DF2A06B236889CC00178D8C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DF367C84232971810044807B /* CRNativeAdUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNativeAdUnit.h; sourceTree = "<group>"; };
@@ -459,6 +465,8 @@
 		255151C222027C6000F76E3F /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				7D3E41D42387EE8000BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.h */,
+				7D3E41D52387EE8000BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.m */,
 				53BDFDB722EA498A0051EB40 /* NSObject+Criteo.h */,
 				53BDFDB822EA498A0051EB40 /* NSObject+Criteo.m */,
 				DF3E3D3E23233809009E8CB5 /* NSArray+Criteo.h */,
@@ -829,6 +837,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				53BDFDC622EB9F7C0051EB40 /* CR_BidManagerHelper.h in Headers */,
+				7D3E41D72387EE8100BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.h in Headers */,
 				543442FC2285F4A600805343 /* CRBannerViewDelegate.h in Headers */,
 				25BD5B682220D1D2004DE311 /* Criteo.h in Headers */,
 				5397C0B522A0AA8500BC72FE /* CRInterstitialAdUnit.h in Headers */,
@@ -849,6 +858,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				53BDFDC522EB9F7C0051EB40 /* CR_BidManagerHelper.h in Headers */,
+				7D3E41D62387EE8100BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.h in Headers */,
 				255151B822012BF100F76E3F /* Criteo.h in Headers */,
 				5397C09222A0885A00BC72FE /* CRInterstitialAdUnit.h in Headers */,
 				654858A7226538D500DC471A /* CRInterstitial.h in Headers */,
@@ -1138,6 +1148,7 @@
 				53CA0F9122AB0A730098F96C /* CRBidToken.m in Sources */,
 				53CA0F8122AAE3C20098F96C /* CRBidResponse.m in Sources */,
 				53BDFDC822EB9F7C0051EB40 /* CR_BidManagerHelper.m in Sources */,
+				7D3E41D92387EE8100BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.m in Sources */,
 				DF367CA5232B20F90044807B /* CR_NativeAdvertiser.m in Sources */,
 				547BC945230650BB00FB8599 /* CR_BidFetchTracker.m in Sources */,
 				DF3E3D4123233936009E8CB5 /* NSArray+Criteo.m in Sources */,
@@ -1207,6 +1218,7 @@
 				653CA6F622C3808500D74412 /* CR_TokenCache.h in Sources */,
 				25B6505B2206AB40008416D3 /* Logging.m in Sources */,
 				53374B8022AEDBE5007084FB /* CR_TokenCache.m in Sources */,
+				7D3E41D82387EE8100BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.m in Sources */,
 				5496875F22A5A96D007D2578 /* CR_AdUnitHelper.m in Sources */,
 				DF367C94232AE6230044807B /* CR_NativeProduct.m in Sources */,
 				E1F273B921C87A2F00A2FBFA /* CR_CdbBid.m in Sources */,

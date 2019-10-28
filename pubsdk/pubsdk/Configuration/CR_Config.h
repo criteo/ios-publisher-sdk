@@ -11,8 +11,6 @@
 
 #import <Foundation/Foundation.h>
 
-static NSString * killSwitchKey = @"CRITEO_KillSwitch";
-
 @interface CR_Config : NSObject
 
 @property (copy, nonatomic, readonly) NSString *criteoPublisherId;

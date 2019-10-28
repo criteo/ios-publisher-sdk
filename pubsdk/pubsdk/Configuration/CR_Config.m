@@ -8,8 +8,8 @@
 
 #import "CR_Config.h"
 #import "Logging.h"
-#import <AdSupport/ASIdentifierManager.h>
 #import <UIKit/UIKit.h>
+#import "NSUserDefaults+CRPrivateKeysAndUtils.h"
 
 @implementation CR_Config
 
@@ -22,7 +22,7 @@
         _path = @"inapp/v2";
         _sdkVersion = @"3.2.0";
         _appId = [[NSBundle mainBundle] bundleIdentifier];
-        _killSwitch = [[NSUserDefaults standardUserDefaults] boolForKey:killSwitchKey];
+        _killSwitch = [[NSUserDefaults standardUserDefaults] boolForKey:NSUserDefaultsKillSwitchKey];
         _deviceModel = [[UIDevice currentDevice] model];
         _osVersion = [[UIDevice currentDevice] systemVersion];
         _deviceOs = @"ios";

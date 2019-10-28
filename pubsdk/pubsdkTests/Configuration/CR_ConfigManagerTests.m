@@ -11,8 +11,12 @@
 #import <OCMock.h>
 
 #import "CR_ConfigManager.h"
+#import "NSUserDefaults+CRPrivateKeysAndUtils.h"
 
 @interface CR_ConfigManagerTests : XCTestCase
+
+@property (nonatomic, strong) NSUserDefaults *userDefault;
+@property (nonatomic, strong) CR_ConfigManager *configManager;
 
 @end
 
@@ -36,6 +40,10 @@
 
     OCMStub([mockApiHandler getConfig:localConfig
                       ahConfigHandler:([OCMArg invokeBlockWithArgs:remoteConfig, nil])]);
+
+    self.userDefault = [[NSUserDefaults alloc] init];
+    self.configManager = [[CR_ConfigManager alloc] initWithApiHandler:mockApiHandler
+                                                          userDefault:self.userDefault];
 }
 
 - (void)tearDown {
@@ -46,12 +54,15 @@
 
 - (void) testConfigManagerRefreshesKillSwitch
 {
-    XCTAssertEqual(localConfig.killSwitch, YES, @"Kill switch should be activated at the start of the test");
-
-    CR_ConfigManager *configManager = [[CR_ConfigManager alloc] initWithApiHandler:mockApiHandler];
-    [configManager refreshConfig:localConfig];
-
+    [self.configManager refreshConfig:localConfig];
     XCTAssertEqual(localConfig.killSwitch, NO, @"Kill switch should be deactivated after config is refreshed from remote API");
+}
+
+- (void) testSetKillSwitchInUserDefault
+{
+    [self.configManager refreshConfig:localConfig];
+    XCTAssertTrue([self.userDefault containsKey:NSUserDefaultsKillSwitchKey]);
+    XCTAssertFalse([self.userDefault boolForKey:NSUserDefaultsKillSwitchKey]);
 }
 
 @end

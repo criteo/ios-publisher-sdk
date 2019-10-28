@@ -8,6 +8,14 @@
 
 #import "CR_ConfigManager.h"
 
+#import "NSUserDefaults+CRPrivateKeysAndUtils.h"
+
+@interface CR_ConfigManager ()
+
+@property (nonatomic, strong) NSUserDefaults *userDefault;
+
+@end
+
 @implementation CR_ConfigManager
 {
     CR_ApiHandler *apiHandler;
@@ -15,8 +23,16 @@
 
 - (instancetype) initWithApiHandler:(CR_ApiHandler*)apiHandler
 {
+    return [self initWithApiHandler:apiHandler
+                        userDefault:[NSUserDefaults standardUserDefaults]];
+}
+
+- (instancetype) initWithApiHandler:(CR_ApiHandler*)apiHandler
+                        userDefault:(NSUserDefaults *)userDefault
+{
     if (self = [super init]) {
         self->apiHandler = apiHandler;
+        _userDefault = userDefault;
     }
 
     return self;
@@ -28,7 +44,7 @@
                 ahConfigHandler:^(NSDictionary *configValues) {
                     if(configValues[@"killSwitch"] && [configValues[@"killSwitch"] isKindOfClass:NSNumber.class]) {
                         config.killSwitch = ((NSNumber*)configValues[@"killSwitch"]).boolValue;
-                        [[NSUserDefaults standardUserDefaults] setBool:config.killSwitch forKey:killSwitchKey];
+                        [self.userDefault setBool:config.killSwitch forKey:NSUserDefaultsKillSwitchKey];
                     }
                     if(configValues[@"iOSAdTagUrlMode"] && [configValues[@"iOSAdTagUrlMode"] isKindOfClass:NSString.class]) {
                         config.adTagUrlMode = (NSString*)configValues[@"iOSAdTagUrlMode"];
