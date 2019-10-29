@@ -29,7 +29,7 @@
 - (void)setUp {
     NSError *e = nil;
 
-    NSURL *jsonURL = [[NSBundle mainBundle] URLForResource:@"SampleBid" withExtension:@"json"];
+    NSURL *jsonURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"SampleBid" withExtension:@"json"];
 
     NSString *jsonText = [NSString stringWithContentsOfURL:jsonURL encoding:NSUTF8StringEncoding error:&e];
     if (e) { XCTFail(@"%@", e); }

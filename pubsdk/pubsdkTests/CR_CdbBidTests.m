@@ -30,7 +30,7 @@
     NSError *e = nil;
     self.now = [NSDate date];
 
-    NSURL *jsonURL = [[NSBundle mainBundle] URLForResource:@"SampleBid" withExtension:@"json"];
+    NSURL *jsonURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"SampleBid" withExtension:@"json"];
     NSLog(@"SampleBid.json URL: %@", jsonURL);
 
     NSString *jsonText = [NSString stringWithContentsOfURL:jsonURL encoding:NSUTF8StringEncoding error:&e];
