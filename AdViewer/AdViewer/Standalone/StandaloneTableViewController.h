@@ -1,22 +1,20 @@
 //
-//  MopubViewController.h
+//  StandaloneViewControllerTableViewController.h
 //  AdViewer
 //
-//  Created by Sneha Pathrose on 9/13/19.
+//  Created by Aleksandr Pakhmutov on 29/10/2019.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-#import <MoPub.h>
 #import "HomePageTableViewController.h"
 #import "IntegrationBaseTableViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MopubTableViewController : IntegrationBaseTableViewController <MPAdViewDelegate, MPInterstitialAdControllerDelegate>
+@interface StandaloneTableViewController : IntegrationBaseTableViewController
 
 @property (nonatomic, strong) HomePageTableViewController *homePageVC;
-@property (weak, nonatomic) IBOutlet UITextView *textFeedBack;
 
 @end
 

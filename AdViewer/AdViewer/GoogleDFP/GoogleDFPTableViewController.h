@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 @import CriteoPublisherSdk;
 #import "HomePageTableViewController.h"
+#import "IntegrationBaseTableViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GoogleDFPTableViewController : UITableViewController
+@interface GoogleDFPTableViewController : IntegrationBaseTableViewController
 
 @property (nonatomic, strong) HomePageTableViewController *homePageVC;
 @property (nonatomic) IBOutlet UITextView *textFeedback;

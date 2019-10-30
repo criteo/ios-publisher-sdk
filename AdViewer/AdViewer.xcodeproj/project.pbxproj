@@ -17,6 +17,8 @@
 		4077EBC1218BC48400C41E68 /* AdViewerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBC0218BC48400C41E68 /* AdViewerTests.m */; };
 		4077EBCC218BC48400C41E68 /* AdViewerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBCB218BC48400C41E68 /* AdViewerUITests.m */; };
 		40DE984B219F533300C4BA05 /* AdViewerTest2.m in Sources */ = {isa = PBXBuildFile; fileRef = 40DE984A219F533300C4BA05 /* AdViewerTest2.m */; };
+		54B578F223682A9B004DF616 /* StandaloneTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 54B578F123682A9A004DF616 /* StandaloneTableViewController.m */; };
+		54B579152369CE5C004DF616 /* IntegrationBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 54B579142369CE5C004DF616 /* IntegrationBaseTableViewController.m */; };
 		54CAF8CE232C5DB90050D8D9 /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CAF8CD232C5DB90050D8D9 /* CriteoPublisherSdk.framework */; };
 		54CAF8D2232C5EC70050D8D9 /* MopubTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CAF8D1232C5EC70050D8D9 /* MopubTableViewController.m */; };
 		E73EE276C44A5021AC3258C6 /* libPods-AdViewer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE22D35658ED0F4914AE6FB /* libPods-AdViewer.a */; };
@@ -74,6 +76,10 @@
 		4077EBCB218BC48400C41E68 /* AdViewerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdViewerUITests.m; sourceTree = "<group>"; };
 		4077EBCD218BC48400C41E68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		40DE984A219F533300C4BA05 /* AdViewerTest2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdViewerTest2.m; sourceTree = "<group>"; };
+		54B578F023682A9A004DF616 /* StandaloneTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StandaloneTableViewController.h; sourceTree = "<group>"; };
+		54B578F123682A9A004DF616 /* StandaloneTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StandaloneTableViewController.m; sourceTree = "<group>"; };
+		54B579132369CE5C004DF616 /* IntegrationBaseTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntegrationBaseTableViewController.h; sourceTree = "<group>"; };
+		54B579142369CE5C004DF616 /* IntegrationBaseTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntegrationBaseTableViewController.m; sourceTree = "<group>"; };
 		54CAF8C9232C2F990050D8D9 /* CriteoPublisherSdk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CriteoPublisherSdk.framework; sourceTree = "<group>"; };
 		54CAF8CD232C5DB90050D8D9 /* CriteoPublisherSdk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CriteoPublisherSdk.framework; path = ../../fuji/build/output/CriteoPublisherSdk.framework; sourceTree = "<group>"; };
 		54CAF8D0232C5EC70050D8D9 /* MopubTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MopubTableViewController.h; path = AdViewer/MopubHB/MopubTableViewController.h; sourceTree = SOURCE_ROOT; };
@@ -166,6 +172,8 @@
 		4077EBA6218BC48300C41E68 /* AdViewer */ = {
 			isa = PBXGroup;
 			children = (
+				54B579122369CE09004DF616 /* Common */,
+				54B578EF23682A31004DF616 /* Standalone */,
 				54CAF8CF232C5E8B0050D8D9 /* MopubHB */,
 				25022DE6220A72D300FF8ACE /* Criteo */,
 				404AC9482196509E008C6267 /* GoogleDFP */,
@@ -217,6 +225,24 @@
 			name = HomePage;
 			path = AdViewer/HomePage;
 			sourceTree = SOURCE_ROOT;
+		};
+		54B578EF23682A31004DF616 /* Standalone */ = {
+			isa = PBXGroup;
+			children = (
+				54B578F023682A9A004DF616 /* StandaloneTableViewController.h */,
+				54B578F123682A9A004DF616 /* StandaloneTableViewController.m */,
+			);
+			path = Standalone;
+			sourceTree = "<group>";
+		};
+		54B579122369CE09004DF616 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				54B579132369CE5C004DF616 /* IntegrationBaseTableViewController.h */,
+				54B579142369CE5C004DF616 /* IntegrationBaseTableViewController.m */,
+			);
+			path = Common;
+			sourceTree = "<group>";
 		};
 		54CAF8CF232C5E8B0050D8D9 /* MopubHB */ = {
 			isa = PBXGroup;
@@ -415,8 +441,10 @@
 				54CAF8D2232C5EC70050D8D9 /* MopubTableViewController.m in Sources */,
 				4077EBAC218BC48300C41E68 /* HomePageTableViewController.m in Sources */,
 				4077EBB7218BC48300C41E68 /* main.m in Sources */,
+				54B579152369CE5C004DF616 /* IntegrationBaseTableViewController.m in Sources */,
 				4077EBA9218BC48300C41E68 /* AppDelegate.m in Sources */,
 				404AC94B219650FF008C6267 /* GoogleDFPTableViewController.m in Sources */,
+				54B578F223682A9B004DF616 /* StandaloneTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -82,6 +82,7 @@
     [self.native_fluidRedView addSubview:self.dfpNativestyle_Fluid];
 }
 - (IBAction)interstitialClick:(id)sender {
+    [self.interstitalSpinner startAnimating];
      self.textFeedback.text = [self.textFeedback.text stringByAppendingString:@"\nREQUESTED INTERSTITIAL LOAD"];
     Criteo *criteo = [Criteo sharedCriteo];
     DFPRequest *request = [DFPRequest request];
@@ -91,6 +92,7 @@
     [self.dfpInterstitial loadRequest:request];
 }
 - (IBAction)clearButton:(id)sender {
+    [self updateInterstitialButtonsForAdLoaded:NO];
     [self resetDfpBannerView:self.dfpNativestyle_Fluid];
     [self resetDfpBannerView:self.dfpBannerView_320x50];
     [self resetDfpBannerView:self.dfpBannerView_300x250];
@@ -106,6 +108,12 @@
     }
     if(self.native_fluidRedView.subviews.count == 1) {
         [self resetErrorTextView:[self.native_fluidRedView.subviews objectAtIndex:0]];
+    }
+}
+
+- (IBAction)showInterstitialClick:(id)sender {
+    if(self.dfpInterstitial.isReady) {
+        [self.dfpInterstitial presentFromRootViewController:self];
     }
 }
 
@@ -192,9 +200,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 /// Tells the delegate an ad request succeeded.
 - (void)interstitialDidReceiveAd:(DFPInterstitial *)ad {
     NSLog(@"interstitialDidReceiveAd: delegate invoked");
-    if(ad.isReady) {
-        [ad presentFromRootViewController:self];
-    }
+    [self updateInterstitialButtonsForAdLoaded:YES];
 }
 
 /// Tells the delegate an ad request failed.
@@ -211,6 +217,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 /// Tells the delegate the interstitial is to be animated off the screen.
 - (void)interstitialWillDismissScreen:(DFPInterstitial *)ad {
     NSLog(@"interstitialWillDismissScreen: delegate invoked");
+    [self updateInterstitialButtonsForAdLoaded:NO];
 }
 
 /// Tells the delegate the interstitial had been animated off the screen.
@@ -227,6 +234,16 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 #pragma mark - GADAdSize Delegate
 - (void)adView:(GADBannerView *)bannerView willChangeAdSizeTo:(GADAdSize)size {
     NSLog(@"adView:willChangeAdSizeTo: delegate invoked");
+}
+
+#pragma mark - Private
+
+- (void) updateInterstitialButtonsForAdLoaded:(BOOL)adLoaded {
+    NSString* mainButtonTitle = adLoaded ? @"Ad loaded" : @"Load interstitial";
+    [self.loadInterstitialButton setTitle:mainButtonTitle forState:UIControlStateNormal];
+    [self.interstitalSpinner stopAnimating];
+    self.loadInterstitialButton.enabled = !adLoaded;
+    self.showInterstitialButton.enabled = adLoaded;
 }
 
 @end

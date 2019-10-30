@@ -18,6 +18,8 @@
 #define MOPUBINTERSTITIALADUNITID @"966fbbf95ba24ab990e5f037cc674bbc"
 #define GOOGLENATIVEADUNITID_FLUID @"/140800857/Endeavour_Native"
 
+#define CRITEOBANNERADUNITID_320x50 @"30s6zt3ayypfyemwjvmp"
+#define CRITEOINTERSTITIALID @"6yws53jyfjgoq1ghnuqb"
 
 @interface HomePageTableViewController : UITableViewController <NetworkManagerDelegate>
 
@@ -25,9 +27,14 @@
 @property (nonatomic, strong) CRBannerAdUnit *googleBannerAdUnit_300x250;
 @property (nonatomic, strong) CRInterstitialAdUnit *googleInterstitialAdUnit;
 @property (nonatomic, strong) CRNativeAdUnit *googleNativeAdUnit_Fluid;
+
 @property (nonatomic, strong) CRBannerAdUnit *moPubBannerAdUnit_320x50;
 @property (nonatomic, strong) CRBannerAdUnit *moPubBannerAdUnit_300x250;
 @property (nonatomic, strong) CRInterstitialAdUnit *moPubInterstitialAdUnit;
+
+@property (nonatomic, strong) CRBannerAdUnit *criteoBannerAdUnit_320x50;
+@property (nonatomic, strong) CRInterstitialAdUnit *criteoInterstitialAdUnit;
+
 @property (nonatomic) IBOutlet UITextView *textFeedback;
 
 @end

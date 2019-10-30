@@ -9,12 +9,14 @@
 #import "HomePageTableViewController.h"
 #import "MopubTableViewController.h"
 #import "GoogleDFPTableViewController.h"
+#import "StandaloneTableViewController.h"
 
 
 @interface HomePageTableViewController () <NetworkManagerDelegate>
 @property (weak, nonatomic) IBOutlet UISwitch *gdprSwitch;
 @property (weak, nonatomic) GoogleDFPTableViewController *googleDfpVC;
 @property (weak, nonatomic) MopubTableViewController *moPubVC;
+@property (weak, nonatomic) StandaloneTableViewController *standaloneVC;
 
 @end
 
@@ -31,10 +33,28 @@
     self.moPubBannerAdUnit_320x50 = [[CRBannerAdUnit alloc] initWithAdUnitId:MOPUBBANNERADUNITID_320X50 size:CGSizeMake(320, 50)];
     self.moPubBannerAdUnit_300x250 = [[CRBannerAdUnit alloc] initWithAdUnitId:MOPUBBANNERADUNITID_300X250 size:CGSizeMake(300, 250)];
     self.googleNativeAdUnit_Fluid = [[CRNativeAdUnit alloc] initWithAdUnitId:GOOGLENATIVEADUNITID_FLUID];
+
+    self.criteoBannerAdUnit_320x50 = [[CRBannerAdUnit alloc]
+                                      initWithAdUnitId:CRITEOBANNERADUNITID_320x50
+                                      size:CGSizeMake(320, 50)];
+
+    self.criteoInterstitialAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId: CRITEOINTERSTITIALID];
 }
 - (IBAction)registerCriteo:(id)sender {
     Criteo *criteo = [Criteo sharedCriteo];
-    [criteo registerCriteoPublisherId:@"B-056946" withAdUnits:@[self.googleBannerAdUnit_320x50, self.googleBannerAdUnit_300x250, self.moPubBannerAdUnit_320x50, self.moPubBannerAdUnit_300x250, self.googleInterstitialAdUnit, self.moPubInterstitialAdUnit, self.googleNativeAdUnit_Fluid]];
+
+    NSArray<CRAdUnit*> *addUnits = @[self.googleBannerAdUnit_320x50,
+                                     self.googleBannerAdUnit_300x250,
+                                     self.moPubBannerAdUnit_320x50,
+                                     self.moPubBannerAdUnit_300x250,
+                                     self.googleInterstitialAdUnit,
+                                     self.moPubInterstitialAdUnit,
+                                     self.googleNativeAdUnit_Fluid,
+                                     self.criteoBannerAdUnit_320x50,
+                                     self.criteoInterstitialAdUnit];
+
+    [criteo registerCriteoPublisherId:@"B-056946" withAdUnits:addUnits];
+
     criteo.networkMangerDelegate = self;
     UIButton *button = (UIButton *)sender;
     [button setEnabled:NO];
@@ -47,8 +67,12 @@
         self.moPubVC.homePageVC = self;
     }
     else if([segue.destinationViewController isKindOfClass:[GoogleDFPTableViewController class]]) {
-           self.googleDfpVC = (GoogleDFPTableViewController *)segue.destinationViewController;
-            self.googleDfpVC.homePageVC = self;
+        self.googleDfpVC = (GoogleDFPTableViewController *)segue.destinationViewController;
+        self.googleDfpVC.homePageVC = self;
+    }
+    else if([segue.destinationViewController isKindOfClass:[StandaloneTableViewController class]]) {
+        self.standaloneVC = (StandaloneTableViewController *)segue.destinationViewController;
+        self.standaloneVC.homePageVC = self;
     }
 }
 

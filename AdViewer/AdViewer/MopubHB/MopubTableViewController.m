@@ -68,6 +68,7 @@
 }
 
 - (IBAction)interstitialButtonClick:(id)sender {
+    [super onLoadInterstitial];
     self.interstitial = [MPInterstitialAdController
                          interstitialAdControllerForAdUnitId:MOPUBINTERSTITIALADUNITID];
     Criteo *criteo = [Criteo sharedCriteo];
@@ -76,6 +77,7 @@
     [self.interstitial loadAd];
 }
 - (IBAction)clearButton:(id)sender {
+    [super updateInterstitialButtonsForAdLoaded:NO];
     [self resetDfpBannerView:self.adView_300x250];
     [self resetDfpBannerView:self.adView_320x50];
     self.adView_300x250RedView.backgroundColor = [UIColor clearColor];
@@ -86,6 +88,12 @@
     }
     if(self.adView_300x250RedView.subviews.count == 1) {
         [self resetErrorTextView:[self.adView_300x250RedView.subviews objectAtIndex:0]];
+    }
+}
+
+- (IBAction)showInterstitialClick:(id)sender {
+    if (self.interstitial.ready) {
+        [self.interstitial showFromViewController:self];
     }
 }
 
@@ -132,9 +140,7 @@
 #pragma mark - <MPInterstitialAdControllerDelegate>
 - (void)interstitialDidLoadAd:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialDidLoadAd: delegate invoked with keywords %@", self.interstitial.keywords);
-    if (self.interstitial.ready){
-        [self.interstitial showFromViewController:self];
-    }
+    [self updateInterstitialButtonsForAdLoaded:YES];
 }
 
 - (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial {
@@ -155,6 +161,7 @@
 
 - (void)interstitialWillDisappear:(MPInterstitialAdController *)interstitial {
     NSLog(@"interstitialWillDisappear: delegate invoked");
+    [self updateInterstitialButtonsForAdLoaded:NO];
 }
 
 - (void)interstitialDidDisappear:(MPInterstitialAdController *)interstitial {
