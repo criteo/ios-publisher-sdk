@@ -13,8 +13,6 @@
     BOOL _hasBeenDismissed;
 }
 
-@property (nonatomic, strong) dispatch_block_t timeoutDismissBlock;
-
 @end
 
 @implementation CR_InterstitialViewController
@@ -57,7 +55,6 @@
     [self applySafeAreaConstraintsToCloseButton:self.closeButton];
     [self.webView layoutIfNeeded];
     _hasBeenDismissed = NO;
-    [self dispatchTimerForDismiss:7.0];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -104,13 +101,10 @@
 }
 
 - (void)closeButtonPressed {
-    dispatch_block_cancel(self.timeoutDismissBlock);
-    self.timeoutDismissBlock = nil;
     [self dismissViewController];
 }
 
 - (void)dismissViewController {
-    // In the unlikely event that this is called by both closeButtonPressed and timeoutDismissBlock
     @synchronized(self) {
         if (_hasBeenDismissed) {
             return;
@@ -152,17 +146,6 @@
     NSLayoutConstraint *leftConstraint = [NSLayoutConstraint constraintWithItem:closeButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.webView attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0];
 
     [NSLayoutConstraint activateConstraints:@[widthConstraint, heightConstraint, topConstraint, leftConstraint]];
-}
-
-- (void)dispatchTimerForDismiss:(double) timeInSeconds {
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timeInSeconds * NSEC_PER_SEC));
-    CR_InterstitialViewController * __weak weakSelf = self;
-    self.timeoutDismissBlock = dispatch_block_create(0, ^(void) {
-        if (weakSelf.presentingViewController != nil) {
-            [weakSelf dismissViewController];
-        }
-    });
-    dispatch_after(popTime, dispatch_get_main_queue(), self.timeoutDismissBlock);
 }
 
 @end
