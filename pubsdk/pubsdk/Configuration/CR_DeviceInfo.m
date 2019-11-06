@@ -9,12 +9,14 @@
 #import <WebKit/WebKit.h>
 #import <AdSupport/ASIdentifierManager.h>
 #import "CR_DeviceInfo.h"
+#import "Logging.h"
 
 @implementation CR_DeviceInfo
 {
     NSString *_deviceId;
     BOOL _isLoadingUserAgent;
     NSMutableSet *_loadUserAgentCompletionBlocks;
+    WKWebView *_wkWebView;
 }
 
 - (instancetype)init {
@@ -27,7 +29,8 @@
     if (self) {
         _loadUserAgentCompletionBlocks = [NSMutableSet new];
         _isLoadingUserAgent = NO;
-        [self setupUserAgentWithWKWebView:wkWebView];
+        _wkWebView = wkWebView;
+        [self setupUserAgentWithWKWebView];
     }
     return self;
 }
@@ -44,15 +47,16 @@
     }
 }
 
-- (void)setupUserAgentWithWKWebView:(WKWebView *)wkWebView {
+- (void)setupUserAgentWithWKWebView {
     if(_isLoadingUserAgent) {
         return;
     }
     _isLoadingUserAgent = YES;
     // Make sure we're on the main thread because we're calling WKWebView which isn't thread safe
     dispatch_async(dispatch_get_main_queue(), ^{
-        [wkWebView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id _Nullable navigatorUserAgent, NSError * _Nullable error) {
+        [self->_wkWebView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id _Nullable navigatorUserAgent, NSError * _Nullable error) {
                 @synchronized (self->_loadUserAgentCompletionBlocks) {
+                    CLog(@"-----> navigatorUserAgent = %@, error = %@", navigatorUserAgent, error);
                     if (!error && [navigatorUserAgent isKindOfClass:NSString.class]) {
                         self.userAgent = navigatorUserAgent;
                     }
