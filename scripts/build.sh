@@ -18,6 +18,46 @@ CRITEO_SIM_ARCHS='i386 x86_64'
 XCODEBUILD_DESTINATION_SIMULATOR_OS="12.4"
 XCODEBUILD_DESTINATION_SIMULATOR_NAME="iPhone XS"
 XCODEBUILD_DESTINATION_SIMULATOR="platform=iOS Simulator,name=${XCODEBUILD_DESTINATION_SIMULATOR_NAME},OS=${XCODEBUILD_DESTINATION_SIMULATOR_OS}"
+
+# Delete the left over simulators from previous xcode version
+xcrun simctl delete unavailable
+
+# Get the identifier of the selected simulator runtime
+SIMULATOR_RUNTIME_AVAILABLE=$(xcrun simctl list runtimes | grep "${XCODEBUILD_DESTINATION_SIMULATOR_OS}" | awk '{print $NF}' || true)
+if [ -z "$SIMULATOR_RUNTIME_AVAILABLE" ]; then
+    echo "[ERROR] The selected simulator runtime ${XCODEBUILD_DESTINATION_SIMULATOR_OS}"
+    echo "Available simulator runtime:"
+    xcrun simctl list runtimes
+    exit 1
+else
+    echo "Runtime identifier for ${XCODEBUILD_DESTINATION_SIMULATOR_OS}: ${SIMULATOR_RUNTIME_AVAILABLE}"
+fi
+
+# Get the identifier of the selected simulator device
+SIMULATOR_DEVICE_TYPE_AVAILABLE=$(xcrun simctl list devicetypes | grep --ignore-case "${XCODEBUILD_DESTINATION_SIMULATOR_NAME}" | head -n 1 | cut -f2 -d'(' | cut -f1 -d')' || true)
+if [ -z "$SIMULATOR_DEVICE_TYPE_AVAILABLE" ]; then
+    echo "[ERROR] The selected simulator devicetype ${XCODEBUILD_DESTINATION_SIMULATOR_NAME}"
+    echo 'Available devicetypes:'
+    xcrun simctl list devicetypes
+    exit 1
+else
+    echo "Runtime identifier for ${XCODEBUILD_DESTINATION_SIMULATOR_NAME}: ${SIMULATOR_DEVICE_TYPE_AVAILABLE}"
+fi
+
+# Create the simulator device if it doesn't exist
+XCODEBUILD_DESTINATION_SIMULATOR_OS_TWO_DIGITS=$(echo "$XCODEBUILD_DESTINATION_SIMULATOR_OS" | cut -f1-2 -d'.')
+SIMULATOR_DEVICE_AVAILABLE=$(xcrun simctl list devices "${XCODEBUILD_DESTINATION_SIMULATOR_OS_TWO_DIGITS}" | grep --ignore-case "${XCODEBUILD_DESTINATION_SIMULATOR_NAME}" || true)
+if [ -z "${SIMULATOR_DEVICE_AVAILABLE}" ]; then
+    printf "Create the simulator that is not available: "
+    xcrun simctl create \
+        "${XCODEBUILD_DESTINATION_SIMULATOR_NAME}"  \
+        $SIMULATOR_DEVICE_TYPE_AVAILABLE \
+        $SIMULATOR_RUNTIME_AVAILABLE
+else 
+    echo "Available simulators:"
+    echo "${SIMULATOR_DEVICE_AVAILABLE}"
+fi
+
 CRITEO_CONFIGURATION="Release"
 printf "Launching $CRITEO_CONFIGURATION build\nARCHS: $CRITEO_ARCHS\nSIM ARCHS: $CRITEO_SIM_ARCHS\n"
 
