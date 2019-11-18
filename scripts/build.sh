@@ -11,6 +11,13 @@ CRITEO_DEVICE_ARCHS='armv7 armv7s arm64'
 CRITEO_ARCHS="$CRITEO_DEVICE_ARCHS $CRITEO_WATCH_ARCHS"
 CRITEO_SIM_ARCHS='i386 x86_64'
 
+# Configuration for compiling the project for the simulator.
+# For now, we set a fixed OS version instead of the "latest"
+# The goal is produce the same output from any machine
+# (whether you have updated your xcode or not).
+XCODEBUILD_DESTINATION_SIMULATOR_OS="12.4"
+XCODEBUILD_DESTINATION_SIMULATOR_NAME="iPhone XS"
+XCODEBUILD_DESTINATION_SIMULATOR="platform=iOS Simulator,name=${XCODEBUILD_DESTINATION_SIMULATOR_NAME},OS=${XCODEBUILD_DESTINATION_SIMULATOR_OS}"
 CRITEO_CONFIGURATION="Release"
 printf "Launching $CRITEO_CONFIGURATION build\nARCHS: $CRITEO_ARCHS\nSIM ARCHS: $CRITEO_SIM_ARCHS\n"
 
@@ -22,7 +29,7 @@ printf "Launching $CRITEO_CONFIGURATION build\nARCHS: $CRITEO_ARCHS\nSIM ARCHS: 
         -IDEBuildOperationMaxNumberOfConcurrentCompileTasks=`sysctl -n hw.ncpu` \
         -derivedDataPath build/DerivedData  \
         -sdk iphonesimulator \
-        -destination 'platform=iOS Simulator,name=iPhone XS,OS=latest' \
+        -destination "${XCODEBUILD_DESTINATION_SIMULATOR}" \
         ARCHS="$CRITEO_SIM_ARCHS" \
         VALID_ARCHS="$CRITEO_SIM_ARCHS" \
         ONLY_ACTIVE_ARCH=NO \
@@ -35,7 +42,7 @@ printf "Launching $CRITEO_CONFIGURATION build\nARCHS: $CRITEO_ARCHS\nSIM ARCHS: 
         -IDEBuildOperationMaxNumberOfConcurrentCompileTasks=`sysctl -n hw.ncpu` \
         -derivedDataPath build/DerivedData  \
         -sdk iphonesimulator \
-        -destination 'platform=iOS Simulator,name=iPhone XS,OS=latest' \
+        -destination "${XCODEBUILD_DESTINATION_SIMULATOR}" \
         ARCHS="$CRITEO_SIM_ARCHS" \
         VALID_ARCHS="$CRITEO_SIM_ARCHS" \
         ONLY_ACTIVE_ARCH=NO \
@@ -88,7 +95,7 @@ printf "Launching $CRITEO_CONFIGURATION build\nARCHS: $CRITEO_ARCHS\nSIM ARCHS: 
         -IDEBuildOperationMaxNumberOfConcurrentCompileTasks=`sysctl -n hw.ncpu` \
         -derivedDataPath build/DerivedData  \
         -sdk iphonesimulator \
-        -destination 'platform=iOS Simulator,name=iPhone XS,OS=latest' \
+        -destination "${XCODEBUILD_DESTINATION_SIMULATOR}" \
         ARCHS="$CRITEO_SIM_ARCHS" \
         VALID_ARCHS="$CRITEO_SIM_ARCHS" \
         ONLY_ACTIVE_ARCH=NO \
