@@ -49,16 +49,19 @@
         return;
     }
     @synchronized (_bidCache) {
+        CLogInfo(@"[INFO][CACH] setBid: %@", adUnit);
         _bidCache[adUnit] = bid;
     }
 }
 
 - (CR_CdbBid *) getBidForAdUnit: (CR_CacheAdUnit *) adUnit {
     CR_CdbBid *bid = [_bidCache objectForKey:adUnit];
+    CLogInfo(@"[INFO][CACH] getBidForAdUnit: %@, isNil: %d", adUnit, bid == nil);
     return bid;
 }
 
 - (void) removeBidForAdUnit: (CR_CacheAdUnit *) adUnit {
+    CLogInfo(@"[INFO][CACH] removeBidForAdUnit: %@", adUnit);
     _bidCache[adUnit] = nil;
 }
 

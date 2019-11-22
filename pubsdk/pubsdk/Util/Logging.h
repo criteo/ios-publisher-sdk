@@ -31,6 +31,15 @@ void CLog_DoLog(const char *filename, int lineNum, const char *funcname, NSStrin
 #define CLog(args...) ((void)0)
 #endif
 
+#define VERBOSE_LOGGING_ENABLE 0
+
+#if (VERBOSE_LOGGING_ENABLE)
+#define CLogInfo(args...) NSLog(args)
+#define CLog(args...) NSLog(args)
+#else
+#define CLogInfo(args...) ((void)0)
+#endif
+
 NS_ASSUME_NONNULL_END
 
 #endif /* Logging_h */

@@ -166,7 +166,9 @@ static NSString * const crtnPixUrl = @"crtn_pixurl_";
         CLog(@"killSwitch is engaged. No bid will be fetched.");
         return;
     }
-    
+
+    CLogInfo(@"[INFO][BIDS] Start prefetching for %@", adUnits);
+
     [deviceInfo waitForUserAgent:^{
         [self->apiHandler callCdb:adUnits
                       gdprConsent:self->gdprUserConsent

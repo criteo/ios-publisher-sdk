@@ -138,7 +138,9 @@ ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler {
         postBody[@"slots"] = [self slotsForRequest:adUnitChunk];
 
         // Send the request
+        CLogInfo(@"[INFO][API_] CdbPostCall.start");
         [self.networkManager postToUrl:url postBody:postBody responseHandler:^(NSData *data, NSError *error) {
+            CLogInfo(@"[INFO][API_] CdbPostCall.finished");
             if (error == nil) {
                 if (data && ahCdbResponseHandler) {
                     CR_CdbResponse *cdbResponse = [CR_CdbResponse getCdbResponseForData:data receivedAt:[NSDate date]];
@@ -169,7 +171,9 @@ ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler {
     NSString *query = [NSString stringWithFormat:@"cpId=%@&sdkVersion=%@&appId=%@", [config criteoPublisherId], [config sdkVersion], [config appId]];
     NSString *urlString = [NSString stringWithFormat:@"https://pub-sdk-cfg.criteo.com/v2.0/api/config?%@", query];
     NSURL *url = [NSURL URLWithString: urlString];
+    CLogInfo(@"[INFO][API_] ConfigGetCall.start");
     [self.networkManager getFromUrl:url responseHandler:^(NSData *data, NSError *error) {
+        CLogInfo(@"[INFO][API_] ConfigGetCall.finished");
         if(error == nil) {
             if(data && ahConfigHandler) {
                 NSDictionary *configValues = [CR_Config getConfigValuesFromData:data];
@@ -193,7 +197,9 @@ ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler {
                        , [deviceInfo deviceId], event, [config appId], ![gdprConsent isAdTrackingEnabled]];
     NSString *urlString = [NSString stringWithFormat:@"%@/%@?%@",[config appEventsUrl], [config appEventsSenderId], query];
     NSURL *url = [NSURL URLWithString: urlString];
+    CLogInfo(@"[INFO][API_] AppEventGetCall.start");
     [self.networkManager getFromUrl:url responseHandler:^(NSData *data, NSError *error) {
+        CLogInfo(@"[INFO][API_] AppEventGetCall.finished");
         if(error == nil) {
             if(data && ahEventHandler) {
                 NSError *e = nil;

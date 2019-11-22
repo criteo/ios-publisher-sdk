@@ -67,4 +67,8 @@
             , (unsigned long)self.size.width
             , (unsigned long)self.size.height];
 }
+
+- (NSString *) description {
+    return [NSString stringWithFormat:@"%@ adUnitId: %@", super.description, self.adUnitId];
+}
 @end
