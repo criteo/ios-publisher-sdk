@@ -114,10 +114,10 @@
 		654858AC2265394A00DC471A /* CRInterstitialTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 654858AB2265394A00DC471A /* CRInterstitialTests.m */; };
 		65E3A5732270CB7A004156E9 /* CR_InterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */; };
 		65E3A5742270CB7A004156E9 /* CR_InterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */; };
-		7D3E41D62387EE8100BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D3E41D42387EE8000BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.h */; };
 		7D3E41D72387EE8100BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D3E41D42387EE8000BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.h */; };
 		7D3E41D82387EE8100BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41D52387EE8000BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.m */; };
-		7D3E41D92387EE8100BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41D52387EE8000BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.m */; };
+		7D3E41E6238BDD9700BAF673 /* CR_BidManagerBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D3E41E4238BDD9700BAF673 /* CR_BidManagerBuilder.h */; };
+		7D3E41E7238BDD9700BAF673 /* CR_BidManagerBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41E5238BDD9700BAF673 /* CR_BidManagerBuilder.m */; };
 		7DF2A06C236889CC00178D8C /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25BD5B572220D16D004DE311 /* CriteoPublisherSdk.framework */; };
 		7DF2A07223688AF500178D8C /* CRAdUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5397C0B922A1A43F00BC72FE /* CRAdUnitTests.m */; };
 		7DF2A07323688AF500178D8C /* CRBannerAdUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5397C09922A0889700BC72FE /* CRBannerAdUnitTests.m */; };
@@ -350,6 +350,8 @@
 		6F187272CD050435F6D28BFA /* libPods-pubsdkTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pubsdkTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D3E41D42387EE8000BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+CRPrivateKeysAndUtils.h"; sourceTree = "<group>"; };
 		7D3E41D52387EE8000BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+CRPrivateKeysAndUtils.m"; sourceTree = "<group>"; };
+		7D3E41E4238BDD9700BAF673 /* CR_BidManagerBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_BidManagerBuilder.h; sourceTree = "<group>"; };
+		7D3E41E5238BDD9700BAF673 /* CR_BidManagerBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_BidManagerBuilder.m; sourceTree = "<group>"; };
 		7DF2A067236889CC00178D8C /* SDKUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SDKUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DF2A06B236889CC00178D8C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DF367C84232971810044807B /* CRNativeAdUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNativeAdUnit.h; sourceTree = "<group>"; };
@@ -760,6 +762,8 @@
 				5496875D22A5A96D007D2578 /* CR_AdUnitHelper.m */,
 				E1F273B721C86E6900A2FBFA /* CR_BidManager.h */,
 				E1F273BA21C9733800A2FBFA /* CR_BidManager.m */,
+				7D3E41E4238BDD9700BAF673 /* CR_BidManagerBuilder.h */,
+				7D3E41E5238BDD9700BAF673 /* CR_BidManagerBuilder.m */,
 				E1F273C021C9763E00A2FBFA /* CR_CacheManager.h */,
 				E1F273C121C9765100A2FBFA /* CR_CacheManager.m */,
 				E1F2738D21BF1AB300A2FBFA /* CR_CdbBid.h */,
@@ -780,6 +784,8 @@
 				25B6505E22091F1D008416D3 /* Network */,
 				650915F222555C21001D6673 /* Standalone */,
 				255151C222027C6000F76E3F /* Util */,
+				7D3E41E4238BDD9700BAF673 /* CR_BidManagerBuilder.h */,
+				7D3E41E5238BDD9700BAF673 /* CR_BidManagerBuilder.m */,
 			);
 			path = pubsdk;
 			sourceTree = "<group>";
@@ -871,6 +877,7 @@
 				53CA0F9922AB0B870098F96C /* CRBidResponse.h in Headers */,
 				53CA0F9A22AB0B870098F96C /* CRInterstitialDelegate.h in Headers */,
 				543F6F9D22838EDF00A5DBE2 /* CRBannerViewDelegate.h in Headers */,
+				7D3E41E6238BDD9700BAF673 /* CR_BidManagerBuilder.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1214,6 +1221,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D3E41E7238BDD9700BAF673 /* CR_BidManagerBuilder.m in Sources */,
 				DF367C87232971820044807B /* CRNativeAdUnit.m in Sources */,
 				653CA6F622C3808500D74412 /* CR_TokenCache.h in Sources */,
 				25B6505B2206AB40008416D3 /* Logging.m in Sources */,

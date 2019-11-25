@@ -19,6 +19,8 @@
 @class CR_TokenValue;
 @class CRBidToken;
 @class CR_Config;
+@class CR_BidManagerBuilder;
+
 @interface Criteo ()
 
 @property (nonatomic) id<CR_NetworkManagerDelegate> networkMangerDelegate;
@@ -27,6 +29,8 @@
 - (CR_CdbBid *)getBid:(CR_CacheAdUnit *)slot;
 - (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken
                               adUnitType:(CRAdUnitType)adUnitType;
+
+- (instancetype)initWithBidManagerBuilder:(CR_BidManagerBuilder *)bidManagerBuilder;
 
 @end
 

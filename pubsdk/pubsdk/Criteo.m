@@ -10,94 +10,90 @@
 #import "Criteo+Internal.h"
 #import "CR_AdUnitHelper.h"
 #import "CR_BidManager.h"
+#import "CR_BidManagerBuilder.h"
 
-static NSMutableArray<CR_CacheAdUnit *> *registeredAdUnits;
-static CR_BidManager *bidManager;
-static bool hasPrefetched;
-static Criteo *sharedInstance;
+// The shared instance is unscoped for allowing internal check within instance classes.
+static Criteo *sharedInstance = nil;
+
+@interface Criteo ()
+
+@property (nonatomic, strong) CR_BidManagerBuilder *bidManagerBuilder;
+@property (nonatomic, strong) NSMutableArray<CR_CacheAdUnit *> *registeredAdUnits;
+@property (nonatomic, strong) CR_BidManager *bidManager;
+@property (nonatomic, assign) bool hasPrefetched;
+
+@end
 
 @implementation Criteo
 
 - (id<CR_NetworkManagerDelegate>) networkMangerDelegate
 {
-    return bidManager.networkMangerDelegate;
+    return self.bidManager.networkMangerDelegate;
 }
 
 - (void) setNetworkMangerDelegate:(id<CR_NetworkManagerDelegate>)networkMangerDelegate
 {
-    bidManager.networkMangerDelegate = networkMangerDelegate;
-}
-
-+ (CR_BidManager*) createBidManagerWithCriteoPublisherId:(NSString *) criteoPublisherId
-{
-    CR_Config *config = [[CR_Config alloc] initWithCriteoPublisherId:criteoPublisherId];
-    CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] init];
-    CR_NetworkManager *networkManager = [[CR_NetworkManager alloc] initWithDeviceInfo:deviceInfo];
-    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:networkManager bidFetchTracker:[CR_BidFetchTracker new]];
-    CR_ConfigManager *configManager = [[CR_ConfigManager alloc] initWithApiHandler:apiHandler];
-
-    CR_CacheManager *cacheManager = [[CR_CacheManager alloc] init];
-    CR_TokenCache *tokenCache = [[CR_TokenCache alloc] init];
-    CR_GdprUserConsent *gdpr = [[CR_GdprUserConsent alloc] init];
-    CR_AppEvents *appEvents = [[CR_AppEvents alloc] initWithApiHandler:apiHandler
-                                                                config:config
-                                                                  gdpr:gdpr
-                                                            deviceInfo:deviceInfo];
-
-    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:apiHandler
-                                                             cacheManager:cacheManager
-                                                               tokenCache:tokenCache
-                                                                   config:config
-                                                            configManager:configManager
-                                                               deviceInfo:deviceInfo
-                                                          gdprUserConsent:gdpr
-                                                           networkManager:networkManager
-                                                                appEvents:appEvents
-                                                           timeToNextCall:0];
-
-    return bidManager;
+    self.bidManager.networkMangerDelegate = networkMangerDelegate;
 }
 
 + (instancetype) sharedCriteo
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        registeredAdUnits = [[NSMutableArray alloc] init];
-        hasPrefetched = false;
-        sharedInstance = [[self alloc] init];
+        CR_BidManagerBuilder *builder = [[CR_BidManagerBuilder alloc] init];
+        sharedInstance = [[self alloc] initWithBidManagerBuilder:builder];
     });
 
     return sharedInstance;
 }
 
+- (instancetype)initWithBidManagerBuilder:(CR_BidManagerBuilder *)bidManagerBuilder {
+    if (self = [super init]) {
+        _registeredAdUnits = [[NSMutableArray alloc] init];
+        _hasPrefetched = false;
+        _bidManagerBuilder = bidManagerBuilder;
+    }
+    return self;
+}
+
 - (void) registerCriteoPublisherId:(NSString *) criteoPublisherId
                        withAdUnits:(NSArray<CRAdUnit *> *)adUnits {
-    static dispatch_once_t registrationToken;
-    dispatch_once(&registrationToken, ^{
-        bidManager = [Criteo createBidManagerWithCriteoPublisherId:criteoPublisherId];
 
-        CR_CacheAdUnitArray *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:adUnits];
-        [registeredAdUnits addObjectsFromArray:cacheAdUnits];
-        [bidManager setSlots:cacheAdUnits];
-        [self prefetchAll];
-    });
+    // Checking if it is not shared instance allowes us to be able to
+    // use this method multiple times in isolation in the tests.
+    const BOOL isSharedInstance = (self == [[self class] sharedCriteo]);
+    if (isSharedInstance) {
+        static dispatch_once_t registrationToken;
+        dispatch_once(&registrationToken, ^{
+            [self _registerCriteoPublisherId:criteoPublisherId withAdUnits:adUnits];
+        });
+    } else {
+        [self _registerCriteoPublisherId:criteoPublisherId withAdUnits:adUnits];
+    }
+}
+
+- (void)_registerCriteoPublisherId:(NSString *) criteoPublisherId
+                       withAdUnits:(NSArray<CRAdUnit *> *)adUnits {
+    self.bidManagerBuilder.criteoPublisherId = criteoPublisherId;
+    self.bidManager = [self.bidManagerBuilder buildBidManager];
+
+    CR_CacheAdUnitArray *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:adUnits];
+    [self.registeredAdUnits addObjectsFromArray:cacheAdUnits];
+    [self.bidManager setSlots:cacheAdUnits];
+    [self prefetchAll];
 }
 
 - (void) prefetchAll {
-    if (!hasPrefetched) {
-        [bidManager prefetchBids:registeredAdUnits];
-        hasPrefetched = YES;
+    if (!self.hasPrefetched) {
+        [self.bidManager prefetchBids:self.registeredAdUnits];
+        self.hasPrefetched = YES;
     }
 }
 
 - (void) setBidsForRequest:(id)request
                 withAdUnit:(CRAdUnit *)adUnit {
-    [bidManager addCriteoBidToRequest:request
+    [self.bidManager addCriteoBidToRequest:request
                             forAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit]];
-}
-
-- (CR_BidManager *)bidManager {
-    return bidManager;
 }
 
 - (CRBidResponse *)getBidResponseForAdUnit:(CRAdUnit *)adUnit {
