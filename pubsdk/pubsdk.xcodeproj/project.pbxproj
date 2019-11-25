@@ -116,6 +116,7 @@
 		65E3A5742270CB7A004156E9 /* CR_InterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */; };
 		7D3E41D72387EE8100BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D3E41D42387EE8000BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.h */; };
 		7D3E41D82387EE8100BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41D52387EE8000BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.m */; };
+		7D3E41DF238BC16E00BAF673 /* CR_NetworkCaptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41DE238BC16E00BAF673 /* CR_NetworkCaptor.m */; };
 		7D3E41E6238BDD9700BAF673 /* CR_BidManagerBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D3E41E4238BDD9700BAF673 /* CR_BidManagerBuilder.h */; };
 		7D3E41E7238BDD9700BAF673 /* CR_BidManagerBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41E5238BDD9700BAF673 /* CR_BidManagerBuilder.m */; };
 		7DF2A06C236889CC00178D8C /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25BD5B572220D16D004DE311 /* CriteoPublisherSdk.framework */; };
@@ -350,6 +351,8 @@
 		6F187272CD050435F6D28BFA /* libPods-pubsdkTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pubsdkTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D3E41D42387EE8000BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+CRPrivateKeysAndUtils.h"; sourceTree = "<group>"; };
 		7D3E41D52387EE8000BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+CRPrivateKeysAndUtils.m"; sourceTree = "<group>"; };
+		7D3E41DD238BC16E00BAF673 /* CR_NetworkCaptor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_NetworkCaptor.h; sourceTree = "<group>"; };
+		7D3E41DE238BC16E00BAF673 /* CR_NetworkCaptor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_NetworkCaptor.m; sourceTree = "<group>"; };
 		7D3E41E4238BDD9700BAF673 /* CR_BidManagerBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_BidManagerBuilder.h; sourceTree = "<group>"; };
 		7D3E41E5238BDD9700BAF673 /* CR_BidManagerBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_BidManagerBuilder.m; sourceTree = "<group>"; };
 		7DF2A067236889CC00178D8C /* SDKUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SDKUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -659,6 +662,8 @@
 			children = (
 				6540470D22581D32009235A1 /* MockWKWebView.h */,
 				6540470E22581D32009235A1 /* MockWKWebView.m */,
+				7D3E41DD238BC16E00BAF673 /* CR_NetworkCaptor.h */,
+				7D3E41DE238BC16E00BAF673 /* CR_NetworkCaptor.m */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -784,8 +789,6 @@
 				25B6505E22091F1D008416D3 /* Network */,
 				650915F222555C21001D6673 /* Standalone */,
 				255151C222027C6000F76E3F /* Util */,
-				7D3E41E4238BDD9700BAF673 /* CR_BidManagerBuilder.h */,
-				7D3E41E5238BDD9700BAF673 /* CR_BidManagerBuilder.m */,
 			);
 			path = pubsdk;
 			sourceTree = "<group>";
@@ -1307,6 +1310,7 @@
 				E104B6B321E57F7B004D86C4 /* CR_BidManagerTests.m in Sources */,
 				E12A7F5E21FFBD2F002B4548 /* CR_CacheManagerTests.m in Sources */,
 				547BC9472306600800FB8599 /* CR_BidFetchTrackerTests.m in Sources */,
+				7D3E41DF238BC16E00BAF673 /* CR_NetworkCaptor.m in Sources */,
 				258821DD220015AF00398E9F /* CR_DeviceInfoTests.m in Sources */,
 				5496875B22A1C49E007D2578 /* CR_AdUnitHelperTests.m in Sources */,
 				6524664122543083005058C5 /* CRBannerViewTests.m in Sources */,
