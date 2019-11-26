@@ -28,6 +28,7 @@
 @property (copy, nonatomic, readonly) NSString *deviceModel;
 @property (copy, nonatomic, readonly) NSString *osVersion;
 @property (copy, nonatomic, readonly) NSString *deviceOs;
+@property (copy, nonatomic, readonly) NSString *configUrl;
 
 - (instancetype) initWithCriteoPublisherId:(NSString *) criteoPublisherId
 NS_DESIGNATED_INITIALIZER;

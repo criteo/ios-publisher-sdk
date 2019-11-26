@@ -17,7 +17,6 @@ static Criteo *sharedInstance = nil;
 
 @interface Criteo ()
 
-@property (nonatomic, strong) CR_BidManagerBuilder *bidManagerBuilder;
 @property (nonatomic, strong) NSMutableArray<CR_CacheAdUnit *> *registeredAdUnits;
 @property (nonatomic, strong) CR_BidManager *bidManager;
 @property (nonatomic, assign) bool hasPrefetched;

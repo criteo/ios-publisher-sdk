@@ -216,6 +216,7 @@
     OCMStub([mockConfig criteoPublisherId]).andReturn(@("1"));
     OCMStub([mockConfig sdkVersion]).andReturn(@"1.0");
     OCMStub([mockConfig appId]).andReturn(@"com.criteo.pubsdk");
+    OCMStub([mockConfig configUrl]).andReturn(@"https://url-for-getting-config");
 
     CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager bidFetchTracker:[CR_BidFetchTracker new]];
 

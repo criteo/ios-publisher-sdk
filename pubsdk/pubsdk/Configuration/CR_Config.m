@@ -31,6 +31,7 @@
         _adTagUrlMode = @"<!doctype html><html><head><meta charset=\"utf-8\"><style>body{margin:0;padding:0}</style><meta name=\"viewport\" content=\"width=%%width%%, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\" ></head><body><script src=\"%%displayUrl%%\"></script></body></html>";
         _viewportWidthMacro = @"%%width%%";
         _displayURLMacro = @"%%displayUrl%%";
+        _configUrl = @"https://pub-sdk-cfg.criteo.com/v2.0/api/config";
     }
     return self;
 }

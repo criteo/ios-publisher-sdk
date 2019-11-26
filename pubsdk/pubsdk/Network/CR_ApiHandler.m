@@ -169,7 +169,7 @@ ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler {
 
     // TODO: Move the url + query building logic to CR_Config class
     NSString *query = [NSString stringWithFormat:@"cpId=%@&sdkVersion=%@&appId=%@", [config criteoPublisherId], [config sdkVersion], [config appId]];
-    NSString *urlString = [NSString stringWithFormat:@"https://pub-sdk-cfg.criteo.com/v2.0/api/config?%@", query];
+    NSString *urlString = [NSString stringWithFormat:@"%@?%@", config.configUrl, query];
     NSURL *url = [NSURL URLWithString: urlString];
     CLogInfo(@"[INFO][API_] ConfigGetCall.start");
     [self.networkManager getFromUrl:url responseHandler:^(NSData *data, NSError *error) {

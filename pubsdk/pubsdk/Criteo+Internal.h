@@ -25,6 +25,7 @@
 
 @property (nonatomic) id<CR_NetworkManagerDelegate> networkMangerDelegate;
 @property (nonatomic, readonly) CR_Config *config;
+@property (nonatomic, readonly, strong) CR_BidManagerBuilder *bidManagerBuilder;
 
 - (CR_CdbBid *)getBid:(CR_CacheAdUnit *)slot;
 - (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken
