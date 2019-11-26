@@ -113,4 +113,9 @@
     return bidManager;
 }
 
+- (CR_BidManager *)buildBidManagerWithPublisherId:(NSString *)publishedId {
+    self.criteoPublisherId = publishedId;
+    return [self buildBidManager];
+}
+
 @end

@@ -36,7 +36,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) CR_AppEvents *appEvents;
 @property (nonatomic, assign) NSTimeInterval timeToNextCall;
 
+/**
+Build the BidManager with default instances.
+ The criteoPublisherId must not be nil.
+**/
 - (CR_BidManager *)buildBidManager;
+/**
+ Build the BidManager with default instances for dependencies and the given publisherId.
+ **/
+- (CR_BidManager *)buildBidManagerWithPublisherId:(NSString *)publisherId;
 
 @end
 

@@ -61,10 +61,9 @@
     });
 }
 
-- (void)_registerCriteoPublisherId:(NSString *) criteoPublisherId
+- (void)_registerCriteoPublisherId:(NSString *)criteoPublisherId
                        withAdUnits:(NSArray<CRAdUnit *> *)adUnits {
-    self.bidManagerBuilder.criteoPublisherId = criteoPublisherId;
-    self.bidManager = [self.bidManagerBuilder buildBidManager];
+    self.bidManager = [self.bidManagerBuilder buildBidManagerWithPublisherId:criteoPublisherId];
 
     CR_CacheAdUnitArray *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:adUnits];
     [self.registeredAdUnits addObjectsFromArray:cacheAdUnits];
