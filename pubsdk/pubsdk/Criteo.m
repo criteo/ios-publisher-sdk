@@ -12,14 +12,12 @@
 #import "CR_BidManager.h"
 #import "CR_BidManagerBuilder.h"
 
-// The shared instance is unscoped for allowing internal check within instance classes.
-static Criteo *sharedInstance = nil;
-
 @interface Criteo ()
 
 @property (nonatomic, strong) NSMutableArray<CR_CacheAdUnit *> *registeredAdUnits;
 @property (nonatomic, strong) CR_BidManager *bidManager;
 @property (nonatomic, assign) bool hasPrefetched;
+@property (nonatomic, assign) dispatch_once_t registrationToken;
 
 @end
 
@@ -37,6 +35,7 @@ static Criteo *sharedInstance = nil;
 
 + (instancetype) sharedCriteo
 {
+    static Criteo *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         CR_BidManagerBuilder *builder = [[CR_BidManagerBuilder alloc] init];
@@ -57,18 +56,9 @@ static Criteo *sharedInstance = nil;
 
 - (void) registerCriteoPublisherId:(NSString *) criteoPublisherId
                        withAdUnits:(NSArray<CRAdUnit *> *)adUnits {
-
-    // Checking if it is not shared instance allowes us to be able to
-    // use this method multiple times in isolation in the tests.
-    const BOOL isSharedInstance = (self == [[self class] sharedCriteo]);
-    if (isSharedInstance) {
-        static dispatch_once_t registrationToken;
-        dispatch_once(&registrationToken, ^{
-            [self _registerCriteoPublisherId:criteoPublisherId withAdUnits:adUnits];
-        });
-    } else {
+    dispatch_once(&_registrationToken, ^{
         [self _registerCriteoPublisherId:criteoPublisherId withAdUnits:adUnits];
-    }
+    });
 }
 
 - (void)_registerCriteoPublisherId:(NSString *) criteoPublisherId
