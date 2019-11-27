@@ -18,6 +18,10 @@
 #import "MockWKWebView.h"
 #import "CR_InterstitialViewController.h"
 #import "CR_AdUnitHelper.h"
+#import "CR_BidManagerBuilder.h"
+#import "CR_NetworkCaptor.h"
+#import "Criteo+Testing.h"
+#import "XCTestCase+Criteo.h"
 
 @interface CRInterstitialTests : XCTestCase
 {
@@ -109,11 +113,6 @@
                                                               application:nil
                                                                isAdLoaded:NO
                                                                    adUnit:nil];
-
-    id mockAdUnitHelper = OCMStrictClassMock([CR_AdUnitHelper class]);
-//    OCMStub([mockAdUnitHelper interstitialCacheAdUnitForAdUnitId:@"123"
-//                                                      screenSize:[CR_DeviceInfo getScreenSize]]).andReturn([self expectedCacheAdUnit]);
-
     OCMExpect([mockCriteo getBid:OCMArg.any]).andReturn([self bidWithDisplayURL:@"whatDoYouMean"]);
 
     [interstitial loadAd];
@@ -339,5 +338,35 @@
                       timeout:1];
 }
 
+// Android:  whenLoadingAnInterstitial_GivenInitializedSdk_ShouldSetInterstitialFlagInTheRequest
+- (void)testLoadingInterstitialShouldSetInterstitialFlagInTheRequest {
+    Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
+    [criteo testing_registerAndWaitForHTTPResponse];
+    XCTestExpectation *interstitialHttpCallExpectation = [self expectationWithDescription:@"configApiCallExpectation"];
+    criteo.testing_networkCaptor.requestListener = ^(NSURL * _Nonnull url, CR_HTTPVerb verb, NSDictionary *body) {
+        const BOOL isBidURL = [url.absoluteString containsString:criteo.config.cdbUrl];
+        const BOOL isInterstitialPresent = body[@"slots"][0][@"interstitial"];
+        if (isBidURL && isInterstitialPresent) {
+            [interstitialHttpCallExpectation fulfill];
+        }
+    };
+
+    [self _loadInterstitialAdWithCriteo:criteo];
+
+    [self criteo_waitForExpectations:@[interstitialHttpCallExpectation]];
+}
+
+- (void)_loadInterstitialAdWithCriteo:(Criteo *)criteo {
+    MockWKWebView *mockWebView = [[MockWKWebView alloc] init];
+    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView
+                                                                                                      view:nil
+                                                                                              interstitial:nil];
+    CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:criteo
+                                                           viewController:interstitialVC
+                                                              application:nil
+                                                               isAdLoaded:NO
+                                                                   adUnit:self.adUnit];
+    [interstitial loadAd];
+}
 
 @end
