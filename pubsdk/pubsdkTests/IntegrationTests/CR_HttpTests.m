@@ -27,7 +27,7 @@
     XCTestExpectation *eventApiCallExpectation = [self expectationWithDescription:@"eventApiCallExpectation"];
     XCTestExpectation *cdbApiCallExpectation = [self expectationWithDescription:@"cdbApiCallExpectation"];
 
-    [criteo.testing_networkCaptor setRequestListener:^(NSURL *url, CR_HTTPVerb verb) {
+    [criteo.testing_networkCaptor setRequestListener:^(NSURL *url, CR_HTTPVerb verb, NSDictionary *body) {
 
         CR_Config *config = criteo.bidManagerBuilder.config;
         NSString *urlString = url.absoluteString;

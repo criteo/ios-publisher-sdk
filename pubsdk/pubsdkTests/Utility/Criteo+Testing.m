@@ -8,6 +8,7 @@
 #import "CR_NetworkCaptor.h"
 #import "CR_BidManagerBuilder.h"
 #import "CRInterstitialAdUnit.h"
+#import "CR_NetworkWaiter.h"
 
 NSString *const CriteoTestingPublisherId = @"B-123456";
 
@@ -29,6 +30,40 @@ NSString *const CriteoTestingPublisherId = @"B-123456";
 - (void)testing_register {
     CRInterstitialAdUnit *adUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"adUnitId"];
     [self registerCriteoPublisherId:CriteoTestingPublisherId withAdUnits:@[adUnit]];
+}
+
+- (BOOL)testing_waitForRegisterHTTPResponse {
+    if ([self _isHTTPCallsForRegisterFinished]) {
+        return YES;
+    }
+    CR_NetworkWaiter *waiter = [[CR_NetworkWaiter alloc] initWithNetworkCaptor:self.testing_networkCaptor];
+    const success = [waiter waitWithResponseTester:^BOOL(CR_HttpContent * _Nonnull httpContent) {
+        return [self _isHTTPCallsForRegisterFinished];
+    }];
+    return success;
+}
+
+- (void)testing_registerAndWaitForHTTPResponse
+{
+    [self testing_register];
+    BOOL finished = [self testing_waitForRegisterHTTPResponse];
+    NSAssert(finished, @"Failed to received all the requests for the register: %@", self.testing_networkCaptor.history);
+}
+
+#pragma mark - Private methods
+
+- (BOOL)_isHTTPCallsForRegisterFinished {
+    CR_Config *config = self.bidManagerBuilder.config;
+    BOOL isConfigCallFinished = false;
+    BOOL isLaunchAppEventSent = false;
+    BOOL isCDBCallFinished = false;
+    for (CR_HttpContent *content in self.testing_networkCaptor.history) {
+        NSString *urlString = content.url.absoluteString;
+        isConfigCallFinished |= [urlString containsString:config.configUrl];
+        isLaunchAppEventSent |= [urlString containsString:config.appEventsUrl] && [urlString containsString:@"eventType=Launch"];
+        isCDBCallFinished |= [urlString containsString:config.cdbUrl];
+    }
+    return isConfigCallFinished && isLaunchAppEventSent && isCDBCallFinished;
 }
 
 @end

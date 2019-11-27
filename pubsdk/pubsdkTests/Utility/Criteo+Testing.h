@@ -17,5 +17,13 @@ FOUNDATION_EXPORT NSString *const CriteoTestingPublisherId;
 + (Criteo *)testing_criteoWithNetworkCaptor;
 
 - (void)testing_register;
+/**
+ Return YES if all the HTTP calls have finished before a timeout.
+ */
+- (BOOL)testing_waitForRegisterHTTPResponse;
+/**
+ Register, wait and assert if the registration fails.
+*/
+- (void)testing_registerAndWaitForHTTPResponse;
 
 @end

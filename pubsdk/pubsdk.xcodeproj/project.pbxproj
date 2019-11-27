@@ -121,6 +121,7 @@
 		7D3E41DF238BC16E00BAF673 /* CR_NetworkCaptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41DE238BC16E00BAF673 /* CR_NetworkCaptor.m */; };
 		7D3E41E6238BDD9700BAF673 /* CR_BidManagerBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D3E41E4238BDD9700BAF673 /* CR_BidManagerBuilder.h */; };
 		7D3E41E7238BDD9700BAF673 /* CR_BidManagerBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41E5238BDD9700BAF673 /* CR_BidManagerBuilder.m */; };
+		7D3E41EA238E7E1500BAF673 /* CR_NetworkWaiter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41E9238E7E1500BAF673 /* CR_NetworkWaiter.m */; };
 		7DF2A06C236889CC00178D8C /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25BD5B572220D16D004DE311 /* CriteoPublisherSdk.framework */; };
 		7DF2A07223688AF500178D8C /* CRAdUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5397C0B922A1A43F00BC72FE /* CRAdUnitTests.m */; };
 		7DF2A07323688AF500178D8C /* CRBannerAdUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5397C09922A0889700BC72FE /* CRBannerAdUnitTests.m */; };
@@ -360,6 +361,8 @@
 		7D3E41DE238BC16E00BAF673 /* CR_NetworkCaptor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_NetworkCaptor.m; sourceTree = "<group>"; };
 		7D3E41E4238BDD9700BAF673 /* CR_BidManagerBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_BidManagerBuilder.h; sourceTree = "<group>"; };
 		7D3E41E5238BDD9700BAF673 /* CR_BidManagerBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_BidManagerBuilder.m; sourceTree = "<group>"; };
+		7D3E41E8238E7E1500BAF673 /* CR_NetworkWaiter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_NetworkWaiter.h; sourceTree = "<group>"; };
+		7D3E41E9238E7E1500BAF673 /* CR_NetworkWaiter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_NetworkWaiter.m; sourceTree = "<group>"; };
 		7DF2A067236889CC00178D8C /* SDKUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SDKUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DF2A06B236889CC00178D8C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DF367C84232971810044807B /* CRNativeAdUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNativeAdUnit.h; sourceTree = "<group>"; };
@@ -673,12 +676,14 @@
 		6540470C22581D13009235A1 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				6540470D22581D32009235A1 /* MockWKWebView.h */,
-				6540470E22581D32009235A1 /* MockWKWebView.m */,
 				7D3E41DD238BC16E00BAF673 /* CR_NetworkCaptor.h */,
 				7D3E41DE238BC16E00BAF673 /* CR_NetworkCaptor.m */,
-				5E0653DCED07A1A1895CB076 /* Criteo+Testing.m */,
+				7D3E41E8238E7E1500BAF673 /* CR_NetworkWaiter.h */,
+				7D3E41E9238E7E1500BAF673 /* CR_NetworkWaiter.m */,
 				5E065FB707B9213686B66F5F /* Criteo+Testing.h */,
+				5E0653DCED07A1A1895CB076 /* Criteo+Testing.m */,
+				6540470D22581D32009235A1 /* MockWKWebView.h */,
+				6540470E22581D32009235A1 /* MockWKWebView.m */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -1325,6 +1330,7 @@
 				E104B6B321E57F7B004D86C4 /* CR_BidManagerTests.m in Sources */,
 				E12A7F5E21FFBD2F002B4548 /* CR_CacheManagerTests.m in Sources */,
 				547BC9472306600800FB8599 /* CR_BidFetchTrackerTests.m in Sources */,
+				7D3E41EA238E7E1500BAF673 /* CR_NetworkWaiter.m in Sources */,
 				7D3E41DF238BC16E00BAF673 /* CR_NetworkCaptor.m in Sources */,
 				258821DD220015AF00398E9F /* CR_DeviceInfoTests.m in Sources */,
 				5496875B22A1C49E007D2578 /* CR_AdUnitHelperTests.m in Sources */,

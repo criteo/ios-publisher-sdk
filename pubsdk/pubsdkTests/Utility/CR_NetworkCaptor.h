@@ -17,7 +17,8 @@ typedef enum {
     POST
 } CR_HTTPVerb;
 
-typedef void (^CR_HTTPRequestListener)(NSURL *, CR_HTTPVerb);
+typedef void (^CR_HTTPRequestListener)(NSURL *url, CR_HTTPVerb verb, NSDictionary * _Nullable body);
+typedef void (^CR_HTTPResponseListener)(CR_HttpContent *httpContent);
 
 /**
  NetworkManager class that is used for a man-in-the-middle approach in the test.
@@ -33,7 +34,11 @@ typedef void (^CR_HTTPRequestListener)(NSURL *, CR_HTTPVerb);
 /**
  Listener that is called each time that the NetworkManager launch a request.
  */
-@property (nonatomic, copy) CR_HTTPRequestListener requestListener;
+@property (nonatomic, copy, nullable) CR_HTTPRequestListener requestListener;
+/**
+ Listener that is called each time that the NetworkManager get a response and store in the history.
+ */
+@property (nonatomic, copy, nullable) CR_HTTPResponseListener responseListener;
 
 - (instancetype)initWithDeviceInfo:(CR_DeviceInfo*)deviceInfo NS_UNAVAILABLE;
 - (instancetype)initWithNetworkManager:(CR_NetworkManager *)networkManager NS_DESIGNATED_INITIALIZER;

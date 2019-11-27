@@ -12,7 +12,6 @@
 #import "MockWKWebView.h"
 
 @interface CR_NetworkCaptor ()
-
 /**
  History from the response perspective.
  */
@@ -55,9 +54,8 @@
     // Synchronized for avoiding multi-thread issue with the httpGetCount.
     @synchronized (self) {
         if (self.requestListener != nil) {
-            self.requestListener(url, GET);
+            self.requestListener(url, GET, nil);
         }
-
         self.httpRequestCount++;
         const unsigned count = self.httpRequestCount;
         [self.networkManager getFromUrl:url responseHandler:^(NSData *data, NSError *error) {
@@ -68,6 +66,9 @@
                                                                     error:error
                                                                   counter:count];
             [self.responseHistory addObject:content];
+            if (self.responseListener != nil) {
+                self.responseListener(content);
+            }
             if (responseHandler != nil) {
                 responseHandler(data, error);
             }
@@ -82,7 +83,7 @@
     // Synchronized for avoiding multi-thread issue with the httpPostCount.
     @synchronized (self) {
         if (self.requestListener != nil) {
-            self.requestListener(url, POST);
+            self.requestListener(url, POST, postBody);
         }
         self.httpRequestCount++;
         const unsigned count = self.httpRequestCount;
@@ -96,6 +97,9 @@
                                                                     error:error
                                                                   counter:count];
             [self.responseHistory addObject:content];
+            if (self.responseListener != nil) {
+                self.responseListener(content);
+            }
             if (responseHandler != nil) {
                 responseHandler(data, error);
             }
