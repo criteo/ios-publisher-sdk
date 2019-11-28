@@ -13,6 +13,8 @@
 #import "CR_BidManagerBuilder.h"
 #import "CR_NetworkCaptor.h"
 #import "Criteo+Testing.h"
+#import "AdSupport/ASIdentifierManager.h"
+#import "CR_ApiQueryKeys.h"
 
 @interface CR_HttpTests : XCTestCase
 
@@ -51,7 +53,78 @@
         eventApiCallExpectation,
         cdbApiCallExpectation,
     ];
-    [self waitForExpectations:expectations timeout:3];
+    [self waitForExpectations:expectations timeout:15];
+}
+
+- (void)testCdbApiCallDuringInitialisation {
+    Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"cdbApiCallExpectation"];
+    CR_Config *config = criteo.bidManagerBuilder.config;
+    CR_DeviceInfo *deviceInfo = criteo.bidManagerBuilder.deviceInfo;
+
+    [criteo.testing_networkCaptor setRequestListener:^(NSURL *url, CR_HTTPVerb verb, NSDictionary *postBody) {
+        NSDictionary *user = postBody[@"user"];
+        if ([url.absoluteString containsString:config.cdbUrl] &&
+            postBody[@"sdkVersion"] == config.sdkVersion &&
+            user[@"deviceId"] == deviceInfo.deviceId &&
+            user[@"deviceOs"] == config.deviceOs &&
+            user[@"userAgent"] == deviceInfo.userAgent) {
+            [expectation fulfill];
+        }
+    }];
+
+    [criteo testing_register];
+
+    [self waitForExpectations:@[expectation] timeout:3];
+}
+
+- (void)testConfigApiCallDuringInitialisation {
+    Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"configApiCallExpectation"];
+    CR_Config *config = criteo.bidManagerBuilder.config;
+    NSString *appIdValue = [NSBundle mainBundle].bundleIdentifier;
+
+    [criteo.testing_networkCaptor setRequestListener:^(NSURL *url, CR_HTTPVerb verb, NSDictionary *body) {
+        if ([url.absoluteString containsString:config.configUrl] &&
+            [self query:url.query hasParamKey:CR_ApiQueryKeys.appId withValue:appIdValue] &&
+            [self query:url.query hasParamKey:CR_ApiQueryKeys.sdkVersion withValue:config.sdkVersion]) {
+            [expectation fulfill];
+        }
+    }];
+
+    [criteo testing_register];
+
+    [self waitForExpectations:@[expectation] timeout:3];
+}
+
+- (void)testEventApiCallDuringInitialization {
+    Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"eventApiCallExpectation"];
+
+    ASIdentifierManager *idfaManager = [ASIdentifierManager sharedManager];
+    NSString *limitedAdTrackingValue = idfaManager.advertisingTrackingEnabled ? @"0" : @"1";
+    NSString *idfaValue = [idfaManager.advertisingIdentifier UUIDString];
+    NSString *appIdValue = [NSBundle mainBundle].bundleIdentifier;
+
+    [criteo.testing_networkCaptor setRequestListener:^(NSURL *url, CR_HTTPVerb verb, NSDictionary *body) {
+        if ([url.absoluteString containsString:criteo.bidManagerBuilder.config.appEventsUrl] &&
+            [self query:url.query hasParamKey:CR_ApiQueryKeys.idfa withValue:idfaValue] &&
+            [self query:url.query hasParamKey:CR_ApiQueryKeys.limitedAdTracking withValue:limitedAdTrackingValue] &&
+            [self query:url.query hasParamKey:CR_ApiQueryKeys.appId withValue:appIdValue] &&
+            [self query:url.query hasParamKey:CR_ApiQueryKeys.eventType withValue:@"Launch"]) {
+            [expectation fulfill];
+        }
+    }];
+
+    [criteo testing_register];
+
+    [self waitForExpectations:@[expectation] timeout:3];
+}
+
+#pragma mark - Private methods
+
+- (BOOL)query:(NSString *)query hasParamKey:(NSString *)key withValue:(NSString *)value {
+    return [[query componentsSeparatedByString:@"&"] containsObject:[NSString stringWithFormat:@"%@=%@", key, value]];
 }
 
 @end
