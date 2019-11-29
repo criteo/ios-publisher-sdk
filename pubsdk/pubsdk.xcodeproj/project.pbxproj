@@ -631,6 +631,9 @@
 			isa = PBXGroup;
 			children = (
 				5E0656CED6370CB240092ECC /* CR_HttpTests.m */,
+				543F6FA12283B5F500A5DBE2 /* CRBannerViewDelegateTests.m */,
+				6519C0DA2285FA8300111A5F /* CRInterstitialDelegateTests.m */,
+				54ED19F222717E13009AA0B2 /* CRInterstitialViewControllerTests.m */,
 			);
 			path = IntegrationTests;
 			sourceTree = "<group>";
@@ -666,9 +669,6 @@
 			children = (
 				6524664022543083005058C5 /* CRBannerViewTests.m */,
 				654858AB2265394A00DC471A /* CRInterstitialTests.m */,
-				54ED19F222717E13009AA0B2 /* CRInterstitialViewControllerTests.m */,
-				543F6FA12283B5F500A5DBE2 /* CRBannerViewDelegateTests.m */,
-				6519C0DA2285FA8300111A5F /* CRInterstitialDelegateTests.m */,
 			);
 			path = Standalone;
 			sourceTree = "<group>";
