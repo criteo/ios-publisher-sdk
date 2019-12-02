@@ -121,7 +121,6 @@
 		7D3E423123915B6600BAF673 /* NSString+CR_UrlEncoderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420423915B6600BAF673 /* NSString+CR_UrlEncoderTests.m */; };
 		7D3E423223915B6600BAF673 /* SampleBid.json in Resources */ = {isa = PBXBuildFile; fileRef = 7D3E420523915B6600BAF673 /* SampleBid.json */; };
 		7D3E423323915B6600BAF673 /* CRBannerViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420723915B6600BAF673 /* CRBannerViewTests.m */; };
-		7D3E423423915B6600BAF673 /* CRInterstitialTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420823915B6600BAF673 /* CRInterstitialTests.m */; };
 		7D3E423523915B6600BAF673 /* CR_CdbBidTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420923915B6600BAF673 /* CR_CdbBidTests.m */; };
 		7D3E423623915B6600BAF673 /* CR_NetworkManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420B23915B6600BAF673 /* CR_NetworkManagerTests.m */; };
 		7D3E423723915B6600BAF673 /* CR_BidFetchTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420C23915B6600BAF673 /* CR_BidFetchTrackerTests.m */; };
@@ -174,7 +173,6 @@
 		7D3E426623915DB900BAF673 /* CR_BidFetchTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420C23915B6600BAF673 /* CR_BidFetchTrackerTests.m */; };
 		7D3E426723915DB900BAF673 /* CR_ApiHandlerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420D23915B6600BAF673 /* CR_ApiHandlerTests.m */; };
 		7D3E426823915DC300BAF673 /* CRBannerViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420723915B6600BAF673 /* CRBannerViewTests.m */; };
-		7D3E426923915DC300BAF673 /* CRInterstitialTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420823915B6600BAF673 /* CRInterstitialTests.m */; };
 		7D3E426A23915DC900BAF673 /* LoggingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420023915B6600BAF673 /* LoggingTests.m */; };
 		7D3E426B23915DC900BAF673 /* NSArray+AdditionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420123915B6600BAF673 /* NSArray+AdditionsTests.m */; };
 		7D3E426C23915DC900BAF673 /* NSError+CRErrorsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420223915B6600BAF673 /* NSError+CRErrorsTests.m */; };
@@ -186,6 +184,7 @@
 		7DB4E90C239532BA008DE5E3 /* XCTestCase+Criteo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB4E90A239532BA008DE5E3 /* XCTestCase+Criteo.m */; };
 		7DB4E90D239532BA008DE5E3 /* XCTestCase+Criteo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB4E90A239532BA008DE5E3 /* XCTestCase+Criteo.m */; };
 		7DB4E90E2395331A008DE5E3 /* Criteo+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0653DCED07A1A1895CB076 /* Criteo+Testing.m */; };
+		7DB4E91123953757008DE5E3 /* CRInterstitialTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB4E90F2395374F008DE5E3 /* CRInterstitialTests.m */; };
 		7DF2A06C236889CC00178D8C /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25BD5B572220D16D004DE311 /* CriteoPublisherSdk.framework */; };
 		7DF2A0A223689F6B00178D8C /* MockWKWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6540470E22581D32009235A1 /* MockWKWebView.m */; };
 		BB5361AECA2A9614E3B4A2C6 /* libPods-pubsdkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F187272CD050435F6D28BFA /* libPods-pubsdkTests.a */; };
@@ -372,7 +371,6 @@
 		7D3E420423915B6600BAF673 /* NSString+CR_UrlEncoderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+CR_UrlEncoderTests.m"; sourceTree = "<group>"; };
 		7D3E420523915B6600BAF673 /* SampleBid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SampleBid.json; sourceTree = "<group>"; };
 		7D3E420723915B6600BAF673 /* CRBannerViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRBannerViewTests.m; sourceTree = "<group>"; };
-		7D3E420823915B6600BAF673 /* CRInterstitialTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialTests.m; sourceTree = "<group>"; };
 		7D3E420923915B6600BAF673 /* CR_CdbBidTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_CdbBidTests.m; sourceTree = "<group>"; };
 		7D3E420B23915B6600BAF673 /* CR_NetworkManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_NetworkManagerTests.m; sourceTree = "<group>"; };
 		7D3E420C23915B6600BAF673 /* CR_BidFetchTrackerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_BidFetchTrackerTests.m; sourceTree = "<group>"; };
@@ -398,6 +396,7 @@
 		7D3E42712391605D00BAF673 /* SDKUnitTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SDKUnitTests-Info.plist"; sourceTree = "<group>"; };
 		7DB4E90A239532BA008DE5E3 /* XCTestCase+Criteo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTestCase+Criteo.m"; sourceTree = "<group>"; };
 		7DB4E90B239532BA008DE5E3 /* XCTestCase+Criteo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XCTestCase+Criteo.h"; sourceTree = "<group>"; };
+		7DB4E90F2395374F008DE5E3 /* CRInterstitialTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialTests.m; sourceTree = "<group>"; };
 		7DF2A067236889CC00178D8C /* SDKUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SDKUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF367C84232971810044807B /* CRNativeAdUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNativeAdUnit.h; sourceTree = "<group>"; };
 		DF367C85232971810044807B /* CRNativeAdUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdUnit.m; sourceTree = "<group>"; };
@@ -602,6 +601,7 @@
 		54E0C221238BCE11004F9353 /* IntegrationTests */ = {
 			isa = PBXGroup;
 			children = (
+				7DB4E90F2395374F008DE5E3 /* CRInterstitialTests.m */,
 				5E0656CED6370CB240092ECC /* CR_HttpTests.m */,
 				543F6FA12283B5F500A5DBE2 /* CRBannerViewDelegateTests.m */,
 				6519C0DA2285FA8300111A5F /* CRInterstitialDelegateTests.m */,
@@ -723,7 +723,6 @@
 			isa = PBXGroup;
 			children = (
 				7D3E420723915B6600BAF673 /* CRBannerViewTests.m */,
-				7D3E420823915B6600BAF673 /* CRInterstitialTests.m */,
 			);
 			path = Standalone;
 			sourceTree = "<group>";
@@ -1231,7 +1230,6 @@
 				7D3E426A23915DC900BAF673 /* LoggingTests.m in Sources */,
 				7D3E425323915D8700BAF673 /* CRInterstitialAdUnitTests.m in Sources */,
 				7D3E425923915D9C00BAF673 /* CR_ConfigManagerTests.m in Sources */,
-				7D3E426923915DC300BAF673 /* CRInterstitialTests.m in Sources */,
 				7D3E426D23915DC900BAF673 /* NSDictionary+AdditionsTests.m in Sources */,
 				7D3E425723915D8700BAF673 /* pubsdkTests.m in Sources */,
 				7D3E426E23915DC900BAF673 /* NSString+CR_UrlEncoderTests.m in Sources */,
@@ -1322,6 +1320,7 @@
 				7D3E422323915B6600BAF673 /* CR_ConfigManagerTests.m in Sources */,
 				7D3E422E23915B6600BAF673 /* NSArray+AdditionsTests.m in Sources */,
 				7D3E424423915B6600BAF673 /* CR_TokenCacheTests.m in Sources */,
+				7DB4E91123953757008DE5E3 /* CRInterstitialTests.m in Sources */,
 				7D3E424623915B6600BAF673 /* CRBidTokenTests.m in Sources */,
 				7D3E422A23915B6600BAF673 /* CR_NativeImageTests.m in Sources */,
 				7D3E422923915B6600BAF673 /* CR_NativeProductTests.m in Sources */,
@@ -1340,7 +1339,6 @@
 				543F6FA22283B5F500A5DBE2 /* CRBannerViewDelegateTests.m in Sources */,
 				7D3E423923915B6600BAF673 /* CR_AppEventsTests.m in Sources */,
 				7D3E423B23915B6600BAF673 /* pubsdkTests.m in Sources */,
-				7D3E423423915B6600BAF673 /* CRInterstitialTests.m in Sources */,
 				7D3E422B23915B6600BAF673 /* CR_NativeAssetsTests.m in Sources */,
 				54ED19F322717E13009AA0B2 /* CRInterstitialViewControllerTests.m in Sources */,
 				7D3E424723915B6600BAF673 /* CRAdUnitTests.m in Sources */,
