@@ -15,6 +15,7 @@
 #import "Criteo+Testing.h"
 #import "AdSupport/ASIdentifierManager.h"
 #import "CR_ApiQueryKeys.h"
+#import "XCTestCase+Criteo.h"
 
 @interface CR_HttpTests : XCTestCase
 
@@ -53,7 +54,7 @@
         eventApiCallExpectation,
         cdbApiCallExpectation,
     ];
-    [self waitForExpectations:expectations timeout:15];
+    [self criteo_waitForExpectations:expectations];
 }
 
 - (void)testCdbApiCallDuringInitialisation {
@@ -75,7 +76,7 @@
 
     [criteo testing_register];
 
-    [self waitForExpectations:@[expectation] timeout:3];
+    [self criteo_waitForExpectations:@[expectation]];
 }
 
 - (void)testConfigApiCallDuringInitialisation {
@@ -94,7 +95,7 @@
 
     [criteo testing_register];
 
-    [self waitForExpectations:@[expectation] timeout:3];
+    [self criteo_waitForExpectations:@[expectation]];
 }
 
 - (void)testEventApiCallDuringInitialization {
@@ -118,7 +119,7 @@
 
     [criteo testing_register];
 
-    [self waitForExpectations:@[expectation] timeout:3];
+    [self criteo_waitForExpectations:@[expectation]];
 }
 
 #pragma mark - Private methods
