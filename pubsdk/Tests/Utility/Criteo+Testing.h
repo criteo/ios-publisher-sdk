@@ -9,6 +9,8 @@
 @class CR_NetworkCaptor;
 
 FOUNDATION_EXPORT NSString *const CriteoTestingPublisherId;
+FOUNDATION_EXPORT NSString *const DemoBannerAdUnitId;
+FOUNDATION_EXPORT NSString *const DemoInterstitialAdUnitId;
 
 @interface Criteo (Testing)
 
@@ -17,6 +19,7 @@ FOUNDATION_EXPORT NSString *const CriteoTestingPublisherId;
 + (Criteo *)testing_criteoWithNetworkCaptor;
 
 - (void)testing_register;
+- (void)testing_registerWithAdUnits:(NSArray<CRAdUnit *> *)adUnits;
 /**
  Return YES if all the HTTP calls have finished before a timeout.
  */
@@ -25,5 +28,6 @@ FOUNDATION_EXPORT NSString *const CriteoTestingPublisherId;
  Register, wait and assert if the registration fails.
 */
 - (void)testing_registerAndWaitForHTTPResponse;
+- (void)testing_registerWithAdUnitsAndWaitForHTTPResponse:(NSArray<CRAdUnit *> *)adUnits;
 
 @end

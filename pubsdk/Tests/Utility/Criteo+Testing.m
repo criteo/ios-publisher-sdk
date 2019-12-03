@@ -9,8 +9,12 @@
 #import "CR_BidManagerBuilder.h"
 #import "CRInterstitialAdUnit.h"
 #import "CR_NetworkWaiter.h"
+#import "CR_TestAdUnits.h"
 
-NSString *const CriteoTestingPublisherId = @"B-123456";
+// This publisherId exists in production.
+NSString *const CriteoTestingPublisherId = @"B-056946";
+NSString *const DemoBannerAdUnitId = @"30s6zt3ayypfyemwjvmp";
+NSString *const DemoInterstitialAdUnitId = @"6yws53jyfjgoq1ghnuqb";
 
 @implementation Criteo (Testing)
 
@@ -28,8 +32,11 @@ NSString *const CriteoTestingPublisherId = @"B-123456";
 }
 
 - (void)testing_register {
-    CRInterstitialAdUnit *adUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"adUnitId"];
-    [self registerCriteoPublisherId:CriteoTestingPublisherId withAdUnits:@[adUnit]];
+    [self testing_registerWithAdUnits:@[[CR_TestAdUnits randomInterstitial]]];
+}
+
+- (void)testing_registerWithAdUnits:(NSArray<CRAdUnit *> *)adUnits {
+    [self registerCriteoPublisherId:CriteoTestingPublisherId withAdUnits:adUnits];
 }
 
 - (BOOL)testing_waitForRegisterHTTPResponse {
@@ -37,15 +44,18 @@ NSString *const CriteoTestingPublisherId = @"B-123456";
         return YES;
     }
     CR_NetworkWaiter *waiter = [[CR_NetworkWaiter alloc] initWithNetworkCaptor:self.testing_networkCaptor];
-    const success = [waiter waitWithResponseTester:^BOOL(CR_HttpContent * _Nonnull httpContent) {
+    const BOOL success = [waiter waitWithResponseTester:^BOOL(CR_HttpContent * _Nonnull httpContent) {
         return [self _isHTTPCallsForRegisterFinished];
     }];
     return success;
 }
 
-- (void)testing_registerAndWaitForHTTPResponse
-{
-    [self testing_register];
+- (void)testing_registerAndWaitForHTTPResponse {
+    [self testing_registerWithAdUnitsAndWaitForHTTPResponse:@[[CR_TestAdUnits randomInterstitial]]];
+}
+
+- (void)testing_registerWithAdUnitsAndWaitForHTTPResponse:(NSArray<CRAdUnit *> *)adUnits {
+    [self testing_registerWithAdUnits:adUnits];
     BOOL finished = [self testing_waitForRegisterHTTPResponse];
     NSAssert(finished, @"Failed to received all the requests for the register: %@", self.testing_networkCaptor.history);
 }
