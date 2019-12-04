@@ -75,6 +75,7 @@
 		545A39A622A8210A00648957 /* NSError+CRErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 543B672A2294689B006A99DF /* NSError+CRErrors.m */; };
 		545A39F422A8794F00648957 /* CRInterstitial.h in Headers */ = {isa = PBXBuildFile; fileRef = 654858A5226538D500DC471A /* CRInterstitial.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		54658897228C6DB1009746E0 /* CRInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6549B552228389930078F068 /* CRInterstitialDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		54680B6A2395222B00DB5A37 /* CR_DfpBannerFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 54680B692395222B00DB5A37 /* CR_DfpBannerFunctionalTests.m */; };
 		54680B7623969D5C00DB5A37 /* CR_IntegrationsTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 54680B7523969D5C00DB5A37 /* CR_IntegrationsTestBase.m */; };
 		54680B7C2396A8E100DB5A37 /* DFPRequestClasses.m in Sources */ = {isa = PBXBuildFile; fileRef = 54680B7A2396A8DB00DB5A37 /* DFPRequestClasses.m */; };
 		54680B7D2396A8E100DB5A37 /* DFPRequestClasses.m in Sources */ = {isa = PBXBuildFile; fileRef = 54680B7A2396A8DB00DB5A37 /* DFPRequestClasses.m */; };
@@ -326,6 +327,7 @@
 		543F6F7A22820C1A00A5DBE2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		543F6F9C22838EDF00A5DBE2 /* CRBannerViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRBannerViewDelegate.h; sourceTree = "<group>"; };
 		543F6FA12283B5F500A5DBE2 /* CRBannerViewDelegateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRBannerViewDelegateTests.m; sourceTree = "<group>"; };
+		54680B692395222B00DB5A37 /* CR_DfpBannerFunctionalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CR_DfpBannerFunctionalTests.m; path = Tests/IntegrationTests/CR_DfpBannerFunctionalTests.m; sourceTree = SOURCE_ROOT; };
 		54680B7523969D5C00DB5A37 /* CR_IntegrationsTestBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_IntegrationsTestBase.m; sourceTree = "<group>"; };
 		54680B7723969D7E00DB5A37 /* CR_IntegrationsTestBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_IntegrationsTestBase.h; sourceTree = "<group>"; };
 		54680B7A2396A8DB00DB5A37 /* DFPRequestClasses.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DFPRequestClasses.m; sourceTree = "<group>"; };
@@ -618,6 +620,7 @@
 				5E0656CED6370CB240092ECC /* CR_HttpTests.m */,
 				54680B7723969D7E00DB5A37 /* CR_IntegrationsTestBase.h */,
 				54680B7523969D5C00DB5A37 /* CR_IntegrationsTestBase.m */,
+				54680B692395222B00DB5A37 /* CR_DfpBannerFunctionalTests.m */,
 			);
 			path = IntegrationTests;
 			sourceTree = "<group>";
@@ -1376,6 +1379,7 @@
 				7D3E424123915B6600BAF673 /* CR_CacheAdUnitTests.m in Sources */,
 				7D3E422823915B6600BAF673 /* CR_NativePrivacyTests.m in Sources */,
 				7D3E41EA238E7E1500BAF673 /* CR_NetworkWaiter.m in Sources */,
+				54680B6A2395222B00DB5A37 /* CR_DfpBannerFunctionalTests.m in Sources */,
 				7D3E422623915B6600BAF673 /* MPClasses.m in Sources */,
 				54680B7C2396A8E100DB5A37 /* DFPRequestClasses.m in Sources */,
 				7DB4E90C239532BA008DE5E3 /* XCTestCase+Criteo.m in Sources */,
