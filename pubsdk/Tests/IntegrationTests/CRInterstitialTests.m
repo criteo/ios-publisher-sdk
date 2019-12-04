@@ -341,7 +341,7 @@
 // Android:  whenLoadingAnInterstitial_GivenInitializedSdk_ShouldSetInterstitialFlagInTheRequest
 - (void)testLoadingInterstitialShouldSetInterstitialFlagInTheRequest {
     Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
-    [criteo testing_registerAndWaitForHTTPResponse];
+    [criteo testing_registerAndWaitForHTTPResponses];
     XCTestExpectation *interstitialHttpCallExpectation = [self expectationWithDescription:@"configApiCallExpectation"];
     criteo.testing_networkCaptor.requestListener = ^(NSURL * _Nonnull url, CR_HTTPVerb verb, NSDictionary *body) {
         const BOOL isBidURL = [url.absoluteString containsString:criteo.config.cdbUrl];

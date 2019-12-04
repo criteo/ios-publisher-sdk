@@ -8,6 +8,7 @@
 #import "CR_NetworkCaptor.h"
 #import "CR_BidManagerBuilder.h"
 #import "CRInterstitialAdUnit.h"
+#import "CRBannerAdUnit.h"
 #import "CR_NetworkWaiter.h"
 #import "CR_TestAdUnits.h"
 
@@ -39,7 +40,13 @@ NSString *const DemoInterstitialAdUnitId = @"6yws53jyfjgoq1ghnuqb";
     [self registerCriteoPublisherId:CriteoTestingPublisherId withAdUnits:adUnits];
 }
 
-- (BOOL)testing_waitForRegisterHTTPResponse {
+- (void)testing_registerBanner {
+    CGSize size = (CGSize) { 320 , 140 };
+    CRBannerAdUnit *adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"adUnitId" size:size];
+    [self registerCriteoPublisherId:CriteoTestingPublisherId withAdUnits:@[adUnit]];
+}
+
+- (BOOL)testing_waitForRegisterHTTPResponses {
     if ([self _isHTTPCallsForRegisterFinished]) {
         return YES;
     }
@@ -50,13 +57,17 @@ NSString *const DemoInterstitialAdUnitId = @"6yws53jyfjgoq1ghnuqb";
     return success;
 }
 
-- (void)testing_registerAndWaitForHTTPResponse {
+- (void)testing_registerAndWaitForHTTPResponses {
     [self testing_registerWithAdUnitsAndWaitForHTTPResponse:@[[CR_TestAdUnits randomInterstitial]]];
+}
+
+- (void)testing_registerBannerAndWaitForHTTPResponses {
+    [self testing_registerWithAdUnitsAndWaitForHTTPResponse:@[[CR_TestAdUnits randomBanner320x50]]];
 }
 
 - (void)testing_registerWithAdUnitsAndWaitForHTTPResponse:(NSArray<CRAdUnit *> *)adUnits {
     [self testing_registerWithAdUnits:adUnits];
-    BOOL finished = [self testing_waitForRegisterHTTPResponse];
+    BOOL finished = [self testing_waitForRegisterHTTPResponses];
     NSAssert(finished, @"Failed to received all the requests for the register: %@", self.testing_networkCaptor.history);
 }
 

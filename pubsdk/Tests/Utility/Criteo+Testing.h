@@ -17,17 +17,27 @@ FOUNDATION_EXPORT NSString *const DemoInterstitialAdUnitId;
 @property(nonatomic, readonly) CR_NetworkCaptor *testing_networkCaptor;
 
 + (Criteo *)testing_criteoWithNetworkCaptor;
-
+/**
+ Register an intertitial.
+*/
 - (void)testing_register;
 - (void)testing_registerWithAdUnits:(NSArray<CRAdUnit *> *)adUnits;
 /**
+ Register a banner.
+*/
+- (void)testing_registerBanner;
+/**
  Return YES if all the HTTP calls have finished before a timeout.
  */
-- (BOOL)testing_waitForRegisterHTTPResponse;
+- (BOOL)testing_waitForRegisterHTTPResponses;
 /**
- Register, wait and assert if the registration fails.
+ Register a banner, wait and assert if the registration fails or after a timeout
+ */
+- (void)testing_registerBannerAndWaitForHTTPResponses;
+/**
+ Register an interstitial, wait and assert if the registration fails or after a timeout.
 */
-- (void)testing_registerAndWaitForHTTPResponse;
+- (void)testing_registerAndWaitForHTTPResponses;
 - (void)testing_registerWithAdUnitsAndWaitForHTTPResponse:(NSArray<CRAdUnit *> *)adUnits;
 
 @end
