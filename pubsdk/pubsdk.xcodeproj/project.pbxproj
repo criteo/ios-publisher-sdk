@@ -77,6 +77,7 @@
 		54658897228C6DB1009746E0 /* CRInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6549B552228389930078F068 /* CRInterstitialDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		54680B6A2395222B00DB5A37 /* CR_DfpBannerFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 54680B692395222B00DB5A37 /* CR_DfpBannerFunctionalTests.m */; };
 		54680B7623969D5C00DB5A37 /* CR_IntegrationsTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 54680B7523969D5C00DB5A37 /* CR_IntegrationsTestBase.m */; };
+		54680B7923969E7300DB5A37 /* CR_MopubBannerFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 54680B7823969E7300DB5A37 /* CR_MopubBannerFunctionalTests.m */; };
 		54680B7C2396A8E100DB5A37 /* DFPRequestClasses.m in Sources */ = {isa = PBXBuildFile; fileRef = 54680B7A2396A8DB00DB5A37 /* DFPRequestClasses.m */; };
 		54680B7D2396A8E100DB5A37 /* DFPRequestClasses.m in Sources */ = {isa = PBXBuildFile; fileRef = 54680B7A2396A8DB00DB5A37 /* DFPRequestClasses.m */; };
 		54680B7E2397E55200DB5A37 /* CR_TestAdUnits.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0655500052DF1F93D28212 /* CR_TestAdUnits.m */; };
@@ -331,6 +332,7 @@
 		54680B692395222B00DB5A37 /* CR_DfpBannerFunctionalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CR_DfpBannerFunctionalTests.m; path = Tests/IntegrationTests/CR_DfpBannerFunctionalTests.m; sourceTree = SOURCE_ROOT; };
 		54680B7523969D5C00DB5A37 /* CR_IntegrationsTestBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_IntegrationsTestBase.m; sourceTree = "<group>"; };
 		54680B7723969D7E00DB5A37 /* CR_IntegrationsTestBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_IntegrationsTestBase.h; sourceTree = "<group>"; };
+		54680B7823969E7300DB5A37 /* CR_MopubBannerFunctionalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_MopubBannerFunctionalTests.m; sourceTree = "<group>"; };
 		54680B7A2396A8DB00DB5A37 /* DFPRequestClasses.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DFPRequestClasses.m; sourceTree = "<group>"; };
 		547BC941230650B500FB8599 /* CR_BidFetchTracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_BidFetchTracker.h; sourceTree = "<group>"; };
 		547BC942230650B500FB8599 /* CR_BidFetchTracker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_BidFetchTracker.m; sourceTree = "<group>"; };
@@ -624,6 +626,7 @@
 				54680B7523969D5C00DB5A37 /* CR_IntegrationsTestBase.m */,
 				54680B692395222B00DB5A37 /* CR_DfpBannerFunctionalTests.m */,
 				5E065AD8DCA877B2A1928681 /* CR_DfpInterstitialFunctionalTests.m */,
+				54680B7823969E7300DB5A37 /* CR_MopubBannerFunctionalTests.m */,
 			);
 			path = IntegrationTests;
 			sourceTree = "<group>";
@@ -1372,6 +1375,7 @@
 				7D3E423023915B6600BAF673 /* NSDictionary+AdditionsTests.m in Sources */,
 				7D3E423623915B6600BAF673 /* CR_NetworkManagerTests.m in Sources */,
 				7D3E423A23915B6600BAF673 /* CRBannerAdUnitTests.m in Sources */,
+				54680B7923969E7300DB5A37 /* CR_MopubBannerFunctionalTests.m in Sources */,
 				7D3E424323915B6600BAF673 /* CRBidResponseTests.m in Sources */,
 				7D3E422F23915B6600BAF673 /* NSError+CRErrorsTests.m in Sources */,
 				6519C0DB2285FA8300111A5F /* CRInterstitialDelegateTests.m in Sources */,
