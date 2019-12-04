@@ -9,37 +9,27 @@
 #ifndef DFPRequestClasses_h
 #define DFPRequestClasses_h
 
+#import <Foundation/Foundation.h>
+
 @interface GADRequest : NSObject
 @property (readwrite, copy, nonatomic, nullable) NSDictionary *customTargeting;
 @end
-@implementation GADRequest
-@end
 
 @interface DFPRequest : GADRequest
-@end
-@implementation DFPRequest
 @end
 
 @interface GADORequest : NSObject
 @property (readwrite, copy, nonatomic, nullable) NSDictionary *customTargeting;
 @end
-@implementation GADORequest
-@end
 
 @interface DFPORequest : GADORequest
-@end
-@implementation DFPORequest
 @end
 
 @interface GADNRequest : NSObject
 @property (readwrite, copy, nonatomic, nullable) NSDictionary *customTargeting;
 @end
-@implementation GADNRequest
-@end
 
 @interface DFPNRequest : GADNRequest
-@end
-@implementation DFPNRequest
 @end
 
 

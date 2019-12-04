@@ -65,12 +65,12 @@
                                                              responseBody:data
                                                                     error:error
                                                                   counter:count];
+            if (responseHandler != nil) {
+                responseHandler(data, error);
+            }
             [self.responseHistory addObject:content];
             if (self.responseListener != nil) {
                 self.responseListener(content);
-            }
-            if (responseHandler != nil) {
-                responseHandler(data, error);
             }
         }];
     }
@@ -96,12 +96,12 @@
                                                              responseBody:data
                                                                     error:error
                                                                   counter:count];
+            if (responseHandler != nil) {
+                responseHandler(data, error);
+            }
             [self.responseHistory addObject:content];
             if (self.responseListener != nil) {
                 self.responseListener(content);
-            }
-            if (responseHandler != nil) {
-                responseHandler(data, error);
             }
         }];
     }
