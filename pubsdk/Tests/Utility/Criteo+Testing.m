@@ -32,19 +32,21 @@ NSString *const DemoInterstitialAdUnitId = @"6yws53jyfjgoq1ghnuqb";
     return criteo;
 }
 
-- (void)testing_register {
+#pragma mark - Register
+
+- (void)testing_registerInterstitial {
     [self testing_registerWithAdUnits:@[[CR_TestAdUnits randomInterstitial]]];
+}
+
+- (void)testing_registerBanner {
+    [self testing_registerWithAdUnits:@[[CR_TestAdUnits randomBanner320x50]]];
 }
 
 - (void)testing_registerWithAdUnits:(NSArray<CRAdUnit *> *)adUnits {
     [self registerCriteoPublisherId:CriteoTestingPublisherId withAdUnits:adUnits];
 }
 
-- (void)testing_registerBanner {
-    CGSize size = (CGSize) { 320 , 140 };
-    CRBannerAdUnit *adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"adUnitId" size:size];
-    [self registerCriteoPublisherId:CriteoTestingPublisherId withAdUnits:@[adUnit]];
-}
+#pragma mark - Wait
 
 - (BOOL)testing_waitForRegisterHTTPResponses {
     if ([self _isHTTPCallsForRegisterFinished]) {
@@ -57,7 +59,9 @@ NSString *const DemoInterstitialAdUnitId = @"6yws53jyfjgoq1ghnuqb";
     return success;
 }
 
-- (void)testing_registerAndWaitForHTTPResponses {
+#pragma mark - Register & Wait
+
+- (void)testing_registerInterstitialAndWaitForHTTPResponses {
     [self testing_registerWithAdUnitsAndWaitForHTTPResponse:@[[CR_TestAdUnits randomInterstitial]]];
 }
 

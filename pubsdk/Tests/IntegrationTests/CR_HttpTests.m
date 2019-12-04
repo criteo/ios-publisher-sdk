@@ -48,7 +48,7 @@
         }
     }];
 
-    [criteo testing_register];
+    [criteo testing_registerInterstitial];
     NSArray *expectations = @[
         configApiCallExpectation,
         eventApiCallExpectation,
@@ -74,7 +74,7 @@
         }
     }];
 
-    [criteo testing_register];
+    [criteo testing_registerInterstitial];
 
     [self criteo_waitForExpectations:@[expectation]];
 }
@@ -93,7 +93,7 @@
         }
     }];
 
-    [criteo testing_register];
+    [criteo testing_registerInterstitial];
 
     [self criteo_waitForExpectations:@[expectation]];
 }
@@ -117,7 +117,7 @@
         }
     }];
 
-    [criteo testing_register];
+    [criteo testing_registerInterstitial];
 
     [self criteo_waitForExpectations:@[expectation]];
 }
