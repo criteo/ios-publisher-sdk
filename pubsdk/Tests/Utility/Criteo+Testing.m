@@ -62,14 +62,14 @@ NSString *const DemoInterstitialAdUnitId = @"6yws53jyfjgoq1ghnuqb";
 #pragma mark - Register & Wait
 
 - (void)testing_registerInterstitialAndWaitForHTTPResponses {
-    [self testing_registerWithAdUnitsAndWaitForHTTPResponse:@[[CR_TestAdUnits randomInterstitial]]];
+    [self testing_registerAndWaitForHTTPResponseWithAdUnits:@[[CR_TestAdUnits randomInterstitial]]];
 }
 
 - (void)testing_registerBannerAndWaitForHTTPResponses {
-    [self testing_registerWithAdUnitsAndWaitForHTTPResponse:@[[CR_TestAdUnits randomBanner320x50]]];
+    [self testing_registerAndWaitForHTTPResponseWithAdUnits:@[[CR_TestAdUnits randomBanner320x50]]];
 }
 
-- (void)testing_registerWithAdUnitsAndWaitForHTTPResponse:(NSArray<CRAdUnit *> *)adUnits {
+- (void)testing_registerAndWaitForHTTPResponseWithAdUnits:(NSArray<CRAdUnit *> *)adUnits {
     [self testing_registerWithAdUnits:adUnits];
     BOOL finished = [self testing_waitForRegisterHTTPResponses];
     NSAssert(finished, @"Failed to received all the requests for the register: %@", self.testing_networkCaptor.history);

@@ -11,7 +11,7 @@
 
 - (void)initCriteoWithAdUnits:(NSArray<CRAdUnit *> *)adUnits {
     self.criteo = [Criteo testing_criteoWithNetworkCaptor];
-    [self.criteo testing_registerWithAdUnitsAndWaitForHTTPResponse:adUnits];
+    [self.criteo testing_registerAndWaitForHTTPResponseWithAdUnits:adUnits];
 }
 
 @end

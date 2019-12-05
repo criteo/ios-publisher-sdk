@@ -29,6 +29,6 @@ FOUNDATION_EXPORT NSString *const DemoInterstitialAdUnitId;
 
 - (void)testing_registerBannerAndWaitForHTTPResponses;
 - (void)testing_registerInterstitialAndWaitForHTTPResponses;
-- (void)testing_registerWithAdUnitsAndWaitForHTTPResponse:(NSArray<CRAdUnit *> *)adUnits;
+- (void)testing_registerAndWaitForHTTPResponseWithAdUnits:(NSArray<CRAdUnit *> *)adUnits;
 
 @end
