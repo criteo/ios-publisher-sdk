@@ -324,7 +324,7 @@
     [bidManager addCriteoBidToRequest:dfpBidRequest forAdUnit:slot_1];
 
     XCTAssertTrue(dfpBidRequest.customTargeting.count > 2);
-    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[dfpBidRequest.customTargeting objectForKey:@"crt_displayUrl"]);
+    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[dfpBidRequest.customTargeting objectForKey:@"crt_displayurl"]);
     XCTAssertEqualObjects([testBid_1 cpm], [dfpBidRequest.customTargeting objectForKey:@"crt_cpm"]);
 }
 
@@ -348,35 +348,35 @@
     DFPORequest *dfpoRequest = [DFPORequest new];
     [bidManager addCriteoBidToRequest:dfpoRequest forAdUnit:slot_1];
     XCTAssertTrue(dfpoRequest.customTargeting.count == 2);
-    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[dfpoRequest.customTargeting objectForKey:@"crt_displayUrl"]);
+    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[dfpoRequest.customTargeting objectForKey:@"crt_displayurl"]);
     XCTAssertEqualObjects([testBid_1 cpm], [dfpoRequest.customTargeting objectForKey:@"crt_cpm"]);
 
     DFPNRequest *dfpnRequest = [DFPNRequest new];
     [cache setBid:testBid_1];
     [bidManager addCriteoBidToRequest:dfpnRequest forAdUnit:slot_1];
     XCTAssertTrue(dfpnRequest.customTargeting.count == 2);
-    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[dfpnRequest.customTargeting objectForKey:@"crt_displayUrl"]);
+    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[dfpnRequest.customTargeting objectForKey:@"crt_displayurl"]);
     XCTAssertEqualObjects([testBid_1 cpm], [dfpnRequest.customTargeting objectForKey:@"crt_cpm"]);
 
     GADRequest *gadRequest = [GADRequest new];
     [cache setBid:testBid_1];
     [bidManager addCriteoBidToRequest:gadRequest forAdUnit:slot_1];
     XCTAssertTrue(gadRequest.customTargeting.count == 2);
-    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[gadRequest.customTargeting objectForKey:@"crt_displayUrl"]);
+    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[gadRequest.customTargeting objectForKey:@"crt_displayurl"]);
     XCTAssertEqualObjects([testBid_1 cpm], [gadRequest.customTargeting objectForKey:@"crt_cpm"]);
 
     GADORequest *gadoRequest = [GADORequest new];
     [cache setBid:testBid_1];
     [bidManager addCriteoBidToRequest:gadoRequest forAdUnit:slot_1];
     XCTAssertTrue(gadoRequest.customTargeting.count == 2);
-    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[gadoRequest.customTargeting objectForKey:@"crt_displayUrl"]);
+    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[gadoRequest.customTargeting objectForKey:@"crt_displayurl"]);
     XCTAssertEqualObjects([testBid_1 cpm], [gadoRequest.customTargeting objectForKey:@"crt_cpm"]);
 
     GADNRequest *gadnRequest = [GADNRequest new];
     [cache setBid:testBid_1];
     [bidManager addCriteoBidToRequest:gadnRequest forAdUnit:slot_1];
     XCTAssertTrue(gadnRequest.customTargeting.count == 2);
-    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[gadnRequest.customTargeting objectForKey:@"crt_displayUrl"]);
+    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[gadnRequest.customTargeting objectForKey:@"crt_displayurl"]);
     XCTAssertEqualObjects([testBid_1 cpm], [gadnRequest.customTargeting objectForKey:@"crt_cpm"]);
 }
 

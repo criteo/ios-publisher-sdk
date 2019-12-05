@@ -28,6 +28,7 @@
 
 static NSString * const crtCpm = @"crt_cpm";
 static NSString * const crtDisplayUrl = @"crt_displayUrl";
+static NSString * const crtDfpDisplayUrl = @"crt_displayurl";
 // native asset keys
 static NSString * const crtnTitle = @"crtn_title";
 static NSString * const crtnDesc = @"crtn_desc";
@@ -44,6 +45,7 @@ static NSString * const crtnPrImageUrl = @"crtn_primageurl";
 static NSString * const crtnPrText = @"crtn_prtext";
 static NSString * const crtnPixCount = @"crtn_pixcount";
 static NSString * const crtnPixUrl = @"crtn_pixurl_";
+
 
 // Properties
 - (id<CR_NetworkManagerDelegate>) networkMangerDelegate
@@ -280,7 +282,7 @@ static NSString * const crtnPixUrl = @"crtn_pixurl_";
                 }
             }
             else {
-                [customTargeting setObject:fetchedBid.dfpCompatibleDisplayUrl forKey:crtDisplayUrl];
+                [customTargeting setObject:fetchedBid.dfpCompatibleDisplayUrl forKey:crtDfpDisplayUrl];
             }
             NSDictionary *updatedDictionary = [NSDictionary dictionaryWithDictionary:customTargeting];
             [adRequest performSelector:dfpSetCustomTargeting withObject:updatedDictionary];
