@@ -14,10 +14,4 @@
     [self.criteo testing_registerWithAdUnitsAndWaitForHTTPResponse:adUnits];
 }
 
-- (void)assertMopubKeywordsUpdated:(NSString *)keywords andStillHaveInitialKeywords:(NSString *)initialKeywords {
-    XCTAssertTrue([keywords containsString:initialKeywords]);
-    XCTAssertTrue([keywords containsString:@"crt_cpm:20.00"]);
-    XCTAssertTrue([keywords containsString:@"crt_displayUrl:"]);
-}
-
 @end

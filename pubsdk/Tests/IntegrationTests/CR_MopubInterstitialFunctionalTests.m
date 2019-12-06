@@ -12,6 +12,7 @@
 #import "CR_IntegrationsTestBase.h"
 #import "MPClasses.h"
 #import "CR_TestAdUnits.h"
+#import "CR_AssertMopub.h"
 
 static NSString *initialMopubKeywords = @"key1:value1,key2:value2";
 
@@ -40,7 +41,7 @@ static NSString *initialMopubKeywords = @"key1:value1,key2:value2";
 
     [self.criteo setBidsForRequest:interstitialAdController withAdUnit:interstitial];
 
-    [self assertMopubKeywordsUpdated:interstitialAdController.keywords andStillHaveInitialKeywords:initialMopubKeywords];
+    CR_AssertMopubKeywordContainsCriteoBid(interstitialAdController.keywords, initialMopubKeywords);
 }
 
 @end
