@@ -17,6 +17,10 @@
 #import "DFPRequestClasses.h"
 #import "MPClasses.h"
 
+static NSString * const CR_BidManagerTestsCpm = @"crt_cpm";
+static NSString * const CR_BidManagerTestsDisplayUrl = @"crt_displayUrl";
+static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
+
 @interface CR_BidManagerTests : XCTestCase
 
 @property (strong) NSData *jsonData;
@@ -262,8 +266,8 @@
     [bidManager addCriteoBidToRequest:biddableDictionary forAdUnit:slot_1];
 
     XCTAssert(biddableDictionary.count == 2);
-    XCTAssertEqualObjects(biddableDictionary[@"crt_displayUrl"], testBid_1.displayUrl);
-    XCTAssertEqualObjects(biddableDictionary[@"crt_cpm"], testBid_1.cpm);
+    XCTAssertEqualObjects(biddableDictionary[CR_BidManagerTestsDisplayUrl], testBid_1.displayUrl);
+    XCTAssertEqualObjects(biddableDictionary[CR_BidManagerTestsCpm], testBid_1.cpm);
 }
 
 - (void) testAddCriteoBidToNonBiddableObjectsDoesNotCrash
@@ -324,8 +328,8 @@
     [bidManager addCriteoBidToRequest:dfpBidRequest forAdUnit:slot_1];
 
     XCTAssertTrue(dfpBidRequest.customTargeting.count > 2);
-    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[dfpBidRequest.customTargeting objectForKey:@"crt_displayurl"]);
-    XCTAssertEqualObjects([testBid_1 cpm], [dfpBidRequest.customTargeting objectForKey:@"crt_cpm"]);
+    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[dfpBidRequest.customTargeting objectForKey:CR_BidManagerTestsDfpDisplayUrl]);
+    XCTAssertEqualObjects([testBid_1 cpm], [dfpBidRequest.customTargeting objectForKey:CR_BidManagerTestsCpm]);
 }
 
 - (void) testAddCriteoBidToDifferentDfpRequestTypes {
@@ -348,36 +352,36 @@
     DFPORequest *dfpoRequest = [DFPORequest new];
     [bidManager addCriteoBidToRequest:dfpoRequest forAdUnit:slot_1];
     XCTAssertTrue(dfpoRequest.customTargeting.count == 2);
-    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[dfpoRequest.customTargeting objectForKey:@"crt_displayurl"]);
-    XCTAssertEqualObjects([testBid_1 cpm], [dfpoRequest.customTargeting objectForKey:@"crt_cpm"]);
+    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[dfpoRequest.customTargeting objectForKey:CR_BidManagerTestsDfpDisplayUrl]);
+    XCTAssertEqualObjects([testBid_1 cpm], [dfpoRequest.customTargeting objectForKey:CR_BidManagerTestsCpm]);
 
     DFPNRequest *dfpnRequest = [DFPNRequest new];
     [cache setBid:testBid_1];
     [bidManager addCriteoBidToRequest:dfpnRequest forAdUnit:slot_1];
     XCTAssertTrue(dfpnRequest.customTargeting.count == 2);
-    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[dfpnRequest.customTargeting objectForKey:@"crt_displayurl"]);
-    XCTAssertEqualObjects([testBid_1 cpm], [dfpnRequest.customTargeting objectForKey:@"crt_cpm"]);
+    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[dfpnRequest.customTargeting objectForKey:CR_BidManagerTestsDfpDisplayUrl]);
+    XCTAssertEqualObjects([testBid_1 cpm], [dfpnRequest.customTargeting objectForKey:CR_BidManagerTestsCpm]);
 
     GADRequest *gadRequest = [GADRequest new];
     [cache setBid:testBid_1];
     [bidManager addCriteoBidToRequest:gadRequest forAdUnit:slot_1];
     XCTAssertTrue(gadRequest.customTargeting.count == 2);
-    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[gadRequest.customTargeting objectForKey:@"crt_displayurl"]);
-    XCTAssertEqualObjects([testBid_1 cpm], [gadRequest.customTargeting objectForKey:@"crt_cpm"]);
+    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[gadRequest.customTargeting objectForKey:CR_BidManagerTestsDfpDisplayUrl]);
+    XCTAssertEqualObjects([testBid_1 cpm], [gadRequest.customTargeting objectForKey:CR_BidManagerTestsCpm]);
 
     GADORequest *gadoRequest = [GADORequest new];
     [cache setBid:testBid_1];
     [bidManager addCriteoBidToRequest:gadoRequest forAdUnit:slot_1];
     XCTAssertTrue(gadoRequest.customTargeting.count == 2);
-    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[gadoRequest.customTargeting objectForKey:@"crt_displayurl"]);
-    XCTAssertEqualObjects([testBid_1 cpm], [gadoRequest.customTargeting objectForKey:@"crt_cpm"]);
+    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[gadoRequest.customTargeting objectForKey:CR_BidManagerTestsDfpDisplayUrl]);
+    XCTAssertEqualObjects([testBid_1 cpm], [gadoRequest.customTargeting objectForKey:CR_BidManagerTestsCpm]);
 
     GADNRequest *gadnRequest = [GADNRequest new];
     [cache setBid:testBid_1];
     [bidManager addCriteoBidToRequest:gadnRequest forAdUnit:slot_1];
     XCTAssertTrue(gadnRequest.customTargeting.count == 2);
-    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[gadnRequest.customTargeting objectForKey:@"crt_displayurl"]);
-    XCTAssertEqualObjects([testBid_1 cpm], [gadnRequest.customTargeting objectForKey:@"crt_cpm"]);
+    XCTAssertEqualObjects([testBid_1 dfpCompatibleDisplayUrl],[gadnRequest.customTargeting objectForKey:CR_BidManagerTestsDfpDisplayUrl]);
+    XCTAssertEqualObjects([testBid_1 cpm], [gadnRequest.customTargeting objectForKey:CR_BidManagerTestsCpm]);
 }
 
 - (void) testAddCriteoBidToMopubAdViewRequest {
@@ -550,8 +554,8 @@
     [bidManager addCriteoBidToRequest:dfpBidRequest forAdUnit:slot_1];
     // there shouldn't be any enrichment
     XCTAssertTrue(dfpBidRequest.customTargeting.count == 2);
-    XCTAssertNil([dfpBidRequest.customTargeting objectForKey:@"crt_displayUrl"]);
-    XCTAssertNil([dfpBidRequest.customTargeting objectForKey:@"crt_cpm"]);
+    XCTAssertNil([dfpBidRequest.customTargeting objectForKey:CR_BidManagerTestsDfpDisplayUrl]);
+    XCTAssertNil([dfpBidRequest.customTargeting objectForKey:CR_BidManagerTestsCpm]);
 }
 
 // TTNC -> Time to next call
@@ -859,8 +863,8 @@
     dfpRequest.customTargeting = testDfpCustomTargeting;
     [bidManager addCriteoBidToRequest:dfpRequest forAdUnit:slot_1];
     XCTAssertTrue(dfpRequest.customTargeting.count == 2);
-    XCTAssertNil([dfpRequest.customTargeting objectForKey:@"crt_displayUrl"]);
-    XCTAssertNil([dfpRequest.customTargeting objectForKey:@"crt_cpm"]);
+    XCTAssertNil([dfpRequest.customTargeting objectForKey:CR_BidManagerTestsDfpDisplayUrl]);
+    XCTAssertNil([dfpRequest.customTargeting objectForKey:CR_BidManagerTestsCpm]);
 }
 
 - (void)checkMandatoryNativeAssets:(DFPRequest *)dfpBidRequest nativeBid:(CR_CdbBid *)nativeBid {
@@ -905,8 +909,8 @@
     [bidManager addCriteoBidToRequest:dfpBidRequest forAdUnit:adUnit];
 
     XCTAssertTrue(dfpBidRequest.customTargeting.count > 2);
-    XCTAssertNil([dfpBidRequest.customTargeting objectForKey:@"crt_displayUrl"]);
-    XCTAssertEqual(nativeBid.cpm, [dfpBidRequest.customTargeting objectForKey:@"crt_cpm"]);
+    XCTAssertNil([dfpBidRequest.customTargeting objectForKey:CR_BidManagerTestsDfpDisplayUrl]);
+    XCTAssertEqual(nativeBid.cpm, [dfpBidRequest.customTargeting objectForKey:CR_BidManagerTestsCpm]);
     [self checkMandatoryNativeAssets:dfpBidRequest nativeBid:nativeBid];
     XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.advertiser.description],[dfpBidRequest.customTargeting objectForKey:@"crtn_advname"]);
     XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.advertiser.domain],[dfpBidRequest.customTargeting objectForKey:@"crtn_advdomain"]);
@@ -946,8 +950,8 @@
     [bidManager addCriteoBidToRequest:dfpBidRequest forAdUnit:adUnit];
 
     XCTAssertTrue(dfpBidRequest.customTargeting.count > 2);
-    XCTAssertNil([dfpBidRequest.customTargeting objectForKey:@"crt_displayUrl"]);
-    XCTAssertEqual(nativeBid.cpm, [dfpBidRequest.customTargeting objectForKey:@"crt_cpm"]);
+    XCTAssertNil([dfpBidRequest.customTargeting objectForKey:CR_BidManagerTestsDfpDisplayUrl]);
+    XCTAssertEqual(nativeBid.cpm, [dfpBidRequest.customTargeting objectForKey:CR_BidManagerTestsCpm]);
     [self checkMandatoryNativeAssets:dfpBidRequest nativeBid:nativeBid];
     XCTAssertNil([dfpBidRequest.customTargeting objectForKey:@"crtn_advname"]);
     XCTAssertNil([dfpBidRequest.customTargeting objectForKey:@"crtn_advdomain"]);
