@@ -415,6 +415,7 @@
 		7DB4E90A239532BA008DE5E3 /* XCTestCase+Criteo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTestCase+Criteo.m"; sourceTree = "<group>"; };
 		7DB4E90B239532BA008DE5E3 /* XCTestCase+Criteo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XCTestCase+Criteo.h"; sourceTree = "<group>"; };
 		7DB4E90F2395374F008DE5E3 /* CRInterstitialTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialTests.m; sourceTree = "<group>"; };
+		7DB4E921239A4AB3008DE5E3 /* CR_AssertDfp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_AssertDfp.h; sourceTree = "<group>"; };
 		7DF2A067236889CC00178D8C /* SDKUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SDKUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF367C84232971810044807B /* CRNativeAdUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNativeAdUnit.h; sourceTree = "<group>"; };
 		DF367C85232971810044807B /* CRNativeAdUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdUnit.m; sourceTree = "<group>"; };
@@ -663,18 +664,19 @@
 		6540470C22581D13009235A1 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				7DB4E921239A4AB3008DE5E3 /* CR_AssertDfp.h */,
 				7D3E41DD238BC16E00BAF673 /* CR_NetworkCaptor.h */,
 				7D3E41DE238BC16E00BAF673 /* CR_NetworkCaptor.m */,
 				7D3E41E8238E7E1500BAF673 /* CR_NetworkWaiter.h */,
 				7D3E41E9238E7E1500BAF673 /* CR_NetworkWaiter.m */,
+				5E065ED9A843A9220D853806 /* CR_TestAdUnits.h */,
+				5E0655500052DF1F93D28212 /* CR_TestAdUnits.m */,
 				5E065FB707B9213686B66F5F /* Criteo+Testing.h */,
 				5E0653DCED07A1A1895CB076 /* Criteo+Testing.m */,
 				6540470D22581D32009235A1 /* MockWKWebView.h */,
 				6540470E22581D32009235A1 /* MockWKWebView.m */,
 				7DB4E90B239532BA008DE5E3 /* XCTestCase+Criteo.h */,
 				7DB4E90A239532BA008DE5E3 /* XCTestCase+Criteo.m */,
-				5E065ED9A843A9220D853806 /* CR_TestAdUnits.h */,
-				5E0655500052DF1F93D28212 /* CR_TestAdUnits.m */,
 			);
 			path = Utility;
 			sourceTree = "<group>";

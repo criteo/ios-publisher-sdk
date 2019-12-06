@@ -14,11 +14,6 @@
     [self.criteo testing_registerWithAdUnitsAndWaitForHTTPResponse:adUnits];
 }
 
-- (void)assertDfpCustomTargetingUpdated:(NSDictionary *)customTargeting {
-    XCTAssertEqualObjects(customTargeting[@"crt_cpm"], @"20.00");
-    XCTAssertNotNil(customTargeting[@"crt_displayurl"]);
-}
-
 - (void)assertMopubKeywordsUpdated:(NSString *)keywords andStillHaveInitialKeywords:(NSString *)initialKeywords {
     XCTAssertTrue([keywords containsString:initialKeywords]);
     XCTAssertTrue([keywords containsString:@"crt_cpm:20.00"]);

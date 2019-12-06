@@ -12,6 +12,7 @@
 #import "DFPRequestClasses.h"
 #import "CR_IntegrationsTestBase.h"
 #import "CR_TestAdUnits.h"
+#import "CR_AssertDfp.h"
 
 @interface CR_DfpBannerFunctionalTests : CR_IntegrationsTestBase
 
@@ -36,7 +37,7 @@
 
     [self.criteo setBidsForRequest:bannerDfpRequest withAdUnit:banner];
 
-    [self assertDfpCustomTargetingUpdated:bannerDfpRequest.customTargeting];
+    CR_AssertDfpCustomTargetingContainsCriteoBid(bannerDfpRequest.customTargeting);
 }
 
 @end

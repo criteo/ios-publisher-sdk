@@ -15,7 +15,6 @@
 @property (nonatomic) Criteo* criteo;
 
 - (void)initCriteoWithAdUnits:(NSArray<CRAdUnit *> *)adUnits;
-- (void)assertDfpCustomTargetingUpdated:(NSDictionary *)customTargeting;
 - (void)assertMopubKeywordsUpdated:(NSString *)keywords andStillHaveInitialKeywords:(NSString *)initialKeywords;
 
 @end

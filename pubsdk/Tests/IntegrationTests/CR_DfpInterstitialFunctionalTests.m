@@ -12,6 +12,7 @@
 #import "DFPRequestClasses.h"
 #import "CR_IntegrationsTestBase.h"
 #import "CR_TestAdUnits.h"
+#import "CR_AssertDfp.h"
 
 @interface CR_DfpInterstitialFunctionalTests : CR_IntegrationsTestBase
 
@@ -36,7 +37,7 @@
 
     [self.criteo setBidsForRequest:interstitialDfpRequest withAdUnit:interstitial];
 
-    [self assertDfpCustomTargetingUpdated:interstitialDfpRequest.customTargeting];
+    CR_AssertDfpCustomTargetingContainsCriteoBid(interstitialDfpRequest.customTargeting);
 }
 
 @end
