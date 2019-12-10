@@ -63,7 +63,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     OCMStub([mockConfig killSwitch]).andReturn(NO);
 
-    CR_GdprUserConsent *mockUserConsent = OCMStrictClassMock([CR_GdprUserConsent class]);
+    CR_DataProtectionConsent *mockUserConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
     OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
     OCMStub([mockUserConsent consentGiven]).andReturn(YES);
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
@@ -107,7 +107,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     CR_CacheAdUnit *testEmptyAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"thisShouldReturnEmptyBid" width:300 height:250];
     cache.bidCache[testEmptyAdUnit] = testEmptyBid;
 
-    CR_GdprUserConsent *mockUserConsent = OCMStrictClassMock([CR_GdprUserConsent class]);
+    CR_DataProtectionConsent *mockUserConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
     OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
     OCMStub([mockUserConsent consentGiven]).andReturn(YES);
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
@@ -139,7 +139,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     OCMStub([mockConfig killSwitch]).andReturn(NO);
 
-    CR_GdprUserConsent *mockUserConsent = OCMStrictClassMock([CR_GdprUserConsent class]);
+    CR_DataProtectionConsent *mockUserConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
     OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
     OCMStub([mockUserConsent consentGiven]).andReturn(YES);
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
@@ -176,7 +176,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     OCMStub([mockConfig killSwitch]).andReturn(NO);
 
-    CR_GdprUserConsent *mockUserConsent = OCMStrictClassMock([CR_GdprUserConsent class]);
+    CR_DataProtectionConsent *mockUserConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
     OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
     OCMStub([mockUserConsent consentGiven]).andReturn(YES);
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
@@ -575,7 +575,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     OCMStub([mockConfig killSwitch]).andReturn(NO);
 
-    CR_GdprUserConsent *mockUserConsent = OCMStrictClassMock([CR_GdprUserConsent class]);
+    CR_DataProtectionConsent *mockUserConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
     OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
     OCMStub([mockUserConsent consentGiven]).andReturn(YES);
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
@@ -620,7 +620,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     OCMStub([mockConfig killSwitch]).andReturn(NO);
 
-    CR_GdprUserConsent *mockUserConsent = OCMStrictClassMock([CR_GdprUserConsent class]);
+    CR_DataProtectionConsent *mockUserConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
     OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
     OCMStub([mockUserConsent consentGiven]).andReturn(YES);
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
@@ -660,7 +660,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     OCMStub([mockConfig killSwitch]).andReturn(NO);
 
-    CR_GdprUserConsent *mockUserConsent = OCMStrictClassMock([CR_GdprUserConsent class]);
+    CR_DataProtectionConsent *mockUserConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
     OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
     OCMStub([mockUserConsent consentGiven]).andReturn(YES);
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
@@ -775,7 +775,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     OCMStub([mockConfig killSwitch]).andReturn(NO);
 
-    CR_GdprUserConsent *mockUserConsent = OCMStrictClassMock([CR_GdprUserConsent class]);
+    CR_DataProtectionConsent *mockUserConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
     OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
     OCMStub([mockUserConsent consentGiven]).andReturn(YES);
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");

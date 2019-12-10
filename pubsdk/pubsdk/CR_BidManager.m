@@ -20,7 +20,7 @@
     CR_Config          *config;
     CR_ConfigManager   *configManager;
     CR_DeviceInfo      *deviceInfo;
-    CR_GdprUserConsent *gdprUserConsent;
+    CR_DataProtectionConsent *gdprUserConsent;
     CR_NetworkManager  *networkManager;
     CR_AppEvents       *appEvents;
     NSTimeInterval     cdbTimeToNextCall;
@@ -78,7 +78,7 @@ static NSString * const crtnPixUrl = @"crtn_pixurl_";
                              config:(CR_Config*)config
                       configManager:(CR_ConfigManager*)configManager
                          deviceInfo:(CR_DeviceInfo*)deviceInfo
-                    gdprUserConsent:(CR_GdprUserConsent*)gdprUserConsent
+                    gdprUserConsent:(CR_DataProtectionConsent*)gdprUserConsent
                      networkManager:(CR_NetworkManager*)networkManager
                           appEvents:(CR_AppEvents *)appEvents
                      timeToNextCall:(NSTimeInterval)timeToNextCall

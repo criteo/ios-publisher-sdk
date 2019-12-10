@@ -48,7 +48,7 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 }
 
 // Create the postBody dictionary for the CDB request
-- (NSMutableDictionary *)postBodyWithGdprConsent:(CR_GdprUserConsent *)gdprConsent
+- (NSMutableDictionary *)postBodyWithGdprConsent:(CR_DataProtectionConsent *)gdprConsent
                                           config:(CR_Config *)config
                                       deviceInfo:(CR_DeviceInfo *)deviceInfo {
     NSMutableDictionary *postBody = [NSMutableDictionary new];
@@ -100,7 +100,7 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 
 // Wrapper method to make the cdb call async
 - (void)     callCdb:(CR_CacheAdUnitArray *)adUnits
-         gdprConsent:(CR_GdprUserConsent *)gdprConsent
+         gdprConsent:(CR_DataProtectionConsent *)gdprConsent
               config:(CR_Config *)config
           deviceInfo:(CR_DeviceInfo *)deviceInfo
 ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler {
@@ -115,7 +115,7 @@ ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler {
 
 // Method that makes the actual call to CDB
 - (void) doCdbApiCall:(CR_CacheAdUnitArray *)adUnits
-          gdprConsent:(CR_GdprUserConsent *)gdprConsent
+          gdprConsent:(CR_DataProtectionConsent *)gdprConsent
                config:(CR_Config *)config
            deviceInfo:(CR_DeviceInfo *)deviceInfo
  ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler {
@@ -188,7 +188,7 @@ ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler {
 }
 
 - (void) sendAppEvent:(NSString *)event
-               gdprConsent:(CR_GdprUserConsent *)gdprConsent
+               gdprConsent:(CR_DataProtectionConsent *)gdprConsent
                     config:(CR_Config *)config
                 deviceInfo:(CR_DeviceInfo *)deviceInfo
             ahEventHandler:(AHAppEventsResponse)ahEventHandler {

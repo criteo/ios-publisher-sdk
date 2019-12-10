@@ -10,7 +10,7 @@
 #define CR_AppEvents_h
 
 #import "CR_ApiHandler.h"
-#import "CR_GdprUserConsent.h"
+#import "CR_DataProtectionConsent.h"
 #import "CR_Config.h"
 #import "CR_DeviceInfo.h"
 
@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype) init NS_UNAVAILABLE;
 - (instancetype) initWithApiHandler: (CR_ApiHandler *) apiHandler
                              config: (CR_Config *) config
-                               gdpr: (CR_GdprUserConsent *) gdpr
+                               gdpr: (CR_DataProtectionConsent *) gdpr
                          deviceInfo: (CR_DeviceInfo *) deviceInfo;
 - (void) sendLaunchEvent;
 - (void) sendActiveEvent:(NSNotification *) notification;

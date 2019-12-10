@@ -23,7 +23,7 @@
 		25BD5B672220D1CC004DE311 /* CR_DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821D822000F8000398E9F /* CR_DeviceInfo.m */; };
 		25BD5B682220D1D2004DE311 /* Criteo.h in Headers */ = {isa = PBXBuildFile; fileRef = E1F2738C21BB1B1400A2FBFA /* Criteo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		25BD5B692220D1D9004DE311 /* Criteo.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F2738A21BB12C300A2FBFA /* Criteo.m */; };
-		25BD5B6A2220D1DD004DE311 /* CR_GdprUserConsent.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5521F8FD25002B4548 /* CR_GdprUserConsent.m */; };
+		25BD5B6A2220D1DD004DE311 /* CR_DataProtectionConsent.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5521F8FD25002B4548 /* CR_DataProtectionConsent.m */; };
 		25BD5B6B2220D1E6004DE311 /* CR_ApiHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F2738621B9BF4900A2FBFA /* CR_ApiHandler.m */; };
 		25BD5B6C2220D1EC004DE311 /* CR_CdbResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D7DF0222138F9A006090C0 /* CR_CdbResponse.m */; };
 		25BD5B6D2220D1F0004DE311 /* CR_NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F2738321B9B58900A2FBFA /* CR_NetworkManager.m */; };
@@ -117,7 +117,7 @@
 		7D3E422423915B6600BAF673 /* CR_ConfigTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41F523915B6600BAF673 /* CR_ConfigTests.m */; };
 		7D3E422523915B6600BAF673 /* CR_DeviceInfoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41F623915B6600BAF673 /* CR_DeviceInfoTests.m */; };
 		7D3E422623915B6600BAF673 /* MPClasses.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41F723915B6600BAF673 /* MPClasses.m */; };
-		7D3E422723915B6600BAF673 /* CR_GdprUserConsentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41F823915B6600BAF673 /* CR_GdprUserConsentTests.m */; };
+		7D3E422723915B6600BAF673 /* CR_DataProtectionConsentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41F823915B6600BAF673 /* CR_DataProtectionConsentTests.m */; };
 		7D3E422823915B6600BAF673 /* CR_NativePrivacyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41FA23915B6600BAF673 /* CR_NativePrivacyTests.m */; };
 		7D3E422923915B6600BAF673 /* CR_NativeProductTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41FB23915B6600BAF673 /* CR_NativeProductTests.m */; };
 		7D3E422A23915B6600BAF673 /* CR_NativeImageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41FC23915B6600BAF673 /* CR_NativeImageTests.m */; };
@@ -157,7 +157,7 @@
 		7D3E424D23915D8700BAF673 /* CR_CacheManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E421423915B6600BAF673 /* CR_CacheManagerTests.m */; };
 		7D3E424E23915D8700BAF673 /* CR_CdbBidTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420923915B6600BAF673 /* CR_CdbBidTests.m */; };
 		7D3E424F23915D8700BAF673 /* CR_CdbResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E421623915B6600BAF673 /* CR_CdbResponseTests.m */; };
-		7D3E425023915D8700BAF673 /* CR_GdprUserConsentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41F823915B6600BAF673 /* CR_GdprUserConsentTests.m */; };
+		7D3E425023915D8700BAF673 /* CR_DataProtectionConsentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41F823915B6600BAF673 /* CR_DataProtectionConsentTests.m */; };
 		7D3E425123915D8700BAF673 /* CRAdUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E422023915B6600BAF673 /* CRAdUnitTests.m */; };
 		7D3E425223915D8700BAF673 /* CRBannerAdUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E421023915B6600BAF673 /* CRBannerAdUnitTests.m */; };
 		7D3E425323915D8700BAF673 /* CRInterstitialAdUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E421723915B6600BAF673 /* CRInterstitialAdUnitTests.m */; };
@@ -220,7 +220,7 @@
 		DF367CE5233087740044807B /* NSURL+Criteo.m in Sources */ = {isa = PBXBuildFile; fileRef = DF367CE22330864F0044807B /* NSURL+Criteo.m */; };
 		DF3E3D3B23232C80009E8CB5 /* NSArray+Criteo.m in Sources */ = {isa = PBXBuildFile; fileRef = DF3E3D3923232C80009E8CB5 /* NSArray+Criteo.m */; };
 		DF3E3D4123233936009E8CB5 /* NSArray+Criteo.m in Sources */ = {isa = PBXBuildFile; fileRef = DF3E3D3923232C80009E8CB5 /* NSArray+Criteo.m */; };
-		E12A7F5621F8FD25002B4548 /* CR_GdprUserConsent.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5521F8FD25002B4548 /* CR_GdprUserConsent.m */; };
+		E12A7F5621F8FD25002B4548 /* CR_DataProtectionConsent.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5521F8FD25002B4548 /* CR_DataProtectionConsent.m */; };
 		E12A7F5A21FA6FA4002B4548 /* CR_Config.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F5921FA6FA4002B4548 /* CR_Config.m */; };
 		E12A7F6F220A20C3002B4548 /* CR_AppEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = E12A7F6E220A20C3002B4548 /* CR_AppEvents.m */; };
 		E1D7DF0322138F9A006090C0 /* CR_CdbResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D7DF0222138F9A006090C0 /* CR_CdbResponse.m */; };
@@ -379,7 +379,7 @@
 		7D3E41F523915B6600BAF673 /* CR_ConfigTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_ConfigTests.m; sourceTree = "<group>"; };
 		7D3E41F623915B6600BAF673 /* CR_DeviceInfoTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_DeviceInfoTests.m; sourceTree = "<group>"; };
 		7D3E41F723915B6600BAF673 /* MPClasses.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPClasses.m; sourceTree = "<group>"; };
-		7D3E41F823915B6600BAF673 /* CR_GdprUserConsentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_GdprUserConsentTests.m; sourceTree = "<group>"; };
+		7D3E41F823915B6600BAF673 /* CR_DataProtectionConsentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_DataProtectionConsentTests.m; sourceTree = "<group>"; };
 		7D3E41FA23915B6600BAF673 /* CR_NativePrivacyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_NativePrivacyTests.m; sourceTree = "<group>"; };
 		7D3E41FB23915B6600BAF673 /* CR_NativeProductTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_NativeProductTests.m; sourceTree = "<group>"; };
 		7D3E41FC23915B6600BAF673 /* CR_NativeImageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_NativeImageTests.m; sourceTree = "<group>"; };
@@ -418,9 +418,9 @@
 		7DB4E90A239532BA008DE5E3 /* XCTestCase+Criteo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTestCase+Criteo.m"; sourceTree = "<group>"; };
 		7DB4E90B239532BA008DE5E3 /* XCTestCase+Criteo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XCTestCase+Criteo.h"; sourceTree = "<group>"; };
 		7DB4E90F2395374F008DE5E3 /* CRInterstitialTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialTests.m; sourceTree = "<group>"; };
-		7DB4E921239A4AB3008DE5E3 /* CR_AssertDfp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_AssertDfp.h; sourceTree = "<group>"; };
-		7DB4E91B239A468A008DE5E3 /* CR_AssertMopub.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_AssertMopub.h; sourceTree = "<group>"; };
 		7DB4E9122397AB6B008DE5E3 /* CROrthogonalBannerFunctionalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CROrthogonalBannerFunctionalTests.m; sourceTree = "<group>"; };
+		7DB4E91B239A468A008DE5E3 /* CR_AssertMopub.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_AssertMopub.h; sourceTree = "<group>"; };
+		7DB4E921239A4AB3008DE5E3 /* CR_AssertDfp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_AssertDfp.h; sourceTree = "<group>"; };
 		7DF2A067236889CC00178D8C /* SDKUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SDKUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF367C84232971810044807B /* CRNativeAdUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNativeAdUnit.h; sourceTree = "<group>"; };
 		DF367C85232971810044807B /* CRNativeAdUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdUnit.m; sourceTree = "<group>"; };
@@ -443,8 +443,8 @@
 		DF3E3D3923232C80009E8CB5 /* NSArray+Criteo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Criteo.m"; sourceTree = "<group>"; };
 		DF3E3D3E23233809009E8CB5 /* NSArray+Criteo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+Criteo.h"; sourceTree = "<group>"; };
 		E104B6B621E92D4B004D86C4 /* CR_Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_Config.h; sourceTree = "<group>"; };
-		E12A7F5421F8FBD6002B4548 /* CR_GdprUserConsent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_GdprUserConsent.h; sourceTree = "<group>"; };
-		E12A7F5521F8FD25002B4548 /* CR_GdprUserConsent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_GdprUserConsent.m; sourceTree = "<group>"; };
+		E12A7F5421F8FBD6002B4548 /* CR_DataProtectionConsent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_DataProtectionConsent.h; sourceTree = "<group>"; };
+		E12A7F5521F8FD25002B4548 /* CR_DataProtectionConsent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_DataProtectionConsent.m; sourceTree = "<group>"; };
 		E12A7F5921FA6FA4002B4548 /* CR_Config.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_Config.m; sourceTree = "<group>"; };
 		E12A7F6D220A1D40002B4548 /* CR_AppEvents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_AppEvents.h; sourceTree = "<group>"; };
 		E12A7F6E220A20C3002B4548 /* CR_AppEvents.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_AppEvents.m; sourceTree = "<group>"; };
@@ -703,7 +703,7 @@
 				7D3E421423915B6600BAF673 /* CR_CacheManagerTests.m */,
 				7D3E420923915B6600BAF673 /* CR_CdbBidTests.m */,
 				7D3E421623915B6600BAF673 /* CR_CdbResponseTests.m */,
-				7D3E41F823915B6600BAF673 /* CR_GdprUserConsentTests.m */,
+				7D3E41F823915B6600BAF673 /* CR_DataProtectionConsentTests.m */,
 				7D3E422023915B6600BAF673 /* CRAdUnitTests.m */,
 				7D3E421023915B6600BAF673 /* CRBannerAdUnitTests.m */,
 				7D3E421723915B6600BAF673 /* CRInterstitialAdUnitTests.m */,
@@ -871,8 +871,8 @@
 				E1F2738C21BB1B1400A2FBFA /* Criteo.h */,
 				25022DE5220A709000FF8ACE /* Criteo+Internal.h */,
 				E1F2738A21BB12C300A2FBFA /* Criteo.m */,
-				E12A7F5421F8FBD6002B4548 /* CR_GdprUserConsent.h */,
-				E12A7F5521F8FD25002B4548 /* CR_GdprUserConsent.m */,
+				E12A7F5421F8FBD6002B4548 /* CR_DataProtectionConsent.h */,
+				E12A7F5521F8FD25002B4548 /* CR_DataProtectionConsent.m */,
 				E1F2736821B5F08D00A2FBFA /* Info.plist */,
 				E1F2736721B5F08D00A2FBFA /* pubsdk.h */,
 				53BDFDC322EB9F7C0051EB40 /* CR_BidManagerHelper.h */,
@@ -1223,7 +1223,7 @@
 				25BD5B6E2220D201004DE311 /* NSString+CR_UrlEncoder.m in Sources */,
 				25BD5B6D2220D1F0004DE311 /* CR_NetworkManager.m in Sources */,
 				548968192332F319005B2659 /* CR_NativeProduct.m in Sources */,
-				25BD5B6A2220D1DD004DE311 /* CR_GdprUserConsent.m in Sources */,
+				25BD5B6A2220D1DD004DE311 /* CR_DataProtectionConsent.m in Sources */,
 				25BD5B662220D1C6004DE311 /* CR_ConfigManager.m in Sources */,
 				65E3A5742270CB7A004156E9 /* CR_InterstitialViewController.m in Sources */,
 				DF367CE5233087740044807B /* NSURL+Criteo.m in Sources */,
@@ -1276,7 +1276,7 @@
 				7D3E424923915D8700BAF673 /* CR_AdUnitHelperTests.m in Sources */,
 				7D3E425F23915DA500BAF673 /* CRBidTokenTests.m in Sources */,
 				7D3E426723915DB900BAF673 /* CR_ApiHandlerTests.m in Sources */,
-				7D3E425023915D8700BAF673 /* CR_GdprUserConsentTests.m in Sources */,
+				7D3E425023915D8700BAF673 /* CR_DataProtectionConsentTests.m in Sources */,
 				7D3E425823915D8F00BAF673 /* CR_AppEventsTests.m in Sources */,
 				7D3E425523915D8700BAF673 /* MPClasses.m in Sources */,
 				7D3E424D23915D8700BAF673 /* CR_CacheManagerTests.m in Sources */,
@@ -1323,7 +1323,7 @@
 				53CA0F8E22AB0A390098F96C /* CRBidToken.m in Sources */,
 				53CA0F7F22AAE2790098F96C /* CR_TokenValue.m in Sources */,
 				547BC944230650B500FB8599 /* CR_BidFetchTracker.m in Sources */,
-				E12A7F5621F8FD25002B4548 /* CR_GdprUserConsent.m in Sources */,
+				E12A7F5621F8FD25002B4548 /* CR_DataProtectionConsent.m in Sources */,
 				258821DA22000F8000398E9F /* CR_DeviceInfo.m in Sources */,
 				DF367CAC232B310D0044807B /* CR_NativePrivacy.m in Sources */,
 				654858A9226538D500DC471A /* CRInterstitial.m in Sources */,
@@ -1405,7 +1405,7 @@
 				7D3E422623915B6600BAF673 /* MPClasses.m in Sources */,
 				54680B7C2396A8E100DB5A37 /* DFPRequestClasses.m in Sources */,
 				7DB4E90C239532BA008DE5E3 /* XCTestCase+Criteo.m in Sources */,
-				7D3E422723915B6600BAF673 /* CR_GdprUserConsentTests.m in Sources */,
+				7D3E422723915B6600BAF673 /* CR_DataProtectionConsentTests.m in Sources */,
 				7D3E41DF238BC16E00BAF673 /* CR_NetworkCaptor.m in Sources */,
 				7D3E423523915B6600BAF673 /* CR_CdbBidTests.m in Sources */,
 				5E06522A02F2F6A13136E48D /* CR_HttpTests.m in Sources */,

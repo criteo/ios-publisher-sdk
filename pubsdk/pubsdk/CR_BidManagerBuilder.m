@@ -16,7 +16,7 @@
 #import "CR_Config.h"
 #import "CR_ConfigManager.h"
 #import "CR_DeviceInfo.h"
-#import "CR_GdprUserConsent.h"
+#import "CR_DataProtectionConsent.h"
 #import "CR_AppEvents.h"
 
 
@@ -79,9 +79,9 @@
     return _deviceInfo;
 }
 
-- (CR_GdprUserConsent *)gdprUserConsent {
+- (CR_DataProtectionConsent *)gdprUserConsent {
     if (_gdprUserConsent == nil) {
-        _gdprUserConsent = [[CR_GdprUserConsent alloc] init];
+        _gdprUserConsent = [[CR_DataProtectionConsent alloc] init];
     }
     return _gdprUserConsent;
 }

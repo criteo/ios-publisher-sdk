@@ -14,7 +14,7 @@
 #import "CR_BidManager.h"
 #import "CR_CacheManager.h"
 #import "CR_Config.h"
-#import "CR_GdprUserConsent.h"
+#import "CR_DataProtectionConsent.h"
 #import "Logging.h"
 #import "CR_NetworkManager.h"
 
@@ -49,7 +49,7 @@
                                                   insertTime:[NSDate date]
                                                 nativeAssets:nil];
 
-    CR_GdprUserConsent *mockUserConsent = OCMStrictClassMock([CR_GdprUserConsent class]);
+    CR_DataProtectionConsent *mockUserConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
     OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
     OCMStub([mockUserConsent consentGiven]).andReturn(YES);
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
@@ -135,7 +135,7 @@
                                                   insertTime:[NSDate date]
                                                 nativeAssets:nil];
 
-    CR_GdprUserConsent *mockUserConsent = OCMStrictClassMock([CR_GdprUserConsent class]);
+    CR_DataProtectionConsent *mockUserConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
     OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
     OCMStub([mockUserConsent consentGiven]).andReturn(YES);
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
@@ -364,7 +364,7 @@
 }
 
 - (void)testPostBodyWithGdprConsent {
-    CR_GdprUserConsent *mockUserConsent = OCMStrictClassMock([CR_GdprUserConsent class]);
+    CR_DataProtectionConsent *mockUserConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
     OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
     OCMStub([mockUserConsent consentGiven]).andReturn(YES);
     OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
@@ -428,7 +428,7 @@
     XCTAssertNil(postBody[@"gdprConsent"]);
 
     // Nil consent string
-    CR_GdprUserConsent *mockUserConsent2 = OCMStrictClassMock([CR_GdprUserConsent class]);
+    CR_DataProtectionConsent *mockUserConsent2 = OCMStrictClassMock([CR_DataProtectionConsent class]);
     OCMStub([mockUserConsent2 gdprApplies]).andReturn(YES);
     OCMStub([mockUserConsent2 consentGiven]).andReturn(YES);
     OCMStub([mockUserConsent2 consentString]).andReturn(nil);
