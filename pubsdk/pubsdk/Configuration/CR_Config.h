@@ -11,6 +11,16 @@
 
 #import <Foundation/Foundation.h>
 
+// Production
+FOUNDATION_EXTERN NSString * const CR_ConfigCdbUrl;
+FOUNDATION_EXTERN NSString * const CR_ConfigAppEventsUrl;
+FOUNDATION_EXTERN NSString * const CR_ConfigConfigurationUrl;
+
+// Pre-Production
+FOUNDATION_EXTERN NSString * const CR_ConfigPreprodCdbUrl;
+FOUNDATION_EXTERN NSString * const CR_ConfigPreprodAppEventsUrl;
+FOUNDATION_EXTERN NSString * const CR_ConfigPreprodConfigurationUrl;
+
 @interface CR_Config : NSObject
 
 @property (copy, nonatomic, readonly) NSString *criteoPublisherId;
@@ -30,10 +40,16 @@
 @property (copy, nonatomic, readonly) NSString *deviceOs;
 @property (copy, nonatomic, readonly) NSString *configUrl;
 
-- (instancetype) initWithCriteoPublisherId:(NSString *) criteoPublisherId
-NS_DESIGNATED_INITIALIZER;
++ (CR_Config *)configForPreprodWithCriteoPublisherId:(NSString *)criteoPublisherId;
 
-- (instancetype) init NS_UNAVAILABLE;
+- (instancetype)initWithCriteoPublisherId:(NSString *)criteoPublisherId
+                                   cdbUrl:(NSString *)cdbUrl
+                             appEventsUrl:(NSString *)appEventsUrl
+                                configUrl:(NSString *)configUrl NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)initWithCriteoPublisherId:(NSString *)criteoPublisherId;
+
+- (instancetype)init NS_UNAVAILABLE;
 
 /*
  * Helper function to convert NSData returned from a network call

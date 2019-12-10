@@ -13,7 +13,7 @@
 #import "CR_TestAdUnits.h"
 
 // This publisherId exists in production.
-NSString *const CriteoTestingPublisherId = @"B-056946";
+NSString *const CriteoTestingPublisherId = @"B-000001";
 NSString *const DemoBannerAdUnitId = @"30s6zt3ayypfyemwjvmp";
 NSString *const DemoInterstitialAdUnitId = @"6yws53jyfjgoq1ghnuqb";
 
@@ -27,7 +27,9 @@ NSString *const DemoInterstitialAdUnitId = @"6yws53jyfjgoq1ghnuqb";
 + (Criteo *)testing_criteoWithNetworkCaptor {
     CR_BidManagerBuilder *builder = [[CR_BidManagerBuilder alloc] init];
     CR_NetworkCaptor *networkCaptor = [[CR_NetworkCaptor alloc] initWithNetworkManager:builder.networkManager];
+    CR_Config *config = [CR_Config configForPreprodWithCriteoPublisherId:CriteoTestingPublisherId];
     builder.networkManager = networkCaptor;
+    builder.config = config;
     Criteo *criteo = [[Criteo alloc] initWithBidManagerBuilder:builder];
     return criteo;
 }
