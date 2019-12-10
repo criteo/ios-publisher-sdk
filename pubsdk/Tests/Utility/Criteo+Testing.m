@@ -74,7 +74,7 @@ NSString *const DemoInterstitialAdUnitId = @"6yws53jyfjgoq1ghnuqb";
 - (void)testing_registerAndWaitForHTTPResponseWithAdUnits:(NSArray<CRAdUnit *> *)adUnits {
     [self testing_registerWithAdUnits:adUnits];
     BOOL finished = [self testing_waitForRegisterHTTPResponses];
-    NSAssert(finished, @"Failed to received all the requests for the register: %@", self.testing_networkCaptor.history);
+    NSAssert(finished, @"Failed to received all the requests for the register: %@", self.testing_networkCaptor);
 }
 
 #pragma mark - Private methods

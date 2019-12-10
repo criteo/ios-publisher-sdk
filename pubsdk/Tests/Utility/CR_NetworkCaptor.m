@@ -12,6 +12,7 @@
 #import "MockWKWebView.h"
 
 @interface CR_NetworkCaptor ()
+@property (nonatomic, strong) NSMutableArray<CR_HttpContent *> *waitingRequests;
 /**
  History from the response perspective.
  */
@@ -29,6 +30,7 @@
     self = [super initWithDeviceInfo:deviceInfo];
     if (self) {
         _networkManager = networkManager;
+        _waitingRequests = [[NSMutableArray alloc] init];
         _responseHistory = [[NSMutableArray alloc] init];
         _httpRequestCount = 0;
     }
@@ -58,6 +60,14 @@
         }
         self.httpRequestCount++;
         const unsigned count = self.httpRequestCount;
+        CR_HttpContent *requestContent = [[CR_HttpContent alloc] initWithUrl:url
+                                                                        verb:GET
+                                                                 requestBody:nil
+                                                                responseBody:nil
+                                                                       error:nil
+                                                                     counter:count];
+        [self.waitingRequests addObject:requestContent];
+
         [self.networkManager getFromUrl:url responseHandler:^(NSData *data, NSError *error) {
             CR_HttpContent *content = [[CR_HttpContent alloc] initWithUrl:url
                                                                      verb:GET
@@ -69,6 +79,7 @@
                 responseHandler(data, error);
             }
             [self.responseHistory addObject:content];
+            [self.waitingRequests removeObject:requestContent];
             if (self.responseListener != nil) {
                 self.responseListener(content);
             }
@@ -87,6 +98,13 @@
         }
         self.httpRequestCount++;
         const unsigned count = self.httpRequestCount;
+        CR_HttpContent *requestContent = [[CR_HttpContent alloc] initWithUrl:url
+                                                                        verb:POST
+                                                                 requestBody:postBody
+                                                                responseBody:nil
+                                                                       error:nil
+                                                                     counter:count];
+        [self.waitingRequests addObject:requestContent];
         [self.networkManager postToUrl:url
                               postBody:postBody
                        responseHandler:^(NSData *data, NSError *error) {
@@ -100,11 +118,19 @@
                 responseHandler(data, error);
             }
             [self.responseHistory addObject:content];
+            [self.waitingRequests removeObject:requestContent];
             if (self.responseListener != nil) {
                 self.responseListener(content);
             }
         }];
     }
+}
+
+- (NSString *)description
+{
+    return [[NSString alloc] initWithFormat:
+            @"<%@: %p, waitingRequests: %@, responseHistory: %@ >",
+            NSStringFromClass([self class]), self, self.waitingRequests, self.history];
 }
 
 @end
@@ -127,6 +153,27 @@
         _counter = counter;
     }
     return self;
+}
+
+- (NSString *)description
+{
+    NSString *verbStr = self.verb == GET ? @"GET" : @"POST";
+    NSMutableString *result = [[NSMutableString alloc] initWithFormat:
+                               @"<%@: %p, url: %@, verb: %@ ",
+                               NSStringFromClass([self class]), self, self.url, verbStr];
+    if (self.requestBody.count > 0) {
+        [result appendFormat:@"requestBody: %@ ", self.requestBody];
+    }
+    [result appendFormat:@"responseBody_size: %lu ", self.responseBody.length];
+    if (self.error != nil) {
+        [result appendFormat:@"error: %@ ", self.error];
+    }
+    [result appendFormat:@"responseBody: %lu ", self.responseBody.length];
+    if (self.error != nil) {
+        [result appendFormat:@"error: %@ ", self.error];
+    }
+    [result appendString:@">"];
+    return result;
 }
 
 @end
