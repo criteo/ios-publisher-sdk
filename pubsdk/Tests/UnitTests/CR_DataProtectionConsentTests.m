@@ -25,6 +25,7 @@
         [userDefaults setObject:nil forKey:@"IABConsent_SubjectToGDPR"];
         [userDefaults setObject:nil forKey:@"IABConsent_ConsentString"];
         [userDefaults setObject:nil forKey:@"IABConsent_ParsedVendorConsents"];
+        [userDefaults setObject:nil forKey:CR_DataProtectionConsentUsPrivacyIabConsentStringKey];
 }
 
 - (void) testGdprGet {
@@ -93,6 +94,18 @@
     XCTAssertEqual([consent consentGiven], NO);
     XCTAssertTrue([consentString isEqualToString:[consent consentString]]);
     XCTAssertEqual([consent gdprApplies], (BOOL)gdprApplies.integerValue);
+}
+
+- (void)testGetUsPrivacyIABContent
+{
+    NSString *uspIabString = @"test";
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:uspIabString forKey:CR_DataProtectionConsentUsPrivacyIabConsentStringKey];
+    CR_DataProtectionConsent *consent = [[CR_DataProtectionConsent alloc] init];
+
+    NSString *actualUspIab = consent.usPrivacyIabConsentString;
+
+    XCTAssertEqualObjects(actualUspIab, uspIabString);
 }
 
 @end

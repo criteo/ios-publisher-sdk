@@ -9,6 +9,13 @@
 #import "CR_DataProtectionConsent.h"
 #import <AdSupport/ASIdentifierManager.h>
 
+/**
+ Specification for the US Privacy in IAB:
+ https://iabtechlab.com/wp-content/uploads/2019/11/U.S.-Privacy-String-v1.0-IAB-Tech-Lab.pdf
+ */
+
+NSString * const CR_DataProtectionConsentUsPrivacyIabConsentStringKey = @"IABUSPrivacy_String";
+
 @implementation CR_DataProtectionConsent;
 /* IAB spec is https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/Mobile%20In-App%20Consent%20APIs%20v1.0%20Final.md#structure
  */
@@ -25,6 +32,8 @@
             _consentGiven = YES;
         }
         _isAdTrackingEnabled = [[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled];
+
+        _usPrivacyIabConsentString = [userDefaults stringForKey:CR_DataProtectionConsentUsPrivacyIabConsentStringKey];
     }
     return self;
 }
