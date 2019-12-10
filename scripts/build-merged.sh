@@ -20,6 +20,8 @@ git clone ssh://qabot@review.criteois.lan:29418/pub-sdk/fuji
 
 cd fuji
 
+pod install
+
 mkdir -p build/output/sim
 
 xcodebuild \
