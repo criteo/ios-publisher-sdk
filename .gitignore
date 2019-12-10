@@ -30,3 +30,4 @@ build/
 buck-out/
 .buckd/
 .idea/
+Pods/
