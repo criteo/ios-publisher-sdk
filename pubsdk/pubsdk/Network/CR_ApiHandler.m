@@ -48,9 +48,9 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 }
 
 // Create the postBody dictionary for the CDB request
-- (NSMutableDictionary *)postBodyWithGdprConsent:(CR_DataProtectionConsent *)gdprConsent
-                                          config:(CR_Config *)config
-                                      deviceInfo:(CR_DeviceInfo *)deviceInfo {
+- (NSMutableDictionary *)postBodyWithConsent:(CR_DataProtectionConsent *)consent
+                                      config:(CR_Config *)config
+                                  deviceInfo:(CR_DeviceInfo *)deviceInfo {
     NSMutableDictionary *postBody = [NSMutableDictionary new];
     postBody[@"sdkVersion"] = config.sdkVersion;
     postBody[@"profileId"]  = config.profileId;
@@ -69,11 +69,11 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
     postBody[@"publisher"] = publisherDict;
 
     //iff gdpr consent value is set, pass it as a gdpr object. Else don't pass blank
-    if (gdprConsent && gdprConsent.consentString) {
+    if (consent && consent.consentString) {
         NSMutableDictionary *gdprDict = [NSMutableDictionary new];
-        gdprDict[@"consentData"]  = gdprConsent.consentString;
-        gdprDict[@"gdprApplies"]  = @(gdprConsent.gdprApplies);
-        gdprDict[@"consentGiven"] = @(gdprConsent.consentGiven);
+        gdprDict[@"consentData"]  = consent.consentString;
+        gdprDict[@"gdprApplies"]  = @(consent.gdprApplies);
+        gdprDict[@"consentGiven"] = @(consent.consentGiven);
         postBody[@"gdprConsent"]  = gdprDict;
     }
 
@@ -99,14 +99,14 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 }
 
 // Wrapper method to make the cdb call async
-- (void)     callCdb:(CR_CacheAdUnitArray *)adUnits
-         gdprConsent:(CR_DataProtectionConsent *)gdprConsent
-              config:(CR_Config *)config
-          deviceInfo:(CR_DeviceInfo *)deviceInfo
-ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler {
+- (void)        callCdb:(CR_CacheAdUnitArray *)adUnits
+                consent:(CR_DataProtectionConsent *)consent
+                 config:(CR_Config *)config
+             deviceInfo:(CR_DeviceInfo *)deviceInfo
+   ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self doCdbApiCall:adUnits
-               gdprConsent:gdprConsent
+                   consent:consent
                     config:config
                 deviceInfo:deviceInfo
       ahCdbResponseHandler:ahCdbResponseHandler];
@@ -115,7 +115,7 @@ ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler {
 
 // Method that makes the actual call to CDB
 - (void) doCdbApiCall:(CR_CacheAdUnitArray *)adUnits
-          gdprConsent:(CR_DataProtectionConsent *)gdprConsent
+              consent:(CR_DataProtectionConsent *)consent
                config:(CR_Config *)config
            deviceInfo:(CR_DeviceInfo *)deviceInfo
  ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler {
@@ -125,9 +125,9 @@ ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler {
         return;
     }
     NSArray<CR_CacheAdUnitArray *> *adUnitChunks = [requestAdUnits splitIntoChunks:maxAdUnitsPerCdbRequest];
-    NSMutableDictionary *postBody = [self postBodyWithGdprConsent:gdprConsent
-                                                           config:config
-                                                       deviceInfo:deviceInfo];
+    NSMutableDictionary *postBody = [self postBodyWithConsent:consent
+                                                       config:config
+                                                   deviceInfo:deviceInfo];
     NSString *query = [NSString stringWithFormat:@"profileId=%@", [config profileId]];
     NSString *urlString = [NSString stringWithFormat:@"%@/%@?%@", [config cdbUrl], [config path], query];
     NSURL *url = [NSURL URLWithString: urlString];
@@ -188,13 +188,13 @@ ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler {
 }
 
 - (void) sendAppEvent:(NSString *)event
-               gdprConsent:(CR_DataProtectionConsent *)gdprConsent
-                    config:(CR_Config *)config
-                deviceInfo:(CR_DeviceInfo *)deviceInfo
-            ahEventHandler:(AHAppEventsResponse)ahEventHandler {
+              consent:(CR_DataProtectionConsent *)consent
+               config:(CR_Config *)config
+           deviceInfo:(CR_DeviceInfo *)deviceInfo
+       ahEventHandler:(AHAppEventsResponse)ahEventHandler {
 
     NSString *query = [NSString stringWithFormat:@"idfa=%@&eventType=%@&appId=%@&limitedAdTracking=%d"
-                       , [deviceInfo deviceId], event, [config appId], ![gdprConsent isAdTrackingEnabled]];
+                       , [deviceInfo deviceId], event, [config appId], ![consent isAdTrackingEnabled]];
     NSString *urlString = [NSString stringWithFormat:@"%@/%@?%@",[config appEventsUrl], [config appEventsSenderId], query];
     NSURL *url = [NSURL URLWithString: urlString];
     CLogInfo(@"[INFO][API_] AppEventGetCall.start");

@@ -38,7 +38,7 @@
                                                                    config:config
                                                             configManager:nil
                                                                deviceInfo:nil
-                                                          gdprUserConsent:nil
+                                                                  consent:nil
                                                            networkManager:nil
                                                                 appEvents:nil
                                                            timeToNextCall:0];

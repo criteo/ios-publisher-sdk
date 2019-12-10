@@ -70,7 +70,7 @@
     OCMStub([mockDeviceInfo userAgent]).andReturn(@"Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16B91");
 
     [apiHandler callCdb:@[testAdUnit_1]
-            gdprConsent:mockUserConsent
+                consent:mockUserConsent
                  config:mockConfig
              deviceInfo:mockDeviceInfo
    ahCdbResponseHandler:^(CR_CdbResponse *cdbResponse) {
@@ -156,7 +156,7 @@
     OCMStub([mockDeviceInfo userAgent]).andReturn(@"Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16B91");
 
     [apiHandler callCdb:@[testAdUnit_1, testAdUnit_2]
-            gdprConsent:mockUserConsent
+                consent:mockUserConsent
                  config:mockConfig
              deviceInfo:mockDeviceInfo
    ahCdbResponseHandler:^(CR_CdbResponse *cdbResponse) {
@@ -240,7 +240,7 @@
 
     CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager bidFetchTracker:mockBidFetchTracker];
     [apiHandler callCdb:@[testAdUnit]
-            gdprConsent:nil
+                consent:nil
                  config:nil
              deviceInfo:nil
    ahCdbResponseHandler:nil];
@@ -258,7 +258,7 @@
 
     CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager bidFetchTracker:mockBidFetchTracker];
     [apiHandler callCdb:@[testAdUnit]
-            gdprConsent:nil
+                consent:nil
                  config:nil
              deviceInfo:nil
    ahCdbResponseHandler:nil];
@@ -280,7 +280,7 @@
 
     CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager bidFetchTracker:mockBidFetchTracker];
     [apiHandler callCdb:@[testAdUnit]
-            gdprConsent:nil
+                consent:nil
                  config:nil
              deviceInfo:nil
    ahCdbResponseHandler:nil];
@@ -299,7 +299,7 @@
 
     CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager bidFetchTracker:mockBidFetchTracker];
     [apiHandler callCdb:@[testAdUnit]
-            gdprConsent:nil
+                consent:nil
                  config:nil
              deviceInfo:nil
    ahCdbResponseHandler:nil];
@@ -317,14 +317,14 @@
     dispatch_queue_t queue = dispatch_queue_create("testQueue", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(queue, ^{
         [apiHandler callCdb:@[testAdUnit]
-                gdprConsent:nil
+                    consent:nil
                      config:nil
                  deviceInfo:nil
        ahCdbResponseHandler:nil];
     });
     dispatch_async(queue, ^{
         [apiHandler callCdb:@[testAdUnit]
-                gdprConsent:nil
+                    consent:nil
                      config:nil
                  deviceInfo:nil
        ahCdbResponseHandler:nil];
@@ -388,9 +388,9 @@
     CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:nil bidFetchTracker:nil];
 
     // With consent
-    NSMutableDictionary *postBody = [apiHandler postBodyWithGdprConsent:mockUserConsent
-                                                                 config:mockConfig
-                                                             deviceInfo:mockDeviceInfo];
+    NSMutableDictionary *postBody = [apiHandler postBodyWithConsent:mockUserConsent
+                                                             config:mockConfig
+                                                         deviceInfo:mockDeviceInfo];
 
     XCTAssertTrue([postBody[@"sdkVersion"] isEqualToString:mockConfig.sdkVersion]);
     XCTAssertTrue([postBody[@"profileId"]  isEqualToNumber:mockConfig.profileId]);
@@ -409,9 +409,9 @@
     XCTAssertEqual([postBody[@"gdprConsent"][@"consentGiven"] boolValue], mockUserConsent.consentGiven);
 
     // Nil consent
-    postBody = [apiHandler postBodyWithGdprConsent:nil
-                                            config:mockConfig
-                                        deviceInfo:mockDeviceInfo];
+    postBody = [apiHandler postBodyWithConsent:nil
+                                        config:mockConfig
+                                    deviceInfo:mockDeviceInfo];
 
     XCTAssertTrue([postBody[@"sdkVersion"] isEqualToString:mockConfig.sdkVersion]);
     XCTAssertTrue([postBody[@"profileId"]  isEqualToNumber:mockConfig.profileId]);
@@ -433,9 +433,9 @@
     OCMStub([mockUserConsent2 consentGiven]).andReturn(YES);
     OCMStub([mockUserConsent2 consentString]).andReturn(nil);
 
-    postBody = [apiHandler postBodyWithGdprConsent:mockUserConsent2
-                                            config:mockConfig
-                                        deviceInfo:mockDeviceInfo];
+    postBody = [apiHandler postBodyWithConsent:mockUserConsent2
+                                        config:mockConfig
+                                    deviceInfo:mockDeviceInfo];
 
     XCTAssertTrue([postBody[@"sdkVersion"] isEqualToString:mockConfig.sdkVersion]);
     XCTAssertTrue([postBody[@"profileId"]  isEqualToNumber:mockConfig.profileId]);

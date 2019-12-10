@@ -31,14 +31,14 @@
 
 - (instancetype) init NS_UNAVAILABLE;
 
-- (instancetype) initWithApiHandler:(CR_ApiHandler*)apiHandler
-                       cacheManager:(CR_CacheManager*)cacheManager
+- (instancetype) initWithApiHandler:(CR_ApiHandler *)apiHandler
+                       cacheManager:(CR_CacheManager *)cacheManager
                          tokenCache:(CR_TokenCache *)tokenCache
-                             config:(CR_Config*)config
-                      configManager:(CR_ConfigManager*)configManager
-                         deviceInfo:(CR_DeviceInfo*)deviceInfo
-                    gdprUserConsent:(CR_DataProtectionConsent*)gdprUserConsent
-                     networkManager:(CR_NetworkManager*)networkManager
+                             config:(CR_Config *)config
+                      configManager:(CR_ConfigManager *)configManager
+                         deviceInfo:(CR_DeviceInfo *)deviceInfo
+                            consent:(CR_DataProtectionConsent *)consent
+                     networkManager:(CR_NetworkManager *)networkManager
                           appEvents:(CR_AppEvents *)appEvents
                      timeToNextCall:(NSTimeInterval)timeToNextCall
 NS_DESIGNATED_INITIALIZER;

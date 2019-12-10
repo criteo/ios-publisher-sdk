@@ -79,11 +79,11 @@
     return _deviceInfo;
 }
 
-- (CR_DataProtectionConsent *)gdprUserConsent {
-    if (_gdprUserConsent == nil) {
-        _gdprUserConsent = [[CR_DataProtectionConsent alloc] init];
+- (CR_DataProtectionConsent *)consent {
+    if (_consent == nil) {
+        _consent = [[CR_DataProtectionConsent alloc] init];
     }
-    return _gdprUserConsent;
+    return _consent;
 }
 
 - (CR_AppEvents *)appEvents
@@ -91,7 +91,7 @@
     if (_appEvents == nil) {
         _appEvents = [[CR_AppEvents alloc] initWithApiHandler:self.apiHandler
                                                        config:self.config
-                                                         gdpr:self.gdprUserConsent
+                                                      consent:self.consent
                                                    deviceInfo:self.deviceInfo];
     }
     return _appEvents;
@@ -106,7 +106,7 @@
                                                                    config:self.config
                                                             configManager:self.configManager
                                                                deviceInfo:self.deviceInfo
-                                                          gdprUserConsent:self.gdprUserConsent
+                                                                  consent:self.consent
                                                            networkManager:self.networkManager
                                                                 appEvents:self.appEvents
                                                            timeToNextCall:self.timeToNextCall];

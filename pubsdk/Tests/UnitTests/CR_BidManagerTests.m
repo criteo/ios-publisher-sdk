@@ -63,10 +63,10 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     OCMStub([mockConfig killSwitch]).andReturn(NO);
 
-    CR_DataProtectionConsent *mockUserConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
-    OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
-    OCMStub([mockUserConsent consentGiven]).andReturn(YES);
-    OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
+    CR_DataProtectionConsent *mockConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
+    OCMStub([mockConsent gdprApplies]).andReturn(YES);
+    OCMStub([mockConsent consentGiven]).andReturn(YES);
+    OCMStub([mockConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
 
     CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
     OCMStub([mockDeviceInfo waitForUserAgent:[OCMArg invokeBlock]]);
@@ -82,7 +82,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                    config:mockConfig
                                                             configManager:nil
                                                                deviceInfo:mockDeviceInfo
-                                                          gdprUserConsent:mockUserConsent
+                                                                  consent:mockConsent
                                                            networkManager:nil
                                                                 appEvents:nil
                                                            timeToNextCall:0];
@@ -94,8 +94,8 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     XCTAssertEqualObjects(testBid_2, bids[testAdUnit_2]);
     XCTAssertTrue([bids[unInitializedSlot] isEmpty]);
     // Only call [CR_ApiHandler callCdb] for registered Ad Units
-    OCMVerify([mockApiHandler callCdb:@[testAdUnit] gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
-    OCMVerify([mockApiHandler callCdb:@[testAdUnit_2] gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMVerify([mockApiHandler callCdb:@[testAdUnit] consent:mockConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMVerify([mockApiHandler callCdb:@[testAdUnit_2] consent:mockConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
 }
 
 - (void) testGetBidForSlotThatHasntBeenFetchedFromCdb {
@@ -118,7 +118,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                    config:nil
                                                             configManager:nil
                                                                deviceInfo:nil
-                                                          gdprUserConsent:mockUserConsent
+                                                                  consent:mockUserConsent
                                                            networkManager:nil
                                                                 appEvents:nil
                                                            timeToNextCall:0];
@@ -139,10 +139,10 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     OCMStub([mockConfig killSwitch]).andReturn(NO);
 
-    CR_DataProtectionConsent *mockUserConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
-    OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
-    OCMStub([mockUserConsent consentGiven]).andReturn(YES);
-    OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
+    CR_DataProtectionConsent *mockConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
+    OCMStub([mockConsent gdprApplies]).andReturn(YES);
+    OCMStub([mockConsent consentGiven]).andReturn(YES);
+    OCMStub([mockConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
 
     CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
     OCMStub([mockDeviceInfo waitForUserAgent:[OCMArg invokeBlock]]);
@@ -155,15 +155,15 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                              config:mockConfig
                                                                       configManager:nil
                                                                          deviceInfo:mockDeviceInfo
-                                                                    gdprUserConsent:mockUserConsent
+                                                                            consent:mockConsent
                                                                      networkManager:nil
                                                                           appEvents:nil
                                                                      timeToNextCall:-2];
 
     //make sure CDB call was invoked
-    OCMStub([mockApiHandler callCdb:@[unInitializedSlot] gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMStub([mockApiHandler callCdb:@[unInitializedSlot] consent:mockConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
     [bidManagerNotElapsed getBid:unInitializedSlot];
-    OCMVerify([mockApiHandler callCdb:@[unInitializedSlot] gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMVerify([mockApiHandler callCdb:@[unInitializedSlot] consent:mockConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
 }
 
 - (void)  testGetBidIfInitialPrefetchFromCdbFailsAndTimeNotElapsed {
@@ -193,13 +193,13 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                    config:mockConfig
                                                             configManager:nil
                                                                deviceInfo:mockDeviceInfo
-                                                          gdprUserConsent:mockUserConsent
+                                                                  consent:mockUserConsent
                                                            networkManager:nil
                                                                 appEvents:nil
                                                            timeToNextCall:INFINITY];
 
     //make sure CDB call was not invoked
-    OCMReject([mockApiHandler callCdb:@[unInitializedSlot] gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMReject([mockApiHandler callCdb:@[unInitializedSlot] consent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
     [bidManager getBid:unInitializedSlot];
 }
 
@@ -209,7 +209,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                    config:nil
                                                             configManager:nil
                                                                deviceInfo:nil
-                                                          gdprUserConsent:nil
+                                                                  consent:nil
                                                            networkManager:nil
                                                                 appEvents:nil
                                                            timeToNextCall:0];
@@ -256,7 +256,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                    config:config
                                                             configManager:nil
                                                                deviceInfo:nil
-                                                          gdprUserConsent:nil
+                                                                  consent:nil
                                                            networkManager:nil
                                                                 appEvents:nil
                                                            timeToNextCall:0];
@@ -282,7 +282,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                    config:config
                                                             configManager:nil
                                                                deviceInfo:nil
-                                                          gdprUserConsent:nil
+                                                                  consent:nil
                                                            networkManager:nil
                                                                 appEvents:nil
                                                            timeToNextCall:0];
@@ -320,7 +320,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                    config:config
                                                             configManager:nil
                                                                deviceInfo:nil
-                                                          gdprUserConsent:nil
+                                                                  consent:nil
                                                            networkManager:nil
                                                                 appEvents:nil
                                                            timeToNextCall:0];
@@ -345,7 +345,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                    config:config
                                                             configManager:nil
                                                                deviceInfo:nil
-                                                          gdprUserConsent:nil
+                                                                  consent:nil
                                                            networkManager:nil
                                                                 appEvents:nil
                                                            timeToNextCall:0];
@@ -405,7 +405,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                    config:config
                                                             configManager:nil
                                                                deviceInfo:nil
-                                                          gdprUserConsent:nil
+                                                                  consent:nil
                                                            networkManager:nil
                                                                 appEvents:nil
                                                            timeToNextCall:0];
@@ -437,7 +437,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                    config:config
                                                             configManager:nil
                                                                deviceInfo:nil
-                                                          gdprUserConsent:nil
+                                                                  consent:nil
                                                            networkManager:nil
                                                                 appEvents:nil
                                                            timeToNextCall:0];
@@ -476,7 +476,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                    config:config
                                                             configManager:nil
                                                                deviceInfo:nil
-                                                          gdprUserConsent:nil
+                                                                  consent:nil
                                                            networkManager:nil
                                                                 appEvents:nil
                                                            timeToNextCall:0];
@@ -513,7 +513,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                       config:config
                                                                configManager:nil
                                                                   deviceInfo:nil
-                                                             gdprUserConsent:nil
+                                                                    consent:nil
                                                               networkManager:nil
                                                                    appEvents:nil
                                                               timeToNextCall:0];
@@ -546,7 +546,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                    config:config
                                                             configManager:nil
                                                                deviceInfo:nil
-                                                          gdprUserConsent:nil
+                                                                  consent:nil
                                                            networkManager:nil
                                                                 appEvents:nil
                                                            timeToNextCall:0];
@@ -585,9 +585,9 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
     id mockApiHandler = OCMClassMock([CR_ApiHandler class]);
     // NO calls should be made to [CR_ApiHandler callCdb]
-    OCMReject([mockApiHandler callCdb:@[testAdUnit] gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
-    OCMReject([mockApiHandler callCdb:@[testAdUnit_2] gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
-    OCMReject([mockApiHandler callCdb:@[unInitializedSlot] gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMReject([mockApiHandler callCdb:@[testAdUnit] consent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMReject([mockApiHandler callCdb:@[testAdUnit_2] consent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMReject([mockApiHandler callCdb:@[unInitializedSlot] consent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
 
     CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:mockApiHandler
                                                              cacheManager:cache
@@ -595,7 +595,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                    config:mockConfig
                                                             configManager:nil
                                                                deviceInfo:nil
-                                                          gdprUserConsent:mockUserConsent
+                                                                  consent:mockUserConsent
                                                            networkManager:nil
                                                                 appEvents:nil
                                                            timeToNextCall:[[NSDate dateWithTimeIntervalSinceNow:360] timeIntervalSinceReferenceDate]];
@@ -629,7 +629,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     OCMStub([mockDeviceInfo waitForUserAgent:[OCMArg invokeBlock]]);
 
     id mockApiHandler = OCMClassMock([CR_ApiHandler class]);
-    OCMReject([mockApiHandler callCdb:@[testAdUnit] gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMReject([mockApiHandler callCdb:@[testAdUnit] consent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
 
     CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:mockApiHandler
                                                              cacheManager:cache
@@ -637,7 +637,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                    config:mockConfig
                                                             configManager:nil
                                                                deviceInfo:mockDeviceInfo
-                                                          gdprUserConsent:mockUserConsent
+                                                                  consent:mockUserConsent
                                                            networkManager:nil
                                                                 appEvents:nil
                                                            timeToNextCall:0];
@@ -676,7 +676,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                    config:mockConfig
                                                             configManager:nil
                                                                deviceInfo:mockDeviceInfo
-                                                          gdprUserConsent:mockUserConsent
+                                                                  consent:mockUserConsent
                                                            networkManager:nil
                                                                 appEvents:nil
                                                            timeToNextCall:0];
@@ -686,7 +686,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     XCTAssertTrue([bids[testAdUnit] isEmpty]);
 
     // Only call [CR_ApiHandler callCdb] for registered Ad Units
-    OCMVerify([mockApiHandler callCdb:@[testAdUnit] gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMVerify([mockApiHandler callCdb:@[testAdUnit] consent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
 }
 
 - (void)testBidResponseForEmptyBid {
@@ -698,7 +698,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                    config:nil
                                                             configManager:nil
                                                                deviceInfo:nil
-                                                          gdprUserConsent:nil
+                                                                  consent:nil
                                                            networkManager:nil
                                                                 appEvents:nil
                                                            timeToNextCall:0];
@@ -727,7 +727,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                    config:nil
                                                             configManager:nil
                                                                deviceInfo:nil
-                                                          gdprUserConsent:nil
+                                                                  consent:nil
                                                            networkManager:nil
                                                                 appEvents:nil
                                                            timeToNextCall:0];
@@ -791,7 +791,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                    config:mockConfig
                                                             configManager:nil
                                                                deviceInfo:mockDeviceInfo
-                                                          gdprUserConsent:mockUserConsent
+                                                                  consent:mockUserConsent
                                                            networkManager:nil
                                                                 appEvents:nil
                                                            timeToNextCall:0];
@@ -801,7 +801,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     XCTAssertTrue([bids[testAdUnit] isEmpty]);
 
     // Only call [CR_ApiHandler callCdb] for registered Ad Units
-    OCMVerify([mockApiHandler callCdb:@[testAdUnit] gdprConsent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    OCMVerify([mockApiHandler callCdb:@[testAdUnit] consent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
 }
 
 - (void)testGetBidWhenBidExpired {
@@ -833,7 +833,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                    config:mockConfig
                                                             configManager:nil
                                                                deviceInfo:nil
-                                                          gdprUserConsent:nil
+                                                                  consent:nil
                                                            networkManager:nil
                                                                 appEvents:nil
                                                            timeToNextCall:0];
@@ -853,7 +853,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                    config:nil
                                                             configManager:nil
                                                                deviceInfo:nil
-                                                          gdprUserConsent:nil
+                                                                  consent:nil
                                                            networkManager:nil
                                                                 appEvents:nil
                                                            timeToNextCall:0];
@@ -901,7 +901,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                    config:[[CR_Config alloc] initWithCriteoPublisherId:@("1234")]
                                                             configManager:nil
                                                                deviceInfo:nil
-                                                          gdprUserConsent:nil
+                                                                  consent:nil
                                                            networkManager:nil
                                                                 appEvents:nil
                                                            timeToNextCall:0];
@@ -942,7 +942,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                    config:[[CR_Config alloc] initWithCriteoPublisherId:@("1234")]
                                                             configManager:nil
                                                                deviceInfo:nil
-                                                          gdprUserConsent:nil
+                                                                  consent:nil
                                                            networkManager:nil
                                                                 appEvents:nil
                                                            timeToNextCall:0];

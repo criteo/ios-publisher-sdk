@@ -33,11 +33,11 @@ typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receiv
  * Calls CDB and get the bid & creative for the adUnit
  * adUnit must have an Id, width and length
  */
-- (void) callCdb:(CR_CacheAdUnitArray *)adUnits
-     gdprConsent:(CR_DataProtectionConsent *)gdprConsent
-          config:(CR_Config *)config
-      deviceInfo:(CR_DeviceInfo *)deviceInfo
-ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler;
+- (void)        callCdb:(CR_CacheAdUnitArray *)adUnits
+                consent:(CR_DataProtectionConsent *)consent
+                 config:(CR_Config *)config
+             deviceInfo:(CR_DeviceInfo *)deviceInfo
+   ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler;
 
 /*
  * Calls the pub-sdk config endpoint and gets the config values for the publisher
@@ -50,7 +50,7 @@ ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler;
  * Calls the app event endpoint and gets the throttleSec value for the user
  */
 - (void) sendAppEvent: (NSString *)event
-          gdprConsent:(CR_DataProtectionConsent *)gdprConsent
+              consent:(CR_DataProtectionConsent *)consent
                config:(CR_Config *) config
            deviceInfo:(CR_DeviceInfo *) deviceInfo
        ahEventHandler:(AHAppEventsResponse) ahEventHandler;
@@ -59,9 +59,9 @@ ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler;
  * Exposed for testing only
  */
 - (CR_CacheAdUnitArray *)filterRequestAdUnitsAndSetProgressFlags:(CR_CacheAdUnitArray *)adUnits;
-- (NSMutableDictionary *)postBodyWithGdprConsent:(CR_DataProtectionConsent *)gdprConsent
-                                          config:(CR_Config *)config
-                                      deviceInfo:(CR_DeviceInfo *)deviceInfo;
+- (NSMutableDictionary *)postBodyWithConsent:(CR_DataProtectionConsent *)consent
+                                      config:(CR_Config *)config
+                                  deviceInfo:(CR_DeviceInfo *)deviceInfo;
 - (NSArray *)slotsForRequest:(CR_CacheAdUnitArray *)adUnits;
 
 @end

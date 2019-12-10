@@ -20,7 +20,7 @@
     CR_Config          *config;
     CR_ConfigManager   *configManager;
     CR_DeviceInfo      *deviceInfo;
-    CR_DataProtectionConsent *gdprUserConsent;
+    CR_DataProtectionConsent *consent;
     CR_NetworkManager  *networkManager;
     CR_AppEvents       *appEvents;
     NSTimeInterval     cdbTimeToNextCall;
@@ -66,7 +66,7 @@ static NSString * const crtnPixUrl = @"crtn_pixurl_";
                              config:nil
                       configManager:nil
                          deviceInfo:nil
-                    gdprUserConsent:nil
+                            consent:nil
                      networkManager:nil
                           appEvents:nil
                      timeToNextCall:0];
@@ -78,7 +78,7 @@ static NSString * const crtnPixUrl = @"crtn_pixurl_";
                              config:(CR_Config*)config
                       configManager:(CR_ConfigManager*)configManager
                          deviceInfo:(CR_DeviceInfo*)deviceInfo
-                    gdprUserConsent:(CR_DataProtectionConsent*)gdprUserConsent
+                            consent:(CR_DataProtectionConsent*)consent
                      networkManager:(CR_NetworkManager*)networkManager
                           appEvents:(CR_AppEvents *)appEvents
                      timeToNextCall:(NSTimeInterval)timeToNextCall
@@ -90,7 +90,7 @@ static NSString * const crtnPixUrl = @"crtn_pixurl_";
         self->config          = config;
         self->configManager   = configManager;
         self->deviceInfo      = deviceInfo;
-        self->gdprUserConsent = gdprUserConsent;
+        self->consent = consent;
         self->networkManager  = networkManager;
         self->appEvents       = appEvents;
         [self refreshConfig];
@@ -173,7 +173,7 @@ static NSString * const crtnPixUrl = @"crtn_pixurl_";
 
     [deviceInfo waitForUserAgent:^{
         [self->apiHandler callCdb:adUnits
-                      gdprConsent:self->gdprUserConsent
+                          consent:self->consent
                            config:self->config
                        deviceInfo:self->deviceInfo
              ahCdbResponseHandler:^(CR_CdbResponse *cdbResponse) {

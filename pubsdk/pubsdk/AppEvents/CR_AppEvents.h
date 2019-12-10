@@ -23,10 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic) BOOL throttleExpired;
 
 - (instancetype) init NS_UNAVAILABLE;
-- (instancetype) initWithApiHandler: (CR_ApiHandler *) apiHandler
-                             config: (CR_Config *) config
-                               gdpr: (CR_DataProtectionConsent *) gdpr
-                         deviceInfo: (CR_DeviceInfo *) deviceInfo;
+- (instancetype)initWithApiHandler:(CR_ApiHandler *)apiHandler
+                             config:(CR_Config *)config
+                            consent:(CR_DataProtectionConsent *)consent
+                         deviceInfo:(CR_DeviceInfo *)deviceInfo;
 - (void) sendLaunchEvent;
 - (void) sendActiveEvent:(NSNotification *) notification;
 - (void) sendInactiveEvent:(NSNotification *) notification;

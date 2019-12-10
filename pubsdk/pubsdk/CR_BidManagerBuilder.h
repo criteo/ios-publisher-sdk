@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) CR_Config *config;
 @property (nonatomic, strong) CR_ConfigManager *configManager;
 @property (nonatomic, strong) CR_DeviceInfo *deviceInfo;
-@property (nonatomic, strong) CR_DataProtectionConsent *gdprUserConsent;
+@property (nonatomic, strong) CR_DataProtectionConsent *consent;
 @property (nonatomic, strong) CR_AppEvents *appEvents;
 @property (nonatomic, assign) NSTimeInterval timeToNextCall;
 

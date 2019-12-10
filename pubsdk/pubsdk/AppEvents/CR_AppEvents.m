@@ -13,19 +13,19 @@
 @implementation CR_AppEvents
 {
     CR_ApiHandler *apiHandler;
-    CR_DataProtectionConsent *gdpr;
+    CR_DataProtectionConsent *consent;
     CR_Config *config;
     CR_DeviceInfo *deviceInfo;
 }
 
 - (instancetype) initWithApiHandler:(CR_ApiHandler *)apiHandler
                              config:(CR_Config *)config
-                               gdpr:(CR_DataProtectionConsent *)gdpr
+                            consent:(CR_DataProtectionConsent *)consent
                          deviceInfo:(CR_DeviceInfo *)deviceInfo {
     if (self = [super init]) {
         self->apiHandler = apiHandler;
         self->config = config;
-        self->gdpr = gdpr;
+        self->consent = consent;
         self->deviceInfo = deviceInfo;
         _throttleSec = 0;
         _latestEventSent = [NSDate date];
@@ -80,7 +80,7 @@
 - (void) sendEvent:(NSString *) event {
     if([self throttleExpired]) {
         [apiHandler sendAppEvent:event
-                     gdprConsent:gdpr
+                         consent:consent
                           config:config
                       deviceInfo:deviceInfo
                   ahEventHandler:^(NSDictionary *appEventValues, NSDate *receivedAt) {
