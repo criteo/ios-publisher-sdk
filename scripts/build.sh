@@ -58,6 +58,8 @@ else
     echo "${SIMULATOR_DEVICE_AVAILABLE}"
 fi
 
+pod install
+
 CRITEO_CONFIGURATION="Release"
 printf "Launching $CRITEO_CONFIGURATION build\nARCHS: $CRITEO_ARCHS\nSIM ARCHS: $CRITEO_SIM_ARCHS\n"
 
