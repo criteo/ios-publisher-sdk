@@ -17,63 +17,36 @@
 #import "CR_DataProtectionConsent.h"
 #import "Logging.h"
 #import "CR_NetworkManager.h"
+#import "CR_DataProtectionConsentMock.h"
+#import "CR_NetworkManagerMock.h"
 
 @interface CR_ApiHandlerTests : XCTestCase
+
+@property (nonatomic, strong) CR_ApiHandler *apiHandler;
+@property (nonatomic, strong) CR_NetworkManagerMock *networkManagerMock;
+@property (nonatomic, strong) CR_DataProtectionConsentMock *consentMock;
 
 @end
 
 @implementation CR_ApiHandlerTests
 
+- (void)setUp
+{
+    self.consentMock = [[CR_DataProtectionConsentMock alloc] init];
+    self.networkManagerMock = [[CR_NetworkManagerMock alloc] initWithDeviceInfo:[self _buildDeviceInfoMock]];
+    self.apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:self.networkManagerMock
+                                                    bidFetchTracker:[CR_BidFetchTracker new]];
+}
+
 - (void) testCallCdb {
+    CR_CdbBid * testBid_1 = [self _buildBid];
     XCTestExpectation *expectation = [self expectationWithDescription:@"CDB call expectation"];
 
-    CR_NetworkManager *mockNetworkManager = OCMStrictClassMock([CR_NetworkManager class]);
-
-    // Json response from CDB
-    NSString *rawJsonCdbResponse = @"{\"slots\":[{\"placementId\": \"adunitid_1\",\"cpm\":\"1.12\",\"currency\":\"EUR\",\"width\": 300,\"height\": 250, \"ttl\": 600, \"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"}]}";
-
-    NSData *responseData = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
-    // OCM substitues "[NSNull null]" to nil at runtime
-    id error = [NSNull null];
-
-    OCMStub([mockNetworkManager postToUrl:[OCMArg isKindOfClass:[NSURL class]]
-                                 postBody:[OCMArg isKindOfClass:[NSDictionary class]]
-                          responseHandler:([OCMArg invokeBlockWithArgs:responseData, error, nil])]);
-    CR_CacheAdUnit *testAdUnit_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid_1" width:300 height:250];
-
-    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager bidFetchTracker:[CR_BidFetchTracker new]];
-
-    CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid_1" cpm:@"1.12"
-                                                    currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil
-                                                  displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
-                                                  insertTime:[NSDate date]
-                                                nativeAssets:nil];
-
-    CR_DataProtectionConsent *mockUserConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
-    OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
-    OCMStub([mockUserConsent consentGiven]).andReturn(YES);
-    OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
-
-    CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
-    OCMStub([mockConfig criteoPublisherId]).andReturn(@("1"));
-    OCMStub([mockConfig sdkVersion]).andReturn(@"1.0");
-    OCMStub([mockConfig profileId]).andReturn(@(235));
-    OCMStub([mockConfig cdbUrl]).andReturn(@"https://dummyCdb.com");
-    OCMStub([mockConfig path]).andReturn(@"inApp");
-    OCMStub([mockConfig appId]).andReturn(@"com.criteo.pubsdk");
-    OCMStub([mockConfig deviceModel]).andReturn(@"iPhone");
-    OCMStub([mockConfig osVersion]).andReturn(@"12.1");
-    OCMStub([mockConfig deviceOs]).andReturn(@"ios");
-
-    CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
-    OCMStub([mockDeviceInfo deviceId]).andReturn(@"A0AA0A0A-000A-0A00-AAA0-0A00000A0A0A");
-    OCMStub([mockDeviceInfo userAgent]).andReturn(@"Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16B91");
-
-    [apiHandler callCdb:@[testAdUnit_1]
-                consent:mockUserConsent
-                 config:mockConfig
-             deviceInfo:mockDeviceInfo
-   ahCdbResponseHandler:^(CR_CdbResponse *cdbResponse) {
+    [self.apiHandler callCdb:@[[self _buildCacheAdUnit]]
+                     consent:self.consentMock
+                      config:[self _buildConfigMock]
+                  deviceInfo:[self _buildDeviceInfoMock]
+        ahCdbResponseHandler:^(CR_CdbResponse *cdbResponse) {
 
        XCTAssertNotNil(cdbResponse.cdbBids);
        CLog(@"Data length is %ld", [cdbResponse.cdbBids count]);
@@ -87,19 +60,6 @@
        [expectation fulfill];
    }];
 
-    /*
-     [mockNetworkManager postToUrl:[NSURL URLWithString:@"http://example.com"]
-     queryParams:[NSDictionary dictionary]
-     postBody:[NSDictionary dictionary]
-     responseHandler:^(NSData *data, NSError *error) {
-     CLog(@"Block ran!");
-     NSArray *cdbBids = [CR_CdbBid getCdbResponsesFromData:data];
-     CLog(@"Data length is %ld", [cdbBids count]);
-     [expectation fulfill];
-     }];
-
-     CLog(@"%d", [mockNetworkManager isEqual:[NSNull null]]);
-     */
     [self waitForExpectations:@[expectation] timeout:100];
 }
 
@@ -135,28 +95,10 @@
                                                   insertTime:[NSDate date]
                                                 nativeAssets:nil];
 
-    CR_DataProtectionConsent *mockUserConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
-    OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
-    OCMStub([mockUserConsent consentGiven]).andReturn(YES);
-    OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
-
-    CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
-    OCMStub([mockConfig criteoPublisherId]).andReturn(@("1"));
-    OCMStub([mockConfig sdkVersion]).andReturn(@"1.0");
-    OCMStub([mockConfig profileId]).andReturn(@(235));
-    OCMStub([mockConfig cdbUrl]).andReturn(@"https://dummyCdb.com");
-    OCMStub([mockConfig path]).andReturn(@"inApp");
-    OCMStub([mockConfig appId]).andReturn(@"com.criteo.pubsdk");
-    OCMStub([mockConfig deviceModel]).andReturn(@"iPhone");
-    OCMStub([mockConfig osVersion]).andReturn(@"12.1");
-    OCMStub([mockConfig deviceOs]).andReturn(@"ios");
-
-    CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
-    OCMStub([mockDeviceInfo deviceId]).andReturn(@"A0AA0A0A-000A-0A00-AAA0-0A00000A0A0A");
-    OCMStub([mockDeviceInfo userAgent]).andReturn(@"Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16B91");
-
+    CR_Config *mockConfig = [self _buildConfigMock];
+    CR_DeviceInfo *mockDeviceInfo = [self _buildDeviceInfoMock];
     [apiHandler callCdb:@[testAdUnit_1, testAdUnit_2]
-                consent:mockUserConsent
+                consent:self.consentMock
                  config:mockConfig
              deviceInfo:mockDeviceInfo
    ahCdbResponseHandler:^(CR_CdbResponse *cdbResponse) {
@@ -181,20 +123,6 @@
 
        [expectation fulfill];
    }];
-
-    /*
-     [mockNetworkManager postToUrl:[NSURL URLWithString:@"http://example.com"]
-     queryParams:[NSDictionary dictionary]
-     postBody:[NSDictionary dictionary]
-     responseHandler:^(NSData *data, NSError *error) {
-     CLog(@"Block ran!");
-     NSArray *cdbBids = [CR_CdbBid getCdbResponsesFromData:data];
-     CLog(@"Data length is %ld", [cdbBids count]);
-     [expectation fulfill];
-     }];
-
-     CLog(@"%d", [mockNetworkManager isEqual:[NSNull null]]);
-     */
     [self waitForExpectations:@[expectation] timeout:100];
 }
 
@@ -364,31 +292,14 @@
 }
 
 - (void)testPostBodyWithGdprConsent {
-    CR_DataProtectionConsent *mockUserConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
-    OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
-    OCMStub([mockUserConsent consentGiven]).andReturn(YES);
-    OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
-
-    CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
-    OCMStub([mockConfig criteoPublisherId]).andReturn(@("1"));
-    OCMStub([mockConfig sdkVersion]).andReturn(@"1.0");
-    OCMStub([mockConfig profileId]).andReturn(@(235));
-    OCMStub([mockConfig cdbUrl]).andReturn(@"https://dummyCdb.com");
-    OCMStub([mockConfig path]).andReturn(@"inApp");
-    OCMStub([mockConfig appId]).andReturn(@"com.criteo.pubsdk");
-    OCMStub([mockConfig deviceModel]).andReturn(@"iPhone");
-    OCMStub([mockConfig osVersion]).andReturn(@"12.1");
-    OCMStub([mockConfig deviceOs]).andReturn(@"ios");
-
-    CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
-    OCMStub([mockDeviceInfo deviceId]).andReturn(@"A0AA0A0A-000A-0A00-AAA0-0A00000A0A0A");
-    OCMStub([mockDeviceInfo userAgent]).andReturn(@"Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16B91");
+    CR_Config *mockConfig = [self _buildConfigMock];
+    CR_DeviceInfo *mockDeviceInfo = [self _buildDeviceInfoMock];
 
     // Make a CR_ApiHandler
     CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:nil bidFetchTracker:nil];
 
     // With consent
-    NSMutableDictionary *postBody = [apiHandler postBodyWithConsent:mockUserConsent
+    NSMutableDictionary *postBody = [apiHandler postBodyWithConsent:self.consentMock
                                                              config:mockConfig
                                                          deviceInfo:mockDeviceInfo];
 
@@ -404,9 +315,9 @@
     XCTAssertTrue([postBody[@"publisher"][@"bundleId"] isEqualToString:mockConfig.appId]);
     XCTAssertTrue([postBody[@"publisher"][@"cpId"]     isEqualToString:mockConfig.criteoPublisherId]);
 
-    XCTAssertTrue([postBody[@"gdprConsent"][@"consentData"] isEqualToString:mockUserConsent.consentString]);
-    XCTAssertEqual([postBody[@"gdprConsent"][@"gdprApplies"] boolValue], mockUserConsent.gdprApplies);
-    XCTAssertEqual([postBody[@"gdprConsent"][@"consentGiven"] boolValue], mockUserConsent.consentGiven);
+    XCTAssertTrue([postBody[@"gdprConsent"][@"consentData"] isEqualToString:self.consentMock.consentString]);
+    XCTAssertEqual([postBody[@"gdprConsent"][@"gdprApplies"] boolValue], self.consentMock.gdprApplies);
+    XCTAssertEqual([postBody[@"gdprConsent"][@"consentGiven"] boolValue], self.consentMock.consentGiven);
 
     // Nil consent
     postBody = [apiHandler postBodyWithConsent:nil
@@ -427,13 +338,9 @@
 
     XCTAssertNil(postBody[@"gdprConsent"]);
 
-    // Nil consent string
-    CR_DataProtectionConsent *mockUserConsent2 = OCMStrictClassMock([CR_DataProtectionConsent class]);
-    OCMStub([mockUserConsent2 gdprApplies]).andReturn(YES);
-    OCMStub([mockUserConsent2 consentGiven]).andReturn(YES);
-    OCMStub([mockUserConsent2 consentString]).andReturn(nil);
+    self.consentMock.consentString_mock = nil;
 
-    postBody = [apiHandler postBodyWithConsent:mockUserConsent2
+    postBody = [apiHandler postBodyWithConsent:self.consentMock
                                         config:mockConfig
                                     deviceInfo:mockDeviceInfo];
 
@@ -485,6 +392,49 @@
     XCTAssertTrue([nonNativeSlots[0][@"placementId"] isEqualToString:nonNativeAdUnit.adUnitId]);
     XCTAssertTrue([nonNativeSlots[0][@"sizes"] isEqual:@[nonNativeAdUnit.cdbSize]]);
     XCTAssertNil(nonNativeSlots[0][@"isNative"]);
+}
+
+#pragma mark - Private methods
+
+- (CR_Config *)_buildConfigMock
+{
+    CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
+    OCMStub([mockConfig criteoPublisherId]).andReturn(@("1"));
+    OCMStub([mockConfig sdkVersion]).andReturn(@"1.0");
+    OCMStub([mockConfig profileId]).andReturn(@(235));
+    OCMStub([mockConfig cdbUrl]).andReturn(@"https://dummyCdb.com");
+    OCMStub([mockConfig path]).andReturn(@"inApp");
+    OCMStub([mockConfig appId]).andReturn(@"com.criteo.pubsdk");
+    OCMStub([mockConfig deviceModel]).andReturn(@"iPhone");
+    OCMStub([mockConfig osVersion]).andReturn(@"12.1");
+    OCMStub([mockConfig deviceOs]).andReturn(@"ios");
+    return mockConfig;
+}
+
+- (CR_DeviceInfo *)_buildDeviceInfoMock
+{
+    CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
+    OCMStub([mockDeviceInfo deviceId]).andReturn(@"A0AA0A0A-000A-0A00-AAA0-0A00000A0A0A");
+    OCMStub([mockDeviceInfo userAgent]).andReturn(@"Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16B91");
+    return mockDeviceInfo;
+}
+
+- (CR_CdbBid *)_buildBid
+{
+    CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid_1" cpm:@"1.12"
+                                                    currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil
+                                                  displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
+                                                  insertTime:[NSDate date]
+                                                nativeAssets:nil];
+    return testBid_1;
+}
+
+- (CR_CacheAdUnit *)_buildCacheAdUnit
+{
+    CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid_1"
+                                                                width:300
+                                                               height:250];
+    return adUnit;
 }
 
 @end
