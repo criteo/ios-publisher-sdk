@@ -59,7 +59,7 @@
     XCTAssertEqualObjects(bid.displayUrl, decodedUrl);
 }
 
-- (void)test_loadingDfpBanner_GivenValidBanner_DfpViewContainsCreative {
+- (void)test_givenValidBanner_whenLoadingDfpBanner_thenDfpViewContainsCreative {
     CRBannerAdUnit *bannerAdUnit = [CR_TestAdUnits preprodBanner320x50];
     [self initCriteoWithAdUnits:@[bannerAdUnit]];
     DFPRequest *bannerDfpRequest = [[DFPRequest alloc] init];
