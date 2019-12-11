@@ -78,14 +78,6 @@
 
 #pragma mark - Private methods
 
-- (NSString *)getDecodedDisplayUrlFromDfpRequestCustomTargeting:(NSDictionary *)customTargeting {
-    NSString *encodedUrl = customTargeting[@"crt_displayurl"];
-    NSString *unescapedUrl = [[encodedUrl stringByRemovingPercentEncoding] stringByRemovingPercentEncoding];
-    NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:unescapedUrl options:0];
-    NSString *decodedUrl = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
-    return decodedUrl;
-}
-
 - (DFPBannerView *)createDfpBannerViewWithChecker:(CR_DfpBannerViewChecker *)dfpBannerViewChecker
                             andWithViewController:(UIViewController *)viewController {
     DFPBannerView *dfpBannerView = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeBanner];

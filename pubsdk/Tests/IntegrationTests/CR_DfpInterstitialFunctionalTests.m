@@ -12,6 +12,9 @@
 #import "CR_IntegrationsTestBase.h"
 #import "CR_TestAdUnits.h"
 #import "CR_AssertDfp.h"
+#import "CR_BidManagerBuilder.h"
+#import "CR_AdUnitHelper.h"
+#import "Criteo+Internal.h"
 @import GoogleMobileAds;
 
 @interface CR_DfpInterstitialFunctionalTests : CR_IntegrationsTestBase
@@ -38,6 +41,19 @@
     [self.criteo setBidsForRequest:interstitialDfpRequest withAdUnit:interstitial];
 
     CR_AssertDfpCustomTargetingContainsCriteoBid(interstitialDfpRequest.customTargeting);
+}
+
+- (void)test_givenDfpRequest_whenSetBid_thenDisplayUrlEncodedProperly {
+    CRInterstitialAdUnit *interstitialAdUnit = [CR_TestAdUnits demoInterstitial];
+    [self initCriteoWithAdUnits:@[interstitialAdUnit]];
+    CR_BidManagerBuilder *builder = [self.criteo bidManagerBuilder];
+    CR_CdbBid *bid = [builder.cacheManager getBidForAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:interstitialAdUnit]];
+    DFPRequest *interstitialDfpRequest = [[DFPRequest alloc] init];
+
+    [self.criteo setBidsForRequest:interstitialDfpRequest withAdUnit:interstitialAdUnit];
+    NSString *decodedUrl = [self getDecodedDisplayUrlFromDfpRequestCustomTargeting:interstitialDfpRequest.customTargeting];
+
+    XCTAssertEqualObjects(bid.displayUrl, decodedUrl);
 }
 
 @end
