@@ -16,4 +16,6 @@
 
 - (void)initCriteoWithAdUnits:(NSArray<CRAdUnit *> *)adUnits;
 
+- (UIViewController *)createRootViewControllerWithSize:(CGSize)size;
+
 @end

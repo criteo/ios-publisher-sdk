@@ -9,14 +9,16 @@
 #import <XCTest/XCTest.h>
 #import "Criteo.h"
 #import "CRBannerAdUnit.h"
-#import "DFPRequestClasses.h"
 #import "CR_IntegrationsTestBase.h"
 #import "CR_TestAdUnits.h"
 #import "CR_AssertDfp.h"
 #import "Criteo+Internal.h"
 #import "CR_BidManagerBuilder.h"
 #import "CR_AdUnitHelper.h"
-#import "NSString+CR_UrlEncoder.h"
+#import "XCTestCase+Criteo.h"
+#import "CR_DfpBannerViewChecker.h"
+#import "CR_DfpAdUnitIds.h"
+@import GoogleMobileAds;
 
 @interface CR_DfpBannerFunctionalTests : CR_IntegrationsTestBase
 
@@ -57,6 +59,23 @@
     XCTAssertEqualObjects(bid.displayUrl, decodedUrl);
 }
 
+- (void)test_loadingDfpBanner_GivenValidBanner_DfpViewContainsCreative {
+    CRBannerAdUnit *bannerAdUnit = [CR_TestAdUnits preprodBanner320x50];
+    [self initCriteoWithAdUnits:@[bannerAdUnit]];
+    DFPRequest *bannerDfpRequest = [[DFPRequest alloc] init];
+    [self.criteo setBidsForRequest:bannerDfpRequest withAdUnit:bannerAdUnit];
+
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Expect that banner is rendered."];
+    CR_DfpBannerViewChecker *dfpBannerViewChecker = [[CR_DfpBannerViewChecker alloc] initWithExpectation:expectation];
+    UIViewController *viewController = [self createRootViewControllerWithSize:CGSizeMake(320, 50)];
+    DFPBannerView *dfpBannerView = [self createDfpBannerViewWithChecker:dfpBannerViewChecker andWithViewController: viewController];
+
+    [dfpBannerView loadRequest:bannerDfpRequest];
+    [viewController.view addSubview:dfpBannerView];
+
+    [self criteo_waitForExpectations:@[expectation]];
+}
+
 #pragma mark - Private methods
 
 - (NSString *)getDecodedDisplayUrlFromDfpRequestCustomTargeting:(NSDictionary *)customTargeting {
@@ -65,6 +84,16 @@
     NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:unescapedUrl options:0];
     NSString *decodedUrl = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
     return decodedUrl;
+}
+
+- (DFPBannerView *)createDfpBannerViewWithChecker:(CR_DfpBannerViewChecker *)dfpBannerViewChecker
+                            andWithViewController:(UIViewController *)viewController {
+    DFPBannerView *dfpBannerView = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+    dfpBannerView.adUnitID = CR_DfpAdUnitIds.dfpBanner50AdUnitId;
+    dfpBannerView.backgroundColor = [UIColor orangeColor];
+    dfpBannerView.delegate = dfpBannerViewChecker;
+    dfpBannerView.rootViewController = viewController;
+    return dfpBannerView;
 }
 
 @end

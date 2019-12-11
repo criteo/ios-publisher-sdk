@@ -9,10 +9,10 @@
 #import <XCTest/XCTest.h>
 #import "Criteo.h"
 #import "CRInterstitialAdUnit.h"
-#import "DFPRequestClasses.h"
 #import "CR_IntegrationsTestBase.h"
 #import "CR_TestAdUnits.h"
 #import "CR_AssertDfp.h"
+@import GoogleMobileAds;
 
 @interface CR_DfpInterstitialFunctionalTests : CR_IntegrationsTestBase
 

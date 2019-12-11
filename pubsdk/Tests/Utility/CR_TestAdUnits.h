@@ -11,6 +11,7 @@
 
 @property (class, nonatomic, readonly) CRBannerAdUnit *demoBanner320x50;
 @property (class, nonatomic, readonly) CRBannerAdUnit *randomBanner320x50;
+@property (class, nonatomic, readonly) CRBannerAdUnit *preprodBanner320x50;
 
 @property (class, nonatomic, readonly) CRInterstitialAdUnit *demoInterstitial;
 @property (class, nonatomic, readonly) CRInterstitialAdUnit *randomInterstitial;

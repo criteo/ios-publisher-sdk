@@ -11,6 +11,7 @@
 FOUNDATION_EXPORT NSString *const CriteoTestingPublisherId;
 FOUNDATION_EXPORT NSString *const DemoBannerAdUnitId;
 FOUNDATION_EXPORT NSString *const DemoInterstitialAdUnitId;
+FOUNDATION_EXPORT NSString *const PreprodBannerAdUnitId;
 
 @interface Criteo (Testing)
 

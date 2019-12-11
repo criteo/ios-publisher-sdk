@@ -12,10 +12,11 @@
 #import "CR_NetworkWaiter.h"
 #import "CR_TestAdUnits.h"
 
-// This publisherId exists in production.
+// This publisherId B-056946 exists in production.
 NSString *const CriteoTestingPublisherId = @"B-000001";
 NSString *const DemoBannerAdUnitId = @"30s6zt3ayypfyemwjvmp";
 NSString *const DemoInterstitialAdUnitId = @"6yws53jyfjgoq1ghnuqb";
+NSString *const PreprodBannerAdUnitId = @"test-PubSdk-Base";
 
 @implementation Criteo (Testing)
 

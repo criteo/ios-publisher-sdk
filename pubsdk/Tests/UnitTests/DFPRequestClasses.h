@@ -11,6 +11,9 @@
 
 #import <Foundation/Foundation.h>
 
+//NOTE: This is OK that there is no explicit implementation for these interfaces.
+//NOTE: The implementation is provided by GoogleMobileAds SDK.
+
 @interface GADRequest : NSObject
 @property (readwrite, copy, nonatomic, nullable) NSDictionary *customTargeting;
 @end

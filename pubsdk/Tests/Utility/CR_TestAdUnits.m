@@ -11,6 +11,7 @@
 
 + (CRBannerAdUnit *) demoBanner320x50 { return [self banner320x50WithId:DemoBannerAdUnitId]; }
 + (CRBannerAdUnit *) randomBanner320x50 { return [self banner320x50WithId:[[NSUUID UUID] UUIDString]]; }
++ (CRBannerAdUnit *) preprodBanner320x50 { return [self banner320x50WithId:PreprodBannerAdUnitId]; }
 
 + (CRInterstitialAdUnit *) demoInterstitial { return [self interstitialWithId:DemoInterstitialAdUnitId]; }
 + (CRInterstitialAdUnit *) randomInterstitial { return [self interstitialWithId:[[NSUUID UUID] UUIDString]]; }
