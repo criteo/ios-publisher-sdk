@@ -7,6 +7,7 @@
 #import "Criteo.h"
 
 @class CR_NetworkCaptor;
+@class CR_HttpContent;
 
 FOUNDATION_EXPORT NSString *const CriteoTestingPublisherId;
 FOUNDATION_EXPORT NSString *const DemoBannerAdUnitId;
@@ -15,7 +16,8 @@ FOUNDATION_EXPORT NSString *const PreprodBannerAdUnitId;
 
 @interface Criteo (Testing)
 
-@property(nonatomic, readonly) CR_NetworkCaptor *testing_networkCaptor;
+@property (nonatomic, readonly) CR_NetworkCaptor *testing_networkCaptor;
+@property (nonatomic, readonly) CR_HttpContent *testing_lastBidHttpContent;
 
 + (Criteo *)testing_criteoWithNetworkCaptor;
 

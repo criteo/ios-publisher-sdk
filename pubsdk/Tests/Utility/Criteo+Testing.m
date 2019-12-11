@@ -25,6 +25,16 @@ NSString *const PreprodBannerAdUnitId = @"test-PubSdk-Base";
     return (CR_NetworkCaptor *) self.bidManagerBuilder.networkManager;
 }
 
+- (CR_HttpContent *)testing_lastBidHttpContent
+{
+    for (CR_HttpContent *content in [self.testing_networkCaptor.history reverseObjectEnumerator]) {
+        if ([content.url.absoluteString containsString:self.config.cdbUrl]) {
+            return content;
+        }
+    }
+    return nil;
+}
+
 + (Criteo *)testing_criteoWithNetworkCaptor {
     CR_BidManagerBuilder *builder = [[CR_BidManagerBuilder alloc] init];
     CR_NetworkCaptor *networkCaptor = [[CR_NetworkCaptor alloc] initWithNetworkManager:builder.networkManager];
