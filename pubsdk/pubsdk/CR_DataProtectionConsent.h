@@ -6,10 +6,9 @@
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#ifndef CR_DataProtectionConsent_h
-#define CR_DataProtectionConsent_h
-
 #import <Foundation/Foundation.h>
+
+NS_ASSUME_NONNULL_BEGIN
 
 FOUNDATION_EXTERN NSString * const CR_DataProtectionConsentUsPrivacyIabConsentStringKey;
 
@@ -29,7 +28,8 @@ FOUNDATION_EXTERN NSString * const CR_DataProtectionConsentUsPrivacyIabConsentSt
 
 #pragma mark CCPA
 
-@property (nonatomic, copy, readonly) NSString *usPrivacyIabConsentString;
+@property (nonatomic, copy, readonly, nullable) NSString *usPrivacyIabConsentString;
 
 @end
-#endif /* CR_DataProtectionConsent_h */
+
+NS_ASSUME_NONNULL_END
