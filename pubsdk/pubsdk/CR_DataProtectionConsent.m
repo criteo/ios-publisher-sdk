@@ -14,14 +14,24 @@
  https://iabtechlab.com/wp-content/uploads/2019/11/U.S.-Privacy-String-v1.0-IAB-Tech-Lab.pdf
  */
 
+/**
+ Specification for the GDPR in IAB:
+ https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/Mobile%20In-App%20Consent%20APIs%20v1.0%20Final.md#structure
+ */
+
 NSString * const CR_DataProtectionConsentUsPrivacyIabConsentStringKey = @"IABUSPrivacy_String";
+NSString * const CR_DataProtectionConsentUsPrivacyCriteoConsentStringKey = @"CriteoUSPrivacy_String";
 
 @implementation CR_DataProtectionConsent;
-/* IAB spec is https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/Mobile%20In-App%20Consent%20APIs%20v1.0%20Final.md#structure
- */
-- (instancetype) init {
+
+- (instancetype)init
+{
+    return [self initWithUserDefaults:[NSUserDefaults standardUserDefaults]];
+}
+
+- (instancetype)initWithUserDefaults:(NSUserDefaults *)userDefaults
+{
     if(self = [super init]) {
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         _gdprApplies = [userDefaults boolForKey:@"IABConsent_SubjectToGDPR"];
         _consentString = [userDefaults stringForKey:@"IABConsent_ConsentString"];
         // set to default

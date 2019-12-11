@@ -10,102 +10,94 @@
 #import <XCTest/XCTest.h>
 
 #import "CR_DataProtectionConsent.h"
+#import "CR_DataProtectionConsentMock.h"
+
+NSString * const CR_DataProtectionConsentTestsApprovedVendorString = @"0000000000000010000000000000000000000100000000000000000000000000000000000000000000000000001";
+NSString * const CR_DataProtectionConsentTestsUnapprovedVendorString = @"0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+NSString * const CR_DataProtectionConsentTestsMalformed80CharsVendorString = @"000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+NSString * const CR_DataProtectionConsentTestsMalformed90CharsVendorString = @"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+
 
 @interface CR_DataProtectionConsentTests : XCTestCase
+
+@property (nonatomic, strong) NSUserDefaults *userDefaults;
+@property (nonatomic, assign) BOOL defaultGdprApplies;
+@property (nonatomic, strong) NSString *defaultConsentString;
 
 @end
 
 @implementation CR_DataProtectionConsentTests
 
-- (void) setUp {
+- (void)setUp
+{
+    self.defaultGdprApplies = YES;
+    self.defaultConsentString = CR_DataProtectionConsentMockDefaultConsentString;
+
+    NSNumber *defaultGdprAppliesNumber = [NSNumber numberWithBool:self.defaultGdprApplies];
+
+    self.userDefaults = [[NSUserDefaults alloc] init];
+    [self.userDefaults setObject:defaultGdprAppliesNumber forKey:@"IABConsent_SubjectToGDPR"];
+    [self.userDefaults setObject:self.defaultConsentString forKey:@"IABConsent_ConsentString"];
 }
 
-- (void) tearDown {
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        [userDefaults setObject:nil forKey:@"IABConsent_SubjectToGDPR"];
-        [userDefaults setObject:nil forKey:@"IABConsent_ConsentString"];
-        [userDefaults setObject:nil forKey:@"IABConsent_ParsedVendorConsents"];
-        [userDefaults setObject:nil forKey:CR_DataProtectionConsentUsPrivacyIabConsentStringKey];
-}
+- (void)testGdprGet
+{
 
-- (void) testGdprGet {
-    NSNumber *gdprApplies = @(1);
-    NSString *consentString = @"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA";
-    //Criteo is at 91
-    NSString *vendorString = @"0000000000000010000000000000000000000100000000000000000000000000000000000000000000000000001";
+    NSString *vendorString = CR_DataProtectionConsentTestsApprovedVendorString;
+    [self.userDefaults setObject:vendorString forKey:@"IABConsent_ParsedVendorConsents"];
 
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:gdprApplies forKey:@"IABConsent_SubjectToGDPR"];
-    [userDefaults setObject:consentString forKey:@"IABConsent_ConsentString"];
-    [userDefaults setObject:vendorString forKey:@"IABConsent_ParsedVendorConsents"];
+    CR_DataProtectionConsent *consent = [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
 
-    CR_DataProtectionConsent *consent = [[CR_DataProtectionConsent alloc] init];
     XCTAssertEqual([consent consentGiven], YES);
-    XCTAssertTrue([consentString isEqualToString:[consent consentString]]);
-    XCTAssertEqual([consent gdprApplies], (BOOL)gdprApplies.integerValue);
+    XCTAssertEqualObjects(self.defaultConsentString, consent.consentString);
+    XCTAssertEqual([consent gdprApplies], self.defaultGdprApplies);
 }
 
-- (void) testGdprGetCriteoNotApprovedVendor {
-    NSNumber *gdprApplies = @(1);
-    NSString *consentString = @"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA";
-    //Criteo is at 91 but set to 0
-    NSString *vendorString = @"0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+- (void)testGdprGetCriteoNotApprovedVendor
+{
+    NSString *vendorString = CR_DataProtectionConsentTestsUnapprovedVendorString;
+    [self.userDefaults setObject:vendorString forKey:@"IABConsent_ParsedVendorConsents"];
 
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:gdprApplies forKey:@"IABConsent_SubjectToGDPR"];
-    [userDefaults setObject:consentString forKey:@"IABConsent_ConsentString"];
-    [userDefaults setObject:vendorString forKey:@"IABConsent_ParsedVendorConsents"];
+    CR_DataProtectionConsent *consent = [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
 
-    CR_DataProtectionConsent *consent = [[CR_DataProtectionConsent alloc] init];
     XCTAssertEqual([consent consentGiven], NO);
-    XCTAssertTrue([consentString isEqualToString:[consent consentString]]);
-    XCTAssertEqual([consent gdprApplies], (BOOL)gdprApplies.integerValue);
+    XCTAssertEqualObjects(self.defaultConsentString, consent.consentString);
+    XCTAssertEqual([consent gdprApplies], self.defaultGdprApplies);
 }
 
-- (void) testTheTestThatIsnt {
-    NSNumber *gdprApplies = @(1);
-    NSString *consentString = @"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA";
-    //Criteo is at 91 but the vendor string is only 81 long
-    NSString *vendorString = @"000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+- (void)testTheTestThatIsnt
+{
+    NSString *vendorString = CR_DataProtectionConsentTestsMalformed80CharsVendorString;
+    [self.userDefaults setObject:vendorString forKey:@"IABConsent_ParsedVendorConsents"];
 
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:gdprApplies forKey:@"IABConsent_SubjectToGDPR"];
-    [userDefaults setObject:consentString forKey:@"IABConsent_ConsentString"];
-    [userDefaults setObject:vendorString forKey:@"IABConsent_ParsedVendorConsents"];
+    CR_DataProtectionConsent *consent = [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
 
-    CR_DataProtectionConsent *consent = [[CR_DataProtectionConsent alloc] init];
     XCTAssertEqual([consent consentGiven], NO);
-    XCTAssertTrue([consentString isEqualToString:[consent consentString]]);
-    XCTAssertEqual([consent gdprApplies], (BOOL)gdprApplies.integerValue);
+    XCTAssertEqualObjects(self.defaultConsentString, consent.consentString);
+    XCTAssertEqual([consent gdprApplies], self.defaultGdprApplies);
 }
 
-- (void) testTheTestThatIsnt_2 {
-    NSNumber *gdprApplies = @(1);
-    NSString *consentString = @"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA";
-    //Criteo is at 91 but the vendor string is only 90 long
-    NSString *vendorString = @"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+- (void) testTheTestThatIsnt_2
+{
+    NSString *vendorString = CR_DataProtectionConsentTestsMalformed90CharsVendorString;
+    [self.userDefaults setObject:vendorString forKey:@"IABConsent_ParsedVendorConsents"];
 
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:gdprApplies forKey:@"IABConsent_SubjectToGDPR"];
-    [userDefaults setObject:consentString forKey:@"IABConsent_ConsentString"];
-    [userDefaults setObject:vendorString forKey:@"IABConsent_ParsedVendorConsents"];
+    CR_DataProtectionConsent *consent = [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
 
-    CR_DataProtectionConsent *consent = [[CR_DataProtectionConsent alloc] init];
     XCTAssertEqual([consent consentGiven], NO);
-    XCTAssertTrue([consentString isEqualToString:[consent consentString]]);
-    XCTAssertEqual([consent gdprApplies], (BOOL)gdprApplies.integerValue);
+    XCTAssertEqualObjects(self.defaultConsentString, consent.consentString);
+    XCTAssertEqual([consent gdprApplies], self.defaultGdprApplies);
 }
 
 - (void)testGetUsPrivacyIABContent
 {
-    NSString *uspIabString = @"test";
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:uspIabString forKey:CR_DataProtectionConsentUsPrivacyIabConsentStringKey];
-    CR_DataProtectionConsent *consent = [[CR_DataProtectionConsent alloc] init];
+    [self.userDefaults setObject:CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString
+                          forKey:CR_DataProtectionConsentUsPrivacyIabConsentStringKey];
+
+    CR_DataProtectionConsent *consent = [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
 
     NSString *actualUspIab = consent.usPrivacyIabConsentString;
-
-    XCTAssertEqualObjects(actualUspIab, uspIabString);
+    XCTAssertEqualObjects(actualUspIab, CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString);
 }
 
 @end

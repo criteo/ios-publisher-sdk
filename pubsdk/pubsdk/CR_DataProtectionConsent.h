@@ -30,6 +30,9 @@ FOUNDATION_EXTERN NSString * const CR_DataProtectionConsentUsPrivacyIabConsentSt
 
 @property (nonatomic, copy, readonly, nullable) NSString *usPrivacyIabConsentString;
 
+- (instancetype)init;
+- (instancetype)initWithUserDefaults:(NSUserDefaults *)userDefaults NS_DESIGNATED_INITIALIZER;
+
 @end
 
 NS_ASSUME_NONNULL_END
