@@ -22,6 +22,9 @@ typedef void (^AHCdbResponse)(CR_CdbResponse *cdbResponse);
 typedef void (^AHConfigResponse)(NSDictionary *configValues);
 typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receivedAt);
 
+FOUNDATION_EXTERN NSString * const CR_ApiHandlerUspIabStringKey;
+FOUNDATION_EXTERN NSString * const CR_ApiHandlerUserKey;
+
 @interface CR_ApiHandler : NSObject
 @property (strong, nonatomic) CR_NetworkManager *networkManager;
 @property (nonatomic, strong) CR_BidFetchTracker *bidFetchTracker;

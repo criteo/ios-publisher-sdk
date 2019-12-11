@@ -11,6 +11,9 @@
 #import "Logging.h"
 #import "NSArray+Criteo.h"
 
+NSString * const CR_ApiHandlerUspIabStringKey = @"uspIab";
+NSString * const CR_ApiHandlerUserKey = @"user";
+
 // 8 is suggested by Jean Sebastien Faure as a reasonable group size for CDB calls
 static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 
@@ -61,7 +64,10 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
     userDict[@"deviceId"]     = deviceInfo.deviceId;
     userDict[@"userAgent"]    = deviceInfo.userAgent;
     userDict[@"deviceIdType"] = @"IDFA";
-    postBody[@"user"] = userDict;
+    if (consent.usPrivacyIabConsentString.length > 0) {
+        userDict[CR_ApiHandlerUspIabStringKey] = consent.usPrivacyIabConsentString;
+    }
+    postBody[CR_ApiHandlerUserKey] = userDict;
 
     NSMutableDictionary *publisherDict = [NSMutableDictionary new];
     publisherDict[@"bundleId"] = config.appId;

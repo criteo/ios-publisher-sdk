@@ -394,7 +394,50 @@
     XCTAssertNil(nonNativeSlots[0][@"isNative"]);
 }
 
+- (void)testCallCdbWithUspIapContentString
+{
+    self.consentMock.usPrivacyIabConsentString_mock = CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString;
+
+    [self _callCdb];
+
+    NSDictionary *body = self.networkManagerMock.lastPostBody;
+    XCTAssertNotNil(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspIabStringKey]);
+}
+
+- (void)testCallCdbWithUspIapContentStringEmpty
+{
+    self.consentMock.usPrivacyIabConsentString_mock = @"";
+
+    [self _callCdb];
+
+    NSDictionary *body = self.networkManagerMock.lastPostBody;
+    XCTAssertNil(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspIabStringKey]);
+}
+
+- (void)testCallCdbWithUspIapContentStringNil
+{
+    self.consentMock.usPrivacyIabConsentString_mock = nil;
+
+    [self _callCdb];
+
+    NSDictionary *body = self.networkManagerMock.lastPostBody;
+    XCTAssertNil(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspIabStringKey]);
+}
+
 #pragma mark - Private methods
+
+- (void)_callCdb
+{
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] init];
+    [self.apiHandler callCdb:@[[self _buildCacheAdUnit]]
+                     consent:self.consentMock
+                      config:[self _buildConfigMock]
+                  deviceInfo:[self _buildDeviceInfoMock]
+        ahCdbResponseHandler:^(CR_CdbResponse *cdbResponse) {
+        [expectation fulfill];
+    }];
+    [self waitForExpectations:@[expectation] timeout:1.f];
+}
 
 - (CR_Config *)_buildConfigMock
 {
