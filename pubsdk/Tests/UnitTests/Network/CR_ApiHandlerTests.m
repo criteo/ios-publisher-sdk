@@ -39,7 +39,7 @@
 }
 
 - (void) testCallCdb {
-    CR_CdbBid * testBid_1 = [self _buildBid];
+    CR_CdbBid * testBid_1 = [self _buildEuroBid];
     XCTestExpectation *expectation = [self expectationWithDescription:@"CDB call expectation"];
 
     [self.apiHandler callCdb:@[[self _buildCacheAdUnit]]
@@ -83,17 +83,8 @@
 
     CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager bidFetchTracker:[CR_BidFetchTracker new]];
 
-    CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid_1" cpm:@"1.12"
-                                                    currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil
-                                                  displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
-                                                  insertTime:[NSDate date]
-                                                nativeAssets:nil];
-
-    CR_CdbBid *testBid_2 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid_2" cpm:@"1.6"
-                                                    currency:@"USD" width:@(320) height:@(50) ttl:700 creative:nil
-                                                  displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative2.png' width='300' height='250' />"
-                                                  insertTime:[NSDate date]
-                                                nativeAssets:nil];
+    CR_CdbBid *testBid_1 = [self _buildEuroBid];
+    CR_CdbBid * testBid_2 = [self _buildDollarBid];
 
     CR_Config *mockConfig = [self _buildConfigMock];
     CR_DeviceInfo *mockDeviceInfo = [self _buildDeviceInfoMock];
@@ -462,7 +453,7 @@
     return mockDeviceInfo;
 }
 
-- (CR_CdbBid *)_buildBid
+- (CR_CdbBid *)_buildEuroBid
 {
     CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid_1" cpm:@"1.12"
                                                     currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil
@@ -470,6 +461,15 @@
                                                   insertTime:[NSDate date]
                                                 nativeAssets:nil];
     return testBid_1;
+}
+
+- (CR_CdbBid *)_buildDollarBid {
+    CR_CdbBid *testBid_2 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid_2" cpm:@"1.6"
+                                                    currency:@"USD" width:@(320) height:@(50) ttl:700 creative:nil
+                                                  displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative2.png' width='300' height='250' />"
+                                                  insertTime:[NSDate date]
+                                                nativeAssets:nil];
+    return testBid_2;
 }
 
 - (CR_CacheAdUnit *)_buildCacheAdUnit
