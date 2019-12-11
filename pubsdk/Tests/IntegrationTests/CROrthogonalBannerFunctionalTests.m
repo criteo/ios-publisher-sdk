@@ -12,6 +12,7 @@
 #import "CR_NetworkCaptor.h"
 #import "CR_Config.h"
 #import "XCTestCase+Criteo.h"
+#import "CR_TestAdUnits.h"
 
 @interface CROrthogonalBannerFunctionalTests : XCTestCase
 
@@ -19,12 +20,20 @@
 
 @implementation CROrthogonalBannerFunctionalTests
 
-- (void)test_givenCriteoInit_whenRegisterTwice_thenOneCBDCall {
+- (void)test_givenCriteoInitWithBanner_whenRegisterTwice_thenOneCBDCall {
+    [self givenCriteoInit_whenRegisterTwice_thenOneCBDCall_withAdUnits:[CR_TestAdUnits randomBanner320x50]];
+}
+
+- (void)test_givenCriteoInitWithInterstitial_whenRegisterTwice_thenOneCBDCall {
+    [self givenCriteoInit_whenRegisterTwice_thenOneCBDCall_withAdUnits:[CR_TestAdUnits randomInterstitial]];
+}
+
+- (void)givenCriteoInit_whenRegisterTwice_thenOneCBDCall_withAdUnits:(CRAdUnit *)adUnit {
     Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
-    [criteo testing_registerBannerAndWaitForHTTPResponses];
+    [criteo testing_registerAndWaitForHTTPResponseWithAdUnits:@[adUnit]];
     XCTestExpectation *expectation = [self expectationForNotCallingCDBOnCriteo:criteo];
 
-    [criteo testing_registerBanner];
+    [criteo testing_registerWithAdUnits:@[adUnit]];
 
     [self criteo_waitForExpectations:@[expectation]];
 }
