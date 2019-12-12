@@ -10,7 +10,7 @@
 #import "Criteo.h"
 #import "CR_IntegrationsTestBase.h"
 #import "CR_TestAdUnits.h"
-#import "CR_DfpCreativeViewChecker.h"
+#import "CR_AssertDfp.h"
 @import GoogleMobileAds;
 
 @interface CR_DfpNativeFunctionalTests : CR_IntegrationsTestBase
@@ -27,6 +27,17 @@
     [self.criteo setBidsForRequest:dfpRequest withAdUnit:native];
 
     XCTAssertNil(dfpRequest.customTargeting);
+}
+
+
+- (void)test_givenNativeWithGoodAdUnitId_whenSetBids_thenRequestKeywordsUpdated {
+    CRNativeAdUnit *native = [CR_TestAdUnits preprodNative];
+    [self initCriteoWithAdUnits:@[native]];
+    DFPRequest *dfpRequest = [[DFPRequest alloc] init];
+
+    [self.criteo setBidsForRequest:dfpRequest withAdUnit:native];
+
+    CR_AssertDfpNativeCustomTargetingContainsCriteoBid(dfpRequest.customTargeting);
 }
 
 @end

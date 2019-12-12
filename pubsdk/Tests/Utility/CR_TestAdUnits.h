@@ -19,6 +19,8 @@
 @property(class, nonatomic, readonly) CRInterstitialAdUnit *preprodInterstitial;
 
 @property(class, nonatomic, readonly) CRNativeAdUnit *randomNative;
+@property(class, nonatomic, readonly) CRNativeAdUnit *preprodNative;
+
 @property(class, nonatomic, readonly) NSString *dfpBanner50AdUnitId;
 @property(class, nonatomic, readonly) NSString *dfpInterstitialAdUnitId;
 

@@ -359,6 +359,7 @@
 		5E06544E80499975523CBBF1 /* UIWebView+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+Testing.h"; sourceTree = "<group>"; };
 		5E0655500052DF1F93D28212 /* CR_TestAdUnits.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_TestAdUnits.m; sourceTree = "<group>"; };
 		5E0655B4E1D731869B4CD3CF /* CR_DfpCreativeViewChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_DfpCreativeViewChecker.h; sourceTree = "<group>"; };
+		5E0656551EC4DAFCC6DF7D79 /* CR_DfpNativeFunctionalTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_DfpNativeFunctionalTests.m; sourceTree = "<group>"; };
 		5E0656CED6370CB240092ECC /* CR_HttpTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_HttpTests.m; sourceTree = "<group>"; };
 		5E06573035072D184799FC19 /* CR_MopubInterstitialFunctionalTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_MopubInterstitialFunctionalTests.m; sourceTree = "<group>"; };
 		5E06583FE8D47BAEC44830CC /* UIView+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Testing.h"; sourceTree = "<group>"; };
@@ -645,19 +646,20 @@
 		54E0C221238BCE11004F9353 /* IntegrationTests */ = {
 			isa = PBXGroup;
 			children = (
-				7DB4E90F2395374F008DE5E3 /* CRInterstitialTests.m */,
-				543F6FA12283B5F500A5DBE2 /* CRBannerViewDelegateTests.m */,
-				6519C0DA2285FA8300111A5F /* CRInterstitialDelegateTests.m */,
-				54ED19F222717E13009AA0B2 /* CRInterstitialViewControllerTests.m */,
+				54680B692395222B00DB5A37 /* CR_DfpBannerFunctionalTests.m */,
+				5E065AD8DCA877B2A1928681 /* CR_DfpInterstitialFunctionalTests.m */,
+				5E0656551EC4DAFCC6DF7D79 /* CR_DfpNativeFunctionalTests.m */,
 				5E0656CED6370CB240092ECC /* CR_HttpTests.m */,
 				54680B7723969D7E00DB5A37 /* CR_IntegrationsTestBase.h */,
 				54680B7523969D5C00DB5A37 /* CR_IntegrationsTestBase.m */,
-				54680B692395222B00DB5A37 /* CR_DfpBannerFunctionalTests.m */,
-				5E065AD8DCA877B2A1928681 /* CR_DfpInterstitialFunctionalTests.m */,
 				54680B7823969E7300DB5A37 /* CR_MopubBannerFunctionalTests.m */,
 				5E06573035072D184799FC19 /* CR_MopubInterstitialFunctionalTests.m */,
-				7DB4E9122397AB6B008DE5E3 /* CROrthogonalBannerFunctionalTests.m */,
 				7DA2F5C323A0EAC000B35524 /* CR_UsPrivacyConsentFunctionalTests.m */,
+				543F6FA12283B5F500A5DBE2 /* CRBannerViewDelegateTests.m */,
+				6519C0DA2285FA8300111A5F /* CRInterstitialDelegateTests.m */,
+				7DB4E90F2395374F008DE5E3 /* CRInterstitialTests.m */,
+				54ED19F222717E13009AA0B2 /* CRInterstitialViewControllerTests.m */,
+				7DB4E9122397AB6B008DE5E3 /* CROrthogonalBannerFunctionalTests.m */,
 			);
 			path = IntegrationTests;
 			sourceTree = "<group>";
@@ -1459,6 +1461,7 @@
 				5E06522A02F2F6A13136E48D /* CR_HttpTests.m in Sources */,
 				5E065F348B239221EFD62032 /* CR_MopubInterstitialFunctionalTests.m in Sources */,
 				5E065D27D22F2032CA976719 /* CR_DfpInterstitialFunctionalTests.m in Sources */,
+				5E0656E334784BCDB32052A4 /* CR_DfpNativeFunctionalTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,6 +14,7 @@ FOUNDATION_EXPORT NSString *const DemoBannerAdUnitId;
 FOUNDATION_EXPORT NSString *const DemoInterstitialAdUnitId;
 FOUNDATION_EXPORT NSString *const PreprodBannerAdUnitId;
 FOUNDATION_EXPORT NSString *const PreprodInterstitialAdUnitId;
+FOUNDATION_EXPORT NSString *const PreprodNativeAdUnitId;
 
 @interface Criteo (Testing)
 

@@ -20,6 +20,7 @@ NSString *const DemoInterstitialAdUnitId = @"6yws53jyfjgoq1ghnuqb";
 
 NSString *const PreprodBannerAdUnitId = @"test-PubSdk-Base";
 NSString *const PreprodInterstitialAdUnitId = @"test-PubSdk-Interstitial";
+NSString *const PreprodNativeAdUnitId = @"test-PubSdk-Native";
 
 @implementation Criteo (Testing)
 

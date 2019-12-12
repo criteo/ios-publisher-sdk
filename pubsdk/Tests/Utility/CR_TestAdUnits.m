@@ -37,6 +37,11 @@
 + (CRNativeAdUnit *)randomNative {
     return [self nativeWithId:[[NSUUID UUID] UUIDString]];
 }
+
++ (CRNativeAdUnit *)preprodNative {
+    return [self nativeWithId:PreprodNativeAdUnitId];
+}
+
 + (NSString *)dfpBanner50AdUnitId {
     return @"/140800857/Endeavour_320x50";
 }
