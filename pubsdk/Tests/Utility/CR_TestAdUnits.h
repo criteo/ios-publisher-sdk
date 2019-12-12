@@ -6,6 +6,7 @@
 #import <Foundation/Foundation.h>
 #import "CRInterstitialAdUnit.h"
 #import "CRBannerAdUnit.h"
+#import "CRNativeAdUnit.h"
 
 @interface CR_TestAdUnits : NSObject
 
@@ -17,6 +18,7 @@
 @property(class, nonatomic, readonly) CRInterstitialAdUnit *randomInterstitial;
 @property(class, nonatomic, readonly) CRInterstitialAdUnit *preprodInterstitial;
 
+@property(class, nonatomic, readonly) CRNativeAdUnit *randomNative;
 @property(class, nonatomic, readonly) NSString *dfpBanner50AdUnitId;
 @property(class, nonatomic, readonly) NSString *dfpInterstitialAdUnitId;
 

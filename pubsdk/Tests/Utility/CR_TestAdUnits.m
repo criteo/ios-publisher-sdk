@@ -6,6 +6,7 @@
 #import <Foundation/Foundation.h>
 #import "CR_TestAdUnits.h"
 #import "Criteo+Testing.h"
+#import "CRNativeAdUnit.h"
 
 @implementation CR_TestAdUnits
 
@@ -33,6 +34,9 @@
     return [self interstitialWithId:PreprodInterstitialAdUnitId];
 }
 
++ (CRNativeAdUnit *)randomNative {
+    return [self nativeWithId:[[NSUUID UUID] UUIDString]];
+}
 + (NSString *)dfpBanner50AdUnitId {
     return @"/140800857/Endeavour_320x50";
 }
@@ -53,6 +57,10 @@
 
 + (CRBannerAdUnit *)banner320x50WithId:(NSString *)adUnitId {
     return [[CRBannerAdUnit alloc] initWithAdUnitId:adUnitId size:CGSizeMake(320, 50)];
+}
+
++ (CRNativeAdUnit *)nativeWithId:(NSString *)adUnitId {
+    return [[CRNativeAdUnit alloc] initWithAdUnitId:adUnitId];
 }
 
 @end

@@ -98,6 +98,7 @@
 		54F1E6BB239FA1A800985D09 /* CR_DfpCreativeViewChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0651507F9F3AE240E1BA60 /* CR_DfpCreativeViewChecker.m */; };
 		54F1E6BC239FA1A900985D09 /* CR_DfpCreativeViewChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0651507F9F3AE240E1BA60 /* CR_DfpCreativeViewChecker.m */; };
 		5E06522A02F2F6A13136E48D /* CR_HttpTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0656CED6370CB240092ECC /* CR_HttpTests.m */; };
+		5E0656E334784BCDB32052A4 /* CR_DfpNativeFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0656551EC4DAFCC6DF7D79 /* CR_DfpNativeFunctionalTests.m */; };
 		5E065D27D22F2032CA976719 /* CR_DfpInterstitialFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E065AD8DCA877B2A1928681 /* CR_DfpInterstitialFunctionalTests.m */; };
 		5E065F348B239221EFD62032 /* CR_MopubInterstitialFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E06573035072D184799FC19 /* CR_MopubInterstitialFunctionalTests.m */; };
 		650915F72255622E001D6673 /* CRBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 650915F42255622E001D6673 /* CRBannerView.m */; };
