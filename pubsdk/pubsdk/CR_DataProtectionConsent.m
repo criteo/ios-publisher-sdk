@@ -20,7 +20,13 @@
  */
 
 NSString * const CR_DataProtectionConsentUsPrivacyIabConsentStringKey = @"IABUSPrivacy_String";
-NSString * const CR_DataProtectionConsentUsPrivacyCriteoConsentStringKey = @"CriteoUSPrivacy_String";
+NSString * const CR_DataProtectionConsentUsPrivacyCriteoStateKey = @"CriteoUSPrivacy_Bool";
+
+@interface CR_DataProtectionConsent ()
+
+@property (nonatomic, strong) NSUserDefaults *userDefaults;
+
+@end
 
 @implementation CR_DataProtectionConsent;
 
@@ -32,6 +38,7 @@ NSString * const CR_DataProtectionConsentUsPrivacyCriteoConsentStringKey = @"Cri
 - (instancetype)initWithUserDefaults:(NSUserDefaults *)userDefaults
 {
     if(self = [super init]) {
+        _userDefaults = userDefaults;
         _gdprApplies = [userDefaults boolForKey:@"IABConsent_SubjectToGDPR"];
         _consentString = [userDefaults stringForKey:@"IABConsent_ConsentString"];
         // set to default
@@ -47,5 +54,17 @@ NSString * const CR_DataProtectionConsentUsPrivacyCriteoConsentStringKey = @"Cri
     }
     return self;
 }
+
+- (void)setUsPrivacyCriteoState:(CR_UsPrivacyCriteoState)usPrivacyCriteoState
+{
+    [self.userDefaults setInteger:usPrivacyCriteoState
+                           forKey:CR_DataProtectionConsentUsPrivacyCriteoStateKey];
+}
+
+- (CR_UsPrivacyCriteoState)usPrivacyCriteoState
+{
+    return [self.userDefaults integerForKey:CR_DataProtectionConsentUsPrivacyCriteoStateKey];
+}
+
 
 @end

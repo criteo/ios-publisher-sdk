@@ -7,10 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CR_Configuration.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 FOUNDATION_EXTERN NSString * const CR_DataProtectionConsentUsPrivacyIabConsentStringKey;
+FOUNDATION_EXTERN NSString * const CR_DataProtectionConsentUsPrivacyCriteoStateKey;
+
+/**
+ The US privacy consent within a custom Criteo format (not iAB).
+ */
+typedef NS_ENUM(NSInteger, CR_UsPrivacyCriteoState) {
+    CR_UsPrivacyCriteoStateUnset = 0,
+    CR_UsPrivacyCriteoStateOptOut,
+    CR_UsPrivacyCriteoStateOptIn
+};
 
 /**
  Load the consent strings from the NSUserDefault.
@@ -29,6 +40,8 @@ FOUNDATION_EXTERN NSString * const CR_DataProtectionConsentUsPrivacyIabConsentSt
 #pragma mark CCPA
 
 @property (nonatomic, copy, readonly, nullable) NSString *usPrivacyIabConsentString;
+/* Persist over the lifetime of the object. */
+@property (nonatomic, assign) CR_UsPrivacyCriteoState usPrivacyCriteoState;
 
 - (instancetype)init;
 - (instancetype)initWithUserDefaults:(NSUserDefaults *)userDefaults NS_DESIGNATED_INITIALIZER;

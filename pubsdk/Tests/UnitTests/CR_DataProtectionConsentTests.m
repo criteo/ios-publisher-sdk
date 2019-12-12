@@ -38,7 +38,11 @@ NSString * const CR_DataProtectionConsentTestsMalformed90CharsVendorString = @"0
     self.userDefaults = [[NSUserDefaults alloc] init];
     [self.userDefaults setObject:defaultGdprAppliesNumber forKey:@"IABConsent_SubjectToGDPR"];
     [self.userDefaults setObject:self.defaultConsentString forKey:@"IABConsent_ConsentString"];
+    [self.userDefaults removeObjectForKey:@"IABConsent_ParsedVendorConsents"];
+    [self.userDefaults removeObjectForKey:CR_DataProtectionConsentUsPrivacyCriteoStateKey];
+    [self.userDefaults removeObjectForKey:CR_DataProtectionConsentUsPrivacyIabConsentStringKey];
 }
+
 
 - (void)testGdprGet
 {
@@ -99,5 +103,43 @@ NSString * const CR_DataProtectionConsentTestsMalformed90CharsVendorString = @"0
     NSString *actualUspIab = consent.usPrivacyIabConsentString;
     XCTAssertEqualObjects(actualUspIab, CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString);
 }
+
+- (void)testGetUsPrivacyCriteoStateUnset
+{
+    CR_DataProtectionConsent *consent = [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
+
+    XCTAssertEqual(consent.usPrivacyCriteoState, CR_UsPrivacyCriteoStateUnset);
+}
+
+- (void)testGetUsPrivacyCriteoStateOptIn
+{
+    [self.userDefaults setInteger:CR_UsPrivacyCriteoStateOptIn
+                           forKey:CR_DataProtectionConsentUsPrivacyCriteoStateKey];
+
+    CR_DataProtectionConsent *consent = [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
+
+    XCTAssertEqual(consent.usPrivacyCriteoState, CR_UsPrivacyCriteoStateOptIn);
+}
+
+- (void)testGetUsPrivacyCriteoStateOptOut
+{
+    [self.userDefaults setInteger:CR_UsPrivacyCriteoStateOptOut
+                           forKey:CR_DataProtectionConsentUsPrivacyCriteoStateKey];
+
+    CR_DataProtectionConsent *consent = [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
+
+    XCTAssertEqual(consent.usPrivacyCriteoState, CR_UsPrivacyCriteoStateOptOut);
+}
+
+- (void)testSetUsPrivacyCriteoStateOptOut
+{
+    CR_DataProtectionConsent *consent1 = [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
+    CR_DataProtectionConsent *consent2 = [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
+
+    consent1.usPrivacyCriteoState = CR_UsPrivacyCriteoStateOptOut;
+
+    XCTAssertEqual(consent2.usPrivacyCriteoState, CR_UsPrivacyCriteoStateOptOut);
+}
+
 
 @end

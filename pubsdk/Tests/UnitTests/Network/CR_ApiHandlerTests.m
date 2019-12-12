@@ -417,6 +417,36 @@
     XCTAssertNil(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspIabStringKey]);
 }
 
+- (void)testCallCdbWithUspCriteoStateOptOut
+{
+    self.consentMock.usPrivacyCriteoState = CR_UsPrivacyCriteoStateOptOut;
+
+    [self _callCdb];
+
+    NSDictionary *body = self.networkManagerMock.lastPostBody;
+    XCTAssertEqualObjects(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspCriteoOptoutKey], @NO);
+}
+
+- (void)testCallCdbWithUspCriteoStateOptIn
+{
+    self.consentMock.usPrivacyCriteoState = CR_UsPrivacyCriteoStateOptIn;
+
+    [self _callCdb];
+
+    NSDictionary *body = self.networkManagerMock.lastPostBody;
+    XCTAssertEqualObjects(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspCriteoOptoutKey], @YES);
+}
+
+- (void)testCallCdbWithUspCriteoStateUnset
+{
+    self.consentMock.usPrivacyCriteoState = CR_UsPrivacyCriteoStateUnset;
+
+    [self _callCdb];
+
+    NSDictionary *body = self.networkManagerMock.lastPostBody;
+    XCTAssertNil(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspCriteoOptoutKey]);
+}
+
 #pragma mark - Private methods
 
 - (void)_callCdb

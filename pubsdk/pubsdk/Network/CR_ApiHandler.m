@@ -13,6 +13,7 @@
 
 NSString * const CR_ApiHandlerUspIabStringKey = @"uspIab";
 NSString * const CR_ApiHandlerUserKey = @"user";
+NSString * const CR_ApiHandlerUspCriteoOptoutKey = @"uspOptout";
 
 // 8 is suggested by Jean Sebastien Faure as a reasonable group size for CDB calls
 static NSUInteger const maxAdUnitsPerCdbRequest = 8;
@@ -67,6 +68,12 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
     if (consent.usPrivacyIabConsentString.length > 0) {
         userDict[CR_ApiHandlerUspIabStringKey] = consent.usPrivacyIabConsentString;
     }
+    if (consent.usPrivacyCriteoState == CR_UsPrivacyCriteoStateOptIn) {
+        userDict[CR_ApiHandlerUspCriteoOptoutKey] = @YES;
+    } else if (consent.usPrivacyCriteoState == CR_UsPrivacyCriteoStateOptOut) {
+        userDict[CR_ApiHandlerUspCriteoOptoutKey] = @NO;
+    } // else if unknown we add nothing.
+    
     postBody[CR_ApiHandlerUserKey] = userDict;
 
     NSMutableDictionary *publisherDict = [NSMutableDictionary new];
