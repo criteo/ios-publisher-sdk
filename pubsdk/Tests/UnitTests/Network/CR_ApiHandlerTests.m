@@ -385,6 +385,8 @@
     XCTAssertNil(nonNativeSlots[0][@"isNative"]);
 }
 
+#pragma mark - US Privacy Consent
+
 - (void)testCallCdbWithUspIapContentString
 {
     self.consentMock.usPrivacyIabConsentString_mock = CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString;
@@ -392,7 +394,7 @@
     [self _callCdb];
 
     NSDictionary *body = self.networkManagerMock.lastPostBody;
-    XCTAssertNotNil(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspIabStringKey]);
+    XCTAssertEqualObjects(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspIabStringKey], CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString);
 }
 
 - (void)testCallCdbWithUspIapContentStringEmpty
