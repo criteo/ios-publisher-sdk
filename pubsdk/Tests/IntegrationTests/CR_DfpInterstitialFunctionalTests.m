@@ -15,6 +15,8 @@
 #import "CR_BidManagerBuilder.h"
 #import "CR_AdUnitHelper.h"
 #import "Criteo+Internal.h"
+#import "XCTestCase+Criteo.h"
+#import "CR_DfpCreativeViewChecker.h"
 @import GoogleMobileAds;
 
 @interface CR_DfpInterstitialFunctionalTests : CR_IntegrationsTestBase
@@ -54,6 +56,20 @@
     NSString *decodedUrl = [self getDecodedDisplayUrlFromDfpRequestCustomTargeting:interstitialDfpRequest.customTargeting];
 
     XCTAssertEqualObjects(bid.displayUrl, decodedUrl);
+}
+
+- (void)test_givenValidInterstitial_whenLoadingDfpInterstitial_thenDfpViewContainsCreative {
+    CRInterstitialAdUnit *interstitialAdUnit = [CR_TestAdUnits preprodInterstitial];
+    [self initCriteoWithAdUnits:@[interstitialAdUnit]];
+    DFPRequest *dfpRequest = [[DFPRequest alloc] init];
+    DFPInterstitial *dfpInterstitial = [[DFPInterstitial alloc] initWithAdUnitID:CR_TestAdUnits.dfpInterstitialAdUnitId];
+    CR_DfpCreativeViewChecker *dfpViewChecker = [[CR_DfpCreativeViewChecker alloc] initWithInterstitial:dfpInterstitial];
+
+    [self.criteo setBidsForRequest:dfpRequest withAdUnit:interstitialAdUnit];
+    [dfpInterstitial loadRequest:dfpRequest];
+
+    BOOL renderedProperly = [dfpViewChecker waitAdCreativeRendered];
+    XCTAssertTrue(renderedProperly);
 }
 
 @end

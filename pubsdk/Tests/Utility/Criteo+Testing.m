@@ -14,9 +14,12 @@
 
 // This publisherId B-056946 exists in production.
 NSString *const CriteoTestingPublisherId = @"B-000001";
+
 NSString *const DemoBannerAdUnitId = @"30s6zt3ayypfyemwjvmp";
 NSString *const DemoInterstitialAdUnitId = @"6yws53jyfjgoq1ghnuqb";
+
 NSString *const PreprodBannerAdUnitId = @"test-PubSdk-Base";
+NSString *const PreprodInterstitialAdUnitId = @"test-PubSdk-Interstitial";
 
 @implementation Criteo (Testing)
 
@@ -66,7 +69,7 @@ NSString *const PreprodBannerAdUnitId = @"test-PubSdk-Base";
         return YES;
     }
     CR_NetworkWaiter *waiter = [[CR_NetworkWaiter alloc] initWithNetworkCaptor:self.testing_networkCaptor];
-    const BOOL success = [waiter waitWithResponseTester:^BOOL(CR_HttpContent * _Nonnull httpContent) {
+    const BOOL success = [waiter waitWithResponseTester:^BOOL(CR_HttpContent *_Nonnull httpContent) {
         return [self _isHTTPCallsForRegisterFinished];
     }];
     return success;

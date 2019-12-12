@@ -95,13 +95,9 @@
 		54F1E6B7239FA19C00985D09 /* UIView+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E065EFC53F2E9D25BAFEDEA /* UIView+Testing.m */; };
 		54F1E6B9239FA1A000985D09 /* UIWebView+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E065EF6624E39D5EF02EFA9 /* UIWebView+Testing.m */; };
 		54F1E6BA239FA1A000985D09 /* UIWebView+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E065EF6624E39D5EF02EFA9 /* UIWebView+Testing.m */; };
-		54F1E6BB239FA1A800985D09 /* CR_DfpBannerViewChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0651507F9F3AE240E1BA60 /* CR_DfpBannerViewChecker.m */; };
-		54F1E6BC239FA1A900985D09 /* CR_DfpBannerViewChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0651507F9F3AE240E1BA60 /* CR_DfpBannerViewChecker.m */; };
+		54F1E6BB239FA1A800985D09 /* CR_DfpCreativeViewChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0651507F9F3AE240E1BA60 /* CR_DfpCreativeViewChecker.m */; };
+		54F1E6BC239FA1A900985D09 /* CR_DfpCreativeViewChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0651507F9F3AE240E1BA60 /* CR_DfpCreativeViewChecker.m */; };
 		5E06522A02F2F6A13136E48D /* CR_HttpTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0656CED6370CB240092ECC /* CR_HttpTests.m */; };
-		5E0654B939F09A61C49081AC /* CR_DfpAdUnitIds.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E06561A3D8D884E308E577B /* CR_DfpAdUnitIds.m */; };
-		5E0657005B2A568353FF3F9D /* CR_DfpAdUnitIds.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E0652B0A2DEE45EEEEA6816 /* CR_DfpAdUnitIds.h */; };
-		5E0658748FE5705359CE2FE3 /* CR_DfpAdUnitIds.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E0652B0A2DEE45EEEEA6816 /* CR_DfpAdUnitIds.h */; };
-		5E0659EBD321F718B575B7CB /* CR_DfpAdUnitIds.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E06561A3D8D884E308E577B /* CR_DfpAdUnitIds.m */; };
 		5E065D27D22F2032CA976719 /* CR_DfpInterstitialFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E065AD8DCA877B2A1928681 /* CR_DfpInterstitialFunctionalTests.m */; };
 		5E065F348B239221EFD62032 /* CR_MopubInterstitialFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E06573035072D184799FC19 /* CR_MopubInterstitialFunctionalTests.m */; };
 		650915F72255622E001D6673 /* CRBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 650915F42255622E001D6673 /* CRBannerView.m */; };
@@ -357,13 +353,11 @@
 		54E0C24C23917D9A004F9353 /* CR_ApiQueryKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_ApiQueryKeys.h; sourceTree = "<group>"; };
 		54E0C24D23917D9A004F9353 /* CR_ApiQueryKeys.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_ApiQueryKeys.m; sourceTree = "<group>"; };
 		54ED19F222717E13009AA0B2 /* CRInterstitialViewControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialViewControllerTests.m; sourceTree = "<group>"; };
-		5E0651507F9F3AE240E1BA60 /* CR_DfpBannerViewChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_DfpBannerViewChecker.m; sourceTree = "<group>"; };
-		5E0652B0A2DEE45EEEEA6816 /* CR_DfpAdUnitIds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_DfpAdUnitIds.h; sourceTree = "<group>"; };
+		5E0651507F9F3AE240E1BA60 /* CR_DfpCreativeViewChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_DfpCreativeViewChecker.m; sourceTree = "<group>"; };
 		5E0653DCED07A1A1895CB076 /* Criteo+Testing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Criteo+Testing.m"; sourceTree = "<group>"; };
 		5E06544E80499975523CBBF1 /* UIWebView+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+Testing.h"; sourceTree = "<group>"; };
 		5E0655500052DF1F93D28212 /* CR_TestAdUnits.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_TestAdUnits.m; sourceTree = "<group>"; };
-		5E0655B4E1D731869B4CD3CF /* CR_DfpBannerViewChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_DfpBannerViewChecker.h; sourceTree = "<group>"; };
-		5E06561A3D8D884E308E577B /* CR_DfpAdUnitIds.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_DfpAdUnitIds.m; sourceTree = "<group>"; };
+		5E0655B4E1D731869B4CD3CF /* CR_DfpCreativeViewChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_DfpCreativeViewChecker.h; sourceTree = "<group>"; };
 		5E0656CED6370CB240092ECC /* CR_HttpTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_HttpTests.m; sourceTree = "<group>"; };
 		5E06573035072D184799FC19 /* CR_MopubInterstitialFunctionalTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_MopubInterstitialFunctionalTests.m; sourceTree = "<group>"; };
 		5E06583FE8D47BAEC44830CC /* UIView+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Testing.h"; sourceTree = "<group>"; };
@@ -679,10 +673,8 @@
 		5E065F6AC812E6AF04EF98AB /* DfpTesting */ = {
 			isa = PBXGroup;
 			children = (
-				5E0655B4E1D731869B4CD3CF /* CR_DfpBannerViewChecker.h */,
-				5E0651507F9F3AE240E1BA60 /* CR_DfpBannerViewChecker.m */,
-				5E0652B0A2DEE45EEEEA6816 /* CR_DfpAdUnitIds.h */,
-				5E06561A3D8D884E308E577B /* CR_DfpAdUnitIds.m */,
+				5E0655B4E1D731869B4CD3CF /* CR_DfpCreativeViewChecker.h */,
+				5E0651507F9F3AE240E1BA60 /* CR_DfpCreativeViewChecker.m */,
 			);
 			path = DfpTesting;
 			sourceTree = "<group>";
@@ -976,7 +968,6 @@
 				53CA0F9522AB0ABD0098F96C /* CRBidToken.h in Headers */,
 				545A39F422A8794F00648957 /* CRInterstitial.h in Headers */,
 				53CA0F9622AB0ABD0098F96C /* CRBidResponse.h in Headers */,
-				5E0658748FE5705359CE2FE3 /* CR_DfpAdUnitIds.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -998,7 +989,6 @@
 				54E0C24E23917D9A004F9353 /* CR_ApiQueryKeys.h in Headers */,
 				53CA0F9A22AB0B870098F96C /* CRInterstitialDelegate.h in Headers */,
 				543F6F9D22838EDF00A5DBE2 /* CRBannerViewDelegate.h in Headers */,
-				5E0657005B2A568353FF3F9D /* CR_DfpAdUnitIds.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1284,7 +1274,6 @@
 				25BD5B632220D1AE004DE311 /* CR_CacheManager.m in Sources */,
 				650915F82255622E001D6673 /* CRBannerView.m in Sources */,
 				DF367CE023307AFB0044807B /* NSString+Criteo.m in Sources */,
-				5E0654B939F09A61C49081AC /* CR_DfpAdUnitIds.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1321,7 +1310,7 @@
 				7D3E426E23915DC900BAF673 /* NSString+CR_UrlEncoderTests.m in Sources */,
 				7D3E425223915D8700BAF673 /* CRBannerAdUnitTests.m in Sources */,
 				7D3E424923915D8700BAF673 /* CR_AdUnitHelperTests.m in Sources */,
-				54F1E6BC239FA1A900985D09 /* CR_DfpBannerViewChecker.m in Sources */,
+				54F1E6BC239FA1A900985D09 /* CR_DfpCreativeViewChecker.m in Sources */,
 				7D3E425F23915DA500BAF673 /* CRBidTokenTests.m in Sources */,
 				7D3E426723915DB900BAF673 /* CR_ApiHandlerTests.m in Sources */,
 				7DA2F5BE23A0D9E400B35524 /* CR_DataProtectionConsentMock.m in Sources */,
@@ -1401,7 +1390,6 @@
 				5397C0AE22A0A66E00BC72FE /* CR_CacheAdUnit.m in Sources */,
 				E12A7F6F220A20C3002B4548 /* CR_AppEvents.m in Sources */,
 				650915F72255622E001D6673 /* CRBannerView.m in Sources */,
-				5E0659EBD321F718B575B7CB /* CR_DfpAdUnitIds.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1445,7 +1433,7 @@
 				7D3E423023915B6600BAF673 /* NSDictionary+AdditionsTests.m in Sources */,
 				7D3E423623915B6600BAF673 /* CR_NetworkManagerTests.m in Sources */,
 				7D3E423A23915B6600BAF673 /* CRBannerAdUnitTests.m in Sources */,
-				54F1E6BB239FA1A800985D09 /* CR_DfpBannerViewChecker.m in Sources */,
+				54F1E6BB239FA1A800985D09 /* CR_DfpCreativeViewChecker.m in Sources */,
 				54680B7923969E7300DB5A37 /* CR_MopubBannerFunctionalTests.m in Sources */,
 				7D3E424323915B6600BAF673 /* CRBidResponseTests.m in Sources */,
 				7D3E422F23915B6600BAF673 /* NSError+CRErrorsTests.m in Sources */,

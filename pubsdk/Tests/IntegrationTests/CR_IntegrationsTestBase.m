@@ -14,15 +14,6 @@
     [self.criteo testing_registerAndWaitForHTTPResponseWithAdUnits:adUnits];
 }
 
-- (UIViewController *)createRootViewControllerWithSize:(CGSize)size {
-
-    UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 50, size.width, size.height)];
-    [window makeKeyAndVisible];
-    UIViewController *viewController = [UIViewController new];
-    window.rootViewController = viewController;
-    return viewController;
-}
-
 - (NSString *)getDecodedDisplayUrlFromDfpRequestCustomTargeting:(NSDictionary *)customTargeting {
     NSString *encodedUrl = customTargeting[@"crt_displayurl"];
     NSString *unescapedUrl = [[encodedUrl stringByRemovingPercentEncoding] stringByRemovingPercentEncoding];

@@ -16,8 +16,7 @@
 #import "CR_BidManagerBuilder.h"
 #import "CR_AdUnitHelper.h"
 #import "XCTestCase+Criteo.h"
-#import "CR_DfpBannerViewChecker.h"
-#import "CR_DfpAdUnitIds.h"
+#import "CR_DfpCreativeViewChecker.h"
 @import GoogleMobileAds;
 
 @interface CR_DfpBannerFunctionalTests : CR_IntegrationsTestBase
@@ -63,28 +62,22 @@
     CRBannerAdUnit *bannerAdUnit = [CR_TestAdUnits preprodBanner320x50];
     [self initCriteoWithAdUnits:@[bannerAdUnit]];
     DFPRequest *bannerDfpRequest = [[DFPRequest alloc] init];
+    DFPBannerView *dfpBannerView = [self createDfpBanner];
+    CR_DfpCreativeViewChecker *dfpViewChecker = [[CR_DfpCreativeViewChecker alloc] initWithBanner:dfpBannerView];
+
     [self.criteo setBidsForRequest:bannerDfpRequest withAdUnit:bannerAdUnit];
-
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Expect that banner is rendered."];
-    CR_DfpBannerViewChecker *dfpBannerViewChecker = [[CR_DfpBannerViewChecker alloc] initWithExpectation:expectation];
-    UIViewController *viewController = [self createRootViewControllerWithSize:CGSizeMake(320, 50)];
-    DFPBannerView *dfpBannerView = [self createDfpBannerViewWithChecker:dfpBannerViewChecker andWithViewController: viewController];
-
     [dfpBannerView loadRequest:bannerDfpRequest];
-    [viewController.view addSubview:dfpBannerView];
 
-    [self criteo_waitForExpectations:@[expectation]];
+    BOOL renderedProperly = [dfpViewChecker waitAdCreativeRendered];
+    XCTAssertTrue(renderedProperly);
 }
 
 #pragma mark - Private methods
 
-- (DFPBannerView *)createDfpBannerViewWithChecker:(CR_DfpBannerViewChecker *)dfpBannerViewChecker
-                            andWithViewController:(UIViewController *)viewController {
+- (DFPBannerView *)createDfpBanner {
     DFPBannerView *dfpBannerView = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeBanner];
-    dfpBannerView.adUnitID = CR_DfpAdUnitIds.dfpBanner50AdUnitId;
+    dfpBannerView.adUnitID = CR_TestAdUnits.dfpBanner50AdUnitId;
     dfpBannerView.backgroundColor = [UIColor orangeColor];
-    dfpBannerView.delegate = dfpBannerViewChecker;
-    dfpBannerView.rootViewController = viewController;
     return dfpBannerView;
 }
 
