@@ -20,7 +20,6 @@
     CR_Config          *config;
     CR_ConfigManager   *configManager;
     CR_DeviceInfo      *deviceInfo;
-    CR_DataProtectionConsent *consent;
     CR_NetworkManager  *networkManager;
     CR_AppEvents       *appEvents;
     NSTimeInterval     cdbTimeToNextCall;
@@ -69,10 +68,10 @@
         self->config          = config;
         self->configManager   = configManager;
         self->deviceInfo      = deviceInfo;
-        self->consent = consent;
         self->networkManager  = networkManager;
         self->appEvents       = appEvents;
         self->cdbTimeToNextCall=timeToNextCall;
+        _consent              = consent;
     }
 
     return self;
@@ -153,7 +152,7 @@
 
     [deviceInfo waitForUserAgent:^{
         [self->apiHandler callCdb:adUnits
-                          consent:self->consent
+                          consent:self.consent
                            config:self->config
                        deviceInfo:self->deviceInfo
              ahCdbResponseHandler:^(CR_CdbResponse *cdbResponse) {

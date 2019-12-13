@@ -28,6 +28,7 @@
 
 @property (nonatomic) id<CR_NetworkManagerDelegate> networkMangerDelegate;
 @property (nonatomic, readonly) CR_Config *config;
+@property (nonatomic, strong) CR_DataProtectionConsent *consent;
 
 - (instancetype) init NS_UNAVAILABLE;
 

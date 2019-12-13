@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype) init NS_UNAVAILABLE;
 + (nonnull instancetype) sharedCriteo;
 
+- (void)setUsPrivacyOptOut:(BOOL)usPrivacyOptOut;
+
 - (void) registerCriteoPublisherId:(NSString *) criteoPublisherId
                        withAdUnits:(NSArray<CRAdUnit*> *) adUnits;
 

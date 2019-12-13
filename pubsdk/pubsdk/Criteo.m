@@ -11,6 +11,7 @@
 #import "CR_AdUnitHelper.h"
 #import "CR_BidManager.h"
 #import "CR_BidManagerBuilder.h"
+#import "CR_DataProtectionConsent.h"
 
 @interface Criteo ()
 
@@ -22,6 +23,14 @@
 @end
 
 @implementation Criteo
+
+- (void)setUsPrivacyOptOut:(BOOL)usPrivacyOptOut
+{
+    const CR_UsPrivacyCriteoState state = usPrivacyOptOut ?
+        CR_UsPrivacyCriteoStateOptOut:
+        CR_UsPrivacyCriteoStateOptIn;
+    self.bidManager.consent.usPrivacyCriteoState = state;
+}
 
 - (id<CR_NetworkManagerDelegate>) networkMangerDelegate
 {
