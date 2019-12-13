@@ -30,7 +30,6 @@
         _throttleSec = 0;
         _latestEventSent = [NSDate date];
         [self registerForIosEvents];
-        [self sendLaunchEvent];
     }
     return self;
 }

@@ -72,14 +72,15 @@
         self->consent = consent;
         self->networkManager  = networkManager;
         self->appEvents       = appEvents;
-        [self refreshConfig];
         self->cdbTimeToNextCall=timeToNextCall;
     }
 
     return self;
 }
 
-- (void) setSlots: (CR_CacheAdUnitArray *) slots {
+- (void)registerWithSlots:(CR_CacheAdUnitArray *)slots {
+    [self refreshConfig];
+    [appEvents sendLaunchEvent];
     [cacheManager initSlots:slots];
 }
 

@@ -122,6 +122,16 @@
     [self criteo_waitForExpectations:@[expectation]];
 }
 
+- (void)testInitDoNotMakeNetworkCalls
+{
+    Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
+    [NSThread sleepForTimeInterval:1.5f];
+
+    XCTAssertEqualObjects(criteo.testing_networkCaptor.pendingRequests, @[]);
+    XCTAssertEqualObjects(criteo.testing_networkCaptor.finishedRequests, @[]);
+}
+
+
 #pragma mark - Private methods
 
 - (BOOL)query:(NSString *)query hasParamKey:(NSString *)key withValue:(NSString *)value {

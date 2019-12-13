@@ -50,6 +50,7 @@
         _registeredAdUnits = [[NSMutableArray alloc] init];
         _hasPrefetched = false;
         _bidManagerBuilder = bidManagerBuilder;
+        _bidManager = [bidManagerBuilder buildBidManager];
     }
     return self;
 }
@@ -63,11 +64,11 @@
 
 - (void)_registerCriteoPublisherId:(NSString *)criteoPublisherId
                        withAdUnits:(NSArray<CRAdUnit *> *)adUnits {
-    self.bidManager = [self.bidManagerBuilder buildBidManagerWithPublisherId:criteoPublisherId];
+    self.config.criteoPublisherId = criteoPublisherId;
 
     CR_CacheAdUnitArray *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:adUnits];
     [self.registeredAdUnits addObjectsFromArray:cacheAdUnits];
-    [self.bidManager setSlots:cacheAdUnits];
+    [self.bidManager registerWithSlots:cacheAdUnits];
     [self prefetchAll];
 }
 

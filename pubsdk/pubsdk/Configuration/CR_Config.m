@@ -34,7 +34,7 @@ NSString * const CR_ConfigPreprodConfigurationUrl = @"https://gum.par.preprod.cr
 
 }
 
-- (instancetype)initWithCriteoPublisherId:(NSString *)criteoPublisherId
+- (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId
                                    cdbUrl:(NSString *)cdbUrl
                              appEventsUrl:(NSString *)appEventsUrl
                                 configUrl:(NSString *)configUrl
@@ -60,7 +60,7 @@ NSString * const CR_ConfigPreprodConfigurationUrl = @"https://gum.par.preprod.cr
     return self;
 }
 
-- (instancetype)initWithCriteoPublisherId:(NSString *)criteoPublisherId
+- (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId
 {
     return [self initWithCriteoPublisherId:criteoPublisherId
                                     cdbUrl:CR_ConfigCdbUrl

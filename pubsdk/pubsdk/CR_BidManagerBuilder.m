@@ -98,8 +98,6 @@
 }
 
 - (CR_BidManager *)buildBidManager {
-    NSAssert(self.criteoPublisherId, @"Criteo publisher ID should be set");
-    
     CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:self.apiHandler
                                                              cacheManager:self.cacheManager
                                                                tokenCache:self.tokenCache

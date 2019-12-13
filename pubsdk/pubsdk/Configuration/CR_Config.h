@@ -11,6 +11,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 // Production
 FOUNDATION_EXTERN NSString * const CR_ConfigCdbUrl;
 FOUNDATION_EXTERN NSString * const CR_ConfigAppEventsUrl;
@@ -23,7 +25,8 @@ FOUNDATION_EXTERN NSString * const CR_ConfigPreprodConfigurationUrl;
 
 @interface CR_Config : NSObject
 
-@property (copy, nonatomic, readonly) NSString *criteoPublisherId;
+@property (copy, nonatomic, nullable) NSString *criteoPublisherId;
+
 @property (copy, nonatomic, readonly) NSNumber *profileId;
 @property (copy, nonatomic, readonly) NSString *cdbUrl;
 @property (copy, nonatomic, readonly) NSString *path;
@@ -40,14 +43,14 @@ FOUNDATION_EXTERN NSString * const CR_ConfigPreprodConfigurationUrl;
 @property (copy, nonatomic, readonly) NSString *deviceOs;
 @property (copy, nonatomic, readonly) NSString *configUrl;
 
-+ (CR_Config *)configForPreprodWithCriteoPublisherId:(NSString *)criteoPublisherId;
++ (CR_Config *)configForPreprodWithCriteoPublisherId:(nullable NSString *)criteoPublisherId;
 
-- (instancetype)initWithCriteoPublisherId:(NSString *)criteoPublisherId
+- (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId
                                    cdbUrl:(NSString *)cdbUrl
                              appEventsUrl:(NSString *)appEventsUrl
                                 configUrl:(NSString *)configUrl NS_DESIGNATED_INITIALIZER;
 
-- (instancetype)initWithCriteoPublisherId:(NSString *)criteoPublisherId;
+- (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -58,5 +61,7 @@ FOUNDATION_EXTERN NSString * const CR_ConfigPreprodConfigurationUrl;
 + (NSDictionary *) getConfigValuesFromData: (NSData *) data;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* CR_Config_h */

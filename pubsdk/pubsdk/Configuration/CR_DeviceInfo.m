@@ -30,19 +30,27 @@
         _loadUserAgentCompletionBlocks = [NSMutableSet new];
         _isLoadingUserAgent = NO;
         _wkWebView = wkWebView;
-        [self setupUserAgentWithWKWebView];
     }
     return self;
 }
 
 - (void)waitForUserAgent:(void (^ _Nullable)(void))completion {
-    if(self.userAgent) {
+    if (self.userAgent) {
         completion();
         return;
     }
-    if(completion) {
-        @synchronized (_loadUserAgentCompletionBlocks) {
+
+    @synchronized (self) {
+        // double-checked locking pattern
+        if (self.userAgent) {
+            completion();
+            return;
+        }
+        if (completion != nil) {
             [_loadUserAgentCompletionBlocks addObject:completion];
+        }
+        if (!self->_isLoadingUserAgent) {
+            [self setupUserAgentWithWKWebView];
         }
     }
 }
@@ -55,7 +63,7 @@
     // Make sure we're on the main thread because we're calling WKWebView which isn't thread safe
     dispatch_async(dispatch_get_main_queue(), ^{
         [self->_wkWebView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id _Nullable navigatorUserAgent, NSError * _Nullable error) {
-                @synchronized (self->_loadUserAgentCompletionBlocks) {
+                @synchronized (self) {
                     CLog(@"-----> navigatorUserAgent = %@, error = %@", navigatorUserAgent, error);
                     if (!error && [navigatorUserAgent isKindOfClass:NSString.class]) {
                         self.userAgent = navigatorUserAgent;
@@ -64,8 +72,8 @@
                         completionBlock();
                     }
                     [self->_loadUserAgentCompletionBlocks removeAllObjects];
+                    self->_isLoadingUserAgent = NO;
                 }
-                self->_isLoadingUserAgent = NO;
         }];
     });
 }

@@ -12,6 +12,7 @@
 #import <OCMock.h>
 #import "NSString+CR_UrlEncoder.h"
 #import "CR_BidManager.h"
+#import "CR_BidManagerBuilder.h"
 #import "CR_CdbBid.h"
 #import "CRBidToken+Internal.h"
 #import "DFPRequestClasses.h"
@@ -23,8 +24,11 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
 @interface CR_BidManagerTests : XCTestCase
 
-@property (strong) NSData *jsonData;
-@property (strong) NSMutableDictionary *mutableJsonDict;
+@property (nonatomic, strong) NSData *jsonData;
+@property (nonatomic, strong) NSMutableDictionary *mutableJsonDict;
+
+@property (nonatomic, strong) CR_ConfigManager *configManagerMock;
+@property (nonatomic, strong) CR_BidManager *bidManager;
 
 @end
 
@@ -45,6 +49,11 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     if (e) { XCTFail(@"%@", e); }
     self.mutableJsonDict = responseDict[@"slots"][0];
     XCTAssertNotNil(self.mutableJsonDict);
+
+    self.configManagerMock = OCMClassMock([CR_ConfigManager class]);
+    CR_BidManagerBuilder *builder = [[CR_BidManagerBuilder alloc] init];
+    builder.configManager = self.configManagerMock;
+    self.bidManager = [builder buildBidManager];
 }
 
 - (void) testGetBid {
@@ -214,19 +223,15 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                                 appEvents:nil
                                                            timeToNextCall:0];
 
-    CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
-    CR_CacheAdUnit *slot_2 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
-    CR_CacheAdUnit *slot_3 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid_2" width:200 height:100];
 
-    NSArray *slots = @[slot_1, slot_2, slot_3];
-
-    [bidManager setSlots:slots];
+    NSArray<CR_CacheAdUnit *> *slots = [self _buildSlots];
+    [bidManager registerWithSlots:slots];
 
     NSDictionary *bids = [bidManager getBids:slots];
 
-    XCTAssertTrue([bids[slot_1] isEmpty]);
-    XCTAssertTrue([bids[slot_2] isEmpty]);
-    XCTAssertTrue([bids[slot_3] isEmpty]);
+    XCTAssertTrue([bids[slots[0]] isEmpty]);
+    XCTAssertTrue([bids[slots[1]] isEmpty]);
+    XCTAssertTrue([bids[slots[2]] isEmpty]);
 }
 
 - (void) testAddCriteoBidToMutableDictionary
@@ -961,6 +966,18 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
 }
 
+- (void)testInitDoNotRefreshConfiguration
+{
+    OCMReject([self.configManagerMock refreshConfig:[OCMArg any]]);
+}
+
+- (void)testSlotRegistrationRefreshConfiguration
+{
+    [self.bidManager registerWithSlots:[self _buildSlots]];
+
+    OCMVerify([self.configManagerMock refreshConfig:[OCMArg any]]);
+}
+
 + (NSUInteger)checkNumOcurrencesOf:(NSString *)substring
                           inString:(NSString *)string {
     NSUInteger count = 0, length = [string length];
@@ -975,6 +992,16 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
         }
     }
     return count;
+}
+
+- (NSArray<CR_CacheAdUnit *> *)_buildSlots
+{
+    CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
+    CR_CacheAdUnit *slot_2 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
+    CR_CacheAdUnit *slot_3 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid_2" width:200 height:100];
+
+    NSArray *slots = @[slot_1, slot_2, slot_3];
+    return slots;
 }
 
 @end

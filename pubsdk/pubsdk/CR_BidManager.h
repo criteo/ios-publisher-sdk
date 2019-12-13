@@ -44,7 +44,7 @@
 NS_DESIGNATED_INITIALIZER;
 
 
-- (void) setSlots: (CR_CacheAdUnitArray *) slots;
+- (void)registerWithSlots:(CR_CacheAdUnitArray *)slots;
 
 - (NSDictionary *) getBids: (CR_CacheAdUnitArray *) slots;
 
