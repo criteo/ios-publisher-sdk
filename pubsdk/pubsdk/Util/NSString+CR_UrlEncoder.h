@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSString*) urlEncode;
 + (NSString *)dfpCompatibleString:(NSString*)string;
++ (NSString *)decodeDfpCompatibleString:(NSString *)string;
 + (NSString *)mopubCompatibleDisplayUrlForDisplayUrl:(NSString *)displayUrl;
 
 @end

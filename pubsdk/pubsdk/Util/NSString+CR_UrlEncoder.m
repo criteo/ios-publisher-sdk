@@ -38,6 +38,19 @@ static NSCharacterSet *allowedCharacters = nil;
     return dfpCompatibleString;
 }
 
++ (NSString *)decodeDfpCompatibleString:(NSString *)string
+{
+    NSString *decodedString = nil;
+
+    if(string) {
+        NSString *unescapedString = [[string stringByRemovingPercentEncoding] stringByRemovingPercentEncoding];
+        NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:unescapedString options:0];
+        decodedString = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
+    }
+
+    return decodedString;
+}
+
 + (NSString *)mopubCompatibleDisplayUrlForDisplayUrl:(NSString *)displayUrl
 {
     return displayUrl;

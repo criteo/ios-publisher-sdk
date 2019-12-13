@@ -16,6 +16,4 @@
 
 - (void)initCriteoWithAdUnits:(NSArray<CRAdUnit *> *)adUnits;
 
-- (NSString *)getDecodedDisplayUrlFromDfpRequestCustomTargeting:(NSDictionary *)customTargeting;
-
 @end
