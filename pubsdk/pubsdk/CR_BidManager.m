@@ -8,8 +8,8 @@
 
 #import "CR_BidManager.h"
 #import "Logging.h"
-#import "CR_AppEvents.h"
 #import "CR_BidManagerHelper.h"
+#import "CR_TargetingKeys.h"
 #import "NSString+CR_UrlEncoder.h"
 
 @implementation CR_BidManager
@@ -25,27 +25,6 @@
     CR_AppEvents       *appEvents;
     NSTimeInterval     cdbTimeToNextCall;
 }
-
-static NSString * const crtCpm = @"crt_cpm";
-static NSString * const crtDisplayUrl = @"crt_displayUrl";
-static NSString * const crtDfpDisplayUrl = @"crt_displayurl";
-// native asset keys
-static NSString * const crtnTitle = @"crtn_title";
-static NSString * const crtnDesc = @"crtn_desc";
-static NSString * const crtnPrice = @"crtn_price";
-static NSString * const crtnClickUrl = @"crtn_clickurl";
-static NSString * const crtnCta = @"crtn_cta";
-static NSString * const crtnImageUrl = @"crtn_imageurl";
-static NSString * const crtnAdvName = @"crtn_advname";
-static NSString * const crtnAdvDomain = @"crtn_advdomain";
-static NSString * const crtnAdvLogoUrl = @"crtn_advlogourl";
-static NSString * const crtnAdvUrl = @"crtn_advurl";
-static NSString * const crtnPrUrl = @"crtn_prurl";
-static NSString * const crtnPrImageUrl = @"crtn_primageurl";
-static NSString * const crtnPrText = @"crtn_prtext";
-static NSString * const crtnPixCount = @"crtn_pixcount";
-static NSString * const crtnPixUrl = @"crtn_pixurl_";
-
 
 // Properties
 - (id<CR_NetworkManagerDelegate>) networkMangerDelegate
@@ -108,7 +87,7 @@ static NSString * const crtnPixUrl = @"crtn_pixurl_";
     NSMutableDictionary *bids = [[NSMutableDictionary alloc] init];
     for(CR_CacheAdUnit *slot in slots) {
         CR_CdbBid *bid = [self getBid:slot];
-        [bids setObject:bid forKey:slot];
+        bids[slot] = bid;
     }
     return bids;
 }
@@ -230,8 +209,8 @@ static NSString * const crtnPixUrl = @"crtn_pixurl_";
         return;
     }
 
-    dictionary[crtDisplayUrl] = fetchedBid.displayUrl;
-    dictionary[crtCpm] = fetchedBid.cpm;
+    dictionary[CR_TargetingKey_crtDisplayUrl] = fetchedBid.displayUrl;
+    dictionary[CR_TargetingKey_crtCpm] = fetchedBid.cpm;
 }
 
 - (void) addCriteoBidToDfpRequest:(id) adRequest
@@ -256,33 +235,39 @@ static NSString * const crtnPixUrl = @"crtn_pixurl_";
 
         if ([targeting isKindOfClass:[NSDictionary class]]) {
             NSMutableDictionary* customTargeting = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *) targeting];
-            [customTargeting setObject:fetchedBid.cpm forKey:crtCpm];
+            customTargeting[CR_TargetingKey_crtCpm] = fetchedBid.cpm;
             if(adUnit.adUnitType == CRAdUnitTypeNative) {
                 // bid will contain atleast one product, a privacy section and atleast one impression pixel
-                if(fetchedBid.nativeAssets.products.count > 0) {
-                    [self setDfpValue:fetchedBid.nativeAssets.products[0].title forKey:crtnTitle inDictionary:customTargeting];
-                    [self setDfpValue:fetchedBid.nativeAssets.products[0].description forKey:crtnDesc inDictionary:customTargeting];
-                    [self setDfpValue:fetchedBid.nativeAssets.products[0].price forKey:crtnPrice inDictionary:customTargeting];
-                    [self setDfpValue:fetchedBid.nativeAssets.products[0].clickUrl forKey:crtnClickUrl inDictionary:customTargeting];
-                    [self setDfpValue:fetchedBid.nativeAssets.products[0].callToAction forKey:crtnCta inDictionary:customTargeting];
-                    [self setDfpValue:fetchedBid.nativeAssets.products[0].image.url forKey:crtnImageUrl inDictionary:customTargeting];
+                CR_NativeAssets *nativeAssets = fetchedBid.nativeAssets;
+                if(nativeAssets.products.count > 0) {
+                    CR_NativeProduct *product = nativeAssets.products[0];
+                    [self setDfpValue:product.title forKey:CR_TargetingKey_crtnTitle inDictionary:customTargeting];
+                    [self setDfpValue:product.description forKey:CR_TargetingKey_crtnDesc inDictionary:customTargeting];
+                    [self setDfpValue:product.price forKey:CR_TargetingKey_crtnPrice inDictionary:customTargeting];
+                    [self setDfpValue:product.clickUrl forKey:CR_TargetingKey_crtnClickUrl inDictionary:customTargeting];
+                    [self setDfpValue:product.callToAction forKey:CR_TargetingKey_crtnCta inDictionary:customTargeting];
+                    [self setDfpValue:product.image.url forKey:CR_TargetingKey_crtnImageUrl inDictionary:customTargeting];
                 }
-                [self setDfpValue:fetchedBid.nativeAssets.advertiser.description forKey:crtnAdvName inDictionary:customTargeting];
-                [self setDfpValue:fetchedBid.nativeAssets.advertiser.domain forKey:crtnAdvDomain inDictionary:customTargeting];
-                [self setDfpValue:fetchedBid.nativeAssets.advertiser.logoImage.url forKey:crtnAdvLogoUrl inDictionary:customTargeting];
-                [self setDfpValue:fetchedBid.nativeAssets.advertiser.logoClickUrl forKey:crtnAdvUrl inDictionary:customTargeting];
-                [self setDfpValue:fetchedBid.nativeAssets.privacy.optoutClickUrl forKey:crtnPrUrl inDictionary:customTargeting];
-                [self setDfpValue:fetchedBid.nativeAssets.privacy.optoutImageUrl forKey:crtnPrImageUrl inDictionary:customTargeting];
-                [self setDfpValue:fetchedBid.nativeAssets.privacy.longLegalText forKey:crtnPrText inDictionary:customTargeting];
-                [customTargeting setObject:[NSString stringWithFormat:@"%lu", (unsigned long)fetchedBid.nativeAssets.impressionPixels.count]  forKey:crtnPixCount];
+                CR_NativeAdvertiser *advertiser = nativeAssets.advertiser;
+                [self setDfpValue:advertiser.description forKey:CR_TargetingKey_crtnAdvName inDictionary:customTargeting];
+                [self setDfpValue:advertiser.domain forKey:CR_TargetingKey_crtnAdvDomain inDictionary:customTargeting];
+                [self setDfpValue:advertiser.logoImage.url forKey:CR_TargetingKey_crtnAdvLogoUrl inDictionary:customTargeting];
+                [self setDfpValue:advertiser.logoClickUrl forKey:CR_TargetingKey_crtnAdvUrl inDictionary:customTargeting];
+
+                CR_NativePrivacy *privacy = nativeAssets.privacy;
+                [self setDfpValue:privacy.optoutClickUrl forKey:CR_TargetingKey_crtnPrUrl inDictionary:customTargeting];
+                [self setDfpValue:privacy.optoutImageUrl forKey:CR_TargetingKey_crtnPrImageUrl inDictionary:customTargeting];
+                [self setDfpValue:privacy.longLegalText forKey:CR_TargetingKey_crtnPrText inDictionary:customTargeting];
+                customTargeting[CR_TargetingKey_crtnPixCount] =
+                    [NSString stringWithFormat:@"%lu", (unsigned long) nativeAssets.impressionPixels.count];
                 for(int i = 0; i < fetchedBid.nativeAssets.impressionPixels.count; i++) {
                     [self setDfpValue:fetchedBid.nativeAssets.impressionPixels[i]
-                               forKey:[NSString stringWithFormat:@"%@%d", crtnPixUrl, i]
+                               forKey:[NSString stringWithFormat:@"%@%d", CR_TargetingKey_crtnPixUrl, i]
                          inDictionary:customTargeting];
                 }
             }
             else {
-                [customTargeting setObject:fetchedBid.dfpCompatibleDisplayUrl forKey:crtDfpDisplayUrl];
+                customTargeting[CR_TargetingKey_crtDfpDisplayUrl] = fetchedBid.dfpCompatibleDisplayUrl;
             }
             NSDictionary *updatedDictionary = [NSDictionary dictionaryWithDictionary:customTargeting];
             [adRequest performSelector:dfpSetCustomTargeting withObject:updatedDictionary];
@@ -315,11 +300,11 @@ static NSString * const crtnPixUrl = @"crtn_pixurl_";
             if ([keywords length] > 0) {
                 [keywords appendString:@","];
             }
-            [keywords appendString:crtCpm];
+            [keywords appendString:CR_TargetingKey_crtCpm];
             [keywords appendString:@":"];
             [keywords appendString:fetchedBid.cpm];
             [keywords appendString:@","];
-            [keywords appendString:crtDisplayUrl];
+            [keywords appendString:CR_TargetingKey_crtDisplayUrl];
             [keywords appendString:@":"];
             [keywords appendString:fetchedBid.mopubCompatibleDisplayUrl];
             [adRequest setValue:keywords forKey:@"keywords"];
@@ -351,7 +336,7 @@ static NSString * const crtnPixUrl = @"crtn_pixurl_";
              forKey:(NSString *)key
        inDictionary:(NSMutableDictionary*)dict {
     if(value.length > 0) {
-        [dict setObject:[NSString dfpCompatibleString:value] forKey:key];
+        dict[key] = [NSString dfpCompatibleString:value];
     }
 }
 

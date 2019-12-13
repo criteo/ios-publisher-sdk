@@ -18,6 +18,7 @@
 #import "XCTestCase+Criteo.h"
 #import "CR_DfpCreativeViewChecker.h"
 #import "NSString+CR_UrlEncoder.h"
+#import "CR_TargetingKeys.h"
 @import GoogleMobileAds;
 
 @interface CR_DfpInterstitialFunctionalTests : CR_IntegrationsTestBase
@@ -54,7 +55,7 @@
     DFPRequest *interstitialDfpRequest = [[DFPRequest alloc] init];
 
     [self.criteo setBidsForRequest:interstitialDfpRequest withAdUnit:interstitialAdUnit];
-    NSString *encodedUrl = interstitialDfpRequest.customTargeting[@"crt_displayurl"];
+    NSString *encodedUrl = interstitialDfpRequest.customTargeting[CR_TargetingKey_crtDfpDisplayUrl];
     NSString *decodedUrl = [NSString decodeDfpCompatibleString:encodedUrl];
 
     XCTAssertEqualObjects(bid.displayUrl, decodedUrl);
