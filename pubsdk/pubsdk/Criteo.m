@@ -39,18 +39,18 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         CR_BidManagerBuilder *builder = [[CR_BidManagerBuilder alloc] init];
-        sharedInstance = [[self alloc] initWithBidManagerBuilder:builder];
+        CR_BidManager *bidManager = [builder buildBidManager];
+        sharedInstance = [[self alloc] initWithBidManager:bidManager];
     });
 
     return sharedInstance;
 }
 
-- (instancetype)initWithBidManagerBuilder:(CR_BidManagerBuilder *)bidManagerBuilder {
+- (instancetype)initWithBidManager:(CR_BidManager *)bidManager {
     if (self = [super init]) {
         _registeredAdUnits = [[NSMutableArray alloc] init];
         _hasPrefetched = false;
-        _bidManagerBuilder = bidManagerBuilder;
-        _bidManager = [bidManagerBuilder buildBidManager];
+        _bidManager = bidManager;
     }
     return self;
 }

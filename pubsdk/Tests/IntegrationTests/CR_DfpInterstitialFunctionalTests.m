@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "Criteo.h"
+#import "Criteo+Testing.h"
 #import "CRInterstitialAdUnit.h"
 #import "CR_IntegrationsTestBase.h"
 #import "CR_TestAdUnits.h"

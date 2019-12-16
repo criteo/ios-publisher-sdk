@@ -8,6 +8,7 @@
 
 @class CR_NetworkCaptor;
 @class CR_HttpContent;
+@class CR_BidManagerBuilder;
 
 FOUNDATION_EXPORT NSString *const CriteoTestingPublisherId;
 FOUNDATION_EXPORT NSString *const DemoBannerAdUnitId;
@@ -20,8 +21,11 @@ FOUNDATION_EXPORT NSString *const PreprodNativeAdUnitId;
 
 @property (nonatomic, readonly) CR_NetworkCaptor *testing_networkCaptor;
 @property (nonatomic, readonly) CR_HttpContent *testing_lastBidHttpContent;
+@property (nonatomic, readonly, strong) CR_BidManagerBuilder *bidManagerBuilder;
 
 + (Criteo *)testing_criteoWithNetworkCaptor;
+
+- (instancetype)initWithBidManagerBuilder:(CR_BidManagerBuilder *)bidManagerBuilder;
 
 - (void)testing_registerBanner;
 - (void)testing_registerInterstitial;
