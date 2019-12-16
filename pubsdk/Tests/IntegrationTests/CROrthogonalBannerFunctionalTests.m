@@ -28,6 +28,10 @@
     [self givenCriteoInit_whenRegisterTwice_thenOneCBDCall_withAdUnits:[CR_TestAdUnits randomInterstitial]];
 }
 
+- (void)test_givenCriteoInitWithNative_whenRegisterTwice_thenOneCBDCall {
+    [self givenCriteoInit_whenRegisterTwice_thenOneCBDCall_withAdUnits:[CR_TestAdUnits randomNative]];
+}
+
 - (void)givenCriteoInit_whenRegisterTwice_thenOneCBDCall_withAdUnits:(CRAdUnit *)adUnit {
     Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
     [criteo testing_registerAndWaitForHTTPResponseWithAdUnits:@[adUnit]];
