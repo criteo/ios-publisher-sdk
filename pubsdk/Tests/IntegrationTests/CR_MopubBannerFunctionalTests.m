@@ -13,6 +13,9 @@
 #import "MPClasses.h"
 #import "CR_TestAdUnits.h"
 #import "CR_AssertMopub.h"
+#import "Criteo+Internal.h"
+#import "CR_BidManagerBuilder.h"
+#import "CR_AdUnitHelper.h"
 
 static NSString *initialMopubKeywords = @"key1:value1,key2:value2";
 
@@ -38,10 +41,12 @@ static NSString *initialMopubKeywords = @"key1:value1,key2:value2";
     [self initCriteoWithAdUnits:@[banner]];
     MPAdView *adView = [[MPAdView alloc] init];
     adView.keywords = initialMopubKeywords;
+    CR_BidManagerBuilder *builder = [self.criteo bidManagerBuilder];
+    CR_CdbBid *bid = [builder.cacheManager getBidForAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:banner]];
 
     [self.criteo setBidsForRequest:adView withAdUnit:banner];
 
-    CR_AssertMopubKeywordContainsCriteoBid(adView.keywords, initialMopubKeywords);
+    CR_AssertMopubKeywordContainsCriteoBid(adView.keywords, initialMopubKeywords, bid.displayUrl);
 }
 
 @end
