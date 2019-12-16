@@ -100,6 +100,8 @@
 		54F1E6BC239FA1A900985D09 /* CR_DfpCreativeViewChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0651507F9F3AE240E1BA60 /* CR_DfpCreativeViewChecker.m */; };
 		5E0650E8B945A2954C518C5A /* CR_TargetingKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0656EA9D2A919E7646C70B /* CR_TargetingKeys.m */; };
 		5E06522A02F2F6A13136E48D /* CR_HttpTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0656CED6370CB240092ECC /* CR_HttpTests.m */; };
+		5E065393C7035B58EF497E31 /* NativeAssetsFromCdb.json in Resources */ = {isa = PBXBuildFile; fileRef = 5E065022DFE1021D3CF2B444 /* NativeAssetsFromCdb.json */; };
+		5E06565BD091B87AB797194F /* NativeAssetsFromCdb.json in Resources */ = {isa = PBXBuildFile; fileRef = 5E065022DFE1021D3CF2B444 /* NativeAssetsFromCdb.json */; };
 		5E0656E334784BCDB32052A4 /* CR_DfpNativeFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0656551EC4DAFCC6DF7D79 /* CR_DfpNativeFunctionalTests.m */; };
 		5E065D27D22F2032CA976719 /* CR_DfpInterstitialFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E065AD8DCA877B2A1928681 /* CR_DfpInterstitialFunctionalTests.m */; };
 		5E065F348B239221EFD62032 /* CR_MopubInterstitialFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E06573035072D184799FC19 /* CR_MopubInterstitialFunctionalTests.m */; };
@@ -356,6 +358,7 @@
 		54E0C24C23917D9A004F9353 /* CR_ApiQueryKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_ApiQueryKeys.h; sourceTree = "<group>"; };
 		54E0C24D23917D9A004F9353 /* CR_ApiQueryKeys.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_ApiQueryKeys.m; sourceTree = "<group>"; };
 		54ED19F222717E13009AA0B2 /* CRInterstitialViewControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialViewControllerTests.m; sourceTree = "<group>"; };
+		5E065022DFE1021D3CF2B444 /* NativeAssetsFromCdb.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = NativeAssetsFromCdb.json; sourceTree = "<group>"; };
 		5E0651507F9F3AE240E1BA60 /* CR_DfpCreativeViewChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_DfpCreativeViewChecker.m; sourceTree = "<group>"; };
 		5E0653D789EC6659FC47123D /* CR_TargetingKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_TargetingKeys.h; sourceTree = "<group>"; };
 		5E0653DCED07A1A1895CB076 /* Criteo+Testing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Criteo+Testing.m"; sourceTree = "<group>"; };
@@ -664,6 +667,7 @@
 				7DB4E90F2395374F008DE5E3 /* CRInterstitialTests.m */,
 				54ED19F222717E13009AA0B2 /* CRInterstitialViewControllerTests.m */,
 				7DB4E9122397AB6B008DE5E3 /* CROrthogonalBannerFunctionalTests.m */,
+				5E065022DFE1021D3CF2B444 /* NativeAssetsFromCdb.json */,
 			);
 			path = IntegrationTests;
 			sourceTree = "<group>";
@@ -1169,6 +1173,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7D3E42732391611500BAF673 /* SampleBid.json in Resources */,
+				5E065393C7035B58EF497E31 /* NativeAssetsFromCdb.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1184,6 +1189,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7D3E423223915B6600BAF673 /* SampleBid.json in Resources */,
+				5E06565BD091B87AB797194F /* NativeAssetsFromCdb.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

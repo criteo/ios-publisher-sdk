@@ -1,0 +1,39 @@
+{
+  "products": [
+    {
+      "title": "Criteo native solution",
+      "description": "A smart solution for your Native advertising",
+      "price": "10$",
+      "clickUrl": "https://www.criteo.com/products/",
+      "callToAction": "Try it now!",
+      "image": {
+        "url": "https://publisherdirect.criteo.com/publishertag/preprodtest/creative.png",
+        "height": 300,
+        "width": 300
+      }
+    }
+  ],
+  "advertiser": {
+    "description": "Our digital marketing solutions are trusted",
+    "domain": "criteo.com",
+    "logo": {
+      "url": "https://www.criteo.com/images/criteo-logo.svg",
+      "height": 300,
+      "width": 300
+    },
+    "logoClickUrl": "https://www.criteo.com"
+  },
+  "privacy": {
+    "optoutClickUrl": "https://info.criteo.com/privacy/informations",
+    "optoutImageUrl": "https://static.criteo.net/flash/icon/nai_small.png",
+    "longLegalText": ""
+  },
+  "impressionPixels": [
+    {
+      "url": "https://my-impression-pixel/test/impression"
+    },
+    {
+      "url": "https://cas.com/lg.com"
+    }
+  ]
+}
