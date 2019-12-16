@@ -68,6 +68,14 @@ NSString * const CR_ConfigPreprodConfigurationUrl = @"https://gum.par.preprod.cr
                                  configUrl:CR_ConfigConfigurationUrl];
 }
 
+- (instancetype)init
+{
+    return [self initWithCriteoPublisherId:nil
+                                    cdbUrl:CR_ConfigCdbUrl
+                              appEventsUrl:CR_ConfigAppEventsUrl
+                                 configUrl:CR_ConfigConfigurationUrl];
+}
+
 + (NSDictionary *) getConfigValuesFromData:(NSData *) data {
     NSError *e = nil;
     NSMutableDictionary *configValues = [NSJSONSerialization JSONObjectWithData:data options:0 error:&e];

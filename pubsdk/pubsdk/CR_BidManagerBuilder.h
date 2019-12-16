@@ -23,7 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_BidManagerBuilder : NSObject
 
-@property (nonatomic, copy) NSString *criteoPublisherId;
 @property (nonatomic, strong) CR_BidFetchTracker *bidFetchTracker;
 @property (nonatomic, strong) CR_NetworkManager *networkManager;
 @property (nonatomic, strong) CR_ApiHandler *apiHandler;
@@ -38,13 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
 Build the BidManager with default instances.
- The criteoPublisherId must not be nil.
 **/
 - (CR_BidManager *)buildBidManager;
-/**
- Build the BidManager with default instances for dependencies and the given publisherId.
- **/
-- (CR_BidManager *)buildBidManagerWithPublisherId:(NSString *)publisherId;
 
 @end
 

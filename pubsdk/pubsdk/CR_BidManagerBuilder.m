@@ -60,7 +60,7 @@
 
 - (CR_Config *)config {
     if (_config == nil) {
-        _config = [[CR_Config alloc] initWithCriteoPublisherId:self.criteoPublisherId];
+        _config = [[CR_Config alloc] init];
     }
     return _config;
 }
@@ -109,11 +109,6 @@
                                                                 appEvents:self.appEvents
                                                            timeToNextCall:self.timeToNextCall];
     return bidManager;
-}
-
-- (CR_BidManager *)buildBidManagerWithPublisherId:(NSString *)publishedId {
-    self.criteoPublisherId = publishedId;
-    return [self buildBidManager];
 }
 
 @end

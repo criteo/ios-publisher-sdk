@@ -52,7 +52,7 @@ FOUNDATION_EXTERN NSString * const CR_ConfigPreprodConfigurationUrl;
 
 - (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId;
 
-- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)init;
 
 /*
  * Helper function to convert NSData returned from a network call
