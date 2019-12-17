@@ -9,7 +9,7 @@
 #import "CR_DataProtectionConsentMock.h"
 
 NSString * const CR_DataProtectionConsentMockDefaultConsentString = @"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA";
-NSString * const CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString = @"1YNNN";
+NSString * const CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString = @"1YNN";
 
 @implementation CR_DataProtectionConsentMock
 

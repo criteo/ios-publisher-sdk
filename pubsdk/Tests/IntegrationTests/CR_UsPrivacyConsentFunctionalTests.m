@@ -27,6 +27,10 @@
     [self.userDefaults removeObjectForKey:CR_DataProtectionConsentUsPrivacyIabConsentStringKey];
 }
 
+- (void)tearDown {
+    [self setUp];
+}
+
 - (void)testGivenIabConsentStringSet_whenCriteoRegister_thenUsIabSetInBidRequest
 {
     [self.userDefaults setObject:CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString
