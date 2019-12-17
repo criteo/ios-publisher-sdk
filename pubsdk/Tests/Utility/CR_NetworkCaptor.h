@@ -27,10 +27,9 @@ typedef void (^CR_HTTPResponseListener)(CR_HttpContent *httpContent);
 @interface CR_NetworkCaptor : CR_NetworkManager
 
 @property (nonatomic, strong, readonly) CR_NetworkManager *networkManager;
-/**
- History from the request perspective.
- */
-@property (nonatomic, copy, readonly) NSArray<CR_HttpContent *> *history;
+
+@property (nonatomic, copy, readonly) NSArray<CR_HttpContent *> *finishedRequests;
+@property (nonatomic, copy, readonly) NSArray<CR_HttpContent *> *pendingRequests;
 /**
  Listener that is called each time that the NetworkManager launch a request.
  */

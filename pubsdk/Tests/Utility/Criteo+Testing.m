@@ -31,7 +31,7 @@ NSString *const PreprodNativeAdUnitId = @"test-PubSdk-Native";
 
 - (CR_HttpContent *)testing_lastBidHttpContent
 {
-    for (CR_HttpContent *content in [self.testing_networkCaptor.history reverseObjectEnumerator]) {
+    for (CR_HttpContent *content in [self.testing_networkCaptor.finishedRequests reverseObjectEnumerator]) {
         if ([content.url.absoluteString containsString:self.config.cdbUrl]) {
             return content;
         }
@@ -99,7 +99,7 @@ NSString *const PreprodNativeAdUnitId = @"test-PubSdk-Native";
     BOOL isConfigCallFinished = false;
     BOOL isLaunchAppEventSent = false;
     BOOL isCDBCallFinished = false;
-    for (CR_HttpContent *content in self.testing_networkCaptor.history) {
+    for (CR_HttpContent *content in self.testing_networkCaptor.finishedRequests) {
         NSString *urlString = content.url.absoluteString;
         isConfigCallFinished |= [urlString containsString:config.configUrl];
         isLaunchAppEventSent |= [urlString containsString:config.appEventsUrl] && [urlString containsString:@"eventType=Launch"];

@@ -12,11 +12,8 @@
 #import "MockWKWebView.h"
 
 @interface CR_NetworkCaptor ()
-@property (nonatomic, strong) NSMutableArray<CR_HttpContent *> *waitingRequests;
-/**
- History from the response perspective.
- */
-@property (nonatomic, strong) NSMutableArray<CR_HttpContent *> *responseHistory;
+@property (nonatomic, strong) NSMutableArray<CR_HttpContent *> *internalPendingRequests;
+@property (nonatomic, strong) NSMutableArray<CR_HttpContent *> *internalFinishedRequests;
 @property (nonatomic, assign) unsigned httpRequestCount;
 
 @end
@@ -30,16 +27,16 @@
     self = [super initWithDeviceInfo:deviceInfo];
     if (self) {
         _networkManager = networkManager;
-        _waitingRequests = [[NSMutableArray alloc] init];
-        _responseHistory = [[NSMutableArray alloc] init];
+        _internalPendingRequests = [[NSMutableArray alloc] init];
+        _internalFinishedRequests = [[NSMutableArray alloc] init];
         _httpRequestCount = 0;
     }
     return self;
 }
 
-- (NSArray<CR_HttpContent *> *)history {
+- (NSArray<CR_HttpContent *> *)finishedRequests {
     // Not efficitent but we don't care because this method is called only in tests.
-    return [self.responseHistory sortedArrayUsingComparator:^NSComparisonResult(CR_HttpContent  *_Nonnull obj1, CR_HttpContent *_Nonnull obj2) {
+    return [self.internalFinishedRequests sortedArrayUsingComparator:^NSComparisonResult(CR_HttpContent  *_Nonnull obj1, CR_HttpContent *_Nonnull obj2) {
         if (obj1.counter == obj2.counter) {
             return NSOrderedSame;
         } else if (obj1.counter < obj2.counter) {
@@ -48,6 +45,11 @@
             return NSOrderedDescending;
         }
     }];
+}
+
+- (NSArray<CR_HttpContent *> *)pendingRequests
+{
+    return [self.internalPendingRequests copy];
 }
 
 - (void)getFromUrl:(NSURL *)url
@@ -66,7 +68,7 @@
                                                                 responseBody:nil
                                                                        error:nil
                                                                      counter:count];
-        [self.waitingRequests addObject:requestContent];
+        [self.internalPendingRequests addObject:requestContent];
 
         [self.networkManager getFromUrl:url responseHandler:^(NSData *data, NSError *error) {
             CR_HttpContent *content = [[CR_HttpContent alloc] initWithUrl:url
@@ -78,8 +80,8 @@
             if (responseHandler != nil) {
                 responseHandler(data, error);
             }
-            [self.responseHistory addObject:content];
-            [self.waitingRequests removeObject:requestContent];
+            [self.internalFinishedRequests addObject:content];
+            [self.internalPendingRequests removeObject:requestContent];
             if (self.responseListener != nil) {
                 self.responseListener(content);
             }
@@ -104,7 +106,7 @@
                                                                 responseBody:nil
                                                                        error:nil
                                                                      counter:count];
-        [self.waitingRequests addObject:requestContent];
+        [self.internalPendingRequests addObject:requestContent];
         [self.networkManager postToUrl:url
                               postBody:postBody
                        responseHandler:^(NSData *data, NSError *error) {
@@ -117,8 +119,8 @@
             if (responseHandler != nil) {
                 responseHandler(data, error);
             }
-            [self.responseHistory addObject:content];
-            [self.waitingRequests removeObject:requestContent];
+            [self.internalFinishedRequests addObject:content];
+            [self.internalPendingRequests removeObject:requestContent];
             if (self.responseListener != nil) {
                 self.responseListener(content);
             }
@@ -129,8 +131,8 @@
 - (NSString *)description
 {
     return [[NSString alloc] initWithFormat:
-            @"<%@: %p, waitingRequests: %@, responseHistory: %@ >",
-            NSStringFromClass([self class]), self, self.waitingRequests, self.history];
+            @"<%@: %p, pendingRequests: %@, finishedRequests: %@ >",
+            NSStringFromClass([self class]), self, self.internalPendingRequests, self.finishedRequests];
 }
 
 @end
