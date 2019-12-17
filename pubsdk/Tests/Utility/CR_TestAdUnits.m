@@ -54,6 +54,14 @@
     return @"/140800857/Endeavour_Native";
 }
 
++ (NSString *)mopubBanner50AdUnitId {
+    return @"d2f3ed80e5da4ae1acde0971eac30fa4";
+}
+
++ (NSString *)mopubInterstitialAdUnitId {
+    return @"966fbbf95ba24ab990e5f037cc674bbc";
+}
+
 #pragma mark - Private methods
 
 + (CRInterstitialAdUnit *)interstitialWithId:(NSString *)adUnitId {

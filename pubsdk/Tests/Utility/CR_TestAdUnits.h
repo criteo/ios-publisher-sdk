@@ -24,4 +24,7 @@
 @property(class, nonatomic, readonly) NSString *dfpBanner50AdUnitId;
 @property(class, nonatomic, readonly) NSString *dfpInterstitialAdUnitId;
 
+@property(class, nonatomic, readonly) NSString *mopubBanner50AdUnitId;
+@property(class, nonatomic, readonly) NSString *mopubInterstitialAdUnitId;
+
 @end

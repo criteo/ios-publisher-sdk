@@ -17,6 +17,7 @@
 #import "CR_BidManagerBuilder.h"
 #import "CR_AdUnitHelper.h"
 #import <MoPub.h>
+#import "CR_MopubCreativeViewChecker.h"
 
 static NSString *initialMopubKeywords = @"key1:value1,key2:value2";
 
@@ -48,6 +49,21 @@ static NSString *initialMopubKeywords = @"key1:value1,key2:value2";
     [self.criteo setBidsForRequest:adView withAdUnit:banner];
 
     CR_AssertMopubKeywordContainsCriteoBid(adView.keywords, initialMopubKeywords, bid.displayUrl);
+}
+
+- (void)test_givenValidBanner_whenLoadingMopubBanner_thenMopubViewContainsCreative {
+    CRBannerAdUnit *bannerAdUnit = [CR_TestAdUnits preprodBanner320x50];
+    [self initCriteoWithAdUnits:@[bannerAdUnit]];
+
+    MPAdView *mpAdView = [[MPAdView alloc] initWithAdUnitId:CR_TestAdUnits.mopubBanner50AdUnitId size:MOPUB_BANNER_SIZE];
+    [self.criteo setBidsForRequest:mpAdView withAdUnit:bannerAdUnit];
+
+    CR_MopubCreativeViewChecker *viewChecker = [[CR_MopubCreativeViewChecker alloc] initWithBanner:mpAdView];
+
+    [viewChecker initMopubSdkAndRenderAd];
+
+    BOOL renderedProperly = [viewChecker waitAdCreativeRendered];
+    XCTAssertTrue(renderedProperly);
 }
 
 @end
