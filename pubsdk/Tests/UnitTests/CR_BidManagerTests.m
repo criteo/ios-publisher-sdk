@@ -15,7 +15,7 @@
 #import "CR_CdbBid.h"
 #import "CRBidToken+Internal.h"
 #import "DFPRequestClasses.h"
-#import "MPClasses.h"
+#import <MoPub.h>
 
 static NSString * const CR_BidManagerTestsCpm = @"crt_cpm";
 static NSString * const CR_BidManagerTestsDisplayUrl = @"crt_displayUrl";

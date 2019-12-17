@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "CR_BidManager.h"
 #import "CR_BidmanagerHelper.h"
-#import "MPClasses.h"
+#import <MoPub.h>
 
 @interface CR_BidManagerHelperTests : XCTestCase
 

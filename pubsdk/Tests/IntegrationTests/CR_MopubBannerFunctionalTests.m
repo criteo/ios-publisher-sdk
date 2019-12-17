@@ -10,12 +10,12 @@
 #import "Criteo.h"
 #import "CRBannerAdUnit.h"
 #import "CR_IntegrationsTestBase.h"
-#import "MPClasses.h"
 #import "CR_TestAdUnits.h"
 #import "CR_AssertMopub.h"
 #import "Criteo+Internal.h"
 #import "CR_BidManagerBuilder.h"
 #import "CR_AdUnitHelper.h"
+#import <MoPub.h>
 
 static NSString *initialMopubKeywords = @"key1:value1,key2:value2";
 
