@@ -13,6 +13,7 @@
 #import "CR_TestAdUnits.h"
 #import "CR_AssertMopub.h"
 #import "Criteo+Internal.h"
+#import "Criteo+Testing.h"
 #import "CR_BidManagerBuilder.h"
 #import "CR_AdUnitHelper.h"
 #import <MoPub.h>
