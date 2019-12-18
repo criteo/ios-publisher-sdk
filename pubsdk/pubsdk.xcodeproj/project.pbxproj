@@ -219,6 +219,8 @@
 		7DB5F8D623A9509F00EF5602 /* CR_NetworkSessionReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB5F8D423A9509F00EF5602 /* CR_NetworkSessionReader.m */; };
 		7DB5F8D923A9534C00EF5602 /* CR_NetworkSessionPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB5F8D823A9534C00EF5602 /* CR_NetworkSessionPlayer.m */; };
 		7DB5F8DA23A9534C00EF5602 /* CR_NetworkSessionPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB5F8D823A9534C00EF5602 /* CR_NetworkSessionPlayer.m */; };
+		7DB5F8EF23A95E9C00EF5602 /* GeneratedData in Resources */ = {isa = PBXBuildFile; fileRef = 7DB5F8EE23A95E9C00EF5602 /* GeneratedData */; };
+		7DB5F8F023A95E9C00EF5602 /* GeneratedData in Resources */ = {isa = PBXBuildFile; fileRef = 7DB5F8EE23A95E9C00EF5602 /* GeneratedData */; };
 		7DF2A06C236889CC00178D8C /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25BD5B572220D16D004DE311 /* CriteoPublisherSdk.framework */; };
 		7DF2A0A223689F6B00178D8C /* MockWKWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6540470E22581D32009235A1 /* MockWKWebView.m */; };
 		BB5361AECA2A9614E3B4A2C6 /* libPods-pubsdkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F187272CD050435F6D28BFA /* libPods-pubsdkTests.a */; };
@@ -465,6 +467,7 @@
 		7DB5F8D423A9509F00EF5602 /* CR_NetworkSessionReader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_NetworkSessionReader.m; sourceTree = "<group>"; };
 		7DB5F8D723A9534C00EF5602 /* CR_NetworkSessionPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_NetworkSessionPlayer.h; sourceTree = "<group>"; };
 		7DB5F8D823A9534C00EF5602 /* CR_NetworkSessionPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_NetworkSessionPlayer.m; sourceTree = "<group>"; };
+		7DB5F8EE23A95E9C00EF5602 /* GeneratedData */ = {isa = PBXFileReference; lastKnownFileType = folder; path = GeneratedData; sourceTree = "<group>"; };
 		7DF2A067236889CC00178D8C /* SDKUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SDKUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF367C84232971810044807B /* CRNativeAdUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNativeAdUnit.h; sourceTree = "<group>"; };
 		DF367C85232971810044807B /* CRNativeAdUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdUnit.m; sourceTree = "<group>"; };
@@ -965,6 +968,7 @@
 		E1F2737121B5F08D00A2FBFA /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				7DB5F8EE23A95E9C00EF5602 /* GeneratedData */,
 				7D3E41EF23915A8B00BAF673 /* pubsdkTests-Info.plist */,
 				7D3E42712391605D00BAF673 /* SDKUnitTests-Info.plist */,
 				54E0C221238BCE11004F9353 /* IntegrationTests */,
@@ -1196,6 +1200,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DB5F8F023A95E9C00EF5602 /* GeneratedData in Resources */,
 				7D3E42732391611500BAF673 /* SampleBid.json in Resources */,
 				5E065393C7035B58EF497E31 /* NativeAssetsFromCdb.json in Resources */,
 			);
@@ -1212,6 +1217,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DB5F8EF23A95E9C00EF5602 /* GeneratedData in Resources */,
 				7D3E423223915B6600BAF673 /* SampleBid.json in Resources */,
 				5E06565BD091B87AB797194F /* NativeAssetsFromCdb.json in Resources */,
 			);
