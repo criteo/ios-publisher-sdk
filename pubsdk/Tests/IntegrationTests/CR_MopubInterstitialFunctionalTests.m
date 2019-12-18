@@ -16,6 +16,7 @@
 #import "Criteo+Testing.h"
 #import "CR_BidManagerBuilder.h"
 #import "CR_AdUnitHelper.h"
+#import "CR_MopubCreativeViewChecker.h"
 #import <MoPub.h>
 
 static NSString *initialMopubKeywords = @"key1:value1,key2:value2";
@@ -48,6 +49,21 @@ static NSString *initialMopubKeywords = @"key1:value1,key2:value2";
     [self.criteo setBidsForRequest:interstitialAdController withAdUnit:interstitial];
 
     CR_AssertMopubKeywordContainsCriteoBid(interstitialAdController.keywords, initialMopubKeywords, bid.displayUrl);
+}
+
+- (void)test_givenValidInterstitial_whenLoading_thenMopubViewContainsCreative {
+    CRInterstitialAdUnit *interstitialAdUnit = [CR_TestAdUnits preprodInterstitial];
+    [self initCriteoWithAdUnits:@[interstitialAdUnit]];
+
+    MPInterstitialAdController *interstitial = [MPInterstitialAdController interstitialAdControllerForAdUnitId:CR_TestAdUnits.mopubInterstitialAdUnitId];
+    [self.criteo setBidsForRequest:interstitial withAdUnit:interstitialAdUnit];
+
+    CR_MopubCreativeViewChecker *viewChecker = [[CR_MopubCreativeViewChecker alloc] initWithInterstitial:interstitial];
+
+    [viewChecker initMopubSdkAndRenderAd:interstitial];
+
+    BOOL renderedProperly = [viewChecker waitAdCreativeRendered];
+    XCTAssertTrue(renderedProperly);
 }
 
 @end

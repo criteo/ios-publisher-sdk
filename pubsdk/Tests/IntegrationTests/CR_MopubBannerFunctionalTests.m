@@ -60,7 +60,7 @@ static NSString *initialMopubKeywords = @"key1:value1,key2:value2";
 
     CR_MopubCreativeViewChecker *viewChecker = [[CR_MopubCreativeViewChecker alloc] initWithBanner:mpAdView];
 
-    [viewChecker initMopubSdkAndRenderAd];
+    [viewChecker initMopubSdkAndRenderAd:mpAdView];
 
     BOOL renderedProperly = [viewChecker waitAdCreativeRendered];
     XCTAssertTrue(renderedProperly);

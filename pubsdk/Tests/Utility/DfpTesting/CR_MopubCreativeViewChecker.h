@@ -8,14 +8,16 @@
 #import <XCTest/XCTest.h>
 
 
-@interface CR_MopubCreativeViewChecker : NSObject <MPAdViewDelegate>
+@interface CR_MopubCreativeViewChecker : NSObject <MPAdViewDelegate, MPInterstitialAdControllerDelegate>
 
 @property(nonatomic, readonly) XCTestExpectation *adCreativeRenderedExpectation;
 @property(nonatomic, readonly) UIWindow *uiWindow;
 
 - (instancetype)initWithBanner:(MPAdView *)adView;
 
-- (void)initMopubSdkAndRenderAd;
+- (instancetype)initWithInterstitial:(MPInterstitialAdController *)interstitialAdController;
+
+- (void)initMopubSdkAndRenderAd:(id)someMopubAd;
 
 - (BOOL)waitAdCreativeRendered;
 

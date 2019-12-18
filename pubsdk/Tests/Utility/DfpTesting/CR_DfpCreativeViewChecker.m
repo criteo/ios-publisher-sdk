@@ -80,6 +80,7 @@ static NSString *stubCreativeImage = @"https://publisherdirect.criteo.com/publis
     if ([htmlContent containsString:stubCreativeImage]) {
         [self.adCreativeRenderedExpectation fulfill];
     }
+    self.uiWindow.hidden = YES;
 }
 
 - (UIWindow *)createUIWindow {

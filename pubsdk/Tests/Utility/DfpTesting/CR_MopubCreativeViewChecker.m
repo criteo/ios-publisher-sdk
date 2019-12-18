@@ -9,9 +9,7 @@
 
 static NSString *stubCreativeImage = @"https://publisherdirect.criteo.com/publishertag/preprodtest/creative.png";
 
-@implementation CR_MopubCreativeViewChecker {
-    MPAdView *_adView;
-}
+@implementation CR_MopubCreativeViewChecker
 
 - (instancetype)init_ {
     if (self = [super init]) {
@@ -24,7 +22,6 @@ static NSString *stubCreativeImage = @"https://publisherdirect.criteo.com/publis
 - (instancetype)initWithBanner:(MPAdView *)adView {
     if ([self init_]) {
         adView.delegate = self;
-        _adView = adView;
         adView.frame = CGRectMake(
             self.uiWindow.frame.origin.x, self.uiWindow.frame.origin.y,
             MOPUB_BANNER_SIZE.width, MOPUB_BANNER_SIZE.height
@@ -34,12 +31,30 @@ static NSString *stubCreativeImage = @"https://publisherdirect.criteo.com/publis
     return self;
 }
 
-- (void)initMopubSdkAndRenderAd {
-    MPMoPubConfiguration *sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:_adView.adUnitId];
-    [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig completion:^{
+- (instancetype)initWithInterstitial:(MPInterstitialAdController *)interstitialAdController {
+    if ([self init_]) {
+        interstitialAdController.delegate = self;
+    }
+    return self;
+}
+
+- (void)initMopubSdkAndRenderAd:(id)someMopubAd {
+    if(![someMopubAd isKindOfClass:MPAdView.class] && ![someMopubAd isKindOfClass:MPInterstitialAdController.class]) {
+        XCTFail(@"MopubCreativeViewChecker can render only Mopub ad, but was provided object with type:%@", NSStringFromClass([someMopubAd class]));
+        return;
+    }
+    MPMoPubConfiguration *sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:[someMopubAd adUnitId]];
+    MoPub *moPub = [MoPub sharedInstance];
+    if(moPub.isSdkInitialized) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [someMopubAd loadAd];
+        });
+        return;
+    }
+    [moPub initializeSdkWithConfiguration:sdkConfig completion:^{
         CLog(@"Mopub SDK initialization complete");
         dispatch_async(dispatch_get_main_queue(), ^{
-            [_adView loadAd];
+            [someMopubAd loadAd];
         });
     }];
 }
@@ -65,6 +80,21 @@ static NSString *stubCreativeImage = @"https://publisherdirect.criteo.com/publis
     CLog(@"MOPUB ERROR: adViewDidFailToLoadAd: delegate invoked");
 }
 
+#pragma mark - MPInterstitialAdControllerDelegate methods
+
+- (void)interstitialDidLoadAd:(MPInterstitialAdController *)interstitial {
+    NSLog(@"MOPUB SUCCESS: interstitialDidLoadAd delegate invoked");
+    [interstitial showFromViewController:_uiWindow.rootViewController];
+}
+
+- (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial {
+    CLog(@"MOPUB ERROR: interstitialDidFailToLoadAd: delegate invoked");
+}
+
+- (void)interstitialDidAppear:(MPInterstitialAdController *)interstitial {
+    [self checkViewAndFulfillExpectation];
+}
+
 #pragma mark - Private methods
 
 - (void)checkViewAndFulfillExpectation {
@@ -74,6 +104,7 @@ static NSString *stubCreativeImage = @"https://publisherdirect.criteo.com/publis
                        if ([htmlContent containsString:stubCreativeImage]) {
                            [self.adCreativeRenderedExpectation fulfill];
                        }
+                       self.uiWindow.hidden = YES;
                    }];
 }
 

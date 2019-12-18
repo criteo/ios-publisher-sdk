@@ -59,7 +59,7 @@
 }
 
 + (NSString *)mopubInterstitialAdUnitId {
-    return @"966fbbf95ba24ab990e5f037cc674bbc";
+    return @"83a2996696284da881edaf1a480e5d7c";
 }
 
 #pragma mark - Private methods
