@@ -19,6 +19,14 @@ XCODEBUILD_DESTINATION_SIMULATOR_OS="12.4"
 XCODEBUILD_DESTINATION_SIMULATOR_NAME="iPhone XS"
 XCODEBUILD_DESTINATION_SIMULATOR="platform=iOS Simulator,name=${XCODEBUILD_DESTINATION_SIMULATOR_NAME},OS=${XCODEBUILD_DESTINATION_SIMULATOR_OS}"
 
+
+if [ $# -eq 0 ]; then
+    XCODEBUILD_SCHEME_FOR_TESTING="pubsdk"
+else
+    XCODEBUILD_SCHEME_FOR_TESTING="$1"
+fi
+echo "Selected SCHEME for testing: ${XCODEBUILD_SCHEME_FOR_TESTING}"
+
 # Delete the left over simulators from previous xcode version
 xcrun simctl delete unavailable
 
@@ -63,10 +71,10 @@ pod install
 CRITEO_CONFIGURATION="Release"
 printf "Launching $CRITEO_CONFIGURATION build\nARCHS: $CRITEO_ARCHS\nSIM ARCHS: $CRITEO_SIM_ARCHS\n"
 
-    # We still have to build pubsdk scheme for testing
+    # We still have to build scheme for testing
     xcodebuild \
     -workspace fuji.xcworkspace \
-        -scheme pubsdk \
+        -scheme "${XCODEBUILD_SCHEME_FOR_TESTING}" \
         -configuration $CRITEO_CONFIGURATION \
         -IDEBuildOperationMaxNumberOfConcurrentCompileTasks=`sysctl -n hw.ncpu` \
         -derivedDataPath build/DerivedData  \

@@ -7,7 +7,10 @@
 
 #import "Criteo+Testing.h"
 #import "Criteo+Internal.h"
+#import "CR_NetworkManagerDecorator.h"
 #import "CR_NetworkCaptor.h"
+#import "CR_NetworkSessionRecorder.h"
+#import "CR_NetworkSessionPlayer.h"
 #import "CR_BidManagerBuilder.h"
 #import "CRInterstitialAdUnit.h"
 #import "CRBannerAdUnit.h"
@@ -63,12 +66,15 @@ static void *CriteoTestingBidManagerBuilderKey = &CriteoTestingBidManagerBuilder
     return nil;
 }
 
-+ (Criteo *)testing_criteoWithNetworkCaptor {
-    CR_BidManagerBuilder *builder = [[CR_BidManagerBuilder alloc] init];
-    CR_NetworkCaptor *networkCaptor = [[CR_NetworkCaptor alloc] initWithNetworkManager:builder.networkManager];
++ (Criteo *)testing_criteoWithNetworkCaptor
+{
+    CR_NetworkManagerDecorator *decorator = [CR_NetworkManagerDecorator decoratorFromConfiguration];
     CR_Config *config = [CR_Config configForPreprodWithCriteoPublisherId:CriteoTestingPublisherId];
-    builder.networkManager = networkCaptor;
+
+    CR_BidManagerBuilder *builder = [[CR_BidManagerBuilder alloc] init];
+    builder.networkManager = [decorator decorateNetworkManager:builder.networkManager];
     builder.config = config;
+
     Criteo *criteo = [[Criteo alloc] initWithBidManagerBuilder:builder];
     return criteo;
 }
