@@ -14,6 +14,7 @@
 #import "CR_NativeAssets.h"
 #import "CR_TargetingKeys.h"
 #import "NSString+CR_UrlEncoder.h"
+#import "CR_DfpCreativeViewChecker.h"
 @import GoogleMobileAds;
 
 @interface CR_DfpNativeFunctionalTests : CR_IntegrationsTestBase
@@ -69,6 +70,21 @@
 
     NSString *pixelCount = [NSString stringWithFormat:@"%@", @(assets.impressionPixels.count)];
     XCTAssertEqualObjects(targeting[CR_TargetingKey_crtnPixCount], pixelCount);
+}
+
+- (void)test_givenValidNative_whenLoadingNative_thenDfpViewContainsNativeCreative {
+    CRNativeAdUnit *bannerAdUnit = [CR_TestAdUnits preprodNative];
+    [self initCriteoWithAdUnits:@[bannerAdUnit]];
+    DFPRequest *bannerDfpRequest = [[DFPRequest alloc] init];
+
+    CR_DfpCreativeViewChecker *dfpViewChecker = [[CR_DfpCreativeViewChecker alloc] initWithBannerWithSize:kGADAdSizeFluid
+                                                                                             withAdUnitId:CR_TestAdUnits.dfpNativeId];
+
+    [self.criteo setBidsForRequest:bannerDfpRequest withAdUnit:bannerAdUnit];
+    [dfpViewChecker.dfpBannerView loadRequest:bannerDfpRequest];
+
+    BOOL renderedProperly = [dfpViewChecker waitAdCreativeRendered];
+    XCTAssertTrue(renderedProperly);
 }
 
 #pragma mark - Private methods

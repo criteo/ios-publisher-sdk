@@ -21,11 +21,12 @@ static NSString *stubCreativeImage = @"https://publisherdirect.criteo.com/publis
     return self;
 }
 
--(instancetype)initWithBanner:(DFPBannerView *)dfpBannerView {
+-(instancetype)initWithBannerWithSize:(GADAdSize)size withAdUnitId:(NSString *)adUnitId {
     if ([self init_]) {
-        dfpBannerView.delegate = self;
-        dfpBannerView.rootViewController = _uiWindow.rootViewController;
-        [self.uiWindow.rootViewController.view addSubview:dfpBannerView];
+        _dfpBannerView = [self createDfpBannerWithSize:size withAdUnitId:adUnitId];
+        _dfpBannerView.delegate = self;
+        _dfpBannerView.rootViewController = _uiWindow.rootViewController;
+        [self.uiWindow.rootViewController.view addSubview:_dfpBannerView];
     }
     return self;
 }
@@ -89,5 +90,11 @@ static NSString *stubCreativeImage = @"https://publisherdirect.criteo.com/publis
     return window;
 }
 
+-(DFPBannerView *)createDfpBannerWithSize:(GADAdSize)size withAdUnitId:(NSString *)adUnitId {
+    DFPBannerView *dfpBannerView = [[DFPBannerView alloc] initWithAdSize:size];
+    dfpBannerView.adUnitID = adUnitId;
+    dfpBannerView.backgroundColor = [UIColor orangeColor];
+    return dfpBannerView;
+}
 
 @end

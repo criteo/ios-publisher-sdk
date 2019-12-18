@@ -64,23 +64,14 @@
     CRBannerAdUnit *bannerAdUnit = [CR_TestAdUnits preprodBanner320x50];
     [self initCriteoWithAdUnits:@[bannerAdUnit]];
     DFPRequest *bannerDfpRequest = [[DFPRequest alloc] init];
-    DFPBannerView *dfpBannerView = [self createDfpBanner];
-    CR_DfpCreativeViewChecker *dfpViewChecker = [[CR_DfpCreativeViewChecker alloc] initWithBanner:dfpBannerView];
+    CR_DfpCreativeViewChecker *dfpViewChecker = [[CR_DfpCreativeViewChecker alloc] initWithBannerWithSize:kGADAdSizeBanner
+                                                                                             withAdUnitId:CR_TestAdUnits.dfpBanner50AdUnitId];
 
     [self.criteo setBidsForRequest:bannerDfpRequest withAdUnit:bannerAdUnit];
-    [dfpBannerView loadRequest:bannerDfpRequest];
+    [dfpViewChecker.dfpBannerView loadRequest:bannerDfpRequest];
 
     BOOL renderedProperly = [dfpViewChecker waitAdCreativeRendered];
     XCTAssertTrue(renderedProperly);
-}
-
-#pragma mark - Private methods
-
-- (DFPBannerView *)createDfpBanner {
-    DFPBannerView *dfpBannerView = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeBanner];
-    dfpBannerView.adUnitID = CR_TestAdUnits.dfpBanner50AdUnitId;
-    dfpBannerView.backgroundColor = [UIColor orangeColor];
-    return dfpBannerView;
 }
 
 @end

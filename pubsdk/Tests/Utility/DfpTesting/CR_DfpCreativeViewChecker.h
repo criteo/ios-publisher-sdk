@@ -13,9 +13,10 @@
 
 @property(nonatomic, readonly) XCTestExpectation *adCreativeRenderedExpectation;
 @property(nonatomic, readonly) UIWindow *uiWindow;
+@property(nonatomic, readonly) DFPBannerView *dfpBannerView;
 
 -(instancetype)init NS_UNAVAILABLE;
--(instancetype)initWithBanner:(DFPBannerView *)dfpBannerView;
+-(instancetype)initWithBannerWithSize:(GADAdSize)size withAdUnitId:(NSString *)adUnitId;
 -(instancetype)initWithInterstitial:(DFPInterstitial *)dfpInterstitial;
 -(BOOL)waitAdCreativeRendered;
 
