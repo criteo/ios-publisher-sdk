@@ -27,3 +27,8 @@ void CLog_DoLog(const char *filename, int lineNum, const char *funcname, NSStrin
 
     va_end(pList);
 }
+
+void CLog_DoLog_Dummy(NSString * _Nonnull format, ...)
+{
+
+}

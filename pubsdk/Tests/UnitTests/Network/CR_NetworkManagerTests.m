@@ -81,14 +81,7 @@
     id<CR_NetworkManagerDelegate> delegateMock = [self stubNetworkManagerDelegateForNetworkManager:networkManager];
 
     networkManager.delegate = delegateMock;
-
-    CLog(@"Test called the NetworkManager");
-    NSError *jsonError;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:postBody options:NSJSONWritingPrettyPrinted error:&jsonError];
-    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    CLog(@"%@", jsonString);
     [networkManager postToUrl:url postBody:postBody responseHandler:^(NSData *data, NSError *error) {
-        CLog(@"NetworkManager called back!");
         if(error == nil) {
             XCTAssertNotNil(data);
             if(data) {

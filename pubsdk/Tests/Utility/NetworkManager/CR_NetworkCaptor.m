@@ -170,11 +170,11 @@
     if (self.requestBody.count > 0) {
         [result appendFormat:@"requestBody: %@ ", self.requestBody];
     }
-    [result appendFormat:@"responseBody_size: %lu ", self.responseBody.length];
+    [result appendFormat:@"responseBody_size: %zd ", self.responseBody.length];
     if (self.error != nil) {
         [result appendFormat:@"error: %@ ", self.error];
     }
-    [result appendFormat:@"responseBody: %lu ", self.responseBody.length];
+    [result appendFormat:@"responseBody: %zd ", self.responseBody.length];
     if (self.error != nil) {
         [result appendFormat:@"error: %@ ", self.error];
     }

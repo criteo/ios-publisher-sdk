@@ -14,6 +14,7 @@
 #import "CR_NetworkWaiter.h"
 #import "CR_NetworkWaiterBuilder.h"
 #import "CR_TestAdUnits.h"
+#import "CR_Assert.h"
 
 // This publisherId B-056946 exists in production.
 NSString *const CriteoTestingPublisherId = @"B-000001";
@@ -112,7 +113,7 @@ static void *CriteoTestingBidManagerBuilderKey = &CriteoTestingBidManagerBuilder
 - (void)testing_registerAndWaitForHTTPResponseWithAdUnits:(NSArray<CRAdUnit *> *)adUnits {
     [self testing_registerWithAdUnits:adUnits];
     BOOL finished = [self testing_waitForRegisterHTTPResponses];
-    NSAssert(finished, @"Failed to received all the requests for the register: %@", self.testing_networkCaptor);
+    CR_Assert(finished, @"Failed to received all the requests for the register: %@", self.testing_networkCaptor);
 }
 
 @end

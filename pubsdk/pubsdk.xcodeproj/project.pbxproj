@@ -202,6 +202,8 @@
 		7D51ABF623ACCC7700540094 /* CR_NetworkWaiterBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D51ABF423ACCC7700540094 /* CR_NetworkWaiterBuilder.m */; };
 		7D51ABF923ACE16800540094 /* NSURL+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D51ABF823ACE16800540094 /* NSURL+Testing.m */; };
 		7D51ABFA23ACE16800540094 /* NSURL+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D51ABF823ACE16800540094 /* NSURL+Testing.m */; };
+		7D51ABFD23B0EDD900540094 /* CR_Assert.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D51ABFB23B0EDD900540094 /* CR_Assert.h */; };
+		7D51ABFE23B0EDD900540094 /* CR_Assert.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D51ABFB23B0EDD900540094 /* CR_Assert.h */; };
 		7DA2F5BD23A0D9E400B35524 /* CR_DataProtectionConsentMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA2F5BC23A0D9E400B35524 /* CR_DataProtectionConsentMock.m */; };
 		7DA2F5BE23A0D9E400B35524 /* CR_DataProtectionConsentMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA2F5BC23A0D9E400B35524 /* CR_DataProtectionConsentMock.m */; };
 		7DA2F5C423A0EAC000B35524 /* CR_UsPrivacyConsentFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA2F5C323A0EAC000B35524 /* CR_UsPrivacyConsentFunctionalTests.m */; };
@@ -457,6 +459,7 @@
 		7D51ABF423ACCC7700540094 /* CR_NetworkWaiterBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_NetworkWaiterBuilder.m; sourceTree = "<group>"; };
 		7D51ABF723ACE16800540094 /* NSURL+Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURL+Testing.h"; sourceTree = "<group>"; };
 		7D51ABF823ACE16800540094 /* NSURL+Testing.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSURL+Testing.m"; sourceTree = "<group>"; };
+		7D51ABFB23B0EDD900540094 /* CR_Assert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_Assert.h; sourceTree = "<group>"; };
 		7DA2F5BB23A0D9E400B35524 /* CR_DataProtectionConsentMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_DataProtectionConsentMock.h; sourceTree = "<group>"; };
 		7DA2F5BC23A0D9E400B35524 /* CR_DataProtectionConsentMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_DataProtectionConsentMock.m; sourceTree = "<group>"; };
 		7DA2F5C323A0EAC000B35524 /* CR_UsPrivacyConsentFunctionalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_UsPrivacyConsentFunctionalTests.m; sourceTree = "<group>"; };
@@ -594,6 +597,7 @@
 				25B650592206AB40008416D3 /* Logging.m */,
 				543B67292294689B006A99DF /* NSError+CRErrors.h */,
 				543B672A2294689B006A99DF /* NSError+CRErrors.m */,
+				7D51ABFB23B0EDD900540094 /* CR_Assert.h */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -1038,6 +1042,7 @@
 				DF367C8A232974210044807B /* CRNativeAdUnit.h in Headers */,
 				25BD5B5B2220D16D004DE311 /* CriteoPublisherSdk.h in Headers */,
 				53CA0F9522AB0ABD0098F96C /* CRBidToken.h in Headers */,
+				7D51ABFE23B0EDD900540094 /* CR_Assert.h in Headers */,
 				545A39F422A8794F00648957 /* CRInterstitial.h in Headers */,
 				53CA0F9622AB0ABD0098F96C /* CRBidResponse.h in Headers */,
 			);
@@ -1055,6 +1060,7 @@
 				650915FE225565E7001D6673 /* CRBannerView.h in Headers */,
 				5397C09622A0885A00BC72FE /* CRBannerAdUnit.h in Headers */,
 				E1F2737521B5F08D00A2FBFA /* pubsdk.h in Headers */,
+				7D51ABFD23B0EDD900540094 /* CR_Assert.h in Headers */,
 				DF367C86232971820044807B /* CRNativeAdUnit.h in Headers */,
 				53CA0F9822AB0B870098F96C /* CRBidToken.h in Headers */,
 				53CA0F9922AB0B870098F96C /* CRBidResponse.h in Headers */,
@@ -1802,6 +1808,9 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1858,6 +1867,9 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;

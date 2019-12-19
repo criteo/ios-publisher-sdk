@@ -9,6 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "CR_NetworkSessionWriter.h"
 #import "CR_NetworkSessionSerializer.h"
+#import "CR_Assert.h"
 
 @interface CR_NetworkSessionWriter ()
 
@@ -40,7 +41,7 @@
         NSAssert(!error, @"Impossible to create directory %@: %@", fileDir, error);
     }
     BOOL create = [fileManager isWritableFileAtPath:fileDir];
-    NSAssert(create, @"Cannot create file: %@", fileDir);
+    CR_Assert(create, @"Cannot create file: %@", fileDir);
 
     return [[CR_NetworkSessionWriter alloc] initWithWithFileManager:fileManager
                                                      fileDirectory:fileDir];
