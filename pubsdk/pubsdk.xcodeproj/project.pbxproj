@@ -125,7 +125,6 @@
 		7D3E422323915B6600BAF673 /* CR_ConfigManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41F423915B6600BAF673 /* CR_ConfigManagerTests.m */; };
 		7D3E422423915B6600BAF673 /* CR_ConfigTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41F523915B6600BAF673 /* CR_ConfigTests.m */; };
 		7D3E422523915B6600BAF673 /* CR_DeviceInfoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41F623915B6600BAF673 /* CR_DeviceInfoTests.m */; };
-		7D3E422723915B6600BAF673 /* CR_DataProtectionConsentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41F823915B6600BAF673 /* CR_DataProtectionConsentTests.m */; };
 		7D3E422823915B6600BAF673 /* CR_NativePrivacyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41FA23915B6600BAF673 /* CR_NativePrivacyTests.m */; };
 		7D3E422923915B6600BAF673 /* CR_NativeProductTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41FB23915B6600BAF673 /* CR_NativeProductTests.m */; };
 		7D3E422A23915B6600BAF673 /* CR_NativeImageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41FC23915B6600BAF673 /* CR_NativeImageTests.m */; };
@@ -165,7 +164,6 @@
 		7D3E424D23915D8700BAF673 /* CR_CacheManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E421423915B6600BAF673 /* CR_CacheManagerTests.m */; };
 		7D3E424E23915D8700BAF673 /* CR_CdbBidTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420923915B6600BAF673 /* CR_CdbBidTests.m */; };
 		7D3E424F23915D8700BAF673 /* CR_CdbResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E421623915B6600BAF673 /* CR_CdbResponseTests.m */; };
-		7D3E425023915D8700BAF673 /* CR_DataProtectionConsentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41F823915B6600BAF673 /* CR_DataProtectionConsentTests.m */; };
 		7D3E425123915D8700BAF673 /* CRAdUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E422023915B6600BAF673 /* CRAdUnitTests.m */; };
 		7D3E425223915D8700BAF673 /* CRBannerAdUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E421023915B6600BAF673 /* CRBannerAdUnitTests.m */; };
 		7D3E425323915D8700BAF673 /* CRInterstitialAdUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E421723915B6600BAF673 /* CRInterstitialAdUnitTests.m */; };
@@ -199,6 +197,7 @@
 		7D3E42732391611500BAF673 /* SampleBid.json in Resources */ = {isa = PBXBuildFile; fileRef = 7D3E420523915B6600BAF673 /* SampleBid.json */; };
 		7D51ABF023AB781600540094 /* CR_Timer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D51ABEF23AB781600540094 /* CR_Timer.m */; };
 		7D51ABF123AB781600540094 /* CR_Timer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D51ABEF23AB781600540094 /* CR_Timer.m */; };
+		7D51ABF223ABB63700540094 /* CR_DataProtectionConsentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41F823915B6600BAF673 /* CR_DataProtectionConsentTests.m */; };
 		7DA2F5BD23A0D9E400B35524 /* CR_DataProtectionConsentMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA2F5BC23A0D9E400B35524 /* CR_DataProtectionConsentMock.m */; };
 		7DA2F5BE23A0D9E400B35524 /* CR_DataProtectionConsentMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA2F5BC23A0D9E400B35524 /* CR_DataProtectionConsentMock.m */; };
 		7DA2F5C423A0EAC000B35524 /* CR_UsPrivacyConsentFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA2F5C323A0EAC000B35524 /* CR_UsPrivacyConsentFunctionalTests.m */; };
@@ -1419,7 +1418,6 @@
 				7D3E425F23915DA500BAF673 /* CRBidTokenTests.m in Sources */,
 				7D3E426723915DB900BAF673 /* CR_ApiHandlerTests.m in Sources */,
 				7DA2F5BE23A0D9E400B35524 /* CR_DataProtectionConsentMock.m in Sources */,
-				7D3E425023915D8700BAF673 /* CR_DataProtectionConsentTests.m in Sources */,
 				7DB5F90323AA2B2500EF5602 /* CR_NetworkSessionRecorder.m in Sources */,
 				7D3E425823915D8F00BAF673 /* CR_AppEventsTests.m in Sources */,
 				54F1E6B7239FA19C00985D09 /* UIView+Testing.m in Sources */,
@@ -1440,6 +1438,7 @@
 				7D3E425623915D8700BAF673 /* NSObject+CriteoTests.m in Sources */,
 				7D3E425B23915D9C00BAF673 /* CR_DeviceInfoTests.m in Sources */,
 				7D3E426823915DC300BAF673 /* CRBannerViewTests.m in Sources */,
+				7D51ABF223ABB63700540094 /* CR_DataProtectionConsentTests.m in Sources */,
 				54F1E6BA239FA1A000985D09 /* UIWebView+Testing.m in Sources */,
 				7D3E425123915D8700BAF673 /* CRAdUnitTests.m in Sources */,
 				7D3E426423915DAC00BAF673 /* CR_NativeAdvertiserTests.m in Sources */,
@@ -1566,10 +1565,7 @@
 				7D3E422823915B6600BAF673 /* CR_NativePrivacyTests.m in Sources */,
 				54680B6A2395222B00DB5A37 /* CR_DfpBannerFunctionalTests.m in Sources */,
 				7DB4E90C239532BA008DE5E3 /* XCTestCase+Criteo.m in Sources */,
-				7D3E422723915B6600BAF673 /* CR_DataProtectionConsentTests.m in Sources */,
 				54F1E6B9239FA1A000985D09 /* UIWebView+Testing.m in Sources */,
-				7D3E422723915B6600BAF673 /* CR_DataProtectionConsentTests.m in Sources */,
-				7D3E41DF238BC16E00BAF673 /* CR_NetworkCaptor.m in Sources */,
 				7D3E423523915B6600BAF673 /* CR_CdbBidTests.m in Sources */,
 				5E06522A02F2F6A13136E48D /* CR_HttpTests.m in Sources */,
 				5E065F348B239221EFD62032 /* CR_MopubInterstitialFunctionalTests.m in Sources */,
