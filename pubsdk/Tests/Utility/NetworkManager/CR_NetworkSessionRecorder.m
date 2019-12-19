@@ -15,7 +15,7 @@
 @interface CR_NetworkSessionRecorder ()
 
 @property (nonatomic, strong) NSMutableArray *finishedRequests;
-@property (nonatomic, strong) CR_NetworkSessionWriter *cache;
+@property (nonatomic, strong) CR_NetworkSessionWriter *writer;
 
 @end
 
@@ -32,7 +32,7 @@
         _networkManager = networkManager;
         _sessionIdentifier = sessionIdentifier;
         _finishedRequests = [[NSMutableArray alloc] init];
-        _cache = [CR_NetworkSessionWriter defaultNetworkSessionCache];
+        _writer = [CR_NetworkSessionWriter defaultNetworkSessionWriter];
     }
     return self;
 }
@@ -91,8 +91,8 @@
     // Dispatch for avoiding I/O perfomances impacting the tests
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if (self.finishedRequests.count) {
-            [self.cache setSession:[self.finishedRequests copy]
-                            forKey:self.sessionIdentifier];
+            [self.writer setSession:[self.finishedRequests copy]
+                             forKey:self.sessionIdentifier];
         }
     });
 }

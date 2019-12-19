@@ -27,7 +27,7 @@
     NSLog(@"%@ will flush in the following directory: %@", NSStringFromClass([self class]), tmpDir);
 }
 
-+ (instancetype)defaultNetworkSessionCache {
++ (instancetype)defaultNetworkSessionWriter {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *tmpDir = NSTemporaryDirectory();
     NSString *fileDir = [[NSString alloc] initWithFormat:@"%@sessions", tmpDir];

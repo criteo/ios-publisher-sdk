@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_NetworkSessionWriter : NSObject
 
-+ (instancetype)defaultNetworkSessionCache;
++ (instancetype)defaultNetworkSessionWriter;
 - (instancetype)initWithWithFileManager:(NSFileManager *)fileManager
                           fileDirectory:(NSString *)fileDirectory NS_DESIGNATED_INITIALIZER;
 -(instancetype)init NS_UNAVAILABLE;
