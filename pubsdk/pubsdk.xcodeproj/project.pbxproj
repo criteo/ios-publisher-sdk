@@ -1151,7 +1151,7 @@
 		E1F2735B21B5F08D00A2FBFA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 1120;
 				ORGANIZATIONNAME = Criteo;
 				TargetAttributes = {
 					25BD5B562220D16D004DE311 = {
@@ -1561,6 +1561,7 @@
 				7D3E422723915B6600BAF673 /* CR_DataProtectionConsentTests.m in Sources */,
 				54F1E6B9239FA1A000985D09 /* UIWebView+Testing.m in Sources */,
 				7D3E422723915B6600BAF673 /* CR_DataProtectionConsentTests.m in Sources */,
+				7D3E41DF238BC16E00BAF673 /* CR_NetworkCaptor.m in Sources */,
 				7D3E423523915B6600BAF673 /* CR_CdbBidTests.m in Sources */,
 				5E06522A02F2F6A13136E48D /* CR_HttpTests.m in Sources */,
 				5E065F348B239221EFD62032 /* CR_MopubInterstitialFunctionalTests.m in Sources */,
