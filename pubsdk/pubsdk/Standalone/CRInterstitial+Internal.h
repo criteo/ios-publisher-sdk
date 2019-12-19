@@ -8,12 +8,16 @@
 
 #ifndef CRInterstitial_Internal_h
 #define CRInterstitial_Internal_h
-
-#import "Criteo.h"
 @import WebKit;
-#import "CR_InterstitialViewController.h"
+
+#import "CRInterstitial.h"
+
+@class Criteo;
+@class CR_InterstitialViewController;
+@class CRInterstitialAdUnit;
 
 @interface CRInterstitial () <WKNavigationDelegate>
+
 @property (nonatomic) BOOL isAdLoading;
 @property (nonatomic, readwrite) BOOL isAdLoaded;
 @property (nonatomic) BOOL isResponseValid;

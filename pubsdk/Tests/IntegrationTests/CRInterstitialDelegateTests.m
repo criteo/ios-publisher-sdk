@@ -22,6 +22,7 @@
 #import "CR_TokenValue.h"
 #import "CR_Config.h"
 #import "CRBannerAdUnit.h"
+#import "CR_InterstitialViewController.h"
 
 @interface CRInterstitialDelegateTests : XCTestCase
 {

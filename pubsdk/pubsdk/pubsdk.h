@@ -15,6 +15,16 @@ FOUNDATION_EXPORT double pubsdkVersionNumber;
 FOUNDATION_EXPORT const unsigned char pubsdkVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <pubsdk/PublicHeader.h>
-#import "Criteo.h"
+#import <pubsdk/CRAdUnit.h>
+#import <pubsdk/CRBannerAdUnit.h>
+#import <pubsdk/CRBannerView.h>
+#import <pubsdk/CRBannerViewDelegate.h>
+#import <pubsdk/CRBidResponse.h>
+#import <pubsdk/CRBidToken.h>
+#import <pubsdk/CRInterstitial.h>
+#import <pubsdk/CRInterstitialAdUnit.h>
+#import <pubsdk/CRInterstitialDelegate.h>
+#import <pubsdk/CRNativeAdUnit.h>
+#import <pubsdk/Criteo.h>
 
 

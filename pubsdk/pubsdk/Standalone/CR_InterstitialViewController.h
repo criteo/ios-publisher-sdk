@@ -6,9 +6,10 @@
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "CRInterstitial.h"
+@import UIKit;
 @import WebKit;
+
+@class CRInterstitial;
 
 NS_ASSUME_NONNULL_BEGIN
 

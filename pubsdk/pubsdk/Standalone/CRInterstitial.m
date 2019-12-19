@@ -16,6 +16,7 @@
 #import "CR_CacheAdUnit.h"
 #import "CR_AdUnitHelper.h"
 #import "CR_TokenValue.h"
+#import "CR_InterstitialViewController.h"
 
 @import WebKit;
 
