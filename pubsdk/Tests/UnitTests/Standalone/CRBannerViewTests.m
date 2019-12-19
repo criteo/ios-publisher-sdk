@@ -128,25 +128,27 @@
     XCTestExpectation __block *marginExpectation = [self expectationWithDescription:@"WebView body has 0px margin"];
     XCTestExpectation __block *paddingExpectation = [self expectationWithDescription:@"WebView body has 0px padding"];
     XCTestExpectation __block *viewportExpectation = [self expectationWithDescription:@"WebView body has 0px margin"];
+
+    __weak typeof(self) weakSelf = self;
     _webViewDidLoadBlock = ^{
         [realWebView evaluateJavaScript:@"window.getComputedStyle(document.getElementsByTagName('body')[0]).getPropertyValue('margin')"
                       completionHandler:^(id _Nullable result, NSError * _Nullable error) {
-                          XCTAssertNil(error);
-                          XCTAssertEqualObjects(@"0px", (NSString *)result);
-                          [marginExpectation fulfill];
-                      }];
+            [weakSelf _assertMarginPaddingWithError:error
+                                             result:result
+                                        expectation:marginExpectation];
+        }];
         [realWebView evaluateJavaScript:@"window.getComputedStyle(document.getElementsByTagName('body')[0]).getPropertyValue('padding')"
                       completionHandler:^(id _Nullable result, NSError * _Nullable error) {
-                          XCTAssertNil(error);
-                          XCTAssertEqualObjects(@"0px", (NSString *)result);
-                          [paddingExpectation fulfill];
-                      }];
+            [weakSelf _assertMarginPaddingWithError:error
+                                             result:result
+                                        expectation:paddingExpectation];
+        }];
         [realWebView evaluateJavaScript:@"document.querySelector('meta[name=viewport]').getAttribute('content')"
                       completionHandler:^(id _Nullable result, NSError * _Nullable error) {
-                          XCTAssertNil(error);
-                          XCTAssertTrue([(NSString *)result containsString:@"width=47"]);
-                          [viewportExpectation fulfill];
-                      }];
+            [weakSelf _assertContentWithError:error
+                                       result:result
+                                  expectation:viewportExpectation];
+        }];
     };
     [self waitForExpectations:@[marginExpectation, paddingExpectation, viewportExpectation]
                       timeout:5];
@@ -320,7 +322,6 @@ didFinishNavigation:(WKNavigation *)navigation {
 
     CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
     NSString *displayURL = @"whatDoYouMean";
-    CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:@"Adrian" adUnitType:CRAdUnitTypeBanner];
     CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:displayURL
                                                                        insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-100]
                                                                               ttl:200
@@ -329,6 +330,28 @@ didFinishNavigation:(WKNavigation *)navigation {
 
     [bannerView loadAdWithBidToken:token];
     XCTAssertEqualObjects(mockWebView.loadedHTMLString, @"Good Morning, my width is 47 and my URL is whatDoYouMean");
+}
+
+#pragma mark - Private
+
+// To avoid warning for avoiding retain cycle in blocks
+- (void)_assertMarginPaddingWithError:(NSError *)error
+                               result:(NSString *)result
+                          expectation:(XCTestExpectation *)expectation
+{
+    XCTAssertNil(error);
+    XCTAssertEqualObjects(@"0px", (NSString *)result);
+    [expectation fulfill];
+}
+
+// To avoid warning for avoiding retain cycle in blocks
+- (void)_assertContentWithError:(NSError *)error
+                         result:(NSString *)result
+                    expectation:(XCTestExpectation *)expectation
+{
+    XCTAssertNil(error);
+    XCTAssertTrue([(NSString *)result containsString:@"width=47"]);
+    [expectation fulfill];
 }
 
 @end
