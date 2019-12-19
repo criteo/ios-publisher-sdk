@@ -197,7 +197,7 @@ didFinishNavigation:(WKNavigation *)navigation {
     WKFrameInfo *mockFrame = OCMStrictClassMock([WKFrameInfo class]);
     OCMStub(mockNavigationAction.sourceFrame).andReturn(mockFrame);
     OCMStub([mockFrame isMainFrame]).andReturn(YES);
-    NSURLRequest *request =  [[NSURLRequest alloc] initWithURL:nil];
+    NSURLRequest *request =  [[NSURLRequest alloc] init];
     OCMStub(mockNavigationAction.request).andReturn(request);
     [bannerView webView:nil decidePolicyForNavigationAction:mockNavigationAction
         decisionHandler:^(WKNavigationActionPolicy actionPolicy) {

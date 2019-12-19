@@ -467,7 +467,8 @@
                           didFailToReceiveAdWithError:[OCMArg any]]);
     OCMReject([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
     OCMReject([mockInterstitialDelegate interstitial:interstitial didFailToReceiveAdWithError:[OCMArg any]]);
-    [interstitial presentFromRootViewController:nil];
+    UIViewController *nilViewController = nil;
+    [interstitial presentFromRootViewController:nilViewController]  ;
     XCTestExpectation *rootVCNilExpectation = [self expectationWithDescription:@"interstitialDidFail delegate method called with invalid parameter error"];
     [CR_Timer scheduledTimerWithTimeInterval:3
                                      repeats:NO
@@ -499,7 +500,7 @@
     OCMReject([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
     OCMReject([mockInterstitialDelegate interstitial:interstitial didFailToReceiveAdWithError:[OCMArg any]]);
 
-    [interstitial presentFromRootViewController:nil];
+    [interstitial presentFromRootViewController:[[UIViewController alloc] init]];
     XCTestExpectation *adBeingPresentedExpectation = [self expectationWithDescription:@"interstitialDidFail delegate method called with invalid request error"];
     [CR_Timer scheduledTimerWithTimeInterval:3
                                      repeats:NO
@@ -529,8 +530,7 @@
                          didFailToReceiveAdWithError:expectedError]);
 
     OCMStub(mockInterstitialVC.presentingViewController).andReturn(nil);
-    UIViewController *rootViewController = [UIViewController new];
-    [interstitial presentFromRootViewController:rootViewController];
+    [interstitial presentFromRootViewController:[[UIViewController alloc] init]];
     OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
 }
 

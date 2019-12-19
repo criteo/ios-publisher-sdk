@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithWebView:(WKWebView *)webView
                            view:(nullable UIView *)view
-                   interstitial:(CRInterstitial *)interstitial;
+                   interstitial:(nullable CRInterstitial *)interstitial;
 - (void)dismissViewController;
 - (void)initWebViewIfNeeded;
 

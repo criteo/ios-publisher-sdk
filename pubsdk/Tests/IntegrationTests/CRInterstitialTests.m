@@ -249,7 +249,7 @@
     WKFrameInfo *mockFrame = OCMStrictClassMock([WKFrameInfo class]);
     OCMStub(mockNavigationAction.sourceFrame).andReturn(mockFrame);
     OCMStub([mockFrame isMainFrame]).andReturn(NO);
-    NSURLRequest *request =  [[NSURLRequest alloc] initWithURL:nil];
+    NSURLRequest *request =  [[NSURLRequest alloc] init];
     OCMStub(mockNavigationAction.request).andReturn(request);
     [interstitial webView:realWebView decidePolicyForNavigationAction:mockNavigationAction
           decisionHandler:^(WKNavigationActionPolicy actionPolicy) {
@@ -369,5 +369,16 @@
                                                                    adUnit:self.adUnit];
     [interstitial loadAd];
 }
+
+/*
+- (CR_InterstitialViewController *)_interstitialViewController
+{
+    MockWKWebView *mockWebView = [[MockWKWebView alloc] init];
+    CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:mockWebView
+                                                                                                      view:nil
+                                                                                              interstitial:nil];
+
+}
+ */
 
 @end
