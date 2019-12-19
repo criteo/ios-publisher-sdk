@@ -40,7 +40,7 @@ static NSString *stubCreativeImage = @"https://publisherdirect.criteo.com/publis
 
 - (void)initMopubSdkAndRenderAd:(id)someMopubAd {
     if(![someMopubAd isKindOfClass:MPAdView.class] && ![someMopubAd isKindOfClass:MPInterstitialAdController.class]) {
-        XCTFail(@"MopubCreativeViewChecker can render only Mopub ad, but was provided object with type:%@", NSStringFromClass([someMopubAd class]));
+        NSAssert(NO, @"MopubCreativeViewChecker can render only Mopub ad, but was provided object with type:%@", NSStringFromClass([someMopubAd class]));
         return;
     }
     MPMoPubConfiguration *sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:[someMopubAd adUnitId]];
