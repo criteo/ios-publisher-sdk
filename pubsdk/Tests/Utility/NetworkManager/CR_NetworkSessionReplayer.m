@@ -6,13 +6,13 @@
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#import "CR_NetworkSessionPlayer.h"
+#import "CR_NetworkSessionReplayer.h"
 #import "CR_NetworkCaptor.h"
 #import "CR_NetworkSessionReader.h"
 #import "CR_DeviceInfo.h"
 #import "MockWKWebView.h"
 
-@interface CR_NetworkSessionPlayer ()
+@interface CR_NetworkSessionReplayer ()
 
 @property (nonatomic, copy, readonly) NSString *sessionIdentifier;
 @property (nonatomic, strong, readonly) CR_NetworkSessionReader *reader;
@@ -21,7 +21,7 @@
 
 @end
 
-@implementation CR_NetworkSessionPlayer
+@implementation CR_NetworkSessionReplayer
 
 @synthesize session = _session;
 
@@ -51,7 +51,7 @@
     }
     
     responseHandler(content.responseBody, content.error);
-    NSLog(@"%@ has replayed %@ for %@", NSStringFromClass([CR_NetworkSessionPlayer class]), url, self.sessionIdentifier);
+    NSLog(@"%@ has replayed %@ for %@", NSStringFromClass([CR_NetworkSessionReplayer class]), url, self.sessionIdentifier);
 }
 
 - (void) postToUrl:(NSURL *)url
@@ -69,7 +69,7 @@
     }
 
     responseHandler(content.responseBody, content.error);
-    NSLog(@"%@ has replayed %@ for %@", NSStringFromClass([CR_NetworkSessionPlayer class]), url, self.sessionIdentifier);
+    NSLog(@"%@ has replayed %@ for %@", NSStringFromClass([CR_NetworkSessionReplayer class]), url, self.sessionIdentifier);
 }
 
 #pragma mark - Getters/Setters

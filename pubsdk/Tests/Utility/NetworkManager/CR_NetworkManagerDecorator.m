@@ -8,7 +8,7 @@
 
 #import "CR_NetworkManagerDecorator.h"
 
-#import "CR_NetworkSessionPlayer.h"
+#import "CR_NetworkSessionReplayer.h"
 #import "CR_NetworkSessionRecorder.h"
 #import "CR_NetworkCaptor.h"
 
@@ -53,8 +53,8 @@
     CR_NetworkManager *result = networkManager;
     NSString *identifier = [self _sessionIdentifier];
     if (self.isReplaying) {
-        result = [[CR_NetworkSessionPlayer alloc] initWithNetworkManager:result
-                                                       sessionIdentifier:identifier];
+        result = [[CR_NetworkSessionReplayer alloc] initWithNetworkManager:result
+                                                         sessionIdentifier:identifier];
     }
     if (self.isRecording) {
         result = [[CR_NetworkSessionRecorder alloc] initWithNetworkManager:result

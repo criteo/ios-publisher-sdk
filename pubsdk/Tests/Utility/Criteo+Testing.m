@@ -10,7 +10,7 @@
 #import "CR_NetworkManagerDecorator.h"
 #import "CR_NetworkCaptor.h"
 #import "CR_NetworkSessionRecorder.h"
-#import "CR_NetworkSessionPlayer.h"
+#import "CR_NetworkSessionReplayer.h"
 #import "CR_BidManagerBuilder.h"
 #import "CRInterstitialAdUnit.h"
 #import "CRBannerAdUnit.h"

@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CR_NetworkSessionPlayer : CR_NetworkManager
+@interface CR_NetworkSessionReplayer : CR_NetworkManager
 
 - (instancetype)initWithDeviceInfo:(CR_DeviceInfo *)deviceInfo NS_UNAVAILABLE;
 - (instancetype)initWithNetworkManager:(nullable CR_NetworkManager *)networkManager
