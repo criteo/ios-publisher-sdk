@@ -22,6 +22,7 @@
 #import "CR_NetworkCaptor.h"
 #import "Criteo+Testing.h"
 #import "XCTestCase+Criteo.h"
+#import "CR_Timer.h"
 
 @interface CRInterstitialTests : XCTestCase
 {
@@ -167,9 +168,9 @@
     XCTestExpectation __block *paddingExpectation = [self expectationWithDescription:@"WebView body has 0px padding"];
     XCTestExpectation __block *viewportExpectation = [self expectationWithDescription:@"WebView body has 0px margin"];
 
-    [NSTimer scheduledTimerWithTimeInterval:2
-                                    repeats:NO
-                                      block:^(NSTimer * _Nonnull timer) {
+    [CR_Timer scheduledTimerWithTimeInterval:2
+                                     repeats:NO
+                                       block:^(NSTimer * _Nonnull timer) {
                                               [realWebView evaluateJavaScript:@"window.getComputedStyle(document.getElementsByTagName('body')[0]).getPropertyValue('margin')"
                                                             completionHandler:^(id _Nullable result, NSError * _Nullable error) {
                                                                 XCTAssertNil(error);

@@ -20,6 +20,7 @@
 #import "CRBannerAdUnit.h"
 #import "CR_Config.h"
 #import "CRInterstitialAdUnit.h"
+#import "CR_Timer.h"
 
 @interface CRBannerViewDelegateTests : XCTestCase
 {
@@ -164,11 +165,11 @@
     XCTestExpectation *bannerWebViewNavigationFailExpectation = [self expectationWithDescription:@"No delegate methods are called"];
     [bannerView webView:nil didFailNavigation:nil
               withError:nil];
-    [NSTimer scheduledTimerWithTimeInterval:2
-                                    repeats:NO
-                                      block:^(NSTimer * _Nonnull timer) {
+    [CR_Timer scheduledTimerWithTimeInterval:2
+                                     repeats:NO
+                                       block:^(NSTimer * _Nonnull timer) {
                                           [bannerWebViewNavigationFailExpectation fulfill];
-                                      }];
+                                        }];
     [self waitForExpectations:@[bannerWebViewNavigationFailExpectation]
                       timeout:3];
 }
@@ -188,9 +189,9 @@
     XCTestExpectation *bannerWebViewLoadExpectation = [self expectationWithDescription:@"No delegate methods are called"];
     [bannerView webView:nil didFailProvisionalNavigation:nil
               withError:nil];
-    [NSTimer scheduledTimerWithTimeInterval:2
-                                    repeats:NO
-                                      block:^(NSTimer * _Nonnull timer) {
+    [CR_Timer scheduledTimerWithTimeInterval:2
+                                     repeats:NO
+                                       block:^(NSTimer * _Nonnull timer) {
                                           [bannerWebViewLoadExpectation fulfill];
                                       }];
     [self waitForExpectations:@[bannerWebViewLoadExpectation]
@@ -217,9 +218,9 @@
     [bannerView webView:nil decidePolicyForNavigationResponse:navigationResponse
         decisionHandler:^(WKNavigationResponsePolicy decisionHandler) {
         }];
-    [NSTimer scheduledTimerWithTimeInterval:2
-                                    repeats:NO
-                                      block:^(NSTimer * _Nonnull timer) {
+    [CR_Timer scheduledTimerWithTimeInterval:2
+                                     repeats:NO
+                                       block:^(NSTimer * _Nonnull timer) {
                                           [bannerHTTPErrorExpectation fulfill];
                                       }];
     [self waitForExpectations:@[bannerHTTPErrorExpectation]
@@ -264,9 +265,9 @@
     [bannerView loadAdWithBidToken:token];
     NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNoFill];
     XCTestExpectation *bannerAdFetchFailExpectation = [self expectationWithDescription:@"bannerDidFail due to nil tokenValue with error delegate method called"];
-    [NSTimer scheduledTimerWithTimeInterval:3
-                                    repeats:NO
-                                      block:^(NSTimer * _Nonnull timer) {
+    [CR_Timer scheduledTimerWithTimeInterval:3
+                                     repeats:NO
+                                       block:^(NSTimer * _Nonnull timer) {
                                           OCMVerify([mockBannerViewDelegate banner:bannerView
                                                           didFailToReceiveAdWithError:expectedError]);
                                           [bannerAdFetchFailExpectation fulfill];
@@ -298,9 +299,9 @@
     [bannerView loadAdWithBidToken:token];
     NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidParameter description:@"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRBannerView was initialized with"];
     XCTestExpectation *bannerAdFetchFailExpectation = [self expectationWithDescription:@"bannerDidFail due to nil tokenValue with error delegate method called"];
-    [NSTimer scheduledTimerWithTimeInterval:3
-                                    repeats:NO
-                                      block:^(NSTimer * _Nonnull timer) {
+    [CR_Timer scheduledTimerWithTimeInterval:3
+                                     repeats:NO
+                                       block:^(NSTimer * _Nonnull timer) {
                                           OCMVerify([mockBannerViewDelegate banner:bannerView
                                                        didFailToReceiveAdWithError:expectedError]);
                                           [bannerAdFetchFailExpectation fulfill];
@@ -332,9 +333,9 @@
     [bannerView loadAdWithBidToken:token];
     NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidParameter description:@"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRBannerView was initialized with"];
     XCTestExpectation *bannerAdFetchFailExpectation = [self expectationWithDescription:@"bannerDidFail due to nil tokenValue with error delegate method called"];
-    [NSTimer scheduledTimerWithTimeInterval:3
-                                    repeats:NO
-                                      block:^(NSTimer * _Nonnull timer) {
+    [CR_Timer scheduledTimerWithTimeInterval:3
+                                     repeats:NO
+                                       block:^(NSTimer * _Nonnull timer) {
                                           OCMVerify([mockBannerViewDelegate banner:bannerView
                                                        didFailToReceiveAdWithError:expectedError]);
                                           [bannerAdFetchFailExpectation fulfill];
@@ -365,9 +366,9 @@
     OCMStub([mockBannerViewDelegate bannerDidReceiveAd:bannerView]);
     [bannerView loadAdWithBidToken:token];
     XCTestExpectation *bannerAdFetchExpectation = [self expectationWithDescription:@"bannerDidReceiveAd called"];
-    [NSTimer scheduledTimerWithTimeInterval:3
-                                    repeats:NO
-                                      block:^(NSTimer * _Nonnull timer) {
+    [CR_Timer scheduledTimerWithTimeInterval:3
+                                     repeats:NO
+                                       block:^(NSTimer * _Nonnull timer) {
                                           OCMVerify([mockBannerViewDelegate bannerDidReceiveAd:bannerView]);
                                           [bannerAdFetchExpectation fulfill];
                                       }];

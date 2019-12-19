@@ -8,6 +8,7 @@
 #import "UIView+Testing.h"
 #import "UIWebView+Testing.h"
 #import "Logging.h"
+#import "CR_Timer.h"
 
 static NSString *stubCreativeImage = @"https://publisherdirect.criteo.com/publishertag/preprodtest/creative.png";
 
@@ -61,9 +62,9 @@ static NSString *stubCreativeImage = @"https://publisherdirect.criteo.com/publis
 }
 
 - (void)interstitialWillPresentScreen:(GADInterstitial *)ad {
-    [NSTimer scheduledTimerWithTimeInterval:1
-                                    repeats:NO
-                                      block:^(NSTimer * _Nonnull timer) {
+    [CR_Timer scheduledTimerWithTimeInterval:1
+                                     repeats:NO
+                                       block:^(NSTimer * _Nonnull timer) {
                                           [self checkViewAndFulfillExpectation];
                                       }];
 }

@@ -23,6 +23,7 @@
 #import "CR_Config.h"
 #import "CRBannerAdUnit.h"
 #import "CR_InterstitialViewController.h"
+#import "CR_Timer.h"
 
 @interface CRInterstitialDelegateTests : XCTestCase
 {
@@ -168,9 +169,9 @@
 
     XCTestExpectation *interstitialAdFetchFailExpectation = [self expectationWithDescription:@"interstitialDidFail delegate method called"];
     [interstitial loadAd];
-    [NSTimer scheduledTimerWithTimeInterval:2
-                                    repeats:NO
-                                      block:^(NSTimer * _Nonnull timer) {
+    [CR_Timer scheduledTimerWithTimeInterval:2
+                                     repeats:NO
+                                       block:^(NSTimer * _Nonnull timer) {
                                           OCMVerify([mockInterstitialDelegate interstitial:interstitial
                                                                   didFailToReceiveAdWithError:expectedError]);
                                           [interstitialAdFetchFailExpectation fulfill];
@@ -257,9 +258,9 @@
     [interstitial loadAd];
     if(interstitial.isAdLoaded) {
         [interstitial presentFromRootViewController:rootViewController];
-        [NSTimer scheduledTimerWithTimeInterval:2
-                                        repeats:NO
-                                          block:^(NSTimer * _Nonnull timer) {
+        [CR_Timer scheduledTimerWithTimeInterval:2
+                                         repeats:NO
+                                           block:^(NSTimer * _Nonnull timer) {
                                               OCMVerify([mockInterstitialDelegate interstitialWillAppear:interstitial]);
                                               OCMVerify([mockInterstitialDelegate interstitialDidAppear:interstitial]);
                                               [interstitialPresentationExpectation fulfill];
@@ -302,15 +303,15 @@
     interstitialVC.interstitial = interstitial;
 
     [interstitial presentFromRootViewController:vc];
-    [NSTimer scheduledTimerWithTimeInterval:2
-                                    repeats:YES
-                                      block:^(NSTimer * _Nonnull timer) {
+    [CR_Timer scheduledTimerWithTimeInterval:2
+                                     repeats:YES
+                                       block:^(NSTimer * _Nonnull timer) {
                                           if(vc && vc.presentedViewController) {
                                               [timer invalidate];
                                               [interstitialVC.closeButton sendActionsForControlEvents:UIControlEventTouchUpInside];
-                                              [NSTimer scheduledTimerWithTimeInterval:0.1
-                                                                              repeats:YES
-                                                                                block:^(NSTimer * _Nonnull timer) {
+                                              [CR_Timer scheduledTimerWithTimeInterval:0.1
+                                                                               repeats:YES
+                                                                                 block:^(NSTimer * _Nonnull timer) {
                                                                                     if(vc && !vc.presentedViewController) {
                                                                                         [timer invalidate];
                                                                                         OCMVerify([mockInterstitialDelegate interstitialWillDisappear:interstitial]);
@@ -346,9 +347,9 @@
     [interstitial webView:nil
         didFailNavigation:nil
                 withError:nil];
-    [NSTimer scheduledTimerWithTimeInterval:2
-                                    repeats:NO
-                                      block:^(NSTimer * _Nonnull timer) {
+    [CR_Timer scheduledTimerWithTimeInterval:2
+                                     repeats:NO
+                                       block:^(NSTimer * _Nonnull timer) {
                                           [interstitialWebViewNavigationFailExpectation fulfill];
                                           OCMVerify(mockInterstitialDelegate);
                                       }];
@@ -370,9 +371,9 @@
     XCTestExpectation *interstitialWebViewLoadExpectation = [self expectationWithDescription:@"didFailToReceiveAdContentWithError delegate method called"];
     [interstitial webView:nil didFailProvisionalNavigation:nil
                 withError:nil];
-    [NSTimer scheduledTimerWithTimeInterval:2
-                                    repeats:NO
-                                      block:^(NSTimer * _Nonnull timer) {
+    [CR_Timer scheduledTimerWithTimeInterval:2
+                                     repeats:NO
+                                       block:^(NSTimer * _Nonnull timer) {
                                           [interstitialWebViewLoadExpectation fulfill];
                                           OCMVerify([mockInterstitialDelegate interstitial:interstitial didFailToReceiveAdContentWithError:[OCMArg any]]);
                                       }];
@@ -408,9 +409,9 @@
     [interstitial webView:nil decidePolicyForNavigationResponse:navigationResponse
           decisionHandler:^(WKNavigationResponsePolicy decisionHandler) {
         }];
-    [NSTimer scheduledTimerWithTimeInterval:2
-                                    repeats:NO
-                                      block:^(NSTimer * _Nonnull timer) {
+    [CR_Timer scheduledTimerWithTimeInterval:2
+                                     repeats:NO
+                                       block:^(NSTimer * _Nonnull timer) {
                                           [interstitialHTTPErrorExpectation fulfill];
                                       }];
     [self waitForExpectations:@[interstitialHTTPErrorExpectation]
@@ -443,9 +444,9 @@
     [interstitial webView:nil decidePolicyForNavigationResponse:navigationResponse
           decisionHandler:^(WKNavigationResponsePolicy decisionHandler) {
           }];
-    [NSTimer scheduledTimerWithTimeInterval:2
-                                    repeats:NO
-                                      block:^(NSTimer * _Nonnull timer) {
+    [CR_Timer scheduledTimerWithTimeInterval:2
+                                     repeats:NO
+                                       block:^(NSTimer * _Nonnull timer) {
                                           [interstitialHTTPErrorExpectation fulfill];
                                       }];
     [self waitForExpectations:@[interstitialHTTPErrorExpectation]
@@ -468,9 +469,9 @@
     OCMReject([mockInterstitialDelegate interstitial:interstitial didFailToReceiveAdWithError:[OCMArg any]]);
     [interstitial presentFromRootViewController:nil];
     XCTestExpectation *rootVCNilExpectation = [self expectationWithDescription:@"interstitialDidFail delegate method called with invalid parameter error"];
-    [NSTimer scheduledTimerWithTimeInterval:3
-                                    repeats:NO
-                                      block:^(NSTimer * _Nonnull timer) {
+    [CR_Timer scheduledTimerWithTimeInterval:3
+                                     repeats:NO
+                                       block:^(NSTimer * _Nonnull timer) {
                                           OCMVerify([mockInterstitialDelegate interstitial:interstitial
                                                                   didFailToReceiveAdWithError:expectedError]);
                                           [rootVCNilExpectation fulfill];
@@ -500,9 +501,9 @@
 
     [interstitial presentFromRootViewController:nil];
     XCTestExpectation *adBeingPresentedExpectation = [self expectationWithDescription:@"interstitialDidFail delegate method called with invalid request error"];
-    [NSTimer scheduledTimerWithTimeInterval:3
-                                    repeats:NO
-                                      block:^(NSTimer * _Nonnull timer) {
+    [CR_Timer scheduledTimerWithTimeInterval:3
+                                     repeats:NO
+                                       block:^(NSTimer * _Nonnull timer) {
                                           OCMVerify([mockInterstitialDelegate interstitial:interstitial
                                                                   didFailToReceiveAdWithError:expectedError]);
                                           [adBeingPresentedExpectation fulfill];

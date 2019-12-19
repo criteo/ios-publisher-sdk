@@ -19,6 +19,7 @@
 #import "CR_AdUnitHelper.h"
 #import "CRInterstitialAdUnit.h"
 #import "CR_Config.h"
+#import "CR_Timer.h"
 
 @interface CR_InterstitialViewController () {
     BOOL _hasBeenDismissed;
@@ -89,15 +90,15 @@
     interstitialVC.interstitial = interstitial;
 
     [interstitial presentFromRootViewController:vc];
-    [NSTimer scheduledTimerWithTimeInterval:1.0
-                                    repeats:YES
-                                      block:^(NSTimer * _Nonnull timer) {
+    [CR_Timer scheduledTimerWithTimeInterval:1.0
+                                     repeats:YES
+                                       block:^(NSTimer * _Nonnull timer) {
                                           if(vc && vc.presentedViewController) {
                                               [interstitialVC.closeButton sendActionsForControlEvents:UIControlEventTouchUpInside];
                                               [timer invalidate];
-                                              [NSTimer scheduledTimerWithTimeInterval:0.1
-                                                                              repeats:YES
-                                                                                block:^(NSTimer * _Nonnull timer) {
+                                              [CR_Timer scheduledTimerWithTimeInterval:0.1
+                                                                               repeats:YES
+                                                                                 block:^(NSTimer * _Nonnull timer) {
                                                                                     if(vc && !vc.presentedViewController) {
                                                                                         [timer invalidate];
                                                                                         XCTAssertNil(interstitialVC.webView);
