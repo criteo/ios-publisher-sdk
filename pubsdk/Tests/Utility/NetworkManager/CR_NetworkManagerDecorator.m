@@ -51,7 +51,7 @@
 
 - (CR_NetworkManager *)decorateNetworkManager:(CR_NetworkManager *)networkManager {
     CR_NetworkManager *result = networkManager;
-    NSString *identifier = [self _sessionIdentifier];
+    NSString *identifier = [self _nameOfCallingTest];
     if (self.isReplaying) {
         result = [[CR_NetworkSessionReplayer alloc] initWithNetworkManager:result
                                                          sessionIdentifier:identifier];
@@ -66,7 +66,7 @@
     return result;
 }
 
-- (NSString *)_sessionIdentifier
+- (NSString *)_nameOfCallingTest
 {
     NSArray<NSString *> *calls = [NSThread callStackSymbols];
     for (NSString *call in [calls reverseObjectEnumerator]) {
@@ -78,6 +78,7 @@
             return result;
         }
     }
+    NSAssert(NO, @"Impossible to find the test name in the stack: %@", calls);
     return nil;
 }
 
