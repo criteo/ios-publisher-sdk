@@ -198,6 +198,10 @@
 		7D51ABF023AB781600540094 /* CR_Timer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D51ABEF23AB781600540094 /* CR_Timer.m */; };
 		7D51ABF123AB781600540094 /* CR_Timer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D51ABEF23AB781600540094 /* CR_Timer.m */; };
 		7D51ABF223ABB63700540094 /* CR_DataProtectionConsentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41F823915B6600BAF673 /* CR_DataProtectionConsentTests.m */; };
+		7D51ABF523ACCC7700540094 /* CR_NetworkWaiterBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D51ABF423ACCC7700540094 /* CR_NetworkWaiterBuilder.m */; };
+		7D51ABF623ACCC7700540094 /* CR_NetworkWaiterBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D51ABF423ACCC7700540094 /* CR_NetworkWaiterBuilder.m */; };
+		7D51ABF923ACE16800540094 /* NSURL+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D51ABF823ACE16800540094 /* NSURL+Testing.m */; };
+		7D51ABFA23ACE16800540094 /* NSURL+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D51ABF823ACE16800540094 /* NSURL+Testing.m */; };
 		7DA2F5BD23A0D9E400B35524 /* CR_DataProtectionConsentMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA2F5BC23A0D9E400B35524 /* CR_DataProtectionConsentMock.m */; };
 		7DA2F5BE23A0D9E400B35524 /* CR_DataProtectionConsentMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA2F5BC23A0D9E400B35524 /* CR_DataProtectionConsentMock.m */; };
 		7DA2F5C423A0EAC000B35524 /* CR_UsPrivacyConsentFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA2F5C323A0EAC000B35524 /* CR_UsPrivacyConsentFunctionalTests.m */; };
@@ -449,6 +453,10 @@
 		7D3E42712391605D00BAF673 /* SDKUnitTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SDKUnitTests-Info.plist"; sourceTree = "<group>"; };
 		7D51ABEE23AB781600540094 /* CR_Timer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_Timer.h; sourceTree = "<group>"; };
 		7D51ABEF23AB781600540094 /* CR_Timer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_Timer.m; sourceTree = "<group>"; };
+		7D51ABF323ACCC7700540094 /* CR_NetworkWaiterBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_NetworkWaiterBuilder.h; sourceTree = "<group>"; };
+		7D51ABF423ACCC7700540094 /* CR_NetworkWaiterBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_NetworkWaiterBuilder.m; sourceTree = "<group>"; };
+		7D51ABF723ACE16800540094 /* NSURL+Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURL+Testing.h"; sourceTree = "<group>"; };
+		7D51ABF823ACE16800540094 /* NSURL+Testing.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSURL+Testing.m"; sourceTree = "<group>"; };
 		7DA2F5BB23A0D9E400B35524 /* CR_DataProtectionConsentMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_DataProtectionConsentMock.h; sourceTree = "<group>"; };
 		7DA2F5BC23A0D9E400B35524 /* CR_DataProtectionConsentMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_DataProtectionConsentMock.m; sourceTree = "<group>"; };
 		7DA2F5C323A0EAC000B35524 /* CR_UsPrivacyConsentFunctionalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_UsPrivacyConsentFunctionalTests.m; sourceTree = "<group>"; };
@@ -758,6 +766,8 @@
 				7DB5F8F123AA2B2500EF5602 /* NetworkManager */,
 				7D51ABEE23AB781600540094 /* CR_Timer.h */,
 				7D51ABEF23AB781600540094 /* CR_Timer.m */,
+				7D51ABF723ACE16800540094 /* NSURL+Testing.h */,
+				7D51ABF823ACE16800540094 /* NSURL+Testing.m */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -882,6 +892,8 @@
 				7DB5F8FF23AA2B2500EF5602 /* CR_NetworkSessionSerializer.m */,
 				7DB5F90023AA2B2500EF5602 /* CR_NetworkWaiter.m */,
 				7DB5F90123AA2B2500EF5602 /* CR_NetworkSessionReader.m */,
+				7D51ABF323ACCC7700540094 /* CR_NetworkWaiterBuilder.h */,
+				7D51ABF423ACCC7700540094 /* CR_NetworkWaiterBuilder.m */,
 			);
 			path = NetworkManager;
 			sourceTree = "<group>";
@@ -1412,6 +1424,7 @@
 				7D3E425723915D8700BAF673 /* pubsdkTests.m in Sources */,
 				7D3E426E23915DC900BAF673 /* NSString+CR_UrlEncoderTests.m in Sources */,
 				7D3E425223915D8700BAF673 /* CRBannerAdUnitTests.m in Sources */,
+				7D51ABFA23ACE16800540094 /* NSURL+Testing.m in Sources */,
 				7D3E424923915D8700BAF673 /* CR_AdUnitHelperTests.m in Sources */,
 				54F1E6BC239FA1A900985D09 /* CR_DfpCreativeViewChecker.m in Sources */,
 				7DB5F90F23AA2B2500EF5602 /* CR_NetworkWaiter.m in Sources */,
@@ -1440,6 +1453,7 @@
 				7D3E426823915DC300BAF673 /* CRBannerViewTests.m in Sources */,
 				7D51ABF223ABB63700540094 /* CR_DataProtectionConsentTests.m in Sources */,
 				54F1E6BA239FA1A000985D09 /* UIWebView+Testing.m in Sources */,
+				7D51ABF623ACCC7700540094 /* CR_NetworkWaiterBuilder.m in Sources */,
 				7D3E425123915D8700BAF673 /* CRAdUnitTests.m in Sources */,
 				7D3E426423915DAC00BAF673 /* CR_NativeAdvertiserTests.m in Sources */,
 				7D3E426023915DAC00BAF673 /* CR_NativePrivacyTests.m in Sources */,
@@ -1521,6 +1535,7 @@
 				7D3E422D23915B6600BAF673 /* LoggingTests.m in Sources */,
 				7D3E423123915B6600BAF673 /* NSString+CR_UrlEncoderTests.m in Sources */,
 				7D51ABF023AB781600540094 /* CR_Timer.m in Sources */,
+				7D51ABF923ACE16800540094 /* NSURL+Testing.m in Sources */,
 				54EB264523A8DF8300559296 /* CR_MopubCreativeViewChecker.m in Sources */,
 				7DB5F90E23AA2B2500EF5602 /* CR_NetworkWaiter.m in Sources */,
 				54680B7623969D5C00DB5A37 /* CR_IntegrationsTestBase.m in Sources */,
@@ -1555,6 +1570,7 @@
 				7D3E424323915B6600BAF673 /* CRBidResponseTests.m in Sources */,
 				7D3E422F23915B6600BAF673 /* NSError+CRErrorsTests.m in Sources */,
 				54F1E6B6239FA19B00985D09 /* UIView+Testing.m in Sources */,
+				7D51ABF523ACCC7700540094 /* CR_NetworkWaiterBuilder.m in Sources */,
 				6519C0DB2285FA8300111A5F /* CRInterstitialDelegateTests.m in Sources */,
 				54E0C239238D75AC004F9353 /* Criteo+Testing.m in Sources */,
 				7D3E422223915B6600BAF673 /* NSObject+CriteoTests.m in Sources */,

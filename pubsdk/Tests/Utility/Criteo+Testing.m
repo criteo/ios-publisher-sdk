@@ -12,6 +12,7 @@
 #import "CRInterstitialAdUnit.h"
 #import "CRBannerAdUnit.h"
 #import "CR_NetworkWaiter.h"
+#import "CR_NetworkWaiterBuilder.h"
 #import "CR_TestAdUnits.h"
 
 // This publisherId B-056946 exists in production.
@@ -88,14 +89,14 @@ static void *CriteoTestingBidManagerBuilderKey = &CriteoTestingBidManagerBuilder
 #pragma mark - Wait
 
 - (BOOL)testing_waitForRegisterHTTPResponses {
-    if ([self _isHTTPCallsForRegisterFinished]) {
-        return YES;
-    }
-    CR_NetworkWaiter *waiter = [[CR_NetworkWaiter alloc] initWithNetworkCaptor:self.testing_networkCaptor];
-    const BOOL success = [waiter waitWithResponseTester:^BOOL(CR_HttpContent *_Nonnull httpContent) {
-        return [self _isHTTPCallsForRegisterFinished];
-    }];
-    return success;
+    CR_NetworkWaiterBuilder *builder = [[CR_NetworkWaiterBuilder alloc] initWithConfig:self.config
+                                                                         networkCaptor:self.testing_networkCaptor];
+    CR_NetworkWaiter *waiter = builder  .withBid
+                                        .withConfig
+                                        .withLaunchAppEvent
+                                        .withFinishedRequestsIncluded
+                                        .build;
+    return [waiter wait];
 }
 
 #pragma mark - Register & Wait
@@ -112,22 +113,6 @@ static void *CriteoTestingBidManagerBuilderKey = &CriteoTestingBidManagerBuilder
     [self testing_registerWithAdUnits:adUnits];
     BOOL finished = [self testing_waitForRegisterHTTPResponses];
     NSAssert(finished, @"Failed to received all the requests for the register: %@", self.testing_networkCaptor);
-}
-
-#pragma mark - Private methods
-
-- (BOOL)_isHTTPCallsForRegisterFinished {
-    CR_Config *config = self.config;
-    BOOL isConfigCallFinished = false;
-    BOOL isLaunchAppEventSent = false;
-    BOOL isCDBCallFinished = false;
-    for (CR_HttpContent *content in self.testing_networkCaptor.finishedRequests) {
-        NSString *urlString = content.url.absoluteString;
-        isConfigCallFinished |= [urlString containsString:config.configUrl];
-        isLaunchAppEventSent |= [urlString containsString:config.appEventsUrl] && [urlString containsString:@"eventType=Launch"];
-        isCDBCallFinished |= [urlString containsString:config.cdbUrl];
-    }
-    return isConfigCallFinished && isLaunchAppEventSent && isCDBCallFinished;
 }
 
 @end

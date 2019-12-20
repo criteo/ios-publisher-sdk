@@ -19,13 +19,16 @@ typedef BOOL (^CR_HTTPResponseTester)(CR_HttpContent *httpContent);
 
 @interface CR_NetworkWaiter : NSObject
 
-@property (nonatomic, assign, readonly) BOOL finished;
 @property (nonatomic, weak, readonly) CR_NetworkCaptor *networkCaptor;
+@property (nonatomic, strong, readonly) NSArray<CR_HTTPResponseTester> *testers;
+@property (nonatomic, assign) BOOL finishedRequestsIncluded;
 
-- (instancetype)initWithNetworkCaptor:(CR_NetworkCaptor *)networkCaptor;
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithNetworkCaptor:(CR_NetworkCaptor *)networkCaptor
+                              testers:(NSArray<CR_HTTPResponseTester> *)testers NS_DESIGNATED_INITIALIZER;
 
-- (BOOL)waitWithResponseTester:(CR_HTTPResponseTester)tester;
-- (BOOL)waitWithTimeout:(NSTimeInterval)timeout responseTester:(CR_HTTPResponseTester)tester;
+- (BOOL)wait;
+- (BOOL)waitWithTimeout:(NSTimeInterval)timeout;
 
 @end
 

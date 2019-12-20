@@ -21,31 +21,53 @@ const NSTimeInterval CR_NetworkWaiterDefaultTimeout = 15.f;
 
 @implementation CR_NetworkWaiter
 
-- (instancetype)initWithNetworkCaptor:(CR_NetworkCaptor *)networkCaptor {
+- (instancetype)initWithNetworkCaptor:(CR_NetworkCaptor *)networkCaptor
+                              testers:(NSArray<CR_HTTPResponseTester> *)testers {
     if (self = [super init]) {
         _networkCaptor = networkCaptor;
+        _testers = testers;
     }
     return self;
 }
 
-- (BOOL)waitWithResponseTester:(CR_HTTPResponseTester)tester
-{
-    return [self waitWithTimeout:CR_NetworkWaiterDefaultTimeout responseTester:tester];
+- (BOOL)wait {
+    return [self waitWithTimeout:CR_NetworkWaiterDefaultTimeout];
 }
 
-- (BOOL)waitWithTimeout:(NSTimeInterval)timeout responseTester:(CR_HTTPResponseTester)tester
-{
-    NSString *desc = @"The tester block given to CR_NetworkWaiter must return true once";
-    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:desc];
+- (BOOL)waitWithTimeout:(NSTimeInterval)timeout {
+    NSMutableArray *expectations = [[NSMutableArray alloc] initWithCapacity:self.testers.count];
+    for (NSUInteger i = 0; i < self.testers.count; i++) {
+        NSString *desc = [[NSString alloc] initWithFormat:@"Tester #%lu", (unsigned long)i];
+        XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:desc];
+        [expectations addObject:expectation];
+    }
+
+    if (self.finishedRequestsIncluded) {
+        for (CR_HttpContent *content in self.networkCaptor.finishedRequests) {
+            [self _testWithHttpContent:content expectations:expectations];
+        }
+    }
+
     XCTWaiter *waiter = [[XCTWaiter alloc] init];
     self.networkCaptor.responseListener = ^(CR_HttpContent * _Nonnull httpContent) {
-        if (tester(httpContent)) {
-            [expectation fulfill];
-        }
+        [self _testWithHttpContent:httpContent expectations:expectations];
     };
-    XCTWaiterResult result = [waiter waitForExpectations:@[expectation] timeout:timeout];
+
+    XCTWaiterResult result = [waiter waitForExpectations:expectations timeout:timeout];
     self.networkCaptor.responseListener = nil;
     return (result == XCTWaiterResultCompleted);
+}
+
+- (void)_testWithHttpContent:(CR_HttpContent *)content
+                expectations:(NSArray<XCTestExpectation *> *)expectations {
+    for (NSUInteger i = 0; i < self.testers.count; i++) {
+        CR_HTTPResponseTester tester = self.testers[i];
+        XCTestExpectation *expectation = expectations[i];
+        if (tester(content)) {
+            [expectation fulfill];
+            break;
+        }
+    }
 }
 
 @end
