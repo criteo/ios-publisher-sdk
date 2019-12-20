@@ -76,8 +76,8 @@
     }
 }
 
-- (void) sendEvent:(NSString *) event {
-    if([self throttleExpired]) {
+- (void)sendEvent:(NSString *)event {
+    if([self throttleExpired] && self->consent.shouldSendAppEvent) {
         [apiHandler sendAppEvent:event
                          consent:consent
                           config:config

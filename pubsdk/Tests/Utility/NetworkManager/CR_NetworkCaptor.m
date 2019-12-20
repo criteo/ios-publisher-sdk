@@ -34,6 +34,10 @@
     return self;
 }
 
+- (NSArray<CR_HttpContent *> *)allRequests {
+    return [self.finishedRequests arrayByAddingObjectsFromArray:self.pendingRequests];
+}
+
 - (NSArray<CR_HttpContent *> *)finishedRequests {
     // Not efficitent but we don't care because this method is called only in tests.
     return [self.internalFinishedRequests sortedArrayUsingComparator:^NSComparisonResult(CR_HttpContent  *_Nonnull obj1, CR_HttpContent *_Nonnull obj2) {

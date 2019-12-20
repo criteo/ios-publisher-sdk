@@ -37,6 +37,8 @@ typedef NS_ENUM(NSInteger, CR_UsPrivacyCriteoState) {
 @property (readonly, nonatomic) BOOL consentGiven;
 @property (readonly, nonatomic) BOOL isAdTrackingEnabled;
 
+@property (nonatomic, assign, readonly) BOOL shouldSendAppEvent;
+
 #pragma mark CCPA
 
 @property (nonatomic, copy, readonly, nullable) NSString *usPrivacyIabConsentString;

@@ -24,6 +24,7 @@
     CR_ApiHandler *mockApiHandler = OCMStrictClassMock([CR_ApiHandler class]);
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     CR_DataProtectionConsent *mockConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
+    OCMStub([mockConsent shouldSendAppEvent]).andReturn(YES);
     CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
     NSDictionary *appEventsDict = [NSDictionary dictionaryWithObjectsAndKeys:@(100), @"throttleSec", nil];
     NSDate *testDate = [NSDate date];
@@ -48,6 +49,7 @@
     CR_ApiHandler *mockApiHandler = OCMStrictClassMock([CR_ApiHandler class]);
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     CR_DataProtectionConsent *mockConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
+    OCMStub([mockConsent shouldSendAppEvent]).andReturn(YES);
     CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
     NSDictionary *appEventsDict = [NSDictionary dictionaryWithObjectsAndKeys:@(0), @"throttleSec", nil];
     NSDate *testDate = [NSDate date];
@@ -72,6 +74,7 @@
     CR_ApiHandler *mockApiHandler = OCMStrictClassMock([CR_ApiHandler class]);
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     CR_DataProtectionConsent *mockConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
+    OCMStub([mockConsent shouldSendAppEvent]).andReturn(YES);
     CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
     NSDictionary *appEventsDict = [NSDictionary dictionaryWithObjectsAndKeys:@(30), @"throttleSec", nil];
     // Event was sent 60 secs ago and throttle is 30 secs
@@ -96,6 +99,7 @@
     CR_ApiHandler *mockApiHandler = OCMStrictClassMock([CR_ApiHandler class]);
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     CR_DataProtectionConsent *mockConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
+    OCMStub([mockConsent shouldSendAppEvent]).andReturn(YES);
     CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
     NSDictionary *appEventsDict = [NSDictionary dictionaryWithObjectsAndKeys:@(30), @"throttleSec", nil];
     // Event was sent 10 secs ago and throttle is 30 secs

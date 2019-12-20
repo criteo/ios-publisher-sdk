@@ -28,6 +28,7 @@ typedef void (^CR_HTTPResponseListener)(CR_HttpContent *httpContent);
 
 @property (nonatomic, strong, readonly) CR_NetworkManager *networkManager;
 
+@property (nonatomic, copy, readonly) NSArray<CR_HttpContent *> *allRequests;
 @property (nonatomic, copy, readonly) NSArray<CR_HttpContent *> *finishedRequests;
 @property (nonatomic, copy, readonly) NSArray<CR_HttpContent *> *pendingRequests;
 /**

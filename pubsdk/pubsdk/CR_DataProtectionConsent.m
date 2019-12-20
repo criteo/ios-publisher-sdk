@@ -28,7 +28,7 @@ NSString * const CR_DataProtectionConsentUsPrivacyCriteoStateKey = @"CriteoUSPri
 
 @end
 
-@implementation CR_DataProtectionConsent;
+@implementation CR_DataProtectionConsent
 
 - (instancetype)init
 {
@@ -64,6 +64,42 @@ NSString * const CR_DataProtectionConsentUsPrivacyCriteoStateKey = @"CriteoUSPri
 - (CR_UsPrivacyCriteoState)usPrivacyCriteoState
 {
     return [self.userDefaults integerForKey:CR_DataProtectionConsentUsPrivacyCriteoStateKey];
+}
+
+- (BOOL)shouldSendAppEvent
+{
+    if (self.usPrivacyIabConsentString.length > 0) {
+        return [self _isUSPrivacyConsentStringOptIn];
+    }
+    return [self _isUsPrivacyCriteoOptIn];
+}
+
+- (BOOL)_isUsPrivacyCriteoOptIn
+{
+    return  (self.usPrivacyCriteoState == CR_UsPrivacyCriteoStateOptIn) ||
+            (self.usPrivacyCriteoState == CR_UsPrivacyCriteoStateUnset);
+}
+
+- (BOOL)_isUSPrivacyConsentStringOptIn
+{
+    NSError *error = NULL;
+    NSString *pattern = @"1(Y|N|-){3}";
+    NSString *consentString = [self.usPrivacyIabConsentString uppercaseString];
+    if (consentString.length == 0) return YES;
+    NSRegularExpression* regex = [NSRegularExpression regularExpressionWithPattern:pattern
+                                                                           options:0
+                                                                             error:&error];
+    NSAssert(!error, @"Error occured for the given regexp %@: %@", pattern, error);
+    if (error) return NO; // if our regexp isn't right, we opt out.
+    const NSRange range = NSMakeRange(0, [consentString length]);
+    NSArray* matches = [regex matchesInString:consentString
+                                      options:0
+                                        range:range];
+    if (matches.count != 1) return YES;
+
+    return  [consentString isEqualToString:@"1YNN"] ||
+            [consentString isEqualToString:@"1YNY"] ||
+            [consentString isEqualToString:@"1---"];
 }
 
 
