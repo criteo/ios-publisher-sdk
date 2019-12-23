@@ -424,7 +424,7 @@
     [self _callCdb];
 
     NSDictionary *body = self.networkManagerMock.lastPostBody;
-    XCTAssertEqualObjects(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspCriteoOptoutKey], @NO);
+    XCTAssertEqualObjects(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspCriteoOptoutKey], @YES);
 }
 
 - (void)testCallCdbWithUspCriteoStateOptIn
@@ -434,7 +434,7 @@
     [self _callCdb];
 
     NSDictionary *body = self.networkManagerMock.lastPostBody;
-    XCTAssertEqualObjects(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspCriteoOptoutKey], @YES);
+    XCTAssertEqualObjects(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspCriteoOptoutKey], @NO);
 }
 
 - (void)testCallCdbWithUspCriteoStateUnset

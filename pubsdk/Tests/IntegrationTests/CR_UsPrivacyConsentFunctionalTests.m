@@ -17,6 +17,13 @@
 #import "CR_NetworkWaiterBuilder.h"
 #import "NSURL+Testing.h"
 
+#define CR_AssertDoNotContainsAppEventRequest(requests) \
+do { \
+    for (CR_HttpContent *content in requests) { \
+        XCTAssertFalse([content.url testing_isAppLaunchEventUrlWithConfig:criteo.config]); \
+    } \
+} while (0);
+
 @interface CR_UsPrivacyConsentFunctionalTests : XCTestCase
 
 @property (nonatomic, strong) NSUserDefaults *userDefaults;
@@ -29,6 +36,7 @@
 {
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     [self.userDefaults removeObjectForKey:CR_DataProtectionConsentUsPrivacyIabConsentStringKey];
+    [self.userDefaults removeObjectForKey:CR_DataProtectionConsentUsPrivacyCriteoStateKey];
 }
 
 - (void)tearDown {
@@ -58,10 +66,7 @@
 
     NSString * actualConsent = [self _iabConsentInLastBidRequestWithCriteo:criteo];
     XCTAssertEqualObjects(actualConsent, @"1YYN");
-    for (CR_HttpContent *content in criteo.testing_networkCaptor.allRequests) {
-        XCTAssertFalse([content.url testing_isAppLaunchEventUrlWithConfig:criteo.config]);
-    }
-
+    CR_AssertDoNotContainsAppEventRequest(criteo.testing_networkCaptor.allRequests);
 }
 
 - (void)testGivenIabConsentStringNil_whenCriteoRegister_thenUsIabNotSetInBidRequest
@@ -86,8 +91,39 @@
     XCTAssertNil(actualConsent);
 }
 
+- (void)testGivenCriteoUsPrivacyOptOutYES_whenCriteoRegister_thenBidIncludeUsPrivacyOptOutToYES_noAppEventSent
+{
+    Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
+    [criteo setUsPrivacyOptOut:YES];
+
+    [criteo testing_registerBanner];
+    [self _waitForBidAndConfurationOnlyWithCriteo:criteo];
+
+    NSNumber *actualConsent = [self _criteoUsPrivacyConsentInLastBidRequestWithCriteo:criteo];
+    XCTAssertTrue([actualConsent boolValue]);
+    CR_AssertDoNotContainsAppEventRequest(criteo.testing_networkCaptor.allRequests);
+}
+
+- (void)testGivenCriteoUsPrivacyOptOutNO_whenCriteoRegister_thenBidIncludeUsPrivacyOptOutToNO_appEventSent
+{
+    Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
+    [criteo setUsPrivacyOptOut:NO];
+
+    [criteo testing_registerBannerAndWaitForHTTPResponses];
+
+    NSNumber *actualConsent = [self _criteoUsPrivacyConsentInLastBidRequestWithCriteo:criteo];
+    XCTAssertNotNil(actualConsent);
+    XCTAssertFalse([actualConsent boolValue]);
+}
 
 #pragma mark - Private methods
+
+- (NSNumber *)_criteoUsPrivacyConsentInLastBidRequestWithCriteo:(Criteo *)criteo
+{
+    CR_HttpContent *bidRequest = criteo.testing_lastBidHttpContent;
+    NSNumber *actualConsent = bidRequest.requestBody[CR_ApiHandlerUserKey][CR_ApiHandlerUspCriteoOptoutKey];
+    return actualConsent;
+}
 
 - (NSString *)_iabConsentInLastBidRequestWithCriteo:(Criteo *)criteo
 {

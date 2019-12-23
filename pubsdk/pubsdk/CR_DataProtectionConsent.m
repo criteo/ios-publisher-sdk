@@ -49,10 +49,13 @@ NSString * const CR_DataProtectionConsentUsPrivacyCriteoStateKey = @"CriteoUSPri
             _consentGiven = YES;
         }
         _isAdTrackingEnabled = [[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled];
-
-        _usPrivacyIabConsentString = [userDefaults stringForKey:CR_DataProtectionConsentUsPrivacyIabConsentStringKey];
     }
     return self;
+}
+
+- (NSString *)usPrivacyIabConsentString
+{
+    return [self.userDefaults stringForKey:CR_DataProtectionConsentUsPrivacyIabConsentStringKey];
 }
 
 - (void)setUsPrivacyCriteoState:(CR_UsPrivacyCriteoState)usPrivacyCriteoState
@@ -96,7 +99,8 @@ NSString * const CR_DataProtectionConsentUsPrivacyCriteoStateKey = @"CriteoUSPri
                                       options:0
                                         range:range];
     if (matches.count != 1) return YES;
-
+    // According to the matrix specified here:
+    // https://confluence.criteois.com/display/PP/CCPA+Buying+Policy?focusedCommentId=532758801#comment-532758801
     return  [consentString isEqualToString:@"1YNN"] ||
             [consentString isEqualToString:@"1YNY"] ||
             [consentString isEqualToString:@"1---"];

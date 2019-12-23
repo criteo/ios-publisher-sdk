@@ -36,6 +36,10 @@ typedef NS_ENUM(NSInteger, CR_UsPrivacyCriteoState) {
 @property (readonly, nonatomic) BOOL consentGiven;
 @property (readonly, nonatomic) BOOL isAdTrackingEnabled;
 
+/**
+ Send events if the user didn't opt out from the Us Privacy.
+ https://confluence.criteois.com/display/PP/CCPA+Buying+Policy?focusedCommentId=532758801#comment-532758801
+ */
 @property (nonatomic, assign, readonly) BOOL shouldSendAppEvent;
 
 #pragma mark CCPA

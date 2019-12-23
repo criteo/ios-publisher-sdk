@@ -69,9 +69,9 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
         userDict[CR_ApiHandlerUspIabStringKey] = consent.usPrivacyIabConsentString;
     }
     if (consent.usPrivacyCriteoState == CR_UsPrivacyCriteoStateOptIn) {
-        userDict[CR_ApiHandlerUspCriteoOptoutKey] = @YES;
-    } else if (consent.usPrivacyCriteoState == CR_UsPrivacyCriteoStateOptOut) {
         userDict[CR_ApiHandlerUspCriteoOptoutKey] = @NO;
+    } else if (consent.usPrivacyCriteoState == CR_UsPrivacyCriteoStateOptOut) {
+        userDict[CR_ApiHandlerUspCriteoOptoutKey] = @YES;
     } // else if unknown we add nothing.
     
     postBody[CR_ApiHandlerUserKey] = userDict;
