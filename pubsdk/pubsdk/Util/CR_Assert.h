@@ -15,7 +15,7 @@
 #define CR_Assert(condition, desc, ...) \
 do { \
     NSAssert(condition, desc, ##__VA_ARGS__); \
-    if (condition) { \
+    if (!condition) { \
         CLog(desc, ##__VA_ARGS__); \
     } \
 } while(0)
