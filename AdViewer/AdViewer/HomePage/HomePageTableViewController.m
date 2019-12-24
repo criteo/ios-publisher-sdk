@@ -11,9 +11,14 @@
 #import "GoogleDFPTableViewController.h"
 #import "StandaloneTableViewController.h"
 
+NSString * const HomePageTableViewControllerUsPrivacyIabConsentStringKey = @"IABUSPrivacy_String";
 
-@interface HomePageTableViewController () <NetworkManagerDelegate>
+@interface HomePageTableViewController () <NetworkManagerDelegate, UITextFieldDelegate>
+@property (strong, nonatomic) Criteo *criteo;
+@property (strong, nonatomic) NSUserDefaults *userDefaults;
 @property (weak, nonatomic) IBOutlet UISwitch *gdprSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *criteoCcpaSwitch;
+@property (weak, nonatomic) IBOutlet UITextField *iabCcpaTextField;
 @property (weak, nonatomic) GoogleDFPTableViewController *googleDfpVC;
 @property (weak, nonatomic) MopubTableViewController *moPubVC;
 @property (weak, nonatomic) StandaloneTableViewController *standaloneVC;
@@ -24,7 +29,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.criteo = [Criteo sharedCriteo];
+    self.userDefaults = [NSUserDefaults standardUserDefaults];
     [self clearUserDefaults];
+    [self _setupCriteoCcpaSwitch];
+    [self _setupIabCcpaTextField];
     [self setGdpr:YES];
     self.googleInterstitialAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:GOOGLEINTERSTITIALADUNITID];
     self.moPubInterstitialAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:MOPUBINTERSTITIALADUNITID];
@@ -125,15 +134,13 @@
 - (void) networkManager:(NetworkManager*)manager sentRequest:(NSURLRequest*)request
 {
     [self setAvailableTextFeedback];
-    self.textFeedback.text = @"";
-
     NSString *body = nil;
 
     if (request.HTTPBody) {
         body = [[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding];
     }
 
-    self.textFeedback.text = [self.textFeedback.text stringByAppendingFormat:@"REQ:\n%@ %@\nHeaders: %@\nBody: %@",
+    self.textFeedback.text = [self.textFeedback.text stringByAppendingFormat:@"\n\n\nREQ:\n%@ %@\nHeaders: %@\nBody: %@\n\n\n",
                           request.HTTPMethod,
                           request.URL,
                           request.allHTTPHeaderFields,
@@ -149,12 +156,12 @@
 
     if (error)
     {
-        self.textFeedback.text = [self.textFeedback.text stringByAppendingFormat:@"\n\nRESP:\nError: %@\nReason: %@",
+        self.textFeedback.text = [self.textFeedback.text stringByAppendingFormat:@"\n\n\n\n\nRESP:\nError: %@\nReason: %@\n\n\n",
                               error.localizedDescription,
                               error.localizedFailureReason];
 
         if (httpResponse) {
-            self.textFeedback.text = [self.textFeedback.text stringByAppendingFormat:@"\nStatus: %ld %@",
+            self.textFeedback.text = [self.textFeedback.text stringByAppendingFormat:@"\n\n\n\nStatus: %ld %@\n\n\n",
                                   (long)httpResponse.statusCode,
                                   [NSHTTPURLResponse localizedStringForStatusCode:httpResponse.statusCode]];
         }
@@ -174,5 +181,38 @@
                           body];
 }
 
+#pragma mark - CCPA
+
+- (void)_setupIabCcpaTextField {
+    NSAssert(self.iabCcpaTextField, @"iabCcpaTextField not assigned");
+    self.iabCcpaTextField.delegate = self;
+    self.iabCcpaTextField.text = [self _iabCcpaString];
+}
+
+- (void)_setupCriteoCcpaSwitch {
+    NSAssert(self.criteoCcpaSwitch, @"criteoCcpaSwitch not assigned");
+    [self.criteo setUsPrivacyOptOut:NO];
+    self.criteoCcpaSwitch.on = NO;
+}
+
+- (IBAction)onCriteoCCPASwitch:(id)sender {
+    [self.criteo setUsPrivacyOptOut:self.criteoCcpaSwitch.on];
+}
+
+- (IBAction)onTextFieldChange:(UITextField *)textField {
+    [self.userDefaults setObject:textField.text
+                          forKey:HomePageTableViewControllerUsPrivacyIabConsentStringKey];
+}
+
+- (NSString *)_iabCcpaString {
+    return [self.userDefaults objectForKey:HomePageTableViewControllerUsPrivacyIabConsentStringKey];
+}
+
+#pragma mark - UITextFieldDelegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return NO;
+}
 
 @end
