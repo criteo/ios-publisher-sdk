@@ -79,6 +79,7 @@
 
 - (void)registerWithSlots:(CR_CacheAdUnitArray *)slots {
     [self refreshConfig];
+    [appEvents registerForIosEvents];
     [appEvents sendLaunchEvent];
     [cacheManager initSlots:slots];
 }

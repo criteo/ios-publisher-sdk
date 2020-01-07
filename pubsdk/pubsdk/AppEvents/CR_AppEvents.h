@@ -27,12 +27,11 @@ NS_ASSUME_NONNULL_BEGIN
                              config:(CR_Config *)config
                             consent:(CR_DataProtectionConsent *)consent
                          deviceInfo:(CR_DeviceInfo *)deviceInfo;
-- (void) sendLaunchEvent;
-- (void) sendActiveEvent:(NSNotification *) notification;
-- (void) sendInactiveEvent:(NSNotification *) notification;
-
-NS_ASSUME_NONNULL_END
+- (void)registerForIosEvents;
+- (void)sendLaunchEvent;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* CR_AppEvents_h */

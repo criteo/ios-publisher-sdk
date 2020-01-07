@@ -16,6 +16,7 @@
     CR_DataProtectionConsent *consent;
     CR_Config *config;
     CR_DeviceInfo *deviceInfo;
+    BOOL _shouldThrottle;
 }
 
 - (instancetype) initWithApiHandler:(CR_ApiHandler *)apiHandler
@@ -29,7 +30,7 @@
         self->deviceInfo = deviceInfo;
         _throttleSec = 0;
         _latestEventSent = [NSDate date];
-        [self registerForIosEvents];
+        _shouldThrottle = YES;
     }
     return self;
 }
@@ -63,8 +64,9 @@
 }
 
 - (BOOL) throttleExpired {
-    return [[NSDate date]timeIntervalSinceReferenceDate] - [_latestEventSent timeIntervalSinceReferenceDate]
-    >= [self throttleSec];
+    BOOL expired = [[NSDate date]timeIntervalSinceReferenceDate] - [_latestEventSent timeIntervalSinceReferenceDate]
+        >= [self throttleSec];
+    return !_shouldThrottle || expired;
 }
 
 - (void) updateAppEventValues:(NSDictionary *) appEventValues
@@ -100,6 +102,10 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:UIApplicationWillResignActiveNotification
                                                   object:nil];
+}
+
+- (void)disableThrottling {
+    _shouldThrottle = NO;
 }
 
 @end
