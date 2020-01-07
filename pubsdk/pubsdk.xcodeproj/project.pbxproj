@@ -107,7 +107,9 @@
 		5E0653FF2AF20E33E9334E5C /* CR_StandaloneCreativeViewChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E06534D114E0989D12A1E6B /* CR_StandaloneCreativeViewChecker.m */; };
 		5E06565BD091B87AB797194F /* NativeAssetsFromCdb.json in Resources */ = {isa = PBXBuildFile; fileRef = 5E065022DFE1021D3CF2B444 /* NativeAssetsFromCdb.json */; };
 		5E0656E334784BCDB32052A4 /* CR_DfpNativeFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0656551EC4DAFCC6DF7D79 /* CR_DfpNativeFunctionalTests.m */; };
+		5E06595DFEDD5D69365B12EA /* CR_ViewCheckingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0659E91B2AF96B5DF83DA3 /* CR_ViewCheckingHelper.m */; };
 		5E0659AE7B748911FF99C063 /* CR_StandaloneCreativeViewChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E06534D114E0989D12A1E6B /* CR_StandaloneCreativeViewChecker.m */; };
+		5E065AC7029B99CF6F68DEC1 /* CR_ViewCheckingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0659E91B2AF96B5DF83DA3 /* CR_ViewCheckingHelper.m */; };
 		5E065D27D22F2032CA976719 /* CR_DfpInterstitialFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E065AD8DCA877B2A1928681 /* CR_DfpInterstitialFunctionalTests.m */; };
 		5E065F348B239221EFD62032 /* CR_MopubInterstitialFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E06573035072D184799FC19 /* CR_MopubInterstitialFunctionalTests.m */; };
 		650915F72255622E001D6673 /* CRBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 650915F42255622E001D6673 /* CRBannerView.m */; };
@@ -396,8 +398,10 @@
 		5E0656CED6370CB240092ECC /* CR_HttpTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_HttpTests.m; sourceTree = "<group>"; };
 		5E0656EA9D2A919E7646C70B /* CR_TargetingKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_TargetingKeys.m; sourceTree = "<group>"; };
 		5E06573035072D184799FC19 /* CR_MopubInterstitialFunctionalTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_MopubInterstitialFunctionalTests.m; sourceTree = "<group>"; };
+		5E06575364D5BB84CA6CE107 /* CR_ViewCheckingHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_ViewCheckingHelper.h; sourceTree = "<group>"; };
 		5E06583FE8D47BAEC44830CC /* UIView+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Testing.h"; sourceTree = "<group>"; };
 		5E065954D963214FC20CC0E2 /* CR_MopubCreativeViewChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_MopubCreativeViewChecker.h; sourceTree = "<group>"; };
+		5E0659E91B2AF96B5DF83DA3 /* CR_ViewCheckingHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_ViewCheckingHelper.m; sourceTree = "<group>"; };
 		5E065AD8DCA877B2A1928681 /* CR_DfpInterstitialFunctionalTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_DfpInterstitialFunctionalTests.m; sourceTree = "<group>"; };
 		5E065ED9A843A9220D853806 /* CR_TestAdUnits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_TestAdUnits.h; sourceTree = "<group>"; };
 		5E065EF6624E39D5EF02EFA9 /* UIWebView+Testing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+Testing.m"; sourceTree = "<group>"; };
@@ -739,6 +743,8 @@
 				5E065FE195F039E520361B59 /* CR_MopubCreativeViewChecker.m */,
 				5E065632D52469BD0D758FAB /* CR_StandaloneCreativeViewChecker.h */,
 				5E06534D114E0989D12A1E6B /* CR_StandaloneCreativeViewChecker.m */,
+				5E06575364D5BB84CA6CE107 /* CR_ViewCheckingHelper.h */,
+				5E0659E91B2AF96B5DF83DA3 /* CR_ViewCheckingHelper.m */,
 			);
 			path = DfpTesting;
 			sourceTree = "<group>";
@@ -1483,6 +1489,7 @@
 				7D3E426523915DB900BAF673 /* CR_NetworkManagerTests.m in Sources */,
 				7DB5F90723AA2B2500EF5602 /* CR_NetworkCaptor.m in Sources */,
 				5E0659AE7B748911FF99C063 /* CR_StandaloneCreativeViewChecker.m in Sources */,
+				5E06595DFEDD5D69365B12EA /* CR_ViewCheckingHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1613,6 +1620,7 @@
 				5E065D27D22F2032CA976719 /* CR_DfpInterstitialFunctionalTests.m in Sources */,
 				5E0656E334784BCDB32052A4 /* CR_DfpNativeFunctionalTests.m in Sources */,
 				5E0653FF2AF20E33E9334E5C /* CR_StandaloneCreativeViewChecker.m in Sources */,
+				5E065AC7029B99CF6F68DEC1 /* CR_ViewCheckingHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

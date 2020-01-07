@@ -9,21 +9,28 @@
 #import "UIWebView+Testing.h"
 #import "Logging.h"
 #import "CR_Timer.h"
+#import "CR_ViewCheckingHelper.h"
+#import "Criteo+Testing.h"
+#import "CR_TestAdUnits.h"
 
-static NSString *stubCreativeImage = @"https://publisherdirect.criteo.com/publishertag/preprodtest/creative.png";
 
-@implementation CR_DfpCreativeViewChecker
+@implementation CR_DfpCreativeViewChecker {
+    NSString *expectedCreative;
+}
 
--(instancetype)init_ {
+-(instancetype)initWithAdUnitId:(NSString *)adUnitId {
     if (self = [super init]) {
         _adCreativeRenderedExpectation = [[XCTestExpectation alloc] initWithDescription:@"Expect that Criteo creative appears."];
         _uiWindow = [self createUIWindow];
+        expectedCreative = adUnitId == [CR_TestAdUnits dfpNativeId]
+            ? [CR_ViewCheckingHelper preprodCreativeImageUrlForNative]
+            : [CR_ViewCheckingHelper preprodCreativeImageUrl];
     }
     return self;
 }
 
 -(instancetype)initWithBannerWithSize:(GADAdSize)size withAdUnitId:(NSString *)adUnitId {
-    if ([self init_]) {
+    if ([self initWithAdUnitId:adUnitId]) {
         _dfpBannerView = [self createDfpBannerWithSize:size withAdUnitId:adUnitId];
         _dfpBannerView.delegate = self;
         _dfpBannerView.rootViewController = _uiWindow.rootViewController;
@@ -33,7 +40,7 @@ static NSString *stubCreativeImage = @"https://publisherdirect.criteo.com/publis
 }
 
 -(instancetype)initWithInterstitial:(DFPInterstitial *)dfpInterstitial {
-    if ([self init_]) {
+    if ([self initWithAdUnitId:dfpInterstitial.adUnitID]) {
         dfpInterstitial.delegate = self;
     }
     return self;
@@ -78,7 +85,8 @@ static NSString *stubCreativeImage = @"https://publisherdirect.criteo.com/publis
 - (void)checkViewAndFulfillExpectation {
     UIWebView *firstWebView = [self.uiWindow testing_findFirstWebView];
     NSString *htmlContent = [firstWebView testing_getHtmlContent];
-    if ([htmlContent containsString:stubCreativeImage]) {
+    NSLog(@"EXP CR : %@", expectedCreative);
+    if ([htmlContent containsString:expectedCreative]) {
         [self.adCreativeRenderedExpectation fulfill];
     }
     self.uiWindow.hidden = YES;

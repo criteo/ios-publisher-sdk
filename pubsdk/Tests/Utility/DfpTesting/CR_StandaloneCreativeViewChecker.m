@@ -10,8 +10,8 @@
 #import "CR_Timer.h"
 #import <XCTest/XCTest.h>
 #import <WebKit/WebKit.h>
+#import "CR_ViewCheckingHelper.h"
 
-static NSString *stubCreativeImage = @"https://publisherdirect.criteo.com/publishertag/preprodtest/creative.png";
 
 @implementation CR_StandaloneCreativeViewChecker
 
@@ -74,7 +74,7 @@ static NSString *stubCreativeImage = @"https://publisherdirect.criteo.com/publis
     WKWebView *firstWebView = [self.uiWindow testing_findFirstWKWebView];
     [firstWebView evaluateJavaScript:@"(function() { return document.getElementsByTagName('html')[0].outerHTML; })();"
                    completionHandler:^(NSString *htmlContent, NSError *err) {
-                       if ([htmlContent containsString:stubCreativeImage]) {
+                       if ([htmlContent containsString:[CR_ViewCheckingHelper preprodCreativeImageUrl]]) {
                            [self.adCreativeRenderedExpectation fulfill];
                        }
                        self.uiWindow.hidden = YES;
