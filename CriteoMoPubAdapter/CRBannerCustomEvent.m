@@ -34,6 +34,10 @@
 }
 
 - (void) requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info {
+    [self requestAdWithSize:size customEventInfo:info adMarkup:nil];
+}
+
+- (void) requestAdWithSize:(CGSize)size customEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
     if (![CRCustomEventHelper checkValidInfo:info]) {
         if ([self.delegate respondsToSelector:@selector(bannerCustomEvent:didFailToLoadAdWithError:)]) {
             dispatch_async(dispatch_get_main_queue(), ^{

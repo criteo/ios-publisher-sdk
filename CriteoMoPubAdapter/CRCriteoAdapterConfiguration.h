@@ -16,8 +16,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#if __has_include(<MoPub/MoPub.h>)
+#import <MoPub/MoPub.h>
+#elif __has_include(<MoPubSDKFramework/MoPub.h>)
+#import <MoPubSDKFramework/MoPub.h>
+#else
+#import "MoPub.h"
+#import "MPBaseAdapterConfiguration.h"
+#endif
+
 #import <UIKit/UIKit.h>
-#import <MoPub.h>
 #import <CriteoPublisherSdk/CriteoPublisherSdk.h>
 
 NS_ASSUME_NONNULL_BEGIN

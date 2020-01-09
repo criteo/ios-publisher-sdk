@@ -39,6 +39,10 @@
 }
 
 - (void) requestInterstitialWithCustomEventInfo:(NSDictionary *)info {
+    [self requestInterstitialWithCustomEventInfo:info adMarkup:nil];
+}
+
+- (void) requestInterstitialWithCustomEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
     if(![CRCustomEventHelper checkValidInfo:info]) {
         if([self.delegate respondsToSelector:@selector(interstitialCustomEvent:didFailToLoadAdWithError:)]) {
             dispatch_async(dispatch_get_main_queue(), ^{
