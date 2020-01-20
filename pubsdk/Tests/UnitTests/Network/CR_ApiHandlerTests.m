@@ -447,6 +447,27 @@
     XCTAssertNil(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspCriteoOptoutKey]);
 }
 
+- (void)testCallCdbWithoutMopubConsent {
+    NSString *trickCompilerWithNil = nil;
+    self.consentMock.mopubConsent = trickCompilerWithNil;
+
+    [self _callCdb];
+
+    NSDictionary *body = self.networkManagerMock.lastPostBody;
+    XCTAssertNil(body[CR_ApiHandlerUserKey][CR_ApiHandlerMopubConsentKey]);
+}
+
+- (void)testCallCdbWithMopubConsent {
+    NSString *expected = @"POTENTIAL_WHITELIST";
+    self.consentMock.mopubConsent = expected;
+
+    [self _callCdb];
+
+    NSDictionary *body = self.networkManagerMock.lastPostBody;
+    NSString *actual = body[CR_ApiHandlerUserKey][CR_ApiHandlerMopubConsentKey];
+    XCTAssertEqualObjects(actual, expected);
+}
+
 #pragma mark - Private methods
 
 - (void)_callCdb

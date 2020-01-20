@@ -14,6 +14,7 @@
 NSString * const CR_ApiHandlerUspIabStringKey = @"uspIab";
 NSString * const CR_ApiHandlerUserKey = @"user";
 NSString * const CR_ApiHandlerUspCriteoOptoutKey = @"uspOptout";
+NSString * const CR_ApiHandlerMopubConsentKey = @"mopubConsent";
 
 // 8 is suggested by Jean Sebastien Faure as a reasonable group size for CDB calls
 static NSUInteger const maxAdUnitsPerCdbRequest = 8;
@@ -73,6 +74,10 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
     } else if (consent.usPrivacyCriteoState == CR_UsPrivacyCriteoStateOptOut) {
         userDict[CR_ApiHandlerUspCriteoOptoutKey] = @YES;
     } // else if unknown we add nothing.
+
+    if (consent.mopubConsent.length > 0) {
+        userDict[CR_ApiHandlerMopubConsentKey] = consent.mopubConsent;
+    }
     
     postBody[CR_ApiHandlerUserKey] = userDict;
 

@@ -21,6 +21,7 @@
 
 NSString * const CR_DataProtectionConsentUsPrivacyIabConsentStringKey = @"IABUSPrivacy_String";
 NSString * const CR_DataProtectionConsentUsPrivacyCriteoStateKey = @"CriteoUSPrivacy_Bool";
+NSString * const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String";
 
 @interface CR_DataProtectionConsent ()
 
@@ -62,6 +63,15 @@ NSString * const CR_DataProtectionConsentUsPrivacyCriteoStateKey = @"CriteoUSPri
 {
     [self.userDefaults setInteger:usPrivacyCriteoState
                            forKey:CR_DataProtectionConsentUsPrivacyCriteoStateKey];
+}
+
+- (void)setMopubConsent:(NSString *)mopubConsent {
+    [self.userDefaults setObject:mopubConsent
+                          forKey:CR_DataProtectionConsentMopubConsentKey];
+}
+
+- (NSString *)mopubConsent {
+    return [self.userDefaults objectForKey:CR_DataProtectionConsentMopubConsentKey];
 }
 
 - (CR_UsPrivacyCriteoState)usPrivacyCriteoState

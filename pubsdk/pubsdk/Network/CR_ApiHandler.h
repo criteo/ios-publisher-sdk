@@ -25,6 +25,7 @@ typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receiv
 FOUNDATION_EXTERN NSString * const CR_ApiHandlerUspIabStringKey;
 FOUNDATION_EXTERN NSString * const CR_ApiHandlerUserKey;
 FOUNDATION_EXTERN NSString * const CR_ApiHandlerUspCriteoOptoutKey;
+FOUNDATION_EXTERN NSString * const CR_ApiHandlerMopubConsentKey;
 
 @interface CR_ApiHandler : NSObject
 @property (strong, nonatomic) CR_NetworkManager *networkManager;

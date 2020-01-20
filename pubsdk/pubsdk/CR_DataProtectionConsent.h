@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 FOUNDATION_EXTERN NSString * const CR_DataProtectionConsentUsPrivacyIabConsentStringKey;
 FOUNDATION_EXTERN NSString * const CR_DataProtectionConsentUsPrivacyCriteoStateKey;
+FOUNDATION_EXTERN NSString * const CR_DataProtectionConsentMopubConsentKey;
 
 /**
  The US privacy consent within a custom Criteo format (not iAB).
@@ -35,6 +36,13 @@ typedef NS_ENUM(NSInteger, CR_UsPrivacyCriteoState) {
 @property (readonly, nonatomic) BOOL gdprApplies;
 @property (readonly, nonatomic) BOOL consentGiven;
 @property (readonly, nonatomic) BOOL isAdTrackingEnabled;
+
+/**
+ Store dedicated consent for mopub.
+ Spec: https://confluence.criteois.com/display/PUBSDK/GDPR+for+Mopub+CMP
+ CDB: https://confluence.criteois.com/display/PUB/CDB+-+Mopub+Consent+support
+ */
+@property (nonatomic, copy) NSString *mopubConsent;
 
 /**
  Send events if the user didn't opt out from the Us Privacy.

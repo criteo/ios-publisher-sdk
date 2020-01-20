@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (nonnull instancetype) sharedCriteo;
 
 - (void)setUsPrivacyOptOut:(BOOL)usPrivacyOptOut;
+- (void)setMopubContent:(NSString *)mopubContent;
 
 - (void) registerCriteoPublisherId:(NSString *) criteoPublisherId
                        withAdUnits:(NSArray<CRAdUnit*> *) adUnits;

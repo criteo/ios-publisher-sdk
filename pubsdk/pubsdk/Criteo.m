@@ -32,6 +32,10 @@
     self.bidManager.consent.usPrivacyCriteoState = state;
 }
 
+- (void)setMopubContent:(NSString *)mopubContent {
+    self.bidManager.consent.mopubConsent = mopubContent;
+}
+
 - (id<CR_NetworkManagerDelegate>) networkMangerDelegate
 {
     return self.bidManager.networkMangerDelegate;

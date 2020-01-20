@@ -32,6 +32,9 @@ do { \
 @property (nonatomic, assign) BOOL defaultGdprApplies;
 @property (nonatomic, strong) NSString *defaultConsentString;
 
+@property (nonatomic, strong) CR_DataProtectionConsent *consent1;
+@property (nonatomic, strong) CR_DataProtectionConsent *consent2;
+
 @end
 
 @implementation CR_DataProtectionConsentTests
@@ -49,6 +52,10 @@ do { \
     [self.userDefaults removeObjectForKey:@"IABConsent_ParsedVendorConsents"];
     [self.userDefaults removeObjectForKey:CR_DataProtectionConsentUsPrivacyCriteoStateKey];
     [self.userDefaults removeObjectForKey:CR_DataProtectionConsentUsPrivacyIabConsentStringKey];
+    [self.userDefaults removeObjectForKey:CR_DataProtectionConsentMopubConsentKey];
+
+    self.consent1 = [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
+    self.consent2 = [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
 }
 
 
@@ -141,12 +148,23 @@ do { \
 
 - (void)testSetUsPrivacyCriteoStateOptOut
 {
-    CR_DataProtectionConsent *consent1 = [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
-    CR_DataProtectionConsent *consent2 = [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
+    self.consent1.usPrivacyCriteoState = CR_UsPrivacyCriteoStateOptOut;
 
-    consent1.usPrivacyCriteoState = CR_UsPrivacyCriteoStateOptOut;
+    XCTAssertEqual(self.consent2.usPrivacyCriteoState, CR_UsPrivacyCriteoStateOptOut);
+}
 
-    XCTAssertEqual(consent2.usPrivacyCriteoState, CR_UsPrivacyCriteoStateOptOut);
+- (void)testMopubConsentEmpty
+{
+    XCTAssertNil(self.consent2.mopubConsent);
+}
+
+- (void)testSetMopubConsentInUserDefault
+{
+    NSString *consentValue = @"EXPLICIT_YES";
+
+    self.consent1.mopubConsent = consentValue;
+
+    XCTAssertEqual(self.consent2.mopubConsent, consentValue);
 }
 
 #pragma mark - ShouldSendAppEvent
