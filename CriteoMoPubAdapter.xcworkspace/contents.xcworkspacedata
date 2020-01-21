@@ -5,6 +5,9 @@
       location = "group:CriteoMoPubAdapter.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:Pods/../CriteoMoPubAdapterTestApp.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>

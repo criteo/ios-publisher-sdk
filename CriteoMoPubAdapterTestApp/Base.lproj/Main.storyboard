@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="qxS-gm-9rR">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Home Page Table View Controller-->
+        <scene sceneID="aMT-p2-1Tf">
+            <objects>
+                <tableViewController id="qxS-gm-9rR" customClass="HomePageTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="w2N-il-MPS">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <sections>
+                            <tableViewSection headerTitle="Configuration" id="WpL-sY-cwO">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="6zk-8m-cmE">
+                                        <rect key="frame" x="20" y="55.5" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6zk-8m-cmE" id="egG-gF-Uiy">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Placeholder for future configurations" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d26-bq-KVx">
+                                                    <rect key="frame" x="20" y="13" width="251.5" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" systemColor="placeholderTextColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="d26-bq-KVx" firstAttribute="centerY" secondItem="egG-gF-Uiy" secondAttribute="centerY" id="WNG-2o-vXh"/>
+                                                <constraint firstItem="d26-bq-KVx" firstAttribute="leading" secondItem="egG-gF-Uiy" secondAttribute="leading" constant="20" id="wZP-VN-9hg"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Banner" id="5Db-1M-RZc">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Vhb-KO-lcj">
+                                        <rect key="frame" x="20" y="155" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Vhb-KO-lcj" id="xZI-6W-R1d">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lgb-bm-Ibc">
+                                                    <rect key="frame" x="20" y="7" width="113" height="30"/>
+                                                    <state key="normal" title="Load and render"/>
+                                                    <connections>
+                                                        <action selector="loadBannerClicked:" destination="qxS-gm-9rR" eventType="touchUpInside" id="NDd-T4-qbg"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nDq-ec-Aaa">
+                                                    <rect key="frame" x="163" y="7" width="107" height="30"/>
+                                                    <state key="normal" title="Remove banner"/>
+                                                    <connections>
+                                                        <action selector="removeBannerClicked:" destination="qxS-gm-9rR" eventType="touchUpInside" id="Nqp-fS-OiS"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Lgb-bm-Ibc" firstAttribute="leading" secondItem="xZI-6W-R1d" secondAttribute="leading" constant="20" id="4T9-I6-AOX"/>
+                                                <constraint firstItem="nDq-ec-Aaa" firstAttribute="centerY" secondItem="xZI-6W-R1d" secondAttribute="centerY" id="GZB-9K-qyR"/>
+                                                <constraint firstItem="Lgb-bm-Ibc" firstAttribute="centerY" secondItem="xZI-6W-R1d" secondAttribute="centerY" id="duh-dS-Dsp"/>
+                                                <constraint firstItem="nDq-ec-Aaa" firstAttribute="leading" secondItem="Lgb-bm-Ibc" secondAttribute="trailing" constant="30" id="sq3-xC-uLI"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="50" id="Ape-Cy-xg5">
+                                        <rect key="frame" x="20" y="198.5" width="374" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ape-Cy-xg5" id="WsC-P6-j2N">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Banner should appear here" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nYa-eg-DBk">
+                                                    <rect key="frame" x="20" y="16" width="185" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" systemColor="placeholderTextColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="nYa-eg-DBk" firstAttribute="centerY" secondItem="WsC-P6-j2N" secondAttribute="centerY" id="FVK-jf-LTt"/>
+                                                <constraint firstItem="nYa-eg-DBk" firstAttribute="leading" secondItem="WsC-P6-j2N" secondAttribute="leading" constant="20" id="UQW-up-vDz"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="Interstitial" id="M8D-GA-NAW">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Zx8-Q2-xLC">
+                                        <rect key="frame" x="20" y="304.5" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Zx8-Q2-xLC" id="NUP-8E-K5c">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AfX-BC-ufi">
+                                                    <rect key="frame" x="20" y="7" width="105" height="30"/>
+                                                    <state key="normal" title="Load interstitial"/>
+                                                    <connections>
+                                                        <action selector="loadInterstitialClicked:" destination="qxS-gm-9rR" eventType="touchUpInside" id="15m-9F-yse"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ceF-F8-Bxp">
+                                                    <rect key="frame" x="155" y="7" width="53" height="30"/>
+                                                    <state key="normal" title="Present"/>
+                                                    <connections>
+                                                        <action selector="presentInterstitialClicked:" destination="qxS-gm-9rR" eventType="touchUpInside" id="McI-Bx-JL6"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="AfX-BC-ufi" firstAttribute="centerY" secondItem="NUP-8E-K5c" secondAttribute="centerY" id="UIc-mh-mns"/>
+                                                <constraint firstItem="ceF-F8-Bxp" firstAttribute="centerY" secondItem="NUP-8E-K5c" secondAttribute="centerY" id="aVN-f6-uoJ"/>
+                                                <constraint firstItem="AfX-BC-ufi" firstAttribute="leading" secondItem="NUP-8E-K5c" secondAttribute="leading" constant="20" id="eSH-Qb-7YH"/>
+                                                <constraint firstItem="ceF-F8-Bxp" firstAttribute="leading" secondItem="AfX-BC-ufi" secondAttribute="trailing" constant="30" id="hj5-Fw-tut"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="qxS-gm-9rR" id="leB-bu-jAF"/>
+                            <outlet property="delegate" destination="qxS-gm-9rR" id="PWB-fU-6pb"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <outlet property="bannerView" destination="WsC-P6-j2N" id="9T1-VC-VTU"/>
+                        <outlet property="presentInterstitialButton" destination="ceF-F8-Bxp" id="f4y-jv-ala"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WB1-My-c2m" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="308.69565217391306" y="148.66071428571428"/>
+        </scene>
+    </scenes>
+</document>

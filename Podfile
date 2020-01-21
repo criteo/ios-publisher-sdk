@@ -12,3 +12,8 @@ project 'CriteoMoPubAdapter.xcodeproj'
 target 'CriteoMoPubAdapter' do
    pod 'mopub-ios-sdk'
 end
+
+target 'CriteoMoPubAdapterTestApp' do
+   project 'CriteoMoPubAdapterTestApp'
+   pod 'mopub-ios-sdk'
+end
