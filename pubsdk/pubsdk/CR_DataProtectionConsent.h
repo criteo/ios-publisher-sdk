@@ -45,8 +45,9 @@ typedef NS_ENUM(NSInteger, CR_UsPrivacyCriteoState) {
 @property (nonatomic, copy) NSString *mopubConsent;
 
 /**
- Send events if the user didn't opt out from the Us Privacy.
- https://confluence.criteois.com/display/PP/CCPA+Buying+Policy?focusedCommentId=532758801#comment-532758801
+ Send events if the user didn't opt out from the Us Privacy or from MoPub.
+ US Privacy: https://confluence.criteois.com/display/PP/CCPA+Buying+Policy?focusedCommentId=532758801#comment-532758801
+ Mopub:        https://confluence.criteois.com/display/PUBSDK/Mopub+consent+on+PubSDK
  */
 @property (nonatomic, assign, readonly) BOOL shouldSendAppEvent;
 

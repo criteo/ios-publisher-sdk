@@ -23,13 +23,20 @@ NSString * const CR_DataProtectionConsentUsPrivacyIabConsentStringKey = @"IABUSP
 NSString * const CR_DataProtectionConsentUsPrivacyCriteoStateKey = @"CriteoUSPrivacy_Bool";
 NSString * const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String";
 
+
 @interface CR_DataProtectionConsent ()
+
+@property (class, nonatomic, strong, readonly) NSArray<NSString *> *mopubConsentDeclinedStrings;
 
 @property (nonatomic, strong) NSUserDefaults *userDefaults;
 
 @end
 
 @implementation CR_DataProtectionConsent
+
++ (NSArray<NSString *> *)mopubConsentDeclinedStrings {
+    return @[ @"EXPLICIT_NO", @"POTENTIAL_WHITELIST", @"DNT"];
+}
 
 - (instancetype)init
 {
@@ -79,8 +86,10 @@ NSString * const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String
     return [self.userDefaults integerForKey:CR_DataProtectionConsentUsPrivacyCriteoStateKey];
 }
 
-- (BOOL)shouldSendAppEvent
-{
+- (BOOL)shouldSendAppEvent {
+    if ([self _isMopubConsentDeclined]) {
+        return NO;
+    }
     if (self.usPrivacyIabConsentString.length > 0) {
         return [self _isUSPrivacyConsentStringOptIn];
     }
@@ -116,5 +125,8 @@ NSString * const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String
             [consentString isEqualToString:@"1---"];
 }
 
+- (BOOL)_isMopubConsentDeclined {
+    return [self.class.mopubConsentDeclinedStrings containsObject:self.mopubConsent];
+}
 
 @end

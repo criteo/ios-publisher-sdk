@@ -18,11 +18,12 @@ NSString * const CR_DataProtectionConsentTestsMalformed80CharsVendorString = @"0
 NSString * const CR_DataProtectionConsentTestsMalformed90CharsVendorString = @"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
 
 
-#define CR_AssertShouldSendEvent(consentString, usPrivacyCriteoState, shouldSendAppEvent) \
+#define CR_AssertShouldSendEvent(consentString, usPrivacyCriteoState, mopubConsentStr, shouldSendAppEvent) \
 do { \
     [self _checkShouldSendAppEvent:shouldSendAppEvent \
           withUsPrivacyCriteoState:usPrivacyCriteoState \
                   iabConsentString:consentString \
+                      mopubConsent:mopubConsentStr \
                             atLine:__LINE__]; \
 } while (0)
 
@@ -153,6 +154,8 @@ do { \
     XCTAssertEqual(self.consent2.usPrivacyCriteoState, CR_UsPrivacyCriteoStateOptOut);
 }
 
+#pragma mark - Mopub Consent
+
 - (void)testMopubConsentEmpty
 {
     XCTAssertNil(self.consent2.mopubConsent);
@@ -169,35 +172,48 @@ do { \
 
 #pragma mark - ShouldSendAppEvent
 
-- (void)testShouldSendAppEvent {
-    CR_AssertShouldSendEvent(nil, CR_UsPrivacyCriteoStateOptIn, YES);
-    CR_AssertShouldSendEvent(nil, CR_UsPrivacyCriteoStateOptOut, NO);
-    CR_AssertShouldSendEvent(nil, CR_UsPrivacyCriteoStateUnset, YES);
+- (void)testShouldSendAppEventWithUsPrivacy {
+    CR_AssertShouldSendEvent(nil, CR_UsPrivacyCriteoStateOptIn, nil, YES);
+    CR_AssertShouldSendEvent(nil, CR_UsPrivacyCriteoStateOptOut, nil, NO);
+    CR_AssertShouldSendEvent(nil, CR_UsPrivacyCriteoStateUnset, nil, YES);
 
-    CR_AssertShouldSendEvent(@"", CR_UsPrivacyCriteoStateUnset, YES);
-    CR_AssertShouldSendEvent(@"", CR_UsPrivacyCriteoStateOptOut, NO);
+    CR_AssertShouldSendEvent(@"", CR_UsPrivacyCriteoStateUnset, nil, YES);
+    CR_AssertShouldSendEvent(@"", CR_UsPrivacyCriteoStateOptOut, nil, NO);
+
+    // Mopub Consent only
+    CR_AssertShouldSendEvent(nil, CR_UsPrivacyCriteoStateUnset, @"", YES);
+    CR_AssertShouldSendEvent(nil, CR_UsPrivacyCriteoStateUnset, @"random string", YES);
+    CR_AssertShouldSendEvent(nil, CR_UsPrivacyCriteoStateUnset, @"EXPLICIT_YES", YES);
+    CR_AssertShouldSendEvent(nil, CR_UsPrivacyCriteoStateUnset, @"UNKNOWN", YES);
+    CR_AssertShouldSendEvent(nil, CR_UsPrivacyCriteoStateUnset, @"EXPLICIT_NO", NO);
+    CR_AssertShouldSendEvent(nil, CR_UsPrivacyCriteoStateUnset, @"POTENTIAL_WHITELIST", NO);
+    CR_AssertShouldSendEvent(nil, CR_UsPrivacyCriteoStateUnset, @"DNT", NO);
 
     // Not-empty consent string takes over the criteo state.
-    CR_AssertShouldSendEvent(@"random string", CR_UsPrivacyCriteoStateOptIn, YES);
-    CR_AssertShouldSendEvent(@"random string", CR_UsPrivacyCriteoStateOptOut, YES);
+    CR_AssertShouldSendEvent(@"random string", CR_UsPrivacyCriteoStateOptIn, nil, YES);
+    CR_AssertShouldSendEvent(@"random string", CR_UsPrivacyCriteoStateOptOut, nil, YES);
 
     // Opt-in consent strings
-    CR_AssertShouldSendEvent(@"1---", CR_UsPrivacyCriteoStateUnset, YES);
-    CR_AssertShouldSendEvent(@"1YNY", CR_UsPrivacyCriteoStateUnset, YES);
-    CR_AssertShouldSendEvent(@"1YnY", CR_UsPrivacyCriteoStateUnset, YES);
-    CR_AssertShouldSendEvent(@"1Ynn", CR_UsPrivacyCriteoStateUnset, YES);
+    CR_AssertShouldSendEvent(@"1---", CR_UsPrivacyCriteoStateUnset, nil, YES);
+    CR_AssertShouldSendEvent(@"1YNY", CR_UsPrivacyCriteoStateUnset, nil, YES);
+    CR_AssertShouldSendEvent(@"1YnY", CR_UsPrivacyCriteoStateUnset, nil, YES);
+    CR_AssertShouldSendEvent(@"1Ynn", CR_UsPrivacyCriteoStateUnset, nil, YES);
 
     // Opt-in Consent string takes over CriteoState.
-    CR_AssertShouldSendEvent(@"1YNY", CR_UsPrivacyCriteoStateOptOut, YES);
-    CR_AssertShouldSendEvent(@"1YNN", CR_UsPrivacyCriteoStateOptOut, YES);
-    CR_AssertShouldSendEvent(@"1YnY", CR_UsPrivacyCriteoStateOptOut, YES);
-    CR_AssertShouldSendEvent(@"1Ynn", CR_UsPrivacyCriteoStateOptOut, YES);
+    CR_AssertShouldSendEvent(@"1YNY", CR_UsPrivacyCriteoStateOptOut, nil, YES);
+    CR_AssertShouldSendEvent(@"1YNN", CR_UsPrivacyCriteoStateOptOut, nil, YES);
+    CR_AssertShouldSendEvent(@"1YnY", CR_UsPrivacyCriteoStateOptOut, nil, YES);
+    CR_AssertShouldSendEvent(@"1Ynn", CR_UsPrivacyCriteoStateOptOut, nil, YES);
 
     // Opt-out consent strings including priorities checks
-    CR_AssertShouldSendEvent(@"1YYY", CR_UsPrivacyCriteoStateOptIn, NO);
-    CR_AssertShouldSendEvent(@"1YYN", CR_UsPrivacyCriteoStateOptIn, NO);
-    CR_AssertShouldSendEvent(@"1yyy", CR_UsPrivacyCriteoStateUnset, NO);
-    CR_AssertShouldSendEvent(@"1yyn", CR_UsPrivacyCriteoStateUnset, NO);
+    CR_AssertShouldSendEvent(@"1YYY", CR_UsPrivacyCriteoStateOptIn, nil, NO);
+    CR_AssertShouldSendEvent(@"1YYN", CR_UsPrivacyCriteoStateOptIn, nil, NO);
+    CR_AssertShouldSendEvent(@"1yyy", CR_UsPrivacyCriteoStateUnset, nil, NO);
+    CR_AssertShouldSendEvent(@"1yyn", CR_UsPrivacyCriteoStateUnset, nil, NO);
+
+    // False if Mopub Consent is declined
+    CR_AssertShouldSendEvent(nil, CR_UsPrivacyCriteoStateOptIn, @"EXPLICIT_NO", NO);
+    CR_AssertShouldSendEvent(@"1Ynn", CR_UsPrivacyCriteoStateUnset, @"EXPLICIT_NO", NO);
 }
 
 #pragma mark Private for ShouldSendAppEvent
@@ -205,6 +221,7 @@ do { \
 - (void)_checkShouldSendAppEvent:(BOOL)shouldSendAppEvent
         withUsPrivacyCriteoState:(CR_UsPrivacyCriteoState)usPrivacyCriteoState
                 iabConsentString:(NSString *)iabConsentString
+                    mopubConsent:(NSString *)mopubConsent
                           atLine:(NSUInteger)lineNumber {
     if (iabConsentString) {
         [self.userDefaults setObject:iabConsentString
@@ -214,9 +231,10 @@ do { \
                            forKey:CR_DataProtectionConsentUsPrivacyCriteoStateKey];
 
     CR_DataProtectionConsent *consent = [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
+    consent.mopubConsent = mopubConsent;
 
     if (consent.shouldSendAppEvent != shouldSendAppEvent) {
-        NSString *desc = [[NSString alloc] initWithFormat:@"usPrivacyCriteoState = %ld & iabConsentString = %@ => shouldSendAppEvent %d", (long)usPrivacyCriteoState, iabConsentString, shouldSendAppEvent];
+        NSString *desc = [[NSString alloc] initWithFormat:@"usPrivacyCriteoState = %ld & iabConsentString = %@, mopubConsent = %@ => shouldSendAppEvent %d", (long)usPrivacyCriteoState, iabConsentString, mopubConsent, shouldSendAppEvent];
         NSString *file = [[NSString alloc] initWithCString:__FILE__ encoding:NSUTF8StringEncoding];
         [self recordFailureWithDescription:desc
                                     inFile:file
@@ -226,6 +244,7 @@ do { \
 
     [self.userDefaults removeObjectForKey:CR_DataProtectionConsentUsPrivacyCriteoStateKey];
     [self.userDefaults removeObjectForKey:CR_DataProtectionConsentUsPrivacyIabConsentStringKey];
+    [self.userDefaults removeObjectForKey:CR_DataProtectionConsentMopubConsentKey];
 }
 
 @end

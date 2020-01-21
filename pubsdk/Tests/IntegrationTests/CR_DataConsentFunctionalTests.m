@@ -24,19 +24,20 @@ do { \
     } \
 } while (0);
 
-@interface CR_UsPrivacyConsentFunctionalTests : XCTestCase
+@interface CR_DataConsentFunctionalTests : XCTestCase
 
 @property (nonatomic, strong) NSUserDefaults *userDefaults;
 
 @end
 
-@implementation CR_UsPrivacyConsentFunctionalTests
+@implementation CR_DataConsentFunctionalTests
 
 - (void)setUp
 {
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     [self.userDefaults removeObjectForKey:CR_DataProtectionConsentUsPrivacyIabConsentStringKey];
     [self.userDefaults removeObjectForKey:CR_DataProtectionConsentUsPrivacyCriteoStateKey];
+    [self.userDefaults removeObjectForKey:CR_DataProtectionConsentMopubConsentKey];
 }
 
 - (void)tearDown {
@@ -116,7 +117,49 @@ do { \
     XCTAssertFalse([actualConsent boolValue]);
 }
 
+#pragma mark - Mopub Consent
+
+- (void)testGivenMopubConsentNOTSet_whenCriteoRegister_thenBidDoesntIncludeMopubConsentAndAppEventSent {
+    Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
+
+    [criteo testing_registerBannerAndWaitForHTTPResponses];
+
+    NSString *actualConsent = [self _mopubConsentInLastBidRequestWithCriteo:criteo];
+    XCTAssertNil(actualConsent);
+}
+
+- (void)testGivenMopubConsentDeclined_whenCriteoRegister_thenBidIncludesMopubConsentAndAppEventNotSent {
+    NSString *expected = @"EXPLICIT_NO";
+    Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
+    [criteo setMopubContent:expected];
+
+    [criteo testing_registerBanner];
+    [self _waitForBidAndConfurationOnlyWithCriteo:criteo]; // Don't wait for the app event call.
+
+    NSString *actualConsent = [self _mopubConsentInLastBidRequestWithCriteo:criteo];
+    XCTAssertEqualObjects(actualConsent, expected);
+    CR_AssertDoNotContainsAppEventRequest(criteo.testing_networkCaptor.allRequests);
+}
+
+- (void)testGivenMopubConsentGiven_whenCriteoRegister_thenBidIncludesMopubConsentAndAppEventSent {
+    NSString *expected = @"EXPLICIT_YES";
+    Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
+    [criteo setMopubContent:expected];
+
+    [criteo testing_registerBannerAndWaitForHTTPResponses];
+
+    NSString *actualConsent = [self _mopubConsentInLastBidRequestWithCriteo:criteo];
+    XCTAssertEqualObjects(actualConsent, expected);
+}
+
 #pragma mark - Private methods
+
+- (NSString *)_mopubConsentInLastBidRequestWithCriteo:(Criteo *)criteo
+{
+    CR_HttpContent *bidRequest = criteo.testing_lastBidHttpContent;
+    NSString *actualConsent = bidRequest.requestBody[CR_ApiHandlerUserKey][CR_ApiHandlerMopubConsentKey];
+    return actualConsent;
+}
 
 - (NSNumber *)_criteoUsPrivacyConsentInLastBidRequestWithCriteo:(Criteo *)criteo
 {
