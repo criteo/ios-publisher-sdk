@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 
 
-@interface CR_StandaloneCreativeViewChecker : NSObject <CRBannerViewDelegate>
+@interface CR_CreativeViewChecker : NSObject <CRBannerViewDelegate>
 
 - (instancetype)init NS_UNAVAILABLE;
 

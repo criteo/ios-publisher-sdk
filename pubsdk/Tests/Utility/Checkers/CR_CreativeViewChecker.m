@@ -3,7 +3,7 @@
 // Copyright (c) 2019 Criteo. All rights reserved.
 //
 
-#import "CR_StandaloneCreativeViewChecker.h"
+#import "CR_CreativeViewChecker.h"
 #import "Criteo.h"
 #import "CRBannerView+Internal.h"
 #import "UIView+Testing.h"
@@ -13,7 +13,7 @@
 #import "CR_ViewCheckingHelper.h"
 
 
-@implementation CR_StandaloneCreativeViewChecker
+@implementation CR_CreativeViewChecker
 
 - (instancetype)initWithAdUnit:(CRBannerAdUnit *)adUnit criteo:(Criteo *)criteo {
     if (self = [super init]) {
@@ -33,8 +33,6 @@
         _bannerView.delegate = self;
         _bannerView.backgroundColor = UIColor.orangeColor;
         [_uiWindow.rootViewController.view addSubview:_bannerView];
-
-
     }
     return self;
 }

@@ -104,11 +104,11 @@
 		5E0650E8B945A2954C518C5A /* CR_TargetingKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0656EA9D2A919E7646C70B /* CR_TargetingKeys.m */; };
 		5E06522A02F2F6A13136E48D /* CR_HttpTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0656CED6370CB240092ECC /* CR_HttpTests.m */; };
 		5E065393C7035B58EF497E31 /* NativeAssetsFromCdb.json in Resources */ = {isa = PBXBuildFile; fileRef = 5E065022DFE1021D3CF2B444 /* NativeAssetsFromCdb.json */; };
-		5E0653FF2AF20E33E9334E5C /* CR_StandaloneCreativeViewChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E06534D114E0989D12A1E6B /* CR_StandaloneCreativeViewChecker.m */; };
+		5E0653FF2AF20E33E9334E5C /* CR_CreativeViewChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E06534D114E0989D12A1E6B /* CR_CreativeViewChecker.m */; };
 		5E06565BD091B87AB797194F /* NativeAssetsFromCdb.json in Resources */ = {isa = PBXBuildFile; fileRef = 5E065022DFE1021D3CF2B444 /* NativeAssetsFromCdb.json */; };
 		5E0656E334784BCDB32052A4 /* CR_DfpNativeFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0656551EC4DAFCC6DF7D79 /* CR_DfpNativeFunctionalTests.m */; };
 		5E06595DFEDD5D69365B12EA /* CR_ViewCheckingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0659E91B2AF96B5DF83DA3 /* CR_ViewCheckingHelper.m */; };
-		5E0659AE7B748911FF99C063 /* CR_StandaloneCreativeViewChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E06534D114E0989D12A1E6B /* CR_StandaloneCreativeViewChecker.m */; };
+		5E0659AE7B748911FF99C063 /* CR_CreativeViewChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E06534D114E0989D12A1E6B /* CR_CreativeViewChecker.m */; };
 		5E065AC7029B99CF6F68DEC1 /* CR_ViewCheckingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0659E91B2AF96B5DF83DA3 /* CR_ViewCheckingHelper.m */; };
 		5E065D27D22F2032CA976719 /* CR_DfpInterstitialFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E065AD8DCA877B2A1928681 /* CR_DfpInterstitialFunctionalTests.m */; };
 		5E065F348B239221EFD62032 /* CR_MopubInterstitialFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E06573035072D184799FC19 /* CR_MopubInterstitialFunctionalTests.m */; };
@@ -389,13 +389,13 @@
 		54ED19F222717E13009AA0B2 /* CRInterstitialViewControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialViewControllerTests.m; sourceTree = "<group>"; };
 		5E065022DFE1021D3CF2B444 /* NativeAssetsFromCdb.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = NativeAssetsFromCdb.json; sourceTree = "<group>"; };
 		5E0651507F9F3AE240E1BA60 /* CR_DfpCreativeViewChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_DfpCreativeViewChecker.m; sourceTree = "<group>"; };
-		5E06534D114E0989D12A1E6B /* CR_StandaloneCreativeViewChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_StandaloneCreativeViewChecker.m; sourceTree = "<group>"; };
+		5E06534D114E0989D12A1E6B /* CR_CreativeViewChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_CreativeViewChecker.m; sourceTree = "<group>"; };
 		5E0653D789EC6659FC47123D /* CR_TargetingKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_TargetingKeys.h; sourceTree = "<group>"; };
 		5E0653DCED07A1A1895CB076 /* Criteo+Testing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Criteo+Testing.m"; sourceTree = "<group>"; };
 		5E06544E80499975523CBBF1 /* UIWebView+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+Testing.h"; sourceTree = "<group>"; };
 		5E0655500052DF1F93D28212 /* CR_TestAdUnits.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_TestAdUnits.m; sourceTree = "<group>"; };
 		5E0655B4E1D731869B4CD3CF /* CR_DfpCreativeViewChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_DfpCreativeViewChecker.h; sourceTree = "<group>"; };
-		5E065632D52469BD0D758FAB /* CR_StandaloneCreativeViewChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_StandaloneCreativeViewChecker.h; sourceTree = "<group>"; };
+		5E065632D52469BD0D758FAB /* CR_CreativeViewChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_CreativeViewChecker.h; sourceTree = "<group>"; };
 		5E0656551EC4DAFCC6DF7D79 /* CR_DfpNativeFunctionalTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_DfpNativeFunctionalTests.m; sourceTree = "<group>"; };
 		5E0656CED6370CB240092ECC /* CR_HttpTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_HttpTests.m; sourceTree = "<group>"; };
 		5E0656EA9D2A919E7646C70B /* CR_TargetingKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_TargetingKeys.m; sourceTree = "<group>"; };
@@ -739,19 +739,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		5E065F6AC812E6AF04EF98AB /* DfpTesting */ = {
+		5E065F6AC812E6AF04EF98AB /* Checkers */ = {
 			isa = PBXGroup;
 			children = (
 				5E0655B4E1D731869B4CD3CF /* CR_DfpCreativeViewChecker.h */,
 				5E0651507F9F3AE240E1BA60 /* CR_DfpCreativeViewChecker.m */,
 				5E065954D963214FC20CC0E2 /* CR_MopubCreativeViewChecker.h */,
 				5E065FE195F039E520361B59 /* CR_MopubCreativeViewChecker.m */,
-				5E065632D52469BD0D758FAB /* CR_StandaloneCreativeViewChecker.h */,
-				5E06534D114E0989D12A1E6B /* CR_StandaloneCreativeViewChecker.m */,
+				5E065632D52469BD0D758FAB /* CR_CreativeViewChecker.h */,
+				5E06534D114E0989D12A1E6B /* CR_CreativeViewChecker.m */,
 				5E06575364D5BB84CA6CE107 /* CR_ViewCheckingHelper.h */,
 				5E0659E91B2AF96B5DF83DA3 /* CR_ViewCheckingHelper.m */,
 			);
-			path = DfpTesting;
+			path = Checkers;
 			sourceTree = "<group>";
 		};
 		650915F222555C21001D6673 /* Standalone */ = {
@@ -790,7 +790,7 @@
 				5E065EFC53F2E9D25BAFEDEA /* UIView+Testing.m */,
 				5E065EF6624E39D5EF02EFA9 /* UIWebView+Testing.m */,
 				7DB4E90A239532BA008DE5E3 /* XCTestCase+Criteo.m */,
-				5E065F6AC812E6AF04EF98AB /* DfpTesting */,
+				5E065F6AC812E6AF04EF98AB /* Checkers */,
 				7DB5F8F123AA2B2500EF5602 /* NetworkManager */,
 				7D51ABEE23AB781600540094 /* CR_Timer.h */,
 				7D51ABEF23AB781600540094 /* CR_Timer.m */,
@@ -1494,7 +1494,7 @@
 				7D3E426C23915DC900BAF673 /* NSError+CRErrorsTests.m in Sources */,
 				7D3E426523915DB900BAF673 /* CR_NetworkManagerTests.m in Sources */,
 				7DB5F90723AA2B2500EF5602 /* CR_NetworkCaptor.m in Sources */,
-				5E0659AE7B748911FF99C063 /* CR_StandaloneCreativeViewChecker.m in Sources */,
+				5E0659AE7B748911FF99C063 /* CR_CreativeViewChecker.m in Sources */,
 				5E06595DFEDD5D69365B12EA /* CR_ViewCheckingHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1627,7 +1627,7 @@
 				5E065F348B239221EFD62032 /* CR_MopubInterstitialFunctionalTests.m in Sources */,
 				5E065D27D22F2032CA976719 /* CR_DfpInterstitialFunctionalTests.m in Sources */,
 				5E0656E334784BCDB32052A4 /* CR_DfpNativeFunctionalTests.m in Sources */,
-				5E0653FF2AF20E33E9334E5C /* CR_StandaloneCreativeViewChecker.m in Sources */,
+				5E0653FF2AF20E33E9334E5C /* CR_CreativeViewChecker.m in Sources */,
 				5E065AC7029B99CF6F68DEC1 /* CR_ViewCheckingHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -12,7 +12,7 @@
 #import "CRBannerView.h"
 #import "CRBannerView+Internal.h"
 #import "XCTestCase+Criteo.h"
-#import "CR_StandaloneCreativeViewChecker.h"
+#import "CR_CreativeViewChecker.h"
 
 
 @interface CR_StandaloneBannerFunctionalTests : CR_IntegrationsTestBase
@@ -25,7 +25,7 @@
     CRBannerAdUnit *banner = [CR_TestAdUnits randomBanner320x50];
     [self initCriteoWithAdUnits:@[banner]];
 
-    CR_StandaloneCreativeViewChecker *viewChecker = [[CR_StandaloneCreativeViewChecker alloc] initWithAdUnit:banner criteo:self.criteo];
+    CR_CreativeViewChecker *viewChecker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner criteo:self.criteo];
 
     [viewChecker.bannerView loadAd];
 
@@ -35,7 +35,7 @@
 - (void)test_givenBannerWithGoodAdUnitId_whenLoadAd_thenDelegateInvoked {
     CRBannerAdUnit *banner = [CR_TestAdUnits demoBanner320x50];
     [self initCriteoWithAdUnits:@[banner]];
-    CR_StandaloneCreativeViewChecker *viewChecker = [[CR_StandaloneCreativeViewChecker alloc] initWithAdUnit:banner criteo:self.criteo];
+    CR_CreativeViewChecker *viewChecker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner criteo:self.criteo];
 
     [viewChecker.bannerView loadAd];
 
@@ -45,7 +45,7 @@
 - (void)test_givenBannerWithGoodAdUnitId_whenLoadAd_thenAdIsLoadedProperly {
     CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
     [self initCriteoWithAdUnits:@[banner]];
-    CR_StandaloneCreativeViewChecker *viewChecker = [[CR_StandaloneCreativeViewChecker alloc] initWithAdUnit:banner criteo:self.criteo];
+    CR_CreativeViewChecker *viewChecker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner criteo:self.criteo];
 
     [viewChecker.bannerView loadAd];
 
