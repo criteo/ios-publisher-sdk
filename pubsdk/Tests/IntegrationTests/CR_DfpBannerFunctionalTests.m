@@ -74,4 +74,19 @@
     XCTAssertTrue(renderedProperly);
 }
 
+- (void)test_givenGoodBannerRegistered_whenLoadingDfpBannerWithRandomAdUnitId_thenDfpViewDoNotContainCreative {
+    CRBannerAdUnit *bannerAdUnit = [CR_TestAdUnits preprodBanner320x50];
+    CRBannerAdUnit *bannerAdUnitRandom = [CR_TestAdUnits randomBanner320x50];
+    [self initCriteoWithAdUnits:@[bannerAdUnit]];
+    DFPRequest *bannerDfpRequest = [[DFPRequest alloc] init];
+    CR_DfpCreativeViewChecker *dfpViewChecker = [[CR_DfpCreativeViewChecker alloc] initWithBannerWithSize:kGADAdSizeBanner
+                                                                                             withAdUnitId:CR_TestAdUnits.dfpBanner50AdUnitId];
+
+    [self.criteo setBidsForRequest:bannerDfpRequest withAdUnit:bannerAdUnitRandom];
+    [dfpViewChecker.dfpBannerView loadRequest:bannerDfpRequest];
+
+    BOOL renderedProperly = [dfpViewChecker waitAdCreativeRendered];
+    XCTAssertFalse(renderedProperly);
+}
+
 @end

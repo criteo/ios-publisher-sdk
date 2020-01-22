@@ -75,4 +75,19 @@
     XCTAssertTrue(renderedProperly);
 }
 
+- (void)test_invalidInterstitial_whenLoadingDfpInterstitial_thenDfpViewDoesNOTContainCreative {
+    CRInterstitialAdUnit *interstitialAdUnitRandom = [CR_TestAdUnits randomInterstitial];
+    CRInterstitialAdUnit *interstitialAdUnit = [CR_TestAdUnits preprodInterstitial];
+    [self initCriteoWithAdUnits:@[interstitialAdUnit]];
+    DFPRequest *dfpRequest = [[DFPRequest alloc] init];
+    DFPInterstitial *dfpInterstitial = [[DFPInterstitial alloc] initWithAdUnitID:CR_TestAdUnits.dfpInterstitialAdUnitId];
+    CR_DfpCreativeViewChecker *dfpViewChecker = [[CR_DfpCreativeViewChecker alloc] initWithInterstitial:dfpInterstitial];
+
+    [self.criteo setBidsForRequest:dfpRequest withAdUnit:interstitialAdUnitRandom];
+    [dfpInterstitial loadRequest:dfpRequest];
+
+    BOOL renderedProperly = [dfpViewChecker waitAdCreativeRendered];
+    XCTAssertFalse(renderedProperly);
+}
+
 @end
