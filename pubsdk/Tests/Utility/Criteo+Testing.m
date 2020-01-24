@@ -33,6 +33,8 @@ static void *CriteoTestingBidManagerBuilderKey = &CriteoTestingBidManagerBuilder
 
 @implementation Criteo (Testing)
 
+@dynamic bidManager;
+
 - (instancetype)initWithBidManagerBuilder:(CR_BidManagerBuilder *)bidManagerBuilder
 {
     CR_BidManager *bidManager = [bidManagerBuilder buildBidManager];

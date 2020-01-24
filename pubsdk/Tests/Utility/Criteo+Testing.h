@@ -8,6 +8,7 @@
 
 @class CR_NetworkCaptor;
 @class CR_HttpContent;
+@class CR_BidManager;
 @class CR_BidManagerBuilder;
 
 FOUNDATION_EXPORT NSString *const CriteoTestingPublisherId;
@@ -22,6 +23,7 @@ FOUNDATION_EXPORT NSString *const PreprodNativeAdUnitId;
 @property (nonatomic, readonly) CR_NetworkCaptor *testing_networkCaptor;
 @property (nonatomic, readonly) CR_HttpContent *testing_lastBidHttpContent;
 @property (nonatomic, readonly, strong) CR_BidManagerBuilder *bidManagerBuilder;
+@property (nonatomic, readonly, strong) CR_BidManager *bidManager;
 
 + (Criteo *)testing_criteoWithNetworkCaptor;
 
