@@ -35,8 +35,8 @@ do { \
 - (void)setUp
 {
     self.userDefaults = [NSUserDefaults standardUserDefaults];
-    [self.userDefaults removeObjectForKey:CR_DataProtectionConsentUsPrivacyIabConsentStringKey];
-    [self.userDefaults removeObjectForKey:CR_DataProtectionConsentUsPrivacyCriteoStateKey];
+    [self.userDefaults removeObjectForKey:CR_CCPAIabConsentStringKey];
+    [self.userDefaults removeObjectForKey:CR_CCPAConsentCriteoStateKey];
     [self.userDefaults removeObjectForKey:CR_DataProtectionConsentMopubConsentKey];
 }
 
@@ -47,7 +47,7 @@ do { \
 - (void)testGivenIabConsentStringSet_whenCriteoRegister_thenUsIabSetInBidRequest
 {
     [self.userDefaults setObject:CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString
-                          forKey:CR_DataProtectionConsentUsPrivacyIabConsentStringKey];
+                          forKey:CR_CCPAIabConsentStringKey];
     Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
 
     [criteo testing_registerBannerAndWaitForHTTPResponses];
@@ -59,7 +59,7 @@ do { \
 - (void)testGivenIabConsentStringSetWithoutConsent_whenCriteoRegister_thenUsIabSetInBidRequestAndAppEventNotSent
 {
     [self.userDefaults setObject:@"1YYN"
-                          forKey:CR_DataProtectionConsentUsPrivacyIabConsentStringKey];
+                          forKey:CR_CCPAIabConsentStringKey];
     Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
 
     [criteo testing_registerBanner];
@@ -83,7 +83,7 @@ do { \
 - (void)testGivenIabConsentStringEmpty_whenCriteoRegister_thenUsIabNotSetInBidRequest
 {
     [self.userDefaults setObject:@""
-                          forKey:CR_DataProtectionConsentUsPrivacyIabConsentStringKey];
+                          forKey:CR_CCPAIabConsentStringKey];
     Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
 
     [criteo testing_registerBannerAndWaitForHTTPResponses];

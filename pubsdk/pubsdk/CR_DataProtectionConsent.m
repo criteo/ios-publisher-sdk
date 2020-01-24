@@ -10,30 +10,20 @@
 #import <AdSupport/ASIdentifierManager.h>
 
 /**
- Specification for the US Privacy in IAB:
- https://iabtechlab.com/wp-content/uploads/2019/11/U.S.-Privacy-String-v1.0-IAB-Tech-Lab.pdf
- */
-
-/**
  Specification for the GDPR in IAB:
  https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/Mobile%20In-App%20Consent%20APIs%20v1.0%20Final.md#structure
  */
 
-NSString * const CR_DataProtectionConsentUsPrivacyIabConsentStringKey = @"IABUSPrivacy_String";
-NSString * const CR_DataProtectionConsentUsPrivacyCriteoStateKey = @"CriteoUSPrivacy_Bool";
 NSString * const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String";
 
 
 @interface CR_DataProtectionConsent ()
 
 @property (class, nonatomic, strong, readonly) NSArray<NSString *> *mopubConsentDeclinedStrings;
-/**
- According to the matrix specified here:
- https://confluence.criteois.com/display/PP/CCPA+Buying+Policy?focusedCommentId=532758801#comment-532758801
- */
-@property (class, nonatomic, strong, readonly) NSArray<NSString *> *usPrivacyConsentOptInStrings;
 
-@property (nonatomic, strong) NSUserDefaults *userDefaults;
+@property (nonatomic, strong, readonly) NSUserDefaults *userDefaults;
+@property (nonatomic, strong, readonly) CR_CCPAConsent *ccpaConsent;
+
 
 @end
 
@@ -43,19 +33,14 @@ NSString * const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String
     return @[ @"EXPLICIT_NO", @"POTENTIAL_WHITELIST", @"DNT"];
 }
 
-+ (NSArray<NSString *> *)usPrivacyConsentOptInStrings {
-    return @[ @"1YNN", @"1YNY", @"1---", @"1YN-", @"1-N-" ];
-}
-
-- (instancetype)init
-{
+- (instancetype)init {
     return [self initWithUserDefaults:[NSUserDefaults standardUserDefaults]];
 }
 
-- (instancetype)initWithUserDefaults:(NSUserDefaults *)userDefaults
-{
+- (instancetype)initWithUserDefaults:(NSUserDefaults *)userDefaults {
     if(self = [super init]) {
         _userDefaults = userDefaults;
+        _ccpaConsent = [[CR_CCPAConsent alloc] initWithUserDefaults:userDefaults];
         _gdprApplies = [userDefaults boolForKey:@"IABConsent_SubjectToGDPR"];
         _consentString = [userDefaults stringForKey:@"IABConsent_ConsentString"];
         // set to default
@@ -70,15 +55,23 @@ NSString * const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String
     return self;
 }
 
-- (NSString *)usPrivacyIabConsentString
-{
-    return [self.userDefaults stringForKey:CR_DataProtectionConsentUsPrivacyIabConsentStringKey];
+- (NSString *)usPrivacyIabConsentString {
+    return self.ccpaConsent.iabConsentString;
 }
 
-- (void)setUsPrivacyCriteoState:(CR_UsPrivacyCriteoState)usPrivacyCriteoState
-{
-    [self.userDefaults setInteger:usPrivacyCriteoState
-                           forKey:CR_DataProtectionConsentUsPrivacyCriteoStateKey];
+- (void)setUsPrivacyCriteoState:(CR_CCPACriteoState)usPrivacyCriteoState {
+    self.ccpaConsent.criteoState = usPrivacyCriteoState;
+}
+
+- (CR_CCPACriteoState)usPrivacyCriteoState {
+    return self.ccpaConsent.criteoState;
+}
+
+- (BOOL)shouldSendAppEvent {
+    if ([self _isMopubConsentDeclined]) {
+        return NO;
+    }
+    return self.ccpaConsent.isOptIn;
 }
 
 - (void)setMopubConsent:(NSString *)mopubConsent {
@@ -88,46 +81,6 @@ NSString * const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String
 
 - (NSString *)mopubConsent {
     return [self.userDefaults objectForKey:CR_DataProtectionConsentMopubConsentKey];
-}
-
-- (CR_UsPrivacyCriteoState)usPrivacyCriteoState
-{
-    return [self.userDefaults integerForKey:CR_DataProtectionConsentUsPrivacyCriteoStateKey];
-}
-
-- (BOOL)shouldSendAppEvent {
-    if ([self _isMopubConsentDeclined]) {
-        return NO;
-    }
-    if (self.usPrivacyIabConsentString.length > 0) {
-        return [self _isUSPrivacyConsentStringOptIn];
-    }
-    return [self _isUsPrivacyCriteoOptIn];
-}
-
-- (BOOL)_isUsPrivacyCriteoOptIn
-{
-    return  (self.usPrivacyCriteoState == CR_UsPrivacyCriteoStateOptIn) ||
-            (self.usPrivacyCriteoState == CR_UsPrivacyCriteoStateUnset);
-}
-
-- (BOOL)_isUSPrivacyConsentStringOptIn
-{
-    NSError *error = NULL;
-    NSString *pattern = @"1(Y|N|-){3}";
-    NSString *consentString = [self.usPrivacyIabConsentString uppercaseString];
-    if (consentString.length == 0) return YES;
-    NSRegularExpression* regex = [NSRegularExpression regularExpressionWithPattern:pattern
-                                                                           options:0
-                                                                             error:&error];
-    NSAssert(!error, @"Error occured for the given regexp %@: %@", pattern, error);
-    if (error) return NO; // if our regexp isn't right, we opt out.
-    const NSRange range = NSMakeRange(0, [consentString length]);
-    NSArray* matches = [regex matchesInString:consentString
-                                      options:0
-                                        range:range];
-
-    return (matches.count != 1) || [self.class.usPrivacyConsentOptInStrings containsObject:consentString];
 }
 
 - (BOOL)_isMopubConsentDeclined {

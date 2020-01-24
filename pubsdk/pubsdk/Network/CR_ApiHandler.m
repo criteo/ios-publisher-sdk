@@ -69,16 +69,16 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
     if (consent.usPrivacyIabConsentString.length > 0) {
         userDict[CR_ApiHandlerUspIabStringKey] = consent.usPrivacyIabConsentString;
     }
-    if (consent.usPrivacyCriteoState == CR_UsPrivacyCriteoStateOptIn) {
+    if (consent.usPrivacyCriteoState == CR_CCPACriteoStateOptIn) {
         userDict[CR_ApiHandlerUspCriteoOptoutKey] = @NO;
-    } else if (consent.usPrivacyCriteoState == CR_UsPrivacyCriteoStateOptOut) {
+    } else if (consent.usPrivacyCriteoState == CR_CCPACriteoStateOptOut) {
         userDict[CR_ApiHandlerUspCriteoOptoutKey] = @YES;
     } // else if unknown we add nothing.
 
     if (consent.mopubConsent.length > 0) {
         userDict[CR_ApiHandlerMopubConsentKey] = consent.mopubConsent;
     }
-    
+
     postBody[CR_ApiHandlerUserKey] = userDict;
 
     NSMutableDictionary *publisherDict = [NSMutableDictionary new];
