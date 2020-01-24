@@ -15,7 +15,11 @@ NSString * const CR_ApiHandlerUspIabStringKey = @"uspIab";
 NSString * const CR_ApiHandlerUserKey = @"user";
 NSString * const CR_ApiHandlerUspCriteoOptoutKey = @"uspOptout";
 NSString * const CR_ApiHandlerMopubConsentKey = @"mopubConsent";
-
+NSString * const CR_ApiHandlerBidSlotsKey = @"slots";
+NSString * const CR_ApiHandlerBidSlotsPlacementIdKey = @"placementId";
+NSString * const CR_ApiHandlerBidSlotsSizesKey = @"sizes";
+NSString * const CR_ApiHandlerBidSlotsIsNativeKey = @"isNative";
+NSString * const CR_ApiHandlerBidSlotsIsInterstitialKey = @"interstitial";
 // 8 is suggested by Jean Sebastien Faure as a reasonable group size for CDB calls
 static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 
@@ -103,13 +107,13 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
     NSMutableArray *slots = [NSMutableArray new];
     for (CR_CacheAdUnit *adUnit in adUnits) {
         NSMutableDictionary *slotDict = [NSMutableDictionary new];
-        slotDict[@"placementId"] = adUnit.adUnitId;
-        slotDict[@"sizes"] = @[adUnit.cdbSize];
+        slotDict[CR_ApiHandlerBidSlotsPlacementIdKey] = adUnit.adUnitId;
+        slotDict[CR_ApiHandlerBidSlotsSizesKey] = @[adUnit.cdbSize];
         if(adUnit.adUnitType == CRAdUnitTypeNative) {
-            slotDict[@"isNative"] = @(YES);
+            slotDict[CR_ApiHandlerBidSlotsIsNativeKey] = @(YES);
         }
         else if(adUnit.adUnitType == CRAdUnitTypeInterstitial) {
-            slotDict[@"interstitial"] = @(YES);
+            slotDict[CR_ApiHandlerBidSlotsIsInterstitialKey] = @(YES);
         }
         [slots addObject:slotDict];
     }
@@ -153,7 +157,7 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
     for (CR_CacheAdUnitArray *adUnitChunk in adUnitChunks) {
 
         // Set up the request for this chunk
-        postBody[@"slots"] = [self slotsForRequest:adUnitChunk];
+        postBody[CR_ApiHandlerBidSlotsKey] = [self slotsForRequest:adUnitChunk];
 
         // Send the request
         CLogInfo(@"[INFO][API_] CdbPostCall.start");

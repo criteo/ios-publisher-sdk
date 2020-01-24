@@ -215,6 +215,10 @@
 		7D51ABFA23ACE16800540094 /* NSURL+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D51ABF823ACE16800540094 /* NSURL+Testing.m */; };
 		7D51ABFD23B0EDD900540094 /* CR_Assert.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D51ABFB23B0EDD900540094 /* CR_Assert.h */; };
 		7D51ABFE23B0EDD900540094 /* CR_Assert.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D51ABFB23B0EDD900540094 /* CR_Assert.h */; };
+		7D523C7923DB31CD00E79C88 /* CR_HttpContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D523C7823DB31CD00E79C88 /* CR_HttpContent.m */; };
+		7D523C7A23DB31CD00E79C88 /* CR_HttpContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D523C7823DB31CD00E79C88 /* CR_HttpContent.m */; };
+		7D523C7D23DB32C600E79C88 /* CR_HttpContent+AdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D523C7C23DB32C600E79C88 /* CR_HttpContent+AdUnit.m */; };
+		7D523C7E23DB32C600E79C88 /* CR_HttpContent+AdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D523C7C23DB32C600E79C88 /* CR_HttpContent+AdUnit.m */; };
 		7D73EF5F23C39A030086CBDC /* CR_AppEventsIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D73EF5E23C39A030086CBDC /* CR_AppEventsIntegrationTests.m */; };
 		7D85E8D323D8891A00AFF91B /* CR_InHouseFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D85E8D223D8891A00AFF91B /* CR_InHouseFunctionalTests.m */; };
 		7DA2F5BD23A0D9E400B35524 /* CR_DataProtectionConsentMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA2F5BC23A0D9E400B35524 /* CR_DataProtectionConsentMock.m */; };
@@ -484,6 +488,10 @@
 		7D51ABF723ACE16800540094 /* NSURL+Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURL+Testing.h"; sourceTree = "<group>"; };
 		7D51ABF823ACE16800540094 /* NSURL+Testing.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSURL+Testing.m"; sourceTree = "<group>"; };
 		7D51ABFB23B0EDD900540094 /* CR_Assert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_Assert.h; sourceTree = "<group>"; };
+		7D523C7723DB31CD00E79C88 /* CR_HttpContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_HttpContent.h; sourceTree = "<group>"; };
+		7D523C7823DB31CD00E79C88 /* CR_HttpContent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_HttpContent.m; sourceTree = "<group>"; };
+		7D523C7B23DB32C600E79C88 /* CR_HttpContent+AdUnit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CR_HttpContent+AdUnit.h"; sourceTree = "<group>"; };
+		7D523C7C23DB32C600E79C88 /* CR_HttpContent+AdUnit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CR_HttpContent+AdUnit.m"; sourceTree = "<group>"; };
 		7D73EF5E23C39A030086CBDC /* CR_AppEventsIntegrationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_AppEventsIntegrationTests.m; sourceTree = "<group>"; };
 		7D85E8D223D8891A00AFF91B /* CR_InHouseFunctionalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_InHouseFunctionalTests.m; sourceTree = "<group>"; };
 		7DA2F5BB23A0D9E400B35524 /* CR_DataProtectionConsentMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_DataProtectionConsentMock.h; sourceTree = "<group>"; };
@@ -910,9 +918,21 @@
 			path = InHouseMediation;
 			sourceTree = "<group>";
 		};
+		7D523C7623DB31A000E79C88 /* HTTP */ = {
+			isa = PBXGroup;
+			children = (
+				7D523C7723DB31CD00E79C88 /* CR_HttpContent.h */,
+				7D523C7823DB31CD00E79C88 /* CR_HttpContent.m */,
+				7D523C7B23DB32C600E79C88 /* CR_HttpContent+AdUnit.h */,
+				7D523C7C23DB32C600E79C88 /* CR_HttpContent+AdUnit.m */,
+			);
+			path = HTTP;
+			sourceTree = "<group>";
+		};
 		7DB5F8F123AA2B2500EF5602 /* NetworkManager */ = {
 			isa = PBXGroup;
 			children = (
+				7D523C7623DB31A000E79C88 /* HTTP */,
 				7D51ABEA23AA6CAC00540094 /* CR_NetworkManagerDecorator.h */,
 				7D51ABEB23AA6CAC00540094 /* CR_NetworkManagerDecorator.m */,
 				7DB5F8F223AA2B2500EF5602 /* CR_NetworkSessionReplayer.h */,
@@ -1489,6 +1509,7 @@
 				7D3E424A23915D8700BAF673 /* CR_BidManagerHelperTests.m in Sources */,
 				7DB5F91123AA2B2500EF5602 /* CR_NetworkSessionReader.m in Sources */,
 				7D3E426123915DAC00BAF673 /* CR_NativeProductTests.m in Sources */,
+				7D523C7E23DB32C600E79C88 /* CR_HttpContent+AdUnit.m in Sources */,
 				7D3E426623915DB900BAF673 /* CR_BidFetchTrackerTests.m in Sources */,
 				7D3E424C23915D8700BAF673 /* CR_CacheAdUnitTests.m in Sources */,
 				7D3E424F23915D8700BAF673 /* CR_CdbResponseTests.m in Sources */,
@@ -1509,6 +1530,7 @@
 				7D3E426523915DB900BAF673 /* CR_NetworkManagerTests.m in Sources */,
 				7DB5F90723AA2B2500EF5602 /* CR_NetworkCaptor.m in Sources */,
 				5E0659AE7B748911FF99C063 /* CR_CreativeViewChecker.m in Sources */,
+				7D523C7A23DB31CD00E79C88 /* CR_HttpContent.m in Sources */,
 				5E06595DFEDD5D69365B12EA /* CR_ViewCheckingHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1612,9 +1634,11 @@
 				7D3E424723915B6600BAF673 /* CRAdUnitTests.m in Sources */,
 				7D3E423D23915B6600BAF673 /* CR_CacheManagerTests.m in Sources */,
 				7D3E422C23915B6600BAF673 /* CR_NativeAdvertiserTests.m in Sources */,
+				7D523C7923DB31CD00E79C88 /* CR_HttpContent.m in Sources */,
 				7DB4E9132397AB6B008DE5E3 /* CROrthogonalBannerFunctionalTests.m in Sources */,
 				7D3E423F23915B6600BAF673 /* CR_CdbResponseTests.m in Sources */,
 				7D3E423023915B6600BAF673 /* NSDictionary+AdditionsTests.m in Sources */,
+				7D523C7D23DB32C600E79C88 /* CR_HttpContent+AdUnit.m in Sources */,
 				7D3E423623915B6600BAF673 /* CR_NetworkManagerTests.m in Sources */,
 				7D3E423A23915B6600BAF673 /* CRBannerAdUnitTests.m in Sources */,
 				54F1E6BB239FA1A800985D09 /* CR_DfpCreativeViewChecker.m in Sources */,

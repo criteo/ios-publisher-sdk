@@ -26,6 +26,11 @@ FOUNDATION_EXTERN NSString * const CR_ApiHandlerUspIabStringKey;
 FOUNDATION_EXTERN NSString * const CR_ApiHandlerUserKey;
 FOUNDATION_EXTERN NSString * const CR_ApiHandlerUspCriteoOptoutKey;
 FOUNDATION_EXTERN NSString * const CR_ApiHandlerMopubConsentKey;
+FOUNDATION_EXTERN NSString * const CR_ApiHandlerBidSlotsKey;
+FOUNDATION_EXTERN NSString * const CR_ApiHandlerBidSlotsPlacementIdKey;
+FOUNDATION_EXTERN NSString * const CR_ApiHandlerBidSlotsSizesKey;
+FOUNDATION_EXTERN NSString * const CR_ApiHandlerBidSlotsIsNativeKey;
+FOUNDATION_EXTERN NSString * const CR_ApiHandlerBidSlotsIsInterstitialKey;
 
 @interface CR_ApiHandler : NSObject
 @property (strong, nonatomic) CR_NetworkManager *networkManager;
