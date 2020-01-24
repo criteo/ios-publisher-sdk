@@ -198,6 +198,8 @@ do { \
     CR_AssertShouldSendEvent(@"1YNY", CR_UsPrivacyCriteoStateUnset, nil, YES);
     CR_AssertShouldSendEvent(@"1YnY", CR_UsPrivacyCriteoStateUnset, nil, YES);
     CR_AssertShouldSendEvent(@"1Ynn", CR_UsPrivacyCriteoStateUnset, nil, YES);
+    CR_AssertShouldSendEvent(@"1Yn-", CR_UsPrivacyCriteoStateUnset, nil, YES);
+    CR_AssertShouldSendEvent(@"1-n-", CR_UsPrivacyCriteoStateUnset, nil, YES);
 
     // Opt-in Consent string takes over CriteoState.
     CR_AssertShouldSendEvent(@"1YNY", CR_UsPrivacyCriteoStateOptOut, nil, YES);

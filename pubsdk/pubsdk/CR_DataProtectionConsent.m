@@ -27,6 +27,11 @@ NSString * const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String
 @interface CR_DataProtectionConsent ()
 
 @property (class, nonatomic, strong, readonly) NSArray<NSString *> *mopubConsentDeclinedStrings;
+/**
+ According to the matrix specified here:
+ https://confluence.criteois.com/display/PP/CCPA+Buying+Policy?focusedCommentId=532758801#comment-532758801
+ */
+@property (class, nonatomic, strong, readonly) NSArray<NSString *> *usPrivacyConsentOptInStrings;
 
 @property (nonatomic, strong) NSUserDefaults *userDefaults;
 
@@ -36,6 +41,10 @@ NSString * const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String
 
 + (NSArray<NSString *> *)mopubConsentDeclinedStrings {
     return @[ @"EXPLICIT_NO", @"POTENTIAL_WHITELIST", @"DNT"];
+}
+
++ (NSArray<NSString *> *)usPrivacyConsentOptInStrings {
+    return @[ @"1YNN", @"1YNY", @"1---", @"1YN-", @"1-N-" ];
 }
 
 - (instancetype)init
@@ -117,12 +126,8 @@ NSString * const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String
     NSArray* matches = [regex matchesInString:consentString
                                       options:0
                                         range:range];
-    if (matches.count != 1) return YES;
-    // According to the matrix specified here:
-    // https://confluence.criteois.com/display/PP/CCPA+Buying+Policy?focusedCommentId=532758801#comment-532758801
-    return  [consentString isEqualToString:@"1YNN"] ||
-            [consentString isEqualToString:@"1YNY"] ||
-            [consentString isEqualToString:@"1---"];
+
+    return (matches.count != 1) || [self.class.usPrivacyConsentOptInStrings containsObject:consentString];
 }
 
 - (BOOL)_isMopubConsentDeclined {
