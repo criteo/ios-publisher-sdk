@@ -44,8 +44,11 @@
 }
 
 - (instancetype)initWithAdUnit:(CRInterstitialAdUnit *)adUnit {
+    WKWebViewConfiguration *webViewConfiguration = [[WKWebViewConfiguration alloc] init];
+    webViewConfiguration.allowsInlineMediaPlayback = YES;
+    WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:webViewConfiguration];
     return [self initWithCriteo:[Criteo sharedCriteo]
-                 viewController:[[CR_InterstitialViewController alloc] initWithWebView:[WKWebView new]
+                 viewController:[[CR_InterstitialViewController alloc] initWithWebView:webView
                                                                                   view:nil
                                                                           interstitial:self]
                     application:[UIApplication sharedApplication]

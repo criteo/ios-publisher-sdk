@@ -29,9 +29,13 @@
 @implementation CRBannerView
 
 - (instancetype)initWithAdUnit:(CRBannerAdUnit *)adUnit {
+    WKWebViewConfiguration *webViewConfiguration = [[WKWebViewConfiguration alloc] init];
+    webViewConfiguration.allowsInlineMediaPlayback = YES;
+    CGRect webViewRect = CGRectMake(.0, .0,adUnit.size.width, adUnit.size.height);
+
     return [self initWithFrame:CGRectMake(.0, .0, adUnit.size.width, adUnit.size.height)
                         criteo:[Criteo sharedCriteo]
-                       webView:[[WKWebView alloc] initWithFrame:CGRectMake(.0, .0,adUnit.size.width, adUnit.size.height)]
+                       webView:[[WKWebView alloc] initWithFrame:webViewRect configuration:webViewConfiguration]
                    application:[UIApplication sharedApplication]
                         adUnit:adUnit];
 }
