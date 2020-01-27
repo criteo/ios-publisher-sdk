@@ -156,6 +156,7 @@ didFinishNavigation:(WKNavigation *)navigation {
             [self.delegate interstitialWillAppear:self];
         }
     });
+    self.viewController.modalPresentationStyle = UIModalPresentationFullScreen;
     [rootViewController presentViewController:self.viewController
                                      animated:YES
                                    completion:^{
