@@ -40,7 +40,7 @@
 
 - (IBAction)loadInterstitialClick:(id)sender {
     [super onLoadInterstitial];
-    self.cr_interstitialView = [[CRInterstitial alloc] initWithAdUnit:self.homePageVC.criteoInterstitialAdUnit];
+    self.cr_interstitialView = [[CRInterstitial alloc] initWithAdUnit:[super adUnitForInterstitial]];
     self.cr_interstitialView.delegate = self;
     [self.cr_interstitialView loadAd];
 }

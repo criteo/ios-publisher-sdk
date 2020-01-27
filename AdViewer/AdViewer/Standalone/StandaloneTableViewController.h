@@ -7,14 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "HomePageTableViewController.h"
 #import "IntegrationBaseTableViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface StandaloneTableViewController : IntegrationBaseTableViewController
-
-@property (nonatomic, strong) HomePageTableViewController *homePageVC;
 
 @end
 

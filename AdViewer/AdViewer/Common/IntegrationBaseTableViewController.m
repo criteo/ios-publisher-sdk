@@ -8,15 +8,17 @@
 
 #import "IntegrationBaseTableViewController.h"
 
-@interface IntegrationBaseTableViewController ()
-
-@end
-
 @implementation IntegrationBaseTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self updateInterstitialButtonsForAdLoaded:NO];
+}
+
+- (IBAction)interstitialSwitchChanged:(id)sender {
+    [self updateInterstitialButtonsForAdLoaded:NO];
+    UIColor *color = self.interstitialVideoSwitch.on ? UIColor.darkTextColor : UIColor.lightGrayColor;
+    self.interstitialVideoSwitchLabel.textColor = color;
 }
 
 - (void) updateInterstitialButtonsForAdLoaded:(BOOL)adLoaded {
@@ -30,6 +32,12 @@
 - (void) onLoadInterstitial {
     self.loadInterstitialButton.enabled = false;
     [self.interstitalSpinner startAnimating];
+}
+
+- (CRInterstitialAdUnit *) adUnitForInterstitial {
+    return self.interstitialVideoSwitch != nil && self.interstitialVideoSwitch.on
+    ? self.homePageVC.criteoInterstitialVideoAdUnit
+    : self.homePageVC.criteoInterstitialAdUnit;
 }
 
 @end

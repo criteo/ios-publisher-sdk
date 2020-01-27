@@ -8,14 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <MoPub.h>
-#import "HomePageTableViewController.h"
 #import "IntegrationBaseTableViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MopubTableViewController : IntegrationBaseTableViewController <MPAdViewDelegate, MPInterstitialAdControllerDelegate>
 
-@property (nonatomic, strong) HomePageTableViewController *homePageVC;
 @property (weak, nonatomic) IBOutlet UITextView *textFeedBack;
 
 @end

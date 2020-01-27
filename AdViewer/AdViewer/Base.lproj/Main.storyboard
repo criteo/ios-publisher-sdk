@@ -240,14 +240,32 @@
                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="DTe-sZ-ZWw">
                                                     <rect key="frame" x="264.66666666666669" y="12" width="20" height="20"/>
                                                 </activityIndicatorView>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="dVZ-hp-q3q">
+                                                    <rect key="frame" x="20" y="6.6666666666666679" width="51" height="31.000000000000004"/>
+                                                    <connections>
+                                                        <action selector="interstitialSwitchChanged:" destination="vwa-jI-9wo" eventType="valueChanged" id="BhW-mj-0K6"/>
+                                                    </connections>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Video" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eFq-wg-Ceq">
+                                                    <rect key="frame" x="77" y="13" width="40" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="eFq-wg-Ceq" firstAttribute="centerY" secondItem="vpY-wX-4Ov" secondAttribute="centerY" id="17x-0y-FNU"/>
                                                 <constraint firstItem="7P0-rG-Cip" firstAttribute="centerY" secondItem="vpY-wX-4Ov" secondAttribute="centerY" id="1hI-PT-PeV"/>
+                                                <constraint firstItem="7P0-rG-Cip" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="DTe-sZ-ZWw" secondAttribute="trailing" constant="8" symbolic="YES" id="6dJ-ai-iHe"/>
+                                                <constraint firstItem="dVZ-hp-q3q" firstAttribute="centerY" secondItem="vpY-wX-4Ov" secondAttribute="centerY" id="8Wz-Vz-CTg"/>
+                                                <constraint firstItem="dVZ-hp-q3q" firstAttribute="leading" secondItem="vpY-wX-4Ov" secondAttribute="leading" constant="20" id="98i-Vl-DqN"/>
                                                 <constraint firstItem="DTe-sZ-ZWw" firstAttribute="leading" secondItem="mWa-5t-U4k" secondAttribute="trailing" constant="5" id="EOX-7O-off"/>
+                                                <constraint firstItem="eFq-wg-Ceq" firstAttribute="leading" secondItem="dVZ-hp-q3q" secondAttribute="trailing" constant="8" id="L8e-MZ-1qt"/>
                                                 <constraint firstItem="mWa-5t-U4k" firstAttribute="centerX" secondItem="vpY-wX-4Ov" secondAttribute="centerX" id="LTT-o2-Txg"/>
                                                 <constraint firstItem="DTe-sZ-ZWw" firstAttribute="centerY" secondItem="vpY-wX-4Ov" secondAttribute="centerY" id="Tax-dh-6Cr"/>
                                                 <constraint firstAttribute="trailing" secondItem="7P0-rG-Cip" secondAttribute="trailing" constant="20" id="Zhm-qY-ESA"/>
                                                 <constraint firstItem="mWa-5t-U4k" firstAttribute="centerY" secondItem="vpY-wX-4Ov" secondAttribute="centerY" id="bin-HA-fBC"/>
+                                                <constraint firstItem="mWa-5t-U4k" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="eFq-wg-Ceq" secondAttribute="trailing" constant="8" symbolic="YES" id="l6k-tA-a0I"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -288,6 +306,8 @@
                     <connections>
                         <outlet property="banner_320x50View" destination="1cX-df-ruY" id="iZ3-d4-cFp"/>
                         <outlet property="interstitalSpinner" destination="DTe-sZ-ZWw" id="e6i-Qk-qfD"/>
+                        <outlet property="interstitialVideoSwitch" destination="dVZ-hp-q3q" id="BkG-oE-ZQC"/>
+                        <outlet property="interstitialVideoSwitchLabel" destination="eFq-wg-Ceq" id="Qlx-dC-9bX"/>
                         <outlet property="loadInterstitialButton" destination="mWa-5t-U4k" id="6GF-5g-t8w"/>
                         <outlet property="showInterstitialButton" destination="7P0-rG-Cip" id="dUU-kq-Ay4"/>
                     </connections>
@@ -395,10 +415,28 @@
                                                         <action selector="showInterstitialClick:" destination="fAG-V5-fqd" eventType="touchUpInside" id="Isk-Yy-uNt"/>
                                                     </connections>
                                                 </button>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Osk-ru-r95">
+                                                    <rect key="frame" x="20" y="6.6666666666666679" width="51" height="31.000000000000004"/>
+                                                    <connections>
+                                                        <action selector="interstitialSwitchChanged:" destination="fAG-V5-fqd" eventType="valueChanged" id="OAZ-4M-c18"/>
+                                                    </connections>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Video" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zZA-zH-so5">
+                                                    <rect key="frame" x="77" y="13" width="40" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="u4X-jI-oFj" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="zZA-zH-so5" secondAttribute="trailing" constant="8" symbolic="YES" id="5Tq-X3-yOK"/>
+                                                <constraint firstItem="Osk-ru-r95" firstAttribute="leading" secondItem="rxM-fd-CWE" secondAttribute="leading" constant="20" id="BB0-CN-uo2"/>
+                                                <constraint firstItem="zZA-zH-so5" firstAttribute="leading" secondItem="Osk-ru-r95" secondAttribute="trailing" constant="8" id="MCC-7R-bJR"/>
                                                 <constraint firstItem="u4X-jI-oFj" firstAttribute="centerY" secondItem="rxM-fd-CWE" secondAttribute="centerY" id="OUo-0J-Cse"/>
                                                 <constraint firstItem="LFY-cq-O1X" firstAttribute="leading" secondItem="u4X-jI-oFj" secondAttribute="trailing" constant="5" id="PX6-Hx-ZAH"/>
+                                                <constraint firstItem="zZA-zH-so5" firstAttribute="centerY" secondItem="rxM-fd-CWE" secondAttribute="centerY" id="THT-A4-KIf"/>
+                                                <constraint firstItem="SeT-0z-zkL" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="LFY-cq-O1X" secondAttribute="trailing" constant="8" symbolic="YES" id="bMj-FE-9Hz"/>
+                                                <constraint firstItem="Osk-ru-r95" firstAttribute="centerY" secondItem="rxM-fd-CWE" secondAttribute="centerY" id="c4t-Kt-GGf"/>
                                                 <constraint firstAttribute="trailing" secondItem="SeT-0z-zkL" secondAttribute="trailing" constant="20" id="cHU-HM-a6C"/>
                                                 <constraint firstItem="SeT-0z-zkL" firstAttribute="centerY" secondItem="rxM-fd-CWE" secondAttribute="centerY" id="kOS-9w-eKC"/>
                                                 <constraint firstItem="u4X-jI-oFj" firstAttribute="centerX" secondItem="rxM-fd-CWE" secondAttribute="centerX" id="s2O-77-xzq"/>
@@ -503,6 +541,8 @@
                         <outlet property="banner_300x250RedView" destination="9aZ-wT-prz" id="XRK-fX-4uk"/>
                         <outlet property="banner_320x50RedView" destination="t0b-Ka-b4c" id="izN-TK-ZIG"/>
                         <outlet property="interstitalSpinner" destination="LFY-cq-O1X" id="o4k-lO-ioh"/>
+                        <outlet property="interstitialVideoSwitch" destination="Osk-ru-r95" id="JqB-jM-DHS"/>
+                        <outlet property="interstitialVideoSwitchLabel" destination="zZA-zH-so5" id="hxQ-eG-wP8"/>
                         <outlet property="loadInterstitialButton" destination="u4X-jI-oFj" id="VSb-Nc-2Ti"/>
                         <outlet property="native_fluidRedView" destination="5aM-Lm-hMp" id="SVv-7c-lfm"/>
                         <outlet property="showInterstitialButton" destination="SeT-0z-zkL" id="9Dj-b3-CJx"/>
@@ -511,7 +551,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uFa-Gs-hzp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1745" y="26"/>
+            <point key="canvasLocation" x="1725" y="-242"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ZAg-ph-h5G">

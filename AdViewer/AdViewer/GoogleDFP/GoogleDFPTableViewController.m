@@ -86,7 +86,7 @@
      self.textFeedback.text = [self.textFeedback.text stringByAppendingString:@"\nREQUESTED INTERSTITIAL LOAD"];
     Criteo *criteo = [Criteo sharedCriteo];
     DFPRequest *request = [DFPRequest request];
-    [criteo setBidsForRequest:request withAdUnit:self.homePageVC.googleInterstitialAdUnit];
+    [criteo setBidsForRequest:request withAdUnit:[super adUnitForInterstitial]];
     self.dfpInterstitial = [[DFPInterstitial alloc] initWithAdUnitID:GOOGLEINTERSTITIALADUNITID];
     self.dfpInterstitial.delegate = self;
     [self.dfpInterstitial loadRequest:request];
