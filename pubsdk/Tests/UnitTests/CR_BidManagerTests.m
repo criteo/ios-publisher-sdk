@@ -17,6 +17,7 @@
 #import "CRBidToken+Internal.h"
 #import "DFPRequestClasses.h"
 #import <MoPub.h>
+#import "CR_CdbBidBuilder.h"
 
 static NSString * const CR_BidManagerTestsCpm = @"crt_cpm";
 static NSString * const CR_BidManagerTestsDisplayUrl = @"crt_displayUrl";
@@ -24,7 +25,6 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
 @interface CR_BidManagerTests : XCTestCase
 
-@property (nonatomic, strong) NSData *jsonData;
 @property (nonatomic, strong) NSMutableDictionary *mutableJsonDict;
 
 @property (nonatomic, strong) CR_ConfigManager *configManagerMock;
@@ -35,21 +35,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 @implementation CR_BidManagerTests
 
 - (void)setUp {
-    NSError *e = nil;
-
-    NSURL *jsonURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"SampleBid" withExtension:@"json"];
-
-    NSString *jsonText = [NSString stringWithContentsOfURL:jsonURL encoding:NSUTF8StringEncoding error:&e];
-    if (e) { XCTFail(@"%@", e); }
-
-    self.jsonData = [jsonText dataUsingEncoding:NSUTF8StringEncoding];
-    if (e) { XCTFail(@"%@", e); }
-
-    NSMutableDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:self.jsonData options:NSJSONReadingMutableContainers error:&e];
-    if (e) { XCTFail(@"%@", e); }
-    self.mutableJsonDict = responseDict[@"slots"][0];
-    XCTAssertNotNil(self.mutableJsonDict);
-
+    self.mutableJsonDict = [self _loadSlotDictionary];
     self.configManagerMock = OCMClassMock([CR_ConfigManager class]);
     CR_BidManagerBuilder *builder = [[CR_BidManagerBuilder alloc] init];
     builder.configManager = self.configManagerMock;
@@ -62,11 +48,11 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
     // initialized slots with fetched bids
     CR_CacheAdUnit *testAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
-    CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:testAdUnit.adUnitId cpm:@"2.0" currency:@"USD" width:@(testAdUnit.size.width) height:@(testAdUnit.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date] nativeAssets:nil];
+    CR_CdbBid *testBid = CR_CdbBidBuilder.new.adUnit(testAdUnit).build;
     cache.bidCache[testAdUnit] = testBid;
 
     CR_CacheAdUnit *testAdUnit_2 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
-    CR_CdbBid *testBid_2 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:testAdUnit_2.adUnitId cpm:@"0.5" currency:@"USD" width:@(testAdUnit_2.size.width) height:@(testAdUnit_2.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl_2.com" insertTime:[NSDate date] nativeAssets:nil];
+    CR_CdbBid *testBid_2 = CR_CdbBidBuilder.new.adUnit(testAdUnit_2).cpm(@"0.5").build;
     cache.bidCache[testAdUnit_2] = testBid_2;
 
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
@@ -214,7 +200,8 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
 - (void) testSetSlots {
     CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
-                                                             cacheManager:[[CR_CacheManager alloc] init] tokenCache:nil
+                                                             cacheManager:[[CR_CacheManager alloc] init]
+                                                               tokenCache:nil
                                                                    config:nil
                                                             configManager:nil
                                                                deviceInfo:nil
@@ -237,19 +224,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 - (void) testAddCriteoBidToMutableDictionary
 {
     CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
-
-    CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil
-                                                 placementId:@"adunitid"
-                                                         cpm:@"1.1200000047683716"
-                                                    currency:@"EUR"
-                                                       width:@(300)
-                                                      height:@(250)
-                                                         ttl:600
-                                                    creative:nil
-                                                  displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js"
-                                                  insertTime:[NSDate date]
-                                                nativeAssets:nil];
-
+    CR_CdbBid *testBid_1 = CR_CdbBidBuilder.new.adUnit(slot_1).cpm(@"1.1200000047683716").currency(@"EUR").build;
     CR_CacheManager *cache = [CR_CacheManager new];
     [cache setBid:testBid_1];
 
@@ -307,8 +282,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
 - (void) testAddCriteoBidToDfpRequest {
     CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
-
-    CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date] nativeAssets:nil];
+    CR_CdbBid *testBid_1 = CR_CdbBidBuilder.new.adUnit(slot_1).build;
 
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
     [cache setBid:testBid_1];
@@ -339,7 +313,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
 - (void) testAddCriteoBidToDifferentDfpRequestTypes {
     CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
-    CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date] nativeAssets:nil];
+    CR_CdbBid *testBid_1 = CR_CdbBidBuilder.new.adUnit(slot_1).build;
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
     [cache setBid:testBid_1];
     CR_Config *config = [[CR_Config alloc] initWithCriteoPublisherId:@("1234")];
@@ -391,8 +365,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
 - (void) testAddCriteoBidToMopubAdViewRequest {
     CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
-
-    CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date] nativeAssets:nil];
+    CR_CdbBid *testBid_1 = CR_CdbBidBuilder.new.adUnit(slot_1).build;
 
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
     [cache setBid:testBid_1];
@@ -423,8 +396,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
 - (void) testLoadMopubInterstitial {
     CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
-
-    CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date] nativeAssets:nil];
+    CR_CdbBid *testBid_1 = CR_CdbBidBuilder.new.adUnit(slot_1).build;;
 
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
     [cache setBid:testBid_1];
@@ -461,8 +433,8 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
     CR_CacheAdUnit *slot_2 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid2" width:300 height:250];
 
-    CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.237293459023" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"url_1" insertTime:[NSDate date] nativeAssets:nil];
-    CR_CdbBid *testBid_2 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid2" cpm:@"2.29357205730" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"url_2" insertTime:[NSDate date] nativeAssets:nil];
+    CR_CdbBid *testBid_1 = CR_CdbBidBuilder.new.adUnit(slot_1).displayUrl(@"url_1").cpm(@"1.1").build;
+    CR_CdbBid *testBid_2 = CR_CdbBidBuilder.new.adUnit(slot_2).build;
 
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
     [cache setBid:testBid_1];
@@ -506,7 +478,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
 - (void)testConditionAddCriteoBidToMopubInterstitialAdController {
     CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
-    CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date] nativeAssets:nil];
+    CR_CdbBid *testBid_1 = CR_CdbBidBuilder.new.adUnit(slot_1).build;;
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
     [cache setBid:testBid_1];
     CR_Config *config = [[CR_Config alloc] initWithCriteoPublisherId:@("1234")];
@@ -531,8 +503,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
 - (void) testAddCriteoBidToRequestWhenKillSwitchIsEngaged {
     CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
-
-    CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date] nativeAssets:nil];
+    CR_CdbBid *testBid_1 = CR_CdbBidBuilder.new.adUnit(slot_1).build;
 
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
     [cache setBid:testBid_1];
@@ -570,11 +541,11 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
     // initialized slots with fetched bids
     CR_CacheAdUnit *testAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
-    CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:testAdUnit.adUnitId cpm:@"2.0" currency:@"USD" width:@(testAdUnit.size.width) height:@(testAdUnit.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date] nativeAssets:nil];
+    CR_CdbBid *testBid = CR_CdbBidBuilder.new.adUnit(testAdUnit).build;;
     cache.bidCache[testAdUnit] = testBid;
 
     CR_CacheAdUnit *testAdUnit_2 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
-    CR_CdbBid *testBid_2 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:testAdUnit_2.adUnitId cpm:@"0.5" currency:@"USD" width:@(testAdUnit_2.size.width) height:@(testAdUnit_2.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl_2.com" insertTime:[NSDate date] nativeAssets:nil];
+    CR_CdbBid *testBid_2 = CR_CdbBidBuilder.new.adUnit(testAdUnit_2).build;
     cache.bidCache[testAdUnit_2] = testBid_2;
 
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
@@ -619,7 +590,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
     // initialized slots with fetched bids
     CR_CacheAdUnit *testAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
-    CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:testAdUnit.adUnitId cpm:@"0.0" currency:@"USD" width:@(testAdUnit.size.width) height:@(testAdUnit.size.height) ttl:600 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date] nativeAssets:nil];
+    CR_CdbBid *testBid = CR_CdbBidBuilder.new.adUnit(testAdUnit).cpm(@"0.0").build;
     cache.bidCache[testAdUnit] = testBid;
 
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
@@ -659,7 +630,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
     // initialized slots with fetched bids
     CR_CacheAdUnit *testAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
-    CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:testAdUnit.adUnitId cpm:@"0.0" currency:@"USD" width:@(testAdUnit.size.width) height:@(testAdUnit.size.height) ttl:10 creative:nil displayUrl:@"https://someUrl.com" insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-400] nativeAssets:nil];
+    CR_CdbBid *testBid = CR_CdbBidBuilder.new.adUnit(testAdUnit).expiredInsertTime().build;
     cache.bidCache[testAdUnit] = testBid;
 
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
@@ -774,7 +745,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
     // initialized slots with fetched bids
     CR_CacheAdUnit *testAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
-    CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:testAdUnit.adUnitId cpm:@"0.0" currency:@"USD" width:@(testAdUnit.size.width) height:@(testAdUnit.size.height) ttl:0 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date] nativeAssets:nil];
+    CR_CdbBid *testBid = CR_CdbBidBuilder.new.adUnit(testAdUnit).ttl(0).build;
     cache.bidCache[testAdUnit] = testBid;
 
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
@@ -816,17 +787,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     CR_CacheAdUnit *testAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid"
                                                                     width:300
                                                                    height:250];
-    CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil
-                                               placementId:testAdUnit.adUnitId
-                                                       cpm:@"0.04"
-                                                  currency:@"USD"
-                                                     width:@(testAdUnit.size.width)
-                                                    height:@(testAdUnit.size.height)
-                                                       ttl:10
-                                                  creative:nil
-                                                displayUrl:@"https://someUrl.com"
-                                                insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-400]
-                                              nativeAssets:nil];
+    CR_CdbBid *testBid = CR_CdbBidBuilder.new.adUnit(testAdUnit).expiredInsertTime().build;
     cache.bidCache[testAdUnit] = testBid;
 
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
@@ -849,7 +810,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
 - (void)testAddCriteoBidToRequestWhenConfigIsNil {
     CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
-    CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date] nativeAssets:[CR_NativeAssets new]];
+    CR_CdbBid *testBid_1 = CR_CdbBidBuilder.new.adUnit(slot_1).build;
     CR_CacheManager *cache = [[CR_CacheManager alloc] init];
     [cache setBid:testBid_1];
     CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
@@ -1002,6 +963,25 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
     NSArray *slots = @[slot_1, slot_2, slot_3];
     return slots;
+}
+
+- (NSMutableDictionary *)_loadSampleBidJson {
+    NSError *e = NULL;
+    NSURL *jsonURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"SampleBid" withExtension:@"json"];
+    NSData *jsonData = [NSData dataWithContentsOfURL:jsonURL options:0 error:&e];
+    XCTAssert(e == nil);
+
+    NSMutableDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                                        options:NSJSONReadingMutableContainers
+                                                                          error:&e];
+    XCTAssert(e == nil);
+    return responseDict;
+}
+
+- (NSMutableDictionary *)_loadSlotDictionary {
+    NSMutableDictionary *responseDict = [self _loadSampleBidJson][@"slots"][0];
+    XCTAssert(responseDict);
+    return responseDict;
 }
 
 @end
