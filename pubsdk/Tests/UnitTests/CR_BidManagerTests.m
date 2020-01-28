@@ -11,6 +11,7 @@
 
 #import <OCMock.h>
 #import "NSString+CR_UrlEncoder.h"
+#import "NSString+Testing.h"
 #import "CR_BidManager.h"
 #import "CR_BidManagerBuilder.h"
 #import "CR_CdbBid.h"
@@ -24,11 +25,29 @@ static NSString * const CR_BidManagerTestsCpm = @"crt_cpm";
 static NSString * const CR_BidManagerTestsDisplayUrl = @"crt_displayUrl";
 static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
+#define CR_AssertEqualDfpString(notDfpStr, dfpStr) \
+    XCTAssertEqualObjects([NSString dfpCompatibleString:notDfpStr], dfpStr);
+
+#define CR_OCMockVerifyCallCdb(apiHandlerMock, adUnits) \
+    OCMVerify([apiHandlerMock callCdb:adUnits \
+                              consent:[OCMArg any] \
+                               config:[OCMArg any] \
+                           deviceInfo:[OCMArg any] \
+                 ahCdbResponseHandler:[OCMArg any]]);
+
+#define CR_OCMockRejectCallCdb(apiHandlerMock, adUnits) \
+    OCMReject([apiHandlerMock callCdb:adUnits \
+                              consent:[OCMArg any] \
+                               config:[OCMArg any] \
+                           deviceInfo:[OCMArg any] \
+                 ahCdbResponseHandler:[OCMArg any]]);
+
 @interface CR_BidManagerTests : XCTestCase
 
 @property (nonatomic, strong) NSMutableDictionary *mutableJsonDict;
 
 @property (nonatomic, strong) CR_DeviceInfo *deviceInfoMock;
+@property (nonatomic, strong) CR_TokenCache *tokenCache;
 @property (nonatomic, strong) CR_CacheManager *cacheManager;
 @property (nonatomic, strong) CR_ApiHandler *apiHandlerMock;
 @property (nonatomic, strong) CR_ConfigManager *configManagerMock;
@@ -54,6 +73,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
     self.builder = builder;
     self.bidManager = [builder buildBidManager];
+    self.tokenCache = builder.tokenCache;
 }
 
 - (void)testGetBid {
@@ -74,9 +94,8 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     XCTAssertEqualObjects(testBid, bids[testAdUnit]);
     XCTAssertEqualObjects(testBid_2, bids[testAdUnit_2]);
     XCTAssertTrue([bids[unInitializedSlot] isEmpty]);
-    // Only call [CR_ApiHandler callCdb] for registered Ad Units
-    OCMVerify([self.apiHandlerMock callCdb:@[testAdUnit] consent:[OCMArg any] config:[OCMArg any] deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
-    OCMVerify([self.apiHandlerMock callCdb:@[testAdUnit_2] consent:[OCMArg any] config:[OCMArg any] deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[testAdUnit]);
+    CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[testAdUnit_2]);
 }
 
 - (void) testGetBidForSlotThatHasntBeenFetchedFromCdb {
@@ -96,22 +115,14 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
     [self.bidManager getBid:unInitializedSlot];
 
-    OCMVerify([self.apiHandlerMock callCdb:@[unInitializedSlot]
-                                   consent:[OCMArg any]
-                                    config:[OCMArg any]
-                                deviceInfo:[OCMArg any]
-                      ahCdbResponseHandler:[OCMArg any]]);
+    CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[unInitializedSlot]);
 }
 
 - (void)testGetBidIfInitialPrefetchFromCdbFailsAndTimeNotElapsed {
     self.builder.timeToNextCall = INFINITY;
     self.bidManager = [self.builder buildBidManager];
     CR_CacheAdUnit *unInitializedSlot = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
-    OCMReject([self.apiHandlerMock callCdb:@[unInitializedSlot]
-                                   consent:[OCMArg any]
-                                    config:[OCMArg any]
-                                deviceInfo:[OCMArg any]
-                      ahCdbResponseHandler:[OCMArg any]]);
+    CR_OCMockRejectCallCdb(self.apiHandlerMock, @[unInitializedSlot]);
 
     [self.bidManager getBid:unInitializedSlot];
 }
@@ -242,9 +253,9 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     XCTAssertTrue([mopubBidRequest.keywords containsString:[testBid_2 mopubCompatibleDisplayUrl]]);
     XCTAssertTrue([mopubBidRequest.keywords containsString:[testBid_2 cpm]]);
 
-    NSUInteger displayUrlCount = [CR_BidManagerTests checkNumOcurrencesOf:[testBid_2 mopubCompatibleDisplayUrl] inString:mopubBidRequest.keywords];
-    NSUInteger cpmCount = [CR_BidManagerTests checkNumOcurrencesOf:[testBid_2 cpm] inString:mopubBidRequest.keywords];
-    NSUInteger crtCount = [CR_BidManagerTests checkNumOcurrencesOf:@"crt_" inString:mopubBidRequest.keywords];
+    NSUInteger displayUrlCount = [mopubBidRequest.keywords ocurrencesCountOfSubstring:testBid_2.mopubCompatibleDisplayUrl];
+    NSUInteger cpmCount = [mopubBidRequest.keywords ocurrencesCountOfSubstring:testBid_2.cpm];
+    NSUInteger crtCount = [mopubBidRequest.keywords ocurrencesCountOfSubstring:@"crt_"];
     XCTAssertEqual(displayUrlCount, 1);
     XCTAssertEqual(cpmCount, 1);
     XCTAssertEqual(crtCount, 2);
@@ -288,11 +299,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     CR_CdbBid *testBid_2 = CR_CdbBidBuilder.new.adUnit(testAdUnit_2).build;
     self.cacheManager.bidCache[testAdUnit_2] = testBid_2;
     CR_CacheAdUnit *unInitializedSlot = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"uninitializedAdunitid" width:200 height:100];
-    OCMReject([self.apiHandlerMock callCdb:[OCMArg any]
-                                   consent:[OCMArg any]
-                                    config:[OCMArg any]
-                                deviceInfo:[OCMArg any]
-                      ahCdbResponseHandler:[OCMArg any]]);
+    CR_OCMockRejectCallCdb(self.apiHandlerMock, [OCMArg any]);
 
     NSDictionary *bids = [self.bidManager getBids:@[testAdUnit, testAdUnit_2, unInitializedSlot]];
 
@@ -304,304 +311,120 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 - (void) testGetBidCpmIsZeroSlotIsSilenced {
     // cpm ==0 && ttl > 0 and ttl has NOT expired
     // test cache
-    CR_CacheManager *cache = [[CR_CacheManager alloc] init];
-
-    // initialized slots with fetched bids
     CR_CacheAdUnit *testAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
     CR_CdbBid *testBid = CR_CdbBidBuilder.new.adUnit(testAdUnit).cpm(@"0.0").build;
-    cache.bidCache[testAdUnit] = testBid;
+    self.cacheManager.bidCache[testAdUnit] = testBid;
+    CR_OCMockRejectCallCdb(self.apiHandlerMock, @[testAdUnit]);
 
-    CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
-    OCMStub([mockConfig killSwitch]).andReturn(NO);
+    NSDictionary *bids = [self.bidManager getBids:@[testAdUnit]];
 
-    CR_DataProtectionConsent *mockUserConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
-    OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
-    OCMStub([mockUserConsent consentGiven]).andReturn(YES);
-    OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
-
-    CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
-    OCMStub([mockDeviceInfo waitForUserAgent:[OCMArg invokeBlock]]);
-
-    id mockApiHandler = OCMClassMock([CR_ApiHandler class]);
-    OCMReject([mockApiHandler callCdb:@[testAdUnit] consent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
-
-    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:mockApiHandler
-                                                             cacheManager:cache
-                                                               tokenCache:nil
-                                                                   config:mockConfig
-                                                            configManager:nil
-                                                               deviceInfo:mockDeviceInfo
-                                                                  consent:mockUserConsent
-                                                           networkManager:nil
-                                                                appEvents:nil
-                                                           timeToNextCall:0];
-
-    NSArray *slots = @[testAdUnit];
-    NSDictionary *bids = [bidManager getBids:slots];
     XCTAssertTrue([bids[testAdUnit] isEmpty]);
 }
 
 - (void) testGetBidCpmIsZeroSlotIsNotSilenced {
     // cpm ==0 && ttl > 0 and ttl has expired
-    // test cache
-    CR_CacheManager *cache = [[CR_CacheManager alloc] init];
-
-    // initialized slots with fetched bids
     CR_CacheAdUnit *testAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
-    CR_CdbBid *testBid = CR_CdbBidBuilder.new.adUnit(testAdUnit).expiredInsertTime().build;
-    cache.bidCache[testAdUnit] = testBid;
+    CR_CdbBid *testBid = CR_CdbBidBuilder.new.adUnit(testAdUnit).cpm(@"0.0").expiredInsertTime().build;
+    self.cacheManager.bidCache[testAdUnit] = testBid;
 
-    CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
-    OCMStub([mockConfig killSwitch]).andReturn(NO);
-
-    CR_DataProtectionConsent *mockUserConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
-    OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
-    OCMStub([mockUserConsent consentGiven]).andReturn(YES);
-    OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
-
-    CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
-    OCMStub([mockDeviceInfo waitForUserAgent:[OCMArg invokeBlock]]);
-
-    id mockApiHandler = OCMClassMock([CR_ApiHandler class]);
-
-    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:mockApiHandler
-                                                             cacheManager:cache
-                                                               tokenCache:nil
-                                                                   config:mockConfig
-                                                            configManager:nil
-                                                               deviceInfo:mockDeviceInfo
-                                                                  consent:mockUserConsent
-                                                           networkManager:nil
-                                                                appEvents:nil
-                                                           timeToNextCall:0];
-
-    NSArray *slots = @[testAdUnit];
-    NSDictionary *bids = [bidManager getBids:slots];
+    NSDictionary *bids = [self.bidManager getBids:@[testAdUnit]];
     XCTAssertTrue([bids[testAdUnit] isEmpty]);
-
-    // Only call [CR_ApiHandler callCdb] for registered Ad Units
-    OCMVerify([mockApiHandler callCdb:@[testAdUnit] consent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[testAdUnit]);
 }
 
 - (void)testBidResponseForEmptyBid {
-    CR_TokenCache *mockTokenCache = OCMStrictClassMock([CR_TokenCache class]);
-    CR_CacheManager *mockCacheManager = OCMStrictClassMock([CR_CacheManager class]);
-    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
-                                                             cacheManager:mockCacheManager
-                                                               tokenCache:mockTokenCache
-                                                                   config:nil
-                                                            configManager:nil
-                                                               deviceInfo:nil
-                                                                  consent:nil
-                                                           networkManager:nil
-                                                                appEvents:nil
-                                                           timeToNextCall:0];
-
     CR_CacheAdUnit *expectedAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
                                                                          size:CGSizeMake(320, 50)
                                                                    adUnitType:CRAdUnitTypeBanner];
-
     CRBidResponse *expectedBidResponse = [[CRBidResponse alloc] initWithPrice:0.0
                                                                    bidSuccess:NO
                                                                      bidToken:nil];
-    OCMStub([mockCacheManager getBidForAdUnit:expectedAdUnit]).andReturn(nil);
-    CRBidResponse *bidResponse = [bidManager bidResponseForCacheAdUnit:expectedAdUnit
-                               adUnitType:CRAdUnitTypeBanner];
+
+    CRBidResponse *bidResponse = [self.bidManager bidResponseForCacheAdUnit:expectedAdUnit
+                                                                 adUnitType:CRAdUnitTypeBanner];
+
     XCTAssertEqualWithAccuracy(expectedBidResponse.price, bidResponse.price, 0.1);
     XCTAssertEqual(expectedBidResponse.bidToken, bidResponse.bidToken);
     XCTAssertEqual(expectedBidResponse.bidSuccess, bidResponse.bidSuccess);
 }
 
 - (void)testBidResponseForValidBid {
-    CR_TokenCache *mockTokenCache = OCMStrictClassMock([CR_TokenCache class]);
-    CR_CacheManager *mockCacheManager = OCMStrictClassMock([CR_CacheManager class]);
-    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
-                                                             cacheManager:mockCacheManager
-                                                               tokenCache:mockTokenCache
-                                                                   config:nil
-                                                            configManager:nil
-                                                               deviceInfo:nil
-                                                                  consent:nil
-                                                           networkManager:nil
-                                                                appEvents:nil
-                                                           timeToNextCall:0];
+    CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
+                                                                 size:CGSizeMake(320, 50)
+                                                           adUnitType:CRAdUnitTypeBanner];
+    CR_CdbBid *bid = CR_CdbBidBuilder.new.adUnit(adUnit).cpm(@"4.2").build;
+    self.cacheManager.bidCache[adUnit] = bid;
 
-    CR_CacheAdUnit *expectedAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
-                                                                         size:CGSizeMake(320, 50)
-                                                                   adUnitType:CRAdUnitTypeBanner];
-    CRBidToken *bidToken = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
+    CRBidResponse *bidResponse = [self.bidManager bidResponseForCacheAdUnit:adUnit
+                                                                 adUnitType:CRAdUnitTypeBanner];
 
-    CRBidResponse *expectedBidResponse = [[CRBidResponse alloc] initWithPrice:4.2
-                                                                   bidSuccess:YES
-                                                                     bidToken:bidToken];
-    CR_CdbBid *expectedBid = [[CR_CdbBid alloc] initWithZoneId:@123
-                                                   placementId:@"placementId"
-                                                           cpm:@"4.2"
-                                                      currency:@"₹😀"
-                                                         width:@47.0f
-                                                        height:[NSNumber numberWithFloat:57.0f]
-                                                           ttl:26
-                                                      creative:@"THIS IS USELESS LEGACY"
-                                                    displayUrl:@"123"
-                                                    insertTime:[NSDate date]
-                                                  nativeAssets:nil];
-
-    OCMStub([mockCacheManager getBidForAdUnit:expectedAdUnit]).andReturn(expectedBid);
-    OCMStub([mockCacheManager removeBidForAdUnit:expectedAdUnit]);
-    OCMStub([mockTokenCache getTokenForBid:expectedBid adUnitType:CRAdUnitTypeBanner]).andReturn(bidToken);
-    CRBidResponse *bidResponse = [bidManager bidResponseForCacheAdUnit:expectedAdUnit
-                                                            adUnitType:CRAdUnitTypeBanner];
-    XCTAssertEqualWithAccuracy(expectedBidResponse.price, bidResponse.price, 0.1);
-    XCTAssertEqual(expectedBidResponse.bidToken, bidResponse.bidToken);
-    XCTAssertEqual(expectedBidResponse.bidSuccess, bidResponse.bidSuccess);
+    XCTAssertEqualWithAccuracy(bidResponse.price, 4.2, 0.1);
+    XCTAssert(bidResponse.bidSuccess);
 }
 
-- (void) testGetBidWhenNoBid {
+- (void)testGetBidWhenNoBid {
     // cpm ==0 && ttl == 0
-    // test cache
-    CR_CacheManager *cache = [[CR_CacheManager alloc] init];
-
-    // initialized slots with fetched bids
     CR_CacheAdUnit *testAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
-    CR_CdbBid *testBid = CR_CdbBidBuilder.new.adUnit(testAdUnit).ttl(0).build;
-    cache.bidCache[testAdUnit] = testBid;
+    CR_CdbBid *testBid = CR_CdbBidBuilder.new.adUnit(testAdUnit).cpm(@"0.0").ttl(0).build;
+    self.cacheManager.bidCache[testAdUnit] = testBid;
 
-    CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
-    OCMStub([mockConfig killSwitch]).andReturn(NO);
+    NSDictionary *bids = [self.bidManager getBids:@[testAdUnit]];
 
-    CR_DataProtectionConsent *mockUserConsent = OCMStrictClassMock([CR_DataProtectionConsent class]);
-    OCMStub([mockUserConsent gdprApplies]).andReturn(YES);
-    OCMStub([mockUserConsent consentGiven]).andReturn(YES);
-    OCMStub([mockUserConsent consentString]).andReturn(@"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA");
-
-    CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
-    OCMStub([mockDeviceInfo waitForUserAgent:[OCMArg invokeBlock]]);
-
-    id mockApiHandler = OCMClassMock([CR_ApiHandler class]);
-
-    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:mockApiHandler
-                                                             cacheManager:cache
-                                                               tokenCache:nil
-                                                                   config:mockConfig
-                                                            configManager:nil
-                                                               deviceInfo:mockDeviceInfo
-                                                                  consent:mockUserConsent
-                                                           networkManager:nil
-                                                                appEvents:nil
-                                                           timeToNextCall:0];
-
-    NSArray *slots = @[testAdUnit];
-    NSDictionary *bids = [bidManager getBids:slots];
     XCTAssertTrue([bids[testAdUnit] isEmpty]);
-
-    // Only call [CR_ApiHandler callCdb] for registered Ad Units
-    OCMVerify([mockApiHandler callCdb:@[testAdUnit] consent:mockUserConsent config:mockConfig deviceInfo:[OCMArg any] ahCdbResponseHandler:[OCMArg any]]);
+    CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[testAdUnit]);
 }
 
 - (void)testGetBidWhenBidExpired {
-    CR_CacheManager *cache = [[CR_CacheManager alloc] init];
-
-    // initialized slots with fetched bids
     CR_CacheAdUnit *testAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid"
                                                                     width:300
                                                                    height:250];
     CR_CdbBid *testBid = CR_CdbBidBuilder.new.adUnit(testAdUnit).expiredInsertTime().build;
-    cache.bidCache[testAdUnit] = testBid;
+    self.cacheManager.bidCache[testAdUnit] = testBid;
 
-    CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
-    OCMStub([mockConfig killSwitch]).andReturn(NO);
-
-    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
-                                                             cacheManager:cache
-                                                               tokenCache:nil
-                                                                   config:mockConfig
-                                                            configManager:nil
-                                                               deviceInfo:nil
-                                                                  consent:nil
-                                                           networkManager:nil
-                                                                appEvents:nil
-                                                           timeToNextCall:0];
-
-    CR_CdbBid *expectedBid = [bidManager getBid:testAdUnit];
+    CR_CdbBid *expectedBid = [self.bidManager getBid:testAdUnit];
     XCTAssertTrue([expectedBid isEmpty]);
 }
 
-- (void)testAddCriteoBidToRequestWhenConfigIsNil {
-    CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
-    CR_CdbBid *testBid_1 = CR_CdbBidBuilder.new.adUnit(slot_1).build;
-    CR_CacheManager *cache = [[CR_CacheManager alloc] init];
-    [cache setBid:testBid_1];
-    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
-                                                             cacheManager:cache
-                                                               tokenCache:nil
-                                                                   config:nil
-                                                            configManager:nil
-                                                               deviceInfo:nil
-                                                                  consent:nil
-                                                           networkManager:nil
-                                                                appEvents:nil
-                                                           timeToNextCall:0];
-    NSDictionary *testDfpCustomTargeting = [NSDictionary dictionaryWithObjectsAndKeys:@"object 1", @"key_1", @"object_2", @"key_2", nil];
-
-    DFPRequest *dfpRequest = [[DFPRequest alloc] init];
-    dfpRequest.customTargeting = testDfpCustomTargeting;
-    [bidManager addCriteoBidToRequest:dfpRequest forAdUnit:slot_1];
-    XCTAssertTrue(dfpRequest.customTargeting.count == 2);
-    XCTAssertNil([dfpRequest.customTargeting objectForKey:CR_BidManagerTestsDfpDisplayUrl]);
-    XCTAssertNil([dfpRequest.customTargeting objectForKey:CR_BidManagerTestsCpm]);
-}
-
 - (void)checkMandatoryNativeAssets:(DFPRequest *)dfpBidRequest nativeBid:(CR_CdbBid *)nativeBid {
+    CR_NativeAssets *nativeAssets = nativeBid.nativeAssets;
+    CR_NativeProduct *firstProduct = nativeAssets.products[0];
+    NSDictionary *dfpTargeting = dfpBidRequest.customTargeting;
     XCTAssert(nativeBid.nativeAssets.products.count > 0);
-    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.products[0].title],[dfpBidRequest.customTargeting objectForKey:@"crtn_title"]);
-    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.products[0].description],[dfpBidRequest.customTargeting objectForKey:@"crtn_desc"]);
-    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.products[0].price],[dfpBidRequest.customTargeting objectForKey:@"crtn_price"]);
-    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.products[0].clickUrl],[dfpBidRequest.customTargeting objectForKey:@"crtn_clickurl"]);
-    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.products[0].callToAction],[dfpBidRequest.customTargeting objectForKey:@"crtn_cta"]);
-    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.products[0].image.url],[dfpBidRequest.customTargeting objectForKey:@"crtn_imageurl"]);
-    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.privacy.optoutClickUrl],[dfpBidRequest.customTargeting objectForKey:@"crtn_prurl"]);
-    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.privacy.optoutImageUrl],[dfpBidRequest.customTargeting objectForKey:@"crtn_primageurl"]);
-    XCTAssertEqual(nativeBid.nativeAssets.impressionPixels.count,[[dfpBidRequest.customTargeting objectForKey:@"crtn_pixcount"] integerValue]);
+    CR_AssertEqualDfpString(firstProduct.title, dfpTargeting[@"crtn_title"]);
+    CR_AssertEqualDfpString(firstProduct.description, dfpTargeting[@"crtn_desc"]);
+    CR_AssertEqualDfpString(firstProduct.price, dfpTargeting[@"crtn_price"]);
+    CR_AssertEqualDfpString(firstProduct.clickUrl, dfpTargeting[@"crtn_clickurl"]);
+    CR_AssertEqualDfpString(firstProduct.callToAction, dfpTargeting[@"crtn_cta"]);
+    CR_AssertEqualDfpString(firstProduct.image.url, dfpTargeting[@"crtn_imageurl"]);
+    CR_AssertEqualDfpString(nativeAssets.privacy.optoutClickUrl, dfpTargeting[@"crtn_prurl"]);
+    CR_AssertEqualDfpString(nativeAssets.privacy.optoutImageUrl, dfpTargeting[@"crtn_primageurl"]);
+    XCTAssertEqual(nativeAssets.impressionPixels.count, [dfpTargeting[@"crtn_pixcount"] integerValue]);
     for(int i = 0; i < nativeBid.nativeAssets.impressionPixels.count; i++) {
         NSString *key = [NSString stringWithFormat:@"%@%d", @"crtn_pixurl_", i];
-       XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.impressionPixels[i]],[dfpBidRequest.customTargeting objectForKey:key]);
+       CR_AssertEqualDfpString(nativeBid.nativeAssets.impressionPixels[i], dfpTargeting[key]);
     }
 }
 
-- (void) testAddCriteoNativeBidToDfpRequest {
+- (void)testAddCriteoNativeBidToDfpRequest {
     CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"/140800857/Endeavour_Native" size:CGSizeMake(2, 2) adUnitType:CRAdUnitTypeNative];
     CR_CdbBid *nativeBid = [[CR_CdbBid alloc] initWithDict:self.mutableJsonDict receivedAt:[NSDate date]];
-    CR_CacheManager *cache = [[CR_CacheManager alloc] init];
-    [cache setBid:nativeBid];
-
-    NSDictionary *testDfpCustomTargeting = [NSDictionary dictionaryWithObjectsAndKeys:@"object 1", @"key_1", @"object_2", @"key_2", nil];
-
+    [self.cacheManager setBid:nativeBid];
     DFPRequest *dfpBidRequest = [[DFPRequest alloc] init];
-    dfpBidRequest.customTargeting = testDfpCustomTargeting;
+    dfpBidRequest.customTargeting = @{ @"key_1": @"object 1", @"key_2": @"object_2" };
 
-    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
-                                                             cacheManager:cache
-                                                               tokenCache:nil
-                                                                   config:[[CR_Config alloc] initWithCriteoPublisherId:@("1234")]
-                                                            configManager:nil
-                                                               deviceInfo:nil
-                                                                  consent:nil
-                                                           networkManager:nil
-                                                                appEvents:nil
-                                                           timeToNextCall:0];
+    [self.bidManager addCriteoBidToRequest:dfpBidRequest forAdUnit:adUnit];
 
-    [bidManager addCriteoBidToRequest:dfpBidRequest forAdUnit:adUnit];
-
-    XCTAssertTrue(dfpBidRequest.customTargeting.count > 2);
-    XCTAssertNil([dfpBidRequest.customTargeting objectForKey:CR_BidManagerTestsDfpDisplayUrl]);
-    XCTAssertEqual(nativeBid.cpm, [dfpBidRequest.customTargeting objectForKey:CR_BidManagerTestsCpm]);
+    CR_NativeAssets *nativeAssets = nativeBid.nativeAssets;
+    NSDictionary *dfpTargeting = dfpBidRequest.customTargeting;
+    XCTAssertTrue(dfpTargeting.count > 2);
+    XCTAssertNil([dfpTargeting objectForKey:CR_BidManagerTestsDfpDisplayUrl]);
+    XCTAssertEqual(nativeBid.cpm, dfpTargeting[CR_BidManagerTestsCpm]);
     [self checkMandatoryNativeAssets:dfpBidRequest nativeBid:nativeBid];
-    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.advertiser.description],[dfpBidRequest.customTargeting objectForKey:@"crtn_advname"]);
-    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.advertiser.domain],[dfpBidRequest.customTargeting objectForKey:@"crtn_advdomain"]);
-    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.advertiser.logoImage.url],[dfpBidRequest.customTargeting objectForKey:@"crtn_advlogourl"]);
-    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.advertiser.logoClickUrl],[dfpBidRequest.customTargeting objectForKey:@"crtn_advurl"]);
-    XCTAssertEqualObjects([NSString dfpCompatibleString:nativeBid.nativeAssets.privacy.longLegalText],[dfpBidRequest.customTargeting objectForKey:@"crtn_prtext"]);
-
+    CR_AssertEqualDfpString(nativeAssets.advertiser.description, dfpTargeting[@"crtn_advname"]);
+    CR_AssertEqualDfpString(nativeAssets.advertiser.domain, dfpTargeting[@"crtn_advdomain"]);
+    CR_AssertEqualDfpString(nativeAssets.advertiser.logoImage.url, dfpTargeting[@"crtn_advlogourl"]);
+    CR_AssertEqualDfpString(nativeAssets.advertiser.logoClickUrl, dfpTargeting[@"crtn_advurl"]);
+    CR_AssertEqualDfpString(nativeAssets.privacy.longLegalText, dfpTargeting[@"crtn_prtext"]);
 }
 
 - (void) testAddCriteoToDfpRequestForInCompleteNativeBid {
@@ -612,36 +435,23 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     self.mutableJsonDict[@"native"][@"advertiser"][@"logoClickUrl"] = @"";
     self.mutableJsonDict[@"native"][@"privacy"][@"longLegalText"] = nil;
     CR_CdbBid *nativeBid = [[CR_CdbBid alloc] initWithDict:self.mutableJsonDict receivedAt:[NSDate date]];
-    CR_CacheManager *cache = [[CR_CacheManager alloc] init];
-    [cache setBid:nativeBid];
-
-    NSDictionary *testDfpCustomTargeting = [NSDictionary dictionaryWithObjectsAndKeys:@"object 1", @"key_1", @"object_2", @"key_2", nil];
+    [self.cacheManager setBid:nativeBid];
 
     DFPRequest *dfpBidRequest = [[DFPRequest alloc] init];
-    dfpBidRequest.customTargeting = testDfpCustomTargeting;
+    dfpBidRequest.customTargeting = @{ @"key_1": @"object 1", @"key_2": @"object_2" };
 
-    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
-                                                             cacheManager:cache
-                                                               tokenCache:nil
-                                                                   config:[[CR_Config alloc] initWithCriteoPublisherId:@("1234")]
-                                                            configManager:nil
-                                                               deviceInfo:nil
-                                                                  consent:nil
-                                                           networkManager:nil
-                                                                appEvents:nil
-                                                           timeToNextCall:0];
+    [self.bidManager addCriteoBidToRequest:dfpBidRequest forAdUnit:adUnit];
 
-    [bidManager addCriteoBidToRequest:dfpBidRequest forAdUnit:adUnit];
-
-    XCTAssertTrue(dfpBidRequest.customTargeting.count > 2);
-    XCTAssertNil([dfpBidRequest.customTargeting objectForKey:CR_BidManagerTestsDfpDisplayUrl]);
-    XCTAssertEqual(nativeBid.cpm, [dfpBidRequest.customTargeting objectForKey:CR_BidManagerTestsCpm]);
+    NSDictionary *dfpTargeting = dfpBidRequest.customTargeting;
+    XCTAssertGreaterThan(dfpTargeting.count, 2);
+    XCTAssertNil([dfpTargeting objectForKey:CR_BidManagerTestsDfpDisplayUrl]);
+    XCTAssertNil([dfpTargeting objectForKey:@"crtn_advname"]);
+    XCTAssertNil([dfpTargeting objectForKey:@"crtn_advdomain"]);
+    XCTAssertNil([dfpTargeting objectForKey:@"crtn_advlogourl"]);
+    XCTAssertNil([dfpTargeting objectForKey:@"crtn_advurl"]);
+    XCTAssertNil([dfpTargeting objectForKey:@"crtn_prtext"]);
+    XCTAssertEqual(nativeBid.cpm, [dfpTargeting objectForKey:CR_BidManagerTestsCpm]);
     [self checkMandatoryNativeAssets:dfpBidRequest nativeBid:nativeBid];
-    XCTAssertNil([dfpBidRequest.customTargeting objectForKey:@"crtn_advname"]);
-    XCTAssertNil([dfpBidRequest.customTargeting objectForKey:@"crtn_advdomain"]);
-    XCTAssertNil([dfpBidRequest.customTargeting objectForKey:@"crtn_advlogourl"]);
-    XCTAssertNil([dfpBidRequest.customTargeting objectForKey:@"crtn_advurl"]);
-    XCTAssertNil([dfpBidRequest.customTargeting objectForKey:@"crtn_prtext"]);
 
 }
 
@@ -655,22 +465,6 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     [self.bidManager registerWithSlots:[self _buildSlots]];
 
     OCMVerify([self.configManagerMock refreshConfig:[OCMArg any]]);
-}
-
-+ (NSUInteger)checkNumOcurrencesOf:(NSString *)substring
-                          inString:(NSString *)string {
-    NSUInteger count = 0, length = [string length];
-    NSRange range = NSMakeRange(0, length);
-    while(range.location != NSNotFound)
-    {
-        range = [string rangeOfString: substring options:0 range:range];
-        if(range.location != NSNotFound)
-        {
-            range = NSMakeRange(range.location + range.length, length - (range.location + range.length));
-            count++;
-        }
-    }
-    return count;
 }
 
 - (NSArray<CR_CacheAdUnit *> *)_buildSlots
