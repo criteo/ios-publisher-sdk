@@ -12,6 +12,12 @@
 #import "CR_TargetingKeys.h"
 #import "NSString+CR_UrlEncoder.h"
 
+@interface CR_BidManager ()
+
+@property (nonatomic, assign, readonly) BOOL isInSilenceMode;
+
+@end
+
 @implementation CR_BidManager
 {
     CR_ApiHandler      *apiHandler;
@@ -99,18 +105,16 @@
         if(bid.isExpired) {
             // immediately invalidate current cache entry if bid is expired
             [cacheManager removeBidForAdUnit:slot];
-            // only call cdb if time to next call has passed
-            if([[NSDate date]timeIntervalSinceReferenceDate] >= self->cdbTimeToNextCall){
+            if (!self.isInSilenceMode) {
                 [self prefetchBid:slot];
             }
             return [CR_CdbBid emptyBid];
-        } else if ([[bid cpm] floatValue] == 0 && [bid ttl] > 0) {
-            // continue to do nothing as ttl hasn't expired on this silenced adUnit
+        } else if (bid.isInSilenceMode) {
             return [CR_CdbBid emptyBid];
         } else {
             // remove it from the cache and consume the good bid
             [cacheManager removeBidForAdUnit:slot];
-            if([[NSDate date]timeIntervalSinceReferenceDate] >= self->cdbTimeToNextCall){
+            if (!self.isInSilenceMode) {
                 [self prefetchBid:slot];
             }
             return bid;
@@ -118,12 +122,15 @@
     }
     //if the bid is empty meaning prefetch failed, check if time to next call is elapsed
     else {
-        //call cdb if time to next call has passed
-        if([[NSDate date]timeIntervalSinceReferenceDate] >= self->cdbTimeToNextCall){
+        if(!self.isInSilenceMode) {
             [self prefetchBid:slot];
         }
     }
     return [CR_CdbBid emptyBid];
+}
+
+- (BOOL)isInSilenceMode {
+    return [[NSDate date] timeIntervalSinceReferenceDate] < self->cdbTimeToNextCall;
 }
 
 - (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken

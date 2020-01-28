@@ -101,49 +101,58 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     self.dfpRequest.customTargeting = @{ @"key_1": @"object 1", @"key_2": @"object_2" };
 }
 
-- (void)testGetBid {
-    NSDictionary *bids = [self.bidManager getBids:@[self.adUnit1, self.adUnit2, self.adUnitUncached]];
+- (void)testGetBidForCachedAdUnits {
+    NSDictionary *bids = [self.bidManager getBids:@[self.adUnit1, self.adUnit2]];
 
     XCTAssertEqualObjects(self.bid1, bids[self.adUnit1]);
     XCTAssertEqualObjects(self.bid2, bids[self.adUnit2]);
-    XCTAssertTrue([bids[self.adUnitUncached] isEmpty]);
     CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[self.adUnit1]);
     CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[self.adUnit2]);
 }
 
-- (void) testGetBidForSlotThatHasntBeenFetchedFromCdb {
-    NSDictionary *bids = [self.bidManager getBids:@[self.adUnitForEmptyBid]];
-
-    XCTAssertTrue([bids[self.adUnitForEmptyBid] isEmpty]);
-}
-
-- (void)testGetBidIfInitialPrefetchFromCdbFailsAndTimeElapsed {
-    self.builder.timeToNextCall = -2;
-    self.bidManager = [self.builder buildBidManager];
-
-    [self.bidManager getBid:self.adUnitUncached];
+- (void)testGetBidForUncachedAdUnit {
+    CR_CdbBid *bid = [self.bidManager getBid:self.adUnitUncached];
 
     CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[self.adUnitUncached]);
+    XCTAssert(bid.isEmpty);
 }
 
-- (void)testGetBidIfInitialPrefetchFromCdbFailsAndTimeNotElapsed {
-    self.builder.timeToNextCall = INFINITY;
+- (void)testGetEmptyBid {
+    CR_CdbBid *bid = [self.bidManager getBid:self.adUnitForEmptyBid];
+
+    CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[self.adUnitForEmptyBid]);
+    XCTAssert(bid.isEmpty);
+}
+
+- (void)testGetBidUncachedAdUnitInSilentMode {
+    self.builder.timeToNextCall = INFINITY; // in silent mode
     self.bidManager = [self.builder buildBidManager];
 
     CR_OCMockRejectCallCdb(self.apiHandlerMock, @[self.adUnitUncached]);
 
-    [self.bidManager getBid:self.adUnitUncached];
+    CR_CdbBid *bid = [self.bidManager getBid:self.adUnitUncached];
+
+    XCTAssert(bid.isEmpty);
 }
 
-- (void)testSetSlots {
-    NSArray<CR_CacheAdUnit *> *slots = [self _buildSlots];
-    [self.bidManager registerWithSlots:slots];
+- (void)testGetEmptyBidForAdUnitInSilentMode {
+    self.builder.timeToNextCall = INFINITY; // in silent mode
+    self.bidManager = [self.builder buildBidManager];
 
-    NSDictionary *bids = [self.bidManager getBids:slots];
+    CR_OCMockRejectCallCdb(self.apiHandlerMock, @[self.adUnitForEmptyBid]);
 
-    XCTAssertTrue([bids[slots[0]] isEmpty]);
-    XCTAssertTrue([bids[slots[1]] isEmpty]);
-    XCTAssertTrue([bids[slots[2]] isEmpty]);
+    CR_CdbBid *bid = [self.bidManager getBid:self.adUnitForEmptyBid];
+
+    XCTAssert(bid.isEmpty);
+}
+
+
+- (void)testRegistrationSetEmptyBid {
+    [self.bidManager registerWithSlots:@[self.adUnitUncached]];
+
+    CR_CdbBid *bid = [self.bidManager getBid:self.adUnitUncached];
+
+    XCTAssert(bid.isEmpty);
 }
 
 - (void)testAddCriteoBidToMutableDictionary {
@@ -247,7 +256,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     XCTAssertNil([self.dfpRequest.customTargeting objectForKey:CR_BidManagerTestsCpm]);
 }
 
-- (void)testGetBidTtncNotExpired { // TTNC -> Time to next call
+- (void)testGetBidWhenBeforeTtnc { // TTNC -> Time to next call
     self.builder.timeToNextCall = [[NSDate dateWithTimeIntervalSinceNow:360] timeIntervalSinceReferenceDate];
     self.bidManager = [self.builder buildBidManager];
     self.cacheManager.bidCache[self.adUnit1] = self.bid1;
@@ -262,23 +271,23 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     XCTAssertTrue([bids[self.adUnitUncached] isEmpty]);
 }
 
-- (void) testGetBidCpmIsZeroSlotIsSilenced { // cpm ==0 && ttl > 0 and ttl has NOT expired
-    self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).cpm(@"0.0").build;
+- (void)testGetBidForAdUnitInSilenceMode { // Silence mode = cpm ==0 && ttl > 0
+    self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).cpm(@"0.0").ttl(42.0).build;
     self.cacheManager.bidCache[self.adUnit1] = self.bid1;
     CR_OCMockRejectCallCdb(self.apiHandlerMock, @[self.adUnit1]);
 
-    NSDictionary *bids = [self.bidManager getBids:@[self.adUnit1]];
+    CR_CdbBid *bid = [self.bidManager getBid:self.adUnit1];
 
-    XCTAssertTrue([bids[self.adUnit1] isEmpty]);
+    XCTAssert(bid.isEmpty);
 }
 
-- (void) testGetBidCpmIsZeroSlotIsNotSilenced { // cpm ==0 && ttl > 0 and ttl has expired
-    self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).cpm(@"0.0").expiredInsertTime().build;
+- (void)testGetBidForBidWithSilencedModeElapsed { // Silence mode = cpm ==0 && ttl > 0 && insertTime + ttl expired
+    self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).cpm(@"0.0").ttl(42.0).expiredInsertTime().build;
     self.cacheManager.bidCache[self.adUnit1] = self.bid1;
 
-    NSDictionary *bids = [self.bidManager getBids:@[self.adUnit1]];
+    CR_CdbBid *bid = [self.bidManager getBid:self.adUnit1];
 
-    XCTAssertTrue([bids[self.adUnit1] isEmpty]);
+    XCTAssert(bid.isEmpty);
     CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[self.adUnit1]);
 }
 
@@ -309,13 +318,13 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     XCTAssert(bidResponse.bidSuccess);
 }
 
-- (void)testGetBidWhenNoBid { // cpm == 0 && ttl == 0
+- (void)testGetBidWhenNoBid { // No bid: cpm == 0 && ttl == 0
     self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).cpm(@"0.0").ttl(0).build;
     self.cacheManager.bidCache[self.adUnit1] = self.bid1;
 
-    NSDictionary *bids = [self.bidManager getBids:@[self.adUnit1]];
+    CR_CdbBid *bid = [self.bidManager getBid:self.adUnit1];
 
-    XCTAssertTrue([bids[self.adUnit1] isEmpty]);
+    XCTAssertTrue(bid.isEmpty);
     CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[self.adUnit1]);
 }
 
@@ -323,9 +332,9 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).expiredInsertTime().build;
     self.cacheManager.bidCache[self.adUnit1] = self.bid1;
 
-    CR_CdbBid *expectedBid = [self.bidManager getBid:self.adUnit1];
+    CR_CdbBid *bid = [self.bidManager getBid:self.adUnit1];
 
-    XCTAssertTrue([expectedBid isEmpty]);
+    XCTAssertTrue(bid.isEmpty);
 }
 
 - (void)testAddCriteoNativeBidToDfpRequest {
@@ -378,7 +387,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 }
 
 - (void)testSlotRegistrationRefreshConfiguration {
-    [self.bidManager registerWithSlots:[self _buildSlots]];
+    [self.bidManager registerWithSlots:@[self.adUnitUncached]];
 
     OCMVerify([self.configManagerMock refreshConfig:[OCMArg any]]);
 }
@@ -403,15 +412,6 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
         NSString *key = [NSString stringWithFormat:@"%@%d", @"crtn_pixurl_", i];
        CR_AssertEqualDfpString(nativeBid.nativeAssets.impressionPixels[i], dfpTargeting[key]);
     }
-}
-
-- (NSArray<CR_CacheAdUnit *> *)_buildSlots {
-    CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
-    CR_CacheAdUnit *slot_2 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:200 height:100];
-    CR_CacheAdUnit *slot_3 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid_2" width:200 height:100];
-
-    NSArray *slots = @[slot_1, slot_2, slot_3];
-    return slots;
 }
 
 - (NSMutableDictionary *)_loadSampleBidJson {

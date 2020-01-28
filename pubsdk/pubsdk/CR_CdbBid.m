@@ -193,6 +193,10 @@ static CR_CdbBid *emptyBid;
     return [[NSDate date]timeIntervalSinceReferenceDate] - [[self insertTime]timeIntervalSinceReferenceDate] > self.ttl;
 }
 
+- (BOOL)isInSilenceMode {
+    return (self.cpm.floatValue == 0.f) && (self.ttl > 0.);
+}
+
 - (BOOL)isValid {
     return [[NSScanner scannerWithString:self.cpm] scanFloat:NULL] &&
            self.cpm.floatValue >= 0.0f                             &&

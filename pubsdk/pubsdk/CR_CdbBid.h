@@ -28,6 +28,7 @@
 @property (readonly, nonatomic) NSDate *insertTime;
 @property (readonly, copy, nonatomic) CR_NativeAssets *nativeAssets;
 @property (readonly) BOOL isValid;
+@property (nonatomic, assign, readonly) BOOL isInSilenceMode;
 
 + (instancetype) emptyBid;
 
