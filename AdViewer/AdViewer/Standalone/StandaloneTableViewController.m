@@ -51,6 +51,18 @@
 
 # pragma mark - CRInterstitialDelegate methods
 
+- (void)interstitial:(CRInterstitial *)interstitial didFailToReceiveAdWithError:(NSError *)error {
+    NSString *errorMessage = [NSString stringWithFormat:@"CRInterstitialDelegate.interstitial didFailToReceiveAdWithError: %@", error.localizedDescription];
+    NSLog(@"%@", errorMessage);
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                    message:errorMessage
+                                                   delegate:self
+                                          cancelButtonTitle:@"Close"
+                                          otherButtonTitles:nil];
+    [alert show];
+    [super updateInterstitialButtonsForAdLoaded:NO];
+}
+
 - (void)interstitialWillDisappear:(CRInterstitial *)interstitial {
     [super updateInterstitialButtonsForAdLoaded:NO];
 }

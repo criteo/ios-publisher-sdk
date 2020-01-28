@@ -85,9 +85,25 @@
                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="A6i-pJ-eYA">
                                                     <rect key="frame" x="264.66666666666669" y="12" width="20" height="20"/>
                                                 </activityIndicatorView>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="SpO-PR-fHp">
+                                                    <rect key="frame" x="20" y="6.6666666666666679" width="51" height="31.000000000000004"/>
+                                                    <connections>
+                                                        <action selector="interstitialSwitchChanged:" destination="xG5-T5-Jgx" eventType="valueChanged" id="raW-YF-zaI"/>
+                                                    </connections>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Video" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hmF-7M-ZSv">
+                                                    <rect key="frame" x="77" y="13" width="40" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="hmF-7M-ZSv" firstAttribute="centerY" secondItem="e0n-rq-XPT" secondAttribute="centerY" id="4uZ-TW-BQb"/>
+                                                <constraint firstItem="hmF-7M-ZSv" firstAttribute="leading" secondItem="SpO-PR-fHp" secondAttribute="trailing" constant="8" id="9GC-3A-nRd"/>
                                                 <constraint firstItem="UN7-w3-R7u" firstAttribute="centerY" secondItem="e0n-rq-XPT" secondAttribute="centerY" id="9ea-EP-wSq"/>
+                                                <constraint firstItem="SpO-PR-fHp" firstAttribute="leading" secondItem="e0n-rq-XPT" secondAttribute="leading" constant="20" id="CL0-p3-bk6"/>
+                                                <constraint firstItem="SpO-PR-fHp" firstAttribute="centerY" secondItem="e0n-rq-XPT" secondAttribute="centerY" id="CgP-lO-5w7"/>
                                                 <constraint firstItem="RHQ-hb-cIy" firstAttribute="centerY" secondItem="e0n-rq-XPT" secondAttribute="centerY" id="FNH-5o-Bg8"/>
                                                 <constraint firstItem="A6i-pJ-eYA" firstAttribute="leading" secondItem="UN7-w3-R7u" secondAttribute="trailing" constant="5" id="aDH-mU-1DF"/>
                                                 <constraint firstItem="A6i-pJ-eYA" firstAttribute="centerY" secondItem="e0n-rq-XPT" secondAttribute="centerY" id="csP-6p-9Pz"/>
@@ -174,6 +190,8 @@
                         <outlet property="adView_300x250RedView" destination="TGS-6n-50j" id="a8g-16-sYN"/>
                         <outlet property="adView_320x50RedView" destination="rhS-ep-gYg" id="TnW-nG-imF"/>
                         <outlet property="interstitalSpinner" destination="A6i-pJ-eYA" id="ku4-gl-AxX"/>
+                        <outlet property="interstitialVideoSwitch" destination="SpO-PR-fHp" id="s3L-CL-QYc"/>
+                        <outlet property="interstitialVideoSwitchLabel" destination="hmF-7M-ZSv" id="rcD-eu-ZMB"/>
                         <outlet property="loadInterstitialButton" destination="UN7-w3-R7u" id="yX4-oT-M71"/>
                         <outlet property="showInterstitialButton" destination="RHQ-hb-cIy" id="XrP-Jg-RjB"/>
                         <outlet property="textFeedBack" destination="ebc-CQ-tgZ" id="HCQ-w7-ra2"/>

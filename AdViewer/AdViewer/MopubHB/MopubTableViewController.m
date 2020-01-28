@@ -72,7 +72,7 @@
     self.interstitial = [MPInterstitialAdController
                          interstitialAdControllerForAdUnitId:MOPUBINTERSTITIALADUNITID];
     Criteo *criteo = [Criteo sharedCriteo];
-    [criteo setBidsForRequest:self.interstitial withAdUnit:self.homePageVC.moPubInterstitialAdUnit];
+    [criteo setBidsForRequest:self.interstitial withAdUnit:[super adUnitForInterstitial]];
     self.interstitial.delegate = self;
     [self.interstitial loadAd];
 }
