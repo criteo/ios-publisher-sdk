@@ -7,9 +7,10 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <MoPub.h>
+#import <OCMock.h>
 #import "CR_BidManager.h"
 #import "CR_BidmanagerHelper.h"
-#import <MoPub.h>
 
 @interface CR_BidManagerHelperTests : XCTestCase
 
@@ -52,6 +53,17 @@
     XCTAssertFalse([mopubBidRequest.keywords containsString:[testBid_1 mopubCompatibleDisplayUrl]]);
     XCTAssertFalse([mopubBidRequest.keywords containsString:[testBid_1 cpm]]);
     XCTAssertFalse([mopubBidRequest.keywords containsString:@"crt_"]);
+}
+
+- (void)testInterstitialAdControllerAdRemoveCriteoBid {
+    MPInterstitialAdController *controller = [[MPInterstitialAdController alloc] init];
+
+    id CR_BidManagerHelperClass = OCMClassMock([CR_BidManagerHelper class]);
+
+    [controller loadAd];
+
+    OCMVerify([CR_BidManagerHelperClass removeCriteoBidsFromMoPubRequest:controller]);
+    [CR_BidManagerHelperClass stopMocking];
 }
 
 @end
