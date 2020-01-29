@@ -21,9 +21,14 @@
 @interface CR_BidManagerIntegrationTests : XCTestCase
 
 @property (nonatomic, strong) Criteo *criteo;
+@property (nonatomic, strong) CR_BidManagerBuilder *builder;
 @property (nonatomic, strong) CR_NetworkCaptor *networkCaptor;
 @property (nonatomic, strong) CR_BidManager *bidManager;
 @property (nonatomic, strong) CR_Config *config;
+
+@property (nonatomic, strong) CRBannerAdUnit *adUnit1;
+@property (nonatomic, strong) CR_CacheAdUnit *cacheAdUnit1;
+@property (nonatomic, strong) CR_CacheAdUnit *cacheAdUnit2;
 
 @end
 
@@ -31,33 +36,32 @@
 
 - (void)setUp {
     self.criteo = [Criteo testing_criteoWithNetworkCaptor];
+
+    self.builder = self.criteo.bidManagerBuilder;
     self.bidManager = self.criteo.bidManager;
-    self.networkCaptor = (CR_NetworkCaptor *)self.criteo.bidManagerBuilder.networkManager;
+    self.networkCaptor = (CR_NetworkCaptor *)self.builder.networkManager;
     self.config = self.criteo.bidManagerBuilder.config;
+
+    self.adUnit1 = [CR_TestAdUnits preprodBanner320x50];
+    self.cacheAdUnit1 = [CR_AdUnitHelper cacheAdUnitForAdUnit:[CR_TestAdUnits preprodBanner320x50]];
+    self.cacheAdUnit2 = [CR_AdUnitHelper cacheAdUnitForAdUnit:[CR_TestAdUnits preprodInterstitial]];
 }
 
 // Prefetch should populate cache with given ad units
 - (void)test_given2AdUnits_whenPrefetchBid_thenGet2Bids {
-    CR_CacheAdUnit *cacheAdUnit1 = [CR_AdUnitHelper cacheAdUnitForAdUnit:[CR_TestAdUnits preprodBanner320x50]];
-    CR_CacheAdUnit *cacheAdUnit2 = [CR_AdUnitHelper cacheAdUnitForAdUnit:[CR_TestAdUnits preprodInterstitial]];
-    CR_CacheAdUnitArray *caches = @[ cacheAdUnit1, cacheAdUnit2 ];
+    [self.bidManager prefetchBids:@[ self.cacheAdUnit1, self.cacheAdUnit2 ]];
 
-    [self.bidManager prefetchBids:caches];
-
-    [self _waitNetworkCallForBids:caches];
-    XCTAssertNotNil([self.bidManager getBid:cacheAdUnit1]);
-    XCTAssertNotNil([self.bidManager getBid:cacheAdUnit2]);
+    [self _waitNetworkCallForBids:@[ self.cacheAdUnit1, self.cacheAdUnit2 ]];
+    XCTAssertNotNil([self.bidManager getBid:self.cacheAdUnit1]);
+    XCTAssertNotNil([self.bidManager getBid:self.cacheAdUnit2]);
 }
 
 // Initializing criteo object should call prefetch
 - (void)test_givenCriteo_whenRegisterAdUnit_thenGetBid {
-    CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
-    CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
-
-    [self.criteo testing_registerWithAdUnits:@[adUnit]];
+    [self.criteo testing_registerWithAdUnits:@[self.adUnit1]];
 
     [self.criteo testing_waitForRegisterHTTPResponses];
-    XCTAssertNotNil([self.bidManager getBid:cacheAdUnit]);
+    XCTAssertNotNil([self.bidManager getBid:self.cacheAdUnit1]);
 }
 
 - (void)_waitNetworkCallForBids:(CR_CacheAdUnitArray *)caches {
