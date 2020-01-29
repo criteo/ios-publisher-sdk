@@ -11,11 +11,16 @@
 #import "CR_AdUnitHelper.h"
 #import "CR_BidManager.h"
 #import "CR_BidManagerBuilder.h"
+#import "CR_CdbBidBuilder.H"
 #import "CR_Config.h"
+#import "CR_DeviceInfoMock.h"
 #import "CR_HttpContent+AdUnit.h"
 #import "CR_NetworkCaptor.h"
 #import "CR_NetworkWaiter.h"
+#import "CR_NetworkManagerMock.h"
+#import "CR_ThreadManagerWaiter.h"
 #import "CR_TestAdUnits.h"
+#import "CR_ThreadManager+Waiter.h"
 #import "NSURL+Testing.h"
 
 @interface CR_BidManagerIntegrationTests : XCTestCase
@@ -62,6 +67,23 @@
 
     [self.criteo testing_waitForRegisterHTTPResponses];
     XCTAssertNotNil([self.bidManager getBid:self.cacheAdUnit1]);
+}
+
+// Getting bid should not populate cache if CDB call is pending
+- (void)test_givenPrefechingBid_whenGetBid_thenDontFetchBidAgain {
+    CR_NetworkManagerMock *networkManager = [[CR_NetworkManagerMock alloc] init];
+    networkManager.respondingToPost = NO;
+    self.builder = [[CR_BidManagerBuilder alloc] init]; // create new *clean* builder
+    self.builder.networkManager = networkManager;
+    self.builder.deviceInfo = [[CR_DeviceInfoMock alloc] init];
+    self.bidManager = [self.builder buildBidManager];
+    [self.bidManager prefetchBid:self.cacheAdUnit1];
+    [self.builder.threadManager waiter_waitIdle];
+
+    [self.bidManager getBid:self.cacheAdUnit1];
+    [self.builder.threadManager waiter_waitIdle];
+
+    XCTAssertEqual(networkManager.numberOfPostCall, 1);
 }
 
 - (void)_waitNetworkCallForBids:(CR_CacheAdUnitArray *)caches {
