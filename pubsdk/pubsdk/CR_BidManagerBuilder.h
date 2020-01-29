@@ -18,11 +18,13 @@
 @class CR_DeviceInfo;
 @class CR_DataProtectionConsent;
 @class CR_AppEvents;
+@class CR_ThreadManager;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_BidManagerBuilder : NSObject
 
+@property (nonatomic, strong) CR_ThreadManager *threadManager;
 @property (nonatomic, strong) CR_BidFetchTracker *bidFetchTracker;
 @property (nonatomic, strong) CR_NetworkManager *networkManager;
 @property (nonatomic, strong) CR_ApiHandler *apiHandler;

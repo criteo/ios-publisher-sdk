@@ -18,9 +18,17 @@
 #import "CR_DeviceInfo.h"
 #import "CR_DataProtectionConsent.h"
 #import "CR_AppEvents.h"
+#import "CR_ThreadManager.h"
 
 
 @implementation CR_BidManagerBuilder
+
+- (CR_ThreadManager *)threadManager {
+    if (_threadManager == nil) {
+        _threadManager = [[CR_ThreadManager alloc] init];
+    }
+    return _threadManager;
+}
 
 - (CR_BidFetchTracker *)bidFetchTracker {
     if (_bidFetchTracker == nil) {
@@ -39,7 +47,8 @@
 - (CR_ApiHandler *)apiHandler {
     if (_apiHandler == nil) {
         _apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:self.networkManager
-                                                    bidFetchTracker:self.bidFetchTracker];
+                                                    bidFetchTracker:self.bidFetchTracker
+                                                      threadManager:self.threadManager];
     }
     return _apiHandler;
 }

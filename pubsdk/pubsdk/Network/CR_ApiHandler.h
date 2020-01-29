@@ -17,6 +17,7 @@
 #import "CR_DataProtectionConsent.h"
 #import "CR_DeviceInfo.h"
 #import "CR_BidFetchTracker.h"
+@class CR_ThreadManager;
 
 typedef void (^AHCdbResponse)(CR_CdbResponse *cdbResponse);
 typedef void (^AHConfigResponse)(NSDictionary *configValues);
@@ -37,7 +38,9 @@ FOUNDATION_EXTERN NSString * const CR_ApiHandlerBidSlotsIsInterstitialKey;
 @property (nonatomic, strong) CR_BidFetchTracker *bidFetchTracker;
 
 - (instancetype) init NS_UNAVAILABLE;
-- (instancetype) initWithNetworkManager:(CR_NetworkManager *)networkManager bidFetchTracker:(CR_BidFetchTracker *)bidFetchTracker NS_DESIGNATED_INITIALIZER;
+- (instancetype) initWithNetworkManager:(CR_NetworkManager *)networkManager
+                        bidFetchTracker:(CR_BidFetchTracker *)bidFetchTracker
+                          threadManager:(CR_ThreadManager *)threadManager NS_DESIGNATED_INITIALIZER;
 
 /*
  * Calls CDB and get the bid & creative for the adUnit

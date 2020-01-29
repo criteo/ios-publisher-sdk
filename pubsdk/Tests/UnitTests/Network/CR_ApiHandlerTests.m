@@ -19,6 +19,7 @@
 #import "CR_NetworkManager.h"
 #import "CR_DataProtectionConsentMock.h"
 #import "CR_NetworkManagerMock.h"
+#import "CR_ThreadManager.h"
 
 @interface CR_ApiHandlerTests : XCTestCase
 
@@ -35,7 +36,8 @@
     self.consentMock = [[CR_DataProtectionConsentMock alloc] init];
     self.networkManagerMock = [[CR_NetworkManagerMock alloc] initWithDeviceInfo:[self _buildDeviceInfoMock]];
     self.apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:self.networkManagerMock
-                                                    bidFetchTracker:[CR_BidFetchTracker new]];
+                                                    bidFetchTracker:[CR_BidFetchTracker new]
+                                                      threadManager:[[CR_ThreadManager alloc] init]];
 }
 
 - (void) testCallCdb {
@@ -81,7 +83,9 @@
     CR_CacheAdUnit *testAdUnit_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid_1" width:300 height:250];
     CR_CacheAdUnit *testAdUnit_2 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid_2" width:320 height:50];
 
-    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager bidFetchTracker:[CR_BidFetchTracker new]];
+    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager
+                                                              bidFetchTracker:[CR_BidFetchTracker new]
+                                                                threadManager:[[CR_ThreadManager alloc] init]];
 
     CR_CdbBid *testBid_1 = [self _buildEuroBid];
     CR_CdbBid * testBid_2 = [self _buildDollarBid];
@@ -137,7 +141,9 @@
     OCMStub([mockConfig appId]).andReturn(@"com.criteo.pubsdk");
     OCMStub([mockConfig configUrl]).andReturn(@"https://url-for-getting-config");
 
-    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager bidFetchTracker:[CR_BidFetchTracker new]];
+    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager
+                                                              bidFetchTracker:[CR_BidFetchTracker new]
+                                                                threadManager:[[CR_ThreadManager alloc] init]];
 
     [apiHandler getConfig:mockConfig ahConfigHandler:^(NSDictionary *configValues){
         CLog(@"Data length is %ld", [configValues count]);
@@ -157,7 +163,9 @@
                                    postBody:[OCMArg any]
                             responseHandler:([OCMArg any])]);
 
-    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager bidFetchTracker:mockBidFetchTracker];
+    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager
+                                                              bidFetchTracker:mockBidFetchTracker
+                                                                threadManager:[[CR_ThreadManager alloc] init]];
     [apiHandler callCdb:@[testAdUnit]
                 consent:nil
                  config:nil
@@ -175,7 +183,9 @@
                                    postBody:[OCMArg isKindOfClass:[NSDictionary class]]
                             responseHandler:([OCMArg invokeBlockWithArgs:[NSNull null], [NSNull null], nil])]);
 
-    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager bidFetchTracker:mockBidFetchTracker];
+    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager
+                                                              bidFetchTracker:mockBidFetchTracker
+                                                                threadManager:[[CR_ThreadManager alloc] init]];
     [apiHandler callCdb:@[testAdUnit]
                 consent:nil
                  config:nil
@@ -197,7 +207,9 @@
                                  postBody:[OCMArg isKindOfClass:[NSDictionary class]]
                           responseHandler:([OCMArg invokeBlockWithArgs:responseData, error, nil])]);
 
-    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager bidFetchTracker:mockBidFetchTracker];
+    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager
+                                                              bidFetchTracker:mockBidFetchTracker
+                                                                threadManager:[[CR_ThreadManager alloc] init]];
     [apiHandler callCdb:@[testAdUnit]
                 consent:nil
                  config:nil
@@ -216,7 +228,9 @@
                                    postBody:[OCMArg isKindOfClass:[NSDictionary class]]
                             responseHandler:([OCMArg invokeBlockWithArgs:[NSNull null], [NSNull null], nil])]);
 
-    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager bidFetchTracker:mockBidFetchTracker];
+    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager
+                                                              bidFetchTracker:mockBidFetchTracker
+                                                                threadManager:[[CR_ThreadManager alloc] init]];
     [apiHandler callCdb:@[testAdUnit]
                 consent:nil
                  config:nil
@@ -232,7 +246,9 @@
     OCMExpect([mockNetworkManager postToUrl:[OCMArg isKindOfClass:[NSURL class]]
                                    postBody:[OCMArg isKindOfClass:[NSDictionary class]]
                             responseHandler:([OCMArg invokeBlockWithArgs:[NSNull null], [NSNull null], nil])]);
-    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager bidFetchTracker:bidFetchTracker];
+    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager
+                                                              bidFetchTracker:bidFetchTracker
+                                                                threadManager:[[CR_ThreadManager alloc] init]];
     dispatch_queue_t queue = dispatch_queue_create("testQueue", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(queue, ^{
         [apiHandler callCdb:@[testAdUnit]
@@ -264,7 +280,9 @@
     CR_BidFetchTracker *bidFetchTracker = [CR_BidFetchTracker new];
     [bidFetchTracker trySetBidFetchInProgressForAdUnit:adUnit4];
     // Make a CR_ApiHandler
-    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:nil bidFetchTracker:bidFetchTracker];
+    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:nil
+                                                              bidFetchTracker:bidFetchTracker
+                                                                threadManager:[[CR_ThreadManager alloc] init]];
 
     CR_CacheAdUnitArray *adUnits1 = @[adUnit1, adUnit2, adUnit3, adUnit4];
     CR_CacheAdUnitArray *filteredAdUnits1 = [apiHandler filterRequestAdUnitsAndSetProgressFlags:adUnits1];
@@ -287,7 +305,9 @@
     CR_DeviceInfo *mockDeviceInfo = [self _buildDeviceInfoMock];
 
     // Make a CR_ApiHandler
-    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:nil bidFetchTracker:nil];
+    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:nil
+                                                              bidFetchTracker:nil
+                                                                threadManager:[[CR_ThreadManager alloc] init]];
 
     // With consent
     NSMutableDictionary *postBody = [apiHandler postBodyWithConsent:self.consentMock
@@ -356,7 +376,9 @@
     CR_CacheAdUnit *adUnit3  = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"slot2" width:43 height:33];
     CR_CacheAdUnitArray *adUnits = @[adUnit1, adUnit2, adUnit3];
 
-    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:nil bidFetchTracker:nil];
+    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:nil
+                                                              bidFetchTracker:nil
+                                                                threadManager:[[CR_ThreadManager alloc] init]];
 
     NSArray *slots = [apiHandler slotsForRequest:adUnits];
     XCTAssertEqual(slots.count, adUnits.count);
@@ -372,7 +394,9 @@
 
 - (void)testNativeSlotForRequest {
     CR_CacheAdUnit *nativeAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"testAdUnit" size:CGSizeMake(2, 2) adUnitType:CRAdUnitTypeNative];
-    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:nil bidFetchTracker:nil];
+    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:nil
+                                                              bidFetchTracker:nil
+                                                                threadManager:[[CR_ThreadManager alloc] init]];
     NSArray *slots = [apiHandler slotsForRequest:@[nativeAdUnit]];
     XCTAssertTrue([slots[0][@"placementId"] isEqualToString:nativeAdUnit.adUnitId]);
     XCTAssertTrue([slots[0][@"sizes"] isEqual:@[nativeAdUnit.cdbSize]]);

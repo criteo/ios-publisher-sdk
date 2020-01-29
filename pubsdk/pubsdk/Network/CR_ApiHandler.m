@@ -10,6 +10,7 @@
 #import "CR_ApiHandler.h"
 #import "Logging.h"
 #import "NSArray+Criteo.h"
+#import "CR_ThreadManager.h"
 
 NSString * const CR_ApiHandlerUspIabStringKey = @"uspIab";
 NSString * const CR_ApiHandlerUserKey = @"user";
@@ -23,18 +24,26 @@ NSString * const CR_ApiHandlerBidSlotsIsInterstitialKey = @"interstitial";
 // 8 is suggested by Jean Sebastien Faure as a reasonable group size for CDB calls
 static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 
+@interface CR_ApiHandler ()
+
+@property (nonatomic, strong, readonly) CR_ThreadManager *threadManager;
+
+@end
+
 @implementation CR_ApiHandler
 
-- (instancetype) init
-{
+- (instancetype)init {
     NSAssert(false, @"Do not use this initializer");
-    return [self initWithNetworkManager:nil bidFetchTracker:nil];
+    return [self initWithNetworkManager:nil bidFetchTracker:nil threadManager:nil];
 }
 
-- (instancetype) initWithNetworkManager:(CR_NetworkManager *)networkManager bidFetchTracker:(CR_BidFetchTracker *)bidFetchTracker {
+- (instancetype) initWithNetworkManager:(CR_NetworkManager *)networkManager
+                        bidFetchTracker:(CR_BidFetchTracker *)bidFetchTracker
+                          threadManager:(CR_ThreadManager *)threadManager {
     if(self = [super init]) {
-        self.networkManager = networkManager;
-        self.bidFetchTracker = bidFetchTracker;
+        _networkManager = networkManager;
+        _bidFetchTracker = bidFetchTracker;
+        _threadManager = threadManager;
     }
     return self;
 }
@@ -53,6 +62,7 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
                  adUnit.adUnitId, adUnit.size.width, adUnit.size.height);
         }
     }
+
     return requestAdUnits;
 }
 
@@ -126,13 +136,13 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
                  config:(CR_Config *)config
              deviceInfo:(CR_DeviceInfo *)deviceInfo
    ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    [self.threadManager dispatchAsyncOnGlobalQueue:^{
         [self doCdbApiCall:adUnits
-                   consent:consent
-                    config:config
-                deviceInfo:deviceInfo
-      ahCdbResponseHandler:ahCdbResponseHandler];
-    });
+                     consent:consent
+                      config:config
+                  deviceInfo:deviceInfo
+        ahCdbResponseHandler:ahCdbResponseHandler];
+    }];
 }
 
 // Method that makes the actual call to CDB
