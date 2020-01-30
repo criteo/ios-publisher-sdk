@@ -34,10 +34,4 @@
     [self.interstitalSpinner startAnimating];
 }
 
-- (CRInterstitialAdUnit *) adUnitForInterstitial {
-    return self.interstitialVideoSwitch != nil && self.interstitialVideoSwitch.on
-    ? self.homePageVC.criteoInterstitialVideoAdUnit
-    : self.homePageVC.criteoInterstitialAdUnit;
-}
-
 @end

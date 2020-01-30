@@ -35,18 +35,17 @@ NSString * const HomePageTableViewControllerUsPrivacyIabConsentStringKey = @"IAB
     [self _setupCriteoCcpaSwitch];
     [self _setupIabCcpaTextField];
     [self setGdpr:YES];
-    self.googleInterstitialAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:GOOGLEINTERSTITIALADUNITID];
-    self.moPubInterstitialAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:MOPUBINTERSTITIALADUNITID];
+
     self.googleBannerAdUnit_320x50 = [[CRBannerAdUnit alloc] initWithAdUnitId:GOOGLEBANNERADUNITID_320x50 size:CGSizeMake(320, 50)];
     self.googleBannerAdUnit_300x250 = [[CRBannerAdUnit alloc] initWithAdUnitId:GOOGLEBANNERADUNITID_300X250 size:CGSizeMake(300, 250)];
+    self.googleNativeAdUnit_Fluid = [[CRNativeAdUnit alloc] initWithAdUnitId:GOOGLENATIVEADUNITID_FLUID];
+    self.googleInterstitialAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:GOOGLEINTERSTITIALADUNITID];
+
     self.moPubBannerAdUnit_320x50 = [[CRBannerAdUnit alloc] initWithAdUnitId:MOPUBBANNERADUNITID_320X50 size:CGSizeMake(320, 50)];
     self.moPubBannerAdUnit_300x250 = [[CRBannerAdUnit alloc] initWithAdUnitId:MOPUBBANNERADUNITID_300X250 size:CGSizeMake(300, 250)];
-    self.googleNativeAdUnit_Fluid = [[CRNativeAdUnit alloc] initWithAdUnitId:GOOGLENATIVEADUNITID_FLUID];
+    self.moPubInterstitialAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:MOPUBINTERSTITIALADUNITID];
 
-    self.criteoBannerAdUnit_320x50 = [[CRBannerAdUnit alloc]
-                                      initWithAdUnitId:CRITEOBANNERADUNITID_320x50
-                                      size:CGSizeMake(320, 50)];
-
+    self.criteoBannerAdUnit_320x50 = [[CRBannerAdUnit alloc] initWithAdUnitId:CRITEOBANNERADUNITID_320x50 size:CGSizeMake(320, 50)];
     self.criteoInterstitialAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId: CRITEOINTERSTITIALID];
     self.criteoInterstitialVideoAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId: CRITEOVIDEOADUNITID];
 }

@@ -23,7 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void) updateInterstitialButtonsForAdLoaded:(BOOL)adLoaded;
 - (void) onLoadInterstitial;
-- (CRInterstitialAdUnit *) adUnitForInterstitial;
 
 @end
 
