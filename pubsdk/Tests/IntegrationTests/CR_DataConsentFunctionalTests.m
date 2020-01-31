@@ -131,7 +131,7 @@ do { \
 - (void)testGivenMopubConsentDeclined_whenCriteoRegister_thenBidIncludesMopubConsentAndAppEventNotSent {
     NSString *expected = @"EXPLICIT_NO";
     Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
-    [criteo setMopubContent:expected];
+    [criteo setMopubConsent:expected];
 
     [criteo testing_registerBanner];
     [self _waitForBidAndConfurationOnlyWithCriteo:criteo]; // Don't wait for the app event call.
@@ -144,7 +144,7 @@ do { \
 - (void)testGivenMopubConsentGiven_whenCriteoRegister_thenBidIncludesMopubConsentAndAppEventSent {
     NSString *expected = @"EXPLICIT_YES";
     Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
-    [criteo setMopubContent:expected];
+    [criteo setMopubConsent:expected];
 
     [criteo testing_registerBannerAndWaitForHTTPResponses];
 

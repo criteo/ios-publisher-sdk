@@ -19,8 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype) init NS_UNAVAILABLE;
 + (nonnull instancetype) sharedCriteo;
 
+/** @abstract Set a custom opt-out/opt-in with same behaviour as the CCPA (US Privacy). */
 - (void)setUsPrivacyOptOut:(BOOL)usPrivacyOptOut;
-- (void)setMopubContent:(NSString *)mopubContent;
+/** @abstract Set the privacy consent string owned by the Mopub SDK. */
+- (void)setMopubConsent:(NSString *)mopubConsent;
 
 - (void) registerCriteoPublisherId:(NSString *) criteoPublisherId
                        withAdUnits:(NSArray<CRAdUnit*> *) adUnits;
