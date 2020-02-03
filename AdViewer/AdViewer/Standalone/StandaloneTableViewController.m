@@ -9,12 +9,13 @@
 #import "StandaloneTableViewController.h"
 #import <CriteoPublisherSdk/CriteoPublisherSdk.h>
 
-@interface StandaloneTableViewController () <CRInterstitialDelegate>
+@interface StandaloneTableViewController () <CRBannerViewDelegate, CRInterstitialDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *banner_320x50View;
 
 @property (nonatomic, strong) CRBannerView *cr_banner_320x50View;
 @property (nonatomic, strong) CRInterstitial *cr_interstitialView;
+@property (weak, nonatomic) IBOutlet UITextView *logsTextView;
 
 @end
 
@@ -22,10 +23,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.logsTextView.text = @"...\n";
 }
 
 - (IBAction)banner320x50ButtonClick:(id)sender {
+    [self appendToLogsWithTime:@"banner320x50ButtonClick"];
     self.cr_banner_320x50View = [[CRBannerView alloc] initWithAdUnit:self.homePageVC.criteoBannerAdUnit_320x50];
+    self.cr_banner_320x50View.delegate = self;
 
     [self.cr_banner_320x50View loadAd];
 
@@ -36,6 +40,7 @@
     [self resetBannerView:self.cr_banner_320x50View];
     [super updateInterstitialButtonsForAdLoaded:NO];
     self.cr_interstitialView = nil;
+    [self clearLogsClick:nil];
 }
 
 - (IBAction)loadInterstitialClick:(id)sender {
@@ -52,6 +57,12 @@
     [self.cr_interstitialView presentFromRootViewController:self];
 }
 
+- (IBAction)clearLogsClick:(id)sender {
+    self.logsTextView.text = @"";
+    [self appendToLogsWithTime:@"Logs cleared"];
+}
+
+
 # pragma mark - CRInterstitialDelegate methods
 
 - (void)interstitial:(CRInterstitial *)interstitial didFailToReceiveAdWithError:(NSError *)error {
@@ -67,11 +78,51 @@
 }
 
 - (void)interstitialWillDisappear:(CRInterstitial *)interstitial {
+    {[self appendToLogsWithTime:@"interstitialWillDisappear"];}
     [super updateInterstitialButtonsForAdLoaded:NO];
 }
 
+- (void)interstitialDidDisappear:(CRInterstitial *)interstitial {
+    [self appendToLogsWithTime:@"interstitialDidDisappear"];
+}
+
 - (void)interstitialIsReadyToPresent:(CRInterstitial *)interstitial {
+    [self appendToLogsWithTime:@"interstitialIsReadyToPresent"];
     [super updateInterstitialButtonsForAdLoaded:YES];
+}
+
+- (void)interstitialWillAppear:(CRInterstitial *)interstitial {
+    [self appendToLogsWithTime:@"interstitialWillAppear"];
+}
+
+- (void)interstitialDidAppear:(CRInterstitial *)interstitial {
+    [self appendToLogsWithTime:@"interstitialDidAppear"];
+}
+
+- (void)interstitialWillLeaveApplication:(CRInterstitial *)interstitial {
+    [self appendToLogsWithTime:@"interstitialWillLeaveApplication"];
+}
+- (void)interstitialWasClicked:(CRInterstitial *)interstitial {
+    [self appendToLogsWithTime:@"interstitialWasClicked"];
+}
+
+# pragma mark - CRBannerViewDelegate methods
+
+- (void)bannerDidReceiveAd:(CRBannerView *)bannerView {
+    [self appendToLogsWithTime:@"bannerDidReceiveAd"];
+}
+
+- (void)bannerWasClicked:(CRBannerView *)bannerView {
+    [self appendToLogsWithTime:@"bannerWasClicked"];
+}
+
+- (void)bannerWillLeaveApplication:(CRBannerView *)bannerView {
+    [self appendToLogsWithTime:@"bannerWillLeaveApplication"];
+}
+
+- (void)banner:(CRBannerView *)bannerView didFailToReceiveAdWithError:(NSError *)error {
+    [self appendToLogsWithTime:@"banner didFailToReceiveAdWithError"];
+    NSLog(@"didFailToReceiveAdWithError with error: %@", error.localizedDescription);
 }
 
 # pragma mark - Private
@@ -81,6 +132,20 @@
         [bannerView removeFromSuperview];
         bannerView = nil;
     }
+}
+
+- (NSString *) dateTimeNowString {
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"[HH:mm:ss.SSS]"];
+    return [format stringFromDate:[NSDate date]];
+}
+
+- (void) appendToLogsWithTime: (NSString *) line {
+    [self appendToLogs:[[self dateTimeNowString] stringByAppendingFormat:@" %@", line]];
+}
+
+- (void) appendToLogs:(NSString *) line {
+    self.logsTextView.text = [self.logsTextView.text stringByAppendingFormat:@"%@\n", line];
 }
 
 @end

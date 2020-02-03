@@ -308,6 +308,54 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Output" id="nXf-QN-nTb">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="300" id="39f-jO-Ohq">
+                                        <rect key="frame" x="0.0" y="267.33333587646484" width="414" height="300"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="39f-jO-Ohq" id="xau-KJ-B7o">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pja-l3-rWv">
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
+                                                    <subviews>
+                                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p74-Rq-1un">
+                                                            <rect key="frame" x="8" y="8" width="398" height="284"/>
+                                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                            <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="12"/>
+                                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                        </textView>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e9N-VA-pw0">
+                                                            <rect key="frame" x="329" y="8" width="69" height="30"/>
+                                                            <state key="normal" title="Clear logs"/>
+                                                            <connections>
+                                                                <action selector="clearLogsClick:" destination="vwa-jI-9wo" eventType="touchUpInside" id="pOL-7c-7N6"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="e9N-VA-pw0" secondAttribute="trailing" constant="16" id="9Fa-rt-9cm"/>
+                                                        <constraint firstItem="e9N-VA-pw0" firstAttribute="top" secondItem="Pja-l3-rWv" secondAttribute="top" constant="8" id="E0e-Ii-Cnw"/>
+                                                        <constraint firstAttribute="trailing" secondItem="p74-Rq-1un" secondAttribute="trailing" constant="8" id="VYO-5z-lYP"/>
+                                                        <constraint firstAttribute="bottom" secondItem="p74-Rq-1un" secondAttribute="bottom" constant="8" id="k1h-E8-vPB"/>
+                                                        <constraint firstItem="p74-Rq-1un" firstAttribute="leading" secondItem="Pja-l3-rWv" secondAttribute="leading" constant="8" id="pgA-za-IMT"/>
+                                                        <constraint firstItem="p74-Rq-1un" firstAttribute="top" secondItem="Pja-l3-rWv" secondAttribute="top" constant="8" id="uDa-58-28T"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Pja-l3-rWv" firstAttribute="centerX" secondItem="xau-KJ-B7o" secondAttribute="centerX" id="8av-XM-y7S"/>
+                                                <constraint firstItem="Pja-l3-rWv" firstAttribute="leading" secondItem="xau-KJ-B7o" secondAttribute="leadingMargin" constant="-20" id="9QZ-Ty-m1v"/>
+                                                <constraint firstItem="Pja-l3-rWv" firstAttribute="top" secondItem="xau-KJ-B7o" secondAttribute="topMargin" constant="-11" id="LA9-he-Ocq"/>
+                                                <constraint firstItem="Pja-l3-rWv" firstAttribute="centerY" secondItem="xau-KJ-B7o" secondAttribute="centerY" id="Q1t-AW-73e"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="vwa-jI-9wo" id="5sQ-Wp-rUG"/>
@@ -327,6 +375,7 @@
                         <outlet property="interstitialVideoSwitch" destination="dVZ-hp-q3q" id="BkG-oE-ZQC"/>
                         <outlet property="interstitialVideoSwitchLabel" destination="eFq-wg-Ceq" id="Qlx-dC-9bX"/>
                         <outlet property="loadInterstitialButton" destination="mWa-5t-U4k" id="6GF-5g-t8w"/>
+                        <outlet property="logsTextView" destination="p74-Rq-1un" id="gSE-xl-bYP"/>
                         <outlet property="showInterstitialButton" destination="7P0-rG-Cip" id="dUU-kq-Ay4"/>
                     </connections>
                 </tableViewController>
