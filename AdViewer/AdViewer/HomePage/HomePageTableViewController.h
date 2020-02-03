@@ -21,6 +21,7 @@
 
 #define CRITEOBANNERADUNITID_320x50 @"30s6zt3ayypfyemwjvmp"
 #define CRITEOINTERSTITIALID @"6yws53jyfjgoq1ghnuqb"
+#define CRITEONATIVEADUNITID @"190tsfngohsvfkh3hmkm"
 #define CRITEOVIDEOADUNITID @"mf2v6pikq5vqdjdtfo3j"
 
 @interface HomePageTableViewController : UITableViewController <NetworkManagerDelegate>
@@ -37,6 +38,7 @@
 @property (nonatomic, strong) CRBannerAdUnit *criteoBannerAdUnit_320x50;
 @property (nonatomic, strong) CRInterstitialAdUnit *criteoInterstitialAdUnit;
 @property (nonatomic, strong) CRInterstitialAdUnit *criteoInterstitialVideoAdUnit;
+@property (nonatomic, strong) CRNativeAdUnit *criteoNativeAdUnit;
 
 @property (nonatomic) IBOutlet UITextView *textFeedback;
 

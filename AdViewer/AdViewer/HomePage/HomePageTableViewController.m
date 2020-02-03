@@ -48,6 +48,7 @@ NSString * const HomePageTableViewControllerUsPrivacyIabConsentStringKey = @"IAB
     self.criteoBannerAdUnit_320x50 = [[CRBannerAdUnit alloc] initWithAdUnitId:CRITEOBANNERADUNITID_320x50 size:CGSizeMake(320, 50)];
     self.criteoInterstitialAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId: CRITEOINTERSTITIALID];
     self.criteoInterstitialVideoAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId: CRITEOVIDEOADUNITID];
+    self.criteoNativeAdUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:CRITEONATIVEADUNITID];
 }
 - (IBAction)registerCriteo:(id)sender {
     Criteo *criteo = [Criteo sharedCriteo];
@@ -61,7 +62,8 @@ NSString * const HomePageTableViewControllerUsPrivacyIabConsentStringKey = @"IAB
                                      self.googleNativeAdUnit_Fluid,
                                      self.criteoBannerAdUnit_320x50,
                                      self.criteoInterstitialAdUnit,
-                                     self.criteoInterstitialVideoAdUnit];
+                                     self.criteoInterstitialVideoAdUnit,
+                                     self.criteoNativeAdUnit];
 
     [criteo registerCriteoPublisherId:@"B-056946" withAdUnits:addUnits];
 
