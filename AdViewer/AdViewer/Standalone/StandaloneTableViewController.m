@@ -16,6 +16,9 @@
 @property (nonatomic, strong) CRBannerView *cr_banner_320x50View;
 @property (nonatomic, strong) CRInterstitial *cr_interstitialView;
 @property (weak, nonatomic) IBOutlet UITextView *logsTextView;
+@property (weak, nonatomic) IBOutlet UISwitch *bannerShouldCreateNewObject;
+@property (weak, nonatomic) IBOutlet UISwitch *interstitialShouldCreateNewObject;
+
 
 @end
 
@@ -28,8 +31,11 @@
 
 - (IBAction)banner320x50ButtonClick:(id)sender {
     [self appendToLogsWithTime:@"banner320x50ButtonClick"];
-    self.cr_banner_320x50View = [[CRBannerView alloc] initWithAdUnit:self.homePageVC.criteoBannerAdUnit_320x50];
-    self.cr_banner_320x50View.delegate = self;
+
+    if (self.bannerShouldCreateNewObject.on) {
+        self.cr_banner_320x50View = [[CRBannerView alloc] initWithAdUnit:self.homePageVC.criteoBannerAdUnit_320x50];
+        self.cr_banner_320x50View.delegate = self;
+    }
 
     [self.cr_banner_320x50View loadAd];
 
@@ -45,11 +51,15 @@
 
 - (IBAction)loadInterstitialClick:(id)sender {
     [super onLoadInterstitial];
-    CRInterstitialAdUnit *adUnit = super.interstitialVideoSwitch.on
-        ? self.homePageVC.criteoInterstitialVideoAdUnit
-        : self.homePageVC.criteoInterstitialAdUnit;
-    self.cr_interstitialView = [[CRInterstitial alloc] initWithAdUnit:adUnit];
-    self.cr_interstitialView.delegate = self;
+
+    if (self.interstitialShouldCreateNewObject.on) {
+        CRInterstitialAdUnit *adUnit = super.interstitialVideoSwitch.on
+            ? self.homePageVC.criteoInterstitialVideoAdUnit
+            : self.homePageVC.criteoInterstitialAdUnit;
+        self.cr_interstitialView = [[CRInterstitial alloc] initWithAdUnit:adUnit];
+        self.cr_interstitialView.delegate = self;
+    }
+
     [self.cr_interstitialView loadAd];
 }
 

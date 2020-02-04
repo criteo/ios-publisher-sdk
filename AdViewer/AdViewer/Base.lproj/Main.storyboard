@@ -287,12 +287,50 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="iWa-u5-wOJ">
+                                        <rect key="frame" x="0.0" y="105.33333587646484" width="414" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iWa-u5-wOJ" id="eHl-sk-hTg">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="64q-ZA-kLS">
+                                                    <rect key="frame" x="20" y="6.6666666666666679" width="51" height="31.000000000000004"/>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="B-NewObj" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5I2-HS-pTu">
+                                                    <rect key="frame" x="77" y="13.666666666666664" width="67" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XBu-Cb-J1v">
+                                                    <rect key="frame" x="182.66666666666666" y="6.6666666666666679" width="51" height="31.000000000000004"/>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I-NewObj" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="soO-Ym-zyE">
+                                                    <rect key="frame" x="239.66666666666663" y="13" width="66" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="XBu-Cb-J1v" firstAttribute="centerY" secondItem="eHl-sk-hTg" secondAttribute="centerY" id="3hf-cT-2QD"/>
+                                                <constraint firstItem="5I2-HS-pTu" firstAttribute="leading" secondItem="64q-ZA-kLS" secondAttribute="trailing" constant="8" id="OQP-Jy-fot"/>
+                                                <constraint firstItem="5I2-HS-pTu" firstAttribute="centerY" secondItem="eHl-sk-hTg" secondAttribute="centerY" id="RAh-xt-ff6"/>
+                                                <constraint firstItem="soO-Ym-zyE" firstAttribute="centerY" secondItem="eHl-sk-hTg" secondAttribute="centerY" id="WJL-C5-T0Y"/>
+                                                <constraint firstItem="64q-ZA-kLS" firstAttribute="centerY" secondItem="eHl-sk-hTg" secondAttribute="centerY" id="cuR-X2-wis"/>
+                                                <constraint firstItem="XBu-Cb-J1v" firstAttribute="centerX" secondItem="eHl-sk-hTg" secondAttribute="centerX" id="gQA-BT-fdS"/>
+                                                <constraint firstItem="64q-ZA-kLS" firstAttribute="leading" secondItem="eHl-sk-hTg" secondAttribute="leading" constant="20" id="i7L-Sm-Fh7"/>
+                                                <constraint firstItem="soO-Ym-zyE" firstAttribute="leading" secondItem="XBu-Cb-J1v" secondAttribute="trailing" constant="8" id="nxv-kA-Idz"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Banner 320x50" id="Q9z-C2-DW1">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="50" id="vbG-8K-vZc">
-                                        <rect key="frame" x="0.0" y="161.33333587646484" width="414" height="50"/>
+                                        <rect key="frame" x="0.0" y="205.00000381469727" width="414" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vbG-8K-vZc" id="iNs-WF-Dhu">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
@@ -311,7 +349,7 @@
                             <tableViewSection headerTitle="Output" id="nXf-QN-nTb">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="300" id="39f-jO-Ohq">
-                                        <rect key="frame" x="0.0" y="267.33333587646484" width="414" height="300"/>
+                                        <rect key="frame" x="0.0" y="311.00000381469727" width="414" height="300"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="39f-jO-Ohq" id="xau-KJ-B7o">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
@@ -370,8 +408,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="bannerShouldCreateNewObject" destination="64q-ZA-kLS" id="nnL-2j-AAh"/>
                         <outlet property="banner_320x50View" destination="1cX-df-ruY" id="iZ3-d4-cFp"/>
                         <outlet property="interstitalSpinner" destination="DTe-sZ-ZWw" id="e6i-Qk-qfD"/>
+                        <outlet property="interstitialShouldCreateNewObject" destination="XBu-Cb-J1v" id="Q38-Sk-PpP"/>
                         <outlet property="interstitialVideoSwitch" destination="dVZ-hp-q3q" id="BkG-oE-ZQC"/>
                         <outlet property="interstitialVideoSwitchLabel" destination="eFq-wg-Ceq" id="Qlx-dC-9bX"/>
                         <outlet property="loadInterstitialButton" destination="mWa-5t-U4k" id="6GF-5g-t8w"/>
