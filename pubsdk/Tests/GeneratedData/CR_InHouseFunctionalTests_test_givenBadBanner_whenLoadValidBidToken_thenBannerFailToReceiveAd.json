@@ -1,7 +1,7 @@
 {
   "CR_HttpContents" : [
     {
-      "responseBody" : "{\"slots\":[{\"impId\":\"5e399d9984fd51e2add966fdfced4804\",\"placementId\":\"30s6zt3ayypfyemwjvmp\",\"arbitrageId\":\"3a925b55-e9fc-4b04-bf40-19dccd73a89e\",\"cpm\":\"20.00\",\"currency\":\"USD\",\"width\":320,\"height\":50,\"ttl\":3600,\"displayUrl\":\"https:\/\/rdi.eu.preprod.criteo.com\/delivery\/rtb\/demo\/ajs?zoneid=1417086&width=320&height=50&ibva=0&uaCap=3\"}],\"requestId\":\"fd190f2d-e9f0-4949-b0f0-051309ef4e94\"}",
+      "responseBody" : "{\"slots\":[{\"impId\":\"5e399dc7faa0438f120e112af2509c08\",\"placementId\":\"test-PubSdk-Base\",\"arbitrageId\":\"arbitrage_id\",\"cpm\":\"1.00\",\"currency\":\"EUR\",\"width\":320,\"height\":50,\"ttl\":0,\"displayUrl\":\"https:\/\/directbidder-uat-stubs.par.preprod.crto.in\/delivery\/ajs.php?width=320&height=50\"}],\"requestId\":\"5e34c2c2-7a4a-4fc0-bfe5-9f9bced61003\"}",
       "count" : 0,
       "verb" : 1,
       "url" : "https:\/\/directbidder-test-app.par.preprod.crto.in\/inapp\/v2?profileId=235",
@@ -12,7 +12,7 @@
         },
         "slots" : [
           {
-            "placementId" : "30s6zt3ayypfyemwjvmp",
+            "placementId" : "test-PubSdk-Base",
             "sizes" : [
               "320x50"
             ]
@@ -52,7 +52,7 @@
       "error" : null
     },
     {
-      "responseBody" : "{\"slots\":[{\"impId\":\"5e399d9936d853ebf0d0ae5b6d2ba18c\",\"placementId\":\"30s6zt3ayypfyemwjvmp\",\"arbitrageId\":\"515e9617-5aa2-4b9d-abb7-2aebd46aab7a\",\"cpm\":\"20.00\",\"currency\":\"USD\",\"width\":320,\"height\":50,\"ttl\":3600,\"displayUrl\":\"https:\/\/rdi.eu.preprod.criteo.com\/delivery\/rtb\/demo\/ajs?zoneid=1417086&width=320&height=50&ibva=0&uaCap=3\"}],\"requestId\":\"a81d6b46-1e1a-4d6e-8255-9a5f0a805c85\"}",
+      "responseBody" : "{\"slots\":[{\"impId\":\"5e399dc753f5cfb634d8ece59c80937c\",\"placementId\":\"test-PubSdk-Base\",\"arbitrageId\":\"arbitrage_id\",\"cpm\":\"1.00\",\"currency\":\"EUR\",\"width\":320,\"height\":50,\"ttl\":0,\"displayUrl\":\"https:\/\/directbidder-uat-stubs.par.preprod.crto.in\/delivery\/ajs.php?width=320&height=50\"}],\"requestId\":\"496dd5e6-0999-49c3-b20d-11105f35bb6c\"}",
       "count" : 0,
       "verb" : 1,
       "url" : "https:\/\/directbidder-test-app.par.preprod.crto.in\/inapp\/v2?profileId=235",
@@ -63,7 +63,7 @@
         },
         "slots" : [
           {
-            "placementId" : "30s6zt3ayypfyemwjvmp",
+            "placementId" : "test-PubSdk-Base",
             "sizes" : [
               "320x50"
             ]

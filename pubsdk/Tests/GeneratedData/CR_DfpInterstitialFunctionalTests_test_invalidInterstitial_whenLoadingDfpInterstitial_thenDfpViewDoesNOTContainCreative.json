@@ -1,7 +1,7 @@
 {
   "CR_HttpContents" : [
     {
-      "responseBody" : "{\"slots\":[{\"impId\":\"5e399d9984fd51e2add966fdfced4804\",\"placementId\":\"30s6zt3ayypfyemwjvmp\",\"arbitrageId\":\"3a925b55-e9fc-4b04-bf40-19dccd73a89e\",\"cpm\":\"20.00\",\"currency\":\"USD\",\"width\":320,\"height\":50,\"ttl\":3600,\"displayUrl\":\"https:\/\/rdi.eu.preprod.criteo.com\/delivery\/rtb\/demo\/ajs?zoneid=1417086&width=320&height=50&ibva=0&uaCap=3\"}],\"requestId\":\"fd190f2d-e9f0-4949-b0f0-051309ef4e94\"}",
+      "responseBody" : "{\"slots\":[{\"impId\":\"5e399daf7f1c7e785fdd5aa2b467428b\",\"placementId\":\"test-PubSdk-Interstitial\",\"arbitrageId\":\"arbitrage_id\",\"cpm\":\"1.00\",\"currency\":\"EUR\",\"width\":375,\"height\":812,\"ttl\":0,\"displayUrl\":\"https:\/\/directbidder-uat-stubs.par.preprod.crto.in\/delivery\/ajs.php?width=375&height=812\"}],\"requestId\":\"588bffbc-0eec-45f2-97a0-81e8fb3ed532\"}",
       "count" : 0,
       "verb" : 1,
       "url" : "https:\/\/directbidder-test-app.par.preprod.crto.in\/inapp\/v2?profileId=235",
@@ -12,10 +12,11 @@
         },
         "slots" : [
           {
-            "placementId" : "30s6zt3ayypfyemwjvmp",
+            "placementId" : "test-PubSdk-Interstitial",
             "sizes" : [
-              "320x50"
-            ]
+              "375x812"
+            ],
+            "interstitial" : true
           }
         ],
         "profileId" : 235,
@@ -52,7 +53,7 @@
       "error" : null
     },
     {
-      "responseBody" : "{\"slots\":[{\"impId\":\"5e399d9936d853ebf0d0ae5b6d2ba18c\",\"placementId\":\"30s6zt3ayypfyemwjvmp\",\"arbitrageId\":\"515e9617-5aa2-4b9d-abb7-2aebd46aab7a\",\"cpm\":\"20.00\",\"currency\":\"USD\",\"width\":320,\"height\":50,\"ttl\":3600,\"displayUrl\":\"https:\/\/rdi.eu.preprod.criteo.com\/delivery\/rtb\/demo\/ajs?zoneid=1417086&width=320&height=50&ibva=0&uaCap=3\"}],\"requestId\":\"a81d6b46-1e1a-4d6e-8255-9a5f0a805c85\"}",
+      "responseBody" : null,
       "count" : 0,
       "verb" : 1,
       "url" : "https:\/\/directbidder-test-app.par.preprod.crto.in\/inapp\/v2?profileId=235",
@@ -63,10 +64,47 @@
         },
         "slots" : [
           {
-            "placementId" : "30s6zt3ayypfyemwjvmp",
+            "placementId" : "Random-Interstitial-Ad-Unit",
             "sizes" : [
-              "320x50"
-            ]
+              "375x812"
+            ],
+            "interstitial" : true
+          }
+        ],
+        "profileId" : 235,
+        "gdprConsent" : {
+          "consentData" : "BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA",
+          "gdprApplies" : true,
+          "consentGiven" : false
+        },
+        "sdkVersion" : "3.4.0",
+        "user" : {
+          "userAgent" : "Mozilla\/5.0 (iPhone; CPU iPhone OS 12_4 like Mac OS X) AppleWebKit\/605.1.15 (KHTML, like Gecko) Mobile\/15E148",
+          "deviceId" : "4052152A-345C-4D43-A1B4-D2D98DF3FE9C",
+          "deviceOs" : "ios",
+          "deviceModel" : "iPhone",
+          "deviceIdType" : "IDFA"
+        }
+      },
+      "error" : null
+    },
+    {
+      "responseBody" : "",
+      "count" : 0,
+      "verb" : 1,
+      "url" : "https:\/\/directbidder-test-app.par.preprod.crto.in\/inapp\/v2?profileId=235",
+      "requestBody" : {
+        "publisher" : {
+          "cpId" : "B-000001",
+          "bundleId" : "com.criteo.AdViewer"
+        },
+        "slots" : [
+          {
+            "placementId" : "Random-Interstitial-Ad-Unit",
+            "sizes" : [
+              "375x812"
+            ],
+            "interstitial" : true
           }
         ],
         "profileId" : 235,

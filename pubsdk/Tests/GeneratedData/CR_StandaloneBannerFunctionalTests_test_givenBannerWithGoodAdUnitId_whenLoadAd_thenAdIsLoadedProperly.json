@@ -1,7 +1,15 @@
 {
   "CR_HttpContents" : [
     {
-      "responseBody" : "{\"slots\":[{\"impId\":\"5e399d9984fd51e2add966fdfced4804\",\"placementId\":\"30s6zt3ayypfyemwjvmp\",\"arbitrageId\":\"3a925b55-e9fc-4b04-bf40-19dccd73a89e\",\"cpm\":\"20.00\",\"currency\":\"USD\",\"width\":320,\"height\":50,\"ttl\":3600,\"displayUrl\":\"https:\/\/rdi.eu.preprod.criteo.com\/delivery\/rtb\/demo\/ajs?zoneid=1417086&width=320&height=50&ibva=0&uaCap=3\"}],\"requestId\":\"fd190f2d-e9f0-4949-b0f0-051309ef4e94\"}",
+      "responseBody" : "{\"killSwitch\":false,\"AndroidDisplayUrlMacro\":\"%%displayUrl%%\",\"AndroidAdTagUrlMode\":\"<html><body style='text-align:center; margin:0px; padding:0px; horizontal-align:center;'><script src=\\\"%%displayUrl%%\\\"><\/script><\/body><\/html>\",\"AndroidAdTagDataMacro\":\"%%adTagData%%\",\"AndroidAdTagDataMode\":\"<html><body style='text-align:center; margin:0px; padding:0px; horizontal-align:center;'><script>%%adTagData%%<\/script><\/body><\/html>\",\"iOSDisplayUrlMacro\":\"%%displayUrl%%\",\"iOSWidthMacro\":\"%%width%%\",\"iOSAdTagUrlMode\":\"<!doctype html><html><head><meta charset=\\\"utf-8\\\"><style>body{margin:0;padding:0}<\/style><meta name=\\\"viewport\\\" content=\\\"width=%%width%%, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\\\" ><\/head><body><script src=\\\"%%displayUrl%%\\\"><\/script><\/body><\/html>\"}",
+      "count" : 0,
+      "verb" : 0,
+      "url" : "https:\/\/pub-sdk-cfg.criteo.com\/v2.0\/api\/config?cpId=B-000001&sdkVersion=3.4.0&appId=com.criteo.AdViewer",
+      "requestBody" : null,
+      "error" : null
+    },
+    {
+      "responseBody" : "{\"slots\":[{\"impId\":\"5e399de20d4c3816cb7f65b293197de9\",\"placementId\":\"test-PubSdk-Base\",\"arbitrageId\":\"arbitrage_id\",\"cpm\":\"1.00\",\"currency\":\"EUR\",\"width\":320,\"height\":50,\"ttl\":0,\"displayUrl\":\"https:\/\/directbidder-uat-stubs.par.preprod.crto.in\/delivery\/ajs.php?width=320&height=50\"}],\"requestId\":\"f75f5caf-f053-4149-8def-4d8a1fdc1efd\"}",
       "count" : 0,
       "verb" : 1,
       "url" : "https:\/\/directbidder-test-app.par.preprod.crto.in\/inapp\/v2?profileId=235",
@@ -12,7 +20,7 @@
         },
         "slots" : [
           {
-            "placementId" : "30s6zt3ayypfyemwjvmp",
+            "placementId" : "test-PubSdk-Base",
             "sizes" : [
               "320x50"
             ]
@@ -36,14 +44,6 @@
       "error" : null
     },
     {
-      "responseBody" : "{\"killSwitch\":false,\"AndroidDisplayUrlMacro\":\"%%displayUrl%%\",\"AndroidAdTagUrlMode\":\"<html><body style='text-align:center; margin:0px; padding:0px; horizontal-align:center;'><script src=\\\"%%displayUrl%%\\\"><\/script><\/body><\/html>\",\"AndroidAdTagDataMacro\":\"%%adTagData%%\",\"AndroidAdTagDataMode\":\"<html><body style='text-align:center; margin:0px; padding:0px; horizontal-align:center;'><script>%%adTagData%%<\/script><\/body><\/html>\",\"iOSDisplayUrlMacro\":\"%%displayUrl%%\",\"iOSWidthMacro\":\"%%width%%\",\"iOSAdTagUrlMode\":\"<!doctype html><html><head><meta charset=\\\"utf-8\\\"><style>body{margin:0;padding:0}<\/style><meta name=\\\"viewport\\\" content=\\\"width=%%width%%, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\\\" ><\/head><body><script src=\\\"%%displayUrl%%\\\"><\/script><\/body><\/html>\"}",
-      "count" : 0,
-      "verb" : 0,
-      "url" : "https:\/\/pub-sdk-cfg.criteo.com\/v2.0\/api\/config?cpId=B-000001&sdkVersion=3.4.0&appId=com.criteo.AdViewer",
-      "requestBody" : null,
-      "error" : null
-    },
-    {
       "responseBody" : "{\"throttleSec\":5}",
       "count" : 0,
       "verb" : 0,
@@ -52,7 +52,7 @@
       "error" : null
     },
     {
-      "responseBody" : "{\"slots\":[{\"impId\":\"5e399d9936d853ebf0d0ae5b6d2ba18c\",\"placementId\":\"30s6zt3ayypfyemwjvmp\",\"arbitrageId\":\"515e9617-5aa2-4b9d-abb7-2aebd46aab7a\",\"cpm\":\"20.00\",\"currency\":\"USD\",\"width\":320,\"height\":50,\"ttl\":3600,\"displayUrl\":\"https:\/\/rdi.eu.preprod.criteo.com\/delivery\/rtb\/demo\/ajs?zoneid=1417086&width=320&height=50&ibva=0&uaCap=3\"}],\"requestId\":\"a81d6b46-1e1a-4d6e-8255-9a5f0a805c85\"}",
+      "responseBody" : "{\"slots\":[{\"impId\":\"5e399de3b925f5cca6f52cab5b1a7370\",\"placementId\":\"test-PubSdk-Base\",\"arbitrageId\":\"arbitrage_id\",\"cpm\":\"1.00\",\"currency\":\"EUR\",\"width\":320,\"height\":50,\"ttl\":0,\"displayUrl\":\"https:\/\/directbidder-uat-stubs.par.preprod.crto.in\/delivery\/ajs.php?width=320&height=50\"}],\"requestId\":\"12043e81-3e8b-4e67-92cf-782dd6b244c9\"}",
       "count" : 0,
       "verb" : 1,
       "url" : "https:\/\/directbidder-test-app.par.preprod.crto.in\/inapp\/v2?profileId=235",
@@ -63,7 +63,7 @@
         },
         "slots" : [
           {
-            "placementId" : "30s6zt3ayypfyemwjvmp",
+            "placementId" : "test-PubSdk-Base",
             "sizes" : [
               "320x50"
             ]

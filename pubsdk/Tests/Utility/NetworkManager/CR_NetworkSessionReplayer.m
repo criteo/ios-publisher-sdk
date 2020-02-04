@@ -97,7 +97,7 @@
     for (CR_HttpContent *content in self.session) {
         const BOOL sameUrl = [content.url isEqual:url];
         const BOOL sameVerb = content.verb == verb;
-        const BOOL sameBody = ((body == nil) && (content.responseBody == nil)) || [content.responseBody isEqual:body];
+        const BOOL sameBody = ((body == nil) && (content.requestBody == nil)) || [content.requestBody isEqual:body];
         if (sameUrl && sameVerb && sameBody) {
             return content;
         }

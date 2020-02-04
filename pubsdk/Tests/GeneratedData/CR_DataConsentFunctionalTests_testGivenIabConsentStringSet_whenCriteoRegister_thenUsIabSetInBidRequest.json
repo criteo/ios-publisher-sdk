@@ -12,11 +12,10 @@
         },
         "slots" : [
           {
-            "placementId" : "Random-Interstitial-Ad-Unit",
+            "placementId" : "Random-Banner-Ad-Unit",
             "sizes" : [
-              "375x812"
-            ],
-            "interstitial" : true
+              "320x50"
+            ]
           }
         ],
         "profileId" : 235,
@@ -31,7 +30,8 @@
           "deviceId" : "4052152A-345C-4D43-A1B4-D2D98DF3FE9C",
           "deviceOs" : "ios",
           "deviceModel" : "iPhone",
-          "deviceIdType" : "IDFA"
+          "deviceIdType" : "IDFA",
+          "uspIab" : "1YNN"
         }
       },
       "error" : null
@@ -48,11 +48,10 @@
         },
         "slots" : [
           {
-            "placementId" : "Random-Interstitial-Ad-Unit",
+            "placementId" : "Random-Banner-Ad-Unit",
             "sizes" : [
-              "375x812"
-            ],
-            "interstitial" : true
+              "320x50"
+            ]
           }
         ],
         "profileId" : 235,
@@ -67,7 +66,8 @@
           "deviceId" : "4052152A-345C-4D43-A1B4-D2D98DF3FE9C",
           "deviceOs" : "ios",
           "deviceModel" : "iPhone",
-          "deviceIdType" : "IDFA"
+          "deviceIdType" : "IDFA",
+          "uspIab" : "1YNN"
         }
       },
       "error" : null
@@ -85,38 +85,6 @@
       "count" : 0,
       "verb" : 0,
       "url" : "https:\/\/gum.criteo.com\/appevent\/v1\/2379?idfa=4052152A-345C-4D43-A1B4-D2D98DF3FE9C&eventType=Launch&appId=com.criteo.AdViewer&limitedAdTracking=0",
-      "requestBody" : null,
-      "error" : null
-    },
-    {
-      "responseBody" : "{\"throttleSec\":5}",
-      "count" : 0,
-      "verb" : 0,
-      "url" : "https:\/\/gum.criteo.com\/appevent\/v1\/2379?idfa=4052152A-345C-4D43-A1B4-D2D98DF3FE9C&eventType=Active&appId=com.criteo.AdViewer&limitedAdTracking=0",
-      "requestBody" : null,
-      "error" : null
-    },
-    {
-      "responseBody" : "{\"throttleSec\":5}",
-      "count" : 0,
-      "verb" : 0,
-      "url" : "https:\/\/gum.criteo.com\/appevent\/v1\/2379?idfa=4052152A-345C-4D43-A1B4-D2D98DF3FE9C&eventType=Active&appId=com.criteo.AdViewer&limitedAdTracking=0",
-      "requestBody" : null,
-      "error" : null
-    },
-    {
-      "responseBody" : "{\"throttleSec\":5}",
-      "count" : 0,
-      "verb" : 0,
-      "url" : "https:\/\/gum.criteo.com\/appevent\/v1\/2379?idfa=4052152A-345C-4D43-A1B4-D2D98DF3FE9C&eventType=Inactive&appId=com.criteo.AdViewer&limitedAdTracking=0",
-      "requestBody" : null,
-      "error" : null
-    },
-    {
-      "responseBody" : "{\"throttleSec\":5}",
-      "count" : 0,
-      "verb" : 0,
-      "url" : "https:\/\/gum.criteo.com\/appevent\/v1\/2379?idfa=4052152A-345C-4D43-A1B4-D2D98DF3FE9C&eventType=Inactive&appId=com.criteo.AdViewer&limitedAdTracking=0",
       "requestBody" : null,
       "error" : null
     }

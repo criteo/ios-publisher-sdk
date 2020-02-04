@@ -15,7 +15,7 @@
 }
 
 + (CRBannerAdUnit *)randomBanner320x50 {
-    return [self banner320x50WithId:[[NSUUID UUID] UUIDString]];
+    return [self banner320x50WithId:self.randomBannerAdUnitId];
 }
 
 + (CRBannerAdUnit *)preprodBanner320x50 {
@@ -27,7 +27,7 @@
 }
 
 + (CRInterstitialAdUnit *)randomInterstitial {
-    return [self interstitialWithId:[[NSUUID UUID] UUIDString]];
+    return [self interstitialWithId:self.randomInterstitialAdUnitId];
 }
 
 + (CRInterstitialAdUnit *)preprodInterstitial {
@@ -35,7 +35,7 @@
 }
 
 + (CRNativeAdUnit *)randomNative {
-    return [self nativeWithId:[[NSUUID UUID] UUIDString]];
+    return [self nativeWithId:self.randomNativeAdUnitId];
 }
 
 + (CRNativeAdUnit *)preprodNative {
@@ -60,6 +60,18 @@
 
 + (NSString *)mopubInterstitialAdUnitId {
     return @"83a2996696284da881edaf1a480e5d7c";
+}
+
++ (NSString *)randomBannerAdUnitId {
+    return @"Random-Banner-Ad-Unit";
+}
+
++ (NSString *)randomInterstitialAdUnitId {
+    return @"Random-Interstitial-Ad-Unit";
+}
+
++ (NSString *)randomNativeAdUnitId {
+    return @"Random-Native-Ad-Unit";
 }
 
 #pragma mark - Private methods

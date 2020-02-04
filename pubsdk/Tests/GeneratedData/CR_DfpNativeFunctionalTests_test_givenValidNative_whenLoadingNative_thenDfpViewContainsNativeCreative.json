@@ -9,7 +9,7 @@
       "error" : null
     },
     {
-      "responseBody" : "{\"slots\":[{\"impId\":\"5e399da647fc797d8cc952528bbd86c3\",\"placementId\":\"test-PubSdk-Base\",\"arbitrageId\":\"arbitrage_id\",\"cpm\":\"1.00\",\"currency\":\"EUR\",\"width\":320,\"height\":50,\"ttl\":0,\"displayUrl\":\"https:\/\/directbidder-uat-stubs.par.preprod.crto.in\/delivery\/ajs.php?width=320&height=50\"}],\"requestId\":\"bafe1904-ae46-4f9d-96c9-38a8f6d8d105\"}",
+      "responseBody" : "{\"slots\":[{\"impId\":\"5e399dbeccacf2d41e076c3e275c5f08\",\"placementId\":\"test-PubSdk-Native\",\"arbitrageId\":\"\",\"cpm\":\"1.00\",\"currency\":\"EUR\",\"width\":2,\"height\":2,\"ttl\":0,\"native\":{\"products\":[{\"title\":\"Criteo native solution\",\"description\":\"A smart solution for your Native advertising\",\"price\":\"10$\",\"clickUrl\":\"https:\/\/www.criteo.com\/products\/\",\"callToAction\":\"Try it now!\",\"image\":{\"url\":\"https:\/\/publisherdirect.criteo.com\/publishertag\/preprodtest\/creative.png\",\"height\":300,\"width\":300}}],\"advertiser\":{\"description\":\"Our digital marketing solutions are trusted\",\"domain\":\"criteo.com\",\"logo\":{\"url\":\"https:\/\/www.criteo.com\/images\/criteo-logo.svg\",\"height\":300,\"width\":300},\"logoClickUrl\":\"https:\/\/www.criteo.com\"},\"privacy\":{\"optoutClickUrl\":\"https:\/\/info.criteo.com\/privacy\/informations\",\"optoutImageUrl\":\"https:\/\/static.criteo.net\/flash\/icon\/nai_small.png\",\"longLegalText\":\"\"},\"impressionPixels\":[{\"url\":\"https:\/\/my-impression-pixel\/test\/impression\"},{\"url\":\"https:\/\/cas.com\/lg.com\"}]}}],\"requestId\":\"bf00f14a-fc27-4405-a87c-4edcd42aa568\"}",
       "count" : 0,
       "verb" : 1,
       "url" : "https:\/\/directbidder-test-app.par.preprod.crto.in\/inapp\/v2?profileId=235",
@@ -20,10 +20,11 @@
         },
         "slots" : [
           {
-            "placementId" : "test-PubSdk-Base",
+            "placementId" : "test-PubSdk-Native",
             "sizes" : [
-              "320x50"
-            ]
+              "2x2"
+            ],
+            "isNative" : true
           }
         ],
         "profileId" : 235,
@@ -52,7 +53,7 @@
       "error" : null
     },
     {
-      "responseBody" : "{\"slots\":[{\"impId\":\"5e399da69a0167fed55334c7b2039349\",\"placementId\":\"test-PubSdk-Base\",\"arbitrageId\":\"arbitrage_id\",\"cpm\":\"1.00\",\"currency\":\"EUR\",\"width\":320,\"height\":50,\"ttl\":0,\"displayUrl\":\"https:\/\/directbidder-uat-stubs.par.preprod.crto.in\/delivery\/ajs.php?width=320&height=50\"}],\"requestId\":\"a9bc9d56-012c-4aa6-b013-70749eeb9bba\"}",
+      "responseBody" : "{\"slots\":[{\"impId\":\"5e399dbe2aecdfaf651de1ffa48d4c6f\",\"placementId\":\"test-PubSdk-Native\",\"arbitrageId\":\"\",\"cpm\":\"1.00\",\"currency\":\"EUR\",\"width\":2,\"height\":2,\"ttl\":0,\"native\":{\"products\":[{\"title\":\"Criteo native solution\",\"description\":\"A smart solution for your Native advertising\",\"price\":\"10$\",\"clickUrl\":\"https:\/\/www.criteo.com\/products\/\",\"callToAction\":\"Try it now!\",\"image\":{\"url\":\"https:\/\/publisherdirect.criteo.com\/publishertag\/preprodtest\/creative.png\",\"height\":300,\"width\":300}}],\"advertiser\":{\"description\":\"Our digital marketing solutions are trusted\",\"domain\":\"criteo.com\",\"logo\":{\"url\":\"https:\/\/www.criteo.com\/images\/criteo-logo.svg\",\"height\":300,\"width\":300},\"logoClickUrl\":\"https:\/\/www.criteo.com\"},\"privacy\":{\"optoutClickUrl\":\"https:\/\/info.criteo.com\/privacy\/informations\",\"optoutImageUrl\":\"https:\/\/static.criteo.net\/flash\/icon\/nai_small.png\",\"longLegalText\":\"\"},\"impressionPixels\":[{\"url\":\"https:\/\/my-impression-pixel\/test\/impression\"},{\"url\":\"https:\/\/cas.com\/lg.com\"}]}}],\"requestId\":\"afd40e12-2090-4458-bc5d-50361b7d3101\"}",
       "count" : 0,
       "verb" : 1,
       "url" : "https:\/\/directbidder-test-app.par.preprod.crto.in\/inapp\/v2?profileId=235",
@@ -63,10 +64,11 @@
         },
         "slots" : [
           {
-            "placementId" : "test-PubSdk-Base",
+            "placementId" : "test-PubSdk-Native",
             "sizes" : [
-              "320x50"
-            ]
+              "2x2"
+            ],
+            "isNative" : true
           }
         ],
         "profileId" : 235,

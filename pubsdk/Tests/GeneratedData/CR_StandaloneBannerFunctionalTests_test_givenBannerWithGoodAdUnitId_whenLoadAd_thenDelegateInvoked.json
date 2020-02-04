@@ -1,7 +1,7 @@
 {
   "CR_HttpContents" : [
     {
-      "responseBody" : "{\"slots\":[{\"impId\":\"5e399d9984fd51e2add966fdfced4804\",\"placementId\":\"30s6zt3ayypfyemwjvmp\",\"arbitrageId\":\"3a925b55-e9fc-4b04-bf40-19dccd73a89e\",\"cpm\":\"20.00\",\"currency\":\"USD\",\"width\":320,\"height\":50,\"ttl\":3600,\"displayUrl\":\"https:\/\/rdi.eu.preprod.criteo.com\/delivery\/rtb\/demo\/ajs?zoneid=1417086&width=320&height=50&ibva=0&uaCap=3\"}],\"requestId\":\"fd190f2d-e9f0-4949-b0f0-051309ef4e94\"}",
+      "responseBody" : "{\"slots\":[{\"impId\":\"5e399de5c4cf95a9be4db00b5acd5718\",\"placementId\":\"30s6zt3ayypfyemwjvmp\",\"arbitrageId\":\"298e4444-8460-42e1-88aa-f543e0030d54\",\"cpm\":\"20.00\",\"currency\":\"USD\",\"width\":320,\"height\":50,\"ttl\":3600,\"displayUrl\":\"https:\/\/rdi.eu.preprod.criteo.com\/delivery\/rtb\/demo\/ajs?zoneid=1417086&width=320&height=50&ibva=0&uaCap=3\"}],\"requestId\":\"c63a0bf7-dd30-47a4-ae6f-891136eb06ae\"}",
       "count" : 0,
       "verb" : 1,
       "url" : "https:\/\/directbidder-test-app.par.preprod.crto.in\/inapp\/v2?profileId=235",
@@ -52,7 +52,7 @@
       "error" : null
     },
     {
-      "responseBody" : "{\"slots\":[{\"impId\":\"5e399d9936d853ebf0d0ae5b6d2ba18c\",\"placementId\":\"30s6zt3ayypfyemwjvmp\",\"arbitrageId\":\"515e9617-5aa2-4b9d-abb7-2aebd46aab7a\",\"cpm\":\"20.00\",\"currency\":\"USD\",\"width\":320,\"height\":50,\"ttl\":3600,\"displayUrl\":\"https:\/\/rdi.eu.preprod.criteo.com\/delivery\/rtb\/demo\/ajs?zoneid=1417086&width=320&height=50&ibva=0&uaCap=3\"}],\"requestId\":\"a81d6b46-1e1a-4d6e-8255-9a5f0a805c85\"}",
+      "responseBody" : "{\"slots\":[{\"impId\":\"5e399de545c67798abf4662310eb04e9\",\"placementId\":\"30s6zt3ayypfyemwjvmp\",\"arbitrageId\":\"defba79b-36d7-4dc8-abc3-432cd92760a2\",\"cpm\":\"20.00\",\"currency\":\"USD\",\"width\":320,\"height\":50,\"ttl\":3600,\"displayUrl\":\"https:\/\/rdi.eu.preprod.criteo.com\/delivery\/rtb\/demo\/ajs?zoneid=1417086&width=320&height=50&ibva=0&uaCap=3\"}],\"requestId\":\"fa405477-9216-4bac-a52a-b6d18d58ae26\"}",
       "count" : 0,
       "verb" : 1,
       "url" : "https:\/\/directbidder-test-app.par.preprod.crto.in\/inapp\/v2?profileId=235",

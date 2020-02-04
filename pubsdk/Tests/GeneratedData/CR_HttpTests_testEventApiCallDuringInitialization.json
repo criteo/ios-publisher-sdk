@@ -1,22 +1,6 @@
 {
   "CR_HttpContents" : [
     {
-      "responseBody" : "{\"killSwitch\":false,\"AndroidDisplayUrlMacro\":\"%%displayUrl%%\",\"AndroidAdTagUrlMode\":\"<html><body style='text-align:center; margin:0px; padding:0px; horizontal-align:center;'><script src=\\\"%%displayUrl%%\\\"><\/script><\/body><\/html>\",\"AndroidAdTagDataMacro\":\"%%adTagData%%\",\"AndroidAdTagDataMode\":\"<html><body style='text-align:center; margin:0px; padding:0px; horizontal-align:center;'><script>%%adTagData%%<\/script><\/body><\/html>\",\"iOSDisplayUrlMacro\":\"%%displayUrl%%\",\"iOSWidthMacro\":\"%%width%%\",\"iOSAdTagUrlMode\":\"<!doctype html><html><head><meta charset=\\\"utf-8\\\"><style>body{margin:0;padding:0}<\/style><meta name=\\\"viewport\\\" content=\\\"width=%%width%%, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\\\" ><\/head><body><script src=\\\"%%displayUrl%%\\\"><\/script><\/body><\/html>\"}",
-      "count" : 0,
-      "verb" : 0,
-      "url" : "https:\/\/pub-sdk-cfg.criteo.com\/v2.0\/api\/config?cpId=B-000001&sdkVersion=3.2.0&appId=com.criteo.AdViewer",
-      "requestBody" : null,
-      "error" : null
-    },
-    {
-      "responseBody" : "{\"throttleSec\":5}",
-      "count" : 0,
-      "verb" : 0,
-      "url" : "https:\/\/gum.criteo.com\/appevent\/v1\/2379?idfa=CBB83DFD-048A-40DE-9C1B-6E54C5548C06&eventType=Launch&appId=com.criteo.AdViewer&limitedAdTracking=0",
-      "requestBody" : null,
-      "error" : null
-    },
-    {
       "responseBody" : null,
       "count" : 0,
       "verb" : 1,
@@ -28,7 +12,7 @@
         },
         "slots" : [
           {
-            "placementId" : "97551635-9198-4CBF-BAB2-B0BD41D5FDB8",
+            "placementId" : "Random-Interstitial-Ad-Unit",
             "sizes" : [
               "375x812"
             ],
@@ -41,10 +25,10 @@
           "gdprApplies" : true,
           "consentGiven" : false
         },
-        "sdkVersion" : "3.2.0",
+        "sdkVersion" : "3.4.0",
         "user" : {
           "userAgent" : "Mozilla\/5.0 (iPhone; CPU iPhone OS 12_4 like Mac OS X) AppleWebKit\/605.1.15 (KHTML, like Gecko) Mobile\/15E148",
-          "deviceId" : "CBB83DFD-048A-40DE-9C1B-6E54C5548C06",
+          "deviceId" : "4052152A-345C-4D43-A1B4-D2D98DF3FE9C",
           "deviceOs" : "ios",
           "deviceModel" : "iPhone",
           "deviceIdType" : "IDFA"
@@ -64,7 +48,7 @@
         },
         "slots" : [
           {
-            "placementId" : "97551635-9198-4CBF-BAB2-B0BD41D5FDB8",
+            "placementId" : "Random-Interstitial-Ad-Unit",
             "sizes" : [
               "375x812"
             ],
@@ -77,15 +61,31 @@
           "gdprApplies" : true,
           "consentGiven" : false
         },
-        "sdkVersion" : "3.2.0",
+        "sdkVersion" : "3.4.0",
         "user" : {
           "userAgent" : "Mozilla\/5.0 (iPhone; CPU iPhone OS 12_4 like Mac OS X) AppleWebKit\/605.1.15 (KHTML, like Gecko) Mobile\/15E148",
-          "deviceId" : "CBB83DFD-048A-40DE-9C1B-6E54C5548C06",
+          "deviceId" : "4052152A-345C-4D43-A1B4-D2D98DF3FE9C",
           "deviceOs" : "ios",
           "deviceModel" : "iPhone",
           "deviceIdType" : "IDFA"
         }
       },
+      "error" : null
+    },
+    {
+      "responseBody" : "{\"killSwitch\":false,\"AndroidDisplayUrlMacro\":\"%%displayUrl%%\",\"AndroidAdTagUrlMode\":\"<html><body style='text-align:center; margin:0px; padding:0px; horizontal-align:center;'><script src=\\\"%%displayUrl%%\\\"><\/script><\/body><\/html>\",\"AndroidAdTagDataMacro\":\"%%adTagData%%\",\"AndroidAdTagDataMode\":\"<html><body style='text-align:center; margin:0px; padding:0px; horizontal-align:center;'><script>%%adTagData%%<\/script><\/body><\/html>\",\"iOSDisplayUrlMacro\":\"%%displayUrl%%\",\"iOSWidthMacro\":\"%%width%%\",\"iOSAdTagUrlMode\":\"<!doctype html><html><head><meta charset=\\\"utf-8\\\"><style>body{margin:0;padding:0}<\/style><meta name=\\\"viewport\\\" content=\\\"width=%%width%%, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\\\" ><\/head><body><script src=\\\"%%displayUrl%%\\\"><\/script><\/body><\/html>\"}",
+      "count" : 0,
+      "verb" : 0,
+      "url" : "https:\/\/pub-sdk-cfg.criteo.com\/v2.0\/api\/config?cpId=B-000001&sdkVersion=3.4.0&appId=com.criteo.AdViewer",
+      "requestBody" : null,
+      "error" : null
+    },
+    {
+      "responseBody" : "{\"throttleSec\":5}",
+      "count" : 0,
+      "verb" : 0,
+      "url" : "https:\/\/gum.criteo.com\/appevent\/v1\/2379?idfa=4052152A-345C-4D43-A1B4-D2D98DF3FE9C&eventType=Launch&appId=com.criteo.AdViewer&limitedAdTracking=0",
+      "requestBody" : null,
       "error" : null
     }
   ]
