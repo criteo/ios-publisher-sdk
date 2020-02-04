@@ -15,6 +15,8 @@ typedef enum {
     POST
 } CR_HTTPVerb;
 
+NSString *NSStringFromHTTPVerb(CR_HTTPVerb verb);
+
 /**
  Wrapper for the HTTP request and HTTP the response .
  */

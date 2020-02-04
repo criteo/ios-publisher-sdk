@@ -13,6 +13,12 @@
 #import "Criteo+Testing.h"
 #import "CR_TestAdUnits.h"
 
+@interface CR_DfpCreativeViewChecker ()
+
+@property (nonatomic, strong) NSMutableArray<XCTAttachment *> *attachmentArray;
+
+@end
+
 
 @implementation CR_DfpCreativeViewChecker {
     NSString *expectedCreative;
@@ -20,6 +26,7 @@
 
 -(instancetype)initWithAdUnitId:(NSString *)adUnitId {
     if (self = [super init]) {
+        _attachmentArray = [[NSMutableArray alloc] init];
         _adCreativeRenderedExpectation = [[XCTestExpectation alloc] initWithDescription:@"Expect that Criteo creative appears."];
         _uiWindow = [self createUIWindow];
         expectedCreative = adUnitId == [CR_TestAdUnits dfpNativeId]
@@ -52,13 +59,19 @@
     return (result == XCTWaiterResultCompleted);
 }
 
+- (NSArray<XCTAttachment *> *)attachments {
+    return [self.attachmentArray copy];
+}
+
 #pragma mark - GADBannerViewDelegate methods
 
 - (void)adViewDidReceiveAd:(GADBannerView *)bannerView {
+    [self _insertScreenshotAttachement];
     [self checkViewAndFulfillExpectation];
 }
 
 - (void)adView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(GADRequestError *)error {
+    [self _insertScreenshotAttachement];
     CLog(@"[ERROR] CR_DfpBannerViewChecker.GADBannerViewDelegate (didFailToReceiveAdWithError) %@", error.description);
 }
 
@@ -66,6 +79,7 @@
 
 - (void)interstitialDidReceiveAd:(GADInterstitial *)ad {
     [ad presentFromRootViewController:self.uiWindow.rootViewController];
+    [self _insertScreenshotAttachement];
 }
 
 - (void)interstitialWillPresentScreen:(GADInterstitial *)ad {
@@ -77,12 +91,14 @@
 }
 
 - (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error {
+    [self _insertScreenshotAttachement];
     CLog(@"[ERROR] CR_DfpBannerViewChecker.GADInterstitialDelegate (didFailToReceiveAdWithError) %@", error.description);
 }
 
 #pragma mark - Private methods
 
 - (void)checkViewAndFulfillExpectation {
+    [self _insertScreenshotAttachement];
     UIWebView *firstWebView = [self.uiWindow testing_findFirstWebView];
     NSString *htmlContent = [firstWebView testing_getHtmlContent];
     NSLog(@"EXP CR : %@", expectedCreative);
@@ -105,6 +121,20 @@
     dfpBannerView.adUnitID = adUnitId;
     dfpBannerView.backgroundColor = [UIColor orangeColor];
     return dfpBannerView;
+}
+
+- (void)_insertScreenshotAttachement {
+    UIImage *screenshot = [self _screenshotWindow];
+    XCTAttachment *attachement = [XCTAttachment attachmentWithImage:screenshot];
+    [self.attachmentArray addObject:attachement];
+}
+
+- (UIImage *)_screenshotWindow {
+    UIGraphicsBeginImageContextWithOptions([UIScreen mainScreen].bounds.size, false, [UIScreen mainScreen].scale);
+    [self.uiWindow.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
 }
 
 @end

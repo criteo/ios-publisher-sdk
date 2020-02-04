@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "Criteo+Testing.h"
+#import "CR_NetworkCaptor.h"
 #import "CRBannerAdUnit.h"
 #import "CR_IntegrationsTestBase.h"
 #import "CR_TestAdUnits.h"
@@ -44,6 +45,7 @@
     [self.criteo setBidsForRequest:bannerDfpRequest withAdUnit:banner];
 
     CR_AssertDfpCustomTargetingContainsCriteoBid(bannerDfpRequest.customTargeting);
+    NSLog(@"%@", self.criteo.testing_networkCaptor.allRequests);
 }
 
 - (void)test_givenDfpRequest_whenSetBid_thenDisplayUrlEncodedProperly {
@@ -71,7 +73,10 @@
     [dfpViewChecker.dfpBannerView loadRequest:bannerDfpRequest];
 
     BOOL renderedProperly = [dfpViewChecker waitAdCreativeRendered];
-    XCTAssertTrue(renderedProperly);
+    for (XCTAttachment *att in dfpViewChecker.attachments) {
+        [self addAttachment:att];
+    }
+    XCTAssert(renderedProperly);
 }
 
 - (void)test_givenGoodBannerRegistered_whenLoadingDfpBannerWithRandomAdUnitId_thenDfpViewDoNotContainCreative {

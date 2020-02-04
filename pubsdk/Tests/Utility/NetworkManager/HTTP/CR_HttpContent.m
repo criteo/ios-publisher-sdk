@@ -8,6 +8,13 @@
 
 #import "CR_HttpContent.h"
 
+NSString *NSStringFromHTTPVerb(CR_HTTPVerb verb) {
+    switch (verb) {
+        case GET: return @"GET";
+        case POST: return @"POST";
+    }
+}
+
 @implementation CR_HttpContent
 
 - (instancetype)initWithUrl:(NSURL *)url
@@ -28,9 +35,24 @@
     return self;
 }
 
-- (NSString *)description
-{
-    NSString *verbStr = self.verb == GET ? @"GET" : @"POST";
+- (NSString *)description {
+    NSDictionary *dict = @{
+        @"url": self.url.absoluteString,
+        @"verb": NSStringFromHTTPVerb(self.verb),
+        @"requestBody" : (self.requestBody.count > 0) ? self.requestBody : NSNull.null,
+        @"responseBody" : [self _formatedResponseBody] ?: NSNull.null,
+        @"error" : self.error ?: NSNull.null
+    };
+    NSData *json = [NSJSONSerialization dataWithJSONObject:dict
+                                                   options:NSJSONWritingPrettyPrinted
+                                                     error:NULL];
+
+    return [[NSString alloc] initWithData:json
+                                 encoding:NSUTF8StringEncoding];
+}
+
+- (NSString *)debugDescription {
+    NSString *verbStr = NSStringFromHTTPVerb(self.verb);
     NSMutableString *result = [[NSMutableString alloc] initWithFormat:
                                @"<%@: %p, url: %@, verb: %@ ",
                                NSStringFromClass([self class]), self, self.url, verbStr];
@@ -47,6 +69,20 @@
     }
     [result appendString:@">"];
     return result;
+}
+
+#pragma mark - Private
+
+- (id)_formatedResponseBody {
+    if (self.responseBody.length == 0) {
+        return nil;
+    }
+
+    NSError *error = NULL;
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:self.responseBody
+                                                         options:0
+                                                           error:&error];
+    return (error == nil) ? dict : self.responseBody;
 }
 
 @end

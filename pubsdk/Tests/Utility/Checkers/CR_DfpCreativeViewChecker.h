@@ -11,6 +11,7 @@
 
 @interface CR_DfpCreativeViewChecker : NSObject <GADBannerViewDelegate, GADInterstitialDelegate>
 
+@property (nonatomic, copy, readonly) NSArray<XCTAttachment *> *attachments;
 @property(nonatomic, readonly) XCTestExpectation *adCreativeRenderedExpectation;
 @property(nonatomic, readonly) UIWindow *uiWindow;
 @property(nonatomic, readonly) DFPBannerView *dfpBannerView;
