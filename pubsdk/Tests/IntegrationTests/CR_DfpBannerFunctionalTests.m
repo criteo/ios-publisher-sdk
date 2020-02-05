@@ -19,6 +19,7 @@
 #import "CR_DfpCreativeViewChecker.h"
 #import "NSString+CR_UrlEncoder.h"
 #import "CR_TargetingKeys.h"
+#import "XCTestCase+Criteo.h"
 @import GoogleMobileAds;
 
 @interface CR_DfpBannerFunctionalTests : CR_IntegrationsTestBase
@@ -90,8 +91,7 @@
     [self.criteo setBidsForRequest:bannerDfpRequest withAdUnit:bannerAdUnitRandom];
     [dfpViewChecker.dfpBannerView loadRequest:bannerDfpRequest];
 
-    BOOL renderedProperly = [dfpViewChecker waitAdCreativeRendered];
-    XCTAssertFalse(renderedProperly);
+    [self criteo_waitForExpectations:@[dfpViewChecker.adCreativeRenderedExpectationWithoutExpectedCreative]];
 }
 
 @end

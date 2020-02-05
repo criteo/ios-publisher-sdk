@@ -13,6 +13,7 @@
 
 @property (nonatomic, copy, readonly) NSArray<XCTAttachment *> *attachments;
 @property(nonatomic, readonly) XCTestExpectation *adCreativeRenderedExpectation;
+@property(nonatomic, readonly) XCTestExpectation *adCreativeRenderedExpectationWithoutExpectedCreative;
 @property(nonatomic, readonly) UIWindow *uiWindow;
 @property(nonatomic, readonly) DFPBannerView *dfpBannerView;
 
@@ -20,5 +21,6 @@
 -(instancetype)initWithBannerWithSize:(GADAdSize)size withAdUnitId:(NSString *)adUnitId;
 -(instancetype)initWithInterstitial:(DFPInterstitial *)dfpInterstitial;
 -(BOOL)waitAdCreativeRendered;
+-(BOOL)waitAdCreativeRenderedWithTimeout:(NSTimeInterval)timeout;
 
 @end

@@ -28,6 +28,7 @@
     if (self = [super init]) {
         _attachmentArray = [[NSMutableArray alloc] init];
         _adCreativeRenderedExpectation = [[XCTestExpectation alloc] initWithDescription:@"Expect that Criteo creative appears."];
+        _adCreativeRenderedExpectationWithoutExpectedCreative = [[XCTestExpectation alloc] initWithDescription:@"Expect that Criteo creative appears without expected creative."];
         _uiWindow = [self createUIWindow];
         expectedCreative = adUnitId == [CR_TestAdUnits dfpNativeId]
             ? [CR_ViewCheckingHelper preprodCreativeImageUrlForNative]
@@ -54,8 +55,13 @@
 }
 
 -(BOOL)waitAdCreativeRendered {
+    return [self waitAdCreativeRenderedWithTimeout:10.];
+}
+
+-(BOOL)waitAdCreativeRenderedWithTimeout:(NSTimeInterval)timeout {
     XCTWaiter *waiter = [[XCTWaiter alloc] init];
-    XCTWaiterResult result = [waiter waitForExpectations:@[self.adCreativeRenderedExpectation] timeout:10.f];
+    XCTWaiterResult result = [waiter waitForExpectations:@[self.adCreativeRenderedExpectation]
+                                                 timeout:timeout];
     return (result == XCTWaiterResultCompleted);
 }
 
@@ -104,6 +110,8 @@
     NSLog(@"EXP CR : %@", expectedCreative);
     if ([htmlContent containsString:expectedCreative]) {
         [self.adCreativeRenderedExpectation fulfill];
+    } else {
+        [self.adCreativeRenderedExpectationWithoutExpectedCreative fulfill];
     }
     self.uiWindow.hidden = YES;
 }

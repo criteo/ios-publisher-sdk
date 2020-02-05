@@ -86,8 +86,7 @@
     [self.criteo setBidsForRequest:dfpRequest withAdUnit:interstitialAdUnitRandom];
     [dfpInterstitial loadRequest:dfpRequest];
 
-    BOOL renderedProperly = [dfpViewChecker waitAdCreativeRendered];
-    XCTAssertFalse(renderedProperly);
+    [self criteo_waitForExpectations:@[dfpViewChecker.adCreativeRenderedExpectationWithoutExpectedCreative]];
 }
 
 @end
