@@ -6,19 +6,20 @@
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#import <XCTest/XCTest.h>
+
 #import "Criteo+Testing.h"
 #import "Criteo+Internal.h"
-#import "CR_NetworkCaptor.h"
 #import "CR_Config.h"
-#import "XCTestCase+Criteo.h"
+#import "CR_IntegrationsTestBase.h"
+#import "CR_NetworkCaptor.h"
 #import "CR_TestAdUnits.h"
+#import "XCTestCase+Criteo.h"
 
-@interface CROrthogonalBannerFunctionalTests : XCTestCase
+@interface CR_RegistrationFunctionalTests : CR_IntegrationsTestBase
 
 @end
 
-@implementation CROrthogonalBannerFunctionalTests
+@implementation CR_RegistrationFunctionalTests
 
 - (void)test_givenCriteoInitWithBanner_whenRegisterTwice_thenOneCBDCall {
     [self givenCriteoInit_whenRegisterTwice_thenOneCBDCall_withAdUnits:[CR_TestAdUnits randomBanner320x50]];
@@ -33,13 +34,12 @@
 }
 
 - (void)givenCriteoInit_whenRegisterTwice_thenOneCBDCall_withAdUnits:(CRAdUnit *)adUnit {
-    Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
-    [criteo testing_registerAndWaitForHTTPResponseWithAdUnits:@[adUnit]];
-    XCTestExpectation *expectation = [self expectationForNotCallingCDBOnCriteo:criteo];
+    [self initCriteoWithAdUnits:@[adUnit]];
+    XCTestExpectation *expectation = [self expectationForNotCallingCDBOnCriteo:self.criteo];
 
-    [criteo testing_registerWithAdUnits:@[adUnit]];
+    [self.criteo testing_registerWithAdUnits:@[adUnit]];
 
-    [self criteo_waitForExpectations:@[expectation]];
+    [self waitForExpectations:@[expectation] timeout:1.f];
 }
 
 - (XCTestExpectation *)expectationForNotCallingCDBOnCriteo:(Criteo *)criteo {
@@ -52,6 +52,5 @@
     };
     return expectation;
 }
-
 
 @end

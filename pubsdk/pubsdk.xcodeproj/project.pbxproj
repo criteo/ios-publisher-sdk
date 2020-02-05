@@ -245,7 +245,7 @@
 		7DB4E90D239532BA008DE5E3 /* XCTestCase+Criteo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB4E90A239532BA008DE5E3 /* XCTestCase+Criteo.m */; };
 		7DB4E90E2395331A008DE5E3 /* Criteo+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0653DCED07A1A1895CB076 /* Criteo+Testing.m */; };
 		7DB4E91123953757008DE5E3 /* CRInterstitialTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB4E90F2395374F008DE5E3 /* CRInterstitialTests.m */; };
-		7DB4E9132397AB6B008DE5E3 /* CROrthogonalBannerFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB4E9122397AB6B008DE5E3 /* CROrthogonalBannerFunctionalTests.m */; };
+		7DB4E9132397AB6B008DE5E3 /* CR_RegistrationFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB4E9122397AB6B008DE5E3 /* CR_RegistrationFunctionalTests.m */; };
 		7DB5F8EF23A95E9C00EF5602 /* GeneratedData in Resources */ = {isa = PBXBuildFile; fileRef = 7DB5F8EE23A95E9C00EF5602 /* GeneratedData */; };
 		7DB5F8F023A95E9C00EF5602 /* GeneratedData in Resources */ = {isa = PBXBuildFile; fileRef = 7DB5F8EE23A95E9C00EF5602 /* GeneratedData */; };
 		7DB5F90223AA2B2500EF5602 /* CR_NetworkSessionRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB5F8F323AA2B2500EF5602 /* CR_NetworkSessionRecorder.m */; };
@@ -530,7 +530,7 @@
 		7DB4E90A239532BA008DE5E3 /* XCTestCase+Criteo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTestCase+Criteo.m"; sourceTree = "<group>"; };
 		7DB4E90B239532BA008DE5E3 /* XCTestCase+Criteo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XCTestCase+Criteo.h"; sourceTree = "<group>"; };
 		7DB4E90F2395374F008DE5E3 /* CRInterstitialTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialTests.m; sourceTree = "<group>"; };
-		7DB4E9122397AB6B008DE5E3 /* CROrthogonalBannerFunctionalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CROrthogonalBannerFunctionalTests.m; sourceTree = "<group>"; };
+		7DB4E9122397AB6B008DE5E3 /* CR_RegistrationFunctionalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_RegistrationFunctionalTests.m; sourceTree = "<group>"; };
 		7DB4E91B239A468A008DE5E3 /* CR_AssertMopub.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_AssertMopub.h; sourceTree = "<group>"; };
 		7DB4E921239A4AB3008DE5E3 /* CR_AssertDfp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_AssertDfp.h; sourceTree = "<group>"; };
 		7DB5F8EE23A95E9C00EF5602 /* GeneratedData */ = {isa = PBXFileReference; lastKnownFileType = folder; path = GeneratedData; sourceTree = "<group>"; };
@@ -762,17 +762,17 @@
 				5E065AD8DCA877B2A1928681 /* CR_DfpInterstitialFunctionalTests.m */,
 				5E0656551EC4DAFCC6DF7D79 /* CR_DfpNativeFunctionalTests.m */,
 				5E0656CED6370CB240092ECC /* CR_HttpTests.m */,
+				7D85E8D223D8891A00AFF91B /* CR_InHouseFunctionalTests.m */,
 				54680B7723969D7E00DB5A37 /* CR_IntegrationsTestBase.h */,
 				54680B7523969D5C00DB5A37 /* CR_IntegrationsTestBase.m */,
 				54680B7823969E7300DB5A37 /* CR_MopubBannerFunctionalTests.m */,
 				5E06573035072D184799FC19 /* CR_MopubInterstitialFunctionalTests.m */,
+				7DB4E9122397AB6B008DE5E3 /* CR_RegistrationFunctionalTests.m */,
 				548AFCAC23B1113C003C9C29 /* CR_StandaloneBannerFunctionalTests.m */,
 				543F6FA12283B5F500A5DBE2 /* CRBannerViewDelegateTests.m */,
-				7D85E8D223D8891A00AFF91B /* CR_InHouseFunctionalTests.m */,
 				6519C0DA2285FA8300111A5F /* CRInterstitialDelegateTests.m */,
 				7DB4E90F2395374F008DE5E3 /* CRInterstitialTests.m */,
 				54ED19F222717E13009AA0B2 /* CRInterstitialViewControllerTests.m */,
-				7DB4E9122397AB6B008DE5E3 /* CROrthogonalBannerFunctionalTests.m */,
 				5E065022DFE1021D3CF2B444 /* NativeAssetsFromCdb.json */,
 			);
 			path = IntegrationTests;
@@ -1735,7 +1735,7 @@
 				7D3E423D23915B6600BAF673 /* CR_CacheManagerTests.m in Sources */,
 				7D3E422C23915B6600BAF673 /* CR_NativeAdvertiserTests.m in Sources */,
 				7D523C7923DB31CD00E79C88 /* CR_HttpContent.m in Sources */,
-				7DB4E9132397AB6B008DE5E3 /* CROrthogonalBannerFunctionalTests.m in Sources */,
+				7DB4E9132397AB6B008DE5E3 /* CR_RegistrationFunctionalTests.m in Sources */,
 				7D3E423F23915B6600BAF673 /* CR_CdbResponseTests.m in Sources */,
 				7D3E423023915B6600BAF673 /* NSDictionary+AdditionsTests.m in Sources */,
 				7D523C7D23DB32C600E79C88 /* CR_HttpContent+AdUnit.m in Sources */,
