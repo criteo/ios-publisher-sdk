@@ -19,6 +19,7 @@
 #import <Foundation/Foundation.h>
 #import "CRInterstitialCustomEvent.h"
 #import "CRCustomEventHelper.h"
+#import "NSString+MPConsentStatus.h"
 
 // Private property
 @interface CRInterstitialCustomEvent ()
@@ -54,6 +55,7 @@
         return;
     }
 
+    [Criteo.sharedCriteo setMopubConsent:[NSString stringFromConsentStatus:MoPub.sharedInstance.currentConsentStatus]];
     CRInterstitialAdUnit *interstitialAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:info[@"adUnitId"]];
 
     [[Criteo sharedCriteo] registerCriteoPublisherId:info[@"cpId"] withAdUnits:@[interstitialAdUnit]];

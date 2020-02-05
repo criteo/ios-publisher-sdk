@@ -33,7 +33,7 @@
 }
 
 - (NSString *)networkSdkVersion{
-    return @"3.1.0";
+    return @"3.4.0";
 }
 
 - (void)initializeNetworkWithConfiguration:(NSDictionary<NSString *, id> *)configuration complete:(void(^)(NSError *))complete {

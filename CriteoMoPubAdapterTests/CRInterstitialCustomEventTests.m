@@ -211,4 +211,19 @@
     OCMVerifyAll(mockDelegate);
 }
 
+- (void) testInterstitialSetMopubConsentToCriteo {
+    id mockCriteo = [OCMockObject partialMockForObject:[Criteo sharedCriteo]];
+    id mockMopub = [OCMockObject partialMockForObject:[MoPub sharedInstance]];
+    CRInterstitialCustomEvent *event = [[CRInterstitialCustomEvent alloc] initWithInterstitial:mockInterstitial];
+    OCMStub([mockMopub currentConsentStatus]).andReturn(MPConsentStatusDoNotTrack);
+
+    [mockCriteo setExpectationOrderMatters:YES];
+    OCMExpect([mockCriteo setMopubConsent:@"dnt"]);
+    OCMExpect([mockCriteo registerCriteoPublisherId:[OCMArg any]
+                                        withAdUnits:[OCMArg any]]);
+
+    [event requestInterstitialWithCustomEventInfo:info];
+    OCMVerifyAll(mockCriteo);
+}
+
 @end

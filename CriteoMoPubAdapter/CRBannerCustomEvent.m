@@ -18,6 +18,7 @@
 
 #import "CRBannerCustomEvent.h"
 #import "CRCustomEventHelper.h"
+#import "NSString+MPConsentStatus.h"
 
 // Private properties
 @interface CRBannerCustomEvent()
@@ -47,6 +48,7 @@
         }
         return;
     }
+    [Criteo.sharedCriteo setMopubConsent:[NSString stringFromConsentStatus:MoPub.sharedInstance.currentConsentStatus]];
     CRBannerAdUnit *bannerAdUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:info[@"adUnitId"] size:size];
     [[Criteo sharedCriteo] registerCriteoPublisherId:info[@"cpId"] withAdUnits:@[bannerAdUnit]];
     // MoPub SDK instantiates a new CustomEvent object on every ad call so the bannerView will not be reused.

@@ -20,6 +20,7 @@
 #import "CRBannerCustomEvent.h"
 #import <MoPub.h>
 #import <OCMock.h>
+@import CriteoPublisherSdk;
 
 // Private properties (duplicates code in CRBannerCustomEvent.m so that we can use them in testing)
 @interface CRBannerCustomEvent()
@@ -105,6 +106,22 @@
     OCMExpect([mockBannerView loadAd]);
     [bannerCustomEvent requestAdWithSize:adUnitSize customEventInfo:info];
     OCMVerifyAll(mockBannerView);
+}
+
+- (void)testBannerViewSetMopubConsent {
+    id mockCriteo = [OCMockObject partialMockForObject:[Criteo sharedCriteo]];
+    id mockMopub = [OCMockObject partialMockForObject:[MoPub sharedInstance]];
+    CRBannerCustomEvent *bannerCustomEvent = [[CRBannerCustomEvent alloc] init];
+    OCMStub([mockMopub currentConsentStatus]).andReturn(MPConsentStatusDenied);
+
+    [mockCriteo setExpectationOrderMatters:YES];
+    OCMExpect([mockCriteo setMopubConsent:@"explicit_no"]);
+    OCMExpect([mockCriteo registerCriteoPublisherId:[OCMArg any]
+                                        withAdUnits:[OCMArg any]]);
+
+    [bannerCustomEvent requestAdWithSize:adUnitSize customEventInfo:info];
+
+    OCMVerifyAll(mockCriteo);
 }
 
 # pragma mark - Delegate tests
