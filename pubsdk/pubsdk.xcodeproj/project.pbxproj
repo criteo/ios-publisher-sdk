@@ -124,6 +124,8 @@
 		654858AA226538D500DC471A /* CRInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 654858A6226538D500DC471A /* CRInterstitial.m */; };
 		65E3A5732270CB7A004156E9 /* CR_InterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */; };
 		65E3A5742270CB7A004156E9 /* CR_InterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */; };
+		7D00897023EAD19C00BA8F96 /* CRBannerViewDelegateMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D00896F23EAD19C00BA8F96 /* CRBannerViewDelegateMock.m */; };
+		7D00897123EAD19C00BA8F96 /* CRBannerViewDelegateMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D00896F23EAD19C00BA8F96 /* CRBannerViewDelegateMock.m */; };
 		7D07DA1C23DAF6DD00ECCF02 /* CR_CCPAConsent.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D07DA1A23DAF6DD00ECCF02 /* CR_CCPAConsent.h */; };
 		7D07DA1D23DAF6DD00ECCF02 /* CR_CCPAConsent.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D07DA1A23DAF6DD00ECCF02 /* CR_CCPAConsent.h */; };
 		7D07DA1E23DAF6DD00ECCF02 /* CR_CCPAConsent.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D07DA1B23DAF6DD00ECCF02 /* CR_CCPAConsent.m */; };
@@ -449,6 +451,8 @@
 		65E3A56F2270CB7A004156E9 /* CR_InterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_InterstitialViewController.h; sourceTree = "<group>"; };
 		65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_InterstitialViewController.m; sourceTree = "<group>"; };
 		6F187272CD050435F6D28BFA /* libPods-pubsdkTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pubsdkTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D00896E23EAD19B00BA8F96 /* CRBannerViewDelegateMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRBannerViewDelegateMock.h; sourceTree = "<group>"; };
+		7D00896F23EAD19C00BA8F96 /* CRBannerViewDelegateMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRBannerViewDelegateMock.m; sourceTree = "<group>"; };
 		7D07DA1A23DAF6DD00ECCF02 /* CR_CCPAConsent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_CCPAConsent.h; sourceTree = "<group>"; };
 		7D07DA1B23DAF6DD00ECCF02 /* CR_CCPAConsent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_CCPAConsent.m; sourceTree = "<group>"; };
 		7D344F6A23D9A5F70029E653 /* CR_BidManagerIntegrationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_BidManagerIntegrationTests.m; sourceTree = "<group>"; };
@@ -964,12 +968,14 @@
 		7D523C8423DECF7F00E79C88 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
-				6540470D22581D32009235A1 /* MockWKWebView.h */,
-				6540470E22581D32009235A1 /* MockWKWebView.m */,
 				7DA2F5BB23A0D9E400B35524 /* CR_DataProtectionConsentMock.h */,
 				7DA2F5BC23A0D9E400B35524 /* CR_DataProtectionConsentMock.m */,
 				7D523C8523DECFD600E79C88 /* CR_DeviceInfoMock.h */,
 				7D523C8623DECFD600E79C88 /* CR_DeviceInfoMock.m */,
+				7D00896E23EAD19B00BA8F96 /* CRBannerViewDelegateMock.h */,
+				7D00896F23EAD19C00BA8F96 /* CRBannerViewDelegateMock.m */,
+				6540470D22581D32009235A1 /* MockWKWebView.h */,
+				6540470E22581D32009235A1 /* MockWKWebView.m */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -1594,6 +1600,7 @@
 				7D523C8823DECFD600E79C88 /* CR_DeviceInfoMock.m in Sources */,
 				54F1E6B7239FA19C00985D09 /* UIView+Testing.m in Sources */,
 				7DB5F90B23AA2B2500EF5602 /* CR_NetworkManagerMock.m in Sources */,
+				7D00897123EAD19C00BA8F96 /* CRBannerViewDelegateMock.m in Sources */,
 				7D3E424D23915D8700BAF673 /* CR_CacheManagerTests.m in Sources */,
 				7D3E426323915DAC00BAF673 /* CR_NativeAssetsTests.m in Sources */,
 				7D3E425423915D8700BAF673 /* CRNativeAdUnitTests.m in Sources */,
@@ -1710,6 +1717,7 @@
 				54680B7623969D5C00DB5A37 /* CR_IntegrationsTestBase.m in Sources */,
 				7D344F6B23D9A5F70029E653 /* CR_BidManagerIntegrationTests.m in Sources */,
 				7D3E424023915B6600BAF673 /* CRInterstitialAdUnitTests.m in Sources */,
+				7D00897023EAD19C00BA8F96 /* CRBannerViewDelegateMock.m in Sources */,
 				7D3E423C23915B6600BAF673 /* CR_BidManagerHelperTests.m in Sources */,
 				7D3E424523915B6600BAF673 /* CR_TokenValueTests.m in Sources */,
 				7D3E423823915B6600BAF673 /* CR_ApiHandlerTests.m in Sources */,

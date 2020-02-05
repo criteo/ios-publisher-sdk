@@ -21,6 +21,10 @@
 #import "CR_Config.h"
 #import "CRInterstitialAdUnit.h"
 #import "CR_Timer.h"
+#import "CRBannerViewDelegateMock.h"
+#import "XCTestCase+Criteo.h"
+
+NSTimeInterval CRBannerViewDelegateTestsTimeoutForDelegate = .5;
 
 @interface CRBannerViewDelegateTests : XCTestCase
 {
@@ -87,18 +91,20 @@
     WKWebView *realWebView = [WKWebView new];
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
     OCMStub(mockCriteo.config).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
+    OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn([self bidWithDisplayURL:@"test"]);
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:mockCriteo
                                                            webView:realWebView
                                                        application:nil
                                                             adUnit:self.adUnit];
-    id mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
-    bannerView.delegate = mockBannerViewDelegate;
-    OCMExpect([mockBannerViewDelegate bannerDidReceiveAd:bannerView]);
 
-    OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn([self bidWithDisplayURL:@"test"]);
+    CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];
+    bannerView.delegate = delegate;
+
     [bannerView loadAd];
-    OCMVerifyAllWithDelay(mockBannerViewDelegate, 1);
+
+    [self waitForExpectations:@[delegate.didReceiveAdExpectation]
+                      timeout:CRBannerViewDelegateTestsTimeoutForDelegate];
 }
 
 // test banner fail when an empty bid is returned
@@ -110,17 +116,18 @@
                                                        application:nil
                                                             adUnit:self.adUnit];
 
-    id mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
-    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNoFill];
-    bannerView.delegate = mockBannerViewDelegate;
-    OCMExpect([mockBannerViewDelegate banner:bannerView
-                 didFailToReceiveAdWithError:expectedError]);
+    CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];
+    delegate.expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNoFill];
+    bannerView.delegate = delegate;
     CR_CacheAdUnit *expectedAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
                                                                          size:CGSizeMake(47.0f, 57.0f)
                                                                    adUnitType:CRAdUnitTypeBanner];
     OCMStub([mockCriteo getBid:expectedAdUnit]).andReturn([CR_CdbBid emptyBid]);
+
     [bannerView loadAd];
-    OCMVerifyAllWithDelay(mockBannerViewDelegate, 1);
+
+    [self waitForExpectations:@[delegate.didFailToReceiveAdWithErrorExpectation]
+                      timeout:CRBannerViewDelegateTestsTimeoutForDelegate];
 }
 
 - (void)testBannerWillLeaveApplicationAndWasClicked {
@@ -130,10 +137,10 @@
                                                            webView:nil
                                                        application:mockApplication
                                                             adUnit:self.adUnit];
-    id mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
-    bannerView.delegate = mockBannerViewDelegate;
-    OCMExpect([mockBannerViewDelegate bannerWillLeaveApplication:bannerView]);
-    OCMExpect([mockBannerViewDelegate bannerWasClicked:bannerView]);
+    CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];
+    delegate.expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNoFill];
+    bannerView.delegate = delegate;
+
     WKNavigationAction *mockNavigationAction = OCMStrictClassMock([WKNavigationAction class]);
     OCMStub(mockNavigationAction.navigationType).andReturn(WKNavigationTypeLinkActivated);
     WKFrameInfo *mockFrame = OCMStrictClassMock([WKFrameInfo class]);
@@ -144,10 +151,13 @@
     OCMStub(mockNavigationAction.request).andReturn(request);
     OCMStub([mockApplication canOpenURL:url]).andReturn(YES);
     OCMStub([mockApplication openURL:url]);
+
     [bannerView webView:nil decidePolicyForNavigationAction:mockNavigationAction
         decisionHandler:^(WKNavigationActionPolicy decisionHandler) {
         }];
-    OCMVerifyAllWithDelay(mockBannerViewDelegate, 1);
+
+    [self waitForExpectations:@[delegate.wasClickedExpectation, delegate.willLeaveApplicationExpectation]
+                      timeout:CRBannerViewDelegateTestsTimeoutForDelegate];
 }
 
 // test no delegate method called when webView navigation fails
@@ -157,21 +167,14 @@
                                                            webView:nil
                                                        application:nil
                                                             adUnit:self.adUnit];
-    id<CRBannerViewDelegate> mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
-    bannerView.delegate = mockBannerViewDelegate;
-    OCMReject([mockBannerViewDelegate banner:bannerView
-                 didFailToReceiveAdWithError:[OCMArg any]]);
-    OCMReject([mockBannerViewDelegate bannerDidReceiveAd:bannerView]);
-    XCTestExpectation *bannerWebViewNavigationFailExpectation = [self expectationWithDescription:@"No delegate methods are called"];
-    [bannerView webView:nil didFailNavigation:nil
-              withError:nil];
-    [CR_Timer scheduledTimerWithTimeInterval:2
-                                     repeats:NO
-                                       block:^(NSTimer * _Nonnull timer) {
-                                          [bannerWebViewNavigationFailExpectation fulfill];
-                                        }];
-    [self waitForExpectations:@[bannerWebViewNavigationFailExpectation]
-                      timeout:3];
+    CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];
+    [delegate invertAllExpectations];
+    bannerView.delegate = delegate;
+
+    [bannerView webView:nil didFailNavigation:nil withError:nil];
+
+    [self waitForExpectations:delegate.allExpectations
+                      timeout:CRBannerViewDelegateTestsTimeoutForDelegate];
 }
 
 // test no delegate method called when webView load fails
@@ -181,21 +184,15 @@
                                                            webView:nil
                                                        application:nil
                                                             adUnit:self.adUnit];
-    id<CRBannerViewDelegate> mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
-    bannerView.delegate = mockBannerViewDelegate;
-    OCMReject([mockBannerViewDelegate banner:bannerView
-                 didFailToReceiveAdWithError:[OCMArg any]]);
-    OCMReject([mockBannerViewDelegate bannerDidReceiveAd:bannerView]);
-    XCTestExpectation *bannerWebViewLoadExpectation = [self expectationWithDescription:@"No delegate methods are called"];
-    [bannerView webView:nil didFailProvisionalNavigation:nil
-              withError:nil];
-    [CR_Timer scheduledTimerWithTimeInterval:2
-                                     repeats:NO
-                                       block:^(NSTimer * _Nonnull timer) {
-                                          [bannerWebViewLoadExpectation fulfill];
-                                      }];
-    [self waitForExpectations:@[bannerWebViewLoadExpectation]
-                      timeout:3];
+
+    CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];
+    [delegate invertAllExpectations];
+    bannerView.delegate = delegate;
+
+    [bannerView webView:nil didFailProvisionalNavigation:nil withError:nil];
+
+    [self waitForExpectations:delegate.allExpectations
+                      timeout:CRBannerViewDelegateTestsTimeoutForDelegate];
 }
 
 // test no delegate method called when HTTP error
@@ -205,12 +202,11 @@
                                                            webView:nil
                                                        application:nil
                                                             adUnit:self.adUnit];
-    id<CRBannerViewDelegate> mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
-    bannerView.delegate = mockBannerViewDelegate;
-    OCMReject([mockBannerViewDelegate banner:bannerView
-                 didFailToReceiveAdWithError:[OCMArg any]]);
-    OCMReject([mockBannerViewDelegate bannerDidReceiveAd:bannerView]);
-    XCTestExpectation *bannerHTTPErrorExpectation = [self expectationWithDescription:@"No delegate methods are called"];
+
+    CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];
+    [delegate invertAllExpectations];
+    bannerView.delegate = delegate;
+
     WKNavigationResponse *navigationResponse = OCMStrictClassMock([WKNavigationResponse class]);
     NSHTTPURLResponse *response = OCMStrictClassMock([NSHTTPURLResponse class]);
     OCMStub(response.statusCode).andReturn(404);
@@ -218,13 +214,10 @@
     [bannerView webView:nil decidePolicyForNavigationResponse:navigationResponse
         decisionHandler:^(WKNavigationResponsePolicy decisionHandler) {
         }];
-    [CR_Timer scheduledTimerWithTimeInterval:2
-                                     repeats:NO
-                                       block:^(NSTimer * _Nonnull timer) {
-                                          [bannerHTTPErrorExpectation fulfill];
-                                      }];
-    [self waitForExpectations:@[bannerHTTPErrorExpectation]
-                      timeout:3];
+
+
+    [self waitForExpectations:delegate.allExpectations
+                      timeout:CRBannerViewDelegateTestsTimeoutForDelegate];
 }
 
 - (void)testNoDelegateWhenNoHttpResponse {
@@ -236,13 +229,14 @@
                                                            webView:realWebView
                                                        application:nil
                                                             adUnit:self.adUnit];
-    id mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
-    bannerView.delegate = mockBannerViewDelegate;
-    OCMExpect([mockBannerViewDelegate bannerDidReceiveAd:bannerView]);
+
+    CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];
+    bannerView.delegate = delegate;
 
     OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn([self bidWithDisplayURL:@""]);
     [bannerView loadAd];
-    OCMVerifyAllWithDelay(mockBannerViewDelegate, 1);
+    [self waitForExpectations:@[delegate.didReceiveAdExpectation]
+                      timeout:CRBannerViewDelegateTestsTimeoutForDelegate];
 }
 
 # pragma mark inhouseSpecificTests
@@ -263,17 +257,14 @@
     OCMStub([mockBannerViewDelegate banner:bannerView
                   didFailToReceiveAdWithError:[OCMArg any]]);
     [bannerView loadAdWithBidToken:token];
-    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNoFill];
-    XCTestExpectation *bannerAdFetchFailExpectation = [self expectationWithDescription:@"bannerDidFail due to nil tokenValue with error delegate method called"];
-    [CR_Timer scheduledTimerWithTimeInterval:3
-                                     repeats:NO
-                                       block:^(NSTimer * _Nonnull timer) {
-                                          OCMVerify([mockBannerViewDelegate banner:bannerView
-                                                          didFailToReceiveAdWithError:expectedError]);
-                                          [bannerAdFetchFailExpectation fulfill];
-                                      }];
-    [self waitForExpectations:@[bannerAdFetchFailExpectation]
-                      timeout:5];
+
+    CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];
+    delegate.expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNoFill];
+    bannerView.delegate = delegate;
+
+    [bannerView loadAdWithBidToken:token];
+
+    [self criteo_waitForExpectations:@[delegate.didFailToReceiveAdWithErrorExpectation]];
 }
 
 - (void)testBannerLoadFailWhenTokenValueDoesntMatchAdUnitId {
@@ -292,22 +283,14 @@
                                                                               ttl:200
                                                                            adUnit:adUnit2];
     OCMStub([mockCriteo tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner]).andReturn(expectedTokenValue);
-    id<CRBannerViewDelegate>mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
-    bannerView.delegate = mockBannerViewDelegate;
-    OCMStub([mockBannerViewDelegate banner:bannerView
-               didFailToReceiveAdWithError:[OCMArg any]]);
+
+    CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];
+    delegate.expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidParameter description:@"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRBannerView was initialized with"];
+    bannerView.delegate = delegate;
+
     [bannerView loadAdWithBidToken:token];
-    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidParameter description:@"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRBannerView was initialized with"];
-    XCTestExpectation *bannerAdFetchFailExpectation = [self expectationWithDescription:@"bannerDidFail due to nil tokenValue with error delegate method called"];
-    [CR_Timer scheduledTimerWithTimeInterval:3
-                                     repeats:NO
-                                       block:^(NSTimer * _Nonnull timer) {
-                                          OCMVerify([mockBannerViewDelegate banner:bannerView
-                                                       didFailToReceiveAdWithError:expectedError]);
-                                          [bannerAdFetchFailExpectation fulfill];
-                                      }];
-    [self waitForExpectations:@[bannerAdFetchFailExpectation]
-                      timeout:5];
+
+    [self criteo_waitForExpectations:@[delegate.didFailToReceiveAdWithErrorExpectation]];
 }
 
 - (void)testBannerLoadFailWhenTokenValueDoesntMatchAdUnitType {
@@ -331,17 +314,14 @@
     OCMStub([mockBannerViewDelegate banner:bannerView
                didFailToReceiveAdWithError:[OCMArg any]]);
     [bannerView loadAdWithBidToken:token];
-    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidParameter description:@"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRBannerView was initialized with"];
-    XCTestExpectation *bannerAdFetchFailExpectation = [self expectationWithDescription:@"bannerDidFail due to nil tokenValue with error delegate method called"];
-    [CR_Timer scheduledTimerWithTimeInterval:3
-                                     repeats:NO
-                                       block:^(NSTimer * _Nonnull timer) {
-                                          OCMVerify([mockBannerViewDelegate banner:bannerView
-                                                       didFailToReceiveAdWithError:expectedError]);
-                                          [bannerAdFetchFailExpectation fulfill];
-                                      }];
-    [self waitForExpectations:@[bannerAdFetchFailExpectation]
-                      timeout:5];
+
+    CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];
+    delegate.expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidParameter description:@"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRBannerView was initialized with"];
+    bannerView.delegate = delegate;
+
+    [bannerView loadAdWithBidToken:token];
+
+    [self criteo_waitForExpectations:@[delegate.didFailToReceiveAdWithErrorExpectation]];
 }
 
 - (void)testBannerDidLoadForValidTokenValue {
@@ -361,19 +341,13 @@
                                                                               ttl:200
                                                                            adUnit:adUnit2];
     OCMStub([mockCriteo tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner]).andReturn(expectedTokenValue);
-    id<CRBannerViewDelegate>mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
-    bannerView.delegate = mockBannerViewDelegate;
-    OCMStub([mockBannerViewDelegate bannerDidReceiveAd:bannerView]);
+
+    CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];
+    bannerView.delegate = delegate;
+
     [bannerView loadAdWithBidToken:token];
-    XCTestExpectation *bannerAdFetchExpectation = [self expectationWithDescription:@"bannerDidReceiveAd called"];
-    [CR_Timer scheduledTimerWithTimeInterval:3
-                                     repeats:NO
-                                       block:^(NSTimer * _Nonnull timer) {
-                                          OCMVerify([mockBannerViewDelegate bannerDidReceiveAd:bannerView]);
-                                          [bannerAdFetchExpectation fulfill];
-                                      }];
-    [self waitForExpectations:@[bannerAdFetchExpectation]
-                      timeout:5];
+
+    [self criteo_waitForExpectations:@[delegate.didReceiveAdExpectation]];
 }
 
 @end
