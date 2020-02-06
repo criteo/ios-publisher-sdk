@@ -12,18 +12,23 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, CR_NetworkManagerDecoratorStrategy) {
+    CR_NetworkManagerDecoratorStrategySimulating,
+    CR_NetworkManagerDecoratorStrategyCapturing,
+    CR_NetworkManagerDecoratorStrategyCapturingAndRecording
+};
+
 @interface CR_NetworkManagerDecorator : NSObject
 
-@property (nonatomic, assign, getter=isRecording) BOOL recording;
-@property (nonatomic, assign, getter=isReplaying) BOOL replaying;
+@property (nonatomic, assign, getter=isSimulating) BOOL simulating;
 @property (nonatomic, assign, getter=isCapturing) BOOL capturing;
 
-+ (instancetype)decoratorFromConfiguration;
++ (instancetype)decoratorFromConfiguration:(CR_Config *)config;
 
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithRecordind:(BOOL)recording
-                        replaying:(BOOL)replaying
-                        capturing:(BOOL)capturing NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithSimulating:(BOOL)simulating
+                         capturing:(BOOL)capturing
+                            config:(CR_Config *)config NS_DESIGNATED_INITIALIZER;
 
 /** Should be called in the same thread of the test method. */
 - (CR_NetworkManager *)decorateNetworkManager:(CR_NetworkManager *)networkManager;

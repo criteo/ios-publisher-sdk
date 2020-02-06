@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSURL (Testing)
 
 - (BOOL)testing_isBidUrlWithConfig:(CR_Config *)config;
+- (BOOL)testing_isAppEventUrlWithConfig:(CR_Config *)config;
 - (BOOL)testing_isAppLaunchEventUrlWithConfig:(CR_Config *)config;
 - (BOOL)testing_isConfigEventUrlWithConfig:(CR_Config *)config;
 
