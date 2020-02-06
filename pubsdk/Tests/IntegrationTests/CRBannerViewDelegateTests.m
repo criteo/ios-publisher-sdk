@@ -24,7 +24,7 @@
 #import "CRBannerViewDelegateMock.h"
 #import "XCTestCase+Criteo.h"
 
-NSTimeInterval CRBannerViewDelegateTestsTimeoutForDelegate = .5;
+NSTimeInterval kExpectedTimeout = .5;
 
 @interface CRBannerViewDelegateTests : XCTestCase
 {
@@ -104,7 +104,7 @@ NSTimeInterval CRBannerViewDelegateTestsTimeoutForDelegate = .5;
     [bannerView loadAd];
 
     [self waitForExpectations:@[delegate.didReceiveAdExpectation]
-                      timeout:CRBannerViewDelegateTestsTimeoutForDelegate];
+                      timeout:kExpectedTimeout];
 }
 
 // test banner fail when an empty bid is returned
@@ -127,7 +127,7 @@ NSTimeInterval CRBannerViewDelegateTestsTimeoutForDelegate = .5;
     [bannerView loadAd];
 
     [self waitForExpectations:@[delegate.didFailToReceiveAdWithErrorExpectation]
-                      timeout:CRBannerViewDelegateTestsTimeoutForDelegate];
+                      timeout:kExpectedTimeout];
 }
 
 - (void)testBannerWillLeaveApplicationAndWasClicked {
@@ -138,7 +138,6 @@ NSTimeInterval CRBannerViewDelegateTestsTimeoutForDelegate = .5;
                                                        application:mockApplication
                                                             adUnit:self.adUnit];
     CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];
-    delegate.expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNoFill];
     bannerView.delegate = delegate;
 
     WKNavigationAction *mockNavigationAction = OCMStrictClassMock([WKNavigationAction class]);
@@ -157,7 +156,7 @@ NSTimeInterval CRBannerViewDelegateTestsTimeoutForDelegate = .5;
         }];
 
     [self waitForExpectations:@[delegate.wasClickedExpectation, delegate.willLeaveApplicationExpectation]
-                      timeout:CRBannerViewDelegateTestsTimeoutForDelegate];
+                      timeout:kExpectedTimeout];
 }
 
 // test no delegate method called when webView navigation fails
@@ -174,7 +173,7 @@ NSTimeInterval CRBannerViewDelegateTestsTimeoutForDelegate = .5;
     [bannerView webView:nil didFailNavigation:nil withError:nil];
 
     [self waitForExpectations:delegate.allExpectations
-                      timeout:CRBannerViewDelegateTestsTimeoutForDelegate];
+                      timeout:kExpectedTimeout];
 }
 
 // test no delegate method called when webView load fails
@@ -192,7 +191,7 @@ NSTimeInterval CRBannerViewDelegateTestsTimeoutForDelegate = .5;
     [bannerView webView:nil didFailProvisionalNavigation:nil withError:nil];
 
     [self waitForExpectations:delegate.allExpectations
-                      timeout:CRBannerViewDelegateTestsTimeoutForDelegate];
+                      timeout:kExpectedTimeout];
 }
 
 // test no delegate method called when HTTP error
@@ -217,7 +216,7 @@ NSTimeInterval CRBannerViewDelegateTestsTimeoutForDelegate = .5;
 
 
     [self waitForExpectations:delegate.allExpectations
-                      timeout:CRBannerViewDelegateTestsTimeoutForDelegate];
+                      timeout:kExpectedTimeout];
 }
 
 - (void)testNoDelegateWhenNoHttpResponse {
@@ -236,7 +235,7 @@ NSTimeInterval CRBannerViewDelegateTestsTimeoutForDelegate = .5;
     OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn([self bidWithDisplayURL:@""]);
     [bannerView loadAd];
     [self waitForExpectations:@[delegate.didReceiveAdExpectation]
-                      timeout:CRBannerViewDelegateTestsTimeoutForDelegate];
+                      timeout:kExpectedTimeout];
 }
 
 # pragma mark inhouseSpecificTests
