@@ -30,7 +30,7 @@ NSString * const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String
 @implementation CR_DataProtectionConsent
 
 + (NSArray<NSString *> *)mopubConsentDeclinedStrings {
-    return @[ @"EXPLICIT_NO", @"POTENTIAL_WHITELIST", @"DNT"];
+    return @[ @"EXPLICIT_NO", @"POTENTIAL_WHITELIST", @"DNT" ];
 }
 
 - (instancetype)init {
@@ -84,7 +84,8 @@ NSString * const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String
 }
 
 - (BOOL)_isMopubConsentDeclined {
-    return [self.class.mopubConsentDeclinedStrings containsObject:self.mopubConsent];
+    NSString *uppercases = [self.mopubConsent uppercaseString];
+    return [self.class.mopubConsentDeclinedStrings containsObject:uppercases];
 }
 
 @end

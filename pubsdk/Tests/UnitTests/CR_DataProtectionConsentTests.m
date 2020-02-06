@@ -190,6 +190,11 @@ do { \
     CR_AssertShouldSendEvent(nil, CR_CCPACriteoStateUnset, @"EXPLICIT_NO", NO);
     CR_AssertShouldSendEvent(nil, CR_CCPACriteoStateUnset, @"POTENTIAL_WHITELIST", NO);
     CR_AssertShouldSendEvent(nil, CR_CCPACriteoStateUnset, @"DNT", NO);
+    CR_AssertShouldSendEvent(nil, CR_CCPACriteoStateUnset, @"explicit_yes", YES);
+    CR_AssertShouldSendEvent(nil, CR_CCPACriteoStateUnset, @"unknown", YES);
+    CR_AssertShouldSendEvent(nil, CR_CCPACriteoStateUnset, @"explicit_no", NO);
+    CR_AssertShouldSendEvent(nil, CR_CCPACriteoStateUnset, @"potential_whitelist", NO);
+    CR_AssertShouldSendEvent(nil, CR_CCPACriteoStateUnset, @"dnt", NO);
 
     // Not-empty IAB consent string takes over the criteo state.
     CR_AssertShouldSendEvent(@"random string", CR_CCPACriteoStateOptIn, nil, YES);
