@@ -10,7 +10,6 @@
 #import "CR_Config.h"
 #import "CR_NetworkManagerSimulator.h"
 #import "CR_NetworkCaptor.h"
-#import "CR_NetworkSessionReader.h"
 #import "CR_DeviceInfo.h"
 #import "Criteo+Testing.h"
 #import "MockWKWebView.h"

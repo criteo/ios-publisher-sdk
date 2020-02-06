@@ -9,7 +9,6 @@
 #import "Criteo+Internal.h"
 #import "CR_NetworkManagerDecorator.h"
 #import "CR_NetworkCaptor.h"
-#import "CR_NetworkSessionRecorder.h"
 #import "CR_NetworkManagerSimulator.h"
 #import "CR_BidManagerBuilder.h"
 #import "CRInterstitialAdUnit.h"
