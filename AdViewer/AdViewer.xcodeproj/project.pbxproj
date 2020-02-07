@@ -19,8 +19,8 @@
 		40DE984B219F533300C4BA05 /* AdViewerTest2.m in Sources */ = {isa = PBXBuildFile; fileRef = 40DE984A219F533300C4BA05 /* AdViewerTest2.m */; };
 		54B578F223682A9B004DF616 /* StandaloneTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 54B578F123682A9A004DF616 /* StandaloneTableViewController.m */; };
 		54B579152369CE5C004DF616 /* IntegrationBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 54B579142369CE5C004DF616 /* IntegrationBaseTableViewController.m */; };
-		54CAF8CE232C5DB90050D8D9 /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CAF8CD232C5DB90050D8D9 /* CriteoPublisherSdk.framework */; };
 		54CAF8D2232C5EC70050D8D9 /* MopubTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CAF8D1232C5EC70050D8D9 /* MopubTableViewController.m */; };
+		7DC4A1D523EC73A20027DB5E /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CAF8C9232C2F990050D8D9 /* CriteoPublisherSdk.framework */; };
 		E73EE276C44A5021AC3258C6 /* libPods-AdViewer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE22D35658ED0F4914AE6FB /* libPods-AdViewer.a */; };
 /* End PBXBuildFile section */
 
@@ -81,7 +81,6 @@
 		54B579132369CE5C004DF616 /* IntegrationBaseTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntegrationBaseTableViewController.h; sourceTree = "<group>"; };
 		54B579142369CE5C004DF616 /* IntegrationBaseTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntegrationBaseTableViewController.m; sourceTree = "<group>"; };
 		54CAF8C9232C2F990050D8D9 /* CriteoPublisherSdk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CriteoPublisherSdk.framework; sourceTree = "<group>"; };
-		54CAF8CD232C5DB90050D8D9 /* CriteoPublisherSdk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CriteoPublisherSdk.framework; path = ../../fuji/build/output/CriteoPublisherSdk.framework; sourceTree = "<group>"; };
 		54CAF8D0232C5EC70050D8D9 /* MopubTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MopubTableViewController.h; path = AdViewer/MopubHB/MopubTableViewController.h; sourceTree = SOURCE_ROOT; };
 		54CAF8D1232C5EC70050D8D9 /* MopubTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MopubTableViewController.m; path = AdViewer/MopubHB/MopubTableViewController.m; sourceTree = SOURCE_ROOT; };
 		64AA5508A38A4FE3F3B75508 /* Pods-AdViewer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdViewer.release.xcconfig"; path = "Target Support Files/Pods-AdViewer/Pods-AdViewer.release.xcconfig"; sourceTree = "<group>"; };
@@ -94,7 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54CAF8CE232C5DB90050D8D9 /* CriteoPublisherSdk.framework in Frameworks */,
+				7DC4A1D523EC73A20027DB5E /* CriteoPublisherSdk.framework in Frameworks */,
 				E73EE276C44A5021AC3258C6 /* libPods-AdViewer.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -257,7 +256,6 @@
 		AEB379A3E47D7093DEBA6DA1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				54CAF8CD232C5DB90050D8D9 /* CriteoPublisherSdk.framework */,
 				BAE22D35658ED0F4914AE6FB /* libPods-AdViewer.a */,
 			);
 			path = Frameworks;
@@ -635,6 +633,10 @@
 				);
 				INFOPLIST_FILE = AdViewer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.PublisherSDKTester;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -671,6 +673,10 @@
 				);
 				INFOPLIST_FILE = AdViewer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.PublisherSDKTester;
 				PRODUCT_NAME = "$(TARGET_NAME)";
