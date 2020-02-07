@@ -6,6 +6,8 @@
 //  Copyright © 2018 Criteo. All rights reserved.
 //
 
+#import <MoPub.h>
+#import "NSString+MPConsentStatus.h"
 #import "HomePageTableViewController.h"
 #import "MopubTableViewController.h"
 #import "GoogleDFPTableViewController.h"
@@ -14,11 +16,14 @@
 NSString * const HomePageTableViewControllerUsPrivacyIabConsentStringKey = @"IABUSPrivacy_String";
 
 @interface HomePageTableViewController () <NetworkManagerDelegate, UITextFieldDelegate>
+
+@property (strong, nonatomic) MoPub *mopub;
 @property (strong, nonatomic) Criteo *criteo;
 @property (strong, nonatomic) NSUserDefaults *userDefaults;
 @property (weak, nonatomic) IBOutlet UISwitch *gdprSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *criteoCcpaSwitch;
 @property (weak, nonatomic) IBOutlet UITextField *iabCcpaTextField;
+@property (weak, nonatomic) IBOutlet UITextField *mopubTextField;
 @property (weak, nonatomic) GoogleDFPTableViewController *googleDfpVC;
 @property (weak, nonatomic) MopubTableViewController *moPubVC;
 @property (weak, nonatomic) StandaloneTableViewController *standaloneVC;
@@ -30,6 +35,7 @@ NSString * const HomePageTableViewControllerUsPrivacyIabConsentStringKey = @"IAB
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.criteo = [Criteo sharedCriteo];
+    self.mopub = [MoPub sharedInstance];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     [self clearUserDefaults];
     [self _setupCriteoCcpaSwitch];
@@ -202,13 +208,19 @@ NSString * const HomePageTableViewControllerUsPrivacyIabConsentStringKey = @"IAB
     [self.criteo setUsPrivacyOptOut:self.criteoCcpaSwitch.on];
 }
 
-- (IBAction)onTextFieldChange:(UITextField *)textField {
+- (IBAction)onCCPAIabChange:(UITextField *)textField {
     [self.userDefaults setObject:textField.text
                           forKey:HomePageTableViewControllerUsPrivacyIabConsentStringKey];
 }
 
 - (NSString *)_iabCcpaString {
     return [self.userDefaults objectForKey:HomePageTableViewControllerUsPrivacyIabConsentStringKey];
+}
+
+#pragma mark - Mopub
+
+- (IBAction)onMopubConsentChange:(UITextField *)textField {
+    [self.criteo setMopubConsent:textField.text];
 }
 
 #pragma mark - UITextFieldDelegate
