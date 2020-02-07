@@ -25,12 +25,6 @@
 
 @implementation CRCriteoAdapterConfigurationTests
 
-- (void)testAdapterVersion{
-    CRCriteoAdapterConfiguration *config = [[CRCriteoAdapterConfiguration alloc] init];
-    NSString *expectedAdapterVersion = [NSString stringWithFormat:@"%@.%@", [config networkSdkVersion], @"1" ];
-    XCTAssertTrue([[config adapterVersion] isEqualToString:expectedAdapterVersion]);
-}
-
 - (void)testBiddingToken{
     CRCriteoAdapterConfiguration *config = [[CRCriteoAdapterConfiguration alloc] init];
     XCTAssertNil([config biddingToken]);
@@ -39,11 +33,6 @@
 - (void)testmoPubNetworkName{
     CRCriteoAdapterConfiguration *config = [[CRCriteoAdapterConfiguration alloc] init];
     XCTAssertEqual([config moPubNetworkName], @"criteo");
-}
-
-- (void)testNetworkSdkVersion{
-    CRCriteoAdapterConfiguration *config = [[CRCriteoAdapterConfiguration alloc] init];
-    XCTAssertEqual([config networkSdkVersion], @"3.4.0");
 }
 
 @end

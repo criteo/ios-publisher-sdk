@@ -21,7 +21,7 @@
 @implementation CRCriteoAdapterConfiguration
 
 - (NSString *)adapterVersion{
-    return [NSString stringWithFormat:@"%@.%@", [self networkSdkVersion], @"1"];
+    return @"3.4.1.0";
 }
 
 - (NSString *)biddingToken {
@@ -33,7 +33,7 @@
 }
 
 - (NSString *)networkSdkVersion{
-    return @"3.4.0";
+    return @"3.4.1.0";
 }
 
 - (void)initializeNetworkWithConfiguration:(NSDictionary<NSString *, id> *)configuration complete:(void(^)(NSError *))complete {
