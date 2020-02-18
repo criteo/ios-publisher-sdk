@@ -13,6 +13,9 @@
 #import "CR_CreativeViewChecker.h"
 #import "CR_TestAdUnits.h"
 
+static NSString *creativeUrl1 = @"www.criteo.com";
+static NSString *creativeUrl2 = @"www.apple.com";
+
 @interface CR_InHouseFunctionalTests : CR_IntegrationsTestBase
 
 @end
@@ -68,6 +71,41 @@
     [self criteo_waitForExpectations:@[checker.bannerViewFailToReceiveAdExpectation]];
 }
 
+- (void)test_givenTwoAdRenderings_whenReuseSameBannerView_thenTwoAdsPresented {
+    CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
+    [self initCriteoWithAdUnits:@[banner]];
+    CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner criteo:self.criteo];
 
+    [checker injectBidWithExpectedCreativeUrl:creativeUrl2];
+    CRBidResponse *response = [self.criteo getBidResponseForAdUnit:banner];
+    [checker.bannerView loadAdWithBidToken:response.bidToken];
+    [self criteo_waitForExpectations:@[checker.bannerViewDidReceiveAdExpectation]];
+
+    [checker resetExpectations];
+
+    [checker injectBidWithExpectedCreativeUrl:creativeUrl2];
+    response = [self.criteo getBidResponseForAdUnit:banner];
+    [checker.bannerView loadAdWithBidToken:response.bidToken];
+    [self criteo_waitForExpectations:@[checker.bannerViewDidReceiveAdExpectation]];
+}
+
+- (void)test_givenTwoAdRenderings_whenRecreateBannerView_thenTwoAdsPresented {
+    CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
+    [self initCriteoWithAdUnits:@[banner]];
+    CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner criteo:self.criteo];
+
+    [checker injectBidWithExpectedCreativeUrl:creativeUrl1];
+    CRBidResponse *response = [self.criteo getBidResponseForAdUnit:banner];
+    [checker.bannerView loadAdWithBidToken:response.bidToken];
+    [self criteo_waitForExpectations:@[checker.bannerViewDidReceiveAdExpectation]];
+
+    [checker resetExpectations];
+    [checker resetBannerView];
+
+    [checker injectBidWithExpectedCreativeUrl:creativeUrl2];
+    response = [self.criteo getBidResponseForAdUnit:banner];
+    [checker.bannerView loadAdWithBidToken:response.bidToken];
+    [self criteo_waitForExpectations:@[checker.bannerViewDidReceiveAdExpectation]];
+}
 
 @end
