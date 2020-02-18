@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "CR_CCPAConsent.h"
 
+@class CR_Gdpr;
+
 NS_ASSUME_NONNULL_BEGIN
 
 FOUNDATION_EXTERN NSString * const CR_DataProtectionConsentMopubConsentKey;
@@ -22,9 +24,12 @@ FOUNDATION_EXTERN NSString * const CR_DataProtectionConsentMopubConsentKey;
  */
 @interface CR_DataProtectionConsent: NSObject
 
+@property (strong, nonatomic, readonly) CR_Gdpr *gdpr;
+
 @property (copy, readonly, nonatomic) NSString *consentString;
 @property (readonly, nonatomic) BOOL gdprApplies;
 @property (readonly, nonatomic) BOOL consentGiven;
+
 @property (readonly, nonatomic) BOOL isAdTrackingEnabled;
 
 /**

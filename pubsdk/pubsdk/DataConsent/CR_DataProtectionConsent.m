@@ -6,16 +6,13 @@
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#import "CR_DataProtectionConsent.h"
 #import <AdSupport/ASIdentifierManager.h>
 
-/**
- Specification for the GDPR in IAB:
- https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/Mobile%20In-App%20Consent%20APIs%20v1.0%20Final.md#structure
- */
+#import "CR_CCPAConsent.h"
+#import "CR_DataProtectionConsent.h"
+#import "CR_Gdpr.h"
 
 NSString * const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String";
-
 
 @interface CR_DataProtectionConsent ()
 
@@ -23,7 +20,6 @@ NSString * const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String
 
 @property (nonatomic, strong, readonly) NSUserDefaults *userDefaults;
 @property (nonatomic, strong, readonly) CR_CCPAConsent *ccpaConsent;
-
 
 @end
 
@@ -41,18 +37,22 @@ NSString * const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String
     if(self = [super init]) {
         _userDefaults = userDefaults;
         _ccpaConsent = [[CR_CCPAConsent alloc] initWithUserDefaults:userDefaults];
-        _gdprApplies = [userDefaults boolForKey:@"IABConsent_SubjectToGDPR"];
-        _consentString = [userDefaults stringForKey:@"IABConsent_ConsentString"];
-        // set to default
-        _consentGiven = NO;
-        NSString *vendorConsents = [userDefaults stringForKey:@"IABConsent_ParsedVendorConsents"];
-        // Criteo is vendor id 91
-        if(vendorConsents.length >= 91 && [vendorConsents characterAtIndex:90] == '1') {
-            _consentGiven = YES;
-        }
+        _gdpr = [[CR_Gdpr alloc] initWithUserDefaults:userDefaults];
         _isAdTrackingEnabled = [[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled];
     }
     return self;
+}
+
+- (BOOL)gdprApplies {
+    return self.gdpr.isApplied;
+}
+
+- (NSString *)consentString {
+    return self.gdpr.consentString;
+}
+
+- (BOOL)consentGiven {
+    return self.gdpr.consentGivenToCriteo;
 }
 
 - (NSString *)usPrivacyIabConsentString {
