@@ -20,5 +20,14 @@
 @property(nonatomic, readonly) XCTestExpectation *bannerViewDidReceiveAdExpectation;
 @property(nonatomic, readonly) XCTestExpectation *adCreativeRenderedExpectation;
 @property(nonatomic, readonly) CRBannerView *bannerView;
+@property(nonatomic, readonly) CRBannerAdUnit *adUnit;
+@property(nonatomic, readonly) Criteo *criteo;
+@property(nonatomic) NSString *expectedCreativeUrl;
+
+- (void)resetExpectations;
+
+- (void)resetBannerView;
+
+- (void)injectBidWithExpectedCreativeUrl:(NSString *)creativeUrl;
 
 @end

@@ -11,30 +11,32 @@
 #import <XCTest/XCTest.h>
 #import <WebKit/WebKit.h>
 #import "CR_ViewCheckingHelper.h"
+#import "CR_CacheAdUnit.h"
+#import "CR_AdUnitHelper.h"
+#import "CR_CdbBidBuilder.h"
+#import "Criteo+Testing.h"
+#import "CR_BidManagerBuilder.h"
 
 
 @implementation CR_CreativeViewChecker
 
-- (instancetype)initWithAdUnit:(CRBannerAdUnit *)adUnit criteo:(Criteo *)criteo {
+- (instancetype)initWithAdUnit:(CRBannerAdUnit *)adUnitParam criteo:(Criteo *)criteoParam {
     if (self = [super init]) {
-        _bannerViewDidReceiveAdExpectation = [[XCTestExpectation alloc] initWithDescription:@"Expect that CRBannerView will get a bid"];
-        _bannerViewFailToReceiveAdExpectation = [[XCTestExpectation alloc] initWithDescription:@"Expect that CRBannerView will fail to get a bid"];
-        _adCreativeRenderedExpectation = [[XCTestExpectation alloc] initWithDescription:@"Expect that Criteo creative appears."];
+        [self resetExpectations];
         _uiWindow = [self createUIWindow];
-
-        // NOTE: bannerView was created with frame (0; 50; w; h) because with (0; 0; ...) banner is displayed wrong.
-        // TODO: Find a way to render banner with (0;0; ...).
-        _bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(.0, 50.0, adUnit.size.width, adUnit.size.height)
-                                                   criteo:criteo
-                                                  webView:[[WKWebView alloc] initWithFrame:CGRectMake(.0, .0, adUnit.size.width, adUnit.size.height)]
-                                              application:[UIApplication sharedApplication]
-                                                   adUnit:adUnit];
-
-        _bannerView.delegate = self;
-        _bannerView.backgroundColor = UIColor.orangeColor;
-        [_uiWindow.rootViewController.view addSubview:_bannerView];
+        _adUnit = adUnitParam;
+        _criteo = criteoParam;
+        [self resetBannerView];
+        _expectedCreativeUrl = [CR_ViewCheckingHelper preprodCreativeImageUrl];
     }
     return self;
+}
+
+- (void)injectBidWithExpectedCreativeUrl:(NSString *)creativeUrl {
+    self.expectedCreativeUrl = creativeUrl;
+    CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:self.adUnit];
+    CR_CdbBid *bid = CR_CdbBidBuilder.new.adUnit(cacheAdUnit).cpm(@"15.00").displayUrl(creativeUrl).build;
+    self.criteo.bidManagerBuilder.cacheManager.bidCache[cacheAdUnit] = bid;
 }
 
 #pragma mark - CRBannerViewDelegate methods
@@ -45,7 +47,7 @@
 }
 
 - (void)bannerWillLeaveApplication:(CRBannerView *)bannerView {
-    NSLog(@"[AAAA] bannerWillLeaveApplication");
+    NSLog(@"[CR_CreativeViewChecker] bannerWillLeaveApplication");
 }
 
 - (void)bannerDidReceiveAd:(CRBannerView *)bannerView {
@@ -55,6 +57,27 @@
                                        block:^(NSTimer *_Nonnull timer) {
                                            [self checkViewAndFulfillExpectation];
                                        }];
+}
+
+- (void)resetExpectations {
+    _bannerViewDidReceiveAdExpectation = [[XCTestExpectation alloc] initWithDescription:@"Expect that CRBannerView will get a bid"];
+    _bannerViewFailToReceiveAdExpectation = [[XCTestExpectation alloc] initWithDescription:@"Expect that CRBannerView will fail to get a bid"];
+    _adCreativeRenderedExpectation = [[XCTestExpectation alloc] initWithDescription:@"Expect that Criteo creative appears."];
+}
+
+- (void)resetBannerView {
+    [_bannerView removeFromSuperview];
+    // NOTE: bannerView was created with frame (0; 50; w; h) because with (0; 0; ...) banner is displayed wrong.
+    // TODO: Find a way to render banner with (0;0; ...).
+    _bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(.0, 50.0, self.adUnit.size.width, self.adUnit.size.height)
+                                               criteo:self.criteo
+                                              webView:[[WKWebView alloc] initWithFrame:CGRectMake(.0, .0, self.adUnit.size.width, self.adUnit.size.height)]
+                                          application:[UIApplication sharedApplication]
+                                               adUnit:self.adUnit];
+
+    _bannerView.delegate = self;
+    _bannerView.backgroundColor = UIColor.orangeColor;
+    [_uiWindow.rootViewController.view addSubview:_bannerView];
 }
 
 
@@ -72,7 +95,7 @@
     WKWebView *firstWebView = [self.uiWindow testing_findFirstWKWebView];
     [firstWebView evaluateJavaScript:@"(function() { return document.getElementsByTagName('html')[0].outerHTML; })();"
                    completionHandler:^(NSString *htmlContent, NSError *err) {
-                       if ([htmlContent containsString:[CR_ViewCheckingHelper preprodCreativeImageUrl]]) {
+                       if ([htmlContent containsString:self.expectedCreativeUrl]) {
                            [self.adCreativeRenderedExpectation fulfill];
                        }
                        self.uiWindow.hidden = YES;

@@ -10,10 +10,11 @@
 #import "CR_IntegrationsTestBase.h"
 #import "CR_TestAdUnits.h"
 #import "CRBannerView.h"
-#import "CRBannerView+Internal.h"
 #import "XCTestCase+Criteo.h"
 #import "CR_CreativeViewChecker.h"
 
+static NSString *creativeUrl1 = @"www.criteo.com";
+static NSString *creativeUrl2 = @"www.apple.com";
 
 @interface CR_StandaloneBannerFunctionalTests : CR_IntegrationsTestBase
 
@@ -49,6 +50,39 @@
 
     [viewChecker.bannerView loadAd];
 
+    [self criteo_waitForExpectations:@[viewChecker.adCreativeRenderedExpectation]];
+}
+
+- (void)test_givenTwoAdRenderings_whenReuseSameBannerView_thenTwoAdsPresented {
+    CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
+    [self initCriteoWithAdUnits:@[banner]];
+    CR_CreativeViewChecker *viewChecker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner criteo:self.criteo];
+
+    [viewChecker injectBidWithExpectedCreativeUrl:creativeUrl1];
+    [viewChecker.bannerView loadAd];
+    [self criteo_waitForExpectations:@[viewChecker.adCreativeRenderedExpectation]];
+
+    [viewChecker resetExpectations];
+
+    [viewChecker injectBidWithExpectedCreativeUrl:creativeUrl2];
+    [viewChecker.bannerView loadAd];
+    [self criteo_waitForExpectations:@[viewChecker.adCreativeRenderedExpectation]];
+}
+
+- (void)test_givenTwoAdRenderings_whenRecreateBannerView_thenTwoAdsPresented {
+    CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
+    [self initCriteoWithAdUnits:@[banner]];
+    CR_CreativeViewChecker *viewChecker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner criteo:self.criteo];
+
+    [viewChecker injectBidWithExpectedCreativeUrl:creativeUrl1];
+    [viewChecker.bannerView loadAd];
+    [self criteo_waitForExpectations:@[viewChecker.adCreativeRenderedExpectation]];
+
+    [viewChecker resetExpectations];
+    [viewChecker resetBannerView];
+
+    [viewChecker injectBidWithExpectedCreativeUrl:creativeUrl2];
+    [viewChecker.bannerView loadAd];
     [self criteo_waitForExpectations:@[viewChecker.adCreativeRenderedExpectation]];
 }
 
