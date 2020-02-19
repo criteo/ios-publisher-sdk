@@ -62,6 +62,8 @@
 		53CA0F9922AB0B870098F96C /* CRBidResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 53CA0F7922AAE1D10098F96C /* CRBidResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		53CA0F9A22AB0B870098F96C /* CRInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6549B552228389930078F068 /* CRInterstitialDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		53D6429822C2C615005791D4 /* CR_TokenCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 53374B7E22AEDBE4007084FB /* CR_TokenCache.m */; };
+		542B05F823FD97A00086A942 /* CR_FeedbackMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 542B05F623FD97A00086A942 /* CR_FeedbackMessage.h */; };
+		542B05F923FD97A00086A942 /* CR_FeedbackMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 542B05F723FD97A00086A942 /* CR_FeedbackMessage.m */; };
 		543442FC2285F4A600805343 /* CRBannerViewDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 543F6F9C22838EDF00A5DBE2 /* CRBannerViewDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		543B672C2294689B006A99DF /* NSError+CRErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 543B672A2294689B006A99DF /* NSError+CRErrors.m */; };
 		543F6F6D22820C1800A5DBE2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 543F6F6C22820C1800A5DBE2 /* AppDelegate.m */; };
@@ -101,6 +103,7 @@
 		54F1E6BA239FA1A000985D09 /* UIWebView+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E065EF6624E39D5EF02EFA9 /* UIWebView+Testing.m */; };
 		54F1E6BB239FA1A800985D09 /* CR_DfpCreativeViewChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0651507F9F3AE240E1BA60 /* CR_DfpCreativeViewChecker.m */; };
 		54F1E6BC239FA1A900985D09 /* CR_DfpCreativeViewChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0651507F9F3AE240E1BA60 /* CR_DfpCreativeViewChecker.m */; };
+		54FE074323FEED2C0035A026 /* CR_FeedbackMessageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54FE074223FEED2C0035A026 /* CR_FeedbackMessageTests.swift */; };
 		5E0650E8B945A2954C518C5A /* CR_TargetingKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0656EA9D2A919E7646C70B /* CR_TargetingKeys.m */; };
 		5E06522A02F2F6A13136E48D /* CR_HttpTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0656CED6370CB240092ECC /* CR_HttpTests.m */; };
 		5E065393C7035B58EF497E31 /* NativeAssetsFromCdb.json in Resources */ = {isa = PBXBuildFile; fileRef = 5E065022DFE1021D3CF2B444 /* NativeAssetsFromCdb.json */; };
@@ -378,6 +381,8 @@
 		53CA0F8722AB0A390098F96C /* CRBidToken+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CRBidToken+Internal.h"; path = "pubsdk/InHouseMediation/CRBidToken+Internal.h"; sourceTree = SOURCE_ROOT; };
 		53CA0F8822AB0A390098F96C /* CRBidToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CRBidToken.h; path = pubsdk/InHouseMediation/CRBidToken.h; sourceTree = SOURCE_ROOT; };
 		53CA0F8922AB0A390098F96C /* CRBidToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CRBidToken.m; path = pubsdk/InHouseMediation/CRBidToken.m; sourceTree = SOURCE_ROOT; };
+		542B05F623FD97A00086A942 /* CR_FeedbackMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_FeedbackMessage.h; sourceTree = "<group>"; };
+		542B05F723FD97A00086A942 /* CR_FeedbackMessage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_FeedbackMessage.m; sourceTree = "<group>"; };
 		543B67292294689B006A99DF /* NSError+CRErrors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSError+CRErrors.h"; sourceTree = "<group>"; };
 		543B672A2294689B006A99DF /* NSError+CRErrors.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSError+CRErrors.m"; sourceTree = "<group>"; };
 		543F6F6922820C1800A5DBE2 /* iTestHostApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTestHostApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -404,6 +409,8 @@
 		54E0C24C23917D9A004F9353 /* CR_ApiQueryKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_ApiQueryKeys.h; sourceTree = "<group>"; };
 		54E0C24D23917D9A004F9353 /* CR_ApiQueryKeys.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_ApiQueryKeys.m; sourceTree = "<group>"; };
 		54ED19F222717E13009AA0B2 /* CRInterstitialViewControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialViewControllerTests.m; sourceTree = "<group>"; };
+		54FE074123FEED2B0035A026 /* pubsdkTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "pubsdkTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		54FE074223FEED2C0035A026 /* CR_FeedbackMessageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_FeedbackMessageTests.swift; sourceTree = "<group>"; };
 		5E065022DFE1021D3CF2B444 /* NativeAssetsFromCdb.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = NativeAssetsFromCdb.json; sourceTree = "<group>"; };
 		5E0651507F9F3AE240E1BA60 /* CR_DfpCreativeViewChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_DfpCreativeViewChecker.m; sourceTree = "<group>"; };
 		5E06534D114E0989D12A1E6B /* CR_CreativeViewChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_CreativeViewChecker.m; sourceTree = "<group>"; };
@@ -704,6 +711,15 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
+		542B05F523FD97380086A942 /* Feedback */ = {
+			isa = PBXGroup;
+			children = (
+				542B05F623FD97A00086A942 /* CR_FeedbackMessage.h */,
+				542B05F723FD97A00086A942 /* CR_FeedbackMessage.m */,
+			);
+			path = Feedback;
+			sourceTree = "<group>";
+		};
 		543F6F6A22820C1800A5DBE2 /* iTestHostApp */ = {
 			isa = PBXGroup;
 			children = (
@@ -837,6 +853,7 @@
 				7D3E420923915B6600BAF673 /* CR_CdbBidTests.m */,
 				7D3E421623915B6600BAF673 /* CR_CdbResponseTests.m */,
 				7D3E41F823915B6600BAF673 /* CR_DataProtectionConsentTests.m */,
+				54FE074223FEED2C0035A026 /* CR_FeedbackMessageTests.swift */,
 				7D3E422023915B6600BAF673 /* CRAdUnitTests.m */,
 				7D3E421023915B6600BAF673 /* CRBannerAdUnitTests.m */,
 				7D3E421723915B6600BAF673 /* CRInterstitialAdUnitTests.m */,
@@ -1111,6 +1128,7 @@
 				E1F2736721B5F08D00A2FBFA /* pubsdk.h */,
 				E12A7F6C220A1D20002B4548 /* AppEvents */,
 				258821D622000D3B00398E9F /* Configuration */,
+				542B05F523FD97380086A942 /* Feedback */,
 				545A39F522A880BD00648957 /* InHouseMediation */,
 				DF367CDA23304BE50044807B /* Native */,
 				25B6505E22091F1D008416D3 /* Network */,
@@ -1124,6 +1142,7 @@
 		E1F2737121B5F08D00A2FBFA /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				54FE074123FEED2B0035A026 /* pubsdkTests-Bridging-Header.h */,
 				7D3E41EF23915A8B00BAF673 /* pubsdkTests-Info.plist */,
 				7D3E42712391605D00BAF673 /* SDKUnitTests-Info.plist */,
 				54E0C221238BCE11004F9353 /* IntegrationTests */,
@@ -1184,6 +1203,7 @@
 				E1F2737521B5F08D00A2FBFA /* pubsdk.h in Headers */,
 				7D51ABFD23B0EDD900540094 /* CR_Assert.h in Headers */,
 				7D58582F23E1F1EC0039AC56 /* CR_ThreadManager.h in Headers */,
+				542B05F823FD97A00086A942 /* CR_FeedbackMessage.h in Headers */,
 				7D07DA1C23DAF6DD00ECCF02 /* CR_CCPAConsent.h in Headers */,
 				DF367C86232971820044807B /* CRNativeAdUnit.h in Headers */,
 				53CA0F9822AB0B870098F96C /* CRBidToken.h in Headers */,
@@ -1315,6 +1335,7 @@
 					};
 					E1F2736C21B5F08D00A2FBFA = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1120;
 						TestTargetID = 543F6F6822820C1800A5DBE2;
 					};
 				};
@@ -1634,6 +1655,7 @@
 				53BDFDBA22EA498B0051EB40 /* NSObject+Criteo.m in Sources */,
 				543B672C2294689B006A99DF /* NSError+CRErrors.m in Sources */,
 				E1F2738721B9BF4900A2FBFA /* CR_ApiHandler.m in Sources */,
+				542B05F923FD97A00086A942 /* CR_FeedbackMessage.m in Sources */,
 				53BDFDC722EB9F7C0051EB40 /* CR_BidManagerHelper.m in Sources */,
 				53CA0F7C22AAE1D10098F96C /* CRBidResponse.m in Sources */,
 				E1F273C221C9765100A2FBFA /* CR_CacheManager.m in Sources */,
@@ -1710,6 +1732,7 @@
 				7DB4E9132397AB6B008DE5E3 /* CR_RegistrationFunctionalTests.m in Sources */,
 				7D3E423F23915B6600BAF673 /* CR_CdbResponseTests.m in Sources */,
 				7D3E423023915B6600BAF673 /* NSDictionary+AdditionsTests.m in Sources */,
+				54FE074323FEED2C0035A026 /* CR_FeedbackMessageTests.swift in Sources */,
 				7D523C7D23DB32C600E79C88 /* CR_HttpContent+AdUnit.m in Sources */,
 				7D3E423623915B6600BAF673 /* CR_NetworkManagerTests.m in Sources */,
 				7D3E423A23915B6600BAF673 /* CRBannerAdUnitTests.m in Sources */,
@@ -2087,6 +2110,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4876E95088BFF48248FF7025 /* Pods-pubsdkTests.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S655EV5659;
 				INFOPLIST_FILE = "Tests/pubsdkTests-Info.plist";
@@ -2097,6 +2121,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.pubsdkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Tests/pubsdkTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iTestHostApp.app/iTestHostApp";
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/../Pods\"/**";
@@ -2107,6 +2134,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 29D24DDAFFC9D3813C55AD78 /* Pods-pubsdkTests.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S655EV5659;
 				INFOPLIST_FILE = "Tests/pubsdkTests-Info.plist";
@@ -2117,6 +2145,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.pubsdkTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Tests/pubsdkTests-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iTestHostApp.app/iTestHostApp";
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/../Pods\"/**";
