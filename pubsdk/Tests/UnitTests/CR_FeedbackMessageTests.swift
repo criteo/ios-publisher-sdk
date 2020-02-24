@@ -11,19 +11,27 @@ import XCTest
 
 class CR_FeedbackMessageTests : XCTestCase {
 
-    func testEmptyObjectsEqualtyAndHash() {
-        assertTwoMessagesObjectAndHashEquality(a: CR_FeedbackMessage(),
-                                               b: CR_FeedbackMessage())
+    func testEmptyObjectsEqualityAndHash() {
+        assertTwoMessagesObjectAndHashEquality(CR_FeedbackMessage(),
+                                               CR_FeedbackMessage())
     }
 
-    func testParticularlyFilledObjectsEqualtyAndHash() {
-        assertTwoMessagesObjectAndHashEquality(a: createPartialFilledFeedbackMessage(),
-                                               b: createPartialFilledFeedbackMessage())
+    func testParticularlyFilledObjectsEqualityAndHash() {
+        assertTwoMessagesObjectAndHashEquality(createPartialFilledFeedbackMessage(),
+                                               createPartialFilledFeedbackMessage())
     }
 
-    func testFullyFilledObjectsEqualtyAndHash() {
-        assertTwoMessagesObjectAndHashEquality(a: createFullyFilledFeedbackMessage(),
-                                               b: createFullyFilledFeedbackMessage())
+    func testFullyFilledObjectsEqualityAndHash() {
+        assertTwoMessagesObjectAndHashEquality(createFullyFilledFeedbackMessage(),
+                                               createFullyFilledFeedbackMessage())
+    }
+
+    func testDifferentObjectsNotEqual() {
+        XCTAssertNotEqual(createPartialFilledFeedbackMessage(), CR_FeedbackMessage())
+    }
+
+    func testDifferentObjectsNotEqual2() {
+        XCTAssertNotEqual(CR_FeedbackMessage(), createPartialFilledFeedbackMessage())
     }
 
     func testEmptyObjectsEqualityAfterEncodingAndDecoding() {
@@ -56,7 +64,7 @@ class CR_FeedbackMessageTests : XCTestCase {
         return result
     }
 
-    private func assertTwoMessagesObjectAndHashEquality(a: CR_FeedbackMessage, b: CR_FeedbackMessage, file: StaticString = #file, line: UInt = #line) {
+    private func assertTwoMessagesObjectAndHashEquality(_ a: CR_FeedbackMessage, _ b: CR_FeedbackMessage, file: StaticString = #file, line: UInt = #line) {
         XCTAssertEqual(a, b, file: file, line: line)
         XCTAssertTrue(a.hash == b.hash, file: file, line: line);
     }

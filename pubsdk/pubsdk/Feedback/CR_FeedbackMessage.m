@@ -54,16 +54,21 @@
 #pragma mark - Equality methods
 
 - (BOOL)isEqualToFeedbackMessage:(CR_FeedbackMessage *)other {
-    BOOL impIdEq = (!self.impressionId && !other.impressionId) || [self.impressionId isEqualToString:other.impressionId];
+    BOOL impIdEq = (!self.impressionId && !other.impressionId) ||
+        (self.impressionId && other.impressionId &&
+         [self.impressionId isEqualToString:other.impressionId]);
 
     BOOL cdbStEq = (!self.cdbCallStartTimestamp && !other.cdbCallStartTimestamp) ||
-        [self.cdbCallStartTimestamp isEqualToNumber:other.cdbCallStartTimestamp];
+        (self.cdbCallStartTimestamp && other.cdbCallStartTimestamp &&
+         [self.cdbCallStartTimestamp isEqualToNumber:other.cdbCallStartTimestamp]);
 
     BOOL cdbEndEq = (!self.cdbCallEndTimestamp && !other.cdbCallEndTimestamp) ||
-        [self.cdbCallEndTimestamp isEqualToNumber:other.cdbCallEndTimestamp];
+        (self.cdbCallEndTimestamp && other.cdbCallEndTimestamp &&
+         [self.cdbCallEndTimestamp isEqualToNumber:other.cdbCallEndTimestamp]);
 
     BOOL elpTimeEq = (!self.elapsedTimestamp && !other.elapsedTimestamp) ||
-        [self.elapsedTimestamp isEqualToNumber:other.elapsedTimestamp];
+        (self.elapsedTimestamp && other.elapsedTimestamp &&
+         [self.elapsedTimestamp isEqualToNumber:other.elapsedTimestamp]);
 
     return impIdEq && cdbStEq && cdbEndEq && elpTimeEq &&
         self.timeouted == other.timeouted &&
