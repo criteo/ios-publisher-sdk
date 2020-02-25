@@ -16,11 +16,16 @@ As much as possible, respect the ["Arrange, Act, Assert" convention](http://wiki
 
 ### Test organisation
 The tests in this project are organised according to the following convention:
-- Unit tests are located within the [test](src/test/) directory.
-- Integration tests are written in the [Integration directory](/pubsdkTests/IntegrationTests)
+- Unit tests are located within the [UnitTests](pubsdk/Tests/UnitTests) directory
+- Integration tests are written in the [IntegrationTests](pubsdk/Tests/IntegrationTests) directory
 - The subset of integration tests which represent one of the functional tests defined [here](https://confluence.criteois.com/display/EE/Functional+Tests)
  are post-fixed with `FunctionTests`. The rest are post-fixed with `IntegrationTests`.
 
+### Getting ads on iOS Simulator
+- Starting iOS 13, the simulators sends zero-ed IDFAs, a simple workaround is to use an older iOS version
+- To have a Valuable profile in order to get bids, for this you can:
+    - Use the [Get retargeted](https://chrome.google.com/webstore/detail/get-retargeted/lkfglidpccbhmpgpekfbkidncpinjobl) Chrome extension with your IDFA
+    - Use Mobile Safari on a publisher website such as laredoute.fr, browsing its catalog and adding products to your cart
 
 # How to release the publisher SDK
 
