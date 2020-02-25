@@ -13,7 +13,7 @@ import XCTest
 class CR_FeedbackFileManagerTests: XCTestCase {
 
     var fileManipulatingMock: CR_DefaultFileManipulatingMock = CR_DefaultFileManipulatingMock()
-    var feedbackFileManager: CR_FeedbackFileManager = CR_FeedbackFileManager(fileManipulating: CR_DefaultFileManipulating());
+    var feedbackFileManager: CR_FeedbackFileManager = CR_FeedbackFileManager(fileManipulating: CR_DefaultFileManipulator());
 
     override func setUp() {
         super.setUp()

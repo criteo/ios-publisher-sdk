@@ -8,18 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "CR_FeedbackMessage.h"
+#import "CR_DefaultFileManipulator.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol CR_FileManipulating;
+@protocol CR_FeedbackFileManaging <NSObject>
 
-@interface CR_FeedbackFileManager : NSObject
-
-@property(strong, nonatomic) NSString *sendingQueueFilePath;
-
-- (instancetype)init NS_UNAVAILABLE;
-
-- (instancetype)initWithFileManipulating:(NSObject <CR_FileManipulating> *)fileManipulating NS_DESIGNATED_INITIALIZER;
+@required
 
 - (nullable CR_FeedbackMessage *)readFeedbackForFilename:(NSString *)filename;
 
@@ -32,31 +27,11 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-@protocol CR_FileManipulating <NSObject>
+@interface CR_FeedbackFileManager : NSObject <CR_FeedbackFileManaging>
 
-@required
+@property(strong, nonatomic) NSString *sendingQueueFilePath;
 
-- (void)writeData:(NSData *)data forAbsolutePath:(NSString *)path;
-
-- (nullable NSData *)readDataForAbsolutePath:(NSString *)path;
-
-- (NSArray<NSURL *> *)URLsForDirectory:(NSSearchPathDirectory)directory inDomains:(NSSearchPathDomainMask)domainMask;
-
-- (BOOL)fileExistsAtPath:(NSString *)path isDirectory:(nullable BOOL *)isDirectory;
-
-- (BOOL)createDirectoryAtPath:(NSString *)path
-  withIntermediateDirectories:(BOOL)createIntermediates
-                   attributes:(nullable NSDictionary<NSFileAttributeKey, id> *)attributes
-                        error:(NSError **)error;
-
-- (BOOL)removeItemAtPath:(NSString *)path error:(NSError **)error;
-
-- (nullable NSArray<NSString *> *)contentsOfDirectoryAtPath:(NSString *)path error:(NSError **)error;
-
-@end
-
-
-@interface CR_DefaultFileManipulating : NSObject <CR_FileManipulating>
+- (instancetype)initWithFileManipulating:(NSObject <CR_FileManipulating> *)fileManipulating NS_DESIGNATED_INITIALIZER;
 
 @end
 

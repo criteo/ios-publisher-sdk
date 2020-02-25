@@ -4,3 +4,4 @@
 
 #import "CR_FeedbackMessage.h"
 #import "CR_FeedbackFileManager.h"
+#import "CR_DefaultFileManipulator.h"

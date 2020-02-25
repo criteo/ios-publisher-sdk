@@ -94,6 +94,8 @@
 		54C24BCA24040F2400DD9839 /* CR_FeedbackFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 54C24BC824040F2400DD9839 /* CR_FeedbackFileManager.h */; };
 		54C24BCB24040F2400DD9839 /* CR_FeedbackFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 54C24BC924040F2400DD9839 /* CR_FeedbackFileManager.m */; };
 		54C24BCD2404156A00DD9839 /* CR_FeedbackFileManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C24BCC2404156A00DD9839 /* CR_FeedbackFileManagerTests.swift */; };
+		54C24BD824067FEE00DD9839 /* CR_DefaultFileManipulator.h in Headers */ = {isa = PBXBuildFile; fileRef = 54C24BD624067FEE00DD9839 /* CR_DefaultFileManipulator.h */; };
+		54C24BD924067FEE00DD9839 /* CR_DefaultFileManipulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 54C24BD724067FEE00DD9839 /* CR_DefaultFileManipulator.m */; };
 		54E0C239238D75AC004F9353 /* Criteo+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0653DCED07A1A1895CB076 /* Criteo+Testing.m */; };
 		54E0C24E23917D9A004F9353 /* CR_ApiQueryKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = 54E0C24C23917D9A004F9353 /* CR_ApiQueryKeys.h */; };
 		54E0C24F23917D9A004F9353 /* CR_ApiQueryKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 54E0C24D23917D9A004F9353 /* CR_ApiQueryKeys.m */; };
@@ -412,6 +414,8 @@
 		54C24BC824040F2400DD9839 /* CR_FeedbackFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_FeedbackFileManager.h; sourceTree = "<group>"; };
 		54C24BC924040F2400DD9839 /* CR_FeedbackFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_FeedbackFileManager.m; sourceTree = "<group>"; };
 		54C24BCC2404156A00DD9839 /* CR_FeedbackFileManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_FeedbackFileManagerTests.swift; sourceTree = "<group>"; };
+		54C24BD624067FEE00DD9839 /* CR_DefaultFileManipulator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_DefaultFileManipulator.h; sourceTree = "<group>"; };
+		54C24BD724067FEE00DD9839 /* CR_DefaultFileManipulator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_DefaultFileManipulator.m; sourceTree = "<group>"; };
 		54E0C24C23917D9A004F9353 /* CR_ApiQueryKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_ApiQueryKeys.h; sourceTree = "<group>"; };
 		54E0C24D23917D9A004F9353 /* CR_ApiQueryKeys.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_ApiQueryKeys.m; sourceTree = "<group>"; };
 		54ED19F222717E13009AA0B2 /* CRInterstitialViewControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialViewControllerTests.m; sourceTree = "<group>"; };
@@ -720,6 +724,8 @@
 		542B05F523FD97380086A942 /* Feedback */ = {
 			isa = PBXGroup;
 			children = (
+				54C24BD624067FEE00DD9839 /* CR_DefaultFileManipulator.h */,
+				54C24BD724067FEE00DD9839 /* CR_DefaultFileManipulator.m */,
 				54C24BC824040F2400DD9839 /* CR_FeedbackFileManager.h */,
 				54C24BC924040F2400DD9839 /* CR_FeedbackFileManager.m */,
 				542B05F623FD97A00086A942 /* CR_FeedbackMessage.h */,
@@ -1221,6 +1227,7 @@
 				54E0C24E23917D9A004F9353 /* CR_ApiQueryKeys.h in Headers */,
 				53CA0F9A22AB0B870098F96C /* CRInterstitialDelegate.h in Headers */,
 				543F6F9D22838EDF00A5DBE2 /* CRBannerViewDelegate.h in Headers */,
+				54C24BD824067FEE00DD9839 /* CR_DefaultFileManipulator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1646,6 +1653,7 @@
 				54E0C24F23917D9A004F9353 /* CR_ApiQueryKeys.m in Sources */,
 				E1F273B921C87A2F00A2FBFA /* CR_CdbBid.m in Sources */,
 				E1F2738B21BB12C300A2FBFA /* Criteo.m in Sources */,
+				54C24BD924067FEE00DD9839 /* CR_DefaultFileManipulator.m in Sources */,
 				DF367CA4232B20F90044807B /* CR_NativeAdvertiser.m in Sources */,
 				DF367CE42330864F0044807B /* NSURL+Criteo.m in Sources */,
 				DF367C9A232AE8510044807B /* CR_NativeImage.m in Sources */,

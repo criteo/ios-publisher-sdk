@@ -17,6 +17,10 @@
 
 @implementation CR_FeedbackFileManager
 
+- (instancetype)init {
+    return [self initWithFileManipulating:[[CR_DefaultFileManipulator alloc] init]];
+}
+
 - (instancetype)initWithFileManipulating:(id <CR_FileManipulating>)fileManipulating {
     if (self = [super init]) {
         _fileManipulating = fileManipulating;
@@ -70,42 +74,6 @@
 
 - (NSString *)buildAbsolutePathByFilename:(NSString *)filename {
     return [self.activeMetricsPath stringByAppendingFormat:@"/%@", filename];
-}
-
-@end
-
-
-@implementation CR_DefaultFileManipulating
-
-- (nullable NSData *)readDataForAbsolutePath:(nonnull NSString *)path {
-    return [NSData dataWithContentsOfFile:path];
-}
-
-- (void)writeData:(nonnull NSData *)data forAbsolutePath:(nonnull NSString *)path {
-    [data writeToFile:path atomically:YES];
-}
-
-- (nonnull NSArray<NSURL *> *)URLsForDirectory:(NSSearchPathDirectory)directory inDomains:(NSSearchPathDomainMask)domainMask {
-    return [[NSFileManager defaultManager] URLsForDirectory:directory inDomains:domainMask];
-}
-
-- (nullable NSArray<NSString *> *)contentsOfDirectoryAtPath:(NSString *)path error:(NSError **)error {
-    return [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:error];
-}
-
-- (BOOL)createDirectoryAtPath:(NSString *)path
-  withIntermediateDirectories:(BOOL)createIntermediates
-                   attributes:(nullable NSDictionary<NSFileAttributeKey, id> *)attributes
-                        error:(NSError **)error {
-    return [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:createIntermediates attributes:attributes error:error];
-}
-
-- (BOOL)fileExistsAtPath:(nonnull NSString *)path isDirectory:(nullable BOOL *)isDirectory {
-    return [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:isDirectory];
-}
-
-- (BOOL)removeItemAtPath:(NSString *)path error:(NSError **)error {
-    return [[NSFileManager defaultManager] removeItemAtPath:path error:error];
 }
 
 @end
