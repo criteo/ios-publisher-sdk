@@ -1,4 +1,5 @@
 PODS:
+  - Cassette (1.0.0-beta3)
   - Google-Mobile-Ads-SDK (7.35.2)
   - mopub-ios-sdk (5.4.1):
     - mopub-ios-sdk/MoPubSDK (= 5.4.1)
@@ -14,6 +15,7 @@ PODS:
   - OCMock (3.4.3)
 
 DEPENDENCIES:
+  - Cassette (= 1.0.0-beta3)
   - Google-Mobile-Ads-SDK (~> 7.35.2)
   - mopub-ios-sdk (~> 5.4.0)
   - OCMock (~> 3.4.3)
@@ -23,13 +25,15 @@ SPEC REPOS:
     - Google-Mobile-Ads-SDK
     - OCMock
   trunk:
+    - Cassette
     - mopub-ios-sdk
 
 SPEC CHECKSUMS:
+  Cassette: bd5900e0b8d67c796ca82272ff5ee388320cfc61
   Google-Mobile-Ads-SDK: 8f07cc8eac6649fe648cabc97d67c8d20173624a
   mopub-ios-sdk: 320de49dd0a352ac58d33104a23853e749a84a78
   OCMock: 43565190abc78977ad44a61c0d20d7f0784d35ab
 
-PODFILE CHECKSUM: 45d49cd76ca7c3cc19df75c2573f5613da061fc0
+PODFILE CHECKSUM: 7cf21c499aac43a35d54727f75a3a9cf8d49ee21
 
 COCOAPODS: 1.8.4

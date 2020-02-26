@@ -94,6 +94,8 @@
 		54C24BCA24040F2400DD9839 /* CR_FeedbackFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 54C24BC824040F2400DD9839 /* CR_FeedbackFileManager.h */; };
 		54C24BCB24040F2400DD9839 /* CR_FeedbackFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 54C24BC924040F2400DD9839 /* CR_FeedbackFileManager.m */; };
 		54C24BCD2404156A00DD9839 /* CR_FeedbackFileManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C24BCC2404156A00DD9839 /* CR_FeedbackFileManagerTests.swift */; };
+		54C24BD0240521E000DD9839 /* CR_FeedbackStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 54C24BCE240521E000DD9839 /* CR_FeedbackStorage.h */; };
+		54C24BD1240521E000DD9839 /* CR_FeedbackStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 54C24BCF240521E000DD9839 /* CR_FeedbackStorage.m */; };
 		54C24BD824067FEE00DD9839 /* CR_DefaultFileManipulator.h in Headers */ = {isa = PBXBuildFile; fileRef = 54C24BD624067FEE00DD9839 /* CR_DefaultFileManipulator.h */; };
 		54C24BD924067FEE00DD9839 /* CR_DefaultFileManipulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 54C24BD724067FEE00DD9839 /* CR_DefaultFileManipulator.m */; };
 		54E0C239238D75AC004F9353 /* Criteo+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0653DCED07A1A1895CB076 /* Criteo+Testing.m */; };
@@ -115,11 +117,14 @@
 		5E0653FF2AF20E33E9334E5C /* CR_CreativeViewChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E06534D114E0989D12A1E6B /* CR_CreativeViewChecker.m */; };
 		5E06565BD091B87AB797194F /* NativeAssetsFromCdb.json in Resources */ = {isa = PBXBuildFile; fileRef = 5E065022DFE1021D3CF2B444 /* NativeAssetsFromCdb.json */; };
 		5E0656E334784BCDB32052A4 /* CR_DfpNativeFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0656551EC4DAFCC6DF7D79 /* CR_DfpNativeFunctionalTests.m */; };
+		5E0657B119A4CB2AF0C8E53C /* CR_FeedbackStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E065DD39102A6790D4ADABA /* CR_FeedbackStorageTests.swift */; };
 		5E06595DFEDD5D69365B12EA /* CR_ViewCheckingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0659E91B2AF96B5DF83DA3 /* CR_ViewCheckingHelper.m */; };
 		5E0659AE7B748911FF99C063 /* CR_CreativeViewChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E06534D114E0989D12A1E6B /* CR_CreativeViewChecker.m */; };
+		5E065A5C1CC9CE6839586F9A /* CR_FeedbackStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E065DD39102A6790D4ADABA /* CR_FeedbackStorageTests.swift */; };
 		5E065AC7029B99CF6F68DEC1 /* CR_ViewCheckingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0659E91B2AF96B5DF83DA3 /* CR_ViewCheckingHelper.m */; };
 		5E065D27D22F2032CA976719 /* CR_DfpInterstitialFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E065AD8DCA877B2A1928681 /* CR_DfpInterstitialFunctionalTests.m */; };
 		5E065F348B239221EFD62032 /* CR_MopubInterstitialFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E06573035072D184799FC19 /* CR_MopubInterstitialFunctionalTests.m */; };
+		63516874238C0CC88EAF0736 /* libPods-pubsdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F718F24E0E116A14541C7412 /* libPods-pubsdk.a */; };
 		650915F72255622E001D6673 /* CRBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 650915F42255622E001D6673 /* CRBannerView.m */; };
 		650915F82255622E001D6673 /* CRBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 650915F42255622E001D6673 /* CRBannerView.m */; };
 		650915FD225565E6001D6673 /* CRBannerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 650915F32255622E001D6673 /* CRBannerView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -266,6 +271,7 @@
 		7DB5F90F23AA2B2500EF5602 /* CR_NetworkWaiter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB5F90023AA2B2500EF5602 /* CR_NetworkWaiter.m */; };
 		7DF2A06C236889CC00178D8C /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25BD5B572220D16D004DE311 /* CriteoPublisherSdk.framework */; };
 		7DF2A0A223689F6B00178D8C /* MockWKWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6540470E22581D32009235A1 /* MockWKWebView.m */; };
+		90D0C9A36EF9136F4CC9E877 /* libPods-CriteoPublisherSdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CDD7544323F61638E0E8B7F /* libPods-CriteoPublisherSdk.a */; };
 		BB5361AECA2A9614E3B4A2C6 /* libPods-pubsdkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F187272CD050435F6D28BFA /* libPods-pubsdkTests.a */; };
 		DF367C86232971820044807B /* CRNativeAdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = DF367C84232971810044807B /* CRNativeAdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DF367C87232971820044807B /* CRNativeAdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = DF367C85232971810044807B /* CRNativeAdUnit.m */; };
@@ -340,6 +346,7 @@
 
 /* Begin PBXFileReference section */
 		088F7488A3FE35835E861263 /* Pods-SDKUnitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SDKUnitTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-SDKUnitTests/Pods-SDKUnitTests.release.xcconfig"; sourceTree = "<group>"; };
+		1CDD7544323F61638E0E8B7F /* libPods-CriteoPublisherSdk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoPublisherSdk.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		25022DE4220A3F0300FF8ACE /* CR_NetworkManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_NetworkManagerDelegate.h; sourceTree = "<group>"; };
 		25022DE5220A709000FF8ACE /* Criteo+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Criteo+Internal.h"; sourceTree = "<group>"; };
 		255151C322027C9500F76E3F /* NSString+CR_UrlEncoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+CR_UrlEncoder.h"; sourceTree = "<group>"; };
@@ -357,6 +364,7 @@
 		25BD5B5A2220D16D004DE311 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28B689615EFFD6B82CA2CE53 /* libPods-SDKUnitTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SDKUnitTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		29D24DDAFFC9D3813C55AD78 /* Pods-pubsdkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdkTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdkTests/Pods-pubsdkTests.release.xcconfig"; sourceTree = "<group>"; };
+		32116366A6DEEDBAD36BC1E8 /* Pods-CriteoPublisherSdk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoPublisherSdk.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-CriteoPublisherSdk/Pods-CriteoPublisherSdk.debug.xcconfig"; sourceTree = "<group>"; };
 		4876E95088BFF48248FF7025 /* Pods-pubsdkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdkTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdkTests/Pods-pubsdkTests.debug.xcconfig"; sourceTree = "<group>"; };
 		4CD6227EFF76DAF701894996 /* Pods-SDKUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SDKUnitTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-SDKUnitTests/Pods-SDKUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		53374B7C22AED93A007084FB /* CRBidResponse+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CRBidResponse+Internal.h"; path = "pubsdk/InHouseMediation/CRBidResponse+Internal.h"; sourceTree = SOURCE_ROOT; };
@@ -414,6 +422,8 @@
 		54C24BC824040F2400DD9839 /* CR_FeedbackFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_FeedbackFileManager.h; sourceTree = "<group>"; };
 		54C24BC924040F2400DD9839 /* CR_FeedbackFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_FeedbackFileManager.m; sourceTree = "<group>"; };
 		54C24BCC2404156A00DD9839 /* CR_FeedbackFileManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_FeedbackFileManagerTests.swift; sourceTree = "<group>"; };
+		54C24BCE240521E000DD9839 /* CR_FeedbackStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_FeedbackStorage.h; sourceTree = "<group>"; };
+		54C24BCF240521E000DD9839 /* CR_FeedbackStorage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_FeedbackStorage.m; sourceTree = "<group>"; };
 		54C24BD624067FEE00DD9839 /* CR_DefaultFileManipulator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_DefaultFileManipulator.h; sourceTree = "<group>"; };
 		54C24BD724067FEE00DD9839 /* CR_DefaultFileManipulator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_DefaultFileManipulator.m; sourceTree = "<group>"; };
 		54E0C24C23917D9A004F9353 /* CR_ApiQueryKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_ApiQueryKeys.h; sourceTree = "<group>"; };
@@ -440,6 +450,7 @@
 		5E0659E91B2AF96B5DF83DA3 /* CR_ViewCheckingHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_ViewCheckingHelper.m; sourceTree = "<group>"; };
 		5E065AD8DCA877B2A1928681 /* CR_DfpInterstitialFunctionalTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_DfpInterstitialFunctionalTests.m; sourceTree = "<group>"; };
 		5E065DC9A8C17A80A543FB40 /* CR_AppEvents+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CR_AppEvents+Internal.h"; sourceTree = "<group>"; };
+		5E065DD39102A6790D4ADABA /* CR_FeedbackStorageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CR_FeedbackStorageTests.swift; sourceTree = "<group>"; };
 		5E065ED9A843A9220D853806 /* CR_TestAdUnits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_TestAdUnits.h; sourceTree = "<group>"; };
 		5E065EF6624E39D5EF02EFA9 /* UIWebView+Testing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+Testing.m"; sourceTree = "<group>"; };
 		5E065EFC53F2E9D25BAFEDEA /* UIView+Testing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Testing.m"; sourceTree = "<group>"; };
@@ -553,6 +564,8 @@
 		7DB5F8FD23AA2B2500EF5602 /* CR_NetworkManagerMock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_NetworkManagerMock.m; sourceTree = "<group>"; };
 		7DB5F90023AA2B2500EF5602 /* CR_NetworkWaiter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_NetworkWaiter.m; sourceTree = "<group>"; };
 		7DF2A067236889CC00178D8C /* SDKUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SDKUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		95CE917D53BC717D5743ED84 /* Pods-pubsdk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdk.release.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdk/Pods-pubsdk.release.xcconfig"; sourceTree = "<group>"; };
+		D674306DEEFA97D34CCBFDA8 /* Pods-CriteoPublisherSdk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoPublisherSdk.release.xcconfig"; path = "../Pods/Target Support Files/Pods-CriteoPublisherSdk/Pods-CriteoPublisherSdk.release.xcconfig"; sourceTree = "<group>"; };
 		DF367C84232971810044807B /* CRNativeAdUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNativeAdUnit.h; sourceTree = "<group>"; };
 		DF367C85232971810044807B /* CRNativeAdUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdUnit.m; sourceTree = "<group>"; };
 		DF367C92232AE6220044807B /* CR_NativeProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_NativeProduct.m; sourceTree = "<group>"; };
@@ -597,6 +610,8 @@
 		E1F273BA21C9733800A2FBFA /* CR_BidManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_BidManager.m; sourceTree = "<group>"; };
 		E1F273C021C9763E00A2FBFA /* CR_CacheManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_CacheManager.h; sourceTree = "<group>"; };
 		E1F273C121C9765100A2FBFA /* CR_CacheManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_CacheManager.m; sourceTree = "<group>"; };
+		F718F24E0E116A14541C7412 /* libPods-pubsdk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pubsdk.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDEB12542B0821F04B68BC8E /* Pods-pubsdk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdk.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdk/Pods-pubsdk.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -604,6 +619,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90D0C9A36EF9136F4CC9E877 /* libPods-CriteoPublisherSdk.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -627,6 +643,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63516874238C0CC88EAF0736 /* libPods-pubsdk.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -730,6 +747,8 @@
 				54C24BC924040F2400DD9839 /* CR_FeedbackFileManager.m */,
 				542B05F623FD97A00086A942 /* CR_FeedbackMessage.h */,
 				542B05F723FD97A00086A942 /* CR_FeedbackMessage.m */,
+				54C24BCE240521E000DD9839 /* CR_FeedbackStorage.h */,
+				54C24BCF240521E000DD9839 /* CR_FeedbackStorage.m */,
 			);
 			path = Feedback;
 			sourceTree = "<group>";
@@ -798,6 +817,8 @@
 			children = (
 				6F187272CD050435F6D28BFA /* libPods-pubsdkTests.a */,
 				28B689615EFFD6B82CA2CE53 /* libPods-SDKUnitTests.a */,
+				1CDD7544323F61638E0E8B7F /* libPods-CriteoPublisherSdk.a */,
+				F718F24E0E116A14541C7412 /* libPods-pubsdk.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -869,6 +890,7 @@
 				7D3E41F823915B6600BAF673 /* CR_DataProtectionConsentTests.m */,
 				54C24BCC2404156A00DD9839 /* CR_FeedbackFileManagerTests.swift */,
 				54FE074223FEED2C0035A026 /* CR_FeedbackMessageTests.swift */,
+				5E065DD39102A6790D4ADABA /* CR_FeedbackStorageTests.swift */,
 				7D3E422023915B6600BAF673 /* CRAdUnitTests.m */,
 				7D3E421023915B6600BAF673 /* CRBannerAdUnitTests.m */,
 				7D3E421723915B6600BAF673 /* CRInterstitialAdUnitTests.m */,
@@ -1191,6 +1213,10 @@
 				29D24DDAFFC9D3813C55AD78 /* Pods-pubsdkTests.release.xcconfig */,
 				4CD6227EFF76DAF701894996 /* Pods-SDKUnitTests.debug.xcconfig */,
 				088F7488A3FE35835E861263 /* Pods-SDKUnitTests.release.xcconfig */,
+				32116366A6DEEDBAD36BC1E8 /* Pods-CriteoPublisherSdk.debug.xcconfig */,
+				D674306DEEFA97D34CCBFDA8 /* Pods-CriteoPublisherSdk.release.xcconfig */,
+				FDEB12542B0821F04B68BC8E /* Pods-pubsdk.debug.xcconfig */,
+				95CE917D53BC717D5743ED84 /* Pods-pubsdk.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -1237,6 +1263,7 @@
 				7D51ABFD23B0EDD900540094 /* CR_Assert.h in Headers */,
 				7D58582F23E1F1EC0039AC56 /* CR_ThreadManager.h in Headers */,
 				542B05F823FD97A00086A942 /* CR_FeedbackMessage.h in Headers */,
+				54C24BD0240521E000DD9839 /* CR_FeedbackStorage.h in Headers */,
 				7D07DA1C23DAF6DD00ECCF02 /* CR_CCPAConsent.h in Headers */,
 				DF367C86232971820044807B /* CRNativeAdUnit.h in Headers */,
 				53CA0F9822AB0B870098F96C /* CRBidToken.h in Headers */,
@@ -1255,6 +1282,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 25BD5B5E2220D16D004DE311 /* Build configuration list for PBXNativeTarget "CriteoPublisherSdk" */;
 			buildPhases = (
+				89DCBF6F7C3AA39849F39E70 /* [CP] Check Pods Manifest.lock */,
 				25BD5B522220D16D004DE311 /* Headers */,
 				25BD5B532220D16D004DE311 /* Sources */,
 				25BD5B542220D16D004DE311 /* Frameworks */,
@@ -1310,6 +1338,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E1F2737821B5F08D00A2FBFA /* Build configuration list for PBXNativeTarget "pubsdk" */;
 			buildPhases = (
+				5789087464D5902B9E26A563 /* [CP] Check Pods Manifest.lock */,
 				E1F2735F21B5F08D00A2FBFA /* Headers */,
 				E1F2736021B5F08D00A2FBFA /* Sources */,
 				E1F2736121B5F08D00A2FBFA /* Frameworks */,
@@ -1498,6 +1527,50 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		5789087464D5902B9E26A563 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-pubsdk-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		89DCBF6F7C3AA39849F39E70 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CriteoPublisherSdk-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		B2155A880B9A32ED502E136E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1652,6 +1725,7 @@
 				5E0659AE7B748911FF99C063 /* CR_CreativeViewChecker.m in Sources */,
 				7D523C7A23DB31CD00E79C88 /* CR_HttpContent.m in Sources */,
 				5E06595DFEDD5D69365B12EA /* CR_ViewCheckingHelper.m in Sources */,
+				5E065A5C1CC9CE6839586F9A /* CR_FeedbackStorageTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1677,6 +1751,7 @@
 				7D07DA1E23DAF6DD00ECCF02 /* CR_CCPAConsent.m in Sources */,
 				5397C09522A0885A00BC72FE /* CRInterstitialAdUnit.m in Sources */,
 				53CA0F8E22AB0A390098F96C /* CRBidToken.m in Sources */,
+				54C24BD1240521E000DD9839 /* CR_FeedbackStorage.m in Sources */,
 				53CA0F7F22AAE2790098F96C /* CR_TokenValue.m in Sources */,
 				547BC944230650B500FB8599 /* CR_BidFetchTracker.m in Sources */,
 				E12A7F5621F8FD25002B4548 /* CR_DataProtectionConsent.m in Sources */,
@@ -1799,6 +1874,7 @@
 				5E0656E334784BCDB32052A4 /* CR_DfpNativeFunctionalTests.m in Sources */,
 				5E0653FF2AF20E33E9334E5C /* CR_CreativeViewChecker.m in Sources */,
 				5E065AC7029B99CF6F68DEC1 /* CR_ViewCheckingHelper.m in Sources */,
+				5E0657B119A4CB2AF0C8E53C /* CR_FeedbackStorageTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1844,6 +1920,7 @@
 /* Begin XCBuildConfiguration section */
 		25BD5B5C2220D16D004DE311 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 32116366A6DEEDBAD36BC1E8 /* Pods-CriteoPublisherSdk.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -1872,6 +1949,7 @@
 		};
 		25BD5B5D2220D16D004DE311 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D674306DEEFA97D34CCBFDA8 /* Pods-CriteoPublisherSdk.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -2096,6 +2174,7 @@
 		};
 		E1F2737921B5F08D00A2FBFA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FDEB12542B0821F04B68BC8E /* Pods-pubsdk.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -2120,6 +2199,7 @@
 		};
 		E1F2737A21B5F08D00A2FBFA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 95CE917D53BC717D5743ED84 /* Pods-pubsdk.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;

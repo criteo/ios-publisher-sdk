@@ -44,6 +44,11 @@
     ];
 }
 
+- (BOOL)isReadyToSend {
+    //NOTE: It is temporary implementation. It will be updated soon!
+    return self.elapsedTimestamp != nil;
+}
+
 #pragma mark - NSSecureCoding
 
 + (BOOL)supportsSecureCoding

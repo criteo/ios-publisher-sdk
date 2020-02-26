@@ -14,3 +14,11 @@ target 'SDKUnitTests' do
     pod 'Google-Mobile-Ads-SDK','~> 7.35.2'
     pod 'mopub-ios-sdk', '~> 5.4.0'
 end
+
+target 'pubsdk' do
+    pod 'Cassette','1.0.0-beta3'
+end
+
+target 'CriteoPublisherSdk' do
+    pod 'Cassette','1.0.0-beta3'
+end

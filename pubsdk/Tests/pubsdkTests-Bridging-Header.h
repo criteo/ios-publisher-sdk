@@ -5,3 +5,6 @@
 #import "CR_FeedbackMessage.h"
 #import "CR_FeedbackFileManager.h"
 #import "CR_DefaultFileManipulator.h"
+#import "CR_FeedbackStorage.h"
+#import "CR_CacheAdUnit.h"
+#import <Cassette.h>

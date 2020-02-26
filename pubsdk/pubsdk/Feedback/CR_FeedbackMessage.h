@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(strong, nonatomic) NSNumber *elapsedTimestamp;
 @property(assign, nonatomic, getter=isTimeouted) BOOL timeouted;
 @property(assign, nonatomic, getter=isExpired) BOOL expired;
+@property(assign, nonatomic, getter=isReadyToSend, readonly) BOOL readyToSend;
 
 @end
 
