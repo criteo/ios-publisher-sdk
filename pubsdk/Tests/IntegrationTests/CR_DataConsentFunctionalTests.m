@@ -7,14 +7,16 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "CR_DataProtectionConsent.h"
-#import "CR_DataProtectionConsentMock.h"
 #import "Criteo+Testing.h"
 #import "Criteo+Internal.h"
-#import "CR_NetworkCaptor.h"
 #import "CR_ApiHandler.h"
+#import "CR_DataProtectionConsent.h"
+#import "CR_DataProtectionConsentMock.h"
+#import "CR_Gdpr.h"
+#import "CR_NetworkCaptor.h"
 #import "CR_NetworkWaiter.h"
 #import "CR_NetworkWaiterBuilder.h"
+#import "NSString+GDPR.h"
 #import "NSURL+Testing.h"
 
 #define CR_AssertDoNotContainsAppEventRequest(requests) \
@@ -26,23 +28,116 @@ do { \
 
 @interface CR_DataConsentFunctionalTests : XCTestCase
 
-@property (nonatomic, strong) NSUserDefaults *userDefaults;
+@property (strong, nonatomic) NSUserDefaults *userDefaults;
+@property (strong, nonatomic) Criteo *criteo;
+@property (strong, nonatomic, readonly) NSDictionary *grpdInBidRequest;
 
 @end
 
 @implementation CR_DataConsentFunctionalTests
 
-- (void)setUp
-{
+- (void)setUp {
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     [self.userDefaults removeObjectForKey:CR_CCPAIabConsentStringKey];
     [self.userDefaults removeObjectForKey:CR_CCPAConsentCriteoStateKey];
     [self.userDefaults removeObjectForKey:CR_DataProtectionConsentMopubConsentKey];
+    [self.userDefaults removeObjectForKey:CR_GdprAppliesForTcf2_0Key];
+    [self.userDefaults removeObjectForKey:CR_GdprConsentStringForTcf2_0Key];
+    [self.userDefaults removeObjectForKey:CR_GdprVendorConsentsForTcf2_0Key];
+    [self.userDefaults removeObjectForKey:CR_GdprSubjectToGdprForTcf1_1Key];
+    [self.userDefaults removeObjectForKey:CR_GdprConsentStringForTcf1_1Key];
+    [self.userDefaults removeObjectForKey:CR_GdprVendorConsentsForTcf1_1Key];
+
+    self.criteo = [Criteo testing_criteoWithNetworkCaptor];
 }
 
 - (void)tearDown {
     [self setUp];
 }
+
+#pragma mark - GDPR
+
+- (void)testGivenNoGdpr_whenCriteoRegister_thenConsentStringSetInBidRequest {
+    [self.criteo testing_registerBannerAndWaitForHTTPResponses];
+
+    XCTAssertNil(self.grpdInBidRequest);
+}
+
+- (void)testGivenGdprV1ConsentStringSet_whenCriteoRegister_thenConsentStringSetInBidRequest {
+    NSDictionary *expected = @{
+        CR_ApiHandlerGdprVersionKey:        @1,
+        CR_ApiHandlerGdprConsentStringKey:  NSString.gdprConsentStringForTcf1_1,
+        CR_ApiHandlerGdprAppliedKey:        @NO,
+        CR_ApiHandlerGdprConsentGivenKey:   @NO
+    };
+    [self.userDefaults setObject:NSString.gdprConsentStringForTcf1_1
+                          forKey:CR_GdprConsentStringForTcf1_1Key];
+
+    [self.criteo testing_registerBannerAndWaitForHTTPResponses];
+
+    XCTAssertEqualObjects(self.grpdInBidRequest, expected);
+}
+
+- (void)testGivenGdprV1Set_whenCriteoRegister_thenConsentStringSetInBidRequest {
+    NSDictionary *expected = @{
+        CR_ApiHandlerGdprVersionKey:        @1,
+        CR_ApiHandlerGdprConsentStringKey:  NSString.gdprConsentStringForTcf1_1,
+        CR_ApiHandlerGdprAppliedKey:        @YES,
+        CR_ApiHandlerGdprConsentGivenKey:   @YES
+    };
+    [self.userDefaults setObject:NSString.gdprConsentStringForTcf1_1
+                          forKey:CR_GdprConsentStringForTcf1_1Key];
+    [self.userDefaults setObject:NSString.gdprOnlyCriteoConsentAllowedString
+                          forKey:CR_GdprVendorConsentsForTcf1_1Key];
+    [self.userDefaults setBool:YES
+                        forKey:CR_GdprSubjectToGdprForTcf1_1Key];
+
+    [self.criteo testing_registerBannerAndWaitForHTTPResponses];
+
+    XCTAssertEqualObjects(self.grpdInBidRequest, expected);
+}
+
+- (void)testGivenGdprV2Set_whenCriteoRegister_thenConsentStringSetInBidRequest {
+    NSDictionary *expected = @{
+        CR_ApiHandlerGdprVersionKey:        @2,
+        CR_ApiHandlerGdprConsentStringKey:  NSString.gdprConsentStringForTcf2_0,
+        CR_ApiHandlerGdprAppliedKey:        @YES,
+        CR_ApiHandlerGdprConsentGivenKey:   @YES
+    };
+    [self.userDefaults setObject:NSString.gdprConsentStringForTcf2_0
+                          forKey:CR_GdprConsentStringForTcf2_0Key];
+    [self.userDefaults setObject:NSString.gdprOnlyCriteoConsentAllowedString
+                          forKey:CR_GdprVendorConsentsForTcf2_0Key];
+    [self.userDefaults setBool:YES
+                        forKey:CR_GdprAppliesForTcf2_0Key];
+
+    [self.criteo testing_registerBannerAndWaitForHTTPResponses];
+
+    XCTAssertEqualObjects(self.grpdInBidRequest, expected);
+}
+
+- (void)testGivenGdprV2AndV1Set_whenCriteoRegister_thenConsentStringV2SetInBidRequest {
+    NSDictionary *expected = @{
+        CR_ApiHandlerGdprVersionKey:        @2,
+        CR_ApiHandlerGdprConsentStringKey:  NSString.gdprConsentStringForTcf2_0,
+        CR_ApiHandlerGdprAppliedKey:        @YES,
+        CR_ApiHandlerGdprConsentGivenKey:   @YES
+    };
+    [self.userDefaults setObject:NSString.gdprConsentStringForTcf1_1
+                          forKey:CR_GdprConsentStringForTcf1_1Key];
+    [self.userDefaults setObject:NSString.gdprConsentStringForTcf2_0
+                          forKey:CR_GdprConsentStringForTcf2_0Key];
+    [self.userDefaults setObject:NSString.gdprOnlyCriteoConsentAllowedString
+                          forKey:CR_GdprVendorConsentsForTcf2_0Key];
+    [self.userDefaults setBool:YES
+                        forKey:CR_GdprAppliesForTcf2_0Key];
+
+    [self.criteo testing_registerBannerAndWaitForHTTPResponses];
+
+    XCTAssertEqualObjects(self.grpdInBidRequest, expected);
+}
+
+#pragma mark - CCPA
 
 - (void)testGivenIabConsentStringSet_whenCriteoRegister_thenUsIabSetInBidRequest
 {
@@ -91,6 +186,8 @@ do { \
     NSString * actualConsent = [self _iabConsentInLastBidRequestWithCriteo:criteo];
     XCTAssertNil(actualConsent);
 }
+
+#pragma mark - Criteo Optout
 
 - (void)testGivenCriteoUsPrivacyOptOutYES_whenCriteoRegister_thenBidIncludeUsPrivacyOptOutToYES_noAppEventSent
 {
@@ -153,6 +250,11 @@ do { \
 }
 
 #pragma mark - Private methods
+
+- (NSDictionary *)grpdInBidRequest {
+    CR_HttpContent *bidRequest = self.criteo.testing_lastBidHttpContent;
+    return bidRequest.requestBody[CR_ApiHandlerGdprKey];
+}
 
 - (NSString *)_mopubConsentInLastBidRequestWithCriteo:(Criteo *)criteo
 {
