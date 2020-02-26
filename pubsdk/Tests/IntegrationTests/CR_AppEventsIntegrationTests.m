@@ -35,7 +35,7 @@
 
     [self _sendAppGoesForegroundNotification];
 
-    [self criteo_waitForExpectations:@[exp]];
+    [self waitForExpectations:@[exp] timeout:1.];
 }
 
 - (void)testInactiveEventNotSentIfCriteoNotRegister {
@@ -44,7 +44,7 @@
 
     [self _sendAppGoesBackgroundNotification];
 
-    [self criteo_waitForExpectations:@[exp]];
+    [self waitForExpectations:@[exp] timeout:1.];
 }
 
 
