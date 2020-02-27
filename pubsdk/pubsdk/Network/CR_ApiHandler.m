@@ -8,20 +8,37 @@
 
 #import <WebKit/WebKit.h>
 #import "CR_ApiHandler.h"
+#import "CR_Gdpr.h"
 #import "Logging.h"
 #import "NSArray+Criteo.h"
 #import "CR_ThreadManager.h"
 
-NSString * const CR_ApiHandlerUspIabStringKey = @"uspIab";
-NSString * const CR_ApiHandlerUserKey = @"user";
-NSString * const CR_ApiHandlerUspCriteoOptoutKey = @"uspOptout";
-NSString * const CR_ApiHandlerMopubConsentKey = @"mopubConsent";
+NSString * const CR_ApiHandlerBidSlotsIsInterstitialKey = @"interstitial";
+NSString * const CR_ApiHandlerBidSlotsIsNativeKey = @"isNative";
 NSString * const CR_ApiHandlerBidSlotsKey = @"slots";
 NSString * const CR_ApiHandlerBidSlotsPlacementIdKey = @"placementId";
 NSString * const CR_ApiHandlerBidSlotsSizesKey = @"sizes";
-NSString * const CR_ApiHandlerBidSlotsIsNativeKey = @"isNative";
-NSString * const CR_ApiHandlerBidSlotsIsInterstitialKey = @"interstitial";
-// 8 is suggested by Jean Sebastien Faure as a reasonable group size for CDB calls
+NSString * const CR_ApiHandlerBundleIdKey = @"bundleId";
+NSString * const CR_ApiHandlerCpIdKey = @"cpId";
+NSString * const CR_ApiHandlerDeviceModelKey = @"deviceModel";
+NSString * const CR_ApiHandlerDeviceIdTypeKey = @"deviceIdType";
+NSString * const CR_ApiHandlerDeviceIdKey = @"deviceId";
+NSString * const CR_ApiHandlerDeviceIdTypeValue = @"IDFA";
+NSString * const CR_ApiHandlerDeviceOsKey = @"deviceOs";
+NSString * const CR_ApiHandlerGdprKey = @"gdrpConsent";
+NSString * const CR_ApiHandlerGdprVersionKey = @"version";
+NSString * const CR_ApiHandlerGdprConsentGivenKey = @"consentGiven";
+NSString * const CR_ApiHandlerGdprConsentStringKey = @"consentData";
+NSString * const CR_ApiHandlerGdprAppliedKey = @"gdprApplies";
+NSString * const CR_ApiHandlerUspIabStringKey = @"uspIab";
+NSString * const CR_ApiHandlerUserKey = @"user";
+NSString * const CR_ApiHandlerUserAgentKey = @"userAgent";
+NSString * const CR_ApiHandlerUspCriteoOptoutKey = @"uspOptout";
+NSString * const CR_ApiHandlerMopubConsentKey = @"mopubConsent";
+NSString * const CR_ApiHandlerSdkVersionKey = @"sdkVersion";
+NSString * const CR_ApiHandlerProfileIdKey = @"profileId";
+NSString * const CR_ApiHandlerPublisherKey = @"publisher";
+
 static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 
 @interface CR_ApiHandler ()
@@ -71,15 +88,17 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
                                       config:(CR_Config *)config
                                   deviceInfo:(CR_DeviceInfo *)deviceInfo {
     NSMutableDictionary *postBody = [NSMutableDictionary new];
-    postBody[@"sdkVersion"] = config.sdkVersion;
-    postBody[@"profileId"]  = config.profileId;
+    postBody[CR_ApiHandlerSdkVersionKey] = config.sdkVersion;
+    postBody[CR_ApiHandlerProfileIdKey]  = config.profileId;
+
 
     NSMutableDictionary *userDict = [NSMutableDictionary new];
-    userDict[@"deviceModel"]  = config.deviceModel;
-    userDict[@"deviceOs"]     = config.deviceOs;
-    userDict[@"deviceId"]     = deviceInfo.deviceId;
-    userDict[@"userAgent"]    = deviceInfo.userAgent;
-    userDict[@"deviceIdType"] = @"IDFA";
+    userDict[CR_ApiHandlerDeviceModelKey]   = config.deviceModel;
+    userDict[CR_ApiHandlerDeviceOsKey]      = config.deviceOs;
+    userDict[CR_ApiHandlerDeviceIdKey]      = deviceInfo.deviceId;
+    userDict[CR_ApiHandlerUserAgentKey]     = deviceInfo.userAgent;
+    userDict[CR_ApiHandlerDeviceIdTypeKey]  = CR_ApiHandlerDeviceIdTypeValue;
+
     if (consent.usPrivacyIabConsentString.length > 0) {
         userDict[CR_ApiHandlerUspIabStringKey] = consent.usPrivacyIabConsentString;
     }
@@ -92,21 +111,20 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
     if (consent.mopubConsent.length > 0) {
         userDict[CR_ApiHandlerMopubConsentKey] = consent.mopubConsent;
     }
-
     postBody[CR_ApiHandlerUserKey] = userDict;
 
-    NSMutableDictionary *publisherDict = [NSMutableDictionary new];
-    publisherDict[@"bundleId"] = config.appId;
-    publisherDict[@"cpId"]     = config.criteoPublisherId;
-    postBody[@"publisher"] = publisherDict;
+    NSMutableDictionary *publisher = [NSMutableDictionary new];
+    publisher[CR_ApiHandlerBundleIdKey] = config.appId;
+    publisher[CR_ApiHandlerCpIdKey]     = config.criteoPublisherId;
+    postBody[CR_ApiHandlerPublisherKey] = publisher;
 
     //iff gdpr consent value is set, pass it as a gdpr object. Else don't pass blank
     if (consent && consent.consentString) {
         NSMutableDictionary *gdprDict = [NSMutableDictionary new];
-        gdprDict[@"consentData"]  = consent.consentString;
-        gdprDict[@"gdprApplies"]  = @(consent.gdprApplies);
-        gdprDict[@"consentGiven"] = @(consent.consentGiven);
-        postBody[@"gdprConsent"]  = gdprDict;
+        gdprDict[CR_ApiHandlerGdprConsentStringKey] = gdpr.consentString;
+        gdprDict[CR_ApiHandlerGdprAppliedKey]       = @(gdpr.isApplied);
+        gdprDict[CR_ApiHandlerGdprConsentGivenKey]  = @(gdpr.consentGivenToCriteo);
+        postBody[CR_ApiHandlerGdprKey]              = gdprDict;
     }
 
     return postBody;

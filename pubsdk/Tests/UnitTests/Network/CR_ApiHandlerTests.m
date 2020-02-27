@@ -15,16 +15,20 @@
 #import "CR_CacheManager.h"
 #import "CR_Config.h"
 #import "CR_DataProtectionConsent.h"
-#import "Logging.h"
-#import "CR_NetworkManager.h"
 #import "CR_DataProtectionConsentMock.h"
+#import "CR_Gdpr.h"
+#import "CR_NetworkManager.h"
 #import "CR_NetworkManagerMock.h"
 #import "CR_ThreadManager.h"
+#import "Logging.h"
+#import "NSString+GDPR.h"
+#import "pubsdkTests-Swift.h"
 
 @interface CR_ApiHandlerTests : XCTestCase
 
 @property (nonatomic, strong) CR_ApiHandler *apiHandler;
 @property (nonatomic, strong) CR_NetworkManagerMock *networkManagerMock;
+@property (strong, nonatomic, readonly, nullable) NSDictionary *cdbPayload;
 @property (nonatomic, strong) CR_DataProtectionConsentMock *consentMock;
 
 @end
@@ -300,76 +304,6 @@
     XCTAssertTrue([filteredAdUnits3 isEqualToArray:expectedFilteredAdUnits3]);
 }
 
-- (void)testPostBodyWithGdprConsent {
-    CR_Config *mockConfig = [self _buildConfigMock];
-    CR_DeviceInfo *mockDeviceInfo = [self _buildDeviceInfoMock];
-
-    // Make a CR_ApiHandler
-    CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:nil
-                                                              bidFetchTracker:nil
-                                                                threadManager:[[CR_ThreadManager alloc] init]];
-
-    // With consent
-    NSMutableDictionary *postBody = [apiHandler postBodyWithConsent:self.consentMock
-                                                             config:mockConfig
-                                                         deviceInfo:mockDeviceInfo];
-
-    XCTAssertTrue([postBody[@"sdkVersion"] isEqualToString:mockConfig.sdkVersion]);
-    XCTAssertTrue([postBody[@"profileId"]  isEqualToNumber:mockConfig.profileId]);
-
-    XCTAssertTrue([postBody[@"user"][@"userAgent"]    isEqualToString:mockDeviceInfo.userAgent]);
-    XCTAssertTrue([postBody[@"user"][@"deviceId"]     isEqualToString:mockDeviceInfo.deviceId]);
-    XCTAssertTrue([postBody[@"user"][@"deviceOs"]     isEqualToString:mockConfig.deviceOs]);
-    XCTAssertTrue([postBody[@"user"][@"deviceModel"]  isEqualToString:mockConfig.deviceModel]);
-    XCTAssertTrue([postBody[@"user"][@"deviceIdType"] isEqualToString:@"IDFA"]);
-
-    XCTAssertTrue([postBody[@"publisher"][@"bundleId"] isEqualToString:mockConfig.appId]);
-    XCTAssertTrue([postBody[@"publisher"][@"cpId"]     isEqualToString:mockConfig.criteoPublisherId]);
-
-    XCTAssertTrue([postBody[@"gdprConsent"][@"consentData"] isEqualToString:self.consentMock.consentString]);
-    XCTAssertEqual([postBody[@"gdprConsent"][@"gdprApplies"] boolValue], self.consentMock.gdprApplies);
-    XCTAssertEqual([postBody[@"gdprConsent"][@"consentGiven"] boolValue], self.consentMock.consentGiven);
-
-    // Nil consent
-    postBody = [apiHandler postBodyWithConsent:nil
-                                        config:mockConfig
-                                    deviceInfo:mockDeviceInfo];
-
-    XCTAssertTrue([postBody[@"sdkVersion"] isEqualToString:mockConfig.sdkVersion]);
-    XCTAssertTrue([postBody[@"profileId"]  isEqualToNumber:mockConfig.profileId]);
-
-    XCTAssertTrue([postBody[@"user"][@"userAgent"]    isEqualToString:mockDeviceInfo.userAgent]);
-    XCTAssertTrue([postBody[@"user"][@"deviceId"]     isEqualToString:mockDeviceInfo.deviceId]);
-    XCTAssertTrue([postBody[@"user"][@"deviceOs"]     isEqualToString:mockConfig.deviceOs]);
-    XCTAssertTrue([postBody[@"user"][@"deviceModel"]  isEqualToString:mockConfig.deviceModel]);
-    XCTAssertTrue([postBody[@"user"][@"deviceIdType"] isEqualToString:@"IDFA"]);
-
-    XCTAssertTrue([postBody[@"publisher"][@"bundleId"] isEqualToString:mockConfig.appId]);
-    XCTAssertTrue([postBody[@"publisher"][@"cpId"]     isEqualToString:mockConfig.criteoPublisherId]);
-
-    XCTAssertNil(postBody[@"gdprConsent"]);
-
-    self.consentMock.consentString_mock = nil;
-
-    postBody = [apiHandler postBodyWithConsent:self.consentMock
-                                        config:mockConfig
-                                    deviceInfo:mockDeviceInfo];
-
-    XCTAssertTrue([postBody[@"sdkVersion"] isEqualToString:mockConfig.sdkVersion]);
-    XCTAssertTrue([postBody[@"profileId"]  isEqualToNumber:mockConfig.profileId]);
-
-    XCTAssertTrue([postBody[@"user"][@"userAgent"]    isEqualToString:mockDeviceInfo.userAgent]);
-    XCTAssertTrue([postBody[@"user"][@"deviceId"]     isEqualToString:mockDeviceInfo.deviceId]);
-    XCTAssertTrue([postBody[@"user"][@"deviceOs"]     isEqualToString:mockConfig.deviceOs]);
-    XCTAssertTrue([postBody[@"user"][@"deviceModel"]  isEqualToString:mockConfig.deviceModel]);
-    XCTAssertTrue([postBody[@"user"][@"deviceIdType"] isEqualToString:@"IDFA"]);
-
-    XCTAssertTrue([postBody[@"publisher"][@"bundleId"] isEqualToString:mockConfig.appId]);
-    XCTAssertTrue([postBody[@"publisher"][@"cpId"]     isEqualToString:mockConfig.criteoPublisherId]);
-
-    XCTAssertNil(postBody[@"gdprConsent"]);
-}
-
 - (void)testSlotsForRequest {
     CR_CacheAdUnit *adUnit1  = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"slot1" width:42 height:33];
     CR_CacheAdUnit *adUnit2  = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"slot2" width:42 height:33];
@@ -409,7 +343,46 @@
     XCTAssertNil(nonNativeSlots[0][@"isNative"]);
 }
 
-#pragma mark - US Privacy Consent
+#pragma mark - CDB call
+
+- (void)testCdbCallContainsSdkAndProfile {
+    CR_Config *config = [self _buildConfigMock];
+
+    [self _callCdb];
+
+    XCTAssertEqualObjects(self.cdbPayload[CR_ApiHandlerSdkVersionKey], config.sdkVersion);
+    XCTAssertEqualObjects(self.cdbPayload[CR_ApiHandlerProfileIdKey], config.profileId);
+}
+
+- (void)testCdbCallContainsPublisherInfo {
+    CR_Config *config = [self _buildConfigMock];
+    NSDictionary *expected = @{
+        CR_ApiHandlerCpIdKey: config.criteoPublisherId,
+        CR_ApiHandlerBundleIdKey: config.appId,
+    };
+
+    [self _callCdb];
+
+    XCTAssertEqualObjects(self.cdbPayload[CR_ApiHandlerPublisherKey], expected);
+}
+
+- (void)testCdbCallContainsUserInfo {
+    CR_Config *config = [self _buildConfigMock];
+    CR_DeviceInfo *deviceInfo = [self _buildDeviceInfoMock];
+    NSDictionary *expected = @{
+        CR_ApiHandlerDeviceIdTypeKey: CR_ApiHandlerDeviceIdTypeValue,
+        CR_ApiHandlerDeviceIdKey: deviceInfo.deviceId,
+        CR_ApiHandlerDeviceOsKey: config.deviceOs,
+        CR_ApiHandlerDeviceModelKey: config.deviceModel,
+        CR_ApiHandlerUserAgentKey: deviceInfo.userAgent,
+        CR_ApiHandlerUspIabStringKey: CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString
+    };
+
+    [self _callCdb];
+
+    XCTAssertEqualObjects(self.cdbPayload[CR_ApiHandlerUserKey], expected);
+}
+
 
 - (void)testCallCdbWithUspIapContentString
 {
@@ -493,6 +466,10 @@
 }
 
 #pragma mark - Private methods
+
+- (NSDictionary *)cdbPayload {
+    return self.networkManagerMock.lastPostBody;
+}
 
 - (void)_callCdb
 {
