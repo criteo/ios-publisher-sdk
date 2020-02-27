@@ -43,18 +43,6 @@ NSString * const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String
     return self;
 }
 
-- (BOOL)gdprApplies {
-    return self.gdpr.isApplied;
-}
-
-- (NSString *)consentString {
-    return self.gdpr.consentString;
-}
-
-- (BOOL)consentGiven {
-    return self.gdpr.consentGivenToCriteo;
-}
-
 - (NSString *)usPrivacyIabConsentString {
     return self.ccpaConsent.iabConsentString;
 }

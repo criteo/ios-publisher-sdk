@@ -8,3 +8,6 @@
 #import "CR_FeedbackStorage.h"
 #import "CR_CacheAdUnit.h"
 #import <Cassette.h>
+#import "CR_Gdpr.h"
+#import "NSString+GDPR.h"
+

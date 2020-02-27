@@ -8,16 +8,17 @@
 
 #import "CR_DataProtectionConsent.h"
 
+@class CR_GdprMock;
+
 NS_ASSUME_NONNULL_BEGIN
 
-FOUNDATION_EXTERN NSString * const CR_DataProtectionConsentMockDefaultConsentString;
-FOUNDATION_EXTERN NSString * const CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString;
+extern NSString * const CR_DataProtectionConsentMockDefaultConsentString;
+extern NSString * const CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString;
 
 @interface CR_DataProtectionConsentMock : CR_DataProtectionConsent
 
-@property (nonatomic, copy, nullable) NSString *consentString_mock;
-@property (nonatomic, assign) BOOL gdprApplies_mock;
-@property (nonatomic, assign) BOOL consentGiven_mock;
+@property (strong, nonatomic) CR_GdprMock *gdprMock;
+
 @property (nonatomic, assign) BOOL isAdTrackingEnabled_mock;
 @property (nonatomic, copy, nullable) NSString *usPrivacyIabConsentString_mock;
 

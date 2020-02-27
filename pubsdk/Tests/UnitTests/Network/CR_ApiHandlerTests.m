@@ -383,6 +383,52 @@
     XCTAssertEqualObjects(self.cdbPayload[CR_ApiHandlerUserKey], expected);
 }
 
+#pragma mark GDPR
+
+- (void)testCdbCallContainsGdprUnknown {
+    [self _callCdb];
+
+    XCTAssertNil(self.cdbPayload[CR_ApiHandlerGdprKey]);
+}
+
+- (void)testCdbCallWithNilGdprHasNoGdprKey { // To avoid crash with unvalid GDPR object
+    [self.consentMock.gdprMock configureWithTcfVersion:CR_GdprTcfVersion2_0];
+    self.consentMock.gdprMock.consentStringValue = nil;
+
+    [self _callCdb];
+
+    XCTAssertNil(self.cdbPayload[CR_ApiHandlerGdprKey]);
+}
+
+- (void)testCdbCallContainsGdprV2 {
+    [self.consentMock.gdprMock configureWithTcfVersion:CR_GdprTcfVersion2_0];
+    NSDictionary *expected = @{
+        CR_ApiHandlerGdprVersionKey:        @2,
+        CR_ApiHandlerGdprConsentStringKey:  NSString.gdprConsentStringForTcf2_0,
+        CR_ApiHandlerGdprAppliedKey:        @YES,
+        CR_ApiHandlerGdprConsentGivenKey:   @YES
+    };
+
+    [self _callCdb];
+
+    XCTAssertEqualObjects(self.cdbPayload[CR_ApiHandlerGdprKey], expected);
+}
+
+- (void)testCdbCallContainsGdprV1 {
+    [self.consentMock.gdprMock configureWithTcfVersion:CR_GdprTcfVersion1_1];
+    NSDictionary *expected = @{
+        CR_ApiHandlerGdprVersionKey:        @1,
+        CR_ApiHandlerGdprConsentStringKey:  NSString.gdprConsentStringForTcf1_1,
+        CR_ApiHandlerGdprAppliedKey:        @YES,
+        CR_ApiHandlerGdprConsentGivenKey:   @YES
+    };
+
+    [self _callCdb];
+
+    XCTAssertEqualObjects(self.cdbPayload[CR_ApiHandlerGdprKey], expected);
+}
+
+#pragma mark CCPA
 
 - (void)testCallCdbWithUspIapContentString
 {

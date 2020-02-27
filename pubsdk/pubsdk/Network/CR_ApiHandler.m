@@ -41,6 +41,14 @@ NSString * const CR_ApiHandlerPublisherKey = @"publisher";
 
 static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 
+NSNumber *NumberFromGdprTcfVersion(CR_GdprTcfVersion version) {
+    switch (version) {
+        case CR_GdprTcfVersionUnknown: return nil;
+        case CR_GdprTcfVersion1_1: return @1;
+        case CR_GdprTcfVersion2_0: return @2;
+    }
+}
+
 @interface CR_ApiHandler ()
 
 @property (nonatomic, strong, readonly) CR_ThreadManager *threadManager;
@@ -118,12 +126,15 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
     publisher[CR_ApiHandlerCpIdKey]     = config.criteoPublisherId;
     postBody[CR_ApiHandlerPublisherKey] = publisher;
 
-    //iff gdpr consent value is set, pass it as a gdpr object. Else don't pass blank
-    if (consent && consent.consentString) {
+    CR_Gdpr *gdpr = consent.gdpr;
+    const BOOL shouldAddGdpr =  (gdpr.tcfVersion != CR_GdprTcfVersionUnknown) &&
+                                (gdpr.consentString != nil);
+    if (shouldAddGdpr) {
         NSMutableDictionary *gdprDict = [NSMutableDictionary new];
         gdprDict[CR_ApiHandlerGdprConsentStringKey] = gdpr.consentString;
         gdprDict[CR_ApiHandlerGdprAppliedKey]       = @(gdpr.isApplied);
         gdprDict[CR_ApiHandlerGdprConsentGivenKey]  = @(gdpr.consentGivenToCriteo);
+        gdprDict[CR_ApiHandlerGdprVersionKey]       = NumberFromGdprTcfVersion(gdpr.tcfVersion);
         postBody[CR_ApiHandlerGdprKey]              = gdprDict;
     }
 

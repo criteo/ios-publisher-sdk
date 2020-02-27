@@ -16,19 +16,16 @@ NS_ASSUME_NONNULL_BEGIN
 FOUNDATION_EXTERN NSString * const CR_DataProtectionConsentMopubConsentKey;
 
 /**
- Load the consent strings from the NSUserDefault.
+ Aggregate logics regarding the privacy of the user.
 
- Note that, for now, the following code loads at the initialization the strings because
- we consider that the Publishers must init the SDK *after* asking the consent. If the publisher
- asks the consent after, the properties won't be updated.
+ e.g GDPR, CCPA, Mopub consent, Criteo consent
  */
 @interface CR_DataProtectionConsent: NSObject
 
+/**
+ Object that handle all the GDPR logic.
+ */
 @property (strong, nonatomic, readonly) CR_Gdpr *gdpr;
-
-@property (copy, readonly, nonatomic) NSString *consentString;
-@property (readonly, nonatomic) BOOL gdprApplies;
-@property (readonly, nonatomic) BOOL consentGiven;
 
 @property (readonly, nonatomic) BOOL isAdTrackingEnabled;
 
