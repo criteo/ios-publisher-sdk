@@ -19,7 +19,7 @@
 #import "CR_BidFetchTracker.h"
 @class CR_ThreadManager;
 
-typedef void (^AHCdbResponse)(CR_CdbResponse *cdbResponse);
+typedef void (^CR_CdbCompletionHandler)(CR_CdbResponse *cdbResponse);
 typedef void (^AHConfigResponse)(NSDictionary *configValues);
 typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receivedAt);
 
@@ -62,11 +62,11 @@ extern NSString * const CR_ApiHandlerPublisherKey;
  * Calls CDB and get the bid & creative for the adUnit
  * adUnit must have an Id, width and length
  */
-- (void)        callCdb:(CR_CacheAdUnitArray *)adUnits
-                consent:(CR_DataProtectionConsent *)consent
-                 config:(CR_Config *)config
-             deviceInfo:(CR_DeviceInfo *)deviceInfo
-   ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler;
+- (void)  callCdb:(CR_CacheAdUnitArray *)adUnits
+          consent:(CR_DataProtectionConsent *)consent
+           config:(CR_Config *)config
+       deviceInfo:(CR_DeviceInfo *)deviceInfo
+completionHandler:(CR_CdbCompletionHandler)completionHandler;
 
 /*
  * Calls the pub-sdk config endpoint and gets the config values for the publisher

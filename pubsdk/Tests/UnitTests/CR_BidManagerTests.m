@@ -33,14 +33,14 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                               consent:[OCMArg any] \
                                config:[OCMArg any] \
                            deviceInfo:[OCMArg any] \
-                 ahCdbResponseHandler:[OCMArg any]]);
+                    completionHandler:[OCMArg any]]);
 
 #define CR_OCMockRejectCallCdb(apiHandlerMock, adUnits) \
     OCMReject([apiHandlerMock callCdb:adUnits \
                               consent:[OCMArg any] \
                                config:[OCMArg any] \
                            deviceInfo:[OCMArg any] \
-                 ahCdbResponseHandler:[OCMArg any]]);
+                    completionHandler:[OCMArg any]]);
 
 @interface CR_BidManagerTests : XCTestCase
 

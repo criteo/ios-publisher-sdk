@@ -160,26 +160,26 @@ NSNumber *NumberFromGdprTcfVersion(CR_GdprTcfVersion version) {
 }
 
 // Wrapper method to make the cdb call async
-- (void)        callCdb:(CR_CacheAdUnitArray *)adUnits
-                consent:(CR_DataProtectionConsent *)consent
-                 config:(CR_Config *)config
-             deviceInfo:(CR_DeviceInfo *)deviceInfo
-   ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler {
+- (void)  callCdb:(CR_CacheAdUnitArray *)adUnits
+          consent:(CR_DataProtectionConsent *)consent
+           config:(CR_Config *)config
+       deviceInfo:(CR_DeviceInfo *)deviceInfo
+completionHandler:(CR_CdbCompletionHandler)completionHandler {
     [self.threadManager dispatchAsyncOnGlobalQueue:^{
         [self doCdbApiCall:adUnits
-                     consent:consent
-                      config:config
-                  deviceInfo:deviceInfo
-        ahCdbResponseHandler:ahCdbResponseHandler];
+                   consent:consent
+                    config:config
+                deviceInfo:deviceInfo
+         completionHandler:completionHandler];
     }];
 }
 
 // Method that makes the actual call to CDB
-- (void) doCdbApiCall:(CR_CacheAdUnitArray *)adUnits
-              consent:(CR_DataProtectionConsent *)consent
-               config:(CR_Config *)config
-           deviceInfo:(CR_DeviceInfo *)deviceInfo
- ahCdbResponseHandler:(AHCdbResponse)ahCdbResponseHandler {
+- (void)doCdbApiCall:(CR_CacheAdUnitArray *)adUnits
+             consent:(CR_DataProtectionConsent *)consent
+              config:(CR_Config *)config
+          deviceInfo:(CR_DeviceInfo *)deviceInfo
+   completionHandler:(CR_CdbCompletionHandler)completionHandler {
 
     CR_CacheAdUnitArray *requestAdUnits = [self filterRequestAdUnitsAndSetProgressFlags:adUnits];
     if (requestAdUnits.count == 0) {
@@ -203,9 +203,9 @@ NSNumber *NumberFromGdprTcfVersion(CR_GdprTcfVersion version) {
         [self.networkManager postToUrl:url postBody:postBody responseHandler:^(NSData *data, NSError *error) {
             CLogInfo(@"[INFO][API_] CdbPostCall.finished");
             if (error == nil) {
-                if (data && ahCdbResponseHandler) {
+                if (data && completionHandler) {
                     CR_CdbResponse *cdbResponse = [CR_CdbResponse getCdbResponseForData:data receivedAt:[NSDate date]];
-                    ahCdbResponseHandler(cdbResponse);
+                    completionHandler(cdbResponse);
                 } else {
                     CLog(@"Error on post to CDB : response from CDB was nil");
                 }

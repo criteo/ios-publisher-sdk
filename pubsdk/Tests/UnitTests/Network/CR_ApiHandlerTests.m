@@ -52,7 +52,7 @@
                      consent:self.consentMock
                       config:[self _buildConfigMock]
                   deviceInfo:[self _buildDeviceInfoMock]
-        ahCdbResponseHandler:^(CR_CdbResponse *cdbResponse) {
+           completionHandler:^(CR_CdbResponse *cdbResponse) {
 
        XCTAssertNotNil(cdbResponse.cdbBids);
        CLog(@"Data length is %ld", [cdbResponse.cdbBids count]);
@@ -100,7 +100,7 @@
                 consent:self.consentMock
                  config:mockConfig
              deviceInfo:mockDeviceInfo
-   ahCdbResponseHandler:^(CR_CdbResponse *cdbResponse) {
+      completionHandler:^(CR_CdbResponse *cdbResponse) {
 
        XCTAssertNotNil(cdbResponse.cdbBids);
        CLog(@"Data length is %ld", [cdbResponse.cdbBids count]);
@@ -174,7 +174,7 @@
                 consent:nil
                  config:nil
              deviceInfo:nil
-   ahCdbResponseHandler:nil];
+      completionHandler:nil];
 }
 
 - (void) testCDBInvokedWhenBidFetchNotInProgress {
@@ -194,7 +194,7 @@
                 consent:nil
                  config:nil
              deviceInfo:nil
-   ahCdbResponseHandler:nil];
+      completionHandler:nil];
     OCMVerifyAllWithDelay(mockBidFetchTracker, 1);
     OCMVerifyAllWithDelay(mockNetworkManager, 1);
 }
@@ -218,7 +218,7 @@
                 consent:nil
                  config:nil
              deviceInfo:nil
-   ahCdbResponseHandler:nil];
+      completionHandler:nil];
     OCMVerifyAllWithDelay(mockBidFetchTracker, 1);
 }
 
@@ -239,7 +239,7 @@
                 consent:nil
                  config:nil
              deviceInfo:nil
-   ahCdbResponseHandler:nil];
+      completionHandler:nil];
     OCMVerifyAllWithDelay(mockBidFetchTracker, 1);
 }
 
@@ -259,14 +259,14 @@
                     consent:nil
                      config:nil
                  deviceInfo:nil
-       ahCdbResponseHandler:nil];
+          completionHandler:nil];
     });
     dispatch_async(queue, ^{
         [apiHandler callCdb:@[testAdUnit]
                     consent:nil
                      config:nil
                  deviceInfo:nil
-       ahCdbResponseHandler:nil];
+          completionHandler:nil];
     });
     OCMVerifyAllWithDelay(mockNetworkManager, 5);
 }
@@ -524,7 +524,7 @@
                      consent:self.consentMock
                       config:[self _buildConfigMock]
                   deviceInfo:[self _buildDeviceInfoMock]
-        ahCdbResponseHandler:^(CR_CdbResponse *cdbResponse) {
+           completionHandler:^(CR_CdbResponse *cdbResponse) {
         [expectation fulfill];
     }];
     [self waitForExpectations:@[expectation] timeout:1.f];
