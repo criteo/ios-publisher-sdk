@@ -45,8 +45,7 @@
 }
 
 - (BOOL)isReadyToSend {
-    //NOTE: It is temporary implementation. It will be updated soon!
-    return self.elapsedTimestamp != nil;
+    return self.elapsedTimestamp != nil || self.expired || self.timeouted;
 }
 
 #pragma mark - NSSecureCoding

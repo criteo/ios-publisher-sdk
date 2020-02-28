@@ -46,6 +46,28 @@ class CR_FeedbackMessageTests : XCTestCase {
         assertMessageEqualityAfterEncodingAndDecoding(message: createFullyFilledFeedbackMessage())
     }
 
+    func testEmptyMessageIsNotReadyToSend() {
+        XCTAssertFalse(CR_FeedbackMessage().isReadyToSend);
+    }
+
+    func testMessageWithElapsedTimeIsReadyToSend() {
+        let message = CR_FeedbackMessage()
+        message.elapsedTimestamp = 100
+        XCTAssertTrue(message.isReadyToSend)
+    }
+
+    func testMessageWithTimeoutIsReadyToSend() {
+        let message = CR_FeedbackMessage()
+        message.isTimeouted = true
+        XCTAssertTrue(message.isReadyToSend)
+    }
+
+    func testExpiredMessageIsRTS() {
+        let message = CR_FeedbackMessage()
+        message.isExpired = true
+        XCTAssertTrue(message.isReadyToSend)
+    }
+
     private func createPartialFilledFeedbackMessage() -> CR_FeedbackMessage {
         let result = CR_FeedbackMessage()
         result.cdbCallStartTimestamp = 100
