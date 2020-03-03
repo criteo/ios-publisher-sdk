@@ -33,7 +33,8 @@
                                                       creative:@"someTag1"
                                                     displayUrl:@"someJS1"
                                                     insertTime:firstDate
-                                                  nativeAssets:nil];
+                                                  nativeAssets:nil
+                                                  impressionId:nil];
     CR_CdbBid *secondCdbBid = [[CR_CdbBid alloc] initWithZoneId:@(2222)
                                                     placementId:@"adunitid2"
                                                             cpm:@"2.00"
@@ -44,7 +45,8 @@
                                                        creative:@"someTag2"
                                                      displayUrl:@"someJS2"
                                                      insertTime:secondDate
-                                                   nativeAssets:nil];
+                                                   nativeAssets:nil
+                                                   impressionId:nil];
     CR_CdbBid *thirdCdbBid = [[CR_CdbBid alloc] initWithZoneId:@(3333)
                                                    placementId:@"adunitid3"
                                                            cpm:@"3.00"
@@ -55,7 +57,8 @@
                                                       creative:@"someTag3"
                                                     displayUrl:@"someJS3"
                                                     insertTime:thirdDate
-                                                  nativeAssets:nil];
+                                                  nativeAssets:nil
+                                                  impressionId:nil];
 
     CR_TokenCache *tokenCache = [[CR_TokenCache alloc] init];
     CRBidToken *firstToken = [tokenCache getTokenForBid:firstCdbBid adUnitType:CRAdUnitTypeBanner];
@@ -104,7 +107,8 @@
                                                  creative:@"someTag1"
                                                displayUrl:@"someJS1"
                                                insertTime:firstDate
-                                             nativeAssets:nil];
+                                             nativeAssets:nil
+                                             impressionId:nil];
 
 
     CR_TokenCache *tokenCache = [[CR_TokenCache alloc] init];

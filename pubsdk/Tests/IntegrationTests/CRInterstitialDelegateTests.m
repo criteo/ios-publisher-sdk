@@ -57,7 +57,8 @@
                                         creative:@"THIS IS USELESS LEGACY"
                                       displayUrl:displayURL
                                       insertTime:[NSDate date]
-                                   nativeAssets:nil];
+                                   nativeAssets:nil
+                                   impressionId:nil];
     }
     return bid;
 }

@@ -74,7 +74,8 @@
                                               creative:@"THIS IS USELESS LEGACY"
                                             displayUrl:displayURL
                                             insertTime:[NSDate date]
-                                          nativeAssets:nil];
+                                          nativeAssets:nil
+                                          impressionId:nil];
 
     OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn(bid);
 
@@ -119,7 +120,8 @@
                                               creative:@"THIS IS USELESS LEGACY"
                                             displayUrl:displayURL
                                             insertTime:[NSDate date]
-                                          nativeAssets:nil];
+                                          nativeAssets:nil
+                                          impressionId:nil];
 
 
     OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn(bid);

@@ -1,5 +1,6 @@
 {
     "slots": [{
+        "impId": "5e5e5b205829c327e17bcce3c8b8f7fd",
         "placementId": "/140800857/Endeavour_Native",
         "cpm": "0.04",
         "currency": "USD",
@@ -55,6 +56,7 @@
         }
     },
     {
+        "impId": "5e5e5b205829c327e17bcce3c8b8f7fd",
         "placementId": "/140800857/Endeavour_Native",
         "cpm": "0.04",
         "currency": "USD",
@@ -110,6 +112,7 @@
         }
     },
     {
+        "impId": "5e5e5b205829c327e17bcce3c8b8f7fd",
         "placementId": "\/140800857\/Endeavour_320x50",
         "cpm": "0.04",
         "currency": "USD",

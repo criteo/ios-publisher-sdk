@@ -18,6 +18,7 @@ NSUInteger CR_CdbBidBuilderWidthValueDefault = 300;
 NSUInteger CR_CdbBidBuilderHeightValueDefault = 250;
 NSTimeInterval CR_CdbBidBuilderTtlValueDefault = 200;
 NSString *CR_CdbBidBuilderDisplayUrlValueDefault = @"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js";
+NSString *CR_CdbBidBuilderImpressionIdValueDefault = @"thisIsImpId";
 
 #define PROPERTY_INJECTION(name, type, defaultValue) \
 do { \
@@ -44,6 +45,7 @@ do { \
         PROPERTY_INJECTION(displayUrl, NSString *, CR_CdbBidBuilderDisplayUrlValueDefault);
         PROPERTY_INJECTION(insertTime, NSDate *, [NSDate date]);
         PROPERTY_INJECTION(nativeAssets, CR_NativeAssets *, nil);
+        PROPERTY_INJECTION(impressionId, NSString *, CR_CdbBidBuilderImpressionIdValueDefault);
 
         __weak typeof(self) weakSelf = self;
         _adUnit = ^CR_CdbBidBuilder *(CR_CacheAdUnit *value) {
@@ -71,7 +73,8 @@ do { \
                                               creative:self.currencyValue
                                             displayUrl:self.displayUrlValue
                                             insertTime:self.insertTimeValue
-                                          nativeAssets:self.nativeAssetsValue];
+                                          nativeAssets:self.nativeAssetsValue
+                                          impressionId:self.impressionIdValue];
     return bid;
 }
 

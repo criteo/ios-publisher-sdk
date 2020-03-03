@@ -559,7 +559,8 @@
                                                     currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil
                                                   displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
                                                   insertTime:[NSDate date]
-                                                nativeAssets:nil];
+                                                nativeAssets:nil
+                                                impressionId:nil];
     return testBid_1;
 }
 
@@ -568,7 +569,8 @@
                                                     currency:@"USD" width:@(320) height:@(50) ttl:700 creative:nil
                                                   displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative2.png' width='300' height='250' />"
                                                   insertTime:[NSDate date]
-                                                nativeAssets:nil];
+                                                nativeAssets:nil
+                                                impressionId:nil];
     return testBid_2;
 }
 

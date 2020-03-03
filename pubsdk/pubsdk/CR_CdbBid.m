@@ -34,7 +34,8 @@ static CR_CdbBid *emptyBid;
                                             creative:nil
                                           displayUrl:nil
                                           insertTime:nil
-                                        nativeAssets:nil];
+                                        nativeAssets:nil
+                                        impressionId:nil];
     }
 }
 
@@ -54,7 +55,8 @@ static CR_CdbBid *emptyBid;
                        creative:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
                      displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js"
                      insertTime:[NSDate date]
-                   nativeAssets:nil];
+                   nativeAssets:nil
+                   impressionId:nil];
 }
 
 - (instancetype) initWithZoneId:(NSNumber *) zoneId
@@ -67,7 +69,8 @@ static CR_CdbBid *emptyBid;
                        creative:(NSString *) creative
                      displayUrl:(NSString *) displayUrl
                      insertTime:(NSDate *) insertTime
-                   nativeAssets:(CR_NativeAssets *) nativeAssets {
+                   nativeAssets:(CR_NativeAssets *) nativeAssets
+                   impressionId:(NSString *) impressionId {
     if(self = [super init]) {
         _zoneId = zoneId;
         _placementId = placementId;
@@ -82,6 +85,7 @@ static CR_CdbBid *emptyBid;
         _mopubCompatibleDisplayUrl = [NSString mopubCompatibleDisplayUrlForDisplayUrl:displayUrl];
         _insertTime = insertTime;
         _nativeAssets = [nativeAssets copy];
+        _impressionId = impressionId;
     }
     return self;
 }
@@ -98,6 +102,7 @@ static CR_CdbBid *emptyBid;
         NSNumber *width = slot[@"width"];
         NSNumber *height = slot[@"height"];
         NSString *creative = slot[@"creative"];
+        NSString *impId = slot[@"impId"];
         // Hard coding to 15 minutes for now
         // TODO: move this default to the config
         NSTimeInterval ttl = (slot && slot[@"ttl"]) ? [slot[@"ttl"] doubleValue]: defaultValue;
@@ -107,7 +112,18 @@ static CR_CdbBid *emptyBid;
         NSString *displayUrl = [NSString stringWithStringOrNil:slot[@"displayUrl"]];
         NSDictionary *assetsDict = slot[@"native"];
         CR_NativeAssets *nativeAssets = assetsDict ? [[CR_NativeAssets alloc] initWithDict:assetsDict] : nil;
-        self = [[CR_CdbBid alloc] initWithZoneId:zoneId placementId:placementId cpm:cpm currency:currency width:width height:height ttl:ttl creative:creative displayUrl:displayUrl insertTime:receivedAt nativeAssets:nativeAssets];
+        self = [[CR_CdbBid alloc] initWithZoneId:zoneId
+                                     placementId:placementId
+                                             cpm:cpm
+                                        currency:currency
+                                           width:width
+                                          height:height
+                                             ttl:ttl
+                                        creative:creative
+                                      displayUrl:displayUrl
+                                      insertTime:receivedAt
+                                    nativeAssets:nativeAssets
+                                    impressionId:impId];
     }
     return self;
 }
@@ -127,6 +143,7 @@ static CR_CdbBid *emptyBid;
     hashval ^= (NSUInteger)_ttl;
     hashval ^= _insertTime.hash;
     hashval ^= _nativeAssets.hash;
+    hashval ^= _impressionId.hash;
     return hashval;
 }
 
@@ -145,6 +162,7 @@ static CR_CdbBid *emptyBid;
     result &= _ttl                                  == otherCdbBid.ttl;
     result &= [NSObject object:_insertTime   isEqualTo:otherCdbBid.insertTime];
     result &= [NSObject object:_nativeAssets isEqualTo:otherCdbBid.nativeAssets];
+    result &= [NSObject object:_impressionId isEqualTo:otherCdbBid.impressionId];
     return result;
 }
 
@@ -176,7 +194,8 @@ static CR_CdbBid *emptyBid;
                                                creative:self.creative
                                              displayUrl:self.displayUrl
                                              insertTime:self.insertTime
-                                           nativeAssets:self.nativeAssets];
+                                           nativeAssets:self.nativeAssets
+                                           impressionId:self.impressionId];
     return copy;
 }
 

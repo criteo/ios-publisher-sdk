@@ -25,6 +25,7 @@
 @property (readonly, nonatomic) NSString *displayUrl;
 @property (readonly, nonatomic) NSString *dfpCompatibleDisplayUrl;
 @property (readonly, nonatomic) NSString *mopubCompatibleDisplayUrl;
+@property (readonly, nonatomic) NSString *impressionId;
 @property (readonly, nonatomic) NSDate *insertTime;
 @property (readonly, copy, nonatomic) CR_NativeAssets *nativeAssets;
 @property (readonly) BOOL isValid;
@@ -49,7 +50,8 @@
                        creative:(NSString *) creative   // creative is an useless legacy field
                      displayUrl:(NSString *) displayUrl
                      insertTime:(NSDate *) insertTime   // TODO: Move this to a state object
-                   nativeAssets:(CR_NativeAssets *) nativeAssets;
+                   nativeAssets:(CR_NativeAssets *) nativeAssets
+                   impressionId:(NSString *) impressionId;
 
 - (instancetype) initWithDict:(NSDictionary *)slot receivedAt:(NSDate *)receivedAt;
 - (BOOL) isEmpty;

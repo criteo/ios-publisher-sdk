@@ -31,6 +31,7 @@ PROPERTY_DECLARATION(creative, NSString *, copy);
 PROPERTY_DECLARATION(displayUrl, NSString *, copy);
 PROPERTY_DECLARATION(insertTime, NSDate *, copy);
 PROPERTY_DECLARATION(nativeAssets, CR_NativeAssets *, strong);
+PROPERTY_DECLARATION(impressionId, NSString *, copy);
 
 /** Shortcut for placementId, width and height of the ad unit. */
 @property (nonatomic, readonly, copy) CR_CdbBidBuilder *(^adUnit)(CR_CacheAdUnit *);
