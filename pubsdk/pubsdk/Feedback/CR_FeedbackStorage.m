@@ -40,8 +40,8 @@
     return [self.sendingQueue peek:[self.sendingQueue size]];
 }
 
-- (void)removeMessages:(NSUInteger)amount {
-    [self.sendingQueue pop:amount];
+- (void)removeFirstMessagesWithCount:(NSUInteger)count {
+    [self.sendingQueue pop:count];
 }
 
 - (void)updateMessageWithAdUnit:(CR_CacheAdUnit *)adUnit by:(void (^)(CR_FeedbackMessage *message))updateFunction {

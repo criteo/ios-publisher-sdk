@@ -20,6 +20,7 @@
 #import <MoPub.h>
 #import "CR_CdbBidBuilder.h"
 #import "CR_DeviceInfoMock.h"
+#import "CR_FeedbackStorage+Internal.h"
 
 static NSString * const CR_BidManagerTestsCpm = @"crt_cpm";
 static NSString * const CR_BidManagerTestsDisplayUrl = @"crt_displayUrl";
@@ -99,6 +100,14 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
     self.dfpRequest = [[DFPRequest alloc] init];
     self.dfpRequest.customTargeting = @{ @"key_1": @"object 1", @"key_2": @"object_2" };
+
+    NSUInteger messageCount = [self.builder.feedbackStorage messagesReadyToSend].count;
+    [self.builder.feedbackStorage removeFirstMessagesWithCount:messageCount];
+}
+
+- (void)tearDown {
+    NSUInteger messageCount = [self.builder.feedbackStorage messagesReadyToSend].count;
+    [self.builder.feedbackStorage removeFirstMessagesWithCount:messageCount];
 }
 
 - (void)testGetBidForCachedAdUnits {
@@ -392,7 +401,60 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     OCMVerify([self.configManagerMock refreshConfig:[OCMArg any]]);
 }
 
+- (void)testCdbCallUpdateFeedback {
+    CR_CdbResponse *response = [CR_CdbResponse getCdbResponseForData:[NSData new] receivedAt:[NSDate date]];
+    response.cdbBids = @[CR_CdbBidBuilder.new.adUnit(self.adUnit1).build];
+
+    [self configureApiHandlerMockCdbCallCompletion:response error:nil];
+
+    [self.bidManager prefetchBid:self.adUnit1];
+
+    NSString *filename = [self.builder.feedbackStorage getOrCreateFilenameForAdUnit:self.adUnit1];
+    CR_FeedbackMessage *feedbackMessage = [self.builder.feedbackStorage readOrCreateFeedbackMessageByFilename:filename];
+    XCTAssertNotNil(feedbackMessage.cdbCallStartTimestamp);
+    XCTAssertNotNil(feedbackMessage.cdbCallEndTimestamp);
+}
+
+- (void)testCdbCallTimeoutUpdateFeedback {
+    NSError *error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorTimedOut userInfo:nil];
+    [self configureApiHandlerMockCdbCallCompletion:nil error:error];
+
+    [self.bidManager prefetchBid:self.adUnit1];
+
+    NSArray<CR_FeedbackMessage *> *messages = [self.builder.feedbackStorage messagesReadyToSend];
+    XCTAssertEqual(messages.count, 1);
+    XCTAssertTrue(messages[0].isTimeouted);
+}
+
+- (void)testGetBidUpdateFeedbackElapsed {
+    [self.bidManager getBid:self.adUnit1];
+
+    NSArray<CR_FeedbackMessage *> *messages = [self.builder.feedbackStorage messagesReadyToSend];
+    XCTAssertEqual(messages.count, 1);
+    XCTAssertNotNil(messages[0].elapsedTimestamp);
+}
+
+- (void)testGetExpiredBidUpdateFeedbackExpired {
+    self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).expiredInsertTime().build;
+    self.cacheManager.bidCache[self.adUnit1] = self.bid1;
+
+    [self.bidManager getBid:self.adUnit1];
+
+    NSArray<CR_FeedbackMessage *> *messages = [self.builder.feedbackStorage messagesReadyToSend];
+    XCTAssertEqual(messages.count, 1);
+    XCTAssertTrue(messages[0].isExpired);
+}
+
 #pragma mark - Private
+
+- (void)configureApiHandlerMockCdbCallCompletion:(CR_CdbResponse * _Nullable)cdbResponse error:(NSError * _Nullable)error {
+    id completion = [OCMArg invokeBlockWithArgs:(cdbResponse ? cdbResponse : [NSNull  null]), (error ? error : [NSNull null]), nil];
+    OCMStub([self.apiHandlerMock callCdb:[OCMArg any]
+                                 consent:[OCMArg any]
+                                  config:[OCMArg any]
+                              deviceInfo:[OCMArg any]
+                       completionHandler:completion]);
+}
 
 - (void)_checkMandatoryNativeAssets:(DFPRequest *)dfpBidRequest nativeBid:(CR_CdbBid *)nativeBid {
     CR_NativeAssets *nativeAssets = nativeBid.nativeAssets;

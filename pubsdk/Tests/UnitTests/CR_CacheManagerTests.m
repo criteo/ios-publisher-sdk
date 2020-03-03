@@ -12,9 +12,13 @@
 #import "CR_CacheAdUnit.h"
 #import "CR_CacheManager.h"
 #import "CR_DeviceInfo.h"
+#import "CR_CdbBidBuilder.h"
 
 @interface CR_CacheManagerTests : XCTestCase
 
+@property (strong) CR_CacheManager *cacheManager;
+@property (strong) CR_CacheAdUnit *adUnit;
+@property (strong) CR_CdbBid *testBid;
 @property (strong) NSDictionary *assetsDict;
 @property (strong) NSDictionary *productDict1;
 @property (strong) NSDictionary *productDict2;
@@ -28,6 +32,7 @@
 @implementation CR_CacheManagerTests
 
 - (void)setUp {
+    self.cacheManager = [[CR_CacheManager alloc] init];
     self.productDict1 = @{ @"title": @"\"Stripe Pima Dress\" - $99",
                            @"description": @"We're All About Comfort.",
                            @"price": @"$99",
@@ -66,7 +71,6 @@
                          @"optoutImageUrl": @"https://static.criteo.net/flash/icon/nai_small.png",
                          @"longLegalText": @"Blah dee blah blah"
                          };
-
     self.assetsDict = @{ @"products": @[ self.productDict1, self.productDict2 ],
                          @"privacy": self.privacyDict,
                          @"advertiser": self.advertiserDict,
@@ -75,66 +79,101 @@
 }
 
 - (void) testGetBidWithinTtl {
-    CR_CacheManager *cache = [[CR_CacheManager alloc] init];
-    CGSize adSize = CGSizeMake(200, 100);
-    CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"a_test_placement" size:adSize adUnitType:CRAdUnitTypeBanner];
-    CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:adUnit.adUnitId cpm:@"0.0312" currency:@"USD" width:@(adUnit.size.width) height:@(adUnit.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date] nativeAssets:nil impressionId:nil];
+    [self createAdUnitAndTestBidWithSize:CGSizeMake(200, 100) adUnitType:CRAdUnitTypeBanner nativeAssets:nil];
 
-    [cache setBid:testBid];
-    CR_CdbBid *retreivedBid = [cache getBidForAdUnit:adUnit];
-    XCTAssertNotNil(retreivedBid);
-    XCTAssertEqualObjects(adUnit.adUnitId, retreivedBid.placementId);
+    [self.cacheManager setBid:self.testBid];
+    CR_CdbBid *retrievedBid = [self.cacheManager getBidForAdUnit:self.adUnit];
+
+    XCTAssertNotNil(retrievedBid);
+    XCTAssertEqualObjects(self.adUnit.adUnitId, retrievedBid.placementId);
 }
 
 - (void)testSetBidForBanner {
-    CR_CacheManager *cacheManager = [CR_CacheManager new];
-    CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"a_test_placement" size:CGSizeMake(320, 50) adUnitType:CRAdUnitTypeBanner];
-    CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:adUnit.adUnitId cpm:@"0.0312" currency:@"USD" width:@(adUnit.size.width) height:@(adUnit.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date] nativeAssets:nil impressionId:nil];
-    [cacheManager setBid:testBid];
-    XCTAssertTrue([[cacheManager getBidForAdUnit:adUnit] isEqual:testBid]);
+    [self createAdUnitAndTestBidWithSize:CGSizeMake(320, 50) adUnitType:CRAdUnitTypeBanner nativeAssets:nil];
+
+    CR_CacheAdUnit *newAdUnit = [self.cacheManager setBid:self.testBid];
+    XCTAssertEqualObjects(self.adUnit, newAdUnit);
+    XCTAssertTrue([[self.cacheManager getBidForAdUnit:self.adUnit] isEqual:self.testBid]);
 }
 
 - (void)testSetBidForInterstitial {
-    CR_CacheManager *cacheManager = [CR_CacheManager new];
     id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
     OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(320, 50));
 
-    CR_CacheAdUnit *adUnit_portrait = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"a_test_placement" size:CGSizeMake(320, 50) adUnitType:CRAdUnitTypeInterstitial];
-    CR_CdbBid *testBid_portrait = [[CR_CdbBid alloc] initWithZoneId:nil placementId:adUnit_portrait.adUnitId cpm:@"0.0312" currency:@"USD" width:@(adUnit_portrait.size.width) height:@(adUnit_portrait.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date] nativeAssets:nil impressionId:nil];
-    [cacheManager setBid:testBid_portrait];
-    XCTAssertTrue([[cacheManager getBidForAdUnit:adUnit_portrait] isEqual:testBid_portrait]);
+    [self createAdUnitAndTestBidWithSize:CGSizeMake(320, 50) adUnitType:CRAdUnitTypeInterstitial nativeAssets:nil];
+
+    [self.cacheManager setBid:self.testBid];
+    XCTAssertTrue([[self.cacheManager getBidForAdUnit:self.adUnit] isEqual:self.testBid]);
 
     OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(50, 320));
-    [cacheManager setBid:testBid_portrait];
-    XCTAssertTrue([[cacheManager getBidForAdUnit:adUnit_portrait] isEqual:testBid_portrait]);
+    [self.cacheManager setBid:self.testBid];
+    XCTAssertTrue([[self.cacheManager getBidForAdUnit:self.adUnit] isEqual:self.testBid]);
 }
 
 - (void)testSetBidForNative {
-    CR_CacheManager *cacheManager = [CR_CacheManager new];
-    CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"a_test_placement"
-                                                                 size:CGSizeMake(2, 2)
-                                                             adUnitType:CRAdUnitTypeNative];
     CR_NativeAssets *nativeAssets = [[CR_NativeAssets alloc] initWithDict:self.assetsDict];
-    CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:adUnit.adUnitId cpm:@"0.0312" currency:@"USD" width:@(adUnit.size.width) height:@(adUnit.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date] nativeAssets:nativeAssets impressionId:nil];
-    [cacheManager setBid:testBid];
-    CR_CdbBid *cachedTestBid = [cacheManager getBidForAdUnit:adUnit];
-    XCTAssertEqualObjects(testBid, cachedTestBid);
+    [self createAdUnitAndTestBidWithSize:CGSizeMake(2, 2) adUnitType:CRAdUnitTypeNative nativeAssets:nativeAssets];
+
+    [self.cacheManager setBid:self.testBid];
+
+    CR_CdbBid *cachedTestBid = [self.cacheManager getBidForAdUnit:self.adUnit];
+    XCTAssertEqualObjects(self.testBid, cachedTestBid);
 }
 
-- (void)testSetBidWithMissingImpressionPixels {
-    NSDictionary *badAssetsDict = @{ @"products": @[ self.productDict1, self.productDict2 ],
-                         @"privacy": self.privacyDict,
-                         @"advertiser": self.advertiserDict,
-                         @"impressionPixels": @[]
-                         };
-    CR_CacheManager *cacheManager = [CR_CacheManager new];
-    CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"a_test_placement"
-                                                                 size:CGSizeMake(320, 50)
-                                                           adUnitType:CRAdUnitTypeNative];
-   CR_NativeAssets *badNativeAssets = [[CR_NativeAssets alloc] initWithDict:badAssetsDict];
-    CR_CdbBid *badTestBid = [[CR_CdbBid alloc] initWithZoneId:nil placementId:adUnit.adUnitId cpm:@"0.0312" currency:@"USD" width:@(adUnit.size.width) height:@(adUnit.size.height) ttl:200 creative:nil displayUrl:@"https://someUrl.com" insertTime:[NSDate date] nativeAssets:badNativeAssets impressionId:nil];
-    [cacheManager setBid:badTestBid];
-    XCTAssertNil([cacheManager getBidForAdUnit:adUnit]);
+- (void)testSetNullBid_ShouldNotSetBid {
+    CR_CacheAdUnit *adUnit = [self.cacheManager setBid:nil];
+
+    XCTAssertNil([self.cacheManager getBidForAdUnit:adUnit]);
+    XCTAssertNil(adUnit);
+}
+
+- (void)testSetInvalidBid_ShouldNotSetBid {
+    NSDictionary *badAssetsDict = @{@"products": @[self.productDict1, self.productDict2],
+        @"privacy": self.privacyDict,
+        @"advertiser": self.advertiserDict,
+        @"impressionPixels": @[]
+    };
+    CR_NativeAssets *badNativeAssets = [[CR_NativeAssets alloc] initWithDict:badAssetsDict];
+    [self createAdUnitAndTestBidWithSize:CGSizeMake(320, 50) adUnitType:CRAdUnitTypeNative nativeAssets:badNativeAssets];
+
+    CR_CacheAdUnit *newAdUnit = [self.cacheManager setBid:self.testBid];
+
+    XCTAssertNil([self.cacheManager getBidForAdUnit:self.adUnit]);
+    XCTAssertNil(newAdUnit);
+}
+
+- (void)testSetBidWithInvalidAdUnit_ShouldNotSetBid {
+    [self createAdUnitAndTestBidWithSize:CGSizeMake(0, 0) adUnitType:CRAdUnitTypeBanner nativeAssets:nil];
+
+    CR_CacheAdUnit *newAdUnit = [self.cacheManager setBid:self.testBid];
+
+    XCTAssertNil([self.cacheManager getBidForAdUnit:self.adUnit]);
+    XCTAssertNil(newAdUnit);
+}
+
+#pragma mark - Private methods
+
+- (void) createAdUnitAndTestBidWithSize:(CGSize)size
+                             adUnitType:(CRAdUnitType)adUnitType
+                           nativeAssets:(CR_NativeAssets *)nativeAssets {
+
+    self.adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"a_test_placement"
+                                                      size:size
+                                                adUnitType:adUnitType];
+
+    self.testBid = CR_CdbBidBuilder
+        .new
+        .zoneId(1)
+        .adUnit(self.adUnit)
+        .cpm(@"0.0312")
+        .currency(@"USD")
+        .ttl(200)
+        .creative(nil)
+        .displayUrl(@"https://someUrl.com")
+        .insertTime([NSDate date])
+        .nativeAssets(nativeAssets)
+        .impressionId(nil)
+        .build;
 }
 
 @end

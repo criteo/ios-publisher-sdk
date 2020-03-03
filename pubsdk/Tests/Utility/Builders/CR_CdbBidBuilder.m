@@ -35,17 +35,17 @@ do { \
 - (instancetype)init {
     if (self = [super init]) {
         PROPERTY_INJECTION(zoneId, NSUInteger, CR_CdbBidBuilderZoneIdValueDefault);
-        PROPERTY_INJECTION(placementId, NSString *, CR_CdbBidBuilderPlacementIdValueDefault);
-        PROPERTY_INJECTION(cpm, NSString *, CR_CdbBidBuilderCpmValueDefault);
-        PROPERTY_INJECTION(currency, NSString *, CR_CdbBidBuilderCurrencyValueDefault);
+        PROPERTY_INJECTION(placementId, NSString * _Nullable, CR_CdbBidBuilderPlacementIdValueDefault);
+        PROPERTY_INJECTION(cpm, NSString * _Nullable, CR_CdbBidBuilderCpmValueDefault);
+        PROPERTY_INJECTION(currency, NSString * _Nullable, CR_CdbBidBuilderCurrencyValueDefault);
         PROPERTY_INJECTION(width, NSUInteger, CR_CdbBidBuilderWidthValueDefault);
         PROPERTY_INJECTION(height, NSUInteger, CR_CdbBidBuilderHeightValueDefault);
         PROPERTY_INJECTION(ttl, NSTimeInterval, CR_CdbBidBuilderTtlValueDefault);
-        PROPERTY_INJECTION(creative, NSString *, @"");
-        PROPERTY_INJECTION(displayUrl, NSString *, CR_CdbBidBuilderDisplayUrlValueDefault);
-        PROPERTY_INJECTION(insertTime, NSDate *, [NSDate date]);
-        PROPERTY_INJECTION(nativeAssets, CR_NativeAssets *, nil);
-        PROPERTY_INJECTION(impressionId, NSString *, CR_CdbBidBuilderImpressionIdValueDefault);
+        PROPERTY_INJECTION(creative, NSString * _Nullable, @"");
+        PROPERTY_INJECTION(displayUrl, NSString * _Nullable, CR_CdbBidBuilderDisplayUrlValueDefault);
+        PROPERTY_INJECTION(insertTime, NSDate * _Nullable, [NSDate date]);
+        PROPERTY_INJECTION(nativeAssets, CR_NativeAssets * _Nullable, nil);
+        PROPERTY_INJECTION(impressionId, NSString * _Nullable, CR_CdbBidBuilderImpressionIdValueDefault);
 
         __weak typeof(self) weakSelf = self;
         _adUnit = ^CR_CdbBidBuilder *(CR_CacheAdUnit *value) {

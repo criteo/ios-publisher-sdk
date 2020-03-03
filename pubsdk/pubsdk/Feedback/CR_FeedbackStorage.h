@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray<CR_FeedbackMessage *> *)messagesReadyToSend;
 
-- (void)removeMessages:(NSUInteger)amount;
+- (void)removeFirstMessagesWithCount:(NSUInteger)count;
 
 /**
  Applies the updateFunction to the stored FeedbackMessage object associated with given cacheAdUnit.
