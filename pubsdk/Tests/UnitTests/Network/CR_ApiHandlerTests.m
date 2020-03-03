@@ -23,6 +23,7 @@
 #import "Logging.h"
 #import "NSString+GDPR.h"
 #import "pubsdkTests-Swift.h"
+#import "XCTestCase+Criteo.h"
 
 @interface CR_ApiHandlerTests : XCTestCase
 
@@ -52,8 +53,9 @@
                      consent:self.consentMock
                       config:[self _buildConfigMock]
                   deviceInfo:[self _buildDeviceInfoMock]
-           completionHandler:^(CR_CdbResponse *cdbResponse) {
+           completionHandler:^(CR_CdbResponse *cdbResponse, NSError *error) {
 
+       XCTAssertNil(nil);
        XCTAssertNotNil(cdbResponse.cdbBids);
        CLog(@"Data length is %ld", [cdbResponse.cdbBids count]);
        XCTAssertEqual(1, [cdbResponse.cdbBids count]);
@@ -66,7 +68,7 @@
        [expectation fulfill];
    }];
 
-    [self waitForExpectations:@[expectation] timeout:100];
+    [self criteo_waitForExpectations:@[expectation]];
 }
 
 - (void) testCallCdbWithMultipleAdUnits {
@@ -100,7 +102,7 @@
                 consent:self.consentMock
                  config:mockConfig
              deviceInfo:mockDeviceInfo
-      completionHandler:^(CR_CdbResponse *cdbResponse) {
+      completionHandler:^(CR_CdbResponse *cdbResponse, NSError *error) {
 
        XCTAssertNotNil(cdbResponse.cdbBids);
        CLog(@"Data length is %ld", [cdbResponse.cdbBids count]);
@@ -122,7 +124,7 @@
 
        [expectation fulfill];
    }];
-    [self waitForExpectations:@[expectation] timeout:100];
+    [self criteo_waitForExpectations:@[expectation]];
 }
 
 - (void) testGetConfig {
@@ -154,7 +156,7 @@
         XCTAssertNotNil(configValues);
         [expectation fulfill];
     }];
-    [self waitForExpectations:@[expectation] timeout:100];
+    [self criteo_waitForExpectations:@[expectation]];
 }
 
 - (void) testCDBNotInvokedWhenBidFetchInProgress {
@@ -220,6 +222,24 @@
              deviceInfo:nil
       completionHandler:nil];
     OCMVerifyAllWithDelay(mockBidFetchTracker, 1);
+}
+
+- (void) testCompletionInvokedWhenCDBFailsWithError {
+    NSError *expectedError = [NSError errorWithDomain:@"testDomain" code:1 userInfo:nil];
+    self.networkManagerMock.postResponseError = expectedError;
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"Expect that completionHandler is invoked when network error is occurred"];
+
+    [self.apiHandler callCdb:@[[self _buildCacheAdUnit]]
+                     consent:nil
+                      config:nil
+                  deviceInfo:nil
+           completionHandler:^(CR_CdbResponse *cdbResponse, NSError *error) {
+               XCTAssertNil(cdbResponse);
+               XCTAssertEqual(error, expectedError);
+               [expectation fulfill];
+           }];
+
+    [self criteo_waitForExpectations:@[expectation]];
 }
 
 - (void) testBidFetchTrackerCacheClearedWhenCDBReturnsNoData {
@@ -524,10 +544,10 @@
                      consent:self.consentMock
                       config:[self _buildConfigMock]
                   deviceInfo:[self _buildDeviceInfoMock]
-           completionHandler:^(CR_CdbResponse *cdbResponse) {
+           completionHandler:^(CR_CdbResponse *cdbResponse, NSError *error) {
         [expectation fulfill];
     }];
-    [self waitForExpectations:@[expectation] timeout:1.f];
+    [self criteo_waitForExpectations:@[expectation]];
 }
 
 - (CR_Config *)_buildConfigMock

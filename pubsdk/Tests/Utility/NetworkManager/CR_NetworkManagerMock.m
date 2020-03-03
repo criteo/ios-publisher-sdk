@@ -27,7 +27,7 @@ NSString * const CR_NetworkManagerMockDefaultPostJsonResponse = @"{\"slots\":[{\
     self = [super initWithDeviceInfo:deviceInfo];
     if (self) {
         _postResponseData = [CR_NetworkManagerMockDefaultPostJsonResponse dataUsingEncoding:NSUTF8StringEncoding];
-        _postReponseError = nil;
+        _postResponseError = nil;
         _respondingToPost = YES;
         _numberOfPostCall = 0;
     }
@@ -44,7 +44,7 @@ NSString * const CR_NetworkManagerMockDefaultPostJsonResponse = @"{\"slots\":[{\
     self.numberOfPostCall += 1;
     self.lastPostBody = postBody;
     if (self.isRespondingToPost && responseHandler) {
-        responseHandler(self.postResponseData, self.postReponseError);
+        responseHandler(self.postResponseData, self.postResponseError);
     }
 }
 

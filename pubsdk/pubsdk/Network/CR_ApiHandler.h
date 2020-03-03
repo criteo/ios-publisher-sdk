@@ -19,7 +19,7 @@
 #import "CR_BidFetchTracker.h"
 @class CR_ThreadManager;
 
-typedef void (^CR_CdbCompletionHandler)(CR_CdbResponse *cdbResponse);
+typedef void (^CR_CdbCompletionHandler)(CR_CdbResponse *cdbResponse, NSError *error);
 typedef void (^AHConfigResponse)(NSDictionary *configValues);
 typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receivedAt);
 

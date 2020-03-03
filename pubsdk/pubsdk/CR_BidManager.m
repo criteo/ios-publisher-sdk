@@ -167,7 +167,7 @@
                           consent:self.consent
                            config:self->config
                        deviceInfo:self->deviceInfo
-                completionHandler:^(CR_CdbResponse *cdbResponse) {
+                completionHandler:^(CR_CdbResponse *cdbResponse, NSError *error) {
                  if(cdbResponse.timeToNextCall) {
                      self->cdbTimeToNextCall = [[NSDate dateWithTimeIntervalSinceNow:cdbResponse.timeToNextCall]
                                                 timeIntervalSinceReferenceDate];

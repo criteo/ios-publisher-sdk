@@ -17,7 +17,7 @@ FOUNDATION_EXTERN NSString * const CR_NetworkManagerMockDefaultPostJsonResponse;
 /** Default YES */
 @property (nonatomic, assign, getter=isRespondingToPost) BOOL respondingToPost;
 @property (nonatomic, strong, nullable) NSData *postResponseData;
-@property (nonatomic, strong, nullable) NSError *postReponseError;
+@property (nonatomic, strong, nullable) NSError *postResponseError;
 @property (nonatomic, strong, nullable) NSDictionary *lastPostBody;
 @property (nonatomic, assign, readonly) NSUInteger numberOfPostCall;
 
