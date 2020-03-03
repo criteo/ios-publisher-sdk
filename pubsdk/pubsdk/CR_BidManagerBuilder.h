@@ -9,17 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "CR_BidManager.h"
 
-@class CR_NetworkManager;
-@class CR_ApiHandler;
-@class CR_CacheManager;
-@class CR_TokenCache;
-@class CR_Config;
-@class CR_ConfigManager;
-@class CR_DeviceInfo;
-@class CR_DataProtectionConsent;
-@class CR_AppEvents;
-@class CR_ThreadManager;
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_BidManagerBuilder : NSObject
@@ -36,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) CR_DataProtectionConsent *consent;
 @property (nonatomic, strong) CR_AppEvents *appEvents;
 @property (nonatomic, assign) NSTimeInterval timeToNextCall;
+@property (nonatomic, strong) CR_FeedbackStorage *feedbackStorage;
 
 /**
 Build the BidManager with default instances.

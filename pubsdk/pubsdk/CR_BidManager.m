@@ -29,6 +29,7 @@
     CR_NetworkManager  *networkManager;
     CR_AppEvents       *appEvents;
     NSTimeInterval     cdbTimeToNextCall;
+    CR_FeedbackStorage *feedbackStorage;
 }
 
 // Properties
@@ -53,7 +54,8 @@
                             consent:nil
                      networkManager:nil
                           appEvents:nil
-                     timeToNextCall:0];
+                     timeToNextCall:0
+                    feedbackStorage:nil];
 }
 
 - (instancetype) initWithApiHandler:(CR_ApiHandler*)apiHandler
@@ -66,6 +68,7 @@
                      networkManager:(CR_NetworkManager*)networkManager
                           appEvents:(CR_AppEvents *)appEvents
                      timeToNextCall:(NSTimeInterval)timeToNextCall
+                    feedbackStorage:(CR_FeedbackStorage *)feedbackStorage
 {
     if(self = [super init]) {
         self->apiHandler      = apiHandler;
@@ -78,6 +81,7 @@
         self->appEvents       = appEvents;
         self->cdbTimeToNextCall=timeToNextCall;
         _consent              = consent;
+        self->feedbackStorage = feedbackStorage;
     }
 
     return self;

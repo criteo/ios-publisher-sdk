@@ -42,7 +42,8 @@
                                                                   consent:nil
                                                            networkManager:nil
                                                                 appEvents:nil
-                                                           timeToNextCall:0];
+                                                           timeToNextCall:0
+                                                          feedbackStorage:nil];
 
     [bidManager addCriteoBidToRequest:mopubBidRequest forAdUnit:slot_1];
     XCTAssertTrue([mopubBidRequest.keywords containsString:[testBid_1 mopubCompatibleDisplayUrl]]);

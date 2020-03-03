@@ -23,6 +23,7 @@
 #import "CR_AppEvents.h"
 #import "CR_TokenCache.h"
 #import "CRBidResponse+Internal.h"
+#import "CR_FeedbackStorage.h"
 
 @interface CR_BidManager : NSObject
 
@@ -42,6 +43,7 @@
                      networkManager:(CR_NetworkManager *)networkManager
                           appEvents:(CR_AppEvents *)appEvents
                      timeToNextCall:(NSTimeInterval)timeToNextCall
+                    feedbackStorage:(CR_FeedbackStorage *)feedbackStorage
 NS_DESIGNATED_INITIALIZER;
 
 

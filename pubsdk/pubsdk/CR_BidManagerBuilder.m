@@ -7,17 +7,6 @@
 //
 
 #import "CR_BidManagerBuilder.h"
-
-#import "CR_BidFetchTracker.h"
-#import "CR_NetworkManager.h"
-#import "CR_ApiHandler.h"
-#import "CR_CacheManager.h"
-#import "CR_TokenCache.h"
-#import "CR_Config.h"
-#import "CR_ConfigManager.h"
-#import "CR_DeviceInfo.h"
-#import "CR_DataProtectionConsent.h"
-#import "CR_AppEvents.h"
 #import "CR_ThreadManager.h"
 
 
@@ -95,8 +84,7 @@
     return _consent;
 }
 
-- (CR_AppEvents *)appEvents
-{
+- (CR_AppEvents *)appEvents {
     if (_appEvents == nil) {
         _appEvents = [[CR_AppEvents alloc] initWithApiHandler:self.apiHandler
                                                        config:self.config
@@ -104,6 +92,13 @@
                                                    deviceInfo:self.deviceInfo];
     }
     return _appEvents;
+}
+
+- (CR_FeedbackStorage *)feedbackStorage {
+    if (_feedbackStorage == nil) {
+        _feedbackStorage = [[CR_FeedbackStorage alloc] init];
+    }
+    return _feedbackStorage;
 }
 
 - (CR_BidManager *)buildBidManager {
@@ -116,7 +111,8 @@
                                                                   consent:self.consent
                                                            networkManager:self.networkManager
                                                                 appEvents:self.appEvents
-                                                           timeToNextCall:self.timeToNextCall];
+                                                           timeToNextCall:self.timeToNextCall
+                                                          feedbackStorage:self.feedbackStorage];
     return bidManager;
 }
 
