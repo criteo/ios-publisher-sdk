@@ -23,6 +23,14 @@ typedef void (^CR_CdbCompletionHandler)(CR_CdbResponse *cdbResponse, NSError *er
 typedef void (^AHConfigResponse)(NSDictionary *configValues);
 typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receivedAt);
 
+extern NSString * const CR_ApiHandlerAppEventAppIdKey;
+extern NSString * const CR_ApiHandlerAppEventEventTypeKey;
+extern NSString * const CR_ApiHandlerAppEventIdfaKey;
+extern NSString * const CR_ApiHandlerAppEventLimitedAdTrackingKey;
+extern NSString * const CR_ApiHandlerAppEventGdprAppliesKey;
+extern NSString * const CR_ApiHandlerAppEventGdprConsentStringKey;
+extern NSString * const CR_ApiHandlerAppEventGdprConsentGivenKey;
+extern NSString * const CR_ApiHandlerAppEventGdprVersionKey;
 extern NSString * const CR_ApiHandlerBidSlotsIsInterstitialKey;
 extern NSString * const CR_ApiHandlerBidSlotsIsNativeKey;
 extern NSString * const CR_ApiHandlerBidSlotsKey;

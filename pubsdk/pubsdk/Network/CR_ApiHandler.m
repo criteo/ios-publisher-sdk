@@ -13,6 +13,14 @@
 #import "NSArray+Criteo.h"
 #import "CR_ThreadManager.h"
 
+NSString * const CR_ApiHandlerAppEventAppIdKey = @"appId";
+NSString * const CR_ApiHandlerAppEventEventTypeKey = @"eventType";
+NSString * const CR_ApiHandlerAppEventIdfaKey = @"idfa";
+NSString * const CR_ApiHandlerAppEventLimitedAdTrackingKey = @"limitedAdTracking";
+NSString * const CR_ApiHandlerAppEventGdprAppliesKey = @"gdprApplies";
+NSString * const CR_ApiHandlerAppEventGdprConsentStringKey = @"gdprConsentString";
+NSString * const CR_ApiHandlerAppEventGdprConsentGivenKey = @"gdprConsentGiven";
+NSString * const CR_ApiHandlerAppEventGdprVersionKey = @"gdprVersion";
 NSString * const CR_ApiHandlerBidSlotsIsInterstitialKey = @"interstitial";
 NSString * const CR_ApiHandlerBidSlotsIsNativeKey = @"isNative";
 NSString * const CR_ApiHandlerBidSlotsKey = @"slots";

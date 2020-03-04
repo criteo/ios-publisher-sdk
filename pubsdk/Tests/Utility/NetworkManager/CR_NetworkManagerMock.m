@@ -11,9 +11,12 @@
 
 NSString * const CR_NetworkManagerMockDefaultPostJsonResponse = @"{\"slots\":[{\"placementId\": \"adunitid_1\",\"cpm\":\"1.12\",\"currency\":\"EUR\",\"width\": 300,\"height\": 250, \"ttl\": 600, \"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"}]}";
 
+NSString * const CR_NetworkManagerMockDefaultGetJsonResponse = @"{\"throttleSec\":5}";
+
 @interface CR_NetworkManagerMock ()
 
 @property (nonatomic, assign) NSUInteger numberOfPostCall;
+@property (nonatomic, assign) NSUInteger numberOfGetCall;
 
 @end
 
@@ -30,12 +33,21 @@ NSString * const CR_NetworkManagerMockDefaultPostJsonResponse = @"{\"slots\":[{\
         _postResponseError = nil;
         _respondingToPost = YES;
         _numberOfPostCall = 0;
+        _getResponseData = [CR_NetworkManagerMockDefaultGetJsonResponse dataUsingEncoding:NSUTF8StringEncoding];
+        _getReponseError = nil;
+        _respondingToGet = YES;
+        _numberOfGetCall = 0;
     }
     return self;
 }
 
 - (void)getFromUrl:(NSURL *)url
    responseHandler:(CR_NMResponse)responseHandler {
+    self.numberOfGetCall += 1;
+    self.lastGetUrl = url;
+    if (self.isRespondingToGet && responseHandler) {
+        responseHandler(self.getResponseData, self.getReponseError);
+    }
 }
 
 - (void)postToUrl:(NSURL *)url
@@ -47,6 +59,5 @@ NSString * const CR_NetworkManagerMockDefaultPostJsonResponse = @"{\"slots\":[{\
         responseHandler(self.postResponseData, self.postResponseError);
     }
 }
-
 
 @end

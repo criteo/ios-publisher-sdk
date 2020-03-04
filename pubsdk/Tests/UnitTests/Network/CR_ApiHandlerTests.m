@@ -25,21 +25,35 @@
 #import "pubsdkTests-Swift.h"
 #import "XCTestCase+Criteo.h"
 
+#define CR_AssertLastAppEventUrlContains(name, val) \
+do { \
+    [self assertLastAppEventUrlContainsKey:name \
+                                     value:val \
+                                    atLine:__LINE__]; \
+} while(0);
+
+
 @interface CR_ApiHandlerTests : XCTestCase
 
 @property (nonatomic, strong) CR_ApiHandler *apiHandler;
 @property (nonatomic, strong) CR_NetworkManagerMock *networkManagerMock;
-@property (strong, nonatomic, readonly, nullable) NSDictionary *cdbPayload;
 @property (nonatomic, strong) CR_DataProtectionConsentMock *consentMock;
+@property (nonatomic, strong) CR_DeviceInfo *deviceInfoMock;
+@property (nonatomic, strong) CR_Config *configMock;
+
+// overridden properties
+@property (strong, nonatomic, readonly, nullable) NSDictionary *cdbPayload;
+@property (strong, nonatomic, readonly, nullable) NSString *appEventUrlString;
 
 @end
 
 @implementation CR_ApiHandlerTests
 
-- (void)setUp
-{
+- (void)setUp {
+    self.deviceInfoMock = [self _buildDeviceInfoMock];
+    self.configMock = [self _buildConfigMock];
     self.consentMock = [[CR_DataProtectionConsentMock alloc] init];
-    self.networkManagerMock = [[CR_NetworkManagerMock alloc] initWithDeviceInfo:[self _buildDeviceInfoMock]];
+    self.networkManagerMock = [[CR_NetworkManagerMock alloc] initWithDeviceInfo:self.deviceInfoMock];
     self.apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:self.networkManagerMock
                                                     bidFetchTracker:[CR_BidFetchTracker new]
                                                       threadManager:[[CR_ThreadManager alloc] init]];
@@ -531,10 +545,85 @@
     XCTAssertEqualObjects(actual, expected);
 }
 
+#pragma mark - Sent App Event
+
+- (void)testSendAppEventWithCompletion {
+    [self callSendAppEventWithCompletionHandler:^(NSDictionary *appEventValues, NSDate *receivedAt) {
+        XCTAssertNotNil(appEventValues);
+        XCTAssertNotNil(receivedAt);
+    }];
+}
+
+- (void)testSendAppEventWithError {
+    // Test the existing behaviour but this may require a new design.
+    self.networkManagerMock.getResponseData = nil;
+    self.networkManagerMock.getReponseError = [NSError errorWithDomain:@"domain"
+                                                                  code:1
+                                                              userInfo:nil];
+
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] init];
+    expectation.inverted = YES;
+    [self.apiHandler sendAppEvent:@"Launch"
+                          consent:self.consentMock
+                           config:self.configMock
+                       deviceInfo:self.deviceInfoMock
+                   ahEventHandler:^(NSDictionary *appEventValues, NSDate *receivedAt) {
+        [expectation fulfill];
+    }];
+    [self waitForExpectations:@[expectation] timeout:.25];
+}
+
+
+
+- (void)testSendAppEventUrl {
+    [self callSendAppEventWithCompletionHandler:nil];
+
+    CR_AssertLastAppEventUrlContains(CR_ApiHandlerAppEventIdfaKey, self.deviceInfoMock.deviceId);
+    CR_AssertLastAppEventUrlContains(CR_ApiHandlerAppEventAppIdKey, self.configMock.appId);
+    CR_AssertLastAppEventUrlContains(CR_ApiHandlerAppEventEventTypeKey, @"Launch");
+    CR_AssertLastAppEventUrlContains(CR_ApiHandlerAppEventLimitedAdTrackingKey, @"0");
+}
+
 #pragma mark - Private methods
+
+- (NSString *)appEventUrlString {
+    return self.networkManagerMock.lastGetUrl.absoluteString;
+}
 
 - (NSDictionary *)cdbPayload {
     return self.networkManagerMock.lastPostBody;
+}
+
+- (void)assertLastAppEventUrlContainsKey:(NSString *)key
+                                   value:(NSString *)value
+                                  atLine:(int)line {
+    NSString *keyValueStr = [[NSString alloc] initWithFormat:@"%@=%@", key, value];
+    if (![self.appEventUrlString containsString:keyValueStr]) {
+        NSString *file = [[NSString alloc] initWithCString:__FILE__ encoding:NSUTF8StringEncoding];
+        NSString *desc = [[NSString alloc] initWithFormat:
+                          @"Given key=value %@ not found in URL %@",
+                          keyValueStr,
+                          self.appEventUrlString];
+        [self recordFailureWithDescription:desc
+                                    inFile:file
+                                    atLine:line
+                                  expected:YES];
+    }
+}
+
+- (void)callSendAppEventWithCompletionHandler:(AHAppEventsResponse)completionHandler {
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] init];
+    [self.apiHandler sendAppEvent:@"Launch"
+                          consent:self.consentMock
+                           config:self.configMock
+                       deviceInfo:self.deviceInfoMock
+                   ahEventHandler:^(NSDictionary *appEventValues, NSDate *receivedAt) {
+        if (completionHandler != nil) {
+            completionHandler(appEventValues, receivedAt);
+        }
+        [expectation fulfill];
+    }];
+    [self waitForExpectations:@[expectation] timeout:.25];
 }
 
 - (void)_callCdb
@@ -562,6 +651,8 @@
     OCMStub([mockConfig deviceModel]).andReturn(@"iPhone");
     OCMStub([mockConfig osVersion]).andReturn(@"12.1");
     OCMStub([mockConfig deviceOs]).andReturn(@"ios");
+    OCMStub([mockConfig appEventsUrl]).andReturn(@"https://appevent.com");
+    OCMStub([mockConfig appEventsSenderId]).andReturn(@"com.sdk.test");
     return mockConfig;
 }
 
