@@ -84,6 +84,7 @@
 		46151AB4240FB8A500D514BE /* RequestLogEntry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RequestLogEntry.m; sourceTree = "<group>"; };
 		46151AB6240FC10F00D514BE /* ResponseLogEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResponseLogEntry.h; sourceTree = "<group>"; };
 		46151AB7240FC10F00D514BE /* ResponseLogEntry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResponseLogEntry.m; sourceTree = "<group>"; };
+		46151AB9240FD7C700D514BE /* Logs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Logs.h; sourceTree = "<group>"; };
 		46872653240EA2D20090489E /* LogManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LogManager.h; sourceTree = "<group>"; };
 		46872654240EA31B0090489E /* LogManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogManager.m; sourceTree = "<group>"; };
 		54B578F023682A9A004DF616 /* StandaloneTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StandaloneTableViewController.h; sourceTree = "<group>"; };
@@ -239,6 +240,7 @@
 		4687264B240E9A690090489E /* Logs */ = {
 			isa = PBXGroup;
 			children = (
+				46151AB9240FD7C700D514BE /* Logs.h */,
 				46151AAE240EAFFB00D514BE /* LogEntry.h */,
 				46872653240EA2D20090489E /* LogManager.h */,
 				46872654240EA31B0090489E /* LogManager.m */,
