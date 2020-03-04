@@ -17,7 +17,7 @@
 #import "CR_BidManagerBuilder.h"
 #import "CR_AdUnitHelper.h"
 #import "CR_DfpCreativeViewChecker.h"
-#import "NSString+CR_UrlEncoder.h"
+#import "NSString+CR_Url.h"
 #import "CR_TargetingKeys.h"
 #import "XCTestCase+Criteo.h"
 @import GoogleMobileAds;

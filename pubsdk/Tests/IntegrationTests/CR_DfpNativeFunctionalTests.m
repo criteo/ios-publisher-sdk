@@ -13,7 +13,7 @@
 #import "CR_AssertDfp.h"
 #import "CR_NativeAssets.h"
 #import "CR_TargetingKeys.h"
-#import "NSString+CR_UrlEncoder.h"
+#import "NSString+CR_Url.h"
 #import "CR_DfpCreativeViewChecker.h"
 @import GoogleMobileAds;
 

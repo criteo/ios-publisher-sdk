@@ -8,7 +8,7 @@
 
 #import "CR_CdbBid.h"
 #import "Logging.h"
-#import "NSString+CR_UrlEncoder.h"
+#import "NSString+CR_Url.h"
 #import "NSObject+Criteo.h"
 #import "NSString+Criteo.h"
 

@@ -17,7 +17,7 @@
 #import "Criteo+Internal.h"
 #import "XCTestCase+Criteo.h"
 #import "CR_DfpCreativeViewChecker.h"
-#import "NSString+CR_UrlEncoder.h"
+#import "NSString+CR_Url.h"
 #import "CR_TargetingKeys.h"
 @import GoogleMobileAds;
 

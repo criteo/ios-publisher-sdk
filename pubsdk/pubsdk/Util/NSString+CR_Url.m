@@ -1,20 +1,19 @@
 //
-//  NSString+CR_UrlEncoder.m
+//  NSString+CR_Url.m
 //  pubsdk
 //
 //  Created by Paul Davis on 1/30/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#import "NSString+CR_UrlEncoder.h"
+#import "NSString+CR_Url.h"
 
 static NSString *charactersToEscape = @"!*'();:@&=+$,/?%#[]\" ";
 static NSCharacterSet *allowedCharacters = nil;
 
-@implementation NSString (CR_UrlEncoder)
+@implementation NSString (CR_Url)
 
-- (NSString*) urlEncode
-{
+- (NSString *)urlEncode {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         allowedCharacters = [[NSCharacterSet characterSetWithCharactersInString:charactersToEscape] invertedSet];
@@ -54,6 +53,14 @@ static NSCharacterSet *allowedCharacters = nil;
 + (NSString *)mopubCompatibleDisplayUrlForDisplayUrl:(NSString *)displayUrl
 {
     return displayUrl;
+}
+
++ (NSString *)urlQueryParamsWithDictionary:(NSDictionary<NSString *, NSString *> *)dictionary {
+    NSMutableArray<NSString *> *parts = [[NSMutableArray alloc] init];
+    for(NSString *key in dictionary) {
+        [parts addObject:[NSString stringWithFormat:@"%@=%@", key, dictionary[key]]];
+    }
+    return [parts componentsJoinedByString:@"&"];
 }
 
 @end

@@ -10,7 +10,7 @@
 #import "Logging.h"
 #import "CR_BidManagerHelper.h"
 #import "CR_TargetingKeys.h"
-#import "NSString+CR_UrlEncoder.h"
+#import "NSString+CR_Url.h"
 
 @interface CR_BidManager ()
 

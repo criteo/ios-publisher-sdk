@@ -1,5 +1,5 @@
 //
-//  NSString+UrlEncoderTests.m
+//  NSString+UrlTests.m
 //  pubsdkTests
 //
 //  Created by Paul Davis on 1/30/19.
@@ -8,19 +8,13 @@
 
 #import <XCTest/XCTest.h>
 
-#import "NSString+CR_UrlEncoder.h"
+#import "NSString+CR_Url.h"
 
-@interface NSString_CR_UrlEncoderTests : XCTestCase
+@interface NSString_CR_UrlTests : XCTestCase
 
 @end
 
-@implementation NSString_CR_UrlEncoderTests
-
-- (void)setUp {
-}
-
-- (void)tearDown {
-}
+@implementation NSString_CR_UrlTests
 
 - (void) testEncodeUrlWithRestrictedChars
 {
@@ -54,6 +48,32 @@
     [self measureMetrics:XCTestCase.defaultPerformanceMetrics automaticallyStartMeasuring:YES forBlock:^{
         tempStr = [charsToEncode urlEncode];
     }];
+}
+
+- (void)testUrlQueryParamsWithoutKey {
+    NSString *actual = [NSString urlQueryParamsWithDictionary:@{}];
+
+    XCTAssertEqualObjects(actual, @"");
+}
+
+- (void)testUrlQueryParamsWith1Key {
+    NSString *expected = @"key1=value1";
+
+    NSString *actual = [NSString urlQueryParamsWithDictionary:@{ @"key1" : @"value1" }];
+
+    XCTAssertEqualObjects(actual, expected);
+}
+
+- (void)testUrlQueryParamsWith2Keys {
+    NSString *expected = @"key1=value1&key2=value2";
+    NSDictionary *dict = @{
+        @"key1" : @"value1",
+        @"key2" : @"value2",
+    };
+
+    NSString *actual = [NSString urlQueryParamsWithDictionary:dict];
+
+    XCTAssertEqualObjects(actual, expected);
 }
 
 @end

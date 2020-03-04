@@ -10,7 +10,7 @@
 #import <XCTest/XCTest.h>
 
 #import <OCMock.h>
-#import "NSString+CR_UrlEncoder.h"
+#import "NSString+CR_Url.h"
 #import "NSString+Testing.h"
 #import "CR_BidManager.h"
 #import "CR_BidManagerBuilder.h"
