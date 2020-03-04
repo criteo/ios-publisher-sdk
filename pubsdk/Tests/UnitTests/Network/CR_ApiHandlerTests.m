@@ -50,8 +50,8 @@ do { \
 @implementation CR_ApiHandlerTests
 
 - (void)setUp {
-    self.deviceInfoMock = [self _buildDeviceInfoMock];
-    self.configMock = [self _buildConfigMock];
+    self.deviceInfoMock = [self buildDeviceInfoMock];
+    self.configMock = [self buildConfigMock];
     self.consentMock = [[CR_DataProtectionConsentMock alloc] init];
     self.networkManagerMock = [[CR_NetworkManagerMock alloc] initWithDeviceInfo:self.deviceInfoMock];
     self.apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:self.networkManagerMock
@@ -59,15 +59,15 @@ do { \
                                                       threadManager:[[CR_ThreadManager alloc] init]];
 }
 
-- (void) testCallCdb {
-    CR_CdbBid * testBid_1 = [self _buildEuroBid];
+- (void)testCallCdb {
+    CR_CdbBid * testBid_1 = [self buildEuroBid];
     XCTestExpectation *expectation = [self expectationWithDescription:@"CDB call expectation"];
 
-    [self.apiHandler callCdb:@[[self _buildCacheAdUnit]]
+    [self.apiHandler callCdb:@[[self buildCacheAdUnit]]
                      consent:self.consentMock
-                      config:[self _buildConfigMock]
-                  deviceInfo:[self _buildDeviceInfoMock]
-           completionHandler:^(CR_CdbResponse *cdbResponse, NSError *error) {
+                      config:self.configMock
+                  deviceInfo:self.deviceInfoMock
+        completionHandler:^(CR_CdbResponse *cdbResponse, NSError *error) {
 
        XCTAssertNil(nil);
        XCTAssertNotNil(cdbResponse.cdbBids);
@@ -85,7 +85,7 @@ do { \
     [self criteo_waitForExpectations:@[expectation]];
 }
 
-- (void) testCallCdbWithMultipleAdUnits {
+- (void)testCallCdbWithMultipleAdUnits {
     XCTestExpectation *expectation = [self expectationWithDescription:@"CDB call expectation"];
 
     CR_NetworkManager *mockNetworkManager = OCMStrictClassMock([CR_NetworkManager class]);
@@ -107,16 +107,14 @@ do { \
                                                               bidFetchTracker:[CR_BidFetchTracker new]
                                                                 threadManager:[[CR_ThreadManager alloc] init]];
 
-    CR_CdbBid *testBid_1 = [self _buildEuroBid];
-    CR_CdbBid * testBid_2 = [self _buildDollarBid];
-
-    CR_Config *mockConfig = [self _buildConfigMock];
-    CR_DeviceInfo *mockDeviceInfo = [self _buildDeviceInfoMock];
+    CR_CdbBid *testBid_1 = [self buildEuroBid];
+    CR_CdbBid * testBid_2 = [self buildDollarBid];
     [apiHandler callCdb:@[testAdUnit_1, testAdUnit_2]
                 consent:self.consentMock
-                 config:mockConfig
-             deviceInfo:mockDeviceInfo
+                 config:self.configMock
+             deviceInfo:self.deviceInfoMock
       completionHandler:^(CR_CdbResponse *cdbResponse, NSError *error) {
+
 
        XCTAssertNotNil(cdbResponse.cdbBids);
        CLog(@"Data length is %ld", [cdbResponse.cdbBids count]);
@@ -141,7 +139,7 @@ do { \
     [self criteo_waitForExpectations:@[expectation]];
 }
 
-- (void) testGetConfig {
+- (void)testGetConfig {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Config call expectation"];
 
     CR_NetworkManager *mockNetworkManager = OCMStrictClassMock([CR_NetworkManager class]);
@@ -173,7 +171,7 @@ do { \
     [self criteo_waitForExpectations:@[expectation]];
 }
 
-- (void) testCDBNotInvokedWhenBidFetchInProgress {
+- (void)testCDBNotInvokedWhenBidFetchInProgress {
     CR_CacheAdUnit *testAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"testAdUnit" width:300 height:250];
     id mockBidFetchTracker = OCMStrictClassMock([CR_BidFetchTracker class]);
     OCMStub([mockBidFetchTracker trySetBidFetchInProgressForAdUnit:testAdUnit]).andReturn(NO);
@@ -193,7 +191,7 @@ do { \
       completionHandler:nil];
 }
 
-- (void) testCDBInvokedWhenBidFetchNotInProgress {
+- (void)testCDBInvokedWhenBidFetchNotInProgress {
     CR_CacheAdUnit *testAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"testAdUnit" width:300 height:250];
     id mockBidFetchTracker = OCMStrictClassMock([CR_BidFetchTracker class]);
     OCMStub([mockBidFetchTracker trySetBidFetchInProgressForAdUnit:testAdUnit]).andReturn(YES);
@@ -215,7 +213,7 @@ do { \
     OCMVerifyAllWithDelay(mockNetworkManager, 1);
 }
 
-- (void) testBidFetchTrackerCacheClearedWhenCDBFailsWithError {
+- (void)testBidFetchTrackerCacheClearedWhenCDBFailsWithError {
     CR_CacheAdUnit *testAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"testAdUnit" width:300 height:250];
     id mockBidFetchTracker = OCMStrictClassMock([CR_BidFetchTracker class]);
     OCMStub([mockBidFetchTracker trySetBidFetchInProgressForAdUnit:testAdUnit]).andReturn(YES);
@@ -238,12 +236,12 @@ do { \
     OCMVerifyAllWithDelay(mockBidFetchTracker, 1);
 }
 
-- (void) testCompletionInvokedWhenCDBFailsWithError {
+- (void)testCompletionInvokedWhenCDBFailsWithError {
     NSError *expectedError = [NSError errorWithDomain:@"testDomain" code:1 userInfo:nil];
     self.networkManagerMock.postResponseError = expectedError;
     XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"Expect that completionHandler is invoked when network error is occurred"];
 
-    [self.apiHandler callCdb:@[[self _buildCacheAdUnit]]
+    [self.apiHandler callCdb:@[[self buildCacheAdUnit]]
                      consent:nil
                       config:nil
                   deviceInfo:nil
@@ -256,7 +254,7 @@ do { \
     [self criteo_waitForExpectations:@[expectation]];
 }
 
-- (void) testBidFetchTrackerCacheClearedWhenCDBReturnsNoData {
+- (void)testBidFetchTrackerCacheClearedWhenCDBReturnsNoData {
      CR_CacheAdUnit *testAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"testAdUnit" width:300 height:250];
     id mockBidFetchTracker = OCMStrictClassMock([CR_BidFetchTracker class]);
     OCMStub([mockBidFetchTracker trySetBidFetchInProgressForAdUnit:testAdUnit]).andReturn(YES);
@@ -277,7 +275,7 @@ do { \
     OCMVerifyAllWithDelay(mockBidFetchTracker, 1);
 }
 
-- (void) testTwoThreadsInvokingCDBForSameAdUnit {
+- (void)testTwoThreadsInvokingCDBForSameAdUnit {
      CR_CacheAdUnit *testAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"testAdUnit" width:300 height:250];
     CR_BidFetchTracker *bidFetchTracker = [CR_BidFetchTracker new];
     id mockNetworkManager = OCMStrictClassMock([CR_NetworkManager class]);
@@ -305,8 +303,7 @@ do { \
     OCMVerifyAllWithDelay(mockNetworkManager, 5);
 }
 
-- (void) testFilterRequestAdUnitsAndSetProgressFlags {
-
+- (void)testFilterRequestAdUnitsAndSetProgressFlags {
     // Make a bunch of CR_CacheAdUnit
     CR_CacheAdUnit *adUnit1  = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"" width:10 height:20];      //Bad
     CR_CacheAdUnit *adUnit2  = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"slot1" width:0 height:21];  //Bad
@@ -380,39 +377,34 @@ do { \
 #pragma mark - CDB call
 
 - (void)testCdbCallContainsSdkAndProfile {
-    CR_Config *config = [self _buildConfigMock];
+    [self callCdb];
 
-    [self _callCdb];
-
-    XCTAssertEqualObjects(self.cdbPayload[CR_ApiHandlerSdkVersionKey], config.sdkVersion);
-    XCTAssertEqualObjects(self.cdbPayload[CR_ApiHandlerProfileIdKey], config.profileId);
+    XCTAssertEqualObjects(self.cdbPayload[CR_ApiHandlerSdkVersionKey], self.configMock.sdkVersion);
+    XCTAssertEqualObjects(self.cdbPayload[CR_ApiHandlerProfileIdKey], self.configMock.profileId);
 }
 
 - (void)testCdbCallContainsPublisherInfo {
-    CR_Config *config = [self _buildConfigMock];
     NSDictionary *expected = @{
-        CR_ApiHandlerCpIdKey: config.criteoPublisherId,
-        CR_ApiHandlerBundleIdKey: config.appId,
+        CR_ApiHandlerCpIdKey: self.configMock.criteoPublisherId,
+        CR_ApiHandlerBundleIdKey: self.configMock.appId,
     };
 
-    [self _callCdb];
+    [self callCdb];
 
     XCTAssertEqualObjects(self.cdbPayload[CR_ApiHandlerPublisherKey], expected);
 }
 
 - (void)testCdbCallContainsUserInfo {
-    CR_Config *config = [self _buildConfigMock];
-    CR_DeviceInfo *deviceInfo = [self _buildDeviceInfoMock];
     NSDictionary *expected = @{
         CR_ApiHandlerDeviceIdTypeKey: CR_ApiHandlerDeviceIdTypeValue,
-        CR_ApiHandlerDeviceIdKey: deviceInfo.deviceId,
-        CR_ApiHandlerDeviceOsKey: config.deviceOs,
-        CR_ApiHandlerDeviceModelKey: config.deviceModel,
-        CR_ApiHandlerUserAgentKey: deviceInfo.userAgent,
+        CR_ApiHandlerDeviceIdKey: self.deviceInfoMock.deviceId,
+        CR_ApiHandlerDeviceOsKey: self.configMock.deviceOs,
+        CR_ApiHandlerDeviceModelKey: self.configMock.deviceModel,
+        CR_ApiHandlerUserAgentKey: self.deviceInfoMock.userAgent,
         CR_ApiHandlerUspIabStringKey: CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString
     };
 
-    [self _callCdb];
+    [self callCdb];
 
     XCTAssertEqualObjects(self.cdbPayload[CR_ApiHandlerUserKey], expected);
 }
@@ -420,7 +412,7 @@ do { \
 #pragma mark GDPR
 
 - (void)testCdbCallContainsGdprUnknown {
-    [self _callCdb];
+    [self callCdb];
 
     XCTAssertNil(self.cdbPayload[CR_ApiHandlerGdprKey]);
 }
@@ -429,7 +421,7 @@ do { \
     [self.consentMock.gdprMock configureWithTcfVersion:CR_GdprTcfVersion2_0];
     self.consentMock.gdprMock.consentStringValue = nil;
 
-    [self _callCdb];
+    [self callCdb];
 
     XCTAssertNil(self.cdbPayload[CR_ApiHandlerGdprKey]);
 }
@@ -443,7 +435,7 @@ do { \
         CR_ApiHandlerGdprConsentGivenKey:   @YES
     };
 
-    [self _callCdb];
+    [self callCdb];
 
     XCTAssertEqualObjects(self.cdbPayload[CR_ApiHandlerGdprKey], expected);
 }
@@ -457,68 +449,62 @@ do { \
         CR_ApiHandlerGdprConsentGivenKey:   @YES
     };
 
-    [self _callCdb];
+    [self callCdb];
 
     XCTAssertEqualObjects(self.cdbPayload[CR_ApiHandlerGdprKey], expected);
 }
 
 #pragma mark CCPA
 
-- (void)testCallCdbWithUspIapContentString
-{
+- (void)testCallCdbWithUspIapContentString {
     self.consentMock.usPrivacyIabConsentString_mock = CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString;
 
-    [self _callCdb];
+    [self callCdb];
 
     NSDictionary *body = self.networkManagerMock.lastPostBody;
     XCTAssertEqualObjects(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspIabStringKey], CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString);
 }
 
-- (void)testCallCdbWithUspIapContentStringEmpty
-{
+- (void)testCallCdbWithUspIapContentStringEmpty {
     self.consentMock.usPrivacyIabConsentString_mock = @"";
 
-    [self _callCdb];
+    [self callCdb];
 
     NSDictionary *body = self.networkManagerMock.lastPostBody;
     XCTAssertNil(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspIabStringKey]);
 }
 
-- (void)testCallCdbWithUspIapContentStringNil
-{
+- (void)testCallCdbWithUspIapContentStringNil {
     self.consentMock.usPrivacyIabConsentString_mock = nil;
 
-    [self _callCdb];
+    [self callCdb];
 
     NSDictionary *body = self.networkManagerMock.lastPostBody;
     XCTAssertNil(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspIabStringKey]);
 }
 
-- (void)testCallCdbWithUspCriteoStateOptOut
-{
+- (void)testCallCdbWithUspCriteoStateOptOut {
     self.consentMock.usPrivacyCriteoState = CR_CCPACriteoStateOptOut;
 
-    [self _callCdb];
+    [self callCdb];
 
     NSDictionary *body = self.networkManagerMock.lastPostBody;
     XCTAssertEqualObjects(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspCriteoOptoutKey], @YES);
 }
 
-- (void)testCallCdbWithUspCriteoStateOptIn
-{
+- (void)testCallCdbWithUspCriteoStateOptIn {
     self.consentMock.usPrivacyCriteoState = CR_CCPACriteoStateOptIn;
 
-    [self _callCdb];
+    [self callCdb];
 
     NSDictionary *body = self.networkManagerMock.lastPostBody;
     XCTAssertEqualObjects(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspCriteoOptoutKey], @NO);
 }
 
-- (void)testCallCdbWithUspCriteoStateUnset
-{
+- (void)testCallCdbWithUspCriteoStateUnset {
     self.consentMock.usPrivacyCriteoState = CR_CCPACriteoStateUnset;
 
-    [self _callCdb];
+    [self callCdb];
 
     NSDictionary *body = self.networkManagerMock.lastPostBody;
     XCTAssertNil(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspCriteoOptoutKey]);
@@ -528,7 +514,7 @@ do { \
     NSString *trickCompilerWithNil = nil;
     self.consentMock.mopubConsent = trickCompilerWithNil;
 
-    [self _callCdb];
+    [self callCdb];
 
     NSDictionary *body = self.networkManagerMock.lastPostBody;
     XCTAssertNil(body[CR_ApiHandlerUserKey][CR_ApiHandlerMopubConsentKey]);
@@ -538,7 +524,7 @@ do { \
     NSString *expected = @"POTENTIAL_WHITELIST";
     self.consentMock.mopubConsent = expected;
 
-    [self _callCdb];
+    [self callCdb];
 
     NSDictionary *body = self.networkManagerMock.lastPostBody;
     NSString *actual = body[CR_ApiHandlerUserKey][CR_ApiHandlerMopubConsentKey];
@@ -626,21 +612,19 @@ do { \
     [self waitForExpectations:@[expectation] timeout:.25];
 }
 
-- (void)_callCdb
-{
+- (void)callCdb {
     XCTestExpectation *expectation = [[XCTestExpectation alloc] init];
-    [self.apiHandler callCdb:@[[self _buildCacheAdUnit]]
+    [self.apiHandler callCdb:@[[self buildCacheAdUnit]]
                      consent:self.consentMock
-                      config:[self _buildConfigMock]
-                  deviceInfo:[self _buildDeviceInfoMock]
-           completionHandler:^(CR_CdbResponse *cdbResponse, NSError *error) {
+                      config:self.configMock
+                  deviceInfo:self.deviceInfoMock
+        completionHandler:^(CR_CdbResponse *cdbResponse, NSError *error) {
         [expectation fulfill];
     }];
     [self criteo_waitForExpectations:@[expectation]];
 }
 
-- (CR_Config *)_buildConfigMock
-{
+- (CR_Config *)buildConfigMock {
     CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
     OCMStub([mockConfig criteoPublisherId]).andReturn(@("1"));
     OCMStub([mockConfig sdkVersion]).andReturn(@"1.0");
@@ -656,16 +640,14 @@ do { \
     return mockConfig;
 }
 
-- (CR_DeviceInfo *)_buildDeviceInfoMock
-{
+- (CR_DeviceInfo *)buildDeviceInfoMock {
     CR_DeviceInfo *mockDeviceInfo = OCMStrictClassMock([CR_DeviceInfo class]);
     OCMStub([mockDeviceInfo deviceId]).andReturn(@"A0AA0A0A-000A-0A00-AAA0-0A00000A0A0A");
     OCMStub([mockDeviceInfo userAgent]).andReturn(@"Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16B91");
     return mockDeviceInfo;
 }
 
-- (CR_CdbBid *)_buildEuroBid
-{
+- (CR_CdbBid *)buildEuroBid {
     CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid_1" cpm:@"1.12"
                                                     currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil
                                                   displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
@@ -675,7 +657,7 @@ do { \
     return testBid_1;
 }
 
-- (CR_CdbBid *)_buildDollarBid {
+- (CR_CdbBid *)buildDollarBid {
     CR_CdbBid *testBid_2 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid_2" cpm:@"1.6"
                                                     currency:@"USD" width:@(320) height:@(50) ttl:700 creative:nil
                                                   displayUrl:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative2.png' width='300' height='250' />"
@@ -685,8 +667,7 @@ do { \
     return testBid_2;
 }
 
-- (CR_CacheAdUnit *)_buildCacheAdUnit
-{
+- (CR_CacheAdUnit *)buildCacheAdUnit {
     CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid_1"
                                                                 width:300
                                                                height:250];
