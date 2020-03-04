@@ -7,7 +7,7 @@
 //
 
 #import <MoPub.h>
-#import "NSString+MPConsentStatus.h"
+#import "Logs.h"
 #import "HomePageTableViewController.h"
 #import "MopubTableViewController.h"
 #import "GoogleDFPTableViewController.h"
@@ -20,6 +20,8 @@ NSString * const HomePageTableViewControllerUsPrivacyIabConsentStringKey = @"IAB
 @property (strong, nonatomic) MoPub *mopub;
 @property (strong, nonatomic) Criteo *criteo;
 @property (strong, nonatomic) NSUserDefaults *userDefaults;
+@property (strong, nonatomic) LogManager *logManager;
+
 @property (weak, nonatomic) IBOutlet UISwitch *gdprSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *criteoCcpaSwitch;
 @property (weak, nonatomic) IBOutlet UITextField *iabCcpaTextField;
@@ -37,6 +39,7 @@ NSString * const HomePageTableViewControllerUsPrivacyIabConsentStringKey = @"IAB
     self.criteo = [Criteo sharedCriteo];
     self.mopub = [MoPub sharedInstance];
     self.userDefaults = [NSUserDefaults standardUserDefaults];
+    self.logManager = [LogManager sharedInstance];
     [self clearUserDefaults];
     [self _setupCriteoCcpaSwitch];
     [self _setupIabCcpaTextField];
@@ -142,6 +145,7 @@ NSString * const HomePageTableViewControllerUsPrivacyIabConsentStringKey = @"IAB
 // Criteo NetworkManagerDelegate Implementation
 - (void) networkManager:(NetworkManager*)manager sentRequest:(NSURLRequest*)request
 {
+    [self.logManager log:[[RequestLogEntry alloc] initWithRequest:request]];
     [self setAvailableTextFeedback];
     NSString *body = nil;
 
@@ -161,6 +165,7 @@ NSString * const HomePageTableViewControllerUsPrivacyIabConsentStringKey = @"IAB
                withData:(NSData*)data
                   error:(NSError*)error
 {
+    [self.logManager log:[[ResponseLogEntry alloc] initWithResponse:response data:data error:error]];
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
 
     if (error)

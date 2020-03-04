@@ -230,8 +230,8 @@
 		4077EBDA218CB5E700C41E68 /* HomePage */ = {
 			isa = PBXGroup;
 			children = (
-				4077EBAB218BC48300C41E68 /* HomePageTableViewController.m */,
 				4077EBAA218BC48300C41E68 /* HomePageTableViewController.h */,
+				4077EBAB218BC48300C41E68 /* HomePageTableViewController.m */,
 			);
 			name = HomePage;
 			path = AdViewer/HomePage;
