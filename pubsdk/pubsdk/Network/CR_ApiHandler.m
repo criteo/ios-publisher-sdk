@@ -12,6 +12,7 @@
 #import "Logging.h"
 #import "NSArray+Criteo.h"
 #import "CR_ThreadManager.h"
+#import "NSString+CR_Url.h"
 
 NSString * const CR_ApiHandlerAppEventAppIdKey = @"appId";
 NSString * const CR_ApiHandlerAppEventEventTypeKey = @"eventType";
@@ -264,9 +265,10 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler {
                config:(CR_Config *)config
            deviceInfo:(CR_DeviceInfo *)deviceInfo
        ahEventHandler:(AHAppEventsResponse)ahEventHandler {
-
-    NSString *query = [NSString stringWithFormat:@"idfa=%@&eventType=%@&appId=%@&limitedAdTracking=%d"
-                       , [deviceInfo deviceId], event, [config appId], ![consent isAdTrackingEnabled]];
+    NSString *query = [self urlQueryParamsForAppEventWithEvent:event
+                                                       consent:consent
+                                                        config:config
+                                                    deviceInfo:deviceInfo];
     NSString *urlString = [NSString stringWithFormat:@"%@/%@?%@",[config appEventsUrl], [config appEventsSenderId], query];
     NSURL *url = [NSURL URLWithString: urlString];
     CLogInfo(@"[INFO][API_] AppEventGetCall.start");
@@ -290,4 +292,20 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler {
         }
     }];
 }
+#pragma mark - Private
+
+- (NSString *)urlQueryParamsForAppEventWithEvent:(NSString *)event
+                                         consent:(CR_DataProtectionConsent *)consent
+                                          config:(CR_Config *)config
+                                      deviceInfo:(CR_DeviceInfo *)deviceInfo {
+
+    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    paramDict[CR_ApiHandlerAppEventIdfaKey] = deviceInfo.deviceId;
+    paramDict[CR_ApiHandlerAppEventEventTypeKey] = event;
+    paramDict[CR_ApiHandlerAppEventAppIdKey] = config.appId;
+    paramDict[CR_ApiHandlerAppEventLimitedAdTrackingKey] = consent.isAdTrackingEnabled ? @"0" : @"1";
+    NSString *params = [NSString urlQueryParamsWithDictionary:paramDict];
+    return params;
+}
+
 @end
