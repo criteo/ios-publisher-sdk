@@ -76,6 +76,7 @@
 		4077EBCB218BC48400C41E68 /* AdViewerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdViewerUITests.m; sourceTree = "<group>"; };
 		4077EBCD218BC48400C41E68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		40DE984A219F533300C4BA05 /* AdViewerTest2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdViewerTest2.m; sourceTree = "<group>"; };
+		46151AAE240EAFFB00D514BE /* LogEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LogEntry.h; sourceTree = "<group>"; };
 		54B578F023682A9A004DF616 /* StandaloneTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StandaloneTableViewController.h; sourceTree = "<group>"; };
 		54B578F123682A9A004DF616 /* StandaloneTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StandaloneTableViewController.m; sourceTree = "<group>"; };
 		54B579132369CE5C004DF616 /* IntegrationBaseTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntegrationBaseTableViewController.h; sourceTree = "<group>"; };
@@ -178,6 +179,7 @@
 				404AC9482196509E008C6267 /* GoogleDFP */,
 				4077EBD9218CB5C000C41E68 /* Splash */,
 				4077EBDA218CB5E700C41E68 /* HomePage */,
+				4687264B240E9A690090489E /* Logs */,
 				4077EBA7218BC48300C41E68 /* AppDelegate.h */,
 				4077EBA8218BC48300C41E68 /* AppDelegate.m */,
 				4077EBB0218BC48300C41E68 /* Assets.xcassets */,
@@ -224,6 +226,14 @@
 			name = HomePage;
 			path = AdViewer/HomePage;
 			sourceTree = SOURCE_ROOT;
+		};
+		4687264B240E9A690090489E /* Logs */ = {
+			isa = PBXGroup;
+			children = (
+				46151AAE240EAFFB00D514BE /* LogEntry.h */,
+			);
+			path = Logs;
+			sourceTree = "<group>";
 		};
 		54B578EF23682A31004DF616 /* Standalone */ = {
 			isa = PBXGroup;
