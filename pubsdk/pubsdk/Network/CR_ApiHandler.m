@@ -304,6 +304,12 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler {
     paramDict[CR_ApiHandlerAppEventEventTypeKey] = event;
     paramDict[CR_ApiHandlerAppEventAppIdKey] = config.appId;
     paramDict[CR_ApiHandlerAppEventLimitedAdTrackingKey] = consent.isAdTrackingEnabled ? @"0" : @"1";
+    if (consent.gdpr.tcfVersion != CR_GdprTcfVersionUnknown) {
+        paramDict[CR_ApiHandlerAppEventGdprVersionKey] = NumberFromGdprTcfVersion(consent.gdpr.tcfVersion).stringValue;
+        paramDict[CR_ApiHandlerAppEventGdprConsentStringKey] = consent.gdpr.consentString;
+        paramDict[CR_ApiHandlerAppEventGdprConsentGivenKey] = consent.gdpr.consentGivenToCriteo ? @"1" : @"0";
+        paramDict[CR_ApiHandlerAppEventGdprAppliesKey] = consent.gdpr.isApplied ? @"1" : @"0";
+    }
     NSString *params = [NSString urlQueryParamsWithDictionary:paramDict];
     return params;
 }

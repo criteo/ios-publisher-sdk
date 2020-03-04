@@ -32,6 +32,12 @@ do { \
                                     atLine:__LINE__]; \
 } while(0);
 
+#define CR_AssertLastAppEventUrlDoNotContains(name) \
+do { \
+    [self assertLastAppEventUrlDoNotContainsKey:name \
+                                    atLine:__LINE__]; \
+} while(0);
+
 
 @interface CR_ApiHandlerTests : XCTestCase
 
@@ -559,8 +565,6 @@ do { \
     [self waitForExpectations:@[expectation] timeout:.25];
 }
 
-
-
 - (void)testSendAppEventUrl {
     [self callSendAppEventWithCompletionHandler:nil];
 
@@ -568,6 +572,27 @@ do { \
     CR_AssertLastAppEventUrlContains(CR_ApiHandlerAppEventAppIdKey, self.configMock.appId);
     CR_AssertLastAppEventUrlContains(CR_ApiHandlerAppEventEventTypeKey, @"Launch");
     CR_AssertLastAppEventUrlContains(CR_ApiHandlerAppEventLimitedAdTrackingKey, @"0");
+}
+
+- (void)testSendAppEventUrlWithoutGdpr {
+    [self callSendAppEventWithCompletionHandler:nil];
+
+    CR_AssertLastAppEventUrlDoNotContains(CR_ApiHandlerAppEventGdprAppliesKey);
+    CR_AssertLastAppEventUrlDoNotContains(CR_ApiHandlerAppEventGdprConsentStringKey);
+    CR_AssertLastAppEventUrlDoNotContains(CR_ApiHandlerAppEventGdprConsentGivenKey);
+    CR_AssertLastAppEventUrlDoNotContains(CR_ApiHandlerAppEventGdprVersionKey);
+}
+
+
+- (void)testSendAppEventUrlWithGdpr {
+    [self.consentMock.gdprMock configureWithTcfVersion:CR_GdprTcfVersion2_0];
+    
+    [self callSendAppEventWithCompletionHandler:nil];
+
+    CR_AssertLastAppEventUrlContains(CR_ApiHandlerAppEventGdprAppliesKey, @"1");
+    CR_AssertLastAppEventUrlContains(CR_ApiHandlerAppEventGdprConsentStringKey, NSString.gdprConsentStringForTcf2_0);
+    CR_AssertLastAppEventUrlContains(CR_ApiHandlerAppEventGdprConsentGivenKey, @"1");
+    CR_AssertLastAppEventUrlContains(CR_ApiHandlerAppEventGdprVersionKey, @"2");
 }
 
 #pragma mark - Private methods
@@ -596,6 +621,23 @@ do { \
                                   expected:YES];
     }
 }
+
+- (void)assertLastAppEventUrlDoNotContainsKey:(NSString *)key
+                                       atLine:(int)line {
+    NSString *keyValueStr = [[NSString alloc] initWithFormat:@"%@=", key];
+    if ([self.appEventUrlString containsString:keyValueStr]) {
+        NSString *file = [[NSString alloc] initWithCString:__FILE__ encoding:NSUTF8StringEncoding];
+        NSString *desc = [[NSString alloc] initWithFormat:
+                          @"Given key %@ is found in the URL %@",
+                          keyValueStr,
+                          self.appEventUrlString];
+        [self recordFailureWithDescription:desc
+                                    inFile:file
+                                    atLine:line
+                                  expected:YES];
+    }
+}
+
 
 - (void)callSendAppEventWithCompletionHandler:(AHAppEventsResponse)completionHandler {
     XCTestExpectation *expectation = [[XCTestExpectation alloc] init];

@@ -67,6 +67,16 @@ static void *CriteoTestingBidManagerBuilderKey = &CriteoTestingBidManagerBuilder
     return nil;
 }
 
+- (CR_HttpContent *)testing_lastAppEventHttpContent {
+    for (CR_HttpContent *content in [self.testing_networkCaptor.finishedRequests reverseObjectEnumerator]) {
+        if ([content.url.absoluteString containsString:self.config.appEventsUrl]) {
+            return content;
+        }
+    }
+    return nil;
+}
+
+
 + (Criteo *)testing_criteoWithNetworkCaptor {
     CR_Config *config = [CR_Config configForPreprodWithCriteoPublisherId:CriteoTestingPublisherId];
     CR_NetworkManagerDecorator *decorator = [CR_NetworkManagerDecorator decoratorFromConfiguration:config];

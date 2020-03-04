@@ -30,7 +30,10 @@ do { \
 
 @property (strong, nonatomic) NSUserDefaults *userDefaults;
 @property (strong, nonatomic) Criteo *criteo;
-@property (strong, nonatomic, readonly) NSDictionary *grpdInBidRequest;
+
+// Overriden properties
+@property (strong, nonatomic, readonly) NSDictionary *gdprInBidRequest;
+@property (strong, nonatomic, readonly) NSString *appEventUrlString;
 
 @end
 
@@ -60,7 +63,11 @@ do { \
 - (void)testGivenNoGdpr_whenCriteoRegister_thenConsentStringSetInBidRequest {
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 
-    XCTAssertNil(self.grpdInBidRequest);
+    XCTAssertNil(self.gdprInBidRequest);
+    XCTAssertFalse([self.appEventUrlString containsString:CR_ApiHandlerAppEventGdprAppliesKey]);
+    XCTAssertFalse([self.appEventUrlString containsString:CR_ApiHandlerAppEventGdprConsentStringKey]);
+    XCTAssertFalse([self.appEventUrlString containsString:CR_ApiHandlerAppEventGdprConsentGivenKey]);
+    XCTAssertFalse([self.appEventUrlString containsString:CR_ApiHandlerAppEventGdprVersionKey]);
 }
 
 - (void)testGivenGdprV1ConsentStringSet_whenCriteoRegister_thenConsentStringSetInBidRequest {
@@ -75,7 +82,11 @@ do { \
 
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 
-    XCTAssertEqualObjects(self.grpdInBidRequest, expected);
+    XCTAssertEqualObjects(self.gdprInBidRequest, expected);
+    XCTAssert([self.appEventUrlString containsString:CR_ApiHandlerAppEventGdprAppliesKey]);
+    XCTAssert([self.appEventUrlString containsString:CR_ApiHandlerAppEventGdprConsentStringKey]);
+    XCTAssert([self.appEventUrlString containsString:CR_ApiHandlerAppEventGdprConsentGivenKey]);
+    XCTAssert([self.appEventUrlString containsString:CR_ApiHandlerAppEventGdprVersionKey]);
 }
 
 - (void)testGivenGdprV1Set_whenCriteoRegister_thenConsentStringSetInBidRequest {
@@ -94,7 +105,11 @@ do { \
 
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 
-    XCTAssertEqualObjects(self.grpdInBidRequest, expected);
+    XCTAssertEqualObjects(self.gdprInBidRequest, expected);
+    XCTAssert([self.appEventUrlString containsString:CR_ApiHandlerAppEventGdprAppliesKey]);
+    XCTAssert([self.appEventUrlString containsString:CR_ApiHandlerAppEventGdprConsentStringKey]);
+    XCTAssert([self.appEventUrlString containsString:CR_ApiHandlerAppEventGdprConsentGivenKey]);
+    XCTAssert([self.appEventUrlString containsString:CR_ApiHandlerAppEventGdprVersionKey]);
 }
 
 - (void)testGivenGdprV2Set_whenCriteoRegister_thenConsentStringSetInBidRequest {
@@ -113,7 +128,7 @@ do { \
 
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 
-    XCTAssertEqualObjects(self.grpdInBidRequest, expected);
+    XCTAssertEqualObjects(self.gdprInBidRequest, expected);
 }
 
 - (void)testGivenGdprV2AndV1Set_whenCriteoRegister_thenConsentStringV2SetInBidRequest {
@@ -134,7 +149,7 @@ do { \
 
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 
-    XCTAssertEqualObjects(self.grpdInBidRequest, expected);
+    XCTAssertEqualObjects(self.gdprInBidRequest, expected);
 }
 
 #pragma mark - CCPA
@@ -251,9 +266,14 @@ do { \
 
 #pragma mark - Private methods
 
-- (NSDictionary *)grpdInBidRequest {
+- (NSDictionary *)gdprInBidRequest {
     CR_HttpContent *bidRequest = self.criteo.testing_lastBidHttpContent;
     return bidRequest.requestBody[CR_ApiHandlerGdprKey];
+}
+
+- (NSString *)appEventUrlString {
+    CR_HttpContent *request = self.criteo.testing_lastAppEventHttpContent;
+    return request.url.absoluteString;
 }
 
 - (NSString *)_mopubConsentInLastBidRequestWithCriteo:(Criteo *)criteo
