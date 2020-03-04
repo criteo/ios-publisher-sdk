@@ -262,6 +262,7 @@
 		7D58583123E1F1EC0039AC56 /* CR_ThreadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D58582E23E1F1EC0039AC56 /* CR_ThreadManager.m */; };
 		7D58583223E1F1EC0039AC56 /* CR_ThreadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D58582E23E1F1EC0039AC56 /* CR_ThreadManager.m */; };
 		7D58583523E2D5DF0039AC56 /* CR_ThreadManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D58583423E2D5DF0039AC56 /* CR_ThreadManagerTests.m */; };
+		7D727269240FC0E000825CF7 /* CR_WebApiIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D727267240FC09D00825CF7 /* CR_WebApiIntegrationTests.m */; };
 		7D73EF5F23C39A030086CBDC /* CR_AppEventsIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D73EF5E23C39A030086CBDC /* CR_AppEventsIntegrationTests.m */; };
 		7D80F61524056CCF005B7BA3 /* CR_DataProtectionConsentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D80F61424056CCF005B7BA3 /* CR_DataProtectionConsentTests.m */; };
 		7D80F61624056CCF005B7BA3 /* CR_DataProtectionConsentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D80F61424056CCF005B7BA3 /* CR_DataProtectionConsentTests.m */; };
@@ -576,6 +577,7 @@
 		7D58582D23E1F1EC0039AC56 /* CR_ThreadManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_ThreadManager.h; sourceTree = "<group>"; };
 		7D58582E23E1F1EC0039AC56 /* CR_ThreadManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_ThreadManager.m; sourceTree = "<group>"; };
 		7D58583423E2D5DF0039AC56 /* CR_ThreadManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_ThreadManagerTests.m; sourceTree = "<group>"; };
+		7D727267240FC09D00825CF7 /* CR_WebApiIntegrationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_WebApiIntegrationTests.m; sourceTree = "<group>"; };
 		7D73EF5E23C39A030086CBDC /* CR_AppEventsIntegrationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_AppEventsIntegrationTests.m; sourceTree = "<group>"; };
 		7D80F61424056CCF005B7BA3 /* CR_DataProtectionConsentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_DataProtectionConsentTests.m; sourceTree = "<group>"; };
 		7D80F61B24059E2D005B7BA3 /* CR_GdprMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_GdprMock.swift; sourceTree = "<group>"; };
@@ -846,6 +848,7 @@
 				5E06573035072D184799FC19 /* CR_MopubInterstitialFunctionalTests.m */,
 				7DB4E9122397AB6B008DE5E3 /* CR_RegistrationFunctionalTests.m */,
 				548AFCAC23B1113C003C9C29 /* CR_StandaloneBannerFunctionalTests.m */,
+				7D727267240FC09D00825CF7 /* CR_WebApiIntegrationTests.m */,
 				543F6FA12283B5F500A5DBE2 /* CRBannerViewDelegateTests.m */,
 				6519C0DA2285FA8300111A5F /* CRInterstitialDelegateTests.m */,
 				7DB4E90F2395374F008DE5E3 /* CRInterstitialTests.m */,
@@ -1928,6 +1931,7 @@
 				7D3E423A23915B6600BAF673 /* CRBannerAdUnitTests.m in Sources */,
 				54F1E6BB239FA1A800985D09 /* CR_DfpCreativeViewChecker.m in Sources */,
 				7DB5F90A23AA2B2500EF5602 /* CR_NetworkManagerMock.m in Sources */,
+				7D727269240FC0E000825CF7 /* CR_WebApiIntegrationTests.m in Sources */,
 				7D8BEDBE2407C21E0034AA7C /* CR_GdprTests.m in Sources */,
 				54680B7923969E7300DB5A37 /* CR_MopubBannerFunctionalTests.m in Sources */,
 				548AFCAF23B11225003C9C29 /* CR_StandaloneBannerFunctionalTests.m in Sources */,
