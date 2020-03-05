@@ -85,6 +85,7 @@
 		46151AB6240FC10F00D514BE /* ResponseLogEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResponseLogEntry.h; sourceTree = "<group>"; };
 		46151AB7240FC10F00D514BE /* ResponseLogEntry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResponseLogEntry.m; sourceTree = "<group>"; };
 		46151AB9240FD7C700D514BE /* Logs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Logs.h; sourceTree = "<group>"; };
+		4687264C240E9D7E0090489E /* AdViewer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AdViewer-Bridging-Header.h"; sourceTree = "<group>"; };
 		46872653240EA2D20090489E /* LogManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LogManager.h; sourceTree = "<group>"; };
 		46872654240EA31B0090489E /* LogManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogManager.m; sourceTree = "<group>"; };
 		54B578F023682A9A004DF616 /* StandaloneTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StandaloneTableViewController.h; sourceTree = "<group>"; };
@@ -196,6 +197,7 @@
 				4077EBAD218BC48300C41E68 /* Main.storyboard */,
 				4077EBB5218BC48300C41E68 /* Info.plist */,
 				4077EBB6218BC48300C41E68 /* main.m */,
+				4687264C240E9D7E0090489E /* AdViewer-Bridging-Header.h */,
 			);
 			path = AdViewer;
 			sourceTree = "<group>";
@@ -358,6 +360,7 @@
 				TargetAttributes = {
 					4077EBA3218BC48300C41E68 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1130;
 					};
 					4077EBBB218BC48400C41E68 = {
 						CreatedOnToolsVersion = 10.0;
@@ -646,6 +649,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 131;
 				DEVELOPMENT_TEAM = HS6BDUKANM;
@@ -670,6 +674,9 @@
 				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.PublisherSDKTester;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "AdViewer/AdViewer-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/**",
@@ -686,6 +693,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 131;
 				DEVELOPMENT_TEAM = HS6BDUKANM;
@@ -710,6 +718,8 @@
 				MARKETING_VERSION = 1.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.PublisherSDKTester;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "AdViewer/AdViewer-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/**",
@@ -723,6 +733,7 @@
 		4077EBD4218BC48400C41E68 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S655EV5659;
@@ -760,6 +771,7 @@
 		4077EBD5218BC48400C41E68 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S655EV5659;
@@ -791,6 +803,7 @@
 		4077EBD7218BC48400C41E68 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S655EV5659;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -815,6 +828,7 @@
 		4077EBD8218BC48400C41E68 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S655EV5659;
 				FRAMEWORK_SEARCH_PATHS = (
