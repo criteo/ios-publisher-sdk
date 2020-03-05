@@ -63,4 +63,37 @@ static NSCharacterSet *allowedCharacters = nil;
     return [parts componentsJoinedByString:@"&"];
 }
 
+- (NSDictionary<NSString *, NSString *> *)urlQueryParamsDictionary {
+    NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
+    NSString *str = [self urlQueryParamsString] ?: self;
+    NSArray *keyValues = [str componentsSeparatedByString:@"&"];
+    if (keyValues.count == 0) {
+        return nil; // empty
+    }
+    for (NSString *keyValueString in keyValues) {
+        NSArray<NSString *> *keyValueSplit = [keyValueString componentsSeparatedByString:@"="];
+        if ((keyValueSplit.count != 2) ||
+            (keyValueSplit[0].length == 0) ||
+            (keyValueSplit[1].length == 0)) {
+            return nil; // malformed
+        }
+        result[keyValueSplit[0]] = keyValueSplit[1];
+    }
+    return result;
+}
+
+#pragma mark - Private
+
+- (NSString *)urlQueryParamsString {
+    NSURL *url = [[NSURL alloc] initWithString:self];
+    if (url == nil) {
+        return nil;
+    }
+    NSArray<NSString *> *split = [self componentsSeparatedByString:@"?"];
+    if (split.count != 2) {
+        return nil;
+    }
+    return split[1];
+}
+
 @end

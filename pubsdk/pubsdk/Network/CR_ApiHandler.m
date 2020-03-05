@@ -18,10 +18,6 @@ NSString * const CR_ApiHandlerAppEventAppIdKey = @"appId";
 NSString * const CR_ApiHandlerAppEventEventTypeKey = @"eventType";
 NSString * const CR_ApiHandlerAppEventIdfaKey = @"idfa";
 NSString * const CR_ApiHandlerAppEventLimitedAdTrackingKey = @"limitedAdTracking";
-NSString * const CR_ApiHandlerAppEventGdprAppliesKey = @"gdprApplies";
-NSString * const CR_ApiHandlerAppEventGdprConsentStringKey = @"gdprConsentString";
-NSString * const CR_ApiHandlerAppEventGdprConsentGivenKey = @"gdprConsentGiven";
-NSString * const CR_ApiHandlerAppEventGdprVersionKey = @"gdprVersion";
 NSString * const CR_ApiHandlerBidSlotsIsInterstitialKey = @"interstitial";
 NSString * const CR_ApiHandlerBidSlotsIsNativeKey = @"isNative";
 NSString * const CR_ApiHandlerBidSlotsKey = @"slots";
@@ -134,18 +130,7 @@ NSNumber *NumberFromGdprTcfVersion(CR_GdprTcfVersion version) {
     publisher[CR_ApiHandlerBundleIdKey] = config.appId;
     publisher[CR_ApiHandlerCpIdKey]     = config.criteoPublisherId;
     postBody[CR_ApiHandlerPublisherKey] = publisher;
-
-    CR_Gdpr *gdpr = consent.gdpr;
-    const BOOL shouldAddGdpr =  (gdpr.tcfVersion != CR_GdprTcfVersionUnknown) &&
-                                (gdpr.consentString != nil);
-    if (shouldAddGdpr) {
-        NSMutableDictionary *gdprDict = [NSMutableDictionary new];
-        gdprDict[CR_ApiHandlerGdprConsentStringKey] = gdpr.consentString;
-        gdprDict[CR_ApiHandlerGdprAppliedKey]       = @(gdpr.isApplied);
-        gdprDict[CR_ApiHandlerGdprConsentGivenKey]  = @(gdpr.consentGivenToCriteo);
-        gdprDict[CR_ApiHandlerGdprVersionKey]       = NumberFromGdprTcfVersion(gdpr.tcfVersion);
-        postBody[CR_ApiHandlerGdprKey]              = gdprDict;
-    }
+    postBody[CR_ApiHandlerGdprKey]      = [self.class dictionaryForGdpr:consent.gdpr];
 
     return postBody;
 }
@@ -265,10 +250,10 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler {
                config:(CR_Config *)config
            deviceInfo:(CR_DeviceInfo *)deviceInfo
        ahEventHandler:(AHAppEventsResponse)ahEventHandler {
-    NSString *query = [self urlQueryParamsForAppEventWithEvent:event
-                                                       consent:consent
-                                                        config:config
-                                                    deviceInfo:deviceInfo];
+    NSString *query = [self.class urlQueryParamsForAppEventWithEvent:event
+                                                             consent:consent
+                                                              config:config
+                                                          deviceInfo:deviceInfo];
     NSString *urlString = [NSString stringWithFormat:@"%@/%@?%@",[config appEventsUrl], [config appEventsSenderId], query];
     NSURL *url = [NSURL URLWithString: urlString];
     CLogInfo(@"[INFO][API_] AppEventGetCall.start");
@@ -294,24 +279,45 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler {
 }
 #pragma mark - Private
 
-- (NSString *)urlQueryParamsForAppEventWithEvent:(NSString *)event
++ (NSString *)urlQueryParamsForAppEventWithEvent:(NSString *)event
                                          consent:(CR_DataProtectionConsent *)consent
                                           config:(CR_Config *)config
                                       deviceInfo:(CR_DeviceInfo *)deviceInfo {
 
-    NSMutableDictionary *paramDict = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary<NSString *, NSString *> *paramDict = [[NSMutableDictionary alloc] init];
     paramDict[CR_ApiHandlerAppEventIdfaKey] = deviceInfo.deviceId;
     paramDict[CR_ApiHandlerAppEventEventTypeKey] = event;
     paramDict[CR_ApiHandlerAppEventAppIdKey] = config.appId;
     paramDict[CR_ApiHandlerAppEventLimitedAdTrackingKey] = consent.isAdTrackingEnabled ? @"0" : @"1";
-    if (consent.gdpr.tcfVersion != CR_GdprTcfVersionUnknown) {
-        paramDict[CR_ApiHandlerAppEventGdprVersionKey] = NumberFromGdprTcfVersion(consent.gdpr.tcfVersion).stringValue;
-        paramDict[CR_ApiHandlerAppEventGdprConsentStringKey] = consent.gdpr.consentString;
-        paramDict[CR_ApiHandlerAppEventGdprConsentGivenKey] = consent.gdpr.consentGivenToCriteo ? @"1" : @"0";
-        paramDict[CR_ApiHandlerAppEventGdprAppliesKey] = consent.gdpr.isApplied ? @"1" : @"0";
-    }
+    paramDict[CR_ApiHandlerGdprKey] = [[self base64EncodedJsonForGdpr:consent.gdpr] urlEncode];
     NSString *params = [NSString urlQueryParamsWithDictionary:paramDict];
     return params;
+}
+
++ (NSString *)base64EncodedJsonForGdpr:(CR_Gdpr *)gdpr {
+    NSDictionary *jsonObject = [self dictionaryForGdpr:gdpr];
+    if (jsonObject == nil) {
+        return nil;
+    }
+    NSError *error = nil;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:jsonObject
+                                                   options:0
+                                                     error:&error];
+    NSAssert(error == nil, @"Impossible to serialized GDPR: %@ - %@", jsonObject, error);
+    NSString *encoded = [data base64EncodedStringWithOptions:0];
+    return encoded;
+}
+
++ (NSDictionary *)dictionaryForGdpr:(CR_Gdpr *)gdpr {
+    if ((gdpr.tcfVersion == CR_GdprTcfVersionUnknown) || (gdpr.consentString == nil)) {
+        return nil;
+    }
+    NSMutableDictionary *gdprDict = [NSMutableDictionary new];
+    gdprDict[CR_ApiHandlerGdprConsentStringKey] = gdpr.consentString;
+    gdprDict[CR_ApiHandlerGdprAppliedKey]       = @(gdpr.isApplied);
+    gdprDict[CR_ApiHandlerGdprConsentGivenKey]  = @(gdpr.consentGivenToCriteo);
+    gdprDict[CR_ApiHandlerGdprVersionKey]       = NumberFromGdprTcfVersion(gdpr.tcfVersion);
+    return gdprDict;
 }
 
 @end

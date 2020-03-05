@@ -22,6 +22,7 @@
 #import "CR_ThreadManager.h"
 #import "Logging.h"
 #import "NSString+GDPR.h"
+#import "NSString+CR_Url.h"
 #import "pubsdkTests-Swift.h"
 #import "XCTestCase+Criteo.h"
 
@@ -565,34 +566,34 @@ do { \
     [self waitForExpectations:@[expectation] timeout:.25];
 }
 
-- (void)testSendAppEventUrl {
-    [self callSendAppEventWithCompletionHandler:nil];
-
-    CR_AssertLastAppEventUrlContains(CR_ApiHandlerAppEventIdfaKey, self.deviceInfoMock.deviceId);
-    CR_AssertLastAppEventUrlContains(CR_ApiHandlerAppEventAppIdKey, self.configMock.appId);
-    CR_AssertLastAppEventUrlContains(CR_ApiHandlerAppEventEventTypeKey, @"Launch");
-    CR_AssertLastAppEventUrlContains(CR_ApiHandlerAppEventLimitedAdTrackingKey, @"0");
-}
-
 - (void)testSendAppEventUrlWithoutGdpr {
+    NSDictionary *expected = @{
+        CR_ApiHandlerAppEventIdfaKey: self.deviceInfoMock.deviceId,
+        CR_ApiHandlerAppEventAppIdKey: self.configMock.appId,
+        CR_ApiHandlerAppEventEventTypeKey: @"Launch",
+        CR_ApiHandlerAppEventLimitedAdTrackingKey: @"0"
+    };
+
     [self callSendAppEventWithCompletionHandler:nil];
 
-    CR_AssertLastAppEventUrlDoNotContains(CR_ApiHandlerAppEventGdprAppliesKey);
-    CR_AssertLastAppEventUrlDoNotContains(CR_ApiHandlerAppEventGdprConsentStringKey);
-    CR_AssertLastAppEventUrlDoNotContains(CR_ApiHandlerAppEventGdprConsentGivenKey);
-    CR_AssertLastAppEventUrlDoNotContains(CR_ApiHandlerAppEventGdprVersionKey);
+    XCTAssertEqualObjects(self.appEventUrlString.urlQueryParamsDictionary, expected);
 }
 
 
 - (void)testSendAppEventUrlWithGdpr {
-    [self.consentMock.gdprMock configureWithTcfVersion:CR_GdprTcfVersion2_0];
+    // GDPR -> JSON -> Base64 -> URL encoding
+    // {"consentGiven":true,"consentData":"ssds","gdprApplies":true,"version":1}
+    // encoded by https://www.base64encode.org/ (for being neutral) gives:
+    // eyJjb25zZW50R2l2ZW4iOnRydWUsImNvbnNlbnREYXRhIjoic3NkcyIsImdkcHJBcHBsaWVzIjp0cnVlLCJ2ZXJzaW9uIjoxfQ==
+    // encoded by https://www.urlencoder.org/ gives:
+    NSString *expectedGdprJsonBase64 = @"eyJjb25zZW50R2l2ZW4iOnRydWUsImNvbnNlbnREYXRhIjoic3NkcyIsImdkcHJBcHBsaWVzIjp0cnVlLCJ2ZXJzaW9uIjoxfQ%3D%3D";
+    [self.consentMock.gdprMock configureWithTcfVersion:CR_GdprTcfVersion1_1];
+    self.consentMock.gdprMock.consentStringValue = @"ssds"; // To have escaped chars from base64 to URL encoding.
     
     [self callSendAppEventWithCompletionHandler:nil];
 
-    CR_AssertLastAppEventUrlContains(CR_ApiHandlerAppEventGdprAppliesKey, @"1");
-    CR_AssertLastAppEventUrlContains(CR_ApiHandlerAppEventGdprConsentStringKey, NSString.gdprConsentStringForTcf2_0);
-    CR_AssertLastAppEventUrlContains(CR_ApiHandlerAppEventGdprConsentGivenKey, @"1");
-    CR_AssertLastAppEventUrlContains(CR_ApiHandlerAppEventGdprVersionKey, @"2");
+    NSString *gdprEncodedString = self.appEventUrlString.urlQueryParamsDictionary[CR_ApiHandlerGdprKey];
+    XCTAssertEqualObjects(gdprEncodedString, expectedGdprJsonBase64);
 }
 
 #pragma mark - Private methods

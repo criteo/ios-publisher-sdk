@@ -17,6 +17,7 @@
 #import "CR_NetworkWaiter.h"
 #import "CR_NetworkWaiterBuilder.h"
 #import "NSString+GDPR.h"
+#import "NSString+CR_Url.h"
 #import "NSURL+Testing.h"
 
 #define CR_AssertDoNotContainsAppEventRequest(requests) \
@@ -64,10 +65,7 @@ do { \
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 
     XCTAssertNil(self.gdprInBidRequest);
-    XCTAssertFalse([self.appEventUrlString containsString:CR_ApiHandlerAppEventGdprAppliesKey]);
-    XCTAssertFalse([self.appEventUrlString containsString:CR_ApiHandlerAppEventGdprConsentStringKey]);
-    XCTAssertFalse([self.appEventUrlString containsString:CR_ApiHandlerAppEventGdprConsentGivenKey]);
-    XCTAssertFalse([self.appEventUrlString containsString:CR_ApiHandlerAppEventGdprVersionKey]);
+    XCTAssertNil(self.appEventUrlString.urlQueryParamsDictionary[CR_ApiHandlerGdprKey]);
 }
 
 - (void)testGivenGdprV1ConsentStringSet_whenCriteoRegister_thenConsentStringSetInBidRequest {
@@ -83,10 +81,7 @@ do { \
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 
     XCTAssertEqualObjects(self.gdprInBidRequest, expected);
-    XCTAssert([self.appEventUrlString containsString:CR_ApiHandlerAppEventGdprAppliesKey]);
-    XCTAssert([self.appEventUrlString containsString:CR_ApiHandlerAppEventGdprConsentStringKey]);
-    XCTAssert([self.appEventUrlString containsString:CR_ApiHandlerAppEventGdprConsentGivenKey]);
-    XCTAssert([self.appEventUrlString containsString:CR_ApiHandlerAppEventGdprVersionKey]);
+    XCTAssertNotNil(self.appEventUrlString.urlQueryParamsDictionary[CR_ApiHandlerGdprKey]);
 }
 
 - (void)testGivenGdprV1Set_whenCriteoRegister_thenConsentStringSetInBidRequest {
@@ -106,10 +101,7 @@ do { \
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 
     XCTAssertEqualObjects(self.gdprInBidRequest, expected);
-    XCTAssert([self.appEventUrlString containsString:CR_ApiHandlerAppEventGdprAppliesKey]);
-    XCTAssert([self.appEventUrlString containsString:CR_ApiHandlerAppEventGdprConsentStringKey]);
-    XCTAssert([self.appEventUrlString containsString:CR_ApiHandlerAppEventGdprConsentGivenKey]);
-    XCTAssert([self.appEventUrlString containsString:CR_ApiHandlerAppEventGdprVersionKey]);
+    XCTAssertNotNil(self.appEventUrlString.urlQueryParamsDictionary[CR_ApiHandlerGdprKey]);
 }
 
 - (void)testGivenGdprV2Set_whenCriteoRegister_thenConsentStringSetInBidRequest {

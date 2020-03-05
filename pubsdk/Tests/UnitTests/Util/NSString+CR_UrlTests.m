@@ -76,4 +76,26 @@
     XCTAssertEqualObjects(actual, expected);
 }
 
+- (void)testUrlQueryParamsDictionaryMalformed {
+    XCTAssertNil([@"" urlQueryParamsDictionary]);
+    XCTAssertNil([@"key" urlQueryParamsDictionary]);
+    XCTAssertNil([@"key=" urlQueryParamsDictionary]);
+    XCTAssertNil([@"=value" urlQueryParamsDictionary]);
+    XCTAssertNil([@"&&" urlQueryParamsDictionary]);
+    XCTAssertNil([@"&key" urlQueryParamsDictionary]);
+    XCTAssertNil([@"key&" urlQueryParamsDictionary]);
+    XCTAssertNil([@"key=value&" urlQueryParamsDictionary]);
+    XCTAssertNil([@"&key=value" urlQueryParamsDictionary]);
+}
+
+- (void)testUrlQueryParamsDictionary {
+    NSDictionary *params1 = @{ @"key" : @"value" };
+    XCTAssertEqualObjects([@"key=value" urlQueryParamsDictionary], params1);
+    XCTAssertEqualObjects([@"http://hello.com?key=value" urlQueryParamsDictionary], params1);
+
+    NSDictionary *keyValue2 = @{ @"key1" : @"value1", @"key2" : @"value2" };
+    XCTAssertEqualObjects([@"key1=value1&key2=value2" urlQueryParamsDictionary], keyValue2);
+    XCTAssertEqualObjects([@"http://hello.com?key1=value1&key2=value2" urlQueryParamsDictionary], keyValue2);
+}
+
 @end
