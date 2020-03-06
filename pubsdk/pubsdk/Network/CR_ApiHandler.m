@@ -115,9 +115,9 @@ NSNumber *NumberFromGdprTcfVersion(CR_GdprTcfVersion version) {
     if (consent.usPrivacyIabConsentString.length > 0) {
         userDict[CR_ApiHandlerUspIabStringKey] = consent.usPrivacyIabConsentString;
     }
-    if (consent.usPrivacyCriteoState == CR_CCPACriteoStateOptIn) {
+    if (consent.usPrivacyCriteoState == CR_CcpaCriteoStateOptIn) {
         userDict[CR_ApiHandlerUspCriteoOptoutKey] = @NO;
-    } else if (consent.usPrivacyCriteoState == CR_CCPACriteoStateOptOut) {
+    } else if (consent.usPrivacyCriteoState == CR_CcpaCriteoStateOptOut) {
         userDict[CR_ApiHandlerUspCriteoOptoutKey] = @YES;
     } // else if unknown we add nothing.
 

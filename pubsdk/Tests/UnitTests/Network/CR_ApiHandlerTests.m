@@ -491,7 +491,7 @@ do { \
 }
 
 - (void)testCallCdbWithUspCriteoStateOptOut {
-    self.consentMock.usPrivacyCriteoState = CR_CCPACriteoStateOptOut;
+    self.consentMock.usPrivacyCriteoState = CR_CcpaCriteoStateOptOut;
 
     [self callCdb];
 
@@ -500,7 +500,7 @@ do { \
 }
 
 - (void)testCallCdbWithUspCriteoStateOptIn {
-    self.consentMock.usPrivacyCriteoState = CR_CCPACriteoStateOptIn;
+    self.consentMock.usPrivacyCriteoState = CR_CcpaCriteoStateOptIn;
 
     [self callCdb];
 
@@ -509,7 +509,7 @@ do { \
 }
 
 - (void)testCallCdbWithUspCriteoStateUnset {
-    self.consentMock.usPrivacyCriteoState = CR_CCPACriteoStateUnset;
+    self.consentMock.usPrivacyCriteoState = CR_CcpaCriteoStateUnset;
 
     [self callCdb];
 

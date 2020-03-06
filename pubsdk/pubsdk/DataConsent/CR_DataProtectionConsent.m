@@ -8,7 +8,7 @@
 
 #import <AdSupport/ASIdentifierManager.h>
 
-#import "CR_CCPAConsent.h"
+#import "CR_Ccpa.h"
 #import "CR_DataProtectionConsent.h"
 #import "CR_Gdpr.h"
 
@@ -19,7 +19,7 @@ NSString * const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String
 @property (class, nonatomic, strong, readonly) NSArray<NSString *> *mopubConsentDeclinedStrings;
 
 @property (nonatomic, strong, readonly) NSUserDefaults *userDefaults;
-@property (nonatomic, strong, readonly) CR_CCPAConsent *ccpaConsent;
+@property (nonatomic, strong, readonly) CR_Ccpa *ccpa;
 
 @end
 
@@ -36,7 +36,7 @@ NSString * const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String
 - (instancetype)initWithUserDefaults:(NSUserDefaults *)userDefaults {
     if(self = [super init]) {
         _userDefaults = userDefaults;
-        _ccpaConsent = [[CR_CCPAConsent alloc] initWithUserDefaults:userDefaults];
+        _ccpa = [[CR_Ccpa alloc] initWithUserDefaults:userDefaults];
         _gdpr = [[CR_Gdpr alloc] initWithUserDefaults:userDefaults];
         _isAdTrackingEnabled = [[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled];
     }
@@ -44,22 +44,22 @@ NSString * const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String
 }
 
 - (NSString *)usPrivacyIabConsentString {
-    return self.ccpaConsent.iabConsentString;
+    return self.ccpa.iabConsentString;
 }
 
-- (void)setUsPrivacyCriteoState:(CR_CCPACriteoState)usPrivacyCriteoState {
-    self.ccpaConsent.criteoState = usPrivacyCriteoState;
+- (void)setUsPrivacyCriteoState:(CR_CcpaCriteoState)usPrivacyCriteoState {
+    self.ccpa.criteoState = usPrivacyCriteoState;
 }
 
-- (CR_CCPACriteoState)usPrivacyCriteoState {
-    return self.ccpaConsent.criteoState;
+- (CR_CcpaCriteoState)usPrivacyCriteoState {
+    return self.ccpa.criteoState;
 }
 
 - (BOOL)shouldSendAppEvent {
     if ([self _isMopubConsentDeclined]) {
         return NO;
     }
-    return self.ccpaConsent.isOptIn;
+    return self.ccpa.isOptIn;
 }
 
 - (void)setMopubConsent:(NSString *)mopubConsent {

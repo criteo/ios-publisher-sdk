@@ -1,5 +1,5 @@
 //
-//  CR_CCPConsent.h
+//  CR_Ccpa.h
 //  pubsdk
 //
 //  Created by Romain Lofaso on 1/24/20.
@@ -10,23 +10,23 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-FOUNDATION_EXTERN NSString * const CR_CCPAIabConsentStringKey;
-FOUNDATION_EXTERN NSString * const CR_CCPAConsentCriteoStateKey;
+FOUNDATION_EXTERN NSString * const CR_CcpaIabConsentStringKey;
+FOUNDATION_EXTERN NSString * const CR_CcpaCriteoStateKey;
 
 /** CCPA consent within a custom Criteo format. */
-typedef NS_ENUM(NSInteger, CR_CCPACriteoState) {
-    CR_CCPACriteoStateUnset = 0,
-    CR_CCPACriteoStateOptOut,
-    CR_CCPACriteoStateOptIn
+typedef NS_ENUM(NSInteger, CR_CcpaCriteoState) {
+    CR_CcpaCriteoStateUnset = 0,
+    CR_CcpaCriteoStateOptOut,
+    CR_CcpaCriteoStateOptIn
 };
 
 /** CCPA is the Privacy Consent Management for the US. */
-@interface CR_CCPAConsent : NSObject
+@interface CR_Ccpa : NSObject
 
 /* Consent string in the IAB format fetched from the User Defaults */
 @property (nonatomic, copy, readonly, nullable) NSString *iabConsentString;
 /* Consent state in a homemade Criteo format. */
-@property (nonatomic, assign) CR_CCPACriteoState criteoState;
+@property (nonatomic, assign) CR_CcpaCriteoState criteoState;
 /* YES if the user is opt in according to specified constraints with IAB and Criteo formats */
 @property (nonatomic, assign, readonly) BOOL isOptIn;
 

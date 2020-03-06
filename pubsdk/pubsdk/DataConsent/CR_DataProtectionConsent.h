@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CR_CCPAConsent.h"
+#import "CR_Ccpa.h"
 
 @class CR_Gdpr;
 
@@ -46,7 +46,7 @@ FOUNDATION_EXTERN NSString * const CR_DataProtectionConsentMopubConsentKey;
 #pragma mark CCPA
 
 @property (nonatomic, copy, readonly, nullable) NSString *usPrivacyIabConsentString;
-@property (nonatomic, assign) CR_CCPACriteoState usPrivacyCriteoState;
+@property (nonatomic, assign) CR_CcpaCriteoState usPrivacyCriteoState;
 
 - (instancetype)init;
 - (instancetype)initWithUserDefaults:(NSUserDefaults *)userDefaults NS_DESIGNATED_INITIALIZER;

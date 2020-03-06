@@ -1,22 +1,22 @@
 //
-//  CR_CCPConsent.m
+//  CR_Ccpa.m
 //  pubsdk
 //
 //  Created by Romain Lofaso on 1/24/20.
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 
-#import "CR_CCPAConsent.h"
+#import "CR_Ccpa.h"
 
 /**
  Public spec for CCPA: https://iabtechlab.com/wp-content/uploads/2019/11/U.S.-Privacy-String-v1.0-IAB-Tech-Lab.pdf
  Internal spec for CCPA: https://confluence.criteois.com/display/PP/CCPA+Buying+Policy?focusedCommentId=532758801#comment-532758801
 */
 
-NSString * const CR_CCPAIabConsentStringKey = @"IABUSPrivacy_String";
-NSString * const CR_CCPAConsentCriteoStateKey = @"CriteoUSPrivacy_Bool";
+NSString * const CR_CcpaIabConsentStringKey = @"IABUSPrivacy_String";
+NSString * const CR_CcpaCriteoStateKey = @"CriteoUSPrivacy_Bool";
 
-@interface CR_CCPAConsent ()
+@interface CR_Ccpa ()
 
 @property (class, nonatomic, strong, readonly) NSArray<NSString *> *iabConsentOptInStrings;
 
@@ -28,7 +28,7 @@ NSString * const CR_CCPAConsentCriteoStateKey = @"CriteoUSPrivacy_Bool";
 
 @end
 
-@implementation CR_CCPAConsent
+@implementation CR_Ccpa
 
 #pragma mark - Class method
 
@@ -52,16 +52,16 @@ NSString * const CR_CCPAConsentCriteoStateKey = @"CriteoUSPrivacy_Bool";
 #pragma mark - Public API
 
 - (NSString *)iabConsentString {
-    return [self.userDefaults stringForKey:CR_CCPAIabConsentStringKey];
+    return [self.userDefaults stringForKey:CR_CcpaIabConsentStringKey];
 }
 
-- (void)setCriteoState:(CR_CCPACriteoState)criteoState {
+- (void)setCriteoState:(CR_CcpaCriteoState)criteoState {
     [self.userDefaults setInteger:criteoState
-                           forKey:CR_CCPAConsentCriteoStateKey];
+                           forKey:CR_CcpaCriteoStateKey];
 }
 
-- (CR_CCPACriteoState)criteoState {
-    return [self.userDefaults integerForKey:CR_CCPAConsentCriteoStateKey];
+- (CR_CcpaCriteoState)criteoState {
+    return [self.userDefaults integerForKey:CR_CcpaCriteoStateKey];
 }
 
 - (BOOL)isOptIn {
@@ -74,8 +74,8 @@ NSString * const CR_CCPAConsentCriteoStateKey = @"CriteoUSPrivacy_Bool";
 #pragma mark - Private
 
 - (BOOL)isOptInByCriteoFormat {
-    return  (self.criteoState == CR_CCPACriteoStateOptIn) ||
-            (self.criteoState == CR_CCPACriteoStateUnset);
+    return  (self.criteoState == CR_CcpaCriteoStateOptIn) ||
+            (self.criteoState == CR_CcpaCriteoStateUnset);
 }
 
 - (BOOL)isOptInByIabFormat {

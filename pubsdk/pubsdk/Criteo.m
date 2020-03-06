@@ -26,9 +26,9 @@
 
 - (void)setUsPrivacyOptOut:(BOOL)usPrivacyOptOut
 {
-    const CR_CCPACriteoState state = usPrivacyOptOut ?
-        CR_CCPACriteoStateOptOut:
-        CR_CCPACriteoStateOptIn;
+    const CR_CcpaCriteoState state = usPrivacyOptOut ?
+        CR_CcpaCriteoStateOptOut:
+        CR_CcpaCriteoStateOptIn;
     self.bidManager.consent.usPrivacyCriteoState = state;
 }
 
