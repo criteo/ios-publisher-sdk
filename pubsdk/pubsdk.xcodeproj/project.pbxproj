@@ -232,6 +232,8 @@
 		7D3E42732391611500BAF673 /* SampleBid.json in Resources */ = {isa = PBXBuildFile; fileRef = 7D3E420523915B6600BAF673 /* SampleBid.json */; };
 		7D44BDD12408196D005E7906 /* NSString+GDPR.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D44BDCE24081969005E7906 /* NSString+GDPR.m */; };
 		7D44BDD22408196E005E7906 /* NSString+GDPR.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D44BDCE24081969005E7906 /* NSString+GDPR.m */; };
+		7D4B4A8A24191E8900E1E241 /* CR_ApiQueryKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 54E0C24D23917D9A004F9353 /* CR_ApiQueryKeys.m */; };
+		7D4B4A8B24191E8E00E1E241 /* CR_ApiQueryKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = 54E0C24C23917D9A004F9353 /* CR_ApiQueryKeys.h */; };
 		7D51ABEC23AA6CAC00540094 /* CR_NetworkManagerDecorator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D51ABEB23AA6CAC00540094 /* CR_NetworkManagerDecorator.m */; };
 		7D51ABED23AA6CAC00540094 /* CR_NetworkManagerDecorator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D51ABEB23AA6CAC00540094 /* CR_NetworkManagerDecorator.m */; };
 		7D51ABF023AB781600540094 /* CR_Timer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D51ABEF23AB781600540094 /* CR_Timer.m */; };
@@ -1288,6 +1290,7 @@
 				54658897228C6DB1009746E0 /* CRInterstitialDelegate.h in Headers */,
 				650915FD225565E6001D6673 /* CRBannerView.h in Headers */,
 				DF367C8A232974210044807B /* CRNativeAdUnit.h in Headers */,
+				7D4B4A8B24191E8E00E1E241 /* CR_ApiQueryKeys.h in Headers */,
 				25BD5B5B2220D16D004DE311 /* CriteoPublisherSdk.h in Headers */,
 				53CA0F9522AB0ABD0098F96C /* CRBidToken.h in Headers */,
 				7D51ABFE23B0EDD900540094 /* CR_Assert.h in Headers */,
@@ -1679,6 +1682,7 @@
 				654858AA226538D500DC471A /* CRInterstitial.m in Sources */,
 				547287812411044000B62235 /* CR_FeedbackMessage.m in Sources */,
 				DF367C8B2329743C0044807B /* CRNativeAdUnit.m in Sources */,
+				7D4B4A8A24191E8900E1E241 /* CR_ApiQueryKeys.m in Sources */,
 				5397C0B122A0AA6600BC72FE /* CR_CacheAdUnit.m in Sources */,
 				25BD5B6F2220D209004DE311 /* Logging.m in Sources */,
 				25BD5B6B2220D1E6004DE311 /* CR_ApiHandler.m in Sources */,

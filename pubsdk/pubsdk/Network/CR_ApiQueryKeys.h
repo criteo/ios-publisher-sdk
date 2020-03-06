@@ -11,9 +11,33 @@
 @interface CR_ApiQueryKeys : NSObject
 
 @property (class, nonatomic, readonly) NSString *appId;
-@property (class, nonatomic, readonly) NSString *sdkVersion;
+@property (class, nonatomic, readonly) NSString *bidSlots;
+@property (class, nonatomic, readonly) NSString *bidSlotsIsInterstitial;
+@property (class, nonatomic, readonly) NSString *bidSlotsIsNative;
+@property (class, nonatomic, readonly) NSString *bidSlotsPlacementId;
+@property (class, nonatomic, readonly) NSString *bidSlotsSizes;
+@property (class, nonatomic, readonly) NSString *bundleId;
+@property (class, nonatomic, readonly) NSString *cpId;
+@property (class, nonatomic, readonly) NSString *deviceModel;
+@property (class, nonatomic, readonly) NSString *deviceIdType;
+@property (class, nonatomic, readonly) NSString *deviceId;
+@property (class, nonatomic, readonly) NSString *deviceIdValue;
+@property (class, nonatomic, readonly) NSString *deviceOs;
+@property (class, nonatomic, readonly) NSString *eventType;
+@property (class, nonatomic, readonly) NSString *gdpr;
+@property (class, nonatomic, readonly) NSString *gdprApplies;
+@property (class, nonatomic, readonly) NSString *gdprConsentGiven;
+@property (class, nonatomic, readonly) NSString *gdprConsentData;
+@property (class, nonatomic, readonly) NSString *gdprVersion;
 @property (class, nonatomic, readonly) NSString *idfa;
 @property (class, nonatomic, readonly) NSString *limitedAdTracking;
-@property (class, nonatomic, readonly) NSString *eventType;
+@property (class, nonatomic, readonly) NSString *mopubConsent;
+@property (class, nonatomic, readonly) NSString *profileId;
+@property (class, nonatomic, readonly) NSString *publisher;
+@property (class, nonatomic, readonly) NSString *sdkVersion;
+@property (class, nonatomic, readonly) NSString *uspIab;
+@property (class, nonatomic, readonly) NSString *user;
+@property (class, nonatomic, readonly) NSString *userAgent;
+@property (class, nonatomic, readonly) NSString *uspCriteoOptout;
 
 @end

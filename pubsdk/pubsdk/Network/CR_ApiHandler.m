@@ -8,6 +8,7 @@
 
 #import <WebKit/WebKit.h>
 #import "CR_ApiHandler.h"
+#import "CR_ApiQueryKeys.h"
 #import "CR_Gdpr.h"
 #import "Logging.h"
 #import "NSArray+Criteo.h"
@@ -101,36 +102,36 @@ NSNumber *NumberFromGdprTcfVersion(CR_GdprTcfVersion version) {
                                       config:(CR_Config *)config
                                   deviceInfo:(CR_DeviceInfo *)deviceInfo {
     NSMutableDictionary *postBody = [NSMutableDictionary new];
-    postBody[CR_ApiHandlerSdkVersionKey] = config.sdkVersion;
-    postBody[CR_ApiHandlerProfileIdKey]  = config.profileId;
+    postBody[CR_ApiQueryKeys.sdkVersion] = config.sdkVersion;
+    postBody[CR_ApiQueryKeys.profileId]  = config.profileId;
 
 
     NSMutableDictionary *userDict = [NSMutableDictionary new];
-    userDict[CR_ApiHandlerDeviceModelKey]   = config.deviceModel;
-    userDict[CR_ApiHandlerDeviceOsKey]      = config.deviceOs;
-    userDict[CR_ApiHandlerDeviceIdKey]      = deviceInfo.deviceId;
-    userDict[CR_ApiHandlerUserAgentKey]     = deviceInfo.userAgent;
-    userDict[CR_ApiHandlerDeviceIdTypeKey]  = CR_ApiHandlerDeviceIdTypeValue;
+    userDict[CR_ApiQueryKeys.deviceModel]   = config.deviceModel;
+    userDict[CR_ApiQueryKeys.deviceOs]      = config.deviceOs;
+    userDict[CR_ApiQueryKeys.deviceId]      = deviceInfo.deviceId;
+    userDict[CR_ApiQueryKeys.userAgent]     = deviceInfo.userAgent;
+    userDict[CR_ApiQueryKeys.deviceIdType]  = CR_ApiQueryKeys.deviceIdValue;
 
     if (consent.usPrivacyIabConsentString.length > 0) {
-        userDict[CR_ApiHandlerUspIabStringKey] = consent.usPrivacyIabConsentString;
+        userDict[CR_ApiQueryKeys.uspIab] = consent.usPrivacyIabConsentString;
     }
     if (consent.usPrivacyCriteoState == CR_CcpaCriteoStateOptIn) {
-        userDict[CR_ApiHandlerUspCriteoOptoutKey] = @NO;
+        userDict[CR_ApiQueryKeys.uspCriteoOptout] = @NO;
     } else if (consent.usPrivacyCriteoState == CR_CcpaCriteoStateOptOut) {
-        userDict[CR_ApiHandlerUspCriteoOptoutKey] = @YES;
+        userDict[CR_ApiQueryKeys.uspCriteoOptout] = @YES;
     } // else if unknown we add nothing.
 
     if (consent.mopubConsent.length > 0) {
-        userDict[CR_ApiHandlerMopubConsentKey] = consent.mopubConsent;
+        userDict[CR_ApiQueryKeys.mopubConsent] = consent.mopubConsent;
     }
-    postBody[CR_ApiHandlerUserKey] = userDict;
+    postBody[CR_ApiQueryKeys.user] = userDict;
 
     NSMutableDictionary *publisher = [NSMutableDictionary new];
-    publisher[CR_ApiHandlerBundleIdKey] = config.appId;
-    publisher[CR_ApiHandlerCpIdKey]     = config.criteoPublisherId;
-    postBody[CR_ApiHandlerPublisherKey] = publisher;
-    postBody[CR_ApiHandlerGdprKey]      = [self.class dictionaryForGdpr:consent.gdpr];
+    publisher[CR_ApiQueryKeys.bundleId] = config.appId;
+    publisher[CR_ApiQueryKeys.cpId]     = config.criteoPublisherId;
+    postBody[CR_ApiQueryKeys.publisher] = publisher;
+    postBody[CR_ApiQueryKeys.gdpr]      = [self.class dictionaryForGdpr:consent.gdpr];
 
     return postBody;
 }
@@ -140,13 +141,13 @@ NSNumber *NumberFromGdprTcfVersion(CR_GdprTcfVersion version) {
     NSMutableArray *slots = [NSMutableArray new];
     for (CR_CacheAdUnit *adUnit in adUnits) {
         NSMutableDictionary *slotDict = [NSMutableDictionary new];
-        slotDict[CR_ApiHandlerBidSlotsPlacementIdKey] = adUnit.adUnitId;
-        slotDict[CR_ApiHandlerBidSlotsSizesKey] = @[adUnit.cdbSize];
+        slotDict[CR_ApiQueryKeys.bidSlotsPlacementId] = adUnit.adUnitId;
+        slotDict[CR_ApiQueryKeys.bidSlotsSizes] = @[adUnit.cdbSize];
         if(adUnit.adUnitType == CRAdUnitTypeNative) {
-            slotDict[CR_ApiHandlerBidSlotsIsNativeKey] = @(YES);
+            slotDict[CR_ApiQueryKeys.bidSlotsIsNative] = @(YES);
         }
         else if(adUnit.adUnitType == CRAdUnitTypeInterstitial) {
-            slotDict[CR_ApiHandlerBidSlotsIsInterstitialKey] = @(YES);
+            slotDict[CR_ApiQueryKeys.bidSlotsIsInterstitial] = @(YES);
         }
         [slots addObject:slotDict];
     }
@@ -190,7 +191,7 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler {
     for (CR_CacheAdUnitArray *adUnitChunk in adUnitChunks) {
 
         // Set up the request for this chunk
-        postBody[CR_ApiHandlerBidSlotsKey] = [self slotsForRequest:adUnitChunk];
+        postBody[CR_ApiQueryKeys.bidSlots] = [self slotsForRequest:adUnitChunk];
 
         // Send the request
         CLogInfo(@"[INFO][API_] CdbPostCall.start");
@@ -285,11 +286,11 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler {
                                       deviceInfo:(CR_DeviceInfo *)deviceInfo {
 
     NSMutableDictionary<NSString *, NSString *> *paramDict = [[NSMutableDictionary alloc] init];
-    paramDict[CR_ApiHandlerAppEventIdfaKey] = deviceInfo.deviceId;
-    paramDict[CR_ApiHandlerAppEventEventTypeKey] = event;
-    paramDict[CR_ApiHandlerAppEventAppIdKey] = config.appId;
-    paramDict[CR_ApiHandlerAppEventLimitedAdTrackingKey] = consent.isAdTrackingEnabled ? @"0" : @"1";
-    paramDict[CR_ApiHandlerGdprKey] = [[self base64EncodedJsonForGdpr:consent.gdpr] urlEncode];
+    paramDict[CR_ApiQueryKeys.idfa] = deviceInfo.deviceId;
+    paramDict[CR_ApiQueryKeys.eventType] = event;
+    paramDict[CR_ApiQueryKeys.appId] = config.appId;
+    paramDict[CR_ApiQueryKeys.limitedAdTracking] = consent.isAdTrackingEnabled ? @"0" : @"1";
+    paramDict[CR_ApiQueryKeys.gdpr] = [[self base64EncodedJsonForGdpr:consent.gdpr] urlEncode];
     NSString *params = [NSString urlQueryParamsWithDictionary:paramDict];
     return params;
 }
@@ -313,10 +314,10 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler {
         return nil;
     }
     NSMutableDictionary *gdprDict = [NSMutableDictionary new];
-    gdprDict[CR_ApiHandlerGdprConsentStringKey] = gdpr.consentString;
-    gdprDict[CR_ApiHandlerGdprAppliedKey]       = @(gdpr.isApplied);
-    gdprDict[CR_ApiHandlerGdprConsentGivenKey]  = @(gdpr.consentGivenToCriteo);
-    gdprDict[CR_ApiHandlerGdprVersionKey]       = NumberFromGdprTcfVersion(gdpr.tcfVersion);
+    gdprDict[CR_ApiQueryKeys.gdprConsentData] = gdpr.consentString;
+    gdprDict[CR_ApiQueryKeys.gdprApplies] = @(gdpr.isApplied);
+    gdprDict[CR_ApiQueryKeys.gdprConsentGiven] = @(gdpr.consentGivenToCriteo);
+    gdprDict[CR_ApiQueryKeys.gdprVersion] = NumberFromGdprTcfVersion(gdpr.tcfVersion);
     return gdprDict;
 }
 
