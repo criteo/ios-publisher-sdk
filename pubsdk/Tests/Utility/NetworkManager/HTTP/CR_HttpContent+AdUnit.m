@@ -7,7 +7,7 @@
 //
 
 #import "CR_HttpContent+AdUnit.h"
-#import "CR_ApiHandler.h"
+#import "CR_ApiQueryKeys.h"
 
 @implementation CR_HttpContent (AdUnit)
 
@@ -21,11 +21,11 @@
 }
 
 - (BOOL)isHTTPRequestForCacheAdUnit:(CR_CacheAdUnit *)cacheAdUnit {
-    for (NSDictionary *slot in self.requestBody[CR_ApiHandlerBidSlotsKey]) {
-        NSString *placementId = slot[CR_ApiHandlerBidSlotsPlacementIdKey];
-        NSString *sizes = slot[CR_ApiHandlerBidSlotsSizesKey][0];
-        NSNumber *isNative = [slot objectForKey:CR_ApiHandlerBidSlotsIsNativeKey];
-        NSNumber *isInterstitial = [slot objectForKey:CR_ApiHandlerBidSlotsIsInterstitialKey];
+    for (NSDictionary *slot in self.requestBody[CR_ApiQueryKeys.bidSlots]) {
+        NSString *placementId = slot[CR_ApiQueryKeys.bidSlotsPlacementId];
+        NSString *sizes = slot[CR_ApiQueryKeys.bidSlotsSizes][0];
+        NSNumber *isNative = [slot objectForKey:CR_ApiQueryKeys.bidSlotsIsNative];
+        NSNumber *isInterstitial = [slot objectForKey:CR_ApiQueryKeys.bidSlotsIsInterstitial];
         const BOOL isExpectedAdUnitId = [cacheAdUnit.adUnitId isEqualToString:placementId];
         const BOOL isExpectedSize = [[cacheAdUnit cdbSize] isEqualToString:sizes];
         const BOOL hasNativeWellSet = (cacheAdUnit.adUnitType != CRAdUnitTypeNative) || isNative;

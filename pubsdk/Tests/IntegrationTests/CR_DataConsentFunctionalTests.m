@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "Criteo+Testing.h"
 #import "Criteo+Internal.h"
-#import "CR_ApiHandler.h"
+#import "CR_ApiQueryKeys.h"
 #import "CR_DataProtectionConsent.h"
 #import "CR_DataProtectionConsentMock.h"
 #import "CR_Gdpr.h"
@@ -65,15 +65,15 @@ do { \
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 
     XCTAssertNil(self.gdprInBidRequest);
-    XCTAssertNil(self.appEventUrlString.urlQueryParamsDictionary[CR_ApiHandlerGdprKey]);
+    XCTAssertNil(self.appEventUrlString.urlQueryParamsDictionary[CR_ApiQueryKeys.gdpr]);
 }
 
 - (void)testGivenGdprV1ConsentStringSet_whenCriteoRegister_thenConsentStringSetInBidRequest {
     NSDictionary *expected = @{
-        CR_ApiHandlerGdprVersionKey:        @1,
-        CR_ApiHandlerGdprConsentStringKey:  NSString.gdprConsentStringForTcf1_1,
-        CR_ApiHandlerGdprAppliedKey:        @NO,
-        CR_ApiHandlerGdprConsentGivenKey:   @NO
+        CR_ApiQueryKeys.gdprVersion:      @1,
+        CR_ApiQueryKeys.gdprConsentData:  NSString.gdprConsentStringForTcf1_1,
+        CR_ApiQueryKeys.gdprApplies:      @NO,
+        CR_ApiQueryKeys.gdprConsentGiven: @NO
     };
     [self.userDefaults setObject:NSString.gdprConsentStringForTcf1_1
                           forKey:CR_GdprConsentStringForTcf1_1Key];
@@ -81,15 +81,15 @@ do { \
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 
     XCTAssertEqualObjects(self.gdprInBidRequest, expected);
-    XCTAssertNotNil(self.appEventUrlString.urlQueryParamsDictionary[CR_ApiHandlerGdprKey]);
+    XCTAssertNotNil(self.appEventUrlString.urlQueryParamsDictionary[CR_ApiQueryKeys.gdpr]);
 }
 
 - (void)testGivenGdprV1Set_whenCriteoRegister_thenConsentStringSetInBidRequest {
     NSDictionary *expected = @{
-        CR_ApiHandlerGdprVersionKey:        @1,
-        CR_ApiHandlerGdprConsentStringKey:  NSString.gdprConsentStringForTcf1_1,
-        CR_ApiHandlerGdprAppliedKey:        @YES,
-        CR_ApiHandlerGdprConsentGivenKey:   @YES
+        CR_ApiQueryKeys.gdprVersion:      @1,
+        CR_ApiQueryKeys.gdprConsentData:  NSString.gdprConsentStringForTcf1_1,
+        CR_ApiQueryKeys.gdprApplies:      @YES,
+        CR_ApiQueryKeys.gdprConsentGiven: @YES
     };
     [self.userDefaults setObject:NSString.gdprConsentStringForTcf1_1
                           forKey:CR_GdprConsentStringForTcf1_1Key];
@@ -101,15 +101,15 @@ do { \
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 
     XCTAssertEqualObjects(self.gdprInBidRequest, expected);
-    XCTAssertNotNil(self.appEventUrlString.urlQueryParamsDictionary[CR_ApiHandlerGdprKey]);
+    XCTAssertNotNil(self.appEventUrlString.urlQueryParamsDictionary[CR_ApiQueryKeys.gdpr]);
 }
 
 - (void)testGivenGdprV2Set_whenCriteoRegister_thenConsentStringSetInBidRequest {
     NSDictionary *expected = @{
-        CR_ApiHandlerGdprVersionKey:        @2,
-        CR_ApiHandlerGdprConsentStringKey:  NSString.gdprConsentStringForTcf2_0,
-        CR_ApiHandlerGdprAppliedKey:        @YES,
-        CR_ApiHandlerGdprConsentGivenKey:   @YES
+        CR_ApiQueryKeys.gdprVersion:      @2,
+        CR_ApiQueryKeys.gdprConsentData:  NSString.gdprConsentStringForTcf2_0,
+        CR_ApiQueryKeys.gdprApplies:      @YES,
+        CR_ApiQueryKeys.gdprConsentGiven: @YES
     };
     [self.userDefaults setObject:NSString.gdprConsentStringForTcf2_0
                           forKey:CR_GdprConsentStringForTcf2_0Key];
@@ -125,10 +125,10 @@ do { \
 
 - (void)testGivenGdprV2AndV1Set_whenCriteoRegister_thenConsentStringV2SetInBidRequest {
     NSDictionary *expected = @{
-        CR_ApiHandlerGdprVersionKey:        @2,
-        CR_ApiHandlerGdprConsentStringKey:  NSString.gdprConsentStringForTcf2_0,
-        CR_ApiHandlerGdprAppliedKey:        @YES,
-        CR_ApiHandlerGdprConsentGivenKey:   @YES
+        CR_ApiQueryKeys.gdprVersion:      @2,
+        CR_ApiQueryKeys.gdprConsentData:  NSString.gdprConsentStringForTcf2_0,
+        CR_ApiQueryKeys.gdprApplies:      @YES,
+        CR_ApiQueryKeys.gdprConsentGiven: @YES
     };
     [self.userDefaults setObject:NSString.gdprConsentStringForTcf1_1
                           forKey:CR_GdprConsentStringForTcf1_1Key];
@@ -260,7 +260,7 @@ do { \
 
 - (NSDictionary *)gdprInBidRequest {
     CR_HttpContent *bidRequest = self.criteo.testing_lastBidHttpContent;
-    return bidRequest.requestBody[CR_ApiHandlerGdprKey];
+    return bidRequest.requestBody[CR_ApiQueryKeys.gdpr];
 }
 
 - (NSString *)appEventUrlString {
@@ -271,21 +271,21 @@ do { \
 - (NSString *)_mopubConsentInLastBidRequestWithCriteo:(Criteo *)criteo
 {
     CR_HttpContent *bidRequest = criteo.testing_lastBidHttpContent;
-    NSString *actualConsent = bidRequest.requestBody[CR_ApiHandlerUserKey][CR_ApiHandlerMopubConsentKey];
+    NSString *actualConsent = bidRequest.requestBody[CR_ApiQueryKeys.user][CR_ApiQueryKeys.mopubConsent];
     return actualConsent;
 }
 
 - (NSNumber *)_criteoUsPrivacyConsentInLastBidRequestWithCriteo:(Criteo *)criteo
 {
     CR_HttpContent *bidRequest = criteo.testing_lastBidHttpContent;
-    NSNumber *actualConsent = bidRequest.requestBody[CR_ApiHandlerUserKey][CR_ApiHandlerUspCriteoOptoutKey];
+    NSNumber *actualConsent = bidRequest.requestBody[CR_ApiQueryKeys.user][CR_ApiQueryKeys.uspCriteoOptout];
     return actualConsent;
 }
 
 - (NSString *)_iabConsentInLastBidRequestWithCriteo:(Criteo *)criteo
 {
     CR_HttpContent *bidRequest = criteo.testing_lastBidHttpContent;
-    NSString *actualConsent = bidRequest.requestBody[CR_ApiHandlerUserKey][CR_ApiHandlerUspIabStringKey];
+    NSString *actualConsent = bidRequest.requestBody[CR_ApiQueryKeys.user][CR_ApiQueryKeys.uspIab];
     return actualConsent;
 }
 

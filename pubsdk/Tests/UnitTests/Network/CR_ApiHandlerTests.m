@@ -11,6 +11,7 @@
 
 #import <OCMock.h>
 
+#import "CR_ApiQueryKeys.h"
 #import "CR_BidManager.h"
 #import "CR_CacheManager.h"
 #import "CR_Config.h"
@@ -386,34 +387,34 @@ do { \
 - (void)testCdbCallContainsSdkAndProfile {
     [self callCdb];
 
-    XCTAssertEqualObjects(self.cdbPayload[CR_ApiHandlerSdkVersionKey], self.configMock.sdkVersion);
-    XCTAssertEqualObjects(self.cdbPayload[CR_ApiHandlerProfileIdKey], self.configMock.profileId);
+    XCTAssertEqualObjects(self.cdbPayload[CR_ApiQueryKeys.sdkVersion], self.configMock.sdkVersion);
+    XCTAssertEqualObjects(self.cdbPayload[CR_ApiQueryKeys.profileId], self.configMock.profileId);
 }
 
 - (void)testCdbCallContainsPublisherInfo {
     NSDictionary *expected = @{
-        CR_ApiHandlerCpIdKey: self.configMock.criteoPublisherId,
-        CR_ApiHandlerBundleIdKey: self.configMock.appId,
+        CR_ApiQueryKeys.cpId: self.configMock.criteoPublisherId,
+        CR_ApiQueryKeys.bundleId: self.configMock.appId,
     };
 
     [self callCdb];
 
-    XCTAssertEqualObjects(self.cdbPayload[CR_ApiHandlerPublisherKey], expected);
+    XCTAssertEqualObjects(self.cdbPayload[CR_ApiQueryKeys.publisher], expected);
 }
 
 - (void)testCdbCallContainsUserInfo {
     NSDictionary *expected = @{
-        CR_ApiHandlerDeviceIdTypeKey: CR_ApiHandlerDeviceIdTypeValue,
-        CR_ApiHandlerDeviceIdKey: self.deviceInfoMock.deviceId,
-        CR_ApiHandlerDeviceOsKey: self.configMock.deviceOs,
-        CR_ApiHandlerDeviceModelKey: self.configMock.deviceModel,
-        CR_ApiHandlerUserAgentKey: self.deviceInfoMock.userAgent,
-        CR_ApiHandlerUspIabStringKey: CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString
+        CR_ApiQueryKeys.deviceIdType: CR_ApiQueryKeys.deviceIdValue,
+        CR_ApiQueryKeys.deviceId: self.deviceInfoMock.deviceId,
+        CR_ApiQueryKeys.deviceOs: self.configMock.deviceOs,
+        CR_ApiQueryKeys.deviceModel: self.configMock.deviceModel,
+        CR_ApiQueryKeys.userAgent: self.deviceInfoMock.userAgent,
+        CR_ApiQueryKeys.uspIab: CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString
     };
 
     [self callCdb];
 
-    XCTAssertEqualObjects(self.cdbPayload[CR_ApiHandlerUserKey], expected);
+    XCTAssertEqualObjects(self.cdbPayload[CR_ApiQueryKeys.user], expected);
 }
 
 #pragma mark GDPR
@@ -421,7 +422,7 @@ do { \
 - (void)testCdbCallContainsGdprUnknown {
     [self callCdb];
 
-    XCTAssertNil(self.cdbPayload[CR_ApiHandlerGdprKey]);
+    XCTAssertNil(self.cdbPayload[CR_ApiQueryKeys.gdpr]);
 }
 
 - (void)testCdbCallWithNilGdprHasNoGdprKey { // To avoid crash with unvalid GDPR object
@@ -430,35 +431,35 @@ do { \
 
     [self callCdb];
 
-    XCTAssertNil(self.cdbPayload[CR_ApiHandlerGdprKey]);
+    XCTAssertNil(self.cdbPayload[CR_ApiQueryKeys.gdpr]);
 }
 
 - (void)testCdbCallContainsGdprV2 {
     [self.consentMock.gdprMock configureWithTcfVersion:CR_GdprTcfVersion2_0];
     NSDictionary *expected = @{
-        CR_ApiHandlerGdprVersionKey:        @2,
-        CR_ApiHandlerGdprConsentStringKey:  NSString.gdprConsentStringForTcf2_0,
-        CR_ApiHandlerGdprAppliedKey:        @YES,
-        CR_ApiHandlerGdprConsentGivenKey:   @YES
+        CR_ApiQueryKeys.gdprVersion:        @2,
+        CR_ApiQueryKeys.gdprConsentData:    NSString.gdprConsentStringForTcf2_0,
+        CR_ApiQueryKeys.gdprApplies:        @YES,
+        CR_ApiQueryKeys.gdprConsentGiven:   @YES
     };
 
     [self callCdb];
 
-    XCTAssertEqualObjects(self.cdbPayload[CR_ApiHandlerGdprKey], expected);
+    XCTAssertEqualObjects(self.cdbPayload[CR_ApiQueryKeys.gdpr], expected);
 }
 
 - (void)testCdbCallContainsGdprV1 {
     [self.consentMock.gdprMock configureWithTcfVersion:CR_GdprTcfVersion1_1];
     NSDictionary *expected = @{
-        CR_ApiHandlerGdprVersionKey:        @1,
-        CR_ApiHandlerGdprConsentStringKey:  NSString.gdprConsentStringForTcf1_1,
-        CR_ApiHandlerGdprAppliedKey:        @YES,
-        CR_ApiHandlerGdprConsentGivenKey:   @YES
+        CR_ApiQueryKeys.gdprVersion:        @1,
+        CR_ApiQueryKeys.gdprConsentData:    NSString.gdprConsentStringForTcf1_1,
+        CR_ApiQueryKeys.gdprApplies:        @YES,
+        CR_ApiQueryKeys.gdprConsentGiven:   @YES
     };
 
     [self callCdb];
 
-    XCTAssertEqualObjects(self.cdbPayload[CR_ApiHandlerGdprKey], expected);
+    XCTAssertEqualObjects(self.cdbPayload[CR_ApiQueryKeys.gdpr], expected);
 }
 
 #pragma mark CCPA
@@ -469,7 +470,7 @@ do { \
     [self callCdb];
 
     NSDictionary *body = self.networkManagerMock.lastPostBody;
-    XCTAssertEqualObjects(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspIabStringKey], CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString);
+    XCTAssertEqualObjects(body[CR_ApiQueryKeys.user][CR_ApiQueryKeys.uspIab], CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString);
 }
 
 - (void)testCallCdbWithUspIapContentStringEmpty {
@@ -478,7 +479,7 @@ do { \
     [self callCdb];
 
     NSDictionary *body = self.networkManagerMock.lastPostBody;
-    XCTAssertNil(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspIabStringKey]);
+    XCTAssertNil(body[CR_ApiQueryKeys.user][CR_ApiQueryKeys.uspIab]);
 }
 
 - (void)testCallCdbWithUspIapContentStringNil {
@@ -487,7 +488,7 @@ do { \
     [self callCdb];
 
     NSDictionary *body = self.networkManagerMock.lastPostBody;
-    XCTAssertNil(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspIabStringKey]);
+    XCTAssertNil(body[CR_ApiQueryKeys.user][CR_ApiQueryKeys.uspIab]);
 }
 
 - (void)testCallCdbWithUspCriteoStateOptOut {
@@ -496,7 +497,7 @@ do { \
     [self callCdb];
 
     NSDictionary *body = self.networkManagerMock.lastPostBody;
-    XCTAssertEqualObjects(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspCriteoOptoutKey], @YES);
+    XCTAssertEqualObjects(body[CR_ApiQueryKeys.user][CR_ApiQueryKeys.uspCriteoOptout], @YES);
 }
 
 - (void)testCallCdbWithUspCriteoStateOptIn {
@@ -505,7 +506,7 @@ do { \
     [self callCdb];
 
     NSDictionary *body = self.networkManagerMock.lastPostBody;
-    XCTAssertEqualObjects(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspCriteoOptoutKey], @NO);
+    XCTAssertEqualObjects(body[CR_ApiQueryKeys.user][CR_ApiQueryKeys.uspCriteoOptout], @NO);
 }
 
 - (void)testCallCdbWithUspCriteoStateUnset {
@@ -514,7 +515,7 @@ do { \
     [self callCdb];
 
     NSDictionary *body = self.networkManagerMock.lastPostBody;
-    XCTAssertNil(body[CR_ApiHandlerUserKey][CR_ApiHandlerUspCriteoOptoutKey]);
+    XCTAssertNil(body[CR_ApiQueryKeys.user][CR_ApiQueryKeys.uspCriteoOptout]);
 }
 
 - (void)testCallCdbWithoutMopubConsent {
@@ -524,7 +525,7 @@ do { \
     [self callCdb];
 
     NSDictionary *body = self.networkManagerMock.lastPostBody;
-    XCTAssertNil(body[CR_ApiHandlerUserKey][CR_ApiHandlerMopubConsentKey]);
+    XCTAssertNil(body[CR_ApiQueryKeys.user][CR_ApiQueryKeys.mopubConsent]);
 }
 
 - (void)testCallCdbWithMopubConsent {
@@ -534,7 +535,7 @@ do { \
     [self callCdb];
 
     NSDictionary *body = self.networkManagerMock.lastPostBody;
-    NSString *actual = body[CR_ApiHandlerUserKey][CR_ApiHandlerMopubConsentKey];
+    NSString *actual = body[CR_ApiQueryKeys.user][CR_ApiQueryKeys.mopubConsent];
     XCTAssertEqualObjects(actual, expected);
 }
 
@@ -568,10 +569,10 @@ do { \
 
 - (void)testSendAppEventUrlWithoutGdpr {
     NSDictionary *expected = @{
-        CR_ApiHandlerAppEventIdfaKey: self.deviceInfoMock.deviceId,
-        CR_ApiHandlerAppEventAppIdKey: self.configMock.appId,
-        CR_ApiHandlerAppEventEventTypeKey: @"Launch",
-        CR_ApiHandlerAppEventLimitedAdTrackingKey: @"0"
+        CR_ApiQueryKeys.idfa: self.deviceInfoMock.deviceId,
+        CR_ApiQueryKeys.appId: self.configMock.appId,
+        CR_ApiQueryKeys.eventType: @"Launch",
+        CR_ApiQueryKeys.limitedAdTracking: @"0"
     };
 
     [self callSendAppEventWithCompletionHandler:nil];
@@ -592,7 +593,7 @@ do { \
     
     [self callSendAppEventWithCompletionHandler:nil];
 
-    NSString *gdprEncodedString = self.appEventUrlString.urlQueryParamsDictionary[CR_ApiHandlerGdprKey];
+    NSString *gdprEncodedString = self.appEventUrlString.urlQueryParamsDictionary[CR_ApiQueryKeys.gdpr];
     XCTAssertEqualObjects(gdprEncodedString, expectedGdprJsonBase64);
 }
 

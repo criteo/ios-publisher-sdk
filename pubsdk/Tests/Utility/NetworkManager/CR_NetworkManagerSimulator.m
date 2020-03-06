@@ -6,7 +6,7 @@
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#import "CR_ApiHandler.h"
+#import "CR_ApiQueryKeys.h"
 #import "CR_Config.h"
 #import "CR_NetworkManagerSimulator.h"
 #import "CR_NetworkCaptor.h"
@@ -97,10 +97,10 @@ NSString *const CR_NetworkSessionEmptyBid = @"{\"slots\":[],\"requestId\":\"c412
 - (NSData *)_handleBidRequestWithUrl:(NSURL *)url
                             postBody:(NSDictionary *)postBody
                                error:(NSError **)error {
-    NSArray *slots = postBody[CR_ApiHandlerBidSlotsKey];
+    NSArray *slots = postBody[CR_ApiQueryKeys.bidSlots];
     NSMutableArray *slotResponses = [[NSMutableArray alloc] init];
     for (NSDictionary *slot in slots) {
-        NSString *placementId = slot[CR_ApiHandlerBidSlotsPlacementIdKey];
+        NSString *placementId = slot[CR_ApiQueryKeys.bidSlotsPlacementId];
         NSString *slotResponse = self.bidSlotResponses[placementId];
         if (slotResponse) {
             [slotResponses addObject:slotResponse];
