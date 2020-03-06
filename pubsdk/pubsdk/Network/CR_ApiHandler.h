@@ -17,41 +17,12 @@
 #import "CR_DataProtectionConsent.h"
 #import "CR_DeviceInfo.h"
 #import "CR_BidFetchTracker.h"
+
 @class CR_ThreadManager;
 
 typedef void (^CR_CdbCompletionHandler)(CR_CdbResponse *cdbResponse, NSError *error);
 typedef void (^AHConfigResponse)(NSDictionary *configValues);
 typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receivedAt);
-
-extern NSString * const CR_ApiHandlerAppEventAppIdKey;
-extern NSString * const CR_ApiHandlerAppEventEventTypeKey;
-extern NSString * const CR_ApiHandlerAppEventIdfaKey;
-extern NSString * const CR_ApiHandlerAppEventLimitedAdTrackingKey;
-extern NSString * const CR_ApiHandlerBidSlotsIsInterstitialKey;
-extern NSString * const CR_ApiHandlerBidSlotsIsNativeKey;
-extern NSString * const CR_ApiHandlerBidSlotsKey;
-extern NSString * const CR_ApiHandlerBidSlotsPlacementIdKey;
-extern NSString * const CR_ApiHandlerBidSlotsSizesKey;
-extern NSString * const CR_ApiHandlerBundleIdKey;
-extern NSString * const CR_ApiHandlerCpIdKey;
-extern NSString * const CR_ApiHandlerDeviceIdTypeKey;
-extern NSString * const CR_ApiHandlerDeviceIdTypeValue;
-extern NSString * const CR_ApiHandlerDeviceIdKey;
-extern NSString * const CR_ApiHandlerDeviceModelKey;
-extern NSString * const CR_ApiHandlerDeviceOsKey;
-extern NSString * const CR_ApiHandlerGdprKey;
-extern NSString * const CR_ApiHandlerGdprVersionKey;
-extern NSString * const CR_ApiHandlerGdprConsentGivenKey;
-extern NSString * const CR_ApiHandlerGdprConsentStringKey;
-extern NSString * const CR_ApiHandlerGdprAppliedKey;
-extern NSString * const CR_ApiHandlerMopubConsentKey;
-extern NSString * const CR_ApiHandlerUserAgentKey;
-extern NSString * const CR_ApiHandlerUserKey;
-extern NSString * const CR_ApiHandlerUspCriteoOptoutKey;
-extern NSString * const CR_ApiHandlerUspIabStringKey;
-extern NSString * const CR_ApiHandlerSdkVersionKey;
-extern NSString * const CR_ApiHandlerProfileIdKey;
-extern NSString * const CR_ApiHandlerPublisherKey;
 
 @interface CR_ApiHandler : NSObject
 @property (strong, nonatomic) CR_NetworkManager *networkManager;

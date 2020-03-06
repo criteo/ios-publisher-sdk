@@ -15,36 +15,6 @@
 #import "CR_ThreadManager.h"
 #import "NSString+CR_Url.h"
 
-NSString * const CR_ApiHandlerAppEventAppIdKey = @"appId";
-NSString * const CR_ApiHandlerAppEventEventTypeKey = @"eventType";
-NSString * const CR_ApiHandlerAppEventIdfaKey = @"idfa";
-NSString * const CR_ApiHandlerAppEventLimitedAdTrackingKey = @"limitedAdTracking";
-NSString * const CR_ApiHandlerBidSlotsIsInterstitialKey = @"interstitial";
-NSString * const CR_ApiHandlerBidSlotsIsNativeKey = @"isNative";
-NSString * const CR_ApiHandlerBidSlotsKey = @"slots";
-NSString * const CR_ApiHandlerBidSlotsPlacementIdKey = @"placementId";
-NSString * const CR_ApiHandlerBidSlotsSizesKey = @"sizes";
-NSString * const CR_ApiHandlerBundleIdKey = @"bundleId";
-NSString * const CR_ApiHandlerCpIdKey = @"cpId";
-NSString * const CR_ApiHandlerDeviceModelKey = @"deviceModel";
-NSString * const CR_ApiHandlerDeviceIdTypeKey = @"deviceIdType";
-NSString * const CR_ApiHandlerDeviceIdKey = @"deviceId";
-NSString * const CR_ApiHandlerDeviceIdTypeValue = @"IDFA";
-NSString * const CR_ApiHandlerDeviceOsKey = @"deviceOs";
-NSString * const CR_ApiHandlerGdprKey = @"gdrpConsent";
-NSString * const CR_ApiHandlerGdprVersionKey = @"version";
-NSString * const CR_ApiHandlerGdprConsentGivenKey = @"consentGiven";
-NSString * const CR_ApiHandlerGdprConsentStringKey = @"consentData";
-NSString * const CR_ApiHandlerGdprAppliedKey = @"gdprApplies";
-NSString * const CR_ApiHandlerUspIabStringKey = @"uspIab";
-NSString * const CR_ApiHandlerUserKey = @"user";
-NSString * const CR_ApiHandlerUserAgentKey = @"userAgent";
-NSString * const CR_ApiHandlerUspCriteoOptoutKey = @"uspOptout";
-NSString * const CR_ApiHandlerMopubConsentKey = @"mopubConsent";
-NSString * const CR_ApiHandlerSdkVersionKey = @"sdkVersion";
-NSString * const CR_ApiHandlerProfileIdKey = @"profileId";
-NSString * const CR_ApiHandlerPublisherKey = @"publisher";
-
 static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 
 NSNumber *NumberFromGdprTcfVersion(CR_GdprTcfVersion version) {
