@@ -153,13 +153,7 @@
 }
 
 - (void) prefetchBids:(CR_CacheAdUnitArray *) adUnits {
-    if(!config) {
-        CLog(@"Config hasn't been fetched. So no bids will be fetched.");
-        return;
-        // TODO : move kill switch logic out of bid manager
-        // http://review.criteois.lan/#/c/461220/10/pubsdk/pubsdkTests/CR_BidManagerTests.m
-    } else if ([config killSwitch]) {
-        CLog(@"killSwitch is engaged. No bid will be fetched.");
+    if([self shouldCancelCdbCall]) {
         return;
     }
 
@@ -175,27 +169,51 @@
                            config:self->config
                        deviceInfo:self->deviceInfo
                 completionHandler:^(CR_CdbResponse *cdbResponse, NSError *error) {
-                 if (error != nil) {
-                     if(error.code == NSURLErrorTimedOut) {
-                         for(CR_CacheAdUnit *cacheAdUnit in adUnits) {
-                             [self.feedbackStorage setTimeoutedForAdUnit:cacheAdUnit];
-                         }
-                     }
-                     return;
-                 }
-                 if(cdbResponse.timeToNextCall) {
-                     self->cdbTimeToNextCall = [[NSDate dateWithTimeIntervalSinceNow:cdbResponse.timeToNextCall]
-                                                timeIntervalSinceReferenceDate];
-                 }
-                 for(CR_CdbBid *bid in cdbResponse.cdbBids) {
-                     CR_CacheAdUnit *adUnit = [self->cacheManager setBid:bid];
-                     if(adUnit) {
-                         [self.feedbackStorage setCdbEndAndImpressionId:bid.impressionId forAdUnit:adUnit];
-                     }
-                 }
-                 //TODO: What to do with no bid for some of the adUnits?
-             }];
+                    if (error != nil) {
+                        [self handleCdbCallError:error forAdUnits:adUnits];
+                        return;
+                    }
+                    [self updateTimeToNextCallIfProvided:cdbResponse];
+                    [self cacheReturnedBidsFromCdbResponse:cdbResponse];
+                }];
     }];
+}
+
+- (BOOL)shouldCancelCdbCall {
+    if (!config) {
+        CLog(@"Config hasn't been fetched. So no bids will be fetched.");
+        return YES;
+        // TODO : move kill switch logic out of bid manager
+        // http://review.criteois.lan/#/c/461220/10/pubsdk/pubsdkTests/CR_BidManagerTests.m
+    } else if ([config killSwitch]) {
+        CLog(@"killSwitch is engaged. No bid will be fetched.");
+        return YES;
+    }
+    return NO;
+}
+
+- (void)handleCdbCallError:(NSError *)error forAdUnits:(CR_CacheAdUnitArray *)adUnits {
+    if (error.code == NSURLErrorTimedOut) {
+        for (CR_CacheAdUnit *cacheAdUnit in adUnits) {
+            [self.feedbackStorage setTimeoutedForAdUnit:cacheAdUnit];
+        }
+    }
+}
+
+- (void)updateTimeToNextCallIfProvided:(CR_CdbResponse *)cdbResponse {
+    if(cdbResponse.timeToNextCall) {
+        self->cdbTimeToNextCall = [[NSDate dateWithTimeIntervalSinceNow:cdbResponse.timeToNextCall]
+            timeIntervalSinceReferenceDate];
+    }
+}
+
+- (void)cacheReturnedBidsFromCdbResponse:(CR_CdbResponse *)cdbResponse {
+    for(CR_CdbBid *bid in cdbResponse.cdbBids) {
+        CR_CacheAdUnit *adUnit = [self->cacheManager setBid:bid];
+        if(adUnit) {
+            [self.feedbackStorage setCdbEndAndImpressionId:bid.impressionId forAdUnit:adUnit];
+        }
+    }
 }
 
 - (void) refreshConfig {
