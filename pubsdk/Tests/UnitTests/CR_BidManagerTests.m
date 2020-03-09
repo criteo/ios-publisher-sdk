@@ -401,18 +401,23 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     OCMVerify([self.configManagerMock refreshConfig:[OCMArg any]]);
 }
 
-- (void)testCdbCallUpdateFeedback {
+- (void)testCdbCallUpdateFeedback_BidAndNoBidCases {
     CR_CdbResponse *response = [CR_CdbResponse getCdbResponseForData:[NSData new] receivedAt:[NSDate date]];
     response.cdbBids = @[CR_CdbBidBuilder.new.adUnit(self.adUnit1).build];
 
     [self configureApiHandlerMockCdbCallCompletion:response error:nil];
 
-    [self.bidManager prefetchBid:self.adUnit1];
+    [self.bidManager prefetchBids:@[self.adUnit1, self.adUnit2]];
 
     NSString *filename = [self.builder.feedbackStorage getOrCreateFilenameForAdUnit:self.adUnit1];
     CR_FeedbackMessage *feedbackMessage = [self.builder.feedbackStorage readOrCreateFeedbackMessageByFilename:filename];
     XCTAssertNotNil(feedbackMessage.cdbCallStartTimestamp);
     XCTAssertNotNil(feedbackMessage.cdbCallEndTimestamp);
+
+    NSArray<CR_FeedbackMessage *> *messages = [self.builder.feedbackStorage messagesReadyToSend];
+    XCTAssertEqual(messages.count, 1);
+    XCTAssertTrue(messages[0].isExpired);
+    XCTAssertNil(messages[0].impressionId);
 }
 
 - (void)testCdbCallTimeoutUpdateFeedback {

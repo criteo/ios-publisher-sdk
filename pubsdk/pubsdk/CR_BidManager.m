@@ -174,7 +174,7 @@
                         return;
                     }
                     [self updateTimeToNextCallIfProvided:cdbResponse];
-                    [self cacheReturnedBidsFromCdbResponse:cdbResponse];
+                    [self cacheReturnedBidsFromCdbResponse:cdbResponse forAdUnits:adUnits];
                 }];
     }];
 }
@@ -207,12 +207,18 @@
     }
 }
 
-- (void)cacheReturnedBidsFromCdbResponse:(CR_CdbResponse *)cdbResponse {
+- (void)cacheReturnedBidsFromCdbResponse:(CR_CdbResponse *)cdbResponse forAdUnits:(CR_CacheAdUnitArray *)adUnits {
+    NSMutableSet *noBidAdUnits = [[NSMutableSet alloc] initWithArray:adUnits];
     for(CR_CdbBid *bid in cdbResponse.cdbBids) {
         CR_CacheAdUnit *adUnit = [self->cacheManager setBid:bid];
         if(adUnit) {
+            [noBidAdUnits removeObject:adUnit];
             [self.feedbackStorage setCdbEndAndImpressionId:bid.impressionId forAdUnit:adUnit];
         }
+    }
+
+    for(CR_CacheAdUnit *adUnit in noBidAdUnits) {
+        [self.feedbackStorage setCdbEndAndExpiredForAdUnit:adUnit];
     }
 }
 

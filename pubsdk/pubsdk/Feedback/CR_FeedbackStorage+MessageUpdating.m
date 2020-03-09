@@ -22,6 +22,13 @@
     }];
 }
 
+- (void)setCdbEndAndExpiredForAdUnit:(CR_CacheAdUnit *)cacheAdUnit {
+    [self updateMessageWithAdUnit:cacheAdUnit by:^(CR_FeedbackMessage *message) {
+        message.cdbCallEndTimestamp = [self dateTimeNowInMilliseconds];
+        message.expired = YES;
+    }];
+}
+
 - (void)setElapsedForAdUnit:(CR_CacheAdUnit *)cacheAdUnit {
     [self updateMessageWithAdUnit:cacheAdUnit by:^(CR_FeedbackMessage *message) {
         message.elapsedTimestamp = [self dateTimeNowInMilliseconds];

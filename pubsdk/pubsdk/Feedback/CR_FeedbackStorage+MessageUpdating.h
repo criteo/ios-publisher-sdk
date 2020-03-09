@@ -13,6 +13,8 @@
 
 - (void)setCdbEndAndImpressionId:(NSString *)impressionId forAdUnit:(CR_CacheAdUnit *)cacheAdUnit;
 
+- (void)setCdbEndAndExpiredForAdUnit:(CR_CacheAdUnit *)cacheAdUnit;
+
 - (void)setElapsedForAdUnit:(CR_CacheAdUnit *)cacheAdUnit;
 
 - (void)setExpiredForAdUnit:(CR_CacheAdUnit *)cacheAdUnit;
