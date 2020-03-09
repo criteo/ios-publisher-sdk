@@ -11,7 +11,8 @@
 NSString *const kLogUpdateKey = @"kLogUpdate";
 
 @interface LogManager () {
-    NSMutableArray* _logs;
+    NSMutableArray *_logs;
+    NSNotificationCenter *_notificationCenter;
 }
 
 @end
@@ -23,6 +24,7 @@ NSString *const kLogUpdateKey = @"kLogUpdate";
 - (instancetype)init {
     if (self = [super init]) {
         _logs = [[NSMutableArray alloc] init];
+        _notificationCenter = [NSNotificationCenter defaultCenter];
     }
     return self;
 }
@@ -41,6 +43,7 @@ NSString *const kLogUpdateKey = @"kLogUpdate";
 
 - (void)log:(id <LogEntry>)entry {
     [_logs insertObject:entry atIndex:0];
+    [_notificationCenter postNotificationName:kLogUpdateKey object:entry];
 }
 
 @end

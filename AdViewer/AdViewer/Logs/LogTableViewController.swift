@@ -8,6 +8,19 @@
 
 class LogTableViewController: UITableViewController {
     let logManager = LogManager.sharedInstance()
+    let notificationCenter = NotificationCenter.default
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        notificationCenter.addObserver(self,
+                selector: #selector(reload),
+                name: NSNotification.Name(rawValue: kLogUpdateKey),
+                object: nil)
+    }
+
+    @objc private func reload() {
+        self.tableView.reloadData()
+    }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         1
