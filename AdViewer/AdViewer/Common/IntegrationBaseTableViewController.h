@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "HomePageTableViewController.h"
+#import "InterstitialUpdateDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface IntegrationBaseTableViewController : UITableViewController
+@interface IntegrationBaseTableViewController : UITableViewController <InterstitialUpdateDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *loadInterstitialButton;
 @property (weak, nonatomic) IBOutlet UIButton *showInterstitialButton;
@@ -21,8 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) HomePageTableViewController *homePageVC;
 
-- (void) updateInterstitialButtonsForAdLoaded:(BOOL)adLoaded;
-- (void) onLoadInterstitial;
+- (void)onLoadInterstitial;
 
 @end
 

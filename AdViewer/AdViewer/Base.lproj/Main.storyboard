@@ -152,27 +152,6 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Logs" id="vPn-Pt-vJs">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="250" id="wJF-UC-uDF">
-                                        <rect key="frame" x="0.0" y="618" width="414" height="250"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wJF-UC-uDF" id="QL7-DZ-M1I">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="250"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ebc-CQ-tgZ">
-                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="250"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                </textView>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="xG5-T5-Jgx" id="h0R-9D-jaF"/>
@@ -194,7 +173,6 @@
                         <outlet property="interstitialVideoSwitchLabel" destination="hmF-7M-ZSv" id="rcD-eu-ZMB"/>
                         <outlet property="loadInterstitialButton" destination="UN7-w3-R7u" id="yX4-oT-M71"/>
                         <outlet property="showInterstitialButton" destination="RHQ-hb-cIy" id="XrP-Jg-RjB"/>
-                        <outlet property="textFeedBack" destination="ebc-CQ-tgZ" id="HCQ-w7-ra2"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2EA-SA-LWR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -346,54 +324,6 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Output" id="nXf-QN-nTb">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="300" id="39f-jO-Ohq">
-                                        <rect key="frame" x="0.0" y="311.00000381469727" width="414" height="300"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="39f-jO-Ohq" id="xau-KJ-B7o">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pja-l3-rWv">
-                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
-                                                    <subviews>
-                                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p74-Rq-1un">
-                                                            <rect key="frame" x="8" y="8" width="398" height="284"/>
-                                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                            <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                            <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="12"/>
-                                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                        </textView>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e9N-VA-pw0">
-                                                            <rect key="frame" x="329" y="8" width="69" height="30"/>
-                                                            <state key="normal" title="Clear logs"/>
-                                                            <connections>
-                                                                <action selector="clearLogsClick:" destination="vwa-jI-9wo" eventType="touchUpInside" id="pOL-7c-7N6"/>
-                                                            </connections>
-                                                        </button>
-                                                    </subviews>
-                                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="trailing" secondItem="e9N-VA-pw0" secondAttribute="trailing" constant="16" id="9Fa-rt-9cm"/>
-                                                        <constraint firstItem="e9N-VA-pw0" firstAttribute="top" secondItem="Pja-l3-rWv" secondAttribute="top" constant="8" id="E0e-Ii-Cnw"/>
-                                                        <constraint firstAttribute="trailing" secondItem="p74-Rq-1un" secondAttribute="trailing" constant="8" id="VYO-5z-lYP"/>
-                                                        <constraint firstAttribute="bottom" secondItem="p74-Rq-1un" secondAttribute="bottom" constant="8" id="k1h-E8-vPB"/>
-                                                        <constraint firstItem="p74-Rq-1un" firstAttribute="leading" secondItem="Pja-l3-rWv" secondAttribute="leading" constant="8" id="pgA-za-IMT"/>
-                                                        <constraint firstItem="p74-Rq-1un" firstAttribute="top" secondItem="Pja-l3-rWv" secondAttribute="top" constant="8" id="uDa-58-28T"/>
-                                                    </constraints>
-                                                </view>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="Pja-l3-rWv" firstAttribute="centerX" secondItem="xau-KJ-B7o" secondAttribute="centerX" id="8av-XM-y7S"/>
-                                                <constraint firstItem="Pja-l3-rWv" firstAttribute="leading" secondItem="xau-KJ-B7o" secondAttribute="leadingMargin" constant="-20" id="9QZ-Ty-m1v"/>
-                                                <constraint firstItem="Pja-l3-rWv" firstAttribute="top" secondItem="xau-KJ-B7o" secondAttribute="topMargin" constant="-11" id="LA9-he-Ocq"/>
-                                                <constraint firstItem="Pja-l3-rWv" firstAttribute="centerY" secondItem="xau-KJ-B7o" secondAttribute="centerY" id="Q1t-AW-73e"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="vwa-jI-9wo" id="5sQ-Wp-rUG"/>
@@ -415,7 +345,6 @@
                         <outlet property="interstitialVideoSwitch" destination="dVZ-hp-q3q" id="BkG-oE-ZQC"/>
                         <outlet property="interstitialVideoSwitchLabel" destination="eFq-wg-Ceq" id="Qlx-dC-9bX"/>
                         <outlet property="loadInterstitialButton" destination="mWa-5t-U4k" id="6GF-5g-t8w"/>
-                        <outlet property="logsTextView" destination="p74-Rq-1un" id="gSE-xl-bYP"/>
                         <outlet property="showInterstitialButton" destination="7P0-rG-Cip" id="dUU-kq-Ay4"/>
                     </connections>
                 </tableViewController>
@@ -610,27 +539,6 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection id="D0L-Wm-OMf">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="ButtonCell" rowHeight="349" id="z3f-h0-IBn" customClass="GoogleDFPButtonViewCellTableViewCell">
-                                        <rect key="frame" x="0.0" y="948" width="414" height="349"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="z3f-h0-IBn" id="egV-0P-45m">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="349"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ZlQ-DA-pB0">
-                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="348.66666666666669"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textView>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="delegate" destination="fAG-V5-fqd" id="14J-L7-PeW"/>
@@ -653,7 +561,6 @@
                         <outlet property="loadInterstitialButton" destination="u4X-jI-oFj" id="VSb-Nc-2Ti"/>
                         <outlet property="native_fluidRedView" destination="5aM-Lm-hMp" id="SVv-7c-lfm"/>
                         <outlet property="showInterstitialButton" destination="SeT-0z-zkL" id="9Dj-b3-CJx"/>
-                        <outlet property="textFeedback" destination="ZlQ-DA-pB0" id="S4Y-61-bwb"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uFa-Gs-hzp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -919,27 +826,6 @@ Mopub Consent is updated only in the Criteo SDK and cannot be retrieved from it.
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection id="pJ1-Tm-j9E">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="349" id="okf-s9-wRS">
-                                        <rect key="frame" x="0.0" y="582" width="414" height="349"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="okf-s9-wRS" id="iUm-dD-KPy">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="349"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="agY-Mp-hST">
-                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="392"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                </textView>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="c3g-AK-rRl" id="bXf-xd-VUW"/>
@@ -952,7 +838,6 @@ Mopub Consent is updated only in the Criteo SDK and cannot be retrieved from it.
                         <outlet property="gdprSwitch" destination="NeM-wm-mqZ" id="61O-bI-lAw"/>
                         <outlet property="iabCcpaTextField" destination="alE-kP-ExC" id="RNh-61-xBD"/>
                         <outlet property="mopubTextField" destination="kXP-NK-Yba" id="lZu-Da-HSs"/>
-                        <outlet property="textFeedback" destination="agY-Mp-hST" id="8tk-fS-eNY"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xCx-7A-mbP" userLabel="First Responder" sceneMemberID="firstResponder"/>

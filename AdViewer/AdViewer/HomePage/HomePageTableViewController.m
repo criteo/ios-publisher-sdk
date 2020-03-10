@@ -7,7 +7,7 @@
 //
 
 #import <MoPub.h>
-#import "Logs.h"
+#import "LogManager.h"
 #import "HomePageTableViewController.h"
 #import "MopubTableViewController.h"
 #import "GoogleDFPTableViewController.h"
@@ -15,7 +15,7 @@
 
 NSString * const HomePageTableViewControllerUsPrivacyIabConsentStringKey = @"IABUSPrivacy_String";
 
-@interface HomePageTableViewController () <NetworkManagerDelegate, UITextFieldDelegate>
+@interface HomePageTableViewController () <UITextFieldDelegate>
 
 @property (strong, nonatomic) MoPub *mopub;
 @property (strong, nonatomic) Criteo *criteo;
@@ -76,7 +76,7 @@ NSString * const HomePageTableViewControllerUsPrivacyIabConsentStringKey = @"IAB
 
     [criteo registerCriteoPublisherId:@"B-056946" withAdUnits:addUnits];
 
-    criteo.networkMangerDelegate = self;
+    criteo.networkMangerDelegate = self.logManager;
     UIButton *button = (UIButton *)sender;
     [button setEnabled:NO];
 }
@@ -131,68 +131,6 @@ NSString * const HomePageTableViewControllerUsPrivacyIabConsentStringKey = @"IAB
 
 - (void) viewDidDisappear:(BOOL)animated {
     [self clearUserDefaults];
-}
-
-- (void)setAvailableTextFeedback {
-    if(self.googleDfpVC) {
-        _textFeedback = self.googleDfpVC.textFeedback;
-    }
-    else if(self.moPubVC) {
-        _textFeedback = self.moPubVC.textFeedBack;
-    }
-}
-
-// Criteo NetworkManagerDelegate Implementation
-- (void) networkManager:(NetworkManager*)manager sentRequest:(NSURLRequest*)request
-{
-    [self.logManager log:[[RequestLogEntry alloc] initWithRequest:request]];
-    [self setAvailableTextFeedback];
-    NSString *body = nil;
-
-    if (request.HTTPBody) {
-        body = [[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding];
-    }
-
-    self.textFeedback.text = [self.textFeedback.text stringByAppendingFormat:@"\n\n\nREQ:\n%@ %@\nHeaders: %@\nBody: %@\n\n\n",
-                          request.HTTPMethod,
-                          request.URL,
-                          request.allHTTPHeaderFields,
-                          body];
-}
-
-- (void) networkManager:(NetworkManager*)manager
-       receivedResponse:(NSURLResponse*)response
-               withData:(NSData*)data
-                  error:(NSError*)error
-{
-    [self.logManager log:[[ResponseLogEntry alloc] initWithResponse:response data:data error:error]];
-    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
-
-    if (error)
-    {
-        self.textFeedback.text = [self.textFeedback.text stringByAppendingFormat:@"\n\n\n\n\nRESP:\nError: %@\nReason: %@\n\n\n",
-                              error.localizedDescription,
-                              error.localizedFailureReason];
-
-        if (httpResponse) {
-            self.textFeedback.text = [self.textFeedback.text stringByAppendingFormat:@"\n\n\n\nStatus: %ld %@\n\n\n",
-                                  (long)httpResponse.statusCode,
-                                  [NSHTTPURLResponse localizedStringForStatusCode:httpResponse.statusCode]];
-        }
-
-        return;
-    }
-
-    NSString *body = nil;
-
-    if (data) {
-        body = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    }
-
-    self.textFeedback.text = [self.textFeedback.text stringByAppendingFormat:@"\n\nRESP:\nStatus: %ld %@\nBody: %@",
-                          (long)httpResponse.statusCode,
-                          [NSHTTPURLResponse localizedStringForStatusCode:httpResponse.statusCode],
-                          body];
 }
 
 #pragma mark - CCPA

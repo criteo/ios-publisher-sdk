@@ -4,4 +4,4 @@
 
 #import <UIKit/UIKit.h>
 
-#import "Logs.h"
+#import "LogManager.h"

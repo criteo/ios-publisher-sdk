@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		198CD039922C1F7B3CDF8314 /* MopubLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 198CD671D01D703762C2CC20 /* MopubLogger.m */; };
+		198CD402321085699A33FEF8 /* StandaloneLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 198CD785D04E229CBDE9E544 /* StandaloneLogger.m */; };
 		404AC94B219650FF008C6267 /* GoogleDFPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 404AC94A219650FF008C6267 /* GoogleDFPTableViewController.m */; };
 		4077EBA9218BC48300C41E68 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBA8218BC48300C41E68 /* AppDelegate.m */; };
 		4077EBAC218BC48300C41E68 /* HomePageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBAB218BC48300C41E68 /* HomePageTableViewController.m */; };
@@ -20,6 +22,7 @@
 		46151AB2240EC74100D514BE /* LogEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46151AB1240EC74100D514BE /* LogEntryViewController.swift */; };
 		46151AB5240FB8A500D514BE /* RequestLogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 46151AB4240FB8A500D514BE /* RequestLogEntry.m */; };
 		46151AB8240FC10F00D514BE /* ResponseLogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 46151AB7240FC10F00D514BE /* ResponseLogEntry.m */; };
+		462A60662417A6C100E36D33 /* GoogleDFPLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 462A60652417A6C100E36D33 /* GoogleDFPLogger.m */; };
 		467A28E924168A1B00CEF5C7 /* EventLogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 467A28E824168A1B00CEF5C7 /* EventLogEntry.m */; };
 		4687264E240E9D7E0090489E /* LogTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4687264D240E9D7E0090489E /* LogTableViewController.swift */; };
 		46872655240EA31B0090489E /* LogManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 46872654240EA31B0090489E /* LogManager.m */; };
@@ -61,6 +64,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		198CD20A4B30A50C6D562506 /* InterstitialUpdateDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterstitialUpdateDelegate.h; sourceTree = "<group>"; };
+		198CD671D01D703762C2CC20 /* MopubLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MopubLogger.m; sourceTree = "<group>"; };
+		198CD785D04E229CBDE9E544 /* StandaloneLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StandaloneLogger.m; sourceTree = "<group>"; };
+		198CDB33AF8D5AFDA0670CE3 /* StandaloneLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandaloneLogger.h; sourceTree = "<group>"; };
+		198CDBC606F70054B8627178 /* MopubLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MopubLogger.h; sourceTree = "<group>"; };
 		25022DE7220A72EF00FF8ACE /* Criteo+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Criteo+Internal.h"; path = "AdViewer/Criteo/Criteo+Internal.h"; sourceTree = SOURCE_ROOT; };
 		25022DE8220A778600FF8ACE /* NetworkManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NetworkManagerDelegate.h; path = AdViewer/Criteo/NetworkManagerDelegate.h; sourceTree = SOURCE_ROOT; };
 		404AC949219650FF008C6267 /* GoogleDFPTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GoogleDFPTableViewController.h; path = AdViewer/GoogleDFP/GoogleDFPTableViewController.h; sourceTree = SOURCE_ROOT; };
@@ -88,7 +96,8 @@
 		46151AB4240FB8A500D514BE /* RequestLogEntry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RequestLogEntry.m; sourceTree = "<group>"; };
 		46151AB6240FC10F00D514BE /* ResponseLogEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResponseLogEntry.h; sourceTree = "<group>"; };
 		46151AB7240FC10F00D514BE /* ResponseLogEntry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResponseLogEntry.m; sourceTree = "<group>"; };
-		46151AB9240FD7C700D514BE /* Logs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Logs.h; sourceTree = "<group>"; };
+		462A60642417A6C100E36D33 /* GoogleDFPLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleDFPLogger.h; sourceTree = "<group>"; };
+		462A60652417A6C100E36D33 /* GoogleDFPLogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoogleDFPLogger.m; sourceTree = "<group>"; };
 		467A28E724168A1B00CEF5C7 /* EventLogEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventLogEntry.h; sourceTree = "<group>"; };
 		467A28E824168A1B00CEF5C7 /* EventLogEntry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventLogEntry.m; sourceTree = "<group>"; };
 		4687264C240E9D7E0090489E /* AdViewer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AdViewer-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -157,6 +166,8 @@
 		404AC9482196509E008C6267 /* GoogleDFP */ = {
 			isa = PBXGroup;
 			children = (
+				462A60642417A6C100E36D33 /* GoogleDFPLogger.h */,
+				462A60652417A6C100E36D33 /* GoogleDFPLogger.m */,
 				404AC949219650FF008C6267 /* GoogleDFPTableViewController.h */,
 				404AC94A219650FF008C6267 /* GoogleDFPTableViewController.m */,
 			);
@@ -249,7 +260,6 @@
 		4687264B240E9A690090489E /* Logs */ = {
 			isa = PBXGroup;
 			children = (
-				46151AB9240FD7C700D514BE /* Logs.h */,
 				46151AAE240EAFFB00D514BE /* LogEntry.h */,
 				46872653240EA2D20090489E /* LogManager.h */,
 				46872654240EA31B0090489E /* LogManager.m */,
@@ -270,6 +280,8 @@
 			children = (
 				54B578F023682A9A004DF616 /* StandaloneTableViewController.h */,
 				54B578F123682A9A004DF616 /* StandaloneTableViewController.m */,
+				198CD785D04E229CBDE9E544 /* StandaloneLogger.m */,
+				198CDB33AF8D5AFDA0670CE3 /* StandaloneLogger.h */,
 			);
 			path = Standalone;
 			sourceTree = "<group>";
@@ -277,6 +289,7 @@
 		54B579122369CE09004DF616 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				198CD20A4B30A50C6D562506 /* InterstitialUpdateDelegate.h */,
 				54B579132369CE5C004DF616 /* IntegrationBaseTableViewController.h */,
 				54B579142369CE5C004DF616 /* IntegrationBaseTableViewController.m */,
 			);
@@ -288,6 +301,8 @@
 			children = (
 				54CAF8D0232C5EC70050D8D9 /* MopubTableViewController.h */,
 				54CAF8D1232C5EC70050D8D9 /* MopubTableViewController.m */,
+				198CD671D01D703762C2CC20 /* MopubLogger.m */,
+				198CDBC606F70054B8627178 /* MopubLogger.h */,
 			);
 			name = MopubHB;
 			path = AdViewer/MopubHB;
@@ -488,8 +503,11 @@
 				54B579152369CE5C004DF616 /* IntegrationBaseTableViewController.m in Sources */,
 				4077EBA9218BC48300C41E68 /* AppDelegate.m in Sources */,
 				404AC94B219650FF008C6267 /* GoogleDFPTableViewController.m in Sources */,
+				462A60662417A6C100E36D33 /* GoogleDFPLogger.m in Sources */,
 				46872655240EA31B0090489E /* LogManager.m in Sources */,
 				54B578F223682A9B004DF616 /* StandaloneTableViewController.m in Sources */,
+				198CD039922C1F7B3CDF8314 /* MopubLogger.m in Sources */,
+				198CD402321085699A33FEF8 /* StandaloneLogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,15 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-@import CriteoPublisherSdk;
 #import "IntegrationBaseTableViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GoogleDFPTableViewController : IntegrationBaseTableViewController
-
-@property (nonatomic) IBOutlet UITextView *textFeedback;
-
 @end
 
 NS_ASSUME_NONNULL_END

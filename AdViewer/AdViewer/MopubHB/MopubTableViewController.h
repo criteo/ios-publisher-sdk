@@ -10,12 +10,11 @@
 #import <MoPub.h>
 #import "IntegrationBaseTableViewController.h"
 
+@class MopubLogger;
+
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MopubTableViewController : IntegrationBaseTableViewController <MPAdViewDelegate, MPInterstitialAdControllerDelegate>
-
-@property (weak, nonatomic) IBOutlet UITextView *textFeedBack;
-
+@interface MopubTableViewController : IntegrationBaseTableViewController
 @end
 
 NS_ASSUME_NONNULL_END

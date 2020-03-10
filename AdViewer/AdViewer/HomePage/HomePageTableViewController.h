@@ -24,7 +24,7 @@
 #define CRITEONATIVEADUNITID @"190tsfngohsvfkh3hmkm"
 #define CRITEOVIDEOADUNITID @"mf2v6pikq5vqdjdtfo3j"
 
-@interface HomePageTableViewController : UITableViewController <NetworkManagerDelegate>
+@interface HomePageTableViewController : UITableViewController
 
 @property (nonatomic, strong) CRBannerAdUnit *googleBannerAdUnit_320x50;
 @property (nonatomic, strong) CRBannerAdUnit *googleBannerAdUnit_300x250;
@@ -39,8 +39,6 @@
 @property (nonatomic, strong) CRInterstitialAdUnit *criteoInterstitialAdUnit;
 @property (nonatomic, strong) CRInterstitialAdUnit *criteoInterstitialVideoAdUnit;
 @property (nonatomic, strong) CRNativeAdUnit *criteoNativeAdUnit;
-
-@property (nonatomic) IBOutlet UITextView *textFeedback;
 
 @end
 

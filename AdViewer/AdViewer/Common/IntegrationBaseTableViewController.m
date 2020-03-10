@@ -12,24 +12,24 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self updateInterstitialButtonsForAdLoaded:NO];
+    [self interstitialUpdated:NO];
 }
 
 - (IBAction)interstitialSwitchChanged:(id)sender {
-    [self updateInterstitialButtonsForAdLoaded:NO];
+    [self interstitialUpdated:NO];
     UIColor *color = self.interstitialVideoSwitch.on ? UIColor.darkTextColor : UIColor.lightGrayColor;
     self.interstitialVideoSwitchLabel.textColor = color;
 }
 
-- (void) updateInterstitialButtonsForAdLoaded:(BOOL)adLoaded {
-    NSString* mainButtonTitle = adLoaded ? @"Ad loaded" : @"Load interstitial";
+- (void)interstitialUpdated:(BOOL)loaded {
+    NSString *mainButtonTitle = loaded ? @"Ad loaded" : @"Load interstitial";
     [self.loadInterstitialButton setTitle:mainButtonTitle forState:UIControlStateNormal];
     [self.interstitalSpinner stopAnimating];
-    self.loadInterstitialButton.enabled = !adLoaded;
-    self.showInterstitialButton.enabled = adLoaded;
+    self.loadInterstitialButton.enabled = !loaded;
+    self.showInterstitialButton.enabled = loaded;
 }
 
-- (void) onLoadInterstitial {
+- (void)onLoadInterstitial {
     self.loadInterstitialButton.enabled = false;
     [self.interstitalSpinner startAnimating];
 }
