@@ -20,6 +20,7 @@
 		46151AB2240EC74100D514BE /* LogEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46151AB1240EC74100D514BE /* LogEntryViewController.swift */; };
 		46151AB5240FB8A500D514BE /* RequestLogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 46151AB4240FB8A500D514BE /* RequestLogEntry.m */; };
 		46151AB8240FC10F00D514BE /* ResponseLogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 46151AB7240FC10F00D514BE /* ResponseLogEntry.m */; };
+		467A28E924168A1B00CEF5C7 /* EventLogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 467A28E824168A1B00CEF5C7 /* EventLogEntry.m */; };
 		4687264E240E9D7E0090489E /* LogTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4687264D240E9D7E0090489E /* LogTableViewController.swift */; };
 		46872655240EA31B0090489E /* LogManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 46872654240EA31B0090489E /* LogManager.m */; };
 		54B578F223682A9B004DF616 /* StandaloneTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 54B578F123682A9A004DF616 /* StandaloneTableViewController.m */; };
@@ -88,6 +89,8 @@
 		46151AB6240FC10F00D514BE /* ResponseLogEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResponseLogEntry.h; sourceTree = "<group>"; };
 		46151AB7240FC10F00D514BE /* ResponseLogEntry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResponseLogEntry.m; sourceTree = "<group>"; };
 		46151AB9240FD7C700D514BE /* Logs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Logs.h; sourceTree = "<group>"; };
+		467A28E724168A1B00CEF5C7 /* EventLogEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventLogEntry.h; sourceTree = "<group>"; };
+		467A28E824168A1B00CEF5C7 /* EventLogEntry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventLogEntry.m; sourceTree = "<group>"; };
 		4687264C240E9D7E0090489E /* AdViewer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AdViewer-Bridging-Header.h"; sourceTree = "<group>"; };
 		4687264D240E9D7E0090489E /* LogTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogTableViewController.swift; sourceTree = "<group>"; };
 		46872653240EA2D20090489E /* LogManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LogManager.h; sourceTree = "<group>"; };
@@ -250,6 +253,8 @@
 				46151AAE240EAFFB00D514BE /* LogEntry.h */,
 				46872653240EA2D20090489E /* LogManager.h */,
 				46872654240EA31B0090489E /* LogManager.m */,
+				467A28E724168A1B00CEF5C7 /* EventLogEntry.h */,
+				467A28E824168A1B00CEF5C7 /* EventLogEntry.m */,
 				46151AB3240FB8A500D514BE /* RequestLogEntry.h */,
 				46151AB4240FB8A500D514BE /* RequestLogEntry.m */,
 				46151AB6240FC10F00D514BE /* ResponseLogEntry.h */,
@@ -472,6 +477,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				467A28E924168A1B00CEF5C7 /* EventLogEntry.m in Sources */,
 				4687264E240E9D7E0090489E /* LogTableViewController.swift in Sources */,
 				54CAF8D2232C5EC70050D8D9 /* MopubTableViewController.m in Sources */,
 				46151AB2240EC74100D514BE /* LogEntryViewController.swift in Sources */,
