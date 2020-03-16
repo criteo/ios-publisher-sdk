@@ -45,7 +45,8 @@ NSString *const CR_NetworkSessionEmptyBid = @"{\"slots\":[],\"requestId\":\"c412
 - (instancetype)initWithConfig:(CR_Config *)config {
     MockWKWebView *webView = [[MockWKWebView alloc] init];
     CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] initWithWKWebView:webView];
-    if (self = [super initWithDeviceInfo:deviceInfo]) {
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    if (self = [super initWithDeviceInfo:deviceInfo session:session]) {
         _config = config;
         _bidSlotResponses = @{
             PreprodBannerAdUnitId : CR_NetworkManagerMockSlotForPreprodBannerAdUnit,

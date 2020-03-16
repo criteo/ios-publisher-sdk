@@ -21,7 +21,8 @@ typedef void (^CR_NMResponse)(NSData *data, NSError *error);
 @property (nonatomic) id<CR_NetworkManagerDelegate> delegate;
 
 - (instancetype) init NS_UNAVAILABLE;
-- (instancetype) initWithDeviceInfo:(CR_DeviceInfo*)deviceInfo NS_DESIGNATED_INITIALIZER;
+- (instancetype) initWithDeviceInfo:(CR_DeviceInfo*)deviceInfo;
+- (instancetype) initWithDeviceInfo:(CR_DeviceInfo *)deviceInfo session:(NSURLSession *)session NS_DESIGNATED_INITIALIZER;
 
 - (void) getFromUrl:(NSURL *) url
     responseHandler:(CR_NMResponse) responseHandler;

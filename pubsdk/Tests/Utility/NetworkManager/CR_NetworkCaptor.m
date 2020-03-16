@@ -24,7 +24,8 @@
 {
     MockWKWebView *webView = [[MockWKWebView alloc] init];
     CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] initWithWKWebView:webView];
-    self = [super initWithDeviceInfo:deviceInfo];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    self = [super initWithDeviceInfo:deviceInfo session:session];
     if (self) {
         _networkManager = networkManager;
         _internalPendingRequests = [[NSMutableArray alloc] init];

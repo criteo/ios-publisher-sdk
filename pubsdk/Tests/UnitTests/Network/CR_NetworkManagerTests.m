@@ -16,12 +16,39 @@
 #import "Logging.h"
 #import "CR_NetworkManager.h"
 #import "CR_NetworkManagerDelegate.h"
+#import "XCTestCase+Criteo.h"
 
 @interface CR_NetworkManagerTests : XCTestCase
+
+@property (nonatomic, strong) CR_Config *config;
+@property (nonatomic, strong) CR_NetworkManager *networkManager;
+@property (nonatomic, strong) NSURLSession *session;
 
 @end
 
 @implementation CR_NetworkManagerTests
+
+- (void)setUp {
+    self.config = [[CR_Config alloc] init];
+    self.session = OCMStrictClassMock([NSURLSession class]);
+    self.networkManager = [[CR_NetworkManager alloc] initWithDeviceInfo: nil session:self.session];
+}
+
+- (void)testPostWithResponse204ShouldExecuteHandlerOnce {
+    [self stubSessionDataTaskResponseWithStatusCode204];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Expect that responseHandler was executed"];
+
+    [self.networkManager postToUrl:[NSURL URLWithString:self.config.cdbUrl]
+                     postBody:@{@"any key" : @"any value"}
+              responseHandler:^(NSData *data, NSError *error) {
+        [expectation fulfill];
+    }];
+
+    // In case of responseHandler is executed < 1 times - expectation will not be fulfilled.
+    // In case of responseHandler is executed > 1 times - expectation will fire an exception
+    // because expectation can be fulfilled only once.
+    [self criteo_waitForExpectations:@[expectation]];
+}
 
 // NOT a unit test as it uses the interwebs.
 // This keeps failing, skip it until we have something that could work
@@ -131,6 +158,17 @@
 //    }];
 //    [self waitForExpectations:@[expectation] timeout:250];
 //}
+
+#pragma mark - Private methods
+
+- (void)stubSessionDataTaskResponseWithStatusCode204 {
+    NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:@""]
+                                                              statusCode:204
+                                                             HTTPVersion:nil
+                                                            headerFields:nil];
+    id completion = [OCMArg invokeBlockWithArgs:[NSNull null], response, [NSNull null], nil];
+    OCMStub([self.session dataTaskWithRequest:[OCMArg any] completionHandler:completion]);
+}
 
 - (id<CR_NetworkManagerDelegate>) stubNetworkManagerDelegateForNetworkManager:(CR_NetworkManager*)networkManager
 {

@@ -8,28 +8,30 @@
 
 #import "CR_NetworkManager.h"
 
-@implementation CR_NetworkManager
-{
+@implementation CR_NetworkManager {
     CR_DeviceInfo *deviceInfo;
     NSURLSession *session;
 }
 
-- (instancetype) init
-{
+- (instancetype) init {
     NSAssert(false, @"Do not use this initializer");
     return [self initWithDeviceInfo:[[CR_DeviceInfo alloc] init]];
 }
 
 - (instancetype) initWithDeviceInfo:(CR_DeviceInfo *)deviceInfo {
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    return [self initWithDeviceInfo:deviceInfo session:session];
+}
+
+- (instancetype) initWithDeviceInfo:(CR_DeviceInfo *)deviceInfo session:(NSURLSession *)session {
     if (self = [super init]) {
         self->deviceInfo = deviceInfo;
-        session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+        self->session = session;
     }
     return self;
 }
 
-- (void) signalSentRequest:(NSURLRequest*)request
-{
+- (void) signalSentRequest:(NSURLRequest*)request {
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([self.delegate respondsToSelector:@selector(networkManager:sentRequest:)]) {
             [self.delegate networkManager:self sentRequest:request];
@@ -37,8 +39,7 @@
     });
 }
 
-- (void) signalReceivedResponse:(NSURLResponse*)response withData:(NSData*)data error:(NSError*)error
-{
+- (void) signalReceivedResponse:(NSURLResponse*)response withData:(NSData*)data error:(NSError*)error {
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([self.delegate respondsToSelector:@selector(networkManager:receivedResponse:withData:error:)]) {
             [self.delegate networkManager:self receivedResponse:response withData:data error:error];
@@ -116,7 +117,7 @@
             if (httpResponse.statusCode == 204) {
                 responseHandler(nil, error);
             }
-            if (httpResponse.statusCode >=200 && httpResponse.statusCode <=299) {
+            else if (httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299) {
                 responseHandler(data, error);
             }
             else {
