@@ -110,7 +110,7 @@ class CR_FeedbackStorageTests: XCTestCase {
     }
 
     private func getAllItemsFromQueue() -> [CR_FeedbackMessage] {
-        queue.peek(queue.size())
+        return queue.peek(queue.size())
     }
 
     private func createMessageWithImpId(_ impId: String) -> CR_FeedbackMessage {
@@ -149,6 +149,6 @@ class CR_FeedbackFileManagingMock: NSObject, CR_FeedbackFileManaging {
     }
 
     func allActiveFeedbackFilenames() -> [String] {
-        allActiveFeedbackFilenamesResult
+        return allActiveFeedbackFilenamesResult
     }
 }

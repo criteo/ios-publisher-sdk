@@ -40,19 +40,19 @@ public class CR_GdprMock: CR_Gdpr {
     }
 
     public override var consentString: String? {
-        consentStringValue
+        return consentStringValue
     }
 
     public override var tcfVersion: CR_GdprTcfVersion {
-        tcfVersionValue
+        return tcfVersionValue
     }
 
     public override var isApplied: Bool {
-        isAppliedValue
+        return isAppliedValue
     }
 
     public override var consentGivenToCriteo: Bool {
-        consentGivenToCriteoValue
+        return consentGivenToCriteoValue
     }
 
 }

@@ -86,7 +86,7 @@ class CR_FeedbackFileManagerTests: XCTestCase {
     }
 
     private func now() -> NSNumber {
-        NSNumber(value: NSDate().timeIntervalSince1970)
+        return NSNumber(value: NSDate().timeIntervalSince1970)
     }
 }
 
@@ -104,11 +104,11 @@ class CR_DefaultFileManipulatingMock: NSObject, CR_FileManipulating {
     }
 
     func readData(forAbsolutePath path: String) -> Data? {
-        message != nil ? NSKeyedArchiver.archivedData(withRootObject: message!) : nil
+        return message != nil ? NSKeyedArchiver.archivedData(withRootObject: message!) : nil
     }
 
     func urls(for directory: FileManager.SearchPathDirectory, inDomains domainMask: FileManager.SearchPathDomainMask) -> [URL] {
-        rootPaths
+        return rootPaths
     }
 
     func fileExists(atPath path: String, isDirectory: UnsafeMutablePointer<ObjCBool>?) -> Bool {
@@ -125,6 +125,6 @@ class CR_DefaultFileManipulatingMock: NSObject, CR_FileManipulating {
     }
 
     func contentsOfDirectory(atPath path: String) throws -> [String] {
-        contentOfDirectory
+        return contentOfDirectory
     }
 }

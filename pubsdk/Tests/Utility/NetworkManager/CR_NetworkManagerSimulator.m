@@ -14,6 +14,7 @@
 #import "Criteo+Testing.h"
 #import "MockWKWebView.h"
 #import "NSURL+Testing.h"
+#import "CR_ViewCheckingHelper.h"
 
 NSString *const CR_NetworkManagerMockSlotForPreprodBannerAdUnit =  @"{\"impId\":\"5e399d7e1d22e0c14d90f1702478d260\",\"placementId\":\"test-PubSdk-Base\",\"arbitrageId\":\"arbitrage_id\",\"cpm\":\"1.00\",\"currency\":\"EUR\",\"width\":320,\"height\":50,\"ttl\":0,\"displayUrl\":\"https://directbidder-stubs.par.preprod.crto.in/delivery/ajs.php?width=320&height=50\"}";
 
@@ -50,10 +51,8 @@ NSString *const CR_NetworkSessionEmptyBid = @"{\"slots\":[],\"requestId\":\"c412
         _config = config;
         _bidSlotResponses = @{
             PreprodBannerAdUnitId : CR_NetworkManagerMockSlotForPreprodBannerAdUnit,
-            PreprodInterstitialAdUnitId : CR_NetworkManagerMockSlotForPreprodInterstitialAdUnit,
             PreprodNativeAdUnitId : CR_NetworkManagerMockSlotForPreprodNativeAdAdUnit,
-            DemoBannerAdUnitId: CR_NetworkManagerMockSlotForDemoBannerAdUnitId,
-            DemoInterstitialAdUnitId: CR_NetworkManagerMockSlotForDemoInterstitialUnitId
+            DemoBannerAdUnitId: CR_NetworkManagerMockSlotForDemoBannerAdUnitId
         };
     }
     return self;
@@ -101,8 +100,7 @@ NSString *const CR_NetworkSessionEmptyBid = @"{\"slots\":[],\"requestId\":\"c412
     NSArray *slots = postBody[CR_ApiQueryKeys.bidSlots];
     NSMutableArray *slotResponses = [[NSMutableArray alloc] init];
     for (NSDictionary *slot in slots) {
-        NSString *placementId = slot[CR_ApiQueryKeys.bidSlotsPlacementId];
-        NSString *slotResponse = self.bidSlotResponses[placementId];
+        NSString *slotResponse = [self slotResponseForPayload:slot];
         if (slotResponse) {
             [slotResponses addObject:slotResponse];
         }
@@ -115,6 +113,60 @@ NSString *const CR_NetworkSessionEmptyBid = @"{\"slots\":[],\"requestId\":\"c412
     NSString *joinedSlots = [slotResponses componentsJoinedByString:@","];
     NSString *response = [[NSString alloc] initWithFormat:@"{\"slots\":[%@],\"requestId\":\"c412223b-7c6b-4754-931c-708925e5ce4d\"}", joinedSlots];
     return [response dataUsingEncoding:NSUTF8StringEncoding];
+}
+
+- (NSString *)slotResponseForPayload:(NSDictionary *)payload {
+    NSString *placementId = payload[CR_ApiQueryKeys.bidSlotsPlacementId];
+
+    if ([placementId isEqualToString:DemoInterstitialAdUnitId]) {
+        NSString *urlString = @"https://rdi.eu.preprod.criteo.com/delivery/rtb/demo/ajs?zoneid=1417086&width=375&height=812&intl=1&ibva=0&uaCap=3";
+        NSString * result = [self interstitialSlotResponseForPayload:payload
+                                                               impId:@"5e399ddbe6e63e33243ba388241e3101"
+                                                         arbitrageId:@"cba4c897-f6a6-434b-9968-437be9669e1a"
+                                                           urlString:urlString];
+        return result;
+    }
+
+    if ([placementId isEqualToString:PreprodInterstitialAdUnitId]) {
+        NSString * result = [self interstitialSlotResponseForPayload:payload
+                                                               impId:@"5e399ddd211004a9883cca970ef2adf4"
+                                                         arbitrageId:@"arbitrage_id"
+                                                           urlString:CR_ViewCheckingHelper.preprodCreativeImageUrl];
+        return result;
+    }
+
+    NSString *slot = self.bidSlotResponses[placementId];
+    return slot;
+}
+
+- (NSString *)interstitialSlotResponseForPayload:(NSDictionary *)payload
+                                           impId:(NSString *)impId
+                                     arbitrageId:(NSString *)arbitrageId
+                                       urlString:(NSString *)urlString {
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    formatter.numberStyle = NSNumberFormatterDecimalStyle;
+    NSArray *sizes = payload[CR_ApiQueryKeys.bidSlotsSizes];
+    NSArray *firstSizeSplit = [sizes[0] componentsSeparatedByString:@"x"];
+    NSNumber *width = [formatter numberFromString:firstSizeSplit[0]];
+    NSNumber *height = [formatter numberFromString:firstSizeSplit[1]];
+
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    dict[@"impId"] = impId;
+    dict[CR_ApiQueryKeys.bidSlotsPlacementId] = payload[CR_ApiQueryKeys.bidSlotsPlacementId];
+    dict[@"arbitrageId"] = arbitrageId;
+    dict[@"cpm"] = @"20.00";
+    dict[@"currency"] = @"USD";
+    dict[@"width"] = width;
+    dict[@"height"] = height;
+    dict[@"ttl"] = @3600;
+    dict[@"displayUrl"] = urlString;
+    NSError *error = nil;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dict
+                                                   options:0
+                                                     error:&error];
+    NSAssert(!error, @"Error %@", error);
+    NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    return result;
 }
 
 @end
