@@ -76,7 +76,7 @@ do { \
                      consent:self.consentMock
                       config:self.configMock
                   deviceInfo:self.deviceInfoMock
-        completionHandler:^(CR_CdbResponse *cdbResponse, NSError *error) {
+        completionHandler:^(CR_CdbResponse *cdbResponse) {
 
        XCTAssertNil(nil);
        XCTAssertNotNil(cdbResponse.cdbBids);
@@ -132,7 +132,7 @@ do { \
                 consent:self.consentMock
                  config:self.configMock
              deviceInfo:self.deviceInfoMock
-      completionHandler:^(CR_CdbResponse *cdbResponse, NSError *error) {
+      completionHandler:^(CR_CdbResponse *cdbResponse) {
 
 
        XCTAssertNotNil(cdbResponse.cdbBids);
@@ -257,24 +257,6 @@ do { \
              deviceInfo:nil
       completionHandler:nil];
     OCMVerifyAllWithDelay(mockBidFetchTracker, 1);
-}
-
-- (void)testCompletionInvokedWhenCDBFailsWithError {
-    NSError *expectedError = [NSError errorWithDomain:@"testDomain" code:1 userInfo:nil];
-    self.networkManagerMock.postResponseError = expectedError;
-    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"Expect that completionHandler is invoked when network error is occurred"];
-
-    [self.apiHandler callCdb:@[[self buildCacheAdUnit]]
-                     consent:nil
-                      config:nil
-                  deviceInfo:nil
-           completionHandler:^(CR_CdbResponse *cdbResponse, NSError *error) {
-               XCTAssertNil(cdbResponse);
-               XCTAssertEqual(error, expectedError);
-               [expectation fulfill];
-           }];
-
-    [self criteo_waitForExpectations:@[expectation]];
 }
 
 - (void)testBidFetchTrackerCacheClearedWhenCDBReturnsNoData {
@@ -682,7 +664,7 @@ do { \
                      consent:self.consentMock
                       config:self.configMock
                   deviceInfo:self.deviceInfoMock
-        completionHandler:^(CR_CdbResponse *cdbResponse, NSError *error) {
+        completionHandler:^(CR_CdbResponse *cdbResponse) {
         [expectation fulfill];
     }];
     [self criteo_waitForExpectations:@[expectation]];

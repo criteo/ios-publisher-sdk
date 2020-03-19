@@ -401,55 +401,6 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     OCMVerify([self.configManagerMock refreshConfig:[OCMArg any]]);
 }
 
-- (void)testCdbCallUpdateFeedback_BidAndNoBidCases {
-    CR_CdbResponse *response = [CR_CdbResponse getCdbResponseForData:[NSData new] receivedAt:[NSDate date]];
-    response.cdbBids = @[CR_CdbBidBuilder.new.adUnit(self.adUnit1).build];
-
-    [self configureApiHandlerMockCdbCallCompletion:response error:nil];
-
-    [self.bidManager prefetchBids:@[self.adUnit1, self.adUnit2]];
-
-    NSString *filename = [self.builder.feedbackStorage getOrCreateFilenameForAdUnit:self.adUnit1];
-    CR_FeedbackMessage *feedbackMessage = [self.builder.feedbackStorage readOrCreateFeedbackMessageByFilename:filename];
-    XCTAssertNotNil(feedbackMessage.cdbCallStartTimestamp);
-    XCTAssertNotNil(feedbackMessage.cdbCallEndTimestamp);
-
-    NSArray<CR_FeedbackMessage *> *messages = [self.builder.feedbackStorage messagesReadyToSend];
-    XCTAssertEqual(messages.count, 1);
-    XCTAssertTrue(messages[0].isExpired);
-    XCTAssertNil(messages[0].impressionId);
-}
-
-- (void)testCdbCallTimeoutUpdateFeedback {
-    NSError *error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorTimedOut userInfo:nil];
-    [self configureApiHandlerMockCdbCallCompletion:nil error:error];
-
-    [self.bidManager prefetchBid:self.adUnit1];
-
-    NSArray<CR_FeedbackMessage *> *messages = [self.builder.feedbackStorage messagesReadyToSend];
-    XCTAssertEqual(messages.count, 1);
-    XCTAssertTrue(messages[0].isTimeouted);
-}
-
-- (void)testGetBidUpdateFeedbackElapsed {
-    [self.bidManager getBid:self.adUnit1];
-
-    NSArray<CR_FeedbackMessage *> *messages = [self.builder.feedbackStorage messagesReadyToSend];
-    XCTAssertEqual(messages.count, 1);
-    XCTAssertNotNil(messages[0].elapsedTimestamp);
-}
-
-- (void)testGetExpiredBidUpdateFeedbackExpired {
-    self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).expiredInsertTime().build;
-    self.cacheManager.bidCache[self.adUnit1] = self.bid1;
-
-    [self.bidManager getBid:self.adUnit1];
-
-    NSArray<CR_FeedbackMessage *> *messages = [self.builder.feedbackStorage messagesReadyToSend];
-    XCTAssertEqual(messages.count, 1);
-    XCTAssertTrue(messages[0].isExpired);
-}
-
 #pragma mark - Private
 
 - (void)configureApiHandlerMockCdbCallCompletion:(CR_CdbResponse * _Nullable)cdbResponse error:(NSError * _Nullable)error {

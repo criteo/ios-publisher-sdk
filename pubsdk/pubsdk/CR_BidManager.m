@@ -10,7 +10,6 @@
 #import "Logging.h"
 #import "CR_BidManagerHelper.h"
 #import "CR_TargetingKeys.h"
-#import "CR_FeedbackStorage+MessageUpdating.h"
 #import "NSString+CR_Url.h"
 
 @interface CR_BidManager ()
@@ -108,7 +107,6 @@
     CR_CdbBid *bid = [cacheManager getBidForAdUnit:slot];
     if(bid) {
         if(bid.isExpired) {
-            [self.feedbackStorage setExpiredForAdUnit:slot];
             // immediately invalidate current cache entry if bid is expired
             [cacheManager removeBidForAdUnit:slot];
             if (!self.isInSilenceMode) {
@@ -118,7 +116,6 @@
         } else if (bid.isInSilenceMode) {
             return [CR_CdbBid emptyBid];
         } else {
-            [self.feedbackStorage setElapsedForAdUnit:slot];
             // remove it from the cache and consume the good bid
             [cacheManager removeBidForAdUnit:slot];
             if (!self.isInSilenceMode) {
@@ -159,22 +156,16 @@
 
     CLogInfo(@"[INFO][BIDS] Start prefetching for %@", adUnits);
 
-    for(CR_CacheAdUnit *cacheAdUnit in adUnits) {
-        [self.feedbackStorage setCdbStartForAdUnit:cacheAdUnit];
-    }
-
     [deviceInfo waitForUserAgent:^{
         [self->apiHandler callCdb:adUnits
                           consent:self.consent
                            config:self->config
                        deviceInfo:self->deviceInfo
-                completionHandler:^(CR_CdbResponse *cdbResponse, NSError *error) {
-                    if (error != nil) {
-                        [self handleCdbCallError:error forAdUnits:adUnits];
-                        return;
-                    }
+                completionHandler:^(CR_CdbResponse *cdbResponse) {
                     [self updateTimeToNextCallIfProvided:cdbResponse];
-                    [self cacheReturnedBidsFromCdbResponse:cdbResponse forAdUnits:adUnits];
+                    for(CR_CdbBid *bid in cdbResponse.cdbBids) {
+                        [self->cacheManager setBid:bid];
+                    }
                 }];
     }];
 }
@@ -192,33 +183,10 @@
     return NO;
 }
 
-- (void)handleCdbCallError:(NSError *)error forAdUnits:(CR_CacheAdUnitArray *)adUnits {
-    if (error.code == NSURLErrorTimedOut) {
-        for (CR_CacheAdUnit *cacheAdUnit in adUnits) {
-            [self.feedbackStorage setTimeoutedForAdUnit:cacheAdUnit];
-        }
-    }
-}
-
 - (void)updateTimeToNextCallIfProvided:(CR_CdbResponse *)cdbResponse {
     if(cdbResponse.timeToNextCall) {
         self->cdbTimeToNextCall = [[NSDate dateWithTimeIntervalSinceNow:cdbResponse.timeToNextCall]
             timeIntervalSinceReferenceDate];
-    }
-}
-
-- (void)cacheReturnedBidsFromCdbResponse:(CR_CdbResponse *)cdbResponse forAdUnits:(CR_CacheAdUnitArray *)adUnits {
-    NSMutableSet *noBidAdUnits = [[NSMutableSet alloc] initWithArray:adUnits];
-    for(CR_CdbBid *bid in cdbResponse.cdbBids) {
-        CR_CacheAdUnit *adUnit = [self->cacheManager setBid:bid];
-        if(adUnit) {
-            [noBidAdUnits removeObject:adUnit];
-            [self.feedbackStorage setCdbEndAndImpressionId:bid.impressionId forAdUnit:adUnit];
-        }
-    }
-
-    for(CR_CacheAdUnit *adUnit in noBidAdUnits) {
-        [self.feedbackStorage setCdbEndAndExpiredForAdUnit:adUnit];
     }
 }
 

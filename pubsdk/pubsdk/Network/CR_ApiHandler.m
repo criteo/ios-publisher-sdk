@@ -193,15 +193,12 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler {
             if (error == nil) {
                 if (data && completionHandler) {
                     CR_CdbResponse *cdbResponse = [CR_CdbResponse getCdbResponseForData:data receivedAt:[NSDate date]];
-                    completionHandler(cdbResponse, nil);
+                    completionHandler(cdbResponse);
                 } else {
                     CLog(@"Error on post to CDB : response from CDB was nil");
                 }
             } else {
                 CLog(@"Error on post to CDB : %@", error);
-                if(completionHandler) {
-                    completionHandler(nil, error);
-                }
             }
             for (CR_CacheAdUnit *adUnit in adUnitChunk) {
                 [self.bidFetchTracker clearBidFetchInProgressForAdUnit:adUnit];
