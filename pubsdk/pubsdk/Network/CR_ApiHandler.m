@@ -27,7 +27,8 @@ NSNumber *NumberFromGdprTcfVersion(CR_GdprTcfVersion version) {
 
 @interface CR_ApiHandler ()
 
-@property (nonatomic, strong, readonly) CR_ThreadManager *threadManager;
+@property (strong, nonatomic, readonly) CR_ThreadManager *threadManager;
+@property (strong, nonatomic, readonly) CR_FeedbackStorage *feedbackStorage;
 
 @end
 
@@ -35,15 +36,17 @@ NSNumber *NumberFromGdprTcfVersion(CR_GdprTcfVersion version) {
 
 - (instancetype)init {
     NSAssert(false, @"Do not use this initializer");
-    return [self initWithNetworkManager:nil bidFetchTracker:nil threadManager:nil];
+    return [self initWithNetworkManager:nil bidFetchTracker:nil feedbackStorage:nil threadManager:nil];
 }
 
 - (instancetype) initWithNetworkManager:(CR_NetworkManager *)networkManager
                         bidFetchTracker:(CR_BidFetchTracker *)bidFetchTracker
+                        feedbackStorage:(CR_FeedbackStorage *)feedbackStorage
                           threadManager:(CR_ThreadManager *)threadManager {
     if(self = [super init]) {
         _networkManager = networkManager;
         _bidFetchTracker = bidFetchTracker;
+        _feedbackStorage = feedbackStorage;
         _threadManager = threadManager;
     }
     return self;

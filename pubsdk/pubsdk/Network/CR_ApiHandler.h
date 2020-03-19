@@ -18,6 +18,7 @@
 #import "CR_DeviceInfo.h"
 #import "CR_BidFetchTracker.h"
 
+@class CR_FeedbackStorage;
 @class CR_ThreadManager;
 
 typedef void (^CR_CdbCompletionHandler)(CR_CdbResponse *cdbResponse, NSError *error);
@@ -26,11 +27,12 @@ typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receiv
 
 @interface CR_ApiHandler : NSObject
 @property (strong, nonatomic) CR_NetworkManager *networkManager;
-@property (nonatomic, strong) CR_BidFetchTracker *bidFetchTracker;
+@property (strong, nonatomic) CR_BidFetchTracker *bidFetchTracker;
 
 - (instancetype) init NS_UNAVAILABLE;
 - (instancetype) initWithNetworkManager:(CR_NetworkManager *)networkManager
                         bidFetchTracker:(CR_BidFetchTracker *)bidFetchTracker
+                        feedbackStorage:(CR_FeedbackStorage *)feedbackStorage
                           threadManager:(CR_ThreadManager *)threadManager NS_DESIGNATED_INITIALIZER;
 
 /*
