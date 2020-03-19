@@ -15,7 +15,11 @@
 }
 
 - (void)writeData:(nonnull NSData *)data forAbsolutePath:(nonnull NSString *)path {
-    [data writeToFile:path atomically:YES];
+    NSError *error = nil;
+    [data writeToFile:path
+              options:NSDataWritingAtomic
+                error:&error];
+    NSAssert(!error, @"Impossible to write to file: %@ with error %@", path, error);
 }
 
 - (nonnull NSArray<NSURL *> *)URLsForDirectory:(NSSearchPathDirectory)directory inDomains:(NSSearchPathDomainMask)domainMask {
