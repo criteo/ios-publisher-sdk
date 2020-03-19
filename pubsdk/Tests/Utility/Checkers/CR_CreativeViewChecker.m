@@ -39,6 +39,10 @@
     self.criteo.bidManagerBuilder.cacheManager.bidCache[cacheAdUnit] = bid;
 }
 
+- (void)dealloc {
+    _bannerView.delegate = nil;
+}
+
 #pragma mark - CRBannerViewDelegate methods
 
 - (void)banner:(CRBannerView *)bannerView didFailToReceiveAdWithError:(NSError *)error {
@@ -95,11 +99,11 @@
     WKWebView *firstWebView = [self.uiWindow testing_findFirstWKWebView];
     [firstWebView evaluateJavaScript:@"(function() { return document.getElementsByTagName('html')[0].outerHTML; })();"
                    completionHandler:^(NSString *htmlContent, NSError *err) {
-                       if ([htmlContent containsString:self.expectedCreativeUrl]) {
-                           [self.adCreativeRenderedExpectation fulfill];
-                       }
-                       self.uiWindow.hidden = YES;
-                   }];
+        self.uiWindow.hidden = YES;
+        if ([htmlContent containsString:self.expectedCreativeUrl]) {
+            [self.adCreativeRenderedExpectation fulfill];
+        }
+    }];
 }
 
 @end

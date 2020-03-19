@@ -15,14 +15,14 @@
 
 - (instancetype)initWithAdUnit:(CRBannerAdUnit *)adUnit criteo:(Criteo *)criteo;
 
-@property(nonatomic, readonly) UIWindow *uiWindow;
-@property(nonatomic, readonly) XCTestExpectation *bannerViewFailToReceiveAdExpectation;
-@property(nonatomic, readonly) XCTestExpectation *bannerViewDidReceiveAdExpectation;
-@property(nonatomic, readonly) XCTestExpectation *adCreativeRenderedExpectation;
-@property(nonatomic, readonly) CRBannerView *bannerView;
-@property(nonatomic, readonly) CRBannerAdUnit *adUnit;
-@property(nonatomic, readonly) Criteo *criteo;
-@property(nonatomic) NSString *expectedCreativeUrl;
+@property (strong, nonatomic, readonly) UIWindow *uiWindow;
+@property (strong, nonatomic, readonly) XCTestExpectation *bannerViewFailToReceiveAdExpectation;
+@property (strong, nonatomic, readonly) XCTestExpectation *bannerViewDidReceiveAdExpectation;
+@property (strong, nonatomic, readonly) XCTestExpectation *adCreativeRenderedExpectation;
+@property (strong, nonatomic, readonly) CRBannerView *bannerView;
+@property (strong, nonatomic, readonly) CRBannerAdUnit *adUnit;
+@property (weak, nonatomic, readonly) Criteo *criteo;
+@property (copy, nonatomic) NSString *expectedCreativeUrl;
 
 - (void)resetExpectations;
 

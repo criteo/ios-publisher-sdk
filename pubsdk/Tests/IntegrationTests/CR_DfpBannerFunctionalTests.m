@@ -74,9 +74,6 @@
     [dfpViewChecker.dfpBannerView loadRequest:bannerDfpRequest];
 
     BOOL renderedProperly = [dfpViewChecker waitAdCreativeRendered];
-    for (XCTAttachment *att in dfpViewChecker.attachments) {
-        [self addAttachment:att];
-    }
     XCTAssert(renderedProperly);
 }
 

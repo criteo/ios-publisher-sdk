@@ -15,22 +15,21 @@
 
 @interface CR_DfpCreativeViewChecker ()
 
-@property (nonatomic, strong) NSMutableArray<XCTAttachment *> *attachmentArray;
+@property (strong, nonatomic) NSString *expectedCreative;
 
 @end
 
 
-@implementation CR_DfpCreativeViewChecker {
-    NSString *expectedCreative;
-}
+@implementation CR_DfpCreativeViewChecker
+
+#pragma mark - Lifecycle
 
 -(instancetype)initWithAdUnitId:(NSString *)adUnitId {
     if (self = [super init]) {
-        _attachmentArray = [[NSMutableArray alloc] init];
         _adCreativeRenderedExpectation = [[XCTestExpectation alloc] initWithDescription:@"Expect that Criteo creative appears."];
         _adCreativeRenderedExpectationWithoutExpectedCreative = [[XCTestExpectation alloc] initWithDescription:@"Expect that Criteo creative appears without expected creative."];
         _uiWindow = [self createUIWindow];
-        expectedCreative = adUnitId == [CR_TestAdUnits dfpNativeId]
+        _expectedCreative = adUnitId == [CR_TestAdUnits dfpNativeId]
             ? [CR_ViewCheckingHelper preprodCreativeImageUrlForNative]
             : [CR_ViewCheckingHelper preprodCreativeImageUrl];
     }
@@ -49,10 +48,18 @@
 
 -(instancetype)initWithInterstitial:(DFPInterstitial *)dfpInterstitial {
     if ([self initWithAdUnitId:dfpInterstitial.adUnitID]) {
-        dfpInterstitial.delegate = self;
+        _dfpInterstitial = dfpInterstitial;
+        _dfpInterstitial.delegate = self;
     }
     return self;
 }
+
+- (void)dealloc {
+    _dfpBannerView.delegate = nil;
+    _dfpInterstitial.delegate = nil;
+}
+
+#pragma mark - Public
 
 -(BOOL)waitAdCreativeRendered {
     return [self waitAdCreativeRenderedWithTimeout:10.];
@@ -65,19 +72,13 @@
     return (result == XCTWaiterResultCompleted);
 }
 
-- (NSArray<XCTAttachment *> *)attachments {
-    return [self.attachmentArray copy];
-}
-
 #pragma mark - GADBannerViewDelegate methods
 
 - (void)adViewDidReceiveAd:(GADBannerView *)bannerView {
-    [self _insertScreenshotAttachement];
     [self checkViewAndFulfillExpectation];
 }
 
 - (void)adView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(GADRequestError *)error {
-    [self _insertScreenshotAttachement];
     CLog(@"[ERROR] CR_DfpBannerViewChecker.GADBannerViewDelegate (didFailToReceiveAdWithError) %@", error.description);
 }
 
@@ -85,7 +86,6 @@
 
 - (void)interstitialDidReceiveAd:(GADInterstitial *)ad {
     [ad presentFromRootViewController:self.uiWindow.rootViewController];
-    [self _insertScreenshotAttachement];
 }
 
 - (void)interstitialWillPresentScreen:(GADInterstitial *)ad {
@@ -97,23 +97,22 @@
 }
 
 - (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error {
-    [self _insertScreenshotAttachement];
     CLog(@"[ERROR] CR_DfpBannerViewChecker.GADInterstitialDelegate (didFailToReceiveAdWithError) %@", error.description);
 }
 
 #pragma mark - Private methods
 
 - (void)checkViewAndFulfillExpectation {
-    [self _insertScreenshotAttachement];
+    NSLog(@"EXP CR : %@", self.expectedCreative);
+    self.uiWindow.hidden = YES;
+
     UIWebView *firstWebView = [self.uiWindow testing_findFirstWebView];
     NSString *htmlContent = [firstWebView testing_getHtmlContent];
-    NSLog(@"EXP CR : %@", expectedCreative);
-    if ([htmlContent containsString:expectedCreative]) {
+    if ([htmlContent containsString:self.expectedCreative]) {
         [self.adCreativeRenderedExpectation fulfill];
     } else {
         [self.adCreativeRenderedExpectationWithoutExpectedCreative fulfill];
     }
-    self.uiWindow.hidden = YES;
 }
 
 - (UIWindow *)createUIWindow {
@@ -129,20 +128,6 @@
     dfpBannerView.adUnitID = adUnitId;
     dfpBannerView.backgroundColor = [UIColor orangeColor];
     return dfpBannerView;
-}
-
-- (void)_insertScreenshotAttachement {
-    UIImage *screenshot = [self _screenshotWindow];
-    XCTAttachment *attachement = [XCTAttachment attachmentWithImage:screenshot];
-    [self.attachmentArray addObject:attachement];
-}
-
-- (UIImage *)_screenshotWindow {
-    UIGraphicsBeginImageContextWithOptions([UIScreen mainScreen].bounds.size, false, [UIScreen mainScreen].scale);
-    [self.uiWindow.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
 }
 
 @end

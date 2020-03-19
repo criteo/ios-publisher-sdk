@@ -11,11 +11,11 @@
 
 @interface CR_DfpCreativeViewChecker : NSObject <GADBannerViewDelegate, GADInterstitialDelegate>
 
-@property (nonatomic, copy, readonly) NSArray<XCTAttachment *> *attachments;
-@property(nonatomic, readonly) XCTestExpectation *adCreativeRenderedExpectation;
-@property(nonatomic, readonly) XCTestExpectation *adCreativeRenderedExpectationWithoutExpectedCreative;
-@property(nonatomic, readonly) UIWindow *uiWindow;
-@property(nonatomic, readonly) DFPBannerView *dfpBannerView;
+@property (strong, nonatomic, readonly) XCTestExpectation *adCreativeRenderedExpectation;
+@property (strong, nonatomic, readonly) XCTestExpectation *adCreativeRenderedExpectationWithoutExpectedCreative;
+@property (weak, nonatomic, readonly) UIWindow *uiWindow;
+@property (strong, nonatomic, readonly) DFPBannerView *dfpBannerView;
+@property (strong, nonatomic, readonly) DFPInterstitial *dfpInterstitial;
 
 -(instancetype)init NS_UNAVAILABLE;
 -(instancetype)initWithBannerWithSize:(GADAdSize)size withAdUnitId:(NSString *)adUnitId;

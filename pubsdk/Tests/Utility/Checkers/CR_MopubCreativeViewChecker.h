@@ -10,8 +10,8 @@
 
 @interface CR_MopubCreativeViewChecker : NSObject <MPAdViewDelegate, MPInterstitialAdControllerDelegate>
 
-@property(nonatomic, readonly) XCTestExpectation *adCreativeRenderedExpectation;
-@property(nonatomic, readonly) UIWindow *uiWindow;
+@property (strong, nonatomic, readonly) XCTestExpectation *adCreativeRenderedExpectation;
+@property (weak, nonatomic, readonly) UIWindow *uiWindow;
 
 - (instancetype)initWithBanner:(MPAdView *)adView;
 

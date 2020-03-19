@@ -8,8 +8,16 @@
 #import "Logging.h"
 #import "CR_ViewCheckingHelper.h"
 
+@interface CR_MopubCreativeViewChecker ()
+
+@property (strong, nonatomic, readonly) MPInterstitialAdController *interstitialAdController;
+@property (strong, nonatomic, readonly) MPAdView *adView;
+
+@end
 
 @implementation CR_MopubCreativeViewChecker
+
+#pragma mark - Lifecycle
 
 - (instancetype)init_ {
     if (self = [super init]) {
@@ -21,8 +29,9 @@
 
 - (instancetype)initWithBanner:(MPAdView *)adView {
     if ([self init_]) {
-        adView.delegate = self;
-        adView.frame = CGRectMake(
+        _adView = adView;
+        _adView.delegate = self;
+        _adView.frame = CGRectMake(
             self.uiWindow.frame.origin.x, self.uiWindow.frame.origin.y,
             MOPUB_BANNER_SIZE.width, MOPUB_BANNER_SIZE.height
         );
@@ -33,7 +42,8 @@
 
 - (instancetype)initWithInterstitial:(MPInterstitialAdController *)interstitialAdController {
     if ([self init_]) {
-        interstitialAdController.delegate = self;
+        _interstitialAdController = interstitialAdController;
+        _interstitialAdController.delegate = self;
     }
     return self;
 }
@@ -58,6 +68,13 @@
         });
     }];
 }
+
+- (void)dealloc {
+    _adView.delegate = nil;
+    _interstitialAdController.delegate = nil;
+}
+
+#pragma mark - Public
 
 - (BOOL)waitAdCreativeRendered {
     XCTWaiter *waiter = [[XCTWaiter alloc] init];
@@ -101,11 +118,11 @@
     WKWebView *firstWebView = [self.uiWindow testing_findFirstWKWebView];
     [firstWebView evaluateJavaScript:@"(function() { return document.getElementsByTagName('html')[0].outerHTML; })();"
                    completionHandler:^(NSString *htmlContent, NSError *err) {
-                       if ([htmlContent containsString:[CR_ViewCheckingHelper preprodCreativeImageUrl]]) {
-                           [self.adCreativeRenderedExpectation fulfill];
-                       }
-                       self.uiWindow.hidden = YES;
-                   }];
+        self.uiWindow.hidden = YES;
+        if ([htmlContent containsString:[CR_ViewCheckingHelper preprodCreativeImageUrl]]) {
+            [self.adCreativeRenderedExpectation fulfill];
+        }
+    }];
 }
 
 - (UIWindow *)createUIWindow {
