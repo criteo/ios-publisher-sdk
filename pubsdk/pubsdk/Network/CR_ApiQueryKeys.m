@@ -31,6 +31,7 @@
 + (NSString *)gdprConsentData           { return @"consentData"; }
 + (NSString *)gdprVersion               { return @"version"; }
 + (NSString *)idfa                      { return @"idfa"; }
++ (NSString *)impId                     { return @"impId"; }
 + (NSString *)limitedAdTracking         { return @"limitedAdTracking"; }
 + (NSString *)mopubConsent              { return @"mopubConsent"; }
 + (NSString *)profileId                 { return @"profileId"; }

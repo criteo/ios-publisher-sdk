@@ -111,11 +111,19 @@ NSNumber *NumberFromGdprTcfVersion(CR_GdprTcfVersion version) {
 
 // Create the slots for the CDB request
 - (NSArray *)slotsForRequest:(CR_CacheAdUnitArray *)adUnits {
+    return [self slotsForRequest:adUnits impressionIds:nil];
+}
+
+- (NSArray *)slotsForRequest:(CR_CacheAdUnitArray *)adUnits
+               impressionIds:(NSDictionary<CR_CacheAdUnit *, NSString *> *)impressionIds {
     NSMutableArray *slots = [NSMutableArray new];
     for (CR_CacheAdUnit *adUnit in adUnits) {
         NSMutableDictionary *slotDict = [NSMutableDictionary new];
         slotDict[CR_ApiQueryKeys.bidSlotsPlacementId] = adUnit.adUnitId;
         slotDict[CR_ApiQueryKeys.bidSlotsSizes] = @[adUnit.cdbSize];
+        if(impressionIds && impressionIds[adUnit]) {
+            slotDict[@"impId"] = impressionIds[adUnit];
+        }
         if(adUnit.adUnitType == CRAdUnitTypeNative) {
             slotDict[CR_ApiQueryKeys.bidSlotsIsNative] = @(YES);
         }
@@ -125,6 +133,16 @@ NSNumber *NumberFromGdprTcfVersion(CR_GdprTcfVersion version) {
         [slots addObject:slotDict];
     }
     return slots;
+}
+
+- (NSDictionary<CR_CacheAdUnit *, NSString *> *)impressionIdsForAdUnits:(CR_CacheAdUnitArray *)adUnits {
+    NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
+    for(CR_CacheAdUnit *adUnit in adUnits) {
+        //todo add proper algorithm for generating impressionId
+        NSString *lowercaseUuid = [[[NSUUID UUID] UUIDString] lowercaseString];
+        result[adUnit] = [lowercaseUuid stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    }
+    return result;
 }
 
 // Wrapper method to make the cdb call async
@@ -163,8 +181,10 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler {
 
     for (CR_CacheAdUnitArray *adUnitChunk in adUnitChunks) {
 
+        NSDictionary *impressionIds = [self impressionIdsForAdUnits:adUnitChunk];
         // Set up the request for this chunk
-        postBody[CR_ApiQueryKeys.bidSlots] = [self slotsForRequest:adUnitChunk];
+        postBody[CR_ApiQueryKeys.bidSlots] = [self slotsForRequest:adUnitChunk
+                                                     impressionIds:impressionIds];
 
         // Send the request
         CLogInfo(@"[INFO][API_] CdbPostCall.start");

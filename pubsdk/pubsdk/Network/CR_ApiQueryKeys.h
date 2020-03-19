@@ -30,6 +30,7 @@
 @property (class, nonatomic, readonly) NSString *gdprConsentData;
 @property (class, nonatomic, readonly) NSString *gdprVersion;
 @property (class, nonatomic, readonly) NSString *idfa;
+@property (class, nonatomic, readonly) NSString *impId;
 @property (class, nonatomic, readonly) NSString *limitedAdTracking;
 @property (class, nonatomic, readonly) NSString *mopubConsent;
 @property (class, nonatomic, readonly) NSString *profileId;

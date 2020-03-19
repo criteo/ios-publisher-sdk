@@ -94,6 +94,15 @@ do { \
     [self criteo_waitForExpectations:@[expectation]];
 }
 
+- (void)testCdbSlotFilledWithImpressionId {
+    [self callCdb];
+
+    NSArray *slots = self.networkManagerMock.lastPostBody[CR_ApiQueryKeys.bidSlots];
+    XCTAssertEqual(slots.count, 1);
+    NSString *impId = slots[0][CR_ApiQueryKeys.impId];
+    XCTAssertEqual([impId length], 32);
+}
+
 - (void)testCallCdbWithMultipleAdUnits {
     XCTestExpectation *expectation = [self expectationWithDescription:@"CDB call expectation"];
 
