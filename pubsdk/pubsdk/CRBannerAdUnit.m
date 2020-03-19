@@ -24,8 +24,7 @@
     return [super hash] ^ (NSUInteger)_size.height ^ (NSUInteger)_size.width;
 }
 
-- (BOOL) isEqual:(id)object
-{
+- (BOOL)isEqual:(nullable id)object {
     if (self == object) {
         return YES;
     }
@@ -37,8 +36,7 @@
     return [self isEqualToBannerAdUnit:object];
 }
 
-- (BOOL) isEqualToBannerAdUnit:(CRBannerAdUnit *)adUnit
-{
+- (BOOL)isEqualToBannerAdUnit:(CRBannerAdUnit *)adUnit {
     return CGSizeEqualToSize(_size, adUnit->_size) && [self isEqualToAdUnit:adUnit];
 }
 

@@ -26,8 +26,7 @@
     return _adUnitId.hash ^ (NSUInteger)_adUnitType;
 }
 
-- (BOOL) isEqual:(id)object
-{
+- (BOOL)isEqual:(nullable id)object {
     if (object == self) {
         return YES;
     }
@@ -39,8 +38,7 @@
     return [self isEqualToAdUnit:object];
 }
 
-- (BOOL) isEqualToAdUnit:(CRAdUnit *)adUnit
-{
+- (BOOL)isEqualToAdUnit:(CRAdUnit *)adUnit {
     return _adUnitType == adUnit->_adUnitType && [_adUnitId isEqualToString:adUnit->_adUnitId];
 }
 

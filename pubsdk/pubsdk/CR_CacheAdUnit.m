@@ -45,7 +45,7 @@
     return _hash;
 }
 
-- (BOOL) isEqual:(id)object {
+- (BOOL)isEqual:(nullable id)object {
     if (![object isKindOfClass:[CR_CacheAdUnit class]]) {
         return NO;
     }

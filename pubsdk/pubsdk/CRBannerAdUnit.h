@@ -18,8 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
                              size:(CGSize)size;
 
 - (NSUInteger) hash;
-- (BOOL) isEqual:(id)object;
-- (BOOL) isEqualToBannerAdUnit:(CRBannerAdUnit *)adUnit;
+- (BOOL)isEqual:(nullable id)object;
+- (BOOL)isEqualToBannerAdUnit:(CRBannerAdUnit *)adUnit;
 
 @end
 
