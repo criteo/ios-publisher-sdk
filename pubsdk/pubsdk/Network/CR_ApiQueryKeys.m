@@ -25,7 +25,7 @@
 + (NSString *)deviceIdValue             { return @"IDFA"; }
 + (NSString *)deviceOs                  { return @"deviceOs"; }
 + (NSString *)eventType                 { return @"eventType"; }
-+ (NSString *)gdpr                      { return @"gdrpConsent"; }
++ (NSString *)gdpr                      { return @"gdprConsent"; }
 + (NSString *)gdprApplies               { return @"gdprApplies"; }
 + (NSString *)gdprConsentGiven          { return @"consentGiven"; }
 + (NSString *)gdprConsentData           { return @"consentData"; }

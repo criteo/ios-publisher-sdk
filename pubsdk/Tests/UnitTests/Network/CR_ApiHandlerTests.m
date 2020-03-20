@@ -442,7 +442,7 @@ do { \
 - (void)testCdbCallContainsGdprUnknown {
     [self callCdb];
 
-    XCTAssertNil(self.cdbPayload[CR_ApiQueryKeys.gdpr]);
+    XCTAssertNil(self.cdbPayload[NSString.gdprConsentKey]);
 }
 
 - (void)testCdbCallWithNilGdprHasNoGdprKey { // To avoid crash with unvalid GDPR object
@@ -451,7 +451,7 @@ do { \
 
     [self callCdb];
 
-    XCTAssertNil(self.cdbPayload[CR_ApiQueryKeys.gdpr]);
+    XCTAssertNil(self.cdbPayload[NSString.gdprConsentKey]);
 }
 
 - (void)testCdbCallContainsGdprV2 {
@@ -465,7 +465,7 @@ do { \
 
     [self callCdb];
 
-    XCTAssertEqualObjects(self.cdbPayload[CR_ApiQueryKeys.gdpr], expected);
+    XCTAssertEqualObjects(self.cdbPayload[NSString.gdprConsentKey], expected);
 }
 
 - (void)testCdbCallContainsGdprV1 {
@@ -479,7 +479,7 @@ do { \
 
     [self callCdb];
 
-    XCTAssertEqualObjects(self.cdbPayload[CR_ApiQueryKeys.gdpr], expected);
+    XCTAssertEqualObjects(self.cdbPayload[NSString.gdprConsentKey], expected);
 }
 
 #pragma mark CCPA
@@ -613,7 +613,7 @@ do { \
     
     [self callSendAppEventWithCompletionHandler:nil];
 
-    NSString *gdprEncodedString = self.appEventUrlString.urlQueryParamsDictionary[CR_ApiQueryKeys.gdpr];
+    NSString *gdprEncodedString = self.appEventUrlString.urlQueryParamsDictionary[NSString.gdprConsentKey];
     XCTAssertEqualObjects(gdprEncodedString, expectedGdprJsonBase64);
 }
 

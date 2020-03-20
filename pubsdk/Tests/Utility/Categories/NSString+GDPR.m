@@ -11,6 +11,10 @@
 
 @implementation NSString (GDPR)
 
++ (NSString *)gdprConsentKey {
+    return @"gdprConsent";
+}
+
 #pragma mark - VendorConsent
 
 + (NSString *)gdprOnlyCriteoConsentAllowedString {

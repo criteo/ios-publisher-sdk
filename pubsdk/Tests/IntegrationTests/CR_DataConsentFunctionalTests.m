@@ -65,7 +65,7 @@ do { \
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 
     XCTAssertNil(self.gdprInBidRequest);
-    XCTAssertNil(self.appEventUrlString.urlQueryParamsDictionary[CR_ApiQueryKeys.gdpr]);
+    XCTAssertNil(self.appEventUrlString.urlQueryParamsDictionary[NSString.gdprConsentKey]);
 }
 
 - (void)testGivenGdprV1ConsentStringSet_whenCriteoRegister_thenConsentStringSetInBidRequest {
@@ -81,7 +81,7 @@ do { \
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 
     XCTAssertEqualObjects(self.gdprInBidRequest, expected);
-    XCTAssertNotNil(self.appEventUrlString.urlQueryParamsDictionary[CR_ApiQueryKeys.gdpr]);
+    XCTAssertNotNil(self.appEventUrlString.urlQueryParamsDictionary[NSString.gdprConsentKey]);
 }
 
 - (void)testGivenGdprV1Set_whenCriteoRegister_thenConsentStringSetInBidRequest {
@@ -101,7 +101,7 @@ do { \
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 
     XCTAssertEqualObjects(self.gdprInBidRequest, expected);
-    XCTAssertNotNil(self.appEventUrlString.urlQueryParamsDictionary[CR_ApiQueryKeys.gdpr]);
+    XCTAssertNotNil(self.appEventUrlString.urlQueryParamsDictionary[NSString.gdprConsentKey]);
 }
 
 - (void)testGivenGdprV2Set_whenCriteoRegister_thenConsentStringSetInBidRequest {
@@ -260,7 +260,7 @@ do { \
 
 - (NSDictionary *)gdprInBidRequest {
     CR_HttpContent *bidRequest = self.criteo.testing_lastBidHttpContent;
-    return bidRequest.requestBody[CR_ApiQueryKeys.gdpr];
+    return bidRequest.requestBody[NSString.gdprConsentKey];
 }
 
 - (NSString *)appEventUrlString {
