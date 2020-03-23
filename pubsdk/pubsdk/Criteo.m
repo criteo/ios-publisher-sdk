@@ -51,12 +51,16 @@
     static Criteo *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        CR_BidManagerBuilder *builder = [[CR_BidManagerBuilder alloc] init];
-        CR_BidManager *bidManager = [builder buildBidManager];
-        sharedInstance = [[self alloc] initWithBidManager:bidManager];
+        sharedInstance = [self criteo];
     });
 
     return sharedInstance;
+}
+
++ (instancetype)criteo {
+    CR_BidManagerBuilder *builder = [[CR_BidManagerBuilder alloc] init];
+    CR_BidManager *bidManager = [builder buildBidManager];
+    return [[self alloc] initWithBidManager:bidManager];
 }
 
 - (instancetype)initWithBidManager:(CR_BidManager *)bidManager {

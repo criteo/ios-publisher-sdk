@@ -31,6 +31,7 @@
                               adUnitType:(CRAdUnitType)adUnitType;
 
 - (instancetype)initWithBidManager:(CR_BidManager *)bidManager;
++ (instancetype)criteo;
 
 @end
 
