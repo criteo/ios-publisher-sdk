@@ -70,10 +70,10 @@ do { \
 
 - (void)testGivenGdprV1ConsentStringSet_whenCriteoRegister_thenConsentStringSetInBidRequest {
     NSDictionary *expected = @{
-        CR_ApiQueryKeys.gdprVersion:      @1,
-        CR_ApiQueryKeys.gdprConsentData:  NSString.gdprConsentStringForTcf1_1,
-        CR_ApiQueryKeys.gdprApplies:      @NO,
-        CR_ApiQueryKeys.gdprConsentGiven: @NO
+        NSString.gdprVersionKey:      @1,
+        NSString.gdprConsentDataKey:  NSString.gdprConsentStringForTcf1_1,
+        NSString.gdprAppliesKey:      @NO,
+        NSString.gdprConsentGivenKey: @NO
     };
     [self.userDefaults setObject:NSString.gdprConsentStringForTcf1_1
                           forKey:CR_GdprConsentStringForTcf1_1Key];
@@ -86,10 +86,10 @@ do { \
 
 - (void)testGivenGdprV1Set_whenCriteoRegister_thenConsentStringSetInBidRequest {
     NSDictionary *expected = @{
-        CR_ApiQueryKeys.gdprVersion:      @1,
-        CR_ApiQueryKeys.gdprConsentData:  NSString.gdprConsentStringForTcf1_1,
-        CR_ApiQueryKeys.gdprApplies:      @YES,
-        CR_ApiQueryKeys.gdprConsentGiven: @YES
+        NSString.gdprVersionKey:      @1,
+        NSString.gdprConsentDataKey:  NSString.gdprConsentStringForTcf1_1,
+        NSString.gdprAppliesKey:      @YES,
+        NSString.gdprConsentGivenKey: @YES
     };
     [self.userDefaults setObject:NSString.gdprConsentStringForTcf1_1
                           forKey:CR_GdprConsentStringForTcf1_1Key];
@@ -106,10 +106,10 @@ do { \
 
 - (void)testGivenGdprV2Set_whenCriteoRegister_thenConsentStringSetInBidRequest {
     NSDictionary *expected = @{
-        CR_ApiQueryKeys.gdprVersion:      @2,
-        CR_ApiQueryKeys.gdprConsentData:  NSString.gdprConsentStringForTcf2_0,
-        CR_ApiQueryKeys.gdprApplies:      @YES,
-        CR_ApiQueryKeys.gdprConsentGiven: @YES
+        NSString.gdprVersionKey:      @2,
+        NSString.gdprConsentDataKey:  NSString.gdprConsentStringForTcf2_0,
+        NSString.gdprAppliesKey:      @YES,
+        NSString.gdprConsentGivenKey: @YES
     };
     [self.userDefaults setObject:NSString.gdprConsentStringForTcf2_0
                           forKey:CR_GdprConsentStringForTcf2_0Key];
@@ -125,10 +125,10 @@ do { \
 
 - (void)testGivenGdprV2AndV1Set_whenCriteoRegister_thenConsentStringV2SetInBidRequest {
     NSDictionary *expected = @{
-        CR_ApiQueryKeys.gdprVersion:      @2,
-        CR_ApiQueryKeys.gdprConsentData:  NSString.gdprConsentStringForTcf2_0,
-        CR_ApiQueryKeys.gdprApplies:      @YES,
-        CR_ApiQueryKeys.gdprConsentGiven: @YES
+        NSString.gdprVersionKey:      @2,
+        NSString.gdprConsentDataKey:  NSString.gdprConsentStringForTcf2_0,
+        NSString.gdprAppliesKey:      @YES,
+        NSString.gdprConsentGivenKey: @YES
     };
     [self.userDefaults setObject:NSString.gdprConsentStringForTcf1_1
                           forKey:CR_GdprConsentStringForTcf1_1Key];

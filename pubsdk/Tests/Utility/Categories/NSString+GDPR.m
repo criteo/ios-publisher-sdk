@@ -11,8 +11,26 @@
 
 @implementation NSString (GDPR)
 
+#pragma mark - Keys
+
 + (NSString *)gdprConsentKey {
     return @"gdprConsent";
+}
+
++ (NSString *)gdprAppliesKey {
+    return @"gdprApplies";
+}
+
++ (NSString *)gdprVersionKey {
+    return @"version";
+}
+
++ (NSString *)gdprConsentGivenKey {
+    return @"consentGiven";
+}
+
++ (NSString *)gdprConsentDataKey {
+    return @"consentData";
 }
 
 #pragma mark - VendorConsent

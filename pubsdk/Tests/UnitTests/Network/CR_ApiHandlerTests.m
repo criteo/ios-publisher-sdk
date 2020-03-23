@@ -439,10 +439,10 @@ do { \
 - (void)testCdbCallContainsGdprV2 {
     [self.consentMock.gdprMock configureWithTcfVersion:CR_GdprTcfVersion2_0];
     NSDictionary *expected = @{
-        CR_ApiQueryKeys.gdprVersion:        @2,
-        CR_ApiQueryKeys.gdprConsentData:    NSString.gdprConsentStringForTcf2_0,
-        CR_ApiQueryKeys.gdprApplies:        @YES,
-        CR_ApiQueryKeys.gdprConsentGiven:   @YES
+        NSString.gdprVersionKey:        @2,
+        NSString.gdprConsentDataKey:    NSString.gdprConsentStringForTcf2_0,
+        NSString.gdprAppliesKey:        @YES,
+        NSString.gdprConsentGivenKey:   @YES
     };
 
     [self callCdb];
@@ -453,10 +453,10 @@ do { \
 - (void)testCdbCallContainsGdprV1 {
     [self.consentMock.gdprMock configureWithTcfVersion:CR_GdprTcfVersion1_1];
     NSDictionary *expected = @{
-        CR_ApiQueryKeys.gdprVersion:        @1,
-        CR_ApiQueryKeys.gdprConsentData:    NSString.gdprConsentStringForTcf1_1,
-        CR_ApiQueryKeys.gdprApplies:        @YES,
-        CR_ApiQueryKeys.gdprConsentGiven:   @YES
+        NSString.gdprVersionKey:        @1,
+        NSString.gdprConsentDataKey:    NSString.gdprConsentStringForTcf1_1,
+        NSString.gdprAppliesKey:        @YES,
+        NSString.gdprConsentGivenKey:   @YES
     };
 
     [self callCdb];
