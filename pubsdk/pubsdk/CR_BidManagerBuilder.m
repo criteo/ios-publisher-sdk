@@ -12,6 +12,13 @@
 
 @implementation CR_BidManagerBuilder
 
+- (NSNotificationCenter *)notificationCenter {
+    if (_notificationCenter == nil) {
+        _notificationCenter = [NSNotificationCenter defaultCenter];
+    }
+    return _notificationCenter;
+}
+
 - (CR_ThreadManager *)threadManager {
     if (_threadManager == nil) {
         _threadManager = [[CR_ThreadManager alloc] init];
@@ -89,7 +96,8 @@
         _appEvents = [[CR_AppEvents alloc] initWithApiHandler:self.apiHandler
                                                        config:self.config
                                                       consent:self.consent
-                                                   deviceInfo:self.deviceInfo];
+                                                   deviceInfo:self.deviceInfo
+                                           notificationCenter:self.notificationCenter];
     }
     return _appEvents;
 }

@@ -9,40 +9,42 @@
 #import "XCTestCase+Criteo.h"
 #import "Criteo+Testing.h"
 #import "Criteo+Internal.h"
-#import "CR_NetworkCaptor.h"
-#import "CR_Config.h"
 #import "CR_AppEvents+Internal.h"
-#import "CR_BidManagerBuilder.h"
+#import "CR_BidManagerBuilder+Testing.h"
+#import "CR_NetworkCaptor.h"
 
 @interface CR_AppEventsIntegrationTests : XCTestCase
 
-@property (nonatomic, strong) NSNotificationCenter *notificationCenter;
-@property (nonatomic, strong) Criteo *criteo;
+@property (strong, nonatomic) CR_NetworkCaptor *networkCaptor;
+@property (strong, nonatomic) NSNotificationCenter *notificationCenter;
+@property (strong, nonatomic) Criteo *criteo;
 
 @end
 
 @implementation CR_AppEventsIntegrationTests
 
 - (void)setUp {
-    self.notificationCenter = [NSNotificationCenter defaultCenter];
     self.criteo = [Criteo testing_criteoWithNetworkCaptor];
+    self.networkCaptor = self.criteo.testing_networkCaptor;
+    self.notificationCenter = self.criteo.bidManagerBuilder.notificationCenter;
+
     [self.criteo.bidManagerBuilder.appEvents disableThrottling];
 }
 
 - (void)testActiveEventNotSentIfCriteoNotRegister {
-    XCTestExpectation *exp = [self _expectationForAppEventCall];
+    XCTestExpectation *exp = [self expectationForAppEventCall];
     exp.inverted = YES;
 
-    [self _sendAppGoesForegroundNotification];
+    [self sendAppGoesForegroundNotification];
 
     [self waitForExpectations:@[exp] timeout:1.];
 }
 
 - (void)testInactiveEventNotSentIfCriteoNotRegister {
-    XCTestExpectation *exp = [self _expectationForAppEventCall];
+    XCTestExpectation *exp = [self expectationForAppEventCall];
     exp.inverted = YES;
 
-    [self _sendAppGoesBackgroundNotification];
+    [self sendAppGoesBackgroundNotification];
 
     [self waitForExpectations:@[exp] timeout:1.];
 }
@@ -50,38 +52,39 @@
 
 - (void)testActiveEventSentIfCriteoRegister {
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
-    XCTestExpectation *exp = [self _expectationForAppEventCall];
+    XCTestExpectation *exp = [self expectationForAppEventCall];
 
-    [self _sendAppGoesForegroundNotification];
+    [self sendAppGoesForegroundNotification];
 
     [self criteo_waitForExpectations:@[exp]];
 }
 
 - (void)testInactiveEventSentIfCriteoRegister {
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
-    XCTestExpectation *exp = [self _expectationForAppEventCall];
+    XCTestExpectation *exp = [self expectationForAppEventCall];
 
-    [self _sendAppGoesBackgroundNotification];
+    [self sendAppGoesBackgroundNotification];
 
     [self criteo_waitForExpectations:@[exp]];
 }
 
 #pragma mark - Private
 
-- (void)_sendAppGoesForegroundNotification {
+- (void)sendAppGoesForegroundNotification {
     [self.notificationCenter postNotificationName:UIApplicationDidBecomeActiveNotification
                                            object:nil];
 }
 
-- (void)_sendAppGoesBackgroundNotification {
+- (void)sendAppGoesBackgroundNotification {
     [self.notificationCenter postNotificationName:UIApplicationWillResignActiveNotification
                                            object:nil];
 }
 
-- (XCTestExpectation *)_expectationForAppEventCall {
+- (XCTestExpectation *)expectationForAppEventCall {
+    __weak typeof(self) weakSelf = self;
     XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"Expecting that AppEvent was sent"];
-    self.criteo.testing_networkCaptor.requestListener = ^(NSURL * _Nonnull url, CR_HTTPVerb verb, NSDictionary * _Nullable body) {
-        if ([url.absoluteString containsString:self.criteo.config.appEventsUrl]) {
+    self.networkCaptor.requestListener = ^(NSURL * _Nonnull url, CR_HTTPVerb verb, NSDictionary * _Nullable body) {
+        if ([url.absoluteString containsString:weakSelf.criteo.config.appEventsUrl]) {
             [expectation fulfill];
         }
     };

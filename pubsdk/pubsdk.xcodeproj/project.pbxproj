@@ -272,6 +272,8 @@
 		7D523C8F23E047EC00E79C88 /* NSString+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D523C8B23E0471900E79C88 /* NSString+Testing.m */; };
 		7D523C9223E1CEBA00E79C88 /* CR_ThreadManager+Waiter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D523C9123E1CEBA00E79C88 /* CR_ThreadManager+Waiter.m */; };
 		7D523C9323E1CEBA00E79C88 /* CR_ThreadManager+Waiter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D523C9123E1CEBA00E79C88 /* CR_ThreadManager+Waiter.m */; };
+		7D569469242A3AC20095A0A6 /* CR_BidManagerBuilder+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D569468242A3AC20095A0A6 /* CR_BidManagerBuilder+Testing.m */; };
+		7D56946A242A3AC20095A0A6 /* CR_BidManagerBuilder+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D569468242A3AC20095A0A6 /* CR_BidManagerBuilder+Testing.m */; };
 		7D58582A23E1E6BB0039AC56 /* CR_ThreadManagerWaiter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D58582923E1E6BB0039AC56 /* CR_ThreadManagerWaiter.m */; };
 		7D58582B23E1E6BB0039AC56 /* CR_ThreadManagerWaiter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D58582923E1E6BB0039AC56 /* CR_ThreadManagerWaiter.m */; };
 		7D58582F23E1F1EC0039AC56 /* CR_ThreadManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D58582D23E1F1EC0039AC56 /* CR_ThreadManager.h */; };
@@ -595,6 +597,8 @@
 		7D523C8B23E0471900E79C88 /* NSString+Testing.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Testing.m"; sourceTree = "<group>"; };
 		7D523C9023E1CEBA00E79C88 /* CR_ThreadManager+Waiter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CR_ThreadManager+Waiter.h"; sourceTree = "<group>"; };
 		7D523C9123E1CEBA00E79C88 /* CR_ThreadManager+Waiter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CR_ThreadManager+Waiter.m"; sourceTree = "<group>"; };
+		7D569467242A3AC20095A0A6 /* CR_BidManagerBuilder+Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CR_BidManagerBuilder+Testing.h"; sourceTree = "<group>"; };
+		7D569468242A3AC20095A0A6 /* CR_BidManagerBuilder+Testing.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CR_BidManagerBuilder+Testing.m"; sourceTree = "<group>"; };
 		7D58582823E1E6BB0039AC56 /* CR_ThreadManagerWaiter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_ThreadManagerWaiter.h; sourceTree = "<group>"; };
 		7D58582923E1E6BB0039AC56 /* CR_ThreadManagerWaiter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_ThreadManagerWaiter.m; sourceTree = "<group>"; };
 		7D58582D23E1F1EC0039AC56 /* CR_ThreadManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_ThreadManager.h; sourceTree = "<group>"; };
@@ -1095,6 +1099,8 @@
 		7D523C8923E046D400E79C88 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				7D569467242A3AC20095A0A6 /* CR_BidManagerBuilder+Testing.h */,
+				7D569468242A3AC20095A0A6 /* CR_BidManagerBuilder+Testing.m */,
 				7D523C9023E1CEBA00E79C88 /* CR_ThreadManager+Waiter.h */,
 				7D523C9123E1CEBA00E79C88 /* CR_ThreadManager+Waiter.m */,
 				5E065FB707B9213686B66F5F /* Criteo+Testing.h */,
@@ -1838,6 +1844,7 @@
 				7D3E426423915DAC00BAF673 /* CR_NativeAdvertiserTests.m in Sources */,
 				7D80F61624056CCF005B7BA3 /* CR_DataProtectionConsentTests.m in Sources */,
 				7D3E426023915DAC00BAF673 /* CR_NativePrivacyTests.m in Sources */,
+				7D56946A242A3AC20095A0A6 /* CR_BidManagerBuilder+Testing.m in Sources */,
 				7D3E426C23915DC900BAF673 /* NSError+CRErrorsTests.m in Sources */,
 				7D3E426523915DB900BAF673 /* CR_NetworkManagerTests.m in Sources */,
 				7DB5F90723AA2B2500EF5602 /* CR_NetworkCaptor.m in Sources */,
@@ -1998,6 +2005,7 @@
 				54F1E6B9239FA1A000985D09 /* UIWebView+Testing.m in Sources */,
 				7D51ABEC23AA6CAC00540094 /* CR_NetworkManagerDecorator.m in Sources */,
 				7D3E423523915B6600BAF673 /* CR_CdbBidTests.m in Sources */,
+				7D569469242A3AC20095A0A6 /* CR_BidManagerBuilder+Testing.m in Sources */,
 				7D73EF5F23C39A030086CBDC /* CR_AppEventsIntegrationTests.m in Sources */,
 				5E06522A02F2F6A13136E48D /* CR_HttpTests.m in Sources */,
 				5E065F348B239221EFD62032 /* CR_MopubInterstitialFunctionalTests.m in Sources */,

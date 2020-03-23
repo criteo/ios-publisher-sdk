@@ -22,11 +22,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic) NSDate *latestEventSent;
 @property (readonly, nonatomic) BOOL throttleExpired;
 
-- (instancetype) init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithApiHandler:(CR_ApiHandler *)apiHandler
                              config:(CR_Config *)config
                             consent:(CR_DataProtectionConsent *)consent
-                         deviceInfo:(CR_DeviceInfo *)deviceInfo;
+                         deviceInfo:(CR_DeviceInfo *)deviceInfo
+                 notificationCenter:(NSNotificationCenter *)notificationCenter NS_DESIGNATED_INITIALIZER;
 - (void)registerForIosEvents;
 - (void)sendLaunchEvent;
 

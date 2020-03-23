@@ -10,6 +10,12 @@
 #import <UIKit/UIKit.h>
 #import "CR_AppEvents.h"
 
+@interface CR_AppEvents ()
+
+@property (strong, nonatomic, readonly) NSNotificationCenter *notificationCenter;
+
+@end
+
 @implementation CR_AppEvents
 {
     CR_ApiHandler *apiHandler;
@@ -19,10 +25,11 @@
     BOOL _shouldThrottle;
 }
 
-- (instancetype) initWithApiHandler:(CR_ApiHandler *)apiHandler
-                             config:(CR_Config *)config
-                            consent:(CR_DataProtectionConsent *)consent
-                         deviceInfo:(CR_DeviceInfo *)deviceInfo {
+- (instancetype)initWithApiHandler:(CR_ApiHandler *)apiHandler
+                            config:(CR_Config *)config
+                           consent:(CR_DataProtectionConsent *)consent
+                        deviceInfo:(CR_DeviceInfo *)deviceInfo
+                notificationCenter:(NSNotificationCenter *)notificationCenter {
     if (self = [super init]) {
         self->apiHandler = apiHandler;
         self->config = config;
@@ -31,20 +38,21 @@
         _throttleSec = 0;
         _latestEventSent = [NSDate date];
         _shouldThrottle = YES;
+        _notificationCenter = notificationCenter;
     }
     return self;
 }
 
-- (void) registerForIosEvents {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(sendActiveEvent:)
-                                                 name:UIApplicationDidBecomeActiveNotification
-                                               object:nil];
+- (void)registerForIosEvents {
+    [self.notificationCenter addObserver:self
+                                selector:@selector(sendActiveEvent:)
+                                    name:UIApplicationDidBecomeActiveNotification
+                                  object:nil];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(sendInactiveEvent:)
-                                                 name:UIApplicationWillResignActiveNotification
-                                               object:nil];
+    [self.notificationCenter addObserver:self
+                                selector:@selector(sendInactiveEvent:)
+                                    name:UIApplicationWillResignActiveNotification
+                                  object:nil];
 }
 
 - (void) sendLaunchEvent {
@@ -91,17 +99,7 @@
 }
 
 - (void) dealloc {
-    [self deRegisterForIosEvents];
-}
-
-- (void) deRegisterForIosEvents {
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationDidBecomeActiveNotification
-                                                  object:nil];
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UIApplicationWillResignActiveNotification
-                                                  object:nil];
+    [_notificationCenter removeObserver:self];
 }
 
 - (void)disableThrottling {
