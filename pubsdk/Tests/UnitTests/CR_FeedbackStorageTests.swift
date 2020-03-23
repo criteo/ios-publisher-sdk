@@ -11,9 +11,10 @@ class CR_FeedbackStorageTests: XCTestCase {
     var fileManagingMock: CR_FeedbackFileManagingMock = CR_FeedbackFileManagingMock()
     var queue: CASObjectQueue<CR_FeedbackMessage> = CASInMemoryObjectQueue<CR_FeedbackMessage>()
     var feedbackStorage: CR_FeedbackStorage = CR_FeedbackStorage()
-    var adUnit: CR_CacheAdUnit = CR_CacheAdUnit(adUnitId: "adUnitId", width: 320, height: 50)
-    var adUnit2: CR_CacheAdUnit = CR_CacheAdUnit(adUnitId: "adUnitId2", width: 320, height: 50)
-    var newImpressionId: String = "newImpressionId"
+    var impressionId1: String = "impressionId"
+    var impressionId2: String = "impressionId2"
+    var timestamp1: NSNumber = 100
+    var timestamp2: NSNumber = 101
 
     override func setUp() {
         super.setUp()
@@ -54,41 +55,42 @@ class CR_FeedbackStorageTests: XCTestCase {
     }
 
     func test_updateNonexistentMessage_ShouldCreateFile() {
-        feedbackStorage.updateMessage(with: adUnit) { $0.impressionId = self.newImpressionId }
+        feedbackStorage.updateMessage(withImpressionId: impressionId1) { $0.cdbCallStartTimestamp = self.timestamp1 }
         XCTAssertEqual(fileManagingMock.readFeedbackCallCount, 1)
         XCTAssertEqual(fileManagingMock.writeFeedbackCallCount, 1)
         XCTAssertEqual(fileManagingMock.writeFeedbackResults.count, 1)
-        XCTAssertEqual(fileManagingMock.writeFeedbackResults[0].impressionId, newImpressionId)
+        XCTAssertEqual(fileManagingMock.writeFeedbackResults[0].cdbCallStartTimestamp, timestamp1)
     }
 
     func test_updateExistingMessage_ShouldUpdateExistingFile() {
-        let existingMessage = createMessageWithImpId("oldImpressionId")
+        let existingMessage = createMessageWithImpId(impressionId1)
+        existingMessage.cdbCallStartTimestamp = timestamp1;
         fileManagingMock.readFeedbackResults = [existingMessage]
-        feedbackStorage.updateMessage(with: adUnit) { $0.impressionId = self.newImpressionId }
-        XCTAssertEqual(fileManagingMock.writeFeedbackResults[0].impressionId, newImpressionId)
-        XCTAssertEqual(existingMessage.impressionId, newImpressionId)
+        feedbackStorage.updateMessage(withImpressionId: impressionId1) { $0.cdbCallStartTimestamp = self.timestamp2 }
+        XCTAssertEqual(fileManagingMock.writeFeedbackResults[0].cdbCallStartTimestamp, timestamp2)
+        XCTAssertEqual(existingMessage.cdbCallStartTimestamp, timestamp2)
     }
 
     func test_updateBySameAdUnit_shouldReadBySameFilename() {
-        feedbackStorage.updateMessage(with: adUnit) { $0.impressionId = self.newImpressionId }
-        feedbackStorage.updateMessage(with: adUnit) { $0.impressionId = self.newImpressionId }
+        feedbackStorage.updateMessage(withImpressionId: impressionId1) { $0.cdbCallStartTimestamp = self.timestamp1 }
+        feedbackStorage.updateMessage(withImpressionId: impressionId1) { $0.cdbCallStartTimestamp = self.timestamp2 }
         XCTAssertEqual(fileManagingMock.readRequestedFilenames.count, 2)
         XCTAssertEqual(fileManagingMock.readRequestedFilenames[0], fileManagingMock.readRequestedFilenames[1])
     }
 
     func test_updateByDifferentAdUnit_shouldReadByDifferentFilename() {
-        feedbackStorage.updateMessage(with: adUnit) { $0.impressionId = self.newImpressionId }
-        feedbackStorage.updateMessage(with: adUnit2) { $0.impressionId = self.newImpressionId }
+        feedbackStorage.updateMessage(withImpressionId: impressionId1) { $0.cdbCallStartTimestamp = self.timestamp1 }
+        feedbackStorage.updateMessage(withImpressionId: impressionId2) { $0.cdbCallStartTimestamp = self.timestamp1 }
         XCTAssertEqual(fileManagingMock.readRequestedFilenames.count, 2)
         XCTAssertNotEqual(fileManagingMock.readRequestedFilenames[0], fileManagingMock.readRequestedFilenames[1])
     }
 
     func test_updateSameObjectTwice_ShouldUpdateSingleObject() {
-        let message = createMessageWithImpId("new")
+        let message = createMessageWithImpId(impressionId1)
         fileManagingMock.readFeedbackResults = [message, message]
 
-        feedbackStorage.updateMessage(with: adUnit) { $0.impressionId = "abc" }
-        feedbackStorage.updateMessage(with: adUnit) { $0.impressionId = self.newImpressionId }
+        feedbackStorage.updateMessage(withImpressionId: impressionId1) { $0.cdbCallStartTimestamp = self.timestamp1 }
+        feedbackStorage.updateMessage(withImpressionId: impressionId1) { $0.cdbCallStartTimestamp = self.timestamp2 }
 
         XCTAssertEqual(fileManagingMock.writeFeedbackResults.count, 2)
         XCTAssertEqual(fileManagingMock.writeFeedbackResults[0], message)
@@ -96,15 +98,15 @@ class CR_FeedbackStorageTests: XCTestCase {
     }
 
     func test_updateDifferentObjects() {
-        fileManagingMock.readFeedbackResults = [createMessageWithImpId("abc"), createMessageWithImpId("abc")]
-        feedbackStorage.updateMessage(with: adUnit) { $0.cdbCallStartTimestamp = 10 }
-        feedbackStorage.updateMessage(with: adUnit2) { $0.cdbCallStartTimestamp = 20 }
+        fileManagingMock.readFeedbackResults = [createMessageWithImpId(impressionId1), createMessageWithImpId(impressionId2)]
+        feedbackStorage.updateMessage(withImpressionId: impressionId1) { $0.cdbCallStartTimestamp = self.timestamp1 }
+        feedbackStorage.updateMessage(withImpressionId: impressionId2) { $0.cdbCallStartTimestamp = self.timestamp2 }
         XCTAssertEqual(fileManagingMock.writeFeedbackResults.count, 2)
         XCTAssertNotEqual(fileManagingMock.writeFeedbackResults[0], fileManagingMock.writeFeedbackResults[1])
     }
 
     func test_updateMessageToRTS_messageShouldBeMovedToSendingQueue() {
-        feedbackStorage.updateMessage(with: adUnit) { $0.elapsedTimestamp = 10 }
+        feedbackStorage.updateMessage(withImpressionId: impressionId1) { $0.elapsedTimestamp = self.timestamp1 }
         XCTAssertEqual(fileManagingMock.removeFileCallCount, 1)
         XCTAssertEqual(queue.size(), 1)
     }

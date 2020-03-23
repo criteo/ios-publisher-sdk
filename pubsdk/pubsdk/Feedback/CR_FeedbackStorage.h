@@ -25,11 +25,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeFirstMessagesWithCount:(NSUInteger)count;
 
 /**
- Applies the updateFunction to the stored FeedbackMessage object associated with given cacheAdUnit.
+ Applies the updateFunction to the stored FeedbackMessage object associated with given impressionId.
 
- In case the object doesn't exists for given cacheAdUnit, it creates a new empty object before updating.
+ In case the object doesn't exists, it creates a new empty object before updating.
  */
-- (void)updateMessageWithAdUnit:(CR_CacheAdUnit *)adUnit by:(void (^)(CR_FeedbackMessage *message))updateFunction;
+- (void)updateMessageWithImpressionId:(NSString *)impressionId by:(void (^)(CR_FeedbackMessage *message))updateFunction;
 
 @end
 

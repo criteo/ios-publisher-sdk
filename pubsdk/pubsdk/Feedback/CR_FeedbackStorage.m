@@ -12,7 +12,6 @@
 
 @interface CR_FeedbackStorage()
 
-@property (strong, nonatomic, readonly) NSMutableDictionary *filenameMap;
 @property (strong, nonatomic, readonly) CASObjectQueue<CR_FeedbackMessage *> *sendingQueue;
 @property (strong, nonatomic, readonly) id<CR_FeedbackFileManaging> fileManaging;
 
@@ -28,7 +27,6 @@
 
 - (instancetype)initWithFileManager:(id <CR_FeedbackFileManaging>)fileManaging withQueue:(CASObjectQueue<CR_FeedbackMessage *> *)queue {
     if (self = [super init]) {
-        _filenameMap = [[NSMutableDictionary alloc] init];
         _fileManaging = fileManaging;
         _sendingQueue = queue;
         [self moveAllFeedbackObjectsToSendingQueue];
@@ -44,28 +42,18 @@
     [self.sendingQueue pop:count];
 }
 
-- (void)updateMessageWithAdUnit:(CR_CacheAdUnit *)adUnit by:(void (^)(CR_FeedbackMessage *message))updateFunction {
-    NSString *filename = [self getOrCreateFilenameForAdUnit:adUnit];
-    CR_FeedbackMessage *feedback = [self readOrCreateFeedbackMessageByFilename:filename];
+- (void)updateMessageWithImpressionId:(NSString *)impressionId by:(void (^)(CR_FeedbackMessage *message))updateFunction {
+    CR_FeedbackMessage *feedback = [self readOrCreateFeedbackMessageByFilename:impressionId];
     updateFunction(feedback);
     if([feedback isReadyToSend]) {
         [self.sendingQueue add:feedback];
-        [self.fileManaging removeFileForFilename:filename];
+        [self.fileManaging removeFileForFilename:impressionId];
     } else {
-        [self.fileManaging writeFeedback:feedback forFilename:filename];
+        [self.fileManaging writeFeedback:feedback forFilename:impressionId];
     }
 }
 
 #pragma mark - Private methods
-
-- (NSString *)getOrCreateFilenameForAdUnit:(CR_CacheAdUnit *)adUnit {
-    NSString *filename = self.filenameMap[adUnit];
-    if(!filename) {
-        filename = [NSString stringWithFormat:@"%@_%@", adUnit.adUnitId, [NSUUID UUID]];
-        self.filenameMap[adUnit] = filename;
-    }
-    return filename;
-}
 
 - (CR_FeedbackMessage *)readOrCreateFeedbackMessageByFilename:(NSString *)filename {
     CR_FeedbackMessage *feedback = [self.fileManaging readFeedbackForFilename:filename];

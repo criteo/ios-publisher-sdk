@@ -8,41 +8,40 @@
 
 @implementation CR_FeedbackStorage (MessageUpdating)
 
-- (void)setCdbStartForAdUnit:(CR_CacheAdUnit *)cacheAdUnit {
-    [self updateMessageWithAdUnit:cacheAdUnit by:^(CR_FeedbackMessage *message) {
+- (void)setCdbStartForImpressionId:(NSString *)impressionId {
+    [self updateMessageWithImpressionId:impressionId by:^(CR_FeedbackMessage *message) {
         message.cdbCallStartTimestamp = [self dateTimeNowInMilliseconds];
     }];
 }
 
-- (void)setCdbEndAndImpressionId:(NSString *)impressionId
-                       forAdUnit:(CR_CacheAdUnit *)cacheAdUnit {
-    [self updateMessageWithAdUnit:cacheAdUnit by:^(CR_FeedbackMessage *message) {
+- (void)setCdbEndForImpressionId:(NSString *)impressionId {
+    [self updateMessageWithImpressionId:impressionId by:^(CR_FeedbackMessage *message) {
         message.cdbCallEndTimestamp = [self dateTimeNowInMilliseconds];
         message.impressionId = impressionId;
     }];
 }
 
-- (void)setCdbEndAndExpiredForAdUnit:(CR_CacheAdUnit *)cacheAdUnit {
-    [self updateMessageWithAdUnit:cacheAdUnit by:^(CR_FeedbackMessage *message) {
+- (void)setCdbEndAndExpiredForImpressionId:(NSString *)impressionId {
+    [self updateMessageWithImpressionId:impressionId by:^(CR_FeedbackMessage *message) {
         message.cdbCallEndTimestamp = [self dateTimeNowInMilliseconds];
         message.expired = YES;
     }];
 }
 
-- (void)setElapsedForAdUnit:(CR_CacheAdUnit *)cacheAdUnit {
-    [self updateMessageWithAdUnit:cacheAdUnit by:^(CR_FeedbackMessage *message) {
+- (void)setElapsedForImpressionId:(NSString *)impressionId {
+    [self updateMessageWithImpressionId:impressionId by:^(CR_FeedbackMessage *message) {
         message.elapsedTimestamp = [self dateTimeNowInMilliseconds];
     }];
 }
 
-- (void)setExpiredForAdUnit:(CR_CacheAdUnit *)cacheAdUnit {
-    [self updateMessageWithAdUnit:cacheAdUnit by:^(CR_FeedbackMessage *message) {
+- (void)setExpiredForImpressionId:(NSString *)impressionId {
+    [self updateMessageWithImpressionId:impressionId by:^(CR_FeedbackMessage *message) {
         message.expired = YES;
     }];
 }
 
-- (void)setTimeoutedForAdUnit:(CR_CacheAdUnit *)cacheAdUnit {
-    [self updateMessageWithAdUnit:cacheAdUnit by:^(CR_FeedbackMessage *message) {
+- (void)setTimeoutedForImpressionId:(NSString *)impressionId {
+    [self updateMessageWithImpressionId:impressionId by:^(CR_FeedbackMessage *message) {
         message.timeouted = YES;
     }];
 }

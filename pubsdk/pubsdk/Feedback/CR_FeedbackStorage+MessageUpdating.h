@@ -9,16 +9,16 @@
 
 @interface CR_FeedbackStorage (MessageUpdating)
 
-- (void)setCdbStartForAdUnit:(CR_CacheAdUnit *)cacheAdUnit;
+- (void)setCdbStartForImpressionId:(NSString *)impressionId;
 
-- (void)setCdbEndAndImpressionId:(NSString *)impressionId forAdUnit:(CR_CacheAdUnit *)cacheAdUnit;
+- (void)setCdbEndForImpressionId:(NSString *)impressionId;
 
-- (void)setCdbEndAndExpiredForAdUnit:(CR_CacheAdUnit *)cacheAdUnit;
+- (void)setCdbEndAndExpiredForImpressionId:(NSString *)impressionId;
 
-- (void)setElapsedForAdUnit:(CR_CacheAdUnit *)cacheAdUnit;
+- (void)setElapsedForImpressionId:(NSString *)impressionId;
 
-- (void)setExpiredForAdUnit:(CR_CacheAdUnit *)cacheAdUnit;
+- (void)setExpiredForImpressionId:(NSString *)impressionId;
 
-- (void)setTimeoutedForAdUnit:(CR_CacheAdUnit *)cacheAdUnit;
+- (void)setTimeoutedForImpressionId:(NSString *)impressionId;
 
 @end
