@@ -17,6 +17,7 @@
 #import "CR_NetworkWaiter.h"
 #import "CR_NetworkWaiterBuilder.h"
 #import "NSString+GDPR.h"
+#import "NSString+APIKeys.h"
 #import "NSString+CR_Url.h"
 #import "NSURL+Testing.h"
 
@@ -271,21 +272,21 @@ do { \
 - (NSString *)_mopubConsentInLastBidRequestWithCriteo:(Criteo *)criteo
 {
     CR_HttpContent *bidRequest = criteo.testing_lastBidHttpContent;
-    NSString *actualConsent = bidRequest.requestBody[CR_ApiQueryKeys.user][CR_ApiQueryKeys.mopubConsent];
+    NSString *actualConsent = bidRequest.requestBody[NSString.userKey][NSString.mopubConsent];
     return actualConsent;
 }
 
 - (NSNumber *)_criteoUsPrivacyConsentInLastBidRequestWithCriteo:(Criteo *)criteo
 {
     CR_HttpContent *bidRequest = criteo.testing_lastBidHttpContent;
-    NSNumber *actualConsent = bidRequest.requestBody[CR_ApiQueryKeys.user][CR_ApiQueryKeys.uspCriteoOptout];
+    NSNumber *actualConsent = bidRequest.requestBody[NSString.userKey][NSString.uspCriteoOptout];
     return actualConsent;
 }
 
 - (NSString *)_iabConsentInLastBidRequestWithCriteo:(Criteo *)criteo
 {
     CR_HttpContent *bidRequest = criteo.testing_lastBidHttpContent;
-    NSString *actualConsent = bidRequest.requestBody[CR_ApiQueryKeys.user][CR_ApiQueryKeys.uspIab];
+    NSString *actualConsent = bidRequest.requestBody[NSString.userKey][NSString.uspIabKey];
     return actualConsent;
 }
 

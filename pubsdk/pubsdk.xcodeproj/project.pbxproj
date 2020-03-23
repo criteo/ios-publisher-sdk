@@ -155,6 +155,8 @@
 		65E3A5742270CB7A004156E9 /* CR_InterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */; };
 		7D00897023EAD19C00BA8F96 /* CRBannerViewDelegateMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D00896F23EAD19C00BA8F96 /* CRBannerViewDelegateMock.m */; };
 		7D00897123EAD19C00BA8F96 /* CRBannerViewDelegateMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D00896F23EAD19C00BA8F96 /* CRBannerViewDelegateMock.m */; };
+		7D0441CF2428EBA600D36C65 /* NSString+APIKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0441CE2428EBA600D36C65 /* NSString+APIKeys.m */; };
+		7D0441D02428EBA600D36C65 /* NSString+APIKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0441CE2428EBA600D36C65 /* NSString+APIKeys.m */; };
 		7D07DA1C23DAF6DD00ECCF02 /* CR_Ccpa.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D07DA1A23DAF6DD00ECCF02 /* CR_Ccpa.h */; };
 		7D07DA1D23DAF6DD00ECCF02 /* CR_Ccpa.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D07DA1A23DAF6DD00ECCF02 /* CR_Ccpa.h */; };
 		7D07DA1E23DAF6DD00ECCF02 /* CR_Ccpa.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D07DA1B23DAF6DD00ECCF02 /* CR_Ccpa.m */; };
@@ -508,6 +510,8 @@
 		6F187272CD050435F6D28BFA /* libPods-pubsdkTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pubsdkTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D00896E23EAD19B00BA8F96 /* CRBannerViewDelegateMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRBannerViewDelegateMock.h; sourceTree = "<group>"; };
 		7D00896F23EAD19C00BA8F96 /* CRBannerViewDelegateMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRBannerViewDelegateMock.m; sourceTree = "<group>"; };
+		7D0441CD2428EBA600D36C65 /* NSString+APIKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+APIKeys.h"; sourceTree = "<group>"; };
+		7D0441CE2428EBA600D36C65 /* NSString+APIKeys.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+APIKeys.m"; sourceTree = "<group>"; };
 		7D07DA1A23DAF6DD00ECCF02 /* CR_Ccpa.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_Ccpa.h; sourceTree = "<group>"; };
 		7D07DA1B23DAF6DD00ECCF02 /* CR_Ccpa.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_Ccpa.m; sourceTree = "<group>"; };
 		7D344F6A23D9A5F70029E653 /* CR_BidManagerIntegrationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_BidManagerIntegrationTests.m; sourceTree = "<group>"; };
@@ -1079,6 +1083,8 @@
 				5E0653DCED07A1A1895CB076 /* Criteo+Testing.m */,
 				7DB899D92400126800948230 /* NSString+GDPR.h */,
 				7DB899DA2400126800948230 /* NSString+GDPR.m */,
+				7D0441CD2428EBA600D36C65 /* NSString+APIKeys.h */,
+				7D0441CE2428EBA600D36C65 /* NSString+APIKeys.m */,
 				7D523C8A23E0471900E79C88 /* NSString+Testing.h */,
 				7D523C8B23E0471900E79C88 /* NSString+Testing.m */,
 				7D51ABF723ACE16800540094 /* NSURL+Testing.h */,
@@ -1797,6 +1803,7 @@
 				7D3E425B23915D9C00BAF673 /* CR_DeviceInfoTests.m in Sources */,
 				7D3E426823915DC300BAF673 /* CRBannerViewTests.m in Sources */,
 				54F1E6BA239FA1A000985D09 /* UIWebView+Testing.m in Sources */,
+				7D0441D02428EBA600D36C65 /* NSString+APIKeys.m in Sources */,
 				7D51ABF623ACCC7700540094 /* CR_NetworkWaiterBuilder.m in Sources */,
 				7D3E425123915D8700BAF673 /* CRAdUnitTests.m in Sources */,
 				7D3E426423915DAC00BAF673 /* CR_NativeAdvertiserTests.m in Sources */,
@@ -1935,6 +1942,7 @@
 				7D523C7D23DB32C600E79C88 /* CR_HttpContent+AdUnit.m in Sources */,
 				7D3E423623915B6600BAF673 /* CR_NetworkManagerTests.m in Sources */,
 				7D3E423A23915B6600BAF673 /* CRBannerAdUnitTests.m in Sources */,
+				7D0441CF2428EBA600D36C65 /* NSString+APIKeys.m in Sources */,
 				54F1E6BB239FA1A800985D09 /* CR_DfpCreativeViewChecker.m in Sources */,
 				7DB5F90A23AA2B2500EF5602 /* CR_NetworkManagerMock.m in Sources */,
 				7D727269240FC0E000825CF7 /* CR_WebApiIntegrationTests.m in Sources */,

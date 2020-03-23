@@ -22,6 +22,7 @@
 #import "CR_NetworkManagerMock.h"
 #import "CR_ThreadManager.h"
 #import "Logging.h"
+#import "NSString+APIKeys.h"
 #import "NSString+GDPR.h"
 #import "NSString+CR_Url.h"
 #import "pubsdkTests-Swift.h"
