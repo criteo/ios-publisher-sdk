@@ -25,6 +25,16 @@ const NSUInteger CR_GDPRConsentCriteoIdentifierInVendorList = 91;
 @property (nonatomic, copy, readonly) NSString *consentStringV1;
 @property (nonatomic, copy, readonly) NSString *consentStringV2;
 
+@property (copy, nonatomic, readonly) NSString *vendorConsentsV1;
+@property (copy, nonatomic, readonly) NSString *vendorConsentsV2;
+
+
+@property (assign, nonatomic, readonly) NSNumber *appliedV1;
+@property (assign, nonatomic, readonly) NSNumber *appliedV2;
+
+@property (assign, nonatomic, readonly) BOOL isTcf2_0;
+@property (assign, nonatomic, readonly) BOOL isTcf1_1;
+
 @end
 
 @implementation CR_Gdpr
@@ -45,9 +55,9 @@ const NSUInteger CR_GDPRConsentCriteoIdentifierInVendorList = 91;
 #pragma mark - Custom Accessors
 
 - (CR_GdprTcfVersion)tcfVersion {
-    if (self.consentStringV2 != nil) {
+    if (self.isTcf2_0) {
         return CR_GdprTcfVersion2_0;
-    } else if (self.consentStringV1 != nil) {
+    } else if (self.isTcf1_1) {
         return CR_GdprTcfVersion1_1;
     } else {
         return CR_GdprTcfVersionUnknown;
@@ -59,8 +69,13 @@ const NSUInteger CR_GDPRConsentCriteoIdentifierInVendorList = 91;
 }
 
 - (BOOL)isApplied {
-    NSString *key = (self.tcfVersion == 2) ? CR_GdprAppliesForTcf2_0Key : CR_GdprSubjectToGdprForTcf1_1Key;
-    return [self.userDefaults boolForKey:key];
+    if (self.isTcf2_0) {
+        return [self.appliedV2 boolValue];
+    } else if (self.isTcf1_1) {
+        return [self.userDefaults boolForKey:CR_GdprSubjectToGdprForTcf1_1Key];
+    } else {
+        return NO;
+    }
 }
 
 - (BOOL)consentGivenToCriteo {
@@ -74,12 +89,41 @@ const NSUInteger CR_GDPRConsentCriteoIdentifierInVendorList = 91;
 
 #pragma mark - Private
 
-- (NSString *)consentStringV1 {
-    return [self.userDefaults stringForKey:CR_GdprConsentStringForTcf1_1Key];
+- (BOOL)isTcf2_0 {
+    return  (self.consentStringV2 != nil) ||
+            (self.appliedV2 != nil) ||
+            (self.vendorConsentsV2 != nil);
+}
+
+- (BOOL)isTcf1_1 {
+    return  !self.isTcf2_0 &&
+            ((self.consentStringV1 != nil) ||
+            (self.appliedV1 != nil) ||
+            (self.vendorConsentsV1 != nil));
+}
+
+- (NSString *)vendorConsentsV2 {
+    return [self.userDefaults stringForKey:CR_GdprVendorConsentsForTcf2_0Key];
+}
+
+- (NSString *)vendorConsentsV1 {
+    return [self.userDefaults stringForKey:CR_GdprVendorConsentsForTcf1_1Key];
+}
+
+- (NSNumber *)appliedV2 {
+    return [self.userDefaults objectForKey:CR_GdprAppliesForTcf2_0Key];
+}
+
+- (NSNumber *)appliedV1 {
+    return [self.userDefaults objectForKey:CR_GdprSubjectToGdprForTcf1_1Key];
 }
 
 - (NSString *)consentStringV2 {
     return [self.userDefaults stringForKey:CR_GdprConsentStringForTcf2_0Key];
+}
+
+- (NSString *)consentStringV1 {
+    return [self.userDefaults stringForKey:CR_GdprConsentStringForTcf1_1Key];
 }
 
 #pragma mark - NSObject

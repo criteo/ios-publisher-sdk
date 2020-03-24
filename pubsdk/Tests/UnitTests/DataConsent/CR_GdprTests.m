@@ -32,19 +32,57 @@
     XCTAssertEqual(self.gdpr.tcfVersion, CR_GdprTcfVersionUnknown);
 }
 
-- (void)testVersion1_1 {
+- (void)testVersion1_1WithConsentString {
     [self setupConsentStringForTcf1_1];
     XCTAssertEqual(self.gdpr.tcfVersion, CR_GdprTcfVersion1_1);
 }
 
-- (void)testVersion2_0 {
+- (void)testVersion1_1WithGdprApplies {
+    [self setupTcf1_1GdprApplies:NO];
+    XCTAssertEqual(self.gdpr.tcfVersion, CR_GdprTcfVersion1_1);
+}
+
+- (void)testVersion1_1WithVendorConsents {
+    [self setupTcf1_1VendorConsents:NSString.gdprAllVendorConsentDeniedString];
+    XCTAssertEqual(self.gdpr.tcfVersion, CR_GdprTcfVersion1_1);
+}
+
+- (void)testVersion2_0WithConsentString {
     [self setupConsentStringForTcf2_0];
     XCTAssertEqual(self.gdpr.tcfVersion, CR_GdprTcfVersion2_0);
 }
 
-- (void)testVersion2_0and1_1 {
+- (void)testVersion2_0WithGdprApplies {
+    [self setupTcf2_0GdprApplies:NO];
+    XCTAssertEqual(self.gdpr.tcfVersion, CR_GdprTcfVersion2_0);
+}
+
+- (void)testVersion2_0WithVendorConsents {
+    [self setupTcf2_0VendorConsents:NSString.gdprAllVendorConsentDeniedString];
+    XCTAssertEqual(self.gdpr.tcfVersion, CR_GdprTcfVersion2_0);
+}
+
+- (void)testVersion2_0and1_1WithConsentString {
+    [self setupTcf1_1GdprApplies:YES];
+    [self setupTcf1_1VendorConsents:NSString.gdprAllVendorConsentAllowedString];
     [self setupConsentStringForTcf1_1];
     [self setupConsentStringForTcf2_0];
+    XCTAssertEqual(self.gdpr.tcfVersion, CR_GdprTcfVersion2_0);
+}
+
+- (void)testVersion2_0and1_1WithGdprApplies {
+    [self setupTcf1_1GdprApplies:YES];
+    [self setupTcf1_1VendorConsents:NSString.gdprAllVendorConsentAllowedString];
+    [self setupConsentStringForTcf1_1];
+    [self setupTcf2_0GdprApplies:YES];
+    XCTAssertEqual(self.gdpr.tcfVersion, CR_GdprTcfVersion2_0);
+}
+
+- (void)testVersion2_0and1_1WithVendorConsents {
+    [self setupTcf1_1GdprApplies:YES];
+    [self setupTcf1_1VendorConsents:NSString.gdprAllVendorConsentAllowedString];
+    [self setupConsentStringForTcf1_1];
+    [self setupTcf2_0VendorConsents:NSString.gdprAllVendorConsentAllowedString];
     XCTAssertEqual(self.gdpr.tcfVersion, CR_GdprTcfVersion2_0);
 }
 
