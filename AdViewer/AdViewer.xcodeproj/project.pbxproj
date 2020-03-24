@@ -25,6 +25,7 @@
 		46151AB5240FB8A500D514BE /* RequestLogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 46151AB4240FB8A500D514BE /* RequestLogEntry.m */; };
 		46151AB8240FC10F00D514BE /* ResponseLogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 46151AB7240FC10F00D514BE /* ResponseLogEntry.m */; };
 		462A60662417A6C100E36D33 /* GoogleDFPLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 462A60652417A6C100E36D33 /* GoogleDFPLogger.m */; };
+		462A60732417DB5000E36D33 /* AdViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462A60722417DB5000E36D33 /* AdViewerViewController.swift */; };
 		467A28E924168A1B00CEF5C7 /* EventLogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 467A28E824168A1B00CEF5C7 /* EventLogEntry.m */; };
 		4687264E240E9D7E0090489E /* LogTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4687264D240E9D7E0090489E /* LogTableViewController.swift */; };
 		46872655240EA31B0090489E /* LogManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 46872654240EA31B0090489E /* LogManager.m */; };
@@ -102,6 +103,7 @@
 		46151AB7240FC10F00D514BE /* ResponseLogEntry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResponseLogEntry.m; sourceTree = "<group>"; };
 		462A60642417A6C100E36D33 /* GoogleDFPLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleDFPLogger.h; sourceTree = "<group>"; };
 		462A60652417A6C100E36D33 /* GoogleDFPLogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoogleDFPLogger.m; sourceTree = "<group>"; };
+		462A60722417DB5000E36D33 /* AdViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdViewerViewController.swift; sourceTree = "<group>"; };
 		467A28E724168A1B00CEF5C7 /* EventLogEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventLogEntry.h; sourceTree = "<group>"; };
 		467A28E824168A1B00CEF5C7 /* EventLogEntry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventLogEntry.m; sourceTree = "<group>"; };
 		4687264C240E9D7E0090489E /* AdViewer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AdViewer-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 			children = (
 				198CD1615965A5E039286CB4 /* AdFormat.swift */,
 				198CD830A58C6E2A29AE18D7 /* AdNetwork.swift */,
+				462A60722417DB5000E36D33 /* AdViewerViewController.swift */,
 			);
 			path = AdViewer;
 			sourceTree = "<group>";
@@ -521,6 +524,7 @@
 				46872655240EA31B0090489E /* LogManager.m in Sources */,
 				54B578F223682A9B004DF616 /* StandaloneTableViewController.m in Sources */,
 				198CD039922C1F7B3CDF8314 /* MopubLogger.m in Sources */,
+				462A60732417DB5000E36D33 /* AdViewerViewController.swift in Sources */,
 				198CD402321085699A33FEF8 /* StandaloneLogger.m in Sources */,
 				198CD1A2C254D0AA046AAE80 /* AdNetwork.swift in Sources */,
 				198CDDAB5CB799E07E1DC055 /* AdFormat.swift in Sources */,
