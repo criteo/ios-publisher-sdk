@@ -13,6 +13,7 @@
 #import "CR_DataProtectionConsent.h"
 #import "CR_DataProtectionConsentMock.h"
 #import "CR_Gdpr.h"
+#import "CR_GdprVersion.h"
 #import "CR_NetworkCaptor.h"
 #import "CR_NetworkWaiter.h"
 #import "CR_NetworkWaiterBuilder.h"

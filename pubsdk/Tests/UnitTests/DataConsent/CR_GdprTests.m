@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "CR_Gdpr.h"
+#import "CR_GdprVersion.h"
 #import "NSString+GDPR.h"
 
 @interface CR_GdprTests : XCTestCase
@@ -26,7 +27,7 @@
     [self clearUserDefaults];
 }
 
-#pragma mark - Version
+#pragma mark - TCF Version
 
 - (void)testVersionUnknown {
     XCTAssertEqual(self.gdpr.tcfVersion, CR_GdprTcfVersionUnknown);
@@ -126,7 +127,7 @@ do { \
 #pragma mark TCF1
 
 - (void)testGDPRApplyWithNoContentString {
-    XCTAssertFalse(self.gdpr.isApplied);
+    XCTAssertTrue(self.gdpr.isApplied);
 }
 
 - (void)testGDPRApplyEmptyWithContentStringForTcf1_1 {

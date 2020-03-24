@@ -7,7 +7,7 @@
 //
 
 #import "NSString+GDPR.h"
-#import "CR_Gdpr.h"
+#import "CR_GdprVersion.h"
 
 @implementation NSString (GDPR)
 
