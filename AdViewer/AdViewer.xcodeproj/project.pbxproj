@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		198CD039922C1F7B3CDF8314 /* MopubLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 198CD671D01D703762C2CC20 /* MopubLogger.m */; };
+		198CD1A2C254D0AA046AAE80 /* AdNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198CD830A58C6E2A29AE18D7 /* AdNetwork.swift */; };
 		198CD402321085699A33FEF8 /* StandaloneLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 198CD785D04E229CBDE9E544 /* StandaloneLogger.m */; };
+		198CDDAB5CB799E07E1DC055 /* AdFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198CD1615965A5E039286CB4 /* AdFormat.swift */; };
 		404AC94B219650FF008C6267 /* GoogleDFPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 404AC94A219650FF008C6267 /* GoogleDFPTableViewController.m */; };
 		4077EBA9218BC48300C41E68 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBA8218BC48300C41E68 /* AppDelegate.m */; };
 		4077EBAC218BC48300C41E68 /* HomePageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBAB218BC48300C41E68 /* HomePageTableViewController.m */; };
@@ -64,9 +66,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		198CD1615965A5E039286CB4 /* AdFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdFormat.swift; sourceTree = "<group>"; };
 		198CD20A4B30A50C6D562506 /* InterstitialUpdateDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterstitialUpdateDelegate.h; sourceTree = "<group>"; };
 		198CD671D01D703762C2CC20 /* MopubLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MopubLogger.m; sourceTree = "<group>"; };
 		198CD785D04E229CBDE9E544 /* StandaloneLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StandaloneLogger.m; sourceTree = "<group>"; };
+		198CD830A58C6E2A29AE18D7 /* AdNetwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdNetwork.swift; sourceTree = "<group>"; };
 		198CDB33AF8D5AFDA0670CE3 /* StandaloneLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandaloneLogger.h; sourceTree = "<group>"; };
 		198CDBC606F70054B8627178 /* MopubLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MopubLogger.h; sourceTree = "<group>"; };
 		25022DE7220A72EF00FF8ACE /* Criteo+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Criteo+Internal.h"; path = "AdViewer/Criteo/Criteo+Internal.h"; sourceTree = SOURCE_ROOT; };
@@ -201,6 +205,7 @@
 		4077EBA6218BC48300C41E68 /* AdViewer */ = {
 			isa = PBXGroup;
 			children = (
+				462A60712417DB1C00E36D33 /* AdViewer */,
 				54B579122369CE09004DF616 /* Common */,
 				54B578EF23682A31004DF616 /* Standalone */,
 				54CAF8CF232C5E8B0050D8D9 /* MopubHB */,
@@ -256,6 +261,15 @@
 			name = HomePage;
 			path = AdViewer/HomePage;
 			sourceTree = SOURCE_ROOT;
+		};
+		462A60712417DB1C00E36D33 /* AdViewer */ = {
+			isa = PBXGroup;
+			children = (
+				198CD1615965A5E039286CB4 /* AdFormat.swift */,
+				198CD830A58C6E2A29AE18D7 /* AdNetwork.swift */,
+			);
+			path = AdViewer;
+			sourceTree = "<group>";
 		};
 		4687264B240E9A690090489E /* Logs */ = {
 			isa = PBXGroup;
@@ -508,6 +522,8 @@
 				54B578F223682A9B004DF616 /* StandaloneTableViewController.m in Sources */,
 				198CD039922C1F7B3CDF8314 /* MopubLogger.m in Sources */,
 				198CD402321085699A33FEF8 /* StandaloneLogger.m in Sources */,
+				198CD1A2C254D0AA046AAE80 /* AdNetwork.swift in Sources */,
+				198CDDAB5CB799E07E1DC055 /* AdFormat.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
