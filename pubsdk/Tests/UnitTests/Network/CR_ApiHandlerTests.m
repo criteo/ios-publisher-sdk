@@ -79,7 +79,7 @@ do { \
                      consent:self.consentMock
                       config:self.configMock
                   deviceInfo:self.deviceInfoMock
-        completionHandler:^(CR_CdbResponse *cdbResponse) {
+        completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
 
        XCTAssertNil(nil);
        XCTAssertNotNil(cdbResponse.cdbBids);
@@ -134,7 +134,7 @@ do { \
                 consent:self.consentMock
                  config:self.configMock
              deviceInfo:self.deviceInfoMock
-      completionHandler:^(CR_CdbResponse *cdbResponse) {
+      completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
 
 
        XCTAssertNotNil(cdbResponse.cdbBids);
@@ -286,7 +286,7 @@ do { \
                          consent:self.consentMock
                           config:self.configMock
                       deviceInfo:self.deviceInfoMock
-               completionHandler:^(CR_CdbResponse *cdbResponse) {}];
+               completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {}];
     }
 
     [self.threadManager waiter_waitIdle];
@@ -335,7 +335,8 @@ do { \
                                                               bidFetchTracker:nil
                                                                 threadManager:[[CR_ThreadManager alloc] init]];
 
-    NSArray *slots = [apiHandler slotsForRequest:adUnits];
+    CR_CdbRequest *cdbRequest = [[CR_CdbRequest alloc] initWithAdUnits:adUnits];
+    NSArray *slots = [apiHandler slotsForCdbRequest:cdbRequest];
     XCTAssertEqual(slots.count, adUnits.count);
     for (int i = 0; i < adUnits.count; i++) {
         NSDictionary *slot = slots[i];
@@ -352,13 +353,15 @@ do { \
     CR_ApiHandler *apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:nil
                                                               bidFetchTracker:nil
                                                                 threadManager:[[CR_ThreadManager alloc] init]];
-    NSArray *slots = [apiHandler slotsForRequest:@[nativeAdUnit]];
+    CR_CdbRequest *cdbRequest = [[CR_CdbRequest alloc] initWithAdUnits:@[nativeAdUnit]];
+    NSArray *slots = [apiHandler slotsForCdbRequest:cdbRequest];
     XCTAssertTrue([slots[0][@"placementId"] isEqualToString:nativeAdUnit.adUnitId]);
     XCTAssertTrue([slots[0][@"sizes"] isEqual:@[nativeAdUnit.cdbSize]]);
     XCTAssertTrue(slots[0][@"isNative"]);
 
     CR_CacheAdUnit *nonNativeAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"testAdUnit" size:CGSizeMake(2, 2) adUnitType:CRAdUnitTypeInterstitial];
-    NSArray *nonNativeSlots = [apiHandler slotsForRequest:@[nonNativeAdUnit]];
+    CR_CdbRequest *cdbRequest2 = [[CR_CdbRequest alloc] initWithAdUnits:@[nonNativeAdUnit]];
+    NSArray *nonNativeSlots = [apiHandler slotsForCdbRequest:cdbRequest2];
     XCTAssertTrue([nonNativeSlots[0][@"placementId"] isEqualToString:nonNativeAdUnit.adUnitId]);
     XCTAssertTrue([nonNativeSlots[0][@"sizes"] isEqual:@[nonNativeAdUnit.cdbSize]]);
     XCTAssertNil(nonNativeSlots[0][@"isNative"]);
@@ -579,6 +582,24 @@ do { \
     XCTAssertEqualObjects(gdprEncodedString, expectedGdprJsonBase64);
 }
 
+- (void)testCompletionInvokedWhenCDBFailsWithError {
+    NSError *expectedError = [NSError errorWithDomain:@"testDomain" code:1 userInfo:nil];
+    self.networkManagerMock.postResponseError = expectedError;
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"Expect that completionHandler is invoked when network error is occurred"];
+
+    [self.apiHandler callCdb:@[[self buildCacheAdUnit]]
+                     consent:nil
+                      config:nil
+                  deviceInfo:nil
+           completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
+               XCTAssertNil(cdbResponse);
+               XCTAssertEqual(error, expectedError);
+               [expectation fulfill];
+           }];
+
+    [self criteo_waitForExpectations:@[expectation]];
+}
+
 #pragma mark - Private methods
 
 - (NSString *)appEventUrlString {
@@ -644,7 +665,7 @@ do { \
                      consent:self.consentMock
                       config:self.configMock
                   deviceInfo:self.deviceInfoMock
-        completionHandler:^(CR_CdbResponse *cdbResponse) {
+        completionHandler:^(CR_CdbRequest * cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
         [expectation fulfill];
     }];
     [self criteo_waitForExpectations:@[expectation]];

@@ -107,19 +107,15 @@ NSNumber *NumberFromGdprTcfVersion(CR_GdprTcfVersion version) {
 }
 
 // Create the slots for the CDB request
-- (NSArray *)slotsForRequest:(CR_CacheAdUnitArray *)adUnits {
-    return [self slotsForRequest:adUnits impressionIds:nil];
-}
-
-- (NSArray *)slotsForRequest:(CR_CacheAdUnitArray *)adUnits
-               impressionIds:(NSDictionary<CR_CacheAdUnit *, NSString *> *)impressionIds {
+- (NSArray *)slotsForCdbRequest:(CR_CdbRequest *)cdbRequest {
     NSMutableArray *slots = [NSMutableArray new];
-    for (CR_CacheAdUnit *adUnit in adUnits) {
+    for (CR_CacheAdUnit *adUnit in cdbRequest.adUnits) {
         NSMutableDictionary *slotDict = [NSMutableDictionary new];
         slotDict[CR_ApiQueryKeys.bidSlotsPlacementId] = adUnit.adUnitId;
         slotDict[CR_ApiQueryKeys.bidSlotsSizes] = @[adUnit.cdbSize];
-        if(impressionIds && impressionIds[adUnit]) {
-            slotDict[@"impId"] = impressionIds[adUnit];
+        NSString *impressionId = [cdbRequest impressionIdForAdUnit:adUnit];
+        if(impressionId) {
+            slotDict[CR_ApiQueryKeys.impId] = impressionId;
         }
         if(adUnit.adUnitType == CRAdUnitTypeNative) {
             slotDict[CR_ApiQueryKeys.bidSlotsIsNative] = @(YES);
@@ -178,10 +174,10 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler {
 
     for (CR_CacheAdUnitArray *adUnitChunk in adUnitChunks) {
 
-        NSDictionary *impressionIds = [self impressionIdsForAdUnits:adUnitChunk];
+        CR_CdbRequest *cdbRequest = [[CR_CdbRequest alloc] initWithAdUnits:adUnitChunk];
+
         // Set up the request for this chunk
-        postBody[CR_ApiQueryKeys.bidSlots] = [self slotsForRequest:adUnitChunk
-                                                     impressionIds:impressionIds];
+        postBody[CR_ApiQueryKeys.bidSlots] = [self slotsForCdbRequest:cdbRequest];
 
         // Send the request
         CLogInfo(@"[INFO][API_] CdbPostCall.start");
@@ -190,12 +186,15 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler {
             if (error == nil) {
                 if (data && completionHandler) {
                     CR_CdbResponse *cdbResponse = [CR_CdbResponse getCdbResponseForData:data receivedAt:[NSDate date]];
-                    completionHandler(cdbResponse);
+                    completionHandler(cdbRequest, cdbResponse, error);
                 } else {
                     CLog(@"Error on post to CDB : response from CDB was nil");
                 }
             } else {
                 CLog(@"Error on post to CDB : %@", error);
+                if(completionHandler) {
+                    completionHandler(cdbRequest, nil, error);
+                }
             }
             for (CR_CacheAdUnit *adUnit in adUnitChunk) {
                 [self.bidFetchTracker clearBidFetchInProgressForAdUnit:adUnit];

@@ -13,6 +13,7 @@
 #import "CR_NetworkManager.h"
 #import "CR_CacheAdUnit.h"
 #import "CR_CdbResponse.h"
+#import "CR_CdbRequest.h"
 #import "CR_Config.h"
 #import "CR_DataProtectionConsent.h"
 #import "CR_DeviceInfo.h"
@@ -21,7 +22,7 @@
 @class CR_FeedbackStorage;
 @class CR_ThreadManager;
 
-typedef void (^CR_CdbCompletionHandler)(CR_CdbResponse *cdbResponse);
+typedef void (^CR_CdbCompletionHandler)(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error);
 typedef void (^AHConfigResponse)(NSDictionary *configValues);
 typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receivedAt);
 
@@ -67,7 +68,7 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler;
 - (NSMutableDictionary *)postBodyWithConsent:(CR_DataProtectionConsent *)consent
                                       config:(CR_Config *)config
                                   deviceInfo:(CR_DeviceInfo *)deviceInfo;
-- (NSArray *)slotsForRequest:(CR_CacheAdUnitArray *)adUnits;
+- (NSArray *)slotsForCdbRequest:(CR_CdbRequest *)cdbRequest;
 
 @end
 
