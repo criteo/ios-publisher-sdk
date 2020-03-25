@@ -7,38 +7,65 @@
 //
 
 #import "NSString+GDPR.h"
-#import "CR_GdprVersion.h"
+
+const NSUInteger NSStringGdprCriteoIdentifierInVendorList = 91;
 
 @implementation NSString (GDPR)
+
+#pragma mark - UserDefaults
+
++ (NSString *)gdprConsentStringUserDefaultsKeyTcf1_1 {
+    return @"IABConsent_ConsentString";
+}
+
++ (NSString *)gdprConsentStringUserDefaultsKeyTcf2_0 {
+    return @"IABTCF_TCString";
+}
+
++ (NSString *)gdprVendorConsentsUserDefaultsKeyTcf1_1 {
+    return @"IABConsent_ParsedVendorConsents";
+}
+
++ (NSString *)gdprVendorConsentsUserDefaultsKeyTcf2_0 {
+    return @"IABTCF_VendorConsents";
+}
+
++ (NSString *)gdprAppliesUserDefaultsKeyTcf1_1 {
+    return @"IABConsent_SubjectToGDPR";
+}
+
++ (NSString *)gdprAppliesUserDefaultsKeyTcf2_0 {
+    return @"IABTCF_gdprApplies";
+}
 
 #pragma mark - VendorConsent
 
 + (NSString *)gdprOnlyCriteoConsentAllowedString {
-    NSRange range = (NSRange) { CR_GDPRConsentCriteoIdentifierInVendorList - 1, 1 };
+    NSRange range = (NSRange) { NSStringGdprCriteoIdentifierInVendorList - 1, 1 };
     return [self.gdprAllVendorConsentDeniedString stringByReplacingCharactersInRange:range
                                                                           withString:@"1"];
 }
 
 + (NSString *)gdprOnlyCriteoConsentDeniedString {
-    NSRange range = (NSRange) { CR_GDPRConsentCriteoIdentifierInVendorList - 1, 1 };
+    NSRange range = (NSRange) { NSStringGdprCriteoIdentifierInVendorList - 1, 1 };
     return [self.gdprAllVendorConsentAllowedString stringByReplacingCharactersInRange:range
                                                                           withString:@"0"];
 }
 
 + (NSString *)gdprAllVendorConsentAllowedString {
-    return [@"" stringByPaddingToLength:CR_GDPRConsentCriteoIdentifierInVendorList
+    return [@"" stringByPaddingToLength:NSStringGdprCriteoIdentifierInVendorList
                              withString:@"1"
                         startingAtIndex:0];
 }
 
 + (NSString *)gdprAllVendorConsentDeniedString {
-    return [@"" stringByPaddingToLength:CR_GDPRConsentCriteoIdentifierInVendorList
+    return [@"" stringByPaddingToLength:NSStringGdprCriteoIdentifierInVendorList
                              withString:@"0"
                         startingAtIndex:0];
 }
 
 + (NSString *)gdprVendorConsentShortString {
-    return [@"" stringByPaddingToLength:CR_GDPRConsentCriteoIdentifierInVendorList / 2
+    return [@"" stringByPaddingToLength:NSStringGdprCriteoIdentifierInVendorList / 2
                              withString:@"1"
                         startingAtIndex:0];
 }

@@ -311,6 +311,8 @@
 		7DB899DC2400126800948230 /* NSString+GDPR.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DB899D92400126800948230 /* NSString+GDPR.h */; };
 		7DB899DD2400126800948230 /* NSString+GDPR.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB899DA2400126800948230 /* NSString+GDPR.m */; };
 		7DB899DE2400126800948230 /* NSString+GDPR.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB899DA2400126800948230 /* NSString+GDPR.m */; };
+		7DE7064E242B5252007F4A72 /* NSUserDefaults+GDPR.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE7064D242B5252007F4A72 /* NSUserDefaults+GDPR.m */; };
+		7DE7064F242B5252007F4A72 /* NSUserDefaults+GDPR.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE7064D242B5252007F4A72 /* NSUserDefaults+GDPR.m */; };
 		7DF2A06C236889CC00178D8C /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25BD5B572220D16D004DE311 /* CriteoPublisherSdk.framework */; };
 		7DF2A0A223689F6B00178D8C /* MockWKWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6540470E22581D32009235A1 /* MockWKWebView.m */; };
 		90D0C9A36EF9136F4CC9E877 /* libPods-CriteoPublisherSdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CDD7544323F61638E0E8B7F /* libPods-CriteoPublisherSdk.a */; };
@@ -625,6 +627,8 @@
 		7DB5F90023AA2B2500EF5602 /* CR_NetworkWaiter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_NetworkWaiter.m; sourceTree = "<group>"; };
 		7DB899D92400126800948230 /* NSString+GDPR.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+GDPR.h"; sourceTree = "<group>"; };
 		7DB899DA2400126800948230 /* NSString+GDPR.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+GDPR.m"; sourceTree = "<group>"; };
+		7DE7064C242B5252007F4A72 /* NSUserDefaults+GDPR.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+GDPR.h"; sourceTree = "<group>"; };
+		7DE7064D242B5252007F4A72 /* NSUserDefaults+GDPR.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+GDPR.m"; sourceTree = "<group>"; };
 		7DF2A067236889CC00178D8C /* SDKUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SDKUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		95CE917D53BC717D5743ED84 /* Pods-pubsdk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdk.release.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdk/Pods-pubsdk.release.xcconfig"; sourceTree = "<group>"; };
 		D674306DEEFA97D34CCBFDA8 /* Pods-CriteoPublisherSdk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoPublisherSdk.release.xcconfig"; path = "../Pods/Target Support Files/Pods-CriteoPublisherSdk/Pods-CriteoPublisherSdk.release.xcconfig"; sourceTree = "<group>"; };
@@ -1111,6 +1115,8 @@
 				7DB4E90A239532BA008DE5E3 /* XCTestCase+Criteo.m */,
 				7D44BDCD24081969005E7906 /* NSString+GDPR.h */,
 				7D44BDCE24081969005E7906 /* NSString+GDPR.m */,
+				7DE7064C242B5252007F4A72 /* NSUserDefaults+GDPR.h */,
+				7DE7064D242B5252007F4A72 /* NSUserDefaults+GDPR.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1828,6 +1834,7 @@
 				7D0441D02428EBA600D36C65 /* NSString+APIKeys.m in Sources */,
 				7D51ABF623ACCC7700540094 /* CR_NetworkWaiterBuilder.m in Sources */,
 				7D3E425123915D8700BAF673 /* CRAdUnitTests.m in Sources */,
+				7DE7064F242B5252007F4A72 /* NSUserDefaults+GDPR.m in Sources */,
 				7D3E426423915DAC00BAF673 /* CR_NativeAdvertiserTests.m in Sources */,
 				7D80F61624056CCF005B7BA3 /* CR_DataProtectionConsentTests.m in Sources */,
 				7D3E426023915DAC00BAF673 /* CR_NativePrivacyTests.m in Sources */,
@@ -1937,6 +1944,7 @@
 				7D00897023EAD19C00BA8F96 /* CRBannerViewDelegateMock.m in Sources */,
 				7D3E423C23915B6600BAF673 /* CR_BidManagerHelperTests.m in Sources */,
 				7D3E424523915B6600BAF673 /* CR_TokenValueTests.m in Sources */,
+				7DE7064E242B5252007F4A72 /* NSUserDefaults+GDPR.m in Sources */,
 				7D3E423823915B6600BAF673 /* CR_ApiHandlerTests.m in Sources */,
 				7D3E424823915B6600BAF673 /* CR_AdUnitHelperTests.m in Sources */,
 				7D3E422423915B6600BAF673 /* CR_ConfigTests.m in Sources */,

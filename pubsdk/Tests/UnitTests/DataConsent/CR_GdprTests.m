@@ -8,8 +8,8 @@
 
 #import <XCTest/XCTest.h>
 #import "CR_Gdpr.h"
-#import "CR_GdprVersion.h"
 #import "NSString+GDPR.h"
+#import "NSUserDefaults+GDPR.h"
 
 @interface CR_GdprTests : XCTestCase
 
@@ -24,7 +24,7 @@
     self.userDefaults = [[NSUserDefaults alloc] init];
     self.gdpr = [[CR_Gdpr alloc] initWithUserDefaults:self.userDefaults];
 
-    [self clearUserDefaults];
+    [self.userDefaults clearGdpr];
 }
 
 #pragma mark - TCF Version
@@ -34,74 +34,74 @@
 }
 
 - (void)testVersion1_1WithConsentString {
-    [self setupConsentStringForTcf1_1];
+    [self.userDefaults setGdprTcf1_1DefaultConsentString];
     XCTAssertEqual(self.gdpr.tcfVersion, CR_GdprTcfVersion1_1);
 }
 
 - (void)testVersion1_1WithGdprApplies {
-    [self setupTcf1_1GdprApplies:NO];
+    [self.userDefaults setGdprTcf1_1GdprApplies:NO];
     XCTAssertEqual(self.gdpr.tcfVersion, CR_GdprTcfVersion1_1);
 }
 
 - (void)testVersion1_1WithVendorConsents {
-    [self setupTcf1_1VendorConsents:NSString.gdprAllVendorConsentDeniedString];
+    [self.userDefaults setGdprTcf1_1VendorConsents:NSString.gdprAllVendorConsentDeniedString];
     XCTAssertEqual(self.gdpr.tcfVersion, CR_GdprTcfVersion1_1);
 }
 
 - (void)testVersion2_0WithConsentString {
-    [self setupConsentStringForTcf2_0];
+    [self.userDefaults setGdprTcf2_0DefaultConsentString];
     XCTAssertEqual(self.gdpr.tcfVersion, CR_GdprTcfVersion2_0);
 }
 
 - (void)testVersion2_0WithGdprApplies {
-    [self setupTcf2_0GdprApplies:NO];
+    [self.userDefaults setGdprTcf2_0GdprApplies:NO];
     XCTAssertEqual(self.gdpr.tcfVersion, CR_GdprTcfVersion2_0);
 }
 
 - (void)testVersion2_0WithVendorConsents {
-    [self setupTcf2_0VendorConsents:NSString.gdprAllVendorConsentDeniedString];
+    [self.userDefaults setGdprTcf2_0VendorConsents:NSString.gdprAllVendorConsentDeniedString];
     XCTAssertEqual(self.gdpr.tcfVersion, CR_GdprTcfVersion2_0);
 }
 
 - (void)testVersion2_0and1_1WithConsentString {
-    [self setupTcf1_1GdprApplies:YES];
-    [self setupTcf1_1VendorConsents:NSString.gdprAllVendorConsentAllowedString];
-    [self setupConsentStringForTcf1_1];
-    [self setupConsentStringForTcf2_0];
+    [self.userDefaults setGdprTcf1_1GdprApplies:YES];
+    [self.userDefaults setGdprTcf1_1DefaultVendorConsents];
+    [self.userDefaults setGdprTcf1_1DefaultConsentString];
+    [self.userDefaults setGdprTcf2_0DefaultConsentString];
     XCTAssertEqual(self.gdpr.tcfVersion, CR_GdprTcfVersion2_0);
 }
 
 - (void)testVersion2_0and1_1WithGdprApplies {
-    [self setupTcf1_1GdprApplies:YES];
-    [self setupTcf1_1VendorConsents:NSString.gdprAllVendorConsentAllowedString];
-    [self setupConsentStringForTcf1_1];
-    [self setupTcf2_0GdprApplies:YES];
+    [self.userDefaults setGdprTcf1_1GdprApplies:YES];
+    [self.userDefaults setGdprTcf1_1DefaultVendorConsents];
+    [self.userDefaults setGdprTcf1_1DefaultConsentString];
+    [self.userDefaults setGdprTcf2_0GdprApplies:YES];
     XCTAssertEqual(self.gdpr.tcfVersion, CR_GdprTcfVersion2_0);
 }
 
 - (void)testVersion2_0and1_1WithVendorConsents {
-    [self setupTcf1_1GdprApplies:YES];
-    [self setupTcf1_1VendorConsents:NSString.gdprAllVendorConsentAllowedString];
-    [self setupConsentStringForTcf1_1];
-    [self setupTcf2_0VendorConsents:NSString.gdprAllVendorConsentAllowedString];
+    [self.userDefaults setGdprTcf1_1GdprApplies:YES];
+    [self.userDefaults setGdprTcf1_1DefaultVendorConsents];
+    [self.userDefaults setGdprTcf1_1DefaultConsentString];
+    [self.userDefaults setGdprTcf2_0DefaultVendorConsents];
     XCTAssertEqual(self.gdpr.tcfVersion, CR_GdprTcfVersion2_0);
 }
 
 #pragma mark - Consent String
 
 - (void)testConsentStringWithTcf1_1 {
-    [self setupConsentStringForTcf1_1];
+    [self.userDefaults setGdprTcf1_1DefaultConsentString];
     XCTAssertEqualObjects(self.gdpr.consentString, NSString.gdprConsentStringForTcf1_1);
 }
 
 - (void)testConsentStringTcf2_0 {
-    [self setupConsentStringForTcf2_0];
+    [self.userDefaults setGdprTcf2_0DefaultConsentString];
     XCTAssertEqualObjects(self.gdpr.consentString, NSString.gdprConsentStringForTcf2_0);
 }
 
 - (void)testConsentString_TCF1_TCF2 {
-    [self setupConsentStringForTcf1_1];
-    [self setupConsentStringForTcf2_0];
+    [self.userDefaults setGdprTcf1_1DefaultConsentString];
+    [self.userDefaults setGdprTcf2_0DefaultConsentString];
     XCTAssertEqualObjects(self.gdpr.consentString, NSString.gdprConsentStringForTcf2_0);
 }
 
@@ -110,9 +110,9 @@
 - (void)testGdprAppliesSimpleCases {
 #define AssertGdprApply(tcfVersion, grpApply) \
 do { \
-    [self clearUserDefaults]; \
-    [self setupConsentStringForTcf ## tcfVersion]; \
-    [self setupTcf ## tcfVersion ## GdprApplies:grpApply]; \
+    [self.userDefaults clearGdpr]; \
+    [self.userDefaults setGdprTcf ## tcfVersion ## DefaultConsentString]; \
+    [self.userDefaults setGdprTcf ## tcfVersion ## GdprApplies:grpApply]; \
     XCTAssertEqual(self.gdpr.isApplied, grpApply); \
 } while (0);
 
@@ -131,7 +131,7 @@ do { \
 }
 
 - (void)testGDPRApplyEmptyWithContentStringForTcf1_1 {
-    [self setupConsentStringForTcf1_1];
+    [self.userDefaults setGdprTcf1_1DefaultConsentString];
     XCTAssertFalse(self.gdpr.isApplied);
 }
 
@@ -139,23 +139,23 @@ do { \
 
 
 - (void)testGDPRApplyEmptyWithContentStringForTcf2_0 {
-    [self setupConsentStringForTcf2_0];
+    [self.userDefaults setGdprTcf2_0DefaultConsentString];
     XCTAssertFalse(self.gdpr.isApplied);
 }
 
 #pragma mark TCF2/TCF2
 
 - (void)testGDPRApplyWithContentStringForTcf1_1andTcf2_0 {
-    [self setupConsentStringForTcf1_1];
-    [self setupConsentStringForTcf2_0];
-    [self setupTcf2_0GdprApplies:YES];
+    [self.userDefaults setGdprTcf1_1DefaultConsentString];
+    [self.userDefaults setGdprTcf2_0DefaultConsentString];
+    [self.userDefaults setGdprTcf2_0GdprApplies:YES];
     XCTAssertTrue(self.gdpr.isApplied);
 }
 
 - (void)testGDPRApplyTCF1WithContentStringForTcf1_1andTcf2_0 {
-    [self setupConsentStringForTcf1_1];
-    [self setupConsentStringForTcf2_0];
-    [self setupTcf1_1GdprApplies:YES];
+    [self.userDefaults setGdprTcf1_1DefaultConsentString];
+    [self.userDefaults setGdprTcf2_0DefaultConsentString];
+    [self.userDefaults setGdprTcf1_1GdprApplies:YES];
     XCTAssertFalse(self.gdpr.isApplied);
 }
 
@@ -168,9 +168,9 @@ do { \
 - (void)testConsentGivenSimpleCases {
 #define AssertConsentGiven(tcfVersion, vendorConsentString, expectedConsentGiven) \
 do { \
-    [self clearUserDefaults]; \
-    [self setupConsentStringForTcf ## tcfVersion]; \
-    [self setupTcf ## tcfVersion ## VendorConsents:vendorConsentString]; \
+    [self.userDefaults clearGdpr]; \
+    [self.userDefaults setGdprTcf ## tcfVersion ## DefaultConsentString]; \
+    [self.userDefaults setGdprTcf ## tcfVersion ## VendorConsents:vendorConsentString]; \
     XCTAssertEqual(self.gdpr.consentGivenToCriteo, expectedConsentGiven); \
 } while (0);
 
@@ -189,60 +189,18 @@ do { \
 }
 
 - (void)testConsentTCF2Priority {
-    [self setupConsentStringForTcf1_1];
-    [self setupConsentStringForTcf2_0];
-    [self setupTcf1_1VendorConsents:NSString.gdprAllVendorConsentDeniedString];
-    [self setupTcf2_0VendorConsents:NSString.gdprAllVendorConsentAllowedString];
+    [self.userDefaults setGdprTcf1_1DefaultConsentString];
+    [self.userDefaults setGdprTcf2_0DefaultConsentString];
+    [self.userDefaults setGdprTcf1_1VendorConsents:NSString.gdprAllVendorConsentDeniedString];
+    [self.userDefaults setGdprTcf2_0VendorConsents:NSString.gdprAllVendorConsentAllowedString];
     XCTAssertTrue(self.gdpr.consentGivenToCriteo);
 }
 
 - (void)testConsentTCF2PriorityEvenEmpty {
-    [self setupConsentStringForTcf1_1];
-    [self setupConsentStringForTcf2_0];
-    [self setupTcf1_1VendorConsents:NSString.gdprAllVendorConsentAllowedString];
+    [self.userDefaults setGdprTcf1_1DefaultConsentString];
+    [self.userDefaults setGdprTcf2_0DefaultConsentString];
+    [self.userDefaults setGdprTcf1_1VendorConsents:NSString.gdprAllVendorConsentAllowedString];
     XCTAssertFalse(self.gdpr.consentGivenToCriteo);
-}
-
-#pragma mark - Test Utils
-
-- (void)clearUserDefaults {
-    [self.userDefaults removeObjectForKey:CR_GdprAppliesForTcf2_0Key];
-    [self.userDefaults removeObjectForKey:CR_GdprConsentStringForTcf2_0Key];
-    [self.userDefaults removeObjectForKey:CR_GdprVendorConsentsForTcf2_0Key];
-    [self.userDefaults removeObjectForKey:CR_GdprSubjectToGdprForTcf1_1Key];
-    [self.userDefaults removeObjectForKey:CR_GdprConsentStringForTcf1_1Key];
-    [self.userDefaults removeObjectForKey:CR_GdprVendorConsentsForTcf1_1Key];
-}
-
-- (void)setupConsentStringForTcf1_1 {
-    [self.userDefaults setObject:NSString.gdprConsentStringForTcf1_1
-                          forKey:CR_GdprConsentStringForTcf1_1Key];
-}
-
-- (void)setupConsentStringForTcf2_0 {
-    [self.userDefaults setObject:NSString.gdprConsentStringForTcf2_0
-                          forKey:CR_GdprConsentStringForTcf2_0Key];
-}
-
-
-- (void)setupTcf1_1GdprApplies:(BOOL)gdprApplies {
-    [self.userDefaults setBool:gdprApplies
-                        forKey:CR_GdprSubjectToGdprForTcf1_1Key];
-}
-
-- (void)setupTcf2_0GdprApplies:(BOOL)gdprApplies {
-    [self.userDefaults setBool:gdprApplies
-                        forKey:CR_GdprAppliesForTcf2_0Key];
-}
-
-- (void)setupTcf1_1VendorConsents:(NSString *)vendorConsents {
-    [self.userDefaults setObject:vendorConsents
-                          forKey:CR_GdprVendorConsentsForTcf1_1Key];
-}
-
-- (void)setupTcf2_0VendorConsents:(NSString *)vendorConsents {
-    [self.userDefaults setObject:vendorConsents
-                          forKey:CR_GdprVendorConsentsForTcf2_0Key];
 }
 
 @end

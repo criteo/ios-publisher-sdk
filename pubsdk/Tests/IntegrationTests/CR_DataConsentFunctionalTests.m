@@ -13,7 +13,6 @@
 #import "CR_DataProtectionConsent.h"
 #import "CR_DataProtectionConsentMock.h"
 #import "CR_Gdpr.h"
-#import "CR_GdprVersion.h"
 #import "CR_NetworkCaptor.h"
 #import "CR_NetworkWaiter.h"
 #import "CR_NetworkWaiterBuilder.h"
@@ -21,6 +20,7 @@
 #import "NSString+APIKeys.h"
 #import "NSString+CR_Url.h"
 #import "NSURL+Testing.h"
+#import "NSUserDefaults+GDPR.h"
 
 #define CR_AssertDoNotContainsAppEventRequest(requests) \
 do { \
@@ -47,12 +47,7 @@ do { \
     [self.userDefaults removeObjectForKey:CR_CcpaIabConsentStringKey];
     [self.userDefaults removeObjectForKey:CR_CcpaCriteoStateKey];
     [self.userDefaults removeObjectForKey:CR_DataProtectionConsentMopubConsentKey];
-    [self.userDefaults removeObjectForKey:CR_GdprAppliesForTcf2_0Key];
-    [self.userDefaults removeObjectForKey:CR_GdprConsentStringForTcf2_0Key];
-    [self.userDefaults removeObjectForKey:CR_GdprVendorConsentsForTcf2_0Key];
-    [self.userDefaults removeObjectForKey:CR_GdprSubjectToGdprForTcf1_1Key];
-    [self.userDefaults removeObjectForKey:CR_GdprConsentStringForTcf1_1Key];
-    [self.userDefaults removeObjectForKey:CR_GdprVendorConsentsForTcf1_1Key];
+    [self.userDefaults clearGdpr];
 
     self.criteo = [Criteo testing_criteoWithNetworkCaptor];
 }
@@ -77,8 +72,7 @@ do { \
         NSString.gdprAppliesKey:      @NO,
         NSString.gdprConsentGivenKey: @NO
     };
-    [self.userDefaults setObject:NSString.gdprConsentStringForTcf1_1
-                          forKey:CR_GdprConsentStringForTcf1_1Key];
+    [self.userDefaults setGdprTcf1_1DefaultConsentString];
 
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 
@@ -93,12 +87,9 @@ do { \
         NSString.gdprAppliesKey:      @YES,
         NSString.gdprConsentGivenKey: @YES
     };
-    [self.userDefaults setObject:NSString.gdprConsentStringForTcf1_1
-                          forKey:CR_GdprConsentStringForTcf1_1Key];
-    [self.userDefaults setObject:NSString.gdprOnlyCriteoConsentAllowedString
-                          forKey:CR_GdprVendorConsentsForTcf1_1Key];
-    [self.userDefaults setBool:YES
-                        forKey:CR_GdprSubjectToGdprForTcf1_1Key];
+    [self.userDefaults setGdprTcf1_1DefaultConsentString];
+    [self.userDefaults setGdprTcf1_1DefaultVendorConsents];
+    [self.userDefaults setGdprTcf1_1GdprApplies:YES];
 
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 
@@ -113,12 +104,9 @@ do { \
         NSString.gdprAppliesKey:      @YES,
         NSString.gdprConsentGivenKey: @YES
     };
-    [self.userDefaults setObject:NSString.gdprConsentStringForTcf2_0
-                          forKey:CR_GdprConsentStringForTcf2_0Key];
-    [self.userDefaults setObject:NSString.gdprOnlyCriteoConsentAllowedString
-                          forKey:CR_GdprVendorConsentsForTcf2_0Key];
-    [self.userDefaults setBool:YES
-                        forKey:CR_GdprAppliesForTcf2_0Key];
+    [self.userDefaults setGdprTcf2_0DefaultConsentString];
+    [self.userDefaults setGdprTcf2_0DefaultVendorConsents];
+    [self.userDefaults setGdprTcf2_0GdprApplies:YES];
 
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 
@@ -132,14 +120,10 @@ do { \
         NSString.gdprAppliesKey:      @YES,
         NSString.gdprConsentGivenKey: @YES
     };
-    [self.userDefaults setObject:NSString.gdprConsentStringForTcf1_1
-                          forKey:CR_GdprConsentStringForTcf1_1Key];
-    [self.userDefaults setObject:NSString.gdprConsentStringForTcf2_0
-                          forKey:CR_GdprConsentStringForTcf2_0Key];
-    [self.userDefaults setObject:NSString.gdprOnlyCriteoConsentAllowedString
-                          forKey:CR_GdprVendorConsentsForTcf2_0Key];
-    [self.userDefaults setBool:YES
-                        forKey:CR_GdprAppliesForTcf2_0Key];
+    [self.userDefaults setGdprTcf1_1DefaultConsentString];
+    [self.userDefaults setGdprTcf2_0DefaultConsentString];
+    [self.userDefaults setGdprTcf2_0DefaultVendorConsents];
+    [self.userDefaults setGdprTcf2_0GdprApplies:YES];
 
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 

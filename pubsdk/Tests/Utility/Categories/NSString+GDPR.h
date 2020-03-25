@@ -12,6 +12,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSString (GDPR)
 
+#pragma mark UserDefaults
+
+@property (copy, nonatomic, class, readonly) NSString *gdprConsentStringUserDefaultsKeyTcf1_1;
+@property (copy, nonatomic, class, readonly) NSString *gdprConsentStringUserDefaultsKeyTcf2_0;
+@property (copy, nonatomic, class, readonly) NSString *gdprVendorConsentsUserDefaultsKeyTcf1_1;
+@property (copy, nonatomic, class, readonly) NSString *gdprVendorConsentsUserDefaultsKeyTcf2_0;
+@property (copy, nonatomic, class, readonly) NSString *gdprAppliesUserDefaultsKeyTcf1_1;
+@property (copy, nonatomic, class, readonly) NSString *gdprAppliesUserDefaultsKeyTcf2_0;
+
 #pragma mark VendorConsent
 
 @property (copy, nonatomic, class, readonly) NSString *gdprAllVendorConsentDeniedString;
