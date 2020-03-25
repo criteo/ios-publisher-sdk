@@ -80,16 +80,19 @@ const NSUInteger CR_GDPRConsentCriteoIdentifierInVendorList = 91;
     return [self.userDefaults stringForKey:self.consentStringKey];
 }
 
-- (BOOL)applies {
-    return [self.appliesObject boolValue];
+- (NSNumber *)applies {
+    NSNumber *number = [self.userDefaults objectForKey:self.appliesKey];
+    return [number isKindOfClass:NSNumber.class] ? number : nil;
 }
 
-- (BOOL)consentGivenToCriteo {
-    NSString *vendorConsents = self.vendorConsents;
+- (NSNumber *)consentGivenToCriteo {
     const NSUInteger criteoId = CR_GDPRConsentCriteoIdentifierInVendorList;
     const NSUInteger criteoIndex = criteoId - 1;
-    return  (vendorConsents.length > criteoIndex) &&
-            ([vendorConsents characterAtIndex:criteoIndex] == '1');
+    NSString *vendorConsents = self.vendorConsents;
+    if (vendorConsents.length <= criteoIndex) {
+        return nil;
+    }
+    return @([vendorConsents characterAtIndex:criteoIndex] == '1');
 }
 
 #pragma mark - Private
@@ -119,12 +122,12 @@ const NSUInteger CR_GDPRConsentCriteoIdentifierInVendorList = 91;
     return nil;
 }
 
-- (BOOL)applies {
-    return YES;
+- (NSNumber *)applies {
+    return @YES;
 }
 
-- (BOOL)consentGivenToCriteo {
-    return NO;
+- (NSNumber *)consentGivenToCriteo {
+    return @NO;
 }
 
 @end

@@ -47,11 +47,11 @@
 }
 
 - (BOOL)isApplied {
-    return self.selectedVersion.applies;
+    return [self.selectedVersion.applies boolValue];
 }
 
 - (BOOL)consentGivenToCriteo {
-    return self.selectedVersion.consentGivenToCriteo;
+    return [self.selectedVersion.consentGivenToCriteo boolValue];
 }
 
 #pragma mark - Private

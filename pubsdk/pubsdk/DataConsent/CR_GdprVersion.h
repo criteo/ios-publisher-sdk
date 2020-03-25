@@ -38,8 +38,14 @@ extern const NSUInteger CR_GDPRConsentCriteoIdentifierInVendorList;
 @property (assign, nonatomic, readonly, getter=isValid) BOOL valid;
 @property (assign, nonatomic, readonly) CR_GdprTcfVersion tcfVersion;
 @property (copy, nonatomic, readonly, nullable) NSString *consentString;
-@property (assign, nonatomic, readonly) BOOL applies;
-@property (assign, nonatomic, readonly) BOOL consentGivenToCriteo;
+/**
+ @return a boxed boolean that can be nil if the value doesn't exist or cannot be converted to a NSNumber.
+ */
+@property (strong, nonatomic, readonly) NSNumber *applies;
+/**
+ @return a boxed boolean that can be nil if the value doesn't exist or cannot be converted to a NSNumber.
+*/
+@property (strong, nonatomic, readonly) NSNumber *consentGivenToCriteo;
 
 @end
 
