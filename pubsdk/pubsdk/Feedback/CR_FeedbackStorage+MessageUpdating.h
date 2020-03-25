@@ -11,7 +11,7 @@
 
 - (void)setCdbStartForImpressionId:(NSString *)impressionId;
 
-- (void)setCdbEndForImpressionId:(NSString *)impressionId;
+- (void)setCdbEndAndImpressionIdForImpressionId:(NSString *)impressionId;
 
 - (void)setCdbEndAndExpiredForImpressionId:(NSString *)impressionId;
 

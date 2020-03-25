@@ -14,7 +14,7 @@
     }];
 }
 
-- (void)setCdbEndForImpressionId:(NSString *)impressionId {
+- (void)setCdbEndAndImpressionIdForImpressionId:(NSString *)impressionId {
     [self updateMessageWithImpressionId:impressionId by:^(CR_FeedbackMessage *message) {
         message.cdbCallEndTimestamp = [self dateTimeNowInMilliseconds];
         message.impressionId = impressionId;
