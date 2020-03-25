@@ -32,7 +32,6 @@ typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receiv
 - (instancetype) init NS_UNAVAILABLE;
 - (instancetype) initWithNetworkManager:(CR_NetworkManager *)networkManager
                         bidFetchTracker:(CR_BidFetchTracker *)bidFetchTracker
-                        feedbackStorage:(CR_FeedbackStorage *)feedbackStorage
                           threadManager:(CR_ThreadManager *)threadManager NS_DESIGNATED_INITIALIZER;
 
 /*

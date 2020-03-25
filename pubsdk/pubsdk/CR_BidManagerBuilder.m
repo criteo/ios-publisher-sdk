@@ -37,7 +37,6 @@
     if (_apiHandler == nil) {
         _apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:self.networkManager
                                                     bidFetchTracker:self.bidFetchTracker
-                                                    feedbackStorage:self.feedbackStorage
                                                       threadManager:self.threadManager];
     }
     return _apiHandler;
