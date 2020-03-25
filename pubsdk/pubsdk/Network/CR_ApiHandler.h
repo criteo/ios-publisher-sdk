@@ -12,6 +12,7 @@
 #import <Foundation/Foundation.h>
 #import "CR_NetworkManager.h"
 #import "CR_CacheAdUnit.h"
+#import "CR_CdbRequest.h"
 #import "CR_CdbResponse.h"
 #import "CR_CdbRequest.h"
 #import "CR_Config.h"
@@ -23,6 +24,7 @@
 @class CR_ThreadManager;
 
 typedef void (^CR_CdbCompletionHandler)(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error);
+typedef void (^CR_BeforeCdbCall)(CR_CdbRequest *cdbRequest);
 typedef void (^AHConfigResponse)(NSDictionary *configValues);
 typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receivedAt);
 
@@ -43,6 +45,7 @@ typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receiv
           consent:(CR_DataProtectionConsent *)consent
            config:(CR_Config *)config
        deviceInfo:(CR_DeviceInfo *)deviceInfo
+    beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
 completionHandler:(CR_CdbCompletionHandler)completionHandler;
 
 /*

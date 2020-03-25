@@ -143,12 +143,14 @@ NSNumber *NumberFromGdprTcfVersion(CR_GdprTcfVersion version) {
           consent:(CR_DataProtectionConsent *)consent
            config:(CR_Config *)config
        deviceInfo:(CR_DeviceInfo *)deviceInfo
+    beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
 completionHandler:(CR_CdbCompletionHandler)completionHandler {
     [self.threadManager dispatchAsyncOnGlobalQueue:^{
         [self doCdbApiCall:adUnits
                    consent:consent
                     config:config
                 deviceInfo:deviceInfo
+             beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
          completionHandler:completionHandler];
     }];
 }
@@ -158,6 +160,7 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler {
              consent:(CR_DataProtectionConsent *)consent
               config:(CR_Config *)config
           deviceInfo:(CR_DeviceInfo *)deviceInfo
+       beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
    completionHandler:(CR_CdbCompletionHandler)completionHandler {
 
     CR_CacheAdUnitArray *requestAdUnits = [self filterRequestAdUnitsAndSetProgressFlags:adUnits];
@@ -178,6 +181,10 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler {
 
         // Set up the request for this chunk
         postBody[CR_ApiQueryKeys.bidSlots] = [self slotsForCdbRequest:cdbRequest];
+
+        if(beforeCdbCall) {
+            beforeCdbCall(cdbRequest);
+        }
 
         // Send the request
         CLogInfo(@"[INFO][API_] CdbPostCall.start");

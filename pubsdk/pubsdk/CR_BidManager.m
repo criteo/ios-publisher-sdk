@@ -161,6 +161,7 @@
                           consent:self.consent
                            config:self->config
                        deviceInfo:self->deviceInfo
+                    beforeCdbCall:nil
                 completionHandler:^(CR_CdbRequest* cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
                     [self updateTimeToNextCallIfProvided:cdbResponse];
                     for(CR_CdbBid *bid in cdbResponse.cdbBids) {

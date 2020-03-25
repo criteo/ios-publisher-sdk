@@ -79,6 +79,7 @@ do { \
                      consent:self.consentMock
                       config:self.configMock
                   deviceInfo:self.deviceInfoMock
+               beforeCdbCall:nil
         completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
 
        XCTAssertNil(nil);
@@ -104,6 +105,23 @@ do { \
     XCTAssertEqual(slots.count, 1);
     NSString *impId = slots[0][CR_ApiQueryKeys.impId];
     XCTAssertEqual([impId length], 32);
+}
+
+- (void)testCallCdb_ShouldInvokeBeforeCdbCallback {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"beforeCdbCall callback invoked"];
+    CR_CacheAdUnit *adUnit = [self buildCacheAdUnit];
+    [self.apiHandler callCdb:@[adUnit]
+                     consent:self.consentMock
+                      config:self.configMock
+                  deviceInfo:self.deviceInfoMock
+               beforeCdbCall:^(CR_CdbRequest *cdbRequest) {
+        XCTAssertNotNil(cdbRequest);
+        XCTAssertEqual(cdbRequest.adUnits.count, 1);
+        XCTAssertEqualObjects(cdbRequest.adUnits[0], adUnit);
+        [expectation fulfill];
+    }
+        completionHandler:nil];
+    [self criteo_waitForExpectations:@[expectation]];
 }
 
 - (void)testCallCdbWithMultipleAdUnits {
@@ -134,6 +152,7 @@ do { \
                 consent:self.consentMock
                  config:self.configMock
              deviceInfo:self.deviceInfoMock
+          beforeCdbCall:nil
       completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
 
 
@@ -209,6 +228,7 @@ do { \
                 consent:nil
                  config:nil
              deviceInfo:nil
+          beforeCdbCall:nil
       completionHandler:nil];
 }
 
@@ -229,6 +249,7 @@ do { \
                 consent:nil
                  config:nil
              deviceInfo:nil
+          beforeCdbCall:nil
       completionHandler:nil];
     OCMVerifyAllWithDelay(mockBidFetchTracker, 1);
     OCMVerifyAllWithDelay(mockNetworkManager, 1);
@@ -253,6 +274,7 @@ do { \
                 consent:nil
                  config:nil
              deviceInfo:nil
+          beforeCdbCall:nil
       completionHandler:nil];
     OCMVerifyAllWithDelay(mockBidFetchTracker, 1);
 }
@@ -274,6 +296,7 @@ do { \
                 consent:nil
                  config:nil
              deviceInfo:nil
+          beforeCdbCall:nil
       completionHandler:nil];
     OCMVerifyAllWithDelay(mockBidFetchTracker, 1);
 }
@@ -286,6 +309,7 @@ do { \
                          consent:self.consentMock
                           config:self.configMock
                       deviceInfo:self.deviceInfoMock
+                   beforeCdbCall:nil
                completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {}];
     }
 
@@ -591,6 +615,7 @@ do { \
                      consent:nil
                       config:nil
                   deviceInfo:nil
+               beforeCdbCall:nil
            completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
                XCTAssertNil(cdbResponse);
                XCTAssertEqual(error, expectedError);
@@ -665,6 +690,7 @@ do { \
                      consent:self.consentMock
                       config:self.configMock
                   deviceInfo:self.deviceInfoMock
+               beforeCdbCall:nil
         completionHandler:^(CR_CdbRequest * cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
         [expectation fulfill];
     }];
