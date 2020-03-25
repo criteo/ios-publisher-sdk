@@ -11,6 +11,7 @@
 #import "CR_BidManagerHelper.h"
 #import "CR_TargetingKeys.h"
 #import "NSString+CR_Url.h"
+#import "CR_FeedbackStorage+MessageUpdating.h"
 
 @interface CR_BidManager ()
 
@@ -107,6 +108,7 @@
     CR_CdbBid *bid = [cacheManager getBidForAdUnit:slot];
     if(bid) {
         if(bid.isExpired) {
+            [self.feedbackStorage setExpiredForImpressionId:bid.impressionId];
             // immediately invalidate current cache entry if bid is expired
             [cacheManager removeBidForAdUnit:slot];
             if (!self.isInSilenceMode) {
@@ -116,6 +118,7 @@
         } else if (bid.isInSilenceMode) {
             return [CR_CdbBid emptyBid];
         } else {
+            [self.feedbackStorage setElapsedForImpressionId:bid.impressionId];
             // remove it from the cache and consume the good bid
             [cacheManager removeBidForAdUnit:slot];
             if (!self.isInSilenceMode) {
@@ -161,14 +164,53 @@
                           consent:self.consent
                            config:self->config
                        deviceInfo:self->deviceInfo
-                    beforeCdbCall:nil
-                completionHandler:^(CR_CdbRequest* cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
-                    [self updateTimeToNextCallIfProvided:cdbResponse];
-                    for(CR_CdbBid *bid in cdbResponse.cdbBids) {
-                        [self->cacheManager setBid:bid];
-                    }
-                }];
+                    beforeCdbCall:^(CR_CdbRequest *cdbRequest) {
+            [self beforeCdbCall:cdbRequest];
+        }
+                completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
+            if(error) {
+                [self handleError:error cdbRequest:cdbRequest];
+            } else if (cdbResponse) {
+                [self handleResponse:cdbResponse cdbRequest:cdbRequest];
+            }
+        }];
     }];
+}
+
+- (void)beforeCdbCall:(CR_CdbRequest *)cdbRequest {
+    for(NSString *impressionId in cdbRequest.impressionIds) {
+        [self.feedbackStorage setCdbStartForImpressionId:impressionId];
+    }
+}
+
+- (void)handleError:(NSError *)error cdbRequest:(CR_CdbRequest *)cdbRequest {
+    for (NSString *impressionId in cdbRequest.impressionIds) {
+        if (error.code == NSURLErrorTimedOut) {
+            [self.feedbackStorage setTimeoutedForImpressionId:impressionId];
+        } else {
+            [self.feedbackStorage setExpiredForImpressionId:impressionId];
+        }
+    }
+}
+
+- (void)handleResponse:(CR_CdbResponse *)cdbResponse cdbRequest:(CR_CdbRequest *)cdbRequest {
+    [self updateTimeToNextCallIfProvided:cdbResponse];
+    NSArray<NSString *> *impressionIdsWithNoBid = [cdbRequest impressionIdsMissingInCdbResponse:cdbResponse];
+    for (NSString *impressionId in impressionIdsWithNoBid) {
+        [self.feedbackStorage setCdbEndAndExpiredForImpressionId:impressionId];
+    }
+
+    for (CR_CdbBid *bid in cdbResponse.cdbBids) {
+        CR_CacheAdUnit *adUnit = [self->cacheManager setBid:bid];
+        BOOL bidIsValid = adUnit != nil;
+        if (bid.impressionId) {
+            if (bidIsValid) {
+                [self.feedbackStorage setCdbEndAndImpressionIdForImpressionId:bid.impressionId];
+            } else {
+                [self.feedbackStorage setExpiredForImpressionId:bid.impressionId];
+            }
+        }
+    }
 }
 
 - (BOOL)shouldCancelCdbCall {

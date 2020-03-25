@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "CR_CacheAdUnit.h"
 
+@class CR_CdbResponse;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_CdbRequest : NSObject
@@ -22,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype) initWithAdUnits:(CR_CacheAdUnitArray *)adUnits NS_DESIGNATED_INITIALIZER;
 
 -(NSString *)impressionIdForAdUnit:(CR_CacheAdUnit *)adUnit;
+
+- (NSArray<NSString *> *)impressionIdsMissingInCdbResponse:(CR_CdbResponse *)cdbResponse;
 
 @end
 

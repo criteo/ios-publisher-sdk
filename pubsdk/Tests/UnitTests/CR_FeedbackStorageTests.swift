@@ -129,25 +129,44 @@ class CR_FeedbackFileManagingMock: NSObject, CR_FeedbackFileManaging {
     var readRequestedFilenames: [String] = []
 
     var writeFeedbackCallCount: Int = 0
-    var writeFeedbackResults: [CR_FeedbackMessage] = []
+    @objc var writeFeedbackResults: [CR_FeedbackMessage] = []
+    var writeRequestedFilenames: [String] = []
 
     var allActiveFeedbackFilenamesResult: [String] = []
     var removeFileCallCount: Int = 0
+    @objc var removeRequestedFilenames: [String] = []
+
+    @objc var useReadWriteDictionary: Bool = false
+    var readWriteDictionary: Dictionary = Dictionary<String, CR_FeedbackMessage>()
 
     func readFeedback(forFilename filename: String) -> CR_FeedbackMessage? {
-        let res = readFeedbackCallCount < readFeedbackResults.count ? readFeedbackResults[readFeedbackCallCount] : nil
+        var result: CR_FeedbackMessage?
+        if(useReadWriteDictionary) {
+            result = readWriteDictionary[filename]
+        }
+
+        if(result == nil) {
+            result = readFeedbackCallCount < readFeedbackResults.count ? readFeedbackResults[readFeedbackCallCount] : nil;
+        }
+
         readFeedbackCallCount += 1
         readRequestedFilenames.append(filename)
-        return res
+        return result
     }
 
     func writeFeedback(_ feedback: CR_FeedbackMessage, forFilename filename: String) {
         writeFeedbackCallCount += 1
         writeFeedbackResults.append(feedback)
+        writeRequestedFilenames.append(filename)
+
+        if(useReadWriteDictionary) {
+            readWriteDictionary[filename] = feedback;
+        }
     }
 
     func removeFile(forFilename filename: String) {
         removeFileCallCount += 1
+        removeRequestedFilenames.append(filename)
     }
 
     func allActiveFeedbackFilenames() -> [String] {

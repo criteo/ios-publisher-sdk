@@ -405,16 +405,6 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
 #pragma mark - Private
 
-- (void)configureApiHandlerMockCdbCallCompletion:(CR_CdbResponse * _Nullable)cdbResponse error:(NSError * _Nullable)error {
-    id completion = [OCMArg invokeBlockWithArgs:(cdbResponse ? cdbResponse : [NSNull  null]), (error ? error : [NSNull null]), nil];
-    OCMStub([self.apiHandlerMock callCdb:[OCMArg any]
-                                 consent:[OCMArg any]
-                                  config:[OCMArg any]
-                              deviceInfo:[OCMArg any]
-                           beforeCdbCall:nil
-                       completionHandler:completion]);
-}
-
 - (void)_checkMandatoryNativeAssets:(DFPRequest *)dfpBidRequest nativeBid:(CR_CdbBid *)nativeBid {
     CR_NativeAssets *nativeAssets = nativeBid.nativeAssets;
     CR_NativeProduct *firstProduct = nativeAssets.products[0];

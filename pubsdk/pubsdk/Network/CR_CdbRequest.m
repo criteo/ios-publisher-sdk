@@ -7,6 +7,7 @@
 //
 
 #import "CR_CdbRequest.h"
+#import "CR_CdbResponse.h"
 
 @interface CR_CdbRequest ()
 
@@ -40,6 +41,18 @@
 
 - (NSArray<NSString *> *)impressionIds {
     return self.adUnitToImpressionIdMap.allValues;
+}
+
+- (NSArray<NSString *> *)impressionIdsMissingInCdbResponse:(CR_CdbResponse *)cdbResponse {
+    NSMutableArray<NSString *> *cdbRequestBidImpresionIds = [[NSMutableArray alloc] init];
+    for(CR_CdbBid *bid in cdbResponse.cdbBids) {
+        if(bid.impressionId) {
+            [cdbRequestBidImpresionIds addObject:bid.impressionId];
+        }
+    }
+    NSMutableArray<NSString *> *result = [NSMutableArray arrayWithArray:self.impressionIds];
+    [result removeObjectsInArray:cdbRequestBidImpresionIds];
+    return result;
 }
 
 @end
