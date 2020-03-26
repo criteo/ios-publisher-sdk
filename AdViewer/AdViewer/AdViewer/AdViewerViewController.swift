@@ -9,8 +9,9 @@
 import UIKit
 import Eureka
 
-class AdViewerViewController: FormViewController {
-    private let networks = AdNetworks.all
+class AdViewerViewController: FormViewController & InterstitialUpdateDelegate {
+    private lazy var networks = AdNetworks(controller: self)
+    private lazy var defaultNetwork = networks.all.first!
 
     // MARK: form helper properties
     private enum tags: String {
@@ -33,10 +34,9 @@ class AdViewerViewController: FormViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let defaultNetwork = networks[0]
         form = Section("Network")
         <<< SegmentedRow<AdNetwork>(tags.network.rawValue) {
-            $0.options = self.networks
+            $0.options = self.networks.all
             $0.value = $0.options?[0]
             $0.displayValueFor = { network in
                 network?.name
@@ -99,6 +99,10 @@ class AdViewerViewController: FormViewController {
     }
 
     private func displayAd() {
+        //TODO
+    }
+
+    func interstitialUpdated(_ loaded: Bool) {
         //TODO
     }
 }

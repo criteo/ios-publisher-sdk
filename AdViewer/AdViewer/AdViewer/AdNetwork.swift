@@ -7,13 +7,16 @@ struct AdNetwork: Equatable {
     let name: String
     let supportedFormats: [AdFormat]
     let defaultAdUnits: [AdFormat: String]
+    let adViewBuilder: AdViewBuilder
 
     init(name: String,
          supportedFormats: [AdFormat],
-         defaultAdUnits: [AdFormat: String]) {
+         defaultAdUnits: [AdFormat: String],
+         adViewBuilder: AdViewBuilder) {
         self.name = name
         self.supportedFormats = supportedFormats
         self.defaultAdUnits = defaultAdUnits
+        self.adViewBuilder = adViewBuilder
     }
 
     var types: [AdType] {
@@ -38,32 +41,44 @@ struct AdNetwork: Equatable {
 }
 
 struct AdNetworks {
-    static let Google = AdNetwork(name: "Google", supportedFormats: [
-        AdFormat.banner320x50,
-        AdFormat.banner300x250,
-        AdFormat.native,
-        AdFormat.interstitial,
-    ], defaultAdUnits: [
-        AdFormat.banner320x50: "/140800857/Endeavour_320x50",
-        AdFormat.banner300x250: "/140800857/Endeavour_300x250",
-        AdFormat.native: "/140800857/Endeavour_Native",
-        AdFormat.interstitial: "/140800857/Endeavour_Interstitial_320x480",
-    ])
-    static let Mopub = AdNetwork(name: "Mopub", supportedFormats: [
-        AdFormat.banner320x50,
-        AdFormat.banner300x250,
-        AdFormat.interstitial,
-    ], defaultAdUnits: [
-        AdFormat.banner320x50: "bb0577af6858451d8191c2058fe59d03",
-        AdFormat.banner300x250: "69942486c90c4cd4b3c627ba613509a3",
-        AdFormat.interstitial: "966fbbf95ba24ab990e5f037cc674bbc",
-    ])
-    static let Criteo = AdNetwork(name: "Standalone", supportedFormats: [
-        AdFormat.banner320x50,
-        AdFormat.interstitial,
-    ], defaultAdUnits: [
-        AdFormat.banner320x50: "30s6zt3ayypfyemwjvmp",
-        AdFormat.interstitial: "6yws53jyfjgoq1ghnuqb",
-    ])
-    static let all = [Google, Mopub, Criteo]
+    let Google: AdNetwork
+    let Mopub: AdNetwork
+    let Criteo: AdNetwork
+    let all: [AdNetwork]
+
+    init(controller: AdViewController) {
+        self.Google = AdNetwork(name: "Google", supportedFormats: [
+            AdFormat.banner320x50,
+            AdFormat.banner300x250,
+            AdFormat.native,
+            AdFormat.interstitial,
+        ], defaultAdUnits: [
+            AdFormat.banner320x50: "/140800857/Endeavour_320x50",
+            AdFormat.banner300x250: "/140800857/Endeavour_300x250",
+            AdFormat.native: "/140800857/Endeavour_Native",
+            AdFormat.interstitial: "/140800857/Endeavour_Interstitial_320x480",
+        ], adViewBuilder: GoogleAdViewBuilder(controller: controller))
+
+        let mopubBanner320x50AdUnitId = "bb0577af6858451d8191c2058fe59d03"
+        self.Mopub = AdNetwork(name: "Mopub", supportedFormats: [
+            AdFormat.banner320x50,
+            AdFormat.banner300x250,
+            AdFormat.interstitial,
+        ], defaultAdUnits: [
+            AdFormat.banner320x50: mopubBanner320x50AdUnitId,
+            AdFormat.banner300x250: "69942486c90c4cd4b3c627ba613509a3",
+            AdFormat.interstitial: "966fbbf95ba24ab990e5f037cc674bbc",
+        ], adViewBuilder: MopubAdViewBuilder(controller: controller,
+                adUnitIdForAppInitialization: mopubBanner320x50AdUnitId))
+
+        self.Criteo = AdNetwork(name: "Standalone", supportedFormats: [
+            AdFormat.banner320x50,
+            AdFormat.interstitial,
+        ], defaultAdUnits: [
+            AdFormat.banner320x50: "30s6zt3ayypfyemwjvmp",
+            AdFormat.interstitial: "6yws53jyfjgoq1ghnuqb",
+        ], adViewBuilder: StandaloneAdViewBuilder(controller: controller))
+
+        self.all = [Google, Mopub, Criteo]
+    }
 }
