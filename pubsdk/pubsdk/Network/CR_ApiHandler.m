@@ -9,7 +9,9 @@
 #import <WebKit/WebKit.h>
 #import "CR_ApiHandler.h"
 #import "CR_ApiQueryKeys.h"
+#import "CR_BidRequestSerializer.h"
 #import "CR_Gdpr.h"
+#import "CR_GdprSerializer.h"
 #import "Logging.h"
 #import "NSArray+Criteo.h"
 #import "CR_ThreadManager.h"
@@ -17,17 +19,11 @@
 
 static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 
-NSNumber *NumberFromGdprTcfVersion(CR_GdprTcfVersion version) {
-    switch (version) {
-        case CR_GdprTcfVersionUnknown: return nil;
-        case CR_GdprTcfVersion1_1: return @1;
-        case CR_GdprTcfVersion2_0: return @2;
-    }
-}
-
 @interface CR_ApiHandler ()
 
 @property (strong, nonatomic, readonly) CR_ThreadManager *threadManager;
+@property (strong, nonatomic, readonly) CR_BidRequestSerializer *bidRequestSerializer;
+@property (strong, nonatomic, readonly) CR_GdprSerializer *gdprSerializer;
 
 @end
 
@@ -45,6 +41,8 @@ NSNumber *NumberFromGdprTcfVersion(CR_GdprTcfVersion version) {
         _networkManager = networkManager;
         _bidFetchTracker = bidFetchTracker;
         _threadManager = threadManager;
+        _gdprSerializer = [[CR_GdprSerializer alloc] init];
+        _bidRequestSerializer = [[CR_BidRequestSerializer alloc] initWithGdprSerializer:_gdprSerializer];
     }
     return self;
 }
@@ -65,67 +63,6 @@ NSNumber *NumberFromGdprTcfVersion(CR_GdprTcfVersion version) {
     }
 
     return requestAdUnits;
-}
-
-// Create the postBody dictionary for the CDB request
-- (NSMutableDictionary *)postBodyWithConsent:(CR_DataProtectionConsent *)consent
-                                      config:(CR_Config *)config
-                                  deviceInfo:(CR_DeviceInfo *)deviceInfo {
-    NSMutableDictionary *postBody = [NSMutableDictionary new];
-    postBody[CR_ApiQueryKeys.sdkVersion] = config.sdkVersion;
-    postBody[CR_ApiQueryKeys.profileId]  = config.profileId;
-
-
-    NSMutableDictionary *userDict = [NSMutableDictionary new];
-    userDict[CR_ApiQueryKeys.deviceModel]   = config.deviceModel;
-    userDict[CR_ApiQueryKeys.deviceOs]      = config.deviceOs;
-    userDict[CR_ApiQueryKeys.deviceId]      = deviceInfo.deviceId;
-    userDict[CR_ApiQueryKeys.userAgent]     = deviceInfo.userAgent;
-    userDict[CR_ApiQueryKeys.deviceIdType]  = CR_ApiQueryKeys.deviceIdValue;
-
-    if (consent.usPrivacyIabConsentString.length > 0) {
-        userDict[CR_ApiQueryKeys.uspIab] = consent.usPrivacyIabConsentString;
-    }
-    if (consent.usPrivacyCriteoState == CR_CcpaCriteoStateOptIn) {
-        userDict[CR_ApiQueryKeys.uspCriteoOptout] = @NO;
-    } else if (consent.usPrivacyCriteoState == CR_CcpaCriteoStateOptOut) {
-        userDict[CR_ApiQueryKeys.uspCriteoOptout] = @YES;
-    } // else if unknown we add nothing.
-
-    if (consent.mopubConsent.length > 0) {
-        userDict[CR_ApiQueryKeys.mopubConsent] = consent.mopubConsent;
-    }
-    postBody[CR_ApiQueryKeys.user] = userDict;
-
-    NSMutableDictionary *publisher = [NSMutableDictionary new];
-    publisher[CR_ApiQueryKeys.bundleId] = config.appId;
-    publisher[CR_ApiQueryKeys.cpId]     = config.criteoPublisherId;
-    postBody[CR_ApiQueryKeys.publisher] = publisher;
-    postBody[CR_ApiQueryKeys.gdpr]      = [self.class dictionaryForGdpr:consent.gdpr];
-
-    return postBody;
-}
-
-// Create the slots for the CDB request
-- (NSArray *)slotsForCdbRequest:(CR_CdbRequest *)cdbRequest {
-    NSMutableArray *slots = [NSMutableArray new];
-    for (CR_CacheAdUnit *adUnit in cdbRequest.adUnits) {
-        NSMutableDictionary *slotDict = [NSMutableDictionary new];
-        slotDict[CR_ApiQueryKeys.bidSlotsPlacementId] = adUnit.adUnitId;
-        slotDict[CR_ApiQueryKeys.bidSlotsSizes] = @[adUnit.cdbSize];
-        NSString *impressionId = [cdbRequest impressionIdForAdUnit:adUnit];
-        if(impressionId) {
-            slotDict[CR_ApiQueryKeys.impId] = impressionId;
-        }
-        if(adUnit.adUnitType == CRAdUnitTypeNative) {
-            slotDict[CR_ApiQueryKeys.bidSlotsIsNative] = @(YES);
-        }
-        else if(adUnit.adUnitType == CRAdUnitTypeInterstitial) {
-            slotDict[CR_ApiQueryKeys.bidSlotsIsInterstitial] = @(YES);
-        }
-        [slots addObject:slotDict];
-    }
-    return slots;
 }
 
 - (NSDictionary<CR_CacheAdUnit *, NSString *> *)impressionIdsForAdUnits:(CR_CacheAdUnitArray *)adUnits {
@@ -162,33 +99,26 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler {
           deviceInfo:(CR_DeviceInfo *)deviceInfo
        beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
    completionHandler:(CR_CdbCompletionHandler)completionHandler {
-
     CR_CacheAdUnitArray *requestAdUnits = [self filterRequestAdUnitsAndSetProgressFlags:adUnits];
     if (requestAdUnits.count == 0) {
         return;
     }
+
     NSArray<CR_CacheAdUnitArray *> *adUnitChunks = [requestAdUnits splitIntoChunks:maxAdUnitsPerCdbRequest];
-    NSMutableDictionary *postBody = [self postBodyWithConsent:consent
-                                                       config:config
-                                                   deviceInfo:deviceInfo];
-    NSString *query = [NSString stringWithFormat:@"profileId=%@", [config profileId]];
-    NSString *urlString = [NSString stringWithFormat:@"%@/%@?%@", [config cdbUrl], [config path], query];
-    NSURL *url = [NSURL URLWithString: urlString];
-
     for (CR_CacheAdUnitArray *adUnitChunk in adUnitChunks) {
-
         CR_CdbRequest *cdbRequest = [[CR_CdbRequest alloc] initWithAdUnits:adUnitChunk];
-
-        // Set up the request for this chunk
-        postBody[CR_ApiQueryKeys.bidSlots] = [self slotsForCdbRequest:cdbRequest];
 
         if(beforeCdbCall) {
             beforeCdbCall(cdbRequest);
         }
 
-        // Send the request
+        NSURL *url = [self.bidRequestSerializer urlWithConfig:config];
+        NSDictionary *body = [self.bidRequestSerializer bodyWithCdbRequest:cdbRequest
+                                                                   consent:consent
+                                                                    config:config
+                                                                deviceInfo:deviceInfo];
         CLogInfo(@"[INFO][API_] CdbPostCall.start");
-        [self.networkManager postToUrl:url postBody:postBody responseHandler:^(NSData *data, NSError *error) {
+        [self.networkManager postToUrl:url postBody:body responseHandler:^(NSData *data, NSError *error) {
             CLogInfo(@"[INFO][API_] CdbPostCall.finished");
             if (error == nil) {
                 if (data && completionHandler) {
@@ -244,10 +174,10 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler {
                config:(CR_Config *)config
            deviceInfo:(CR_DeviceInfo *)deviceInfo
        ahEventHandler:(AHAppEventsResponse)ahEventHandler {
-    NSString *query = [self.class urlQueryParamsForAppEventWithEvent:event
-                                                             consent:consent
-                                                              config:config
-                                                          deviceInfo:deviceInfo];
+    NSString *query = [self urlQueryParamsForAppEventWithEvent:event
+                                                       consent:consent
+                                                        config:config
+                                                    deviceInfo:deviceInfo];
     NSString *urlString = [NSString stringWithFormat:@"%@/%@?%@",[config appEventsUrl], [config appEventsSenderId], query];
     NSURL *url = [NSURL URLWithString: urlString];
     CLogInfo(@"[INFO][API_] AppEventGetCall.start");
@@ -273,7 +203,7 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler {
 }
 #pragma mark - Private
 
-+ (NSString *)urlQueryParamsForAppEventWithEvent:(NSString *)event
+- (NSString *)urlQueryParamsForAppEventWithEvent:(NSString *)event
                                          consent:(CR_DataProtectionConsent *)consent
                                           config:(CR_Config *)config
                                       deviceInfo:(CR_DeviceInfo *)deviceInfo {
@@ -288,8 +218,8 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler {
     return params;
 }
 
-+ (NSString *)base64EncodedJsonForGdpr:(CR_Gdpr *)gdpr {
-    NSDictionary *jsonObject = [self dictionaryForGdpr:gdpr];
+- (NSString *)base64EncodedJsonForGdpr:(CR_Gdpr *)gdpr {
+    NSDictionary *jsonObject = [self.gdprSerializer dictionaryForGdpr:gdpr];
     if (jsonObject == nil) {
         return nil;
     }
@@ -300,18 +230,6 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler {
     NSAssert(error == nil, @"Impossible to serialized GDPR: %@ - %@", jsonObject, error);
     NSString *encoded = [data base64EncodedStringWithOptions:0];
     return encoded;
-}
-
-+ (NSDictionary *)dictionaryForGdpr:(CR_Gdpr *)gdpr {
-    if (gdpr.tcfVersion == CR_GdprTcfVersionUnknown) {
-        return nil;
-    }
-    NSMutableDictionary *gdprDict = [NSMutableDictionary new];
-    gdprDict[CR_ApiQueryKeys.gdprConsentData] = gdpr.consentString;
-    gdprDict[CR_ApiQueryKeys.gdprApplies] = gdpr.applies;
-    gdprDict[CR_ApiQueryKeys.gdprConsentGiven] = gdpr.consentGivenToCriteo;
-    gdprDict[CR_ApiQueryKeys.gdprVersion] = NumberFromGdprTcfVersion(gdpr.tcfVersion);
-    return gdprDict;
 }
 
 @end

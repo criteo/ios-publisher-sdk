@@ -68,10 +68,6 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler;
  * Exposed for testing only
  */
 - (CR_CacheAdUnitArray *)filterRequestAdUnitsAndSetProgressFlags:(CR_CacheAdUnitArray *)adUnits;
-- (NSMutableDictionary *)postBodyWithConsent:(CR_DataProtectionConsent *)consent
-                                      config:(CR_Config *)config
-                                  deviceInfo:(CR_DeviceInfo *)deviceInfo;
-- (NSArray *)slotsForCdbRequest:(CR_CdbRequest *)cdbRequest;
 
 @end
 
