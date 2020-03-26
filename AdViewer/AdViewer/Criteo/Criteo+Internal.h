@@ -15,6 +15,8 @@
 
 @property (nonatomic) id<NetworkManagerDelegate> networkMangerDelegate;
 
++ (instancetype)criteo;
+
 @end
 
 #endif /* Criteo_Internal_h */
