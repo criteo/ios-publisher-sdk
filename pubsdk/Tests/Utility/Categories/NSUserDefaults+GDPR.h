@@ -13,15 +13,26 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSUserDefaults (GDPR)
 
 - (void)clearGdpr;
-- (void)setGdprTcf1_1DefaultConsentString;
+
+#pragma mark ConsentString
+
 - (void)setGdprTcf1_1ConsentString:(NSString *)consentString;
-- (void)setGdprTcf2_0DefaultConsentString;
 - (void)setGdprTcf2_0ConsentString:(NSString *)consentString;
+
+- (void)setGdprTcf1_1DefaultConsentString;
+- (void)setGdprTcf2_0DefaultConsentString;
+
+#pragma mark GdprApplies
+
 - (void)setGdprTcf1_1GdprApplies:(BOOL)gdprApplies;
 - (void)setGdprTcf2_0GdprApplies:(BOOL)gdprApplies;
+
+#pragma mark VendorConsents
+
 - (void)setGdprTcf1_1DefaultVendorConsents;
-- (void)setGdprTcf1_1VendorConsents:(NSString *)vendorConsents;
 - (void)setGdprTcf2_0DefaultVendorConsents;
+
+- (void)setGdprTcf1_1VendorConsents:(NSString *)vendorConsents;
 - (void)setGdprTcf2_0VendorConsents:(NSString *)vendorConsents;
 
 @end

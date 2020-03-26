@@ -26,16 +26,16 @@
 }
 
 - (void)setGdprTcf1_1ConsentString:(NSString *)consentString {
-    [self setObject:NSString.gdprConsentStringForTcf1_1
+    [self setObject:consentString
              forKey:NSString.gdprConsentStringUserDefaultsKeyTcf1_1];
 }
 
 - (void)setGdprTcf2_0DefaultConsentString {
-    [self setGdprTcf2_0ConsentString:NSString.gdprConsentStringForTcf1_1];
+    [self setGdprTcf2_0ConsentString:NSString.gdprConsentStringForTcf2_0];
 }
 
 - (void)setGdprTcf2_0ConsentString:(NSString *)consentString {
-    [self setObject:NSString.gdprConsentStringForTcf2_0
+    [self setObject:consentString
              forKey:NSString.gdprConsentStringUserDefaultsKeyTcf2_0];
 }
 
