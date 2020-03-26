@@ -14,6 +14,7 @@ class AdViewerViewController: FormViewController & InterstitialUpdateDelegate {
 
     private var adConfig: AdConfig?
     private var criteo: Criteo?
+    private var interstitialView: InterstitialView?
 
     // MARK: form helper properties
     private enum tags: String {
@@ -143,10 +144,32 @@ class AdViewerViewController: FormViewController & InterstitialUpdateDelegate {
     }
 
     private func displayAd() {
-        //TODO
+        if let network = (self.values[tags.network.rawValue] as? AdNetwork),
+           let config = adConfig,
+           let criteo = criteo {
+            let adView = network.adViewBuilder.build(config: config, criteo: criteo)
+            switch (adView) {
+            case .banner(let bannerView):
+                if let adsSection = self.form.sectionBy(tag: tags.ads.rawValue) {
+                    let adRow = ViewRow<UIView>(bannerView.description) { (row) in
+                    }.cellSetup { (cell, row) in
+                        cell.view = bannerView
+                    }
+                    // Note: this is a workaround to missing insert method,
+                    //       to display new ad top first position
+                    let rows = adsSection.allRows
+                    adsSection.replaceSubrange(0..<rows.count, with: [adRow] + rows)
+                }
+
+            case .interstitial(let interstitialView):
+                self.interstitialView = interstitialView
+            }
+        }
     }
 
     func interstitialUpdated(_ loaded: Bool) {
-        //TODO
+        if loaded, let interstitialView = self.interstitialView {
+            interstitialView.present(viewController: self)
+        }
     }
 }
