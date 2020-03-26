@@ -123,11 +123,11 @@ const NSUInteger CR_GDPRConsentCriteoIdentifierInVendorList = 91;
 }
 
 - (NSNumber *)applies {
-    return @YES;
+    return nil;
 }
 
 - (NSNumber *)consentGivenToCriteo {
-    return @NO;
+    return nil;
 }
 
 @end

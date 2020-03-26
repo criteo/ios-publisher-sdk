@@ -303,13 +303,13 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler {
 }
 
 + (NSDictionary *)dictionaryForGdpr:(CR_Gdpr *)gdpr {
-    if ((gdpr.tcfVersion == CR_GdprTcfVersionUnknown) || (gdpr.consentString == nil)) {
+    if (gdpr.tcfVersion == CR_GdprTcfVersionUnknown) {
         return nil;
     }
     NSMutableDictionary *gdprDict = [NSMutableDictionary new];
     gdprDict[CR_ApiQueryKeys.gdprConsentData] = gdpr.consentString;
-    gdprDict[CR_ApiQueryKeys.gdprApplies] = @(gdpr.isApplied);
-    gdprDict[CR_ApiQueryKeys.gdprConsentGiven] = @(gdpr.consentGivenToCriteo);
+    gdprDict[CR_ApiQueryKeys.gdprApplies] = gdpr.applies;
+    gdprDict[CR_ApiQueryKeys.gdprConsentGiven] = gdpr.consentGivenToCriteo;
     gdprDict[CR_ApiQueryKeys.gdprVersion] = NumberFromGdprTcfVersion(gdpr.tcfVersion);
     return gdprDict;
 }

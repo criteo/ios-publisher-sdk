@@ -46,12 +46,12 @@
     return self.selectedVersion.consentString;
 }
 
-- (BOOL)isApplied {
-    return [self.selectedVersion.applies boolValue];
+- (NSNumber *)applies {
+    return self.selectedVersion.applies;
 }
 
-- (BOOL)consentGivenToCriteo {
-    return [self.selectedVersion.consentGivenToCriteo boolValue];
+- (NSNumber *)consentGivenToCriteo {
+    return self.selectedVersion.consentGivenToCriteo;
 }
 
 #pragma mark - Private
@@ -70,11 +70,11 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:
-            @"<%@: %p, tcfVersion: %ld, isApplied: %d, consentString: %@, consentGivenToCriteo: %d >",
+            @"<%@: %p, tcfVersion: %ld, isApplied: %@, consentString: %@, consentGivenToCriteo: %@ >",
             NSStringFromClass(self.class),
             self,
             (long)self.tcfVersion,
-            self.isApplied,
+            self.applies,
             self.consentString,
             self.consentGivenToCriteo
             ];

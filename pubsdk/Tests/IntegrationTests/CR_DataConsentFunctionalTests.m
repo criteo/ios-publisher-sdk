@@ -68,9 +68,7 @@ do { \
 - (void)testGivenGdprV1ConsentStringSet_whenCriteoRegister_thenConsentStringSetInBidRequest {
     NSDictionary *expected = @{
         NSString.gdprVersionKey:      @1,
-        NSString.gdprConsentDataKey:  NSString.gdprConsentStringForTcf1_1,
-        NSString.gdprAppliesKey:      @NO,
-        NSString.gdprConsentGivenKey: @NO
+        NSString.gdprConsentDataKey:  NSString.gdprConsentStringForTcf1_1
     };
     [self.userDefaults setGdprTcf1_1DefaultConsentString];
 

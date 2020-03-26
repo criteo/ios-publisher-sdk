@@ -10,8 +10,8 @@ public class CR_GdprMock: CR_Gdpr {
 
     @objc public var tcfVersionValue: CR_GdprTcfVersion = .versionUnknown
     @objc public var consentStringValue: String? = nil
-    @objc public var isAppliedValue: Bool = false
-    @objc public var consentGivenToCriteoValue: Bool = false
+    @objc public var appliesValue: NSNumber? = NSNumber(booleanLiteral: false)
+    @objc public var consentGivenToCriteoValue: NSNumber? = NSNumber(booleanLiteral: false)
 
     override init(userDefaults: UserDefaults) {
         super.init(userDefaults: userDefaults)
@@ -22,18 +22,18 @@ public class CR_GdprMock: CR_Gdpr {
         case .versionUnknown:
             self.tcfVersionValue = .versionUnknown
             self.consentStringValue = nil
-            self.isAppliedValue = false
-            self.consentGivenToCriteoValue = false
+            self.appliesValue = NSNumber(booleanLiteral: false)
+            self.consentGivenToCriteoValue = NSNumber(booleanLiteral: false)
         case .version1_1:
             self.tcfVersionValue = .version1_1
             self.consentStringValue = NSString.gdprConsentStringForTcf1_1
-            self.isAppliedValue = true
-            self.consentGivenToCriteoValue = true
+            self.appliesValue = NSNumber(booleanLiteral: true)
+            self.consentGivenToCriteoValue = NSNumber(booleanLiteral: true)
         case .version2_0:
             self.tcfVersionValue = .version2_0
             self.consentStringValue = NSString.gdprConsentStringForTcf2_0
-            self.isAppliedValue = true
-            self.consentGivenToCriteoValue = true
+            self.appliesValue = NSNumber(booleanLiteral: true)
+            self.consentGivenToCriteoValue = NSNumber(booleanLiteral: true)
         @unknown default:
             fatalError()
         }
@@ -47,11 +47,11 @@ public class CR_GdprMock: CR_Gdpr {
         return tcfVersionValue
     }
 
-    public override var isApplied: Bool {
-        return isAppliedValue
+    public override var applies: NSNumber? {
+        return appliesValue
     }
 
-    public override var consentGivenToCriteo: Bool {
+    public override var consentGivenToCriteo: NSNumber? {
         return consentGivenToCriteoValue
     }
 

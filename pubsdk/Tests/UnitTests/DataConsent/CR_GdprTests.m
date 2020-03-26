@@ -105,15 +105,14 @@
     XCTAssertEqualObjects(self.gdpr.consentString, NSString.gdprConsentStringForTcf2_0);
 }
 
-#pragma mark - isApplied
+#pragma mark - applies
 
 - (void)testGdprAppliesSimpleCases {
 #define AssertGdprApply(tcfVersion, grpApply) \
 do { \
     [self.userDefaults clearGdpr]; \
-    [self.userDefaults setGdprTcf ## tcfVersion ## DefaultConsentString]; \
     [self.userDefaults setGdprTcf ## tcfVersion ## GdprApplies:grpApply]; \
-    XCTAssertEqual(self.gdpr.isApplied, grpApply); \
+    XCTAssertEqualObjects(self.gdpr.applies, @(grpApply)); \
 } while (0);
 
     AssertGdprApply(1_1, YES);
@@ -124,23 +123,18 @@ do { \
 #undef AssertGdprApply
 }
 
-#pragma mark TCF1
-
 - (void)testGDPRApplyWithNoContentString {
-    XCTAssertTrue(self.gdpr.isApplied);
+    XCTAssertNil(self.gdpr.applies);
 }
 
 - (void)testGDPRApplyEmptyWithContentStringForTcf1_1 {
     [self.userDefaults setGdprTcf1_1DefaultConsentString];
-    XCTAssertFalse(self.gdpr.isApplied);
+    XCTAssertNil(self.gdpr.applies);
 }
-
-#pragma mark TCF2
-
 
 - (void)testGDPRApplyEmptyWithContentStringForTcf2_0 {
     [self.userDefaults setGdprTcf2_0DefaultConsentString];
-    XCTAssertFalse(self.gdpr.isApplied);
+    XCTAssertNil(self.gdpr.applies);
 }
 
 #pragma mark TCF2/TCF2
@@ -149,29 +143,28 @@ do { \
     [self.userDefaults setGdprTcf1_1DefaultConsentString];
     [self.userDefaults setGdprTcf2_0DefaultConsentString];
     [self.userDefaults setGdprTcf2_0GdprApplies:YES];
-    XCTAssertTrue(self.gdpr.isApplied);
+    XCTAssertEqualObjects(self.gdpr.applies, @YES);
 }
 
 - (void)testGDPRApplyTCF1WithContentStringForTcf1_1andTcf2_0 {
     [self.userDefaults setGdprTcf1_1DefaultConsentString];
     [self.userDefaults setGdprTcf2_0DefaultConsentString];
     [self.userDefaults setGdprTcf1_1GdprApplies:YES];
-    XCTAssertFalse(self.gdpr.isApplied);
+    XCTAssertNil(self.gdpr.applies);
 }
 
 #pragma mark - ConsentGivenToCriteo
 
 - (void)testConsentGivenNone {
-    XCTAssertFalse(self.gdpr.consentGivenToCriteo);
+    XCTAssertNil(self.gdpr.consentGivenToCriteo);
 }
 
 - (void)testConsentGivenSimpleCases {
 #define AssertConsentGiven(tcfVersion, vendorConsentString, expectedConsentGiven) \
 do { \
     [self.userDefaults clearGdpr]; \
-    [self.userDefaults setGdprTcf ## tcfVersion ## DefaultConsentString]; \
     [self.userDefaults setGdprTcf ## tcfVersion ## VendorConsents:vendorConsentString]; \
-    XCTAssertEqual(self.gdpr.consentGivenToCriteo, expectedConsentGiven); \
+    XCTAssertEqualObjects(self.gdpr.consentGivenToCriteo, @(expectedConsentGiven)); \
 } while (0);
 
     AssertConsentGiven(1_1, NSString.gdprAllVendorConsentAllowedString, YES);
@@ -182,10 +175,18 @@ do { \
     AssertConsentGiven(2_0, NSString.gdprAllVendorConsentDeniedString, NO);
     AssertConsentGiven(1_1, NSString.gdprOnlyCriteoConsentDeniedString, NO);
     AssertConsentGiven(2_0, NSString.gdprOnlyCriteoConsentDeniedString, NO);
-    AssertConsentGiven(1_1, NSString.gdprVendorConsentShortString, NO);
-    AssertConsentGiven(2_0, NSString.gdprVendorConsentShortString, NO);
 
 #undef AssertConsentGiven
+}
+
+- (void)testTooShortConsentGivenTCF1_1 {
+    [self.userDefaults setGdprTcf1_1VendorConsents:NSString.gdprVendorConsentShortString];
+    XCTAssertNil(self.gdpr.consentGivenToCriteo);
+}
+
+- (void)testTooShortConsentGivenTCF2_0 {
+    [self.userDefaults setGdprTcf2_0VendorConsents:NSString.gdprVendorConsentShortString];
+    XCTAssertNil(self.gdpr.consentGivenToCriteo);
 }
 
 - (void)testConsentTCF2Priority {
@@ -223,28 +224,28 @@ do { \
     [self.userDefaults setObject:[NSDate dateWithTimeIntervalSince1970:0]
                           forKey:NSString.gdprVendorConsentsUserDefaultsKeyTcf1_1];
     XCTAssertNoThrow(self.gdpr.consentGivenToCriteo);
-    XCTAssertFalse(self.gdpr.consentGivenToCriteo);
+    XCTAssertNil(self.gdpr.consentGivenToCriteo);
 }
 
 - (void)testBadVendorTypeInUserDefaultsTcf2_0 {
     [self.userDefaults setObject:[NSDate dateWithTimeIntervalSince1970:0]
                           forKey:NSString.gdprVendorConsentsUserDefaultsKeyTcf2_0];
     XCTAssertNoThrow(self.gdpr.consentGivenToCriteo);
-    XCTAssertFalse(self.gdpr.consentGivenToCriteo);
+    XCTAssertNil(self.gdpr.consentGivenToCriteo);
 }
 
 - (void)testGdprAppliesInUserDefaultsTcf1_1 {
     [self.userDefaults setObject:[NSDate dateWithTimeIntervalSince1970:0]
                           forKey:NSString.gdprAppliesUserDefaultsKeyTcf1_1];
-    XCTAssertNoThrow(self.gdpr.isApplied);
-    XCTAssertTrue(self.gdpr.isApplied);
+    XCTAssertNoThrow(self.gdpr.applies);
+    XCTAssertNil(self.gdpr.applies);
 }
 
 - (void)testGdprAppliesInUserDefaultsTcf2_0 {
     [self.userDefaults setObject:[NSDate dateWithTimeIntervalSince1970:0]
                           forKey:NSString.gdprAppliesUserDefaultsKeyTcf2_0];
-    XCTAssertNoThrow(self.gdpr.isApplied);
-    XCTAssertTrue(self.gdpr.isApplied);
+    XCTAssertNoThrow(self.gdpr.applies);
+    XCTAssertNil(self.gdpr.applies);
 }
 
 @end

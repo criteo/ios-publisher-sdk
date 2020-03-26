@@ -434,15 +434,6 @@ do { \
     XCTAssertNil(self.cdbPayload[NSString.gdprConsentKey]);
 }
 
-- (void)testCdbCallWithNilGdprHasNoGdprKey { // To avoid crash with unvalid GDPR object
-    [self.consentMock.gdprMock configureWithTcfVersion:CR_GdprTcfVersion2_0];
-    self.consentMock.gdprMock.consentStringValue = nil;
-
-    [self callCdb];
-
-    XCTAssertNil(self.cdbPayload[NSString.gdprConsentKey]);
-}
-
 - (void)testCdbCallContainsGdprV2 {
     [self.consentMock.gdprMock configureWithTcfVersion:CR_GdprTcfVersion2_0];
     NSDictionary *expected = @{
@@ -463,6 +454,36 @@ do { \
         NSString.gdprVersionKey:        @1,
         NSString.gdprConsentDataKey:    NSString.gdprConsentStringForTcf1_1,
         NSString.gdprAppliesKey:        @YES,
+        NSString.gdprConsentGivenKey:   @YES
+    };
+
+    [self callCdb];
+
+    XCTAssertEqualObjects(self.cdbPayload[NSString.gdprConsentKey], expected);
+}
+
+- (void)testCdbCallContainsGdprV1WithoutConsentString {
+    [self.consentMock.gdprMock configureWithTcfVersion:CR_GdprTcfVersion1_1];
+    self.consentMock.gdprMock.consentStringValue = nil;
+    NSDictionary *expected = @{
+        // Do not include NSString.gdprConsentDataKey
+        NSString.gdprVersionKey:        @1,
+        NSString.gdprAppliesKey:        @YES,
+        NSString.gdprConsentGivenKey:   @YES
+    };
+
+    [self callCdb];
+
+    XCTAssertEqualObjects(self.cdbPayload[NSString.gdprConsentKey], expected);
+}
+
+- (void)testCdbCallContainsGdprV1WithoutGdprApplies {
+    [self.consentMock.gdprMock configureWithTcfVersion:CR_GdprTcfVersion1_1];
+    self.consentMock.gdprMock.appliesValue = nil;
+    NSDictionary *expected = @{
+        // Do not include NSString.gdprAppliesKey
+        NSString.gdprVersionKey:        @1,
+        NSString.gdprConsentDataKey:    NSString.gdprConsentStringForTcf1_1,
         NSString.gdprConsentGivenKey:   @YES
     };
 
@@ -691,7 +712,7 @@ do { \
                       config:self.configMock
                   deviceInfo:self.deviceInfoMock
                beforeCdbCall:nil
-        completionHandler:^(CR_CdbRequest * cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
+           completionHandler:^(CR_CdbRequest * cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
         [expectation fulfill];
     }];
     [self criteo_waitForExpectations:@[expectation]];

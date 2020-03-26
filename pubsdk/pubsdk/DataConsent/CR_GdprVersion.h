@@ -41,11 +41,11 @@ extern const NSUInteger CR_GDPRConsentCriteoIdentifierInVendorList;
 /**
  @return a boxed boolean that can be nil if the value doesn't exist or cannot be converted to a NSNumber.
  */
-@property (strong, nonatomic, readonly) NSNumber *applies;
+@property (strong, nonatomic, readonly, nullable) NSNumber *applies;
 /**
  @return a boxed boolean that can be nil if the value doesn't exist or cannot be converted to a NSNumber.
 */
-@property (strong, nonatomic, readonly) NSNumber *consentGivenToCriteo;
+@property (strong, nonatomic, readonly, nullable) NSNumber *consentGivenToCriteo;
 
 @end
 

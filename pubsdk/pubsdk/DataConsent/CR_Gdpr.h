@@ -39,14 +39,14 @@ typedef NS_ENUM(NSInteger, CR_GdprTcfVersion) {
 @property (copy, nonatomic, readonly, nullable) NSString *consentString;
 
 /**
- YES if the GDPR is applied on this device.
+ @YES if the GDPR is applied on this device.
  */
-@property (assign, nonatomic, readonly, getter=isApplied) BOOL applied;
+@property (copy, nonatomic, readonly, nullable) NSNumber *applies;
 
 /**
- YES if the consent has been given specifically to Criteo.
+ @YES if the consent has been given specifically to Criteo.
  */
-@property (assign, nonatomic, readonly) BOOL consentGivenToCriteo;
+@property (copy, nonatomic, readonly, nullable) NSNumber *consentGivenToCriteo;
 
 - (instancetype)initWithUserDefaults:(NSUserDefaults *)userDefaults NS_DESIGNATED_INITIALIZER;
 
