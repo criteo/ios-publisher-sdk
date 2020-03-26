@@ -12,6 +12,8 @@ class AdViewerViewController: FormViewController & InterstitialUpdateDelegate {
     private lazy var networks = AdNetworks(controller: self)
     private lazy var defaultNetwork = networks.all.first!
 
+    private var adConfig: AdConfig?
+
     // MARK: form helper properties
     private enum tags: String {
         case network, type, size, ads
@@ -52,6 +54,7 @@ class AdViewerViewController: FormViewController & InterstitialUpdateDelegate {
                     sizeRow.value = sizeRow.options?.first
                     sizeRow.reload()
                 }
+                self.updateAdConfig()
             }
         }
 
@@ -61,6 +64,9 @@ class AdViewerViewController: FormViewController & InterstitialUpdateDelegate {
             $0.value = $0.options?.first
             $0.displayValueFor = {
                 $0?.label()
+            }
+            $0.onChange { _ in
+                self.updateAdConfig()
             }
         }
         <<< SegmentedRow<AdSize>(tags.size.rawValue) {
@@ -83,6 +89,9 @@ class AdViewerViewController: FormViewController & InterstitialUpdateDelegate {
                 }
                 return false
             }
+            $0.onChange { _ in
+                self.updateAdConfig()
+            }
         }
 
         +++ Section()
@@ -95,6 +104,31 @@ class AdViewerViewController: FormViewController & InterstitialUpdateDelegate {
         +++ Section() {
             $0.tag = tags.ads.rawValue
         }
+
+        self.updateAdConfig()
+    }
+
+    private func updateAdConfig() {
+        self.adConfig = buildAdConfig()
+    }
+
+    private func buildAdConfig() -> AdConfig? {
+        if let network = (self.values[tags.network.rawValue] as? AdNetwork),
+           let type = (self.values[tags.type.rawValue] as? AdType) {
+            let size = (self.values[tags.size.rawValue] as? AdSize)
+            // TODO Advanced config
+            let publisherId = "B-056946"
+            let format = AdFormat(type: type, size: size)
+            if let adUnitId = network.defaultAdUnits[format] {
+                return AdConfig(
+                        publisherId: publisherId,
+                        adUnitId: adUnitId,
+                        adFormat: format)
+            } else {
+                return .none
+            }
+        }
+        return .none
     }
 
     private func displayAd() {
