@@ -76,13 +76,14 @@
     XCTAssertEqual([feedbackStorage messagesReadyToSend].count, 0);
 }
 
-- (void)testFetchingBids_ShouldUpdateCdbCallStart {
+- (void)testFetchingBids_ShouldUpdateCdbCallStartAndImpressionId {
     [self configureApiHandlerMockWithCdbRequest:self.cdbRequest cdbResponse:self.cdbResponse error:nil];
     [self.bidManager prefetchBid:self.adUnit];
 
     CR_FeedbackMessage *message = [[self.feedbackFileManagingMock writeFeedbackResults] lastObject];
     XCTAssertNotNil(message);
     XCTAssertNotNil(message.cdbCallStartTimestamp);
+    XCTAssertNotNil(message.impressionId);
 }
 
 - (void)testFetrchingBidsThatIsMissingInResponse_ShouldUpdateCdbCallEnd_AndMoveToSendingQueue {
@@ -106,7 +107,7 @@
     XCTAssertEqual([self.feedbackSendingQueue size], 1);
     CR_FeedbackMessage *message = [self.feedbackSendingQueue peek:1][0];
     XCTAssertNil(message.cdbCallEndTimestamp);
-    XCTAssertTrue(message.isTimeouted);
+    XCTAssertTrue(message.isTimeout);
 }
 
 - (void)testFetching_OtherError_ShouldUpdateTimeoutFlagFalse_AndMoveToSendingQueue {
@@ -118,10 +119,10 @@
     XCTAssertEqual([self.feedbackSendingQueue size], 1);
     CR_FeedbackMessage *message = [self.feedbackSendingQueue peek:1][0];
     XCTAssertNil(message.cdbCallEndTimestamp);
-    XCTAssertFalse(message.isTimeouted);
+    XCTAssertFalse(message.isTimeout);
 }
 
-- (void)testFetchedValidBid_ShouldUpdateCdbCallEndAndImpressionId {
+- (void)testFetchedValidBid_ShouldUpdateCdbCallEndAndCacheBidUsed {
     [self configureApiHandlerMockWithCdbRequest:self.cdbRequest cdbResponse:self.cdbResponse error:nil];
 
     [self.bidManager prefetchBid:self.adUnit];
@@ -129,7 +130,7 @@
     CR_FeedbackMessage *message = [[self.feedbackFileManagingMock writeFeedbackResults] lastObject];
     XCTAssertNotNil(message);
     XCTAssertNotNil(message.cdbCallEndTimestamp);
-    XCTAssertEqualObjects(message.impressionId, self.impressionId);
+    XCTAssertTrue(message.cachedBidUsed);
 }
 
 - (void)testFetchedInvalidBid_ShouldMoveToSendingQueue {

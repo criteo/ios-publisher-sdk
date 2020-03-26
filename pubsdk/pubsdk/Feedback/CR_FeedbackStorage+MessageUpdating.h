@@ -9,9 +9,9 @@
 
 @interface CR_FeedbackStorage (MessageUpdating)
 
-- (void)setCdbStartForImpressionId:(NSString *)impressionId;
+- (void)setCdbStartAndImpressionIdForImpressionId:(NSString *)impressionId;
 
-- (void)setCdbEndAndImpressionIdForImpressionId:(NSString *)impressionId;
+- (void)setCdbEndAndCacheBidUsedIdForImpressionId:(NSString *)impressionId;
 
 - (void)setCdbEndAndExpiredForImpressionId:(NSString *)impressionId;
 
@@ -19,6 +19,6 @@
 
 - (void)setExpiredForImpressionId:(NSString *)impressionId;
 
-- (void)setTimeoutedForImpressionId:(NSString *)impressionId;
+- (void)setTimeoutForImpressionId:(NSString *)impressionId;
 
 @end

@@ -179,14 +179,14 @@
 
 - (void)beforeCdbCall:(CR_CdbRequest *)cdbRequest {
     for(NSString *impressionId in cdbRequest.impressionIds) {
-        [self.feedbackStorage setCdbStartForImpressionId:impressionId];
+        [self.feedbackStorage setCdbStartAndImpressionIdForImpressionId:impressionId];
     }
 }
 
 - (void)handleError:(NSError *)error cdbRequest:(CR_CdbRequest *)cdbRequest {
     for (NSString *impressionId in cdbRequest.impressionIds) {
         if (error.code == NSURLErrorTimedOut) {
-            [self.feedbackStorage setTimeoutedForImpressionId:impressionId];
+            [self.feedbackStorage setTimeoutForImpressionId:impressionId];
         } else {
             [self.feedbackStorage setExpiredForImpressionId:impressionId];
         }
@@ -205,7 +205,7 @@
         BOOL bidIsValid = adUnit != nil;
         if (bid.impressionId) {
             if (bidIsValid) {
-                [self.feedbackStorage setCdbEndAndImpressionIdForImpressionId:bid.impressionId];
+                [self.feedbackStorage setCdbEndAndCacheBidUsedIdForImpressionId:bid.impressionId];
             } else {
                 [self.feedbackStorage setExpiredForImpressionId:bid.impressionId];
             }

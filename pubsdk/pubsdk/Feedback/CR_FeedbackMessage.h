@@ -16,8 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(strong, nonatomic) NSNumber *cdbCallStartTimestamp;
 @property(strong, nonatomic) NSNumber *cdbCallEndTimestamp;
 @property(strong, nonatomic) NSNumber *elapsedTimestamp;
-@property(assign, nonatomic, getter=isTimeouted) BOOL timeouted;
+@property(assign, nonatomic, getter=isTimeout) BOOL timeout;
 @property(assign, nonatomic, getter=isExpired) BOOL expired;
+@property(assign, nonatomic) BOOL cachedBidUsed;
 @property(assign, nonatomic, getter=isReadyToSend, readonly) BOOL readyToSend;
 
 @end

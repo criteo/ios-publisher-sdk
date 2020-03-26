@@ -8,16 +8,17 @@
 
 @implementation CR_FeedbackStorage (MessageUpdating)
 
-- (void)setCdbStartForImpressionId:(NSString *)impressionId {
+- (void)setCdbStartAndImpressionIdForImpressionId:(NSString *)impressionId {
     [self updateMessageWithImpressionId:impressionId by:^(CR_FeedbackMessage *message) {
         message.cdbCallStartTimestamp = [self dateTimeNowInMilliseconds];
+        message.impressionId = impressionId;
     }];
 }
 
-- (void)setCdbEndAndImpressionIdForImpressionId:(NSString *)impressionId {
+- (void)setCdbEndAndCacheBidUsedIdForImpressionId:(NSString *)impressionId {
     [self updateMessageWithImpressionId:impressionId by:^(CR_FeedbackMessage *message) {
         message.cdbCallEndTimestamp = [self dateTimeNowInMilliseconds];
-        message.impressionId = impressionId;
+        message.cachedBidUsed = YES;
     }];
 }
 
@@ -40,9 +41,9 @@
     }];
 }
 
-- (void)setTimeoutedForImpressionId:(NSString *)impressionId {
+- (void)setTimeoutForImpressionId:(NSString *)impressionId {
     [self updateMessageWithImpressionId:impressionId by:^(CR_FeedbackMessage *message) {
-        message.timeouted = YES;
+        message.timeout = YES;
     }];
 }
 

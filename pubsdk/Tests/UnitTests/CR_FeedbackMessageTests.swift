@@ -58,7 +58,7 @@ class CR_FeedbackMessageTests : XCTestCase {
 
     func testMessageWithTimeoutIsReadyToSend() {
         let message = CR_FeedbackMessage()
-        message.isTimeouted = true
+        message.isTimeout = true
         XCTAssertTrue(message.isReadyToSend)
     }
 
@@ -71,7 +71,7 @@ class CR_FeedbackMessageTests : XCTestCase {
     private func createPartialFilledFeedbackMessage() -> CR_FeedbackMessage {
         let result = CR_FeedbackMessage()
         result.cdbCallStartTimestamp = 100
-        result.isTimeouted = true
+        result.isTimeout = true
         return result
     }
 
@@ -81,7 +81,7 @@ class CR_FeedbackMessageTests : XCTestCase {
         result.cdbCallStartTimestamp = 100;
         result.cdbCallEndTimestamp = 200;
         result.elapsedTimestamp = 300;
-        result.isTimeouted = true;
+        result.isTimeout = true;
         result.isExpired = true;
         return result
     }

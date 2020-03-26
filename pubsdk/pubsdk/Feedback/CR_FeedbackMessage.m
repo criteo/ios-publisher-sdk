@@ -17,8 +17,9 @@
     [coder encodeObject:self.cdbCallStartTimestamp forKey:@"cdbCallStartTimestamp"];
     [coder encodeObject:self.cdbCallEndTimestamp forKey:@"cdbCallEndTimestamp"];
     [coder encodeObject:self.elapsedTimestamp forKey:@"elapsedTimestamp"];
-    [coder encodeBool:self.timeouted forKey:@"isTimeouted"];
-    [coder encodeBool:self.expired forKey:@"isExpired"];
+    [coder encodeBool:self.timeout forKey:@"timeout"];
+    [coder encodeBool:self.expired forKey:@"expired"];
+    [coder encodeBool:self.cachedBidUsed forKey:@"cachedBidUsed"];
 }
 
 - (nullable instancetype)initWithCoder:(nonnull NSCoder *)coder {
@@ -27,25 +28,27 @@
         self.cdbCallStartTimestamp = [coder decodeObjectOfClass:NSNumber.class forKey:@"cdbCallStartTimestamp"];
         self.cdbCallEndTimestamp = [coder decodeObjectOfClass:NSNumber.class forKey:@"cdbCallEndTimestamp"];
         self.elapsedTimestamp = [coder decodeObjectOfClass:NSNumber.class forKey:@"elapsedTimestamp"];
-        self.timeouted = [coder decodeBoolForKey:@"isTimeouted"];
-        self.expired = [coder decodeBoolForKey:@"isExpired"];
+        self.timeout = [coder decodeBoolForKey:@"timeout"];
+        self.expired = [coder decodeBoolForKey:@"expired"];
+        self.cachedBidUsed = [coder decodeBoolForKey:@"cachedBidUsed"];
     }
     return self;
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"{\n\t%@\t%@\t%@\t%@\t%@\t%@}",
+    return [NSString stringWithFormat:@"{\n\t%@\t%@\t%@\t%@\t%@\t%@\t%@}",
                                       [NSString stringWithFormat:@"impressionId: %@\n", self.impressionId],
                                       [NSString stringWithFormat:@"cdbCallStartTimestamp: %@\n", self.cdbCallStartTimestamp],
                                       [NSString stringWithFormat:@"cdbCallEndTimestamp: %@\n", self.cdbCallEndTimestamp],
                                       [NSString stringWithFormat:@"elapsedTimestamp: %@\n", self.elapsedTimestamp],
-                                      [NSString stringWithFormat:@"isTimeouted: %@\n", @(self.timeouted)],
-                                      [NSString stringWithFormat:@"isExpired: %@\n", @(self.expired)]
+                                      [NSString stringWithFormat:@"timeout: %@\n", @(self.timeout)],
+                                      [NSString stringWithFormat:@"expired: %@\n", @(self.expired)],
+                                      [NSString stringWithFormat:@"cachedBidUsed: %@\n", @(self.cachedBidUsed)]
     ];
 }
 
 - (BOOL)isReadyToSend {
-    return self.elapsedTimestamp != nil || self.expired || self.timeouted;
+    return self.elapsedTimestamp != nil || self.expired || self.timeout;
 }
 
 #pragma mark - NSSecureCoding
@@ -75,8 +78,9 @@
          [self.elapsedTimestamp isEqualToNumber:other.elapsedTimestamp]);
 
     return impIdEq && cdbStEq && cdbEndEq && elpTimeEq &&
-        self.timeouted == other.timeouted &&
-        self.expired == other.expired;
+        self.timeout == other.timeout &&
+        self.expired == other.expired &&
+        self.cachedBidUsed == other.cachedBidUsed;
 }
 
 - (BOOL)isEqual:(id)object {
@@ -92,14 +96,16 @@
 }
 
 - (NSUInteger)hash {
-    NSUInteger timeoutedHash = [@(self.timeouted) unsignedIntegerValue];
+    NSUInteger timeoutHash = [@(self.timeout) unsignedIntegerValue];
     NSUInteger expiredHash = [@(self.expired) unsignedIntegerValue];
+    NSUInteger cachedBidUsed = [@(self.cachedBidUsed) unsignedIntegerValue];
     return [self.impressionId hash] << 1 ^
         [self.cdbCallStartTimestamp hash] << 2 ^
         [self.cdbCallEndTimestamp hash] << 3 ^
         [self.elapsedTimestamp hash] << 4 ^
         expiredHash << 5 ^
-        timeoutedHash << 6;
+        timeoutHash << 6 ^
+        cachedBidUsed << 7;
 }
 
 @end
