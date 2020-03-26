@@ -6,7 +6,6 @@
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 
-import UIKit
 import Eureka
 
 class AdViewerViewController: FormViewController & InterstitialUpdateDelegate {
@@ -37,7 +36,7 @@ class AdViewerViewController: FormViewController & InterstitialUpdateDelegate {
         form = Section("Network")
         <<< SegmentedRow<AdNetwork>(tags.network.rawValue) {
             $0.options = self.networks.all
-            $0.value = $0.options?[0]
+            $0.value = $0.options?.first
             $0.displayValueFor = { network in
                 network?.name
             }
@@ -46,11 +45,11 @@ class AdViewerViewController: FormViewController & InterstitialUpdateDelegate {
                    let typeRow: SegmentedRow<AdType> = self.form.rowBy(tag: tags.type.rawValue),
                    let sizeRow: SegmentedRow<AdSize> = self.form.rowBy(tag: tags.size.rawValue) {
                     typeRow.options = network.types
-                    typeRow.value = typeRow.options?[0]
+                    typeRow.value = typeRow.options?.first
                     typeRow.reload()
                     let sizes: [AdSize] = network.sizes(type: typeRow.value!)
                     sizeRow.options = sizes
-                    sizeRow.value = sizeRow.options?[0]
+                    sizeRow.value = sizeRow.options?.first
                     sizeRow.reload()
                 }
             }
@@ -59,14 +58,14 @@ class AdViewerViewController: FormViewController & InterstitialUpdateDelegate {
         +++ Section("Format")
         <<< SegmentedRow<AdType>(tags.type.rawValue) {
             $0.options = defaultNetwork.types
-            $0.value = $0.options?[0]
+            $0.value = $0.options?.first
             $0.displayValueFor = {
                 $0?.label()
             }
         }
         <<< SegmentedRow<AdSize>(tags.size.rawValue) {
             $0.options = defaultNetwork.sizes(type: .banner)
-            $0.value = $0.options?[0]
+            $0.value = $0.options?.first
             $0.displayValueFor = {
                 $0?.label()
             }
