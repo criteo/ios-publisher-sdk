@@ -4,4 +4,6 @@
 
 #import <UIKit/UIKit.h>
 
+@import CriteoPublisherSdk;
+
 #import "LogManager.h"

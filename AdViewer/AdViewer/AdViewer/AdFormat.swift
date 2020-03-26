@@ -25,7 +25,7 @@ enum AdSize: Int {
         }
     }
 
-    func cgSize() -> CGSize? {
+    func cgSize() -> CGSize {
         switch self {
         case ._320x50:
             return CGSize(width: 320, height: 50)
