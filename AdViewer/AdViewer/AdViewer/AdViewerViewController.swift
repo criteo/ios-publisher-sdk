@@ -13,6 +13,7 @@ class AdViewerViewController: FormViewController & InterstitialUpdateDelegate {
     private lazy var defaultNetwork = networks.all.first!
 
     private var adConfig: AdConfig?
+    private var criteo: Criteo?
 
     // MARK: form helper properties
     private enum tags: String {
@@ -109,7 +110,10 @@ class AdViewerViewController: FormViewController & InterstitialUpdateDelegate {
     }
 
     private func updateAdConfig() {
-        self.adConfig = buildAdConfig()
+        if let adConfig = buildAdConfig() {
+            self.adConfig = adConfig
+            self.criteo = buildCriteo(adConfig: adConfig)
+        }
     }
 
     private func buildAdConfig() -> AdConfig? {
@@ -129,6 +133,13 @@ class AdViewerViewController: FormViewController & InterstitialUpdateDelegate {
             }
         }
         return .none
+    }
+
+    private func buildCriteo(adConfig: AdConfig) -> Criteo {
+        let criteo = Criteo()!
+        criteo.networkMangerDelegate = LogManager.sharedInstance()
+        criteo.registerPublisherId(adConfig.publisherId, with: [adConfig.adUnit])
+        return criteo
     }
 
     private func displayAd() {
