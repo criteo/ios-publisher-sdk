@@ -4,6 +4,13 @@
 
 #import <UIKit/UIKit.h>
 
+#import <MoPub.h>
+
 @import CriteoPublisherSdk;
 
 #import "LogManager.h"
+#import "GoogleDFPLogger.h"
+#import "MopubLogger.h"
+#import "StandaloneLogger.h"
+
+#import "InterstitialUpdateDelegate.h"
