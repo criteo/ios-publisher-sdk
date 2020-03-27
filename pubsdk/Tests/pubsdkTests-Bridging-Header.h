@@ -9,5 +9,7 @@
 #import "CR_CacheAdUnit.h"
 #import <Cassette.h>
 #import "CR_Gdpr.h"
+#import "CR_GdprSerializer.h"
 #import "NSString+GDPR.h"
+#import "NSString+APIKeys.h"
 

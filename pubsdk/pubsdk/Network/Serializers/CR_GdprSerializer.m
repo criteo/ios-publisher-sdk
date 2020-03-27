@@ -12,11 +12,11 @@
 
 @implementation CR_GdprSerializer
 
-- (NSDictionary *)dictionaryForGdpr:(CR_Gdpr *)gdpr {
+- (nullable NSDictionary<NSString *, NSObject *> *)dictionaryForGdpr:(CR_Gdpr *)gdpr {
     if (gdpr.tcfVersion == CR_GdprTcfVersionUnknown) {
         return nil;
     }
-    NSMutableDictionary *gdprDict = [NSMutableDictionary new];
+    NSMutableDictionary<NSString *, NSObject *> *gdprDict = [NSMutableDictionary new];
     gdprDict[CR_ApiQueryKeys.gdprConsentData] = gdpr.consentString;
     gdprDict[CR_ApiQueryKeys.gdprApplies] = gdpr.applies;
     gdprDict[CR_ApiQueryKeys.gdprConsentGiven] = gdpr.consentGivenToCriteo;

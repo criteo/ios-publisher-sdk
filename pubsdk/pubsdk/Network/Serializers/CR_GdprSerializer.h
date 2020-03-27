@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_GdprSerializer : NSObject
 
-- (NSDictionary *)dictionaryForGdpr:(CR_Gdpr *)gdpr;
+- (nullable NSDictionary<NSString *, NSObject *> *)dictionaryForGdpr:(CR_Gdpr *)gdpr;
 
 @end
 
