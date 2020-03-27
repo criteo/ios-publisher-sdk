@@ -1,5 +1,5 @@
 PODS:
-  - Eureka (4.3.1)
+  - Eureka (5.2.1)
   - Google-Mobile-Ads-SDK (7.59.0):
     - GoogleAppMeasurement (~> 6.0)
   - GoogleAppMeasurement (6.5.0):
@@ -47,7 +47,7 @@ PODS:
   - PromisesObjC (1.2.8)
 
 DEPENDENCIES:
-  - Eureka (~> 4.3)
+  - Eureka
   - Google-Mobile-Ads-SDK
   - mopub-ios-sdk
 
@@ -62,7 +62,7 @@ SPEC REPOS:
     - PromisesObjC
 
 SPEC CHECKSUMS:
-  Eureka: 28ea296f06710f6745266b71f17862048941a32d
+  Eureka: c883105488e05bc65539f583246ecf9657cabbfe
   Google-Mobile-Ads-SDK: 118217ac8b80e28aabe0c00aedab1cd885857776
   GoogleAppMeasurement: 4c644d86835d827bab30ab6aabb9ecaf1f500735
   GoogleUtilities: 39530bc0ad980530298e9c4af8549e991fd033b1
@@ -70,6 +70,6 @@ SPEC CHECKSUMS:
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
 
-PODFILE CHECKSUM: b8dfeda6f505e257ffe1dff838b1c57d72d2370c
+PODFILE CHECKSUM: 5b6f566721ab8b57b3e27e0a0335eb873e7262e6
 
 COCOAPODS: 1.7.5

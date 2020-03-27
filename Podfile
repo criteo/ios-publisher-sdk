@@ -7,7 +7,7 @@ target 'AdViewer' do
   # pod 'CriteoPublisherSdk' # to get published SDK
   pod 'mopub-ios-sdk'
   pod 'Google-Mobile-Ads-SDK'
-  pod 'Eureka', '~> 4.3'
+  pod 'Eureka'
 end
 
 post_install do |installer|
