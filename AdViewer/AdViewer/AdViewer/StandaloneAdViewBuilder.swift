@@ -13,23 +13,23 @@ class StandaloneAdViewBuilder: AdViewBuilder {
     func build(config: AdConfig, criteo: Criteo) -> AdView {
         switch (config.adFormat.type) {
         case .banner:
-            return .banner(buildBanner(adUnit: config.adUnit))
+            return .banner(buildBanner(adUnit: config.adUnit, criteo: criteo))
         case .interstitial:
-            return .interstitial(buildInterstitial(adUnit: config.adUnit))
+            return .interstitial(buildInterstitial(adUnit: config.adUnit, criteo: criteo))
         case _:
             fatalError("Unsupported")
         }
     }
 
-    private func buildBanner(adUnit: CRAdUnit) -> CRBannerView {
-        let adView = CRBannerView(adUnit: adUnit as! CRBannerAdUnit)
+    private func buildBanner(adUnit: CRAdUnit, criteo: Criteo) -> CRBannerView {
+        let adView = CRBannerView(adUnit: adUnit as? CRBannerAdUnit, criteo: criteo)!
         adView.delegate = logger
         adView.loadAd()
         return adView
     }
 
-    private func buildInterstitial(adUnit: CRAdUnit) -> CRInterstitial {
-        let adView = CRInterstitial(adUnit: adUnit as! CRInterstitialAdUnit)
+    private func buildInterstitial(adUnit: CRAdUnit, criteo: Criteo) -> CRInterstitial {
+        let adView = CRInterstitial(adUnit: adUnit as? CRInterstitialAdUnit, criteo: criteo)!
         adView.delegate = logger
         adView.loadAd()
         return adView

@@ -10,13 +10,25 @@
 #define Criteo_Internal_h
 
 #import "NetworkManagerDelegate.h"
+#import <CriteoPublisherSdk/CRInterstitial.h>
+#import <CriteoPublisherSdk/CRBannerView.h>
+
+@class Criteo;
 
 @interface Criteo ()
 
-@property (nonatomic) id<NetworkManagerDelegate> networkMangerDelegate;
+@property (nonatomic) id <NetworkManagerDelegate> networkMangerDelegate;
 
 + (instancetype)criteo;
 
+@end
+
+@interface CRInterstitial ()
+- (instancetype)initWithAdUnit:(CRInterstitialAdUnit *)adUnit criteo:(Criteo *)criteo;
+@end
+
+@interface CRBannerView ()
+- (instancetype)initWithAdUnit:(CRBannerAdUnit *)adUnit criteo:(Criteo *)criteo;
 @end
 
 #endif /* Criteo_Internal_h */
