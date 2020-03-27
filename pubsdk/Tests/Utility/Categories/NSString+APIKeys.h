@@ -16,6 +16,23 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark General
 
 @property (copy, nonatomic, class, readonly) NSString *userKey;
+@property (copy, nonatomic, class, readonly) NSString *sdkVersionKey;
+@property (copy, nonatomic, class, readonly) NSString *publisherKey;
+@property (copy, nonatomic, class, readonly) NSString *profileIdKey;
+
+#pragma mark Publisher
+
+@property (copy, nonatomic, class, readonly) NSString *bundleIdKey;
+@property (copy, nonatomic, class, readonly) NSString *cpIdKey;
+
+#pragma mark User
+
+@property (copy, nonatomic, class, readonly) NSString *userAgentKey;
+@property (copy, nonatomic, class, readonly) NSString *deviceIdKey;
+@property (copy, nonatomic, class, readonly) NSString *deviceOsKey;
+@property (copy, nonatomic, class, readonly) NSString *deviceModelKey;
+@property (copy, nonatomic, class, readonly) NSString *deviceIdTypeKey;
+@property (copy, nonatomic, class, readonly) NSString *deviceIdTypeValue;
 
 #pragma mark GDPR
 

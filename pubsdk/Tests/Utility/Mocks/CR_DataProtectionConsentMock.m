@@ -12,10 +12,16 @@
 NSString * const CR_DataProtectionConsentMockDefaultConsentString = @"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u__7m_-zzV4-_lrQV1yPA1OrZArgEA";
 NSString * const CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString = @"1YNN";
 
+@interface CR_DataProtectionConsentMock ()
+
+@property (nonatomic, copy, nullable) NSString *mopubConsent_mock;
+@property (nonatomic, assign) CR_CcpaCriteoState criteoState_mock;
+
+@end
+
 @implementation CR_DataProtectionConsentMock
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         _gdprMock = [[CR_GdprMock alloc] init];
@@ -29,14 +35,30 @@ NSString * const CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString = 
     return self.gdprMock;
 }
 
-- (BOOL)isAdTrackingEnabled
-{
+- (BOOL)isAdTrackingEnabled {
     return self.isAdTrackingEnabled_mock;
 }
 
-- (NSString *)usPrivacyIabConsentString
-{
+- (NSString *)usPrivacyIabConsentString {
     return self.usPrivacyIabConsentString_mock;
+}
+
+#pragma mark - Override for avoiding NSUserDefaults
+
+- (NSString *)mopubConsent {
+    return self.mopubConsent_mock;
+}
+
+- (void)setMopubConsent:(NSString *)mopubConsent {
+    self.mopubConsent_mock = mopubConsent;
+}
+
+- (CR_CcpaCriteoState)usPrivacyCriteoState {
+    return self.criteoState_mock;
+}
+
+- (void)setUsPrivacyCriteoState:(CR_CcpaCriteoState)usPrivacyCriteoState {
+    self.criteoState_mock = usPrivacyCriteoState;
 }
 
 @end
