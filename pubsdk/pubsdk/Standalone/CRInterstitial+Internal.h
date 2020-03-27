@@ -32,6 +32,9 @@
                     isAdLoaded:(BOOL)isAdLoaded
                         adUnit:(CRAdUnit *)adUnit;
 
+- (instancetype)initWithAdUnit:(CRInterstitialAdUnit *)adUnit
+                        criteo:(Criteo *)criteo;
+
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
 decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler;
 

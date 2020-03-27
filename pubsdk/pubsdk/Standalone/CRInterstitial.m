@@ -44,10 +44,15 @@
 }
 
 - (instancetype)initWithAdUnit:(CRInterstitialAdUnit *)adUnit {
+    return [self initWithAdUnit:adUnit criteo:[Criteo sharedCriteo]];
+}
+
+- (instancetype)initWithAdUnit:(CRInterstitialAdUnit *)adUnit
+                        criteo:(Criteo *)criteo {
     WKWebViewConfiguration *webViewConfiguration = [[WKWebViewConfiguration alloc] init];
     webViewConfiguration.allowsInlineMediaPlayback = YES;
     WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:webViewConfiguration];
-    return [self initWithCriteo:[Criteo sharedCriteo]
+    return [self initWithCriteo:criteo
                  viewController:[[CR_InterstitialViewController alloc] initWithWebView:webView
                                                                                   view:nil
                                                                           interstitial:self]

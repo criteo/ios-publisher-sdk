@@ -18,6 +18,9 @@
                   application:(UIApplication *)application
                        adUnit:(CRBannerAdUnit *)adUnit;
 
+- (instancetype)initWithAdUnit:(CRBannerAdUnit *)adUnit
+                        criteo:(Criteo *)criteo;
+
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
 decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler;
 
