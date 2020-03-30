@@ -8,7 +8,7 @@
 
 import Eureka
 
-class AdViewerViewController: FormViewController & InterstitialUpdateDelegate {
+class AdViewerViewController: FormViewController {
     private lazy var networks = AdNetworks(controller: self)
     private lazy var defaultNetwork = networks.all.first!
 
@@ -166,7 +166,9 @@ class AdViewerViewController: FormViewController & InterstitialUpdateDelegate {
             }
         }
     }
+}
 
+extension AdViewerViewController: InterstitialUpdateDelegate {
     func interstitialUpdated(_ loaded: Bool) {
         if loaded, let interstitialView = self.interstitialView {
             interstitialView.present(viewController: self)
