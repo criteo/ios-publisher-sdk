@@ -2,6 +2,8 @@
 set +x
 set -Eeuo pipefail
 
+export LANG=en_US.UTF-8
+
 rm -rf build/output
 mkdir -p build/output/sim
 

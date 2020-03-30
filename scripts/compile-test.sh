@@ -6,6 +6,8 @@
 set +x
 set -Eeuo pipefail
 
+export LANG=en_US.UTF-8
+
 SCRIPT_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
 ROOT_PATH="${SCRIPT_PATH}/.."
 FUJI_PATH="${ROOT_PATH}/AdViewer/CriteoPublisherSdk.framework"
