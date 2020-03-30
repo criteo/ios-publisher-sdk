@@ -7,12 +7,17 @@
 //
 
 #import <XCTest/XCTest.h>
+
+#import "CR_AdUnitHelper.h"
 #import "CR_ApiHandler.h"
 #import "CR_BidManagerBuilder.h"
 #import "CR_Config.h"
 #import "CR_DataProtectionConsentMock.h"
 #import "CR_DeviceInfo.h"
+#import "CR_TestAdUnits.h"
 #import "Criteo+Testing.h"
+#import "NSString+GDPR.h"
+#import "pubsdkTests-Swift.h"
 #import "XCTestCase+Criteo.h"
 
 /**
@@ -27,6 +32,7 @@
 @property (strong, nonatomic) CR_Config *config;
 @property (strong, nonatomic) CR_DataProtectionConsentMock *consentMock;
 @property (strong, nonatomic) CR_DeviceInfo *deviceInfo;
+@property (strong, nonatomic) CR_CacheAdUnit *demoCacheAdUnit;
 
 @end
 
@@ -38,6 +44,9 @@
     self.config = [CR_Config configForPreprodWithCriteoPublisherId:CriteoTestingPublisherId];
     CR_BidManagerBuilder *builder = [[CR_BidManagerBuilder alloc] init];
     self.apiHandler = builder.apiHandler;
+
+    CRBannerAdUnit *banner = [CR_TestAdUnits demoBanner320x50];
+    self.demoCacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:banner];
 }
 
 - (void)testSendAppEvent {
@@ -49,6 +58,55 @@
                    ahEventHandler:^(NSDictionary *appEventValues, NSDate *receivedAt) {
         [expectation fulfill];
     }];
+    [self criteo_waitForExpectations:@[expectation]];
+}
+
+#pragma mark - Call CDB
+
+- (void)testSendValidBidRequest {
+    [self callCdbWithCacheAdUnit:self.demoCacheAdUnit
+               completionHandler:^(CR_CdbRequest *cdbRequest,
+                                   CR_CdbResponse *cdbResponse,
+                                   NSError *error) {
+        XCTAssertEqual(cdbResponse.cdbBids.count, 1);
+        XCTAssertNil(error);
+    }];
+}
+
+- (void)testSendValidBidRequestWithGdpr {
+    self.consentMock.gdprMock.appliesValue = @YES;
+    self.consentMock.gdprMock.consentStringValue = NSString.gdprConsentStringForTcf2_0;
+
+    [self callCdbWithCacheAdUnit:self.demoCacheAdUnit
+               completionHandler:^(CR_CdbRequest *cdbRequest,
+                                   CR_CdbResponse *cdbResponse,
+                                   NSError *error) {
+        XCTAssertEqual(cdbResponse.cdbBids.count, 1);
+        XCTAssertNil(error);
+    }];
+}
+
+#pragma mark - Private
+
+- (void)callCdbWithCacheAdUnit:(CR_CacheAdUnit *)cacheAdUnit
+             completionHandler:(CR_CdbCompletionHandler)completionHandler {
+    XCTestExpectation *expectation = [self expectationWithDescription:
+                                      @"Bid webservice didn't call the completion handler"];
+
+    [self.apiHandler callCdb:@[cacheAdUnit]
+                     consent:self.consentMock
+                      config:self.config
+                  deviceInfo:self.deviceInfo
+               beforeCdbCall:nil
+           completionHandler:^(CR_CdbRequest *cdbRequest,
+                               CR_CdbResponse *cdbResponse,
+                               NSError *error) {
+        if (completionHandler) {
+            completionHandler(cdbRequest, cdbResponse, error);
+        }
+        [expectation fulfill];
+    }];
+
     [self criteo_waitForExpectations:@[expectation]];
 }
 
