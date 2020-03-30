@@ -19,6 +19,7 @@
 #import "CR_DataProtectionConsent.h"
 #import "CR_DeviceInfo.h"
 #import "CR_BidFetchTracker.h"
+#import "CR_FeedbackMessage.h"
 
 @class CR_FeedbackStorage;
 @class CR_ThreadManager;
@@ -27,6 +28,7 @@ typedef void (^CR_CdbCompletionHandler)(CR_CdbRequest *cdbRequest, CR_CdbRespons
 typedef void (^CR_BeforeCdbCall)(CR_CdbRequest *cdbRequest);
 typedef void (^AHConfigResponse)(NSDictionary *configValues);
 typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receivedAt);
+typedef void (^CR_CsmCompletionHandler)(NSError *error);
 
 @interface CR_ApiHandler : NSObject
 @property (strong, nonatomic) CR_NetworkManager *networkManager;
@@ -63,6 +65,13 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler;
                config:(CR_Config *) config
            deviceInfo:(CR_DeviceInfo *) deviceInfo
        ahEventHandler:(AHAppEventsResponse) ahEventHandler;
+
+/**
+ * Calls CSM endpoint and send collected metrics
+ */
+- (void)sendFeedbackMessages:(NSArray<CR_FeedbackMessage *> *)messages
+                      config:(CR_Config *)config
+           completionHandler:(CR_CsmCompletionHandler)completionHandler;
 
 /**
  * Exposed for testing only

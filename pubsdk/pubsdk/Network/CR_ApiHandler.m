@@ -16,6 +16,7 @@
 #import "NSArray+Criteo.h"
 #import "CR_ThreadManager.h"
 #import "NSString+CR_Url.h"
+#import "CR_FeedbacksSerializer.h"
 
 static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 
@@ -24,6 +25,7 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 @property (strong, nonatomic, readonly) CR_ThreadManager *threadManager;
 @property (strong, nonatomic, readonly) CR_BidRequestSerializer *bidRequestSerializer;
 @property (strong, nonatomic, readonly) CR_GdprSerializer *gdprSerializer;
+@property (strong, nonatomic, readonly) CR_FeedbacksSerializer *feedbackSerializer;
 
 @end
 
@@ -43,6 +45,7 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
         _threadManager = threadManager;
         _gdprSerializer = [[CR_GdprSerializer alloc] init];
         _bidRequestSerializer = [[CR_BidRequestSerializer alloc] initWithGdprSerializer:_gdprSerializer];
+        _feedbackSerializer = [[CR_FeedbacksSerializer alloc] init];
     }
     return self;
 }
@@ -200,6 +203,22 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler {
         }
     }];
 }
+
+- (void)sendFeedbackMessages:(NSArray<CR_FeedbackMessage *> *)messages
+                      config:(CR_Config *)config
+           completionHandler:(CR_CsmCompletionHandler)completionHandler {
+
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@", [config cdbUrl], [config csmPath]];
+    NSURL *url = [NSURL URLWithString:urlString];
+
+    NSDictionary *postBody = [self.feedbackSerializer postBodyForCsm:messages config:config];
+    [self.networkManager postToUrl:url postBody:postBody responseHandler:^(NSData *data, NSError *error) {
+        if (completionHandler) {
+            completionHandler(error);
+        }
+    }];
+}
+
 #pragma mark - Private
 
 - (NSString *)urlQueryParamsForAppEventWithEvent:(NSString *)event

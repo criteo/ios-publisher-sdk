@@ -33,6 +33,7 @@ FOUNDATION_EXTERN NSString * const CR_ConfigPreprodConfigurationUrl;
 @property (copy, nonatomic, readonly) NSNumber *profileId;
 @property (copy, nonatomic, readonly) NSString *cdbUrl;
 @property (copy, nonatomic, readonly) NSString *path;
+@property (copy, nonatomic, readonly) NSString *csmPath;
 @property (copy, nonatomic, readonly) NSString *sdkVersion;
 @property (copy, nonatomic, readonly) NSString *appId;
 @property (nonatomic) BOOL killSwitch;

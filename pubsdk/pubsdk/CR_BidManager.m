@@ -175,6 +175,8 @@
             }
         }];
     }];
+
+    [self sendFeedbackMessages];
 }
 
 - (void)beforeCdbCall:(CR_CdbRequest *)cdbRequest {
@@ -231,6 +233,22 @@
         self->cdbTimeToNextCall = [[NSDate dateWithTimeIntervalSinceNow:cdbResponse.timeToNextCall]
             timeIntervalSinceReferenceDate];
     }
+}
+
+- (void)sendFeedbackMessages {
+    NSArray<CR_FeedbackMessage *> *feedbackMessages = [self.feedbackStorage messagesReadyToSend];
+    if (feedbackMessages.count == 0) {
+        return;
+    }
+    [self->apiHandler sendFeedbackMessages:feedbackMessages
+                                    config:self->config
+                         completionHandler:^(NSError *error) {
+                             if (error) {
+                                 CLog(@"CSM sending was failed with error: %@", error.localizedDescription);
+                             } else {
+                                 [self.feedbackStorage removeFirstMessagesWithCount:feedbackMessages.count];
+                             }
+                         }];
 }
 
 - (void) refreshConfig {

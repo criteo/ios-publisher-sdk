@@ -19,4 +19,6 @@
 
 #import "NSString+GDPR.h"
 #import "NSString+APIKeys.h"
+#import "CR_FeedbacksSerializer.h"
+#import "CR_Config.h"
 

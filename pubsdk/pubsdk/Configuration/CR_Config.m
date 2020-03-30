@@ -44,6 +44,7 @@ NSString * const CR_ConfigPreprodConfigurationUrl = @"https://gum.par.preprod.cr
         _profileId = @(235);
         _cdbUrl = [cdbUrl copy];
         _path = @"inapp/v2";
+        _csmPath = @"csm";
         _sdkVersion = @"3.4.0";
         _appId = [[NSBundle mainBundle] bundleIdentifier];
         _killSwitch = [[NSUserDefaults standardUserDefaults] boolForKey:NSUserDefaultsKillSwitchKey];
