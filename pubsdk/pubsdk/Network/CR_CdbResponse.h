@@ -16,16 +16,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_CdbResponse : NSObject
 
-@property (nonatomic, nullable) NSArray<CR_CdbBid *> *cdbBids;
-@property (nonatomic) NSUInteger timeToNextCall;
-@property (nonatomic) NSDate *responseTime;
+@property (copy, nonatomic, nullable) NSArray<CR_CdbBid *> *cdbBids;
+@property (assign, nonatomic) NSUInteger timeToNextCall;
+@property (copy, nonatomic) NSDate *responseTime;
 
-/*
+/**
  * Helper function to convert NSData returned from a network call
- * to a CR_CdbResponse object
+ * to a CR_CdbResponse object.
+ *
+ * @return a CR_CdbResponse or nil if the parameters are nil.
  */
-+ (CR_CdbResponse *) getCdbResponseForData: (NSData *) data
-                             receivedAt: (NSDate *) receivedAt;
++ (nullable CR_CdbResponse *)responseWithData:(nullable NSData *)data
+                                   receivedAt:(nullable NSDate *)receivedAt;
 
 @end
 

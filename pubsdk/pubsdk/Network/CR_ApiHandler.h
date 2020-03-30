@@ -37,9 +37,9 @@ typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receiv
                         bidFetchTracker:(CR_BidFetchTracker *)bidFetchTracker
                           threadManager:(CR_ThreadManager *)threadManager NS_DESIGNATED_INITIALIZER;
 
-/*
+/**
  * Calls CDB and get the bid & creative for the adUnit
- * adUnit must have an Id, width and length
+ * adUnit must have an Id, width and length.
  */
 - (void)  callCdb:(CR_CacheAdUnitArray *)adUnits
           consent:(CR_DataProtectionConsent *)consent
@@ -48,14 +48,14 @@ typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receiv
     beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
 completionHandler:(CR_CdbCompletionHandler)completionHandler;
 
-/*
+/**
  * Calls the pub-sdk config endpoint and gets the config values for the publisher
  * NetworkId, AppId/BundleId, sdkVersion must be present in the config
  */
 - (void) getConfig: (CR_Config *) config
    ahConfigHandler:(AHConfigResponse) ahConfigHandler;
 
-/*
+/**
  * Calls the app event endpoint and gets the throttleSec value for the user
  */
 - (void) sendAppEvent: (NSString *)event
@@ -64,7 +64,7 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler;
            deviceInfo:(CR_DeviceInfo *) deviceInfo
        ahEventHandler:(AHAppEventsResponse) ahEventHandler;
 
-/*
+/**
  * Exposed for testing only
  */
 - (CR_CacheAdUnitArray *)filterRequestAdUnitsAndSetProgressFlags:(CR_CacheAdUnitArray *)adUnits;

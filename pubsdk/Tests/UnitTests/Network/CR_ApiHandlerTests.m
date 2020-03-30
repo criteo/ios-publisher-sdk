@@ -384,6 +384,17 @@ do { \
     XCTAssertEqualObjects(self.cdbPayload[CR_ApiQueryKeys.user], expected);
 }
 
+- (void)testCdbCallWithNoDataAndNoError {
+    self.networkManagerMock.postResponseData = nil;
+    self.networkManagerMock.postResponseError = nil;
+
+    [self callCdbWithCompletionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
+        XCTAssertNotNil(cdbRequest);
+        XCTAssertNil(cdbResponse);
+        XCTAssertNil(error);
+    }];
+}
+
 #pragma mark GDPR
 
 - (void)testCdbCallContainsGdprUnknown {
@@ -664,6 +675,10 @@ do { \
 }
 
 - (void)callCdb {
+    [self callCdbWithCompletionHandler:nil];
+}
+
+- (void)callCdbWithCompletionHandler:(CR_CdbCompletionHandler)completionHandler {
     XCTestExpectation *expectation = [[XCTestExpectation alloc] init];
     [self.apiHandler callCdb:@[[self buildCacheAdUnit]]
                      consent:self.consentMock
@@ -671,8 +686,11 @@ do { \
                   deviceInfo:self.deviceInfoMock
                beforeCdbCall:nil
            completionHandler:^(CR_CdbRequest * cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
-        [expectation fulfill];
-    }];
+               if (completionHandler) {
+                   completionHandler(cdbRequest, cdbResponse, error);
+               }
+               [expectation fulfill];
+           }];
     [self criteo_waitForExpectations:@[expectation]];
 }
 

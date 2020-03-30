@@ -121,11 +121,10 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler {
         [self.networkManager postToUrl:url postBody:body responseHandler:^(NSData *data, NSError *error) {
             CLogInfo(@"[INFO][API_] CdbPostCall.finished");
             if (error == nil) {
-                if (data && completionHandler) {
-                    CR_CdbResponse *cdbResponse = [CR_CdbResponse getCdbResponseForData:data receivedAt:[NSDate date]];
+                if (completionHandler) {
+                    CR_CdbResponse *cdbResponse = [CR_CdbResponse responseWithData:data
+                                                                        receivedAt:[NSDate date]];
                     completionHandler(cdbRequest, cdbResponse, error);
-                } else {
-                    CLog(@"Error on post to CDB : response from CDB was nil");
                 }
             } else {
                 CLog(@"Error on post to CDB : %@", error);

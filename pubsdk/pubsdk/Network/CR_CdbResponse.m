@@ -19,7 +19,12 @@
     return self;
 }
 
-+ (CR_CdbResponse *)getCdbResponseForData:(NSData *)data receivedAt:(NSDate *)receivedAt {
++ (nullable CR_CdbResponse *)responseWithData:(nullable NSData *)data
+                                   receivedAt:(nullable NSDate *)receivedAt {
+    if ((data == nil) || (receivedAt == nil)) {
+        return nil;
+    }
+
     CR_CdbResponse *cdbResponse = [[CR_CdbResponse alloc] init];
     cdbResponse.responseTime = receivedAt;
     cdbResponse.cdbBids = [CR_CdbBid getCdbResponsesForData:data receivedAt:receivedAt];
