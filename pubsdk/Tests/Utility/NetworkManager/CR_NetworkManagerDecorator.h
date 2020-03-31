@@ -12,12 +12,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, CR_NetworkManagerDecoratorStrategy) {
-    CR_NetworkManagerDecoratorStrategySimulating,
-    CR_NetworkManagerDecoratorStrategyCapturing,
-    CR_NetworkManagerDecoratorStrategyCapturingAndRecording
-};
-
 @interface CR_NetworkManagerDecorator : NSObject
 
 @property (nonatomic, assign, getter=isSimulating) BOOL simulating;
