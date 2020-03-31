@@ -21,6 +21,8 @@
 #import "CR_CdbBidBuilder.h"
 #import "CR_DeviceInfoMock.h"
 #import "CR_FeedbackStorage+Internal.h"
+#import "CR_FeedbackFileManager.h"
+#import "pubsdkTests-Swift.h"
 
 static NSString * const CR_BidManagerTestsCpm = @"crt_cpm";
 static NSString * const CR_BidManagerTestsDisplayUrl = @"crt_displayUrl";
@@ -79,11 +81,18 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     self.configManagerMock = OCMClassMock([CR_ConfigManager class]);
     self.apiHandlerMock = OCMClassMock([CR_ApiHandler class]);
 
+    CR_FeedbackFileManagingMock *feedbackFileManagingMock = [[CR_FeedbackFileManagingMock alloc] init];
+    feedbackFileManagingMock.useReadWriteDictionary = YES;
+    CASInMemoryObjectQueue *feedbackSendingQueue = [[CASInMemoryObjectQueue alloc] init];
+    CR_FeedbackStorage *feedbackStorage = [[CR_FeedbackStorage alloc] initWithFileManager:feedbackFileManagingMock
+                                                                                withQueue:feedbackSendingQueue];
+
     CR_BidManagerBuilder *builder = [[CR_BidManagerBuilder alloc] init];
     builder.configManager = self.configManagerMock;
     builder.cacheManager = self.cacheManager;
     builder.apiHandler = self.apiHandlerMock;
     builder.deviceInfo = self.deviceInfoMock;
+    builder.feedbackStorage = feedbackStorage;
 
     self.builder = builder;
     self.bidManager = [builder buildBidManager];
