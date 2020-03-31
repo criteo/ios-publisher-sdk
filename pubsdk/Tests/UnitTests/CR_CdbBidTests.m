@@ -31,11 +31,9 @@
     self.now = [NSDate date];
 
     NSURL *jsonURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"SampleBid" withExtension:@"json"];
-    NSLog(@"SampleBid.json URL: %@", jsonURL);
 
     NSString *jsonText = [NSString stringWithContentsOfURL:jsonURL encoding:NSUTF8StringEncoding error:&e];
     if (e) { XCTFail(@"%@", e); }
-    NSLog(@"SampleBid.json contents: %@", jsonText);
 
     self.jsonData = [jsonText dataUsingEncoding:NSUTF8StringEncoding];
     if (e) { XCTFail(@"%@", e); }
