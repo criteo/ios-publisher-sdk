@@ -21,4 +21,5 @@
 #import "NSString+APIKeys.h"
 #import "CR_FeedbacksSerializer.h"
 #import "CR_Config.h"
+#import "CR_UniqueIdGenerator.h"
 
