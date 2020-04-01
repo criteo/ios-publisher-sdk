@@ -14,22 +14,11 @@ NS_ASSUME_NONNULL_BEGIN
 // Specifications: https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#what-does-the-gdprapplies-value-mean
 extern NSString * const CR_GdprAppliesForTcf2_0Key;
 extern NSString * const CR_GdprConsentStringForTcf2_0Key;
-extern NSString * const CR_GdprVendorConsentsForTcf2_0Key;
 
 // TCF v1.1 keys
 // Specifications: https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/Mobile%20In-App%20Consent%20APIs%20v1.0%20Final.md#cmp-internal-structure-defined-api-
 extern NSString * const CR_GdprSubjectToGdprForTcf1_1Key;
 extern NSString * const CR_GdprConsentStringForTcf1_1Key;
-extern NSString * const CR_GdprVendorConsentsForTcf1_1Key;
-
-/**
- Position of Criteo in the VendorList.
-
- Vendor List: https://vendorlist.consensu.org/vendorlist.json
-
- What is a Global Vendor List is: https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#what-is-the-global-vendor-list
- */
-extern const NSUInteger CR_GDPRConsentCriteoIdentifierInVendorList;
 
 @protocol CR_GdprVersion <NSObject>
 
@@ -42,10 +31,6 @@ extern const NSUInteger CR_GDPRConsentCriteoIdentifierInVendorList;
  @return a boxed boolean that can be nil if the value doesn't exist or cannot be converted to a NSNumber.
  */
 @property (strong, nonatomic, readonly, nullable) NSNumber *applies;
-/**
- @return a boxed boolean that can be nil if the value doesn't exist or cannot be converted to a NSNumber.
-*/
-@property (strong, nonatomic, readonly, nullable) NSNumber *consentGivenToCriteo;
 
 @end
 
@@ -56,7 +41,6 @@ extern const NSUInteger CR_GDPRConsentCriteoIdentifierInVendorList;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithConsentStringKey:(NSString *)constantStringKey
-                       vendorConsentsKey:(NSString *)vendorConsentsKey
                               appliesKey:(NSString *)appliesKey
                               tcfVersion:(CR_GdprTcfVersion)tcfVersion
                             userDefaults:(NSUserDefaults *)userDefaults NS_DESIGNATED_INITIALIZER;

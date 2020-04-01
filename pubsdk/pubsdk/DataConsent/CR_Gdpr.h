@@ -43,11 +43,6 @@ typedef NS_ENUM(NSInteger, CR_GdprTcfVersion) {
  */
 @property (copy, nonatomic, readonly, nullable) NSNumber *applies;
 
-/**
- @YES if the consent has been given specifically to Criteo.
- */
-@property (copy, nonatomic, readonly, nullable) NSNumber *consentGivenToCriteo;
-
 - (instancetype)initWithUserDefaults:(NSUserDefaults *)userDefaults NS_DESIGNATED_INITIALIZER;
 
 @end

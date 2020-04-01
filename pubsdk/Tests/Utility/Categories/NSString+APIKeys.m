@@ -78,10 +78,6 @@
     return @"version";
 }
 
-+ (NSString *)gdprConsentGivenKey {
-    return @"consentGiven";
-}
-
 + (NSString *)gdprConsentDataKey {
     return @"consentData";
 }

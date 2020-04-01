@@ -38,38 +38,6 @@ const NSUInteger NSStringGdprCriteoIdentifierInVendorList = 91;
     return @"IABTCF_gdprApplies";
 }
 
-#pragma mark - VendorConsent
-
-+ (NSString *)gdprOnlyCriteoConsentAllowedString {
-    NSRange range = (NSRange) { NSStringGdprCriteoIdentifierInVendorList - 1, 1 };
-    return [self.gdprAllVendorConsentDeniedString stringByReplacingCharactersInRange:range
-                                                                          withString:@"1"];
-}
-
-+ (NSString *)gdprOnlyCriteoConsentDeniedString {
-    NSRange range = (NSRange) { NSStringGdprCriteoIdentifierInVendorList - 1, 1 };
-    return [self.gdprAllVendorConsentAllowedString stringByReplacingCharactersInRange:range
-                                                                          withString:@"0"];
-}
-
-+ (NSString *)gdprAllVendorConsentAllowedString {
-    return [@"" stringByPaddingToLength:NSStringGdprCriteoIdentifierInVendorList
-                             withString:@"1"
-                        startingAtIndex:0];
-}
-
-+ (NSString *)gdprAllVendorConsentDeniedString {
-    return [@"" stringByPaddingToLength:NSStringGdprCriteoIdentifierInVendorList
-                             withString:@"0"
-                        startingAtIndex:0];
-}
-
-+ (NSString *)gdprVendorConsentShortString {
-    return [@"" stringByPaddingToLength:NSStringGdprCriteoIdentifierInVendorList / 2
-                             withString:@"1"
-                        startingAtIndex:0];
-}
-
 #pragma mark - ConsentString
 
 + (NSString *)gdprConsentStringForTcf1_1 {

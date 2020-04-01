@@ -26,7 +26,6 @@
 @property (class, nonatomic, readonly) NSString *eventType;
 @property (class, nonatomic, readonly) NSString *gdpr;
 @property (class, nonatomic, readonly) NSString *gdprApplies;
-@property (class, nonatomic, readonly) NSString *gdprConsentGiven;
 @property (class, nonatomic, readonly) NSString *gdprConsentData;
 @property (class, nonatomic, readonly) NSString *gdprVersion;
 @property (class, nonatomic, readonly) NSString *idfa;

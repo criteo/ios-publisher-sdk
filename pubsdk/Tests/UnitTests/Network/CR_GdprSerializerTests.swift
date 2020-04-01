@@ -26,8 +26,7 @@ class CR_GdprSerializerTests: XCTestCase {
         let expected: [String: AnyHashable]? = [
             NSString.gdprVersionKey: 1,
             NSString.gdprConsentDataKey: NSString.gdprConsentStringForTcf1_1,
-            NSString.gdprAppliesKey: true,
-            NSString.gdprConsentGivenKey: true
+            NSString.gdprAppliesKey: true
         ];
 
         let actual = self.serializer.dictionary(for: self.gdpr)
@@ -41,8 +40,7 @@ class CR_GdprSerializerTests: XCTestCase {
         let expected: [String: AnyHashable]? = [
             NSString.gdprVersionKey: 2,
             NSString.gdprConsentDataKey: NSString.gdprConsentStringForTcf2_0,
-            NSString.gdprAppliesKey: true,
-            NSString.gdprConsentGivenKey: true
+            NSString.gdprAppliesKey: true
         ];
 
         let actual = self.serializer.dictionary(for: self.gdpr)
@@ -56,7 +54,6 @@ class CR_GdprSerializerTests: XCTestCase {
         let expected: [String: AnyHashable]? = [
             NSString.gdprVersionKey: 2,
             NSString.gdprAppliesKey: true,
-            NSString.gdprConsentGivenKey: true
             // No NSString.gdprConsentDataKey
         ];
 
@@ -71,23 +68,7 @@ class CR_GdprSerializerTests: XCTestCase {
         let expected: [String: AnyHashable]? = [
             NSString.gdprVersionKey: 2,
             NSString.gdprConsentDataKey: NSString.gdprConsentStringForTcf2_0,
-            NSString.gdprConsentGivenKey: true
             // No NSString.gdprAppliesKey
-        ];
-
-        let actual = self.serializer.dictionary(for: self.gdpr)
-
-        XCTAssertEqual(actual, expected)
-    }
-
-    func testNoConsentGiven() {
-        self.gdpr.configure(tcfVersion: .version2_0)
-        self.gdpr.consentGivenToCriteoValue = nil
-        let expected: [String: AnyHashable]? = [
-            NSString.gdprVersionKey: 2,
-            NSString.gdprConsentDataKey: NSString.gdprConsentStringForTcf2_0,
-            NSString.gdprAppliesKey: true
-            // No NSString.gdprConsentGivenKey
         ];
 
         let actual = self.serializer.dictionary(for: self.gdpr)

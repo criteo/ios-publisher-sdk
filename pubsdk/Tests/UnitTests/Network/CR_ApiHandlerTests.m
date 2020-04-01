@@ -408,8 +408,7 @@ do { \
     NSDictionary *expected = @{
         NSString.gdprVersionKey:        @2,
         NSString.gdprConsentDataKey:    NSString.gdprConsentStringForTcf2_0,
-        NSString.gdprAppliesKey:        @YES,
-        NSString.gdprConsentGivenKey:   @YES
+        NSString.gdprAppliesKey:        @YES
     };
 
     [self callCdb];
@@ -422,8 +421,7 @@ do { \
     NSDictionary *expected = @{
         NSString.gdprVersionKey:        @1,
         NSString.gdprConsentDataKey:    NSString.gdprConsentStringForTcf1_1,
-        NSString.gdprAppliesKey:        @YES,
-        NSString.gdprConsentGivenKey:   @YES
+        NSString.gdprAppliesKey:        @YES
     };
 
     [self callCdb];
@@ -437,8 +435,7 @@ do { \
     NSDictionary *expected = @{
         // Do not include NSString.gdprConsentDataKey
         NSString.gdprVersionKey:        @1,
-        NSString.gdprAppliesKey:        @YES,
-        NSString.gdprConsentGivenKey:   @YES
+        NSString.gdprAppliesKey:        @YES
     };
 
     [self callCdb];
@@ -452,8 +449,7 @@ do { \
     NSDictionary *expected = @{
         // Do not include NSString.gdprAppliesKey
         NSString.gdprVersionKey:        @1,
-        NSString.gdprConsentDataKey:    NSString.gdprConsentStringForTcf1_1,
-        NSString.gdprConsentGivenKey:   @YES
+        NSString.gdprConsentDataKey:    NSString.gdprConsentStringForTcf1_1
     };
 
     [self callCdb];
@@ -582,11 +578,11 @@ do { \
 
 - (void)testSendAppEventUrlWithGdpr {
     // GDPR -> JSON -> Base64 -> URL encoding
-    // {"consentGiven":true,"consentData":"ssds","gdprApplies":true,"version":1}
+    // {"consentData":"ssds","gdprApplies":true,"version":1}
     // encoded by https://www.base64encode.org/ (for being neutral) gives:
-    // eyJjb25zZW50R2l2ZW4iOnRydWUsImNvbnNlbnREYXRhIjoic3NkcyIsImdkcHJBcHBsaWVzIjp0cnVlLCJ2ZXJzaW9uIjoxfQ==
+    // eyJjb25zZW50RGF0YSI6InNzZHMiLCJnZHByQXBwbGllcyI6dHJ1ZSwidmVyc2lvbiI6MX0=
     // encoded by https://www.urlencoder.org/ gives:
-    NSString *expectedGdprJsonBase64 = @"eyJjb25zZW50R2l2ZW4iOnRydWUsImNvbnNlbnREYXRhIjoic3NkcyIsImdkcHJBcHBsaWVzIjp0cnVlLCJ2ZXJzaW9uIjoxfQ%3D%3D";
+    NSString *expectedGdprJsonBase64 = @"eyJjb25zZW50RGF0YSI6InNzZHMiLCJnZHByQXBwbGllcyI6dHJ1ZSwidmVyc2lvbiI6MX0%3D";
     [self.consentMock.gdprMock configureWithTcfVersion:CR_GdprTcfVersion1_1];
     self.consentMock.gdprMock.consentStringValue = @"ssds"; // To have escaped chars from base64 to URL encoding.
     

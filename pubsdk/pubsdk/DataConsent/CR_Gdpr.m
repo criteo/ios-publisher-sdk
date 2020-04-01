@@ -50,10 +50,6 @@
     return self.selectedVersion.applies;
 }
 
-- (NSNumber *)consentGivenToCriteo {
-    return self.selectedVersion.consentGivenToCriteo;
-}
-
 #pragma mark - Private
 
 - (id<CR_GdprVersion>)selectedVersion {
@@ -70,13 +66,12 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:
-            @"<%@: %p, tcfVersion: %ld, isApplied: %@, consentString: %@, consentGivenToCriteo: %@ >",
+            @"<%@: %p, tcfVersion: %ld, isApplied: %@, consentString: %@>",
             NSStringFromClass(self.class),
             self,
             (long)self.tcfVersion,
             self.applies,
-            self.consentString,
-            self.consentGivenToCriteo
+            self.consentString
             ];
 }
 

@@ -15,10 +15,8 @@
 - (void)clearGdpr {
     [self removeObjectForKey:NSString.gdprAppliesUserDefaultsKeyTcf2_0];
     [self removeObjectForKey:NSString.gdprConsentStringUserDefaultsKeyTcf2_0];
-    [self removeObjectForKey:NSString.gdprVendorConsentsUserDefaultsKeyTcf2_0];
     [self removeObjectForKey:NSString.gdprAppliesUserDefaultsKeyTcf1_1];
     [self removeObjectForKey:NSString.gdprConsentStringUserDefaultsKeyTcf1_1];
-    [self removeObjectForKey:NSString.gdprVendorConsentsUserDefaultsKeyTcf1_1];
 }
 
 - (void)setGdprTcf1_1DefaultConsentString {
@@ -47,24 +45,6 @@
 - (void)setGdprTcf2_0GdprApplies:(BOOL)gdprApplies {
     [self setBool:gdprApplies
            forKey:NSString.gdprAppliesUserDefaultsKeyTcf2_0];
-}
-
-- (void)setGdprTcf1_1DefaultVendorConsents {
-    [self setGdprTcf1_1VendorConsents:NSString.gdprOnlyCriteoConsentAllowedString];
-}
-
-- (void)setGdprTcf1_1VendorConsents:(NSString *)vendorConsents {
-    [self setObject:vendorConsents
-             forKey:NSString.gdprVendorConsentsUserDefaultsKeyTcf1_1];
-}
-
-- (void)setGdprTcf2_0DefaultVendorConsents {
-    [self setGdprTcf2_0VendorConsents:NSString.gdprOnlyCriteoConsentAllowedString];
-}
-
-- (void)setGdprTcf2_0VendorConsents:(NSString *)vendorConsents {
-    [self setObject:vendorConsents
-             forKey:NSString.gdprVendorConsentsUserDefaultsKeyTcf2_0];
 }
 
 @end

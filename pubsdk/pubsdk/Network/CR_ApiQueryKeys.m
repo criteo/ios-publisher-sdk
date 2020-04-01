@@ -27,7 +27,6 @@
 + (NSString *)eventType                 { return @"eventType"; }
 + (NSString *)gdpr                      { return @"gdprConsent"; }
 + (NSString *)gdprApplies               { return @"gdprApplies"; }
-+ (NSString *)gdprConsentGiven          { return @"consentGiven"; }
 + (NSString *)gdprConsentData           { return @"consentData"; }
 + (NSString *)gdprVersion               { return @"version"; }
 + (NSString *)idfa                      { return @"idfa"; }

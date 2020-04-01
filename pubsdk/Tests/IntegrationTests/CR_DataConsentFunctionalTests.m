@@ -82,11 +82,9 @@ do { \
     NSDictionary *expected = @{
         NSString.gdprVersionKey:      @1,
         NSString.gdprConsentDataKey:  NSString.gdprConsentStringForTcf1_1,
-        NSString.gdprAppliesKey:      @YES,
-        NSString.gdprConsentGivenKey: @YES
+        NSString.gdprAppliesKey:      @YES
     };
     [self.userDefaults setGdprTcf1_1DefaultConsentString];
-    [self.userDefaults setGdprTcf1_1DefaultVendorConsents];
     [self.userDefaults setGdprTcf1_1GdprApplies:YES];
 
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
@@ -99,11 +97,9 @@ do { \
     NSDictionary *expected = @{
         NSString.gdprVersionKey:      @2,
         NSString.gdprConsentDataKey:  NSString.gdprConsentStringForTcf2_0,
-        NSString.gdprAppliesKey:      @YES,
-        NSString.gdprConsentGivenKey: @YES
+        NSString.gdprAppliesKey:      @YES
     };
     [self.userDefaults setGdprTcf2_0DefaultConsentString];
-    [self.userDefaults setGdprTcf2_0DefaultVendorConsents];
     [self.userDefaults setGdprTcf2_0GdprApplies:YES];
 
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
@@ -115,12 +111,10 @@ do { \
     NSDictionary *expected = @{
         NSString.gdprVersionKey:      @2,
         NSString.gdprConsentDataKey:  NSString.gdprConsentStringForTcf2_0,
-        NSString.gdprAppliesKey:      @YES,
-        NSString.gdprConsentGivenKey: @YES
+        NSString.gdprAppliesKey:      @YES
     };
     [self.userDefaults setGdprTcf1_1DefaultConsentString];
     [self.userDefaults setGdprTcf2_0DefaultConsentString];
-    [self.userDefaults setGdprTcf2_0DefaultVendorConsents];
     [self.userDefaults setGdprTcf2_0GdprApplies:YES];
 
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];

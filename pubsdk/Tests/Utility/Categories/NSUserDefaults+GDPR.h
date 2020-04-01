@@ -27,14 +27,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setGdprTcf1_1GdprApplies:(BOOL)gdprApplies;
 - (void)setGdprTcf2_0GdprApplies:(BOOL)gdprApplies;
 
-#pragma mark VendorConsents
-
-- (void)setGdprTcf1_1DefaultVendorConsents;
-- (void)setGdprTcf2_0DefaultVendorConsents;
-
-- (void)setGdprTcf1_1VendorConsents:(NSString *)vendorConsents;
-- (void)setGdprTcf2_0VendorConsents:(NSString *)vendorConsents;
-
 @end
 
 NS_ASSUME_NONNULL_END

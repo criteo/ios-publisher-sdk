@@ -10,23 +10,17 @@
 
 NSString * const CR_GdprAppliesForTcf2_0Key = @"IABTCF_gdprApplies";
 NSString * const CR_GdprConsentStringForTcf2_0Key = @"IABTCF_TCString";
-NSString * const CR_GdprVendorConsentsForTcf2_0Key = @"IABTCF_VendorConsents";
 
 NSString * const CR_GdprSubjectToGdprForTcf1_1Key = @"IABConsent_SubjectToGDPR";
 NSString * const CR_GdprConsentStringForTcf1_1Key = @"IABConsent_ConsentString";
-NSString * const CR_GdprVendorConsentsForTcf1_1Key = @"IABConsent_ParsedVendorConsents";
-
-const NSUInteger CR_GDPRConsentCriteoIdentifierInVendorList = 91;
 
 @interface CR_GdprVersionWithKeys ()
 
 @property (copy, nonatomic, readonly) NSString *consentStringKey;
-@property (copy, nonatomic, readonly) NSString *vendorConsentsKey;
 @property (copy, nonatomic, readonly) NSString *appliesKey;
 @property (strong, nonatomic, readonly) NSUserDefaults *userDefaults;
 
 @property (copy, nonatomic, readonly) NSNumber *appliesObject;
-@property (copy, nonatomic, readonly) NSString *vendorConsents;
 
 @end
 
@@ -36,7 +30,6 @@ const NSUInteger CR_GDPRConsentCriteoIdentifierInVendorList = 91;
 
 + (instancetype)gdprTcf1_1WithUserDefaults:(NSUserDefaults *)userDefaults {
     return [[self.class alloc] initWithConsentStringKey:CR_GdprConsentStringForTcf1_1Key
-                                      vendorConsentsKey:CR_GdprVendorConsentsForTcf1_1Key
                                              appliesKey:CR_GdprSubjectToGdprForTcf1_1Key
                                              tcfVersion:CR_GdprTcfVersion1_1
                                            userDefaults:userDefaults];
@@ -45,7 +38,6 @@ const NSUInteger CR_GDPRConsentCriteoIdentifierInVendorList = 91;
 
 + (instancetype)gdprTcf2_0WithUserDefaults:(NSUserDefaults *)userDefaults {
     return [[self.class alloc] initWithConsentStringKey:CR_GdprConsentStringForTcf2_0Key
-                                      vendorConsentsKey:CR_GdprVendorConsentsForTcf2_0Key
                                              appliesKey:CR_GdprAppliesForTcf2_0Key
                                              tcfVersion:CR_GdprTcfVersion2_0
                                            userDefaults:userDefaults];
@@ -54,13 +46,11 @@ const NSUInteger CR_GDPRConsentCriteoIdentifierInVendorList = 91;
 #pragma mark - Life cycle
 
 - (instancetype)initWithConsentStringKey:(NSString *)constantStringKey
-                       vendorConsentsKey:(NSString *)vendorConsentsKey
                               appliesKey:(NSString *)appliesKey
                               tcfVersion:(CR_GdprTcfVersion)tcfVersion
                             userDefaults:(NSUserDefaults *)userDefaults {
     if (self = [super init]) {
         _consentStringKey = [constantStringKey copy];
-        _vendorConsentsKey = [vendorConsentsKey copy];
         _appliesKey = [appliesKey copy];
         _userDefaults = userDefaults;
         _tcfVersion = tcfVersion;
@@ -72,8 +62,7 @@ const NSUInteger CR_GDPRConsentCriteoIdentifierInVendorList = 91;
 
 - (BOOL)isValid {
     return  (self.consentString != nil) ||
-            (self.appliesObject != nil) ||
-            (self.vendorConsents != nil);
+            (self.appliesObject != nil);
 }
 
 - (NSString *)consentString {
@@ -85,25 +74,11 @@ const NSUInteger CR_GDPRConsentCriteoIdentifierInVendorList = 91;
     return [number isKindOfClass:NSNumber.class] ? number : nil;
 }
 
-- (NSNumber *)consentGivenToCriteo {
-    const NSUInteger criteoId = CR_GDPRConsentCriteoIdentifierInVendorList;
-    const NSUInteger criteoIndex = criteoId - 1;
-    NSString *vendorConsents = self.vendorConsents;
-    if (vendorConsents.length <= criteoIndex) {
-        return nil;
-    }
-    return @([vendorConsents characterAtIndex:criteoIndex] == '1');
-}
-
 #pragma mark - Private
 
 - (NSNumber *)appliesObject {
     NSNumber *number = [self.userDefaults objectForKey:self.appliesKey];
     return [number isKindOfClass:NSNumber.class] ? number : nil;
-}
-
-- (NSString *)vendorConsents {
-    return [self.userDefaults stringForKey:self.vendorConsentsKey];
 }
 
 @end
@@ -123,10 +98,6 @@ const NSUInteger CR_GDPRConsentCriteoIdentifierInVendorList = 91;
 }
 
 - (NSNumber *)applies {
-    return nil;
-}
-
-- (NSNumber *)consentGivenToCriteo {
     return nil;
 }
 
