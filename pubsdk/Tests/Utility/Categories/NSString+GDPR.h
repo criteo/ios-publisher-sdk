@@ -24,7 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark ConsentString
 
 @property (copy, nonatomic, class, readonly) NSString *gdprConsentStringForTcf1_1;
+@property (copy, nonatomic, class, readonly) NSString *gdprConsentStringDeniedForTcf1_1;
 @property (copy, nonatomic, class, readonly) NSString *gdprConsentStringForTcf2_0;
+@property (copy, nonatomic, class, readonly) NSString *gdprConsentStringDeniedForTcf2_0;
 
 @end
 

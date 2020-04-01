@@ -32,7 +32,7 @@
 @property (strong, nonatomic) CR_Config *config;
 @property (strong, nonatomic) CR_DataProtectionConsentMock *consentMock;
 @property (strong, nonatomic) CR_DeviceInfo *deviceInfo;
-@property (strong, nonatomic) CR_CacheAdUnit *demoCacheAdUnit;
+@property (strong, nonatomic) CR_CacheAdUnit *preprodCacheAdUnit;
 
 @end
 
@@ -50,8 +50,10 @@
     CR_BidManagerBuilder *builder = [[CR_BidManagerBuilder alloc] init];
     self.apiHandler = builder.apiHandler;
 
-    CRBannerAdUnit *banner = [CR_TestAdUnits demoBanner320x50];
-    self.demoCacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:banner];
+    // We use the preprod adunit because
+    // the GDPR of the demo adunit is not processed by RTB.
+    CRAdUnit *adUnit = [CR_TestAdUnits preprodInterstitial];
+    self.preprodCacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
 }
 
 - (void)testSendAppEvent {
@@ -69,26 +71,63 @@
 #pragma mark - Call CDB
 
 - (void)testSendValidBidRequest {
-    [self callCdbWithCacheAdUnit:self.demoCacheAdUnit
+    [self callCdbWithCacheAdUnit:self.preprodCacheAdUnit
                completionHandler:^(CR_CdbRequest *cdbRequest,
                                    CR_CdbResponse *cdbResponse,
                                    NSError *error) {
-        XCTAssertEqual(cdbResponse.cdbBids.count, 1);
-        XCTAssertNil(error);
-    }];
+                   XCTAssertEqual(cdbResponse.cdbBids.count, 1);
+                   XCTAssertNil(error);
+               }];
 }
 
-- (void)testSendValidBidRequestWithGdpr {
-    self.consentMock.gdprMock.appliesValue = @YES;
-    self.consentMock.gdprMock.consentStringValue = NSString.gdprConsentStringForTcf2_0;
+- (void)testSendValidBidRequestWithGdprTcf2_0 {
+    [self.consentMock.gdprMock configureWithTcfVersion:CR_GdprTcfVersion2_0];
 
-    [self callCdbWithCacheAdUnit:self.demoCacheAdUnit
+    [self callCdbWithCacheAdUnit:self.preprodCacheAdUnit
                completionHandler:^(CR_CdbRequest *cdbRequest,
                                    CR_CdbResponse *cdbResponse,
                                    NSError *error) {
-        XCTAssertEqual(cdbResponse.cdbBids.count, 1);
-        XCTAssertNil(error);
-    }];
+                   XCTAssertEqual(cdbResponse.cdbBids.count, 1);
+                   XCTAssertNil(error);
+               }];
+}
+
+- (void)testSendValidBidRequestWithGdprTcf1_1 {
+    [self.consentMock.gdprMock configureWithTcfVersion:CR_GdprTcfVersion1_1];
+
+    [self callCdbWithCacheAdUnit:self.preprodCacheAdUnit
+               completionHandler:^(CR_CdbRequest *cdbRequest,
+                                   CR_CdbResponse *cdbResponse,
+                                   NSError *error) {
+                   XCTAssertEqual(cdbResponse.cdbBids.count, 1);
+                   XCTAssertNil(error);
+               }];
+}
+
+- (void)testSendValidBidRequestWithGdprTcf1_1ConsentDenied {
+    [self.consentMock.gdprMock configureWithTcfVersion:CR_GdprTcfVersion1_1];
+    self.consentMock.gdprMock.consentStringValue = NSString.gdprConsentStringDeniedForTcf1_1;
+
+    [self callCdbWithCacheAdUnit:self.preprodCacheAdUnit
+               completionHandler:^(CR_CdbRequest *cdbRequest,
+                                   CR_CdbResponse *cdbResponse,
+                                   NSError *error) {
+                   XCTAssertEqual(cdbResponse.cdbBids.count, 0);
+                   XCTAssertNil(error);
+               }];
+}
+
+- (void)testSendValidBidRequestWithGdprTcf2_0ConsentDenied {
+    [self.consentMock.gdprMock configureWithTcfVersion:CR_GdprTcfVersion2_0];
+    self.consentMock.gdprMock.consentStringValue = NSString.gdprConsentStringDeniedForTcf2_0;
+
+    [self callCdbWithCacheAdUnit:self.preprodCacheAdUnit
+               completionHandler:^(CR_CdbRequest *cdbRequest,
+                                   CR_CdbResponse *cdbResponse,
+                                   NSError *error) {
+                   XCTAssertEqual(cdbResponse.cdbBids.count, 0);
+                   XCTAssertNil(error);
+               }];
 }
 
 #pragma mark - Private
@@ -106,11 +145,11 @@
            completionHandler:^(CR_CdbRequest *cdbRequest,
                                CR_CdbResponse *cdbResponse,
                                NSError *error) {
-        if (completionHandler) {
-            completionHandler(cdbRequest, cdbResponse, error);
-        }
-        [expectation fulfill];
-    }];
+               if (completionHandler) {
+                   completionHandler(cdbRequest, cdbResponse, error);
+               }
+               [expectation fulfill];
+           }];
 
     [self criteo_waitForExpectations:@[expectation]];
 }

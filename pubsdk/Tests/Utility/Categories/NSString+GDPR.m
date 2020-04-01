@@ -41,11 +41,19 @@ const NSUInteger NSStringGdprCriteoIdentifierInVendorList = 91;
 #pragma mark - ConsentString
 
 + (NSString *)gdprConsentStringForTcf1_1 {
-    return @"blabla";
+    return @"BOnz814Onz814ABABBFRCP4AAAAFuABAC2A";
+}
+
++ (NSString *)gdprConsentStringDeniedForTcf1_1 {
+    return @"BOnz82JOnz82JABABBFRCPgAAAAFuABABAA";
 }
 
 + (NSString *)gdprConsentStringForTcf2_0 {
-    return self.gdprConsentStringForTcf1_1;
+    return @"COwJDpQOwJDpQIAAAAENAPCgAAAAAAAAAAAAAxQAQAtgAAAA";
+}
+
++ (NSString *)gdprConsentStringDeniedForTcf2_0 {
+    return @"COwJDpQOwJDpQIAAAAENAPCgAAAAAAAAAAAAAxQAgAsABiAAAAAA";
 }
 
 @end
