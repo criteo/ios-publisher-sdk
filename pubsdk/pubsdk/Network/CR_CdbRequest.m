@@ -19,7 +19,7 @@
 @implementation CR_CdbRequest
 
 - (instancetype)initWithAdUnits:(CR_CacheAdUnitArray *)adUnits {
-    if(self = [super init]) {
+    if (self = [super init]) {
         _adUnits = adUnits;
         _adUnitToImpressionIdMap = [self buildAdUnitToImpressionIdMapForAdUnits:adUnits];
     }
@@ -43,14 +43,14 @@
 }
 
 - (NSArray<NSString *> *)impressionIdsMissingInCdbResponse:(CR_CdbResponse *)cdbResponse {
-    NSMutableArray<NSString *> *cdbRequestBidImpresionIds = [[NSMutableArray alloc] init];
-    for(CR_CdbBid *bid in cdbResponse.cdbBids) {
-        if(bid.impressionId) {
-            [cdbRequestBidImpresionIds addObject:bid.impressionId];
+    NSMutableArray<NSString *> *cdbRequestBidImpressionIds = [[NSMutableArray alloc] init];
+    for (CR_CdbBid *bid in cdbResponse.cdbBids) {
+        if (bid.impressionId) {
+            [cdbRequestBidImpressionIds addObject:bid.impressionId];
         }
     }
     NSMutableArray<NSString *> *result = [NSMutableArray arrayWithArray:self.impressionIds];
-    [result removeObjectsInArray:cdbRequestBidImpresionIds];
+    [result removeObjectsInArray:cdbRequestBidImpressionIds];
     return result;
 }
 

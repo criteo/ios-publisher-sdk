@@ -68,16 +68,6 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
     return requestAdUnits;
 }
 
-- (NSDictionary<CR_CacheAdUnit *, NSString *> *)impressionIdsForAdUnits:(CR_CacheAdUnitArray *)adUnits {
-    NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
-    for(CR_CacheAdUnit *adUnit in adUnits) {
-        //todo add proper algorithm for generating impressionId
-        NSString *lowercaseUuid = [[[NSUUID UUID] UUIDString] lowercaseString];
-        result[adUnit] = [lowercaseUuid stringByReplacingOccurrencesOfString:@"-" withString:@""];
-    }
-    return result;
-}
-
 // Wrapper method to make the cdb call async
 - (void)  callCdb:(CR_CacheAdUnitArray *)adUnits
           consent:(CR_DataProtectionConsent *)consent
