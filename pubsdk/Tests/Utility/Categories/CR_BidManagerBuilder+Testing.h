@@ -13,7 +13,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_BidManagerBuilder (Testing)
 
-+ (instancetype)testing_bidManagerWithNetworkCaptor;
+#pragma mark - Utils for configuring builder
+
+@property (weak, nonatomic, readonly) CR_BidManagerBuilder *withPreprodConfiguration;
+@property (weak, nonatomic, readonly) CR_BidManagerBuilder *withIsolatedNotificationCenter;
+@property (weak, nonatomic, readonly) CR_BidManagerBuilder *withListenedNetworkManager;
+@property (weak, nonatomic, readonly) CR_BidManagerBuilder *withIsolatedFeedbackStorage;
+
+
++ (instancetype)testing_bidManagerBuilder;
 
 @end
 

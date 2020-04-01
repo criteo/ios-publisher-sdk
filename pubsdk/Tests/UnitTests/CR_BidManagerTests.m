@@ -14,6 +14,7 @@
 #import "NSString+Testing.h"
 #import "CR_BidManager.h"
 #import "CR_BidManagerBuilder.h"
+#import "CR_BidManagerBuilder+Testing.h"
 #import "CR_CdbBid.h"
 #import "CRBidToken+Internal.h"
 #import "DFPRequestClasses.h"
@@ -81,18 +82,11 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     self.configManagerMock = OCMClassMock([CR_ConfigManager class]);
     self.apiHandlerMock = OCMClassMock([CR_ApiHandler class]);
 
-    CR_FeedbackFileManagingMock *feedbackFileManagingMock = [[CR_FeedbackFileManagingMock alloc] init];
-    feedbackFileManagingMock.useReadWriteDictionary = YES;
-    CASInMemoryObjectQueue *feedbackSendingQueue = [[CASInMemoryObjectQueue alloc] init];
-    CR_FeedbackStorage *feedbackStorage = [[CR_FeedbackStorage alloc] initWithFileManager:feedbackFileManagingMock
-                                                                                withQueue:feedbackSendingQueue];
-
-    CR_BidManagerBuilder *builder = [[CR_BidManagerBuilder alloc] init];
+    CR_BidManagerBuilder *builder = [CR_BidManagerBuilder testing_bidManagerBuilder];
     builder.configManager = self.configManagerMock;
     builder.cacheManager = self.cacheManager;
     builder.apiHandler = self.apiHandlerMock;
     builder.deviceInfo = self.deviceInfoMock;
-    builder.feedbackStorage = feedbackStorage;
 
     self.builder = builder;
     self.bidManager = [builder buildBidManager];

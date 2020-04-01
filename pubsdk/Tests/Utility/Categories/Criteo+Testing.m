@@ -78,7 +78,7 @@ static void *CriteoTestingBidManagerBuilderKey = &CriteoTestingBidManagerBuilder
 
 
 + (Criteo *)testing_criteoWithNetworkCaptor {
-    CR_BidManagerBuilder *builder = [CR_BidManagerBuilder testing_bidManagerWithNetworkCaptor];
+    CR_BidManagerBuilder *builder = [CR_BidManagerBuilder testing_bidManagerBuilder];
     Criteo *criteo = [[Criteo alloc] initWithBidManagerBuilder:builder];
     return criteo;
 }
