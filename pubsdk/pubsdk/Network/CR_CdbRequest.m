@@ -8,6 +8,7 @@
 
 #import "CR_CdbRequest.h"
 #import "CR_CdbResponse.h"
+#import "CR_UniqueIdGenerator.h"
 
 @interface CR_CdbRequest ()
 
@@ -27,10 +28,8 @@
 
 - (NSDictionary *)buildAdUnitToImpressionIdMapForAdUnits:(CR_CacheAdUnitArray *)adUnits {
     NSMutableDictionary *map = [[NSMutableDictionary alloc] init];
-    for(CR_CacheAdUnit *adUnit in adUnits) {
-        //todo add proper algorithm for generating impressionId
-        NSString *lowercaseUuid = [[[NSUUID UUID] UUIDString] lowercaseString];
-        map[adUnit] = [lowercaseUuid stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    for (CR_CacheAdUnit *adUnit in adUnits) {
+        map[adUnit] = [CR_UniqueIdGenerator generateId];
     }
     return map;
 }
