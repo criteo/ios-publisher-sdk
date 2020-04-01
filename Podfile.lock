@@ -21,12 +21,11 @@ DEPENDENCIES:
   - OCMock (~> 3.4.3)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
-    - Google-Mobile-Ads-SDK
-    - OCMock
-  trunk:
+  https://github.com/cocoapods/specs.git:
     - Cassette
+    - Google-Mobile-Ads-SDK
     - mopub-ios-sdk
+    - OCMock
 
 SPEC CHECKSUMS:
   Cassette: bd5900e0b8d67c796ca82272ff5ee388320cfc61
@@ -36,4 +35,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 7cf21c499aac43a35d54727f75a3a9cf8d49ee21
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.7.5
