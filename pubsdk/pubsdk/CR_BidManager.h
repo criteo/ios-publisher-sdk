@@ -27,7 +27,7 @@
 
 @interface CR_BidManager : NSObject
 
-@property (nonatomic) id<CR_NetworkManagerDelegate> networkMangerDelegate;
+@property (nonatomic) id<CR_NetworkManagerDelegate> networkManagerDelegate;
 @property (nonatomic, readonly) CR_Config *config;
 @property (nonatomic, strong) CR_DataProtectionConsent *consent;
 

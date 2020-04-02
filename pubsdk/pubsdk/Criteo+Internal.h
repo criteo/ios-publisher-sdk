@@ -23,7 +23,7 @@
 
 @interface Criteo ()
 
-@property (nonatomic) id<CR_NetworkManagerDelegate> networkMangerDelegate;
+@property (nonatomic) id<CR_NetworkManagerDelegate> networkManagerDelegate;
 @property (nonatomic, readonly) CR_Config *config;
 
 - (CR_CdbBid *)getBid:(CR_CacheAdUnit *)slot;

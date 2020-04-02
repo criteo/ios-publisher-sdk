@@ -36,14 +36,14 @@
     self.bidManager.consent.mopubConsent = mopubConsent;
 }
 
-- (id<CR_NetworkManagerDelegate>) networkMangerDelegate
+- (id<CR_NetworkManagerDelegate>) networkManagerDelegate
 {
-    return self.bidManager.networkMangerDelegate;
+    return self.bidManager.networkManagerDelegate;
 }
 
-- (void) setNetworkMangerDelegate:(id<CR_NetworkManagerDelegate>)networkMangerDelegate
+- (void) setNetworkManagerDelegate:(id<CR_NetworkManagerDelegate>)networkManagerDelegate
 {
-    self.bidManager.networkMangerDelegate = networkMangerDelegate;
+    self.bidManager.networkManagerDelegate = networkManagerDelegate;
 }
 
 + (instancetype) sharedCriteo

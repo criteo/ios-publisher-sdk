@@ -34,14 +34,14 @@
 }
 
 // Properties
-- (id<CR_NetworkManagerDelegate>) networkMangerDelegate
+- (id<CR_NetworkManagerDelegate>) networkManagerDelegate
 {
     return self->networkManager.delegate;
 }
 
-- (void) setNetworkMangerDelegate:(id<CR_NetworkManagerDelegate>)networkMangerDelegate
+- (void) setNetworkManagerDelegate:(id<CR_NetworkManagerDelegate>)networkManagerDelegate
 {
-    self->networkManager.delegate = networkMangerDelegate;
+    self->networkManager.delegate = networkManagerDelegate;
 }
 
 - (instancetype) init {
