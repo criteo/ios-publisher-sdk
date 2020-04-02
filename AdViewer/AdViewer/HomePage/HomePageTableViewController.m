@@ -76,7 +76,7 @@ NSString * const HomePageTableViewControllerUsPrivacyIabConsentStringKey = @"IAB
 
     [criteo registerCriteoPublisherId:@"B-056946" withAdUnits:addUnits];
 
-    criteo.networkMangerDelegate = self.logManager;
+    criteo.networkManagerDelegate = self.logManager;
     UIButton *button = (UIButton *)sender;
     [button setEnabled:NO];
 }
