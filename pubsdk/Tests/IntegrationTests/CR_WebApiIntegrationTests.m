@@ -45,7 +45,7 @@
 
     self.deviceInfo = [[CR_DeviceInfo alloc] init];
     self.consentMock = [[CR_DataProtectionConsentMock alloc] init];
-    self.config = [CR_Config configForPreprodWithCriteoPublisherId:CriteoTestingPublisherId
+    self.config = [CR_Config configForTestWithCriteoPublisherId:CriteoTestingPublisherId
                                                       userDefaults:userDefaults];
     CR_BidManagerBuilder *builder = [[CR_BidManagerBuilder alloc] init];
     self.apiHandler = builder.apiHandler;

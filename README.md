@@ -27,6 +27,24 @@ The tests in this project are organised according to the following convention:
     - Use the [Get retargeted](https://chrome.google.com/webstore/detail/get-retargeted/lkfglidpccbhmpgpekfbkidncpinjobl) Chrome extension with your IDFA
     - Use Mobile Safari on a publisher website such as laredoute.fr, browsing its catalog and adding products to your cart
 
+### Testing against a local CDB
+
+When working in debug environment, the SDK hits the preprod of CDB. To test integration with CDB,
+you can make the SDK hit a local instance of CDB instead. You need to:
+
+- Checkout the CDB project:
+
+```shell
+cd ~ && \
+mkdir -p publisher/direct-bidder && \
+cd publisher/direct-bidder && \
+gradle initWorkspace && \
+./gradlew checkout --project=publisher/direct-bidder
+```
+
+- Follow instructions in `README.md` to start the server (either in debug or not)
+- Uncomment the `#define HIT_LOCAL_CDB` line in the `CR_Config.m` file.
+
 # How to release the publisher SDK
 
 ## Create a release candidate

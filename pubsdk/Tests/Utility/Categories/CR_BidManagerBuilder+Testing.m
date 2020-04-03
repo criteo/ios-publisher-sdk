@@ -30,7 +30,7 @@
 }
 
 - (CR_BidManagerBuilder *)withPreprodConfiguration {
-    CR_Config *config = [CR_Config configForPreprodWithCriteoPublisherId:CriteoTestingPublisherId
+    CR_Config *config = [CR_Config configForTestWithCriteoPublisherId:CriteoTestingPublisherId
                                                             userDefaults:self.userDefaults];
     self.config = config;
     return self;
@@ -55,7 +55,7 @@
     NSUUID *uid = [[NSUUID alloc] init];
     NSString *name = [[NSString alloc] initWithFormat:@"%@-%@", NSStringFromClass(self.class), [uid UUIDString]];
     [[NSUserDefaults new] removePersistentDomainForName:name];
-    
+
     self.userDefaults = [[NSUserDefaults alloc] initWithSuiteName:name];
     return self;
 }

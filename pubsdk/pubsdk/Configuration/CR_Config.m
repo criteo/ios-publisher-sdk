@@ -16,20 +16,28 @@ NSString * const CR_ConfigCdbUrl = @"https://bidder.criteo.com";
 NSString * const CR_ConfigAppEventsUrl = @"https://gum.criteo.com/appevent/v1";
 NSString * const CR_ConfigConfigurationUrl = @"https://pub-sdk-cfg.criteo.com/v2.0/api/config";
 
-// Pre-Production
-NSString * const CR_ConfigPreprodCdbUrl = @"https://directbidder-test-app.par.preprod.crto.in";
-NSString * const CR_ConfigPreprodAppEventsUrl = @"https://pub-sdk-cfg.par.preprod.crto.in";
-NSString * const CR_ConfigPreprodConfigurationUrl = @"https://gum.par.preprod.crto.in";
+// FIXME EE-1001
+// Test (using Pre-Production or Local)
+// #define HIT_LOCAL_CDB // Uncomment to use local CDB instead of preprod
+#ifdef HIT_LOCAL_CDB
+// This is the default configuration if you follow the CDB readme.
+NSString * const CR_ConfigTestCdbUrl = @"http://127.0.0.1:9991";
+#else
+NSString * const CR_ConfigTestCdbUrl = @"https://directbidder-test-app.par.preprod.crto.in";
+#endif
+#undef HIT_LOCAL_CDB
+NSString * const CR_ConfigTestAppEventsUrl = @"https://pub-sdk-cfg.par.preprod.crto.in";
+NSString * const CR_ConfigTestConfigurationUrl = @"https://gum.par.preprod.crto.in";
 
 @implementation CR_Config
 
-+ (CR_Config *)configForPreprodWithCriteoPublisherId:(NSString *)criteoPublisherId
++ (CR_Config *)configForTestWithCriteoPublisherId:(NSString *)criteoPublisherId
                                         userDefaults:(NSUserDefaults *)userDefaults
 {
-    // For now, I don't success to make the CR_ConfigPreprodAppEventsUrl & CR_ConfigPreprodConfigurationUrl
+    // For now, I don't success to make the CR_ConfigTestAppEventsUrl & CR_ConfigTestConfigurationUrl
     // It requires investigations.
     return [[CR_Config alloc] initWithCriteoPublisherId:criteoPublisherId
-                                                 cdbUrl:CR_ConfigPreprodCdbUrl
+                                                 cdbUrl:CR_ConfigTestCdbUrl
                                            appEventsUrl:CR_ConfigAppEventsUrl
                                               configUrl:CR_ConfigConfigurationUrl
                                            userDefaults:userDefaults];

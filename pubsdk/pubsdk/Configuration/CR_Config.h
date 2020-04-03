@@ -19,9 +19,9 @@ FOUNDATION_EXTERN NSString * const CR_ConfigAppEventsUrl;
 FOUNDATION_EXTERN NSString * const CR_ConfigConfigurationUrl;
 
 // Pre-Production
-FOUNDATION_EXTERN NSString * const CR_ConfigPreprodCdbUrl;
-FOUNDATION_EXTERN NSString * const CR_ConfigPreprodAppEventsUrl;
-FOUNDATION_EXTERN NSString * const CR_ConfigPreprodConfigurationUrl;
+FOUNDATION_EXTERN NSString * const CR_ConfigTestCdbUrl;
+FOUNDATION_EXTERN NSString * const CR_ConfigTestAppEventsUrl;
+FOUNDATION_EXTERN NSString * const CR_ConfigTestConfigurationUrl;
 
 @interface CR_Config : NSObject
 
@@ -47,7 +47,7 @@ FOUNDATION_EXTERN NSString * const CR_ConfigPreprodConfigurationUrl;
 @property (copy, nonatomic, readonly) NSString *deviceOs;
 @property (copy, nonatomic, readonly) NSString *configUrl;
 
-+ (CR_Config *)configForPreprodWithCriteoPublisherId:(nullable NSString *)criteoPublisherId
++ (CR_Config *)configForTestWithCriteoPublisherId:(nullable NSString *)criteoPublisherId
                                         userDefaults:(NSUserDefaults *)userDefaults;
 
 - (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId
