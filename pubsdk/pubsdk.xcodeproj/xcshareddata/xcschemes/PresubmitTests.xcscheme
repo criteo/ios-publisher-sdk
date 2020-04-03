@@ -37,6 +37,14 @@
                BlueprintName = "pubsdkTests"
                ReferencedContainer = "container:pubsdk.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "CR_DataConsentFunctionalTests">
+               </Test>
+               <Test
+                  Identifier = "CR_DeviceInfoTests">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>
