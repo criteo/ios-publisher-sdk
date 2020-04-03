@@ -15,9 +15,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Utils for configuring builder
 
+// ⚠️ Call those methods in this order to have a good dependency management.
+@property (weak, nonatomic, readonly) CR_BidManagerBuilder *withIsolatedUserDefaults;
 @property (weak, nonatomic, readonly) CR_BidManagerBuilder *withPreprodConfiguration;
-@property (weak, nonatomic, readonly) CR_BidManagerBuilder *withIsolatedNotificationCenter;
 @property (weak, nonatomic, readonly) CR_BidManagerBuilder *withListenedNetworkManager;
+@property (weak, nonatomic, readonly) CR_BidManagerBuilder *withIsolatedNotificationCenter;
 @property (weak, nonatomic, readonly) CR_BidManagerBuilder *withIsolatedFeedbackStorage;
 
 

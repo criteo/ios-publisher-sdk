@@ -39,9 +39,14 @@
 @implementation CR_WebApiIntegrationTests
 
 - (void)setUp {
+    NSString *userDefaultsId = NSStringFromClass(self.class);
+    [[NSUserDefaults new] removePersistentDomainForName:userDefaultsId];
+    NSUserDefaults *userDefaults = [[NSUserDefaults alloc] initWithSuiteName:userDefaultsId];
+
     self.deviceInfo = [[CR_DeviceInfo alloc] init];
     self.consentMock = [[CR_DataProtectionConsentMock alloc] init];
-    self.config = [CR_Config configForPreprodWithCriteoPublisherId:CriteoTestingPublisherId];
+    self.config = [CR_Config configForPreprodWithCriteoPublisherId:CriteoTestingPublisherId
+                                                      userDefaults:userDefaults];
     CR_BidManagerBuilder *builder = [[CR_BidManagerBuilder alloc] init];
     self.apiHandler = builder.apiHandler;
 

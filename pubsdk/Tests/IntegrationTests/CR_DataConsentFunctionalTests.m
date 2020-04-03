@@ -10,6 +10,7 @@
 #import "Criteo+Testing.h"
 #import "Criteo+Internal.h"
 #import "CR_ApiQueryKeys.h"
+#import "CR_BidManagerBuilder.h"
 #import "CR_DataProtectionConsent.h"
 #import "CR_DataProtectionConsentMock.h"
 #import "CR_Gdpr.h"
@@ -25,7 +26,7 @@
 #define CR_AssertDoNotContainsAppEventRequest(requests) \
 do { \
     for (CR_HttpContent *content in requests) { \
-        XCTAssertFalse([content.url testing_isAppLaunchEventUrlWithConfig:criteo.config]); \
+        XCTAssertFalse([content.url testing_isAppLaunchEventUrlWithConfig:self.criteo.config]); \
     } \
 } while (0);
 
@@ -43,17 +44,8 @@ do { \
 @implementation CR_DataConsentFunctionalTests
 
 - (void)setUp {
-    self.userDefaults = [NSUserDefaults standardUserDefaults];
-    [self.userDefaults removeObjectForKey:CR_CcpaIabConsentStringKey];
-    [self.userDefaults removeObjectForKey:CR_CcpaCriteoStateKey];
-    [self.userDefaults removeObjectForKey:CR_DataProtectionConsentMopubConsentKey];
-    [self.userDefaults clearGdpr];
-
     self.criteo = [Criteo testing_criteoWithNetworkCaptor];
-}
-
-- (void)tearDown {
-    [self setUp];
+    self.userDefaults = self.criteo.bidManagerBuilder.userDefaults;
 }
 
 #pragma mark - GDPR
@@ -124,34 +116,29 @@ do { \
 
 #pragma mark - CCPA
 
-- (void)testGivenIabConsentStringSet_whenCriteoRegister_thenUsIabSetInBidRequest
-{
+- (void)testGivenIabConsentStringSet_whenCriteoRegister_thenUsIabSetInBidRequest {
     [self.userDefaults setObject:CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString
                           forKey:CR_CcpaIabConsentStringKey];
-    Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
 
-    [criteo testing_registerBannerAndWaitForHTTPResponses];
+    [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 
-    NSString * actualConsent = [self _iabConsentInLastBidRequestWithCriteo:criteo];
+    NSString * actualConsent = [self _iabConsentInLastBidRequestWithCriteo:self.criteo];
     XCTAssertEqualObjects(actualConsent, CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString);
 }
 
-- (void)testGivenIabConsentStringSetWithoutConsent_whenCriteoRegister_thenUsIabSetInBidRequestAndAppEventNotSent
-{
+- (void)testGivenIabConsentStringSetWithoutConsent_whenCriteoRegister_thenUsIabSetInBidRequestAndAppEventNotSent {
     [self.userDefaults setObject:@"1YYN"
                           forKey:CR_CcpaIabConsentStringKey];
-    Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
 
-    [criteo testing_registerBanner];
-    [self _waitForBidAndConfurationOnlyWithCriteo:criteo];
+    [self.criteo testing_registerBanner];
+    [self _waitForBidAndConfurationOnlyWithCriteo:self.criteo];
 
-    NSString * actualConsent = [self _iabConsentInLastBidRequestWithCriteo:criteo];
+    NSString * actualConsent = [self _iabConsentInLastBidRequestWithCriteo:self.criteo];
     XCTAssertEqualObjects(actualConsent, @"1YYN");
-    CR_AssertDoNotContainsAppEventRequest(criteo.testing_networkCaptor.allRequests);
+    CR_AssertDoNotContainsAppEventRequest(self.criteo.testing_networkCaptor.allRequests);
 }
 
-- (void)testGivenIabConsentStringNil_whenCriteoRegister_thenUsIabNotSetInBidRequest
-{
+- (void)testGivenIabConsentStringNil_whenCriteoRegister_thenUsIabNotSetInBidRequest {
     Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
 
     [criteo testing_registerBannerAndWaitForHTTPResponses];
@@ -160,8 +147,7 @@ do { \
     XCTAssertNil(actualConsent);
 }
 
-- (void)testGivenIabConsentStringEmpty_whenCriteoRegister_thenUsIabNotSetInBidRequest
-{
+- (void)testGivenIabConsentStringEmpty_whenCriteoRegister_thenUsIabNotSetInBidRequest {
     [self.userDefaults setObject:@""
                           forKey:CR_CcpaIabConsentStringKey];
     Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
@@ -174,8 +160,7 @@ do { \
 
 #pragma mark - Criteo Optout
 
-- (void)testGivenCriteoUsPrivacyOptOutYES_whenCriteoRegister_thenBidIncludeUsPrivacyOptOutToYES_noAppEventSent
-{
+- (void)testGivenCriteoUsPrivacyOptOutYES_whenCriteoRegister_thenBidIncludeUsPrivacyOptOutToYES_noAppEventSent {
     Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
     [criteo setUsPrivacyOptOut:YES];
 
@@ -187,16 +172,18 @@ do { \
     CR_AssertDoNotContainsAppEventRequest(criteo.testing_networkCaptor.allRequests);
 }
 
-- (void)testGivenCriteoUsPrivacyOptOutNO_whenCriteoRegister_thenBidIncludeUsPrivacyOptOutToNO_appEventSent
-{
-    Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
-    [criteo setUsPrivacyOptOut:NO];
+- (void)testGivenCriteoUsPrivacyOptOutNO_whenCriteoRegister_thenBidIncludeUsPrivacyOptOutToNO_appEventSent {
+    //CR_NetworkWaiterDebug = YES;
+    [self.criteo setUsPrivacyOptOut:NO];
 
-    [criteo testing_registerBannerAndWaitForHTTPResponses];
+    [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 
-    NSNumber *actualConsent = [self _criteoUsPrivacyConsentInLastBidRequestWithCriteo:criteo];
+    XCTAssertEqual(self.criteo.testing_networkCaptor.allRequests.count, 3);
+    XCTAssertNotNil(self.criteo.testing_lastBidHttpContent);
+    NSNumber *actualConsent = [self _criteoUsPrivacyConsentInLastBidRequestWithCriteo:self.criteo];
     XCTAssertNotNil(actualConsent);
     XCTAssertFalse([actualConsent boolValue]);
+    //CR_NetworkWaiterDebug = NO;
 }
 
 #pragma mark - Mopub Consent
@@ -246,22 +233,19 @@ do { \
     return request.url.absoluteString;
 }
 
-- (NSString *)_mopubConsentInLastBidRequestWithCriteo:(Criteo *)criteo
-{
+- (NSString *)_mopubConsentInLastBidRequestWithCriteo:(Criteo *)criteo {
     CR_HttpContent *bidRequest = criteo.testing_lastBidHttpContent;
     NSString *actualConsent = bidRequest.requestBody[NSString.userKey][NSString.mopubConsent];
     return actualConsent;
 }
 
-- (NSNumber *)_criteoUsPrivacyConsentInLastBidRequestWithCriteo:(Criteo *)criteo
-{
+- (NSNumber *)_criteoUsPrivacyConsentInLastBidRequestWithCriteo:(Criteo *)criteo {
     CR_HttpContent *bidRequest = criteo.testing_lastBidHttpContent;
     NSNumber *actualConsent = bidRequest.requestBody[NSString.userKey][NSString.uspCriteoOptout];
     return actualConsent;
 }
 
-- (NSString *)_iabConsentInLastBidRequestWithCriteo:(Criteo *)criteo
-{
+- (NSString *)_iabConsentInLastBidRequestWithCriteo:(Criteo *)criteo {
     CR_HttpContent *bidRequest = criteo.testing_lastBidHttpContent;
     NSString *actualConsent = bidRequest.requestBody[NSString.userKey][NSString.uspIabKey];
     return actualConsent;

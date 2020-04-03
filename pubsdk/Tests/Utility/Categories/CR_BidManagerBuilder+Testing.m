@@ -16,7 +16,8 @@
 @implementation CR_BidManagerBuilder (Testing)
 
 + (instancetype)testing_bidManagerBuilder {
-    return CR_BidManagerBuilder.new .withPreprodConfiguration
+    return CR_BidManagerBuilder.new .withIsolatedUserDefaults
+                                    .withPreprodConfiguration
                                     .withListenedNetworkManager
                                     .withIsolatedNotificationCenter
                                     .withIsolatedFeedbackStorage;
@@ -29,7 +30,8 @@
 }
 
 - (CR_BidManagerBuilder *)withPreprodConfiguration {
-    CR_Config *config = [CR_Config configForPreprodWithCriteoPublisherId:CriteoTestingPublisherId];
+    CR_Config *config = [CR_Config configForPreprodWithCriteoPublisherId:CriteoTestingPublisherId
+                                                            userDefaults:self.userDefaults];
     self.config = config;
     return self;
 }
@@ -46,6 +48,15 @@
     CR_FeedbackStorage *feedbackStorage = [[CR_FeedbackStorage alloc] initWithFileManager:feedbackFileManagingMock
                                                                                 withQueue:feedbackSendingQueue];
     self.feedbackStorage = feedbackStorage;
+    return self;
+}
+
+- (CR_BidManagerBuilder *)withIsolatedUserDefaults {
+    NSUUID *uid = [[NSUUID alloc] init];
+    NSString *name = [[NSString alloc] initWithFormat:@"%@-%@", NSStringFromClass(self.class), [uid UUIDString]];
+    [[NSUserDefaults new] removePersistentDomainForName:name];
+    
+    self.userDefaults = [[NSUserDefaults alloc] initWithSuiteName:name];
     return self;
 }
 

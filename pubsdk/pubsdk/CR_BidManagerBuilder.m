@@ -12,6 +12,13 @@
 
 @implementation CR_BidManagerBuilder
 
+- (NSUserDefaults *)userDefaults {
+    if (_userDefaults == nil) {
+        _userDefaults = [NSUserDefaults standardUserDefaults];
+    }
+    return _userDefaults;
+}
+
 - (NSNotificationCenter *)notificationCenter {
     if (_notificationCenter == nil) {
         _notificationCenter = [NSNotificationCenter defaultCenter];
@@ -65,14 +72,15 @@
 
 - (CR_Config *)config {
     if (_config == nil) {
-        _config = [[CR_Config alloc] init];
+        _config = [[CR_Config alloc] initWithUserDefaults:self.userDefaults];
     }
     return _config;
 }
 
 - (CR_ConfigManager *)configManager {
     if (_configManager == nil) {
-        _configManager = [[CR_ConfigManager alloc] initWithApiHandler:self.apiHandler];
+        _configManager = [[CR_ConfigManager alloc] initWithApiHandler:self.apiHandler
+                                                          userDefault:self.userDefaults];
     }
     return _configManager;
 }
@@ -86,7 +94,7 @@
 
 - (CR_DataProtectionConsent *)consent {
     if (_consent == nil) {
-        _consent = [[CR_DataProtectionConsent alloc] init];
+        _consent = [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
     }
     return _consent;
 }

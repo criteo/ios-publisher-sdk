@@ -24,13 +24,15 @@ NSString * const CR_ConfigPreprodConfigurationUrl = @"https://gum.par.preprod.cr
 @implementation CR_Config
 
 + (CR_Config *)configForPreprodWithCriteoPublisherId:(NSString *)criteoPublisherId
+                                        userDefaults:(NSUserDefaults *)userDefaults
 {
     // For now, I don't success to make the CR_ConfigPreprodAppEventsUrl & CR_ConfigPreprodConfigurationUrl
     // It requires investigations.
     return [[CR_Config alloc] initWithCriteoPublisherId:criteoPublisherId
                                                  cdbUrl:CR_ConfigPreprodCdbUrl
                                            appEventsUrl:CR_ConfigAppEventsUrl
-                                              configUrl:CR_ConfigConfigurationUrl];
+                                              configUrl:CR_ConfigConfigurationUrl
+                                           userDefaults:userDefaults];
 
 }
 
@@ -38,6 +40,7 @@ NSString * const CR_ConfigPreprodConfigurationUrl = @"https://gum.par.preprod.cr
                                    cdbUrl:(NSString *)cdbUrl
                              appEventsUrl:(NSString *)appEventsUrl
                                 configUrl:(NSString *)configUrl
+                             userDefaults:(NSUserDefaults *)userDefaults
 {
     if (self = [super init]) {
         _criteoPublisherId = criteoPublisherId;
@@ -47,7 +50,7 @@ NSString * const CR_ConfigPreprodConfigurationUrl = @"https://gum.par.preprod.cr
         _csmPath = @"csm";
         _sdkVersion = @"3.4.0";
         _appId = [[NSBundle mainBundle] bundleIdentifier];
-        _killSwitch = [[NSUserDefaults standardUserDefaults] boolForKey:NSUserDefaultsKillSwitchKey];
+        _killSwitch = [userDefaults boolForKey:NSUserDefaultsKillSwitchKey];
         _deviceModel = [[UIDevice currentDevice] model];
         _osVersion = [[UIDevice currentDevice] systemVersion];
         _deviceOs = @"ios";
@@ -66,15 +69,21 @@ NSString * const CR_ConfigPreprodConfigurationUrl = @"https://gum.par.preprod.cr
     return [self initWithCriteoPublisherId:criteoPublisherId
                                     cdbUrl:CR_ConfigCdbUrl
                               appEventsUrl:CR_ConfigAppEventsUrl
-                                 configUrl:CR_ConfigConfigurationUrl];
+                                 configUrl:CR_ConfigConfigurationUrl
+                              userDefaults:[NSUserDefaults standardUserDefaults]];
 }
 
 - (instancetype)init
 {
+    return [self initWithUserDefaults:[NSUserDefaults standardUserDefaults]];
+}
+
+- (instancetype)initWithUserDefaults:(NSUserDefaults *)userDefaults {
     return [self initWithCriteoPublisherId:nil
                                     cdbUrl:CR_ConfigCdbUrl
                               appEventsUrl:CR_ConfigAppEventsUrl
-                                 configUrl:CR_ConfigConfigurationUrl];
+                                 configUrl:CR_ConfigConfigurationUrl
+                              userDefaults:userDefaults];
 }
 
 + (NSDictionary *) getConfigValuesFromData:(NSData *) data {

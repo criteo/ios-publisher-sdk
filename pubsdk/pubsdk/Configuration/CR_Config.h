@@ -47,16 +47,18 @@ FOUNDATION_EXTERN NSString * const CR_ConfigPreprodConfigurationUrl;
 @property (copy, nonatomic, readonly) NSString *deviceOs;
 @property (copy, nonatomic, readonly) NSString *configUrl;
 
-+ (CR_Config *)configForPreprodWithCriteoPublisherId:(nullable NSString *)criteoPublisherId;
++ (CR_Config *)configForPreprodWithCriteoPublisherId:(nullable NSString *)criteoPublisherId
+                                        userDefaults:(NSUserDefaults *)userDefaults;
 
 - (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId
                                    cdbUrl:(NSString *)cdbUrl
                              appEventsUrl:(NSString *)appEventsUrl
-                                configUrl:(NSString *)configUrl NS_DESIGNATED_INITIALIZER;
+                                configUrl:(NSString *)configUrl
+                             userDefaults:(NSUserDefaults *)userDefaults NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId;
 
-- (instancetype)init;
+- (instancetype)initWithUserDefaults:(NSUserDefaults *)userDefaults;
 
 /*
  * Helper function to convert NSData returned from a network call

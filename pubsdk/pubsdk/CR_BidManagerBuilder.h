@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_BidManagerBuilder : NSObject
 
+@property (nonatomic, strong) NSUserDefaults *userDefaults;
 @property (nonatomic, strong) NSNotificationCenter *notificationCenter;
 @property (nonatomic, strong) CR_ThreadManager *threadManager;
 @property (nonatomic, strong) CR_BidFetchTracker *bidFetchTracker;
