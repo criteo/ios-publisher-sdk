@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // ⚠️ Call those methods in this order to have a good dependency management.
 @property (weak, nonatomic, readonly) CR_BidManagerBuilder *withIsolatedUserDefaults;
+@property (weak, nonatomic, readonly) CR_BidManagerBuilder *withIsolatedDeviceInfo;
 @property (weak, nonatomic, readonly) CR_BidManagerBuilder *withPreprodConfiguration;
 @property (weak, nonatomic, readonly) CR_BidManagerBuilder *withListenedNetworkManager;
 @property (weak, nonatomic, readonly) CR_BidManagerBuilder *withIsolatedNotificationCenter;

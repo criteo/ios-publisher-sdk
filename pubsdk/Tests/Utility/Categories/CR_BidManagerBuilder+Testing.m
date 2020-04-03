@@ -17,6 +17,7 @@
 
 + (instancetype)testing_bidManagerBuilder {
     return CR_BidManagerBuilder.new .withIsolatedUserDefaults
+                                    .withIsolatedDeviceInfo
                                     .withPreprodConfiguration
                                     .withListenedNetworkManager
                                     .withIsolatedNotificationCenter
@@ -33,6 +34,11 @@
     CR_Config *config = [CR_Config configForTestWithCriteoPublisherId:CriteoTestingPublisherId
                                                             userDefaults:self.userDefaults];
     self.config = config;
+    return self;
+}
+
+- (CR_BidManagerBuilder *)withIsolatedDeviceInfo {
+    self.deviceInfo = [[CR_DeviceInfoMock alloc] init];
     return self;
 }
 
