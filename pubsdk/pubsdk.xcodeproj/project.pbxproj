@@ -172,6 +172,12 @@
 		654858AA226538D500DC471A /* CRInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 654858A6226538D500DC471A /* CRInterstitial.m */; };
 		65E3A5732270CB7A004156E9 /* CR_InterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */; };
 		65E3A5742270CB7A004156E9 /* CR_InterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */; };
+		7D00672C243CD6F900E5D50D /* CASObjectQueue+ArraySet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D00672A243CD6F900E5D50D /* CASObjectQueue+ArraySet.m */; };
+		7D00672D243CD6F900E5D50D /* CASObjectQueue+ArraySet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D00672A243CD6F900E5D50D /* CASObjectQueue+ArraySet.m */; };
+		7D00672E243CD6F900E5D50D /* CASObjectQueue+ArraySet.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D00672B243CD6F900E5D50D /* CASObjectQueue+ArraySet.h */; };
+		7D00672F243CD6F900E5D50D /* CASObjectQueue+ArraySet.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D00672B243CD6F900E5D50D /* CASObjectQueue+ArraySet.h */; };
+		7D006730243CD7E800E5D50D /* CASObjectQueue+ArraySet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D00672A243CD6F900E5D50D /* CASObjectQueue+ArraySet.m */; };
+		7D006731243CD7E900E5D50D /* CASObjectQueue+ArraySet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D00672A243CD6F900E5D50D /* CASObjectQueue+ArraySet.m */; };
 		7D00897023EAD19C00BA8F96 /* CRBannerViewDelegateMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D00896F23EAD19C00BA8F96 /* CRBannerViewDelegateMock.m */; };
 		7D00897123EAD19C00BA8F96 /* CRBannerViewDelegateMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D00896F23EAD19C00BA8F96 /* CRBannerViewDelegateMock.m */; };
 		7D0441CF2428EBA600D36C65 /* NSString+APIKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0441CE2428EBA600D36C65 /* NSString+APIKeys.m */; };
@@ -561,6 +567,8 @@
 		65E3A56F2270CB7A004156E9 /* CR_InterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_InterstitialViewController.h; sourceTree = "<group>"; };
 		65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_InterstitialViewController.m; sourceTree = "<group>"; };
 		6F187272CD050435F6D28BFA /* libPods-pubsdkTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pubsdkTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D00672A243CD6F900E5D50D /* CASObjectQueue+ArraySet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CASObjectQueue+ArraySet.m"; sourceTree = "<group>"; };
+		7D00672B243CD6F900E5D50D /* CASObjectQueue+ArraySet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CASObjectQueue+ArraySet.h"; sourceTree = "<group>"; };
 		7D00896E23EAD19B00BA8F96 /* CRBannerViewDelegateMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRBannerViewDelegateMock.h; sourceTree = "<group>"; };
 		7D00896F23EAD19C00BA8F96 /* CRBannerViewDelegateMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRBannerViewDelegateMock.m; sourceTree = "<group>"; };
 		7D0441CD2428EBA600D36C65 /* NSString+APIKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+APIKeys.h"; sourceTree = "<group>"; };
@@ -864,6 +872,8 @@
 		542B05F523FD97380086A942 /* Feedback */ = {
 			isa = PBXGroup;
 			children = (
+				7D00672B243CD6F900E5D50D /* CASObjectQueue+ArraySet.h */,
+				7D00672A243CD6F900E5D50D /* CASObjectQueue+ArraySet.m */,
 				54C24BD624067FEE00DD9839 /* CR_DefaultFileManipulator.h */,
 				54C24BD724067FEE00DD9839 /* CR_DefaultFileManipulator.m */,
 				54C24BC824040F2400DD9839 /* CR_FeedbackFileManager.h */,
@@ -1411,6 +1421,7 @@
 				5397C0B422A0AA7E00BC72FE /* CRBannerAdUnit.h in Headers */,
 				54658897228C6DB1009746E0 /* CRInterstitialDelegate.h in Headers */,
 				650915FD225565E6001D6673 /* CRBannerView.h in Headers */,
+				7D00672F243CD6F900E5D50D /* CASObjectQueue+ArraySet.h in Headers */,
 				DF367C8A232974210044807B /* CRNativeAdUnit.h in Headers */,
 				7D4B4A8B24191E8E00E1E241 /* CR_ApiQueryKeys.h in Headers */,
 				25BD5B5B2220D16D004DE311 /* CriteoPublisherSdk.h in Headers */,
@@ -1457,6 +1468,7 @@
 				53CA0F9922AB0B870098F96C /* CRBidResponse.h in Headers */,
 				7DDEF656242CD8BE00BC129F /* CR_BidRequestSerializer.h in Headers */,
 				54E0C24E23917D9A004F9353 /* CR_ApiQueryKeys.h in Headers */,
+				7D00672E243CD6F900E5D50D /* CASObjectQueue+ArraySet.h in Headers */,
 				542FCFB3242D08EE000D9DA9 /* CR_FeedbacksSerializer.h in Headers */,
 				53CA0F9A22AB0B870098F96C /* CRInterstitialDelegate.h in Headers */,
 				46240E0D2434BB4F001425AB /* CR_UniqueIdGenerator.h in Headers */,
@@ -1821,6 +1833,7 @@
 				7D4B4A8A24191E8900E1E241 /* CR_ApiQueryKeys.m in Sources */,
 				5397C0B122A0AA6600BC72FE /* CR_CacheAdUnit.m in Sources */,
 				25BD5B6F2220D209004DE311 /* Logging.m in Sources */,
+				7D00672D243CD6F900E5D50D /* CASObjectQueue+ArraySet.m in Sources */,
 				25BD5B6B2220D1E6004DE311 /* CR_ApiHandler.m in Sources */,
 				542FCFB6242D08EE000D9DA9 /* CR_FeedbacksSerializer.m in Sources */,
 				7D3E426F23915E4200BAF673 /* CR_BidManagerBuilder.m in Sources */,
@@ -1915,6 +1928,7 @@
 				7D3E426123915DAC00BAF673 /* CR_NativeProductTests.m in Sources */,
 				7D523C7E23DB32C600E79C88 /* CR_HttpContent+AdUnit.m in Sources */,
 				7D3E426623915DB900BAF673 /* CR_BidFetchTrackerTests.m in Sources */,
+				7D006731243CD7E900E5D50D /* CASObjectQueue+ArraySet.m in Sources */,
 				7D3E424C23915D8700BAF673 /* CR_CacheAdUnitTests.m in Sources */,
 				7D3E424F23915D8700BAF673 /* CR_CdbResponseTests.m in Sources */,
 				7D49F9D9243B782400CF3941 /* WKWebView+Testing.m in Sources */,
@@ -1955,6 +1969,7 @@
 				7D3E41E7238BDD9700BAF673 /* CR_BidManagerBuilder.m in Sources */,
 				DF367C87232971820044807B /* CRNativeAdUnit.m in Sources */,
 				653CA6F622C3808500D74412 /* CR_TokenCache.h in Sources */,
+				7D00672C243CD6F900E5D50D /* CASObjectQueue+ArraySet.m in Sources */,
 				25B6505B2206AB40008416D3 /* Logging.m in Sources */,
 				53374B8022AEDBE5007084FB /* CR_TokenCache.m in Sources */,
 				7D3E41D82387EE8100BAF673 /* NSUserDefaults+CRPrivateKeysAndUtils.m in Sources */,
@@ -2068,6 +2083,7 @@
 				7D58583523E2D5DF0039AC56 /* CR_ThreadManagerTests.m in Sources */,
 				7D523C8223DB5D9600E79C88 /* CR_CdbBidBuilder.m in Sources */,
 				7D3E423B23915B6600BAF673 /* pubsdkTests.m in Sources */,
+				7D006730243CD7E800E5D50D /* CASObjectQueue+ArraySet.m in Sources */,
 				7D3E422B23915B6600BAF673 /* CR_NativeAssetsTests.m in Sources */,
 				54ED19F322717E13009AA0B2 /* CRInterstitialViewControllerTests.m in Sources */,
 				7D85E8D323D8891A00AFF91B /* CR_InHouseFunctionalTests.m in Sources */,

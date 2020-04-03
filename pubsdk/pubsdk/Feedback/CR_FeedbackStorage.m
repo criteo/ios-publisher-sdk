@@ -9,6 +9,7 @@
 #import "CR_CacheAdUnit.h"
 #import "CR_FeedbackStorage.h"
 #import "CR_FeedbackFileManager.h"
+#import "CASObjectQueue+ArraySet.h"
 
 @interface CR_FeedbackStorage()
 
@@ -46,7 +47,7 @@
     CR_FeedbackMessage *feedback = [self readOrCreateFeedbackMessageByFilename:impressionId];
     updateFunction(feedback);
     if([feedback isReadyToSend]) {
-        [self.sendingQueue add:feedback];
+        [self.sendingQueue addSafely:feedback];
         [self.fileManaging removeFileForFilename:impressionId];
     } else {
         [self.fileManaging writeFeedback:feedback forFilename:impressionId];
@@ -73,7 +74,7 @@
 - (void)moveFeedbackObjectToSendingQueue:(NSString *)filename {
     CR_FeedbackMessage *feedback = [self.fileManaging readFeedbackForFilename:filename];
     if (feedback) {
-        [self.sendingQueue add:feedback];
+        [self.sendingQueue addSafely:feedback];
     }
     [self.fileManaging removeFileForFilename:filename];
 }
