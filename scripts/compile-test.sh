@@ -24,7 +24,7 @@ pod install
 xcodebuild \
     -workspace fuji-test-app.xcworkspace \
     -scheme AdViewer \
-    -configuration debug \
+    -configuration Debug \
     -derivedDataPath build/DerivedData  \
     -sdk iphonesimulator \
     -destination 'platform=iOS Simulator,name=iPhone 5s,OS=latest' \
