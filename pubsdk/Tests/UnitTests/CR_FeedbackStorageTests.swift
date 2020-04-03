@@ -123,7 +123,6 @@ class CR_FeedbackStorageTests: XCTestCase {
 }
 
 class CR_FeedbackFileManagingMock: NSObject, CR_FeedbackFileManaging {
-
     var readFeedbackCallCount: Int = 0
     var readFeedbackResults: [CR_FeedbackMessage] = []
     var readRequestedFilenames: [String] = []
@@ -137,7 +136,7 @@ class CR_FeedbackFileManagingMock: NSObject, CR_FeedbackFileManaging {
     @objc var removeRequestedFilenames: [String] = []
 
     @objc var useReadWriteDictionary: Bool = false
-    var readWriteDictionary: Dictionary = Dictionary<String, CR_FeedbackMessage>()
+    @objc var readWriteDictionary: Dictionary = Dictionary<String, CR_FeedbackMessage>()
 
     func readFeedback(forFilename filename: String) -> CR_FeedbackMessage? {
         var result: CR_FeedbackMessage?
@@ -159,7 +158,7 @@ class CR_FeedbackFileManagingMock: NSObject, CR_FeedbackFileManaging {
         writeFeedbackResults.append(feedback)
         writeRequestedFilenames.append(filename)
 
-        if(useReadWriteDictionary) {
+        if (useReadWriteDictionary) {
             readWriteDictionary[filename] = feedback;
         }
     }
@@ -167,6 +166,10 @@ class CR_FeedbackFileManagingMock: NSObject, CR_FeedbackFileManaging {
     func removeFile(forFilename filename: String) {
         removeFileCallCount += 1
         removeRequestedFilenames.append(filename)
+
+        if (useReadWriteDictionary) {
+            readWriteDictionary.removeValue(forKey: filename)
+        }
     }
 
     func allActiveFeedbackFilenames() -> [String] {

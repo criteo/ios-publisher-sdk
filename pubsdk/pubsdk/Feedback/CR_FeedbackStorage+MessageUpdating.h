@@ -19,6 +19,6 @@
 
 - (void)setExpiredForImpressionId:(NSString *)impressionId;
 
-- (void)setTimeoutForImpressionId:(NSString *)impressionId;
+- (void)setTimeoutAndExpiredForImpressionId:(NSString *)impressionId;
 
 @end

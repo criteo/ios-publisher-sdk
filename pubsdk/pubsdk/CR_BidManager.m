@@ -191,7 +191,7 @@
 - (void)handleError:(NSError *)error cdbRequest:(CR_CdbRequest *)cdbRequest {
     for (NSString *impressionId in cdbRequest.impressionIds) {
         if (error.code == NSURLErrorTimedOut) {
-            [self.feedbackStorage setTimeoutForImpressionId:impressionId];
+            [self.feedbackStorage setTimeoutAndExpiredForImpressionId:impressionId];
         } else {
             [self.feedbackStorage setExpiredForImpressionId:impressionId];
         }

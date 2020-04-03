@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CR_FeedbackMessage : NSObject <NSSecureCoding>
+@interface CR_FeedbackMessage : NSObject <NSSecureCoding, NSCopying>
 
 @property(strong, nonatomic) NSString *impressionId;
 @property(strong, nonatomic) NSString *requestGroupId;

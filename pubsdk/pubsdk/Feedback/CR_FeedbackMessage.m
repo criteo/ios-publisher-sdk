@@ -116,4 +116,19 @@
         cachedBidUsed << 8;
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(nullable NSZone *)zone {
+    CR_FeedbackMessage *m = [[CR_FeedbackMessage allocWithZone:zone] init];
+    m.impressionId = self.impressionId;
+    m.requestGroupId = self.requestGroupId;
+    m.cdbCallStartTimestamp = self.cdbCallStartTimestamp;
+    m.cdbCallEndTimestamp = self.cdbCallEndTimestamp;
+    m.elapsedTimestamp = self.elapsedTimestamp;
+    m.timeout = self.timeout;
+    m.expired = self.expired;
+    m.cachedBidUsed = self.cachedBidUsed;
+    return m;
+}
+
 @end

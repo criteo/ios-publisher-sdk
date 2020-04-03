@@ -44,9 +44,10 @@
     }];
 }
 
-- (void)setTimeoutForImpressionId:(NSString *)impressionId {
+- (void)setTimeoutAndExpiredForImpressionId:(NSString *)impressionId {
     [self updateMessageWithImpressionId:impressionId by:^(CR_FeedbackMessage *message) {
         message.timeout = YES;
+        message.expired = YES;
     }];
 }
 
