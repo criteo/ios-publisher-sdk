@@ -82,11 +82,11 @@
                                                              responseBody:data
                                                                     error:error
                                                                   counter:count];
+            [self.internalFinishedRequests addObject:content];
+            [self.internalPendingRequests removeObject:requestContent];
             if (responseHandler != nil) {
                 responseHandler(data, error);
             }
-            [self.internalFinishedRequests addObject:content];
-            [self.internalPendingRequests removeObject:requestContent];
             if (self.responseListener != nil) {
                 self.responseListener(content);
             }
@@ -115,21 +115,23 @@
         [self.networkManager postToUrl:url
                               postBody:postBody
                        responseHandler:^(NSData *data, NSError *error) {
-            CR_HttpContent *content = [[CR_HttpContent alloc] initWithUrl:url
-                                                                     verb:POST
-                                                              requestBody:postBody
-                                                             responseBody:data
-                                                                    error:error
-                                                                  counter:count];
-            if (responseHandler != nil) {
-                responseHandler(data, error);
-            }
-            [self.internalFinishedRequests addObject:content];
-            [self.internalPendingRequests removeObject:requestContent];
-            if (self.responseListener != nil) {
-                self.responseListener(content);
-            }
-        }];
+                           @synchronized (self) {
+                               CR_HttpContent *content = [[CR_HttpContent alloc] initWithUrl:url
+                                                                                        verb:POST
+                                                                                 requestBody:postBody
+                                                                                responseBody:data
+                                                                                       error:error
+                                                                                     counter:count];
+                               if (responseHandler != nil) {
+                                   responseHandler(data, error);
+                               }
+                               [self.internalFinishedRequests addObject:content];
+                               [self.internalPendingRequests removeObject:requestContent];
+                               if (self.responseListener != nil) {
+                                   self.responseListener(content);
+                               }
+                           }
+                       }];
     }
 }
 
