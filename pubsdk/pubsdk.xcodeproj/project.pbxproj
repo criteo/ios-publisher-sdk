@@ -33,6 +33,7 @@
 		46240E0E2434BB4F001425AB /* CR_UniqueIdGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 46240E0C2434BB4F001425AB /* CR_UniqueIdGenerator.m */; };
 		465D3CF92434D3D500BD36AC /* CR_UniqueIdGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46240E132434BB91001425AB /* CR_UniqueIdGeneratorTests.swift */; };
 		465D3CFA2434D3D700BD36AC /* CR_UniqueIdGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46240E132434BB91001425AB /* CR_UniqueIdGeneratorTests.swift */; };
+		46B9780E243782A50061FC24 /* CR_UniqueIdGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 46240E0C2434BB4F001425AB /* CR_UniqueIdGenerator.m */; };
 		53374B8022AEDBE5007084FB /* CR_TokenCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 53374B7E22AEDBE4007084FB /* CR_TokenCache.m */; };
 		5397C09122A0885A00BC72FE /* CRAdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5397C08A22A0885700BC72FE /* CRAdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5397C09222A0885A00BC72FE /* CRInterstitialAdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5397C08B22A0885800BC72FE /* CRInterstitialAdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1797,6 +1798,7 @@
 				25BD5B622220D1A8004DE311 /* CR_BidManager.m in Sources */,
 				5470B17123A3BC6600C2B003 /* CR_TargetingKeys.m in Sources */,
 				5397C0B322A0AA6C00BC72FE /* CRInterstitialAdUnit.m in Sources */,
+				46B9780E243782A50061FC24 /* CR_UniqueIdGenerator.m in Sources */,
 				5397C0B022A0AA5600BC72FE /* CRAdUnit.m in Sources */,
 				7DB899DE2400126800948230 /* NSString+GDPR.m in Sources */,
 				25BD5B672220D1CC004DE311 /* CR_DeviceInfo.m in Sources */,
