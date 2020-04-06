@@ -9,12 +9,9 @@
 #import <XCTest/XCTest.h>
 #import <OCMock.h>
 #import "pubsdkTests-Swift.h"
-#import "CR_CdbRequest.h"
 #import "CR_CdbResponse.h"
-#import "CR_CdbBid.h"
 #import "CR_CdbBidBuilder.h"
 #import "CR_BidManagerBuilder.h"
-#import "CR_DeviceInfoMock.h"
 
 @interface CR_BidManagerFeedbackTests : XCTestCase
 
@@ -87,7 +84,7 @@
     XCTAssertNotNil(message.requestGroupId);
 }
 
-- (void)testFetrchingBidsThatIsMissingInResponse_ShouldUpdateCdbCallEnd_AndMoveToSendingQueue {
+- (void)testFetchingBidsThatIsMissingInResponse_ShouldUpdateCdbCallEnd_AndMoveToSendingQueue {
     self.cdbResponse.cdbBids = @[];
 
     [self configureApiHandlerMockWithCdbRequest:self.cdbRequest cdbResponse:self.cdbResponse error:nil];
