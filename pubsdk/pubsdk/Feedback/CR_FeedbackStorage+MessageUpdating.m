@@ -19,6 +19,8 @@
 - (void)setCdbEndAndCacheBidUsedIdForImpressionId:(NSString *)impressionId {
     [self updateMessageWithImpressionId:impressionId by:^(CR_FeedbackMessage *message) {
         message.cdbCallEndTimestamp = [self dateTimeNowInMilliseconds];
+        // All bids are consumed from the cache, for current SDK implementation, the value for this
+        // field will be true if the bid is ready to be consumed
         message.cachedBidUsed = YES;
     }];
 }
