@@ -70,7 +70,7 @@
 }
 
 // Getting bid should not populate cache if CDB call is pending
-- (void)test_givenPrefechingBid_whenGetBid_thenDontFetchBidAgain {
+- (void)test_givenPrefetchingBid_whenGetBid_thenDontFetchBidAgain {
     CR_NetworkManagerMock *networkManager = [[CR_NetworkManagerMock alloc] init];
     networkManager.respondingToPost = NO;
     self.builder = [[CR_BidManagerBuilder alloc] init]; // create new *clean* builder
