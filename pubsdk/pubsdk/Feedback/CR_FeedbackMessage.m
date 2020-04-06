@@ -14,6 +14,7 @@
 
 - (void)encodeWithCoder:(nonnull NSCoder *)coder {
     [coder encodeObject:self.impressionId forKey:@"impressionId"];
+    [coder encodeObject:self.requestGroupId forKey:@"requestGroupId"];
     [coder encodeObject:self.cdbCallStartTimestamp forKey:@"cdbCallStartTimestamp"];
     [coder encodeObject:self.cdbCallEndTimestamp forKey:@"cdbCallEndTimestamp"];
     [coder encodeObject:self.elapsedTimestamp forKey:@"elapsedTimestamp"];
@@ -25,6 +26,7 @@
 - (nullable instancetype)initWithCoder:(nonnull NSCoder *)coder {
     if (self = [super init]) {
         self.impressionId = [coder decodeObjectOfClass:NSString.class forKey:@"impressionId"];
+        self.requestGroupId = [coder decodeObjectOfClass:NSString.class forKey:@"requestGroupId"];
         self.cdbCallStartTimestamp = [coder decodeObjectOfClass:NSNumber.class forKey:@"cdbCallStartTimestamp"];
         self.cdbCallEndTimestamp = [coder decodeObjectOfClass:NSNumber.class forKey:@"cdbCallEndTimestamp"];
         self.elapsedTimestamp = [coder decodeObjectOfClass:NSNumber.class forKey:@"elapsedTimestamp"];
@@ -36,8 +38,9 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"{\n\t%@\t%@\t%@\t%@\t%@\t%@\t%@}",
+    return [NSString stringWithFormat:@"{\n\t%@\t%@\t%@\t%@\t%@\t%@\t%@\t%@}",
                                       [NSString stringWithFormat:@"impressionId: %@\n", self.impressionId],
+                                      [NSString stringWithFormat:@"requestGroupId: %@\n", self.requestGroupId],
                                       [NSString stringWithFormat:@"cdbCallStartTimestamp: %@\n", self.cdbCallStartTimestamp],
                                       [NSString stringWithFormat:@"cdbCallEndTimestamp: %@\n", self.cdbCallEndTimestamp],
                                       [NSString stringWithFormat:@"elapsedTimestamp: %@\n", self.elapsedTimestamp],
@@ -65,6 +68,10 @@
         (self.impressionId && other.impressionId &&
          [self.impressionId isEqualToString:other.impressionId]);
 
+    BOOL grpIdEq = (!self.requestGroupId && !other.requestGroupId) ||
+        (self.requestGroupId && other.requestGroupId &&
+         [self.requestGroupId isEqualToString:other.requestGroupId]);
+
     BOOL cdbStEq = (!self.cdbCallStartTimestamp && !other.cdbCallStartTimestamp) ||
         (self.cdbCallStartTimestamp && other.cdbCallStartTimestamp &&
          [self.cdbCallStartTimestamp isEqualToNumber:other.cdbCallStartTimestamp]);
@@ -77,7 +84,7 @@
         (self.elapsedTimestamp && other.elapsedTimestamp &&
          [self.elapsedTimestamp isEqualToNumber:other.elapsedTimestamp]);
 
-    return impIdEq && cdbStEq && cdbEndEq && elpTimeEq &&
+    return impIdEq && grpIdEq && cdbStEq && cdbEndEq && elpTimeEq &&
         self.timeout == other.timeout &&
         self.expired == other.expired &&
         self.cachedBidUsed == other.cachedBidUsed;
@@ -100,12 +107,13 @@
     NSUInteger expiredHash = [@(self.expired) unsignedIntegerValue];
     NSUInteger cachedBidUsed = [@(self.cachedBidUsed) unsignedIntegerValue];
     return [self.impressionId hash] << 1 ^
-        [self.cdbCallStartTimestamp hash] << 2 ^
-        [self.cdbCallEndTimestamp hash] << 3 ^
-        [self.elapsedTimestamp hash] << 4 ^
-        expiredHash << 5 ^
-        timeoutHash << 6 ^
-        cachedBidUsed << 7;
+        [self.requestGroupId hash] << 2 ^
+        [self.cdbCallStartTimestamp hash] << 3 ^
+        [self.cdbCallEndTimestamp hash] << 4 ^
+        [self.elapsedTimestamp hash] << 5 ^
+        expiredHash << 6 ^
+        timeoutHash << 7 ^
+        cachedBidUsed << 8;
 }
 
 @end

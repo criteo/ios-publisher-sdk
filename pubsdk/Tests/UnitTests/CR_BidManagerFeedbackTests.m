@@ -84,6 +84,7 @@
     XCTAssertNotNil(message);
     XCTAssertNotNil(message.cdbCallStartTimestamp);
     XCTAssertNotNil(message.impressionId);
+    XCTAssertNotNil(message.requestGroupId);
 }
 
 - (void)testFetrchingBidsThatIsMissingInResponse_ShouldUpdateCdbCallEnd_AndMoveToSendingQueue {

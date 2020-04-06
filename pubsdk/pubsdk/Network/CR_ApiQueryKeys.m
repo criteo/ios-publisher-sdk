@@ -43,6 +43,7 @@
 + (NSString *)profileId                 { return @"profileId"; }
 + (NSString *)profile_id                { return @"profile_id"; }
 + (NSString *)publisher                 { return @"publisher"; }
++ (NSString *)requestGroupId            { return @"requestGroupId"; }
 + (NSString *)sdkVersion                { return @"sdkVersion"; }
 + (NSString *)uspIab                    { return @"uspIab"; }
 + (NSString *)user                      { return @"user"; }

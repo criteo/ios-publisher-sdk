@@ -9,7 +9,7 @@
 
 @interface CR_FeedbackStorage (MessageUpdating)
 
-- (void)setCdbStartAndImpressionIdForImpressionId:(NSString *)impressionId;
+- (void)setCdbStartAndImpressionIdForImpressionId:(NSString *)impressionId requestGroupId:(NSString *)requestGroupId;
 
 - (void)setCdbEndAndCacheBidUsedIdForImpressionId:(NSString *)impressionId;
 

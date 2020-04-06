@@ -12,6 +12,7 @@
 #import "CR_TargetingKeys.h"
 #import "NSString+CR_Url.h"
 #import "CR_FeedbackStorage+MessageUpdating.h"
+#import "CR_UniqueIdGenerator.h"
 
 @interface CR_BidManager ()
 
@@ -180,8 +181,10 @@
 }
 
 - (void)beforeCdbCall:(CR_CdbRequest *)cdbRequest {
+    NSString *requestGroupId = [CR_UniqueIdGenerator generateId];
     for(NSString *impressionId in cdbRequest.impressionIds) {
-        [self.feedbackStorage setCdbStartAndImpressionIdForImpressionId:impressionId];
+        [self.feedbackStorage setCdbStartAndImpressionIdForImpressionId:impressionId
+                                                         requestGroupId:requestGroupId];
     }
 }
 

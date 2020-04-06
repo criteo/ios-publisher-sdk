@@ -33,6 +33,7 @@
     feedbackDict[CR_ApiQueryKeys.bidSlots] = @[[self buildSlotDictFromMessage:message]];
     feedbackDict[CR_ApiQueryKeys.isTimeout] = @(message.isTimeout);
     feedbackDict[CR_ApiQueryKeys.cdbCallStartElapsed] = @(0);
+    feedbackDict[CR_ApiQueryKeys.requestGroupId] = message.requestGroupId;
 
     feedbackDict[CR_ApiQueryKeys.cdbCallEndElapsed]
     = [self.class substractionWithNumber1:message.cdbCallEndTimestamp
