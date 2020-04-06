@@ -16,6 +16,7 @@
 #import "CR_CdbBidBuilder.h"
 #import "Criteo+Testing.h"
 #import "CR_BidManagerBuilder.h"
+#import "WkWebView+Testing.h"
 
 
 @implementation CR_CreativeViewChecker
@@ -56,11 +57,7 @@
 
 - (void)bannerDidReceiveAd:(CRBannerView *)bannerView {
     [self.bannerViewDidReceiveAdExpectation fulfill];
-    [CR_Timer scheduledTimerWithTimeInterval:1
-                                     repeats:NO
-                                       block:^(NSTimer *_Nonnull timer) {
-                                           [self checkViewAndFulfillExpectation];
-                                       }];
+    [self checkViewAndFulfillExpectation];
 }
 
 - (void)resetExpectations {
@@ -96,14 +93,22 @@
 }
 
 - (void)checkViewAndFulfillExpectation {
-    WKWebView *firstWebView = [self.uiWindow testing_findFirstWKWebView];
-    [firstWebView evaluateJavaScript:@"(function() { return document.getElementsByTagName('html')[0].outerHTML; })();"
-                   completionHandler:^(NSString *htmlContent, NSError *err) {
-        self.uiWindow.hidden = YES;
-        if ([htmlContent containsString:self.expectedCreativeUrl]) {
-            [self.adCreativeRenderedExpectation fulfill];
-        }
-    }];
+    __weak typeof(self) weakSelf = self;
+    WKWebView *webview = [self.uiWindow testing_findFirstWKWebView];
+    [webview testing_evaluateJavaScript:@"(function() { return document.getElementsByTagName('html')[0].outerHTML; })();"
+                      validationHandler:^BOOL(NSString *htmlContent, NSError *error) {
+                          typeof(self) strongSelf = weakSelf;
+                          if (strongSelf == nil) {
+                              return NO;
+                          }
+                          return [htmlContent containsString:strongSelf.expectedCreativeUrl];
+                      }
+                      completionHandler:^(BOOL success) {
+                          if (success) {
+                              [weakSelf.adCreativeRenderedExpectation fulfill];
+                          }
+                          weakSelf.uiWindow.hidden = YES;
+                      }];
 }
 
 @end

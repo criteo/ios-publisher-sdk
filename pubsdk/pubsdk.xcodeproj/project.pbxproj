@@ -267,6 +267,8 @@
 		7D3E42732391611500BAF673 /* SampleBid.json in Resources */ = {isa = PBXBuildFile; fileRef = 7D3E420523915B6600BAF673 /* SampleBid.json */; };
 		7D44BDD12408196D005E7906 /* NSString+GDPR.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D44BDCE24081969005E7906 /* NSString+GDPR.m */; };
 		7D44BDD22408196E005E7906 /* NSString+GDPR.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D44BDCE24081969005E7906 /* NSString+GDPR.m */; };
+		7D49F9D8243B782400CF3941 /* WKWebView+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D49F9D7243B782400CF3941 /* WKWebView+Testing.m */; };
+		7D49F9D9243B782400CF3941 /* WKWebView+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D49F9D7243B782400CF3941 /* WKWebView+Testing.m */; };
 		7D4B4A8A24191E8900E1E241 /* CR_ApiQueryKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 54E0C24D23917D9A004F9353 /* CR_ApiQueryKeys.m */; };
 		7D4B4A8B24191E8E00E1E241 /* CR_ApiQueryKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = 54E0C24C23917D9A004F9353 /* CR_ApiQueryKeys.h */; };
 		7D51ABEC23AA6CAC00540094 /* CR_NetworkManagerDecorator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D51ABEB23AA6CAC00540094 /* CR_NetworkManagerDecorator.m */; };
@@ -615,6 +617,8 @@
 		7D3E42712391605D00BAF673 /* SDKUnitTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SDKUnitTests-Info.plist"; sourceTree = "<group>"; };
 		7D44BDCD24081969005E7906 /* NSString+GDPR.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+GDPR.h"; sourceTree = "<group>"; };
 		7D44BDCE24081969005E7906 /* NSString+GDPR.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+GDPR.m"; sourceTree = "<group>"; };
+		7D49F9D6243B782400CF3941 /* WKWebView+Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WKWebView+Testing.h"; sourceTree = "<group>"; };
+		7D49F9D7243B782400CF3941 /* WKWebView+Testing.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "WKWebView+Testing.m"; sourceTree = "<group>"; };
 		7D51ABEA23AA6CAC00540094 /* CR_NetworkManagerDecorator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_NetworkManagerDecorator.h; sourceTree = "<group>"; };
 		7D51ABEB23AA6CAC00540094 /* CR_NetworkManagerDecorator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_NetworkManagerDecorator.m; sourceTree = "<group>"; };
 		7D51ABEE23AB781600540094 /* CR_Timer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_Timer.h; sourceTree = "<group>"; };
@@ -1175,6 +1179,8 @@
 				7D44BDCE24081969005E7906 /* NSString+GDPR.m */,
 				7DE7064C242B5252007F4A72 /* NSUserDefaults+GDPR.h */,
 				7DE7064D242B5252007F4A72 /* NSUserDefaults+GDPR.m */,
+				7D49F9D6243B782400CF3941 /* WKWebView+Testing.h */,
+				7D49F9D7243B782400CF3941 /* WKWebView+Testing.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1911,6 +1917,7 @@
 				7D3E426623915DB900BAF673 /* CR_BidFetchTrackerTests.m in Sources */,
 				7D3E424C23915D8700BAF673 /* CR_CacheAdUnitTests.m in Sources */,
 				7D3E424F23915D8700BAF673 /* CR_CdbResponseTests.m in Sources */,
+				7D49F9D9243B782400CF3941 /* WKWebView+Testing.m in Sources */,
 				7DB4E90D239532BA008DE5E3 /* XCTestCase+Criteo.m in Sources */,
 				7DB5F90923AA2B2500EF5602 /* CR_NetworkManagerSimulator.m in Sources */,
 				7D3E426B23915DC900BAF673 /* NSArray+AdditionsTests.m in Sources */,
@@ -2017,6 +2024,7 @@
 				7D3E422323915B6600BAF673 /* CR_ConfigManagerTests.m in Sources */,
 				7D44BDD12408196D005E7906 /* NSString+GDPR.m in Sources */,
 				7D3E422E23915B6600BAF673 /* NSArray+AdditionsTests.m in Sources */,
+				7D49F9D8243B782400CF3941 /* WKWebView+Testing.m in Sources */,
 				7D58582A23E1E6BB0039AC56 /* CR_ThreadManagerWaiter.m in Sources */,
 				7DB5F90623AA2B2500EF5602 /* CR_NetworkCaptor.m in Sources */,
 				7D3E424423915B6600BAF673 /* CR_TokenCacheTests.m in Sources */,

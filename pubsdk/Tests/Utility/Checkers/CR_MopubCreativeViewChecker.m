@@ -7,6 +7,7 @@
 #import "UIView+Testing.h"
 #import "Logging.h"
 #import "CR_ViewCheckingHelper.h"
+#import "WKWebView+Testing.h"
 
 @interface CR_MopubCreativeViewChecker ()
 
@@ -115,15 +116,20 @@
 #pragma mark - Private methods
 
 - (void)checkViewAndFulfillExpectation {
-    WKWebView *firstWebView = [self.uiWindow testing_findFirstWKWebView];
-    [firstWebView evaluateJavaScript:@"(function() { return document.getElementsByTagName('html')[0].outerHTML; })();"
-                   completionHandler:^(NSString *htmlContent, NSError *err) {
-        self.uiWindow.hidden = YES;
-        if ([htmlContent containsString:[CR_ViewCheckingHelper preprodCreativeImageUrl]]) {
-            [self.adCreativeRenderedExpectation fulfill];
-        }
-    }];
+    __weak typeof(self) weakSelf = self;
+    WKWebView *webview = [self.uiWindow testing_findFirstWKWebView];
+    [webview testing_evaluateJavaScript:@"(function() { return document.getElementsByTagName('html')[0].outerHTML; })();"
+                      validationHandler:^BOOL(NSString *htmlContent, NSError *error) {
+                          return [htmlContent containsString:[CR_ViewCheckingHelper preprodCreativeImageUrl]];
+                      }
+                      completionHandler:^(BOOL success) {
+                          if (success) {
+                              [self.adCreativeRenderedExpectation fulfill];
+                          }
+                          weakSelf.uiWindow.hidden = YES;
+                      }];
 }
+
 
 - (UIWindow *)createUIWindow {
     UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 50, 320, 480)];
