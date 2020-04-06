@@ -62,9 +62,8 @@ public class AdViewCell<ViewType: UIView, ValueType: Equatable>: Cell<ValueType>
 
 }
 
-open class _ViewRow<ViewType: UIView, ValueType: Equatable>: Row<AdViewCell<ViewType, ValueType>> {
-
-    override open func updateCell() {
+public final class AdViewRow<ViewType: UIView>: Row<AdViewCell<ViewType, String>>, RowType {
+    override public func updateCell() {
         //  NOTE: super.updateCell() deliberately not called.
 
         //  Deal with the case where the caller did not add their custom view to the containerView in a
@@ -80,12 +79,5 @@ open class _ViewRow<ViewType: UIView, ValueType: Equatable>: Row<AdViewCell<View
     required public init(tag: String?) {
         super.init(tag: tag)
         displayValueFor = nil
-    }
-}
-
-// legacy ViewRow class without value type specialization
-public final class ViewRow<ViewType: UIView>: _ViewRow<ViewType, String>, RowType {
-    required public init(tag: String?) {
-        super.init(tag: tag)
     }
 }

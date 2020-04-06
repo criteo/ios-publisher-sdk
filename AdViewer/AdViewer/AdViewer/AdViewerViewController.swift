@@ -151,7 +151,7 @@ class AdViewerViewController: FormViewController {
             switch (adView) {
             case .banner(let bannerView):
                 if let adsSection = self.form.sectionBy(tag: tags.ads.rawValue) {
-                    let adRow = ViewRow<UIView>(bannerView.description) { (row) in
+                    let adRow = AdViewRow<UIView>(bannerView.description) { (row) in
                     }.cellSetup { (cell, row) in
                         cell.view = bannerView
                     }
