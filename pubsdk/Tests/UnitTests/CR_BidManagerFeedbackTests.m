@@ -16,9 +16,12 @@
 @interface CR_BidManagerFeedbackTests : XCTestCase
 
 @property (nonatomic, strong) CR_CacheAdUnit *adUnit;
+@property (nonatomic, strong) CR_CacheAdUnit *adUnit2;
 @property (nonatomic, strong) CR_CdbRequest *cdbRequest;
 @property (nonatomic, strong) NSString *impressionId;
+@property (nonatomic, strong) NSString *impressionId2;
 @property (nonatomic, strong) CR_CdbBid *validBid;
+@property (nonatomic, strong) CR_CdbBid *validBid2;
 @property (nonatomic, strong) CR_CdbResponse *cdbResponse;
 
 @property (nonatomic, strong) CR_CacheAdUnit *adUnitForInvalidBid;
@@ -55,11 +58,14 @@
     self.bidManager = [builder buildBidManager];
 
     self.adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adUnitForValid" width:300 height:250];
+    self.adUnit2 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adUnitForValid2" width:300 height:250];
     self.cdbRequest = [[CR_CdbRequest alloc] initWithAdUnits:@[self.adUnit]];
     self.impressionId = [self.cdbRequest impressionIdForAdUnit:self.adUnit];
+    self.impressionId2 = [self.cdbRequest impressionIdForAdUnit:self.adUnit2];
     self.validBid = CR_CdbBidBuilder.new.adUnit(self.adUnit).impressionId(self.impressionId).build;
+    self.validBid2 = CR_CdbBidBuilder.new.adUnit(self.adUnit2).impressionId(self.impressionId2).build;
     self.cdbResponse = [[CR_CdbResponse alloc] init];
-    self.cdbResponse.cdbBids = @[self.validBid];
+    self.cdbResponse.cdbBids = @[self.validBid, self.validBid2];
 
     self.adUnitForInvalidBid = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adUnitForInvalid" width:300 height:250];
     self.cdbRequestForInvalidBid = [[CR_CdbRequest alloc] initWithAdUnits:@[self.adUnitForInvalidBid]];
@@ -81,7 +87,17 @@
     XCTAssertNotNil(message);
     XCTAssertNotNil(message.cdbCallStartTimestamp);
     XCTAssertNotNil(message.impressionId);
-    XCTAssertNotNil(message.requestGroupId);
+}
+
+- (void)testFetchingBids_ShouldUpdateCdbCallRequestGroupId {
+    [self configureApiHandlerMockWithCdbRequest:self.cdbRequest cdbResponse:self.cdbResponse error:nil];
+    [self.bidManager prefetchBid:self.adUnit];
+
+    NSArray<CR_FeedbackMessage *> *feedbacks = [self.feedbackFileManagingMock writeFeedbackResults];
+    NSString *requestGroupId = feedbacks[0].requestGroupId;
+    NSString *requestGroupId2 = feedbacks[1].requestGroupId;
+    XCTAssertNotNil(requestGroupId);
+    XCTAssertEqual(requestGroupId, requestGroupId2, @"requestGroupId should be identical for all feedbacks related to same request");
 }
 
 - (void)testFetchingBidsThatIsMissingInResponse_ShouldUpdateCdbCallEnd_AndMoveToSendingQueue {
