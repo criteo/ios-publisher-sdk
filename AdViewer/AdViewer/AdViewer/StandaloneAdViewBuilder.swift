@@ -11,10 +11,10 @@ class StandaloneAdViewBuilder: AdViewBuilder {
     }
 
     func build(config: AdConfig, criteo: Criteo) -> AdView {
-        switch (config.adFormat.type) {
-        case .banner:
+        switch (config.adFormat) {
+        case .sized(.banner, _):
             return .banner(buildBanner(adUnit: config.adUnit, criteo: criteo))
-        case .interstitial:
+        case .flexible(.interstitial):
             return .interstitial(buildInterstitial(adUnit: config.adUnit, criteo: criteo))
         case _:
             fatalError("Unsupported")

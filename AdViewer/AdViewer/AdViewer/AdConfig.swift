@@ -15,14 +15,14 @@ struct AdConfig {
     }
 
     private static func buildAdUnit(adFormat: AdFormat, adUnitId: String) -> CRAdUnit {
-        switch (adFormat.type, adFormat.size) {
-        case (.banner, .some(let size)):
+        switch (adFormat) {
+        case .sized(.banner, let size):
             return CRBannerAdUnit(adUnitId: adUnitId, size: size.cgSize())
-        case (.native, _):
+        case .flexible(.native):
             return CRNativeAdUnit(adUnitId: adUnitId)
-        case (.interstitial, _):
+        case .flexible(.interstitial):
             return CRInterstitialAdUnit(adUnitId: adUnitId)
-        case (_, _):
+        case _:
             fatalError("Unsupported")
         }
     }

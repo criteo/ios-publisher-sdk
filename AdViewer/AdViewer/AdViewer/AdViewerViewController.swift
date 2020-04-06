@@ -123,7 +123,11 @@ class AdViewerViewController: FormViewController {
             let size = (self.values[tags.size.rawValue] as? AdSize)
             // TODO Advanced config
             let publisherId = "B-056946"
-            let format = AdFormat(type: type, size: size)
+            let format: AdFormat
+            switch size {
+            case .some(let size): format = .sized(type, size)
+            case .none: format = .flexible(type)
+            }
             if let adUnitId = network.defaultAdUnits[format] {
                 return AdConfig(
                         publisherId: publisherId,

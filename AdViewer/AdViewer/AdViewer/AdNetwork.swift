@@ -21,17 +21,21 @@ struct AdNetwork: Equatable {
 
     var types: [AdType] {
         return Array(Set(supportedFormats.map {
-            return $0.type
+            switch $0 {
+            case .sized(let type, _): return type
+            case .flexible(let type): return type
+            }
         })).sorted {
             return $0.rawValue < $1.rawValue
         }
     }
 
     func sizes(type: AdType) -> [AdSize] {
-        return self.supportedFormats.filter {
-            return $0.type == type
-        }.compactMap {
-            return $0.size
+        return self.supportedFormats.compactMap {
+            switch $0 {
+            case .sized(type, let size): return .some(size)
+            case _: return .none
+            }
         }
     }
 

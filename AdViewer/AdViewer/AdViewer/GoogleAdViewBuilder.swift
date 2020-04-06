@@ -15,15 +15,14 @@ class GoogleAdViewBuilder: AdViewBuilder {
     }
 
     func build(config: AdConfig, criteo: Criteo) -> AdView {
-        let format = config.adFormat
-        switch (format.type, format.size) {
-        case (.banner, .some(let size)):
+        switch config.adFormat {
+        case .sized(.banner, let size):
             return .banner(buildBanner(config: config, size: googleAdSize(size: size), criteo: criteo))
-        case (.native, _):
+        case .flexible(.native):
             return .banner(buildBanner(config: config, size: kGADAdSizeFluid, criteo: criteo))
-        case (.interstitial, _):
+        case .flexible(.interstitial):
             return .interstitial(buildInterstitial(config: config, criteo: criteo))
-        case (_, _):
+        case _:
             fatalError("Unsupported")
         }
     }

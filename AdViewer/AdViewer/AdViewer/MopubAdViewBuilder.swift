@@ -17,13 +17,12 @@ class MopubAdViewBuilder: AdViewBuilder {
     }
 
     func build(config: AdConfig, criteo: Criteo) -> AdView {
-        let format = config.adFormat
-        switch (format.type, format.size) {
-        case (.banner, .some(let size)):
+        switch config.adFormat {
+        case .sized(.banner, let size):
             return .banner(buildBanner(adUnit: config.adUnit, size: size, criteo: criteo))
-        case (.interstitial, _):
+        case .flexible(.interstitial):
             return .interstitial(buildInterstitial(adUnit: config.adUnit, criteo: criteo))
-        case (_, _):
+        case _:
             fatalError("Unsupported")
         }
     }

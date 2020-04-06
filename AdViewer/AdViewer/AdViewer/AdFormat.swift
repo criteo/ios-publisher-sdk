@@ -35,34 +35,12 @@ enum AdSize: Int {
     }
 }
 
-struct AdFormat: Hashable {
-    let type: AdType
-    let size: AdSize?
+enum AdFormat: Hashable {
+    case sized(AdType, AdSize)
+    case flexible(AdType)
 
-    init(type: AdType, size: AdSize?) {
-        self.type = type
-        self.size = size
-    }
-
-    init(type: AdType, size: AdSize) {
-        self.init(type: type, size: .some(size))
-    }
-
-    init(type: AdType) {
-        self.init(type: type, size: .none)
-    }
-
-    static func ==(lhs: AdFormat, rhs: AdFormat) -> Bool {
-        return lhs.type == rhs.type && lhs.size == rhs.size
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(self.type.rawValue)
-        hasher.combine(self.size?.rawValue)
-    }
-
-    static let banner320x50 = AdFormat(type: .banner, size: ._320x50)
-    static let banner300x250 = AdFormat(type: .banner, size: ._300x250)
-    static let native = AdFormat(type: .native)
-    static let interstitial = AdFormat(type: .interstitial)
+    static let banner320x50 = AdFormat.sized(.banner, ._320x50)
+    static let banner300x250 = AdFormat.sized(.banner, ._300x250)
+    static let native = AdFormat.flexible(.native)
+    static let interstitial = AdFormat.flexible(.interstitial)
 }
