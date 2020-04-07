@@ -20,9 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithFileManager:(id <CR_FeedbackFileManaging>)fileManaging
                           withQueue:(CASObjectQueue<CR_FeedbackMessage *> *)queue NS_DESIGNATED_INITIALIZER;
 
-- (NSArray<CR_FeedbackMessage *> *)messagesReadyToSend;
+- (NSArray<CR_FeedbackMessage *> *)popMessagesToSend;
 
-- (void)removeFirstMessagesWithCount:(NSUInteger)count;
+- (void)pushMessagesToSend:(NSArray<CR_FeedbackMessage *> *)messages;
 
 /**
  Applies the updateFunction to the stored FeedbackMessage object associated with given impressionId.

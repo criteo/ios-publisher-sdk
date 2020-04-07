@@ -35,12 +35,19 @@
     return self;
 }
 
-- (NSArray<CR_FeedbackMessage *> *)messagesReadyToSend {
-    return [self.sendingQueue peek:[self.sendingQueue size]];
+- (NSArray<CR_FeedbackMessage *> *)popMessagesToSend {
+    @synchronized (self) {
+        NSUInteger size = [self.sendingQueue size];
+        NSArray<CR_FeedbackMessage *> *messages = [self.sendingQueue peek:size];
+        [self.sendingQueue pop:size];
+        return messages;
+    }
 }
 
-- (void)removeFirstMessagesWithCount:(NSUInteger)count {
-    [self.sendingQueue pop:count];
+- (void)pushMessagesToSend:(NSArray<CR_FeedbackMessage *> *)messages {
+    for (CR_FeedbackMessage *message in messages) {
+        [self.sendingQueue add:message];
+    }
 }
 
 - (void)updateMessageWithImpressionId:(NSString *)impressionId by:(void (^)(CR_FeedbackMessage *message))updateFunction {

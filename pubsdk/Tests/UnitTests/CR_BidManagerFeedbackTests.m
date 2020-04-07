@@ -36,6 +36,7 @@
 @property (nonatomic, strong) CR_BidManager *bidManager;
 @property (nonatomic, strong) CR_CacheManager *cacheManager;
 @property (nonatomic, strong) CR_ApiHandler *apiHandlerMock;
+@property (nonatomic, strong) NSArray<CR_FeedbackMessage *> *lastSentMessages;
 
 @property (nonatomic, strong) NSNumber *dateInMillisecondsNumber;
 @property (nonatomic, strong) OCMockObject *nsdateMock;
@@ -49,6 +50,10 @@
 
 - (void)setUp {
     self.apiHandlerMock = OCMClassMock([CR_ApiHandler class]);
+    OCMStub([self.apiHandlerMock sendFeedbackMessages:[OCMArg any]
+                                               config:[OCMArg any]
+                                    completionHandler:[OCMArg any]];)
+        .andCall(self, @selector(captureSentMessages:));
     self.cacheManager = [[CR_CacheManager alloc] init];
     self.feedbackFileManagingMock = [[CR_FeedbackFileManagingMock alloc] init];
     self.feedbackFileManagingMock.useReadWriteDictionary = YES;
@@ -81,10 +86,6 @@
     self.cdbResponseWithInvalidBid = [[CR_CdbResponse alloc] init];
     self.cdbResponseWithInvalidBid.cdbBids = @[self.invalidBid];
 
-    NSUInteger messageCount = [feedbackStorage messagesReadyToSend].count;
-    [feedbackStorage removeFirstMessagesWithCount:messageCount];
-    XCTAssertEqual([feedbackStorage messagesReadyToSend].count, 0);
-
     NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:0];
     NSTimeInterval dateInMilliseconds = [date timeIntervalSince1970] * 1000.0;
     self.dateInMillisecondsNumber = [[NSNumber alloc] initWithDouble:dateInMilliseconds];
@@ -102,7 +103,12 @@
     self.defaultMessage.cdbCallStartTimestamp = self.dateInMillisecondsNumber;
 }
 
+- (void)captureSentMessages:(NSArray<CR_FeedbackMessage *> *)messages {
+    self.lastSentMessages = messages;
+}
+
 - (void)tearDown {
+    self.lastSentMessages = nil;
     [self.nsdateMock stopMocking];
     [self.uniqueIdGeneratorMock stopMocking];
     [super tearDown];
@@ -175,7 +181,7 @@
 
     [self.bidManager prefetchBid:self.adUnit];
 
-    CR_FeedbackMessage *message = [self.feedbackSendingQueue peek:1][0];
+    CR_FeedbackMessage *message = self.lastSentMessages[0];
     XCTAssertEqualObjects(message, expected);
 }
 
@@ -191,7 +197,7 @@
 
     [self.bidManager prefetchBid:self.adUnit];
 
-    CR_FeedbackMessage *message = [self.feedbackSendingQueue peek:1][0];
+    CR_FeedbackMessage *message = self.lastSentMessages[0];
     XCTAssertEqualObjects(message, expected);
 }
 
@@ -205,7 +211,7 @@
 
     [self.bidManager prefetchBid:self.adUnitForInvalidBid];
 
-    CR_FeedbackMessage *message = [self.feedbackSendingQueue peek:1][0];
+    CR_FeedbackMessage *message = self.lastSentMessages[0];
     XCTAssertEqualObjects(message, expected);
 }
 
@@ -272,7 +278,7 @@
     [self.bidManager prefetchBid:self.adUnit];
 
     XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
-    XCTAssertEqual([self.feedbackSendingQueue size], 1);
+    XCTAssertEqual(self.lastSentMessages.count, 1);
 }
 
 - (void)testReadyToSendOnTimeoutError {
@@ -286,7 +292,7 @@
     [self.bidManager prefetchBid:self.adUnit];
 
     XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
-    XCTAssertEqual([self.feedbackSendingQueue size], 1);
+    XCTAssertEqual(self.lastSentMessages.count, 1);
 }
 
 - (void)testReadyToSendOnNetworkError {
@@ -296,7 +302,7 @@
     [self.bidManager prefetchBid:self.adUnit];
 
     XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
-    XCTAssertEqual([self.feedbackSendingQueue size], 1);
+    XCTAssertEqual(self.lastSentMessages.count, 1);
 }
 
 - (void)testReadyToSendOnInvalidBid {
@@ -307,7 +313,7 @@
     [self.bidManager prefetchBid:self.adUnitForInvalidBid];
 
     XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
-    XCTAssertEqual([self.feedbackSendingQueue size], 1);
+    XCTAssertEqual(self.lastSentMessages.count, 1);
 }
 
 - (void)testReadyToSendOnBidConsumed {

@@ -73,8 +73,14 @@
 - (void)test_givenPrefetchingBid_whenGetBid_thenDontFetchBidAgain {
     CR_NetworkManagerMock *networkManager = [[CR_NetworkManagerMock alloc] init];
     networkManager.respondingToPost = NO;
+    networkManager.postFilterUrl = [NSPredicate predicateWithBlock:^BOOL(NSURL *url, NSDictionary<NSString *, id> *bindings) {
+        // Only consider bid queries, ignore others such as csm,
+        // as we test later on the number of network calls
+        return [url testing_isBidUrlWithConfig:self.config];
+    }];
     self.builder = [[CR_BidManagerBuilder alloc] init]; // create new *clean* builder
     self.builder.networkManager = networkManager;
+    self.builder.config = self.config;
     self.builder.deviceInfo = [[CR_DeviceInfoMock alloc] init];
     self.bidManager = [self.builder buildBidManager];
     [self.bidManager prefetchBid:self.cacheAdUnit1];

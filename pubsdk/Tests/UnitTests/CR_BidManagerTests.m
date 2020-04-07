@@ -9,20 +9,16 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 
+#import <MoPub.h>
 #import <OCMock.h>
+#import "DFPRequestClasses.h"
 #import "NSString+CR_Url.h"
 #import "NSString+Testing.h"
 #import "CR_BidManager.h"
 #import "CR_BidManagerBuilder.h"
 #import "CR_BidManagerBuilder+Testing.h"
-#import "CR_CdbBid.h"
-#import "CRBidToken+Internal.h"
-#import "DFPRequestClasses.h"
-#import <MoPub.h>
 #import "CR_CdbBidBuilder.h"
 #import "CR_DeviceInfoMock.h"
-#import "CR_FeedbackStorage+Internal.h"
-#import "CR_FeedbackFileManager.h"
 #import "pubsdkTests-Swift.h"
 
 static NSString * const CR_BidManagerTestsCpm = @"crt_cpm";
@@ -106,13 +102,11 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     self.dfpRequest = [[DFPRequest alloc] init];
     self.dfpRequest.customTargeting = @{ @"key_1": @"object 1", @"key_2": @"object_2" };
 
-    NSUInteger messageCount = [self.builder.feedbackStorage messagesReadyToSend].count;
-    [self.builder.feedbackStorage removeFirstMessagesWithCount:messageCount];
+    [self.builder.feedbackStorage popMessagesToSend];
 }
 
 - (void)tearDown {
-    NSUInteger messageCount = [self.builder.feedbackStorage messagesReadyToSend].count;
-    [self.builder.feedbackStorage removeFirstMessagesWithCount:messageCount];
+    [self.builder.feedbackStorage popMessagesToSend];
 }
 
 - (void)testGetBidForCachedAdUnits {

@@ -53,6 +53,9 @@ NSString * const CR_NetworkManagerMockDefaultGetJsonResponse = @"{\"throttleSec\
 - (void)postToUrl:(NSURL *)url
          postBody:(NSDictionary *)postBody
   responseHandler:(CR_NMResponse)responseHandler {
+    if (self.postFilterUrl && ![self.postFilterUrl evaluateWithObject:url]) {
+        return;
+    }
     self.numberOfPostCall += 1;
     self.lastPostBody = postBody;
     if (self.isRespondingToPost && responseHandler) {

@@ -44,13 +44,13 @@ class CR_FeedbackStorageTests: XCTestCase {
     func test_requestFor_ReadyToSendMessages_ShouldReturnEverythingFromQueue() {
         queue.add(createMessageWithImpId("1"))
         queue.add(createMessageWithImpId("3"))
-        XCTAssertEqual(getAllItemsFromQueue(), feedbackStorage.messagesReadyToSend())
+        XCTAssertEqual(getAllItemsFromQueue(), feedbackStorage.popMessagesToSend())
     }
 
     func test_requestFor_ReadyToSendMessages_ShouldReturnEverythingFromQueue2() {
         queue.add(createMessageWithImpId("1"))
         queue.add(createMessageWithImpId("3"))
-        feedbackStorage.removeFirstMessages(withCount: 2)
+        feedbackStorage.popMessagesToSend()
         XCTAssertEqual(queue.size(), 0)
     }
 

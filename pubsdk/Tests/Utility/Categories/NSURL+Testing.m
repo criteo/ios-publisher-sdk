@@ -13,7 +13,7 @@
 @implementation NSURL (Testing)
 
 - (BOOL)testing_isBidUrlWithConfig:(CR_Config *)config {
-    return [self.absoluteString containsString:config.cdbUrl];
+    return [self.absoluteString containsString:config.path];
 }
 
 - (BOOL)testing_isAppEventUrlWithConfig:(CR_Config *)config {

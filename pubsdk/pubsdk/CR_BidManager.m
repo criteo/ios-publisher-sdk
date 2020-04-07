@@ -239,7 +239,7 @@
 }
 
 - (void)sendFeedbackMessages {
-    NSArray<CR_FeedbackMessage *> *feedbackMessages = [self.feedbackStorage messagesReadyToSend];
+    NSArray<CR_FeedbackMessage *> *feedbackMessages = [self.feedbackStorage popMessagesToSend];
     if (feedbackMessages.count == 0) {
         return;
     }
@@ -248,8 +248,7 @@
                          completionHandler:^(NSError *error) {
                              if (error) {
                                  CLog(@"CSM sending was failed with error: %@", error.localizedDescription);
-                             } else {
-                                 [self.feedbackStorage removeFirstMessagesWithCount:feedbackMessages.count];
+                                 [self.feedbackStorage pushMessagesToSend:feedbackMessages];
                              }
                          }];
 }
