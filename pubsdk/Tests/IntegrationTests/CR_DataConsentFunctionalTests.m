@@ -173,7 +173,6 @@ do { \
 }
 
 - (void)testGivenCriteoUsPrivacyOptOutNO_whenCriteoRegister_thenBidIncludeUsPrivacyOptOutToNO_appEventSent {
-    //CR_NetworkWaiterDebug = YES;
     [self.criteo setUsPrivacyOptOut:NO];
 
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
@@ -183,7 +182,6 @@ do { \
     NSNumber *actualConsent = [self _criteoUsPrivacyConsentInLastBidRequestWithCriteo:self.criteo];
     XCTAssertNotNil(actualConsent);
     XCTAssertFalse([actualConsent boolValue]);
-    //CR_NetworkWaiterDebug = NO;
 }
 
 #pragma mark - Mopub Consent
