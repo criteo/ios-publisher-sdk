@@ -12,14 +12,19 @@
 
 @implementation NSURL (Testing)
 
+- (BOOL)testing_isFeedbackMessageUrlWithConfig:(CR_Config *)config {
+    return  [self.absoluteString containsString:config.cdbUrl] &&
+            [self.absoluteString containsString:config.csmPath];
+}
+
 - (BOOL)testing_isBidUrlWithConfig:(CR_Config *)config {
-    return [self.absoluteString containsString:config.path];
+    return  [self.absoluteString containsString:config.cdbUrl] &&
+            [self.absoluteString containsString:config.path];
 }
 
 - (BOOL)testing_isAppEventUrlWithConfig:(CR_Config *)config {
     return [self.absoluteString containsString:config.appEventsUrl];
 }
-
 
 - (BOOL)testing_isAppLaunchEventUrlWithConfig:(CR_Config *)config {
     return  [self testing_isAppEventUrlWithConfig:config] &&
