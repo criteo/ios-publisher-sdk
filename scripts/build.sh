@@ -6,6 +6,8 @@ set -Eeuo pipefail
 rm -rf build/output
 mkdir -p build/output/sim
 
+export LANG=en_US.UTF-8
+
 CRITEO_WATCH_ARCHS='armv7k arm64_32'
 CRITEO_DEVICE_ARCHS='armv7 armv7s arm64'
 CRITEO_ARCHS="$CRITEO_DEVICE_ARCHS $CRITEO_WATCH_ARCHS"
