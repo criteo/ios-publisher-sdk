@@ -16,3 +16,12 @@ end
 target 'CriteoPublisherSdk' do
     pod 'Cassette','1.0.0-beta3'
 end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '8.0'
+    end
+  end
+end
+
