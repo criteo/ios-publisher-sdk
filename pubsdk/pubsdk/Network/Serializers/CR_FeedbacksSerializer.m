@@ -55,7 +55,7 @@
 
 +(NSNumber *)substractionWithNumber1:(NSNumber *)number1
                              number2:(NSNumber *)number2 {
-    if(number1) {
+    if(number1 != nil) {
         return @([number1 integerValue] - [number2 integerValue]);
     }
     return nil;

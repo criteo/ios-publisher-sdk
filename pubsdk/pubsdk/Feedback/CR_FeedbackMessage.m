@@ -72,15 +72,15 @@
         (self.requestGroupId && other.requestGroupId &&
          [self.requestGroupId isEqualToString:other.requestGroupId]);
 
-    BOOL cdbStEq = (!self.cdbCallStartTimestamp && !other.cdbCallStartTimestamp) ||
+    BOOL cdbStEq = (self.cdbCallStartTimestamp == nil && other.cdbCallStartTimestamp == nil) ||
         (self.cdbCallStartTimestamp && other.cdbCallStartTimestamp &&
          [self.cdbCallStartTimestamp isEqualToNumber:other.cdbCallStartTimestamp]);
 
-    BOOL cdbEndEq = (!self.cdbCallEndTimestamp && !other.cdbCallEndTimestamp) ||
+    BOOL cdbEndEq = (self.cdbCallEndTimestamp == nil && other.cdbCallEndTimestamp == nil) ||
         (self.cdbCallEndTimestamp && other.cdbCallEndTimestamp &&
          [self.cdbCallEndTimestamp isEqualToNumber:other.cdbCallEndTimestamp]);
 
-    BOOL elpTimeEq = (!self.elapsedTimestamp && !other.elapsedTimestamp) ||
+    BOOL elpTimeEq = (self.elapsedTimestamp == nil && other.elapsedTimestamp == nil) ||
         (self.elapsedTimestamp && other.elapsedTimestamp &&
          [self.elapsedTimestamp isEqualToNumber:other.elapsedTimestamp]);
 

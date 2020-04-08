@@ -12,9 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSString (CR_Url)
 
-+ (NSString *)dfpCompatibleString:(NSString*)string;
-+ (NSString *)decodeDfpCompatibleString:(NSString *)string;
-+ (NSString *)mopubCompatibleDisplayUrlForDisplayUrl:(NSString *)displayUrl;
++ (nullable NSString *)dfpCompatibleString:(nullable NSString*)string;
++ (nullable NSString *)decodeDfpCompatibleString:(nullable NSString *)string;
++ (nullable NSString *)mopubCompatibleDisplayUrlForDisplayUrl:(nullable NSString *)displayUrl;
 
 /**
  Build an URL query params to append to a base URL.
@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Extract and return the URL query param as dictionary.
  */
-- (NSDictionary<NSString *, NSString *> *)urlQueryParamsDictionary;
+- (nullable NSDictionary<NSString *, NSString *> *)urlQueryParamsDictionary;
 
 /**
 Escape special characters for safe URL parameters.
