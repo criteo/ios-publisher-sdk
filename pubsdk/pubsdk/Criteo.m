@@ -18,7 +18,7 @@
 @property (nonatomic, strong) NSMutableArray<CR_CacheAdUnit *> *registeredAdUnits;
 @property (nonatomic, strong) CR_BidManager *bidManager;
 @property (nonatomic, assign) bool hasPrefetched;
-@property (nonatomic, assign) dispatch_once_t registrationToken;
+@property (nonatomic, assign) bool registered;
 
 @end
 
@@ -66,6 +66,7 @@
 - (instancetype)initWithBidManager:(CR_BidManager *)bidManager {
     if (self = [super init]) {
         _registeredAdUnits = [[NSMutableArray alloc] init];
+        _registered = false;
         _hasPrefetched = false;
         _bidManager = bidManager;
     }
@@ -74,9 +75,12 @@
 
 - (void) registerCriteoPublisherId:(NSString *) criteoPublisherId
                        withAdUnits:(NSArray<CRAdUnit *> *)adUnits {
-    dispatch_once(&_registrationToken, ^{
-        [self _registerCriteoPublisherId:criteoPublisherId withAdUnits:adUnits];
-    });
+    @synchronized (self) {
+        if (!self.registered) {
+            self.registered = true;
+            [self _registerCriteoPublisherId:criteoPublisherId withAdUnits:adUnits];
+        }
+    }
 }
 
 - (void)_registerCriteoPublisherId:(NSString *)criteoPublisherId
