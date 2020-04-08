@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		198CD16C7C9BA069D156B55F /* CASBoundedFileObjectQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 198CDC22999EF696C16309C5 /* CASBoundedFileObjectQueue.m */; };
+		198CD4A32B7B46B6F1FAC786 /* CASBoundedFileObjectQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 198CDC91DC407C38A0C16DA1 /* CASBoundedFileObjectQueue.h */; };
+		198CD87797B8C5BD9AEC7FA7 /* CASBoundedFileObjectQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 198CDC91DC407C38A0C16DA1 /* CASBoundedFileObjectQueue.h */; };
+		198CDFA1D272C69DA0CE470D /* CASBoundedFileObjectQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 198CDC22999EF696C16309C5 /* CASBoundedFileObjectQueue.m */; };
 		255151B822012BF100F76E3F /* Criteo.h in Headers */ = {isa = PBXBuildFile; fileRef = E1F2738C21BB1B1400A2FBFA /* Criteo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		255151C622027C9500F76E3F /* NSString+CR_Url.m in Sources */ = {isa = PBXBuildFile; fileRef = 255151C422027C9500F76E3F /* NSString+CR_Url.m */; };
 		258821D321FD3FB600398E9F /* CR_ConfigManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 258821D121FD3FB600398E9F /* CR_ConfigManager.m */; };
@@ -31,6 +35,7 @@
 		46240E0D2434BB4F001425AB /* CR_UniqueIdGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 46240E0B2434BB4F001425AB /* CR_UniqueIdGenerator.h */; };
 		46240E0E2434BB4F001425AB /* CR_UniqueIdGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 46240E0C2434BB4F001425AB /* CR_UniqueIdGenerator.m */; };
 		465D3CF92434D3D500BD36AC /* CR_UniqueIdGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46240E132434BB91001425AB /* CR_UniqueIdGeneratorTests.swift */; };
+		467D34CA243E060A00852B4D /* CASBoundedFileObjectQueueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 467D34C9243E060A00852B4D /* CASBoundedFileObjectQueueTests.m */; };
 		46B9780E243782A50061FC24 /* CR_UniqueIdGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 46240E0C2434BB4F001425AB /* CR_UniqueIdGenerator.m */; };
 		53374B8022AEDBE5007084FB /* CR_TokenCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 53374B7E22AEDBE4007084FB /* CR_TokenCache.m */; };
 		5397C09122A0885A00BC72FE /* CRAdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5397C08A22A0885700BC72FE /* CRAdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -339,6 +344,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		198CDC22999EF696C16309C5 /* CASBoundedFileObjectQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CASBoundedFileObjectQueue.m; sourceTree = "<group>"; };
+		198CDC91DC407C38A0C16DA1 /* CASBoundedFileObjectQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CASBoundedFileObjectQueue.h; sourceTree = "<group>"; };
 		1CDD7544323F61638E0E8B7F /* libPods-CriteoPublisherSdk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoPublisherSdk.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		25022DE4220A3F0300FF8ACE /* CR_NetworkManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_NetworkManagerDelegate.h; sourceTree = "<group>"; };
 		25022DE5220A709000FF8ACE /* Criteo+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Criteo+Internal.h"; sourceTree = "<group>"; };
@@ -360,6 +367,7 @@
 		46240E0B2434BB4F001425AB /* CR_UniqueIdGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_UniqueIdGenerator.h; sourceTree = "<group>"; };
 		46240E0C2434BB4F001425AB /* CR_UniqueIdGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_UniqueIdGenerator.m; sourceTree = "<group>"; };
 		46240E132434BB91001425AB /* CR_UniqueIdGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_UniqueIdGeneratorTests.swift; sourceTree = "<group>"; };
+		467D34C9243E060A00852B4D /* CASBoundedFileObjectQueueTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CASBoundedFileObjectQueueTests.m; sourceTree = "<group>"; };
 		4876E95088BFF48248FF7025 /* Pods-pubsdkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdkTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdkTests/Pods-pubsdkTests.debug.xcconfig"; sourceTree = "<group>"; };
 		53374B7C22AED93A007084FB /* CRBidResponse+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CRBidResponse+Internal.h"; path = "pubsdk/InHouseMediation/CRBidResponse+Internal.h"; sourceTree = SOURCE_ROOT; };
 		53374B7E22AEDBE4007084FB /* CR_TokenCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CR_TokenCache.m; path = pubsdk/InHouseMediation/CR_TokenCache.m; sourceTree = SOURCE_ROOT; };
@@ -771,6 +779,8 @@
 			children = (
 				7D00672B243CD6F900E5D50D /* CASObjectQueue+ArraySet.h */,
 				7D00672A243CD6F900E5D50D /* CASObjectQueue+ArraySet.m */,
+				198CDC91DC407C38A0C16DA1 /* CASBoundedFileObjectQueue.h */,
+				198CDC22999EF696C16309C5 /* CASBoundedFileObjectQueue.m */,
 				54C24BD624067FEE00DD9839 /* CR_DefaultFileManipulator.h */,
 				54C24BD724067FEE00DD9839 /* CR_DefaultFileManipulator.m */,
 				54C24BC824040F2400DD9839 /* CR_FeedbackFileManager.h */,
@@ -915,6 +925,7 @@
 			children = (
 				7D3E421823915B6600BAF673 /* DFPRequestClasses.h */,
 				7D3E420523915B6600BAF673 /* SampleBid.json */,
+				467D34C9243E060A00852B4D /* CASBoundedFileObjectQueueTests.m */,
 				7D3E422123915B6600BAF673 /* CR_AdUnitHelperTests.m */,
 				7D3E421223915B6600BAF673 /* CR_BidManagerHelperTests.m */,
 				54BF56B0242F5677006ACC65 /* CR_BidManagerFeedbackSendingTests.m */,
@@ -1329,6 +1340,7 @@
 				53CA0F9622AB0ABD0098F96C /* CRBidResponse.h in Headers */,
 				7D58583023E1F1EC0039AC56 /* CR_ThreadManager.h in Headers */,
 				5E0658FBA75D85CA465F4A37 /* CR_FeedbackStorage+Internal.h in Headers */,
+				198CD4A32B7B46B6F1FAC786 /* CASBoundedFileObjectQueue.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1368,6 +1380,7 @@
 				54C24BD824067FEE00DD9839 /* CR_DefaultFileManipulator.h in Headers */,
 				5E065791ED323BCF916161C3 /* CR_FeedbackStorage+MessageUpdating.h in Headers */,
 				5E065D28681DDF4D80A9DA77 /* CR_FeedbackStorage+Internal.h in Headers */,
+				198CD87797B8C5BD9AEC7FA7 /* CASBoundedFileObjectQueue.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1684,6 +1697,7 @@
 				650915F82255622E001D6673 /* CRBannerView.m in Sources */,
 				DF367CE023307AFB0044807B /* NSString+Criteo.m in Sources */,
 				547287892411096400B62235 /* CR_FeedbackStorage+MessageUpdating.m in Sources */,
+				198CDFA1D272C69DA0CE470D /* CASBoundedFileObjectQueue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1762,6 +1776,7 @@
 				650915F72255622E001D6673 /* CRBannerView.m in Sources */,
 				5E0650E8B945A2954C518C5A /* CR_TargetingKeys.m in Sources */,
 				5E065293B7A1A7F329440617 /* CR_FeedbackStorage+MessageUpdating.m in Sources */,
+				198CD16C7C9BA069D156B55F /* CASBoundedFileObjectQueue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1796,6 +1811,7 @@
 				54680B7623969D5C00DB5A37 /* CR_IntegrationsTestBase.m in Sources */,
 				7D60F459242CE8F4008F6260 /* CR_BidRequestSerializerTests.m in Sources */,
 				54C24BCD2404156A00DD9839 /* CR_FeedbackFileManagerTests.swift in Sources */,
+				467D34CA243E060A00852B4D /* CASBoundedFileObjectQueueTests.m in Sources */,
 				7D344F6B23D9A5F70029E653 /* CR_BidManagerIntegrationTests.m in Sources */,
 				7D3E424023915B6600BAF673 /* CRInterstitialAdUnitTests.m in Sources */,
 				7D00897023EAD19C00BA8F96 /* CRBannerViewDelegateMock.m in Sources */,
