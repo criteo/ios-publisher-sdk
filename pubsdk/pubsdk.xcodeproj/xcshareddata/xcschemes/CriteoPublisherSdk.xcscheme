@@ -20,20 +20,6 @@
                ReferencedContainer = "container:pubsdk.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7DF2A066236889CC00178D8C"
-               BuildableName = "SDKUnitTests.xctest"
-               BlueprintName = "SDKUnitTests"
-               ReferencedContainer = "container:pubsdk.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -46,13 +32,24 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7DF2A066236889CC00178D8C"
-               BuildableName = "SDKUnitTests.xctest"
-               BlueprintName = "SDKUnitTests"
+               BlueprintIdentifier = "E1F2736C21B5F08D00A2FBFA"
+               BuildableName = "pubsdkTests.xctest"
+               BlueprintName = "pubsdkTests"
                ReferencedContainer = "container:pubsdk.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "25BD5B562220D16D004DE311"
+            BuildableName = "CriteoPublisherSdk.framework"
+            BlueprintName = "CriteoPublisherSdk"
+            ReferencedContainer = "container:pubsdk.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+      <AdditionalOptions>
+      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -64,6 +61,17 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "25BD5B562220D16D004DE311"
+            BuildableName = "CriteoPublisherSdk.framework"
+            BlueprintName = "CriteoPublisherSdk"
+            ReferencedContainer = "container:pubsdk.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+      <AdditionalOptions>
+      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
