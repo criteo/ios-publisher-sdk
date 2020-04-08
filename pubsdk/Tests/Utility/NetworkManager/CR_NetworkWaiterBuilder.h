@@ -19,13 +19,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak, readonly) CR_NetworkWaiterBuilder *withConfig;
 @property (nonatomic, weak, readonly) CR_NetworkWaiterBuilder *withLaunchAppEvent;
 @property (nonatomic, weak, readonly) CR_NetworkWaiterBuilder *withBid;
+@property (nonatomic, weak, readonly) CR_NetworkWaiterBuilder *withFeedbackMessageSent;
 @property (nonatomic, weak, readonly) CR_NetworkWaiterBuilder *withFinishedRequestsIncluded;
 @property (nonatomic, weak, readonly) CR_NetworkWaiter *build;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithConfig:(CR_Config *)config
                  networkCaptor:(CR_NetworkCaptor *)captor NS_DESIGNATED_INITIALIZER;
-
 
 @end
 

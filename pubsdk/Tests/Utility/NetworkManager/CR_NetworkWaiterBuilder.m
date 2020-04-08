@@ -34,6 +34,14 @@
     return self;
 }
 
+- (CR_NetworkWaiterBuilder *)withFeedbackMessageSent {
+    __weak typeof(self) weakSelf = self;
+    [self.testers addObject:^BOOL(CR_HttpContent *_Nonnull httpContent) {
+        return [httpContent.url testing_isFeedbackMessageUrlWithConfig:weakSelf.config];
+    }];
+    return self;
+}
+
 - (CR_NetworkWaiterBuilder *)withBid {
     __weak typeof(self) weakSelf = self;
     [self.testers addObject:^BOOL(CR_HttpContent *_Nonnull httpContent) {

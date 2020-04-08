@@ -135,6 +135,12 @@
     }
 }
 
+- (void)clear {
+    self.internalPendingRequests = [[NSMutableArray alloc] init];
+    self.internalFinishedRequests = [[NSMutableArray alloc] init];
+    self.httpRequestCount = 0;
+}
+
 - (NSString *)description
 {
     return [[NSString alloc] initWithFormat:

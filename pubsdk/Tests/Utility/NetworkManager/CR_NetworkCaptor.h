@@ -38,6 +38,8 @@ typedef void (^CR_HTTPResponseListener)(CR_HttpContent *httpContent);
 - (instancetype)initWithDeviceInfo:(CR_DeviceInfo*)deviceInfo session:(NSURLSession *)session NS_UNAVAILABLE;
 - (instancetype)initWithNetworkManager:(CR_NetworkManager *)networkManager NS_DESIGNATED_INITIALIZER;
 
+- (void)clear;
+
 @end
 
 NS_ASSUME_NONNULL_END

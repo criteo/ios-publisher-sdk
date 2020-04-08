@@ -168,6 +168,8 @@
 		7D00672E243CD6F900E5D50D /* CASObjectQueue+ArraySet.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D00672B243CD6F900E5D50D /* CASObjectQueue+ArraySet.h */; };
 		7D00672F243CD6F900E5D50D /* CASObjectQueue+ArraySet.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D00672B243CD6F900E5D50D /* CASObjectQueue+ArraySet.h */; };
 		7D006730243CD7E800E5D50D /* CASObjectQueue+ArraySet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D00672A243CD6F900E5D50D /* CASObjectQueue+ArraySet.m */; };
+		7D006731243CD7E900E5D50D /* CASObjectQueue+ArraySet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D00672A243CD6F900E5D50D /* CASObjectQueue+ArraySet.m */; };
+		7D006733243DB74B00E5D50D /* CR_FeedbackMessageFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D006732243DB74B00E5D50D /* CR_FeedbackMessageFunctionalTests.m */; };
 		7D00897023EAD19C00BA8F96 /* CRBannerViewDelegateMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D00896F23EAD19C00BA8F96 /* CRBannerViewDelegateMock.m */; };
 		7D0441CF2428EBA600D36C65 /* NSString+APIKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0441CE2428EBA600D36C65 /* NSString+APIKeys.m */; };
 		7D07DA1C23DAF6DD00ECCF02 /* CR_Ccpa.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D07DA1A23DAF6DD00ECCF02 /* CR_Ccpa.h */; };
@@ -485,6 +487,7 @@
 		6F187272CD050435F6D28BFA /* libPods-pubsdkTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pubsdkTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D00672A243CD6F900E5D50D /* CASObjectQueue+ArraySet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CASObjectQueue+ArraySet.m"; sourceTree = "<group>"; };
 		7D00672B243CD6F900E5D50D /* CASObjectQueue+ArraySet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CASObjectQueue+ArraySet.h"; sourceTree = "<group>"; };
+		7D006732243DB74B00E5D50D /* CR_FeedbackMessageFunctionalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_FeedbackMessageFunctionalTests.m; sourceTree = "<group>"; };
 		7D00896E23EAD19B00BA8F96 /* CRBannerViewDelegateMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRBannerViewDelegateMock.h; sourceTree = "<group>"; };
 		7D00896F23EAD19C00BA8F96 /* CRBannerViewDelegateMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRBannerViewDelegateMock.m; sourceTree = "<group>"; };
 		7D0441CD2428EBA600D36C65 /* NSString+APIKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+APIKeys.h"; sourceTree = "<group>"; };
@@ -838,6 +841,7 @@
 				54680B692395222B00DB5A37 /* CR_DfpBannerFunctionalTests.m */,
 				5E065AD8DCA877B2A1928681 /* CR_DfpInterstitialFunctionalTests.m */,
 				5E0656551EC4DAFCC6DF7D79 /* CR_DfpNativeFunctionalTests.m */,
+				7D006732243DB74B00E5D50D /* CR_FeedbackMessageFunctionalTests.m */,
 				5E0656CED6370CB240092ECC /* CR_HttpTests.m */,
 				7D85E8D223D8891A00AFF91B /* CR_InHouseFunctionalTests.m */,
 				54680B7723969D7E00DB5A37 /* CR_IntegrationsTestBase.h */,
@@ -1863,6 +1867,7 @@
 				542FCFB8242D0E1A000D9DA9 /* CR_FeedbackSerializerTests.swift in Sources */,
 				54F1E6B6239FA19B00985D09 /* UIView+Testing.m in Sources */,
 				7D51ABF523ACCC7700540094 /* CR_NetworkWaiterBuilder.m in Sources */,
+				7D006733243DB74B00E5D50D /* CR_FeedbackMessageFunctionalTests.m in Sources */,
 				6519C0DB2285FA8300111A5F /* CRInterstitialDelegateTests.m in Sources */,
 				54E0C239238D75AC004F9353 /* Criteo+Testing.m in Sources */,
 				7D3E422223915B6600BAF673 /* NSObject+CriteoTests.m in Sources */,
