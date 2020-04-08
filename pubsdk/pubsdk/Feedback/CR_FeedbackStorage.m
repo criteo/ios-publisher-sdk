@@ -10,6 +10,7 @@
 #import "CR_FeedbackStorage.h"
 #import "CR_FeedbackFileManager.h"
 #import "CASObjectQueue+ArraySet.h"
+#import "CASBoundedFileObjectQueue.h"
 
 @interface CR_FeedbackStorage()
 
@@ -18,15 +19,27 @@
 
 @end
 
+// Maximum size (in bytes) of metric elements stored in the metric sending queue.
+// 60KB represents ~360 metrics (with ~170 bytes/metric) which already represent an extreme case.
+static NSUInteger const CR_FeedbackStorageSendingQueueMaxSize = 64 * 1024;
+
 @implementation CR_FeedbackStorage
 
 - (instancetype)init {
+     return [self initWithSendingQueueMaxSize:CR_FeedbackStorageSendingQueueMaxSize];
+}
+
+- (instancetype)initWithSendingQueueMaxSize:(NSUInteger)sendingQueueMaxSize {
     CR_FeedbackFileManager * fileManager = [[CR_FeedbackFileManager alloc] init];
-    CASObjectQueue<CR_FeedbackMessage *> *queue = [[CASFileObjectQueue alloc] initWithAbsolutePath:fileManager.sendingQueueFilePath error:nil];
+    CASObjectQueue<CR_FeedbackMessage *> *queue =
+        [[CASBoundedFileObjectQueue alloc] initWithAbsolutePath:fileManager.sendingQueueFilePath
+                                                  maxFileLength:sendingQueueMaxSize
+                                                          error:nil];
     return [self initWithFileManager:fileManager withQueue:queue];
 }
 
-- (instancetype)initWithFileManager:(id <CR_FeedbackFileManaging>)fileManaging withQueue:(CASObjectQueue<CR_FeedbackMessage *> *)queue {
+- (instancetype)initWithFileManager:(id <CR_FeedbackFileManaging>)fileManaging
+                          withQueue:(CASObjectQueue<CR_FeedbackMessage *> *)queue {
     if (self = [super init]) {
         _fileManaging = fileManaging;
         _sendingQueue = queue;
