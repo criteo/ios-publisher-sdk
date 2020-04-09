@@ -107,7 +107,7 @@
 
 - (CR_CdbBid *) getBid:(CR_CacheAdUnit *) slot {
     CR_CdbBid *bid = [cacheManager getBidForAdUnit:slot];
-    if(bid) {
+    if(bid && ![bid isEqual:[CR_CdbBid emptyBid]]) {
         if(bid.isExpired) {
             [self.feedbackStorage setExpiredForImpressionId:bid.impressionId];
             // immediately invalidate current cache entry if bid is expired
@@ -128,7 +128,7 @@
             return bid;
         }
     }
-    //if the bid is empty meaning prefetch failed, check if time to next call is elapsed
+    //if the bid is empty or nil, it meaning that prefetch failed.
     else {
         if(!self.isInSilenceMode) {
             [self prefetchBid:slot];

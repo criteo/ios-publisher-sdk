@@ -255,6 +255,23 @@
     XCTAssertEqualObjects(message, expected);
 }
 
+- (void)testFeedbackMessageStateOnEmptyBid {
+    CR_FeedbackMessage *expected = [self.defaultMessage copy];
+    expected.cdbCallEndTimestamp = self.dateInMillisecondsNumber;
+    expected.expired = YES;
+    self.cdbResponse.cdbBids = @[];
+    [self configureApiHandlerMockWithCdbRequest:self.cdbRequest
+                                    cdbResponse:self.cdbResponse
+                                          error:nil];
+    [self.bidManager registerWithSlots:@[self.adUnit]]; // fullfill the cache with an empty bid
+    [self.bidManager prefetchBid:self.adUnit];
+
+    [self.bidManager getBid:self.adUnit];
+
+    CR_FeedbackMessage *message = self.lastSentMessages[0];
+    XCTAssertEqualObjects(message, expected);
+}
+
 #pragma mark - Ready to send management
 
 - (void)testReadyToSendOnValidBidReceived {
@@ -342,6 +359,22 @@
 
     XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
     XCTAssertEqual([self.feedbackSendingQueue size], 1);
+}
+
+- (void)testReadyToSendOnBidStateOnEmptyBid {
+    self.cdbResponse.cdbBids = @[];
+    [self configureApiHandlerMockWithCdbRequest:self.cdbRequest
+                                    cdbResponse:self.cdbResponse
+                                          error:nil];
+    [self.bidManager registerWithSlots:@[self.adUnit]]; // fullfill the cache with an empty bid
+    [self.bidManager prefetchBid:self.adUnit];
+    self.lastSentMessages = nil;
+
+    [self.bidManager getBid:self.adUnit];
+
+    XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
+    XCTAssertEqual([self.feedbackSendingQueue size], 0);
+    XCTAssertNil(self.lastSentMessages);
 }
 
 #pragma mark - Private

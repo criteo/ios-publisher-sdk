@@ -74,7 +74,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 - (void)setUp {
     self.mutableJsonDict = [self _loadSlotDictionary];
     self.deviceInfoMock = [[CR_DeviceInfoMock alloc] init];
-    self.cacheManager = [[CR_CacheManager alloc] init];
+    self.cacheManager = OCMPartialMock([[CR_CacheManager alloc] init]);
     self.configManagerMock = OCMClassMock([CR_ConfigManager class]);
     self.apiHandlerMock = OCMClassMock([CR_ApiHandler class]);
 
@@ -126,6 +126,8 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 }
 
 - (void)testGetEmptyBid {
+    OCMReject([self.cacheManager removeBidForAdUnit:self.adUnitForEmptyBid]);
+
     CR_CdbBid *bid = [self.bidManager getBid:self.adUnitForEmptyBid];
 
     CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[self.adUnitForEmptyBid]);
