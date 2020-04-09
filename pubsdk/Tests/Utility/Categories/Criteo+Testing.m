@@ -4,6 +4,7 @@
 //
 
 #import <objc/runtime.h>
+#import <OCMock/OCMock.h>
 
 #import "Criteo+Testing.h"
 #import "Criteo+Internal.h"
@@ -57,6 +58,19 @@ static void *CriteoTestingBidManagerBuilderKey = &CriteoTestingBidManagerBuilder
     return (CR_NetworkCaptor *) self.bidManagerBuilder.networkManager;
 }
 
+- (id)testing_networkManagerMock {
+    // Note that [captor.networkManager isKindOfClass:[OCMockObject class]] doesn't work.
+    // Indeed, OCMockObject is a subclass of NSProxy, not of NSObject. So to know if we
+    // use an OCMock, we verify that is it an NSProxy with object.isProxy.
+    if ([self.bidManagerBuilder.networkManager isKindOfClass:[CR_NetworkCaptor class]]) {
+        NSAssert(self.testing_networkCaptor.networkManager.isProxy, @"OCMockObject class not found on the networkCaptor");
+        return self.testing_networkCaptor.networkManager;
+    } else {
+        NSAssert(self.bidManagerBuilder.networkManager.isProxy, @"OCMockObject class not found on the networkCaptor");
+        return self.bidManagerBuilder.networkManager;
+    }
+}
+
 - (CR_HttpContent *)testing_lastBidHttpContent
 {
     for (CR_HttpContent *content in [self.testing_networkCaptor.finishedRequests reverseObjectEnumerator]) {
@@ -75,7 +89,6 @@ static void *CriteoTestingBidManagerBuilderKey = &CriteoTestingBidManagerBuilder
     }
     return nil;
 }
-
 
 + (Criteo *)testing_criteoWithNetworkCaptor {
     CR_BidManagerBuilder *builder = [CR_BidManagerBuilder testing_bidManagerBuilder];

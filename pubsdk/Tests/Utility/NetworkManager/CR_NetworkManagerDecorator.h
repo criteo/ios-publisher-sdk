@@ -12,6 +12,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ Decorate a network or a simulator of network (for isolated tests)
+ with an OCMockObject and a CR_NetworkCaptor.
+ */
 @interface CR_NetworkManagerDecorator : NSObject
 
 @property (nonatomic, assign, getter=isSimulating) BOOL simulating;

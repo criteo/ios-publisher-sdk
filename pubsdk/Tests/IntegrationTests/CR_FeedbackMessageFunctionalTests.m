@@ -6,10 +6,12 @@
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 
+#import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
 #import "Criteo+Testing.h"
 #import "Criteo+Internal.h"
+#import "CR_BidManagerBuilder+Testing.h"
 #import "CR_NetworkCaptor.h"
 #import "CR_NetworkWaiter.h"
 #import "CR_NetworkWaiterBuilder.h"
@@ -82,7 +84,45 @@ do { \
     AssertFeedbackHasOneSlotWithCachedBidUsed(feedback, NO);
 }
 
+- (void)testGivenNetworkErrorOnPrefetch_whenGettingBid_thenSendFeedbackMessage {
+    [self prepareBidRequestWithoutConnection];
+    CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
+    [self.criteo testing_registerWithAdUnits:@[adUnit]];
+    [self.criteo testing_waitForRegisterHTTPResponses];
+    [self.criteo.testing_networkCaptor clear];
+
+    [self.criteo getBidResponseForAdUnit:adUnit];
+
+    [self waitFeedbackMessageRequest];
+    CR_HttpContent *content = [self feedbackMessageRequest];
+    AssertHttpContentHasOneFeedback(content);
+    NSDictionary *feedback = content.requestBody[@"feedbacks"][0];
+    XCTAssertEqualObjects(feedback[@"cdbCallStartElapsed"], @0);
+    XCTAssertNil(feedback[@"cdbCallEndElapsed"]);
+    XCTAssertNil(feedback[@"elapsed"]);
+    XCTAssertEqualObjects(feedback[@"isTimeout"], @0);
+    AssertFeedbackHasOneSlotWithCachedBidUsed(feedback, NO);
+}
+
 #pragma mark - Private
+
+- (void)prepareBidRequestWithoutConnection {
+    CR_Config *config = self.criteo.bidManagerBuilder.config;
+    id urlArg = [OCMArg checkWithBlock:^BOOL(NSURL *url) {
+        return [url testing_isBidUrlWithConfig:config];
+    }];
+    id handlerArg = [OCMArg invokeBlockWithArgs:[NSNull null], self.noConnectionError, nil];
+    OCMStub([self.criteo.testing_networkManagerMock postToUrl:urlArg
+                                                     postBody:[OCMArg any]
+                                              responseHandler:handlerArg]);
+}
+
+- (NSError *)noConnectionError {
+    NSError *error = [[NSError alloc] initWithDomain:NSURLErrorDomain
+                                                code:NSURLErrorNotConnectedToInternet
+                                            userInfo:nil];
+    return error;
+}
 
 - (void)waitFeedbackMessageRequest {
     CR_NetworkWaiterBuilder *builder = [[CR_NetworkWaiterBuilder alloc] initWithConfig:self.criteo.config

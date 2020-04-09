@@ -6,6 +6,7 @@
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
+#import <OCMock/OCMock.h>
 #import "CR_Config.h"
 #import "CR_NetworkManagerDecorator.h"
 #import "CR_NetworkManagerSimulator.h"
@@ -59,6 +60,9 @@
     if (self.isSimulating) {
         result = [[CR_NetworkManagerSimulator alloc] initWithConfig:self.config];
     }
+
+    result = OCMPartialMock(result);
+
     if (self.isCapturing) {
         result = [[CR_NetworkCaptor alloc] initWithNetworkManager:result];
     }
