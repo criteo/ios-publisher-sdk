@@ -65,20 +65,4 @@
     return result;
 }
 
-- (NSString *)_nameOfCallingTest
-{
-    NSArray<NSString *> *calls = [NSThread callStackSymbols];
-    for (NSString *call in [calls reverseObjectEnumerator]) {
-        if ([call containsString:@"pubsdkTests"]) {
-            NSString *rightSide = [[call componentsSeparatedByString:@"["] lastObject];
-            NSString *leftSide = [[rightSide componentsSeparatedByString:@"]"] firstObject];
-            NSString *result = [leftSide stringByReplacingOccurrencesOfString:@" "
-                                                                   withString:@"_"];
-            return result;
-        }
-    }
-    NSAssert(NO, @"Impossible to find the test name in the stack: %@", calls);
-    return nil;
-}
-
 @end

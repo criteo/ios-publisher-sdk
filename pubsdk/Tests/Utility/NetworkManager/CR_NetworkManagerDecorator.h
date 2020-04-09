@@ -24,7 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
                          capturing:(BOOL)capturing
                             config:(CR_Config *)config NS_DESIGNATED_INITIALIZER;
 
-/** Should be called in the same thread of the test method. */
 - (CR_NetworkManager *)decorateNetworkManager:(CR_NetworkManager *)networkManager;
 
 @end
