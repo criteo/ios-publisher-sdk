@@ -10,20 +10,24 @@
 
 @implementation CASObjectQueue (ArraySet)
 
-- (void)addSafely:(id<NSCoding>)data {
-    NSAssert(![self contains:data],
+- (void)addFeedbackMessage:(CR_FeedbackMessage *)message {
+    NSAssert(![self containsFeedbackMessage:message],
              @"Add to the queue an existing element: %@",
-             [self all]);
-    [self add:data];
+             [self allFeedbackMessages]);
+    [self add:message];
 }
 
-- (BOOL)contains:(id<NSObject>)data {
-    NSArray *all = [self all];
-    const BOOL contains = [all containsObject:data];
-    return contains;
+- (BOOL)containsFeedbackMessage:(CR_FeedbackMessage *)message {
+    NSArray *all = [self allFeedbackMessages];
+    for (CR_FeedbackMessage *m in all) {
+        if ([m.impressionId isEqualToString:message.impressionId]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
-- (NSArray *)all {
+- (NSArray *)allFeedbackMessages {
     return [self peek:NSUIntegerMax];
 }
 
