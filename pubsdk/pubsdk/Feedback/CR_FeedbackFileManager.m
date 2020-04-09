@@ -31,9 +31,9 @@
         }
 
         NSString *rootDirectoryPath = [directoryUrls[0] path];
-        NSString *metricsRootPath = [rootDirectoryPath stringByAppendingString:@"/criteo_metrics"];
-        _activeMetricsPath = [metricsRootPath stringByAppendingString:@"/active"];
-        _sendingQueueFilePath = [metricsRootPath stringByAppendingString:@"/sendingQueue"];
+        NSString *metricsRootPath = [rootDirectoryPath stringByAppendingPathComponent:@"criteo_metrics"];
+        _activeMetricsPath = [metricsRootPath stringByAppendingPathComponent:@"active"];
+        _sendingQueueFilePath = [metricsRootPath stringByAppendingPathComponent:@"sendingQueue"];
 
         if (![fileManipulating fileExistsAtPath:_activeMetricsPath isDirectory:nil]) {
             [fileManipulating createDirectoryAtPath:_activeMetricsPath withIntermediateDirectories:YES attributes:nil error:nil];
@@ -73,7 +73,7 @@
 #pragma mark - Private methods
 
 - (NSString *)buildAbsolutePathByFilename:(NSString *)filename {
-    return [self.activeMetricsPath stringByAppendingFormat:@"/%@", filename];
+    return [self.activeMetricsPath stringByAppendingPathComponent:filename];
 }
 
 @end
