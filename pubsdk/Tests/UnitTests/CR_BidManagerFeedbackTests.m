@@ -334,9 +334,6 @@
 }
 
 - (void)testReadyToSendOnBidConsumed {
-    // We need to have different dates so that the bid is not expired.
-
-
     // TODO: improve this test so that we don't need to call
     // the prefetchBid. Make sure that the message is already in
     // a state verified here: testFeedbackMessageStateOnValidBidReceived
