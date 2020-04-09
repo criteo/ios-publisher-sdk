@@ -137,7 +137,7 @@ do { \
     NSUInteger index = [requests indexOfObjectPassingTest:^BOOL(CR_HttpContent * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         return [obj.url testing_isFeedbackMessageUrlWithConfig:self.criteo.config];
     }];
-    CR_HttpContent *feedbackRequest = requests[index];
+    CR_HttpContent *feedbackRequest = (index != NSNotFound) ? requests[index] : nil;
     return feedbackRequest;
 }
 
