@@ -24,7 +24,7 @@ FOUNDATION_EXTERN NSString * const CR_NetworkManagerMockDefaultPostJsonResponse;
 
 @property (nonatomic, assign, getter=isRespondingToGet) BOOL respondingToGet;
 @property (nonatomic, strong, nullable) NSData *getResponseData;
-@property (nonatomic, strong, nullable) NSError *getReponseError;
+@property (nonatomic, strong, nullable) NSError *getResponseError;
 @property (nonatomic, strong, nullable) NSURL *lastGetUrl;
 @property (nonatomic, assign, readonly) NSUInteger numberOfGetCall;
 

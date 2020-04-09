@@ -34,7 +34,7 @@ NSString * const CR_NetworkManagerMockDefaultGetJsonResponse = @"{\"throttleSec\
         _respondingToPost = YES;
         _numberOfPostCall = 0;
         _getResponseData = [CR_NetworkManagerMockDefaultGetJsonResponse dataUsingEncoding:NSUTF8StringEncoding];
-        _getReponseError = nil;
+        _getResponseError = nil;
         _respondingToGet = YES;
         _numberOfGetCall = 0;
     }
@@ -46,7 +46,7 @@ NSString * const CR_NetworkManagerMockDefaultGetJsonResponse = @"{\"throttleSec\
     self.numberOfGetCall += 1;
     self.lastGetUrl = url;
     if (self.isRespondingToGet && responseHandler) {
-        responseHandler(self.getResponseData, self.getReponseError);
+        responseHandler(self.getResponseData, self.getResponseError);
     }
 }
 

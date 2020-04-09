@@ -546,9 +546,9 @@ do { \
 - (void)testSendAppEventWithError {
     // Test the existing behaviour but this may require a new design.
     self.networkManagerMock.getResponseData = nil;
-    self.networkManagerMock.getReponseError = [NSError errorWithDomain:@"domain"
-                                                                  code:1
-                                                              userInfo:nil];
+    self.networkManagerMock.getResponseError = [NSError errorWithDomain:@"domain"
+                                                                   code:1
+                                                               userInfo:nil];
 
     XCTestExpectation *expectation = [[XCTestExpectation alloc] init];
     expectation.inverted = YES;
