@@ -107,34 +107,35 @@
 
 - (CR_CdbBid *) getBid:(CR_CacheAdUnit *) slot {
     CR_CdbBid *bid = [cacheManager getBidForAdUnit:slot];
-    if(bid && ![bid isEqual:[CR_CdbBid emptyBid]]) {
-        if(bid.isExpired) {
-            [self.feedbackStorage setExpiredForImpressionId:bid.impressionId];
-            // immediately invalidate current cache entry if bid is expired
-            [cacheManager removeBidForAdUnit:slot];
-            if (!self.isInSilenceMode) {
-                [self prefetchBid:slot];
-            }
-            return [CR_CdbBid emptyBid];
-        } else if (bid.isInSilenceMode) {
-            return [CR_CdbBid emptyBid];
-        } else {
-            [self.feedbackStorage setElapsedForImpressionId:bid.impressionId];
-            // remove it from the cache and consume the good bid
-            [cacheManager removeBidForAdUnit:slot];
-            if (!self.isInSilenceMode) {
-                [self prefetchBid:slot];
-            }
-            return bid;
-        }
-    }
-    //if the bid is empty or nil, it meaning that prefetch failed.
-    else {
+
+    if(bid == nil || [bid isEqual:[CR_CdbBid emptyBid]]) {
         if(!self.isInSilenceMode) {
             [self prefetchBid:slot];
         }
+        return [CR_CdbBid emptyBid];
     }
-    return [CR_CdbBid emptyBid];
+
+    if (bid.isExpired) {
+        [self.feedbackStorage setExpiredForImpressionId:bid.impressionId];
+        // immediately invalidate current cache entry if bid is expired
+        [cacheManager removeBidForAdUnit:slot];
+        if (!self.isInSilenceMode) {
+            [self prefetchBid:slot];
+        }
+        return [CR_CdbBid emptyBid];
+    }
+
+    if (bid.isInSilenceMode) {
+        return [CR_CdbBid emptyBid];
+    }
+
+    [self.feedbackStorage setElapsedForImpressionId:bid.impressionId];
+    // remove it from the cache and consume the good bid
+    [cacheManager removeBidForAdUnit:slot];
+    if (!self.isInSilenceMode) {
+        [self prefetchBid:slot];
+    }
+    return bid;
 }
 
 - (BOOL)isInSilenceMode {
