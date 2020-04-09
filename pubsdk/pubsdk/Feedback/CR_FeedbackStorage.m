@@ -20,8 +20,9 @@
 @end
 
 // Maximum size (in bytes) of metric elements stored in the metric sending queue.
-// 60KB represents ~360 metrics (with ~170 bytes/metric) which already represent an extreme case.
-static NSUInteger const CR_FeedbackStorageSendingQueueMaxSize = 64 * 1024;
+// 200KB represents ~360 metrics (with ~556 bytes/metric) which already represent an extreme case.
+// Setting a bit more to have some margin, which we can as 256KB is still relatively small
+static NSUInteger const CR_FeedbackStorageSendingQueueMaxSize = 256 * 1024;
 
 @implementation CR_FeedbackStorage
 
