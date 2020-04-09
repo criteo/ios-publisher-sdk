@@ -112,10 +112,6 @@
 }
 
 - (CR_CdbBid *)getBid:(CR_CacheAdUnit *)slot {
-    // bidManager is nil when adUnit is not registered
-    if(self.bidManager == nil) {
-        return [CR_CdbBid emptyBid];
-    }
     return [self.bidManager getBid:slot];
 }
 
