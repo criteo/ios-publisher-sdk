@@ -12,8 +12,8 @@ import XCTest
 
 class CR_FeedbackFileManagerTests: XCTestCase {
 
-    var fileManipulatingMock: CR_DefaultFileManipulatingMock = CR_DefaultFileManipulatingMock()
-    var feedbackFileManager: CR_FeedbackFileManager = CR_FeedbackFileManager(fileManipulating: CR_DefaultFileManipulator());
+    var fileManipulatingMock: CR_DefaultFileManipulatingMock!
+    var feedbackFileManager: CR_FeedbackFileManager!
 
     override func setUp() {
         super.setUp()
@@ -67,19 +67,20 @@ class CR_FeedbackFileManagerTests: XCTestCase {
     }
 
     func testInitialisationFailedBecauseNoRootDirectory() {
-        self.fileManipulatingMock.rootPaths = []
-        let x = CR_FeedbackFileManager(fileManipulating: self.fileManipulatingMock) as CR_FeedbackFileManager?
+        let mock = self.fileManipulatingMock!
+        mock.rootPaths = []
+        let x = CR_FeedbackFileManager(fileManipulating: mock) as CR_FeedbackFileManager?
         XCTAssertNil(x)
     }
 
     func testDirectoryExists_ShouldNotCallCreateDirectory() {
-        let mock = CR_DefaultFileManipulatingMock()
+        let mock = self.fileManipulatingMock!
         self.feedbackFileManager = CR_FeedbackFileManager(fileManipulating: mock)
         XCTAssertEqual(mock.createDirectoryCallCount, 0)
     }
 
     func testDirectoryNotExists_ShouldCallCreateDirectory() {
-        let mock = CR_DefaultFileManipulatingMock()
+        let mock = self.fileManipulatingMock!
         mock.fileExistsResponse = false
         self.feedbackFileManager = CR_FeedbackFileManager(fileManipulating: mock)
         XCTAssertEqual(mock.createDirectoryCallCount, 1)
@@ -91,13 +92,12 @@ class CR_FeedbackFileManagerTests: XCTestCase {
 }
 
 class CR_DefaultFileManipulatingMock: NSObject, CR_FileManipulating {
-
-    var message : CR_FeedbackMessage?
-    var contentOfDirectory : [String] = [];
-    var rootPaths : [URL] = [URL(fileURLWithPath: "path/to/file")]
-    var fileExistsCallCount : Int = 0
-    var fileExistsResponse : Bool = true
-    var createDirectoryCallCount : Int = 0
+    var message: CR_FeedbackMessage?
+    var contentOfDirectory: [String] = [];
+    var rootPaths: [URL] = [URL(fileURLWithPath: "path/to/file")]
+    var fileExistsCallCount: Int = 0
+    var fileExistsResponse: Bool = true
+    var createDirectoryCallCount: Int = 0
 
     func write(_ data: Data, forAbsolutePath path: String) {
         message = NSKeyedUnarchiver.unarchiveObject(with: data) as? CR_FeedbackMessage;
@@ -107,7 +107,9 @@ class CR_DefaultFileManipulatingMock: NSObject, CR_FileManipulating {
         return message != nil ? NSKeyedArchiver.archivedData(withRootObject: message!) : nil
     }
 
-    func urls(for directory: FileManager.SearchPathDirectory, inDomains domainMask: FileManager.SearchPathDomainMask) -> [URL] {
+    func urls(
+            for directory: FileManager.SearchPathDirectory,
+            inDomains domainMask: FileManager.SearchPathDomainMask) -> [URL] {
         return rootPaths
     }
 
@@ -116,7 +118,10 @@ class CR_DefaultFileManipulatingMock: NSObject, CR_FileManipulating {
         return self.fileExistsResponse
     }
 
-    func createDirectory(atPath path: String, withIntermediateDirectories createIntermediates: Bool, attributes: [FileAttributeKey : Any]? = nil) throws {
+    func createDirectory(
+            atPath path: String,
+            withIntermediateDirectories createIntermediates: Bool,
+            attributes: [FileAttributeKey: Any]? = nil) throws {
         self.createDirectoryCallCount += 1
     }
 
