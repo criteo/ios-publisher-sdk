@@ -29,6 +29,20 @@
     self.criteo = [Criteo testing_criteoWithNetworkCaptor];
 }
 
+#define AssertHttpContentHasOneFeedback(httpContent) \
+do { \
+    XCTAssertNotNil(httpContent); \
+    XCTAssertEqual([httpContent.requestBody[@"feedbacks"] count], 1,\
+                   @"%@", httpContent.requestBody[@"feedbacks"]); \
+} while (0)
+
+#define AssertFeedbackHasOneSlotWithCachedBidUsed(feedback, cachedBidUsed) \
+do { \
+    XCTAssertEqual([feedback[@"slots"] count], 1, @"%@", feedback); \
+    XCTAssertEqualObjects(feedback[@"slots"][0][@"cachedBidUsed"], @(cachedBidUsed), @"%@", feedback); \
+    XCTAssertNotNil(feedback[@"slots"][0][@"impressionId"], @"%@", feedback); \
+} while (0)
+
 - (void)testGivenPrefetchedBids_whenBidConsumed_thenFeedbackMessageSent {
     CRBannerAdUnit *adUnitForConsumation = [CR_TestAdUnits preprodBanner320x50];
     NSArray *adUnits = @[adUnitForConsumation, [CR_TestAdUnits preprodInterstitial]];
@@ -40,15 +54,32 @@
 
     [self waitFeedbackMessageRequest];
     CR_HttpContent *content = [self feedbackMessageRequest];
-    XCTAssertNotNil(content);
-    XCTAssertEqual([content.requestBody[@"feedbacks"] count], 1);
+    AssertHttpContentHasOneFeedback(content);
     NSDictionary *feedback = content.requestBody[@"feedbacks"][0];
     XCTAssertEqualObjects(feedback[@"cdbCallStartElapsed"], @0);
     XCTAssertNotNil(feedback[@"cdbCallEndElapsed"]);
     XCTAssertNotNil(feedback[@"elapsed"]);
-    XCTAssertEqual([feedback[@"slots"] count], 1);
-    XCTAssertEqualObjects(feedback[@"slots"][0][@"cachedBidUsed"], @1);
-    XCTAssertNotNil(feedback[@"slots"][0][@"impressionId"]);
+    AssertFeedbackHasOneSlotWithCachedBidUsed(feedback, YES);
+}
+
+- (void)testGivenNoBidReturned_whenBidConsumed_thenFeedbackMessageSent {
+    CRBannerAdUnit *adUnitForNoBid = [CR_TestAdUnits randomBanner320x50];
+    NSArray *adUnits = @[adUnitForNoBid, [CR_TestAdUnits preprodInterstitial]];
+    [self.criteo testing_registerWithAdUnits:adUnits];
+    [self.criteo testing_waitForRegisterHTTPResponses];
+    [self.criteo.testing_networkCaptor clear];
+
+    [self.criteo getBidResponseForAdUnit:adUnitForNoBid];
+
+    [self waitFeedbackMessageRequest];
+    CR_HttpContent *content = [self feedbackMessageRequest];
+    AssertHttpContentHasOneFeedback(content);
+    NSDictionary *feedback = content.requestBody[@"feedbacks"][0];
+    XCTAssertEqualObjects(feedback[@"cdbCallStartElapsed"], @0);
+    XCTAssertNotNil(feedback[@"cdbCallEndElapsed"]);
+    XCTAssertNil(feedback[@"elapsed"]);
+    XCTAssertEqualObjects(feedback[@"isTimeout"], @0);
+    AssertFeedbackHasOneSlotWithCachedBidUsed(feedback, NO);
 }
 
 #pragma mark - Private
