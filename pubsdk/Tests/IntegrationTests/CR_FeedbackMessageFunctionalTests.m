@@ -17,6 +17,7 @@
 #import "CR_NetworkWaiter.h"
 #import "CR_NetworkWaiterBuilder.h"
 #import "CR_TestAdUnits.h"
+#import "CR_ThreadManager+Waiter.h"
 #import "NSURL+Testing.h"
 #import "XCTestCase+Criteo.h"
 
@@ -35,6 +36,14 @@
 }
 
 - (void)tearDown {
+    // We wait for the thread manager to be idle. The goal is to "unmock"
+    // safely NSDate. We mock class methods of NSDate, and we had ABORT
+    // signals comming for a thread doing unfinished business whereas
+    // the associated test was finished on the main thread. This is an
+    // erratic behavior and the stacktrace was always showing OCMockClass
+    // API.
+    CR_ThreadManager *threadManager = self.criteo.bidManagerBuilder.threadManager;
+    [threadManager waiter_waitIdle];
     [self.nsdateMock stopMocking];
 }
 
@@ -89,7 +98,7 @@ do { \
 
 - (void)testGivenNetworkErrorOnPrefetch_whenGettingBid_thenSendFeedbackMessage {
     CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
-    [self prepareBidRequestWithoutConnection];
+    [self prepareBidRequestWithError:self.noConnectionError];
     [self prepareCriteoForGettingBidWithAdUnits:@[adUnit]];
 
     [self.criteo getBidResponseForAdUnit:adUnit];
@@ -102,6 +111,24 @@ do { \
     XCTAssertNil(feedback[@"cdbCallEndElapsed"]);
     XCTAssertNil(feedback[@"elapsed"]);
     XCTAssertEqualObjects(feedback[@"isTimeout"], @0);
+    AssertFeedbackHasOneSlotWithCachedBidUsed(feedback, NO);
+}
+
+- (void)testGivenTimeoutErrorOnPrefetch_whenGettingBid_thenSendFeedbackMessage {
+    CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
+    [self prepareBidRequestWithError:self.timeoutError];
+    [self prepareCriteoForGettingBidWithAdUnits:@[adUnit]];
+
+    [self.criteo getBidResponseForAdUnit:adUnit];
+
+    [self waitFeedbackMessageRequest];
+    CR_HttpContent *content = [self feedbackMessageRequest];
+    AssertHttpContentHasOneFeedback(content);
+    NSDictionary *feedback = content.requestBody[@"feedbacks"][0];
+    XCTAssertEqualObjects(feedback[@"cdbCallStartElapsed"], @0);
+    XCTAssertNil(feedback[@"cdbCallEndElapsed"]);
+    XCTAssertNil(feedback[@"elapsed"]);
+    XCTAssertEqualObjects(feedback[@"isTimeout"], @1);
     AssertFeedbackHasOneSlotWithCachedBidUsed(feedback, NO);
 }
 
@@ -131,12 +158,12 @@ do { \
     [self.criteo.testing_networkCaptor clear];
 }
 
-- (void)prepareBidRequestWithoutConnection {
+- (void)prepareBidRequestWithError:(NSError *)error {
     CR_Config *config = self.criteo.bidManagerBuilder.config;
     id urlArg = [OCMArg checkWithBlock:^BOOL(NSURL *url) {
         return [url testing_isBidUrlWithConfig:config];
     }];
-    id handlerArg = [OCMArg invokeBlockWithArgs:[NSNull null], self.noConnectionError, nil];
+    id handlerArg = [OCMArg invokeBlockWithArgs:[NSNull null], error, nil];
     OCMStub([self.criteo.testing_networkManagerMock postToUrl:urlArg
                                                      postBody:[OCMArg any]
                                               responseHandler:handlerArg]);
@@ -153,6 +180,14 @@ do { \
                                             userInfo:nil];
     return error;
 }
+
+- (NSError *)timeoutError {
+    NSError *error = [[NSError alloc] initWithDomain:NSURLErrorDomain
+                                                code:NSURLErrorTimedOut
+                                            userInfo:nil];
+    return error;
+}
+
 
 - (void)waitFeedbackMessageRequest {
     CR_NetworkWaiterBuilder *builder = [[CR_NetworkWaiterBuilder alloc] initWithConfig:self.criteo.config
