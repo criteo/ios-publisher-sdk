@@ -6,6 +6,7 @@
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 
+#import <FunctionalObjC/FBLFunctional.h>
 #import <OCMock/OCMock.h>
 #import <XCTest/XCTest.h>
 
@@ -60,6 +61,13 @@ do { \
     XCTAssertEqualObjects(feedback[@"slots"][0][@"cachedBidUsed"], @(cachedBidUsed), @"%@", feedback); \
     XCTAssertNotNil(feedback[@"slots"][0][@"impressionId"], @"%@", feedback); \
 } while (0)
+
+#define AssertArrayWithUniqueElements(array, uniqueElementCount) \
+do { \
+    NSSet *set = [[NSSet alloc] initWithArray:array]; \
+    XCTAssertEqual(set.count, uniqueElementCount, @"%@", array); \
+} while (0)
+
 
 - (void)testGivenPrefetchedBids_whenBidConsumed_thenFeedbackMessageSent {
     CRBannerAdUnit *adUnitForConsumation = [CR_TestAdUnits preprodBanner320x50];
@@ -162,6 +170,38 @@ do { \
 
     NSArray *feedbacks = [self.feedbackStorage popMessagesToSend];
     XCTAssertEqual(feedbacks.count, 3);
+}
+
+- (void)testGivenFeedbackRequestError_whenGettingBids_thenFeedbackRequest {
+    CRAdUnit *adUnit1 = [CR_TestAdUnits preprodInterstitial];
+    CRAdUnit *adUnit2 = [CR_TestAdUnits preprodBanner320x50];
+    [self prepareCriteoForGettingBidWithAdUnits:@[adUnit1, adUnit2]];
+    [self prepareFeedbackRequestWithError];
+
+    [self getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:adUnit1];
+    [self getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:adUnit2];
+    [self getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:adUnit2];
+
+    CR_HttpContent *content = [self feedbackMessageRequest];
+    XCTAssertNotNil(content);
+    NSArray *feedbacks = content.requestBody[@"feedbacks"];
+    XCTAssertEqual([feedbacks count], 3);
+    for (NSUInteger index = 0; index < [feedbacks count]; index++) {
+        NSDictionary *feedback = feedbacks[index];
+        XCTAssertEqualObjects(feedback[@"cdbCallStartElapsed"], @0, @"index: %ld feedback: %@", (unsigned long)index, feedback);
+        XCTAssertNotNil(feedback[@"cdbCallEndElapsed"], @"index: %ld feedback: %@", (unsigned long)index, feedback);
+        XCTAssertNotNil(feedback[@"elapsed"], @"index: %ld feedback: %@", (unsigned long)index, feedback);
+        AssertFeedbackHasOneSlotWithCachedBidUsed(feedback, YES);
+    }
+    NSArray *impressionIds = [feedbacks fbl_flatMap:^id _Nullable(NSDictionary *value) {
+        return value[@"slots"][0][@"impressionId"];
+    }];
+    NSArray *requestGroupIds = [feedbacks fbl_flatMap:^id _Nullable(NSDictionary *value) {
+        return value[@"requestGroupId"];
+    }];
+    AssertArrayWithUniqueElements(impressionIds, 3);
+    // Two bids was in the same request (and share a commun groupId)
+    AssertArrayWithUniqueElements(requestGroupIds, 2);
 }
 
 #pragma mark - Private
