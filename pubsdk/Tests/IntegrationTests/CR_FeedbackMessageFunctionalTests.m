@@ -150,6 +150,20 @@ do { \
     AssertFeedbackHasOneSlotWithCachedBidUsed(feedback, YES);
 }
 
+- (void)testGivenFeedbackRequestError_whenGettingBids_thenQueueingFeedbackMessage {
+    CRAdUnit *adUnit1 = [CR_TestAdUnits preprodInterstitial];
+    CRAdUnit *adUnit2 = [CR_TestAdUnits preprodBanner320x50];
+    [self prepareCriteoForGettingBidWithAdUnits:@[adUnit1, adUnit2]];
+    [self prepareFeedbackRequestWithError];
+
+    [self getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:adUnit1];
+    [self getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:adUnit2];
+    [self getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:adUnit1];
+
+    NSArray *feedbacks = [self.feedbackStorage popMessagesToSend];
+    XCTAssertEqual(feedbacks.count, 3);
+}
+
 #pragma mark - Private
 
 - (void)prepareCriteoForGettingBidWithAdUnits:(NSArray *)adUnits {
@@ -159,14 +173,43 @@ do { \
 }
 
 - (void)prepareBidRequestWithError:(NSError *)error {
+    [self preparePostResponseWithError:error
+                            urlChecker:^BOOL(NSURL *url, CR_Config *config) {
+                                return [url testing_isBidUrlWithConfig:config];
+                            }];
+}
+
+- (void)prepareFeedbackRequestWithError {
+    [self preparePostResponseWithError:self.timeoutError
+                            urlChecker:^BOOL(NSURL *url, CR_Config *config) {
+                                return [url testing_isFeedbackMessageUrlWithConfig:config];
+                            }];
+}
+
+- (void)preparePostResponseWithError:(NSError *)error
+                          urlChecker:(BOOL(^)(NSURL *url, CR_Config *config))urlChecker {
     CR_Config *config = self.criteo.bidManagerBuilder.config;
     id urlArg = [OCMArg checkWithBlock:^BOOL(NSURL *url) {
-        return [url testing_isBidUrlWithConfig:config];
+        return urlChecker(url, config);
     }];
     id handlerArg = [OCMArg invokeBlockWithArgs:[NSNull null], error, nil];
     OCMStub([self.criteo.testing_networkManagerMock postToUrl:urlArg
                                                      postBody:[OCMArg any]
                                               responseHandler:handlerArg]);
+}
+
+- (void)getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:(CRAdUnit *)adUnit {
+    [self.criteo.testing_networkCaptor clear];
+    [self.criteo getBidResponseForAdUnit:adUnit];
+
+    CR_NetworkWaiterBuilder *builder = [[CR_NetworkWaiterBuilder alloc] initWithConfig:self.criteo.config
+                                                                         networkCaptor:self.criteo.testing_networkCaptor];
+    CR_NetworkWaiter *waiter = builder  .withFeedbackMessageSent
+                                        .withBid
+                                        .withFinishedRequestsIncluded
+                                        .build;
+    const BOOL result = [waiter wait];
+    XCTAssert(result);
 }
 
 - (void)increaseCurrentDateWithDuration:(NSTimeInterval)duration {
@@ -204,6 +247,10 @@ do { \
     }];
     CR_HttpContent *feedbackRequest = (index != NSNotFound) ? requests[index] : nil;
     return feedbackRequest;
+}
+
+- (CR_FeedbackStorage *)feedbackStorage {
+    return self.criteo.bidManagerBuilder.feedbackStorage;
 }
 
 @end
