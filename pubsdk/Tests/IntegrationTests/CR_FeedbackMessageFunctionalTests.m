@@ -48,9 +48,7 @@ do { \
 - (void)testGivenPrefetchedBids_whenBidConsumed_thenFeedbackMessageSent {
     CRBannerAdUnit *adUnitForConsumation = [CR_TestAdUnits preprodBanner320x50];
     NSArray *adUnits = @[adUnitForConsumation, [CR_TestAdUnits preprodInterstitial]];
-    [self.criteo testing_registerWithAdUnits:adUnits];
-    [self.criteo testing_waitForRegisterHTTPResponses];
-    [self.criteo.testing_networkCaptor clear];
+    [self prepareCriteoForGettingBidWithAdUnits:adUnits];
 
     [self.criteo getBidResponseForAdUnit:adUnitForConsumation];
 
@@ -67,9 +65,7 @@ do { \
 - (void)testGivenNoBidReturned_whenBidConsumed_thenFeedbackMessageSent {
     CRBannerAdUnit *adUnitForNoBid = [CR_TestAdUnits randomBanner320x50];
     NSArray *adUnits = @[adUnitForNoBid, [CR_TestAdUnits preprodInterstitial]];
-    [self.criteo testing_registerWithAdUnits:adUnits];
-    [self.criteo testing_waitForRegisterHTTPResponses];
-    [self.criteo.testing_networkCaptor clear];
+    [self prepareCriteoForGettingBidWithAdUnits:adUnits];
 
     [self.criteo getBidResponseForAdUnit:adUnitForNoBid];
 
@@ -85,11 +81,9 @@ do { \
 }
 
 - (void)testGivenNetworkErrorOnPrefetch_whenGettingBid_thenSendFeedbackMessage {
-    [self prepareBidRequestWithoutConnection];
     CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
-    [self.criteo testing_registerWithAdUnits:@[adUnit]];
-    [self.criteo testing_waitForRegisterHTTPResponses];
-    [self.criteo.testing_networkCaptor clear];
+    [self prepareBidRequestWithoutConnection];
+    [self prepareCriteoForGettingBidWithAdUnits:@[adUnit]];
 
     [self.criteo getBidResponseForAdUnit:adUnit];
 
@@ -105,6 +99,12 @@ do { \
 }
 
 #pragma mark - Private
+
+- (void)prepareCriteoForGettingBidWithAdUnits:(NSArray *)adUnits {
+    [self.criteo testing_registerWithAdUnits:adUnits];
+    [self.criteo testing_waitForRegisterHTTPResponses];
+    [self.criteo.testing_networkCaptor clear];
+}
 
 - (void)prepareBidRequestWithoutConnection {
     CR_Config *config = self.criteo.bidManagerBuilder.config;
