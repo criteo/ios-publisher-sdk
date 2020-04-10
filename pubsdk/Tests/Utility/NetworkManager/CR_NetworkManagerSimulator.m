@@ -30,6 +30,10 @@ NSString *const CR_NetworkSessionEmptyBid = @"{\"slots\":[],\"requestId\":\"c412
 
 @implementation CR_NetworkManagerSimulator
 
++ (NSTimeInterval)interstitialTtl {
+    return 3600;
+}
+
 - (instancetype)initWithConfig:(CR_Config *)config {
     MockWKWebView *webView = [[MockWKWebView alloc] init];
     CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] initWithWKWebView:webView];
@@ -187,7 +191,7 @@ NSString *const CR_NetworkSessionEmptyBid = @"{\"slots\":[],\"requestId\":\"c412
     NSMutableDictionary *dict = [[self defaultSlotResponseForPayload:payload] mutableCopy];
     dict[@"width"] = @(size.width);
     dict[@"height"] = @(size.height);
-    dict[@"ttl"] = @3600;
+    dict[@"ttl"] = @(self.class.interstitialTtl);
     dict[@"displayUrl"] = CR_ViewCheckingHelper.preprodCreativeImageUrl;
     return dict;
 }

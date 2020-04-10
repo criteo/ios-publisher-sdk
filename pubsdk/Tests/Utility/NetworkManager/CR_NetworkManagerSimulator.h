@@ -10,7 +10,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern const NSTimeInterval CR_NetworkManagerSimulatorInterstitialDefaultTtl;
+
 @interface CR_NetworkManagerSimulator : CR_NetworkManager
+
+@property (class, assign, nonatomic, readonly) NSTimeInterval interstitialTtl;
 
 - (instancetype)initWithDeviceInfo:(CR_DeviceInfo *)deviceInfo NS_UNAVAILABLE;
 - (instancetype)initWithDeviceInfo:(CR_DeviceInfo *)deviceInfo session:(NSURLSession *)session NS_UNAVAILABLE;

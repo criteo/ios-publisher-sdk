@@ -13,6 +13,7 @@
 #import "Criteo+Internal.h"
 #import "CR_BidManagerBuilder+Testing.h"
 #import "CR_NetworkCaptor.h"
+#import "CR_NetworkManagerSimulator.h"
 #import "CR_NetworkWaiter.h"
 #import "CR_NetworkWaiterBuilder.h"
 #import "CR_TestAdUnits.h"
@@ -22,6 +23,7 @@
 @interface CR_FeedbackMessageFunctionalTests : XCTestCase
 
 @property (strong, nonatomic) Criteo *criteo;
+@property (strong, nonatomic) OCMockObject *nsdateMock;
 
 @end
 
@@ -29,6 +31,11 @@
 
 - (void)setUp {
     self.criteo = [Criteo testing_criteoWithNetworkCaptor];
+    self.nsdateMock = OCMClassMock([NSDate class]);
+}
+
+- (void)tearDown {
+    [self.nsdateMock stopMocking];
 }
 
 #define AssertHttpContentHasOneFeedback(httpContent) \
@@ -98,6 +105,24 @@ do { \
     AssertFeedbackHasOneSlotWithCachedBidUsed(feedback, NO);
 }
 
+- (void)testGivenBidExpired_whenGettingBid_thenSendFeedbackMessage {
+    CRAdUnit *adUnit = [CR_TestAdUnits preprodInterstitial];
+    [self prepareCriteoForGettingBidWithAdUnits:@[adUnit]];
+    [self increaseCurrentDateWithDuration:CR_NetworkManagerSimulator.interstitialTtl];
+
+    [self.criteo getBidResponseForAdUnit:adUnit];
+
+    [self waitFeedbackMessageRequest];
+    CR_HttpContent *content = [self feedbackMessageRequest];
+    AssertHttpContentHasOneFeedback(content);
+    NSDictionary *feedback = content.requestBody[@"feedbacks"][0];
+    XCTAssertEqualObjects(feedback[@"cdbCallStartElapsed"], @0);
+    XCTAssertNotNil(feedback[@"cdbCallEndElapsed"]);
+    XCTAssertNil(feedback[@"elapsed"]);
+    XCTAssertEqualObjects(feedback[@"isTimeout"], @0);
+    AssertFeedbackHasOneSlotWithCachedBidUsed(feedback, YES);
+}
+
 #pragma mark - Private
 
 - (void)prepareCriteoForGettingBidWithAdUnits:(NSArray *)adUnits {
@@ -115,6 +140,11 @@ do { \
     OCMStub([self.criteo.testing_networkManagerMock postToUrl:urlArg
                                                      postBody:[OCMArg any]
                                               responseHandler:handlerArg]);
+}
+
+- (void)increaseCurrentDateWithDuration:(NSTimeInterval)duration {
+    NSDate *newNow = [[NSDate alloc] initWithTimeIntervalSinceNow:duration];
+    OCMStub([(id)self.nsdateMock date]).andReturn(newNow);
 }
 
 - (NSError *)noConnectionError {
