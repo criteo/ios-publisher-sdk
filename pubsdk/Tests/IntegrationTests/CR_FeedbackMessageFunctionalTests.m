@@ -32,7 +32,18 @@
 @implementation CR_FeedbackMessageFunctionalTests
 
 - (void)setUp {
-    self.criteo = [Criteo testing_criteoWithNetworkCaptor];
+    [super setUp];
+    [self clearFileDisk];
+
+    CR_BidManagerBuilder *builder =
+        CR_BidManagerBuilder.new.withIsolatedUserDefaults
+                                .withPreprodConfiguration
+                                .withListenedNetworkManager
+                                // We don't want to isolate the tests from the disk
+                                //.withIsolatedFeedbackStorage
+                                .withIsolatedNotificationCenter;
+
+    self.criteo = [[Criteo alloc] initWithBidManagerBuilder:builder];
     self.nsdateMock = OCMClassMock([NSDate class]);
 }
 
@@ -46,6 +57,8 @@
     CR_ThreadManager *threadManager = self.criteo.bidManagerBuilder.threadManager;
     [threadManager waiter_waitIdle];
     [self.nsdateMock stopMocking];
+    [self clearFileDisk];
+    [super tearDown];
 }
 
 #define AssertHttpContentHasOneFeedback(httpContent) \
@@ -278,5 +291,28 @@ do { \
 - (CR_FeedbackStorage *)feedbackStorage {
     return self.criteo.bidManagerBuilder.feedbackStorage;
 }
+
+- (void)clearFileDisk {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSArray<NSURL *> *directoryUrls = [fileManager URLsForDirectory:NSLibraryDirectory
+                                                          inDomains:NSUserDomainMask];
+    NSArray<NSString *> *files = [directoryUrls fbl_flatMap:^id _Nullable(NSURL * _Nonnull directory) {
+        NSError *error = nil;
+        NSArray *files = [fileManager contentsOfDirectoryAtURL:directory
+                                    includingPropertiesForKeys:nil
+                                                       options:0
+                                                         error:&error];
+        XCTAssertNil(error);
+        return files;
+    }];
+    [files fbl_forEach:^(NSString *file) {
+        NSError *error = nil;
+        BOOL result = [fileManager removeItemAtPath:file
+                                              error:&error];
+        XCTAssertNil(error);
+        XCTAssert(result);
+    }];
+}
+
 
 @end
