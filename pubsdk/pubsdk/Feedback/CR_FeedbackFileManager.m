@@ -12,18 +12,27 @@
 
 @property(strong, nonatomic, readonly) NSString *activeMetricsPath;
 @property(strong, nonatomic, readonly) id <CR_FileManipulating> fileManipulating;
+@property (assign, nonatomic, readonly) NSUInteger activeMetricsMaxFileSize;
 
 @end
+
+// Maximum size (in bytes) of metric elements stored in the metrics folder.
+// 160KB represents ~300 metrics (with ~556 bytes/metric) which already represent an extreme case.
+// Setting a bit more to have some margin, which we can as 256KB is still relatively small
+static NSUInteger const CR_FeedbackFileManagerActiveMetricsMaxFileSize = 256 * 1024;
 
 @implementation CR_FeedbackFileManager
 
 - (instancetype)init {
-    return [self initWithFileManipulating:[[CR_DefaultFileManipulator alloc] init]];
+    return [self initWithFileManipulating:[[CR_DefaultFileManipulator alloc] init]
+                 activeMetricsMaxFileSize:CR_FeedbackFileManagerActiveMetricsMaxFileSize];
 }
 
-- (instancetype)initWithFileManipulating:(id <CR_FileManipulating>)fileManipulating {
+- (instancetype)initWithFileManipulating:(id <CR_FileManipulating>)fileManipulating
+                activeMetricsMaxFileSize:(NSUInteger)activeMetricsMaxFileSize {
     if (self = [super init]) {
         _fileManipulating = fileManipulating;
+        _activeMetricsMaxFileSize = activeMetricsMaxFileSize;
 
         NSArray<NSURL *> *directoryUrls = [fileManipulating URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask];
         if (directoryUrls.count == 0) {
@@ -59,7 +68,15 @@
         content = [NSKeyedArchiver archivedDataWithRootObject:feedback];
     }
 
-    [self.fileManipulating writeData:content forAbsolutePath:[self buildAbsolutePathByFilename:filename]];
+    NSString *feedbackPath = [self buildAbsolutePathByFilename:filename];
+    if ([self.fileManipulating fileExistsAtPath:feedbackPath isDirectory:nil] ||
+        [self getActiveMetricsFileSize] < self.activeMetricsMaxFileSize) {
+        [self.fileManipulating writeData:content forAbsolutePath:feedbackPath];
+    }
+}
+
+- (NSUInteger)getActiveMetricsFileSize {
+    return [self.fileManipulating sizeOfDirectoryAtPath:self.activeMetricsPath error:nil];
 }
 
 - (void)removeFileForFilename:(NSString *)filename {

@@ -10,6 +10,8 @@ import Foundation
 
 import XCTest
 
+private let testsActiveMetricsMaxFileSize: UInt = 16 * 1024
+
 class CR_FeedbackFileManagerTests: XCTestCase {
 
     var fileManipulatingMock: CR_DefaultFileManipulatingMock!
@@ -18,7 +20,8 @@ class CR_FeedbackFileManagerTests: XCTestCase {
     override func setUp() {
         super.setUp()
         self.fileManipulatingMock = CR_DefaultFileManipulatingMock()
-        self.feedbackFileManager = CR_FeedbackFileManager(fileManipulating: self.fileManipulatingMock)
+        self.feedbackFileManager = CR_FeedbackFileManager(fileManipulating: self.fileManipulatingMock,
+                activeMetricsMaxFileSize: testsActiveMetricsMaxFileSize)
     }
 
     func testReadMissingFile() {
@@ -69,21 +72,40 @@ class CR_FeedbackFileManagerTests: XCTestCase {
     func testInitialisationFailedBecauseNoRootDirectory() {
         let mock = self.fileManipulatingMock!
         mock.rootPaths = []
-        let x = CR_FeedbackFileManager(fileManipulating: mock) as CR_FeedbackFileManager?
+        let x = CR_FeedbackFileManager(
+                fileManipulating: mock,
+                activeMetricsMaxFileSize: testsActiveMetricsMaxFileSize) as CR_FeedbackFileManager?
         XCTAssertNil(x)
     }
 
     func testDirectoryExists_ShouldNotCallCreateDirectory() {
         let mock = self.fileManipulatingMock!
-        self.feedbackFileManager = CR_FeedbackFileManager(fileManipulating: mock)
+        self.feedbackFileManager = CR_FeedbackFileManager(
+                fileManipulating: mock,
+                activeMetricsMaxFileSize: testsActiveMetricsMaxFileSize)
         XCTAssertEqual(mock.createDirectoryCallCount, 0)
     }
 
     func testDirectoryNotExists_ShouldCallCreateDirectory() {
         let mock = self.fileManipulatingMock!
         mock.fileExistsResponse = false
-        self.feedbackFileManager = CR_FeedbackFileManager(fileManipulating: mock)
+        self.feedbackFileManager = CR_FeedbackFileManager(
+                fileManipulating: mock,
+                activeMetricsMaxFileSize: testsActiveMetricsMaxFileSize)
         XCTAssertEqual(mock.createDirectoryCallCount, 1)
+    }
+
+    func testActiveMetricsMaxFileSize() {
+        let activeMetricsMaxFileSize: UInt = 123
+        let mock = self.fileManipulatingMock!
+        mock.sizeOfDirectory = activeMetricsMaxFileSize
+        mock.fileExistsResponse = false
+        self.feedbackFileManager = CR_FeedbackFileManager(
+                fileManipulating: mock,
+                activeMetricsMaxFileSize: activeMetricsMaxFileSize)
+        let x = CR_FeedbackMessage()
+        self.feedbackFileManager.writeFeedback(x, forFilename: "")
+        XCTAssertNil(mock.message, "Feedback should not be written on maxFileSize bound")
     }
 
     private func now() -> NSNumber {
