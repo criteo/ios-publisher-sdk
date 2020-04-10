@@ -74,9 +74,8 @@ do { \
     NSArray *adUnits = @[adUnitForConsumation, [CR_TestAdUnits preprodInterstitial]];
     [self prepareCriteoForGettingBidWithAdUnits:adUnits];
 
-    [self.criteo getBidResponseForAdUnit:adUnitForConsumation];
+    [self getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:adUnitForConsumation];
 
-    [self waitFeedbackMessageRequest];
     CR_HttpContent *content = [self feedbackMessageRequest];
     AssertHttpContentHasOneFeedback(content);
     NSDictionary *feedback = content.requestBody[@"feedbacks"][0];
@@ -91,9 +90,8 @@ do { \
     NSArray *adUnits = @[adUnitForNoBid, [CR_TestAdUnits preprodInterstitial]];
     [self prepareCriteoForGettingBidWithAdUnits:adUnits];
 
-    [self.criteo getBidResponseForAdUnit:adUnitForNoBid];
+    [self getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:adUnitForNoBid];
 
-    [self waitFeedbackMessageRequest];
     CR_HttpContent *content = [self feedbackMessageRequest];
     AssertHttpContentHasOneFeedback(content);
     NSDictionary *feedback = content.requestBody[@"feedbacks"][0];
@@ -109,9 +107,8 @@ do { \
     [self prepareBidRequestWithError:self.noConnectionError];
     [self prepareCriteoForGettingBidWithAdUnits:@[adUnit]];
 
-    [self.criteo getBidResponseForAdUnit:adUnit];
+    [self getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:adUnit];
 
-    [self waitFeedbackMessageRequest];
     CR_HttpContent *content = [self feedbackMessageRequest];
     AssertHttpContentHasOneFeedback(content);
     NSDictionary *feedback = content.requestBody[@"feedbacks"][0];
@@ -127,9 +124,8 @@ do { \
     [self prepareBidRequestWithError:self.timeoutError];
     [self prepareCriteoForGettingBidWithAdUnits:@[adUnit]];
 
-    [self.criteo getBidResponseForAdUnit:adUnit];
+    [self getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:adUnit];
 
-    [self waitFeedbackMessageRequest];
     CR_HttpContent *content = [self feedbackMessageRequest];
     AssertHttpContentHasOneFeedback(content);
     NSDictionary *feedback = content.requestBody[@"feedbacks"][0];
@@ -145,9 +141,8 @@ do { \
     [self prepareCriteoForGettingBidWithAdUnits:@[adUnit]];
     [self increaseCurrentDateWithDuration:CR_NetworkManagerSimulator.interstitialTtl];
 
-    [self.criteo getBidResponseForAdUnit:adUnit];
+    [self getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:adUnit];
 
-    [self waitFeedbackMessageRequest];
     CR_HttpContent *content = [self feedbackMessageRequest];
     AssertHttpContentHasOneFeedback(content);
     NSDictionary *feedback = content.requestBody[@"feedbacks"][0];
@@ -269,15 +264,6 @@ do { \
                                                 code:NSURLErrorTimedOut
                                             userInfo:nil];
     return error;
-}
-
-
-- (void)waitFeedbackMessageRequest {
-    CR_NetworkWaiterBuilder *builder = [[CR_NetworkWaiterBuilder alloc] initWithConfig:self.criteo.config
-                                                                         networkCaptor:self.criteo.testing_networkCaptor];
-    CR_NetworkWaiter *waiter = builder.withFeedbackMessageSent.withFinishedRequestsIncluded.build;
-    const BOOL result = [waiter wait];
-    XCTAssert(result);
 }
 
 - (CR_HttpContent *)feedbackMessageRequest {
