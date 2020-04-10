@@ -15,7 +15,7 @@ class CR_FeedbackSerializerTests: XCTestCase {
     var config: CR_Config = CR_Config(criteoPublisherId: "publisherId")
 
     func testConfigValuesPassed() {
-        let body = self.serializer.postBody(forCsm: [], config: config) as NSDictionary;
+        let body = self.serializer.postBody(forCsm: [], config: config) as NSDictionary
 
         XCTAssertEqual(body["wrapper_version"] as? String, config.sdkVersion)
         XCTAssertEqual(body["profile_id"] as? NSNumber, config.profileId)
@@ -27,7 +27,7 @@ class CR_FeedbackSerializerTests: XCTestCase {
             CR_FeedbackMessage(),
             CR_FeedbackMessage()
         ]
-        let body = self.serializer.postBody(forCsm: messages, config: config) as NSDictionary;
+        let body = self.serializer.postBody(forCsm: messages, config: config) as NSDictionary
         let feedbacks = body["feedbacks"] as? NSArray
         XCTAssertEqual(feedbacks?.count, messages.count)
     }
@@ -36,8 +36,8 @@ class CR_FeedbackSerializerTests: XCTestCase {
         let cdbStartTimeStamp = 123123
         let cdbCallDuration = 10
         let bidConsumedDuration = 20
-        let message = CR_FeedbackMessage();
-        message.isTimeout = true;
+        let message = CR_FeedbackMessage()
+        message.isTimeout = true
         message.cdbCallStartTimestamp = NSNumber(value: cdbStartTimeStamp)
         message.cdbCallEndTimestamp = NSNumber(value: cdbStartTimeStamp + cdbCallDuration)
         message.elapsedTimestamp = NSNumber(value: cdbStartTimeStamp + bidConsumedDuration)
@@ -90,7 +90,7 @@ class CR_FeedbackSerializerTests: XCTestCase {
     }
 
     private func serializeSingleMessage(message: CR_FeedbackMessage) -> NSDictionary {
-        let body = self.serializer.postBody(forCsm: [message], config: config) as NSDictionary;
+        let body = self.serializer.postBody(forCsm: [message], config: config) as NSDictionary
         let feedbacks = body["feedbacks"] as! NSArray
         let feedback = feedbacks[0] as! NSDictionary
         return feedback

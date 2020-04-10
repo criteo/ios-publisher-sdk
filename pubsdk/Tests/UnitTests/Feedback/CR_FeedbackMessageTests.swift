@@ -47,7 +47,7 @@ class CR_FeedbackMessageTests : XCTestCase {
     }
 
     func testEmptyMessageIsNotReadyToSend() {
-        XCTAssertFalse(CR_FeedbackMessage().isReadyToSend);
+        XCTAssertFalse(CR_FeedbackMessage().isReadyToSend)
     }
 
     func testMessageWithElapsedTimeIsReadyToSend() {
@@ -77,18 +77,18 @@ class CR_FeedbackMessageTests : XCTestCase {
 
     private func createFullyFilledFeedbackMessage() -> CR_FeedbackMessage {
         let result = CR_FeedbackMessage()
-        result.impressionId = "impression id value";
-        result.cdbCallStartTimestamp = 100;
-        result.cdbCallEndTimestamp = 200;
-        result.elapsedTimestamp = 300;
-        result.isTimeout = true;
-        result.isExpired = true;
+        result.impressionId = "impression id value"
+        result.cdbCallStartTimestamp = 100
+        result.cdbCallEndTimestamp = 200
+        result.elapsedTimestamp = 300
+        result.isTimeout = true
+        result.isExpired = true
         return result
     }
 
     private func assertTwoMessagesObjectAndHashEquality(_ a: CR_FeedbackMessage, _ b: CR_FeedbackMessage, file: StaticString = #file, line: UInt = #line) {
         XCTAssertEqual(a, b, file: file, line: line)
-        XCTAssertTrue(a.hash == b.hash, file: file, line: line);
+        XCTAssertTrue(a.hash == b.hash, file: file, line: line)
     }
 
     private func assertMessageEqualityAfterEncodingAndDecoding(message: CR_FeedbackMessage, file: StaticString = #file, line: UInt = #line) {

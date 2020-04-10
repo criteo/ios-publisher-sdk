@@ -64,7 +64,7 @@ class CR_FeedbackStorageTests: XCTestCase {
 
     func test_updateExistingMessage_ShouldUpdateExistingFile() {
         let existingMessage = createMessageWithImpId(impressionId1)
-        existingMessage.cdbCallStartTimestamp = timestamp1;
+        existingMessage.cdbCallStartTimestamp = timestamp1
         fileManagingMock.readFeedbackResults = [existingMessage]
         feedbackStorage.updateMessage(withImpressionId: impressionId1) { $0.cdbCallStartTimestamp = self.timestamp2 }
         XCTAssertEqual(fileManagingMock.writeFeedbackResults[0].cdbCallStartTimestamp, timestamp2)
@@ -145,7 +145,7 @@ class CR_FeedbackFileManagingMock: NSObject, CR_FeedbackFileManaging {
         }
 
         if(result == nil) {
-            result = readFeedbackCallCount < readFeedbackResults.count ? readFeedbackResults[readFeedbackCallCount] : nil;
+            result = readFeedbackCallCount < readFeedbackResults.count ? readFeedbackResults[readFeedbackCallCount] : nil
         }
 
         readFeedbackCallCount += 1
@@ -159,7 +159,7 @@ class CR_FeedbackFileManagingMock: NSObject, CR_FeedbackFileManaging {
         writeRequestedFilenames.append(filename)
 
         if (useReadWriteDictionary) {
-            readWriteDictionary[filename] = feedback;
+            readWriteDictionary[filename] = feedback
         }
     }
 

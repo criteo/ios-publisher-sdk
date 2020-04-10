@@ -115,7 +115,7 @@ class CR_FeedbackFileManagerTests: XCTestCase {
 
 class CR_DefaultFileManipulatingMock: NSObject, CR_FileManipulating {
     var message: CR_FeedbackMessage?
-    var contentOfDirectory: [String] = [];
+    var contentOfDirectory: [String] = []
     var sizeOfDirectory: UInt = 0
     var rootPaths: [URL] = [URL(fileURLWithPath: "path/to/file")]
     var fileExistsCallCount: Int = 0
@@ -123,7 +123,7 @@ class CR_DefaultFileManipulatingMock: NSObject, CR_FileManipulating {
     var createDirectoryCallCount: Int = 0
 
     func write(_ data: Data, forAbsolutePath path: String) {
-        message = NSKeyedUnarchiver.unarchiveObject(with: data) as? CR_FeedbackMessage;
+        message = NSKeyedUnarchiver.unarchiveObject(with: data) as? CR_FeedbackMessage
     }
 
     func readData(forAbsolutePath path: String) -> Data? {
