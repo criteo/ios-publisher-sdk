@@ -37,6 +37,7 @@
 		465D3CF92434D3D500BD36AC /* CR_UniqueIdGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46240E132434BB91001425AB /* CR_UniqueIdGeneratorTests.swift */; };
 		467D34CA243E060A00852B4D /* CASBoundedFileObjectQueueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 467D34C9243E060A00852B4D /* CASBoundedFileObjectQueueTests.m */; };
 		46B9780E243782A50061FC24 /* CR_UniqueIdGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 46240E0C2434BB4F001425AB /* CR_UniqueIdGenerator.m */; };
+		46C87E6C24405B2A0022978C /* CR_DefaultFileManipulatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C87E6B24405B2A0022978C /* CR_DefaultFileManipulatorTests.swift */; };
 		53374B8022AEDBE5007084FB /* CR_TokenCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 53374B7E22AEDBE4007084FB /* CR_TokenCache.m */; };
 		5397C09122A0885A00BC72FE /* CRAdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5397C08A22A0885700BC72FE /* CRAdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5397C09222A0885A00BC72FE /* CRInterstitialAdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5397C08B22A0885800BC72FE /* CRInterstitialAdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -369,6 +370,7 @@
 		46240E0C2434BB4F001425AB /* CR_UniqueIdGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_UniqueIdGenerator.m; sourceTree = "<group>"; };
 		46240E132434BB91001425AB /* CR_UniqueIdGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_UniqueIdGeneratorTests.swift; sourceTree = "<group>"; };
 		467D34C9243E060A00852B4D /* CASBoundedFileObjectQueueTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CASBoundedFileObjectQueueTests.m; sourceTree = "<group>"; };
+		46C87E6B24405B2A0022978C /* CR_DefaultFileManipulatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_DefaultFileManipulatorTests.swift; sourceTree = "<group>"; };
 		4876E95088BFF48248FF7025 /* Pods-pubsdkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdkTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdkTests/Pods-pubsdkTests.debug.xcconfig"; sourceTree = "<group>"; };
 		53374B7C22AED93A007084FB /* CRBidResponse+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CRBidResponse+Internal.h"; path = "pubsdk/InHouseMediation/CRBidResponse+Internal.h"; sourceTree = SOURCE_ROOT; };
 		53374B7E22AEDBE4007084FB /* CR_TokenCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CR_TokenCache.m; path = pubsdk/InHouseMediation/CR_TokenCache.m; sourceTree = SOURCE_ROOT; };
@@ -771,6 +773,7 @@
 				5E065DD39102A6790D4ADABA /* CR_FeedbackStorageTests.swift */,
 				46240E132434BB91001425AB /* CR_UniqueIdGeneratorTests.swift */,
 				467D34C9243E060A00852B4D /* CASBoundedFileObjectQueueTests.m */,
+				46C87E6B24405B2A0022978C /* CR_DefaultFileManipulatorTests.swift */,
 			);
 			path = Feedback;
 			sourceTree = "<group>";
@@ -1887,6 +1890,7 @@
 				7DB4E90C239532BA008DE5E3 /* XCTestCase+Criteo.m in Sources */,
 				54F1E6B9239FA1A000985D09 /* UIWebView+Testing.m in Sources */,
 				7D51ABEC23AA6CAC00540094 /* CR_NetworkManagerDecorator.m in Sources */,
+				46C87E6C24405B2A0022978C /* CR_DefaultFileManipulatorTests.swift in Sources */,
 				7D3E423523915B6600BAF673 /* CR_CdbBidTests.m in Sources */,
 				7D569469242A3AC20095A0A6 /* CR_BidManagerBuilder+Testing.m in Sources */,
 				7D73EF5F23C39A030086CBDC /* CR_AppEventsIntegrationTests.m in Sources */,

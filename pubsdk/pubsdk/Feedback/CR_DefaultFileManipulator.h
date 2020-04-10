@@ -31,6 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSArray<NSString *> *)contentsOfDirectoryAtPath:(NSString *)path error:(NSError **)error;
 
+- (NSUInteger)sizeOfDirectoryAtPath:(NSString *)path error:(NSError **)error;
+
 @end
 
 

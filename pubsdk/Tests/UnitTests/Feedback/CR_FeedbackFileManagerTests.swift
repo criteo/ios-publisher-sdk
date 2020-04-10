@@ -94,6 +94,7 @@ class CR_FeedbackFileManagerTests: XCTestCase {
 class CR_DefaultFileManipulatingMock: NSObject, CR_FileManipulating {
     var message: CR_FeedbackMessage?
     var contentOfDirectory: [String] = [];
+    var sizeOfDirectory: UInt = 0
     var rootPaths: [URL] = [URL(fileURLWithPath: "path/to/file")]
     var fileExistsCallCount: Int = 0
     var fileExistsResponse: Bool = true
@@ -131,5 +132,9 @@ class CR_DefaultFileManipulatingMock: NSObject, CR_FileManipulating {
 
     func contentsOfDirectory(atPath path: String) throws -> [String] {
         return contentOfDirectory
+    }
+
+    func sizeOfDirectory(atPath path: String, error: NSErrorPointer) -> UInt {
+        return sizeOfDirectory
     }
 }

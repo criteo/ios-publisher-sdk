@@ -30,6 +30,18 @@
     return [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:error];
 }
 
+- (NSUInteger)sizeOfDirectoryAtPath:(NSString *)path error:(NSError **)error {
+    NSArray<NSString *> *files = [self contentsOfDirectoryAtPath:path error:error];
+    NSUInteger size = 0;
+    for (NSString *file in files) {
+        NSString *filePath = [path stringByAppendingPathComponent:file];
+        NSDictionary<NSFileAttributeKey, id> *attributes =
+            [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:error];
+        size += [attributes fileSize];
+    }
+    return size;
+}
+
 - (BOOL)createDirectoryAtPath:(NSString *)path
   withIntermediateDirectories:(BOOL)createIntermediates
                    attributes:(nullable NSDictionary<NSFileAttributeKey, id> *)attributes
