@@ -856,6 +856,7 @@ Mopub Consent is updated only in the Criteo SDK and cannot be retrieved from it.
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
+                        <segue destination="fuT-WZ-8Nj" kind="relationship" relationship="viewControllers" id="U2L-Wc-XhK"/>
                         <segue destination="AUP-2B-ZXP" kind="relationship" relationship="viewControllers" id="3ak-gR-5rh"/>
                         <segue destination="8EF-H0-0mh" kind="relationship" relationship="viewControllers" id="ucZ-WJ-HIQ"/>
                     </connections>
@@ -962,7 +963,7 @@ Mopub Consent is updated only in the Criteo SDK and cannot be retrieved from it.
             </objects>
             <point key="canvasLocation" x="1744.9275362318842" y="1439.6739130434785"/>
         </scene>
-        <!--Ad Viewer-->
+        <!--New Viewer-->
         <scene sceneID="RfK-Fh-UHI">
             <objects>
                 <viewController id="AUP-2B-ZXP" customClass="AdViewerViewController" customModule="AdViewer" customModuleProvider="target" sceneMemberID="viewController">
@@ -975,7 +976,7 @@ Mopub Consent is updated only in the Criteo SDK and cannot be retrieved from it.
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Ad Viewer" id="wk6-km-EP7"/>
+                    <tabBarItem key="tabBarItem" title="New Viewer" id="wk6-km-EP7"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZUj-mk-Rrg" userLabel="First Responder" sceneMemberID="firstResponder"/>
