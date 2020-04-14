@@ -80,6 +80,10 @@ static NSUInteger const CR_FeedbackFileManagerActiveMetricsMaxFileSize = 256 * 1
 }
 
 - (void)removeFileForFilename:(NSString *)filename {
+    NSAssert(filename, @"We should never remove active metrics folder");
+    if (filename == nil) {
+        return;
+    }
     [self.fileManipulating removeItemAtPath:[self buildAbsolutePathByFilename:filename] error:nil];
 }
 
