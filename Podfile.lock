@@ -23,13 +23,12 @@ DEPENDENCIES:
   - OCMock (~> 3.4.3)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - Cassette
+    - FunctionalObjC
     - Google-Mobile-Ads-SDK
     - mopub-ios-sdk
     - OCMock
-  trunk:
-    - FunctionalObjC
 
 SPEC CHECKSUMS:
   Cassette: bd5900e0b8d67c796ca82272ff5ee388320cfc61
