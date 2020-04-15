@@ -16,6 +16,7 @@
 
 @property(nonatomic, strong) CR_FeedbackFileManagingMock *feedbackFileManagingMock;
 @property(nonatomic, strong) CASObjectQueue *feedbackSendingQueue;
+@property(nonatomic, strong) CR_FeedbackStorage *feedbackStorage;
 @property(nonatomic, strong) CR_ApiHandler *apiHandler;
 @property(nonatomic, strong) CR_Config *config;
 
@@ -25,7 +26,7 @@
 @property(nonatomic, strong) NSMutableArray<NSString *> *mockedGeneratedIds;
 @property(nonatomic, strong) OCMockObject *uniqueIdGenerator;
 
-@property(nonatomic, strong) CR_FeedbackController *feedbackController;
+@property(nonatomic, strong) id <CR_FeedbackDelegate> feedbackController;
 
 @end
 
@@ -37,18 +38,15 @@
     self.feedbackFileManagingMock = [[CR_FeedbackFileManagingMock alloc] init];
     self.feedbackFileManagingMock.useReadWriteDictionary = YES;
     self.feedbackSendingQueue = [[CASInMemoryObjectQueue alloc] init];
-    CR_FeedbackStorage *feedbackStorage = [[CR_FeedbackStorage alloc] initWithFileManager:self.feedbackFileManagingMock
+    self.feedbackStorage = [[CR_FeedbackStorage alloc] initWithFileManager:self.feedbackFileManagingMock
                                                                                 withQueue:self.feedbackSendingQueue];
 
     self.apiHandler = OCMClassMock([CR_ApiHandler class]);
-    self.config = OCMClassMock([CR_Config class]);
+    self.config = [[CR_Config alloc] init];
 
     [self setUpMockedUniqueIdGenerator];
     [self setUpMockedClock];
-
-    self.feedbackController = [[CR_FeedbackController alloc] initWithFeedbackStorage:feedbackStorage
-                                                                          apiHandler:self.apiHandler
-                                                                              config:self.config];
+    [self setUpFeedbackController];
 }
 
 - (void)tearDown {
@@ -57,7 +55,20 @@
     [super tearDown];
 }
 
+- (void)testOnCdbCallStarted_GivenDeactivatedCsm_DoNothing {
+    [self prepareDisabledCsm];
+    [self prepareStrictMockedFeedbackStorage];
+
+    CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[@"id"]];
+
+    [self.feedbackController onCdbCallStarted:request];
+
+    [self assertNoInteractionOnFeedbackStorage];
+}
+
 - (void)testOnCdbCallStarted_GivenMultipleSlot_UpdateAllStartTimeAndRequestIdOfMetricsById {
+    [self prepareEnabledCsm];
+
     CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[@"id1", @"id2"]];
 
     [self prepareMockedClock:42];
@@ -80,7 +91,21 @@
     [self assertQueueOnlyContainsAll:@[]];
 }
 
+- (void)testOnCdbCallResponse_GivenDeactivatedCsm_DoNothing {
+    [self prepareDisabledCsm];
+    [self prepareStrictMockedFeedbackStorage];
+
+    CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[@"id"]];
+    CR_CdbResponse *response = [[CR_CdbResponse alloc] init];
+
+    [self.feedbackController onCdbCallResponse:response fromRequest:request];
+
+    [self assertNoInteractionOnFeedbackStorage];
+}
+
 - (void)testOnCdbCallResponse_GivenNoBidAndInvalidBidAndValidBid_UpdateThemByIdAccordingly {
+    [self prepareEnabledCsm];
+
     CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[@"noBidId", @"invalidId", @"validId"]];
 
     [self prepareMockedClock:1337];
@@ -108,7 +133,21 @@
     [self assertQueueOnlyContainsAll:@[expectedInvalid, expectedNoBid]];
 }
 
+- (void)testOnCdbCallFailure_GivenDeactivatedCsm_DoNothing {
+    [self prepareDisabledCsm];
+    [self prepareStrictMockedFeedbackStorage];
+
+    CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[@"id"]];
+    NSError *error = [[NSError alloc] init];
+
+    [self.feedbackController onCdbCallFailure:error fromRequest:request];
+
+    [self assertNoInteractionOnFeedbackStorage];
+}
+
 - (void)testOnCdbCallFailure_GivenTimeoutError_UpdateAllForTimeout {
+    [self prepareEnabledCsm];
+
     CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[@"id1", @"id2"]];
 
     NSError *error = [[NSError alloc] initWithDomain:NSCocoaErrorDomain
@@ -130,6 +169,8 @@
 }
 
 - (void)testOnCdbCallFailure_GivenNotATimeoutError_UpdateAllForNetworkError {
+    [self prepareEnabledCsm];
+
     CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[@"id1", @"id2"]];
 
     NSError *error = [[NSError alloc] initWithDomain:NSCocoaErrorDomain
@@ -148,7 +189,20 @@
     [self assertQueueOnlyContainsAll:@[expected1, expected2]];
 }
 
+- (void)testOnBidConsumed_GivenDeactivatedCsm_DoNothing {
+    [self prepareDisabledCsm];
+    [self prepareStrictMockedFeedbackStorage];
+
+    CR_CdbBid *bid = CR_CdbBidBuilder.new.impressionId(@"id").build;
+
+    [self.feedbackController onBidConsumed:bid];
+
+    [self assertNoInteractionOnFeedbackStorage];
+}
+
 - (void)testOnBidConsumed_GivenNotExpiredBid_SetElapsedTime {
+    [self prepareEnabledCsm];
+
     CR_CdbBid *bid = CR_CdbBidBuilder.new.impressionId(@"id").build;
 
     [self prepareMockedClock:42];
@@ -163,6 +217,8 @@
 }
 
 - (void)testOnBidConsumed_GivenExpiredBid_SetExpiredFlag {
+    [self prepareEnabledCsm];
+
     CR_CdbBid *bid = CR_CdbBidBuilder.new.impressionId(@"id").ttl(-1).build;
 
     CR_FeedbackMessage *expected = [[CR_FeedbackMessage alloc] init];
@@ -174,7 +230,22 @@
     [self assertQueueOnlyContainsAll:@[expected]];
 }
 
+- (void)testSendFeedbackBatch_GivenDeactivatedCsm_DoNothing {
+    [self prepareDisabledCsm];
+    [self prepareStrictMockedFeedbackStorage];
+
+    [self.feedbackController sendFeedbackBatch];
+
+    [self assertNoInteractionOnFeedbackStorage];
+}
+
 #pragma mark - Private
+
+- (void)setUpFeedbackController {
+    self.feedbackController = [CR_FeedbackController controllerWithFeedbackStorage:self.feedbackStorage
+                                                                        apiHandler:self.apiHandler
+                                                                            config:self.config];
+}
 
 - (void)setUpMockedUniqueIdGenerator {
     self.uniqueIdGenerator = OCMClassMock([CR_UniqueIdGenerator class]);
@@ -210,6 +281,24 @@
 
 - (void)prepareMockedIdGenerator:(NSString *)generatedId {
     [self.mockedGeneratedIds addObject:generatedId];
+}
+
+- (void)prepareEnabledCsm {
+    self.config.csmEnabled = YES;
+}
+
+- (void)prepareDisabledCsm {
+    self.config.csmEnabled = NO;
+}
+
+- (void)prepareStrictMockedFeedbackStorage {
+    self.feedbackStorage = OCMStrictClassMock([CR_FeedbackStorage class]);
+    [self setUpFeedbackController];
+}
+
+- (void)assertNoInteractionOnFeedbackStorage {
+    // as the mock is strict, and nothing is expected, this will fail if there is an interaction.
+    OCMVerifyAll((id) self.feedbackStorage);
 }
 
 - (void)assertStorageOnlyContainsAll:(NSArray<CR_FeedbackMessage *> *)allExpected {

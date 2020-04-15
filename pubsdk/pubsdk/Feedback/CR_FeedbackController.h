@@ -97,6 +97,18 @@
                                  config:(CR_Config *)config
 NS_DESIGNATED_INITIALIZER;
 
+/**
+ * Helper method to create a feedback delegate based on a feedback controller but guarded by the CSM feature flag.
+ *
+ * @param feedbackStorage internal storage used to handle living metrics and queued ready-to-send metrics
+ * @param apiHandler handler used to send ready-to-send metrics
+ * @param config global config to help the API and enabled/disabled this CSM feature
+ * @return feedback delegate
+ */
++ (id <CR_FeedbackDelegate>)controllerWithFeedbackStorage:(CR_FeedbackStorage *)feedbackStorage
+                                               apiHandler:(CR_ApiHandler *)apiHandler
+                                                   config:(CR_Config *)config;
+
 @end
 
 #endif /* CR_FeedbackController_h */

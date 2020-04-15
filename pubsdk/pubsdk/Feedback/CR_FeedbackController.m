@@ -10,6 +10,7 @@
 #import "CR_UniqueIdGenerator.h"
 #import "CR_ApiHandler.h"
 #import "Logging.h"
+#import "CR_FeedbackFeatureGuard.h"
 
 @interface CR_FeedbackController ()
 
@@ -36,6 +37,19 @@
     }
     return self;
 }
+
++ (id <CR_FeedbackDelegate>)controllerWithFeedbackStorage:(CR_FeedbackStorage *)feedbackStorage
+                                               apiHandler:(CR_ApiHandler *)apiHandler
+                                                   config:(CR_Config *)config {
+    CR_FeedbackController *controller = [[CR_FeedbackController alloc] initWithFeedbackStorage:feedbackStorage
+                                                                                    apiHandler:apiHandler
+                                                                                        config:config];
+
+    CR_FeedbackFeatureGuard *featureGuard = [[CR_FeedbackFeatureGuard alloc] initWithController:controller config:config];
+
+    return featureGuard;
+}
+
 
 - (void)onCdbCallStarted:(CR_CdbRequest *)request {
     NSString *requestGroupId = [CR_UniqueIdGenerator generateId];

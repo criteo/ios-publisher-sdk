@@ -68,6 +68,7 @@ NSString * const CR_ConfigTestConfigurationUrl = @"https://gum.par.preprod.crto.
         _viewportWidthMacro = @"%%width%%";
         _displayURLMacro = @"%%displayUrl%%";
         _configUrl = [configUrl copy];
+        _csmEnabled = YES;
     }
     return self;
 }

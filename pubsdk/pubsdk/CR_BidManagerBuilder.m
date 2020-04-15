@@ -120,9 +120,9 @@
 
 - (id <CR_FeedbackDelegate>)feedbackDelegate {
     if (_feedbackDelegate == nil) {
-        _feedbackDelegate = [[CR_FeedbackController alloc] initWithFeedbackStorage:self.feedbackStorage
-                                                                        apiHandler:self.apiHandler
-                                                                            config:self.config];
+        _feedbackDelegate = [CR_FeedbackController controllerWithFeedbackStorage:self.feedbackStorage
+                                                                      apiHandler:self.apiHandler
+                                                                          config:self.config];
     }
     return _feedbackDelegate;
 }

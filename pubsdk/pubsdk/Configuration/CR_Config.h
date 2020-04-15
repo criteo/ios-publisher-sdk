@@ -47,6 +47,12 @@ FOUNDATION_EXTERN NSString * const CR_ConfigTestConfigurationUrl;
 @property (copy, nonatomic, readonly) NSString *deviceOs;
 @property (copy, nonatomic, readonly) NSString *configUrl;
 
+/**
+ * Return <code>true</code> to indicate if the CSM feature is activated. Else <code>false</code>
+ * is returned.
+ */
+@property (nonatomic, getter=isCsmEnabled) BOOL csmEnabled;
+
 + (CR_Config *)configForTestWithCriteoPublisherId:(nullable NSString *)criteoPublisherId
                                         userDefaults:(NSUserDefaults *)userDefaults;
 
