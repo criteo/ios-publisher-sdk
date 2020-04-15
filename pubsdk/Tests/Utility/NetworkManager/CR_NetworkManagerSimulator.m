@@ -11,6 +11,7 @@
 #import "CR_NetworkManagerSimulator.h"
 #import "CR_NetworkCaptor.h"
 #import "CR_DeviceInfo.h"
+#import "CR_ThreadManager.h"
 #import "Criteo+Testing.h"
 #import "MockWKWebView.h"
 #import "NSURL+Testing.h"
@@ -36,7 +37,9 @@ NSString *const CR_NetworkSessionEmptyBid = @"{\"slots\":[],\"requestId\":\"c412
 
 - (instancetype)initWithConfig:(CR_Config *)config {
     MockWKWebView *webView = [[MockWKWebView alloc] init];
-    CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] initWithWKWebView:webView];
+    CR_ThreadManager *threadManager = [[CR_ThreadManager alloc] init];
+    CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] initWithThreadManager:threadManager
+                                                                   wkWebView:webView];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     if (self = [super initWithDeviceInfo:deviceInfo session:session]) {
         _config = config;

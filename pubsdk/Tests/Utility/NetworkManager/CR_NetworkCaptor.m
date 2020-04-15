@@ -10,6 +10,7 @@
 
 #import "CR_DeviceInfo.h"
 #import "MockWKWebView.h"
+#import "CR_ThreadManager.h"
 
 @interface CR_NetworkCaptor ()
 @property (nonatomic, strong) NSMutableArray<CR_HttpContent *> *internalPendingRequests;
@@ -23,7 +24,9 @@
 - (instancetype)initWithNetworkManager:(CR_NetworkManager *)networkManager
 {
     MockWKWebView *webView = [[MockWKWebView alloc] init];
-    CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] initWithWKWebView:webView];
+    CR_ThreadManager *threadManager = [[CR_ThreadManager alloc] init];
+    CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] initWithThreadManager:threadManager
+                                                                   wkWebView:webView];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     self = [super initWithDeviceInfo:deviceInfo session:session];
     if (self) {

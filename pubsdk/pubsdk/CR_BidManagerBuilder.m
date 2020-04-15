@@ -88,7 +88,7 @@
 
 - (CR_DeviceInfo *)deviceInfo {
     if (_deviceInfo == nil) {
-        _deviceInfo = [[CR_DeviceInfo alloc] init];
+        _deviceInfo = [[CR_DeviceInfo alloc] initWithThreadManager:self.threadManager];
     }
     return _deviceInfo;
 }

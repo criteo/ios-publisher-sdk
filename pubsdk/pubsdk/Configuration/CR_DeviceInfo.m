@@ -9,7 +9,14 @@
 #import <WebKit/WebKit.h>
 #import <AdSupport/ASIdentifierManager.h>
 #import "CR_DeviceInfo.h"
+#import "CR_ThreadManager.h"
 #import "Logging.h"
+
+@interface CR_DeviceInfo ()
+
+@property (strong, nonatomic, readonly) CR_ThreadManager *threadManager;
+
+@end
 
 @implementation CR_DeviceInfo
 {
@@ -20,15 +27,23 @@
 }
 
 - (instancetype)init {
-    self = [self initWithWKWebView: [[WKWebView alloc] initWithFrame:CGRectZero]];
+    return [self initWithThreadManager:[[CR_ThreadManager alloc] init]
+                             wkWebView:[[WKWebView alloc] initWithFrame:CGRectZero]];
+}
+
+- (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager {
+    self = [self initWithThreadManager:threadManager
+                             wkWebView:[[WKWebView alloc] initWithFrame:CGRectZero]];
     return self;
 }
 
-- (instancetype)initWithWKWebView:(WKWebView *)wkWebView {
+- (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager
+                            wkWebView:(WKWebView *)wkWebView {
     self = [super init];
     if (self) {
         _loadUserAgentCompletionBlocks = [NSMutableSet new];
         _isLoadingUserAgent = NO;
+        _threadManager = threadManager;
         _wkWebView = wkWebView;
     }
     return self;
@@ -60,9 +75,10 @@
         return;
     }
     _isLoadingUserAgent = YES;
-    // Make sure we're on the main thread because we're calling WKWebView which isn't thread safe
+
+    CR_CompletionContext *context = [self.threadManager completionContext];
     void (^completionHandler)(id, NSError *) = ^(id _Nullable navigatorUserAgent, NSError *_Nullable error) {
-        @try {
+        [context executeBlock:^{
             @synchronized (self) {
                 CLog(@"-----> navigatorUserAgent = %@, error = %@", navigatorUserAgent, error);
                 if (!error && [navigatorUserAgent isKindOfClass:NSString.class]) {
@@ -74,13 +90,14 @@
                 [self->_loadUserAgentCompletionBlocks removeAllObjects];
                 self->_isLoadingUserAgent = NO;
             }
-        }
-        @catch (NSException *exception) {
-            CLogException(exception);
-        }
+        }];
     };
-    [self->_wkWebView evaluateJavaScript:@"navigator.userAgent"
-                       completionHandler:completionHandler];
+
+    // Make sure we're on the main thread because we're calling WKWebView which isn't thread safe
+    [self.threadManager dispatchAsyncOnMainQueue:^{
+        [self->_wkWebView evaluateJavaScript:@"navigator.userAgent"
+                           completionHandler:completionHandler];
+    }];
 }
 
 - (NSString *)deviceId {

@@ -7,6 +7,7 @@
 //
 
 #import "CR_DeviceInfoMock.h"
+#import "CR_ThreadManager.h"
 #import "MockWKWebView.h"
 
 NSString * const CR_DeviceInfoMockDefaultUserAgent = @"Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148";
@@ -14,7 +15,11 @@ NSString * const CR_DeviceInfoMockDefaultUserAgent = @"Mozilla/5.0 (iPhone; CPU 
 @implementation CR_DeviceInfoMock
 
 - (instancetype)init {
-    if (self = [super initWithWKWebView:[[MockWKWebView alloc] init]]) {
+    MockWKWebView *webView = [[MockWKWebView alloc] init];
+    CR_ThreadManager *threadManager = [[CR_ThreadManager alloc] init];
+    self = [super initWithThreadManager:threadManager
+                              wkWebView:webView];
+    if (self) {
         self.userAgent = CR_DeviceInfoMockDefaultUserAgent;
     }
     return self;
