@@ -56,26 +56,31 @@
 }
 
 - (void)setupUserAgentWithWKWebView {
-    if(_isLoadingUserAgent) {
+    if (_isLoadingUserAgent) {
         return;
     }
     _isLoadingUserAgent = YES;
     // Make sure we're on the main thread because we're calling WKWebView which isn't thread safe
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self->_wkWebView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id _Nullable navigatorUserAgent, NSError * _Nullable error) {
-                @synchronized (self) {
-                    CLog(@"-----> navigatorUserAgent = %@, error = %@", navigatorUserAgent, error);
-                    if (!error && [navigatorUserAgent isKindOfClass:NSString.class]) {
-                        self.userAgent = navigatorUserAgent;
-                    }
-                    for (void (^ completionBlock)(void) in self->_loadUserAgentCompletionBlocks) {
-                        completionBlock();
-                    }
-                    [self->_loadUserAgentCompletionBlocks removeAllObjects];
-                    self->_isLoadingUserAgent = NO;
+    void (^completionHandler)(id, NSError *) = ^(id _Nullable navigatorUserAgent, NSError *_Nullable error) {
+        @try {
+            @synchronized (self) {
+                CLog(@"-----> navigatorUserAgent = %@, error = %@", navigatorUserAgent, error);
+                if (!error && [navigatorUserAgent isKindOfClass:NSString.class]) {
+                    self.userAgent = navigatorUserAgent;
                 }
-        }];
-    });
+                for (void (^completionBlock)(void) in self->_loadUserAgentCompletionBlocks) {
+                    completionBlock();
+                }
+                [self->_loadUserAgentCompletionBlocks removeAllObjects];
+                self->_isLoadingUserAgent = NO;
+            }
+        }
+        @catch (NSException *exception) {
+            CLogException(exception);
+        }
+    };
+    [self->_wkWebView evaluateJavaScript:@"navigator.userAgent"
+                       completionHandler:completionHandler];
 }
 
 - (NSString *)deviceId {

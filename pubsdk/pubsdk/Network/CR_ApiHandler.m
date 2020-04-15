@@ -76,12 +76,17 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
     beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
 completionHandler:(CR_CdbCompletionHandler)completionHandler {
     [self.threadManager dispatchAsyncOnGlobalQueue:^{
-        [self doCdbApiCall:adUnits
-                   consent:consent
-                    config:config
-                deviceInfo:deviceInfo
-             beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
-         completionHandler:completionHandler];
+        @try {
+            [self doCdbApiCall:adUnits
+                       consent:consent
+                        config:config
+                    deviceInfo:deviceInfo
+                 beforeCdbCall:(CR_BeforeCdbCall) beforeCdbCall
+             completionHandler:completionHandler];
+        }
+        @catch (NSException *exception) {
+            CLogException(exception);
+        }
     }];
 }
 

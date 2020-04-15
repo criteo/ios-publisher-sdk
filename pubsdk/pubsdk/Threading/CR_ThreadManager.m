@@ -8,6 +8,7 @@
 
 #include <libkern/OSAtomic.h>
 #import "CR_ThreadManager.h"
+#import "Logging.h"
 
 @interface CR_ThreadManager ()
 
@@ -33,10 +34,16 @@
     }
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        block();
-
-        @synchronized (self) {
-            self.blockInProgressCounter -= 1;
+        @try {
+            block();
+        }
+        @catch (NSException *exception) {
+            CLogException(exception);
+        }
+        @finally {
+            @synchronized (self) {
+                self.blockInProgressCounter -= 1;
+            }
         }
     });
 }

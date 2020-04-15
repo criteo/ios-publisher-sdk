@@ -11,6 +11,7 @@
 #import "CR_FeedbackFileManager.h"
 #import "CASObjectQueue+ArraySet.h"
 #import "CASBoundedFileObjectQueue.h"
+#import "Logging.h"
 
 @interface CR_FeedbackStorage()
 
@@ -93,11 +94,18 @@ static NSUInteger const CR_FeedbackStorageSendingQueueMaxSize = 256 * 1024;
 }
 
 - (void)moveFeedbackObjectToSendingQueue:(NSString *)filename {
-    CR_FeedbackMessage *feedback = [self.fileManaging readFeedbackForFilename:filename];
-    if (feedback) {
-        [self.sendingQueue addFeedbackMessage:feedback];
+    @try {
+        CR_FeedbackMessage *feedback = [self.fileManaging readFeedbackForFilename:filename];
+        if (feedback) {
+            [self.sendingQueue addFeedbackMessage:feedback];
+        }
     }
-    [self.fileManaging removeFileForFilename:filename];
+    @catch (NSException *exception) {
+        CLogException(exception);
+    }
+    @finally {
+        [self.fileManaging removeFileForFilename:filename];
+    }
 }
 
 @end

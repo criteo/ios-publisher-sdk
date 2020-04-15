@@ -12,6 +12,7 @@
 #import "CR_BidManager.h"
 #import "CR_BidManagerBuilder.h"
 #import "CR_DataProtectionConsent.h"
+#import "Logging.h"
 
 @interface Criteo ()
 
@@ -78,7 +79,12 @@
     @synchronized (self) {
         if (!self.registered) {
             self.registered = true;
-            [self _registerCriteoPublisherId:criteoPublisherId withAdUnits:adUnits];
+            @try {
+                [self _registerCriteoPublisherId:criteoPublisherId withAdUnits:adUnits];
+            }
+            @catch (NSException *exception) {
+                CLogException(exception);
+            }
         }
     }
 }

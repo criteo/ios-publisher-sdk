@@ -106,6 +106,17 @@
 }
 
 - (CR_CdbBid *) getBid:(CR_CacheAdUnit *) slot {
+    CR_CdbBid *bid = nil;
+    @try {
+        bid = [self unsafeGetBid:slot];
+    }
+    @catch (NSException *exception) {
+        CLogException(exception);
+    }
+    return bid;
+}
+
+- (CR_CdbBid *)unsafeGetBid:(CR_CacheAdUnit *)slot {
     CR_CdbBid *bid = [cacheManager getBidForAdUnit:slot];
 
     if(bid == nil || [bid isEqual:[CR_CdbBid emptyBid]]) {
@@ -262,6 +273,16 @@
 
 - (void) addCriteoBidToRequest:(id) adRequest
                      forAdUnit:(CR_CacheAdUnit *) adUnit {
+    @try {
+        [self unsafeAddCriteoBidToRequest:adRequest forAdUnit:adUnit];
+    }
+    @catch (NSException *exception) {
+        CLogException(exception);
+    }
+}
+
+- (void)unsafeAddCriteoBidToRequest:(id)adRequest
+                          forAdUnit:(CR_CacheAdUnit *)adUnit {
     if(!config) {
         CLog(@"Config hasn't been fetched. So no bids will be fetched.");
         return;
