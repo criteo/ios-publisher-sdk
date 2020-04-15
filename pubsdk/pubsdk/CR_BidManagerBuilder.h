@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) CR_AppEvents *appEvents;
 @property (nonatomic, assign) NSTimeInterval timeToNextCall;
 @property (nonatomic, strong) CR_FeedbackStorage *feedbackStorage;
+@property (nonatomic, strong) id <CR_FeedbackDelegate> feedbackDelegate;
 
 /**
 Build the BidManager with default instances.

@@ -11,13 +11,12 @@
 #import "CR_BidManagerHelper.h"
 #import "CR_TargetingKeys.h"
 #import "NSString+CR_Url.h"
-#import "CR_FeedbackStorage+MessageUpdating.h"
-#import "CR_UniqueIdGenerator.h"
+#import "CR_FeedbackController.h"
 
 @interface CR_BidManager ()
 
 @property (nonatomic, assign, readonly) BOOL isInSilenceMode;
-@property (nonatomic, strong, readonly) CR_FeedbackStorage *feedbackStorage;
+@property (nonatomic, strong, readonly) id <CR_FeedbackDelegate> feedbackDelegate;
 
 @end
 
@@ -57,7 +56,7 @@
                      networkManager:nil
                           appEvents:nil
                      timeToNextCall:0
-                    feedbackStorage:nil];
+                    feedbackDelegate:nil];
 }
 
 - (instancetype) initWithApiHandler:(CR_ApiHandler*)apiHandler
@@ -70,7 +69,7 @@
                      networkManager:(CR_NetworkManager*)networkManager
                           appEvents:(CR_AppEvents *)appEvents
                      timeToNextCall:(NSTimeInterval)timeToNextCall
-                    feedbackStorage:(CR_FeedbackStorage *)feedbackStorage
+                    feedbackDelegate:(id <CR_FeedbackDelegate>)feedbackDelegate
 {
     if(self = [super init]) {
         self->apiHandler      = apiHandler;
@@ -83,7 +82,7 @@
         self->appEvents       = appEvents;
         self->cdbTimeToNextCall=timeToNextCall;
         _consent              = consent;
-        _feedbackStorage = feedbackStorage;
+        _feedbackDelegate = feedbackDelegate;
     }
 
     return self;
@@ -127,7 +126,7 @@
     }
 
     if (bid.isExpired) {
-        [self.feedbackStorage setExpiredForImpressionId:bid.impressionId];
+        [self.feedbackDelegate onBidConsumed:bid];
         // immediately invalidate current cache entry if bid is expired
         [cacheManager removeBidForAdUnit:slot];
         if (!self.isInSilenceMode) {
@@ -140,7 +139,7 @@
         return [CR_CdbBid emptyBid];
     }
 
-    [self.feedbackStorage setElapsedForImpressionId:bid.impressionId];
+    [self.feedbackDelegate onBidConsumed:bid];
     // remove it from the cache and consume the good bid
     [cacheManager removeBidForAdUnit:slot];
     if (!self.isInSilenceMode) {
@@ -178,56 +177,36 @@
                            config:self->config
                        deviceInfo:self->deviceInfo
                     beforeCdbCall:^(CR_CdbRequest *cdbRequest) {
-            [self beforeCdbCall:cdbRequest];
-        }
+                        [self beforeCdbCall:cdbRequest];
+                    }
                 completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
-            if(error) {
-                [self handleError:error cdbRequest:cdbRequest];
-            } else if (cdbResponse) {
-                [self handleResponse:cdbResponse cdbRequest:cdbRequest];
-            }
-        }];
+                    if (error) {
+                        [self handleError:error cdbRequest:cdbRequest];
+                    } else if (cdbResponse) {
+                        [self handleResponse:cdbResponse cdbRequest:cdbRequest];
+                    }
+                }];
     }];
 
-    [self sendFeedbackMessages];
+    [self.feedbackDelegate sendFeedbackBatch];
 }
 
 - (void)beforeCdbCall:(CR_CdbRequest *)cdbRequest {
-    NSString *requestGroupId = [CR_UniqueIdGenerator generateId];
-    for(NSString *impressionId in cdbRequest.impressionIds) {
-        [self.feedbackStorage setCdbStartAndImpressionIdForImpressionId:impressionId
-                                                         requestGroupId:requestGroupId];
-    }
+    [self.feedbackDelegate onCdbCallStarted:cdbRequest];
 }
 
 - (void)handleError:(NSError *)error cdbRequest:(CR_CdbRequest *)cdbRequest {
-    for (NSString *impressionId in cdbRequest.impressionIds) {
-        if (error.code == NSURLErrorTimedOut) {
-            [self.feedbackStorage setTimeoutAndExpiredForImpressionId:impressionId];
-        } else {
-            [self.feedbackStorage setExpiredForImpressionId:impressionId];
-        }
-    }
+    [self.feedbackDelegate onCdbCallFailure:error fromRequest:cdbRequest];
 }
 
 - (void)handleResponse:(CR_CdbResponse *)cdbResponse cdbRequest:(CR_CdbRequest *)cdbRequest {
     [self updateTimeToNextCallIfProvided:cdbResponse];
-    NSArray<NSString *> *impressionIdsWithNoBid = [cdbRequest impressionIdsMissingInCdbResponse:cdbResponse];
-    for (NSString *impressionId in impressionIdsWithNoBid) {
-        [self.feedbackStorage setCdbEndAndExpiredForImpressionId:impressionId];
-    }
 
     for (CR_CdbBid *bid in cdbResponse.cdbBids) {
-        CR_CacheAdUnit *adUnit = [self->cacheManager setBid:bid];
-        BOOL bidIsValid = adUnit != nil;
-        if (bid.impressionId) {
-            if (bidIsValid) {
-                [self.feedbackStorage setCdbEndAndCacheBidUsedIdForImpressionId:bid.impressionId];
-            } else {
-                [self.feedbackStorage setExpiredForImpressionId:bid.impressionId];
-            }
-        }
+        [self->cacheManager setBid:bid];
     }
+
+    [self.feedbackDelegate onCdbCallResponse:cdbResponse fromRequest:cdbRequest];
 }
 
 - (BOOL)shouldCancelCdbCall {
@@ -248,21 +227,6 @@
         self->cdbTimeToNextCall = [[NSDate dateWithTimeIntervalSinceNow:cdbResponse.timeToNextCall]
             timeIntervalSinceReferenceDate];
     }
-}
-
-- (void)sendFeedbackMessages {
-    NSArray<CR_FeedbackMessage *> *feedbackMessages = [self.feedbackStorage popMessagesToSend];
-    if (feedbackMessages.count == 0) {
-        return;
-    }
-    [self->apiHandler sendFeedbackMessages:feedbackMessages
-                                    config:self->config
-                         completionHandler:^(NSError *error) {
-                             if (error) {
-                                 CLog(@"CSM sending was failed with error: %@", error.localizedDescription);
-                                 [self.feedbackStorage pushMessagesToSend:feedbackMessages];
-                             }
-                         }];
 }
 
 - (void) refreshConfig {

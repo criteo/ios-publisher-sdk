@@ -8,6 +8,7 @@
 
 #import "CR_BidManagerBuilder.h"
 #import "CR_ThreadManager.h"
+#import "CR_FeedbackController.h"
 
 
 @implementation CR_BidManagerBuilder
@@ -117,6 +118,15 @@
     return _feedbackStorage;
 }
 
+- (id <CR_FeedbackDelegate>)feedbackDelegate {
+    if (_feedbackDelegate == nil) {
+        _feedbackDelegate = [[CR_FeedbackController alloc] initWithFeedbackStorage:self.feedbackStorage
+                                                                        apiHandler:self.apiHandler
+                                                                            config:self.config];
+    }
+    return _feedbackDelegate;
+}
+
 - (CR_BidManager *)buildBidManager {
     CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:self.apiHandler
                                                              cacheManager:self.cacheManager
@@ -128,7 +138,7 @@
                                                            networkManager:self.networkManager
                                                                 appEvents:self.appEvents
                                                            timeToNextCall:self.timeToNextCall
-                                                          feedbackStorage:self.feedbackStorage];
+                                                          feedbackDelegate:self.feedbackDelegate];
     return bidManager;
 }
 

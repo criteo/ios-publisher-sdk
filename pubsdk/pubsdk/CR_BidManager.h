@@ -25,6 +25,8 @@
 #import "CRBidResponse+Internal.h"
 #import "CR_FeedbackStorage.h"
 
+@protocol CR_FeedbackDelegate;
+
 @interface CR_BidManager : NSObject
 
 @property (nonatomic) id<CR_NetworkManagerDelegate> networkManagerDelegate;
@@ -43,7 +45,7 @@
                      networkManager:(CR_NetworkManager *)networkManager
                           appEvents:(CR_AppEvents *)appEvents
                      timeToNextCall:(NSTimeInterval)timeToNextCall
-                    feedbackStorage:(CR_FeedbackStorage *)feedbackStorage
+                    feedbackDelegate:(id <CR_FeedbackDelegate>)feedbackDelegate
 NS_DESIGNATED_INITIALIZER;
 
 
