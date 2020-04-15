@@ -71,6 +71,7 @@ pod install
 CRITEO_CONFIGURATION="Release"
 printf "Launching $CRITEO_CONFIGURATION build\nARCHS: $CRITEO_ARCHS\nSIM ARCHS: $CRITEO_SIM_ARCHS\n"
 
+if [ "$XCODEBUILD_SCHEME_FOR_TESTING" != skipTests ]; then
     # We still have to build scheme for testing
     xcodebuild \
     -workspace fuji.xcworkspace \
@@ -84,6 +85,7 @@ printf "Launching $CRITEO_CONFIGURATION build\nARCHS: $CRITEO_ARCHS\nSIM ARCHS: 
         VALID_ARCHS="$CRITEO_SIM_ARCHS" \
         ONLY_ACTIVE_ARCH=NO \
         clean build test | xcpretty
+fi
 
     xcodebuild \
     -workspace fuji.xcworkspace \
