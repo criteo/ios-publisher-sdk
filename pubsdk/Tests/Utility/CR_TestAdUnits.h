@@ -32,4 +32,6 @@
 @property(class, nonatomic, readonly) NSString *randomInterstitialAdUnitId;
 @property(class, nonatomic, readonly) NSString *randomNativeAdUnitId;
 
++ (CRBannerAdUnit *)banner320x50WithId:(NSString *)adUnitId;
+
 @end

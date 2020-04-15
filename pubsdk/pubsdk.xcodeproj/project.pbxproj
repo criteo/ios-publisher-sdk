@@ -270,6 +270,7 @@
 		7DB899DC2400126800948230 /* NSString+GDPR.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DB899D92400126800948230 /* NSString+GDPR.h */; };
 		7DB899DD2400126800948230 /* NSString+GDPR.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB899DA2400126800948230 /* NSString+GDPR.m */; };
 		7DB899DE2400126800948230 /* NSString+GDPR.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB899DA2400126800948230 /* NSString+GDPR.m */; };
+		7DCFBF772445F310009657F7 /* CR_BidPerformanceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCFBF762445F310009657F7 /* CR_BidPerformanceTests.m */; };
 		7DDEF656242CD8BE00BC129F /* CR_BidRequestSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DDEF654242CD8BE00BC129F /* CR_BidRequestSerializer.h */; };
 		7DDEF657242CD8BE00BC129F /* CR_BidRequestSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DDEF654242CD8BE00BC129F /* CR_BidRequestSerializer.h */; };
 		7DDEF658242CD8BE00BC129F /* CR_BidRequestSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDEF655242CD8BE00BC129F /* CR_BidRequestSerializer.m */; };
@@ -607,6 +608,7 @@
 		7DB5F90023AA2B2500EF5602 /* CR_NetworkWaiter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_NetworkWaiter.m; sourceTree = "<group>"; };
 		7DB899D92400126800948230 /* NSString+GDPR.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+GDPR.h"; sourceTree = "<group>"; };
 		7DB899DA2400126800948230 /* NSString+GDPR.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+GDPR.m"; sourceTree = "<group>"; };
+		7DCFBF762445F310009657F7 /* CR_BidPerformanceTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_BidPerformanceTests.m; sourceTree = "<group>"; };
 		7DDEF654242CD8BE00BC129F /* CR_BidRequestSerializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_BidRequestSerializer.h; sourceTree = "<group>"; };
 		7DDEF655242CD8BE00BC129F /* CR_BidRequestSerializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_BidRequestSerializer.m; sourceTree = "<group>"; };
 		7DDEF65B242CE06300BC129F /* CR_GdprSerializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_GdprSerializer.h; sourceTree = "<group>"; };
@@ -1188,6 +1190,14 @@
 			path = NetworkManager;
 			sourceTree = "<group>";
 		};
+		7DCFBF752445F2BE009657F7 /* PerformanceTests */ = {
+			isa = PBXGroup;
+			children = (
+				7DCFBF762445F310009657F7 /* CR_BidPerformanceTests.m */,
+			);
+			path = PerformanceTests;
+			sourceTree = "<group>";
+		};
 		7DDEF65A242CE03000BC129F /* Serializers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1307,6 +1317,7 @@
 			children = (
 				54FE074123FEED2B0035A026 /* pubsdkTests-Bridging-Header.h */,
 				7D3E41EF23915A8B00BAF673 /* pubsdkTests-Info.plist */,
+				7DCFBF752445F2BE009657F7 /* PerformanceTests */,
 				54E0C221238BCE11004F9353 /* IntegrationTests */,
 				7D3E41F123915B6600BAF673 /* UnitTests */,
 				6540470C22581D13009235A1 /* Utility */,
@@ -1888,6 +1899,7 @@
 				54680B7923969E7300DB5A37 /* CR_MopubBannerFunctionalTests.m in Sources */,
 				548AFCAF23B11225003C9C29 /* CR_StandaloneBannerFunctionalTests.m in Sources */,
 				7D3E424323915B6600BAF673 /* CRBidResponseTests.m in Sources */,
+				7DCFBF772445F310009657F7 /* CR_BidPerformanceTests.m in Sources */,
 				7D3E422F23915B6600BAF673 /* NSError+CRErrorsTests.m in Sources */,
 				542FCFB8242D0E1A000D9DA9 /* CR_FeedbackSerializerTests.swift in Sources */,
 				54F1E6B6239FA19B00985D09 /* UIView+Testing.m in Sources */,

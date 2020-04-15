@@ -74,14 +74,14 @@
     return @"Random-Native-Ad-Unit";
 }
 
++ (CRBannerAdUnit *)banner320x50WithId:(NSString *)adUnitId {
+    return [[CRBannerAdUnit alloc] initWithAdUnitId:adUnitId size:CGSizeMake(320, 50)];
+}
+
 #pragma mark - Private methods
 
 + (CRInterstitialAdUnit *)interstitialWithId:(NSString *)adUnitId {
     return [[CRInterstitialAdUnit alloc] initWithAdUnitId:adUnitId];
-}
-
-+ (CRBannerAdUnit *)banner320x50WithId:(NSString *)adUnitId {
-    return [[CRBannerAdUnit alloc] initWithAdUnitId:adUnitId size:CGSizeMake(320, 50)];
 }
 
 + (CRNativeAdUnit *)nativeWithId:(NSString *)adUnitId {
