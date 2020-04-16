@@ -309,10 +309,22 @@ do { \
         NSError *error = nil;
         BOOL result = [fileManager removeItemAtPath:file
                                               error:&error];
+        if ([self isPermissionError:error]) {
+            // We have experienced a file named "Cache".
+            // We didn't have the permission to remove it.
+            // It may be the cache of WebKit or another
+            // framework. We simply skeep it.
+            return;
+        }
+
         XCTAssertNil(error);
         XCTAssert(result);
     }];
 }
 
+- (BOOL)isPermissionError:(NSError *)error {
+    return  [error.domain isEqualToString:NSCocoaErrorDomain] &&
+            error.code == NSFileWriteNoPermissionError;
+}
 
 @end
