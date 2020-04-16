@@ -12,7 +12,7 @@
 
 @interface CR_ThreadManager ()
 
-@property (nonatomic, assign) NSInteger blockInProgressCounter;
+@property (atomic, assign) NSInteger blockInProgressCounter;
 
 @end
 

@@ -19,8 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface CR_ThreadManager : NSObject
 
-@property (nonatomic, assign, readonly) BOOL isIdle;
-@property (nonatomic, assign, readonly) NSInteger blockInProgressCounter;
+@property (atomic, assign, readonly) BOOL isIdle;
+@property (atomic, assign, readonly) NSInteger blockInProgressCounter;
 
 - (void)dispatchAsyncOnMainQueue:(dispatch_block_t)block;
 - (void)dispatchAsyncOnGlobalQueue:(dispatch_block_t)block;
