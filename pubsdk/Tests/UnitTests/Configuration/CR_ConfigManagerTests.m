@@ -20,26 +20,14 @@
 
 @end
 
-@implementation CR_ConfigManagerTests
-{
-    NSDictionary *remoteConfig;
+@implementation CR_ConfigManagerTests {
     CR_Config *localConfig;
     CR_ApiHandler *mockApiHandler;
 }
 
 - (void)setUp {
-    // Remote config returned from the pub sdk config service
-    remoteConfig = @{ @"killSwitch" : @(NO) };
-
-    // Local config hosted inside the app
     localConfig = [[CR_Config alloc] initWithCriteoPublisherId:nil];
-    localConfig.killSwitch = YES;
-
-    // Mock remote config API, returns the remoteConfig dictionary above
     mockApiHandler = OCMStrictClassMock(CR_ApiHandler.class);
-
-    OCMStub([mockApiHandler getConfig:localConfig
-                      ahConfigHandler:([OCMArg invokeBlockWithArgs:remoteConfig, nil])]);
 
     self.userDefault = [[NSUserDefaults alloc] init];
     self.configManager = [[CR_ConfigManager alloc] initWithApiHandler:mockApiHandler
@@ -49,20 +37,51 @@
 - (void)tearDown {
     mockApiHandler = nil;
     localConfig = nil;
-    remoteConfig = nil;
 }
 
-- (void) testConfigManagerRefreshesKillSwitch
-{
+- (void) testConfigManagerRefreshesKillSwitch {
+    [self prepareApiHandlerToRespondRemoteConfigJson:@"{\"killSwitch\": false }"];
+    localConfig.killSwitch = YES;
+
     [self.configManager refreshConfig:localConfig];
     XCTAssertEqual(localConfig.killSwitch, NO, @"Kill switch should be deactivated after config is refreshed from remote API");
 }
 
-- (void) testSetKillSwitchInUserDefault
-{
+- (void) testSetKillSwitchInUserDefault {
+    [self prepareApiHandlerToRespondRemoteConfigJson:@"{\"killSwitch\": false }"];
+    localConfig.killSwitch = YES;
+
     [self.configManager refreshConfig:localConfig];
     XCTAssertTrue([self.userDefault containsKey:NSUserDefaultsKillSwitchKey]);
     XCTAssertFalse([self.userDefault boolForKey:NSUserDefaultsKillSwitchKey]);
+}
+
+- (void) testRefreshConfig_GivenCsmFeatureFlagSetToTrueInRequest_CsmIsEnabled {
+    [self prepareApiHandlerToRespondRemoteConfigJson:@"{\"csmEnabled\": true }"];
+    localConfig.csmEnabled = NO;
+
+    [self.configManager refreshConfig:localConfig];
+
+    XCTAssertTrue(localConfig.isCsmEnabled);
+}
+
+- (void) testRefreshConfig_GivenCsmFeatureFlagSetToFalseInRequest_CsmIsDisabled {
+    [self prepareApiHandlerToRespondRemoteConfigJson:@"{\"csmEnabled\": false }"];
+    localConfig.csmEnabled = YES;
+
+    [self.configManager refreshConfig:localConfig];
+
+    XCTAssertFalse(localConfig.isCsmEnabled);
+}
+
+#pragma mark - Private
+
+- (void) prepareApiHandlerToRespondRemoteConfigJson:(NSString *)jsonResponse {
+    NSData *dataResponse = [jsonResponse dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *dictionaryResponse = [CR_Config getConfigValuesFromData:dataResponse];
+
+    OCMStub([mockApiHandler getConfig:localConfig
+                      ahConfigHandler:([OCMArg invokeBlockWithArgs:dictionaryResponse, nil])]);
 }
 
 @end
