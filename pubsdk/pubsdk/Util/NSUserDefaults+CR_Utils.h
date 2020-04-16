@@ -10,9 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-FOUNDATION_EXPORT NSString * const NSUserDefaultsKillSwitchKey;
-
-@interface NSUserDefaults (CRPrivateKeysAndUtils)
+@interface NSUserDefaults (CR_Utils)
 
 - (BOOL)containsKey: (NSString *)key;
 

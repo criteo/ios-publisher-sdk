@@ -6,11 +6,9 @@
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#import "NSUserDefaults+CRPrivateKeysAndUtils.h"
+#import "NSUserDefaults+CR_Utils.h"
 
-NSString * const NSUserDefaultsKillSwitchKey = @"CRITEO_KillSwitch";
-
-@implementation NSUserDefaults (CRPrivateKeysAndUtils)
+@implementation NSUserDefaults (CR_Utils)
 
 - (BOOL)containsKey: (NSString *)key
 {

@@ -11,7 +11,7 @@
 #import <OCMock.h>
 
 #import "CR_ConfigManager.h"
-#import "NSUserDefaults+CRPrivateKeysAndUtils.h"
+#import "NSUserDefaults+Testing.h"
 
 @interface CR_ConfigManagerTests : XCTestCase
 
@@ -37,23 +37,36 @@
 - (void)tearDown {
     mockApiHandler = nil;
     localConfig = nil;
+
+    [self.userDefault removeObjectForKey:NSUserDefaultsKillSwitchKey];
+    [self.userDefault removeObjectForKey:NSUserDefaultsCsmEnabledKey];
 }
 
-- (void) testConfigManagerRefreshesKillSwitch {
+- (void) testConfigManagerDisableKillSwitch {
     [self prepareApiHandlerToRespondRemoteConfigJson:@"{\"killSwitch\": false }"];
     localConfig.killSwitch = YES;
 
     [self.configManager refreshConfig:localConfig];
+
     XCTAssertEqual(localConfig.killSwitch, NO, @"Kill switch should be deactivated after config is refreshed from remote API");
 }
 
-- (void) testSetKillSwitchInUserDefault {
-    [self prepareApiHandlerToRespondRemoteConfigJson:@"{\"killSwitch\": false }"];
-    localConfig.killSwitch = YES;
+- (void) testConfigManagerEnabledKillSwitch {
+    [self prepareApiHandlerToRespondRemoteConfigJson:@"{\"killSwitch\": true }"];
+    localConfig.killSwitch = NO;
 
     [self.configManager refreshConfig:localConfig];
-    XCTAssertTrue([self.userDefault containsKey:NSUserDefaultsKillSwitchKey]);
-    XCTAssertFalse([self.userDefault boolForKey:NSUserDefaultsKillSwitchKey]);
+
+    XCTAssertEqual(localConfig.killSwitch, YES, @"Kill switch should be activated after config is refreshed from remote API");
+}
+
+- (void) testRefreshConfig_CsmFeatureFlagNotInResponse_DoNotUpdateIt {
+    [self prepareApiHandlerToRespondRemoteConfigJson:@"{}"];
+    localConfig.csmEnabled = NO;
+
+    [self.configManager refreshConfig:localConfig];
+
+    XCTAssertFalse(localConfig.csmEnabled);
 }
 
 - (void) testRefreshConfig_GivenCsmFeatureFlagSetToTrueInRequest_CsmIsEnabled {

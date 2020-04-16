@@ -8,8 +8,6 @@
 
 #import "CR_ConfigManager.h"
 
-#import "NSUserDefaults+CRPrivateKeysAndUtils.h"
-
 @interface CR_ConfigManager ()
 
 @property(nonatomic, strong) NSUserDefaults *userDefault;
@@ -35,7 +33,6 @@
                 ahConfigHandler:^(NSDictionary *configValues) {
                     if (configValues[@"killSwitch"] && [configValues[@"killSwitch"] isKindOfClass:NSNumber.class]) {
                         config.killSwitch = ((NSNumber *) configValues[@"killSwitch"]).boolValue;
-                        [self.userDefault setBool:config.killSwitch forKey:NSUserDefaultsKillSwitchKey];
                     }
                     if (configValues[@"csmEnabled"] && [configValues[@"csmEnabled"] isKindOfClass:NSNumber.class]) {
                         config.csmEnabled = ((NSNumber *) configValues[@"csmEnabled"]).boolValue;

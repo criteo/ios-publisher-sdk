@@ -9,7 +9,7 @@
 #import "CR_Config.h"
 #import "Logging.h"
 #import <UIKit/UIKit.h>
-#import "NSUserDefaults+CRPrivateKeysAndUtils.h"
+#import "NSUserDefaults+CR_Config.h"
 
 // Production
 NSString * const CR_ConfigCdbUrl = @"https://bidder.criteo.com";
@@ -28,6 +28,12 @@ NSString * const CR_ConfigTestCdbUrl = @"https://directbidder-test-app.par.prepr
 #undef HIT_LOCAL_CDB
 NSString * const CR_ConfigTestAppEventsUrl = @"https://pub-sdk-cfg.par.preprod.crto.in";
 NSString * const CR_ConfigTestConfigurationUrl = @"https://gum.par.preprod.crto.in";
+
+@interface CR_Config ()
+
+@property (nonatomic, strong, readonly) NSUserDefaults *userDefaults;
+
+@end
 
 @implementation CR_Config
 
@@ -58,7 +64,7 @@ NSString * const CR_ConfigTestConfigurationUrl = @"https://gum.par.preprod.crto.
         _csmPath = @"csm";
         _sdkVersion = @"3.4.0";
         _appId = [[NSBundle mainBundle] bundleIdentifier];
-        _killSwitch = [userDefaults boolForKey:NSUserDefaultsKillSwitchKey];
+        _killSwitch = [userDefaults valueForKillSwitch];
         _deviceModel = [[UIDevice currentDevice] model];
         _osVersion = [[UIDevice currentDevice] systemVersion];
         _deviceOs = @"ios";
@@ -68,7 +74,8 @@ NSString * const CR_ConfigTestConfigurationUrl = @"https://gum.par.preprod.crto.
         _viewportWidthMacro = @"%%width%%";
         _displayURLMacro = @"%%displayUrl%%";
         _configUrl = [configUrl copy];
-        _csmEnabled = YES;
+        _csmEnabled = [userDefaults valueForCsmFeatureFlag];
+        _userDefaults = userDefaults;
     }
     return self;
 }
@@ -93,6 +100,16 @@ NSString * const CR_ConfigTestConfigurationUrl = @"https://gum.par.preprod.crto.
                               appEventsUrl:CR_ConfigAppEventsUrl
                                  configUrl:CR_ConfigConfigurationUrl
                               userDefaults:userDefaults];
+}
+
+- (void)setKillSwitch:(BOOL)killSwitch {
+    _killSwitch = killSwitch;
+    [self.userDefaults setValueForKillSwitch:killSwitch];
+}
+
+- (void)setCsmEnabled:(BOOL)csmEnabled {
+    _csmEnabled = csmEnabled;
+    [self.userDefaults setValueForCsmFeatureFlag:csmEnabled];
 }
 
 + (NSDictionary *) getConfigValuesFromData:(NSData *) data {
