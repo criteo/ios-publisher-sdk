@@ -138,37 +138,46 @@ class CR_FeedbackFileManagingMock: NSObject, CR_FeedbackFileManaging {
     @objc var useReadWriteDictionary: Bool = false
     @objc var readWriteDictionary: Dictionary = Dictionary<String, CR_FeedbackMessage>()
 
+    /// We use a synchronization queue to prevent data races.
+    var syncQueue: DispatchQueue = DispatchQueue(label: "com.pubsdk.test.CR_FeedbackFileManagingMock")
+
     func readFeedback(forFilename filename: String) -> CR_FeedbackMessage? {
         var result: CR_FeedbackMessage?
-        if(useReadWriteDictionary) {
-            result = readWriteDictionary[filename]
-        }
+        syncQueue.sync {
+            if(useReadWriteDictionary) {
+                result = readWriteDictionary[filename]
+            }
 
-        if(result == nil) {
-            result = readFeedbackCallCount < readFeedbackResults.count ? readFeedbackResults[readFeedbackCallCount] : nil
-        }
+            if(result == nil) {
+                result = readFeedbackCallCount < readFeedbackResults.count ? readFeedbackResults[readFeedbackCallCount] : nil
+            }
 
-        readFeedbackCallCount += 1
-        readRequestedFilenames.append(filename)
+            readFeedbackCallCount += 1
+            readRequestedFilenames.append(filename)
+        }
         return result
     }
 
     func writeFeedback(_ feedback: CR_FeedbackMessage, forFilename filename: String) {
-        writeFeedbackCallCount += 1
-        writeFeedbackResults.append(feedback)
-        writeRequestedFilenames.append(filename)
+        syncQueue.sync {
+            writeFeedbackCallCount += 1
+            writeFeedbackResults.append(feedback)
+            writeRequestedFilenames.append(filename)
 
-        if (useReadWriteDictionary) {
-            readWriteDictionary[filename] = feedback
+            if (useReadWriteDictionary) {
+                readWriteDictionary[filename] = feedback
+            }
         }
     }
 
     func removeFile(forFilename filename: String) {
-        removeFileCallCount += 1
-        removeRequestedFilenames.append(filename)
+        syncQueue.sync {
+            removeFileCallCount += 1
+            removeRequestedFilenames.append(filename)
 
-        if (useReadWriteDictionary) {
-            readWriteDictionary.removeValue(forKey: filename)
+            if (useReadWriteDictionary) {
+                readWriteDictionary.removeValue(forKey: filename)
+            }
         }
     }
 
