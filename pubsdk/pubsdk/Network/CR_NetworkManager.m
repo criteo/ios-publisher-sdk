@@ -7,6 +7,7 @@
 //
 
 #import "CR_NetworkManager.h"
+#import "Logging.h"
 
 @implementation CR_NetworkManager {
     CR_DeviceInfo *deviceInfo;
@@ -56,26 +57,31 @@
             [request setValue:self->deviceInfo.userAgent forHTTPHeaderField:@"User-Agent"];
         }
 
+        void (^completionHandler)(NSData *, NSURLResponse *, NSError *) =
+        ^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error) {
+            @try {
+                [self signalReceivedResponse:response withData:data error:error];
+
+                if (error) {
+                    // Add logging or metrics code here
+                    responseHandler(nil, error);
+                }
+                if (response) {
+                    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
+                    if (httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299) {
+                        responseHandler(data, error);
+                    } else {
+                        // Add logging or metrics code here
+                        // Need to figure out how to handle redirects
+                    }
+                }
+            }
+            @catch (NSException *exception) {
+                CLogException(exception);
+            }
+        };
         NSURLSessionDataTask *task = [self->session dataTaskWithRequest:request
-                                                completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-                                                    
-                                                    [self signalReceivedResponse:response withData:data error:error];
-                                                    
-                                                    if(error) {
-                                                        // Add logging or metrics code here
-                                                        responseHandler(nil, error);
-                                                    }
-                                                    if (response) {
-                                                        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
-                                                        if (httpResponse.statusCode >=200 && httpResponse.statusCode <=299) {
-                                                            responseHandler(data, error);
-                                                        }
-                                                        else {
-                                                            // Add logging or metrics code here
-                                                            // Need to figure out how to handle redirects
-                                                        }
-                                                    }
-                                                }];
+                                                      completionHandler:completionHandler];
         [task resume];
         [self signalSentRequest:request];
     }];
@@ -104,27 +110,33 @@
     [postRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     //[postRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[jsonData length]] forHTTPHeaderField:@"Content-Length"];
     [postRequest setHTTPBody: jsonData];
-    
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:postRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        [self signalReceivedResponse:response withData:data error:error];
-        if(error) {
-            // Add logging or metrics code here
-            responseHandler(nil, error);
-        }
-        if (response) {
-            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
-            // 204 is no content and needs to be handled on it's own
-            if (httpResponse.statusCode == 204) {
+
+    void (^completionHandler)(NSData *, NSURLResponse *, NSError *) =
+    ^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error) {
+        @try {
+            [self signalReceivedResponse:response withData:data error:error];
+            if (error) {
+                // Add logging or metrics code here
                 responseHandler(nil, error);
             }
-            else if (httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299) {
-                responseHandler(data, error);
-            }
-            else {
-                // Add logging or metrics code here
+            if (response) {
+                NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
+                // 204 is no content and needs to be handled on it's own
+                if (httpResponse.statusCode == 204) {
+                    responseHandler(nil, error);
+                } else if (httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299) {
+                    responseHandler(data, error);
+                } else {
+                    // Add logging or metrics code here
+                }
             }
         }
-    }];
+        @catch (NSException *exception) {
+            CLogException(exception);
+        }
+    };
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:postRequest
+                                            completionHandler:completionHandler];
     [task resume];
     [self signalSentRequest:postRequest];
 }
