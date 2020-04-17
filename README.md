@@ -45,6 +45,38 @@ gradle initWorkspace && \
 - Follow instructions in `README.md` to start the server (either in debug or not)
 - Uncomment the `#define HIT_LOCAL_CDB` line in the `CR_Config.m` file.
 
+### Testing against several device types & runtimes
+
+We might want to automate this at some point, but that requires additional runtimes to be installed,
+which requires actions on jenkins slaves. For now we can do this manually:
+After downloading runtimes from Xcode, create some test simulators:
+```shell
+xcrun simctl create "Fuji Simulator 5s10.3" com.apple.CoreSimulator.SimDeviceType.iPhone-5s com.apple.CoreSimulator.SimRuntime.iOS-10-3
+xcrun simctl create "Fuji Simulator 7P11.4" com.apple.CoreSimulator.SimDeviceType.iPhone-7-Plus com.apple.CoreSimulator.SimRuntime.iOS-11-4
+xcrun simctl create "Fuji Simulator XS12.4" com.apple.CoreSimulator.SimDeviceType.iPhone-XS com.apple.CoreSimulator.SimRuntime.iOS-12-4
+```
+Then run tests, in parallel can help, but expect flaky tests to fail
+```shell
+XCODEBUILD_SCHEME_FOR_TESTING="pubsdk"; \
+CRITEO_CONFIGURATION="Release"; \
+CRITEO_SIM_ARCHS='i386 x86_64'; \
+xcodebuild \
+-workspace fuji.xcworkspace \
+    -scheme "${XCODEBUILD_SCHEME_FOR_TESTING}" \
+    -configuration $CRITEO_CONFIGURATION \
+    -IDEBuildOperationMaxNumberOfConcurrentCompileTasks=`sysctl -n hw.ncpu` \
+    -derivedDataPath build/DerivedData  \
+    -parallel-testing-enabled YES \
+    -sdk iphonesimulator \
+    -destination "platform=iOS Simulator,name=Fuji Simulator 5s10.3,OS=10.3.1" \
+    -destination "platform=iOS Simulator,name=Fuji Simulator 7P11.4,OS=11.4" \
+    -destination "platform=iOS Simulator,name=Fuji Simulator XS12.4,OS=12.4" \
+    ARCHS="$CRITEO_SIM_ARCHS" \
+    VALID_ARCHS="$CRITEO_SIM_ARCHS" \
+    ONLY_ACTIVE_ARCH=NO \
+    clean build test
+```
+
 # How to release the publisher SDK
 
 ## Create a release candidate
