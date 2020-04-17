@@ -26,7 +26,7 @@
     MockWKWebView *webView = [[MockWKWebView alloc] init];
     CR_ThreadManager *threadManager = [[CR_ThreadManager alloc] init];
     CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] initWithThreadManager:threadManager
-                                                                   wkWebView:webView];
+                                                                     webView:webView];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     self = [super initWithDeviceInfo:deviceInfo session:session];
     if (self) {

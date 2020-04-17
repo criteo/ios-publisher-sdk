@@ -20,7 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager;
 - (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager
-                            wkWebView:(WKWebView *)wkWebView;
+                              webView:(WKWebView *)webView
+NS_DESIGNATED_INITIALIZER;
 
 - (void)waitForUserAgent:(void (^ _Nullable)(void))completion;
 + (CGSize)getScreenSize;

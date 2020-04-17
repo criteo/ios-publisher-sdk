@@ -39,7 +39,7 @@ NSString *const CR_NetworkSessionEmptyBid = @"{\"slots\":[],\"requestId\":\"c412
     MockWKWebView *webView = [[MockWKWebView alloc] init];
     CR_ThreadManager *threadManager = [[CR_ThreadManager alloc] init];
     CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] initWithThreadManager:threadManager
-                                                                   wkWebView:webView];
+                                                                     webView:webView];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     if (self = [super initWithDeviceInfo:deviceInfo session:session]) {
         _config = config;

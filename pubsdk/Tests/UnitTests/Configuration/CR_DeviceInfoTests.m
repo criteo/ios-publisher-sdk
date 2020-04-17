@@ -34,7 +34,7 @@
     OCMStub([wkWebViewMock evaluateJavaScript:@"navigator.userAgent" completionHandler:([OCMArg invokeBlockWithArgs:@"Some Ua", [NSNull null], nil])]);
     CR_ThreadManager *threadManager = [[CR_ThreadManager alloc] init];
     CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] initWithThreadManager:threadManager
-                                                                   wkWebView:wkWebViewMock];
+                                                                     webView:wkWebViewMock];
     [deviceInfo waitForUserAgent:^{
         XCTAssertEqual(@"Some Ua", deviceInfo.userAgent, @"User agent should be set if WKWebView passes it");
         [expectation fulfill];
@@ -52,7 +52,7 @@
     OCMStub([wkWebViewMock evaluateJavaScript:@"navigator.userAgent" completionHandler:([OCMArg invokeBlockWithArgs:@"Not An UA", anError, nil])]);
     CR_ThreadManager *threadManager = [[CR_ThreadManager alloc] init];
     CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] initWithThreadManager:threadManager
-                                                                   wkWebView:wkWebViewMock];
+                                                                     webView:wkWebViewMock];
     [deviceInfo waitForUserAgent:^{
         XCTAssertNil(deviceInfo.userAgent, @"User agent should be nil if we didn't manage to set it. Perhaps we can find a better solution in the future. Also we should log.");
         [expectation fulfill];

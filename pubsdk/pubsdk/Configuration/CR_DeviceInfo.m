@@ -15,6 +15,7 @@
 @interface CR_DeviceInfo ()
 
 @property (strong, nonatomic, readonly) CR_ThreadManager *threadManager;
+@property (strong, nonatomic, readonly) WKWebView *webView;
 
 @end
 
@@ -23,28 +24,27 @@
     NSString *_deviceId;
     BOOL _isLoadingUserAgent;
     NSMutableSet *_loadUserAgentCompletionBlocks;
-    WKWebView *_wkWebView;
 }
 
 - (instancetype)init {
     return [self initWithThreadManager:[[CR_ThreadManager alloc] init]
-                             wkWebView:[[WKWebView alloc] initWithFrame:CGRectZero]];
+                               webView:[[WKWebView alloc] initWithFrame:CGRectZero]];
 }
 
 - (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager {
     self = [self initWithThreadManager:threadManager
-                             wkWebView:[[WKWebView alloc] initWithFrame:CGRectZero]];
+                               webView:[[WKWebView alloc] initWithFrame:CGRectZero]];
     return self;
 }
 
 - (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager
-                            wkWebView:(WKWebView *)wkWebView {
+                              webView:(WKWebView *)webView {
     self = [super init];
     if (self) {
         _loadUserAgentCompletionBlocks = [NSMutableSet new];
         _isLoadingUserAgent = NO;
         _threadManager = threadManager;
-        _wkWebView = wkWebView;
+        _webView = webView;
     }
     return self;
 }
@@ -65,12 +65,12 @@
             [_loadUserAgentCompletionBlocks addObject:completion];
         }
         if (!self->_isLoadingUserAgent) {
-            [self setupUserAgentWithWKWebView];
+            [self setupUserAgentWithWebView];
         }
     }
 }
 
-- (void)setupUserAgentWithWKWebView {
+- (void)setupUserAgentWithWebView {
     if (_isLoadingUserAgent) {
         return;
     }
@@ -95,10 +95,10 @@
             }];
         };
 
-        // Make sure we're on the main thread because we're calling WKWebView which isn't thread safe
+        // Make sure we're on the main thread because we're calling WebView which isn't thread safe
         [self.threadManager dispatchAsyncOnMainQueue:^{
-            [self->_wkWebView evaluateJavaScript:@"navigator.userAgent"
-                               completionHandler:completionHandler];
+            [self.webView evaluateJavaScript:@"navigator.userAgent"
+                             completionHandler:completionHandler];
         }];
     }];
 }
