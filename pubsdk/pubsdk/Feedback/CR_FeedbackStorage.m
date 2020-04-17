@@ -60,19 +60,24 @@ static NSUInteger const CR_FeedbackStorageSendingQueueMaxSize = 256 * 1024;
 }
 
 - (void)pushMessagesToSend:(NSArray<CR_FeedbackMessage *> *)messages {
-    for (CR_FeedbackMessage *message in messages) {
-        [self.sendingQueue addFeedbackMessage:message];
+    @synchronized (self) {
+        for (CR_FeedbackMessage *message in messages) {
+            [self.sendingQueue addFeedbackMessage:message];
+        }
     }
 }
 
-- (void)updateMessageWithImpressionId:(NSString *)impressionId by:(void (^)(CR_FeedbackMessage *message))updateFunction {
-    CR_FeedbackMessage *feedback = [self readOrCreateFeedbackMessageByFilename:impressionId];
-    updateFunction(feedback);
-    if([feedback isReadyToSend]) {
-        [self.sendingQueue addFeedbackMessage:feedback];
-        [self.fileManaging removeFileForFilename:impressionId];
-    } else {
-        [self.fileManaging writeFeedback:feedback forFilename:impressionId];
+- (void)updateMessageWithImpressionId:(NSString *)impressionId
+                                   by:(void (^)(CR_FeedbackMessage *message))updateFunction {
+    @synchronized (self) {
+        CR_FeedbackMessage *feedback = [self readOrCreateFeedbackMessageByFilename:impressionId];
+        updateFunction(feedback);
+        if ([feedback isReadyToSend]) {
+            [self.sendingQueue addFeedbackMessage:feedback];
+            [self.fileManaging removeFileForFilename:impressionId];
+        } else {
+            [self.fileManaging writeFeedback:feedback forFilename:impressionId];
+        }
     }
 }
 
