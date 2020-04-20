@@ -81,9 +81,7 @@ xcodebuild \
 
 ## Create a release candidate
 
-* Bump to a new version and push to git on master
-    Android: see https://review.crto.in/#/c/610468/
-    iOS: see https://review.crto.in/#/c/610471/
+* Push a version bump to Gerrit: [fuji](https://review.crto.in/659643), [fuji-test-app](https://review.crto.in/659663)
 * From Gerrit or from your terminal create a new tag (e.g v3_2_1_RC1)
 * Update the constants at the top of `scripts/generate_release_candidate.sh` and then launch it.
 * Upload the resulting frameworks to the [release page](https://confluence.criteois.com/display/PUBSDK/Releases)
