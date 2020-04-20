@@ -11,7 +11,7 @@
 #import "CR_AdUnitHelper.h"
 #import "CR_BidManager.h"
 #import "CR_BidManagerBuilder.h"
-#import "CR_DataProtectionConsent.h"
+#import "CR_ThreadManager.h"
 #import "Logging.h"
 
 @interface Criteo ()
@@ -80,7 +80,9 @@
         if (!self.registered) {
             self.registered = true;
             @try {
-                [self _registerCriteoPublisherId:criteoPublisherId withAdUnits:adUnits];
+                [self.bidManager.threadManager dispatchAsyncOnGlobalQueue:^{
+                    [self _registerCriteoPublisherId:criteoPublisherId withAdUnits:adUnits];
+                }];
             }
             @catch (NSException *exception) {
                 CLogException(exception);
