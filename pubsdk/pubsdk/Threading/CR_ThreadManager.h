@@ -25,8 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)dispatchAsyncOnMainQueue:(dispatch_block_t)block;
 - (void)dispatchAsyncOnGlobalQueue:(dispatch_block_t)block;
 
-/** Return a context interacting with the CR_ThreadManager instance. */
-- (CR_CompletionContext *)completionContext;
+/** Runs with a context interacting with the CR_ThreadManager instance. */
+- (void)runWithCompletionContext:(void(^)(CR_CompletionContext *)) block;
 
 @end
 

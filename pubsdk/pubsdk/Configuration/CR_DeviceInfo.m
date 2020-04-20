@@ -76,29 +76,30 @@
     }
     _isLoadingUserAgent = YES;
 
-    CR_CompletionContext *context = [self.threadManager completionContext];
-    void (^completionHandler)(id, NSError *) = ^(id _Nullable navigatorUserAgent, NSError *_Nullable error) {
-        [context executeBlock:^{
-            [self.threadManager dispatchAsyncOnGlobalQueue:^{
-                @synchronized (self) {
-                    CLog(@"-----> navigatorUserAgent = %@, error = %@", navigatorUserAgent, error);
-                    if (!error && [navigatorUserAgent isKindOfClass:NSString.class]) {
-                        self.userAgent = navigatorUserAgent;
+    [self.threadManager runWithCompletionContext:^(CR_CompletionContext *context) {
+        void (^completionHandler)(id, NSError *) = ^(id _Nullable navigatorUserAgent, NSError *_Nullable error) {
+            [context executeBlock:^{
+                [self.threadManager dispatchAsyncOnGlobalQueue:^{
+                    @synchronized (self) {
+                        CLog(@"-----> navigatorUserAgent = %@, error = %@", navigatorUserAgent, error);
+                        if (!error && [navigatorUserAgent isKindOfClass:NSString.class]) {
+                            self.userAgent = navigatorUserAgent;
+                        }
+                        for (void (^completionBlock)(void) in self->_loadUserAgentCompletionBlocks) {
+                            completionBlock();
+                        }
+                        [self->_loadUserAgentCompletionBlocks removeAllObjects];
+                        self->_isLoadingUserAgent = NO;
                     }
-                    for (void (^completionBlock)(void) in self->_loadUserAgentCompletionBlocks) {
-                        completionBlock();
-                    }
-                    [self->_loadUserAgentCompletionBlocks removeAllObjects];
-                    self->_isLoadingUserAgent = NO;
-                }
+                }];
             }];
-        }];
-    };
+        };
 
-    // Make sure we're on the main thread because we're calling WKWebView which isn't thread safe
-    [self.threadManager dispatchAsyncOnMainQueue:^{
-        [self->_wkWebView evaluateJavaScript:@"navigator.userAgent"
-                           completionHandler:completionHandler];
+        // Make sure we're on the main thread because we're calling WKWebView which isn't thread safe
+        [self.threadManager dispatchAsyncOnMainQueue:^{
+            [self->_wkWebView evaluateJavaScript:@"navigator.userAgent"
+                               completionHandler:completionHandler];
+        }];
     }];
 }
 

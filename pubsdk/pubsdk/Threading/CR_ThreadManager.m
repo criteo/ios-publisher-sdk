@@ -26,9 +26,9 @@
     return (self.blockInProgressCounter == 0);
 }
 
-- (CR_CompletionContext *)completionContext {
+- (void)runWithCompletionContext:(void(^)(CR_CompletionContext *)) block {
     CR_CompletionContext *context = [[CR_CompletionContext alloc] initWithThreadManager:self];
-    return context;
+    block(context);
 }
 
 - (void)dispatchAsyncOnMainQueue:(dispatch_block_t)block {
