@@ -12,6 +12,9 @@
 
 @interface CR_ThreadManagerWaiter ()
 
+@property (class, assign, nonatomic, readonly) NSTimeInterval defaultTimeout;
+@property (class, assign, nonatomic, readonly) NSTimeInterval timeoutForPerformanceTests;
+
 @property (nonatomic, strong, readonly) CR_ThreadManager *threadManager;
 @property (nonatomic, strong) XCTestExpectation *expectation;
 

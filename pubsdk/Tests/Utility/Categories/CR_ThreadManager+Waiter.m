@@ -14,7 +14,7 @@
 
 - (void)waiter_waitIdle {
     CR_ThreadManagerWaiter *waiter = [[CR_ThreadManagerWaiter alloc] initWithThreadManager:self];
-    [waiter waitIdleWithTimeout:CR_ThreadManagerWaiter.defaultTimeout];
+    [waiter waitIdle];
 }
 
 @end

@@ -59,7 +59,7 @@
 - (void)waitThreadManagerIdle {
     CR_ThreadManager *threadManager = self.criteo.bidManagerBuilder.threadManager;
     CR_ThreadManagerWaiter *waiter = [[CR_ThreadManagerWaiter alloc] initWithThreadManager:threadManager];
-    [waiter waitIdleWithTimeout:CR_ThreadManagerWaiter.timeoutForPerformanceTests];
+    [waiter waitIdleForPerformanceTests];
 }
 
 @end

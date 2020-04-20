@@ -14,19 +14,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_ThreadManagerWaiter : NSObject
 
-/**
- * Default timeout relevant for the unit tests and the integrations tests.
- */
-@property (class, assign, nonatomic, readonly) NSTimeInterval defaultTimeout;
-
-/**
- * The performance tests can be longuer than other kind of tests.
- * It requires a timeout greater than the default one.
- */
-@property (class, assign, nonatomic, readonly) NSTimeInterval timeoutForPerformanceTests;
-
 - (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager;
 
+/**
+* Wait the idle state with a default timeout relevant for
+ * the unit tests and the integrations tests.
+*/
+- (void)waitIdle;
+
+/**
+ * Wait the idle state with a timeout relevant for the
+ * performance tests.
+ *
+ * The performance tests can be longuer than other kind of tests.
+ * So it requires a timeout greater than the default one.
+ */
+- (void)waitIdleForPerformanceTests;
 - (void)waitIdleWithTimeout:(NSTimeInterval)timeout;
 
 @end
