@@ -56,7 +56,11 @@
 #pragma mark - Private
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    [self updateController];
+    if ([keyPath isEqual:@"csmEnabled"]) {
+        [self updateController];
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 - (void)updateController {
