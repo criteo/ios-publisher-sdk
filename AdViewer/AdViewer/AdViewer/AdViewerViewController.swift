@@ -11,6 +11,8 @@ import Eureka
 class AdViewerViewController: FormViewController {
     private lazy var networks = AdNetworks(controller: self)
     private lazy var defaultNetwork = networks.all.first!
+    // TODO Advanced config
+    private let publisherId = "B-056946"
 
     private var adConfig: AdConfig?
     private var criteo: Criteo?
@@ -122,7 +124,6 @@ class AdViewerViewController: FormViewController {
            let type = (self.values[tags.type.rawValue] as? AdType) {
             let size = (self.values[tags.size.rawValue] as? AdSize)
             // TODO Advanced config
-            let publisherId = "B-056946"
             let format: AdFormat
             switch size {
             case .some(let size): format = .sized(type, size)
@@ -141,9 +142,13 @@ class AdViewerViewController: FormViewController {
     }
 
     private func buildCriteo(adConfig: AdConfig) -> Criteo {
+        return buildCriteo(adUnits: [adConfig.adUnit])
+    }
+
+    private func buildCriteo(adUnits: [CRAdUnit]) -> Criteo {
         let criteo = Criteo()!
         criteo.networkManagerDelegate = LogManager.sharedInstance()
-        criteo.registerPublisherId(adConfig.publisherId, with: [adConfig.adUnit])
+        criteo.registerPublisherId(self.publisherId, with: adUnits)
         return criteo
     }
 
