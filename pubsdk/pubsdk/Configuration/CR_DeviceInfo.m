@@ -79,17 +79,19 @@
     CR_CompletionContext *context = [self.threadManager completionContext];
     void (^completionHandler)(id, NSError *) = ^(id _Nullable navigatorUserAgent, NSError *_Nullable error) {
         [context executeBlock:^{
-            @synchronized (self) {
-                CLog(@"-----> navigatorUserAgent = %@, error = %@", navigatorUserAgent, error);
-                if (!error && [navigatorUserAgent isKindOfClass:NSString.class]) {
-                    self.userAgent = navigatorUserAgent;
+            [self.threadManager dispatchAsyncOnGlobalQueue:^{
+                @synchronized (self) {
+                    CLog(@"-----> navigatorUserAgent = %@, error = %@", navigatorUserAgent, error);
+                    if (!error && [navigatorUserAgent isKindOfClass:NSString.class]) {
+                        self.userAgent = navigatorUserAgent;
+                    }
+                    for (void (^completionBlock)(void) in self->_loadUserAgentCompletionBlocks) {
+                        completionBlock();
+                    }
+                    [self->_loadUserAgentCompletionBlocks removeAllObjects];
+                    self->_isLoadingUserAgent = NO;
                 }
-                for (void (^completionBlock)(void) in self->_loadUserAgentCompletionBlocks) {
-                    completionBlock();
-                }
-                [self->_loadUserAgentCompletionBlocks removeAllObjects];
-                self->_isLoadingUserAgent = NO;
-            }
+            }];
         }];
     };
 
