@@ -26,12 +26,14 @@
 #import "CR_FeedbackStorage.h"
 
 @protocol CR_FeedbackDelegate;
+@class CR_ThreadManager;
 
 @interface CR_BidManager : NSObject
 
 @property (nonatomic) id<CR_NetworkManagerDelegate> networkManagerDelegate;
 @property (nonatomic, readonly) CR_Config *config;
 @property (nonatomic, strong) CR_DataProtectionConsent *consent;
+@property (nonatomic, strong) CR_ThreadManager *threadManager;
 
 - (instancetype) init NS_UNAVAILABLE;
 
@@ -46,6 +48,7 @@
                           appEvents:(CR_AppEvents *)appEvents
                      timeToNextCall:(NSTimeInterval)timeToNextCall
                     feedbackDelegate:(id <CR_FeedbackDelegate>)feedbackDelegate
+                      threadManager:(CR_ThreadManager *)threadManager
 NS_DESIGNATED_INITIALIZER;
 
 

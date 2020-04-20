@@ -12,6 +12,7 @@
 #import "CR_TargetingKeys.h"
 #import "NSString+CR_Url.h"
 #import "CR_FeedbackController.h"
+#import "CR_ThreadManager.h"
 
 @interface CR_BidManager ()
 
@@ -56,7 +57,8 @@
                      networkManager:nil
                           appEvents:nil
                      timeToNextCall:0
-                    feedbackDelegate:nil];
+                   feedbackDelegate:nil
+                      threadManager:nil];
 }
 
 - (instancetype) initWithApiHandler:(CR_ApiHandler*)apiHandler
@@ -70,6 +72,7 @@
                           appEvents:(CR_AppEvents *)appEvents
                      timeToNextCall:(NSTimeInterval)timeToNextCall
                     feedbackDelegate:(id <CR_FeedbackDelegate>)feedbackDelegate
+                      threadManager:(CR_ThreadManager *)threadManager
 {
     if(self = [super init]) {
         self->apiHandler      = apiHandler;
@@ -83,6 +86,7 @@
         self->cdbTimeToNextCall=timeToNextCall;
         _consent              = consent;
         _feedbackDelegate = feedbackDelegate;
+        _threadManager = threadManager;
     }
 
     return self;

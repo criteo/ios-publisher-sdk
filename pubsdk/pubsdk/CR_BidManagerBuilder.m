@@ -138,7 +138,8 @@
                                                            networkManager:self.networkManager
                                                                 appEvents:self.appEvents
                                                            timeToNextCall:self.timeToNextCall
-                                                          feedbackDelegate:self.feedbackDelegate];
+                                                         feedbackDelegate:self.feedbackDelegate
+                                                            threadManager:self.threadManager];
     return bidManager;
 }
 

@@ -11,6 +11,7 @@
 #import <OCMock.h>
 #import "CR_BidManager.h"
 #import "CR_BidmanagerHelper.h"
+#import "CR_ThreadManager.h"
 
 @interface CR_BidManagerHelperTests : XCTestCase
 
@@ -43,7 +44,8 @@
                                                            networkManager:nil
                                                                 appEvents:nil
                                                            timeToNextCall:0
-                                                          feedbackDelegate:nil];
+                                                         feedbackDelegate:nil
+                                                            threadManager:[[CR_ThreadManager alloc] init]];
 
     [bidManager addCriteoBidToRequest:mopubBidRequest forAdUnit:slot_1];
     XCTAssertTrue([mopubBidRequest.keywords containsString:[testBid_1 mopubCompatibleDisplayUrl]]);
