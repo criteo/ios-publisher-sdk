@@ -31,6 +31,12 @@
 @property (readonly) BOOL isValid;
 @property (nonatomic, assign, readonly) BOOL isInSilenceMode;
 
+/**
+ * YES if a new bid can be fetched for the AdUnit
+ *  according to its silence mode and its expiration.
+ */
+@property (assign, nonatomic, readonly) BOOL isRenewable;
+
 + (instancetype) emptyBid;
 
 /*

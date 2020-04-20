@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 #import "NSDictionary+Criteo.h"
+#import "CR_CacheAdUnit.h"
 #import "CR_CdbBid.h"
+#import "CR_CdbBidBuilder.h"
 #import "CR_NativeAssets.h"
 
 @interface CR_CdbBidTests : XCTestCase
@@ -17,6 +19,7 @@
 @property (strong) NSDictionary *nativeJDict;
 @property (strong) NSDictionary *bannerJDict;
 @property (strong) NSData *jsonData;
+@property (strong, nonatomic) CR_CacheAdUnit *adUnit;
 @property (strong) CR_CdbBid *nativeBid1;
 @property (strong) CR_CdbBid *nativeBid2;
 @property (strong) CR_CdbBid *bannerBid;
@@ -29,6 +32,9 @@
 - (void)setUp {
     NSError *e = nil;
     self.now = [NSDate date];
+    self.adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adUnit1"
+                                                     width:300
+                                                    height:250];
 
     NSURL *jsonURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"SampleBid" withExtension:@"json"];
 
@@ -560,6 +566,33 @@
         [bids addObject:[[CR_CdbBid alloc] initWithDict:mutableDict[i] receivedAt:self.now]];
         XCTAssertFalse(bids[i].isValid, @"Case %d failed", i);
     }
+}
+
+#pragma mark isRenewable
+
+- (void)testIsRenewableWithNoExpiration {
+    CR_CdbBid *bid = CR_CdbBidBuilder.new.ttl(0).build;
+    XCTAssertTrue(bid.isRenewable, @"Bid: %@", bid);
+}
+
+- (void)testIsRenewableWithNotExpired {
+    CR_CdbBid *bid = CR_CdbBidBuilder.new.build;
+    XCTAssertTrue(bid.isRenewable, @"Bid: %@", bid);
+}
+
+- (void)testIsRenewableWithExpired {
+    CR_CdbBid *bid = CR_CdbBidBuilder.new.expiredInsertTime().build;
+    XCTAssertTrue(bid.isRenewable);
+}
+
+- (void)testIsRenewableWithSilenceMode {
+    CR_CdbBid *bid = CR_CdbBidBuilder.new.cpm(@"0.0").ttl(42.0).build;
+    XCTAssertFalse(bid.isRenewable);
+}
+
+- (void)testIsRenewableWithSilenceModeExpired {
+    CR_CdbBid *bid = CR_CdbBidBuilder.new.cpm(@"0.0").ttl(42.0).expiredInsertTime().build;
+    XCTAssertTrue(bid.isRenewable);
 }
 
 @end

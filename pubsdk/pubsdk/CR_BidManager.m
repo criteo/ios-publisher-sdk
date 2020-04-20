@@ -117,35 +117,35 @@
 
 - (CR_CdbBid *)unsafeGetBid:(CR_CacheAdUnit *)slot {
     CR_CdbBid *bid = [cacheManager getBidForAdUnit:slot];
+    CR_CdbBid *result = bid;
+    BOOL didConsumeBid = NO;
 
-    if(bid == nil || [bid isEqual:[CR_CdbBid emptyBid]]) {
-        if(!self.isInSilenceMode) {
-            [self prefetchBid:slot];
-        }
-        return [CR_CdbBid emptyBid];
+    if (bid == nil || [bid isEqual:[CR_CdbBid emptyBid]]) {
+        result = [CR_CdbBid emptyBid];
     }
-
-    if (bid.isExpired) {
-        [self.feedbackDelegate onBidConsumed:bid];
+    else if (bid.isExpired) {
         // immediately invalidate current cache entry if bid is expired
         [cacheManager removeBidForAdUnit:slot];
-        if (!self.isInSilenceMode) {
-            [self prefetchBid:slot];
-        }
-        return [CR_CdbBid emptyBid];
+        didConsumeBid = YES;
+        result = [CR_CdbBid emptyBid];
+    }
+    else if (bid.isInSilenceMode) {
+        result = [CR_CdbBid emptyBid];
+    }
+    else {
+        // remove it from the cache and consume the good bid
+        [cacheManager removeBidForAdUnit:slot];
+        didConsumeBid = YES;
     }
 
-    if (bid.isInSilenceMode) {
-        return [CR_CdbBid emptyBid];
+    if (didConsumeBid) {
+        [self.feedbackDelegate onBidConsumed:bid];
     }
-
-    [self.feedbackDelegate onBidConsumed:bid];
-    // remove it from the cache and consume the good bid
-    [cacheManager removeBidForAdUnit:slot];
-    if (!self.isInSilenceMode) {
+    if (!self.isInSilenceMode && ((bid == nil) || bid.isRenewable)) {
         [self prefetchBid:slot];
     }
-    return bid;
+
+    return result;
 }
 
 - (BOOL)isInSilenceMode {

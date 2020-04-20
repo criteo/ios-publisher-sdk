@@ -204,12 +204,15 @@ static CR_CdbBid *emptyBid;
     return [self isEqual:__emptyBid];
 }
 
-- (BOOL) isExpired {
+- (BOOL)isExpired {
     if (self.ttl <= 0) {
         return true;
     }
 
-    return [[NSDate date]timeIntervalSinceReferenceDate] - [[self insertTime]timeIntervalSinceReferenceDate] > self.ttl;
+    NSDate *now = [NSDate date];
+    NSComparisonResult comp = [self.expirationDate compare:now];
+    BOOL expired = comp == NSOrderedAscending;
+    return expired;
 }
 
 - (BOOL)isInSilenceMode {
@@ -222,6 +225,28 @@ static CR_CdbBid *emptyBid;
            [self isValidNativeAssetsOrUrl];
 }
 
+- (BOOL)isRenewable {
+    BOOL result = !self.isInSilenceMode || self.isExpired;
+    return result;
+}
+
+#pragma mark - Description
+
+- (NSString *)description {
+    NSMutableString *desc = [[NSMutableString alloc] init];
+    [desc appendFormat:@"<%@\n", NSStringFromClass(self.class)];
+    [desc appendFormat:@"\t%@:\t%d\n", NSStringFromSelector(@selector(isRenewable)), self.isRenewable];
+    [desc appendFormat:@"\t%@:\t%d\n", NSStringFromSelector(@selector(isExpired)), self.isExpired];
+    [desc appendFormat:@"\t%@:\t%d\n", NSStringFromSelector(@selector(isInSilenceMode)), self.isInSilenceMode];
+    [desc appendFormat:@"\t%@:\t%@\n", NSStringFromSelector(@selector(insertTime)), self.insertTime];
+    [desc appendFormat:@"\t%@:\t%@\n", NSStringFromSelector(@selector(expirationDate)), self.expirationDate];
+    [desc appendFormat:@"\t%@:\t%f\n", NSStringFromSelector(@selector(ttl)), self.ttl];
+    [desc appendString:@">"];
+    return desc;
+}
+
+#pragma mark - Private
+
 - (BOOL)isValidNativeAssetsOrUrl {
     if (self.nativeAssets) {
         return self.nativeAssets.privacy.optoutClickUrl.length > 0 &&
@@ -232,6 +257,11 @@ static CR_CdbBid *emptyBid;
     else {
         return self.displayUrl.length > 0;
     }
+}
+
+- (NSDate *)expirationDate {
+    NSDate *result = [self.insertTime dateByAddingTimeInterval:self.ttl];
+    return result;
 }
 
 @end
