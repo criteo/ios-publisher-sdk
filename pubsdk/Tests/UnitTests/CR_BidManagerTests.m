@@ -19,6 +19,7 @@
 #import "CR_BidManagerBuilder+Testing.h"
 #import "CR_CdbBidBuilder.h"
 #import "CR_DeviceInfoMock.h"
+#import "CR_SynchronousThreadManager.h"
 #import "pubsdkTests-Swift.h"
 
 static NSString * const CR_BidManagerTestsCpm = @"crt_cpm";
@@ -79,6 +80,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     self.apiHandlerMock = OCMClassMock([CR_ApiHandler class]);
 
     CR_BidManagerBuilder *builder = [CR_BidManagerBuilder testing_bidManagerBuilder];
+    builder.threadManager = [[CR_SynchronousThreadManager alloc] init];
     builder.configManager = self.configManagerMock;
     builder.cacheManager = self.cacheManager;
     builder.apiHandler = self.apiHandlerMock;

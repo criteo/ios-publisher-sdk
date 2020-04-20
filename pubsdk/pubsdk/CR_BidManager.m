@@ -142,12 +142,14 @@
         didConsumeBid = YES;
     }
 
-    if (didConsumeBid) {
-        [self.feedbackDelegate onBidConsumed:bid];
-    }
-    if (!self.isInSilenceMode && ((bid == nil) || bid.isRenewable)) {
-        [self prefetchBid:slot];
-    }
+    [self.threadManager dispatchAsyncOnGlobalQueue:^{
+        if (didConsumeBid) {
+            [self.feedbackDelegate onBidConsumed:bid];
+        }
+        if (!self.isInSilenceMode && ((bid == nil) || bid.isRenewable)) {
+            [self prefetchBid:slot];
+        }
+    }];
 
     return result;
 }
