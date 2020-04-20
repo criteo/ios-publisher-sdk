@@ -8,7 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "CR_ThreadManager.h"
-#import "CR_ThreadManagerWaiter.h"
+#import "CR_ThreadManager+Waiter.h"
 
 #define CR_ThreadManagerTestsDebug 0
 
@@ -49,7 +49,6 @@ void CRInternaLog(NSString *format, ...) {
 @interface CR_ThreadManagerTests : XCTestCase
 
 @property (nonatomic, strong) CR_ThreadManager *manager;
-@property (nonatomic, strong) CR_ThreadManagerWaiter *waiter;
 @property (atomic, assign) NSUInteger counter;
 
 @end
@@ -59,7 +58,6 @@ void CRInternaLog(NSString *format, ...) {
 - (void)setUp {
     self.manager = [[CR_ThreadManager alloc] init];
     self.counter = 0;
-    self.waiter = [[CR_ThreadManagerWaiter alloc] initWithThreadManager:self.manager];
 }
 
 - (void)testManyDispatchAsyncInGlobalQueue {
@@ -71,7 +69,7 @@ void CRInternaLog(NSString *format, ...) {
                                                       currentLevel:3
                                                           nodeName:@"1"];
 
-        [self.waiter waitIdle];
+        [self.manager waiter_waitIdle];
 
         XCTAssertEqual(self.counter, 14);
     }

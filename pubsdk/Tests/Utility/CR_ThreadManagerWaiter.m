@@ -10,8 +10,6 @@
 #import "CR_ThreadManager.h"
 #import "CR_ThreadManagerWaiter.h"
 
-const NSTimeInterval CR_ThreadManagerWaiterTimeout = 15.f;
-
 @interface CR_ThreadManagerWaiter ()
 
 @property (nonatomic, strong, readonly) CR_ThreadManager *threadManager;
@@ -21,6 +19,18 @@ const NSTimeInterval CR_ThreadManagerWaiterTimeout = 15.f;
 
 @implementation CR_ThreadManagerWaiter
 
+#pragma mark - Class methods
+
++ (NSTimeInterval)defaultTimeout {
+    return 15.;
+}
+
++ (NSTimeInterval)timeoutForPerformanceTests {
+    return 30.;
+}
+
+#pragma mark - Life Cycle
+
 - (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager {
     if (self = [super init]) {
         _threadManager = threadManager;
@@ -28,8 +38,14 @@ const NSTimeInterval CR_ThreadManagerWaiterTimeout = 15.f;
     return self;
 }
 
+#pragma mark - Public
+
 - (void)waitIdle {
-    [self waitIdleWithTimeout:CR_ThreadManagerWaiterTimeout];
+    [self waitIdleWithTimeout:self.class.defaultTimeout];
+}
+
+- (void)waitIdleForPerformanceTests {
+    [self waitIdleWithTimeout:self.class.timeoutForPerformanceTests];
 }
 
 - (void)waitIdleWithTimeout:(NSTimeInterval)timeout {

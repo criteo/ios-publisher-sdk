@@ -11,6 +11,7 @@
 #import "CR_BidManagerBuilder+Testing.h"
 #import "CR_TestAdUnits.h"
 #import "CR_ThreadManager+Waiter.h"
+#import "CR_ThreadManagerWaiter.h"
 
 @interface CR_BidPerformanceTests : XCTestCase
 
@@ -57,7 +58,8 @@
 
 - (void)waitThreadManagerIdle {
     CR_ThreadManager *threadManager = self.criteo.bidManagerBuilder.threadManager;
-    [threadManager waiter_waitIdle];
+    CR_ThreadManagerWaiter *waiter = [[CR_ThreadManagerWaiter alloc] initWithThreadManager:threadManager];
+    [waiter waitIdleWithTimeout:CR_ThreadManagerWaiter.timeoutForPerformanceTests];
 }
 
 @end
