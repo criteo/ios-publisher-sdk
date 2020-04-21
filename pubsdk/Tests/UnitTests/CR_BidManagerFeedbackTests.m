@@ -11,7 +11,7 @@
 #import "pubsdkTests-Swift.h"
 #import "CR_CdbResponse.h"
 #import "CR_CdbBidBuilder.h"
-#import "CR_BidManagerBuilder.h"
+#import "CR_BidManagerBuilder+Testing.h"
 #import "CR_SynchronousThreadManager.h"
 
 @interface CR_BidManagerFeedbackTests : XCTestCase
@@ -62,7 +62,7 @@
     CR_FeedbackStorage *feedbackStorage = [[CR_FeedbackStorage alloc] initWithFileManager:self.feedbackFileManagingMock
                                                                                 withQueue:self.feedbackSendingQueue];
 
-    CR_BidManagerBuilder *builder = [[CR_BidManagerBuilder alloc] init];
+    CR_BidManagerBuilder *builder = [CR_BidManagerBuilder testing_bidManagerBuilder];
     builder.threadManager = [[CR_SynchronousThreadManager alloc] init];
     builder.deviceInfo = [[CR_DeviceInfoMock alloc] init];
     builder.apiHandler = self.apiHandlerMock;
@@ -404,6 +404,5 @@
                            beforeCdbCall:beforeCdbCall
                        completionHandler:[OCMArg any]]);
 }
-
 
 @end

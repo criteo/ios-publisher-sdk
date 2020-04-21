@@ -240,6 +240,7 @@
 		7D523C8723DECFD600E79C88 /* CR_DeviceInfoMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D523C8623DECFD600E79C88 /* CR_DeviceInfoMock.m */; };
 		7D523C8E23E047EA00E79C88 /* NSString+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D523C8B23E0471900E79C88 /* NSString+Testing.m */; };
 		7D523C9223E1CEBA00E79C88 /* CR_ThreadManager+Waiter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D523C9123E1CEBA00E79C88 /* CR_ThreadManager+Waiter.m */; };
+		7D54813B244F643C005FB742 /* CR_InMemoryUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D54813A244F643C005FB742 /* CR_InMemoryUserDefaults.m */; };
 		7D569469242A3AC20095A0A6 /* CR_BidManagerBuilder+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D569468242A3AC20095A0A6 /* CR_BidManagerBuilder+Testing.m */; };
 		7D58582A23E1E6BB0039AC56 /* CR_ThreadManagerWaiter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D58582923E1E6BB0039AC56 /* CR_ThreadManagerWaiter.m */; };
 		7D58582F23E1F1EC0039AC56 /* CR_ThreadManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D58582D23E1F1EC0039AC56 /* CR_ThreadManager.h */; };
@@ -585,6 +586,8 @@
 		7D523C8B23E0471900E79C88 /* NSString+Testing.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Testing.m"; sourceTree = "<group>"; };
 		7D523C9023E1CEBA00E79C88 /* CR_ThreadManager+Waiter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CR_ThreadManager+Waiter.h"; sourceTree = "<group>"; };
 		7D523C9123E1CEBA00E79C88 /* CR_ThreadManager+Waiter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CR_ThreadManager+Waiter.m"; sourceTree = "<group>"; };
+		7D548139244F643C005FB742 /* CR_InMemoryUserDefaults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_InMemoryUserDefaults.h; sourceTree = "<group>"; };
+		7D54813A244F643C005FB742 /* CR_InMemoryUserDefaults.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_InMemoryUserDefaults.m; sourceTree = "<group>"; };
 		7D569467242A3AC20095A0A6 /* CR_BidManagerBuilder+Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CR_BidManagerBuilder+Testing.h"; sourceTree = "<group>"; };
 		7D569468242A3AC20095A0A6 /* CR_BidManagerBuilder+Testing.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CR_BidManagerBuilder+Testing.m"; sourceTree = "<group>"; };
 		7D58582823E1E6BB0039AC56 /* CR_ThreadManagerWaiter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_ThreadManagerWaiter.h; sourceTree = "<group>"; };
@@ -1117,6 +1120,8 @@
 				7D80F61B24059E2D005B7BA3 /* CR_GdprMock.swift */,
 				7D46571B244DBEFE00E4110E /* CR_SynchronousThreadManager.h */,
 				7D46571C244DBEFE00E4110E /* CR_SynchronousThreadManager.m */,
+				7D548139244F643C005FB742 /* CR_InMemoryUserDefaults.h */,
+				7D54813A244F643C005FB742 /* CR_InMemoryUserDefaults.m */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -1901,6 +1906,7 @@
 				7D523C9223E1CEBA00E79C88 /* CR_ThreadManager+Waiter.m in Sources */,
 				7D3E424223915B6600BAF673 /* CRNativeAdUnitTests.m in Sources */,
 				7D3E423723915B6600BAF673 /* CR_BidFetchTrackerTests.m in Sources */,
+				7D54813B244F643C005FB742 /* CR_InMemoryUserDefaults.m in Sources */,
 				7D3E422523915B6600BAF673 /* CR_DeviceInfoTests.m in Sources */,
 				543F6FA22283B5F500A5DBE2 /* CRBannerViewDelegateTests.m in Sources */,
 				7D523C8E23E047EA00E79C88 /* NSString+Testing.m in Sources */,

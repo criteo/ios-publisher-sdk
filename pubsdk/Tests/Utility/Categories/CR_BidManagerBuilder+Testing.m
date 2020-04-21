@@ -9,6 +9,7 @@
 #import "CR_BidManagerBuilder+Testing.h"
 #import "CR_Config.h"
 #import "CR_FeedbackFileManager.h"
+#import "CR_InMemoryUserDefaults.h"
 #import "CR_NetworkManagerDecorator.h"
 #import "Criteo+Testing.h"
 #import "pubsdkTests-Swift.h"
@@ -58,11 +59,7 @@
 }
 
 - (CR_BidManagerBuilder *)withIsolatedUserDefaults {
-    NSUUID *uid = [[NSUUID alloc] init];
-    NSString *name = [[NSString alloc] initWithFormat:@"%@-%@", NSStringFromClass(self.class), [uid UUIDString]];
-    [[NSUserDefaults new] removePersistentDomainForName:name];
-
-    self.userDefaults = [[NSUserDefaults alloc] initWithSuiteName:name];
+    self.userDefaults = [[CR_InMemoryUserDefaults alloc] init];
     return self;
 }
 
