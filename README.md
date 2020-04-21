@@ -81,12 +81,15 @@ xcodebuild \
 
 ## Create a release candidate
 
-* Push a version bump to Gerrit: [fuji](https://review.crto.in/659643), [fuji-test-app](https://review.crto.in/659663)
-* From Gerrit or from your terminal create a new tag (e.g v3_2_1_RC1)
-* Update the constants at the top of `scripts/generate_release_candidate.sh` and then launch it.
-* Upload the resulting frameworks to the [release page](https://confluence.criteois.com/display/PUBSDK/Releases)
-* Launch Xcode with the testing app clone done by `generate_release_candidate.sh`, create an archive and push it to the iTunes Connect
-* Go in [iTunes Connect](https://itunesconnect.apple.com/) and ensure that the new version of the testing app is pushed to the testers via Testflight
+* Push a version bump to Gerrit:
+    * [fuji](https://review.crto.in/659643)
+    * [fuji-test-app](https://review.crto.in/659663)
+* From Gerrit or from your terminal create a new tag (e.g v3_5_0_RC1)
+* Update the constants at the top of `scripts/generate_release_candidate.sh` and then launch it. This will open Xcode on test app project with the SDK RC, and Finder on the folder containing Frameworks:
+    * Upload frameworks to the [release page](https://confluence.criteois.com/display/PUBSDK/Releases)
+    * From Xcode create an archive and push it to iTunes Connect, "Distribute through the App Store"
+* Go in [iTunes Connect](https://itunesconnect.apple.com/)
+    * Push to the testers via Testflight the new version of the testing app
 
 ## Push a validated release candidate to CocoaPods
 

@@ -5,13 +5,9 @@ set -Eeuo pipefail
 
 # ----To be updated for each RC---------
 # For naming the frameworks
-SDK_VERSION_NUMBER="3.4.0-rc2"
+SDK_VERSION_NUMBER="3.5.0-rc1"
 # For getting the frameworks on Jenkins
-SDK_BUILD_NUMBER="1354"
-# For inserting the CFBundleShortVersionString to the testing app
-TEST_APP_VERSION_NUMBER="1.3.0"
-# For inserting the CFBundleVersion to the testing app
-TEST_APP_BUILD_NUMBER="69"
+SDK_BUILD_NUMBER="1954"
 # ---------------------------------------
 
 SCRIPT_DIRECTORY="$( cd "$(dirname "$0")" ; pwd -P )"
@@ -35,20 +31,7 @@ echo "Clone the testing app for creating a new version"
 git clone https://review.crto.in/pub-sdk/fuji-test-app
 cp "$SDK_DEBUG_ZIP_NAME" "$SDK_DEBUG_DIR_IN_APP"
 unzip "$SDK_DEBUG_ZIP_NAME" -d "$SDK_DEBUG_DIR_IN_APP"
-cd "$SDK_DEBUG_DIR_IN_APP/AdViewer"
-TEST_APP_INFOPLIST_FILE="Info.plist"
-TEST_APP_PREVIOUS_VERSION_NUMBER=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "$TEST_APP_INFOPLIST_FILE")
-TEST_APP_PREVIOUS_BUILD_NUMBER=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$TEST_APP_INFOPLIST_FILE")
-/usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString ${TEST_APP_VERSION_NUMBER}" "$TEST_APP_INFOPLIST_FILE"
-/usr/libexec/PlistBuddy -c "Set CFBundleVersion ${TEST_APP_BUILD_NUMBER}" "$TEST_APP_INFOPLIST_FILE"
-echo -e "\t> CFBundleShortVersionString changed from ${TEST_APP_PREVIOUS_VERSION_NUMBER} to ${TEST_APP_VERSION_NUMBER}" 
-echo -e "\t> CFBundleVersion changed from ${TEST_APP_PREVIOUS_BUILD_NUMBER} to ${TEST_APP_BUILD_NUMBER}" 
-cd ../../
+cd "$SDK_DEBUG_DIR_IN_APP/.."
 pod install
 xed fuji-test-app.xcworkspace
 open $BUILD_DIRECTORY
-
-
-
-
-
