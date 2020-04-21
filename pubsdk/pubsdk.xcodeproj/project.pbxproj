@@ -39,6 +39,7 @@
 		4668FEF42459BD1000D207AE /* CRNativeLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 4668FEF12459BD1000D207AE /* CRNativeLoader.m */; };
 		4668FEF52459BD3A00D207AE /* CRNativeLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 4668FEF12459BD1000D207AE /* CRNativeLoader.m */; };
 		467D34CA243E060A00852B4D /* CASBoundedFileObjectQueueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 467D34C9243E060A00852B4D /* CASBoundedFileObjectQueueTests.m */; };
+		46AC066B24619FA400796AAA /* libCassette.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 547287842411075D00B62235 /* libCassette.a */; };
 		46AD5CF5245B003D00199315 /* CR_NativeLoaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46AD5CF4245B003D00199315 /* CR_NativeLoaderTests.m */; };
 		46B9780E243782A50061FC24 /* CR_UniqueIdGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 46240E0C2434BB4F001425AB /* CR_UniqueIdGenerator.m */; };
 		46C87E6C24405B2A0022978C /* CR_DefaultFileManipulatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C87E6B24405B2A0022978C /* CR_DefaultFileManipulatorTests.swift */; };
@@ -118,7 +119,6 @@
 		547287822411044200B62235 /* CR_FeedbackStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 54C24BCE240521E000DD9839 /* CR_FeedbackStorage.h */; };
 		547287832411044400B62235 /* CR_FeedbackStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 54C24BCF240521E000DD9839 /* CR_FeedbackStorage.m */; };
 		547287852411075D00B62235 /* libCassette.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 547287842411075D00B62235 /* libCassette.a */; };
-		547287872411076500B62235 /* libCassette.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 547287862411076500B62235 /* libCassette.a */; };
 		547287882411096200B62235 /* CR_FeedbackStorage+MessageUpdating.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E0651C4D267737312EBA748 /* CR_FeedbackStorage+MessageUpdating.h */; };
 		547287892411096400B62235 /* CR_FeedbackStorage+MessageUpdating.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0657907582169E633D934A /* CR_FeedbackStorage+MessageUpdating.m */; };
 		547BC944230650B500FB8599 /* CR_BidFetchTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 547BC942230650B500FB8599 /* CR_BidFetchTracker.m */; };
@@ -459,7 +459,6 @@
 		54680B7723969D7E00DB5A37 /* CR_IntegrationsTestBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_IntegrationsTestBase.h; sourceTree = "<group>"; };
 		54680B7823969E7300DB5A37 /* CR_MopubBannerFunctionalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_MopubBannerFunctionalTests.m; sourceTree = "<group>"; };
 		547287842411075D00B62235 /* libCassette.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libCassette.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		547287862411076500B62235 /* libCassette.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libCassette.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		547BC941230650B500FB8599 /* CR_BidFetchTracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_BidFetchTracker.h; sourceTree = "<group>"; };
 		547BC942230650B500FB8599 /* CR_BidFetchTracker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_BidFetchTracker.m; sourceTree = "<group>"; };
 		548AFCAC23B1113C003C9C29 /* CR_StandaloneBannerFunctionalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_StandaloneBannerFunctionalTests.m; sourceTree = "<group>"; };
@@ -717,7 +716,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				90D0C9A36EF9136F4CC9E877 /* libPods-CriteoPublisherSdk.a in Frameworks */,
-				547287872411076500B62235 /* libCassette.a in Frameworks */,
+				46AC066B24619FA400796AAA /* libCassette.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -938,7 +937,6 @@
 		58922C790615A11D1E6D635B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				547287862411076500B62235 /* libCassette.a */,
 				547287842411075D00B62235 /* libCassette.a */,
 				6F187272CD050435F6D28BFA /* libPods-pubsdkTests.a */,
 				1CDD7544323F61638E0E8B7F /* libPods-CriteoPublisherSdk.a */,
