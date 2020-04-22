@@ -1,17 +1,47 @@
 PODS:
   - Eureka (4.3.1)
-  - Google-Mobile-Ads-SDK (7.35.1)
-  - mopub-ios-sdk (5.4.0):
-    - mopub-ios-sdk/MoPubSDK (= 5.4.0)
-  - mopub-ios-sdk/Avid (5.4.0):
+  - Google-Mobile-Ads-SDK (7.58.0):
+    - GoogleAppMeasurement (~> 6.0)
+  - GoogleAppMeasurement (6.4.2):
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
+    - GoogleUtilities/MethodSwizzler (~> 6.0)
+    - GoogleUtilities/Network (~> 6.0)
+    - "GoogleUtilities/NSData+zlib (~> 6.0)"
+    - nanopb (= 0.3.9011)
+  - GoogleUtilities/AppDelegateSwizzler (6.6.0):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+  - GoogleUtilities/Environment (6.6.0):
+    - PromisesObjC (~> 1.2)
+  - GoogleUtilities/Logger (6.6.0):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/MethodSwizzler (6.6.0):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/Network (6.6.0):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (6.6.0)"
+  - GoogleUtilities/Reachability (6.6.0):
+    - GoogleUtilities/Logger
+  - mopub-ios-sdk (5.4.1):
+    - mopub-ios-sdk/MoPubSDK (= 5.4.1)
+  - mopub-ios-sdk/Avid (5.4.1):
     - mopub-ios-sdk/Core
-  - mopub-ios-sdk/Core (5.4.0)
-  - mopub-ios-sdk/Moat (5.4.0):
+  - mopub-ios-sdk/Core (5.4.1)
+  - mopub-ios-sdk/Moat (5.4.1):
     - mopub-ios-sdk/Core
-  - mopub-ios-sdk/MoPubSDK (5.4.0):
+  - mopub-ios-sdk/MoPubSDK (5.4.1):
     - mopub-ios-sdk/Avid
     - mopub-ios-sdk/Core
     - mopub-ios-sdk/Moat
+  - nanopb (0.3.9011):
+    - nanopb/decode (= 0.3.9011)
+    - nanopb/encode (= 0.3.9011)
+  - nanopb/decode (0.3.9011)
+  - nanopb/encode (0.3.9011)
+  - PromisesObjC (1.2.8)
 
 DEPENDENCIES:
   - Eureka
@@ -22,12 +52,20 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Eureka
     - Google-Mobile-Ads-SDK
+    - GoogleAppMeasurement
+    - GoogleUtilities
     - mopub-ios-sdk
+    - nanopb
+    - PromisesObjC
 
 SPEC CHECKSUMS:
   Eureka: 28ea296f06710f6745266b71f17862048941a32d
-  Google-Mobile-Ads-SDK: 151d5e87b4a0ae6d7d07e2cd8d55d1b41ea2e61e
-  mopub-ios-sdk: 6e331c6cf6052426a750568578f55dd3de0a67f1
+  Google-Mobile-Ads-SDK: 7052557293c75c676db55feb707ace9b790f32c1
+  GoogleAppMeasurement: 2253e99c1f22638cf234c059144660c338ad76c3
+  GoogleUtilities: 39530bc0ad980530298e9c4af8549e991fd033b1
+  mopub-ios-sdk: 320de49dd0a352ac58d33104a23853e749a84a78
+  nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
+  PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
 
 PODFILE CHECKSUM: 27c4982cd450ac3b619f1f3c1b0a9604adbd2ada
 

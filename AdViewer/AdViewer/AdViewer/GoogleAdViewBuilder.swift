@@ -29,7 +29,6 @@ class GoogleAdViewBuilder: AdViewBuilder {
 
     private func loadAdView(criteo: Criteo, adUnit: CRAdUnit, load: (_ request: GADRequest?) -> ()) {
         let request = DFPRequest()
-        request.testDevices = [kGADSimulatorID]
         criteo.setBidsForRequest(request, with: adUnit)
         load(request)
     }
