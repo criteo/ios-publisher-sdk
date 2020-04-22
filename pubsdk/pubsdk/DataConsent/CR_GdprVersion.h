@@ -28,7 +28,12 @@ extern NSString * const CR_GdprConsentStringForTcf1_1Key;
 @property (assign, nonatomic, readonly) CR_GdprTcfVersion tcfVersion;
 @property (copy, nonatomic, readonly, nullable) NSString *consentString;
 /**
- @return a boxed boolean that can be nil if the value doesn't exist or cannot be converted to a NSNumber.
+ * A boxed boolean that can be nil if the value doesn't exist or cannot coerces certain ”truthy” values.
+ *
+ * Like NSUserDefaults API,  ”truthy” values can be "0", "1", 0, 1, "true", "false", true , false,
+ * In TCF1, the applies value is a string (e.g "0" or "1").
+ * In TCF2, the applies value is a integer.
+ * So we manage both case this here.
  */
 @property (strong, nonatomic, readonly, nullable) NSNumber *applies;
 

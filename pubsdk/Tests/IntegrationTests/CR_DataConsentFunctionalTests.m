@@ -77,7 +77,7 @@ do { \
         NSString.gdprAppliesKey:      @YES
     };
     [self.userDefaults setGdprTcf1_1DefaultConsentString];
-    [self.userDefaults setGdprTcf1_1GdprApplies:YES];
+    [self.userDefaults setGdprTcf1_1GdprApplies:@YES];
 
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 
@@ -92,7 +92,7 @@ do { \
         NSString.gdprAppliesKey:      @YES
     };
     [self.userDefaults setGdprTcf2_0DefaultConsentString];
-    [self.userDefaults setGdprTcf2_0GdprApplies:YES];
+    [self.userDefaults setGdprTcf2_0GdprApplies:@YES];
 
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 
@@ -107,7 +107,7 @@ do { \
     };
     [self.userDefaults setGdprTcf1_1DefaultConsentString];
     [self.userDefaults setGdprTcf2_0DefaultConsentString];
-    [self.userDefaults setGdprTcf2_0GdprApplies:YES];
+    [self.userDefaults setGdprTcf2_0GdprApplies:@YES];
 
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 

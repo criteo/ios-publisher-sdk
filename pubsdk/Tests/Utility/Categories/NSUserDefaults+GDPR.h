@@ -24,8 +24,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark GdprApplies
 
-- (void)setGdprTcf1_1GdprApplies:(BOOL)gdprApplies;
-- (void)setGdprTcf2_0GdprApplies:(BOOL)gdprApplies;
+// For the GDPR applies,
+// We usually set "truthy" values (e.g @YES, @NO, @1, "0", "true").
+// To be agnostic of the type we use NSObjects in parameters.
+
+- (void)setGdprTcf1_1GdprApplies:(nullable NSObject *)gdprApplies;
+- (void)setGdprTcf2_0GdprApplies:(nullable NSObject *)gdprApplies;
 
 @end
 

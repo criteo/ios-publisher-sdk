@@ -62,7 +62,7 @@ NSString * const CR_GdprConsentStringForTcf1_1Key = @"IABConsent_ConsentString";
 
 - (BOOL)isValid {
     return  (self.consentString != nil) ||
-            (self.appliesObject != nil);
+            (self.applies != nil);
 }
 
 - (NSString *)consentString {
@@ -70,15 +70,12 @@ NSString * const CR_GdprConsentStringForTcf1_1Key = @"IABConsent_ConsentString";
 }
 
 - (NSNumber *)applies {
-    NSNumber *number = [self.userDefaults objectForKey:self.appliesKey];
-    return [number isKindOfClass:NSNumber.class] ? number : nil;
-}
-
-#pragma mark - Private
-
-- (NSNumber *)appliesObject {
-    NSNumber *number = [self.userDefaults objectForKey:self.appliesKey];
-    return [number isKindOfClass:NSNumber.class] ? number : nil;
+    id object = [self.userDefaults objectForKey:self.appliesKey];
+    if (object == nil) {
+        return nil;
+    }
+    BOOL applies = [self.userDefaults boolForKey:self.appliesKey];
+    return @(applies);
 }
 
 @end

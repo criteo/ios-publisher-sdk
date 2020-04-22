@@ -37,14 +37,14 @@
              forKey:NSString.gdprConsentStringUserDefaultsKeyTcf2_0];
 }
 
-- (void)setGdprTcf1_1GdprApplies:(BOOL)gdprApplies {
-    [self setBool:gdprApplies
-           forKey:NSString.gdprAppliesUserDefaultsKeyTcf1_1];
+- (void)setGdprTcf1_1GdprApplies:(NSObject *)gdprApplies {
+    [self setObject:gdprApplies
+             forKey:NSString.gdprAppliesUserDefaultsKeyTcf1_1];
 }
 
-- (void)setGdprTcf2_0GdprApplies:(BOOL)gdprApplies {
-    [self setBool:gdprApplies
-           forKey:NSString.gdprAppliesUserDefaultsKeyTcf2_0];
+- (void)setGdprTcf2_0GdprApplies:(NSObject *)gdprApplies {
+    [self setObject:gdprApplies
+             forKey:NSString.gdprAppliesUserDefaultsKeyTcf2_0];
 }
 
 @end
