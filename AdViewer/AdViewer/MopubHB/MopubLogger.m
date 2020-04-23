@@ -33,12 +33,12 @@
 
 # pragma mark - MPAdViewDelegate
 
-- (void)adViewDidLoadAd:(MPAdView *)view {
+- (void)adViewDidLoadAd:(MPAdView *)view adSize:(CGSize)adSize {
     [self.logManager logEvent:NSStringFromSelector(_cmd) info:view];
 }
 
-- (void)adViewDidFailToLoadAd:(MPAdView *)view {
-    [self.logManager logEvent:NSStringFromSelector(_cmd) info:view];
+- (void)adView:(MPAdView *)view didFailToLoadAdWithError:(NSError *)error {
+    [self.logManager logEvent:NSStringFromSelector(_cmd) info:view error:error];
 }
 
 - (void)willPresentModalViewForAd:(MPAdView *)view {

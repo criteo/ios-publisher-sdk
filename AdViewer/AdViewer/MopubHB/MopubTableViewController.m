@@ -41,31 +41,25 @@
 
 - (IBAction)banner320x50ButtonClick:(id)sender {
     [self removeBannerView:self.adView_320x50];
-    self.adView_320x50 = [[MPAdView alloc] initWithAdUnitId:MOPUBBANNERADUNITID_320X50
-                                                size:MOPUB_BANNER_SIZE];
+    self.adView_320x50 = [[MPAdView alloc] initWithAdUnitId:MOPUBBANNERADUNITID_320X50];
     self.adView_320x50.keywords = @"key1:value1,key2:value2";
     Criteo *criteo = [Criteo sharedCriteo];
     [criteo setBidsForRequest:self.adView_320x50 withAdUnit:self.homePageVC.moPubBannerAdUnit_320x50];
 
     self.adView_320x50.delegate = self.logger;
-    self.adView_320x50.frame = CGRectMake((self.adView_320x50RedView.bounds.size.width - MOPUB_BANNER_SIZE.width) / 2,
-                                   self.adView_320x50RedView.bounds.size.height - MOPUB_BANNER_SIZE.height,
-                                   MOPUB_BANNER_SIZE.width, MOPUB_BANNER_SIZE.height);
+    self.adView_320x50.frame = CGRectMake(0, 0, 320, 50);
     [self.adView_320x50RedView addSubview:self.adView_320x50];
     self.adView_320x50RedView.backgroundColor = [UIColor redColor];
     [self.adView_320x50 loadAd];
 }
 - (IBAction)banner300x250ButtonClick:(id)sender {
     [self removeBannerView:self.adView_300x250];
-    self.adView_300x250 = [[MPAdView alloc] initWithAdUnitId:MOPUBBANNERADUNITID_300X250
-                                                       size:MOPUB_MEDIUM_RECT_SIZE];
+    self.adView_300x250 = [[MPAdView alloc] initWithAdUnitId:MOPUBBANNERADUNITID_300X250];
     self.adView_300x250.keywords = @"key1:value1,key2:value2";
     Criteo *criteo = [Criteo sharedCriteo];
     [criteo setBidsForRequest:self.adView_300x250 withAdUnit:self.homePageVC.moPubBannerAdUnit_300x250];
     self.adView_300x250.delegate = self.logger;
-    self.adView_300x250.frame = CGRectMake((self.adView_300x250RedView.bounds.size.width - MOPUB_MEDIUM_RECT_SIZE.width) / 2,
-                                          self.adView_300x250RedView.bounds.size.height - MOPUB_MEDIUM_RECT_SIZE.height,
-                                          MOPUB_MEDIUM_RECT_SIZE.width, MOPUB_MEDIUM_RECT_SIZE.height);
+    self.adView_300x250.frame = CGRectMake(0, 0, 300, 250);
     [self.adView_300x250RedView addSubview:self.adView_300x250];
     self.adView_300x250RedView.backgroundColor = [UIColor redColor];
     [self.adView_300x250 loadAd];
