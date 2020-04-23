@@ -6,11 +6,13 @@
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 
-#import "Criteo.h"
 #import "XCTestCase+Criteo.h"
+#import "Criteo.h"
 #import "CRBannerView.h"
+#import "CRInterstitial.h"
 #import "CR_IntegrationsTestBase.h"
 #import "CR_CreativeViewChecker.h"
+#import "CR_InterstitialChecker.h"
 #import "CR_TestAdUnits.h"
 
 static NSString *creativeUrl1 = @"www.criteo.com";
@@ -21,6 +23,8 @@ static NSString *creativeUrl2 = @"www.apple.com";
 @end
 
 @implementation CR_InHouseFunctionalTests
+
+#pragma mark - Banners
 
 - (void)test_givenBanner_whenLoadBidToken_thenBannerReceiveAd {
     CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
@@ -134,5 +138,49 @@ static NSString *creativeUrl2 = @"www.apple.com";
     [checker.bannerView loadAdWithBidToken:response.bidToken];
     [self criteo_waitForExpectations:@[checker.bannerViewDidReceiveAdExpectation]];
 }
+
+#pragma mark - Interstitial
+
+- (void)test_givenInterstitial_whenLoadBidToken_thenReceiveAd {
+    CRInterstitialAdUnit *adUnit = [CR_TestAdUnits preprodInterstitial];
+    [self initCriteoWithAdUnits:@[adUnit]];
+    CR_InterstitialChecker *checker = [[CR_InterstitialChecker alloc] initWithAdUnit:adUnit
+                                                                              criteo:self.criteo];
+    CRBidResponse *bid = [self.criteo getBidResponseForAdUnit:adUnit];
+
+    [checker.intertitial loadAdWithBidToken:bid.bidToken];
+
+    [self criteo_waitForExpectations:@[checker.receiveAdExpectation]];
+}
+
+
+- (void)test_givenInterstitial_whenLoadWrongBidToken_thenFailToReceiveAd {
+    CRInterstitialAdUnit *adUnit = [CR_TestAdUnits preprodInterstitial];
+    CRInterstitialAdUnit *orphan = [CR_TestAdUnits demoInterstitial];
+    [self initCriteoWithAdUnits:@[adUnit, orphan]];
+    CR_InterstitialChecker *checker = [[CR_InterstitialChecker alloc] initWithAdUnit:adUnit
+                                                                              criteo:self.criteo];
+    CRBidResponse *orphanBid = [self.criteo getBidResponseForAdUnit:orphan];
+
+    [checker.intertitial loadAdWithBidToken:orphanBid.bidToken];
+
+    [self criteo_waitForExpectations:@[checker.failToReceiveAdExpectation]];
+}
+
+- (void)test_givenIntertitialLoadWrongBidToken_whenLoadGoodBidToken_thenReceiveAd {
+    CRInterstitialAdUnit *adUnit = [CR_TestAdUnits preprodInterstitial];
+    CRInterstitialAdUnit *orphan = [CR_TestAdUnits demoInterstitial];
+    [self initCriteoWithAdUnits:@[adUnit, orphan]];
+    CR_InterstitialChecker *checker = [[CR_InterstitialChecker alloc] initWithAdUnit:adUnit
+                                                                              criteo:self.criteo];
+    CRBidResponse *orphanBid = [self.criteo getBidResponseForAdUnit:orphan];
+    [checker.intertitial loadAdWithBidToken:orphanBid.bidToken];
+    [checker resetExpectations];
+
+    CRBidResponse *goodBid = [self.criteo getBidResponseForAdUnit:adUnit];
+    [checker.intertitial loadAdWithBidToken:goodBid.bidToken];
+    [self criteo_waitForExpectations:@[checker.receiveAdExpectation]];
+}
+
 
 @end
