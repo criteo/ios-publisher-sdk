@@ -25,17 +25,20 @@ PODS:
   - "GoogleUtilities/NSData+zlib (6.6.0)"
   - GoogleUtilities/Reachability (6.6.0):
     - GoogleUtilities/Logger
-  - mopub-ios-sdk (5.4.1):
-    - mopub-ios-sdk/MoPubSDK (= 5.4.1)
-  - mopub-ios-sdk/Avid (5.4.1):
+  - mopub-ios-sdk (5.12.1):
+    - mopub-ios-sdk/MoPubSDK (= 5.12.1)
+  - mopub-ios-sdk/Avid (5.12.1):
     - mopub-ios-sdk/Core
-  - mopub-ios-sdk/Core (5.4.1)
-  - mopub-ios-sdk/Moat (5.4.1):
+  - mopub-ios-sdk/Core (5.12.1)
+  - mopub-ios-sdk/Moat (5.12.1):
     - mopub-ios-sdk/Core
-  - mopub-ios-sdk/MoPubSDK (5.4.1):
+  - mopub-ios-sdk/MoPubSDK (5.12.1):
     - mopub-ios-sdk/Avid
     - mopub-ios-sdk/Core
     - mopub-ios-sdk/Moat
+    - mopub-ios-sdk/NativeAds
+  - mopub-ios-sdk/NativeAds (5.12.1):
+    - mopub-ios-sdk/Core
   - nanopb (0.3.9011):
     - nanopb/decode (= 0.3.9011)
     - nanopb/encode (= 0.3.9011)
@@ -44,9 +47,9 @@ PODS:
   - PromisesObjC (1.2.8)
 
 DEPENDENCIES:
-  - Eureka
+  - Eureka (~> 4.3)
   - Google-Mobile-Ads-SDK
-  - mopub-ios-sdk (~> 5.4.0)
+  - mopub-ios-sdk
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -63,10 +66,10 @@ SPEC CHECKSUMS:
   Google-Mobile-Ads-SDK: 7052557293c75c676db55feb707ace9b790f32c1
   GoogleAppMeasurement: 2253e99c1f22638cf234c059144660c338ad76c3
   GoogleUtilities: 39530bc0ad980530298e9c4af8549e991fd033b1
-  mopub-ios-sdk: 320de49dd0a352ac58d33104a23853e749a84a78
+  mopub-ios-sdk: d1640225b34ad74700e2acddb116cac634fc45d8
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
 
-PODFILE CHECKSUM: 27c4982cd450ac3b619f1f3c1b0a9604adbd2ada
+PODFILE CHECKSUM: b8dfeda6f505e257ffe1dff838b1c57d72d2370c
 
 COCOAPODS: 1.7.5
