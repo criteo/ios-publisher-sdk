@@ -53,7 +53,6 @@
     [self.dfpBannerView_320x50 loadRequest:request];
     self.banner_320x50RedView.backgroundColor = [UIColor redColor];
     [self.banner_320x50RedView addSubview:self.dfpBannerView_320x50];
-//    [self debugPrintWebViewAfterSec:5];
 }
 - (IBAction)banner_300x250Click:(id)sender {
     [self removeBannerView:self.dfpBannerView_300x250];
@@ -126,33 +125,6 @@
         textView.text = @"";
         [textView removeFromSuperview];
     }
-}
-
-- (void) debugPrintWebViewAfterSec:(NSUInteger)sec {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(sec * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if (self.dfpBannerView_320x50.subviews.count > 0) {
-            NSLog(@"Banner view has a GADOAdView!");
-            UIView *gadoAdView = self.dfpBannerView_320x50.subviews[0];
-
-            if (gadoAdView.subviews.count > 1) {
-                NSLog(@"GADOAdView has a GADOUIKitWebView!");
-                UIView *gadouikitwebview = gadoAdView.subviews[1];
-
-                if (gadouikitwebview.subviews.count > 0) {
-                    NSLog(@"GADOUIKitWebView has an inner web view!");
-                    UIWebView *innerWebView = (UIWebView*)gadouikitwebview.subviews[0];
-                    NSString *webViewContent = [innerWebView stringByEvaluatingJavaScriptFromString: @"document.body.innerHTML"];
-                    NSLog(@"\n\nINNER WEB VIEW CONTENTS\n\n%@\n\nEND INNER WEB VIEW CONTENTS\n\n", webViewContent);
-                } else {
-                    NSLog(@"GADOUIKitWebView has no subviews");
-                }
-            } else {
-                NSLog(@"GADOAdView has no subviews");
-            }
-        } else {
-            NSLog(@"DFP Banner view has no subviews");
-        }
-    });
 }
 
 @end
