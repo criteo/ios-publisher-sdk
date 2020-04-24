@@ -23,7 +23,7 @@ xcuserdata/
 
 # Build artifacts
 build/
-
+xcodebuild.log
 
 #Buck
 .buckconfig

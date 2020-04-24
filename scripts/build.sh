@@ -3,7 +3,7 @@
 set +x
 set -Eeuo pipefail
 
-rm -rf build/output
+rm -rf build/output xcodebuild.log
 mkdir -p build/output/sim
 
 export LANG=en_US.UTF-8
@@ -84,7 +84,7 @@ if [ "$XCODEBUILD_SCHEME_FOR_TESTING" != skipTests ]; then
         ARCHS="$CRITEO_SIM_ARCHS" \
         VALID_ARCHS="$CRITEO_SIM_ARCHS" \
         ONLY_ACTIVE_ARCH=NO \
-        clean build test | xcpretty --report junit --report html
+        clean build test | tee -a xcodebuild.log | xcpretty --report junit --report html
 fi
 
     xcodebuild \
@@ -98,7 +98,7 @@ fi
         ARCHS="$CRITEO_SIM_ARCHS" \
         VALID_ARCHS="$CRITEO_SIM_ARCHS" \
         ONLY_ACTIVE_ARCH=NO \
-        clean build | xcpretty
+        clean build | tee -a xcodebuild.log | xcpretty
 
         cp -R "build/DerivedData/Build/Products/$CRITEO_CONFIGURATION-iphonesimulator/CriteoPublisherSdk.framework" build/output/sim
 
@@ -117,7 +117,7 @@ fi
         CODE_SIGN_IDENTITY="" \
         CODE_SIGNING_REQUIRED=NO \
         OTHER_CFLAGS="-fembed-bitcode" \
-        build | xcpretty
+        build | tee -a xcodebuild.log | xcpretty
 
         cp -R "build/DerivedData/Build/Products/$CRITEO_CONFIGURATION-iphoneos/CriteoPublisherSdk.framework" build/output/device
 
@@ -151,7 +151,7 @@ printf "Launching $CRITEO_CONFIGURATION build\nARCHS: $CRITEO_ARCHS\nSIM ARCHS: 
         ARCHS="$CRITEO_SIM_ARCHS" \
         VALID_ARCHS="$CRITEO_SIM_ARCHS" \
         ONLY_ACTIVE_ARCH=NO \
-        clean build | xcpretty
+        clean build | tee -a xcodebuild.log | xcpretty
 
         cp -R "build/DerivedData/Build/Products/$CRITEO_CONFIGURATION-iphonesimulator/CriteoPublisherSdk.framework" build/output/sim
 
@@ -170,7 +170,7 @@ printf "Launching $CRITEO_CONFIGURATION build\nARCHS: $CRITEO_ARCHS\nSIM ARCHS: 
         CODE_SIGN_IDENTITY="" \
         CODE_SIGNING_REQUIRED=NO \
         OTHER_CFLAGS="-fembed-bitcode" \
-        build | xcpretty
+        build | tee -a xcodebuild.log | xcpretty
 
         cp -R "build/DerivedData/Build/Products/$CRITEO_CONFIGURATION-iphoneos/CriteoPublisherSdk.framework" build/output/device
 
