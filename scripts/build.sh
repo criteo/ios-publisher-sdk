@@ -84,7 +84,7 @@ if [ "$XCODEBUILD_SCHEME_FOR_TESTING" != skipTests ]; then
         ARCHS="$CRITEO_SIM_ARCHS" \
         VALID_ARCHS="$CRITEO_SIM_ARCHS" \
         ONLY_ACTIVE_ARCH=NO \
-        clean build test | xcpretty
+        clean build test | xcpretty --report junit --report html
 fi
 
     xcodebuild \
@@ -151,7 +151,7 @@ printf "Launching $CRITEO_CONFIGURATION build\nARCHS: $CRITEO_ARCHS\nSIM ARCHS: 
         ARCHS="$CRITEO_SIM_ARCHS" \
         VALID_ARCHS="$CRITEO_SIM_ARCHS" \
         ONLY_ACTIVE_ARCH=NO \
-        clean build | xcpretty --report junit --report html
+        clean build | xcpretty
 
         cp -R "build/DerivedData/Build/Products/$CRITEO_CONFIGURATION-iphonesimulator/CriteoPublisherSdk.framework" build/output/sim
 
