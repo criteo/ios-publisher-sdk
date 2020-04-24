@@ -16,8 +16,8 @@ Pod::Spec.new do |s|
                          DESC
 
   s.homepage         = 'https://criteo.com'
-  s.license          = { :type => 'Apache', :file => 'LICENSE' }
-  s.author           = { 'Criteo' => 'contact@criteo.com' }
+  s.license          = { :type => 'Apache 2.0', :file => 'LICENSE' }
+  s.author           = { 'Criteo' => 'opensource@criteo.com' }
   s.source           = { :http => 'https://pubsdk-bin.criteo.com/publishersdk/ios/CriteoPublisherSdk_iOS_v3.5.0.Release.zip' }
   s.vendored_frameworks = 'CriteoPublisherSdk.framework'
   s.ios.deployment_target = '8.0'
