@@ -93,9 +93,11 @@ xcodebuild \
 
 ## Push a validated release candidate to CocoaPods
 
-* Rub `./scripts/setup.sh` if not alreay done for using Azure CLI.
-* Zip the CriteoPublisherSdk.framework folder along with the LICENSE file in a file named CriteoPublisherSdk_iOS_vX.X.X.Release.zip (replace X.X.X by version number, please). It should be at the root. Like this zip file. LICENSE file is also available in pub-sdk/fuji/LICENSE
+* Run `./scripts/setup.sh` if not already done for using Azure CLI.
+* Zip the CriteoPublisherSdk.framework folder along with the LICENSE file in a file named CriteoPublisherSdk_iOS_vX.X.X.Release.zip (replace X.X.X by version number, please). It should be at repository root folder. As this zip file. LICENSE file is also available in pub-sdk/fuji/LICENSE. You can add file to zip using:
+
+      $ zip -rv CriteoPublisherSdk_iOS_vX.X.X.Release.zip LICENSE
 * Run `./scripts/azureDeploy.sh <Release version>`
-* Update the podspect accordly to the release version and with the new URL for the release on Azure (e.g https://pubsdk-bin.criteo.com/publishersdk/ios/CriteoPublisherSdk_iOS_v3.1.0.Release.zip)
+* Update the podspec accordingly to the release version and with the new URL for the release on Azure (e.g https://pubsdk-bin.criteo.com/publishersdk/ios/CriteoPublisherSdk_iOS_vX.X.X.Release.zip)
 * Run `pod spec lint CriteoPublisherSdk.podspec` to validate the podspec
 * Run `pod trunk push CriteoPublisherSdk.podspec` to push the podspec to CocoaPods
