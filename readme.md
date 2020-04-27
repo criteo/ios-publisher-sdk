@@ -1,5 +1,13 @@
 # Criteo Direct Bidder for Google Mediation
 
+## Version management
+
+For now, the Adapter follows the Criteo Publisher SDK. It means that when we bump the SDK, we also bump the Adaptor. If the SDK version is 3.5.0, the adaptor version is 3.5.0.0 so that we can bump the last digit independantly.
+
+You need to update:
+- the MARKETING_VERSION
+- the podspec
+
 ## Publication on Github and CocoaPods
 
 ### Publication on Github
