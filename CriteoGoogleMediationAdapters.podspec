@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'CriteoGoogleMediationAdapters'
-  s.version          = '1.0'
+  s.version          = '3.5.0.0'
   s.summary          = 'Criteo Google Mediation Adapters'
 
   s.description      = <<-DESC
@@ -16,6 +16,6 @@ Pod::Spec.new do |s|
 
   s.source_files = '*'
   s.static_framework = true
-  s.dependency 'CriteoPublisherSdk', '>= 3.2.0'
+  s.dependency 'CriteoPublisherSdk', '>= 3.5.0'
   s.dependency 'Google-Mobile-Ads-SDK', '>= 7.49.0'
 end
