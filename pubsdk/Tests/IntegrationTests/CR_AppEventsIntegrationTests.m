@@ -12,6 +12,7 @@
 #import "CR_AppEvents+Internal.h"
 #import "CR_BidManagerBuilder+Testing.h"
 #import "CR_NetworkCaptor.h"
+#import "CR_ThreadManager+Waiter.h"
 
 @interface CR_AppEventsIntegrationTests : XCTestCase
 
@@ -29,6 +30,11 @@
     self.notificationCenter = self.criteo.bidManagerBuilder.notificationCenter;
 
     [self.criteo.bidManagerBuilder.appEvents disableThrottling];
+}
+
+- (void)tearDown {
+    [self.criteo.bidManagerBuilder.threadManager waiter_waitIdle];
+    [super tearDown];
 }
 
 - (void)testActiveEventNotSentIfCriteoNotRegister {

@@ -52,6 +52,11 @@
     self.cacheAdUnit2 = [CR_AdUnitHelper cacheAdUnitForAdUnit:[CR_TestAdUnits preprodInterstitial]];
 }
 
+- (void)tearDown {
+    [self.criteo.bidManagerBuilder.threadManager waiter_waitIdle];
+    [super tearDown];
+}
+
 // Prefetch should populate cache with given ad units
 - (void)test_given2AdUnits_whenPrefetchBid_thenGet2Bids {
     [self.bidManager prefetchBids:@[ self.cacheAdUnit1, self.cacheAdUnit2 ]];

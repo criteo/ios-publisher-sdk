@@ -17,6 +17,7 @@
 #import "CR_NetworkCaptor.h"
 #import "CR_NetworkWaiter.h"
 #import "CR_NetworkWaiterBuilder.h"
+#import "CR_ThreadManager+Waiter.h"
 #import "NSString+GDPR.h"
 #import "NSString+APIKeys.h"
 #import "NSString+CR_Url.h"
@@ -46,6 +47,11 @@ do { \
 - (void)setUp {
     self.criteo = [Criteo testing_criteoWithNetworkCaptor];
     self.userDefaults = self.criteo.bidManagerBuilder.userDefaults;
+}
+
+- (void)tearDown {
+    [self.criteo.bidManagerBuilder.threadManager waiter_waitIdle];
+    [super tearDown];
 }
 
 #pragma mark - GDPR
