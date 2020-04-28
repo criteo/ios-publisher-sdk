@@ -8,8 +8,8 @@ Pod::Spec.new do |s|
                        DESC
 
   s.homepage         = 'https://www.criteo.com'
-  s.license          = { :type => 'Apache', :file => 'LICENSE' }
-  s.author           = { 'Criteo' => 'github@criteo.com' }
+  s.license          = { :type => 'Apache 2.0', :file => 'LICENSE' }
+  s.author           = { 'Criteo' => 'opensource@criteo.com' }
   s.source           = { :git => 'https://github.com/criteo/ios-publisher-sdk-mopub-adapters.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '8.0'
