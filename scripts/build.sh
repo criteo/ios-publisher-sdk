@@ -17,9 +17,10 @@ CRITEO_CONFIGURATION="Release"
 printf "Launching $CRITEO_CONFIGURATION build\nARCHS: $CRITEO_ARCHS\nSIM ARCHS: $CRITEO_SIM_ARCHS\n"
 rm -rf fuji
 rm -rf CriteoPublisher.framework
-git clone ssh://qabot@review.crto.in:29418/pub-sdk/fuji
+git clone https://review.crto.in/pub-sdk/fuji
 
 cd fuji
+pod install
 
 mkdir -p build/output/sim
 
