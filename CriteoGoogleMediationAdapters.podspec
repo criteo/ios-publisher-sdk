@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '8.0'
 
-  s.source_files = '*'
+  s.source_files = '*.{m,h}'
   s.static_framework = true
   s.dependency 'CriteoPublisherSdk', '>= 3.5.0'
   s.dependency 'Google-Mobile-Ads-SDK', '>= 7.49.0'

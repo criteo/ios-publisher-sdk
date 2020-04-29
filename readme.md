@@ -29,9 +29,3 @@ Update the CriteoGoogleMediationAdapters.podspec with the version.
 The following script will push the new version on Cocoapods:
 
     ./scripts/publish_on_cocoapods.sh
-
----------------------------------
-/!\ This script hasn't been tested on this project because it pushes directly
-on CocoaPods. It is a copied/pasted/adjusted from the Mopub adaptor's script.
-So use it with caution the first time and then remove this comment.
----------------------------------
