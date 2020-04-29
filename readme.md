@@ -31,6 +31,7 @@ For that check the command suggested by the script and don't forget to push the 
 
 ### Publication on Cocoapods
 
+Update the CriteoMoPubMediationAdapters.podspec with the version.
 The following script will push the new version on Cocoapods:
 
     ./scripts/publish_on_cocoapods.sh

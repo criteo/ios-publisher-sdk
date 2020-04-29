@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   This repository contains Criteo’s Adapter for MoPub Mediation. It must be used in conjunction with the Criteo Publisher SDK. For requirements, intructions, and other info, see Integrating Criteo with MoPub Mediation: https://publisherdocs.criteotilt.com/sdk-ios/3.1/mopub-mediation/
                        DESC
 
-  s.homepage         = 'https://www.criteo.com'
+  s.homepage         = 'https://github.com/criteo/ios-publisher-sdk-mopub-adapters'
   s.license          = { :type => 'Apache 2.0', :file => 'LICENSE' }
   s.author           = { 'Criteo' => 'opensource@criteo.com' }
   s.source           = { :git => 'https://github.com/criteo/ios-publisher-sdk-mopub-adapters.git', :tag => s.version.to_s }
