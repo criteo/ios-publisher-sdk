@@ -79,7 +79,7 @@
 
 - (BOOL)waitAdCreativeRendered {
     XCTWaiter *waiter = [[XCTWaiter alloc] init];
-    XCTWaiterResult result = [waiter waitForExpectations:@[self.adCreativeRenderedExpectation] timeout:10.f];
+    XCTWaiterResult result = [waiter waitForExpectations:@[self.adCreativeRenderedExpectation] timeout:30.f];
     return (result == XCTWaiterResultCompleted);
 }
 
