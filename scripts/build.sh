@@ -3,7 +3,7 @@
 set +x
 set -Eeuo pipefail
 
-rm -rf build/output xcodebuild.log
+rm -rf build/output
 mkdir -p build/output/sim
 
 export LANG=en_US.UTF-8
@@ -12,6 +12,8 @@ CRITEO_WATCH_ARCHS='armv7k arm64_32'
 CRITEO_DEVICE_ARCHS='armv7 armv7s arm64'
 CRITEO_ARCHS="$CRITEO_DEVICE_ARCHS $CRITEO_WATCH_ARCHS"
 CRITEO_SIM_ARCHS='i386 x86_64'
+
+XCODEBUILD_LOG=build/output/xcodebuild.log
 
 # Configuration for compiling the project for the simulator.
 # For now, we set a fixed OS version instead of the "latest"
@@ -84,7 +86,7 @@ if [ "$XCODEBUILD_SCHEME_FOR_TESTING" != skipTests ]; then
         ARCHS="$CRITEO_SIM_ARCHS" \
         VALID_ARCHS="$CRITEO_SIM_ARCHS" \
         ONLY_ACTIVE_ARCH=NO \
-        clean build test | tee -a xcodebuild.log | xcpretty --report junit --report html
+        clean build test | tee -a $XCODEBUILD_LOG | xcpretty --report junit --report html
 fi
 
     xcodebuild \
@@ -98,7 +100,7 @@ fi
         ARCHS="$CRITEO_SIM_ARCHS" \
         VALID_ARCHS="$CRITEO_SIM_ARCHS" \
         ONLY_ACTIVE_ARCH=NO \
-        clean build | tee -a xcodebuild.log | xcpretty
+        clean build | tee -a $XCODEBUILD_LOG | xcpretty
 
         cp -R "build/DerivedData/Build/Products/$CRITEO_CONFIGURATION-iphonesimulator/CriteoPublisherSdk.framework" build/output/sim
 
@@ -117,7 +119,7 @@ fi
         CODE_SIGN_IDENTITY="" \
         CODE_SIGNING_REQUIRED=NO \
         OTHER_CFLAGS="-fembed-bitcode" \
-        build | tee -a xcodebuild.log | xcpretty
+        build | tee -a $XCODEBUILD_LOG | xcpretty
 
         cp -R "build/DerivedData/Build/Products/$CRITEO_CONFIGURATION-iphoneos/CriteoPublisherSdk.framework" build/output/device
 
@@ -151,7 +153,7 @@ printf "Launching $CRITEO_CONFIGURATION build\nARCHS: $CRITEO_ARCHS\nSIM ARCHS: 
         ARCHS="$CRITEO_SIM_ARCHS" \
         VALID_ARCHS="$CRITEO_SIM_ARCHS" \
         ONLY_ACTIVE_ARCH=NO \
-        clean build | tee -a xcodebuild.log | xcpretty
+        clean build | tee -a $XCODEBUILD_LOG | xcpretty
 
         cp -R "build/DerivedData/Build/Products/$CRITEO_CONFIGURATION-iphonesimulator/CriteoPublisherSdk.framework" build/output/sim
 
@@ -170,7 +172,7 @@ printf "Launching $CRITEO_CONFIGURATION build\nARCHS: $CRITEO_ARCHS\nSIM ARCHS: 
         CODE_SIGN_IDENTITY="" \
         CODE_SIGNING_REQUIRED=NO \
         OTHER_CFLAGS="-fembed-bitcode" \
-        build | tee -a xcodebuild.log | xcpretty
+        build | tee -a $XCODEBUILD_LOG | xcpretty
 
         cp -R "build/DerivedData/Build/Products/$CRITEO_CONFIGURATION-iphoneos/CriteoPublisherSdk.framework" build/output/device
 
