@@ -13,6 +13,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ Ad Unit used for both Custom Native Ad and Advanced Native Ad.
+ */
 @interface CRNativeAdUnit : CRAdUnit
 
 - (instancetype)initWithAdUnitId:(NSString *)adUnitId;

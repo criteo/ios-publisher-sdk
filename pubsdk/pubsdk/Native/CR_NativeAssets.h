@@ -14,6 +14,7 @@
 
 @interface CR_NativeAssets : NSObject <NSCopying>
 
+// Products array, BidManager ensure we have at least one entry, or bid is considered invalid
 @property (readonly, copy, nonatomic) CR_NativeProductArray *products;
 @property (readonly, copy, nonatomic) CR_NativeAdvertiser *advertiser;
 @property (readonly, copy, nonatomic) CR_NativePrivacy *privacy;
