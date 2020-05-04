@@ -2,7 +2,6 @@
 //  CR_InMemoryUserDefaults.m
 //  pubsdkTests
 //
-//  Created by Romain Lofaso on 4/21/20.
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 

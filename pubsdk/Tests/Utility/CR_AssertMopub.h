@@ -2,7 +2,6 @@
 //  CR_MopubAsserts.h
 //  pubsdk
 //
-//  Created by Romain Lofaso on 12/6/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

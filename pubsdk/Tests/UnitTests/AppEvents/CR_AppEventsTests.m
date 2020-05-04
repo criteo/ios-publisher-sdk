@@ -2,7 +2,6 @@
 //  CR_AppEventsTests.m
 //  pubsdkTests
 //
-//  Created by Adwait Kulkarni on 2/5/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

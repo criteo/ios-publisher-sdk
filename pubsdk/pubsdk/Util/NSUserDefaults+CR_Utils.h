@@ -2,7 +2,6 @@
 //  NSUserDefaults+CRPrivateKeysAndUtils.h
 //  pubsdk
 //
-//  Created by Romain Lofaso on 10/28/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

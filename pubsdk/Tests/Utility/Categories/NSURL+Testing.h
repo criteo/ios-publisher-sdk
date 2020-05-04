@@ -2,7 +2,6 @@
 //  NSURL+Testing.h
 //  pubsdk
 //
-//  Created by Romain Lofaso on 12/20/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

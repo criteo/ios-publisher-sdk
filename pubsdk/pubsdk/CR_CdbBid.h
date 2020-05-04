@@ -2,7 +2,6 @@
 //  CR_CdbBid.h
 //  pubsdk
 //
-//  Created by Adwait Kulkarni on 12/10/18.
 //  Copyright © 2018 Criteo. All rights reserved.
 //
 

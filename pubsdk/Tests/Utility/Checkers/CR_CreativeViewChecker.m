@@ -1,5 +1,4 @@
 //
-// Created by Aleksandr Pakhmutov on 24/12/2019.
 // Copyright (c) 2019 Criteo. All rights reserved.
 //
 

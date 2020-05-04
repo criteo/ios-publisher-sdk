@@ -2,7 +2,6 @@
 //  CR_BidManagerHelper.m
 //  pubsdk
 //
-//  Created by Robert Aung Hein Oo on 7/26/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

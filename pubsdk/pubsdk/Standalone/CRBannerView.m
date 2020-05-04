@@ -2,7 +2,6 @@
 //  CRBannerView.m
 //  pubsdk
 //
-//  Created by Julien Stoeffler on 4/3/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

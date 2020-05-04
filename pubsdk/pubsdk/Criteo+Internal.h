@@ -2,7 +2,6 @@
 //  Criteo+Internal.h
 //  pubsdk
 //
-//  Created by Paul Davis on 2/5/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

@@ -2,7 +2,6 @@
 //  CR_DeviceInfoTests.m
 //  pubsdkTests
 //
-//  Created by Paul Davis on 1/28/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

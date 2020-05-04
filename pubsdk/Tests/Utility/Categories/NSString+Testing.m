@@ -2,7 +2,6 @@
 //  NSString+Testing.m
 //  pubsdk
 //
-//  Created by Romain Lofaso on 1/28/20.
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 

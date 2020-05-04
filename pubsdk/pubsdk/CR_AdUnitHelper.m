@@ -2,7 +2,6 @@
 //  CR_AdUnitHelper.m
 //  pubsdk
 //
-//  Created by Sneha Pathrose on 6/3/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

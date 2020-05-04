@@ -2,7 +2,6 @@
 //  CR_CacheAdUnit.m
 //  pubsdk
 //
-//  Created by Adwait Kulkarni on 1/7/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

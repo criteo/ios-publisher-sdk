@@ -2,7 +2,6 @@
 //  CR_CdbResponse.h
 //  pubsdk
 //
-//  Created by Adwait Kulkarni on 2/12/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

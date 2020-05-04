@@ -2,7 +2,6 @@
 //  CR_ConfigTests.m
 //  pubsdkTests
 //
-//  Created by Adwait Kulkarni on 1/25/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

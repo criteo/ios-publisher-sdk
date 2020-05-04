@@ -2,7 +2,6 @@
 //  NSString+UrlTests.m
 //  pubsdkTests
 //
-//  Created by Paul Davis on 1/30/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

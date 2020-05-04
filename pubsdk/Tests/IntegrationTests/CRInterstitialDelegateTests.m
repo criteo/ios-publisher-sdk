@@ -2,7 +2,6 @@
 //  CRInterstitialDelegateTest.m
 //  pubsdkTests
 //
-//  Created by Julien Stoeffler on 5/10/19.
 //  Inspired by Sneha Pathrose
 //  Copyright © 2019 Criteo. All rights reserved.
 //

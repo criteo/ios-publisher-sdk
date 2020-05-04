@@ -2,7 +2,6 @@
 //  CR_CdbRequest.m
 //  pubsdk
 //
-//  Created by Aleksandr Pakhmutov on 25/03/2020.
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 

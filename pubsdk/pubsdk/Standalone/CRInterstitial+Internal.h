@@ -2,7 +2,6 @@
 //  CRInterstitial+Internal.h
 //  pubsdk
 //
-//  Created by Julien Stoeffler on 4/15/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

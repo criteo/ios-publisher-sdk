@@ -2,7 +2,6 @@
 //  CR_Gdpr1_1.m
 //  pubsdk
 //
-//  Created by Romain Lofaso on 3/24/20.
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 

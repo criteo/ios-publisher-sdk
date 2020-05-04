@@ -2,7 +2,6 @@
 //  CROrthogonalBannerFunctionalTests.m
 //  pubsdkTests
 //
-//  Created by Romain Lofaso on 12/4/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

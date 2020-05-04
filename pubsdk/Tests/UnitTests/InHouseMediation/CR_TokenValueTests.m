@@ -2,7 +2,6 @@
 //  CR_TokenValueTests.m
 //  pubsdkTests
 //
-//  Created by Sneha Pathrose on 6/4/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

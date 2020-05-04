@@ -2,7 +2,6 @@
 //  NSDictionary+Criteo.m
 //  pubsdk
 //
-//  Created by Richard Clark on 9/14/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

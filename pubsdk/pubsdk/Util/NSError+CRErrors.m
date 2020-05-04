@@ -2,7 +2,6 @@
 //  NSError+CRErrors.m
 //  pubsdk
 //
-//  Created by Sneha Pathrose on 5/21/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

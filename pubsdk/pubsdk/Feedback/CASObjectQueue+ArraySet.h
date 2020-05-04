@@ -2,7 +2,6 @@
 //  CASObjectQueue+ArraySet.h
 //  pubsdk
 //
-//  Created by Romain Lofaso on 4/3/20.
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 

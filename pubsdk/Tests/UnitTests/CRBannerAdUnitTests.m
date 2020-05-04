@@ -2,7 +2,6 @@
 //  CRBannerAdUnitTests.m
 //  pubsdkTests
 //
-//  Created by Robert Aung Hein Oo on 5/30/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

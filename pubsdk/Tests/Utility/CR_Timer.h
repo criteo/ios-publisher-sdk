@@ -2,7 +2,6 @@
 //  CRTimer.h
 //  pubsdk
 //
-//  Created by Romain Lofaso on 12/19/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

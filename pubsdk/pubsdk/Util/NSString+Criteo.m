@@ -2,7 +2,6 @@
 //  NSString+Criteo.m
 //  pubsdk
 //
-//  Created by Richard Clark on 9/16/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

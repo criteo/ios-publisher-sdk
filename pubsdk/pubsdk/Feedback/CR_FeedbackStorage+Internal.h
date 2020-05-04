@@ -2,7 +2,6 @@
 //  CR_FeedbackStorage.h
 //  pubsdk
 //
-//  Created by Aleksandr Pakhmutov on 10/03/2020.
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 

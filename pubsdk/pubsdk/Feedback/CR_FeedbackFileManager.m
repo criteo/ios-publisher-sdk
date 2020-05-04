@@ -2,7 +2,6 @@
 //  CR_FeedbackFileManager.m
 //  pubsdk
 //
-//  Created by Aleksandr Pakhmutov on 24/02/2020.
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 

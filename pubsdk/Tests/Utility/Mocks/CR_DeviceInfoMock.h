@@ -2,7 +2,6 @@
 //  CR_DeviceInfoMock.h
 //  pubsdk
 //
-//  Created by Romain Lofaso on 1/27/20.
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 

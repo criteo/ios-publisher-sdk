@@ -2,7 +2,6 @@
 //  pubsdkTests.m
 //  pubsdkTests
 //
-//  Created by Adwait Kulkarni on 12/3/18.
 //  Copyright © 2018 Criteo. All rights reserved.
 //
 

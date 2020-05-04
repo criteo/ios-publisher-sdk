@@ -2,7 +2,6 @@
 //  CR_NetworkSessionPlayer.h
 //  pubsdk
 //
-//  Created by Romain Lofaso on 12/17/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

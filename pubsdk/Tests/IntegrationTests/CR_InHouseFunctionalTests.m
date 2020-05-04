@@ -2,7 +2,6 @@
 //  CRInHouseFunctionalTests.m
 //  pubsdkTests
 //
-//  Created by Romain Lofaso on 1/22/20.
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 

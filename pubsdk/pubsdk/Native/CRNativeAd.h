@@ -2,7 +2,6 @@
 //  CRNativeAd.h
 //  pubsdk
 //
-//  Created by Romain Lofaso on 2/10/20.
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 

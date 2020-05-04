@@ -2,7 +2,6 @@
 //  CRBannerViewDelegateTests.m
 //  pubsdkTests
 //
-//  Created by Sneha Pathrose on 5/8/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

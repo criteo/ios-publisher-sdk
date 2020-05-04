@@ -2,7 +2,6 @@
 //  CR_NetworkManagerDecorator.m
 //  pubsdk
 //
-//  Created by Romain Lofaso on 12/18/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

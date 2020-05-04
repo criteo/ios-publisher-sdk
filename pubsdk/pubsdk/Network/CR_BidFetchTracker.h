@@ -2,7 +2,6 @@
 //  CR_BidFetchTracker.h
 //  pubsdk
 //
-//  Created by Sneha Pathrose on 8/15/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

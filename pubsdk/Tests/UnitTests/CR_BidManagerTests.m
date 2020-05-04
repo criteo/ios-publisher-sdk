@@ -2,7 +2,6 @@
 //  CR_BidManagerTests.m
 //  pubsdkTests
 //
-//  Created by Adwait Kulkarni on 1/8/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

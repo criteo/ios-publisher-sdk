@@ -2,7 +2,6 @@
 //  CRNativeAdUnit.h
 //  pubsdk
 //
-//  Created by Richard Clark on 9/10/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

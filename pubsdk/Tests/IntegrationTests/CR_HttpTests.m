@@ -2,7 +2,6 @@
 //  CR_HttpTests.m
 //  pubsdkTests
 //
-//  Created by Aleksandr Pakhmutov on 25/11/2019.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

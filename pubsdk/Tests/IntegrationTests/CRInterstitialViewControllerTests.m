@@ -2,7 +2,6 @@
 //  CRInterstitialViewControllerTests.m
 //  pubsdkTests
 //
-//  Created by Sneha Pathrose on 4/24/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

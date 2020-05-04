@@ -2,7 +2,6 @@
 //  CR_DataProtectionConsentMock.m
 //  pubsdk
 //
-//  Created by Romain Lofaso on 12/11/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

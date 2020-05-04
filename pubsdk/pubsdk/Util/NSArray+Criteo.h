@@ -2,7 +2,6 @@
 //  NSArray+Criteo.h
 //  pubsdk
 //
-//  Created by Richard Clark on 9/6/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

@@ -2,7 +2,6 @@
 //  WKWebView+Testing.m
 //  pubsdk
 //
-//  Created by Romain Lofaso on 4/6/20.
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 

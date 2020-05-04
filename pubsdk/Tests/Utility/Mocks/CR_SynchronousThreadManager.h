@@ -2,7 +2,6 @@
 //  CR_SynchronousThreadManager.h
 //  pubsdkTests
 //
-//  Created by Romain Lofaso on 4/20/20.
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 

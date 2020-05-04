@@ -2,7 +2,6 @@
 //  CR_StandaloneBannerFunctionalTests.m
 //  pubsdk
 //
-//  Created by Aleksandr Pakhmutov on 23/12/2019.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

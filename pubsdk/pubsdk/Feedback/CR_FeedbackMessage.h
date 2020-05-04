@@ -2,7 +2,6 @@
 //  CR_FeedbackMessage.h
 //  pubsdk
 //
-//  Created by Aleksandr Pakhmutov on 19/02/2020.
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 

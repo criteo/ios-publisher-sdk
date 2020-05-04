@@ -2,7 +2,6 @@
 //  CR_ApiHandler.h
 //  pubsdk
 //
-//  Created by Adwait Kulkarni on 12/6/18.
 //  Copyright © 2018 Criteo. All rights reserved.
 //
 

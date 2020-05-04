@@ -2,7 +2,6 @@
 //  CR_AdUnitHelperTests.m
 //  pubsdkTests
 //
-//  Created by Sneha Pathrose on 5/31/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

@@ -2,7 +2,6 @@
 //  Logging.h
 //  pubsdk
 //
-//  Created by Paul Davis on 2/2/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

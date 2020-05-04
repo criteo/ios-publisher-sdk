@@ -2,7 +2,6 @@
 //  XCTestCase+Criteo.h
 //  pubsdk
 //
-//  Created by Romain Lofaso on 12/2/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

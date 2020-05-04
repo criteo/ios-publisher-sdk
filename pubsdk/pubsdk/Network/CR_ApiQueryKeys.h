@@ -2,7 +2,6 @@
 //  CR_ApiQueryKeys.h
 //  pubsdk
 //
-//  Created by Aleksandr Pakhmutov on 29/11/2019.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

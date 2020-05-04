@@ -2,7 +2,6 @@
 //  CRBidToken.m
 //  CriteoPublisherSdk
 //
-//  Created by Paul Davis on 6/3/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

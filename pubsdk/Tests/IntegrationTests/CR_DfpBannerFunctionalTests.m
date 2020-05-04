@@ -2,7 +2,6 @@
 //  CR_CdbCallsIntegrationTests.m
 //  pubsdkTests
 //
-//  Created by Aleksandr Pakhmutov on 02/12/2019.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

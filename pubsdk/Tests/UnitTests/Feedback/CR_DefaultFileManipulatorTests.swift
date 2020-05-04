@@ -2,7 +2,6 @@
 //  CR_DefaultFileManipulatorTests.swift
 //  pubsdkTests
 //
-//  Created by Vincent Guerci on 10/04/2020.
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 

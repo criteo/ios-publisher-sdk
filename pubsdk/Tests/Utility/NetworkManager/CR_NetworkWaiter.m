@@ -2,7 +2,6 @@
 //  CR_NetworkWaiter.m
 //  pubsdkTests
 //
-//  Created by Romain Lofaso on 11/27/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

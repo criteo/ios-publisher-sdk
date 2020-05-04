@@ -2,7 +2,6 @@
 //  CR_DataProtectionConsent.h
 //  pubsdk
 //
-//  Created by Adwait Kulkarni on 1/23/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

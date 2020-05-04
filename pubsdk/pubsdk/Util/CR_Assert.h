@@ -2,7 +2,6 @@
 //  CR_Assert.h
 //  pubsdk
 //
-//  Created by Romain Lofaso on 12/23/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

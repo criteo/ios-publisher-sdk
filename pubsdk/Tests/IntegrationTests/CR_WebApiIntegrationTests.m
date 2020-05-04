@@ -2,7 +2,6 @@
 //  CR_WebApiIntegrationTests.m
 //  pubsdkTests
 //
-//  Created by Romain Lofaso on 3/4/20.
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 

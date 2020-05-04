@@ -2,7 +2,6 @@
 //  CR_InterstitialViewController.h
 //  pubsdk
 //
-//  Created by Julien Stoeffler on 4/24/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

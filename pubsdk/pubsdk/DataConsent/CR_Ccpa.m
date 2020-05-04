@@ -2,7 +2,6 @@
 //  CR_Ccpa.m
 //  pubsdk
 //
-//  Created by Romain Lofaso on 1/24/20.
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 

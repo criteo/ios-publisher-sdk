@@ -2,7 +2,6 @@
 //  CR_CacheManagerTests.m
 //  pubsdkTests
 //
-//  Created by Adwait Kulkarni on 1/28/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

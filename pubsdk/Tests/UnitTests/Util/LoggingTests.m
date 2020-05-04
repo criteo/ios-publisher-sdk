@@ -2,7 +2,6 @@
 //  LoggingTests.m
 //  pubsdkTests
 //
-//  Created by Paul Davis on 2/4/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

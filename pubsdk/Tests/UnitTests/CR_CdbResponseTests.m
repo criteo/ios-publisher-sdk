@@ -2,7 +2,6 @@
 //  CR_CdbResponseTests.m
 //  pubsdkTests
 //
-//  Created by Adwait Kulkarni on 2/13/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

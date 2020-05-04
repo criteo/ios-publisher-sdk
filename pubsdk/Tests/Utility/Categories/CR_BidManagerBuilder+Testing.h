@@ -2,7 +2,6 @@
 //  CR_BidManagerBuilder+Testing.h
 //  pubsdk
 //
-//  Created by Romain Lofaso on 3/24/20.
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 

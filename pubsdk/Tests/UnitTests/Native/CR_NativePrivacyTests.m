@@ -2,7 +2,6 @@
 //  CR_NativePrivacyTests.m
 //
 //
-//  Created by Richard Clark on 9/12/19.
 //
 
 #import <XCTest/XCTest.h>

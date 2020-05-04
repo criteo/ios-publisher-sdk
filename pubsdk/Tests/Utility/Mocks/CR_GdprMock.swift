@@ -2,7 +2,6 @@
 //  CR_GdprMock.swift
 //  pubsdkTests
 //
-//  Created by Romain Lofaso on 2/25/20.
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 

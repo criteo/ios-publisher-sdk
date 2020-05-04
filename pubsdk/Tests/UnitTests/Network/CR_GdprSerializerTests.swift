@@ -2,7 +2,6 @@
 //  CR_GdprSerializerTests.swift
 //  pubsdk
 //
-//  Created by Romain Lofaso on 3/27/20.
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 

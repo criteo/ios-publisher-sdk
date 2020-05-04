@@ -2,7 +2,6 @@
 //  NSUserDefaults+GDPR.h
 //  pubsdk
 //
-//  Created by Romain Lofaso on 3/25/20.
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 

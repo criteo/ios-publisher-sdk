@@ -2,7 +2,6 @@
 //  CR_BidManagerFunctionalTests.m
 //  pubsdkTests
 //
-//  Created by Romain Lofaso on 1/23/20.
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 

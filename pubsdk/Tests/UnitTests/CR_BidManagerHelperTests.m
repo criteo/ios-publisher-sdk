@@ -2,7 +2,6 @@
 //  CR_BidManagerHelperTests.m
 //  pubsdkTests
 //
-//  Created by Robert Aung Hein Oo on 7/26/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 

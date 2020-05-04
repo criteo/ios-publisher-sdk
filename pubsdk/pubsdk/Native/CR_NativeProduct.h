@@ -2,7 +2,6 @@
 //  CR_NativeProduct.h
 //  pubsdk
 //
-//  Created by Richard Clark on 9/11/19.
 //  copyright © 2019 Criteo. All rights reserved.
 //
 

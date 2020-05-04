@@ -2,7 +2,6 @@
 //  NSString+APIKeys.h
 //  pubsdk
 //
-//  Created by Romain Lofaso on 3/23/20.
 //  Copyright © 2020 Criteo. All rights reserved.
 //
 

@@ -2,7 +2,6 @@
 //  CR_Config.h
 //  pubsdk
 //
-//  Created by Adwait Kulkarni on 1/11/19.
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
