@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		198CD16C7C9BA069D156B55F /* CASBoundedFileObjectQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 198CDC22999EF696C16309C5 /* CASBoundedFileObjectQueue.m */; };
 		198CD4A32B7B46B6F1FAC786 /* CASBoundedFileObjectQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 198CDC91DC407C38A0C16DA1 /* CASBoundedFileObjectQueue.h */; };
+		198CD5E258B0B62164C092E6 /* CRNativeAdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 198CD3F7C2A1974769B2CE1C /* CRNativeAdTests.m */; };
 		198CD87797B8C5BD9AEC7FA7 /* CASBoundedFileObjectQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 198CDC91DC407C38A0C16DA1 /* CASBoundedFileObjectQueue.h */; };
 		198CDFA1D272C69DA0CE470D /* CASBoundedFileObjectQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 198CDC22999EF696C16309C5 /* CASBoundedFileObjectQueue.m */; };
 		255151B822012BF100F76E3F /* Criteo.h in Headers */ = {isa = PBXBuildFile; fileRef = E1F2738C21BB1B1400A2FBFA /* Criteo.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -373,6 +374,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		198CD3F7C2A1974769B2CE1C /* CRNativeAdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdTests.m; sourceTree = "<group>"; };
 		198CDC1D8A725CA7636E43F8 /* CR_NativeAssetsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_NativeAssetsTests.h; sourceTree = "<group>"; };
 		198CDC22999EF696C16309C5 /* CASBoundedFileObjectQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CASBoundedFileObjectQueue.m; sourceTree = "<group>"; };
 		198CDC91DC407C38A0C16DA1 /* CASBoundedFileObjectQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CASBoundedFileObjectQueue.h; sourceTree = "<group>"; };
@@ -1053,6 +1055,7 @@
 				198CDC1D8A725CA7636E43F8 /* CR_NativeAssetsTests.h */,
 				7D3E41FD23915B6600BAF673 /* CR_NativeAssetsTests.m */,
 				7D3E41FE23915B6600BAF673 /* CR_NativeAdvertiserTests.m */,
+				198CD3F7C2A1974769B2CE1C /* CRNativeAdTests.m */,
 			);
 			path = Native;
 			sourceTree = "<group>";
@@ -2011,6 +2014,7 @@
 				5E0657B119A4CB2AF0C8E53C /* CR_FeedbackStorageTests.swift in Sources */,
 				C07ABF0597CEB2DD36AE7B51 /* CR_FeedbackControllerTests.m in Sources */,
 				C07AB87AEEBF8383E4C029F6 /* CR_FeedbackFeatureGuardTests.m in Sources */,
+				198CD5E258B0B62164C092E6 /* CRNativeAdTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

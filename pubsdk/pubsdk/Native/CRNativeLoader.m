@@ -54,17 +54,7 @@
         return;
     }
 
-    CR_NativeAssets *assets = bid.nativeAssets;
-    CR_NativeProduct *product = assets.products[0];
-
-    CRNativeAd *ad = [[CRNativeAd alloc] initWithTitle:product.title
-                                                  body:product.description
-                                                 price:product.price
-                                          callToAction:product.callToAction
-                                       productImageUrl:product.image.url
-                                 advertiserDescription:assets.advertiser.description
-                                      advertiserDomain:assets.advertiser.domain
-                                advertiserLogoImageUrl:assets.advertiser.logoImage.url];
+    CRNativeAd *ad = [[CRNativeAd alloc] initWithNativeAssets:bid.nativeAssets];
     [self notifyDidReceiveAd:ad];
 }
 

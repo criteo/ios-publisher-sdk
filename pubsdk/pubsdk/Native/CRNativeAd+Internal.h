@@ -8,6 +8,8 @@
 
 #import "CRNativeAd.h"
 
+@class CR_NativeAssets;
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -17,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
  internal classes of the SDK can.
 */
 @interface CRNativeAd ()
+
+- (instancetype)initWithNativeAssets:(CR_NativeAssets *)assets;
 
 - (instancetype)initWithTitle:(NSString * _Nullable)title
                          body:(NSString * _Nullable)body
