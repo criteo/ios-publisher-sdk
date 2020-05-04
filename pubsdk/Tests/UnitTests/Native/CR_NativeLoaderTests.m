@@ -29,15 +29,15 @@
 
 - (void)testReceiveWithValidBid {
     [self loadNativeWithBid:self.validBid verify:^(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock) {
-        OCMExpect([delegateMock native:loader didReceiveAd:[OCMArg any]]);
-        OCMReject([delegateMock native:loader didFailToReceiveAdWithError:[OCMArg any]]);
+        OCMExpect([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
+        OCMReject([delegateMock nativeLoader:loader didFailToReceiveAdWithError:[OCMArg any]]);
     }];
 }
 
 - (void)testFailureWithNoBid {
     [self loadNativeWithBid:[CR_CdbBid emptyBid] verify:^(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock) {
-        OCMExpect([delegateMock native:loader didFailToReceiveAdWithError:[OCMArg any]]);
-        OCMReject([delegateMock native:loader didReceiveAd:[OCMArg any]]);
+        OCMExpect([delegateMock nativeLoader:loader didFailToReceiveAdWithError:[OCMArg any]]);
+        OCMReject([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
     }];
 }
 
@@ -106,14 +106,14 @@
     return self;
 }
 
-- (void)native:(CRNativeLoader *)native didReceiveAd:(CRNativeAd *)nativeAd {
+- (void)nativeLoader:(CRNativeLoader *)loader didReceiveAd:(CRNativeAd *)ad {
     if (@available(iOS 10.0, *)) {
         dispatch_assert_queue(dispatch_get_main_queue());
         [_didReceiveOnMainQueue fulfill];
     }
 }
 
-- (void)native:(CRNativeLoader *)native didFailToReceiveAdWithError:(NSError *)error {
+- (void)nativeLoader:(CRNativeLoader *)loader didFailToReceiveAdWithError:(NSError *)error {
     if (@available(iOS 10.0, *)) {
         dispatch_assert_queue(dispatch_get_main_queue());
         [_didFailOnMainQueue fulfill];

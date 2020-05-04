@@ -62,16 +62,16 @@
 
 - (void)notifyFailToReceiveAdWithError:(NSError *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if([self.delegate respondsToSelector:@selector(native:didFailToReceiveAdWithError:)]) {
-            [self.delegate native:self didFailToReceiveAdWithError:error];
+        if([self.delegate respondsToSelector:@selector(nativeLoader:didFailToReceiveAdWithError:)]) {
+            [self.delegate nativeLoader:self didFailToReceiveAdWithError:error];
         }
     });
 }
 
 - (void)notifyDidReceiveAd:(CRNativeAd *)ad {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if([self.delegate respondsToSelector:@selector(native:didReceiveAd:)]) {
-            [self.delegate native:self didReceiveAd:ad];
+        if([self.delegate respondsToSelector:@selector(nativeLoader:didReceiveAd:)]) {
+            [self.delegate nativeLoader:self didReceiveAd:ad];
         }
     });
 }

@@ -44,9 +44,10 @@ NS_ASSUME_NONNULL_BEGIN
  * This callback is invoked on main dispatch queue, so it is safe to execute UI operations in the
  * implementation.
  *
- * @param nativeAd native ad with the data that may be used to render it
+ * @param loader Native loader invoking the callback
+ * @param ad native ad with the data that may be used to render it
  */
--(void)native:(CRNativeLoader *)native didReceiveAd:(CRNativeAd *)nativeAd;
+-(void)nativeLoader:(CRNativeLoader *)loader didReceiveAd:(CRNativeAd *)ad;
 
 /**
  * Callback invoked when the SDK fails to provide a native ad.
@@ -54,9 +55,10 @@ NS_ASSUME_NONNULL_BEGIN
  * This callback is invoked on main dispatch queue, so it is safe to execute UI operations in the
  * implementation.
  *
+ * @param loader Native loader invoking the callback
  * @param error error indicating the reason of the failure
  */
--(void)native:(CRNativeLoader *)native didFailToReceiveAdWithError:(NSError *)error;
+-(void)nativeLoader:(CRNativeLoader *)loader didFailToReceiveAdWithError:(NSError *)error;
 
 @end
 
