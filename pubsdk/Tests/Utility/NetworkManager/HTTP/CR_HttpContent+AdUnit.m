@@ -2,7 +2,7 @@
 //  CR_HttpContent+AdUnit.m
 //  pubsdk
 //
-//  Copyright © 2020 Criteo. All rights reserved.
+//  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
 #import "CR_HttpContent+AdUnit.h"

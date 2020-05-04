@@ -2,7 +2,7 @@
 //  CR_NetworkCaptor.m
 //  pubsdkTests
 //
-//  Copyright © 2019 Criteo. All rights reserved.
+//  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
 #import "CR_NetworkCaptor.h"

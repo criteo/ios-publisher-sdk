@@ -2,7 +2,7 @@
 //  CR_GdprMock.swift
 //  pubsdkTests
 //
-//  Copyright © 2020 Criteo. All rights reserved.
+//  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
 public class CR_GdprMock: CR_Gdpr {

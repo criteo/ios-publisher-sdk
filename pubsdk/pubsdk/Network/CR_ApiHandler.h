@@ -2,7 +2,7 @@
 //  CR_ApiHandler.h
 //  pubsdk
 //
-//  Copyright © 2018 Criteo. All rights reserved.
+//  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
 #ifndef CR_ApiHandler_h

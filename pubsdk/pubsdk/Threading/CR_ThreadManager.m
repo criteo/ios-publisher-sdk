@@ -2,7 +2,7 @@
 //  CR_ThreadManager.m
 //  pubsdk
 //
-//  Copyright © 2020 Criteo. All rights reserved.
+//  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
 #include <libkern/OSAtomic.h>

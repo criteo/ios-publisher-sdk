@@ -2,7 +2,7 @@
 //  NSString+Criteo.m
 //  pubsdk
 //
-//  Copyright © 2019 Criteo. All rights reserved.
+//  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
 #import "NSString+Criteo.h"

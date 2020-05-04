@@ -2,7 +2,7 @@
 //  CR_AssertDfp.h
 //  pubsdk
 //
-//  Copyright © 2019 Criteo. All rights reserved.
+//  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
 #ifndef CR_AssertDfp_h

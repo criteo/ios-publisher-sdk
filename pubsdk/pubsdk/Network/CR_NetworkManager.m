@@ -2,7 +2,7 @@
 //  CR_NetworkManager.m
 //  pubsdk
 //
-//  Copyright © 2018 Criteo. All rights reserved.
+//  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
 #import "CR_NetworkManager.h"

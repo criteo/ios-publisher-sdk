@@ -2,7 +2,7 @@
 //  CR_CdbBid.m
 //  pubsdk
 //
-//  Copyright © 2018 Criteo. All rights reserved.
+//  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
 #import "CR_CdbBid.h"

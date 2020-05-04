@@ -2,7 +2,7 @@
 //  CR_Gdpr1_1.m
 //  pubsdk
 //
-//  Copyright © 2020 Criteo. All rights reserved.
+//  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
 #import "CR_GdprVersion.h"

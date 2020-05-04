@@ -2,7 +2,7 @@
 //  LoggingTests.m
 //  pubsdkTests
 //
-//  Copyright © 2019 Criteo. All rights reserved.
+//  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
 #define CLOG_ENABLE_FOR_TESTING 1

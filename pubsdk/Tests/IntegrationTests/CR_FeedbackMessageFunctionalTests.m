@@ -2,7 +2,7 @@
 //  CR_FeedbackMessageFunctionalTests.m
 //  pubsdkTests
 //
-//  Copyright © 2020 Criteo. All rights reserved.
+//  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
 #import <FunctionalObjC/FBLFunctional.h>

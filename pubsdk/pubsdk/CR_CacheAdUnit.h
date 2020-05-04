@@ -2,7 +2,7 @@
 //  CR_CacheAdUnit.h
 //  Criteo Publisher Sdk
 //
-//  Copyright © 2019 Criteo. All rights reserved.
+//  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
 #ifndef CR_CacheAdUnit_h
