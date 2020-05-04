@@ -6,11 +6,11 @@
 //  Copyright © 2019 Criteo. All rights reserved.
 //
 
-#import <XCTest/XCTest.h>
+#import "CR_NativeAssetsTests.h"
 #import "CR_NativeAssets.h"
 #import "NSDictionary+Criteo.h"
 
-@interface CR_NativeAssetsTests : XCTestCase
+@interface CR_NativeAssetsTests()
 
 @property (strong) NSDictionary *jdict;
 @property (strong) NSDictionary *productDict1;
@@ -25,6 +25,15 @@
 @end
 
 @implementation CR_NativeAssetsTests
+
++ (CR_NativeAssets *)loadNativeAssets:(NSString *)fileName {
+    NSError *e = nil;
+    NSURL *jsonURL = [[NSBundle bundleForClass:[self class]] URLForResource:fileName withExtension:@"json"];
+    NSString *jsonText = [NSString stringWithContentsOfURL:jsonURL encoding:NSUTF8StringEncoding error:&e];
+    NSData *jsonData = [jsonText dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&e];
+    return [[CR_NativeAssets alloc] initWithDict:dictionary];
+}
 
 - (void)setUp {
     self.productDict1 = @{ @"title": @"\"Stripe Pima Dress\" - $99",

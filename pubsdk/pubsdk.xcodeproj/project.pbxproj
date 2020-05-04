@@ -373,6 +373,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		198CDC1D8A725CA7636E43F8 /* CR_NativeAssetsTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_NativeAssetsTests.h; sourceTree = "<group>"; };
 		198CDC22999EF696C16309C5 /* CASBoundedFileObjectQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CASBoundedFileObjectQueue.m; sourceTree = "<group>"; };
 		198CDC91DC407C38A0C16DA1 /* CASBoundedFileObjectQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CASBoundedFileObjectQueue.h; sourceTree = "<group>"; };
 		1CDD7544323F61638E0E8B7F /* libPods-CriteoPublisherSdk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoPublisherSdk.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1049,6 +1050,7 @@
 				7D3E41FB23915B6600BAF673 /* CR_NativeProductTests.m */,
 				7D3E41FC23915B6600BAF673 /* CR_NativeImageTests.m */,
 				46AD5CF4245B003D00199315 /* CR_NativeLoaderTests.m */,
+				198CDC1D8A725CA7636E43F8 /* CR_NativeAssetsTests.h */,
 				7D3E41FD23915B6600BAF673 /* CR_NativeAssetsTests.m */,
 				7D3E41FE23915B6600BAF673 /* CR_NativeAdvertiserTests.m */,
 			);

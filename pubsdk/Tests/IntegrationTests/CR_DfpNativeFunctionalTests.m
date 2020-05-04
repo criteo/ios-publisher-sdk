@@ -15,6 +15,7 @@
 #import "CR_TargetingKeys.h"
 #import "NSString+CR_Url.h"
 #import "CR_DfpCreativeViewChecker.h"
+#import "CR_NativeAssetsTests.h"
 @import GoogleMobileAds;
 
 @interface CR_DfpNativeFunctionalTests : CR_IntegrationsTestBase
@@ -40,7 +41,7 @@
 
     [self.criteo setBidsForRequest:dfpRequest withAdUnit:native];
 
-    CR_NativeAssets *assets = [self _createNativeAssets];
+    CR_NativeAssets *assets = [CR_NativeAssetsTests loadNativeAssets:@"NativeAssetsFromCdb"];
     CR_NativeProduct *product = assets.products[0];
     CR_NativeAdvertiser *advertiser = assets.advertiser;
     CR_NativePrivacy *privacy = assets.privacy;
@@ -95,15 +96,6 @@
 
 - (NSString *)_decode:(NSString *)value {
     return [NSString decodeDfpCompatibleString:value];
-}
-
-- (CR_NativeAssets *)_createNativeAssets {
-    NSError *e = nil;
-    NSURL *jsonURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"NativeAssetsFromCdb" withExtension:@"json"];
-    NSString *jsonText = [NSString stringWithContentsOfURL:jsonURL encoding:NSUTF8StringEncoding error:&e];
-    NSData *jsonData = [jsonText dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&e];
-    return [[CR_NativeAssets alloc] initWithDict:dictionary];
 }
 
 @end
