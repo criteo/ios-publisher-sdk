@@ -20,22 +20,4 @@
 @interface DFPRequest : GADRequest
 @end
 
-@interface GADORequest : NSObject
-@property (readwrite, copy, nonatomic, nullable) NSDictionary *customTargeting;
-@end
-
-@interface DFPORequest : GADORequest
-@end
-
-@interface GADNRequest : NSObject
-@property (readwrite, copy, nonatomic, nullable) NSDictionary *customTargeting;
-@end
-
-@interface DFPNRequest : GADNRequest
-@end
-
-
-
-
-
 #endif /* DFPRequestClasses_h */

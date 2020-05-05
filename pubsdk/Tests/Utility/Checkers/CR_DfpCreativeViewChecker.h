@@ -11,7 +11,6 @@
 @interface CR_DfpCreativeViewChecker : NSObject <GADBannerViewDelegate, GADInterstitialDelegate>
 
 @property (strong, nonatomic, readonly) XCTestExpectation *adCreativeRenderedExpectation;
-@property (strong, nonatomic, readonly) XCTestExpectation *adCreativeRenderedExpectationWithoutExpectedCreative;
 @property (weak, nonatomic, readonly) UIWindow *uiWindow;
 @property (strong, nonatomic, readonly) DFPBannerView *dfpBannerView;
 @property (strong, nonatomic, readonly) DFPInterstitial *dfpInterstitial;

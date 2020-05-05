@@ -195,11 +195,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 }
 
     CR_CheckRequest(DFPRequest);
-    CR_CheckRequest(DFPORequest);
-    CR_CheckRequest(DFPNRequest);
     CR_CheckRequest(GADRequest);
-    CR_CheckRequest(GADORequest);
-    CR_CheckRequest(GADNRequest);
 
 #undef CR_CheckRequest
 }

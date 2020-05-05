@@ -5,7 +5,7 @@
 #import <XCTest/XCTest.h>
 #import "CR_DfpCreativeViewChecker.h"
 #import "UIView+Testing.h"
-#import "UIWebView+Testing.h"
+#import "WKWebView+Testing.h"
 #import "Logging.h"
 #import "CR_Timer.h"
 #import "CR_ViewCheckingHelper.h"
@@ -26,7 +26,6 @@
 -(instancetype)initWithAdUnitId:(NSString *)adUnitId {
     if (self = [super init]) {
         _adCreativeRenderedExpectation = [[XCTestExpectation alloc] initWithDescription:@"Expect that Criteo creative appears."];
-        _adCreativeRenderedExpectationWithoutExpectedCreative = [[XCTestExpectation alloc] initWithDescription:@"Expect that Criteo creative appears without expected creative."];
         _uiWindow = [self createUIWindow];
         _expectedCreative = adUnitId == [CR_TestAdUnits dfpNativeId]
             ? [CR_ViewCheckingHelper preprodCreativeImageUrlForNative]
@@ -104,14 +103,18 @@
 - (void)checkViewAndFulfillExpectation {
     NSLog(@"EXP CR : %@", self.expectedCreative);
     self.uiWindow.hidden = YES;
-
-    UIWebView *firstWebView = [self.uiWindow testing_findFirstWebView];
-    NSString *htmlContent = [firstWebView testing_getHtmlContent];
-    if ([htmlContent containsString:self.expectedCreative]) {
-        [self.adCreativeRenderedExpectation fulfill];
-    } else {
-        [self.adCreativeRenderedExpectationWithoutExpectedCreative fulfill];
-    }
+    WKWebView *webview = [self.uiWindow testing_findFirstWKWebView];
+    [webview testing_evaluateJavaScript:@"(function() { return document.getElementsByTagName('html')[0].outerHTML; })();"
+                      validationHandler:^BOOL(NSString *htmlContent, NSError *error) {
+                          NSLog(@"Checking if contains [%@]", self.expectedCreative);
+                          return [htmlContent containsString:self.expectedCreative];
+                      }
+                      completionHandler:^(BOOL success) {
+                          if (success) {
+                              [self.adCreativeRenderedExpectation fulfill];
+                          }
+                          self.uiWindow.hidden = YES;
+                      }];
 }
 
 - (UIWindow *)createUIWindow {
