@@ -14,7 +14,7 @@
             <objects>
                 <tableViewController id="xG5-T5-Jgx" customClass="MopubTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="zd9-zp-0Tu">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -50,7 +50,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fr6-ta-SvY">
-                                                    <rect key="frame" x="149.66666666666666" y="7" width="114.99999999999997" height="30"/>
+                                                    <rect key="frame" x="149.5" y="7" width="115" height="30"/>
                                                     <state key="normal" title="Banner 300x250"/>
                                                     <connections>
                                                         <action selector="banner300x250ButtonClick:" destination="xG5-T5-Jgx" eventType="touchUpInside" id="2No-DM-dYV"/>
@@ -71,7 +71,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UN7-w3-R7u">
-                                                    <rect key="frame" x="154.66666666666666" y="7" width="104.99999999999997" height="30"/>
+                                                    <rect key="frame" x="154.5" y="7" width="105" height="30"/>
                                                     <state key="normal" title="Load interstitial"/>
                                                     <connections>
                                                         <action selector="interstitialButtonClick:" destination="xG5-T5-Jgx" eventType="touchUpInside" id="wNe-bX-U8j"/>
@@ -85,10 +85,10 @@
                                                     </connections>
                                                 </button>
                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="A6i-pJ-eYA">
-                                                    <rect key="frame" x="264.66666666666669" y="3.3333333333333321" width="37" height="37"/>
+                                                    <rect key="frame" x="264.66666666666669" y="12" width="20" height="20"/>
                                                 </activityIndicatorView>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="SpO-PR-fHp">
-                                                    <rect key="frame" x="20" y="6.3333333333333321" width="51" height="30.999999999999996"/>
+                                                    <rect key="frame" x="20" y="6.6666666666666679" width="51" height="31.000000000000004"/>
                                                     <connections>
                                                         <action selector="interstitialSwitchChanged:" destination="xG5-T5-Jgx" eventType="valueChanged" id="raW-YF-zaI"/>
                                                     </connections>
@@ -186,7 +186,7 @@
             <objects>
                 <tableViewController id="vwa-jI-9wo" customClass="StandaloneTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="hf0-GJ-Gzq">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -222,7 +222,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mWa-5t-U4k">
-                                                    <rect key="frame" x="154.66666666666666" y="7" width="104.99999999999997" height="30"/>
+                                                    <rect key="frame" x="154.5" y="7" width="105" height="30"/>
                                                     <state key="normal" title="Load interstitial"/>
                                                     <connections>
                                                         <action selector="loadInterstitialClick:" destination="vwa-jI-9wo" eventType="touchUpInside" id="Z3q-T4-79Z"/>
@@ -236,10 +236,10 @@
                                                     </connections>
                                                 </button>
                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="DTe-sZ-ZWw">
-                                                    <rect key="frame" x="264.66666666666669" y="3.3333333333333321" width="37" height="37"/>
+                                                    <rect key="frame" x="264.66666666666669" y="12" width="20" height="20"/>
                                                 </activityIndicatorView>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="dVZ-hp-q3q">
-                                                    <rect key="frame" x="20" y="6.3333333333333321" width="51" height="30.999999999999996"/>
+                                                    <rect key="frame" x="20" y="6.6666666666666679" width="51" height="31.000000000000004"/>
                                                     <connections>
                                                         <action selector="interstitialSwitchChanged:" destination="vwa-jI-9wo" eventType="valueChanged" id="BhW-mj-0K6"/>
                                                     </connections>
@@ -275,19 +275,19 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="64q-ZA-kLS">
-                                                    <rect key="frame" x="20" y="6.3333333333333321" width="51" height="30.999999999999996"/>
+                                                    <rect key="frame" x="20" y="6.6666666666666679" width="51" height="31.000000000000004"/>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="B-NewObj" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5I2-HS-pTu">
-                                                    <rect key="frame" x="77" y="13.333333333333336" width="67" height="17"/>
+                                                    <rect key="frame" x="77" y="13.666666666666664" width="67" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XBu-Cb-J1v">
-                                                    <rect key="frame" x="182.66666666666666" y="6.3333333333333321" width="51" height="30.999999999999996"/>
+                                                    <rect key="frame" x="182.66666666666666" y="6.6666666666666679" width="51" height="31.000000000000004"/>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I-NewObj" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="soO-Ym-zyE">
-                                                    <rect key="frame" x="239.66666666666663" y="13" width="66" height="18"/>
+                                                    <rect key="frame" x="239.5" y="13" width="66" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -359,7 +359,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="GoogleDFP" title="Google DFP" id="fAG-V5-fqd" customClass="GoogleDFPTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="35y-2g-JK1">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -395,7 +395,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GjD-sy-dJx">
-                                                    <rect key="frame" x="149.66666666666666" y="7" width="114.99999999999997" height="30"/>
+                                                    <rect key="frame" x="149.5" y="7" width="115" height="30"/>
                                                     <state key="normal" title="Banner 300x250"/>
                                                     <connections>
                                                         <action selector="banner_300x250Click:" destination="fAG-V5-fqd" eventType="touchUpInside" id="2ej-cr-mgC"/>
@@ -437,14 +437,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u4X-jI-oFj">
-                                                    <rect key="frame" x="154.66666666666666" y="7" width="104.99999999999997" height="30"/>
+                                                    <rect key="frame" x="154.5" y="7" width="105" height="30"/>
                                                     <state key="normal" title="Load interstitial"/>
                                                     <connections>
                                                         <action selector="interstitialClick:" destination="fAG-V5-fqd" eventType="touchUpInside" id="dhT-ZA-ME7"/>
                                                     </connections>
                                                 </button>
                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="LFY-cq-O1X">
-                                                    <rect key="frame" x="264.66666666666669" y="3.3333333333333321" width="37" height="37"/>
+                                                    <rect key="frame" x="264.66666666666669" y="12" width="20" height="20"/>
                                                 </activityIndicatorView>
                                                 <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SeT-0z-zkL">
                                                     <rect key="frame" x="343" y="7" width="51" height="30"/>
@@ -454,7 +454,7 @@
                                                     </connections>
                                                 </button>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Osk-ru-r95">
-                                                    <rect key="frame" x="20" y="6.3333333333333321" width="51" height="30.999999999999996"/>
+                                                    <rect key="frame" x="20" y="6.6666666666666679" width="51" height="31.000000000000004"/>
                                                     <connections>
                                                         <action selector="interstitialSwitchChanged:" destination="fAG-V5-fqd" eventType="valueChanged" id="OAZ-4M-c18"/>
                                                     </connections>
@@ -569,6 +569,51 @@
             </objects>
             <point key="canvasLocation" x="1725" y="-242"/>
         </scene>
+        <!--Native Ad View Controller-->
+        <scene sceneID="Vzy-ou-Yt2">
+            <objects>
+                <viewController id="jd7-SY-rlk" customClass="CRVNativeAdViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="WrN-Jr-fsE"/>
+                        <viewControllerLayoutGuide type="bottom" id="yx0-AK-Xgh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="U2f-oF-aJ7">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jhu-0z-Htr">
+                                <rect key="frame" x="106.5" y="98" width="201" height="30"/>
+                                <state key="normal" title="Load Native Ad in Standalone"/>
+                                <connections>
+                                    <action selector="onStandaloneLoadClick:" destination="jd7-SY-rlk" eventType="touchUpInside" id="ly9-cE-FH4"/>
+                                </connections>
+                            </button>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tcf-Zp-Kpj" userLabel="Standalone Native Ad Container ">
+                                <rect key="frame" x="30" y="153" width="374" height="150"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="5Yt-U3-w0I"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="jhu-0z-Htr" firstAttribute="centerX" secondItem="U2f-oF-aJ7" secondAttribute="centerX" id="Bw6-II-8vx"/>
+                            <constraint firstItem="tcf-Zp-Kpj" firstAttribute="top" secondItem="jhu-0z-Htr" secondAttribute="bottom" constant="25" id="Syg-gQ-2fN"/>
+                            <constraint firstItem="jhu-0z-Htr" firstAttribute="top" secondItem="WrN-Jr-fsE" secondAttribute="bottom" constant="10" id="ZPs-tj-pdg"/>
+                            <constraint firstItem="tcf-Zp-Kpj" firstAttribute="trailing" secondItem="U2f-oF-aJ7" secondAttribute="trailingMargin" constant="10" id="ido-TA-0bi"/>
+                            <constraint firstItem="tcf-Zp-Kpj" firstAttribute="leading" secondItem="U2f-oF-aJ7" secondAttribute="leadingMargin" constant="10" id="tM9-Wz-XBg"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="RxR-e2-dCQ"/>
+                    <connections>
+                        <outlet property="adViewContainer" destination="tcf-Zp-Kpj" id="m9s-u2-IMm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YF8-Q6-0pJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2633" y="208"/>
+        </scene>
         <!--Ad Viewer-->
         <scene sceneID="ZAg-ph-h5G">
             <objects>
@@ -576,7 +621,7 @@
                     <tabBarItem key="tabBarItem" title="Ad Viewer" id="A2K-8w-8Rv"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="AVM-bv-976">
-                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -593,7 +638,7 @@
             <objects>
                 <tableViewController id="c3g-AK-rRl" customClass="HomePageTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="AK2-hG-H3W">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
@@ -607,7 +652,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dNK-8J-k7p">
-                                                    <rect key="frame" x="155.66666666666666" y="7" width="102.99999999999997" height="30"/>
+                                                    <rect key="frame" x="155.5" y="7" width="103" height="30"/>
                                                     <state key="normal" title="Register Criteo"/>
                                                     <connections>
                                                         <action selector="registerCriteo:" destination="c3g-AK-rRl" eventType="touchUpInside" id="9j7-Fw-gDz"/>
@@ -676,13 +721,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CCPA IAB" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zpw-RL-74i">
-                                                    <rect key="frame" x="30" y="16" width="145.66666666666666" height="22"/>
+                                                    <rect key="frame" x="30" y="16" width="145.5" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Specify before registration" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="alE-kP-ExC">
-                                                    <rect key="frame" x="185.66666666666663" y="5" width="218.33333333333337" height="33.666666666666664"/>
+                                                    <rect key="frame" x="185.66666666666663" y="5" width="218.33333333333337" height="34"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                     <connections>
@@ -710,13 +755,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mopub Consent" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rAY-oc-CbS">
-                                                    <rect key="frame" x="30" y="16" width="145.66666666666666" height="22"/>
+                                                    <rect key="frame" x="30" y="16" width="145.5" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Specify before registration" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kXP-NK-Yba">
-                                                    <rect key="frame" x="185.66666666666663" y="5" width="218.33333333333337" height="33.666666666666664"/>
+                                                    <rect key="frame" x="185.66666666666663" y="5" width="218.33333333333337" height="34"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                     <connections>
@@ -792,7 +837,7 @@ Mopub Consent is updated only in the Criteo SDK and cannot be retrieved from it.
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GKp-tj-Bo7">
-                                                    <rect key="frame" x="127.66666666666669" y="7" width="159" height="30"/>
+                                                    <rect key="frame" x="127.5" y="7" width="159" height="30"/>
                                                     <state key="normal" title="MoPub Header Bidding"/>
                                                     <connections>
                                                         <segue destination="xG5-T5-Jgx" kind="show" id="C9u-mr-fhb"/>
@@ -823,6 +868,27 @@ Mopub Consent is updated only in the Criteo SDK and cannot be retrieved from it.
                                             <constraints>
                                                 <constraint firstItem="7Ht-36-HbL" firstAttribute="centerX" secondItem="hcn-2x-UJb" secondAttribute="centerX" id="bHh-5K-iRq"/>
                                                 <constraint firstItem="7Ht-36-HbL" firstAttribute="centerY" secondItem="hcn-2x-UJb" secondAttribute="centerY" id="y1p-PV-rur"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Juf-Un-Lor">
+                                        <rect key="frame" x="0.0" y="546" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Juf-Un-Lor" id="L4Q-UG-052">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lov-Jq-uAd">
+                                                    <rect key="frame" x="95" y="7" width="224" height="30"/>
+                                                    <state key="normal" title="Native Ad - In House/Standalone"/>
+                                                    <connections>
+                                                        <segue destination="jd7-SY-rlk" kind="show" id="MtQ-FX-Wgi"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Lov-Jq-uAd" firstAttribute="centerX" secondItem="L4Q-UG-052" secondAttribute="centerX" id="dEX-f7-YKh"/>
+                                                <constraint firstItem="Lov-Jq-uAd" firstAttribute="centerY" secondItem="L4Q-UG-052" secondAttribute="centerY" id="pua-xK-JpS"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>

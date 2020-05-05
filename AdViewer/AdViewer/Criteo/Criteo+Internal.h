@@ -9,8 +9,7 @@
 #define Criteo_Internal_h
 
 #import "NetworkManagerDelegate.h"
-#import <CriteoPublisherSdk/CRInterstitial.h>
-#import <CriteoPublisherSdk/CRBannerView.h>
+#import <CriteoPublisherSdk/CriteoPublisherSdk.h>
 
 @class Criteo;
 
@@ -28,6 +27,10 @@
 
 @interface CRBannerView ()
 - (instancetype)initWithAdUnit:(CRBannerAdUnit *)adUnit criteo:(Criteo *)criteo;
+@end
+
+@interface CRNativeLoader ()
+- (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit criteo:(Criteo *)criteo;
 @end
 
 #endif /* Criteo_Internal_h */

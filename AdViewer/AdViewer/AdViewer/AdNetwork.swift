@@ -77,9 +77,11 @@ struct AdNetworks {
         self.Criteo = AdNetwork(name: "Standalone", supportedFormats: [
             AdFormat.banner320x50,
             AdFormat.interstitial,
+            AdFormat.native,
         ], defaultAdUnits: [
             AdFormat.banner320x50: "30s6zt3ayypfyemwjvmp",
             AdFormat.interstitial: "6yws53jyfjgoq1ghnuqb",
+            AdFormat.native: "190tsfngohsvfkh3hmkm",
         ], adViewBuilder: StandaloneAdViewBuilder(controller: controller))
 
         self.all = [Google, Mopub, Criteo]

@@ -11,6 +11,7 @@
 #import "MopubTableViewController.h"
 #import "GoogleDFPTableViewController.h"
 #import "StandaloneTableViewController.h"
+#import "CRVNativeAdViewController.h"
 
 NSString * const HomePageTableViewControllerUsPrivacyIabConsentStringKey = @"IABUSPrivacy_String";
 
@@ -94,6 +95,9 @@ NSString * const HomePageTableViewControllerUsPrivacyIabConsentStringKey = @"IAB
         self.standaloneVC = (StandaloneTableViewController *)segue.destinationViewController;
         self.standaloneVC.homePageVC = self;
     }
+    else if ([segue.destinationViewController isKindOfClass:[CRVNativeAdViewController class]]) {
+        [segue.destinationViewController setDelegate:self];
+    }
 }
 
 #pragma mark - GDPR
@@ -170,6 +174,12 @@ NSString * const HomePageTableViewControllerUsPrivacyIabConsentStringKey = @"IAB
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     return NO;
+}
+
+#pragma mark - CRVNativeAdViewController
+
+- (CRNativeAdUnit *)adUnitForViewController:(CRVNativeAdViewController *)viewController {
+    return self.criteoNativeAdUnit;
 }
 
 @end

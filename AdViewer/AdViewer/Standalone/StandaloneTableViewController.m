@@ -11,7 +11,6 @@
 #import "StandaloneLogger.h"
 
 @interface StandaloneTableViewController ()
-@property (strong, nonatomic) LogManager *logManager;
 @property (strong, nonatomic) StandaloneLogger *logger;
 
 @property (weak, nonatomic) IBOutlet UIView *banner_320x50View;
@@ -27,8 +26,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.logManager = [LogManager sharedInstance];
-    self.logger = [[StandaloneLogger alloc] initWithInterstitialDelegate:self];
+    self.logger = [[StandaloneLogger alloc] init];
+    self.logger.interstitialDelegate = self;
 }
 
 - (IBAction)banner320x50ButtonClick:(id)sender {

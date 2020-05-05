@@ -12,13 +12,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface StandaloneLogger : NSObject <CRBannerViewDelegate, CRInterstitialDelegate>
+@interface StandaloneLogger : NSObject <CRBannerViewDelegate, CRInterstitialDelegate, CRNativeDelegate>
 
-#pragma mark - Lifecycle
-
-- (instancetype)init NS_UNAVAILABLE;
-
-- (instancetype)initWithInterstitialDelegate:(id <InterstitialUpdateDelegate>)interstitialDelegate;
+@property (weak, nonatomic) id <InterstitialUpdateDelegate> interstitialDelegate;
 
 @end
 

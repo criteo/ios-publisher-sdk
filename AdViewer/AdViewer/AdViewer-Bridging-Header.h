@@ -15,3 +15,4 @@
 #import "StandaloneLogger.h"
 
 #import "InterstitialUpdateDelegate.h"
+#import "CRVNativeAdView.h"

@@ -6,7 +6,8 @@ class StandaloneAdViewBuilder: AdViewBuilder {
     private let logger: StandaloneLogger
 
     init(controller: AdViewController) {
-        self.logger = StandaloneLogger(interstitialDelegate: controller)
+        logger = StandaloneLogger()
+        logger.interstitialDelegate = controller
     }
 
     func build(config: AdConfig, criteo: Criteo) -> AdView {
@@ -15,6 +16,8 @@ class StandaloneAdViewBuilder: AdViewBuilder {
             return .banner(buildBanner(adUnit: config.adUnit, criteo: criteo))
         case .flexible(.interstitial):
             return .interstitial(buildInterstitial(adUnit: config.adUnit, criteo: criteo))
+        case .flexible(.native):
+            return .banner(buildNative(adUnit: config.adUnit, criteo: criteo))
         case _:
             fatalError("Unsupported")
         }
@@ -29,6 +32,13 @@ class StandaloneAdViewBuilder: AdViewBuilder {
 
     private func buildInterstitial(adUnit: CRAdUnit, criteo: Criteo) -> CRInterstitial {
         let adView = CRInterstitial(adUnit: adUnit as? CRInterstitialAdUnit, criteo: criteo)!
+        adView.delegate = logger
+        adView.loadAd()
+        return adView
+    }
+
+    private func buildNative(adUnit: CRAdUnit, criteo: Criteo) -> AdvancedNativeView {
+        let adView = AdvancedNativeView(adUnit: adUnit as! CRNativeAdUnit, criteo: criteo)
         adView.delegate = logger
         adView.loadAd()
         return adView
