@@ -14,9 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) Criteo *criteo;
 @property (nonatomic, strong, readonly) CRNativeAdUnit *adUnit;
 
-- (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit
-                      delegate:(id <CRNativeDelegate>)delegate
-                        criteo:(Criteo *)criteo;
+- (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit criteo:(Criteo *)criteo;
 
 @end
 

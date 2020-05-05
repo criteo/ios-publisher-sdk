@@ -22,8 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit
-                      delegate:(id <CRNativeDelegate>)delegate;
+- (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit;
 
 /**
  * Load the native ad for standalone integration.

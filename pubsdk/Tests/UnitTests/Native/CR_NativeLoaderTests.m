@@ -54,7 +54,8 @@
     CRNativeAdUnit *adUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"123"];
     Criteo *criteoMock = [self mockCriteoWithAdUnit:adUnit returnBid:bid];
     id <CRNativeDelegate> delegateMock = OCMStrictProtocolMock(@protocol(CRNativeDelegate));
-    CRNativeLoader *loader = [[CRNativeLoader alloc] initWithAdUnit:adUnit delegate:delegateMock criteo:criteoMock];
+    CRNativeLoader *loader = [[CRNativeLoader alloc] initWithAdUnit:adUnit criteo:criteoMock];
+    loader.delegate = delegateMock;
     [loader loadAd];
     verify(loader, delegateMock);
 }
@@ -88,7 +89,8 @@
     CRNativeAdUnit *adUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"123"];
     CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
     Criteo *criteoMock = [self mockCriteoWithAdUnit:adUnit returnBid:bid];
-    CRNativeLoader *loader = [[CRNativeLoader alloc] initWithAdUnit:adUnit delegate:delegate criteo:criteoMock];
+    CRNativeLoader *loader = [[CRNativeLoader alloc] initWithAdUnit:adUnit criteo:criteoMock];
+    loader.delegate = delegate;
     [loader loadAd];
     return delegate;
 }

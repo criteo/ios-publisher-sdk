@@ -16,19 +16,13 @@
 
 @implementation CRNativeLoader
 
-- (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit
-                      delegate:(id <CRNativeDelegate>)delegate {
-    return [self initWithAdUnit:adUnit
-                       delegate:delegate
-                         criteo:[Criteo sharedCriteo]];
+- (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit {
+    return [self initWithAdUnit:adUnit criteo:[Criteo sharedCriteo]];
 }
 
-- (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit
-                      delegate:(id <CRNativeDelegate>)delegate
-                        criteo:(Criteo *)criteo {
+- (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit criteo:(Criteo *)criteo {
     if (self = [super init]) {
         _adUnit = adUnit;
-        _delegate = delegate;
         _criteo = criteo;
     }
     return self;
@@ -43,7 +37,15 @@
     }
 }
 
+- (BOOL)canConsumeBid {
+    return self.canNotifyDidReceiveAd;
+}
+
 - (void)unsafeLoadAd {
+    if (!self.canConsumeBid) {
+        return;
+    }
+
     CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:self.adUnit];
     CR_CdbBid *bid = [self.criteo getBid:cacheAdUnit];
 
@@ -67,9 +69,13 @@
     });
 }
 
+- (BOOL)canNotifyDidReceiveAd {
+    return [self.delegate respondsToSelector:@selector(nativeLoader:didReceiveAd:)];
+}
+
 - (void)notifyDidReceiveAd:(CRNativeAd *)ad {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if([self.delegate respondsToSelector:@selector(nativeLoader:didReceiveAd:)]) {
+        if(self.canNotifyDidReceiveAd) {
             [self.delegate nativeLoader:self didReceiveAd:ad];
         }
     });
