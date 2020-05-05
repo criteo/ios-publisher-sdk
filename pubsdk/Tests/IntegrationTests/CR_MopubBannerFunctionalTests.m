@@ -55,7 +55,8 @@ static NSString *initialMopubKeywords = @"key1:value1,key2:value2";
     CRBannerAdUnit *bannerAdUnit = [CR_TestAdUnits preprodBanner320x50];
     [self initCriteoWithAdUnits:@[bannerAdUnit]];
 
-    MPAdView *mpAdView = [[MPAdView alloc] initWithAdUnitId:CR_TestAdUnits.mopubBanner50AdUnitId size:MOPUB_BANNER_SIZE];
+    MPAdView *mpAdView = [[MPAdView alloc] initWithAdUnitId:CR_TestAdUnits.mopubBanner50AdUnitId];
+    mpAdView.maxAdSize = kMPPresetMaxAdSize50Height;
     [self.criteo setBidsForRequest:mpAdView withAdUnit:bannerAdUnit];
 
     CR_MopubCreativeViewChecker *viewChecker = [[CR_MopubCreativeViewChecker alloc] initWithBanner:mpAdView];

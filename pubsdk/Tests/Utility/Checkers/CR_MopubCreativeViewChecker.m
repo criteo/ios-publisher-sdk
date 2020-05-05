@@ -32,10 +32,6 @@
     if ([self init_]) {
         _adView = adView;
         _adView.delegate = self;
-        _adView.frame = CGRectMake(
-            self.uiWindow.frame.origin.x, self.uiWindow.frame.origin.y,
-            MOPUB_BANNER_SIZE.width, MOPUB_BANNER_SIZE.height
-        );
         [self.uiWindow.rootViewController.view addSubview:adView];
     }
     return self;
@@ -89,13 +85,13 @@
     return _uiWindow.rootViewController;
 }
 
-- (void)adViewDidLoadAd:(MPAdView *)view {
+- (void)adViewDidLoadAd:(MPAdView *)view adSize:(CGSize)adSize {
     NSLog(@"MOPUB SUCCESS: adViewDidLoadAd delegate invoked");
     [self checkViewAndFulfillExpectation];
 }
 
-- (void)adViewDidFailToLoadAd:(MPAdView *)view {
-    CLog(@"MOPUB ERROR: adViewDidFailToLoadAd: delegate invoked");
+- (void)adView:(MPAdView *)view didFailToLoadAdWithError:(NSError *)error {
+    CLog(@"MOPUB ERROR: adView:didFailToLoadAdWithError: delegate invoked");
 }
 
 #pragma mark - MPInterstitialAdControllerDelegate methods
