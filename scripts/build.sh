@@ -68,7 +68,7 @@ xcrun simctl create \
     $SIMULATOR_DEVICE_TYPE_AVAILABLE \
     $SIMULATOR_RUNTIME_AVAILABLE
 
-pod install
+pod install --repo-update
 
 CRITEO_CONFIGURATION="Release"
 printf "Launching $CRITEO_CONFIGURATION build\nARCHS: $CRITEO_ARCHS\nSIM ARCHS: $CRITEO_SIM_ARCHS\n"
