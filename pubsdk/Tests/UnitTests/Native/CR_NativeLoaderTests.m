@@ -28,17 +28,19 @@
 @implementation CR_NativeLoaderTests
 
 - (void)testReceiveWithValidBid {
-    [self loadNativeWithBid:self.validBid verify:^(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock) {
-        OCMExpect([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
-        OCMReject([delegateMock nativeLoader:loader didFailToReceiveAdWithError:[OCMArg any]]);
-    }];
+    [self loadNativeWithBid:self.validBid verify:
+        ^(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock) {
+            OCMExpect([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
+            OCMReject([delegateMock nativeLoader:loader didFailToReceiveAdWithError:[OCMArg any]]);
+        }];
 }
 
 - (void)testFailureWithNoBid {
-    [self loadNativeWithBid:[CR_CdbBid emptyBid] verify:^(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock) {
-        OCMExpect([delegateMock nativeLoader:loader didFailToReceiveAdWithError:[OCMArg any]]);
-        OCMReject([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
-    }];
+    [self loadNativeWithBid:[CR_CdbBid emptyBid] verify:
+        ^(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock) {
+            OCMExpect([delegateMock nativeLoader:loader didFailToReceiveAdWithError:[OCMArg any]]);
+            OCMReject([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
+        }];
 }
 
 - (Criteo *)mockCriteoWithAdUnit:(CRNativeAdUnit *)adUnit
@@ -50,14 +52,20 @@
 }
 
 - (void)loadNativeWithBid:(CR_CdbBid *)bid
-                   verify:(void (^)(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock))verify {
+                 delegate:(id <CRNativeDelegate>) delegate
+                   verify:(void (^)(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock))verify {
     CRNativeAdUnit *adUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"123"];
     Criteo *criteoMock = [self mockCriteoWithAdUnit:adUnit returnBid:bid];
-    id <CRNativeDelegate> delegateMock = OCMStrictProtocolMock(@protocol(CRNativeDelegate));
+    id <CRNativeDelegate> testDelegate = delegate ?: OCMStrictProtocolMock(@protocol(CRNativeDelegate));
     CRNativeLoader *loader = [[CRNativeLoader alloc] initWithAdUnit:adUnit criteo:criteoMock];
-    loader.delegate = delegateMock;
+    loader.delegate = testDelegate;
     [loader loadAd];
-    verify(loader, delegateMock);
+    verify(loader, testDelegate, criteoMock);
+}
+
+- (void)loadNativeWithBid:(CR_CdbBid *)bid
+                   verify:(void (^)(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock))verify {
+    [self loadNativeWithBid:bid delegate:nil verify:verify];
 }
 
 - (CR_CdbBid *)validBid {
@@ -93,6 +101,14 @@
     loader.delegate = delegate;
     [loader loadAd];
     return delegate;
+}
+
+- (void)testDoesNotConsumeBidWhenNotListeningToAds {
+    id <CRNativeDelegate> delegateMock = OCMPartialMock([NSObject new]);
+    [self loadNativeWithBid:self.validBid delegate:delegateMock verify:
+        ^(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock) {
+            OCMReject([criteoMock getBid:[OCMArg any]]);
+        }];
 }
 
 @end
