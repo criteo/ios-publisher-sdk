@@ -74,7 +74,6 @@ CRITEO_CONFIGURATION="Release"
 printf "Launching $CRITEO_CONFIGURATION build\nARCHS: $CRITEO_ARCHS\nSIM ARCHS: $CRITEO_SIM_ARCHS\n"
 
 if [ "$XCODEBUILD_SCHEME_FOR_TESTING" != skipTests ]; then
-    # We still have to build scheme for testing
     xcodebuild \
     -workspace fuji.xcworkspace \
         -scheme "${XCODEBUILD_SCHEME_FOR_TESTING}" \
@@ -86,7 +85,35 @@ if [ "$XCODEBUILD_SCHEME_FOR_TESTING" != skipTests ]; then
         ARCHS="$CRITEO_SIM_ARCHS" \
         VALID_ARCHS="$CRITEO_SIM_ARCHS" \
         ONLY_ACTIVE_ARCH=NO \
-        clean build test | tee -a $XCODEBUILD_LOG | xcpretty --report junit --report html
+        build-for-testing | tee -a $XCODEBUILD_LOG | xcpretty
+
+    xcodebuild \
+    -workspace fuji.xcworkspace \
+        -scheme "${XCODEBUILD_SCHEME_FOR_TESTING}" \
+        -configuration $CRITEO_CONFIGURATION \
+        -IDEBuildOperationMaxNumberOfConcurrentCompileTasks=`sysctl -n hw.ncpu` \
+        -derivedDataPath build/DerivedData  \
+        -sdk iphonesimulator \
+        -destination "${XCODEBUILD_DESTINATION_SIMULATOR}" \
+        -only-testing pubsdkITests \
+        ARCHS="$CRITEO_SIM_ARCHS" \
+        VALID_ARCHS="$CRITEO_SIM_ARCHS" \
+        ONLY_ACTIVE_ARCH=NO \
+        test-without-building | tee -a $XCODEBUILD_LOG | xcpretty --report junit --report html
+
+    xcodebuild \
+    -workspace fuji.xcworkspace \
+        -scheme "${XCODEBUILD_SCHEME_FOR_TESTING}" \
+        -configuration $CRITEO_CONFIGURATION \
+        -IDEBuildOperationMaxNumberOfConcurrentCompileTasks=`sysctl -n hw.ncpu` \
+        -derivedDataPath build/DerivedData  \
+        -sdk iphonesimulator \
+        -destination "${XCODEBUILD_DESTINATION_SIMULATOR}" \
+        -only-testing pubsdkTests \
+        ARCHS="$CRITEO_SIM_ARCHS" \
+        VALID_ARCHS="$CRITEO_SIM_ARCHS" \
+        ONLY_ACTIVE_ARCH=NO \
+        test-without-building | tee -a $XCODEBUILD_LOG | xcpretty --report junit --report html
 fi
 
     xcodebuild \

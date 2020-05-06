@@ -46,6 +46,16 @@
                </Test>
             </SkippedTests>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "462DCA062462C2B800B43A51"
+               BuildableName = "pubsdkITests.xctest"
+               BlueprintName = "pubsdkITests"
+               ReferencedContainer = "container:pubsdk.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

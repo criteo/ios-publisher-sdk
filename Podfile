@@ -10,6 +10,13 @@ target 'pubsdkTests' do
     pod 'FunctionalObjC', '~> 1.0'
 end
 
+target 'pubsdkITests' do
+    pod 'OCMock','~> 3.4.3'
+    pod 'Google-Mobile-Ads-SDK','~> 7.35.2'
+    pod 'mopub-ios-sdk'
+    pod 'FunctionalObjC', '~> 1.0'
+end
+
 target 'pubsdk' do
     pod 'Cassette','1.0.0-beta3'
 end
