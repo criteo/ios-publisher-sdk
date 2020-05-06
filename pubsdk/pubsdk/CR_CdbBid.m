@@ -43,21 +43,6 @@ static CR_CdbBid *emptyBid;
     return emptyBid;
 }
 
-- (instancetype) init {
-    return [self initWithZoneId:@(497747)
-                    placementId:@"adunitid"
-                            cpm:@"0.00"
-                       currency:@"EUR"
-                          width:@(300)
-                         height:@(250)
-                            ttl:6000
-                       creative:@"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
-                     displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js"
-                     insertTime:[NSDate date]
-                   nativeAssets:nil
-                   impressionId:nil];
-}
-
 - (instancetype) initWithZoneId:(NSNumber *) zoneId
                     placementId:(NSString *) placementId
                             cpm:(NSString *) cpm

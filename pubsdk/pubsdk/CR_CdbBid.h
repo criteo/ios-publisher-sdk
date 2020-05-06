@@ -58,6 +58,8 @@
                    nativeAssets:(CR_NativeAssets *) nativeAssets
                    impressionId:(NSString *) impressionId;
 
+- (instancetype) init NS_UNAVAILABLE;
+
 - (instancetype) initWithDict:(NSDictionary *)slot receivedAt:(NSDate *)receivedAt;
 - (BOOL) isEmpty;
 - (BOOL) isExpired;
