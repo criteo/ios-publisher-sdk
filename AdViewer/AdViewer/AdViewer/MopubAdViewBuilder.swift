@@ -1,6 +1,5 @@
 //
-// Created by Vincent Guerci on 11/03/2020.
-// Copyright (c) 2020 Criteo. All rights reserved.
+// Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
 class MopubAdViewBuilder: AdViewBuilder {

@@ -2,8 +2,7 @@
 //  NetworkManagerDelegate.h
 //  AdViewer
 //
-//  Created by Paul Davis on 2/5/19.
-//  Copyright © 2019 Criteo. All rights reserved.
+//  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
 #ifndef NetworkManagerDelegate_h

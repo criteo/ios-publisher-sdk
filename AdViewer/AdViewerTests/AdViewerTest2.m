@@ -2,8 +2,7 @@
 //  AdViewerTest2.m
 //  AdViewerTests
 //
-//  Created by Yahor Paulikau on 11/16/18.
-//  Copyright © 2018 Criteo. All rights reserved.
+//  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>

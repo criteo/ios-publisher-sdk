@@ -2,8 +2,7 @@
 //  AdViewerUITests.m
 //  AdViewerUITests
 //
-//  Created by Yegor Pavlikov on 11/1/18.
-//  Copyright © 2018 Criteo. All rights reserved.
+//  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
