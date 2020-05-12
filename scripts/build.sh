@@ -71,7 +71,10 @@ xcrun simctl create \
     $SIMULATOR_DEVICE_TYPE_AVAILABLE \
     $SIMULATOR_RUNTIME_AVAILABLE
 
-pod install --repo-update
+fuji-echo "Cocoapods repo update..."
+pod repo update --silent
+fuji-echo "Cocoapods install..."
+pod install --deployment --clean-install --no-repo-update
 
 function fuji-pretty () {
     tee -a $XCODEBUILD_LOG | xcpretty $*
