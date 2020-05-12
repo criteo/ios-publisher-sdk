@@ -6,9 +6,9 @@
 //
 
 #import "CR_BidManagerBuilder.h"
-#import "CR_ThreadManager.h"
+#import "CR_HeaderBidding.h"
 #import "CR_FeedbackController.h"
-
+#import "CR_ThreadManager.h"
 
 @implementation CR_BidManagerBuilder
 
@@ -110,6 +110,13 @@
     return _appEvents;
 }
 
+- (CR_HeaderBidding *)headerBidding {
+    if (_headerBidding == nil) {
+        _headerBidding = [[CR_HeaderBidding alloc] init];
+    }
+    return _headerBidding;
+}
+
 - (CR_FeedbackStorage *)feedbackStorage {
     if (_feedbackStorage == nil) {
         _feedbackStorage = [[CR_FeedbackStorage alloc] init];
@@ -137,6 +144,7 @@
                                                            networkManager:self.networkManager
                                                                 appEvents:self.appEvents
                                                            timeToNextCall:self.timeToNextCall
+                                                            headerBidding:self.headerBidding
                                                          feedbackDelegate:self.feedbackDelegate
                                                             threadManager:self.threadManager];
     return bidManager;

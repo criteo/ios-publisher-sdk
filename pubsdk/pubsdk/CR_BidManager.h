@@ -25,6 +25,7 @@
 #import "CR_FeedbackStorage.h"
 
 @protocol CR_FeedbackDelegate;
+@class CR_HeaderBidding;
 @class CR_ThreadManager;
 
 @interface CR_BidManager : NSObject
@@ -46,6 +47,7 @@
                      networkManager:(CR_NetworkManager *)networkManager
                           appEvents:(CR_AppEvents *)appEvents
                      timeToNextCall:(NSTimeInterval)timeToNextCall
+                      headerBidding:(CR_HeaderBidding *)headerBidding
                     feedbackDelegate:(id <CR_FeedbackDelegate>)feedbackDelegate
                       threadManager:(CR_ThreadManager *)threadManager
 NS_DESIGNATED_INITIALIZER;
@@ -66,12 +68,6 @@ NS_DESIGNATED_INITIALIZER;
 
 - (void) addCriteoBidToRequest:(id) adRequest
                      forAdUnit:(CR_CacheAdUnit *) adUnit;
-
-- (void) addCriteoBidToDfpRequest:(id) adRequest
-                        forAdUnit:(CR_CacheAdUnit *) adUnit;
-
-- (void) addCriteoBidToMopubRequest:(id) adRequest
-                          forAdUnit:(CR_CacheAdUnit *) adUnit;
 
 - (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken
                               adUnitType:(CRAdUnitType)adUnitType;

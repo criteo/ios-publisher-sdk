@@ -7,15 +7,14 @@
 
 #import "CR_BidManager.h"
 #import "Logging.h"
-#import "CR_BidManagerHelper.h"
-#import "CR_TargetingKeys.h"
-#import "NSString+CR_Url.h"
 #import "CR_FeedbackController.h"
+#import "CR_HeaderBidding.h"
 #import "CR_ThreadManager.h"
 
 @interface CR_BidManager ()
 
 @property (nonatomic, assign, readonly) BOOL isInSilenceMode;
+@property (nonatomic, strong, readonly) CR_HeaderBidding *headerBidding;
 @property (nonatomic, strong, readonly) id <CR_FeedbackDelegate> feedbackDelegate;
 
 @end
@@ -56,6 +55,7 @@
                      networkManager:nil
                           appEvents:nil
                      timeToNextCall:0
+                      headerBidding:nil
                    feedbackDelegate:nil
                       threadManager:nil];
 }
@@ -70,6 +70,7 @@
                      networkManager:(CR_NetworkManager*)networkManager
                           appEvents:(CR_AppEvents *)appEvents
                      timeToNextCall:(NSTimeInterval)timeToNextCall
+                      headerBidding:(CR_HeaderBidding *)headerBidding
                     feedbackDelegate:(id <CR_FeedbackDelegate>)feedbackDelegate
                       threadManager:(CR_ThreadManager *)threadManager
 {
@@ -86,6 +87,7 @@
         _consent              = consent;
         _feedbackDelegate = feedbackDelegate;
         _threadManager = threadManager;
+        _headerBidding = headerBidding;
     }
 
     return self;
@@ -262,132 +264,18 @@
         return;
     }
 
-    NSString *adRequestClassName = NSStringFromClass([adRequest class]);
-    if([adRequestClassName isEqualToString:@"DFPRequest"] ||
-       [adRequestClassName isEqualToString:@"DFPNRequest"] ||
-       [adRequestClassName isEqualToString:@"DFPORequest"] ||
-       [adRequestClassName isEqualToString:@"GADRequest"] ||
-       [adRequestClassName isEqualToString:@"GADORequest"] ||
-       [adRequestClassName isEqualToString:@"GADNRequest"]) {
-        [self addCriteoBidToDfpRequest:adRequest forAdUnit:adUnit];
-    } else if ([adRequestClassName isEqualToString:@"MPAdView"] ||
-               [adRequestClassName isEqualToString:@"MPInterstitialAdController"]) {
-        [self addCriteoBidToMopubRequest:adRequest forAdUnit:adUnit];
-    } else if ([adRequest isKindOfClass:NSMutableDictionary.class]) {
-        [self addCriteoBidToDictionary:adRequest forAdUnit:adUnit];
+    // Reset the keywords in the request in case there is empty bid (EE-412).
+    if ([self.headerBidding isMoPubRequest:adRequest]) {
+        [self.headerBidding removeCriteoBidsFromMoPubRequest:adRequest];
     }
-}
-
-- (void) addCriteoBidToDictionary:(NSMutableDictionary*)dictionary
-                        forAdUnit:(CR_CacheAdUnit*)adUnit
-{
-    CR_CdbBid *fetchedBid = [self getBid:adUnit];
-    if ([fetchedBid isEmpty]) {
-        return;
-    }
-
-    dictionary[CR_TargetingKey_crtDisplayUrl] = fetchedBid.displayUrl;
-    dictionary[CR_TargetingKey_crtCpm] = fetchedBid.cpm;
-}
-
-- (void) addCriteoBidToDfpRequest:(id) adRequest
-                        forAdUnit:(CR_CacheAdUnit *) adUnit {
-    CR_CdbBid *fetchedBid = [self getBid:adUnit];
-    if ([fetchedBid isEmpty]) {
-        return;
-    }
-
-    SEL dfpCustomTargeting = NSSelectorFromString(@"customTargeting");
-    SEL dfpSetCustomTargeting = NSSelectorFromString(@"setCustomTargeting:");
-    if([adRequest respondsToSelector:dfpCustomTargeting] && [adRequest respondsToSelector:dfpSetCustomTargeting]) {
-
-// this is for ignoring warning related to performSelector: on unknown selectors
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        id targeting = [adRequest performSelector:dfpCustomTargeting];
-
-        if (targeting == nil) {
-            targeting = [NSDictionary dictionary];
-        }
-
-        if ([targeting isKindOfClass:[NSDictionary class]]) {
-            NSMutableDictionary* customTargeting = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *) targeting];
-            customTargeting[CR_TargetingKey_crtCpm] = fetchedBid.cpm;
-            if(adUnit.adUnitType == CRAdUnitTypeNative) {
-                // bid will contain atleast one product, a privacy section and atleast one impression pixel
-                CR_NativeAssets *nativeAssets = fetchedBid.nativeAssets;
-                if(nativeAssets.products.count > 0) {
-                    CR_NativeProduct *product = nativeAssets.products[0];
-                    [self setDfpValue:product.title forKey:CR_TargetingKey_crtnTitle inDictionary:customTargeting];
-                    [self setDfpValue:product.description forKey:CR_TargetingKey_crtnDesc inDictionary:customTargeting];
-                    [self setDfpValue:product.price forKey:CR_TargetingKey_crtnPrice inDictionary:customTargeting];
-                    [self setDfpValue:product.clickUrl forKey:CR_TargetingKey_crtnClickUrl inDictionary:customTargeting];
-                    [self setDfpValue:product.callToAction forKey:CR_TargetingKey_crtnCta inDictionary:customTargeting];
-                    [self setDfpValue:product.image.url forKey:CR_TargetingKey_crtnImageUrl inDictionary:customTargeting];
-                }
-                CR_NativeAdvertiser *advertiser = nativeAssets.advertiser;
-                [self setDfpValue:advertiser.description forKey:CR_TargetingKey_crtnAdvName inDictionary:customTargeting];
-                [self setDfpValue:advertiser.domain forKey:CR_TargetingKey_crtnAdvDomain inDictionary:customTargeting];
-                [self setDfpValue:advertiser.logoImage.url forKey:CR_TargetingKey_crtnAdvLogoUrl inDictionary:customTargeting];
-                [self setDfpValue:advertiser.logoClickUrl forKey:CR_TargetingKey_crtnAdvUrl inDictionary:customTargeting];
-
-                CR_NativePrivacy *privacy = nativeAssets.privacy;
-                [self setDfpValue:privacy.optoutClickUrl forKey:CR_TargetingKey_crtnPrUrl inDictionary:customTargeting];
-                [self setDfpValue:privacy.optoutImageUrl forKey:CR_TargetingKey_crtnPrImageUrl inDictionary:customTargeting];
-                [self setDfpValue:privacy.longLegalText forKey:CR_TargetingKey_crtnPrText inDictionary:customTargeting];
-                customTargeting[CR_TargetingKey_crtnPixCount] =
-                    [NSString stringWithFormat:@"%lu", (unsigned long) nativeAssets.impressionPixels.count];
-                for(int i = 0; i < fetchedBid.nativeAssets.impressionPixels.count; i++) {
-                    [self setDfpValue:fetchedBid.nativeAssets.impressionPixels[i]
-                               forKey:[NSString stringWithFormat:@"%@%d", CR_TargetingKey_crtnPixUrl, i]
-                         inDictionary:customTargeting];
-                }
-            }
-            else {
-                customTargeting[CR_TargetingKey_crtDfpDisplayUrl] = fetchedBid.dfpCompatibleDisplayUrl;
-            }
-            NSDictionary *updatedDictionary = [NSDictionary dictionaryWithDictionary:customTargeting];
-            [adRequest performSelector:dfpSetCustomTargeting withObject:updatedDictionary];
-#pragma clang diagnostic pop
-        }
-    }
-}
-
-- (void) addCriteoBidToMopubRequest:(id) adRequest
-                          forAdUnit:(CR_CacheAdUnit *) adUnit {
-    [CR_BidManagerHelper removeCriteoBidsFromMoPubRequest:adRequest];
 
     CR_CdbBid *fetchedBid = [self getBid:adUnit];
     if ([fetchedBid isEmpty]) {
         return;
     }
-
-    SEL mopubKeywords = NSSelectorFromString(@"keywords");
-    if([adRequest respondsToSelector:mopubKeywords]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        id targeting = [adRequest performSelector:mopubKeywords];
-
-        if (targeting == nil) {
-            targeting = @"";
-        }
-
-        if ([targeting isKindOfClass:[NSString class]]) {
-            NSMutableString *keywords = [[NSMutableString alloc] initWithString:targeting];
-            if ([keywords length] > 0) {
-                [keywords appendString:@","];
-            }
-            [keywords appendString:CR_TargetingKey_crtCpm];
-            [keywords appendString:@":"];
-            [keywords appendString:fetchedBid.cpm];
-            [keywords appendString:@","];
-            [keywords appendString:CR_TargetingKey_crtDisplayUrl];
-            [keywords appendString:@":"];
-            [keywords appendString:fetchedBid.mopubCompatibleDisplayUrl];
-            [adRequest setValue:keywords forKey:@"keywords"];
-#pragma clang diagnostic pop
-        }
-    }
+    [self.headerBidding enrichRequest:adRequest
+                              withBid:fetchedBid
+                               adUnit:adUnit];
 }
 
 - (CRBidResponse *)bidResponseForCacheAdUnit:(CR_CacheAdUnit *)cacheAdUnit
@@ -407,14 +295,6 @@
 
 - (CR_Config *)config {
     return self->config;
-}
-
-- (void)setDfpValue:(NSString *)value
-             forKey:(NSString *)key
-       inDictionary:(NSMutableDictionary*)dict {
-    if(value.length > 0) {
-        dict[key] = [NSString dfpCompatibleString:value];
-    }
 }
 
 @end

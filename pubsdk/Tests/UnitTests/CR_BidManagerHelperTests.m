@@ -8,9 +8,10 @@
 #import <XCTest/XCTest.h>
 #import <MoPub.h>
 #import <OCMock.h>
-#import "CR_BidManager.h"
 #import "CR_BidmanagerHelper.h"
-#import "CR_ThreadManager.h"
+#import "CR_CacheAdUnit.h"
+#import "CR_CdbBid.h"
+#import "CR_HeaderBidding.h"
 
 @interface CR_BidManagerHelperTests : XCTestCase
 
@@ -19,34 +20,16 @@
 @implementation CR_BidManagerHelperTests
 
 - (void) testRemoveCriteoBidFromMopubAdRequest{
+    CR_HeaderBidding *headerBidding = [[CR_HeaderBidding alloc] init];
     CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
-
     CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date] nativeAssets:nil impressionId:nil];
-
-    CR_CacheManager *cache = [[CR_CacheManager alloc] init];
-    [cache setBid:testBid_1];
-
-    NSString *testMopubCustomTargeting = @"key1:object_1,key_2:object_2";
-
     MPInterstitialAdController *mopubBidRequest = [[MPInterstitialAdController alloc] init];
-    mopubBidRequest.keywords = testMopubCustomTargeting;
+    mopubBidRequest.keywords = @"key1:object_1,key_2:object_2";
 
-    CR_Config *config = [[CR_Config alloc] initWithCriteoPublisherId:@("1234")];
+    [headerBidding enrichRequest:mopubBidRequest
+                         withBid:testBid_1
+                          adUnit:slot_1];
 
-    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:nil
-                                                             cacheManager:cache
-                                                               tokenCache:nil
-                                                                   config:config
-                                                            configManager:nil
-                                                               deviceInfo:nil
-                                                                  consent:nil
-                                                           networkManager:nil
-                                                                appEvents:nil
-                                                           timeToNextCall:0
-                                                         feedbackDelegate:nil
-                                                            threadManager:[[CR_ThreadManager alloc] init]];
-
-    [bidManager addCriteoBidToRequest:mopubBidRequest forAdUnit:slot_1];
     XCTAssertTrue([mopubBidRequest.keywords containsString:[testBid_1 mopubCompatibleDisplayUrl]]);
     XCTAssertTrue([mopubBidRequest.keywords containsString:[testBid_1 cpm]]);
 
