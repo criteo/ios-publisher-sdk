@@ -19,7 +19,7 @@ XCODEBUILD_LOG=build/output/xcodebuild.log
 # For now, we set a fixed OS version instead of the "latest"
 # The goal is produce the same output from any machine
 # (whether you have updated your xcode or not).
-XCODEBUILD_DESTINATION_SIMULATOR_OS="12.4"
+XCODEBUILD_DESTINATION_SIMULATOR_OS="latest"
 XCODEBUILD_DESTINATION_SIMULATOR_DEVICE="iPhone Xs"
 XCODEBUILD_DESTINATION_SIMULATOR_NAME="Fuji PreSubmit Tests Simulator"
 XCODEBUILD_DESTINATION_SIMULATOR="platform=iOS Simulator,name=${XCODEBUILD_DESTINATION_SIMULATOR_NAME},OS=${XCODEBUILD_DESTINATION_SIMULATOR_OS}"
@@ -39,15 +39,15 @@ fuji-echo "Selected SCHEME for testing: ${XCODEBUILD_SCHEME_FOR_TESTING}"
 xcrun simctl delete unavailable
 
 # Get the identifier of the selected simulator runtime
-SIMULATOR_RUNTIME_AVAILABLE=$(xcrun simctl list runtimes | grep iOS | grep "${XCODEBUILD_DESTINATION_SIMULATOR_OS}" | awk '{print $NF}' || true)
-if [ -z "$SIMULATOR_RUNTIME_AVAILABLE" ]; then
-    fuji-echo "[ERROR] The selected simulator runtime ${XCODEBUILD_DESTINATION_SIMULATOR_OS}"
-    fuji-echo "Available simulator runtime:"
-    xcrun simctl list runtimes
-    exit 1
-else
-    fuji-echo "Runtime identifier for ${XCODEBUILD_DESTINATION_SIMULATOR_OS}: ${SIMULATOR_RUNTIME_AVAILABLE}"
-fi
+#SIMULATOR_RUNTIME_AVAILABLE=$(xcrun simctl list runtimes | grep iOS | grep "${XCODEBUILD_DESTINATION_SIMULATOR_OS}" | awk '{print $NF}' || true)
+#if [ -z "$SIMULATOR_RUNTIME_AVAILABLE" ]; then
+#    fuji-echo "[ERROR] The selected simulator runtime ${XCODEBUILD_DESTINATION_SIMULATOR_OS}"
+#    fuji-echo "Available simulator runtime:"
+#    xcrun simctl list runtimes
+#    exit 1
+#else
+#    fuji-echo "Runtime identifier for ${XCODEBUILD_DESTINATION_SIMULATOR_OS}: ${SIMULATOR_RUNTIME_AVAILABLE}"
+#fi
 
 # Get the identifier of the selected simulator device
 SIMULATOR_DEVICE_TYPE_AVAILABLE=$(xcrun simctl list devicetypes | grep --ignore-case "${XCODEBUILD_DESTINATION_SIMULATOR_DEVICE}" | head -n 1 | cut -f2 -d'(' | cut -f1 -d')' || true)
@@ -68,8 +68,8 @@ xcrun simctl delete \
 fuji-echo "Creating the simulator ${XCODEBUILD_DESTINATION_SIMULATOR_NAME}..."
 xcrun simctl create \
     "${XCODEBUILD_DESTINATION_SIMULATOR_NAME}"  \
-    $SIMULATOR_DEVICE_TYPE_AVAILABLE \
-    $SIMULATOR_RUNTIME_AVAILABLE
+    $SIMULATOR_DEVICE_TYPE_AVAILABLE #\
+#    $SIMULATOR_RUNTIME_AVAILABLE
 
 fuji-echo "Cocoapods repo update..."
 pod repo update --silent
