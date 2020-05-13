@@ -32,7 +32,7 @@ xcodebuild \
         -IDEBuildOperationMaxNumberOfConcurrentCompileTasks=`sysctl -n hw.ncpu` \
         -derivedDataPath build/DerivedData  \
         -sdk iphonesimulator \
-        -destination 'platform=iOS Simulator,name=iPhone XS,OS=latest' \
+        -destination 'platform=iOS Simulator,name=iPhone 11,OS=latest' \
         ARCHS="$CRITEO_SIM_ARCHS" \
         VALID_ARCHS="$CRITEO_SIM_ARCHS" \
         ONLY_ACTIVE_ARCH=NO \
@@ -79,7 +79,7 @@ cd ..
         -IDEBuildOperationMaxNumberOfConcurrentCompileTasks=`sysctl -n hw.ncpu` \
         -derivedDataPath build/DerivedData  \
         -sdk iphonesimulator \
-        -destination 'platform=iOS Simulator,name=iPhone XS,OS=latest' \
+        -destination 'platform=iOS Simulator,name=iPhone 11,OS=latest' \
         ARCHS="$CRITEO_SIM_ARCHS" \
         VALID_ARCHS="$CRITEO_SIM_ARCHS" \
         ONLY_ACTIVE_ARCH=NO \
@@ -132,7 +132,7 @@ printf "Launching $CRITEO_CONFIGURATION build\nARCHS: $CRITEO_ARCHS\nSIM ARCHS: 
         -IDEBuildOperationMaxNumberOfConcurrentCompileTasks=`sysctl -n hw.ncpu` \
         -derivedDataPath build/DerivedData  \
         -sdk iphonesimulator \
-        -destination 'platform=iOS Simulator,name=iPhone XS,OS=latest' \
+        -destination 'platform=iOS Simulator,name=iPhone 11,OS=latest' \
         ARCHS="$CRITEO_SIM_ARCHS" \
         VALID_ARCHS="$CRITEO_SIM_ARCHS" \
         ONLY_ACTIVE_ARCH=NO \
