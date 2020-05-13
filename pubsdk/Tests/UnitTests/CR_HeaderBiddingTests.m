@@ -13,6 +13,7 @@
 #import "CR_CdbBidBuilder.h"
 #import "CR_CdbBid.h"
 #import "CR_HeaderBidding.h"
+#import "CR_DeviceInfoMock.h"
 #import "NSString+Testing.h"
 #import "NSString+CR_Url.h"
 
@@ -20,11 +21,35 @@ static NSString * const kCpmKey = @"crt_cpm";
 static NSString * const kDictionaryDisplayUrlKey = @"crt_displayUrl";
 static NSString * const kDfpDisplayUrlKey = @"crt_displayurl";
 
+/** Represent the type of the device for getting more readable tests. */
+typedef NS_ENUM(NSInteger, CR_DeviceType) {
+    CR_DeviceTypeIphone,
+    CR_DeviceTypeIpad,
+    CR_DeviceTypeOther,
+};
+
+/** Represent the orientation of the device for getting more readable tests. */
+typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
+    CR_DeviceOrientationLandscape,
+    CR_DeviceOrientationPortrait,
+};
+
+#define CR_AssertInterstitialCrtSize(_crtSize, _type, _orientation, _size) \
+do { \
+    [self recordFailureForIntertitialCrtSize:_crtSize \
+                              withDeviceType:_type \
+                                 orientation:_orientation \
+                                  screenSize:_size \
+                                      atLine:__LINE__]; \
+} while (0);
+
 #define CR_AssertEqualDfpString(notDfpStr, dfpStr) \
     XCTAssertEqualObjects([NSString dfpCompatibleString:notDfpStr], dfpStr);
 
+
 @interface CR_HeaderBiddingTests : XCTestCase
 
+@property (strong, nonatomic) CR_DeviceInfoMock *device;
 @property (strong, nonatomic) CR_HeaderBidding *headerBidding;
 
 @property (nonatomic, strong) CR_CacheAdUnit *adUnit1;
@@ -41,7 +66,8 @@ static NSString * const kDfpDisplayUrlKey = @"crt_displayurl";
 @implementation CR_HeaderBiddingTests
 
 - (void)setUp {
-    self.headerBidding = [[CR_HeaderBidding alloc] init];
+    self.device = [[CR_DeviceInfoMock alloc] init];
+    self.headerBidding = [[CR_HeaderBidding alloc] initWithDevice:self.device];
 
     self.adUnit1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adUnit1"
                                                       width:300
@@ -221,7 +247,76 @@ static NSString * const kDfpDisplayUrlKey = @"crt_displayurl";
     XCTAssertEqual(crtCount, 2);
 }
 
+#pragma mark - Sizes
+
+#pragma mark DFP Interstitial
+
+- (void)testIntertitialSizeOniPhoneInLandscape {
+    // Size of recent devices
+    // https://developer.apple.com/library/archive/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/Displays/Displays.html
+
+    // iPhone SE => 320 x 568
+    CR_AssertInterstitialCrtSize(@"320x480", CR_DeviceTypeIphone, CR_DeviceOrientationPortrait, ((CGSize) { 320.f, 568.f }));
+    CR_AssertInterstitialCrtSize(@"480x320", CR_DeviceTypeIphone, CR_DeviceOrientationLandscape, ((CGSize) { 568.f, 320.f }));
+
+    // iPhone 7 Plus => 414 x 736
+    CR_AssertInterstitialCrtSize(@"320x480", CR_DeviceTypeIphone, CR_DeviceOrientationPortrait, ((CGSize) { 414.f, 736.f }));
+    CR_AssertInterstitialCrtSize(@"480x320", CR_DeviceTypeIphone, CR_DeviceOrientationLandscape, ((CGSize) { 736.f, 414.f }));
+
+    // iPad Air 2 => 768 x 1024
+    CR_AssertInterstitialCrtSize(@"768x1024", CR_DeviceTypeIpad, CR_DeviceOrientationPortrait, ((CGSize) { 768.f, 1024.f }));
+    CR_AssertInterstitialCrtSize(@"1024x768", CR_DeviceTypeIpad, CR_DeviceOrientationLandscape, ((CGSize) { 1024.f, 768.f }));
+
+    // iPad Pro (12.9-inch) => 1024 x 1366
+    CR_AssertInterstitialCrtSize(@"768x1024", CR_DeviceTypeIpad, CR_DeviceOrientationPortrait, ((CGSize) { 1024.f, 1366.f }));
+    CR_AssertInterstitialCrtSize(@"1024x768", CR_DeviceTypeIpad, CR_DeviceOrientationLandscape, ((CGSize) { 1024.f, 1024.f }));
+
+    // Fictive iPad with small size (so considered as a Phone)
+    CR_AssertInterstitialCrtSize(@"320x480", CR_DeviceTypeIpad, CR_DeviceOrientationPortrait, ((CGSize) { 640.f, 1024.f }));
+    CR_AssertInterstitialCrtSize(@"480x320", CR_DeviceTypeIpad, CR_DeviceOrientationLandscape, ((CGSize) { 1024.f, 640.f }));
+
+    // Fictive TV
+    CR_AssertInterstitialCrtSize(@"768x1024", CR_DeviceTypeOther, CR_DeviceOrientationPortrait, ((CGSize) { 1024.f, 2048.f }));
+    CR_AssertInterstitialCrtSize(@"1024x768", CR_DeviceTypeOther, CR_DeviceOrientationLandscape, ((CGSize) { 2048.f, 1024.f }));
+}
+
 #pragma mark - Private
+
+- (void)recordFailureForIntertitialCrtSize:(NSString *)crtSize
+                            withDeviceType:(CR_DeviceType)deviceType
+                               orientation:(CR_DeviceOrientation)orientation
+                                screenSize:(CGSize)screenSize
+                                    atLine:(NSUInteger)lineNumber {
+    // Clean up because this method can be reused in the same test
+    [self tearDown];
+    [self setUp];
+
+    CR_CacheAdUnit *adUnit =
+    [CR_CacheAdUnit cacheAdUnitForInterstialWithAdUnitId:@"interstitial"
+                                                    size:(CGSize) { 400, 400 }];
+    CR_CdbBid *bid = CR_CdbBidBuilder.new.adUnit(adUnit).build;
+    self.device.mock_isPhone = deviceType == CR_DeviceTypeIphone;
+    self.device.mock_isInPortrait = orientation == CR_DeviceOrientationPortrait;
+    self.device.mock_screenSize = screenSize;
+
+    [self.headerBidding enrichRequest:self.dfpRequest
+                              withBid:bid
+                               adUnit:adUnit];
+
+    NSDictionary *target = self.dfpRequest.customTargeting;
+    if (![crtSize isEqual:target[@"crt_size"]]) {
+        NSString *desc =
+        [[NSString alloc] initWithFormat:
+         @"The customTargeting doesn't contain \"crt_size\":%@: %@",
+         crtSize, target];
+        NSString *file =
+        [[NSString alloc] initWithCString:__FILE__ encoding:NSUTF8StringEncoding];
+        [self recordFailureWithDescription:desc
+                                    inFile:file
+                                    atLine:lineNumber
+                                  expected:YES];
+    }
+}
 
 - (void)checkMandatoryNativeAssets:(DFPRequest *)dfpBidRequest
                          nativeBid:(CR_CdbBid *)nativeBid {

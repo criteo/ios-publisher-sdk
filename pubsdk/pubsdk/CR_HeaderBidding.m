@@ -5,7 +5,6 @@
 //  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
-
 #import "CR_HeaderBidding.h"
 #import "CR_TargetingKeys.h"
 #import "CR_CdbBid.h"
@@ -16,7 +15,20 @@
 #import "CR_BidManagerHelper.h"
 #import "NSString+CR_Url.h"
 
+@interface CR_HeaderBidding ()
+
+@property (strong, nonatomic, readonly) id<CR_HeaderBiddingDevice> device;
+
+@end
+
 @implementation CR_HeaderBidding
+
+- (instancetype)initWithDevice:(id<CR_HeaderBiddingDevice>)device {
+    if (self = [super init]) {
+        _device = device;
+    }
+    return self;
+}
 
 - (void)enrichRequest:(id)adRequest
               withBid:(CR_CdbBid *)bid
@@ -123,6 +135,9 @@
             }
             else {
                 customTargeting[CR_TargetingKey_crtDfpDisplayUrl] = bid.dfpCompatibleDisplayUrl;
+                if (adUnit.adUnitType == CRAdUnitTypeInterstitial) {
+                    customTargeting[CR_TargetingKey_crtSize] = [self stringSizeForInterstitial];
+                }
             }
             NSDictionary *updatedDictionary = [NSDictionary dictionaryWithDictionary:customTargeting];
             [adRequest performSelector:dfpSetCustomTargeting withObject:updatedDictionary];
@@ -170,4 +185,71 @@
     }
 }
 
+#pragma mark - Ad Size
+
+- (NSString *)stringSizeForInterstitial {
+    CGSize size = [self sizeForInterstitial];
+    NSString *str = [self stringFromSize:size];
+    return str;
+}
+
+- (CGSize)sizeForInterstitial {
+    if ([self.device isPhone] || [self isSmallScreen]) {
+        if ([self.device isInPortrait]) {
+            return (CGSize) { 320.f, 480.f };
+        } else {
+            return (CGSize) { 480.f, 320.f };
+        }
+    } else { // is iPad (or TV)
+        if ([self.device isInPortrait]) {
+            return (CGSize) { 768.f, 1024.f };
+        } else {
+            return (CGSize) { 1024.f, 768.f };
+        }
+    }
+}
+
+- (BOOL)isSmallScreen {
+    CGSize size = [self.device screenSize];
+    BOOL isSmall = NO;
+    if (size.width > size.height) {
+        isSmall = (size.width < 1024.f) || (size.height < 768.f);
+    } else {
+        isSmall = (size.width < 768.f) || (size.height < 1024.f);
+    }
+    return isSmall;
+}
+
+- (NSString *)stringFromSize:(CGSize)size {
+    NSString *result = [[NSString alloc] initWithFormat:
+                        @"%dx%d",
+                        (int)size.width,
+                        (int)size.height];
+    return result;
+}
+
 @end
+
+@implementation CR_DeviceInfo (HeaderBidding)
+
+- (BOOL)isPhone {
+    UIUserInterfaceIdiom idiom = [[UIDevice currentDevice] userInterfaceIdiom];
+    BOOL isPhone = (idiom == UIUserInterfaceIdiomPhone);
+    return isPhone;
+}
+
+- (BOOL)isInPortrait {
+    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
+    BOOL isInPortrait = UIDeviceOrientationIsPortrait(orientation);
+    return isInPortrait;
+}
+
+- (CGSize)screenSize {
+    // getScreenSize should be remove at some point because it doesn't respect
+    // the naming convention of Apple and class method are usefull for
+    // tests on iOS.
+    return [self.class getScreenSize];
+}
+
+@end
+

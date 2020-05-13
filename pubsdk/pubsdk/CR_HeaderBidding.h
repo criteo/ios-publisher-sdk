@@ -6,8 +6,11 @@
 //
 
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
+#import "CR_DeviceInfo.h"
+
+@protocol CR_HeaderBiddingDevice;
 @class CR_CdbBid;
 @class CR_CacheAdUnit;
 
@@ -19,6 +22,10 @@ NS_ASSUME_NONNULL_BEGIN
  * It handles MoPub classes, Google Classes and NSMutableDictionary.
  */
 @interface CR_HeaderBidding : NSObject
+
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithDevice:(id<CR_HeaderBiddingDevice>)device
+NS_DESIGNATED_INITIALIZER;
 
 /**
  * Add the Criteo bid to the request.
@@ -40,6 +47,28 @@ NS_ASSUME_NONNULL_BEGIN
  *  Remove all the existing data of Criteo that is already exist in the given request.
  */
 - (void)removeCriteoBidsFromMoPubRequest:(id)adRequest;
+
+@end
+
+/**
+ * Represent the device that provides information for computing sizes of the ads.
+ *
+ * This protocol exists for isolating the CR_HeaderBidding from the properties of the device in the tests.
+ */
+@protocol CR_HeaderBiddingDevice <NSObject>
+
+- (BOOL)isPhone;
+
+- (BOOL)isInPortrait;
+
+/**
+ * The screen size that takes the orientation into account (like UIScreen bound since iOS8).
+ */
+- (CGSize)screenSize;
+
+@end
+
+@interface CR_DeviceInfo (HeaderBidding) <CR_HeaderBiddingDevice>
 
 @end
 

@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, readonly, nonatomic) NSString *cdbSize;
 @property (nonatomic, readonly) CRAdUnitType adUnitType;
 
++ (instancetype)cacheAdUnitForInterstialWithAdUnitId:(NSString *)adUnitId
+                                                size:(CGSize)size;
 - (BOOL)isEqual:(nullable id)object;
 
 - (instancetype) initWithAdUnitId:(NSString *) adUnitId

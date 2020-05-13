@@ -16,6 +16,7 @@
 #import "Criteo+Internal.h"
 #import "XCTestCase+Criteo.h"
 #import "CR_DfpCreativeViewChecker.h"
+#import "CR_DeviceInfoMock.h"
 #import "NSString+CR_Url.h"
 #import "CR_TargetingKeys.h"
 @import GoogleMobileAds;
@@ -87,6 +88,21 @@
 
     BOOL renderedProperly = [dfpViewChecker waitAdCreativeRendered];
     XCTAssertFalse(renderedProperly);
+}
+
+#pragma mark - Header Bidding Size
+
+- (void)test_givenAdUnit_whenSetBidsForRequest_thenRequestKeywordsContainsCrtSize {
+    CRInterstitialAdUnit *adUnit = [CR_TestAdUnits preprodInterstitial];
+    [self initCriteoWithAdUnits:@[adUnit]];
+    ((CR_DeviceInfoMock *)self.criteo.bidManagerBuilder.deviceInfo).mock_screenSize = (CGSize) { 320, 320 };
+    DFPRequest *request = [[DFPRequest alloc] init];
+
+    [self.criteo setBidsForRequest:request
+                        withAdUnit:adUnit];
+
+    XCTAssertEqualObjects(request.customTargeting[@"crt_size"],
+                          @"320x480");
 }
 
 @end

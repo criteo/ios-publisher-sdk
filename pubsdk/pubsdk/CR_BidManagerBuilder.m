@@ -112,7 +112,7 @@
 
 - (CR_HeaderBidding *)headerBidding {
     if (_headerBidding == nil) {
-        _headerBidding = [[CR_HeaderBidding alloc] init];
+        _headerBidding = [[CR_HeaderBidding alloc] initWithDevice:self.deviceInfo];
     }
     return _headerBidding;
 }

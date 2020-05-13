@@ -12,6 +12,7 @@
 #import "CR_CacheAdUnit.h"
 #import "CR_CdbBid.h"
 #import "CR_HeaderBidding.h"
+#import "CR_DeviceInfoMock.h"
 
 @interface CR_BidManagerHelperTests : XCTestCase
 
@@ -20,7 +21,8 @@
 @implementation CR_BidManagerHelperTests
 
 - (void) testRemoveCriteoBidFromMopubAdRequest{
-    CR_HeaderBidding *headerBidding = [[CR_HeaderBidding alloc] init];
+    CR_DeviceInfoMock *device = [[CR_DeviceInfoMock alloc] init];
+    CR_HeaderBidding *headerBidding = [[CR_HeaderBidding alloc] initWithDevice:device];
     CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid" width:300 height:250];
     CR_CdbBid *testBid_1 = [[CR_CdbBid alloc] initWithZoneId:nil placementId:@"adunitid" cpm:@"1.1200000047683716" currency:@"EUR" width:@(300) height:@(250) ttl:600 creative:nil displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js" insertTime:[NSDate date] nativeAssets:nil impressionId:nil];
     MPInterstitialAdController *mopubBidRequest = [[MPInterstitialAdController alloc] init];

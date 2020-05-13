@@ -8,6 +8,7 @@
 NSString *const CR_TargetingKey_crtCpm = @"crt_cpm";
 NSString *const CR_TargetingKey_crtDisplayUrl = @"crt_displayUrl";
 NSString *const CR_TargetingKey_crtDfpDisplayUrl = @"crt_displayurl";
+NSString *const CR_TargetingKey_crtSize = @"crt_size";
 
 // native asset keys
 NSString *const CR_TargetingKey_crtnTitle = @"crtn_title";

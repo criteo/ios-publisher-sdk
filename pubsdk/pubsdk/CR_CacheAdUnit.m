@@ -12,6 +12,13 @@
     NSUInteger _hash;
 }
 
++ (instancetype)cacheAdUnitForInterstialWithAdUnitId:(NSString *)adUnitId
+                                                size:(CGSize)size {
+    return [[CR_CacheAdUnit alloc] initWithAdUnitId:adUnitId
+                                               size:size
+                                         adUnitType:CRAdUnitTypeInterstitial];
+}
+
 - (instancetype) init {
     CGSize size = CGSizeMake(0.0,0.0);
     return [self initWithAdUnitId:@"" size:size adUnitType:CRAdUnitTypeBanner];

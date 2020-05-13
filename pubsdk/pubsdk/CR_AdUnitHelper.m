@@ -8,6 +8,7 @@
 #import "CR_AdUnitHelper.h"
 #import "CRBannerAdUnit.h"
 #import "CRAdUnit+Internal.h"
+#import "CR_DeviceInfo.h"
 #import "Logging.h"
 
 @implementation CR_AdUnitHelper
@@ -30,9 +31,8 @@ static const CGSize nativeSize = {2.0, 2.0};
                                                       size:[(CRBannerAdUnit *)adUnit size]
                                                  adUnitType:CRAdUnitTypeBanner];
         case CRAdUnitTypeInterstitial:
-            return [[CR_CacheAdUnit alloc] initWithAdUnitId:adUnit.adUnitId
-                                                       size:[CR_DeviceInfo getScreenSize]
-                                                 adUnitType:CRAdUnitTypeInterstitial];
+            return [CR_CacheAdUnit cacheAdUnitForInterstialWithAdUnitId:adUnit.adUnitId
+                    size:[CR_DeviceInfo getScreenSize]];
         case CRAdUnitTypeNative:
             return [[CR_CacheAdUnit alloc] initWithAdUnitId:adUnit.adUnitId
                                                        size:nativeSize
