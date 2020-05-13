@@ -24,6 +24,7 @@ FOUNDATION_EXPORT const unsigned char pubsdkVersionString[];
 #import <pubsdk/CRInterstitialAdUnit.h>
 #import <pubsdk/CRInterstitialDelegate.h>
 #import <pubsdk/CRNativeAd.h>
+#import <pubsdk/CRNativeAdView.h>
 #import <pubsdk/CRNativeAdUnit.h>
 #import <pubsdk/CRNativeLoader.h>
 #import <pubsdk/Criteo.h>
