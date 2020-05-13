@@ -7,7 +7,21 @@ export LANG=en_US.UTF-8
 rm -rf build/output
 mkdir -p build/output/sim
 
-pod install --repo-update
+# Note: writes to STDERR to prevent breaking xcpretty
+function fuji-printf() { printf "[🏔 fuji] $*" 1>&2; }
+function fuji-echo() { printf "[🏔 fuji] $*\n" 1>&2; }
+
+function fuji-pod-repo-update() {
+  fuji-echo "Cocoapods repo update..."
+  pod repo update --silent
+}
+function fuji-pod-install() {
+  fuji-echo "Cocoapods install..."
+  pod install --deployment --clean-install --no-repo-update
+}
+fuji-pod-repo-update
+fuji-pod-install
+
 CRITEO_WATCH_ARCHS='armv7k arm64_32'
 CRITEO_DEVICE_ARCHS='armv7 armv7s arm64'
 CRITEO_ARCHS="$CRITEO_DEVICE_ARCHS $CRITEO_WATCH_ARCHS"
@@ -21,8 +35,7 @@ rm -rf CriteoPublisher.framework
 git clone ssh://qabot@review.crto.in:29418/pub-sdk/fuji
 
 cd fuji
-
-pod install
+fuji-pod-install
 
 mkdir -p build/output/sim
 
