@@ -27,5 +27,5 @@ xcodebuild \
     -configuration Debug \
     -derivedDataPath build/DerivedData  \
     -sdk iphonesimulator \
-    -destination 'platform=iOS Simulator,name=iPhone 5s,OS=latest' \
+    -destination 'platform=iOS Simulator,name=iPhone 8,OS=latest' \
     clean build test | xcpretty --report junit --report html

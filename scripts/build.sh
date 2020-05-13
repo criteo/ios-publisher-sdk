@@ -33,7 +33,7 @@ xcodebuild \
         -IDEBuildOperationMaxNumberOfConcurrentCompileTasks=`sysctl -n hw.ncpu` \
         -derivedDataPath build/DerivedData  \
         -sdk iphonesimulator \
-        -destination 'platform=iOS Simulator,name=iPhone XS,OS=latest' \
+        -destination 'platform=iOS Simulator,name=iPhone 11,OS=latest' \
         ARCHS="$CRITEO_SIM_ARCHS" \
         VALID_ARCHS="$CRITEO_SIM_ARCHS" \
         ONLY_ACTIVE_ARCH=NO \
@@ -80,5 +80,5 @@ set -o pipefail && xcodebuild \
         -IDEBuildOperationMaxNumberOfConcurrentCompileTasks=`sysctl -n hw.ncpu` \
         -derivedDataPath build/DerivedData  \
         -sdk iphonesimulator \
-        -destination 'platform=iOS Simulator,name=iPhone 5s,OS=latest' \
+        -destination 'platform=iOS Simulator,name=iPhone 8,OS=latest' \
         clean build test | xcpretty --report junit --report html
