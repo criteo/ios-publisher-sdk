@@ -42,6 +42,9 @@
                   Identifier = "CRBannerViewTests/testWithRendering">
                </Test>
                <Test
+                  Identifier = "CRInterstitialDelegateTests/testInterstitialWillAndDidAppear">
+               </Test>
+               <Test
                   Identifier = "CRInterstitialTests/testWithRendering">
                </Test>
                <Test
@@ -70,6 +73,12 @@
                </Test>
                <Test
                   Identifier = "CR_WebApiIntegrationTests/testSendValidBidRequest">
+               </Test>
+               <Test
+                  Identifier = "CR_WebApiIntegrationTests/testSendValidBidRequestWithGdprTcf1_1">
+               </Test>
+               <Test
+                  Identifier = "CR_WebApiIntegrationTests/testSendValidBidRequestWithGdprTcf2_0">
                </Test>
             </SkippedTests>
          </TestableReference>
