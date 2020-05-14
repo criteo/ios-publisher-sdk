@@ -12,6 +12,7 @@
 #pragma mark - CRNativeDelegate
 
 - (void)nativeLoader:(CRNativeLoader *)loader didReceiveAd:(CRNativeAd *)ad {
+    self.nativeAd = ad;
     self.titleLabel.text = ad.title;
     self.bodyLabel.text = ad.body;
     NSURL *url = [[NSURL alloc] initWithString:ad.productImageUrl];

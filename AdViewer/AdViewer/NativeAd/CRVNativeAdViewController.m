@@ -56,6 +56,7 @@
     [_logger nativeLoader:loader didReceiveAd:ad];
     NSBundle *bundle = [NSBundle mainBundle];
     CRVNativeAdView *view = [bundle loadNibNamed:@"CRVNativeAdView" owner:nil options:nil].firstObject;
+    view.nativeAd = ad;
     view.titleLabel.text = ad.title;
     view.bodyLabel.text = ad.body;
     self.adView = view;

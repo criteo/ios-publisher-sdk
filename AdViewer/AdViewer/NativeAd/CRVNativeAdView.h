@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CRVNativeAdView : UIView<CRNativeDelegate>
+@interface CRVNativeAdView : CRNativeAdView<CRNativeDelegate>
 
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
 @property (nonatomic, weak) IBOutlet UILabel *bodyLabel;
