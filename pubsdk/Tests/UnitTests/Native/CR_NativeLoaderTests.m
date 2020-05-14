@@ -16,13 +16,17 @@
 #import "CRNativeLoader+Internal.h"
 #import "CR_AdUnitHelper.h"
 
-
 @interface CR_NativeLoaderTests : XCTestCase
 @end
 
 @interface CR_NativeLoaderDispatchChecker : NSObject <CRNativeDelegate>
 @property (strong, nonatomic) XCTestExpectation *didReceiveOnMainQueue;
 @property (strong, nonatomic) XCTestExpectation *didFailOnMainQueue;
+@property (strong, nonatomic) XCTestExpectation *willLeaveApplicationForNativeAd;
+@end
+
+@interface CRNativeLoader (Tests)
+- (void)notifyWillLeaveApplicationForNativeAd;
 @end
 
 @implementation CR_NativeLoaderTests
@@ -84,23 +88,32 @@
 }
 
 - (void)testReceiveOnMainQueue {
-    CR_NativeLoaderDispatchChecker *delegate = [self dispatchCheckerForBid:self.validBid];
+    CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
+    [self dispatchCheckerForBid:self.validBid delegate:delegate];
     [self waitForExpectations:@[delegate.didReceiveOnMainQueue] timeout:5];
 }
 
 - (void)testFailureOnMainQueue {
-    CR_NativeLoaderDispatchChecker *delegate = [self dispatchCheckerForBid:[CR_CdbBid emptyBid]];
+    CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
+    [self dispatchCheckerForBid:[CR_CdbBid emptyBid] delegate:delegate];
     [self waitForExpectations:@[delegate.didFailOnMainQueue] timeout:5];
 }
 
-- (CR_NativeLoaderDispatchChecker *)dispatchCheckerForBid:(CR_CdbBid *)bid {
-    CRNativeAdUnit *adUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"123"];
+- (void)testWillLeaveApplicationForNativeAdOnMainQueue {
     CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
+    CRNativeLoader *loader = [self dispatchCheckerForBid:[CR_CdbBid emptyBid] delegate:delegate];
+    [loader notifyWillLeaveApplicationForNativeAd];
+    [self waitForExpectations:@[delegate.willLeaveApplicationForNativeAd] timeout:5];
+}
+
+- (CRNativeLoader *)dispatchCheckerForBid:(CR_CdbBid *)bid
+                                 delegate:(id<CRNativeDelegate>)delegate {
+    CRNativeAdUnit *adUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"123"];
     Criteo *criteoMock = [self mockCriteoWithAdUnit:adUnit returnBid:bid];
     CRNativeLoader *loader = [[CRNativeLoader alloc] initWithAdUnit:adUnit criteo:criteoMock];
     loader.delegate = delegate;
     [loader loadAd];
-    return delegate;
+    return loader;
 }
 
 - (void)testDoesNotConsumeBidWhenNotListeningToAds {
@@ -120,6 +133,7 @@
     if (self) {
         _didFailOnMainQueue = [[XCTestExpectation alloc] initWithDescription:@"Delegate should be called on main queue"];
         _didReceiveOnMainQueue = [[XCTestExpectation alloc] initWithDescription:@"Delegate should be called on main queue"];
+        _willLeaveApplicationForNativeAd = [[XCTestExpectation alloc] initWithDescription:@"Delegate should be called on main queue"];
     }
     return self;
 }
@@ -135,6 +149,13 @@
     if (@available(iOS 10.0, *)) {
         dispatch_assert_queue(dispatch_get_main_queue());
         [_didFailOnMainQueue fulfill];
+    }
+}
+
+- (void)nativeLoaderWillLeaveApplicationForNativeAd:(CRNativeLoader *)loader {
+    if (@available(iOS 10.0, *)) {
+        dispatch_assert_queue(dispatch_get_main_queue());
+        [_willLeaveApplicationForNativeAd fulfill];
     }
 }
 

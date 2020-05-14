@@ -6,6 +6,7 @@
 //
 
 #import "CRNativeLoader.h"
+#import "Criteo.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) CRNativeAdUnit *adUnit;
 
 - (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit criteo:(Criteo *)criteo;
+
+- (void)notifyWillLeaveApplicationForNativeAd;
 
 @end
 

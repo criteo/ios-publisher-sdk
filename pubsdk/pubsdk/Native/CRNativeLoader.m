@@ -81,5 +81,13 @@
     });
 }
 
+- (void)notifyWillLeaveApplicationForNativeAd {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if([self.delegate respondsToSelector:@selector(nativeLoaderWillLeaveApplicationForNativeAd:)]) {
+            [self.delegate nativeLoaderWillLeaveApplicationForNativeAd:self];
+        }
+    });
+}
+
 @end
 

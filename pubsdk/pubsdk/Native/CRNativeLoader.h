@@ -58,6 +58,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 -(void)nativeLoader:(CRNativeLoader *)loader didFailToReceiveAdWithError:(NSError *)error;
 
+/**
+ * Callback invoked when user clicks on an Ad or AdChoice button, opening its associated URL
+ *
+ * This callback is invoked on main dispatch queue, so it is safe to execute UI operations in the
+ * implementation.
+ *
+ * @param loader Native loader invoking the callback
+ */
+-(void)nativeLoaderWillLeaveApplicationForNativeAd:(CRNativeLoader *)loader;
+
 @end
 
 NS_ASSUME_NONNULL_END
