@@ -7,14 +7,13 @@
 
 #import <UIKit/UIKit.h>
 
-@class CR_NativePrivacy;
+@class CRNativeAd;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_AdChoice : UIButton
 
-@property (strong, nonatomic, nullable) CR_NativePrivacy *nativePrivacy;
-
+@property (strong, nonatomic, nullable) CRNativeAd *nativeAd;
 
 @end
 

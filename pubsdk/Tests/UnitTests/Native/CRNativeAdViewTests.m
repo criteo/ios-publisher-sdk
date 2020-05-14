@@ -11,6 +11,8 @@
 #import "CR_AdChoice.h"
 #import "CRNativeAd+Internal.h"
 #import "CR_NativeAssetsTests.h"
+#import "OCMock.h"
+#import "NSURL+Criteo.h"
 
 @interface CRNativeAdViewTests : XCTestCase
 @end
@@ -42,7 +44,7 @@
     [window.rootViewController.view addSubview:adView];
     adView.nativeAd = [self buildNativeAd];
 
-    XCTestExpectation *adChoiceExpectation = [self expectationWithDescription:@"URL opened in browser expectation"];
+    XCTestExpectation *adChoiceExpectation = [self expectationWithDescription:@"AdChoice should be top right frontmost view"];
     dispatch_async(dispatch_get_main_queue(), ^{
         CR_AdChoice *adChoice = [self getAdChoiceFromAdView:adView];
         CGFloat adRight = adView.frame.size.width;
@@ -50,6 +52,27 @@
         XCTAssertEqual(adRight, adChoiceRight, @"AdChoice should be at right");
         XCTAssertEqual(adChoice.frame.origin.y, 0, @"AdChoice should be at top");
         XCTAssertEqual([adView.subviews indexOfObject:adChoice], 0, @"AdChoice should be frontmost view");
+        [adChoiceExpectation fulfill];
+    });
+
+    [self waitForExpectations:@[adChoiceExpectation] timeout:1];
+}
+
+- (void)testAddChoiceClickOpenExternalURL {
+    CRNativeAdView *adView = [self buildNativeAdView];
+    UIWindow *window = [self createUIWindow];
+    [window.rootViewController.view addSubview:adView];
+    adView.nativeAd = [self buildNativeAd];
+
+    id mockUrl = OCMClassMock([NSURL class]);
+    OCMStub([mockUrl URLWithStringOrNil:OCMOCK_ANY]).andReturn(mockUrl);
+    OCMExpect([mockUrl openExternal:OCMOCK_ANY]);
+
+    XCTestExpectation *adChoiceExpectation = [self expectationWithDescription:@"AdChoice click should open URL"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        CR_AdChoice *adChoice = [self getAdChoiceFromAdView:adView];
+        [adChoice sendActionsForControlEvents:UIControlEventTouchUpInside];
+        OCMVerifyAll(mockUrl);
         [adChoiceExpectation fulfill];
     });
 

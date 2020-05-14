@@ -6,8 +6,6 @@
 //
 
 #import "CRNativeAdView.h"
-#import "CRNativeAd+Internal.h"
-#import "CR_NativeAssets.h"
 #import "CR_AdChoice.h"
 
 @interface CRNativeAdView ()
@@ -20,7 +18,7 @@
 
 - (void)setNativeAd:(CRNativeAd *)nativeAd {
     _nativeAd = nativeAd;
-    self.adChoice.nativePrivacy = _nativeAd.assets.privacy;
+    self.adChoice.nativeAd = _nativeAd;
 }
 
 #pragma mark - Private

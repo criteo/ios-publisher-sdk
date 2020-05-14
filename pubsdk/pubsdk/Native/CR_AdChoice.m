@@ -8,10 +8,15 @@
 #import "CR_AdChoice.h"
 #import "CR_NativePrivacy.h"
 #import "NSURL+Criteo.h"
+#import "CRNativeLoader+Internal.h"
+#import "CRNativeAd+Internal.h"
+#import "CR_NativeAssets.h"
 
 static const CGSize CR_AdChoiceButtonSize = (CGSize) {40, 15};
 
 @interface CR_AdChoice ()
+@property (weak, nonatomic) CRNativeLoader *loader;
+@property (strong, nonatomic, readonly) CR_NativePrivacy *privacy;
 @end
 
 @implementation CR_AdChoice
@@ -25,17 +30,40 @@ static const CGSize CR_AdChoiceButtonSize = (CGSize) {40, 15};
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
+        [self addTarget:self action:@selector(buttonClicked:)
+       forControlEvents:UIControlEventTouchUpInside];
     }
     return self;
 }
 
-- (void)setNativePrivacy:(CR_NativePrivacy *)nativePrivacy {
-    if (_nativePrivacy == nativePrivacy) {
+#pragma mark - Events
+
+- (void)buttonClicked:(id)button {
+    NSURL *url = [NSURL URLWithStringOrNil:self.privacy.optoutClickUrl];
+    [url openExternal:^(BOOL success) {
+        [self.loader notifyWillLeaveApplicationForNativeAd];
+    }];
+}
+
+#pragma mark - Properties
+
+- (void)setNativeAd:(CRNativeAd *)nativeAd {
+    if (_nativeAd == nativeAd) {
         return;
     }
-    _nativePrivacy = nativePrivacy;
+    _nativeAd = nativeAd;
+    [self loadView];
+}
+
+- (CR_NativePrivacy *)privacy {
+    return _nativeAd.assets.privacy;
+}
+
+#pragma mark - Data
+
+- (void)loadView {
     //TODO Add a downloader / cache manager
-    NSURL *imageURL = [NSURL URLWithStringOrNil:_nativePrivacy.optoutImageUrl];
+    NSURL *imageURL = [NSURL URLWithStringOrNil:self.privacy.optoutImageUrl];
     UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:imageURL]];
     [self setImage:image forState:UIControlStateNormal];
     self.imageView.frame = self.bounds;
