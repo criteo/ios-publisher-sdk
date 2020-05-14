@@ -5,21 +5,33 @@
 //  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
-#import "CRNativeAd.h"
+#import "CRNativeAd+Internal.h"
 #import "CR_NativeAssets.h"
+#import "CRNativeLoader.h"
 
 @implementation CRNativeAd
 
+- (instancetype)initWithLoader:(CRNativeLoader *)loader
+                        assets:(CR_NativeAssets *)assets {
+    if (self = [self initWithNativeAssets:assets]) {
+        _loader = loader;
+    }
+    return self;
+}
+
 - (instancetype)initWithNativeAssets:(CR_NativeAssets *)assets {
     CR_NativeProduct *product = assets.products[0];
-    return [[CRNativeAd alloc] initWithTitle:product.title
-                                        body:product.description
-                                       price:product.price
-                                callToAction:product.callToAction
-                             productImageUrl:product.image.url
-                       advertiserDescription:assets.advertiser.description
-                            advertiserDomain:assets.advertiser.domain
-                      advertiserLogoImageUrl:assets.advertiser.logoImage.url];
+    if (self = [self initWithTitle:product.title
+                              body:product.description
+                             price:product.price
+                      callToAction:product.callToAction
+                   productImageUrl:product.image.url
+             advertiserDescription:assets.advertiser.description
+                  advertiserDomain:assets.advertiser.domain
+            advertiserLogoImageUrl:assets.advertiser.logoImage.url]) {
+        _assets = assets;
+    }
+    return self;
 }
 
 - (instancetype)initWithTitle:(NSString *)title

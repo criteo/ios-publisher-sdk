@@ -55,7 +55,7 @@
         return;
     }
 
-    CRNativeAd *ad = [[CRNativeAd alloc] initWithNativeAssets:bid.nativeAssets];
+    CRNativeAd *ad = [[CRNativeAd alloc] initWithLoader:self assets:bid.nativeAssets];
     [self notifyDidReceiveAd:ad];
 }
 

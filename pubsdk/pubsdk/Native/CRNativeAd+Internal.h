@@ -7,17 +7,18 @@
 
 #import "CRNativeAd.h"
 
+@class CRNativeLoader;
 @class CR_NativeAssets;
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- Criteo internal interface.
-
- The public interface doesn't allow to instanciate the NativeAd. Only
- internal classes of the SDK can.
-*/
 @interface CRNativeAd ()
+
+@property (weak, nonatomic, readonly) CRNativeLoader *loader;
+@property (strong, nonatomic, readonly) CR_NativeAssets *assets;
+
+- (instancetype)initWithLoader:(CRNativeLoader *)loader
+                        assets:(CR_NativeAssets *)assets;
 
 - (instancetype)initWithNativeAssets:(CR_NativeAssets *)assets;
 
