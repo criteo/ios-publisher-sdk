@@ -76,4 +76,12 @@
     [self waitForExpectations:@[expectation] timeout:5];
 }
 
+- (void)testWebViewInstanciateOnMainThread {
+    XCTestExpectation *exp = [self expectationWithDescription:@"DeviceInfo created"];
+    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        XCTAssertNoThrow([[CR_DeviceInfo alloc] init]);
+        [exp fulfill];
+    });
+    [self waitForExpectations:@[exp] timeout:0.2];
+}
 @end

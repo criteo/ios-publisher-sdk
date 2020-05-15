@@ -26,13 +26,13 @@
 }
 
 - (instancetype)init {
-    return [self initWithThreadManager:[[CR_ThreadManager alloc] init]
-                               webView:[[WKWebView alloc] initWithFrame:CGRectZero]];
+    return [self initWithThreadManager:[[CR_ThreadManager alloc] init]];
 }
+
 
 - (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager {
     self = [self initWithThreadManager:threadManager
-                               webView:[[WKWebView alloc] initWithFrame:CGRectZero]];
+                               webView:[self.class webView]];
     return self;
 }
 
@@ -116,6 +116,20 @@
 + (BOOL)validScreenSize:(CGSize)size {
     CGSize currentScreenSize = [CR_DeviceInfo getScreenSize];
     return CGSizeEqualToSize(size, currentScreenSize) || CGSizeEqualToSize(size, CGSizeMake(currentScreenSize.height, currentScreenSize.width));
+}
+
+#pragma mark - Private
+
++ (WKWebView *)webView {
+    __block WKWebView *webview = nil;
+    if ([NSThread isMainThread]) {
+        webview = [[WKWebView alloc] initWithFrame:CGRectZero];
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            webview = [[WKWebView alloc] initWithFrame:CGRectZero];
+        });
+    }
+    return webview;
 }
 
 @end
