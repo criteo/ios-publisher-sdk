@@ -286,47 +286,4 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     XCTAssertNil([self.dfpRequest.customTargeting objectForKey:CR_BidManagerTestsCpm]);
 }
 
-- (void)testAddCriteoBidToRequestForEmptyBid {
-    OCMReject([self.headerBiddingMock enrichRequest:[OCMArg any]
-                                            withBid:[OCMArg any]
-                                             adUnit:[OCMArg any]]);
-
-    [self.bidManager addCriteoBidToRequest:self.dfpRequest
-                                 forAdUnit:self.adUnitForEmptyBid];
-}
-
-- (void)testAddCriteoBidToRequestForUncachedAdUnit {
-    OCMReject([self.headerBiddingMock enrichRequest:[OCMArg any]
-                                            withBid:[OCMArg any]
-                                             adUnit:[OCMArg any]]);
-
-    [self.bidManager addCriteoBidToRequest:self.dfpRequest
-                                 forAdUnit:self.adUnitUncached];
-}
-
-- (void)testAddCriteoBidToRequestWithMoPubRemoveCriteoBid {
-    MPAdView *request = [[MPAdView alloc] init];
-
-    [self.bidManager addCriteoBidToRequest:request
-                                 forAdUnit:self.adUnit1];
-
-    OCMVerify([self.headerBiddingMock removeCriteoBidsFromMoPubRequest:request]);
-}
-
-- (void)testAddCriteoBidToRequestWithMoPubRemoveCriteoBidEvenForEmptyBid {
-    MPAdView *request = [[MPAdView alloc] init];
-
-    [self.bidManager addCriteoBidToRequest:request
-                                 forAdUnit:self.adUnitForEmptyBid];
-
-    OCMVerify([self.headerBiddingMock removeCriteoBidsFromMoPubRequest:request]);
-}
-
-- (void)testAddCriteoBidToRequestWithDfpDoNotRemoveCriteoBid {
-    OCMReject([self.headerBiddingMock removeCriteoBidsFromMoPubRequest:[OCMArg any]]);
-
-    [self.bidManager addCriteoBidToRequest:self.dfpRequest
-                                 forAdUnit:self.adUnitForEmptyBid];
-}
-
 @end

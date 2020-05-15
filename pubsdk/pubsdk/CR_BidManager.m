@@ -264,15 +264,7 @@
         return;
     }
 
-    // Reset the keywords in the request in case there is empty bid (EE-412).
-    if ([self.headerBidding isMoPubRequest:adRequest]) {
-        [self.headerBidding removeCriteoBidsFromMoPubRequest:adRequest];
-    }
-
     CR_CdbBid *fetchedBid = [self getBid:adUnit];
-    if ([fetchedBid isEmpty]) {
-        return;
-    }
     [self.headerBidding enrichRequest:adRequest
                               withBid:fetchedBid
                                adUnit:adUnit];

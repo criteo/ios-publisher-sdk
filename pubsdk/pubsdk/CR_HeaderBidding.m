@@ -33,6 +33,16 @@
 - (void)enrichRequest:(id)adRequest
               withBid:(CR_CdbBid *)bid
                adUnit:(CR_CacheAdUnit *)adUnit {
+
+    // Reset the keywords in the request in case there is empty bid (EE-412).
+    if ([self isMoPubRequest:adRequest]) {
+        [self removeCriteoBidsFromMoPubRequest:adRequest];
+    }
+
+    if ([bid isEmpty]) {
+        return;
+    }
+
     if([self isDfpRequest:adRequest]) {
         [self addCriteoBidToDfpRequest:adRequest
                                withBid:bid

@@ -38,16 +38,6 @@ NS_DESIGNATED_INITIALIZER;
               withBid:(CR_CdbBid *)bid
                adUnit:(CR_CacheAdUnit *)adUnit;
 
-/**
- * @return YES if the given object is a MoPub objects
- */
-- (BOOL)isMoPubRequest:(id)request;
-
-/**
- *  Remove all the existing data of Criteo that is already exist in the given request.
- */
-- (void)removeCriteoBidsFromMoPubRequest:(id)adRequest;
-
 @end
 
 /**

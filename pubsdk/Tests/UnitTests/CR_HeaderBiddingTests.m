@@ -88,6 +88,39 @@ do { \
     self.mutableJsonDict = [self loadSlotDictionary];
 }
 
+#pragma mark - Empty Bid
+
+- (void)testEmptyBidWitDictionary {
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+
+    [self.headerBidding enrichRequest:dictionary
+                              withBid:[CR_CdbBid emptyBid]
+                               adUnit:self.adUnit1];
+
+    XCTAssertEqual(dictionary.count, 0);
+}
+
+- (void)testEmptyBidWitDfpRequest {
+    GADRequest *request = [[GADRequest alloc] init];
+
+    [self.headerBidding enrichRequest:request
+                              withBid:[CR_CdbBid emptyBid]
+                               adUnit:self.adUnit1];
+
+    XCTAssertEqual(request.customTargeting.count, 0);
+}
+
+- (void)testEmptyBidWitMoPubRequest {
+    MPAdView *request = [[MPAdView alloc] init];
+    request.keywords = @"k:v";
+
+    [self.headerBidding enrichRequest:request
+                              withBid:[CR_CdbBid emptyBid]
+                               adUnit:self.adUnit1];
+
+    XCTAssertEqual(request.keywords.length, 3);
+}
+
 #pragma mark - Dictionary
 
 - (void)testMutableDictionary {
@@ -245,6 +278,19 @@ do { \
     XCTAssertEqual(displayUrlCount, 1);
     XCTAssertEqual(cpmCount, 1);
     XCTAssertEqual(crtCount, 2);
+}
+
+#pragma Remove Previous Keys
+
+- (void)testRemoveCriteoBidForMoPub {
+    MPAdView *request = [[MPAdView alloc] init];
+    request.keywords = @"crt_k1:v1,k:v2,crt_k2:v3";
+
+    [self.headerBidding enrichRequest:request
+                              withBid:[CR_CdbBid emptyBid]
+                               adUnit:self.adUnit2];
+
+    XCTAssertEqualObjects(request.keywords, @"k:v2");
 }
 
 #pragma mark - Sizes
