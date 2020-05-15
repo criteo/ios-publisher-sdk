@@ -77,7 +77,6 @@
                                                                                               interstitial:nil];
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
-                                                              application:nil
                                                                isAdLoaded:YES
                                                                    adUnit:self.adUnit];
     XCTestExpectation *vcDismissedExpectation = [self expectationWithDescription:@"View Controller dismissed on close button click"];

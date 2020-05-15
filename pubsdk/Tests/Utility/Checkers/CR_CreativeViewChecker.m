@@ -72,7 +72,6 @@
     _bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(.0, 50.0, self.adUnit.size.width, self.adUnit.size.height)
                                                criteo:self.criteo
                                               webView:[[WKWebView alloc] initWithFrame:CGRectMake(.0, .0, self.adUnit.size.width, self.adUnit.size.height)]
-                                          application:[UIApplication sharedApplication]
                                                adUnit:self.adUnit];
 
     _bannerView.delegate = self;

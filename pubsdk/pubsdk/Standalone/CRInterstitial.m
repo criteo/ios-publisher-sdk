@@ -9,13 +9,12 @@
 #import "CRInterstitial.h"
 #import "CRInterstitial+Internal.h"
 #import "CR_Config.h"
-#import "Criteo.h"
 #import "CR_CdbBid.h"
 #import "NSError+CRErrors.h"
-#import "CR_CacheAdUnit.h"
-#import "CR_AdUnitHelper.h"
 #import "CR_TokenValue.h"
 #import "CR_InterstitialViewController.h"
+#import "NSURL+Criteo.h"
+#import "CR_DeviceInfo.h"
 
 @import WebKit;
 
@@ -27,15 +26,13 @@
 
 - (instancetype)initWithCriteo:(Criteo *)criteo
                 viewController:(CR_InterstitialViewController *)viewController
-                   application:(UIApplication *)application
                     isAdLoaded:(BOOL)isAdLoaded
-                        adUnit:(CRInterstitialAdUnit *)adUnit{
-    if(self = [super init]) {
+                        adUnit:(CRInterstitialAdUnit *)adUnit {
+    if (self = [super init]) {
         _criteo = criteo;
         viewController.webView.navigationDelegate = self;
         viewController.webView.UIDelegate = self;
         _viewController = viewController;
-        _application = application;
         _isAdLoaded = isAdLoaded;
         _adUnit = adUnit;
     }
@@ -55,7 +52,6 @@
                  viewController:[[CR_InterstitialViewController alloc] initWithWebView:webView
                                                                                   view:nil
                                                                           interstitial:self]
-                    application:[UIApplication sharedApplication]
                      isAdLoaded:NO
                          adUnit:adUnit];
 }
@@ -201,7 +197,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
             if([self.delegate respondsToSelector:@selector(interstitialWillLeaveApplication:)]) {
                 [self.delegate interstitialWillLeaveApplication:self];
             }
-            [self.application openURL:navigationAction.request.URL];
+            [navigationAction.request.URL openExternal];
             [self.viewController dismissViewController];
         });
         if(decisionHandler) {

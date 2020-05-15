@@ -14,7 +14,6 @@
 - (instancetype)initWithFrame:(CGRect)rect
                        criteo:(Criteo *)criteo
                       webView:(WKWebView *)webView
-                  application:(UIApplication *)application
                        adUnit:(CRBannerAdUnit *)adUnit;
 
 - (instancetype)initWithAdUnit:(CRBannerAdUnit *)adUnit

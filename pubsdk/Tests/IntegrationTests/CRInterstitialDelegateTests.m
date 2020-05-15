@@ -22,6 +22,7 @@
 #import "CRBannerAdUnit.h"
 #import "CR_InterstitialViewController.h"
 #import "CR_Timer.h"
+#import "NSURL+Criteo.h"
 
 @interface CRInterstitialDelegateTests : XCTestCase
 {
@@ -122,7 +123,6 @@
                                                                                               interstitial:nil];
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
-                                                              application:nil
                                                                isAdLoaded:NO
                                                                    adUnit:self.adUnit];
 
@@ -151,8 +151,7 @@
 - (void)testInterstitialAdFetchFail {
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
-                                                            viewController:nil
-                                                               application:nil
+                                                           viewController:nil
                                                                isAdLoaded:NO
                                                                    adUnit:self.adUnit];
     OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([CR_CdbBid emptyBid]);
@@ -180,10 +179,8 @@
 }
 
 - (void)testInterstitialWillLeaveApplicationAndWasClicked {
-    UIApplication *mockApplication = OCMStrictClassMock([UIApplication class]);
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:nil
                                                            viewController:nil
-                                                              application:mockApplication
                                                                isAdLoaded:NO
                                                                    adUnit:self.adUnit];
 
@@ -200,8 +197,8 @@
     NSURL *url = [[NSURL alloc] initWithString:@"123"];
     NSURLRequest *request =  [[NSURLRequest alloc] initWithURL:url];
     OCMStub(mockNavigationAction.request).andReturn(request);
-    OCMStub([mockApplication canOpenURL:url]).andReturn(YES);
-    OCMStub([mockApplication openURL:url]);
+    id mockUrl = OCMPartialMock(url);
+    OCMStub([mockUrl openExternal]);
 
     [interstitial webView:nil decidePolicyForNavigationAction:mockNavigationAction
           decisionHandler:^(WKNavigationActionPolicy decisionHandler) {
@@ -219,7 +216,6 @@
                                                                                               interstitial:nil];
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
-                                                              application:nil
                                                                isAdLoaded:NO
                                                                    adUnit:self.adUnit];
 
@@ -277,7 +273,6 @@
                                                                                               interstitial:nil];
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
-                                                              application:nil
                                                                isAdLoaded:YES
                                                                    adUnit:self.adUnit];
 
@@ -331,7 +326,6 @@
                                                                                               interstitial:nil];
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:nil
                                                            viewController:interstitialVC
-                                                              application:nil
                                                                isAdLoaded:NO
                                                                    adUnit:self.adUnit];
 
@@ -455,7 +449,6 @@
 - (void)testInterstitialFailWhenRootViewControllerIsNil {
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:nil
                                                            viewController:nil
-                                                              application:nil
                                                                isAdLoaded:NO
                                                                    adUnit:self.adUnit];
     id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
@@ -484,8 +477,7 @@
     CR_InterstitialViewController *mockInterstitialVC = OCMStrictClassMock([CR_InterstitialViewController class]);
     OCMStub(mockInterstitialVC.webView).andReturn(nil);
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:nil
-                                                               viewController:mockInterstitialVC
-                                                                  application:nil
+                                                           viewController:mockInterstitialVC
                                                                isAdLoaded:NO
                                                                    adUnit:self.adUnit];
     id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
@@ -518,7 +510,6 @@
     OCMStub(mockInterstitialVC.webView).andReturn(nil);
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:nil
                                                            viewController:mockInterstitialVC
-                                                              application:nil
                                                                isAdLoaded:NO
                                                                    adUnit:self.adUnit];
     id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
@@ -543,7 +534,6 @@
                                                                                               interstitial:nil];
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
-                                                              application:nil
                                                                isAdLoaded:NO
                                                                    adUnit:self.adUnit];
     id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
@@ -570,7 +560,6 @@
                                                                                               interstitial:nil];
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
-                                                              application:nil
                                                                isAdLoaded:NO
                                                                    adUnit:self.adUnit];
     id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
@@ -599,7 +588,6 @@
     OCMStub(mockInterstitialVC.webView).andReturn(nil);
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:nil
                                                            viewController:mockInterstitialVC
-                                                              application:nil
                                                                isAdLoaded:NO
                                                                    adUnit:self.adUnit];
     id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
@@ -621,7 +609,6 @@
     CRInterstitialAdUnit *adUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"Yup"];
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:nil
-                                                              application:nil
                                                                isAdLoaded:NO
                                                                    adUnit:adUnit];
     CRBidToken *bidToken = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
@@ -645,7 +632,6 @@
     CRInterstitialAdUnit *adUnit2 = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"Yo"];
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:nil
-                                                              application:nil
                                                                isAdLoaded:NO
                                                                    adUnit:adUnit1];
     CRBidToken *bidToken = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
@@ -674,7 +660,6 @@
     CRBannerAdUnit       *adUnit2 = [[CRBannerAdUnit alloc]       initWithAdUnitId:@"Yo" size:CGSizeMake(200, 200)];
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:nil
-                                                              application:nil
                                                                isAdLoaded:NO
                                                                    adUnit:adUnit1];
     CRBidToken *bidToken = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
@@ -710,7 +695,6 @@
     CRInterstitialAdUnit *adUnit2 = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"Yo"];
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
-                                                              application:nil
                                                                isAdLoaded:NO
                                                                    adUnit:adUnit1];
 
@@ -751,7 +735,6 @@
                                                                                               interstitial:nil];
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
-                                                              application:nil
                                                                isAdLoaded:NO
                                                                    adUnit:self.adUnit];
 

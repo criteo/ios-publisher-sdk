@@ -22,6 +22,7 @@
 #import "CR_Timer.h"
 #import "CRBannerViewDelegateMock.h"
 #import "XCTestCase+Criteo.h"
+#import "NSURL+Criteo.h"
 
 NSTimeInterval kExpectedTimeout = .5;
 
@@ -95,7 +96,6 @@ NSTimeInterval kExpectedTimeout = .5;
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:mockCriteo
                                                            webView:realWebView
-                                                       application:nil
                                                             adUnit:self.adUnit];
 
     CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];
@@ -113,7 +113,6 @@ NSTimeInterval kExpectedTimeout = .5;
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:mockCriteo
                                                            webView:nil
-                                                       application:nil
                                                             adUnit:self.adUnit];
 
     CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];
@@ -131,11 +130,9 @@ NSTimeInterval kExpectedTimeout = .5;
 }
 
 - (void)testBannerWillLeaveApplicationAndWasClicked {
-    UIApplication *mockApplication = OCMStrictClassMock([UIApplication class]);
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:nil
                                                            webView:nil
-                                                       application:mockApplication
                                                             adUnit:self.adUnit];
     CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];
     bannerView.delegate = delegate;
@@ -148,8 +145,8 @@ NSTimeInterval kExpectedTimeout = .5;
     NSURL *url = [[NSURL alloc] initWithString:@"123"];
     NSURLRequest *request =  [[NSURLRequest alloc] initWithURL:url];
     OCMStub(mockNavigationAction.request).andReturn(request);
-    OCMStub([mockApplication canOpenURL:url]).andReturn(YES);
-    OCMStub([mockApplication openURL:url]);
+    id mockUrl = OCMPartialMock(url);
+    OCMStub([mockUrl openExternal]);
 
     [bannerView webView:nil decidePolicyForNavigationAction:mockNavigationAction
         decisionHandler:^(WKNavigationActionPolicy decisionHandler) {
@@ -164,7 +161,6 @@ NSTimeInterval kExpectedTimeout = .5;
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:nil
                                                            webView:nil
-                                                       application:nil
                                                             adUnit:self.adUnit];
     CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];
     [delegate invertAllExpectations];
@@ -181,7 +177,6 @@ NSTimeInterval kExpectedTimeout = .5;
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:nil
                                                            webView:nil
-                                                       application:nil
                                                             adUnit:self.adUnit];
 
     CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];
@@ -199,7 +194,6 @@ NSTimeInterval kExpectedTimeout = .5;
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:nil
                                                            webView:nil
-                                                       application:nil
                                                             adUnit:self.adUnit];
 
     CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];
@@ -226,7 +220,6 @@ NSTimeInterval kExpectedTimeout = .5;
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:mockCriteo
                                                            webView:realWebView
-                                                       application:nil
                                                             adUnit:self.adUnit];
 
     CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];
@@ -247,7 +240,6 @@ NSTimeInterval kExpectedTimeout = .5;
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:mockCriteo
                                                            webView:mockWebView
-                                                       application:nil
                                                             adUnit:adUnit];
     CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
     OCMStub([mockCriteo tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner]).andReturn(nil);
@@ -274,7 +266,6 @@ NSTimeInterval kExpectedTimeout = .5;
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:mockCriteo
                                                            webView:mockWebView
-                                                       application:nil
                                                             adUnit:adUnit1];
     CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
     CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"test"
@@ -300,7 +291,6 @@ NSTimeInterval kExpectedTimeout = .5;
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:mockCriteo
                                                            webView:mockWebView
-                                                       application:nil
                                                             adUnit:adUnit1];
     CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
     CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"test"
@@ -332,7 +322,6 @@ NSTimeInterval kExpectedTimeout = .5;
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:mockCriteo
                                                            webView:mockWebView
-                                                       application:nil
                                                             adUnit:adUnit1];
     CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
     CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"test"

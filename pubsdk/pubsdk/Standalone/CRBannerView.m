@@ -12,6 +12,7 @@
 #import "CR_BidManager.h"
 #import "NSError+CRErrors.h"
 #import "CR_TokenValue.h"
+#import "NSURL+Criteo.h"
 
 //TODO check import strategy
 @import WebKit;
@@ -21,7 +22,6 @@
 @property (nonatomic) BOOL isResponseValid;
 @property (nonatomic, strong) Criteo *criteo;
 @property (nonatomic, strong) WKWebView *webView;
-@property (nonatomic, weak) UIApplication *application;
 @property (nonatomic, readonly) CRBannerAdUnit *adUnit;
 @end
 
@@ -40,14 +40,12 @@
     return [self initWithFrame:CGRectMake(.0, .0, adUnit.size.width, adUnit.size.height)
                         criteo:criteo
                        webView:[[WKWebView alloc] initWithFrame:webViewRect configuration:webViewConfiguration]
-                   application:[UIApplication sharedApplication]
                         adUnit:adUnit];
 }
 
 - (instancetype)initWithFrame:(CGRect)rect
                        criteo:(Criteo *)criteo
                       webView:(WKWebView *)webView
-                  application:(UIApplication *)application
                        adUnit:(CRBannerAdUnit *)adUnit {
     if(self = [super initWithFrame:rect]) {
         _criteo = criteo;
@@ -57,7 +55,6 @@
         _webView.navigationDelegate = self;
         _webView.UIDelegate = self;
         [self addSubview:webView];
-        _application = application;
         _adUnit = adUnit;
     }
     return self;
@@ -144,7 +141,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
                      if([self.delegate respondsToSelector:@selector(bannerWillLeaveApplication:)]) {
                          [self.delegate bannerWillLeaveApplication:self];
                      }
-                     [self.application openURL:navigationAction.request.URL];
+                     [navigationAction.request.URL openExternal];
                  });
                  if(decisionHandler){
                      decisionHandler(WKNavigationActionPolicyCancel);

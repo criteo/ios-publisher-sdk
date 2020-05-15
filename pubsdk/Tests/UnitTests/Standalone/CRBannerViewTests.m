@@ -17,6 +17,7 @@
 #import "CRBidToken+Internal.h"
 #import "NSError+CRErrors.h"
 #import "CRBannerAdUnit.h"
+#import "NSURL+Criteo.h"
 
 @import WebKit;
 
@@ -58,7 +59,6 @@
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:mockCriteo
                                                            webView:mockWebView
-                                                       application:nil
                                                             adUnit:self.adUnit];
 
     NSString *displayURL = @"https://rdi.eu.criteo.com/delivery/r/ajs.php?did=5c98e9d9c574a3589f8e9465fce67b00&u=%7Cx8O2jgV2RMISbZvm2b09FrpmynuoN27jeqtp1aMfZdU%3D%7C&c1=oP5_e7JVVt0EkjVehxP6aIOIWS-fm2fzhyMXUboeuR1zkGydE3HlloxT1QAbHNNgeH7t9e1IR6mv0biMxm46ZSFdAXZXreJVeP6QwU8IPLUsA32HNafhqgpnKTwmx9RrrJm4CS5Wqj07vNY7UTgDei8AWqc5CGPT2wm7W02JRvgN2kA-oWbWifmmm6EPpqVZijDHDzXwaNgzrfsaEodEmYAjFepGF0mdElHoFUCPKuOtc7mUQijLG0BSS9RhwrCTcAv42KkEQ359Et_eDnQcSt9OAF3bL64QIvLQxt2ekYFNuv3zng03qL0DIHS2bDJwRb3ieUlvZCWHI49OqM5PqoGDpSzdhdwfTE18L6cOOVKqPQ0dPofN4dkSs9IbVGiYlPnjfibL88PwTspYvki2svidSDIa2agQMHVgEof8YY4x4VgPjA8XY-s93ttw_i-RN3lcQn2mGEp6FYmRsyjFEDxHgGfJ0j6U";
@@ -91,7 +91,6 @@
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:mockCriteo
                                                            webView:mockWebView
-                                                       application:nil
                                                             adUnit:self.adUnit];
     XCTAssertEqual(mockWebView, [bannerView.subviews objectAtIndex:0]);
 }
@@ -103,7 +102,6 @@
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:mockCriteo
                                                            webView:realWebView
-                                                       application:nil
                                                             adUnit:self.adUnit];
     realWebView.navigationDelegate = self;
 
@@ -167,7 +165,6 @@ didFinishNavigation:(WKNavigation *)navigation {
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:mockCriteo
                                                            webView:realWebView
-                                                       application:nil
                                                             adUnit:self.adUnit];
     OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn(nil);
     [bannerView loadAd];
@@ -180,11 +177,9 @@ didFinishNavigation:(WKNavigation *)navigation {
     /* Allow navigation Types other than Links from Mainframes in WebView.
      eg: Clicking images inside <a> tag generates WKNavigationTypeOther
      */
-    UIApplication *mockApplication = OCMStrictClassMock([UIApplication class]);
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:nil
                                                            webView:nil
-                                                       application:mockApplication
                                                             adUnit:self.adUnit];
     WKNavigationAction *mockNavigationAction = OCMStrictClassMock([WKNavigationAction class]);
     OCMStub(mockNavigationAction.navigationType).andReturn(WKNavigationTypeOther);
@@ -208,11 +203,9 @@ didFinishNavigation:(WKNavigation *)navigation {
 
 - (void)testCancelNavigationActionPolicyForWebView {
     // cancel webView navigation for clicks on Links from mainFrame and open in browser
-    UIApplication *mockApplication = OCMStrictClassMock([UIApplication class]);
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:nil
                                                            webView:nil
-                                                       application:mockApplication
                                                             adUnit:self.adUnit];
 
     WKNavigationAction *mockNavigationAction = OCMStrictClassMock([WKNavigationAction class]);
@@ -223,8 +216,8 @@ didFinishNavigation:(WKNavigation *)navigation {
     NSURL *url = [[NSURL alloc] initWithString:@"123"];
     NSURLRequest *request =  [[NSURLRequest alloc] initWithURL:url];
     OCMStub(mockNavigationAction.request).andReturn(request);
-    OCMStub([mockApplication canOpenURL:url]).andReturn(YES);
-    OCMStub([mockApplication openURL:url]);
+    id mockUrl = OCMPartialMock(url);
+    OCMStub([mockUrl openExternal]);
 
     XCTestExpectation *openInBrowserExpectation = [self expectationWithDescription:@"URL opened in browser expectation"];
     [bannerView webView:nil decidePolicyForNavigationAction:mockNavigationAction
@@ -233,7 +226,7 @@ didFinishNavigation:(WKNavigation *)navigation {
           }];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        OCMVerify([mockApplication openURL:url]);
+        OCMVerify([mockUrl openExternal]);
         [openInBrowserExpectation fulfill];
     });
 
@@ -248,8 +241,10 @@ didFinishNavigation:(WKNavigation *)navigation {
 - (void)testCreateWebViewWithConfiguration {
     WKWebView *realWebView = [WKWebView new];
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
-    UIApplication *mockApplication = OCMStrictClassMock([UIApplication class]);
-    CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f) criteo:mockCriteo webView:realWebView application:mockApplication adUnit:nil];
+    CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
+                                                            criteo:mockCriteo
+                                                           webView:realWebView
+                                                            adUnit:nil];
 
     WKNavigationAction *mockNavigationAction = OCMStrictClassMock([WKNavigationAction class]);
 
@@ -260,15 +255,15 @@ didFinishNavigation:(WKNavigation *)navigation {
     NSURL *url = [[NSURL alloc] initWithString:@"123"];
     NSURLRequest *request =  [[NSURLRequest alloc] initWithURL:url];
     OCMStub(mockNavigationAction.request).andReturn(request);
-    OCMStub([mockApplication canOpenURL:url]).andReturn(YES);
-    OCMStub([mockApplication openURL:url]);
+    id mockUrl = OCMPartialMock(url);
+    OCMStub([mockUrl openExternal]);
 
     XCTestExpectation *openInBrowserExpectation = [self expectationWithDescription:@"URL opened in browser expectation"];
     [bannerView webView:realWebView createWebViewWithConfiguration:nil forNavigationAction:mockNavigationAction windowFeatures:nil];
 
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        OCMVerify([mockApplication openURL:url]);
+        OCMVerify([mockUrl openExternal]);
         [openInBrowserExpectation fulfill];
     });
 
@@ -286,7 +281,6 @@ didFinishNavigation:(WKNavigation *)navigation {
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:mockCriteo
                                                            webView:mockWebView
-                                                       application:nil
                                                             adUnit:self.adUnit];
     CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
     NSString *displayURL = @"https://rdi.eu.criteo.com/delivery/r/ajs.php?did=5c98e9d9c574a3589f8e9465fce67b00&u=%7Cx8O2jgV2RMISbZvm2b09FrpmynuoN27jeqtp1aMfZdU%3D%7C&c1=oP5_e7JVVt0EkjVehxP6aIOIWS-fm2fzhyMXUboeuR1zkGydE3HlloxT1QAbHNNgeH7t9e1IR6mv0biMxm46ZSFdAXZXreJVeP6QwU8IPLUsA32HNafhqgpnKTwmx9RrrJm4CS5Wqj07vNY7UTgDei8AWqc5CGPT2wm7W02JRvgN2kA-oWbWifmmm6EPpqVZijDHDzXwaNgzrfsaEodEmYAjFepGF0mdElHoFUCPKuOtc7mUQijLG0BSS9RhwrCTcAv42KkEQ359Et_eDnQcSt9OAF3bL64QIvLQxt2ekYFNuv3zng03qL0DIHS2bDJwRb3ieUlvZCWHI49OqM5PqoGDpSzdhdwfTE18L6cOOVKqPQ0dPofN4dkSs9IbVGiYlPnjfibL88PwTspYvki2svidSDIa2agQMHVgEof8YY4x4VgPjA8XY-s93ttw_i-RN3lcQn2mGEp6FYmRsyjFEDxHgGfJ0j6U";
@@ -317,7 +311,6 @@ didFinishNavigation:(WKNavigation *)navigation {
     CRBannerView *bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                                             criteo:mockCriteo
                                                            webView:mockWebView
-                                                       application:nil
                                                             adUnit:adUnit1];
 
 
