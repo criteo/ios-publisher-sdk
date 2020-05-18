@@ -1,6 +1,6 @@
 //
 //  CR_NativeProduct.h
-//  pubsdk
+//  CriteoPublisherSdk
 //
 //  copyright © 2019 Criteo. All rights reserved.
 //

@@ -1,6 +1,6 @@
 //
 //  CR_NativeAdvertiserTests.m
-//  pubsdkTests
+//  CriteoPublisherSdkTests
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
 //

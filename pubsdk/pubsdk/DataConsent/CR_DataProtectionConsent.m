@@ -1,6 +1,6 @@
 //
 //  CR_DataProtectionConsent.m
-//  pubsdk
+//  CriteoPublisherSdk
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
 //
