@@ -42,6 +42,9 @@
                   Identifier = "CRBannerViewTests/testWithRendering">
                </Test>
                <Test
+                  Identifier = "CRInterstitialDelegateTests">
+               </Test>
+               <Test
                   Identifier = "CRInterstitialDelegateTests/testInterstitialWillAndDidAppear">
                </Test>
                <Test
