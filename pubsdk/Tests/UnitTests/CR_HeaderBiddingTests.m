@@ -126,14 +126,17 @@ do { \
 
 - (void)testMutableDictionary {
     NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+    NSDictionary *expected = @{
+        kDictionaryDisplayUrlKey: self.bid1.displayUrl,
+        kCpmKey: self.bid1.cpm,
+        kSizeKey: @"300x250"
+    };
 
     [self.headerBidding enrichRequest:dictionary
                               withBid:self.bid1
                                adUnit:self.adUnit1];
 
-    XCTAssert(dictionary.count == 2);
-    XCTAssertEqualObjects(dictionary[kDictionaryDisplayUrlKey], self.bid1.displayUrl);
-    XCTAssertEqualObjects(dictionary[kCpmKey], self.bid1.cpm);
+    XCTAssertEqualObjects(dictionary, expected);
 }
 
 

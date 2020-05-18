@@ -52,7 +52,8 @@
                                  withBid:bid];
     } else if ([adRequest isKindOfClass:NSMutableDictionary.class]) {
         [self addCriteoBidToDictionary:adRequest
-                               withBid:bid];
+                               withBid:bid
+                                adUnit:adUnit];
     }
 }
 
@@ -89,9 +90,11 @@
 }
 
 - (void)addCriteoBidToDictionary:(NSMutableDictionary*)dictionary
-                         withBid:(CR_CdbBid *)bid {
+                         withBid:(CR_CdbBid *)bid
+                          adUnit:(CR_CacheAdUnit *)adUnit {
     dictionary[CR_TargetingKey_crtDisplayUrl] = bid.displayUrl;
     dictionary[CR_TargetingKey_crtCpm] = bid.cpm;
+    dictionary[CR_TargetingKey_crtSize] = [self stringSizeForBannerWithAdUnit:adUnit];
 }
 
 - (void) addCriteoBidToDfpRequest:(id) adRequest

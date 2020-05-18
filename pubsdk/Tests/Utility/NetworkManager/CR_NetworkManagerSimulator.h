@@ -9,7 +9,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern NSString * const CR_NetworkManagerSimulatorDefaultCpm;
+extern NSString * const CR_NetworkManagerSimulatorDefaultDisplayUrl;
 extern const NSTimeInterval CR_NetworkManagerSimulatorInterstitialDefaultTtl;
+
+@class CR_Config;
 
 @interface CR_NetworkManagerSimulator : CR_NetworkManager
 

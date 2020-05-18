@@ -16,6 +16,9 @@
 #import "NSURL+Testing.h"
 #import "CR_ViewCheckingHelper.h"
 
+NSString * const CR_NetworkManagerSimulatorDefaultDisplayUrl = @"https://directbidder-stubs.par.preprod.crto.in/delivery/ajs.php?width=320&height=50";
+NSString * const CR_NetworkManagerSimulatorDefaultCpm = @"20.00";
+
 NSString *const CR_NetworkSessionReplayerKillSwitchFalse = @"{\"killSwitch\":false,\"AndroidDisplayUrlMacro\":\"%%displayUrl%%\",\"AndroidAdTagUrlMode\":\"<html><body style='text-align:center; margin:0px; padding:0px; horizontal-align:center;'><script src=\\\"%%displayUrl%%\\\"></script></body></html>\",\"AndroidAdTagDataMacro\":\"%%adTagData%%\",\"AndroidAdTagDataMode\":\"<html><body style='text-align:center; margin:0px; padding:0px; horizontal-align:center;'><script>%%adTagData%%</script></body></html>\",\"iOSDisplayUrlMacro\":\"%%displayUrl%%\",\"iOSWidthMacro\":\"%%width%%\",\"iOSAdTagUrlMode\":\"<!doctype html><html><head><meta charset=\\\"utf-8\\\"><style>body{margin:0;padding:0}</style><meta name=\\\"viewport\\\" content=\\\"width=%%width%%, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\\\" ></head><body><script src=\\\"%%displayUrl%%\\\"></script></body></html>\"}";
 
 NSString *const CR_NetworkSessionReplayerGumReponse = @"{\"throttleSec\":5}";
@@ -180,9 +183,10 @@ NSString *const CR_NetworkSessionEmptyBid = @"{\"slots\":[],\"requestId\":\"c412
 
 - (NSDictionary *)bannerSlotResponseForPayload:(NSDictionary *)payload {
     NSMutableDictionary *dict = [[self defaultSlotResponseForPayload:payload] mutableCopy];
-    dict[@"width"] = @320;
-    dict[@"height"] = @50;
-    dict[@"displayUrl"] = @"https://directbidder-stubs.par.preprod.crto.in/delivery/ajs.php?width=320&height=50";
+    CGSize size = [self sizeFromSlotSize:payload[@"sizes"][0]];
+    dict[@"width"] = @((int)size.width);
+    dict[@"height"] = @((int)size.height);
+    dict[@"displayUrl"] = CR_NetworkManagerSimulatorDefaultDisplayUrl;
     return dict;
 }
 
@@ -203,7 +207,7 @@ NSString *const CR_NetworkSessionEmptyBid = @"{\"slots\":[],\"requestId\":\"c412
     dict[@"impId"] = payload[@"impId"];
     dict[@"placementId"] = payload[@"placementId"];
     dict[@"arbitrageId"] = [[NSString alloc] initWithFormat:@"arbitrage-%@", payload[@"placementId"]];
-    dict[@"cpm"] = @"20.00";
+    dict[@"cpm"] = CR_NetworkManagerSimulatorDefaultCpm;
     dict[@"currency"] = @"USD";
     dict[@"ttl"] = @0;
     return dict;
@@ -227,6 +231,14 @@ NSString *const CR_NetworkSessionEmptyBid = @"{\"slots\":[],\"requestId\":\"c412
     NSAssert(!error, @"Error %@", error);
     NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     return result;
+}
+
+- (CGSize)sizeForStringSize:(NSString *)sizeStr {
+    NSArray *split = [sizeStr componentsSeparatedByString:@"x"];
+    NSAssert(split.count == 2,
+             @"%@ should be of the form \"<integer>x<integer>\"", sizeStr);
+    CGSize size = (CGSize) { [split[0] floatValue], [split[1] floatValue] };
+    return size;
 }
 
 @end
