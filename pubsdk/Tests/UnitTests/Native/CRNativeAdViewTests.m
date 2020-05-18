@@ -13,6 +13,8 @@
 #import "CR_NativeAssetsTests.h"
 #import "OCMock.h"
 #import "NSURL+Criteo.h"
+#import "CRNativeLoader.h"
+#import "CRMediaDownloader.h"
 
 @interface CRNativeAdViewTests : XCTestCase
 @end
@@ -73,6 +75,22 @@
     [self waitForExpectations:@[adChoiceExpectation] timeout:1];
 }
 
+- (void)testAdChoiceImageDownload {
+    CRNativeAdView *adView = [self buildNativeAdView];
+    UIWindow *window = [self createUIWindow];
+    [window.rootViewController.view addSubview:adView];
+
+    id mockDownloader = OCMProtocolMock(@protocol(CRMediaDownloader));
+    OCMExpect([mockDownloader downloadImage:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+
+    CRNativeLoader *loader = OCMClassMock(CRNativeLoader.class);
+    OCMStub([loader mediaDownloader]).andReturn(mockDownloader);
+
+    CRNativeAd *ad = [self buildNativeAdWithLoader:loader];
+    adView.nativeAd = ad;
+    OCMVerifyAll(mockDownloader);
+}
+
 #pragma mark - Private
 
 - (CRNativeAdView *)buildNativeAdView {
@@ -82,6 +100,12 @@
 - (CRNativeAd *)buildNativeAd {
     CR_NativeAssets *assets = [CR_NativeAssetsTests loadNativeAssets:@"NativeAssetsFromCdb"];
     CRNativeAd *nativeAd = [[CRNativeAd alloc] initWithNativeAssets:assets];
+    return nativeAd;
+}
+
+- (CRNativeAd *)buildNativeAdWithLoader:(CRNativeLoader *)loader {
+    CR_NativeAssets *assets = [CR_NativeAssetsTests loadNativeAssets:@"NativeAssetsFromCdb"];
+    CRNativeAd *nativeAd = [[CRNativeAd alloc] initWithLoader:loader assets:assets];
     return nativeAd;
 }
 

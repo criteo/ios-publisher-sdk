@@ -15,6 +15,7 @@
 #import "CRNativeLoader.h"
 #import "CRNativeLoader+Internal.h"
 #import "CR_AdUnitHelper.h"
+#import "CRMediaDownloader.h"
 
 @interface CR_NativeLoaderTests : XCTestCase
 @end
@@ -57,13 +58,20 @@
     return criteoMock;
 }
 
+- (CRNativeLoader *)buildLoaderWithAdUnit:(CRNativeAdUnit *)adUnit criteo:(Criteo *)criteo {
+    CRNativeLoader *loader = [[CRNativeLoader alloc] initWithAdUnit:adUnit criteo:criteo];
+    // Mock downloader to prevent actual downloads from the default downloader implementation.
+    loader.mediaDownloader = OCMProtocolMock(@protocol(CRMediaDownloader));
+    return loader;
+}
+
 - (void)loadNativeWithBid:(CR_CdbBid *)bid
                  delegate:(id <CRNativeDelegate>) delegate
                    verify:(void (^)(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock))verify {
     CRNativeAdUnit *adUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"123"];
     Criteo *criteoMock = [self mockCriteoWithAdUnit:adUnit returnBid:bid];
     id <CRNativeDelegate> testDelegate = delegate ?: OCMStrictProtocolMock(@protocol(CRNativeDelegate));
-    CRNativeLoader *loader = [[CRNativeLoader alloc] initWithAdUnit:adUnit criteo:criteoMock];
+    CRNativeLoader *loader = [self buildLoaderWithAdUnit:adUnit criteo:criteoMock];
     loader.delegate = testDelegate;
     [loader loadAd];
     verify(loader, testDelegate, criteoMock);
@@ -126,7 +134,7 @@
                                  delegate:(id<CRNativeDelegate>)delegate {
     CRNativeAdUnit *adUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"123"];
     Criteo *criteoMock = [self mockCriteoWithAdUnit:adUnit returnBid:bid];
-    CRNativeLoader *loader = [[CRNativeLoader alloc] initWithAdUnit:adUnit criteo:criteoMock];
+    CRNativeLoader *loader = [self buildLoaderWithAdUnit:adUnit criteo:criteoMock];
     loader.delegate = delegate;
     [loader loadAd];
     return loader;
