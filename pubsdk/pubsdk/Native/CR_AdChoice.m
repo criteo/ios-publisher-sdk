@@ -15,8 +15,8 @@
 static const CGSize CR_AdChoiceButtonSize = (CGSize) {40, 15};
 
 @interface CR_AdChoice ()
-@property (weak, nonatomic) CRNativeLoader *loader;
 @property (strong, nonatomic, readonly) CR_NativePrivacy *privacy;
+@property (weak, nonatomic, readonly) CRNativeLoader *loader;
 @end
 
 @implementation CR_AdChoice
@@ -57,6 +57,10 @@ static const CGSize CR_AdChoiceButtonSize = (CGSize) {40, 15};
 
 - (CR_NativePrivacy *)privacy {
     return _nativeAd.assets.privacy;
+}
+
+- (CRNativeLoader *)loader {
+    return _nativeAd.loader;
 }
 
 #pragma mark - Data
