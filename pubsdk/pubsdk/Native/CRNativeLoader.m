@@ -13,6 +13,7 @@
 #import "CR_CdbBid.h"
 #import "NSError+Criteo.h"
 #import "Logging.h"
+#import "CR_DefaultMediaDownloader.h"
 
 @implementation CRNativeLoader
 
@@ -24,6 +25,7 @@
     if (self = [super init]) {
         _adUnit = adUnit;
         _criteo = criteo;
+        _mediaDownloader = [[CR_DefaultMediaDownloader alloc] init];
     }
     return self;
 }

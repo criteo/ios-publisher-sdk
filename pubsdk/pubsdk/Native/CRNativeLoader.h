@@ -10,6 +10,7 @@
 @class CRNativeAdUnit;
 @class CRNativeAd;
 @protocol CRNativeDelegate;
+@protocol CRMediaDownloader;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CRNativeLoader : NSObject
 
 @property (nonatomic, weak) id<CRNativeDelegate> delegate;
+@property (nonatomic, strong) id<CRMediaDownloader> mediaDownloader;
 
 - (instancetype)init NS_UNAVAILABLE;
 
