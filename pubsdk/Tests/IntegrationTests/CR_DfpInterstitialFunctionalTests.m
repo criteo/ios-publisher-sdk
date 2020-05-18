@@ -23,9 +23,17 @@
 
 @interface CR_DfpInterstitialFunctionalTests : CR_IntegrationsTestBase
 
+@property (strong, nonatomic) CRInterstitialAdUnit *preprodAdUnit;
+@property (strong, nonatomic) DFPRequest *request;
+
 @end
 
 @implementation CR_DfpInterstitialFunctionalTests
+
+- (void)setUp {
+    self.preprodAdUnit = [CR_TestAdUnits preprodInterstitial];
+    self.request = [[DFPRequest alloc] init];
+}
 
 - (void)test_givenInterstitialWithBadAdUnitId_whenSetBids_thenRequestKeywordsDoNotChange {
     CRInterstitialAdUnit *interstitial = [CR_TestAdUnits randomInterstitial];
@@ -92,17 +100,77 @@
 
 #pragma mark - Header Bidding Size
 
+#define CRAssertCrtSizeOnSetBidRequest(_crtSize) \
+do { \
+    [self recordFailureOnBidRequestCrtSizeString:_crtSize \
+                                          atLine:__LINE__]; \
+} while (0);
+
 - (void)test_givenAdUnit_whenSetBidsForRequest_thenRequestKeywordsContainsCrtSize {
-    CRInterstitialAdUnit *adUnit = [CR_TestAdUnits preprodInterstitial];
-    [self initCriteoWithAdUnits:@[adUnit]];
-    ((CR_DeviceInfoMock *)self.criteo.bidManagerBuilder.deviceInfo).mock_screenSize = (CGSize) { 320, 320 };
-    DFPRequest *request = [[DFPRequest alloc] init];
+    [self initCriteoWithAdUnits:@[self.preprodAdUnit]];
+    self.deviceInfo.mock_screenSize = (CGSize) { 320.f, 320.f };
 
-    [self.criteo setBidsForRequest:request
-                        withAdUnit:adUnit];
+    CRAssertCrtSizeOnSetBidRequest(@"320x480");
+}
 
-    XCTAssertEqualObjects(request.customTargeting[@"crt_size"],
-                          @"320x480");
+- (void)test_givenAdUnitInLandscape_whenSetBidsForRequest_thenRequestKeywordsContainsCrtSize {
+    [self initCriteoWithAdUnits:@[self.preprodAdUnit]];
+    self.deviceInfo.mock_screenSize = (CGSize) { 320.f, 320.f };
+    self.deviceInfo.mock_isInPortrait = NO;
+
+    CRAssertCrtSizeOnSetBidRequest(@"480x320");
+}
+
+- (void)test_givenAdUnitOnPad_whenSetBidsForRequest_thenRequestKeywordsContainsCrtSize {
+    [self initCriteoWithAdUnits:@[self.preprodAdUnit]];
+    self.deviceInfo.mock_screenSize = (CGSize) { 842.f, 1024.f };
+    self.deviceInfo.mock_isPhone = NO;
+
+    CRAssertCrtSizeOnSetBidRequest(@"768x1024");
+}
+
+- (void)test_givenAdUnitOnPadInLandscape_whenSetBidsForRequest_thenRequestKeywordsContainsCrtSize {
+    [self initCriteoWithAdUnits:@[self.preprodAdUnit]];
+    self.deviceInfo.mock_screenSize = (CGSize) { 2048.f, 768.f };
+    self.deviceInfo.mock_isPhone = NO;
+    self.deviceInfo.mock_isInPortrait = NO;
+
+    CRAssertCrtSizeOnSetBidRequest(@"1024x768");
+}
+
+- (void)test_givenAdUnitOnSmallPad_whenSetBidsForRequest_thenRequestKeywordsContainsCrtSize {
+    [self initCriteoWithAdUnits:@[self.preprodAdUnit]];
+    self.deviceInfo.mock_screenSize = (CGSize) { 1024.f, 512.f };
+    self.deviceInfo.mock_isPhone = NO;
+
+    CRAssertCrtSizeOnSetBidRequest(@"320x480");
+}
+
+#pragma mark - Private
+
+- (CR_DeviceInfoMock *)deviceInfo {
+    return (CR_DeviceInfoMock *) self.criteo.bidManagerBuilder.deviceInfo;
+}
+
+- (void)recordFailureOnBidRequestCrtSizeString:(NSString *)crtSizeString
+                                        atLine:(NSUInteger)lineNumber {
+
+    [self.criteo setBidsForRequest:self.request
+                        withAdUnit:self.preprodAdUnit];
+
+    NSString *actualCrtSize = self.request.customTargeting[@"crt_size"];
+    if (![crtSizeString isEqualToString:actualCrtSize]) {
+        NSString *desc = [[NSString alloc] initWithFormat:
+                          @"%@ (crt_size) should be equal to %@, %@",
+                          actualCrtSize, crtSizeString,
+                          self.request.customTargeting];
+        NSString *file = [[NSString alloc] initWithCString:__FILE__
+                                                  encoding:NSUTF8StringEncoding];
+        [self recordFailureWithDescription:desc
+                                    inFile:file
+                                    atLine:lineNumber
+                                  expected:YES];
+    }
 }
 
 @end
