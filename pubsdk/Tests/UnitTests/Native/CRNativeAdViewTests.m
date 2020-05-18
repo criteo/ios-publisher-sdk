@@ -43,19 +43,13 @@
     UIWindow *window = [self createUIWindow];
     [window.rootViewController.view addSubview:adView];
     adView.nativeAd = [self buildNativeAd];
-
-    XCTestExpectation *adChoiceExpectation = [self expectationWithDescription:@"AdChoice should be top right frontmost view"];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        CR_AdChoice *adChoice = [self getAdChoiceFromAdView:adView];
-        CGFloat adRight = adView.frame.size.width;
-        CGFloat adChoiceRight = adChoice.frame.origin.x + adChoice.frame.size.width;
-        XCTAssertEqual(adRight, adChoiceRight, @"AdChoice should be at right");
-        XCTAssertEqual(adChoice.frame.origin.y, 0, @"AdChoice should be at top");
-        XCTAssertEqual([adView.subviews indexOfObject:adChoice], 0, @"AdChoice should be frontmost view");
-        [adChoiceExpectation fulfill];
-    });
-
-    [self waitForExpectations:@[adChoiceExpectation] timeout:1];
+    [adView layoutSubviews];
+    CR_AdChoice *adChoice = [self getAdChoiceFromAdView:adView];
+    CGFloat adRight = adView.frame.size.width;
+    CGFloat adChoiceRight = adChoice.frame.origin.x + adChoice.frame.size.width;
+    XCTAssertEqual(adRight, adChoiceRight, @"AdChoice should be at right");
+    XCTAssertEqual(adChoice.frame.origin.y, 0, @"AdChoice should be at top");
+    XCTAssertEqual([adView.subviews indexOfObject:adChoice], 0, @"AdChoice should be frontmost view");
 }
 
 - (void)testAdChoiceClickOpenExternalURL {
