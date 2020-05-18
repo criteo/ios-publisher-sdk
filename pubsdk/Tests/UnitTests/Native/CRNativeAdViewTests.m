@@ -31,14 +31,14 @@
     XCTAssertNil(adChoice);
 }
 
-- (void)testAddChoiceWithAd {
+- (void)testAdChoiceWithAd {
     CRNativeAdView *adView = [self buildNativeAdView];
     adView.nativeAd = [self buildNativeAd];
     CR_AdChoice *adChoice = [self getAdChoiceFromAdView:adView];
     XCTAssertNotNil(adChoice);
 }
 
-- (void)testAddChoiceOnTopRightAndFrontMost {
+- (void)testAdChoiceOnTopRightAndFrontMost {
     CRNativeAdView *adView = [self buildNativeAdView];
     UIWindow *window = [self createUIWindow];
     [window.rootViewController.view addSubview:adView];
@@ -58,7 +58,7 @@
     [self waitForExpectations:@[adChoiceExpectation] timeout:1];
 }
 
-- (void)testAddChoiceClickOpenExternalURL {
+- (void)testAdChoiceClickOpenExternalURL {
     CRNativeAdView *adView = [self buildNativeAdView];
     UIWindow *window = [self createUIWindow];
     [window.rootViewController.view addSubview:adView];
