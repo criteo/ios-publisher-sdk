@@ -20,6 +20,7 @@
 static NSString * const kCpmKey = @"crt_cpm";
 static NSString * const kDictionaryDisplayUrlKey = @"crt_displayUrl";
 static NSString * const kDfpDisplayUrlKey = @"crt_displayurl";
+static NSString * const kSizeKey = @"crt_size";
 
 /** Represent the type of the device for getting more readable tests. */
 typedef NS_ENUM(NSInteger, CR_DeviceType) {
@@ -140,28 +141,32 @@ do { \
 
 - (void)testGADRequest {
     GADRequest *request = [[GADRequest alloc] init];
+    self.device.mock_screenSize = (CGSize) { 300, 250 };
 
     [self.headerBidding enrichRequest:request
                               withBid:self.bid1
                                adUnit:self.adUnit1];
 
     NSDictionary *targeting = request.customTargeting;
-    XCTAssertTrue(request.customTargeting.count == 2);
-    XCTAssertEqualObjects(self.bid1.dfpCompatibleDisplayUrl, targeting[kDfpDisplayUrlKey]);
-    XCTAssertEqualObjects(self.bid1.cpm, targeting[kCpmKey]);
+    XCTAssertEqual(targeting.count, 3);
+    XCTAssertEqualObjects(targeting[kDfpDisplayUrlKey], self.bid1.dfpCompatibleDisplayUrl);
+    XCTAssertEqualObjects(targeting[kCpmKey], self.bid1.cpm);
+    XCTAssertEqualObjects(targeting[kSizeKey], @"300x250");
 }
 
 - (void)testDfpRequest {
     DFPRequest *request = [[DFPRequest alloc] init];
+    self.device.mock_screenSize = (CGSize) { 300, 250 };
 
     [self.headerBidding enrichRequest:request
                               withBid:self.bid1
                                adUnit:self.adUnit1];
 
     NSDictionary *targeting = request.customTargeting;
-    XCTAssertTrue(request.customTargeting.count == 2);
-    XCTAssertEqualObjects(self.bid1.dfpCompatibleDisplayUrl, targeting[kDfpDisplayUrlKey]);
-    XCTAssertEqualObjects(self.bid1.cpm, targeting[kCpmKey]);
+    XCTAssertEqual(targeting.count, 3);
+    XCTAssertEqualObjects(targeting[kDfpDisplayUrlKey], self.bid1.dfpCompatibleDisplayUrl);
+    XCTAssertEqualObjects(targeting[kCpmKey], self.bid1.cpm);
+    XCTAssertEqualObjects(targeting[kSizeKey], @"300x250");
 }
 
 - (void)testDfpRequestWithNativeBid {
@@ -295,7 +300,7 @@ do { \
 
 #pragma mark - Sizes
 
-#pragma mark DFP Interstitial
+#pragma mark DFP
 
 - (void)testIntertitialSizeOniPhoneInLandscape {
     // Size of recent devices
@@ -350,13 +355,14 @@ do { \
                                adUnit:adUnit];
 
     NSDictionary *target = self.dfpRequest.customTargeting;
-    if (![crtSize isEqual:target[@"crt_size"]]) {
+    if (![crtSize isEqual:target[kSizeKey]]) {
         NSString *desc =
         [[NSString alloc] initWithFormat:
-         @"The customTargeting doesn't contain \"crt_size\":%@: %@",
-         crtSize, target];
+         @"The customTargeting doesn't contain \"%@ \": %@:%@",
+         kSizeKey, crtSize, target];
         NSString *file =
-        [[NSString alloc] initWithCString:__FILE__ encoding:NSUTF8StringEncoding];
+        [[NSString alloc] initWithCString:__FILE__
+                                 encoding:NSUTF8StringEncoding];
         [self recordFailureWithDescription:desc
                                     inFile:file
                                     atLine:lineNumber

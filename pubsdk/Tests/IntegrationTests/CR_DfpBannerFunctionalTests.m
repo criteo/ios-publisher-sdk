@@ -91,4 +91,16 @@
     XCTAssertFalse(renderedProperly);
 }
 
+- (void)test_givenBannerAdUnit_whenSetBidsForRequest_thenRequestKeywordsContainsCrtSize {
+    CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
+    [self initCriteoWithAdUnits:@[adUnit]];
+    DFPRequest *request = [[DFPRequest alloc] init];
+
+    [self.criteo setBidsForRequest:request
+                        withAdUnit:adUnit];
+
+    XCTAssertEqualObjects(request.customTargeting[@"crt_size"],
+                          @"320x50");
+}
+
 @end

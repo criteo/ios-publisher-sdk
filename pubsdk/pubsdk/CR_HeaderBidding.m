@@ -147,6 +147,8 @@
                 customTargeting[CR_TargetingKey_crtDfpDisplayUrl] = bid.dfpCompatibleDisplayUrl;
                 if (adUnit.adUnitType == CRAdUnitTypeInterstitial) {
                     customTargeting[CR_TargetingKey_crtSize] = [self stringSizeForInterstitial];
+                } else if (adUnit.adUnitType == CRAdUnitTypeBanner) {
+                    customTargeting[CR_TargetingKey_crtSize] = [self stringSizeForBannerWithAdUnit:adUnit];
                 }
             }
             NSDictionary *updatedDictionary = [NSDictionary dictionaryWithDictionary:customTargeting];
@@ -196,6 +198,13 @@
 }
 
 #pragma mark - Ad Size
+
+- (NSString *)stringSizeForBannerWithAdUnit:(CR_CacheAdUnit *)adUnit {
+    NSAssert(adUnit.adUnitType == CRAdUnitTypeBanner,
+             @"The given adUnit isn't a banner: %@", adUnit);
+    NSString *sizeStr = [self stringFromSize:adUnit.size];
+    return sizeStr;
+}
 
 - (NSString *)stringSizeForInterstitial {
     CGSize size = [self sizeForInterstitial];
