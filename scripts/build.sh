@@ -29,7 +29,7 @@ function fuji-printf () { printf "[🏔 fuji] $*" 1>&2; }
 function fuji-echo () { printf "[🏔 fuji] $*\n" 1>&2; }
 
 if [ $# -eq 0 ]; then
-    XCODEBUILD_SCHEME_FOR_TESTING="pubsdk"
+    XCODEBUILD_SCHEME_FOR_TESTING="CriteoPublisherSdk"
 else
     XCODEBUILD_SCHEME_FOR_TESTING="$1"
 fi

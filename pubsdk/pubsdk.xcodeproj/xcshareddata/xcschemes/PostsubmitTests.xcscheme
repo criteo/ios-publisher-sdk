@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E1F2736321B5F08D00A2FBFA"
-               BuildableName = "pubsdk.framework"
-               BlueprintName = "pubsdk"
+               BlueprintIdentifier = "25BD5B562220D16D004DE311"
+               BuildableName = "CriteoPublisherSdk.framework"
+               BlueprintName = "CriteoPublisherSdk"
                ReferencedContainer = "container:pubsdk.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -74,15 +74,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E1F2736321B5F08D00A2FBFA"
-            BuildableName = "pubsdk.framework"
-            BlueprintName = "pubsdk"
-            ReferencedContainer = "container:pubsdk.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

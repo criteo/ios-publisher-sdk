@@ -17,10 +17,6 @@ target 'pubsdkITests' do
     pod 'FunctionalObjC', '~> 1.0'
 end
 
-target 'pubsdk' do
-    pod 'Cassette','1.0.0-beta3'
-end
-
 target 'CriteoPublisherSdk' do
     pod 'Cassette','1.0.0-beta3'
 end
