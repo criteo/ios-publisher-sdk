@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSArray (Criteo)
 
-- (NSArray *)splitIntoChunks:(NSUInteger)chunkSize;
+- (NSArray *)cr_splitIntoChunks:(NSUInteger)chunkSize;
 
 @end
 

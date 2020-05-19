@@ -172,7 +172,7 @@
 		7D3E422B23915B6600BAF673 /* CR_NativeAssetsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41FD23915B6600BAF673 /* CR_NativeAssetsTests.m */; };
 		7D3E422C23915B6600BAF673 /* CR_NativeAdvertiserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41FE23915B6600BAF673 /* CR_NativeAdvertiserTests.m */; };
 		7D3E422D23915B6600BAF673 /* LoggingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420023915B6600BAF673 /* LoggingTests.m */; };
-		7D3E422E23915B6600BAF673 /* NSArray+AdditionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420123915B6600BAF673 /* NSArray+AdditionsTests.m */; };
+		7D3E422E23915B6600BAF673 /* NSArray+CriteoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420123915B6600BAF673 /* NSArray+CriteoTests.m */; };
 		7D3E422F23915B6600BAF673 /* NSError+CRErrorsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420223915B6600BAF673 /* NSError+CRErrorsTests.m */; };
 		7D3E423023915B6600BAF673 /* NSDictionary+AdditionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420323915B6600BAF673 /* NSDictionary+AdditionsTests.m */; };
 		7D3E423123915B6600BAF673 /* NSString+CR_UrlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420423915B6600BAF673 /* NSString+CR_UrlTests.m */; };
@@ -472,7 +472,7 @@
 		7D3E41FD23915B6600BAF673 /* CR_NativeAssetsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_NativeAssetsTests.m; sourceTree = "<group>"; };
 		7D3E41FE23915B6600BAF673 /* CR_NativeAdvertiserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_NativeAdvertiserTests.m; sourceTree = "<group>"; };
 		7D3E420023915B6600BAF673 /* LoggingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggingTests.m; sourceTree = "<group>"; };
-		7D3E420123915B6600BAF673 /* NSArray+AdditionsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+AdditionsTests.m"; sourceTree = "<group>"; };
+		7D3E420123915B6600BAF673 /* NSArray+CriteoTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+CriteoTests.m"; sourceTree = "<group>"; };
 		7D3E420223915B6600BAF673 /* NSError+CRErrorsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+CRErrorsTests.m"; sourceTree = "<group>"; };
 		7D3E420323915B6600BAF673 /* NSDictionary+AdditionsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+AdditionsTests.m"; sourceTree = "<group>"; };
 		7D3E420423915B6600BAF673 /* NSString+CR_UrlTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+CR_UrlTests.m"; sourceTree = "<group>"; };
@@ -671,12 +671,15 @@
 		255151C222027C6000F76E3F /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				7D51ABFB23B0EDD900540094 /* CR_Assert.h */,
+				25B650582206AB40008416D3 /* Logging.h */,
+				25B650592206AB40008416D3 /* Logging.m */,
+				DF3E3D3E23233809009E8CB5 /* NSArray+Criteo.h */,
+				DF3E3D3923232C80009E8CB5 /* NSArray+Criteo.m */,
 				7D3E41D42387EE8000BAF673 /* NSUserDefaults+Criteo.h */,
 				7D3E41D52387EE8000BAF673 /* NSUserDefaults+Criteo.m */,
 				53BDFDB722EA498A0051EB40 /* NSObject+Criteo.h */,
 				53BDFDB822EA498A0051EB40 /* NSObject+Criteo.m */,
-				DF3E3D3E23233809009E8CB5 /* NSArray+Criteo.h */,
-				DF3E3D3923232C80009E8CB5 /* NSArray+Criteo.m */,
 				DF367CBE232DC53A0044807B /* NSDictionary+Criteo.h */,
 				DF367CBF232DC53A0044807B /* NSDictionary+Criteo.m */,
 				DF367CDC233079660044807B /* NSString+Criteo.h */,
@@ -685,11 +688,8 @@
 				255151C422027C9500F76E3F /* NSString+CR_Url.m */,
 				DF367CE12330864F0044807B /* NSURL+Criteo.h */,
 				DF367CE22330864F0044807B /* NSURL+Criteo.m */,
-				25B650582206AB40008416D3 /* Logging.h */,
-				25B650592206AB40008416D3 /* Logging.m */,
 				543B67292294689B006A99DF /* NSError+CRErrors.h */,
 				543B672A2294689B006A99DF /* NSError+CRErrors.m */,
-				7D51ABFB23B0EDD900540094 /* CR_Assert.h */,
 				C07AB1709D918AD4DA7A4384 /* NSUserDefaults+CR_Config.m */,
 				C07ABA8D45D123659567CEF2 /* NSUserDefaults+CR_Config.h */,
 			);
@@ -983,7 +983,7 @@
 			isa = PBXGroup;
 			children = (
 				7D3E420023915B6600BAF673 /* LoggingTests.m */,
-				7D3E420123915B6600BAF673 /* NSArray+AdditionsTests.m */,
+				7D3E420123915B6600BAF673 /* NSArray+CriteoTests.m */,
 				7D3E420223915B6600BAF673 /* NSError+CRErrorsTests.m */,
 				7D3E420323915B6600BAF673 /* NSDictionary+AdditionsTests.m */,
 				7D3E420423915B6600BAF673 /* NSString+CR_UrlTests.m */,
@@ -1771,7 +1771,7 @@
 				7D80F61C24059E2D005B7BA3 /* CR_GdprMock.swift in Sources */,
 				7D3E423E23915B6600BAF673 /* CR_BidManagerTests.m in Sources */,
 				7D3E422323915B6600BAF673 /* CR_ConfigManagerTests.m in Sources */,
-				7D3E422E23915B6600BAF673 /* NSArray+AdditionsTests.m in Sources */,
+				7D3E422E23915B6600BAF673 /* NSArray+CriteoTests.m in Sources */,
 				7D49F9D8243B782400CF3941 /* WKWebView+Testing.m in Sources */,
 				7D58582A23E1E6BB0039AC56 /* CR_ThreadManagerWaiter.m in Sources */,
 				7DB5F90623AA2B2500EF5602 /* CR_NetworkCaptor.m in Sources */,

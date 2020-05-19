@@ -101,7 +101,7 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler {
         return;
     }
 
-    NSArray<CR_CacheAdUnitArray *> *adUnitChunks = [requestAdUnits splitIntoChunks:maxAdUnitsPerCdbRequest];
+    NSArray<CR_CacheAdUnitArray *> *adUnitChunks = [requestAdUnits cr_splitIntoChunks:maxAdUnitsPerCdbRequest];
     for (CR_CacheAdUnitArray *adUnitChunk in adUnitChunks) {
         CR_CdbRequest *cdbRequest = [[CR_CdbRequest alloc] initWithAdUnits:adUnitChunk];
 

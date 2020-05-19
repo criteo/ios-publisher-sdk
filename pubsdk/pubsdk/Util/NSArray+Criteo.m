@@ -9,7 +9,7 @@
 
 @implementation NSArray (Criteo)
 
-- (NSArray *)splitIntoChunks:(NSUInteger)chunkSize {
+- (NSArray *)cr_splitIntoChunks:(NSUInteger)chunkSize {
     NSMutableArray *chunks = [NSMutableArray new];
     for (int i = 0; i < self.count; i += chunkSize) {
         [chunks addObject:[self subarrayWithRange:NSMakeRange(i, MIN(chunkSize, self.count - i))]];
