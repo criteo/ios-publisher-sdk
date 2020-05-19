@@ -55,4 +55,8 @@
     return self;
 }
 
+- (CR_NativeProduct *)product {
+    return self.assets.products[0];
+}
+
 @end

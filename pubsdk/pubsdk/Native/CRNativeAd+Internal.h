@@ -9,6 +9,7 @@
 
 @class CRNativeLoader;
 @class CR_NativeAssets;
+@class CR_NativeProduct;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic, readonly) CRNativeLoader *loader;
 @property (strong, nonatomic, readonly) CR_NativeAssets *assets;
+@property (strong, nonatomic, readonly) CR_NativeProduct *product;
 
 - (instancetype)initWithLoader:(CRNativeLoader *)loader
                         assets:(CR_NativeAssets *)assets;
