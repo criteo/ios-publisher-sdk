@@ -144,9 +144,9 @@
 }
 
 - (BOOL)testHashAndIsEqualForUnequalObjects:(NSDictionary *)dict key:(id)key modValue:(id)modValue {
-    NSDictionary *modDict = [dict dictionaryWithNewValue:modValue forKey:key];
-    NSDictionary *dictWithNil1 = [dict dictionaryWithNewValue:nil forKey:key];
-    NSDictionary *dictWithNil2 = [dict dictionaryWithNewValue:nil forKey:key];
+    NSDictionary *modDict = [dict cr_dictionaryWithNewValue:modValue forKey:key];
+    NSDictionary *dictWithNil1 = [dict cr_dictionaryWithNewValue:nil forKey:key];
+    NSDictionary *dictWithNil2 = [dict cr_dictionaryWithNewValue:nil forKey:key];
 
     CR_NativeAssets *assets = [[CR_NativeAssets alloc] initWithDict:dict];
     CR_NativeAssets *modAssets = [[CR_NativeAssets alloc] initWithDict:modDict];
@@ -261,17 +261,18 @@
 }
 
 - (void)testUnequalObjects {
-    NSDictionary *modProductDict2 = [self.productDict2 dictionaryWithNewValue:@"$99999" forKey:@"price"];
+    NSDictionary *modProductDict2 = [self.productDict2 cr_dictionaryWithNewValue:@"$99999" forKey:@"price"];
     NSArray *modProductArray = @[self.productDict1, modProductDict2];
     [self testHashAndIsEqualForUnequalObjects:self.jdict key:@"products" modValue:modProductArray];
 
-    NSDictionary *modAdvertiserDict = [self.advertiserDict dictionaryWithNewValue:@"Blah blah" forKey:@"domain"];
+    NSDictionary *modAdvertiserDict = [self.advertiserDict cr_dictionaryWithNewValue:@"Blah blah" forKey:@"domain"];
     [self testHashAndIsEqualForUnequalObjects:self.jdict key:@"advertiser" modValue:modAdvertiserDict];
 
-    NSDictionary *modPrivacyDict = [self.privacyDict dictionaryWithNewValue:@"Oink!" forKey:@"longLegalText"];
+    NSDictionary *modPrivacyDict = [self.privacyDict cr_dictionaryWithNewValue:@"Oink!" forKey:@"longLegalText"];
     [self testHashAndIsEqualForUnequalObjects:self.jdict key:@"privacy" modValue:modPrivacyDict];
 
-    NSDictionary *modImpressionPixelDict1 = [self.impressionPixelDict1 dictionaryWithNewValue:@"Hannibal" forKey:@"url"];
+    NSDictionary *modImpressionPixelDict1 = [self.impressionPixelDict1 cr_dictionaryWithNewValue:@"Hannibal"
+                                                                                          forKey:@"url"];
     NSArray *modImpressionPixelArray = @[modImpressionPixelDict1, self.impressionPixelDict2];
     [self testHashAndIsEqualForUnequalObjects:self.jdict key:@"impressionPixels" modValue:modImpressionPixelArray];
 }

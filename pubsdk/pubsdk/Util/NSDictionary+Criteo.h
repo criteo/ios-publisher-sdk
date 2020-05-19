@@ -14,8 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSDictionary (Criteo)
 
-- (NSDictionary *)dictionaryWithNewValue:(nullable id)value forKey:(id)key;
-- (nullable NSDictionary *)dictionaryWithNewValue:(nullable id)value forKeys:(NSArray *)keys;
+- (NSDictionary *)cr_dictionaryWithNewValue:(nullable id)value forKey:(id)key;
+- (nullable NSDictionary *)cr_dictionaryWithNewValue:(nullable id)value forKeys:(NSArray *)keys;
 
 @end
 

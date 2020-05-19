@@ -174,7 +174,7 @@
 		7D3E422D23915B6600BAF673 /* LoggingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420023915B6600BAF673 /* LoggingTests.m */; };
 		7D3E422E23915B6600BAF673 /* NSArray+CriteoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420123915B6600BAF673 /* NSArray+CriteoTests.m */; };
 		7D3E422F23915B6600BAF673 /* NSError+CRErrorsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420223915B6600BAF673 /* NSError+CRErrorsTests.m */; };
-		7D3E423023915B6600BAF673 /* NSDictionary+AdditionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420323915B6600BAF673 /* NSDictionary+AdditionsTests.m */; };
+		7D3E423023915B6600BAF673 /* NSDictionary+CriteoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420323915B6600BAF673 /* NSDictionary+CriteoTests.m */; };
 		7D3E423123915B6600BAF673 /* NSString+CR_UrlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420423915B6600BAF673 /* NSString+CR_UrlTests.m */; };
 		7D3E423223915B6600BAF673 /* SampleBid.json in Resources */ = {isa = PBXBuildFile; fileRef = 7D3E420523915B6600BAF673 /* SampleBid.json */; };
 		7D3E423323915B6600BAF673 /* CRBannerViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420723915B6600BAF673 /* CRBannerViewTests.m */; };
@@ -474,7 +474,7 @@
 		7D3E420023915B6600BAF673 /* LoggingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggingTests.m; sourceTree = "<group>"; };
 		7D3E420123915B6600BAF673 /* NSArray+CriteoTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+CriteoTests.m"; sourceTree = "<group>"; };
 		7D3E420223915B6600BAF673 /* NSError+CRErrorsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+CRErrorsTests.m"; sourceTree = "<group>"; };
-		7D3E420323915B6600BAF673 /* NSDictionary+AdditionsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+AdditionsTests.m"; sourceTree = "<group>"; };
+		7D3E420323915B6600BAF673 /* NSDictionary+CriteoTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+CriteoTests.m"; sourceTree = "<group>"; };
 		7D3E420423915B6600BAF673 /* NSString+CR_UrlTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+CR_UrlTests.m"; sourceTree = "<group>"; };
 		7D3E420523915B6600BAF673 /* SampleBid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SampleBid.json; sourceTree = "<group>"; };
 		7D3E420723915B6600BAF673 /* CRBannerViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRBannerViewTests.m; sourceTree = "<group>"; };
@@ -676,12 +676,12 @@
 				25B650592206AB40008416D3 /* Logging.m */,
 				DF3E3D3E23233809009E8CB5 /* NSArray+Criteo.h */,
 				DF3E3D3923232C80009E8CB5 /* NSArray+Criteo.m */,
+				DF367CBE232DC53A0044807B /* NSDictionary+Criteo.h */,
+				DF367CBF232DC53A0044807B /* NSDictionary+Criteo.m */,
 				7D3E41D42387EE8000BAF673 /* NSUserDefaults+Criteo.h */,
 				7D3E41D52387EE8000BAF673 /* NSUserDefaults+Criteo.m */,
 				53BDFDB722EA498A0051EB40 /* NSObject+Criteo.h */,
 				53BDFDB822EA498A0051EB40 /* NSObject+Criteo.m */,
-				DF367CBE232DC53A0044807B /* NSDictionary+Criteo.h */,
-				DF367CBF232DC53A0044807B /* NSDictionary+Criteo.m */,
 				DF367CDC233079660044807B /* NSString+Criteo.h */,
 				DF367CDD233079660044807B /* NSString+Criteo.m */,
 				255151C322027C9500F76E3F /* NSString+CR_Url.h */,
@@ -984,8 +984,8 @@
 			children = (
 				7D3E420023915B6600BAF673 /* LoggingTests.m */,
 				7D3E420123915B6600BAF673 /* NSArray+CriteoTests.m */,
+				7D3E420323915B6600BAF673 /* NSDictionary+CriteoTests.m */,
 				7D3E420223915B6600BAF673 /* NSError+CRErrorsTests.m */,
-				7D3E420323915B6600BAF673 /* NSDictionary+AdditionsTests.m */,
 				7D3E420423915B6600BAF673 /* NSString+CR_UrlTests.m */,
 			);
 			path = Util;
@@ -1834,7 +1834,7 @@
 				7DB4E9132397AB6B008DE5E3 /* CR_RegistrationFunctionalTests.m in Sources */,
 				7D0FD304242E0CCC007154E0 /* CR_BidRequestSerializerSwiftTests.swift in Sources */,
 				7D3E423F23915B6600BAF673 /* CR_CdbResponseTests.m in Sources */,
-				7D3E423023915B6600BAF673 /* NSDictionary+AdditionsTests.m in Sources */,
+				7D3E423023915B6600BAF673 /* NSDictionary+CriteoTests.m in Sources */,
 				54FE074323FEED2C0035A026 /* CR_FeedbackMessageTests.swift in Sources */,
 				7D523C7D23DB32C600E79C88 /* CR_HttpContent+AdUnit.m in Sources */,
 				7D3E423623915B6600BAF673 /* CR_NetworkManagerTests.m in Sources */,

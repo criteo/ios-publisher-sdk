@@ -44,9 +44,9 @@
 }
 
 - (BOOL)testHashAndIsEqualForUnequalObjects:(NSDictionary *)dict key:(id)key modValue:(id)modValue {
-    NSDictionary *modDict = [dict dictionaryWithNewValue:modValue forKey:key];
-    NSDictionary *dictWithNil1 = [dict dictionaryWithNewValue:nil forKey:key];
-    NSDictionary *dictWithNil2 = [dict dictionaryWithNewValue:nil forKey:key];
+    NSDictionary *modDict = [dict cr_dictionaryWithNewValue:modValue forKey:key];
+    NSDictionary *dictWithNil1 = [dict cr_dictionaryWithNewValue:nil forKey:key];
+    NSDictionary *dictWithNil2 = [dict cr_dictionaryWithNewValue:nil forKey:key];
 
     CR_NativePrivacy *privacy = [[CR_NativePrivacy alloc] initWithDict:dict];
     CR_NativePrivacy *modPrivacy = [[CR_NativePrivacy alloc] initWithDict:modDict];
