@@ -163,6 +163,7 @@
 		7D1A17CE242A796600816D32 /* CR_GdprVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D1A17CC242A796600816D32 /* CR_GdprVersion.h */; };
 		7D1A17D4242A7A1100816D32 /* CR_GdprVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D1A17D0242A7A1100816D32 /* CR_GdprVersion.m */; };
 		7D321B072472E9B0006CBC4E /* CR_HeaderBiddingDictionaryFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D321B062472E9B0006CBC4E /* CR_HeaderBiddingDictionaryFunctionalTests.m */; };
+		7D321B0C247416AD006CBC4E /* NSString+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D523C8B23E0471900E79C88 /* NSString+Testing.m */; };
 		7D344F6B23D9A5F70029E653 /* CR_BidManagerIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D344F6A23D9A5F70029E653 /* CR_BidManagerIntegrationTests.m */; };
 		7D3D6AA424519F3D00B91ADC /* CR_InterstitialChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3D6AA324519F3D00B91ADC /* CR_InterstitialChecker.m */; };
 		7D3E422223915B6600BAF673 /* NSObject+CriteoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41F223915B6600BAF673 /* NSObject+CriteoTests.m */; };
@@ -1757,6 +1758,7 @@
 				462DCA9A2462C76500B43A51 /* CR_NetworkManagerSimulator.m in Sources */,
 				462DCA902462C3D700B43A51 /* CR_NetworkCaptor.m in Sources */,
 				462DCA892462C31F00B43A51 /* CR_MopubInterstitialFunctionalTests.m in Sources */,
+				7D321B0C247416AD006CBC4E /* NSString+Testing.m in Sources */,
 				462DCA992462C75500B43A51 /* CR_NetworkManagerDecorator.m in Sources */,
 				462DCA9E2462C88600B43A51 /* CR_ThreadManagerWaiter.m in Sources */,
 				462DCA912462C3E300B43A51 /* CR_NetworkWaiter.m in Sources */,

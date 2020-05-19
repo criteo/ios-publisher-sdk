@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSUInteger)ocurrencesCountOfSubstring:(NSString *)substring;
 
+- (NSDictionary *)testing_moPubKeywordDictionary;
+
 @end
 
 NS_ASSUME_NONNULL_END

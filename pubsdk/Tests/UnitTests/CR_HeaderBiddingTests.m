@@ -226,66 +226,77 @@ do { \
 
 - (void)testMPInterstitialAdController {
     MPInterstitialAdController *controller = [MPInterstitialAdController new];
+    NSDictionary *expected = @{
+        kCpmKey : self.bid1.cpm,
+        kDictionaryDisplayUrlKey : self.bid1.mopubCompatibleDisplayUrl,
+        kSizeKey : @"300x250"
+    };
 
     [self.headerBidding enrichRequest:controller
                               withBid:self.bid1
                                adUnit:self.adUnit1];
 
-    XCTAssertTrue([controller.keywords containsString:self.bid1.mopubCompatibleDisplayUrl]);
-    XCTAssertTrue([controller.keywords containsString:self.bid1.cpm]);
+    NSDictionary *keywords = [controller.keywords testing_moPubKeywordDictionary];
+    XCTAssertEqualObjects(keywords, expected);
 }
-
 
 - (void)testMPAdView {
     MPAdView *request = [[MPAdView alloc] init];
-    request.keywords = @"key1:object_1,key_2:object_2";
+    request.keywords = @"key_1:object_1,key_2:object_2";
+    NSDictionary *expected = @{
+        @"key_1" : @"object_1",
+        @"key_2" : @"object_2",
+        kCpmKey : self.bid1.cpm,
+        kDictionaryDisplayUrlKey : self.bid1.mopubCompatibleDisplayUrl,
+        kSizeKey : @"300x250"
+    };
 
     [self.headerBidding enrichRequest:request
                               withBid:self.bid1
                                adUnit:self.adUnit1];
 
-    XCTAssertTrue([request.keywords containsString:self.bid1.mopubCompatibleDisplayUrl]);
-    XCTAssertTrue([request.keywords containsString:self.bid1.cpm]);
+    NSDictionary *keywords = [request.keywords testing_moPubKeywordDictionary];
+    XCTAssertEqualObjects(keywords, expected); 
 }
 
 - (void)testLoadMopubInterstitial {
     MPInterstitialAdController *request = [[MPInterstitialAdController alloc] init];
-    request.keywords = @"key1:object_1,key_2:object_2";
-
+    request.keywords = @"key_1:object_1,key_2:object_2";
     [self.headerBidding enrichRequest:request
                               withBid:self.bid1
                                adUnit:self.adUnit1];
+    NSDictionary *expected = @{
+        @"key_1" : @"object_1",
+        @"key_2" : @"object_2",
+        // No criteo data because it is remove once the request is loaded.
+    };
+
     [request loadAd];
 
-    XCTAssertFalse([request.keywords containsString:self.bid1.mopubCompatibleDisplayUrl]);
-    XCTAssertFalse([request.keywords containsString:self.bid1.cpm]);
-    XCTAssertFalse([request.keywords containsString:@"crt_"]);
+    NSDictionary *keywords = [request.keywords testing_moPubKeywordDictionary];
+    XCTAssertEqualObjects(keywords, expected);
 }
 
 - (void)testDuplicateEnrichment {
     MPInterstitialAdController *request = [[MPInterstitialAdController alloc] init];
-    request.keywords = @"key1:object_1,key_2:object_2";
-
+    request.keywords = @"key_1:object_1,key_2:object_2";
     [self.headerBidding enrichRequest:request
                               withBid:self.bid1
                                adUnit:self.adUnit1];
-    XCTAssertTrue([request.keywords containsString:self.bid1.mopubCompatibleDisplayUrl]);
-    XCTAssertTrue([request.keywords containsString:self.bid1.cpm]);
+    NSDictionary *expected = @{
+        @"key_1" : @"object_1",
+        @"key_2" : @"object_2",
+        kCpmKey : self.bid2.cpm,
+        kDictionaryDisplayUrlKey : self.bid2.mopubCompatibleDisplayUrl,
+        kSizeKey : @"200x100"
+    };
 
     [self.headerBidding enrichRequest:request
                               withBid:self.bid2
                                adUnit:self.adUnit2];
-    XCTAssertFalse([request.keywords containsString:self.bid1.mopubCompatibleDisplayUrl]);
-    XCTAssertFalse([request.keywords containsString:self.bid1.cpm]);
-    XCTAssertTrue([request.keywords containsString:self.bid2.mopubCompatibleDisplayUrl]);
-    XCTAssertTrue([request.keywords containsString:self.bid2.cpm]);
 
-    NSUInteger displayUrlCount = [request.keywords ocurrencesCountOfSubstring:self.bid2.mopubCompatibleDisplayUrl];
-    NSUInteger cpmCount = [request.keywords ocurrencesCountOfSubstring:self.bid2.cpm];
-    NSUInteger crtCount = [request.keywords ocurrencesCountOfSubstring:@"crt_"];
-    XCTAssertEqual(displayUrlCount, 1);
-    XCTAssertEqual(cpmCount, 1);
-    XCTAssertEqual(crtCount, 2);
+    NSDictionary *keywords = [request.keywords testing_moPubKeywordDictionary];
+    XCTAssertEqualObjects(keywords, expected);
 }
 
 #pragma Remove Previous Keys

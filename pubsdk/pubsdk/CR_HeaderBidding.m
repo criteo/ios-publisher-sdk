@@ -49,7 +49,8 @@
                                 adUnit:adUnit];
     } else if ([self isMoPubRequest:adRequest]) {
         [self addCriteoBidToMopubRequest:adRequest
-                                 withBid:bid];
+                                 withBid:bid
+                                  adUnit:adUnit];
     } else if ([adRequest isKindOfClass:NSMutableDictionary.class]) {
         [self addCriteoBidToDictionary:adRequest
                                withBid:bid
@@ -162,7 +163,8 @@
 }
 
 - (void)addCriteoBidToMopubRequest:(id) adRequest
-                           withBid:(CR_CdbBid *)bid {
+                           withBid:(CR_CdbBid *)bid
+                           adUnit:(CR_CacheAdUnit *)adUnit {
     [self removeCriteoBidsFromMoPubRequest:adRequest];
     SEL mopubKeywords = NSSelectorFromString(@"keywords");
     if([adRequest respondsToSelector:mopubKeywords]) {
@@ -186,6 +188,14 @@
             [keywords appendString:CR_TargetingKey_crtDisplayUrl];
             [keywords appendString:@":"];
             [keywords appendString:bid.mopubCompatibleDisplayUrl];
+
+            if (adUnit.adUnitType == CRAdUnitTypeBanner) {
+                NSString *sizeStr = [self stringSizeForBannerWithAdUnit:adUnit];
+                [keywords appendString:@","];
+                [keywords appendString:CR_TargetingKey_crtSize];
+                [keywords appendString:@":"];
+                [keywords appendString:sizeStr];
+            }
             [adRequest setValue:keywords forKey:@"keywords"];
 #pragma clang diagnostic pop
         }

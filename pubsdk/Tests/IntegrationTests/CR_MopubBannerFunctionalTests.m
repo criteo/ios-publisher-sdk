@@ -10,13 +10,17 @@
 #import "CRBannerAdUnit.h"
 #import "CR_IntegrationsTestBase.h"
 #import "CR_TestAdUnits.h"
-#import "CR_AssertMopub.h"
 #import "Criteo+Internal.h"
 #import "Criteo+Testing.h"
 #import "CR_BidManagerBuilder.h"
 #import "CR_AdUnitHelper.h"
 #import <MoPub.h>
 #import "CR_MopubCreativeViewChecker.h"
+#import "NSString+Testing.h"
+
+static NSString * const kCpmKey = @"crt_cpm";
+static NSString * const kDictionaryDisplayUrlKey = @"crt_displayUrl";
+static NSString * const kSizeKey = @"crt_size";
 
 static NSString *initialMopubKeywords = @"key1:value1,key2:value2";
 
@@ -44,10 +48,18 @@ static NSString *initialMopubKeywords = @"key1:value1,key2:value2";
     adView.keywords = initialMopubKeywords;
     CR_BidManagerBuilder *builder = [self.criteo bidManagerBuilder];
     CR_CdbBid *bid = [builder.cacheManager getBidForAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:banner]];
+    NSDictionary *expected = @{
+        kCpmKey : bid.cpm,
+        kDictionaryDisplayUrlKey : bid.displayUrl,
+        kSizeKey : @"320x50",
+        @"key1" : @"value1",
+        @"key2" : @"value2"
+    };
 
     [self.criteo setBidsForRequest:adView withAdUnit:banner];
 
-    CR_AssertMopubKeywordContainsCriteoBid(adView.keywords, initialMopubKeywords, bid.displayUrl);
+    NSDictionary *keywords = [adView.keywords testing_moPubKeywordDictionary];
+    XCTAssertEqualObjects(keywords, expected);
 }
 
 - (void)test_givenValidBanner_whenLoadingMopubBanner_thenMopubViewContainsCreative {
