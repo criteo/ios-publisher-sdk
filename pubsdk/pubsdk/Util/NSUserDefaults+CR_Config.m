@@ -9,20 +9,20 @@ NSString * const NSUserDefaultsCsmEnabledKey = @"CRITEO_CsmEnabled";
 
 @implementation NSUserDefaults (CR_Config)
 
-- (BOOL)valueForKillSwitch {
+- (BOOL)cr_valueForKillSwitch {
     return [self boolForKey:NSUserDefaultsKillSwitchKey withDefaultValue:NO];
 }
 
-- (void)setValueForKillSwitch:(BOOL)killSwitch {
+- (void)cr_setValueForKillSwitch:(BOOL)killSwitch {
     [self setBool:killSwitch forKey:NSUserDefaultsKillSwitchKey];
 }
 
 
-- (BOOL)valueForCsmFeatureFlag {
+- (BOOL)cr_valueForCsmFeatureFlag {
     return [self boolForKey:NSUserDefaultsCsmEnabledKey withDefaultValue:YES];
 }
 
-- (void)setValueForCsmFeatureFlag:(BOOL)csmFeatureFlag {
+- (void)cr_setValueForCsmFeatureFlag:(BOOL)csmFeatureFlag {
     [self setBool:csmFeatureFlag forKey:NSUserDefaultsCsmEnabledKey];
 }
 

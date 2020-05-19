@@ -682,16 +682,16 @@
 				543B672A2294689B006A99DF /* NSError+Criteo.m */,
 				53BDFDB722EA498A0051EB40 /* NSObject+Criteo.h */,
 				53BDFDB822EA498A0051EB40 /* NSObject+Criteo.m */,
-				7D3E41D42387EE8000BAF673 /* NSUserDefaults+Criteo.h */,
-				7D3E41D52387EE8000BAF673 /* NSUserDefaults+Criteo.m */,
 				DF367CDC233079660044807B /* NSString+Criteo.h */,
 				DF367CDD233079660044807B /* NSString+Criteo.m */,
 				255151C322027C9500F76E3F /* NSString+CriteoUrl.h */,
 				255151C422027C9500F76E3F /* NSString+CriteoUrl.m */,
 				DF367CE12330864F0044807B /* NSURL+Criteo.h */,
 				DF367CE22330864F0044807B /* NSURL+Criteo.m */,
-				C07AB1709D918AD4DA7A4384 /* NSUserDefaults+CR_Config.m */,
 				C07ABA8D45D123659567CEF2 /* NSUserDefaults+CR_Config.h */,
+				C07AB1709D918AD4DA7A4384 /* NSUserDefaults+CR_Config.m */,
+				7D3E41D42387EE8000BAF673 /* NSUserDefaults+Criteo.h */,
+				7D3E41D52387EE8000BAF673 /* NSUserDefaults+Criteo.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";

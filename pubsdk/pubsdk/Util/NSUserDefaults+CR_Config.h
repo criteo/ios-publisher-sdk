@@ -9,13 +9,13 @@
 
 @interface NSUserDefaults (CR_Config)
 
-- (BOOL)valueForKillSwitch;
+- (BOOL)cr_valueForKillSwitch;
 
-- (void)setValueForKillSwitch:(BOOL)killSwitch;
+- (void)cr_setValueForKillSwitch:(BOOL)killSwitch;
 
-- (BOOL)valueForCsmFeatureFlag;
+- (BOOL)cr_valueForCsmFeatureFlag;
 
-- (void)setValueForCsmFeatureFlag:(BOOL)csmFeatureFlag;
+- (void)cr_setValueForCsmFeatureFlag:(BOOL)csmFeatureFlag;
 
 @end
 

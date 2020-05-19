@@ -63,7 +63,7 @@ NSString * const CR_ConfigTestConfigurationUrl = @"https://gum.par.preprod.crto.
         _csmPath = @"csm";
         _sdkVersion = SDK_VERSION; // Note: Injected from GCC_PREPROCESSOR_DEFINITIONS
         _appId = [[NSBundle mainBundle] bundleIdentifier];
-        _killSwitch = [userDefaults valueForKillSwitch];
+        _killSwitch = [userDefaults cr_valueForKillSwitch];
         _deviceModel = [[UIDevice currentDevice] model];
         _osVersion = [[UIDevice currentDevice] systemVersion];
         _deviceOs = @"ios";
@@ -73,7 +73,7 @@ NSString * const CR_ConfigTestConfigurationUrl = @"https://gum.par.preprod.crto.
         _viewportWidthMacro = @"%%width%%";
         _displayURLMacro = @"%%displayUrl%%";
         _configUrl = [configUrl copy];
-        _csmEnabled = [userDefaults valueForCsmFeatureFlag];
+        _csmEnabled = [userDefaults cr_valueForCsmFeatureFlag];
         _userDefaults = userDefaults;
     }
     return self;
@@ -103,12 +103,12 @@ NSString * const CR_ConfigTestConfigurationUrl = @"https://gum.par.preprod.crto.
 
 - (void)setKillSwitch:(BOOL)killSwitch {
     _killSwitch = killSwitch;
-    [self.userDefaults setValueForKillSwitch:killSwitch];
+    [self.userDefaults cr_setValueForKillSwitch:killSwitch];
 }
 
 - (void)setCsmEnabled:(BOOL)csmEnabled {
     _csmEnabled = csmEnabled;
-    [self.userDefaults setValueForCsmFeatureFlag:csmEnabled];
+    [self.userDefaults cr_setValueForCsmFeatureFlag:csmEnabled];
 }
 
 + (NSDictionary *) getConfigValuesFromData:(NSData *) data {
