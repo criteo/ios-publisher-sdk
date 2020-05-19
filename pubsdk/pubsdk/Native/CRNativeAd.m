@@ -8,6 +8,9 @@
 #import "CRNativeAd+Internal.h"
 #import "CR_NativeAssets.h"
 #import "CRNativeLoader.h"
+#import "CRMediaContent.h"
+#import "CRMediaContent+Internal.h"
+#import "NSURL+Criteo.h"
 
 @implementation CRNativeAd
 
@@ -47,10 +50,10 @@
         _body = body;
         _price = price;
         _callToAction = callToAction;
-        _productImageUrl = productImageUrl;
+        _productMedia = [[CRMediaContent alloc] initWithImageUrl:[NSURL cr_URLWithStringOrNil:productImageUrl]];
         _advertiserDescription = advertiserDescription;
         _advertiserDomain = advertiserDomain;
-        _advertiserLogoImageUrl = advertiserLogoImageUrl;
+        _advertiserLogoMedia = [[CRMediaContent alloc] initWithImageUrl:[NSURL cr_URLWithStringOrNil:advertiserLogoImageUrl]];
     }
     return self;
 }

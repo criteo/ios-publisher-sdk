@@ -7,6 +7,8 @@
 
 @import Foundation;
 
+@class CRMediaContent;
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -18,10 +20,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, readonly, nullable) NSString *body;
 @property (nonatomic, copy, readonly, nullable) NSString *price;
 @property (nonatomic, copy, readonly, nullable) NSString *callToAction;
-@property (nonatomic, copy, readonly, nullable) NSString *productImageUrl;
+@property (nonatomic, copy, readonly) CRMediaContent *productMedia;
 @property (nonatomic, copy, readonly, nullable) NSString *advertiserDescription;
-@property (nonatomic, copy, readonly, nullable) NSString *advertiserDomain;
-@property (nonatomic, copy, readonly, nullable) NSString *advertiserLogoImageUrl;
+@property (nonatomic, copy, readonly) NSString *advertiserDomain;
+@property (nonatomic, copy, readonly, nullable) CRMediaContent *advertiserLogoMedia;
 
 - (instancetype)init NS_UNAVAILABLE;
 

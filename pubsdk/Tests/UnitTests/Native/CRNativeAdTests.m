@@ -9,6 +9,7 @@
 #import "CR_NativeAssets.h"
 #import "CRNativeAd+Internal.h"
 #import "CR_NativeAssetsTests.h"
+#import "CRMediaContent+Internal.h"
 
 @interface CRNativeAdTests : XCTestCase
 @end
@@ -24,12 +25,12 @@
     XCTAssertEqual(ad.body, product.description);
     XCTAssertEqual(ad.price, product.price);
     XCTAssertEqual(ad.callToAction, product.callToAction);
-    XCTAssertEqual(ad.productImageUrl, product.image.url);
+    XCTAssertEqualObjects(ad.productMedia.imageUrl.absoluteString, product.image.url);
     // Advertiser
     CR_NativeAdvertiser *advertiser = assets.advertiser;
     XCTAssertEqual(ad.advertiserDescription, advertiser.description);
     XCTAssertEqual(ad.advertiserDomain, advertiser.domain);
-    XCTAssertEqual(ad.advertiserLogoImageUrl, advertiser.logoImage.url);
+    XCTAssertEqualObjects(ad.advertiserLogoMedia.imageUrl.absoluteString, advertiser.logoImage.url);
 }
 
 @end

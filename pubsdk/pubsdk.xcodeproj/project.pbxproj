@@ -261,9 +261,12 @@
 		90D0C9A36EF9136F4CC9E877 /* libPods-CriteoPublisherSdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CDD7544323F61638E0E8B7F /* libPods-CriteoPublisherSdk.a */; };
 		BAF31CA74BB0776CEC97BA5F /* libPods-pubsdkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 424B8FD0D9FFF59AAABA6319 /* libPods-pubsdkTests.a */; };
 		C07AB0B23BDBEA53346DD6CC /* CR_FeedbackController.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABC983FB1DA60294D238A /* CR_FeedbackController.m */; };
+		C07AB6C51EDDDE87A80D2666 /* CRMediaContent.h in Headers */ = {isa = PBXBuildFile; fileRef = C07ABFCB3CD0F740F0A7FB05 /* CRMediaContent.h */; };
 		C07AB779584EBF6DBACED48F /* NSUserDefaults+CR_Config.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB1709D918AD4DA7A4384 /* NSUserDefaults+CR_Config.m */; };
 		C07AB87AEEBF8383E4C029F6 /* CR_FeedbackFeatureGuardTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABEC0FA1873D8B0882250 /* CR_FeedbackFeatureGuardTests.m */; };
+		C07AB936F1DBBE6CC8C2644E /* CRMediaContent.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABD4814092221709B77BA /* CRMediaContent.m */; };
 		C07AB9ED69EB74DA88306686 /* CR_FeedbackFeatureGuard.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB7277BC095D4A7DF86E2 /* CR_FeedbackFeatureGuard.m */; };
+		C07ABC5F0E8E39C7BA6F6E7D /* CRMediaContent+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = C07AB31126BE08B645463204 /* CRMediaContent+Internal.h */; };
 		C07ABD881B3EF50E277BBEAC /* CR_FeedbackFeatureGuard.h in Headers */ = {isa = PBXBuildFile; fileRef = C07AB2A43FA7623D134F5246 /* CR_FeedbackFeatureGuard.h */; };
 		C07ABE08CDD58B26FFCCBCE1 /* NSUserDefaults+CR_Config.h in Headers */ = {isa = PBXBuildFile; fileRef = C07ABA8D45D123659567CEF2 /* NSUserDefaults+CR_Config.h */; };
 		C07ABF0597CEB2DD36AE7B51 /* CR_FeedbackControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABBA46FCA43B62B82A2A0 /* CR_FeedbackControllerTests.m */; };
@@ -603,12 +606,15 @@
 		C07AB1709D918AD4DA7A4384 /* NSUserDefaults+CR_Config.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+CR_Config.m"; sourceTree = "<group>"; };
 		C07AB1A6DF0183C472138E98 /* NSUserDefaults+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Testing.h"; sourceTree = "<group>"; };
 		C07AB2A43FA7623D134F5246 /* CR_FeedbackFeatureGuard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_FeedbackFeatureGuard.h; sourceTree = "<group>"; };
+		C07AB31126BE08B645463204 /* CRMediaContent+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CRMediaContent+Internal.h"; sourceTree = "<group>"; };
 		C07AB510AF4AF6C47D87E0F3 /* CR_FeedbackController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_FeedbackController.h; sourceTree = "<group>"; };
 		C07AB7277BC095D4A7DF86E2 /* CR_FeedbackFeatureGuard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_FeedbackFeatureGuard.m; sourceTree = "<group>"; };
 		C07ABA8D45D123659567CEF2 /* NSUserDefaults+CR_Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+CR_Config.h"; sourceTree = "<group>"; };
 		C07ABBA46FCA43B62B82A2A0 /* CR_FeedbackControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_FeedbackControllerTests.m; sourceTree = "<group>"; };
 		C07ABC983FB1DA60294D238A /* CR_FeedbackController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_FeedbackController.m; sourceTree = "<group>"; };
+		C07ABD4814092221709B77BA /* CRMediaContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRMediaContent.m; sourceTree = "<group>"; };
 		C07ABEC0FA1873D8B0882250 /* CR_FeedbackFeatureGuardTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_FeedbackFeatureGuardTests.m; sourceTree = "<group>"; };
+		C07ABFCB3CD0F740F0A7FB05 /* CRMediaContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRMediaContent.h; sourceTree = "<group>"; };
 		D674306DEEFA97D34CCBFDA8 /* Pods-CriteoPublisherSdk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoPublisherSdk.release.xcconfig"; path = "../Pods/Target Support Files/Pods-CriteoPublisherSdk/Pods-CriteoPublisherSdk.release.xcconfig"; sourceTree = "<group>"; };
 		D8DCF8FDE3376281CE6BA7BD /* Pods-pubsdkITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdkITests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdkITests/Pods-pubsdkITests.debug.xcconfig"; sourceTree = "<group>"; };
 		DF367C84232971810044807B /* CRNativeAdUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNativeAdUnit.h; sourceTree = "<group>"; };
@@ -1259,6 +1265,9 @@
 				4668FEEF2459BD1000D207AE /* CRNativeLoader.h */,
 				7D03F10323F193F700CB5D8B /* CRNativeLoader+Internal.h */,
 				4668FEF12459BD1000D207AE /* CRNativeLoader.m */,
+				C07ABD4814092221709B77BA /* CRMediaContent.m */,
+				C07ABFCB3CD0F740F0A7FB05 /* CRMediaContent.h */,
+				C07AB31126BE08B645463204 /* CRMediaContent+Internal.h */,
 			);
 			path = Native;
 			sourceTree = "<group>";
@@ -1423,6 +1432,8 @@
 				198CD4A32B7B46B6F1FAC786 /* CASBoundedFileObjectQueue.h in Headers */,
 				C07ABD881B3EF50E277BBEAC /* CR_FeedbackFeatureGuard.h in Headers */,
 				C07ABE08CDD58B26FFCCBCE1 /* NSUserDefaults+CR_Config.h in Headers */,
+				C07AB6C51EDDDE87A80D2666 /* CRMediaContent.h in Headers */,
+				C07ABC5F0E8E39C7BA6F6E7D /* CRMediaContent+Internal.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1769,6 +1780,7 @@
 				C07AB9ED69EB74DA88306686 /* CR_FeedbackFeatureGuard.m in Sources */,
 				C07AB0B23BDBEA53346DD6CC /* CR_FeedbackController.m in Sources */,
 				C07AB779584EBF6DBACED48F /* NSUserDefaults+CR_Config.m in Sources */,
+				C07AB936F1DBBE6CC8C2644E /* CRMediaContent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
