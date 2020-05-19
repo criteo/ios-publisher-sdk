@@ -55,10 +55,10 @@
     if (!other || ![other isMemberOfClass:CR_NativeAdvertiser.class]) { return NO; }
     CR_NativeAdvertiser *otherAdvertiser = (CR_NativeAdvertiser *)other;
     BOOL result = YES;
-    result &= [NSObject object:_description  isEqualTo:otherAdvertiser.description];
-    result &= [NSObject object:_domain       isEqualTo:otherAdvertiser.domain];
-    result &= [NSObject object:_logoImage    isEqualTo:otherAdvertiser.logoImage];
-    result &= [NSObject object:_logoClickUrl isEqualTo:otherAdvertiser.logoClickUrl];
+    result &= [NSObject cr_object:_description isEqualTo:otherAdvertiser.description];
+    result &= [NSObject cr_object:_domain isEqualTo:otherAdvertiser.domain];
+    result &= [NSObject cr_object:_logoImage isEqualTo:otherAdvertiser.logoImage];
+    result &= [NSObject cr_object:_logoClickUrl isEqualTo:otherAdvertiser.logoClickUrl];
     return result;
 }
 

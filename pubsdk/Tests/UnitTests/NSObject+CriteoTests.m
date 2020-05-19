@@ -16,11 +16,11 @@
 @implementation NSObject_CriteoTests
 
 - (void)testObjectIsEqualTo {
-    XCTAssertTrue([NSObject object:@"a" isEqualTo:@"a"]);
-    XCTAssertFalse([NSObject object:@"a" isEqualTo:@"b"]);
-    XCTAssertFalse([NSObject object:@"a" isEqualTo:nil]);
-    XCTAssertFalse([NSObject object:nil isEqualTo:@"a"]);
-    XCTAssertTrue([NSObject object:nil isEqualTo:nil]);
+    XCTAssertTrue([NSObject cr_object:@"a" isEqualTo:@"a"]);
+    XCTAssertFalse([NSObject cr_object:@"a" isEqualTo:@"b"]);
+    XCTAssertFalse([NSObject cr_object:@"a" isEqualTo:nil]);
+    XCTAssertFalse([NSObject cr_object:nil isEqualTo:@"a"]);
+    XCTAssertTrue([NSObject cr_object:nil isEqualTo:nil]);
 }
 
 - (void)testCriteoTargetingKeysConstantsWereNotChanged {

@@ -50,7 +50,7 @@
     if (!other || ![other isMemberOfClass:CR_NativeImage.class]) { return NO; }
     CR_NativeImage *otherImage = (CR_NativeImage *)other;
     BOOL result = YES;
-    result &= [NSObject object:_url isEqualTo:otherImage.url];
+    result &= [NSObject cr_object:_url isEqualTo:otherImage.url];
     result &= _width  == otherImage.width;
     result &= _height == otherImage.height;
     return result;

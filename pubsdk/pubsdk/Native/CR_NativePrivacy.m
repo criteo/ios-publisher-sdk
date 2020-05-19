@@ -51,9 +51,9 @@
     if (!other || ![other isMemberOfClass:CR_NativePrivacy.class]) { return NO; }
     CR_NativePrivacy *otherPrivacy = (CR_NativePrivacy *)other;
     BOOL result = YES;
-    result &= [NSObject object:_optoutClickUrl isEqualTo:otherPrivacy.optoutClickUrl];
-    result &= [NSObject object:_optoutImageUrl isEqualTo:otherPrivacy.optoutImageUrl];
-    result &= [NSObject object:_longLegalText  isEqualTo:otherPrivacy.longLegalText];
+    result &= [NSObject cr_object:_optoutClickUrl isEqualTo:otherPrivacy.optoutClickUrl];
+    result &= [NSObject cr_object:_optoutImageUrl isEqualTo:otherPrivacy.optoutImageUrl];
+    result &= [NSObject cr_object:_longLegalText isEqualTo:otherPrivacy.longLegalText];
     return result;
 }
 

@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSObject (Criteo)
 
-+ (BOOL)object:(nullable id)obj1 isEqualTo:(nullable id)obj2;
++ (BOOL)cr_object:(nullable id)obj1 isEqualTo:(nullable id)obj2;
 
 @end
 

@@ -135,18 +135,18 @@ static CR_CdbBid *emptyBid;
     if (!other || ![other isMemberOfClass:CR_CdbBid.class]) { return NO; }
     CR_CdbBid *otherCdbBid = (CR_CdbBid *)other;
     BOOL result = YES;
-    result &= [NSObject object:_zoneId       isEqualTo:otherCdbBid.zoneId];
-    result &= [NSObject object:_placementId  isEqualTo:otherCdbBid.placementId];
-    result &= [NSObject object:_cpm          isEqualTo:otherCdbBid.cpm];
-    result &= [NSObject object:_currency     isEqualTo:otherCdbBid.currency];
-    result &= [NSObject object:_width        isEqualTo:otherCdbBid.width];
-    result &= [NSObject object:_height       isEqualTo:otherCdbBid.height];
-    result &= [NSObject object:_creative     isEqualTo:otherCdbBid.creative];
-    result &= [NSObject object:_displayUrl   isEqualTo:otherCdbBid.displayUrl];
+    result &= [NSObject cr_object:_zoneId isEqualTo:otherCdbBid.zoneId];
+    result &= [NSObject cr_object:_placementId isEqualTo:otherCdbBid.placementId];
+    result &= [NSObject cr_object:_cpm isEqualTo:otherCdbBid.cpm];
+    result &= [NSObject cr_object:_currency isEqualTo:otherCdbBid.currency];
+    result &= [NSObject cr_object:_width isEqualTo:otherCdbBid.width];
+    result &= [NSObject cr_object:_height isEqualTo:otherCdbBid.height];
+    result &= [NSObject cr_object:_creative isEqualTo:otherCdbBid.creative];
+    result &= [NSObject cr_object:_displayUrl isEqualTo:otherCdbBid.displayUrl];
     result &= _ttl                                  == otherCdbBid.ttl;
-    result &= [NSObject object:_insertTime   isEqualTo:otherCdbBid.insertTime];
-    result &= [NSObject object:_nativeAssets isEqualTo:otherCdbBid.nativeAssets];
-    result &= [NSObject object:_impressionId isEqualTo:otherCdbBid.impressionId];
+    result &= [NSObject cr_object:_insertTime isEqualTo:otherCdbBid.insertTime];
+    result &= [NSObject cr_object:_nativeAssets isEqualTo:otherCdbBid.nativeAssets];
+    result &= [NSObject cr_object:_impressionId isEqualTo:otherCdbBid.impressionId];
     return result;
 }
 

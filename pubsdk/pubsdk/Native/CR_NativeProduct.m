@@ -61,12 +61,12 @@
     if (!other || ![other isMemberOfClass:CR_NativeProduct.class]) { return NO; }
     CR_NativeProduct *otherProduct = (CR_NativeProduct *)other;
     BOOL result = YES;
-    result &= [NSObject object:_title        isEqualTo:otherProduct.title];
-    result &= [NSObject object:_description  isEqualTo:otherProduct.description];
-    result &= [NSObject object:_price        isEqualTo:otherProduct.price];
-    result &= [NSObject object:_clickUrl     isEqualTo:otherProduct.clickUrl];
-    result &= [NSObject object:_callToAction isEqualTo:otherProduct.callToAction];
-    result &= [NSObject object:_image        isEqualTo:otherProduct.image];
+    result &= [NSObject cr_object:_title isEqualTo:otherProduct.title];
+    result &= [NSObject cr_object:_description isEqualTo:otherProduct.description];
+    result &= [NSObject cr_object:_price isEqualTo:otherProduct.price];
+    result &= [NSObject cr_object:_clickUrl isEqualTo:otherProduct.clickUrl];
+    result &= [NSObject cr_object:_callToAction isEqualTo:otherProduct.callToAction];
+    result &= [NSObject cr_object:_image isEqualTo:otherProduct.image];
     return result;
 }
 

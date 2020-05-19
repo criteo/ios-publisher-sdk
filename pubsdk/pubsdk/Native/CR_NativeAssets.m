@@ -83,10 +83,10 @@
     if (!other || ![other isMemberOfClass:CR_NativeAssets.class]) { return NO; }
     CR_NativeAssets *otherAssets = (CR_NativeAssets *)other;
     BOOL result = YES;
-    result &= [NSObject object:_products         isEqualTo:otherAssets.products];
-    result &= [NSObject object:_advertiser       isEqualTo:otherAssets.advertiser];
-    result &= [NSObject object:_privacy          isEqualTo:otherAssets.privacy];
-    result &= [NSObject object:_impressionPixels isEqualTo:otherAssets.impressionPixels];
+    result &= [NSObject cr_object:_products isEqualTo:otherAssets.products];
+    result &= [NSObject cr_object:_advertiser isEqualTo:otherAssets.advertiser];
+    result &= [NSObject cr_object:_privacy isEqualTo:otherAssets.privacy];
+    result &= [NSObject cr_object:_impressionPixels isEqualTo:otherAssets.impressionPixels];
     return result;
 }
 
