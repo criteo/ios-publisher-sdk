@@ -14,6 +14,9 @@
 
 @implementation CRNativeAd
 
+@synthesize productMedia = _productMedia;
+@synthesize advertiserLogoMedia = _advertiserLogoMedia;
+
 - (instancetype)initWithLoader:(CRNativeLoader *)loader
                         assets:(CR_NativeAssets *)assets {
     if (self = [self initWithNativeAssets:assets]) {
@@ -28,10 +31,8 @@
                               body:product.description
                              price:product.price
                       callToAction:product.callToAction
-                   productImageUrl:product.image.url
              advertiserDescription:assets.advertiser.description
-                  advertiserDomain:assets.advertiser.domain
-            advertiserLogoImageUrl:assets.advertiser.logoImage.url]) {
+                  advertiserDomain:assets.advertiser.domain]) {
         _assets = assets;
     }
     return self;
@@ -41,25 +42,39 @@
                          body:(NSString *)body
                         price:(NSString *)price
                  callToAction:(NSString *)callToAction
-              productImageUrl:(NSString *)productImageUrl
         advertiserDescription:(NSString *)advertiserDescription
-             advertiserDomain:(NSString *)advertiserDomain
-       advertiserLogoImageUrl:(NSString *)advertiserLogoImageUrl {
+             advertiserDomain:(NSString *)advertiserDomain {
     if (self = [super init]) {
         _title = title;
         _body = body;
         _price = price;
         _callToAction = callToAction;
-        _productMedia = [[CRMediaContent alloc] initWithImageUrl:[NSURL cr_URLWithStringOrNil:productImageUrl]];
         _advertiserDescription = advertiserDescription;
         _advertiserDomain = advertiserDomain;
-        _advertiserLogoMedia = [[CRMediaContent alloc] initWithImageUrl:[NSURL cr_URLWithStringOrNil:advertiserLogoImageUrl]];
     }
     return self;
 }
 
 - (CR_NativeProduct *)product {
     return self.assets.products[0];
+}
+
+- (CRMediaContent *)productMedia {
+    if (!_productMedia) {
+        NSURL *imageUrl = [NSURL cr_URLWithStringOrNil:self.product.image.url];
+        _productMedia = [[CRMediaContent alloc] initWithImageUrl:imageUrl
+                                                 mediaDownloader:_loader.mediaDownloader];
+    }
+    return _productMedia;
+}
+
+- (CRMediaContent *)advertiserLogoMedia {
+    if (!_advertiserLogoMedia) {
+        NSURL *imageUrl = [NSURL cr_URLWithStringOrNil:self.assets.advertiser.logoImage.url];
+        _advertiserLogoMedia = [[CRMediaContent alloc] initWithImageUrl:imageUrl
+                                                        mediaDownloader:_loader.mediaDownloader];
+    }
+    return _advertiserLogoMedia;
 }
 
 @end

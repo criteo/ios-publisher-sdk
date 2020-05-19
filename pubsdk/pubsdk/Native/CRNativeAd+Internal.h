@@ -28,10 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
                          body:(NSString * _Nullable)body
                         price:(NSString * _Nullable)price
                  callToAction:(NSString * _Nullable)callToAction
-              productImageUrl:(NSString * _Nullable)productImageUrl
         advertiserDescription:(NSString * _Nullable)advertiserDescription
-             advertiserDomain:(NSString * _Nullable)advertiserDomain
-       advertiserLogoImageUrl:(NSString * _Nullable)advertiserLogoImageUrl NS_DESIGNATED_INITIALIZER;
+             advertiserDomain:(NSString * _Nullable)advertiserDomain NS_DESIGNATED_INITIALIZER;
 
 @end
 

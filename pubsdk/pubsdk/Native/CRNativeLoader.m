@@ -15,6 +15,7 @@
 #import "Logging.h"
 #import "CR_DefaultMediaDownloader.h"
 #import "CR_SafeMediaDownloader.h"
+#import "CR_ThreadManager.h"
 
 @implementation CRNativeLoader
 
@@ -29,6 +30,7 @@
         _adUnit = adUnit;
         _criteo = criteo;
         self.mediaDownloader = [[CR_DefaultMediaDownloader alloc] init];
+        _threadManager = [[CR_ThreadManager alloc] init];
     }
     return self;
 }

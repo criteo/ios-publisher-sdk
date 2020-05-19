@@ -58,7 +58,7 @@
     XCTWaiter *waiter = [[XCTWaiter alloc] init];
     XCTWaiterResult result = [waiter waitForExpectations:@[expectation]
                                                  timeout:timeout];
-    NSAssert(result == XCTWaiterResultCompleted, @"Idle mode did not finished (reason = %ld, nbBlockInProgress = %ld)", (long)result, self.threadManager.blockInProgressCounter);
+    NSAssert(result == XCTWaiterResultCompleted, @"Idle mode did not finished (reason = %ld, nbBlockInProgress = %ld)", (long)result, (long)self.threadManager.blockInProgressCounter);
     result = result; // to avoid compilation error
 }
 
