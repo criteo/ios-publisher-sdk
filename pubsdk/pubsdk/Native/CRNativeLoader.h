@@ -31,6 +31,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+/**
+ * All the methods of the CRNativeDelegate are invoked on main dispatch queue,
+ * so it is safe to execute UI operations in the implementation.
+ */
 @protocol CRNativeDelegate <NSObject>
 
 @optional
@@ -38,9 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Callback invoked when a native ad is successfully received. It is expected to display the native
  * ad.
- *
- * This callback is invoked on main dispatch queue, so it is safe to execute UI operations in the
- * implementation.
  *
  * @param loader Native loader invoking the callback
  * @param ad native ad with the data that may be used to render it
@@ -50,9 +51,6 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Callback invoked when the SDK fails to provide a native ad.
  *
- * This callback is invoked on main dispatch queue, so it is safe to execute UI operations in the
- * implementation.
- *
  * @param loader Native loader invoking the callback
  * @param error error indicating the reason of the failure
  */
@@ -60,9 +58,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Callback invoked when user clicks on an Ad or AdChoice button, opening its associated URL
- *
- * This callback is invoked on main dispatch queue, so it is safe to execute UI operations in the
- * implementation.
  *
  * @param loader Native loader invoking the callback
  */
