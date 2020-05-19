@@ -7,7 +7,7 @@
 
 #import <XCTest/XCTest.h>
 #import "CR_CacheAdUnit.h"
-#import "NSError+CRErrors.h"
+#import "NSError+Criteo.h"
 #import "NSArray+Criteo.h"
 
 @interface NSArray_CriteoTests : XCTestCase

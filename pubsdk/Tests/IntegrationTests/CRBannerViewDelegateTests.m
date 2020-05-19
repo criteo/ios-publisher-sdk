@@ -13,7 +13,7 @@
 #import "CRBannerViewDelegate.h"
 #import "Criteo+Internal.h"
 #import "CR_CdbBid.h"
-#import "NSError+CRErrors.h"
+#import "NSError+Criteo.h"
 #import "CR_TokenValue.h"
 #import "CRBidToken+Internal.h"
 #import "CRBannerAdUnit.h"
@@ -116,7 +116,7 @@ NSTimeInterval kExpectedTimeout = .5;
                                                             adUnit:self.adUnit];
 
     CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];
-    delegate.expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNoFill];
+    delegate.expectedError = [NSError cr_errorWithCode:CRErrorCodeNoFill];
     bannerView.delegate = delegate;
     CR_CacheAdUnit *expectedAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
                                                                          size:CGSizeMake(47.0f, 57.0f)
@@ -250,7 +250,7 @@ NSTimeInterval kExpectedTimeout = .5;
     [bannerView loadAdWithBidToken:token];
 
     CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];
-    delegate.expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNoFill];
+    delegate.expectedError = [NSError cr_errorWithCode:CRErrorCodeNoFill];
     bannerView.delegate = delegate;
 
     [bannerView loadAdWithBidToken:token];
@@ -275,7 +275,8 @@ NSTimeInterval kExpectedTimeout = .5;
     OCMStub([mockCriteo tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner]).andReturn(expectedTokenValue);
 
     CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];
-    delegate.expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidParameter description:@"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRBannerView was initialized with"];
+    delegate.expectedError = [NSError cr_errorWithCode:CRErrorCodeInvalidParameter
+                                           description:@"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRBannerView was initialized with"];
     bannerView.delegate = delegate;
 
     [bannerView loadAdWithBidToken:token];
@@ -305,7 +306,8 @@ NSTimeInterval kExpectedTimeout = .5;
     [bannerView loadAdWithBidToken:token];
 
     CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];
-    delegate.expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidParameter description:@"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRBannerView was initialized with"];
+    delegate.expectedError = [NSError cr_errorWithCode:CRErrorCodeInvalidParameter
+                                           description:@"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRBannerView was initialized with"];
     bannerView.delegate = delegate;
 
     [bannerView loadAdWithBidToken:token];

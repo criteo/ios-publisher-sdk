@@ -10,7 +10,7 @@
 #import "CRInterstitial+Internal.h"
 #import "CR_Config.h"
 #import "CR_CdbBid.h"
-#import "NSError+CRErrors.h"
+#import "NSError+Criteo.h"
 #import "CR_TokenValue.h"
 #import "CR_InterstitialViewController.h"
 #import "NSURL+Criteo.h"
@@ -245,8 +245,8 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     dispatch_async(dispatch_get_main_queue(), ^{
         if([self.delegate respondsToSelector:@selector(interstitial:didFailToReceiveAdWithError:)]) {
             NSError *error = description
-            ? [NSError CRErrors_errorWithCode:errorCode description:description]
-            : [NSError CRErrors_errorWithCode:errorCode];
+            ? [NSError cr_errorWithCode:errorCode description:description]
+            : [NSError cr_errorWithCode:errorCode];
 
             [self.delegate interstitial:self didFailToReceiveAdWithError:error];
         }
@@ -264,7 +264,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 - (void)safelyNotifyInterstitialCannotPresent:(CRErrorCode) errorCode {
     dispatch_async(dispatch_get_main_queue(), ^{
         if([self.delegate respondsToSelector:@selector(interstitial:didFailToReceiveAdContentWithError:)]) {
-            [self.delegate interstitial:self didFailToReceiveAdContentWithError:[NSError CRErrors_errorWithCode:errorCode]];
+            [self.delegate interstitial:self didFailToReceiveAdContentWithError:[NSError cr_errorWithCode:errorCode]];
         }
     });
 }

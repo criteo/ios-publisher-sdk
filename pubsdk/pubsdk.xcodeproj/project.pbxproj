@@ -103,7 +103,7 @@
 		543F6F7822820C1A00A5DBE2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 543F6F7622820C1A00A5DBE2 /* LaunchScreen.storyboard */; };
 		543F6F7B22820C1A00A5DBE2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 543F6F7A22820C1A00A5DBE2 /* main.m */; };
 		543F6FA22283B5F500A5DBE2 /* CRBannerViewDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 543F6FA12283B5F500A5DBE2 /* CRBannerViewDelegateTests.m */; };
-		545A39A622A8210A00648957 /* NSError+CRErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 543B672A2294689B006A99DF /* NSError+CRErrors.m */; };
+		545A39A622A8210A00648957 /* NSError+Criteo.m in Sources */ = {isa = PBXBuildFile; fileRef = 543B672A2294689B006A99DF /* NSError+Criteo.m */; };
 		545A39F422A8794F00648957 /* CRInterstitial.h in Headers */ = {isa = PBXBuildFile; fileRef = 654858A5226538D500DC471A /* CRInterstitial.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		54658897228C6DB1009746E0 /* CRInterstitialDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6549B552228389930078F068 /* CRInterstitialDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		54680B6A2395222B00DB5A37 /* CR_DfpBannerFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 54680B692395222B00DB5A37 /* CR_DfpBannerFunctionalTests.m */; };
@@ -173,7 +173,7 @@
 		7D3E422C23915B6600BAF673 /* CR_NativeAdvertiserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41FE23915B6600BAF673 /* CR_NativeAdvertiserTests.m */; };
 		7D3E422D23915B6600BAF673 /* LoggingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420023915B6600BAF673 /* LoggingTests.m */; };
 		7D3E422E23915B6600BAF673 /* NSArray+CriteoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420123915B6600BAF673 /* NSArray+CriteoTests.m */; };
-		7D3E422F23915B6600BAF673 /* NSError+CRErrorsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420223915B6600BAF673 /* NSError+CRErrorsTests.m */; };
+		7D3E422F23915B6600BAF673 /* NSError+CriteoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420223915B6600BAF673 /* NSError+CriteoTests.m */; };
 		7D3E423023915B6600BAF673 /* NSDictionary+CriteoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420323915B6600BAF673 /* NSDictionary+CriteoTests.m */; };
 		7D3E423123915B6600BAF673 /* NSString+CR_UrlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420423915B6600BAF673 /* NSString+CR_UrlTests.m */; };
 		7D3E423223915B6600BAF673 /* SampleBid.json in Resources */ = {isa = PBXBuildFile; fileRef = 7D3E420523915B6600BAF673 /* SampleBid.json */; };
@@ -360,8 +360,8 @@
 		542FCFB1242D08EE000D9DA9 /* CR_FeedbacksSerializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_FeedbacksSerializer.h; sourceTree = "<group>"; };
 		542FCFB2242D08EE000D9DA9 /* CR_FeedbacksSerializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_FeedbacksSerializer.m; sourceTree = "<group>"; };
 		542FCFB7242D0E12000D9DA9 /* CR_FeedbackSerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_FeedbackSerializerTests.swift; sourceTree = "<group>"; };
-		543B67292294689B006A99DF /* NSError+CRErrors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSError+CRErrors.h"; sourceTree = "<group>"; };
-		543B672A2294689B006A99DF /* NSError+CRErrors.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSError+CRErrors.m"; sourceTree = "<group>"; };
+		543B67292294689B006A99DF /* NSError+Criteo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSError+Criteo.h"; sourceTree = "<group>"; };
+		543B672A2294689B006A99DF /* NSError+Criteo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSError+Criteo.m"; sourceTree = "<group>"; };
 		543F6F6922820C1800A5DBE2 /* iTestHostApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTestHostApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		543F6F6B22820C1800A5DBE2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		543F6F6C22820C1800A5DBE2 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -473,7 +473,7 @@
 		7D3E41FE23915B6600BAF673 /* CR_NativeAdvertiserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_NativeAdvertiserTests.m; sourceTree = "<group>"; };
 		7D3E420023915B6600BAF673 /* LoggingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggingTests.m; sourceTree = "<group>"; };
 		7D3E420123915B6600BAF673 /* NSArray+CriteoTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+CriteoTests.m"; sourceTree = "<group>"; };
-		7D3E420223915B6600BAF673 /* NSError+CRErrorsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+CRErrorsTests.m"; sourceTree = "<group>"; };
+		7D3E420223915B6600BAF673 /* NSError+CriteoTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+CriteoTests.m"; sourceTree = "<group>"; };
 		7D3E420323915B6600BAF673 /* NSDictionary+CriteoTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+CriteoTests.m"; sourceTree = "<group>"; };
 		7D3E420423915B6600BAF673 /* NSString+CR_UrlTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+CR_UrlTests.m"; sourceTree = "<group>"; };
 		7D3E420523915B6600BAF673 /* SampleBid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SampleBid.json; sourceTree = "<group>"; };
@@ -678,6 +678,8 @@
 				DF3E3D3923232C80009E8CB5 /* NSArray+Criteo.m */,
 				DF367CBE232DC53A0044807B /* NSDictionary+Criteo.h */,
 				DF367CBF232DC53A0044807B /* NSDictionary+Criteo.m */,
+				543B67292294689B006A99DF /* NSError+Criteo.h */,
+				543B672A2294689B006A99DF /* NSError+Criteo.m */,
 				7D3E41D42387EE8000BAF673 /* NSUserDefaults+Criteo.h */,
 				7D3E41D52387EE8000BAF673 /* NSUserDefaults+Criteo.m */,
 				53BDFDB722EA498A0051EB40 /* NSObject+Criteo.h */,
@@ -688,8 +690,6 @@
 				255151C422027C9500F76E3F /* NSString+CR_Url.m */,
 				DF367CE12330864F0044807B /* NSURL+Criteo.h */,
 				DF367CE22330864F0044807B /* NSURL+Criteo.m */,
-				543B67292294689B006A99DF /* NSError+CRErrors.h */,
-				543B672A2294689B006A99DF /* NSError+CRErrors.m */,
 				C07AB1709D918AD4DA7A4384 /* NSUserDefaults+CR_Config.m */,
 				C07ABA8D45D123659567CEF2 /* NSUserDefaults+CR_Config.h */,
 			);
@@ -985,7 +985,7 @@
 				7D3E420023915B6600BAF673 /* LoggingTests.m */,
 				7D3E420123915B6600BAF673 /* NSArray+CriteoTests.m */,
 				7D3E420323915B6600BAF673 /* NSDictionary+CriteoTests.m */,
-				7D3E420223915B6600BAF673 /* NSError+CRErrorsTests.m */,
+				7D3E420223915B6600BAF673 /* NSError+CriteoTests.m */,
 				7D3E420423915B6600BAF673 /* NSString+CR_UrlTests.m */,
 			);
 			path = Util;
@@ -1668,7 +1668,7 @@
 				7D07DA1F23DAF6DD00ECCF02 /* CR_Ccpa.m in Sources */,
 				7D58583223E1F1EC0039AC56 /* CR_ThreadManager.m in Sources */,
 				7D03F0FF23F18ECF00CB5D8B /* CRNativeAd.m in Sources */,
-				545A39A622A8210A00648957 /* NSError+CRErrors.m in Sources */,
+				545A39A622A8210A00648957 /* NSError+Criteo.m in Sources */,
 				25BD5B652220D1BB004DE311 /* CR_Config.m in Sources */,
 				5472877F2411043C00B62235 /* CR_FeedbackFileManager.m in Sources */,
 				654858AA226538D500DC471A /* CRInterstitial.m in Sources */,
@@ -1847,7 +1847,7 @@
 				7D3E424323915B6600BAF673 /* CRBidResponseTests.m in Sources */,
 				7DCFBF772445F310009657F7 /* CR_BidPerformanceTests.m in Sources */,
 				7D46571D244DBEFE00E4110E /* CR_SynchronousThreadManager.m in Sources */,
-				7D3E422F23915B6600BAF673 /* NSError+CRErrorsTests.m in Sources */,
+				7D3E422F23915B6600BAF673 /* NSError+CriteoTests.m in Sources */,
 				542FCFB8242D0E1A000D9DA9 /* CR_FeedbackSerializerTests.swift in Sources */,
 				54F1E6B6239FA19B00985D09 /* UIView+Testing.m in Sources */,
 				7D51ABF523ACCC7700540094 /* CR_NetworkWaiterBuilder.m in Sources */,

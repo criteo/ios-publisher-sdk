@@ -10,7 +10,7 @@
 #import "CR_CdbBid.h"
 #import "Criteo+Internal.h"
 #import "CR_BidManager.h"
-#import "NSError+CRErrors.h"
+#import "NSError+Criteo.h"
 #import "CR_TokenValue.h"
 #import "NSURL+Criteo.h"
 
@@ -184,8 +184,8 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     dispatch_async(dispatch_get_main_queue(), ^{
         if([self.delegate respondsToSelector:@selector(banner:didFailToReceiveAdWithError:)]) {
             NSError *error = description
-            ? [NSError CRErrors_errorWithCode:errorCode description:description]
-            : [NSError CRErrors_errorWithCode:errorCode];
+            ? [NSError cr_errorWithCode:errorCode description:description]
+            : [NSError cr_errorWithCode:errorCode];
 
             [self.delegate banner:self didFailToReceiveAdWithError:error];
         }

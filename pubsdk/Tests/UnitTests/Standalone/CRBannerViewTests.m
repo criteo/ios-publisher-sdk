@@ -15,7 +15,7 @@
 #import "CRBannerView+Internal.h"
 #import "MockWKWebView.h"
 #import "CRBidToken+Internal.h"
-#import "NSError+CRErrors.h"
+#import "NSError+Criteo.h"
 #import "CRBannerAdUnit.h"
 #import "NSURL+Criteo.h"
 

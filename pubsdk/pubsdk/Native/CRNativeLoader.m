@@ -11,7 +11,7 @@
 #import "CRNativeAd+Internal.h"
 #import "CR_AdUnitHelper.h"
 #import "CR_CdbBid.h"
-#import "NSError+CRErrors.h"
+#import "NSError+Criteo.h"
 #import "Logging.h"
 
 @implementation CRNativeLoader
@@ -50,7 +50,7 @@
     CR_CdbBid *bid = [self.criteo getBid:cacheAdUnit];
 
     if (bid.isEmpty) {
-        NSError *error = [NSError CRErrors_errorWithCode:CRErrorCodeNoFill];
+        NSError *error = [NSError cr_errorWithCode:CRErrorCodeNoFill];
         [self notifyFailToReceiveAdWithError:error];
         return;
     }

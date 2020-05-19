@@ -13,7 +13,7 @@
 #import "CRInterstitial+Internal.h"
 #import "CRInterstitialDelegate.h"
 #import "CR_CdbBid.h"
-#import "NSError+CRErrors.h"
+#import "NSError+Criteo.h"
 #import "CR_DeviceInfo.h"
 #import "CR_AdUnitHelper.h"
 #import "CRBidToken+Internal.h"
@@ -157,7 +157,7 @@
     OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([CR_CdbBid emptyBid]);
 
     id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
-    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNoFill];
+    NSError *expectedError = [NSError cr_errorWithCode:CRErrorCodeNoFill];
     interstitial.delegate = mockInterstitialDelegate;
     OCMStub([mockInterstitialDelegate interstitial:interstitial
                           didFailToReceiveAdWithError:[OCMArg any]]);
@@ -452,8 +452,8 @@
                                                                isAdLoaded:NO
                                                                    adUnit:self.adUnit];
     id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
-    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidParameter
-                                        description:@"rootViewController parameter must not be nil."];
+    NSError *expectedError = [NSError cr_errorWithCode:CRErrorCodeInvalidParameter
+                                           description:@"rootViewController parameter must not be nil."];
     interstitial.delegate = mockInterstitialDelegate;
     OCMStub([mockInterstitialDelegate interstitial:interstitial
                           didFailToReceiveAdWithError:[OCMArg any]]);
@@ -481,8 +481,8 @@
                                                                isAdLoaded:NO
                                                                    adUnit:self.adUnit];
     id<CRInterstitialDelegate> mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
-    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidRequest
-                                        description:@"An Ad is already being presented."];
+    NSError *expectedError = [NSError cr_errorWithCode:CRErrorCodeInvalidRequest
+                                           description:@"An Ad is already being presented."];
     interstitial.delegate = mockInterstitialDelegate;
     OCMStub([mockInterstitialDelegate interstitial:interstitial
                           didFailToReceiveAdWithError:[OCMArg any]]);
@@ -513,8 +513,8 @@
                                                                isAdLoaded:NO
                                                                    adUnit:self.adUnit];
     id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
-    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidRequest
-                                                 description:@"Interstitial Ad is not loaded."];
+    NSError *expectedError = [NSError cr_errorWithCode:CRErrorCodeInvalidRequest
+                                           description:@"Interstitial Ad is not loaded."];
     interstitial.delegate = mockInterstitialDelegate;
     OCMExpect([mockInterstitialDelegate interstitial:interstitial
                          didFailToReceiveAdWithError:expectedError]);
@@ -567,8 +567,8 @@
 
     OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([self bidWithDisplayURL:@"test"]);
     id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
-    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidRequest
-                                                 description:@"An Ad is already being loaded."];
+    NSError *expectedError = [NSError cr_errorWithCode:CRErrorCodeInvalidRequest
+                                           description:@"An Ad is already being loaded."];
     interstitial.delegate = mockInterstitialDelegate;
     OCMExpect([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
 
@@ -591,8 +591,8 @@
                                                                isAdLoaded:NO
                                                                    adUnit:self.adUnit];
     id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
-    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidRequest
-                                                 description:@"Ad cannot load as another is already being presented."];
+    NSError *expectedError = [NSError cr_errorWithCode:CRErrorCodeInvalidRequest
+                                           description:@"Ad cannot load as another is already being presented."];
     interstitial.delegate = mockInterstitialDelegate;
     OCMStub([mockInterstitialDelegate interstitial:interstitial
                           didFailToReceiveAdWithError:expectedError]);
@@ -616,7 +616,7 @@
                                    adUnitType:CRAdUnitTypeInterstitial]).andReturn(nil);
 
     id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
-    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNoFill];
+    NSError *expectedError = [NSError cr_errorWithCode:CRErrorCodeNoFill];
     interstitial.delegate = mockInterstitialDelegate;
     OCMExpect([mockInterstitialDelegate interstitial:interstitial
                          didFailToReceiveAdWithError:expectedError]);
@@ -643,8 +643,8 @@
                                    adUnitType:CRAdUnitTypeInterstitial]).andReturn(expectedTokenValue);
 
     id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
-    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidParameter description:
-                              @"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRInterstitial was initialized with"];
+    NSError *expectedError = [NSError cr_errorWithCode:CRErrorCodeInvalidParameter description:
+        @"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRInterstitial was initialized with"];
     interstitial.delegate = mockInterstitialDelegate;
     OCMExpect([mockInterstitialDelegate interstitial:interstitial
                          didFailToReceiveAdWithError:expectedError]);
@@ -671,8 +671,8 @@
                                    adUnitType:CRAdUnitTypeInterstitial]).andReturn(expectedTokenValue);
 
     id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
-    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeInvalidParameter description:
-                              @"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRInterstitial was initialized with"];
+    NSError *expectedError = [NSError cr_errorWithCode:CRErrorCodeInvalidParameter description:
+        @"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRInterstitial was initialized with"];
     interstitial.delegate = mockInterstitialDelegate;
     OCMExpect([mockInterstitialDelegate interstitial:interstitial
                          didFailToReceiveAdWithError:expectedError]);
@@ -750,7 +750,8 @@
 
     OCMReject([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
     OCMExpect([mockInterstitialDelegate interstitial:interstitial didFailToReceiveAdContentWithError:[OCMArg any]]);
-    NSError *expectedError = [NSError CRErrors_errorWithCode:CRErrorCodeNetworkError description:@"Ad request failed due to network error"];
+    NSError *expectedError = [NSError cr_errorWithCode:CRErrorCodeNetworkError
+                                           description:@"Ad request failed due to network error"];
     OCMStub([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:expectedError]);
     OCMStub([mockWebView loadHTMLString:[self htmlString] baseURL:[NSURL URLWithString:@"https://criteo.com"]]).andDo(^(NSInvocation* args) {
