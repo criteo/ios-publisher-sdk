@@ -282,7 +282,6 @@
 
     dispatch_async(dispatch_get_main_queue(), ^{
         OCMVerify([mockUrl cr_openExternal]);
-        OCMVerify([interstitialVC dismissViewController]);
         [openInBrowserExpectation fulfill];
     });
 
@@ -321,7 +320,6 @@
 
     dispatch_async(dispatch_get_main_queue(), ^{
         OCMVerify([mockUrl cr_openExternal]);
-        OCMVerify([interstitialVC dismissViewController]);
         [openInBrowserExpectation fulfill];
     });
 

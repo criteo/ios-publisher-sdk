@@ -10,6 +10,7 @@
 #import "CRNativeAdView.h"
 #import "CR_AdChoice.h"
 #import "CRNativeAd+Internal.h"
+#import "CR_ImpressionDetector.h"
 #import "CR_NativeAssetsTests.h"
 #import "OCMock.h"
 #import "NSURL+Criteo.h"
@@ -20,10 +21,15 @@
 @interface CRNativeAdViewTests : XCTestCase
 
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) id impressionDetectorMock;
 
 @end
 
 @implementation CRNativeAdViewTests
+
+- (void)setUp {
+    self.impressionDetectorMock = [self mockImpressionDectectorInstantiation];
+}
 
 - (void)tearDown {
     [self.window cr_removeFromScreen];
@@ -35,7 +41,7 @@
 - (void)testAdChoiceMissingWithoutAd {
     CRNativeAdView *adView = [self buildNativeAdView];
     CR_AdChoice *adChoice = [self getAdChoiceFromAdView:adView];
-    XCTAssertNil(adChoice);
+    XCTAssertTrue(adChoice.isHidden);
 }
 
 - (void)testAdChoiceWithAd {
@@ -43,6 +49,7 @@
     adView.nativeAd = [self buildNativeAd];
     CR_AdChoice *adChoice = [self getAdChoiceFromAdView:adView];
     XCTAssertNotNil(adChoice);
+    XCTAssertFalse(adChoice.isHidden);
 }
 
 - (void)testAdChoiceOnTopRightAndFrontMost {
@@ -61,27 +68,75 @@
 - (void)testAdChoiceImageDownload {
     CRNativeAdView *adView = [self buildNativeAdView];
     self.window = [UIWindow cr_keyWindowWithView:adView];
-
     id mockDownloader = OCMProtocolMock(@protocol(CRMediaDownloader));
-    OCMExpect([mockDownloader downloadImage:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
-
     CRNativeLoader *loader = OCMClassMock(CRNativeLoader.class);
     OCMStub([loader mediaDownloader]).andReturn(mockDownloader);
-
     CRNativeAd *ad = [self buildNativeAdWithLoader:loader];
+
     adView.nativeAd = ad;
-    OCMVerifyAll(mockDownloader);
+
+    OCMVerify(times(1), [mockDownloader downloadImage:OCMOCK_ANY
+                                    completionHandler:OCMOCK_ANY]);
 }
 
 - (void)testAdChoiceClickCallDelegateForClicking {
     id loaderMock = [self buildNativeLoaderMock];
     CRNativeAd *ad = [self buildNativeAdWithLoader:loaderMock];
     CRNativeAdView *adView = [self buildNativeAdViewWithNativeAd:ad];
-    OCMExpect([loaderMock handleClickOnNativeAd:ad]);
 
     [adView sendActionsForControlEvents:UIControlEventTouchUpInside];
 
-    OCMVerifyAll(loaderMock);
+    OCMVerify(times(1), [loaderMock handleClickOnNativeAd:ad]);
+}
+
+#pragma mark Impression
+
+- (void)testNoImpressionDetectorStartedWithoutNativeAd {
+    CRNativeAdView *view = [[CRNativeAdView alloc] initWithFrame:CGRectZero];
+
+    view.nativeAd = nil;
+
+    OCMVerify(never(), [self.impressionDetectorMock startDetection]);
+    OCMVerify(never(), [self.impressionDetectorMock stopDetection]);
+}
+
+- (void)testImpressionDetectorStartedWithNativeAd {
+    id loaderMock = [self buildNativeLoaderMock];
+    CRNativeAd *ad = [self buildNativeAdWithLoader:loaderMock];
+    CRNativeAdView *view = [[CRNativeAdView alloc] initWithFrame:CGRectZero];
+
+    view.nativeAd = ad;
+
+    OCMVerify(times(1), [self.impressionDetectorMock startDetection]);
+    OCMVerify(never(), [self.impressionDetectorMock stopDetection]);
+}
+
+- (void)testNoImpressionDetectorWithAlreadyImpressedNativeAd {
+    id loaderMock = [self buildNativeLoaderMock];
+    CRNativeAd *ad = [self buildNativeAdWithLoader:loaderMock];
+    CRNativeAdView *view = [[CRNativeAdView alloc] initWithFrame:CGRectZero];
+    [ad markAsImpressed];
+
+    view.nativeAd = ad;
+
+    OCMVerify(never(), [self.impressionDetectorMock startDetection]);
+    OCMVerify(times(1), [self.impressionDetectorMock stopDetection]);
+}
+
+- (void)testChangeNativeAdUpdateCorrectlyAdChoiceAndDetector {
+    id loaderMock = [self buildNativeLoaderMock];
+    CRNativeAd *ad1 = [self buildNativeAdWithLoader:loaderMock];
+    CRNativeAd *ad2 = [self buildNativeAdWithLoader:loaderMock];
+    CRNativeAdView *view = [[CRNativeAdView alloc] initWithFrame:CGRectZero];
+
+    view.nativeAd = ad1;
+    view.nativeAd = ad1;
+    view.nativeAd = ad2;
+
+    CR_AdChoice *adChoice = [self getAdChoiceFromAdView:view];
+    XCTAssertEqual(adChoice.nativeAd, ad2);
+    OCMVerify(times(2), [self.impressionDetectorMock startDetection]);
+    OCMVerify(never(), [self.impressionDetectorMock stopDetection]);
 }
 
 #pragma mark - Private
@@ -118,6 +173,13 @@
         return [view isKindOfClass:CR_AdChoice.class];
     }];
     return index != NSNotFound ? adView.subviews[index] : nil;
+}
+
+- (OCMockObject *)mockImpressionDectectorInstantiation {
+    OCMockObject *mock = OCMClassMock([CR_ImpressionDetector class]);
+    OCMStub([(id)mock alloc]).andReturn(mock);
+    OCMStub([(id)mock initWithView:[OCMArg any]]).andReturn(mock);
+    return mock;
 }
 
 @end

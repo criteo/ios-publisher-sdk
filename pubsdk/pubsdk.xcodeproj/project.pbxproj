@@ -68,6 +68,7 @@
 		467D34CA243E060A00852B4D /* CASBoundedFileObjectQueueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 467D34C9243E060A00852B4D /* CASBoundedFileObjectQueueTests.m */; };
 		46813BEE2472E39000CD8E59 /* CRMediaDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 46813BEC2472E39000CD8E59 /* CRMediaDownloader.h */; };
 		46813BF32472EA5D00CD8E59 /* CR_DefaultMediaDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 46813BF12472EA5D00CD8E59 /* CR_DefaultMediaDownloader.m */; };
+		469301CA24740289006F8D82 /* CR_ImpressionDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 469301C824740289006F8D82 /* CR_ImpressionDetector.m */; };
 		46AC066B24619FA400796AAA /* libCassette.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 547287842411075D00B62235 /* libCassette.a */; };
 		46AD5CF5245B003D00199315 /* CR_NativeLoaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46AD5CF4245B003D00199315 /* CR_NativeLoaderTests.m */; };
 		46B9780E243782A50061FC24 /* CR_UniqueIdGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 46240E0C2434BB4F001425AB /* CR_UniqueIdGenerator.m */; };
@@ -348,6 +349,8 @@
 		46813BEC2472E39000CD8E59 /* CRMediaDownloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRMediaDownloader.h; sourceTree = "<group>"; };
 		46813BF02472EA5D00CD8E59 /* CR_DefaultMediaDownloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_DefaultMediaDownloader.h; sourceTree = "<group>"; };
 		46813BF12472EA5D00CD8E59 /* CR_DefaultMediaDownloader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_DefaultMediaDownloader.m; sourceTree = "<group>"; };
+		469301C724740289006F8D82 /* CR_ImpressionDetector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_ImpressionDetector.h; sourceTree = "<group>"; };
+		469301C824740289006F8D82 /* CR_ImpressionDetector.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_ImpressionDetector.m; sourceTree = "<group>"; };
 		46AD5CF4245B003D00199315 /* CR_NativeLoaderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_NativeLoaderTests.m; sourceTree = "<group>"; };
 		46BC395F246EDA5200F0B2F1 /* CRNativeAdViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdViewTests.m; sourceTree = "<group>"; };
 		46C87E6B24405B2A0022978C /* CR_DefaultFileManipulatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_DefaultFileManipulatorTests.swift; sourceTree = "<group>"; };
@@ -1265,6 +1268,8 @@
 				46813BF12472EA5D00CD8E59 /* CR_DefaultMediaDownloader.m */,
 				4660614124754E8100690E27 /* CR_SafeMediaDownloader.h */,
 				4660614224754E8100690E27 /* CR_SafeMediaDownloader.m */,
+				469301C724740289006F8D82 /* CR_ImpressionDetector.h */,
+				469301C824740289006F8D82 /* CR_ImpressionDetector.m */,
 				DF367CA0232B20F90044807B /* CR_NativeAdvertiser.h */,
 				DF367CA1232B20F90044807B /* CR_NativeAdvertiser.m */,
 				DF367CB6232B397F0044807B /* CR_NativeAssets.h */,
@@ -1800,6 +1805,7 @@
 				547287892411096400B62235 /* CR_FeedbackStorage+MessageUpdating.m in Sources */,
 				198CDFA1D272C69DA0CE470D /* CASBoundedFileObjectQueue.m in Sources */,
 				C07AB9ED69EB74DA88306686 /* CR_FeedbackFeatureGuard.m in Sources */,
+				469301CA24740289006F8D82 /* CR_ImpressionDetector.m in Sources */,
 				C07AB0B23BDBEA53346DD6CC /* CR_FeedbackController.m in Sources */,
 				C07AB779584EBF6DBACED48F /* NSUserDefaults+CR_Config.m in Sources */,
 				C07AB936F1DBBE6CC8C2644E /* CRMediaContent.m in Sources */,

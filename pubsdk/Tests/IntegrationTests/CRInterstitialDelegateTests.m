@@ -344,7 +344,7 @@
                                      repeats:NO
                                        block:^(NSTimer * _Nonnull timer) {
                                           [interstitialWebViewNavigationFailExpectation fulfill];
-                                          OCMVerify(mockInterstitialDelegate);
+                                          OCMVerifyAll((id)mockInterstitialDelegate);
                                       }];
     [self waitForExpectations:@[interstitialWebViewNavigationFailExpectation]
                       timeout:3];

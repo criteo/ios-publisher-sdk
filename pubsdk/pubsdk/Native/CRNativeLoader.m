@@ -49,6 +49,14 @@
 
 #pragma mark - Internal
 
+- (void)handleImpressionOnNativeAd:(CRNativeAd *)nativeAd {
+    if (nativeAd.isImpressed) {
+        return;
+    }
+    [nativeAd markAsImpressed];
+    [self notifyDidDetectImpression];
+}
+
 - (void)handleClickOnNativeAd:(CRNativeAd *)nativeAd {
     [self notifyDidDetectClick];
 

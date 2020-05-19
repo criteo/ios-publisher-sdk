@@ -113,7 +113,33 @@
 
 #pragma mark - Internal
 
-- (void)testHandleClickOnNativeAdCallDelegateForClick {
+#pragma mark handleImpressionOnNativeAd
+
+- (void)testHandleImpressionOnNativeAdCallsDelegate {
+    [self.loader handleImpressionOnNativeAd:self.nativeAd];
+
+    [self cr_waitForExpectations:@[self.delegate.didDetectImpression]];
+}
+
+- (void)testHandleImpressionOnNativeAdMarksImpression {
+    [self.loader handleImpressionOnNativeAd:self.nativeAd];
+
+    XCTAssertTrue(self.nativeAd.isImpressed);
+}
+
+- (void)testHandleImpressionOnNativeAdOnAlreadyMarkedNativeAd {
+    self.delegate.didDetectImpression.inverted = YES;
+    [self.nativeAd markAsImpressed];
+
+    [self.loader handleImpressionOnNativeAd:self.nativeAd];
+
+    [self waitForExpectations:@[self.delegate.didDetectImpression]
+                      timeout:1.f];
+}
+
+#pragma mark handleClickOnNativeAd
+
+- (void)testHandleClickOnNativeAdCallsDelegateForClick {
     [self mockURLForOpeningExternalWithSuccess:YES];
 
     [self.loader handleClickOnNativeAd:self.nativeAd];
@@ -121,7 +147,7 @@
     [self cr_waitForExpectations:@[self.delegate.didDetectClick]];
 }
 
-- (void)testHandleClickOnNativeAdCallDelegateForOpenExternal {
+- (void)testHandleClickOnNativeAdCallsDelegateForOpenExternal {
     [self mockURLForOpeningExternalWithSuccess:YES];
 
     [self.loader handleClickOnNativeAd:self.nativeAd];
@@ -129,7 +155,7 @@
     [self cr_waitForExpectations:@[self.delegate.willLeaveApplicationForNativeAd]];
 }
 
-- (void)testHandleClickOnNativeAdDoNotCallDelegateForOpenExternalFailure {
+- (void)testHandleClickOnNativeAdDoesNotCallDelegateForOpenExternalFailure {
     [self mockURLForOpeningExternalWithSuccess:NO];
     self.delegate.willLeaveApplicationForNativeAd.inverted = YES;
 

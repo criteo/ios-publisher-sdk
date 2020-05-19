@@ -77,4 +77,10 @@
     return _advertiserLogoMedia;
 }
 
+- (void)markAsImpressed {
+    // Use an ivar because the class extension is used for internal API and we
+    // want a readonly property in it.
+    _isImpressed = YES;
+}
+
 @end
