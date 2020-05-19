@@ -23,6 +23,7 @@
 @property (strong, nonatomic) XCTestExpectation *didReceiveOnMainQueue;
 @property (strong, nonatomic) XCTestExpectation *didFailOnMainQueue;
 @property (strong, nonatomic) XCTestExpectation *didDetectImpression;
+@property (strong, nonatomic) XCTestExpectation *didDetectClick;
 @property (strong, nonatomic) XCTestExpectation *willLeaveApplicationForNativeAd;
 @end
 
@@ -114,6 +115,13 @@
     [self waitForExpectations:@[delegate.didDetectImpression] timeout:5];
 }
 
+- (void)testDidDetectClickOnMainQueue {
+    CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
+    CRNativeLoader *loader = [self dispatchCheckerForBid:[CR_CdbBid emptyBid] delegate:delegate];
+    [loader notifyDidDetectClick];
+    [self waitForExpectations:@[delegate.didDetectClick] timeout:5];
+}
+
 - (CRNativeLoader *)dispatchCheckerForBid:(CR_CdbBid *)bid
                                  delegate:(id<CRNativeDelegate>)delegate {
     CRNativeAdUnit *adUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"123"];
@@ -142,6 +150,7 @@
         _didFailOnMainQueue = [[XCTestExpectation alloc] initWithDescription:@"Delegate should be called on main queue"];
         _didReceiveOnMainQueue = [[XCTestExpectation alloc] initWithDescription:@"Delegate should be called on main queue"];
         _didDetectImpression = [[XCTestExpectation alloc] initWithDescription:@"Delegate should be called on main queue"];
+        _didDetectClick = [[XCTestExpectation alloc] initWithDescription:@"Delegate should be called on main queue"];
         _willLeaveApplicationForNativeAd = [[XCTestExpectation alloc] initWithDescription:@"Delegate should be called on main queue"];
     }
     return self;
@@ -165,6 +174,13 @@
     if (@available(iOS 10.0, *)) {
         dispatch_assert_queue(dispatch_get_main_queue());
         [_didDetectImpression fulfill];
+    }
+}
+
+- (void)nativeLoaderDidDetectClick:(CRNativeLoader *)loader {
+    if (@available(iOS 10.0, *)) {
+        dispatch_assert_queue(dispatch_get_main_queue());
+        [_didDetectClick fulfill];
     }
 }
 

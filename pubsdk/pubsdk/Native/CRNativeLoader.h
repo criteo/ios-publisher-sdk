@@ -64,6 +64,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)nativeLoaderDidDetectImpression:(CRNativeLoader *)loader;
 
 /**
+ * Callback invoked when a native ad is clicked.
+ *
+ * @param loader Native loader invoking the callback
+ */
+- (void)nativeLoaderDidDetectClick:(CRNativeLoader *)loader;
+
+/**
  * Callback invoked when user clicks on an Ad or AdChoice button, opening its associated URL
  *
  * @param loader Native loader invoking the callback
