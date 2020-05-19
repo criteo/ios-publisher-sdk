@@ -64,15 +64,9 @@
     OCMStub([mockUrl cr_URLWithStringOrNil:OCMOCK_ANY]).andReturn(mockUrl);
     OCMExpect([mockUrl cr_openExternal:OCMOCK_ANY]);
 
-    XCTestExpectation *adChoiceExpectation = [self expectationWithDescription:@"AdChoice click should open URL"];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        CR_AdChoice *adChoice = [self getAdChoiceFromAdView:adView];
-        [adChoice sendActionsForControlEvents:UIControlEventTouchUpInside];
-        OCMVerifyAll(mockUrl);
-        [adChoiceExpectation fulfill];
-    });
-
-    [self waitForExpectations:@[adChoiceExpectation] timeout:1];
+    CR_AdChoice *adChoice = [self getAdChoiceFromAdView:adView];
+    [adChoice sendActionsForControlEvents:UIControlEventTouchUpInside];
+    OCMVerifyAll(mockUrl);
 }
 
 - (void)testAdChoiceImageDownload {
