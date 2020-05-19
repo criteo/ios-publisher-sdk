@@ -9,7 +9,7 @@
 
 @implementation NSURL (Criteo)
 
-+ (nullable NSURL *)URLWithStringOrNil:(nullable NSString *)string {
++ (nullable NSURL *)cr_URLWithStringOrNil:(nullable NSString *)string {
     if (string && [string isKindOfClass:NSString.class]) {
         return [NSURL URLWithString:string];
     } else {
@@ -17,8 +17,8 @@
     }
 }
 
-- (void)openExternalWithOptions:(NSDictionary<UIApplicationOpenExternalURLOptionsKey, id> *)options
-     completion:(void (^ __nullable)(BOOL success))completion {
+- (void)cr_openExternalWithOptions:(NSDictionary<UIApplicationOpenExternalURLOptionsKey, id> *)options
+                        completion:(void (^ __nullable)(BOOL success))completion {
     if (@available(iOS 10, *)) {
         [[UIApplication sharedApplication] openURL:self
                                            options:options
@@ -28,12 +28,12 @@
     }
 }
 
-- (void)openExternal:(void (^ __nullable)(BOOL success))completion {
-    [self openExternalWithOptions:@{} completion:completion];
+- (void)cr_openExternal:(void (^ __nullable)(BOOL success))completion {
+    [self cr_openExternalWithOptions:@{} completion:completion];
 }
 
-- (void)openExternal {
-    [self openExternal:nil];
+- (void)cr_openExternal {
+    [self cr_openExternal:nil];
 }
 
 @end

@@ -15,12 +15,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSURL (Criteo)
 
-+ (nullable NSURL *)URLWithStringOrNil:(nullable NSString *)string;
++ (nullable NSURL *)cr_URLWithStringOrNil:(nullable NSString *)string;
 
-- (void)openExternal;
-- (void)openExternal:(void (^ __nullable)(BOOL success))completion;
-- (void)openExternalWithOptions:(NSDictionary<UIApplicationOpenExternalURLOptionsKey, id> *)options
-                     completion:(void (^ __nullable)(BOOL success))completion;
+- (void)cr_openExternal;
+
+- (void)cr_openExternal:(void (^ __nullable)(BOOL success))completion;
+
+- (void)cr_openExternalWithOptions:(NSDictionary<UIApplicationOpenExternalURLOptionsKey, id> *)options
+                        completion:(void (^ __nullable)(BOOL success))completion;
 
 @end
 

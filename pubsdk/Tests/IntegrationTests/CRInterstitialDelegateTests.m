@@ -198,7 +198,7 @@
     NSURLRequest *request =  [[NSURLRequest alloc] initWithURL:url];
     OCMStub(mockNavigationAction.request).andReturn(request);
     id mockUrl = OCMPartialMock(url);
-    OCMStub([mockUrl openExternal]);
+    OCMStub([mockUrl cr_openExternal]);
 
     [interstitial webView:nil decidePolicyForNavigationAction:mockNavigationAction
           decisionHandler:^(WKNavigationActionPolicy decisionHandler) {

@@ -59,8 +59,8 @@
     adView.nativeAd = [self buildNativeAd];
 
     id mockUrl = OCMClassMock([NSURL class]);
-    OCMStub([mockUrl URLWithStringOrNil:OCMOCK_ANY]).andReturn(mockUrl);
-    OCMExpect([mockUrl openExternal:OCMOCK_ANY]);
+    OCMStub([mockUrl cr_URLWithStringOrNil:OCMOCK_ANY]).andReturn(mockUrl);
+    OCMExpect([mockUrl cr_openExternal:OCMOCK_ANY]);
 
     XCTestExpectation *adChoiceExpectation = [self expectationWithDescription:@"AdChoice click should open URL"];
     dispatch_async(dispatch_get_main_queue(), ^{

@@ -272,7 +272,7 @@
     NSURLRequest *request =  [[NSURLRequest alloc] initWithURL:url];
     OCMStub(mockNavigationAction.request).andReturn(request);
     id mockUrl = OCMPartialMock(url);
-    OCMStub([mockUrl openExternal]);
+    OCMStub([mockUrl cr_openExternal]);
 
     XCTestExpectation *openInBrowserExpectation = [self expectationWithDescription:@"URL opened in browser expectation"];
     [interstitial webView:realWebView decidePolicyForNavigationAction:mockNavigationAction
@@ -281,7 +281,7 @@
           }];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        OCMVerify([mockUrl openExternal]);
+        OCMVerify([mockUrl cr_openExternal]);
         OCMVerify([interstitialVC dismissViewController]);
         [openInBrowserExpectation fulfill];
     });
@@ -314,13 +314,13 @@
     NSURLRequest *request =  [[NSURLRequest alloc] initWithURL:url];
     OCMStub(mockNavigationAction.request).andReturn(request);
     id mockUrl = OCMPartialMock(url);
-    OCMStub([mockUrl openExternal]);
+    OCMStub([mockUrl cr_openExternal]);
 
     XCTestExpectation *openInBrowserExpectation = [self expectationWithDescription:@"URL opened in browser expectation"];
     [interstitial webView:realWebView createWebViewWithConfiguration:nil forNavigationAction:mockNavigationAction windowFeatures:nil];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        OCMVerify([mockUrl openExternal]);
+        OCMVerify([mockUrl cr_openExternal]);
         OCMVerify([interstitialVC dismissViewController]);
         [openInBrowserExpectation fulfill];
     });

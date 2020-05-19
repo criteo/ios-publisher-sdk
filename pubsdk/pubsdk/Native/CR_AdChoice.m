@@ -39,8 +39,8 @@ static const CGSize CR_AdChoiceButtonSize = (CGSize) {40, 15};
 #pragma mark - Events
 
 - (void)buttonClicked:(id)button {
-    NSURL *url = [NSURL URLWithStringOrNil:self.privacy.optoutClickUrl];
-    [url openExternal:^(BOOL success) {
+    NSURL *url = [NSURL cr_URLWithStringOrNil:self.privacy.optoutClickUrl];
+    [url cr_openExternal:^(BOOL success) {
         [self.loader notifyWillLeaveApplicationForNativeAd];
     }];
 }
@@ -67,7 +67,7 @@ static const CGSize CR_AdChoiceButtonSize = (CGSize) {40, 15};
 
 - (void)loadView {
     //TODO Add a downloader / cache manager
-    NSURL *imageURL = [NSURL URLWithStringOrNil:self.privacy.optoutImageUrl];
+    NSURL *imageURL = [NSURL cr_URLWithStringOrNil:self.privacy.optoutImageUrl];
     UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:imageURL]];
     [self setImage:image forState:UIControlStateNormal];
     self.imageView.frame = self.bounds;

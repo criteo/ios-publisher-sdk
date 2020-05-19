@@ -141,7 +141,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
                      if([self.delegate respondsToSelector:@selector(bannerWillLeaveApplication:)]) {
                          [self.delegate bannerWillLeaveApplication:self];
                      }
-                     [navigationAction.request.URL openExternal];
+                     [navigationAction.request.URL cr_openExternal];
                  });
                  if(decisionHandler){
                      decisionHandler(WKNavigationActionPolicyCancel);

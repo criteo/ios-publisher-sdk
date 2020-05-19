@@ -197,7 +197,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
             if([self.delegate respondsToSelector:@selector(interstitialWillLeaveApplication:)]) {
                 [self.delegate interstitialWillLeaveApplication:self];
             }
-            [navigationAction.request.URL openExternal];
+            [navigationAction.request.URL cr_openExternal];
             [self.viewController dismissViewController];
         });
         if(decisionHandler) {
