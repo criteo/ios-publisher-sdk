@@ -81,6 +81,14 @@
     });
 }
 
+- (void)notifyDidDetectImpression {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if([self.delegate respondsToSelector:@selector(nativeLoaderDidDetectImpression:)]) {
+            [self.delegate nativeLoaderDidDetectImpression:self];
+        }
+    });
+}
+
 - (void)notifyWillLeaveApplicationForNativeAd {
     dispatch_async(dispatch_get_main_queue(), ^{
         if([self.delegate respondsToSelector:@selector(nativeLoaderWillLeaveApplicationForNativeAd:)]) {

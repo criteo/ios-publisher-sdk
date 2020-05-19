@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit criteo:(Criteo *)criteo;
 
+- (void)notifyDidDetectImpression;
 - (void)notifyWillLeaveApplicationForNativeAd;
 
 @end
