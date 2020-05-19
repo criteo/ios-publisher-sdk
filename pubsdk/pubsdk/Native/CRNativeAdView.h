@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * View that wrap a UIView for displaying an Advanced Native Ad.
  */
-@interface CRNativeAdView : UIView
+@interface CRNativeAdView : UIControl
 
 @property (strong, nonatomic, nullable) CRNativeAd *nativeAd;
 

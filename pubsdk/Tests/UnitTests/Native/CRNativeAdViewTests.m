@@ -22,6 +22,23 @@
 @implementation CRNativeAdViewTests
 
 #pragma mark - Tests
+#pragma mark Ad
+
+- (void)testAdClickOpenExternalURL {
+    CRNativeAdView *adView = [self buildNativeAdView];
+    UIWindow *window = [self createUIWindow];
+    [window.rootViewController.view addSubview:adView];
+    adView.nativeAd = [self buildNativeAd];
+
+    id mockUrl = OCMClassMock([NSURL class]);
+    OCMStub([mockUrl cr_URLWithStringOrNil:OCMOCK_ANY]).andReturn(mockUrl);
+    OCMExpect([mockUrl cr_openExternal:OCMOCK_ANY]);
+
+    [adView sendActionsForControlEvents:UIControlEventTouchUpInside];
+    OCMVerifyAll(mockUrl);
+}
+
+#pragma mark AdChoice
 
 - (void)testAdChoiceMissingWithoutAd {
     CRNativeAdView *adView = [self buildNativeAdView];
