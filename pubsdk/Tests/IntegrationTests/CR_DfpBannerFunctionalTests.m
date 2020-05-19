@@ -16,7 +16,7 @@
 #import "CR_BidManagerBuilder.h"
 #import "CR_AdUnitHelper.h"
 #import "CR_DfpCreativeViewChecker.h"
-#import "NSString+CR_Url.h"
+#import "NSString+CriteoUrl.h"
 #import "CR_TargetingKeys.h"
 #import "XCTestCase+Criteo.h"
 @import GoogleMobileAds;
@@ -57,7 +57,7 @@
 
     [self.criteo setBidsForRequest:bannerDfpRequest withAdUnit:banner];
     NSString *encodedUrl = bannerDfpRequest.customTargeting[CR_TargetingKey_crtDfpDisplayUrl];
-    NSString *decodedUrl = [NSString decodeDfpCompatibleString:encodedUrl];
+    NSString *decodedUrl = [NSString cr_decodeDfpCompatibleString:encodedUrl];
 
     XCTAssertEqualObjects(bid.displayUrl, decodedUrl);
 }

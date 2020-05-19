@@ -24,7 +24,7 @@
 		25BD5B6B2220D1E6004DE311 /* CR_ApiHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F2738621B9BF4900A2FBFA /* CR_ApiHandler.m */; };
 		25BD5B6C2220D1EC004DE311 /* CR_CdbResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D7DF0222138F9A006090C0 /* CR_CdbResponse.m */; };
 		25BD5B6D2220D1F0004DE311 /* CR_NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F2738321B9B58900A2FBFA /* CR_NetworkManager.m */; };
-		25BD5B6E2220D201004DE311 /* NSString+CR_Url.m in Sources */ = {isa = PBXBuildFile; fileRef = 255151C422027C9500F76E3F /* NSString+CR_Url.m */; };
+		25BD5B6E2220D201004DE311 /* NSString+CriteoUrl.m in Sources */ = {isa = PBXBuildFile; fileRef = 255151C422027C9500F76E3F /* NSString+CriteoUrl.m */; };
 		25BD5B6F2220D209004DE311 /* Logging.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B650592206AB40008416D3 /* Logging.m */; };
 		462DCA802462C2B800B43A51 /* SampleBid.json in Resources */ = {isa = PBXBuildFile; fileRef = 7D3E420523915B6600BAF673 /* SampleBid.json */; };
 		462DCA812462C2B800B43A51 /* NativeAssetsFromCdb.json in Resources */ = {isa = PBXBuildFile; fileRef = 5E065022DFE1021D3CF2B444 /* NativeAssetsFromCdb.json */; };
@@ -175,7 +175,7 @@
 		7D3E422E23915B6600BAF673 /* NSArray+CriteoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420123915B6600BAF673 /* NSArray+CriteoTests.m */; };
 		7D3E422F23915B6600BAF673 /* NSError+CriteoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420223915B6600BAF673 /* NSError+CriteoTests.m */; };
 		7D3E423023915B6600BAF673 /* NSDictionary+CriteoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420323915B6600BAF673 /* NSDictionary+CriteoTests.m */; };
-		7D3E423123915B6600BAF673 /* NSString+CR_UrlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420423915B6600BAF673 /* NSString+CR_UrlTests.m */; };
+		7D3E423123915B6600BAF673 /* NSString+CriteoUrlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420423915B6600BAF673 /* NSString+CriteoUrlTests.m */; };
 		7D3E423223915B6600BAF673 /* SampleBid.json in Resources */ = {isa = PBXBuildFile; fileRef = 7D3E420523915B6600BAF673 /* SampleBid.json */; };
 		7D3E423323915B6600BAF673 /* CRBannerViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420723915B6600BAF673 /* CRBannerViewTests.m */; };
 		7D3E423523915B6600BAF673 /* CR_CdbBidTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420923915B6600BAF673 /* CR_CdbBidTests.m */; };
@@ -294,8 +294,8 @@
 		1CDD7544323F61638E0E8B7F /* libPods-CriteoPublisherSdk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoPublisherSdk.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		25022DE4220A3F0300FF8ACE /* CR_NetworkManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_NetworkManagerDelegate.h; sourceTree = "<group>"; };
 		25022DE5220A709000FF8ACE /* Criteo+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Criteo+Internal.h"; sourceTree = "<group>"; };
-		255151C322027C9500F76E3F /* NSString+CR_Url.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+CR_Url.h"; sourceTree = "<group>"; };
-		255151C422027C9500F76E3F /* NSString+CR_Url.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+CR_Url.m"; sourceTree = "<group>"; };
+		255151C322027C9500F76E3F /* NSString+CriteoUrl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+CriteoUrl.h"; sourceTree = "<group>"; };
+		255151C422027C9500F76E3F /* NSString+CriteoUrl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+CriteoUrl.m"; sourceTree = "<group>"; };
 		256CA51322A5F5FD00D14572 /* CRBidToken.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRBidToken.h; sourceTree = "<group>"; };
 		256CA51422A5F5FD00D14572 /* CRBidToken.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRBidToken.m; sourceTree = "<group>"; };
 		258821D021FD3FB600398E9F /* CR_ConfigManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_ConfigManager.h; sourceTree = "<group>"; };
@@ -475,7 +475,7 @@
 		7D3E420123915B6600BAF673 /* NSArray+CriteoTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+CriteoTests.m"; sourceTree = "<group>"; };
 		7D3E420223915B6600BAF673 /* NSError+CriteoTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+CriteoTests.m"; sourceTree = "<group>"; };
 		7D3E420323915B6600BAF673 /* NSDictionary+CriteoTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+CriteoTests.m"; sourceTree = "<group>"; };
-		7D3E420423915B6600BAF673 /* NSString+CR_UrlTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+CR_UrlTests.m"; sourceTree = "<group>"; };
+		7D3E420423915B6600BAF673 /* NSString+CriteoUrlTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+CriteoUrlTests.m"; sourceTree = "<group>"; };
 		7D3E420523915B6600BAF673 /* SampleBid.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SampleBid.json; sourceTree = "<group>"; };
 		7D3E420723915B6600BAF673 /* CRBannerViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRBannerViewTests.m; sourceTree = "<group>"; };
 		7D3E420923915B6600BAF673 /* CR_CdbBidTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_CdbBidTests.m; sourceTree = "<group>"; };
@@ -686,8 +686,8 @@
 				7D3E41D52387EE8000BAF673 /* NSUserDefaults+Criteo.m */,
 				DF367CDC233079660044807B /* NSString+Criteo.h */,
 				DF367CDD233079660044807B /* NSString+Criteo.m */,
-				255151C322027C9500F76E3F /* NSString+CR_Url.h */,
-				255151C422027C9500F76E3F /* NSString+CR_Url.m */,
+				255151C322027C9500F76E3F /* NSString+CriteoUrl.h */,
+				255151C422027C9500F76E3F /* NSString+CriteoUrl.m */,
 				DF367CE12330864F0044807B /* NSURL+Criteo.h */,
 				DF367CE22330864F0044807B /* NSURL+Criteo.m */,
 				C07AB1709D918AD4DA7A4384 /* NSUserDefaults+CR_Config.m */,
@@ -986,7 +986,7 @@
 				7D3E420123915B6600BAF673 /* NSArray+CriteoTests.m */,
 				7D3E420323915B6600BAF673 /* NSDictionary+CriteoTests.m */,
 				7D3E420223915B6600BAF673 /* NSError+CriteoTests.m */,
-				7D3E420423915B6600BAF673 /* NSString+CR_UrlTests.m */,
+				7D3E420423915B6600BAF673 /* NSString+CriteoUrlTests.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -1689,7 +1689,7 @@
 				25BD5B642220D1B3004DE311 /* CR_CdbBid.m in Sources */,
 				7D80F6222406B18F005B7BA3 /* CR_Gdpr.m in Sources */,
 				DF367C9B232AE8510044807B /* CR_NativeImage.m in Sources */,
-				25BD5B6E2220D201004DE311 /* NSString+CR_Url.m in Sources */,
+				25BD5B6E2220D201004DE311 /* NSString+CriteoUrl.m in Sources */,
 				4668FEF52459BD3A00D207AE /* CRNativeLoader.m in Sources */,
 				25BD5B6D2220D1F0004DE311 /* CR_NetworkManager.m in Sources */,
 				548968192332F319005B2659 /* CR_NativeProduct.m in Sources */,
@@ -1784,7 +1784,7 @@
 				7D3E422923915B6600BAF673 /* CR_NativeProductTests.m in Sources */,
 				7D523C8723DECFD600E79C88 /* CR_DeviceInfoMock.m in Sources */,
 				7D3E422D23915B6600BAF673 /* LoggingTests.m in Sources */,
-				7D3E423123915B6600BAF673 /* NSString+CR_UrlTests.m in Sources */,
+				7D3E423123915B6600BAF673 /* NSString+CriteoUrlTests.m in Sources */,
 				7D51ABF023AB781600540094 /* CR_Timer.m in Sources */,
 				7D0FD301242DEF40007154E0 /* CR_GdprSerializerTests.swift in Sources */,
 				7D51ABF923ACE16800540094 /* NSURL+Testing.m in Sources */,

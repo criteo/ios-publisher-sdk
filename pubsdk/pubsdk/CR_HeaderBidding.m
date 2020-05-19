@@ -13,7 +13,7 @@
 #import "CR_NativeProduct.h"
 #import "CRAdUnit+Internal.h"
 #import "CR_BidManagerHelper.h"
-#import "NSString+CR_Url.h"
+#import "NSString+CriteoUrl.h"
 
 @interface CR_HeaderBidding ()
 
@@ -193,7 +193,7 @@
              forKey:(NSString *)key
        inDictionary:(NSMutableDictionary*)dict {
     if(value.length > 0) {
-        dict[key] = [NSString dfpCompatibleString:value];
+        dict[key] = [NSString cr_dfpCompatibleString:value];
     }
 }
 

@@ -19,7 +19,7 @@
 #import "CR_ThreadManager+Waiter.h"
 #import "NSString+GDPR.h"
 #import "NSString+APIKeys.h"
-#import "NSString+CR_Url.h"
+#import "NSString+CriteoUrl.h"
 #import "NSURL+Testing.h"
 #import "NSUserDefaults+GDPR.h"
 
@@ -59,7 +59,7 @@ do { \
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 
     XCTAssertNil(self.gdprInBidRequest);
-    XCTAssertNil(self.appEventUrlString.urlQueryParamsDictionary[NSString.gdprConsentKey]);
+    XCTAssertNil(self.appEventUrlString.cr_urlQueryParamsDictionary[NSString.gdprConsentKey]);
 }
 
 - (void)testGivenGdprV1ConsentStringSet_whenCriteoRegister_thenConsentStringSetInBidRequest {
@@ -72,7 +72,7 @@ do { \
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 
     XCTAssertEqualObjects(self.gdprInBidRequest, expected);
-    XCTAssertNotNil(self.appEventUrlString.urlQueryParamsDictionary[NSString.gdprConsentKey]);
+    XCTAssertNotNil(self.appEventUrlString.cr_urlQueryParamsDictionary[NSString.gdprConsentKey]);
 }
 
 - (void)testGivenGdprV1Set_whenCriteoRegister_thenConsentStringSetInBidRequest {
@@ -87,7 +87,7 @@ do { \
     [self.criteo testing_registerBannerAndWaitForHTTPResponses];
 
     XCTAssertEqualObjects(self.gdprInBidRequest, expected);
-    XCTAssertNotNil(self.appEventUrlString.urlQueryParamsDictionary[NSString.gdprConsentKey]);
+    XCTAssertNotNil(self.appEventUrlString.cr_urlQueryParamsDictionary[NSString.gdprConsentKey]);
 }
 
 - (void)testGivenGdprV2Set_whenCriteoRegister_thenConsentStringSetInBidRequest {

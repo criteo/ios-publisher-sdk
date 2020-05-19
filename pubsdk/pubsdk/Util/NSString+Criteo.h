@@ -14,8 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSString (Criteo)
 
-+ (nullable NSString *)stringWithStringOrNil:(nullable NSString *)string;
-+ (nullable NSString *)nonEmptyStringWithStringOrNil:(nullable NSString *)string;
++ (nullable NSString *)cr_StringWithStringOrNil:(nullable NSString *)string;
++ (nullable NSString *)cr_nonEmptyStringWithStringOrNil:(nullable NSString *)string;
 
 @end
 

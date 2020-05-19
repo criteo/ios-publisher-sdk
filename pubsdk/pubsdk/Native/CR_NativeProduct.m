@@ -28,11 +28,11 @@
 - (instancetype)initWithDict:(NSDictionary *)dict {
     self = [super init];
     if (self) {
-        _title        = [NSString nonEmptyStringWithStringOrNil: dict[@"title"]];
-        _description  = [NSString nonEmptyStringWithStringOrNil: dict[@"description"]];
-        _price        = [NSString nonEmptyStringWithStringOrNil: dict[@"price"]];
-        _clickUrl     = [NSString nonEmptyStringWithStringOrNil: dict[@"clickUrl"]];
-        _callToAction = [NSString nonEmptyStringWithStringOrNil: dict[@"callToAction"]];
+        _title        = [NSString cr_nonEmptyStringWithStringOrNil:dict[@"title"]];
+        _description  = [NSString cr_nonEmptyStringWithStringOrNil:dict[@"description"]];
+        _price        = [NSString cr_nonEmptyStringWithStringOrNil:dict[@"price"]];
+        _clickUrl     = [NSString cr_nonEmptyStringWithStringOrNil:dict[@"clickUrl"]];
+        _callToAction = [NSString cr_nonEmptyStringWithStringOrNil:dict[@"callToAction"]];
         _image        = [CR_NativeImage nativeImageWithDict:     dict[@"image"]];
     }
     return self;

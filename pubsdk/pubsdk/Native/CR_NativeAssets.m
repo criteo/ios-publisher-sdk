@@ -48,7 +48,7 @@
             NSMutableArray<NSString *> *imprPixelArray = [NSMutableArray<NSString *> new];
             for (NSDictionary *imprPixelDict in imprPixelDicts) {
                 if (imprPixelDict && [imprPixelDict isKindOfClass:NSDictionary.class]) {
-                    NSString *impressionPixel = [NSString nonEmptyStringWithStringOrNil:imprPixelDict[@"url"]];
+                    NSString *impressionPixel = [NSString cr_nonEmptyStringWithStringOrNil:imprPixelDict[@"url"]];
                     if (impressionPixel) {
                         [imprPixelArray addObject:impressionPixel];
                     }

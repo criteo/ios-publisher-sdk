@@ -12,7 +12,7 @@
 #import "CR_AssertDfp.h"
 #import "CR_NativeAssets.h"
 #import "CR_TargetingKeys.h"
-#import "NSString+CR_Url.h"
+#import "NSString+CriteoUrl.h"
 #import "CR_DfpCreativeViewChecker.h"
 #import "CR_NativeAssetsTests.h"
 @import GoogleMobileAds;
@@ -94,7 +94,7 @@
 }
 
 - (NSString *)_decode:(NSString *)value {
-    return [NSString decodeDfpCompatibleString:value];
+    return [NSString cr_decodeDfpCompatibleString:value];
 }
 
 @end

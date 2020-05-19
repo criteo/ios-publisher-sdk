@@ -7,7 +7,7 @@
 
 #import "CR_CdbBid.h"
 #import "Logging.h"
-#import "NSString+CR_Url.h"
+#import "NSString+CriteoUrl.h"
 #import "NSObject+Criteo.h"
 #import "NSString+Criteo.h"
 
@@ -65,8 +65,8 @@ static CR_CdbBid *emptyBid;
         _creative = creative;
         _ttl = ttl;
         _displayUrl = displayUrl;
-        _dfpCompatibleDisplayUrl = [NSString dfpCompatibleString:displayUrl];
-        _mopubCompatibleDisplayUrl = [NSString mopubCompatibleDisplayUrlForDisplayUrl:displayUrl];
+        _dfpCompatibleDisplayUrl = [NSString cr_dfpCompatibleString:displayUrl];
+        _mopubCompatibleDisplayUrl = [NSString cr_mopubCompatibleDisplayUrlForDisplayUrl:displayUrl];
         _insertTime = insertTime;
         _nativeAssets = [nativeAssets copy];
         _impressionId = impressionId;
@@ -93,7 +93,7 @@ static CR_CdbBid *emptyBid;
         if ([cpm doubleValue] > 0 && ttl == 0){
             ttl = defaultValue;
         }
-        NSString *displayUrl = [NSString stringWithStringOrNil:slot[@"displayUrl"]];
+        NSString *displayUrl = [NSString cr_StringWithStringOrNil:slot[@"displayUrl"]];
         NSDictionary *assetsDict = slot[@"native"];
         CR_NativeAssets *nativeAssets = assetsDict ? [[CR_NativeAssets alloc] initWithDict:assetsDict] : nil;
         self = [[CR_CdbBid alloc] initWithZoneId:zoneId

@@ -14,7 +14,7 @@
 #import "Logging.h"
 #import "NSArray+Criteo.h"
 #import "CR_ThreadManager.h"
-#import "NSString+CR_Url.h"
+#import "NSString+CriteoUrl.h"
 #import "CR_FeedbacksSerializer.h"
 
 static NSUInteger const maxAdUnitsPerCdbRequest = 8;
@@ -225,8 +225,8 @@ completionHandler:(CR_CdbCompletionHandler)completionHandler {
     paramDict[CR_ApiQueryKeys.eventType] = event;
     paramDict[CR_ApiQueryKeys.appId] = config.appId;
     paramDict[CR_ApiQueryKeys.limitedAdTracking] = consent.isAdTrackingEnabled ? @"0" : @"1";
-    paramDict[CR_ApiQueryKeys.gdpr] = [[self base64EncodedJsonForGdpr:consent.gdpr] urlEncode];
-    NSString *params = [NSString urlQueryParamsWithDictionary:paramDict];
+    paramDict[CR_ApiQueryKeys.gdpr] = [[self base64EncodedJsonForGdpr:consent.gdpr] cr_urlEncode];
+    NSString *params = [NSString cr_urlQueryParamsWithDictionary:paramDict];
     return params;
 }
 

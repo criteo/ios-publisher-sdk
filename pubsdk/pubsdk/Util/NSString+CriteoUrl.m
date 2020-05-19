@@ -1,18 +1,18 @@
 //
-//  NSString+CR_Url.m
+//  NSString+CriteoUrl.m
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
-#import "NSString+CR_Url.h"
+#import "NSString+CriteoUrl.h"
 
 static NSString *charactersToEscape = @"!*'();:@&=+$,/?%#[]\" ";
 static NSCharacterSet *allowedCharacters = nil;
 
-@implementation NSString (CR_Url)
+@implementation NSString (CriteoUrl)
 
-- (NSString *)urlEncode {
+- (NSString *)cr_urlEncode {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         allowedCharacters = [[NSCharacterSet characterSetWithCharactersInString:charactersToEscape] invertedSet];
@@ -23,20 +23,20 @@ static NSCharacterSet *allowedCharacters = nil;
     return encodedString;
 }
 
-+ (NSString *)dfpCompatibleString:(NSString *)string
++ (NSString *)cr_dfpCompatibleString:(nullable NSString *)string
 {
     NSString *dfpCompatibleString = nil;
 
     if(string) {
         NSData *encodedStringData = [string dataUsingEncoding:NSUTF8StringEncoding];
         NSString *base64String = [encodedStringData base64EncodedStringWithOptions:0];
-        dfpCompatibleString = [[base64String urlEncode] urlEncode];
+        dfpCompatibleString = [[base64String cr_urlEncode] cr_urlEncode];
     }
 
     return dfpCompatibleString;
 }
 
-+ (NSString *)decodeDfpCompatibleString:(NSString *)string
++ (NSString *)cr_decodeDfpCompatibleString:(nullable NSString *)string
 {
     NSString *decodedString = nil;
 
@@ -49,12 +49,12 @@ static NSCharacterSet *allowedCharacters = nil;
     return decodedString;
 }
 
-+ (NSString *)mopubCompatibleDisplayUrlForDisplayUrl:(NSString *)displayUrl
++ (NSString *)cr_mopubCompatibleDisplayUrlForDisplayUrl:(nullable NSString *)displayUrl
 {
     return displayUrl;
 }
 
-+ (NSString *)urlQueryParamsWithDictionary:(NSDictionary<NSString *, NSString *> *)dictionary {
++ (NSString *)cr_urlQueryParamsWithDictionary:(NSDictionary<NSString *, NSString *> *)dictionary {
     NSMutableArray<NSString *> *parts = [[NSMutableArray alloc] init];
     for(NSString *key in dictionary) {
         [parts addObject:[NSString stringWithFormat:@"%@=%@", key, dictionary[key]]];
@@ -62,7 +62,7 @@ static NSCharacterSet *allowedCharacters = nil;
     return [parts componentsJoinedByString:@"&"];
 }
 
-- (NSDictionary<NSString *, NSString *> *)urlQueryParamsDictionary {
+- (NSDictionary<NSString *, NSString *> *)cr_urlQueryParamsDictionary {
     NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
     NSString *str = [self urlQueryParamsString] ?: self;
     NSArray *keyValues = [str componentsSeparatedByString:@"&"];

@@ -9,7 +9,7 @@
 
 @implementation NSString (Criteo)
 
-+ (nullable NSString *)stringWithStringOrNil:(nullable NSString *)string {
++ (nullable NSString *)cr_StringWithStringOrNil:(nullable NSString *)string {
     if (string && [string isKindOfClass:NSString.class]) {
         return [NSString stringWithString:string];
     } else {
@@ -17,7 +17,7 @@
     }
 }
 
-+ (nullable NSString *)nonEmptyStringWithStringOrNil:(nullable NSString *)string {
++ (nullable NSString *)cr_nonEmptyStringWithStringOrNil:(nullable NSString *)string {
     if (string && [string isKindOfClass:NSString.class] && string.length > 0) {
         return [NSString stringWithString:string];
     } else {

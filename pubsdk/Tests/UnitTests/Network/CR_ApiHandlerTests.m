@@ -24,7 +24,7 @@
 #import "Logging.h"
 #import "NSString+APIKeys.h"
 #import "NSString+GDPR.h"
-#import "NSString+CR_Url.h"
+#import "NSString+CriteoUrl.h"
 #import "pubsdkTests-Swift.h"
 #import "XCTestCase+Criteo.h"
 
@@ -571,7 +571,7 @@ do { \
 
     [self callSendAppEventWithCompletionHandler:nil];
 
-    XCTAssertEqualObjects(self.appEventUrlString.urlQueryParamsDictionary, expected);
+    XCTAssertEqualObjects(self.appEventUrlString.cr_urlQueryParamsDictionary, expected);
 }
 
 
@@ -587,7 +587,7 @@ do { \
     
     [self callSendAppEventWithCompletionHandler:nil];
 
-    NSString *gdprEncodedString = self.appEventUrlString.urlQueryParamsDictionary[NSString.gdprConsentKey];
+    NSString *gdprEncodedString = self.appEventUrlString.cr_urlQueryParamsDictionary[NSString.gdprConsentKey];
     XCTAssertEqualObjects(gdprEncodedString, expectedGdprJsonBase64);
 }
 

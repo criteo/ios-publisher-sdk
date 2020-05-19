@@ -26,10 +26,10 @@
 - (instancetype)initWithDict:(NSDictionary  *)dict {
     self = [super init];
     if (self) {
-        _description  = [NSString nonEmptyStringWithStringOrNil: dict[@"description"]];
-        _domain       = [NSString nonEmptyStringWithStringOrNil: dict[@"domain"]];
+        _description  = [NSString cr_nonEmptyStringWithStringOrNil:dict[@"description"]];
+        _domain       = [NSString cr_nonEmptyStringWithStringOrNil:dict[@"domain"]];
         _logoImage    = [CR_NativeImage nativeImageWithDict:     dict[@"logo"]];
-        _logoClickUrl = [NSString nonEmptyStringWithStringOrNil: dict[@"logoClickUrl"]];
+        _logoClickUrl = [NSString cr_nonEmptyStringWithStringOrNil:dict[@"logoClickUrl"]];
     }
     return self;
 }

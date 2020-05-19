@@ -15,7 +15,7 @@
 #import "CR_HeaderBidding.h"
 #import "CR_DeviceInfoMock.h"
 #import "NSString+Testing.h"
-#import "NSString+CR_Url.h"
+#import "NSString+CriteoUrl.h"
 
 static NSString * const kCpmKey = @"crt_cpm";
 static NSString * const kDictionaryDisplayUrlKey = @"crt_displayUrl";
@@ -45,7 +45,7 @@ do { \
 } while (0);
 
 #define CR_AssertEqualDfpString(notDfpStr, dfpStr) \
-    XCTAssertEqualObjects([NSString dfpCompatibleString:notDfpStr], dfpStr);
+    XCTAssertEqualObjects([NSString cr_dfpCompatibleString:notDfpStr], dfpStr);
 
 
 @interface CR_HeaderBiddingTests : XCTestCase
