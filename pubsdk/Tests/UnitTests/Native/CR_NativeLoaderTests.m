@@ -34,6 +34,8 @@
 
 @implementation CR_NativeLoaderTests
 
+#pragma mark - Tests
+
 - (void)testReceiveWithValidBid {
     [self loadNativeWithBid:self.validBid verify:
         ^(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock) {
@@ -49,6 +51,41 @@
             OCMReject([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
         }];
 }
+
+- (void)testReceiveOnMainQueue {
+    CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
+    [self dispatchCheckerForBid:self.validBid delegate:delegate];
+    [self waitForExpectations:@[delegate.didReceiveOnMainQueue] timeout:5];
+}
+
+- (void)testFailureOnMainQueue {
+    CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
+    [self dispatchCheckerForBid:[CR_CdbBid emptyBid] delegate:delegate];
+    [self waitForExpectations:@[delegate.didFailOnMainQueue] timeout:5];
+}
+
+- (void)testWillLeaveApplicationForNativeAdOnMainQueue {
+    CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
+    CRNativeLoader *loader = [self dispatchCheckerForBid:[CR_CdbBid emptyBid] delegate:delegate];
+    [loader notifyWillLeaveApplicationForNativeAd];
+    [self waitForExpectations:@[delegate.willLeaveApplicationForNativeAd] timeout:5];
+}
+
+- (void)testDidDetectImpressionOnMainQueue {
+    CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
+    CRNativeLoader *loader = [self dispatchCheckerForBid:[CR_CdbBid emptyBid] delegate:delegate];
+    [loader notifyDidDetectImpression];
+    [self waitForExpectations:@[delegate.didDetectImpression] timeout:5];
+}
+
+- (void)testDidDetectClickOnMainQueue {
+    CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
+    CRNativeLoader *loader = [self dispatchCheckerForBid:[CR_CdbBid emptyBid] delegate:delegate];
+    [loader notifyDidDetectClick];
+    [self waitForExpectations:@[delegate.didDetectClick] timeout:5];
+}
+
+#pragma mark - Private
 
 - (Criteo *)mockCriteoWithAdUnit:(CRNativeAdUnit *)adUnit
                        returnBid:(CR_CdbBid *)bid {
@@ -95,39 +132,6 @@
                                   insertTime:[NSDate date]
                                 nativeAssets:nil
                                 impressionId:nil];
-}
-
-- (void)testReceiveOnMainQueue {
-    CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
-    [self dispatchCheckerForBid:self.validBid delegate:delegate];
-    [self waitForExpectations:@[delegate.didReceiveOnMainQueue] timeout:5];
-}
-
-- (void)testFailureOnMainQueue {
-    CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
-    [self dispatchCheckerForBid:[CR_CdbBid emptyBid] delegate:delegate];
-    [self waitForExpectations:@[delegate.didFailOnMainQueue] timeout:5];
-}
-
-- (void)testWillLeaveApplicationForNativeAdOnMainQueue {
-    CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
-    CRNativeLoader *loader = [self dispatchCheckerForBid:[CR_CdbBid emptyBid] delegate:delegate];
-    [loader notifyWillLeaveApplicationForNativeAd];
-    [self waitForExpectations:@[delegate.willLeaveApplicationForNativeAd] timeout:5];
-}
-
-- (void)testDidDetectImpressionOnMainQueue {
-    CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
-    CRNativeLoader *loader = [self dispatchCheckerForBid:[CR_CdbBid emptyBid] delegate:delegate];
-    [loader notifyDidDetectImpression];
-    [self waitForExpectations:@[delegate.didDetectImpression] timeout:5];
-}
-
-- (void)testDidDetectClickOnMainQueue {
-    CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
-    CRNativeLoader *loader = [self dispatchCheckerForBid:[CR_CdbBid emptyBid] delegate:delegate];
-    [loader notifyDidDetectClick];
-    [self waitForExpectations:@[delegate.didDetectClick] timeout:5];
 }
 
 - (CRNativeLoader *)dispatchCheckerForBid:(CR_CdbBid *)bid

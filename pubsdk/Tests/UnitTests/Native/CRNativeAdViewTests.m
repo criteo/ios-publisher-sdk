@@ -21,11 +21,7 @@
 
 @implementation CRNativeAdViewTests
 
-- (void)setUp {
-}
-
-- (void)tearDown {
-}
+#pragma mark - Tests
 
 - (void)testAdChoiceMissingWithoutAd {
     CRNativeAdView *adView = [self buildNativeAdView];
