@@ -198,7 +198,7 @@
 		7D3E424723915B6600BAF673 /* CRAdUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E422023915B6600BAF673 /* CRAdUnitTests.m */; };
 		7D3E424823915B6600BAF673 /* CR_AdUnitHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E422123915B6600BAF673 /* CR_AdUnitHelperTests.m */; };
 		7D3E426F23915E4200BAF673 /* CR_BidManagerBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41E5238BDD9700BAF673 /* CR_BidManagerBuilder.m */; };
-		7D3E427023915E7900BAF673 /* NSUserDefaults+CR_Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41D52387EE8000BAF673 /* NSUserDefaults+CR_Utils.m */; };
+		7D3E427023915E7900BAF673 /* NSUserDefaults+Criteo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41D52387EE8000BAF673 /* NSUserDefaults+Criteo.m */; };
 		7D46571D244DBEFE00E4110E /* CR_SynchronousThreadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D46571C244DBEFE00E4110E /* CR_SynchronousThreadManager.m */; };
 		7D47C458246AEC75009E7FE5 /* CR_HeaderBiddingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D47C457246AEC75009E7FE5 /* CR_HeaderBiddingTests.m */; };
 		7D49F9D8243B782400CF3941 /* WKWebView+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D49F9D7243B782400CF3941 /* WKWebView+Testing.m */; };
@@ -457,8 +457,8 @@
 		7D344F6A23D9A5F70029E653 /* CR_BidManagerIntegrationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_BidManagerIntegrationTests.m; sourceTree = "<group>"; };
 		7D3D6AA224519F3D00B91ADC /* CR_InterstitialChecker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_InterstitialChecker.h; sourceTree = "<group>"; };
 		7D3D6AA324519F3D00B91ADC /* CR_InterstitialChecker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_InterstitialChecker.m; sourceTree = "<group>"; };
-		7D3E41D42387EE8000BAF673 /* NSUserDefaults+CR_Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+CR_Utils.h"; sourceTree = "<group>"; };
-		7D3E41D52387EE8000BAF673 /* NSUserDefaults+CR_Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+CR_Utils.m"; sourceTree = "<group>"; };
+		7D3E41D42387EE8000BAF673 /* NSUserDefaults+Criteo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Criteo.h"; sourceTree = "<group>"; };
+		7D3E41D52387EE8000BAF673 /* NSUserDefaults+Criteo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+Criteo.m"; sourceTree = "<group>"; };
 		7D3E41E4238BDD9700BAF673 /* CR_BidManagerBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_BidManagerBuilder.h; sourceTree = "<group>"; };
 		7D3E41E5238BDD9700BAF673 /* CR_BidManagerBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_BidManagerBuilder.m; sourceTree = "<group>"; };
 		7D3E41EF23915A8B00BAF673 /* pubsdkTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "pubsdkTests-Info.plist"; sourceTree = "<group>"; };
@@ -671,8 +671,8 @@
 		255151C222027C6000F76E3F /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				7D3E41D42387EE8000BAF673 /* NSUserDefaults+CR_Utils.h */,
-				7D3E41D52387EE8000BAF673 /* NSUserDefaults+CR_Utils.m */,
+				7D3E41D42387EE8000BAF673 /* NSUserDefaults+Criteo.h */,
+				7D3E41D52387EE8000BAF673 /* NSUserDefaults+Criteo.m */,
 				53BDFDB722EA498A0051EB40 /* NSObject+Criteo.h */,
 				53BDFDB822EA498A0051EB40 /* NSObject+Criteo.m */,
 				DF3E3D3E23233809009E8CB5 /* NSArray+Criteo.h */,
@@ -1652,7 +1652,7 @@
 				5472877D2411043700B62235 /* CR_DefaultFileManipulator.m in Sources */,
 				25BD5B5F2220D183004DE311 /* CR_AppEvents.m in Sources */,
 				DF367CBB232B397F0044807B /* CR_NativeAssets.m in Sources */,
-				7D3E427023915E7900BAF673 /* NSUserDefaults+CR_Utils.m in Sources */,
+				7D3E427023915E7900BAF673 /* NSUserDefaults+Criteo.m in Sources */,
 				53D6429822C2C615005791D4 /* CR_TokenCache.m in Sources */,
 				5496876022A5C774007D2578 /* CR_AdUnitHelper.m in Sources */,
 				25BD5B692220D1D9004DE311 /* Criteo.m in Sources */,

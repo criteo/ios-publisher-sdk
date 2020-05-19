@@ -1,5 +1,5 @@
 //
-//  NSUserDefaults+CRPrivateKeysAndUtils.h
+//  NSUserDefaults+Criteo.h
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -9,9 +9,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSUserDefaults (CR_Utils)
+@interface NSUserDefaults (Criteo)
 
-- (BOOL)containsKey: (NSString *)key;
+- (BOOL)cr_containsKey:(NSString *)key;
 
 @end
 

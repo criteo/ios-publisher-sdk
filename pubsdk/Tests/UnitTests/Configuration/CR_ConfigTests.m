@@ -10,7 +10,7 @@
 
 #import "CR_Config.h"
 #import "NSUserDefaults+Testing.h"
-#import "NSUserDefaults+CR_Utils.h"
+#import "NSUserDefaults+Criteo.h"
 
 @interface CR_ConfigTests : XCTestCase
 
@@ -111,7 +111,7 @@
     CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
 
     XCTAssertFalse(config.killSwitch);
-    XCTAssertFalse([userDefaults containsKey:NSUserDefaultsKillSwitchKey]);
+    XCTAssertFalse([userDefaults cr_containsKey:NSUserDefaultsKillSwitchKey]);
 }
 
 - (void)testSetKillSwitch_GivenEnabledKillSwitch_WriteItInUserDefaults {
@@ -123,7 +123,7 @@
     CR_Config *newConfig = [[CR_Config alloc] initWithUserDefaults:userDefaults];
 
     XCTAssertTrue(newConfig.killSwitch);
-    XCTAssertTrue([userDefaults containsKey:NSUserDefaultsKillSwitchKey]);
+    XCTAssertTrue([userDefaults cr_containsKey:NSUserDefaultsKillSwitchKey]);
     XCTAssertTrue([userDefaults boolForKey:NSUserDefaultsKillSwitchKey]);
 }
 
@@ -136,7 +136,7 @@
     CR_Config *newConfig = [[CR_Config alloc] initWithUserDefaults:userDefaults];
 
     XCTAssertFalse(newConfig.killSwitch);
-    XCTAssertTrue([userDefaults containsKey:NSUserDefaultsKillSwitchKey]);
+    XCTAssertTrue([userDefaults cr_containsKey:NSUserDefaultsKillSwitchKey]);
     XCTAssertFalse([userDefaults boolForKey:NSUserDefaultsKillSwitchKey]);
 }
 
@@ -146,7 +146,7 @@
     CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
 
     XCTAssertTrue(config.csmEnabled);
-    XCTAssertFalse([userDefaults containsKey:NSUserDefaultsCsmEnabledKey]);
+    XCTAssertFalse([userDefaults cr_containsKey:NSUserDefaultsCsmEnabledKey]);
 }
 
 - (void)testSetCsmEnabled_GivenEnabledFeatureFlag_WriteItInUserDefaults {
@@ -158,7 +158,7 @@
     CR_Config *newConfig = [[CR_Config alloc] initWithUserDefaults:userDefaults];
 
     XCTAssertTrue(newConfig.csmEnabled);
-    XCTAssertTrue([userDefaults containsKey:NSUserDefaultsCsmEnabledKey]);
+    XCTAssertTrue([userDefaults cr_containsKey:NSUserDefaultsCsmEnabledKey]);
     XCTAssertTrue([userDefaults boolForKey:NSUserDefaultsCsmEnabledKey]);
 }
 
@@ -171,7 +171,7 @@
     CR_Config *newConfig = [[CR_Config alloc] initWithUserDefaults:userDefaults];
 
     XCTAssertFalse(newConfig.csmEnabled);
-    XCTAssertTrue([userDefaults containsKey:NSUserDefaultsCsmEnabledKey]);
+    XCTAssertTrue([userDefaults cr_containsKey:NSUserDefaultsCsmEnabledKey]);
     XCTAssertFalse([userDefaults boolForKey:NSUserDefaultsCsmEnabledKey]);
 }
 
