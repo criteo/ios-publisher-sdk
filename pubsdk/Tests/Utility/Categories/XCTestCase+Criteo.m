@@ -11,8 +11,7 @@ NSTimeInterval XCTestCaseCriteoTimeout = 10.f;
 
 @implementation XCTestCase (Criteo)
 
-- (void)criteo_waitForExpectations:(NSArray<XCTestExpectation *> *)expectations
-{
+- (void)cr_waitForExpectations:(NSArray<XCTestExpectation *> *)expectations {
     [self waitForExpectations:expectations timeout:XCTestCaseCriteoTimeout];
 }
 

@@ -94,7 +94,7 @@ do { \
        [expectation fulfill];
    }];
 
-    [self criteo_waitForExpectations:@[expectation]];
+    [self cr_waitForExpectations:@[expectation]];
 }
 
 - (void)testCdbSlotFilledWithImpressionId {
@@ -120,7 +120,7 @@ do { \
         [expectation fulfill];
     }
         completionHandler:nil];
-    [self criteo_waitForExpectations:@[expectation]];
+    [self cr_waitForExpectations:@[expectation]];
 }
 
 - (void)testCallCdbWithMultipleAdUnits {
@@ -175,7 +175,7 @@ do { \
 
        [expectation fulfill];
    }];
-    [self criteo_waitForExpectations:@[expectation]];
+    [self cr_waitForExpectations:@[expectation]];
 }
 
 - (void)testGetConfig {
@@ -207,7 +207,7 @@ do { \
         XCTAssertNotNil(configValues);
         [expectation fulfill];
     }];
-    [self criteo_waitForExpectations:@[expectation]];
+    [self cr_waitForExpectations:@[expectation]];
 }
 
 - (void)testCDBNotInvokedWhenBidFetchInProgress {
@@ -607,7 +607,7 @@ do { \
                [expectation fulfill];
            }];
 
-    [self criteo_waitForExpectations:@[expectation]];
+    [self cr_waitForExpectations:@[expectation]];
 }
 
 #pragma mark - Private methods
@@ -686,7 +686,7 @@ do { \
                }
                [expectation fulfill];
            }];
-    [self criteo_waitForExpectations:@[expectation]];
+    [self cr_waitForExpectations:@[expectation]];
 }
 
 - (CR_Config *)buildConfigMock {

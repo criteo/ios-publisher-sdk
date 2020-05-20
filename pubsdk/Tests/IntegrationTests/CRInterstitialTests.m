@@ -344,7 +344,7 @@
 
     [self _loadInterstitialAdWithCriteo:criteo];
 
-    [self criteo_waitForExpectations:@[interstitialHttpCallExpectation]];
+    [self cr_waitForExpectations:@[interstitialHttpCallExpectation]];
 }
 
 - (void)_loadInterstitialAdWithCriteo:(Criteo *)criteo {

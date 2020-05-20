@@ -29,7 +29,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
 
     [viewChecker.bannerView loadAd];
 
-    [self criteo_waitForExpectations:@[viewChecker.bannerViewFailToReceiveAdExpectation]];
+    [self cr_waitForExpectations:@[viewChecker.bannerViewFailToReceiveAdExpectation]];
 }
 
 - (void)test_givenBannerWithGoodAdUnitId_whenLoadAd_thenDelegateInvoked {
@@ -39,7 +39,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
 
     [viewChecker.bannerView loadAd];
 
-    [self criteo_waitForExpectations:@[viewChecker.bannerViewDidReceiveAdExpectation]];
+    [self cr_waitForExpectations:@[viewChecker.bannerViewDidReceiveAdExpectation]];
 }
 
 - (void)test_givenBannerWithGoodAdUnitId_whenLoadAd_thenAdIsLoadedProperly {
@@ -49,7 +49,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
 
     [viewChecker.bannerView loadAd];
 
-    [self criteo_waitForExpectations:@[viewChecker.adCreativeRenderedExpectation]];
+    [self cr_waitForExpectations:@[viewChecker.adCreativeRenderedExpectation]];
 }
 
 - (void)test_givenTwoAdRenderings_whenReuseSameBannerView_thenTwoAdsPresented {
@@ -59,13 +59,13 @@ static NSString *creativeUrl2 = @"www.apple.com";
 
     [viewChecker injectBidWithExpectedCreativeUrl:creativeUrl1];
     [viewChecker.bannerView loadAd];
-    [self criteo_waitForExpectations:@[viewChecker.adCreativeRenderedExpectation]];
+    [self cr_waitForExpectations:@[viewChecker.adCreativeRenderedExpectation]];
 
     [viewChecker resetExpectations];
 
     [viewChecker injectBidWithExpectedCreativeUrl:creativeUrl2];
     [viewChecker.bannerView loadAd];
-    [self criteo_waitForExpectations:@[viewChecker.adCreativeRenderedExpectation]];
+    [self cr_waitForExpectations:@[viewChecker.adCreativeRenderedExpectation]];
 }
 
 - (void)test_givenTwoAdRenderings_whenRecreateBannerView_thenTwoAdsPresented {
@@ -75,14 +75,14 @@ static NSString *creativeUrl2 = @"www.apple.com";
 
     [viewChecker injectBidWithExpectedCreativeUrl:creativeUrl1];
     [viewChecker.bannerView loadAd];
-    [self criteo_waitForExpectations:@[viewChecker.adCreativeRenderedExpectation]];
+    [self cr_waitForExpectations:@[viewChecker.adCreativeRenderedExpectation]];
 
     [viewChecker resetExpectations];
     [viewChecker resetBannerView];
 
     [viewChecker injectBidWithExpectedCreativeUrl:creativeUrl2];
     [viewChecker.bannerView loadAd];
-    [self criteo_waitForExpectations:@[viewChecker.adCreativeRenderedExpectation]];
+    [self cr_waitForExpectations:@[viewChecker.adCreativeRenderedExpectation]];
 }
 
 @end

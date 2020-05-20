@@ -65,7 +65,7 @@
         eventApiCallExpectation,
         cdbApiCallExpectation,
     ];
-    [self criteo_waitForExpectations:expectations];
+    [self cr_waitForExpectations:expectations];
 }
 
 - (void)testCdbApiCallDuringInitialisation {
@@ -86,7 +86,7 @@
 
     [self.criteo testing_registerInterstitial];
 
-    [self criteo_waitForExpectations:@[expectation]];
+    [self cr_waitForExpectations:@[expectation]];
 }
 
 - (void)testConfigApiCallDuringInitialisation {
@@ -104,7 +104,7 @@
 
     [self.criteo testing_registerInterstitial];
 
-    [self criteo_waitForExpectations:@[expectation]];
+    [self cr_waitForExpectations:@[expectation]];
 }
 
 - (void)testEventApiCallDuringInitialization {
@@ -128,7 +128,7 @@
 
     [self.criteo testing_registerInterstitial];
 
-    [self criteo_waitForExpectations:@[expectation]];
+    [self cr_waitForExpectations:@[expectation]];
 }
 
 - (void)testInitDoNotMakeNetworkCalls

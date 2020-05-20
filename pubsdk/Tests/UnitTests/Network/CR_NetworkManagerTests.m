@@ -46,7 +46,7 @@
     // In case of responseHandler is executed < 1 times - expectation will not be fulfilled.
     // In case of responseHandler is executed > 1 times - expectation will fire an exception
     // because expectation can be fulfilled only once.
-    [self criteo_waitForExpectations:@[expectation]];
+    [self cr_waitForExpectations:@[expectation]];
 }
 
 // NOT a unit test as it uses the interwebs.

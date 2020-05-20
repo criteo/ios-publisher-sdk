@@ -61,34 +61,34 @@
 - (void)testReceiveOnMainQueue {
     CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
     [self dispatchCheckerForBid:self.validBid delegate:delegate];
-    [self criteo_waitForExpectations:@[delegate.didReceiveOnMainQueue]];
+    [self cr_waitForExpectations:@[delegate.didReceiveOnMainQueue]];
 }
 
 - (void)testFailureOnMainQueue {
     CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
     [self dispatchCheckerForBid:[CR_CdbBid emptyBid] delegate:delegate];
-    [self criteo_waitForExpectations:@[delegate.didFailOnMainQueue]];
+    [self cr_waitForExpectations:@[delegate.didFailOnMainQueue]];
 }
 
 - (void)testWillLeaveApplicationForNativeAdOnMainQueue {
     CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
     CRNativeLoader *loader = [self dispatchCheckerForBid:[CR_CdbBid emptyBid] delegate:delegate];
     [loader notifyWillLeaveApplicationForNativeAd];
-    [self criteo_waitForExpectations:@[delegate.willLeaveApplicationForNativeAd]];
+    [self cr_waitForExpectations:@[delegate.willLeaveApplicationForNativeAd]];
 }
 
 - (void)testDidDetectImpressionOnMainQueue {
     CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
     CRNativeLoader *loader = [self dispatchCheckerForBid:[CR_CdbBid emptyBid] delegate:delegate];
     [loader notifyDidDetectImpression];
-    [self criteo_waitForExpectations:@[delegate.didDetectImpression]];
+    [self cr_waitForExpectations:@[delegate.didDetectImpression]];
 }
 
 - (void)testDidDetectClickOnMainQueue {
     CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
     CRNativeLoader *loader = [self dispatchCheckerForBid:[CR_CdbBid emptyBid] delegate:delegate];
     [loader notifyDidDetectClick];
-    [self criteo_waitForExpectations:@[delegate.didDetectClick]];
+    [self cr_waitForExpectations:@[delegate.didDetectClick]];
 }
 
 - (void)testMediaDownloadOnMainQueue {

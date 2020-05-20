@@ -64,7 +64,7 @@
                    ahEventHandler:^(NSDictionary *appEventValues, NSDate *receivedAt) {
         [expectation fulfill];
     }];
-    [self criteo_waitForExpectations:@[expectation]];
+    [self cr_waitForExpectations:@[expectation]];
 }
 
 #pragma mark - Call CDB
@@ -150,7 +150,7 @@
                [expectation fulfill];
            }];
 
-    [self criteo_waitForExpectations:@[expectation]];
+    [self cr_waitForExpectations:@[expectation]];
 }
 
 @end

@@ -255,7 +255,7 @@ NSTimeInterval kExpectedTimeout = .5;
 
     [bannerView loadAdWithBidToken:token];
 
-    [self criteo_waitForExpectations:@[delegate.didFailToReceiveAdWithErrorExpectation]];
+    [self cr_waitForExpectations:@[delegate.didFailToReceiveAdWithErrorExpectation]];
 }
 
 - (void)testBannerLoadFailWhenTokenValueDoesntMatchAdUnitId {
@@ -281,7 +281,7 @@ NSTimeInterval kExpectedTimeout = .5;
 
     [bannerView loadAdWithBidToken:token];
 
-    [self criteo_waitForExpectations:@[delegate.didFailToReceiveAdWithErrorExpectation]];
+    [self cr_waitForExpectations:@[delegate.didFailToReceiveAdWithErrorExpectation]];
 }
 
 - (void)testBannerLoadFailWhenTokenValueDoesntMatchAdUnitType {
@@ -312,7 +312,7 @@ NSTimeInterval kExpectedTimeout = .5;
 
     [bannerView loadAdWithBidToken:token];
 
-    [self criteo_waitForExpectations:@[delegate.didFailToReceiveAdWithErrorExpectation]];
+    [self cr_waitForExpectations:@[delegate.didFailToReceiveAdWithErrorExpectation]];
 }
 
 - (void)testBannerDidLoadForValidTokenValue {
@@ -337,7 +337,7 @@ NSTimeInterval kExpectedTimeout = .5;
 
     [bannerView loadAdWithBidToken:token];
 
-    [self criteo_waitForExpectations:@[delegate.didReceiveAdExpectation]];
+    [self cr_waitForExpectations:@[delegate.didReceiveAdExpectation]];
 }
 
 @end

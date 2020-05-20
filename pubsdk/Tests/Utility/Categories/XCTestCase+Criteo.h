@@ -20,7 +20,7 @@ FOUNDATION_EXPORT NSTimeInterval XCTestCaseCriteoTimeout;
 /**
  Wait for expectation with  XCTestCaseCriteoTimeout.
  */
-- (void)criteo_waitForExpectations:(NSArray<XCTestExpectation *> *)expectations;
+- (void)cr_waitForExpectations:(NSArray<XCTestExpectation *> *)expectations;
 
 @end
 

@@ -61,7 +61,7 @@
 
     [self sendAppGoesForegroundNotification];
 
-    [self criteo_waitForExpectations:@[exp]];
+    [self cr_waitForExpectations:@[exp]];
 }
 
 - (void)testInactiveEventSentIfCriteoRegister {
@@ -70,7 +70,7 @@
 
     [self sendAppGoesBackgroundNotification];
 
-    [self criteo_waitForExpectations:@[exp]];
+    [self cr_waitForExpectations:@[exp]];
 }
 
 #pragma mark - Private
