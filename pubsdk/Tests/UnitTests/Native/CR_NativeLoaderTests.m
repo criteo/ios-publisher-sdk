@@ -16,6 +16,7 @@
 #import "CRNativeLoader+Internal.h"
 #import "CR_AdUnitHelper.h"
 #import "CRMediaDownloader.h"
+#import "NSURL+Criteo.h"
 
 @interface CR_NativeLoaderTests : XCTestCase
 @end
@@ -30,6 +31,10 @@
 
 @interface CRNativeLoader (Tests)
 - (void)notifyWillLeaveApplicationForNativeAd;
+@end
+
+@interface CR_MediaDownloaderDispatchChecker : NSObject <CRMediaDownloader>
+@property (strong, nonatomic) XCTestExpectation *didDownloadImageOnMainQueue;
 @end
 
 @implementation CR_NativeLoaderTests
@@ -85,6 +90,17 @@
     [self waitForExpectations:@[delegate.didDetectClick] timeout:5];
 }
 
+- (void)testMediaDownloadOnMainQueue {
+    CRNativeAdUnit *adUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"123"];
+    Criteo *criteoMock = [self mockCriteoWithAdUnit:adUnit returnBid:[CR_CdbBid emptyBid]];
+    CRNativeLoader *loader = [self buildLoaderWithAdUnit:adUnit criteo:criteoMock];
+    CR_MediaDownloaderDispatchChecker *mediaDownloader = [CR_MediaDownloaderDispatchChecker new];
+    loader.mediaDownloader = mediaDownloader;
+    [loader.mediaDownloader downloadImage:[NSURL cr_URLWithStringOrNil:nil]
+                        completionHandler:^(UIImage *image, NSError *error) {}];
+    [self waitForExpectations:@[mediaDownloader.didDownloadImageOnMainQueue] timeout:5];
+}
+
 #pragma mark - Private
 
 - (Criteo *)mockCriteoWithAdUnit:(CRNativeAdUnit *)adUnit
@@ -103,7 +119,7 @@
 }
 
 - (void)loadNativeWithBid:(CR_CdbBid *)bid
-                 delegate:(id <CRNativeDelegate>) delegate
+                 delegate:(id <CRNativeDelegate>)delegate
                    verify:(void (^)(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock))verify {
     CRNativeAdUnit *adUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"123"];
     Criteo *criteoMock = [self mockCriteoWithAdUnit:adUnit returnBid:bid];
@@ -135,7 +151,7 @@
 }
 
 - (CRNativeLoader *)dispatchCheckerForBid:(CR_CdbBid *)bid
-                                 delegate:(id<CRNativeDelegate>)delegate {
+                                 delegate:(id <CRNativeDelegate>)delegate {
     CRNativeAdUnit *adUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"123"];
     Criteo *criteoMock = [self mockCriteoWithAdUnit:adUnit returnBid:bid];
     CRNativeLoader *loader = [self buildLoaderWithAdUnit:adUnit criteo:criteoMock];
@@ -200,6 +216,25 @@
     if (@available(iOS 10.0, *)) {
         dispatch_assert_queue(dispatch_get_main_queue());
         [_willLeaveApplicationForNativeAd fulfill];
+    }
+}
+
+@end
+
+@implementation CR_MediaDownloaderDispatchChecker
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _didDownloadImageOnMainQueue = [[XCTestExpectation alloc] initWithDescription:@"Download handler should be called on main queue"];
+    }
+    return self;
+}
+
+- (void)downloadImage:(NSURL *)url completionHandler:(CRImageDownloaderHandler)handler {
+    if (@available(iOS 10.0, *)) {
+        dispatch_assert_queue(dispatch_get_main_queue());
+        [_didDownloadImageOnMainQueue fulfill];
     }
 }
 

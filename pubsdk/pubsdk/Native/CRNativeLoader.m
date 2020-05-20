@@ -14,8 +14,11 @@
 #import "NSError+Criteo.h"
 #import "Logging.h"
 #import "CR_DefaultMediaDownloader.h"
+#import "CR_SafeMediaDownloader.h"
 
 @implementation CRNativeLoader
+
+#pragma mark - Life cycle
 
 - (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit {
     return [self initWithAdUnit:adUnit criteo:[Criteo sharedCriteo]];
@@ -25,10 +28,12 @@
     if (self = [super init]) {
         _adUnit = adUnit;
         _criteo = criteo;
-        _mediaDownloader = [[CR_DefaultMediaDownloader alloc] init];
+        self.mediaDownloader = [[CR_DefaultMediaDownloader alloc] init];
     }
     return self;
 }
+
+#pragma mark - Public
 
 - (void)loadAd {
     @try {
@@ -37,6 +42,13 @@
     @catch (NSException *exception) {
         CLogException(exception);
     }
+}
+
+#pragma mark - Private
+
+- (void)setMediaDownloader:(id)mediaDownloader {
+    _mediaDownloader =
+        [[CR_SafeMediaDownloader alloc] initWithUnsafeDownloader:mediaDownloader];
 }
 
 - (BOOL)canConsumeBid {
