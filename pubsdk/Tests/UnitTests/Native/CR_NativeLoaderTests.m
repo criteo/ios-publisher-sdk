@@ -17,6 +17,7 @@
 #import "CR_AdUnitHelper.h"
 #import "CRMediaDownloader.h"
 #import "NSURL+Criteo.h"
+#import "XCTestCase+Criteo.h"
 
 @interface CR_NativeLoaderTests : XCTestCase
 @end
@@ -60,34 +61,34 @@
 - (void)testReceiveOnMainQueue {
     CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
     [self dispatchCheckerForBid:self.validBid delegate:delegate];
-    [self waitForExpectations:@[delegate.didReceiveOnMainQueue] timeout:5];
+    [self criteo_waitForExpectations:@[delegate.didReceiveOnMainQueue]];
 }
 
 - (void)testFailureOnMainQueue {
     CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
     [self dispatchCheckerForBid:[CR_CdbBid emptyBid] delegate:delegate];
-    [self waitForExpectations:@[delegate.didFailOnMainQueue] timeout:5];
+    [self criteo_waitForExpectations:@[delegate.didFailOnMainQueue]];
 }
 
 - (void)testWillLeaveApplicationForNativeAdOnMainQueue {
     CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
     CRNativeLoader *loader = [self dispatchCheckerForBid:[CR_CdbBid emptyBid] delegate:delegate];
     [loader notifyWillLeaveApplicationForNativeAd];
-    [self waitForExpectations:@[delegate.willLeaveApplicationForNativeAd] timeout:5];
+    [self criteo_waitForExpectations:@[delegate.willLeaveApplicationForNativeAd]];
 }
 
 - (void)testDidDetectImpressionOnMainQueue {
     CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
     CRNativeLoader *loader = [self dispatchCheckerForBid:[CR_CdbBid emptyBid] delegate:delegate];
     [loader notifyDidDetectImpression];
-    [self waitForExpectations:@[delegate.didDetectImpression] timeout:5];
+    [self criteo_waitForExpectations:@[delegate.didDetectImpression]];
 }
 
 - (void)testDidDetectClickOnMainQueue {
     CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
     CRNativeLoader *loader = [self dispatchCheckerForBid:[CR_CdbBid emptyBid] delegate:delegate];
     [loader notifyDidDetectClick];
-    [self waitForExpectations:@[delegate.didDetectClick] timeout:5];
+    [self criteo_waitForExpectations:@[delegate.didDetectClick]];
 }
 
 - (void)testMediaDownloadOnMainQueue {
@@ -187,36 +188,36 @@
 - (void)nativeLoader:(CRNativeLoader *)loader didReceiveAd:(CRNativeAd *)ad {
     if (@available(iOS 10.0, *)) {
         dispatch_assert_queue(dispatch_get_main_queue());
-        [_didReceiveOnMainQueue fulfill];
     }
+    [_didReceiveOnMainQueue fulfill];
 }
 
 - (void)nativeLoader:(CRNativeLoader *)loader didFailToReceiveAdWithError:(NSError *)error {
     if (@available(iOS 10.0, *)) {
         dispatch_assert_queue(dispatch_get_main_queue());
-        [_didFailOnMainQueue fulfill];
     }
+    [_didFailOnMainQueue fulfill];
 }
 
 - (void)nativeLoaderDidDetectImpression:(CRNativeLoader *)loader {
     if (@available(iOS 10.0, *)) {
         dispatch_assert_queue(dispatch_get_main_queue());
-        [_didDetectImpression fulfill];
     }
+    [_didDetectImpression fulfill];
 }
 
 - (void)nativeLoaderDidDetectClick:(CRNativeLoader *)loader {
     if (@available(iOS 10.0, *)) {
         dispatch_assert_queue(dispatch_get_main_queue());
-        [_didDetectClick fulfill];
     }
+    [_didDetectClick fulfill];
 }
 
 - (void)nativeLoaderWillLeaveApplicationForNativeAd:(CRNativeLoader *)loader {
     if (@available(iOS 10.0, *)) {
         dispatch_assert_queue(dispatch_get_main_queue());
-        [_willLeaveApplicationForNativeAd fulfill];
     }
+    [_willLeaveApplicationForNativeAd fulfill];
 }
 
 @end
