@@ -15,24 +15,6 @@
     self.nativeAd = ad;
     self.titleLabel.text = ad.title;
     self.bodyLabel.text = ad.body;
-    NSURL *url = [[NSURL alloc] initWithString:ad.productImageUrl];
-    [self downloadNativeAdImageWithUrl:url];
-}
-
-#pragma mark - Network
-
-- (void)downloadNativeAdImageWithUrl:(NSURL *)url {
-    __weak CRVNativeAdView *weakSelf = self;
-    NSURLSessionDataTask *task = [NSURLSession.sharedSession dataTaskWithURL:url completionHandler:
-        ^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error) {
-            if ((data.length == 0) && (error != nil)) {
-                return;
-            }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                weakSelf.imageView.image = [[UIImage alloc] initWithData:data];
-            });
-        }];
-    [task resume];
 }
 
 @end

@@ -60,30 +60,10 @@
     view.titleLabel.text = ad.title;
     view.bodyLabel.text = ad.body;
     self.adView = view;
-    NSURL *url = [[NSURL alloc] initWithString:ad.productImageUrl];
-    [self downloadNativeAdImageWithUrl:url];
 }
 
 - (void)nativeLoader:(CRNativeLoader *)loader didFailToReceiveAdWithError:(NSError *)error {
     [_logger nativeLoader:loader didFailToReceiveAdWithError:error];
-}
-
-#pragma mark - Network
-
-- (void)downloadNativeAdImageWithUrl:(NSURL *)url {
-    __weak CRVNativeAdViewController *weakSelf = self;
-    NSURLSessionDataTask *task = [NSURLSession.sharedSession dataTaskWithURL:url
-                                                           completionHandler:^(NSData * _Nullable data,
-                                                                               NSURLResponse * _Nullable response,
-                                                                               NSError * _Nullable error) {
-        if ((data.length == 0) && (error != nil)) {
-            return;
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            weakSelf.adView.imageView.image = [[UIImage alloc] initWithData:data];
-        });
-    }];
-    [task resume];
 }
 
 @end
