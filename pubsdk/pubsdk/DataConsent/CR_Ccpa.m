@@ -97,7 +97,7 @@ NSString * const CR_CcpaCriteoStateKey = @"CriteoUSPrivacy_Bool";
     NSRegularExpression* regex = [NSRegularExpression regularExpressionWithPattern:pattern
                                                                            options:0
                                                                              error:&error];
-    NSAssert(!error, @"Error occured for the given regexp %@: %@", pattern, error);
+    NSAssert(!error, @"Error occurred for the given regexp %@: %@", pattern, error);
     if (error) return NO;
 
     const NSRange range = NSMakeRange(0, [consentString length]);
