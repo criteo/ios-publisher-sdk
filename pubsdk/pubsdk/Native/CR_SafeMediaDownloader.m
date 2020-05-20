@@ -22,7 +22,7 @@
 
 - (void)downloadImage:(NSURL *)url completionHandler:(CRImageDownloaderHandler)handler {
     [_unsafeDownloader downloadImage:url completionHandler:^(UIImage *image, NSError *error) {
-        dispatch_sync(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             handler(image, error);
         });
     }];
