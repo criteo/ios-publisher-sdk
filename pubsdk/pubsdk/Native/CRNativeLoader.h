@@ -28,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Load the native ad for standalone integration.
+ *
+ * Do nothing if the delegate is nil or if it doesn't implement nativeLoader:didReceiveAd:.
  */
 - (void)loadAd;
 

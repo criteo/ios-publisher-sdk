@@ -87,6 +87,8 @@
 }
 
 - (BOOL)canNotifyDidReceiveAd {
+    // We don't use the @required intentionaly on nativeLoader:didReceiveAd:
+    // for keeping the API flexible and avoiding breaking changes in the futur.
     return [self.delegate respondsToSelector:@selector(nativeLoader:didReceiveAd:)];
 }
 
