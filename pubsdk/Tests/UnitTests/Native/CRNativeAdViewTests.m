@@ -18,9 +18,16 @@
 #import "CRMediaDownloader.h"
 
 @interface CRNativeAdViewTests : XCTestCase
+
+@property (strong, nonatomic) UIWindow *window;
+
 @end
 
 @implementation CRNativeAdViewTests
+
+- (void)tearDown {
+    [self.window cr_removeFromScreen];
+}
 
 #pragma mark - Tests
 #pragma mark AdChoice
@@ -40,8 +47,7 @@
 
 - (void)testAdChoiceOnTopRightAndFrontMost {
     CRNativeAdView *adView = [self buildNativeAdView];
-    UIWindow *window = [self createUIWindow];
-    [window.rootViewController.view addSubview:adView];
+    self.window = [UIWindow cr_keyWindowWithView:adView];
     adView.nativeAd = [self buildNativeAd];
     [adView layoutSubviews];
     CR_AdChoice *adChoice = [self getAdChoiceFromAdView:adView];
@@ -54,8 +60,7 @@
 
 - (void)testAdChoiceImageDownload {
     CRNativeAdView *adView = [self buildNativeAdView];
-    UIWindow *window = [self createUIWindow];
-    [window.rootViewController.view addSubview:adView];
+    self.window = [UIWindow cr_keyWindowWithView:adView];
 
     id mockDownloader = OCMProtocolMock(@protocol(CRMediaDownloader));
     OCMExpect([mockDownloader downloadImage:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
@@ -113,14 +118,6 @@
         return [view isKindOfClass:CR_AdChoice.class];
     }];
     return index != NSNotFound ? adView.subviews[index] : nil;
-}
-
-- (UIWindow *)createUIWindow {
-    UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 50, 320, 480)];
-    [window makeKeyAndVisible];
-    UIViewController *viewController = [UIViewController new];
-    window.rootViewController = viewController;
-    return window;
 }
 
 @end
