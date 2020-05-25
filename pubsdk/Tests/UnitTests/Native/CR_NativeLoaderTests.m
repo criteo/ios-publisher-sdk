@@ -10,18 +10,18 @@
 
 #import "Criteo.h"
 #import "Criteo+Internal.h"
-#import "CR_BidManager.h"
+#import "CRMediaDownloader.h"
 #import "CRNativeAdUnit.h"
 #import "CRNativeAd+Internal.h"
-#import "CR_NativeAssets.h"
-#import "CRNativeLoader.h"
 #import "CRNativeLoader+Internal.h"
+#import "CR_AdUnitHelper.h"
+#import "CR_BidManager.h"
+#import "CR_CdbBidBuilder.h"
+#import "CR_NativeAssets.h"
 #import "CR_NativeLoaderDispatchChecker.h"
 #import "CR_MediaDownloaderDispatchChecker.h"
-#import "CR_AdUnitHelper.h"
 #import "CR_TestAdUnits.h"
 #import "CR_SynchronousThreadManager.h"
-#import "CRMediaDownloader.h"
 #import "NSURL+Criteo.h"
 #import "XCTestCase+Criteo.h"
 
@@ -185,18 +185,7 @@
 }
 
 - (CR_CdbBid *)validBid {
-    return [[CR_CdbBid alloc] initWithZoneId:@123
-                                 placementId:@"placementId"
-                                         cpm:@"4.2"
-                                    currency:@"₹😀"
-                                       width:@456.0f
-                                      height:@789.0f
-                                         ttl:26
-                                    creative:@"THIS IS USELESS LEGACY"
-                                  displayUrl:@""
-                                  insertTime:[NSDate date]
-                                nativeAssets:nil
-                                impressionId:nil];
+    return CR_CdbBidBuilder.new.build;
 }
 
 - (CRNativeLoader *)dispatchCheckerForBid:(CR_CdbBid *)bid
