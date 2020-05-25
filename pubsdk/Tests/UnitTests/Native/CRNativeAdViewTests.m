@@ -13,7 +13,8 @@
 #import "CR_NativeAssetsTests.h"
 #import "OCMock.h"
 #import "NSURL+Criteo.h"
-#import "CRNativeLoader.h"
+#import "UIWindow+Testing.h"
+#import "CRNativeLoader+Internal.h"
 #import "CRMediaDownloader.h"
 
 @interface CRNativeAdViewTests : XCTestCase
@@ -22,22 +23,6 @@
 @implementation CRNativeAdViewTests
 
 #pragma mark - Tests
-#pragma mark Ad
-
-- (void)testAdClickOpenExternalURL {
-    CRNativeAdView *adView = [self buildNativeAdView];
-    UIWindow *window = [self createUIWindow];
-    [window.rootViewController.view addSubview:adView];
-    adView.nativeAd = [self buildNativeAd];
-
-    id mockUrl = OCMClassMock([NSURL class]);
-    OCMStub([mockUrl cr_URLWithStringOrNil:OCMOCK_ANY]).andReturn(mockUrl);
-    OCMExpect([mockUrl cr_openExternal:OCMOCK_ANY]);
-
-    [adView sendActionsForControlEvents:UIControlEventTouchUpInside];
-    OCMVerifyAll(mockUrl);
-}
-
 #pragma mark AdChoice
 
 - (void)testAdChoiceMissingWithoutAd {
@@ -67,21 +52,6 @@
     XCTAssertEqual([adView.subviews indexOfObject:adChoice], 0, @"AdChoice should be frontmost view");
 }
 
-- (void)testAdChoiceClickOpenExternalURL {
-    CRNativeAdView *adView = [self buildNativeAdView];
-    UIWindow *window = [self createUIWindow];
-    [window.rootViewController.view addSubview:adView];
-    adView.nativeAd = [self buildNativeAd];
-
-    id mockUrl = OCMClassMock([NSURL class]);
-    OCMStub([mockUrl cr_URLWithStringOrNil:OCMOCK_ANY]).andReturn(mockUrl);
-    OCMExpect([mockUrl cr_openExternal:OCMOCK_ANY]);
-
-    CR_AdChoice *adChoice = [self getAdChoiceFromAdView:adView];
-    [adChoice sendActionsForControlEvents:UIControlEventTouchUpInside];
-    OCMVerifyAll(mockUrl);
-}
-
 - (void)testAdChoiceImageDownload {
     CRNativeAdView *adView = [self buildNativeAdView];
     UIWindow *window = [self createUIWindow];
@@ -98,10 +68,27 @@
     OCMVerifyAll(mockDownloader);
 }
 
+- (void)testAdChoiceClickCallDelegateForClicking {
+    id loaderMock = [self buildNativeLoaderMock];
+    CRNativeAd *ad = [self buildNativeAdWithLoader:loaderMock];
+    CRNativeAdView *adView = [self buildNativeAdViewWithNativeAd:ad];
+    OCMExpect([loaderMock handleClickOnNativeAd:ad]);
+
+    [adView sendActionsForControlEvents:UIControlEventTouchUpInside];
+
+    OCMVerifyAll(loaderMock);
+}
+
 #pragma mark - Private
 
 - (CRNativeAdView *)buildNativeAdView {
-    return [[CRNativeAdView alloc] initWithFrame:(CGRect) {0, 0, 320, 50}];
+    return [self buildNativeAdViewWithNativeAd:nil];
+}
+
+- (CRNativeAdView *)buildNativeAdViewWithNativeAd:(CRNativeAd *)nativeAd {
+    CRNativeAdView *view = [[CRNativeAdView alloc] initWithFrame:(CGRect) {0, 0, 320, 50}];
+    view.nativeAd = nativeAd;
+    return view;
 }
 
 - (CRNativeAd *)buildNativeAd {
@@ -114,6 +101,11 @@
     CR_NativeAssets *assets = [CR_NativeAssetsTests loadNativeAssets:@"NativeAssetsFromCdb"];
     CRNativeAd *nativeAd = [[CRNativeAd alloc] initWithLoader:loader assets:assets];
     return nativeAd;
+}
+
+- (OCMockObject *)buildNativeLoaderMock {
+    CRNativeLoader *loader = OCMClassMock(CRNativeLoader.class);
+    return (OCMockObject *)loader;
 }
 
 - (__kindof UIView *)getAdChoiceFromAdView:(CRNativeAdView *)adView {

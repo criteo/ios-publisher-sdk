@@ -12,23 +12,33 @@
 #import "Criteo+Internal.h"
 #import "CR_BidManager.h"
 #import "CRNativeAdUnit.h"
+#import "CRNativeAd+Internal.h"
+#import "CR_NativeAssets.h"
 #import "CRNativeLoader.h"
 #import "CRNativeLoader+Internal.h"
 #import "CR_AdUnitHelper.h"
+#import "CR_TestAdUnits.h"
 #import "CR_SynchronousThreadManager.h"
 #import "CRMediaDownloader.h"
 #import "NSURL+Criteo.h"
 #import "XCTestCase+Criteo.h"
 
-@interface CR_NativeLoaderTests : XCTestCase
-@end
-
 @interface CR_NativeLoaderDispatchChecker : NSObject <CRNativeDelegate>
+
 @property (strong, nonatomic) XCTestExpectation *didReceiveOnMainQueue;
 @property (strong, nonatomic) XCTestExpectation *didFailOnMainQueue;
 @property (strong, nonatomic) XCTestExpectation *didDetectImpression;
 @property (strong, nonatomic) XCTestExpectation *didDetectClick;
 @property (strong, nonatomic) XCTestExpectation *willLeaveApplicationForNativeAd;
+
+@end
+
+@interface CR_NativeLoaderTests : XCTestCase
+@property (strong, nonatomic) CRNativeLoader *loader;
+@property (strong, nonatomic) CRNativeAd *nativeAd;
+@property (strong, nonatomic) CR_NativeLoaderDispatchChecker *delegate;
+@property (strong, nonatomic) OCMockObject *urlMock;
+
 @end
 
 @interface CRNativeLoader (Tests)
@@ -40,6 +50,20 @@
 @end
 
 @implementation CR_NativeLoaderTests
+
+- (void)setUp {
+    CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
+    id criteoMock = OCMClassMock([Criteo class]);
+    self.loader = [self buildLoaderWithAdUnit:adUnit
+                                       criteo:criteoMock];
+
+    CR_NativeAssets *assets = [[CR_NativeAssets alloc] initWithDict:@{}];
+    self.nativeAd = [[CRNativeAd alloc] initWithLoader:self.loader
+                                                assets:assets];
+
+    self.delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
+    self.loader.delegate = self.delegate;
+}
 
 #pragma mark - Tests
 
@@ -103,11 +127,46 @@
     [self waitForExpectations:@[mediaDownloader.didDownloadImageOnMainQueue] timeout:5];
 }
 
+#pragma mark - Internal
+
+- (void)testHandleClickOnNativeAdCallDelegateForClick {
+    [self mockURLForOpeningExternalWithSuccess:YES];
+
+    [self.loader handleClickOnNativeAd:self.nativeAd];
+
+    [self cr_waitForExpectations:@[self.delegate.didDetectClick]];
+}
+
+- (void)testHandleClickOnNativeAdCallDelegateForOpenExternal {
+    [self mockURLForOpeningExternalWithSuccess:YES];
+
+    [self.loader handleClickOnNativeAd:self.nativeAd];
+
+    [self cr_waitForExpectations:@[self.delegate.willLeaveApplicationForNativeAd]];
+}
+
+- (void)testHandleClickOnNativeAdDoNotCallDelegateForOpenExternalFailure {
+    [self mockURLForOpeningExternalWithSuccess:NO];
+    self.delegate.willLeaveApplicationForNativeAd.inverted = YES;
+
+    [self.loader handleClickOnNativeAd:self.nativeAd];
+
+    [self waitForExpectations:@[self.delegate.willLeaveApplicationForNativeAd]
+                      timeout:1.f];
+}
+
 #pragma mark - Private
+
+- (void)mockURLForOpeningExternalWithSuccess:(BOOL)success {
+    self.urlMock = OCMClassMock([NSURL class]);
+    OCMStub([(id)self.urlMock cr_URLWithStringOrNil:OCMOCK_ANY]).andReturn(self.urlMock);
+    OCMExpect([(id)self.urlMock cr_openExternal:([OCMArg invokeBlockWithArgs:@(success), nil])]);
+}
 
 - (Criteo *)mockCriteoWithAdUnit:(CRNativeAdUnit *)adUnit
                        returnBid:(CR_CdbBid *)bid {
     Criteo *criteoMock = OCMStrictClassMock([Criteo class]);
+
     CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
     OCMStub([criteoMock getBid:cacheAdUnit]).andReturn(bid);
 

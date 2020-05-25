@@ -18,7 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) CRNativeAdUnit *adUnit;
 @property (nonatomic, strong, readonly) CR_ThreadManager *threadManager;
 
-- (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit criteo:(Criteo *)criteo;
+- (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit
+                        criteo:(Criteo *)criteo;
+
+- (void)handleClickOnNativeAd:(CRNativeAd *)nativeAd;
 
 - (void)notifyDidDetectImpression;
 - (void)notifyDidDetectClick;

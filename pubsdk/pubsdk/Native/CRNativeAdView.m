@@ -10,7 +10,6 @@
 #import "CRNativeAd+Internal.h"
 #import "CRNativeLoader+Internal.h"
 #import "CR_NativeProduct.h"
-#import "NSURL+Criteo.h"
 
 @interface CRNativeAdView ()
 
@@ -24,10 +23,12 @@
 #pragma mark - Properties
 
 - (void)setNativeAd:(CRNativeAd *)nativeAd {
-    _nativeAd = nativeAd;
-    self.adChoice.nativeAd = _nativeAd;
-    [self addTarget:self action:@selector(adClicked:)
-   forControlEvents:UIControlEventTouchUpInside];
+    if (_nativeAd != nativeAd) {
+        _nativeAd = nativeAd;
+        self.adChoice.nativeAd = _nativeAd;
+        [self addTarget:self action:@selector(adClicked:)
+       forControlEvents:UIControlEventTouchUpInside];
+    }
 }
 
 #pragma mark - Private
@@ -41,7 +42,7 @@
 }
 
 - (CRNativeLoader *)loader {
-    return _nativeAd.loader;
+    return self.nativeAd.loader;
 }
 
 #pragma mark - UIView
@@ -64,10 +65,7 @@
 #pragma mark - Events
 
 - (void)adClicked:(id)control {
-    NSURL *url = [NSURL cr_URLWithStringOrNil:_nativeAd.product.clickUrl];
-    [url cr_openExternal:^(BOOL success) {
-        [self.loader notifyWillLeaveApplicationForNativeAd];
-    }];
+    [self.loader handleClickOnNativeAd:self.nativeAd];
 }
 
 @end

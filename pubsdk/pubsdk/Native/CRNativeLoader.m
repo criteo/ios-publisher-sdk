@@ -12,6 +12,7 @@
 #import "CR_AdUnitHelper.h"
 #import "CR_CdbBid.h"
 #import "NSError+Criteo.h"
+#import "NSURL+Criteo.h"
 #import "Logging.h"
 #import "CR_DefaultMediaDownloader.h"
 #import "CR_SafeMediaDownloader.h"
@@ -44,6 +45,19 @@
     @catch (NSException *exception) {
         CLogException(exception);
     }
+}
+
+#pragma mark - Internal
+
+- (void)handleClickOnNativeAd:(CRNativeAd *)nativeAd {
+    [self notifyDidDetectClick];
+
+    NSURL *url = [NSURL cr_URLWithStringOrNil:nativeAd.product.clickUrl];
+    [url cr_openExternal:^(BOOL success) {
+        if (success) {
+            [self notifyWillLeaveApplicationForNativeAd];
+        }
+    }];
 }
 
 #pragma mark - Private
