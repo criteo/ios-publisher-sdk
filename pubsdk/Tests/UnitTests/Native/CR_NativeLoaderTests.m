@@ -16,6 +16,8 @@
 #import "CR_NativeAssets.h"
 #import "CRNativeLoader.h"
 #import "CRNativeLoader+Internal.h"
+#import "CR_NativeLoaderDispatchChecker.h"
+#import "CR_MediaDownloaderDispatchChecker.h"
 #import "CR_AdUnitHelper.h"
 #import "CR_TestAdUnits.h"
 #import "CR_SynchronousThreadManager.h"
@@ -23,30 +25,12 @@
 #import "NSURL+Criteo.h"
 #import "XCTestCase+Criteo.h"
 
-@interface CR_NativeLoaderDispatchChecker : NSObject <CRNativeDelegate>
-
-@property (strong, nonatomic) XCTestExpectation *didReceiveOnMainQueue;
-@property (strong, nonatomic) XCTestExpectation *didFailOnMainQueue;
-@property (strong, nonatomic) XCTestExpectation *didDetectImpression;
-@property (strong, nonatomic) XCTestExpectation *didDetectClick;
-@property (strong, nonatomic) XCTestExpectation *willLeaveApplicationForNativeAd;
-
-@end
-
 @interface CR_NativeLoaderTests : XCTestCase
 @property (strong, nonatomic) CRNativeLoader *loader;
 @property (strong, nonatomic) CRNativeAd *nativeAd;
 @property (strong, nonatomic) CR_NativeLoaderDispatchChecker *delegate;
 @property (strong, nonatomic) OCMockObject *urlMock;
 
-@end
-
-@interface CRNativeLoader (Tests)
-- (void)notifyWillLeaveApplicationForNativeAd;
-@end
-
-@interface CR_MediaDownloaderDispatchChecker : NSObject <CRMediaDownloader>
-@property (strong, nonatomic) XCTestExpectation *didDownloadImageOnMainQueue;
 @end
 
 @implementation CR_NativeLoaderTests
@@ -231,76 +215,6 @@
         ^(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock) {
             OCMReject([criteoMock getBid:[OCMArg any]]);
         }];
-}
-
-@end
-
-@implementation CR_NativeLoaderDispatchChecker
-
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        _didFailOnMainQueue = [[XCTestExpectation alloc] initWithDescription:@"Delegate should be called on main queue"];
-        _didReceiveOnMainQueue = [[XCTestExpectation alloc] initWithDescription:@"Delegate should be called on main queue"];
-        _didDetectImpression = [[XCTestExpectation alloc] initWithDescription:@"Delegate should be called on main queue"];
-        _didDetectClick = [[XCTestExpectation alloc] initWithDescription:@"Delegate should be called on main queue"];
-        _willLeaveApplicationForNativeAd = [[XCTestExpectation alloc] initWithDescription:@"Delegate should be called on main queue"];
-    }
-    return self;
-}
-
-- (void)nativeLoader:(CRNativeLoader *)loader didReceiveAd:(CRNativeAd *)ad {
-    if (@available(iOS 10.0, *)) {
-        dispatch_assert_queue(dispatch_get_main_queue());
-    }
-    [_didReceiveOnMainQueue fulfill];
-}
-
-- (void)nativeLoader:(CRNativeLoader *)loader didFailToReceiveAdWithError:(NSError *)error {
-    if (@available(iOS 10.0, *)) {
-        dispatch_assert_queue(dispatch_get_main_queue());
-    }
-    [_didFailOnMainQueue fulfill];
-}
-
-- (void)nativeLoaderDidDetectImpression:(CRNativeLoader *)loader {
-    if (@available(iOS 10.0, *)) {
-        dispatch_assert_queue(dispatch_get_main_queue());
-    }
-    [_didDetectImpression fulfill];
-}
-
-- (void)nativeLoaderDidDetectClick:(CRNativeLoader *)loader {
-    if (@available(iOS 10.0, *)) {
-        dispatch_assert_queue(dispatch_get_main_queue());
-    }
-    [_didDetectClick fulfill];
-}
-
-- (void)nativeLoaderWillLeaveApplicationForNativeAd:(CRNativeLoader *)loader {
-    if (@available(iOS 10.0, *)) {
-        dispatch_assert_queue(dispatch_get_main_queue());
-    }
-    [_willLeaveApplicationForNativeAd fulfill];
-}
-
-@end
-
-@implementation CR_MediaDownloaderDispatchChecker
-
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        _didDownloadImageOnMainQueue = [[XCTestExpectation alloc] initWithDescription:@"Download handler should be called on main queue"];
-    }
-    return self;
-}
-
-- (void)downloadImage:(NSURL *)url completionHandler:(CRImageDownloaderHandler)handler {
-    if (@available(iOS 10.0, *)) {
-        dispatch_assert_queue(dispatch_get_main_queue());
-        [_didDownloadImageOnMainQueue fulfill];
-    }
 }
 
 @end

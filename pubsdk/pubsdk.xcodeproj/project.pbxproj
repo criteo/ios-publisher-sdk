@@ -242,6 +242,11 @@
 		7D80F6222406B18F005B7BA3 /* CR_Gdpr.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D80F61E2406B18F005B7BA3 /* CR_Gdpr.m */; };
 		7D85E8D323D8891A00AFF91B /* CR_InHouseFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D85E8D223D8891A00AFF91B /* CR_InHouseFunctionalTests.m */; };
 		7D8BEDBE2407C21E0034AA7C /* CR_GdprTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8BEDBD2407C21E0034AA7C /* CR_GdprTests.m */; };
+		7D9CFF77247BFDFC0005DAE8 /* CR_NativeLoaderDispatchChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9CFF76247BFDFC0005DAE8 /* CR_NativeLoaderDispatchChecker.m */; };
+		7D9CFF78247BFDFC0005DAE8 /* CR_NativeLoaderDispatchChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9CFF76247BFDFC0005DAE8 /* CR_NativeLoaderDispatchChecker.m */; };
+		7D9CFF7B247BFFD40005DAE8 /* CR_MediaDownloaderDispatchChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9CFF7A247BFFD40005DAE8 /* CR_MediaDownloaderDispatchChecker.m */; };
+		7D9CFF7C247BFFD40005DAE8 /* CR_MediaDownloaderDispatchChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9CFF7A247BFFD40005DAE8 /* CR_MediaDownloaderDispatchChecker.m */; };
+		7D9CFF7D247C101D0005DAE8 /* CR_BidPerformanceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCFBF762445F310009657F7 /* CR_BidPerformanceTests.m */; };
 		7DA2F5BD23A0D9E400B35524 /* CR_DataProtectionConsentMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA2F5BC23A0D9E400B35524 /* CR_DataProtectionConsentMock.m */; };
 		7DA2F5C423A0EAC000B35524 /* CR_DataConsentFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA2F5C323A0EAC000B35524 /* CR_DataConsentFunctionalTests.m */; };
 		7DB4E91123953757008DE5E3 /* CRInterstitialTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB4E90F2395374F008DE5E3 /* CRInterstitialTests.m */; };
@@ -252,7 +257,6 @@
 		7DB5F90E23AA2B2500EF5602 /* CR_NetworkWaiter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB5F90023AA2B2500EF5602 /* CR_NetworkWaiter.m */; };
 		7DB899DC2400126800948230 /* NSString+GDPR.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DB899D92400126800948230 /* NSString+GDPR.h */; };
 		7DB899DE2400126800948230 /* NSString+GDPR.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB899DA2400126800948230 /* NSString+GDPR.m */; };
-		7DCFBF772445F310009657F7 /* CR_BidPerformanceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCFBF762445F310009657F7 /* CR_BidPerformanceTests.m */; };
 		7DDEF657242CD8BE00BC129F /* CR_BidRequestSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DDEF654242CD8BE00BC129F /* CR_BidRequestSerializer.h */; };
 		7DDEF659242CD8BE00BC129F /* CR_BidRequestSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDEF655242CD8BE00BC129F /* CR_BidRequestSerializer.m */; };
 		7DDEF65E242CE06300BC129F /* CR_GdprSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DDEF65B242CE06300BC129F /* CR_GdprSerializer.h */; };
@@ -578,6 +582,10 @@
 		7D80F61E2406B18F005B7BA3 /* CR_Gdpr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_Gdpr.m; sourceTree = "<group>"; };
 		7D85E8D223D8891A00AFF91B /* CR_InHouseFunctionalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_InHouseFunctionalTests.m; sourceTree = "<group>"; };
 		7D8BEDBD2407C21E0034AA7C /* CR_GdprTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_GdprTests.m; sourceTree = "<group>"; };
+		7D9CFF75247BFDFC0005DAE8 /* CR_NativeLoaderDispatchChecker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_NativeLoaderDispatchChecker.h; sourceTree = "<group>"; };
+		7D9CFF76247BFDFC0005DAE8 /* CR_NativeLoaderDispatchChecker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_NativeLoaderDispatchChecker.m; sourceTree = "<group>"; };
+		7D9CFF79247BFFD40005DAE8 /* CR_MediaDownloaderDispatchChecker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_MediaDownloaderDispatchChecker.h; sourceTree = "<group>"; };
+		7D9CFF7A247BFFD40005DAE8 /* CR_MediaDownloaderDispatchChecker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_MediaDownloaderDispatchChecker.m; sourceTree = "<group>"; };
 		7DA2F5BB23A0D9E400B35524 /* CR_DataProtectionConsentMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_DataProtectionConsentMock.h; sourceTree = "<group>"; };
 		7DA2F5BC23A0D9E400B35524 /* CR_DataProtectionConsentMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_DataProtectionConsentMock.m; sourceTree = "<group>"; };
 		7DA2F5C323A0EAC000B35524 /* CR_DataConsentFunctionalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_DataConsentFunctionalTests.m; sourceTree = "<group>"; };
@@ -918,6 +926,10 @@
 				5E0659E91B2AF96B5DF83DA3 /* CR_ViewCheckingHelper.m */,
 				7D3D6AA224519F3D00B91ADC /* CR_InterstitialChecker.h */,
 				7D3D6AA324519F3D00B91ADC /* CR_InterstitialChecker.m */,
+				7D9CFF75247BFDFC0005DAE8 /* CR_NativeLoaderDispatchChecker.h */,
+				7D9CFF76247BFDFC0005DAE8 /* CR_NativeLoaderDispatchChecker.m */,
+				7D9CFF79247BFFD40005DAE8 /* CR_MediaDownloaderDispatchChecker.h */,
+				7D9CFF7A247BFFD40005DAE8 /* CR_MediaDownloaderDispatchChecker.m */,
 			);
 			path = Checkers;
 			sourceTree = "<group>";
@@ -1811,6 +1823,7 @@
 				462DCA8A2462C36800B43A51 /* CR_IntegrationsTestBase.m in Sources */,
 				462DCA932462C41A00B43A51 /* MockWKWebView.m in Sources */,
 				462DCAA02462C95600B43A51 /* UIView+Testing.m in Sources */,
+				7D9CFF7C247BFFD40005DAE8 /* CR_MediaDownloaderDispatchChecker.m in Sources */,
 				7D321B1B2474513C006CBC4E /* UIWindow+Testing.m in Sources */,
 				462DCA8D2462C39A00B43A51 /* CR_TestAdUnits.m in Sources */,
 				462DCA982462C74A00B43A51 /* CR_DeviceInfoMock.m in Sources */,
@@ -1829,8 +1842,10 @@
 				462DCA912462C3E300B43A51 /* CR_NetworkWaiter.m in Sources */,
 				462DCA922462C40500B43A51 /* CR_HttpContent.m in Sources */,
 				462DCA9D2462C85D00B43A51 /* CR_ThreadManager+Waiter.m in Sources */,
+				7D9CFF7D247C101D0005DAE8 /* CR_BidPerformanceTests.m in Sources */,
 				462DCAA32463054700B43A51 /* CR_CreativeViewChecker.m in Sources */,
 				462DCA9C2462C83000B43A51 /* CR_FeedbackStorageTests.swift in Sources */,
+				7D9CFF78247BFDFC0005DAE8 /* CR_NativeLoaderDispatchChecker.m in Sources */,
 				7D321B172474502A006CBC4E /* CR_NativeAdFunctionalTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1892,6 +1907,7 @@
 				7DA2F5C423A0EAC000B35524 /* CR_DataConsentFunctionalTests.m in Sources */,
 				7D3E423323915B6600BAF673 /* CRBannerViewTests.m in Sources */,
 				7D3D6AA424519F3D00B91ADC /* CR_InterstitialChecker.m in Sources */,
+				7D9CFF77247BFDFC0005DAE8 /* CR_NativeLoaderDispatchChecker.m in Sources */,
 				7D47C458246AEC75009E7FE5 /* CR_HeaderBiddingTests.m in Sources */,
 				7D523C9223E1CEBA00E79C88 /* CR_ThreadManager+Waiter.m in Sources */,
 				7D3E424223915B6600BAF673 /* CRNativeAdUnitTests.m in Sources */,
@@ -1902,6 +1918,7 @@
 				7D523C8E23E047EA00E79C88 /* NSString+Testing.m in Sources */,
 				7D3E423923915B6600BAF673 /* CR_AppEventsTests.m in Sources */,
 				7D58583523E2D5DF0039AC56 /* CR_ThreadManagerTests.m in Sources */,
+				7D9CFF7B247BFFD40005DAE8 /* CR_MediaDownloaderDispatchChecker.m in Sources */,
 				7D523C8223DB5D9600E79C88 /* CR_CdbBidBuilder.m in Sources */,
 				7D006730243CD7E800E5D50D /* CASObjectQueue+ArraySet.m in Sources */,
 				462DCAA42463055100B43A51 /* CR_CreativeViewChecker.m in Sources */,
@@ -1927,7 +1944,6 @@
 				7D727269240FC0E000825CF7 /* CR_WebApiIntegrationTests.m in Sources */,
 				7D8BEDBE2407C21E0034AA7C /* CR_GdprTests.m in Sources */,
 				7D3E424323915B6600BAF673 /* CRBidResponseTests.m in Sources */,
-				7DCFBF772445F310009657F7 /* CR_BidPerformanceTests.m in Sources */,
 				7D46571D244DBEFE00E4110E /* CR_SynchronousThreadManager.m in Sources */,
 				7D3E422F23915B6600BAF673 /* NSError+CriteoTests.m in Sources */,
 				542FCFB8242D0E1A000D9DA9 /* CR_FeedbackSerializerTests.swift in Sources */,
