@@ -48,7 +48,8 @@
 
 - (void)setMediaDownloader:(id)mediaDownloader {
     _mediaDownloader =
-        [[CR_SafeMediaDownloader alloc] initWithUnsafeDownloader:mediaDownloader];
+        [[CR_SafeMediaDownloader alloc] initWithUnsafeDownloader:mediaDownloader
+                                                   threadManager:self.criteo.threadManager];
 }
 
 - (BOOL)canConsumeBid {

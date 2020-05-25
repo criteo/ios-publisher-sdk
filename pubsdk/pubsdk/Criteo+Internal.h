@@ -19,11 +19,13 @@
 @class CRBidToken;
 @class CR_Config;
 @class CR_BidManager;
+@class CR_ThreadManager;
 
 @interface Criteo ()
 
-@property (nonatomic) id<CR_NetworkManagerDelegate> networkManagerDelegate;
-@property (nonatomic, readonly) CR_Config *config;
+@property (weak, nonatomic) id<CR_NetworkManagerDelegate> networkManagerDelegate;
+@property (strong, nonatomic, readonly) CR_Config *config;
+@property (strong, nonatomic, readonly) CR_ThreadManager *threadManager;
 
 - (CR_CdbBid *)getBid:(CR_CacheAdUnit *)slot;
 - (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken

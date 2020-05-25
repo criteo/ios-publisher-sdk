@@ -15,6 +15,7 @@
 #import "CRNativeLoader.h"
 #import "CRNativeLoader+Internal.h"
 #import "CR_AdUnitHelper.h"
+#import "CR_SynchronousThreadManager.h"
 #import "CRMediaDownloader.h"
 #import "NSURL+Criteo.h"
 #import "XCTestCase+Criteo.h"
@@ -109,6 +110,10 @@
     Criteo *criteoMock = OCMStrictClassMock([Criteo class]);
     CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
     OCMStub([criteoMock getBid:cacheAdUnit]).andReturn(bid);
+
+    CR_SynchronousThreadManager *threadManager = [[CR_SynchronousThreadManager alloc] init];
+    OCMStub([criteoMock threadManager]).andReturn(threadManager);
+
     return criteoMock;
 }
 

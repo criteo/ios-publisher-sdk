@@ -131,4 +131,8 @@
     return self.bidManager.config;
 }
 
+- (CR_ThreadManager *)threadManager {
+    return self.bidManager.threadManager;
+}
+
 @end
