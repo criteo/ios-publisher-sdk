@@ -11,7 +11,7 @@
 #import "CRNativeLoader+Internal.h"
 #import "CRNativeAdUnit.h"
 #import "CRNativeAd.h"
-#import "CRMediaContent+Internal.h"
+#import "CRMediaView.h"
 
 static NSString * const kAdCellIdentifier = @"AdCell";
 static NSString * const kNormalCellIdentifier = @"NormalCell";
@@ -82,11 +82,11 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath {
                                                                          forIndexPath:indexPath];
         cell.titleLabel.text = self.ad.title ?: @"No title";
         cell.bodyLabel.text = self.ad.body ?: @"No body";
-        cell.productImageUrlLabel.text = self.ad.productMedia.imageUrl.absoluteString ?: @"No productionImageUrl";
+        cell.productMediaView.mediaContent = self.ad.productMedia;
         cell.callToActionLabel.text = self.ad.callToAction ?: @"No callToAction";
         cell.advertiserDescriptionLabel.text = self.ad.advertiserDescription ?: @"No advertiserDescription";
         cell.advertiserDomainUrlLabel.text = self.ad.advertiserDomain ?: @"No advertiserDomain";
-        cell.advertiserLogoImageUrlLabel.text = self.ad.advertiserLogoMedia.imageUrl.absoluteString ?: @"No advertiserLogoImageUrl";
+        cell.advertiserLogoMediaView.mediaContent = self.ad.advertiserLogoMedia;
         cell.priceLabel.text = self.ad.price ?: @"No price";
         return cell;
 

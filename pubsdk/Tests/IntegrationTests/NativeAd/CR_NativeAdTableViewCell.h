@@ -7,6 +7,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class CRMediaView;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_NativeAdTableViewCell : UITableViewCell
@@ -15,10 +17,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *bodyLabel;
 @property (weak, nonatomic) IBOutlet UILabel *priceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *callToActionLabel;
-@property (weak, nonatomic) IBOutlet UILabel *productImageUrlLabel;
+@property (weak, nonatomic) IBOutlet CRMediaView *productMediaView;
 @property (weak, nonatomic) IBOutlet UILabel *advertiserDescriptionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *advertiserDomainUrlLabel;
-@property (weak, nonatomic) IBOutlet UILabel *advertiserLogoImageUrlLabel;
+@property (weak, nonatomic) IBOutlet CRMediaView *advertiserLogoMediaView;
 
 @end
 
