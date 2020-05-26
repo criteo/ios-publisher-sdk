@@ -247,6 +247,8 @@
 		7D9CFF7B247BFFD40005DAE8 /* CR_MediaDownloaderDispatchChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9CFF7A247BFFD40005DAE8 /* CR_MediaDownloaderDispatchChecker.m */; };
 		7D9CFF7C247BFFD40005DAE8 /* CR_MediaDownloaderDispatchChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9CFF7A247BFFD40005DAE8 /* CR_MediaDownloaderDispatchChecker.m */; };
 		7D9CFF7D247C101D0005DAE8 /* CR_BidPerformanceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCFBF762445F310009657F7 /* CR_BidPerformanceTests.m */; };
+		7D9CFF80247CFDCF0005DAE8 /* CR_NativeAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9CFF7F247CFDCF0005DAE8 /* CR_NativeAdViewController.m */; };
+		7D9CFF81247CFDCF0005DAE8 /* CR_NativeAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9CFF7F247CFDCF0005DAE8 /* CR_NativeAdViewController.m */; };
 		7DA2F5BD23A0D9E400B35524 /* CR_DataProtectionConsentMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA2F5BC23A0D9E400B35524 /* CR_DataProtectionConsentMock.m */; };
 		7DA2F5C423A0EAC000B35524 /* CR_DataConsentFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA2F5C323A0EAC000B35524 /* CR_DataConsentFunctionalTests.m */; };
 		7DB4E91123953757008DE5E3 /* CRInterstitialTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB4E90F2395374F008DE5E3 /* CRInterstitialTests.m */; };
@@ -257,6 +259,8 @@
 		7DB5F90E23AA2B2500EF5602 /* CR_NetworkWaiter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB5F90023AA2B2500EF5602 /* CR_NetworkWaiter.m */; };
 		7DB899DC2400126800948230 /* NSString+GDPR.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DB899D92400126800948230 /* NSString+GDPR.h */; };
 		7DB899DE2400126800948230 /* NSString+GDPR.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB899DA2400126800948230 /* NSString+GDPR.m */; };
+		7DD76EB5247D008F0090BCDC /* CR_CustomNativeAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD76EB4247D008F0090BCDC /* CR_CustomNativeAdView.m */; };
+		7DD76EB6247D008F0090BCDC /* CR_CustomNativeAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD76EB4247D008F0090BCDC /* CR_CustomNativeAdView.m */; };
 		7DDEF657242CD8BE00BC129F /* CR_BidRequestSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DDEF654242CD8BE00BC129F /* CR_BidRequestSerializer.h */; };
 		7DDEF659242CD8BE00BC129F /* CR_BidRequestSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDEF655242CD8BE00BC129F /* CR_BidRequestSerializer.m */; };
 		7DDEF65E242CE06300BC129F /* CR_GdprSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DDEF65B242CE06300BC129F /* CR_GdprSerializer.h */; };
@@ -597,6 +601,8 @@
 		7D9CFF76247BFDFC0005DAE8 /* CR_NativeLoaderDispatchChecker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_NativeLoaderDispatchChecker.m; sourceTree = "<group>"; };
 		7D9CFF79247BFFD40005DAE8 /* CR_MediaDownloaderDispatchChecker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_MediaDownloaderDispatchChecker.h; sourceTree = "<group>"; };
 		7D9CFF7A247BFFD40005DAE8 /* CR_MediaDownloaderDispatchChecker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_MediaDownloaderDispatchChecker.m; sourceTree = "<group>"; };
+		7D9CFF7E247CFDCF0005DAE8 /* CR_NativeAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_NativeAdViewController.h; sourceTree = "<group>"; };
+		7D9CFF7F247CFDCF0005DAE8 /* CR_NativeAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_NativeAdViewController.m; sourceTree = "<group>"; };
 		7DA2F5BB23A0D9E400B35524 /* CR_DataProtectionConsentMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_DataProtectionConsentMock.h; sourceTree = "<group>"; };
 		7DA2F5BC23A0D9E400B35524 /* CR_DataProtectionConsentMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_DataProtectionConsentMock.m; sourceTree = "<group>"; };
 		7DA2F5C323A0EAC000B35524 /* CR_DataConsentFunctionalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_DataConsentFunctionalTests.m; sourceTree = "<group>"; };
@@ -618,6 +624,8 @@
 		7DB899D92400126800948230 /* NSString+GDPR.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+GDPR.h"; sourceTree = "<group>"; };
 		7DB899DA2400126800948230 /* NSString+GDPR.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+GDPR.m"; sourceTree = "<group>"; };
 		7DCFBF762445F310009657F7 /* CR_BidPerformanceTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_BidPerformanceTests.m; sourceTree = "<group>"; };
+		7DD76EB3247D008F0090BCDC /* CR_CustomNativeAdView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_CustomNativeAdView.h; sourceTree = "<group>"; };
+		7DD76EB4247D008F0090BCDC /* CR_CustomNativeAdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_CustomNativeAdView.m; sourceTree = "<group>"; };
 		7DDEF654242CD8BE00BC129F /* CR_BidRequestSerializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_BidRequestSerializer.h; sourceTree = "<group>"; };
 		7DDEF655242CD8BE00BC129F /* CR_BidRequestSerializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_BidRequestSerializer.m; sourceTree = "<group>"; };
 		7DDEF65B242CE06300BC129F /* CR_GdprSerializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_GdprSerializer.h; sourceTree = "<group>"; };
@@ -1000,6 +1008,7 @@
 		7D321B0D2474355A006CBC4E /* NativeAd */ = {
 			isa = PBXGroup;
 			children = (
+				7D9CFF82247CFE690005DAE8 /* SimpleViewController */,
 				7D321B0E24743598006CBC4E /* CR_NativeAdTableViewController.h */,
 				7D321B0F24743598006CBC4E /* CR_NativeAdTableViewController.m */,
 				7D321B1124743637006CBC4E /* CR_NativeAdTableViewCell.xib */,
@@ -1240,6 +1249,17 @@
 				7D8BEDBD2407C21E0034AA7C /* CR_GdprTests.m */,
 			);
 			path = DataConsent;
+			sourceTree = "<group>";
+		};
+		7D9CFF82247CFE690005DAE8 /* SimpleViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7D9CFF7E247CFDCF0005DAE8 /* CR_NativeAdViewController.h */,
+				7D9CFF7F247CFDCF0005DAE8 /* CR_NativeAdViewController.m */,
+				7DD76EB3247D008F0090BCDC /* CR_CustomNativeAdView.h */,
+				7DD76EB4247D008F0090BCDC /* CR_CustomNativeAdView.m */,
+			);
+			path = SimpleViewController;
 			sourceTree = "<group>";
 		};
 		7DB5F8F123AA2B2500EF5602 /* NetworkManager */ = {
@@ -1874,6 +1894,7 @@
 				7DFB2B15247E9302007CDFF3 /* CR_URLOpenerMock.m in Sources */,
 				462DCA992462C75500B43A51 /* CR_NetworkManagerDecorator.m in Sources */,
 				462DCA9E2462C88600B43A51 /* CR_ThreadManagerWaiter.m in Sources */,
+				7DD76EB6247D008F0090BCDC /* CR_CustomNativeAdView.m in Sources */,
 				462DCA912462C3E300B43A51 /* CR_NetworkWaiter.m in Sources */,
 				462DCA922462C40500B43A51 /* CR_HttpContent.m in Sources */,
 				462DCA9D2462C85D00B43A51 /* CR_ThreadManager+Waiter.m in Sources */,
@@ -1885,6 +1906,8 @@
 				7D9CFF78247BFDFC0005DAE8 /* CR_NativeLoaderDispatchChecker.m in Sources */,
 				7D321B172474502A006CBC4E,
 				C07ABD53E2A5C3175A6DAFEA /* CR_TokenValue+Testing.m in Sources */,
+				7D9CFF81247CFDCF0005DAE8 /* CR_NativeAdViewController.m in Sources */,
+				7D321B172474502A006CBC4E /* CR_NativeAdFunctionalTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1907,6 +1930,7 @@
 				7D3E422323915B6600BAF673 /* CR_ConfigManagerTests.m in Sources */,
 				7D3E422E23915B6600BAF673 /* NSArray+CriteoTests.m in Sources */,
 				7D49F9D8243B782400CF3941 /* WKWebView+Testing.m in Sources */,
+				7DD76EB5247D008F0090BCDC /* CR_CustomNativeAdView.m in Sources */,
 				7D58582A23E1E6BB0039AC56 /* CR_ThreadManagerWaiter.m in Sources */,
 				7DB5F90623AA2B2500EF5602 /* CR_NetworkCaptor.m in Sources */,
 				7D3E424423915B6600BAF673 /* CR_TokenCacheTests.m in Sources */,
@@ -1987,6 +2011,7 @@
 				542FCFB8242D0E1A000D9DA9 /* CR_FeedbackSerializerTests.swift in Sources */,
 				54F1E6B6239FA19B00985D09 /* UIView+Testing.m in Sources */,
 				7D321B1A2474513C006CBC4E /* UIWindow+Testing.m in Sources */,
+				7D9CFF80247CFDCF0005DAE8 /* CR_NativeAdViewController.m in Sources */,
 				7D51ABF523ACCC7700540094 /* CR_NetworkWaiterBuilder.m in Sources */,
 				7D006733243DB74B00E5D50D /* CR_FeedbackMessageFunctionalTests.m in Sources */,
 				6519C0DB2285FA8300111A5F /* CRInterstitialDelegateTests.m in Sources */,

@@ -5,9 +5,15 @@
 //  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
+#import <OCMock.h>
 #import "CR_IntegrationsTestBase.h"
 #import "CR_NativeAdTableViewController.h"
+#import "CR_NativeAdViewController.h"
+#import "CR_CustomNativeAdView.h"
 #import "CR_TestAdUnits.h"
+#import "CRNativeLoader.h"
+#import "Criteo+Testing.h"
+#import "NSURL+Criteo.h"
 #import "UIWindow+Testing.h"
 #import "XCTestCase+Criteo.h"
 #import "CR_NativeAdTableViewCell.h"
@@ -17,14 +23,11 @@
 @interface CR_NativeAdFunctionalTests : CR_IntegrationsTestBase
 
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) OCMockObject *urlMock;
 
 @end
 
 @implementation CR_NativeAdFunctionalTests
-
-- (void)setUp {
-
-}
 
 - (void)tearDown {
     [self.window cr_removeFromScreen];
@@ -76,6 +79,72 @@
     XCTAssertNotNil(adCell.advertiserLogoMediaView.imageView.image);
     XCTAssertEqualObjects(adCell.advertiserLogoMediaView.imageView.image, ctrl.mediaPlaceholder);
     XCTAssertNil(adCell.advertiserLogoMediaView.imageUrl);
+}
+
+- (void)testGivenNativeAd_whenClickOnAd_thenClickDetected {
+    self.urlMock = [self mockURLForOpeningExternalWithSuccess:YES];
+    CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
+    [self initCriteoWithAdUnits:@[adUnit]];
+    CR_NativeAdViewController *ctrl = [CR_NativeAdViewController
+                                       nativeAdViewControllerWithCriteo:self.criteo];
+    self.window = [UIWindow cr_keyWindowWithViewController:ctrl];
+    [self loadNativeAdUnit:adUnit inViewController:ctrl];
+    XCTestExpectation *exp = [self expectationForClickDetectionOnViewController:ctrl];
+
+    [ctrl.adView sendActionsForControlEvents:UIControlEventTouchUpInside];
+
+    [self cr_waitForExpectations:@[exp]];
+}
+
+- (void)testGivenNativeAd_whenClickOnAd_thenLeaveApp {
+    self.urlMock = [self mockURLForOpeningExternalWithSuccess:YES];
+    CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
+    [self initCriteoWithAdUnits:@[adUnit]];
+    CR_NativeAdViewController *ctrl = [CR_NativeAdViewController
+                                       nativeAdViewControllerWithCriteo:self.criteo];
+    self.window = [UIWindow cr_keyWindowWithViewController:ctrl];
+    [self loadNativeAdUnit:adUnit inViewController:ctrl];
+    XCTestExpectation *exp = [self expectationForLeaingAppOnViewController:ctrl];
+
+    [ctrl.adView sendActionsForControlEvents:UIControlEventTouchUpInside];
+
+    [self cr_waitForExpectations:@[exp]];
+}
+
+#pragma mark - Private
+
+- (XCTestExpectation *)expectationForLeaingAppOnViewController:(CR_NativeAdViewController *)ctrl {
+    NSString *keyPath = NSStringFromSelector(@selector(leaveAppCount));
+    XCTestExpectation *exp = [[XCTKVOExpectation alloc] initWithKeyPath:keyPath
+                                                                 object:ctrl
+                                                          expectedValue:@1];
+    return exp;
+}
+
+- (XCTestExpectation *)expectationForClickDetectionOnViewController:(CR_NativeAdViewController *)ctrl {
+    NSString *keyPath = NSStringFromSelector(@selector(detectClickCount));
+    XCTestExpectation *exp = [[XCTKVOExpectation alloc] initWithKeyPath:keyPath
+                                                                 object:ctrl
+                                                          expectedValue:@1];
+    return exp;
+}
+
+- (void)loadNativeAdUnit:(CRNativeAdUnit *)adUnit
+        inViewController:(CR_NativeAdViewController *)ctrl {
+    ctrl.adUnit = adUnit;
+    NSString *keyPath = NSStringFromSelector(@selector(adLoadedCount));
+    XCTestExpectation *exp = [[XCTKVOExpectation alloc] initWithKeyPath:keyPath
+                                                                 object:ctrl
+                                                          expectedValue:@1];
+    [ctrl.adLoader loadAd];
+    [self cr_waitForExpectations:@[exp]];
+}
+
+- (OCMockObject *)mockURLForOpeningExternalWithSuccess:(BOOL)success {
+    self.urlMock = OCMClassMock([NSURL class]);
+    OCMStub([(id)self.urlMock cr_URLWithStringOrNil:OCMOCK_ANY]).andReturn(self.urlMock);
+    OCMExpect([(id)self.urlMock cr_openExternal:([OCMArg invokeBlockWithArgs:@(success), nil])]);
+    return self.urlMock;
 }
 
 @end
