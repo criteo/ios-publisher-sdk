@@ -41,10 +41,7 @@ static const CGSize CR_AdChoiceButtonSize = (CGSize) {40, 15};
 #pragma mark - Events
 
 - (void)buttonClicked:(id)button {
-    NSURL *url = [NSURL cr_URLWithStringOrNil:self.privacy.optoutClickUrl];
-    [url cr_openExternal:^(BOOL success) {
-        [self.loader notifyWillLeaveApplicationForNativeAd];
-    }];
+    [self.loader handleClickOnAdChoiceOfNativeAd:self.nativeAd];
 }
 
 #pragma mark - Properties

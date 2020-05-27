@@ -11,6 +11,7 @@
 #import "CRNativeAd+Internal.h"
 #import "CR_AdUnitHelper.h"
 #import "CR_CdbBid.h"
+#import "CR_NativeAssets.h"
 #import "NSError+Criteo.h"
 #import "NSURL+Criteo.h"
 #import "Logging.h"
@@ -79,6 +80,16 @@
     [self notifyDidDetectClick];
 
     NSURL *url = [NSURL cr_URLWithStringOrNil:nativeAd.product.clickUrl];
+    [self.urlOpener openExternalURL:url
+                     withCompletion:^(BOOL success) {
+        if (success) {
+            [self notifyWillLeaveApplicationForNativeAd];
+        }
+    }];
+}
+
+- (void)handleClickOnAdChoiceOfNativeAd:(CRNativeAd *)nativeAd {
+    NSURL *url = [NSURL cr_URLWithStringOrNil:nativeAd.assets.privacy.optoutClickUrl];
     [self.urlOpener openExternalURL:url
                      withCompletion:^(BOOL success) {
         if (success) {

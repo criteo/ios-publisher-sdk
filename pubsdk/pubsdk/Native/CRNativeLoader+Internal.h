@@ -27,10 +27,10 @@ NS_DESIGNATED_INITIALIZER;
 
 - (void)handleImpressionOnNativeAd:(CRNativeAd *)nativeAd;
 - (void)handleClickOnNativeAd:(CRNativeAd *)nativeAd;
+- (void)handleClickOnAdChoiceOfNativeAd:(CRNativeAd *)nativeAd;
 
 - (void)notifyDidDetectImpression;
 - (void)notifyDidDetectClick;
-- (void)notifyWillLeaveApplicationForNativeAd;
 
 @end
 

@@ -116,13 +116,6 @@
     [self cr_waitForExpectations:@[delegate.didFailOnMainQueue]];
 }
 
-- (void)testWillLeaveApplicationForNativeAdOnMainQueue {
-    CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
-    CRNativeLoader *loader = [self dispatchCheckerForBid:[CR_CdbBid emptyBid] delegate:delegate];
-    [loader notifyWillLeaveApplicationForNativeAd];
-    [self cr_waitForExpectations:@[delegate.willLeaveApplicationForNativeAd]];
-}
-
 - (void)testDidDetectImpressionOnMainQueue {
     CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
     CRNativeLoader *loader = [self dispatchCheckerForBid:[CR_CdbBid emptyBid] delegate:delegate];
@@ -193,6 +186,22 @@
     self.delegate.willLeaveApplicationForNativeAd.inverted = YES;
 
     [self.loader handleClickOnNativeAd:self.nativeAd];
+
+    [self waitForExpectations:@[self.delegate.willLeaveApplicationForNativeAd]
+                      timeout:1.f];
+}
+
+- (void)testHandleClickOnAdChoiceCallDelegateForOpenExternal {
+    [self.loader handleClickOnAdChoiceOfNativeAd:self.nativeAd];
+
+    [self cr_waitForExpectations:@[self.delegate.willLeaveApplicationForNativeAd]];
+}
+
+- (void)testHandleClickOnAdChoiceDoNotCallDelegateForOpenExternalFailure {
+    self.urlOpener.successInCompletion = NO;
+    self.delegate.willLeaveApplicationForNativeAd.inverted = YES;
+
+    [self.loader handleClickOnAdChoiceOfNativeAd:self.nativeAd];
 
     [self waitForExpectations:@[self.delegate.willLeaveApplicationForNativeAd]
                       timeout:1.f];
