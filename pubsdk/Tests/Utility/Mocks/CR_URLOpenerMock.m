@@ -18,17 +18,19 @@
 }
 
 - (void)openExternalURL:(NSURL *)url {
+    self.openExternalURLCount += 1;
 }
 
 - (void)openExternalURL:(NSURL *)url
          withCompletion:(nullable CR_URLOpeningCompletion)completion {
+    self.openExternalURLCount += 1;
     completion(self.successInCompletion);
-
 }
 
 - (void)openExternalURL:(NSURL *)url
              witOptions:(NSDictionary<UIApplicationOpenExternalURLOptionsKey, id> *)options
              completion:(nullable CR_URLOpeningCompletion)completion {
+    self.openExternalURLCount += 1;
     completion(self.successInCompletion);
 }
 

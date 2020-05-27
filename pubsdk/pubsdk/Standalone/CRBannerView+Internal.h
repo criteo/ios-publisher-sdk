@@ -9,12 +9,15 @@
 #define CRBannerView_Internal_h
 @import WebKit;
 
+@protocol CR_URLOpening;
+
 @interface CRBannerView (Internal)
 
 - (instancetype)initWithFrame:(CGRect)rect
                        criteo:(Criteo *)criteo
                       webView:(WKWebView *)webView
-                       adUnit:(CRBannerAdUnit *)adUnit;
+                       adUnit:(CRBannerAdUnit *)adUnit
+                    urlOpener:(id<CR_URLOpening>)opener;
 
 - (instancetype)initWithAdUnit:(CRBannerAdUnit *)adUnit
                         criteo:(Criteo *)criteo;

@@ -15,6 +15,7 @@
 #import "CR_CdbBidBuilder.h"
 #import "Criteo+Testing.h"
 #import "CR_BidManagerBuilder.h"
+#import "CR_URLOpenerMock.h"
 #import "WkWebView+Testing.h"
 
 
@@ -72,7 +73,8 @@
     _bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(.0, 50.0, self.adUnit.size.width, self.adUnit.size.height)
                                                criteo:self.criteo
                                               webView:[[WKWebView alloc] initWithFrame:CGRectMake(.0, .0, self.adUnit.size.width, self.adUnit.size.height)]
-                                               adUnit:self.adUnit];
+                                               adUnit:self.adUnit
+                                            urlOpener:[[CR_URLOpenerMock alloc] init]];
 
     _bannerView.delegate = self;
     _bannerView.backgroundColor = UIColor.orangeColor;
