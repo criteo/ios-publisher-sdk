@@ -8,11 +8,10 @@
 #import <XCTest/XCTest.h>
 #import "OCMock.h"
 #import "CRNativeLoader.h"
-#import "CR_NativeAssets.h"
 #import "CRNativeAd+Internal.h"
-#import "CR_NativeAssetsTests.h"
 #import "CRMediaDownloader.h"
 #import "CRMediaContent+Internal.h"
+#import "CR_NativeAssets+Testing.h"
 
 @interface CRNativeAdTests : XCTestCase
 @end
@@ -24,7 +23,7 @@
     CRNativeLoader *loader = OCMClassMock([CRNativeLoader class]);
     OCMStub(loader.mediaDownloader).andReturn(mediaDownloader);
 
-    CR_NativeAssets *assets = [CR_NativeAssetsTests loadNativeAssets:@"NativeAssetsFromCdb"];
+    CR_NativeAssets *assets = [CR_NativeAssets nativeAssetsFromCdb];
     CRNativeAd *ad = [[CRNativeAd alloc] initWithLoader:loader assets:assets];
     // Product
     CR_NativeProduct *product = assets.products[0];

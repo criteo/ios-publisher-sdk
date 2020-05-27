@@ -5,11 +5,11 @@
 //  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
-#import "CR_NativeAssetsTests.h"
+#import <XCTest/XCTest.h>
 #import "CR_NativeAssets.h"
 #import "NSDictionary+Criteo.h"
 
-@interface CR_NativeAssetsTests()
+@interface CR_NativeAssetsTests : XCTestCase
 
 @property (strong) NSDictionary *jdict;
 @property (strong) NSDictionary *productDict1;

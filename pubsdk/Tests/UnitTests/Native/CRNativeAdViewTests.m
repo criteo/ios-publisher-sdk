@@ -11,12 +11,12 @@
 #import "CR_AdChoice.h"
 #import "CRNativeAd+Internal.h"
 #import "CR_ImpressionDetector.h"
-#import "CR_NativeAssetsTests.h"
 #import "OCMock.h"
 #import "NSURL+Criteo.h"
 #import "UIWindow+Testing.h"
 #import "CRNativeLoader+Internal.h"
 #import "CRMediaDownloader.h"
+#import "CR_NativeAssets+Testing.h"
 
 @interface CRNativeAdViewTests : XCTestCase
 
@@ -152,13 +152,13 @@
 }
 
 - (CRNativeAd *)buildNativeAd {
-    CR_NativeAssets *assets = [CR_NativeAssetsTests loadNativeAssets:@"NativeAssetsFromCdb"];
+    CR_NativeAssets *assets = [CR_NativeAssets nativeAssetsFromCdb];
     CRNativeAd *nativeAd = [[CRNativeAd alloc] initWithNativeAssets:assets];
     return nativeAd;
 }
 
 - (CRNativeAd *)buildNativeAdWithLoader:(CRNativeLoader *)loader {
-    CR_NativeAssets *assets = [CR_NativeAssetsTests loadNativeAssets:@"NativeAssetsFromCdb"];
+    CR_NativeAssets *assets = [CR_NativeAssets nativeAssetsFromCdb];
     CRNativeAd *nativeAd = [[CRNativeAd alloc] initWithLoader:loader assets:assets];
     return nativeAd;
 }

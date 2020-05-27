@@ -23,6 +23,7 @@ static const NSUInteger kAdCellPosition = 10;
 @property (strong, nonatomic) CRNativeLoader *adLoader;
 @property (strong, nonatomic) CRNativeAd *ad;
 @property (assign, nonatomic, getter=isAdLoaded) BOOL adLoaded;
+@property (strong, nonatomic) CR_NativeAdTableViewCell *lastFilledAdCell;
 
 @end
 
@@ -88,6 +89,11 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath {
         cell.advertiserDomainUrlLabel.text = self.ad.advertiserDomain ?: @"No advertiserDomain";
         cell.advertiserLogoMediaView.mediaContent = self.ad.advertiserLogoMedia;
         cell.priceLabel.text = self.ad.price ?: @"No price";
+
+        if (self.ad) {
+            self.lastFilledAdCell = cell;
+        }
+
         return cell;
 
     }

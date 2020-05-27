@@ -15,4 +15,6 @@
 
 - (void)initCriteoWithAdUnits:(NSArray<CRAdUnit *> *)adUnits;
 
+- (void)waitForIdleState;
+
 @end

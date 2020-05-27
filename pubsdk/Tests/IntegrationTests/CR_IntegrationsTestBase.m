@@ -4,8 +4,8 @@
 
 #import "CR_IntegrationsTestBase.h"
 #import "Criteo+Testing.h"
+#import "Criteo+Internal.h"
 #import "CR_BidManagerBuilder.h"
-#import "CR_NetworkCaptor.h"
 #import "CR_ThreadManager+Waiter.h"
 
 @implementation CR_IntegrationsTestBase
@@ -21,8 +21,14 @@
     [self.criteo testing_registerAndWaitForHTTPResponseWithAdUnits:adUnits];
 }
 
-- (void)tearDown {
+- (void)waitForIdleState {
     [self.criteo.bidManagerBuilder.threadManager waiter_waitIdle];
+    [self.criteo.threadManager waiter_waitIdle];
+}
+
+
+- (void)tearDown {
+    [self waitForIdleState];
     [super tearDown];
 }
 

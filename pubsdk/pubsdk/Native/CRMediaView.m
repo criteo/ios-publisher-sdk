@@ -7,16 +7,10 @@
 
 #import <UIKit/UIKit.h>
 #import "CRMediaView.h"
+#import "CRMediaView+Internal.h"
 #import "CRMediaContent.h"
 #import "CRMediaContent+Internal.h"
 #import "CRMediaDownloader.h"
-
-@interface CRMediaView ()
-
-@property (strong, nonatomic, nullable) UIImageView *imageView;
-@property (strong, nonatomic, nullable) NSURL *imageUrl;
-
-@end
 
 @implementation CRMediaView
 

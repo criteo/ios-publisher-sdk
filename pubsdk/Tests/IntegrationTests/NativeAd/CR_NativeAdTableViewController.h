@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class CRNativeAdUnit;
 @class Criteo;
+@class CR_NativeAdTableViewCell;
 
 @interface CR_NativeAdTableViewController : UITableViewController
 
@@ -19,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) Criteo *criteo;
 @property (strong, nonatomic) CRNativeAdUnit *adUnit;
 @property (assign, nonatomic, readonly, getter=isAdLoaded) BOOL adLoaded;
+@property (strong, nonatomic, readonly) CR_NativeAdTableViewCell * lastFilledAdCell;
 
 @end
 

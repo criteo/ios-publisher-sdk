@@ -9,12 +9,10 @@
 #import "Criteo.h"
 #import "CR_IntegrationsTestBase.h"
 #import "CR_TestAdUnits.h"
-#import "CR_AssertDfp.h"
-#import "CR_NativeAssets.h"
 #import "CR_TargetingKeys.h"
 #import "NSString+CriteoUrl.h"
 #import "CR_DfpCreativeViewChecker.h"
-#import "CR_NativeAssetsTests.h"
+#import "CR_NativeAssets+Testing.h"
 @import GoogleMobileAds;
 
 @interface CR_DfpNativeFunctionalTests : CR_IntegrationsTestBase
@@ -40,7 +38,7 @@
 
     [self.criteo setBidsForRequest:dfpRequest withAdUnit:native];
 
-    CR_NativeAssets *assets = [CR_NativeAssetsTests loadNativeAssets:@"NativeAssetsFromCdb"];
+    CR_NativeAssets *assets = [CR_NativeAssets nativeAssetsFromCdb];
     CR_NativeProduct *product = assets.products[0];
     CR_NativeAdvertiser *advertiser = assets.advertiser;
     CR_NativePrivacy *privacy = assets.privacy;
