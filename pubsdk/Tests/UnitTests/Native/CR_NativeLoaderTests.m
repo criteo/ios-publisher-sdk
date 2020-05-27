@@ -24,7 +24,8 @@
 #import "CR_MediaDownloaderDispatchChecker.h"
 #import "CR_TestAdUnits.h"
 #import "CR_SynchronousThreadManager.h"
-#import "NSURL+Criteo.h"
+#import "CR_URLOpenerMock.h"
+#import "CRMediaDownloader.h"
 #import "XCTestCase+Criteo.h"
 #import "CR_NativeAssets+Testing.h"
 
@@ -32,18 +33,22 @@
 @property (strong, nonatomic) CRNativeLoader *loader;
 @property (strong, nonatomic) CRNativeAd *nativeAd;
 @property (strong, nonatomic) CR_NativeLoaderDispatchChecker *delegate;
-@property (strong, nonatomic) OCMockObject *urlMock;
 @property (strong, nonatomic) OCMockObject<CRMediaDownloader> *mediaDownloaderMock;
+@property (strong, nonatomic) CR_URLOpenerMock *urlOpener;
 
 @end
 
 @implementation CR_NativeLoaderTests
 
 - (void)setUp {
+    self.urlOpener = [[CR_URLOpenerMock alloc] init];
     CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
     id criteoMock = OCMClassMock([Criteo class]);
-    self.loader = [self buildLoaderWithAdUnit:adUnit
-                                       criteo:criteoMock];
+    self.loader = [[CRNativeLoader alloc] initWithAdUnit:adUnit
+                                                  criteo:criteoMock
+                                               urlOpener:self.urlOpener];
+    // Mock downloader to prevent actual downloads from the default downloader implementation.
+    self.loader.mediaDownloader = OCMProtocolMock(@protocol(CRMediaDownloader));
 
     CR_NativeAssets *assets = [[CR_NativeAssets alloc] initWithDict:@{}];
     self.nativeAd = [[CRNativeAd alloc] initWithLoader:self.loader
@@ -138,13 +143,12 @@
     CRNativeLoader *loader = [self buildLoaderWithAdUnit:adUnit criteo:criteoMock];
     CR_MediaDownloaderDispatchChecker *mediaDownloader = [CR_MediaDownloaderDispatchChecker new];
     loader.mediaDownloader = mediaDownloader;
-    [loader.mediaDownloader downloadImage:[NSURL cr_URLWithStringOrNil:nil]
+    [loader.mediaDownloader downloadImage:[NSURL URLWithString:@""]
                         completionHandler:^(UIImage *image, NSError *error) {}];
     [self waitForExpectations:@[mediaDownloader.didDownloadImageOnMainQueue] timeout:5];
 }
 
 #pragma mark - Internal
-
 #pragma mark handleImpressionOnNativeAd
 
 - (void)testHandleImpressionOnNativeAdCallsDelegate {
@@ -172,15 +176,12 @@
 #pragma mark handleClickOnNativeAd
 
 - (void)testHandleClickOnNativeAdCallsDelegateForClick {
-    [self mockURLForOpeningExternalWithSuccess:YES];
-
     [self.loader handleClickOnNativeAd:self.nativeAd];
 
     [self cr_waitForExpectations:@[self.delegate.didDetectClick]];
 }
 
 - (void)testHandleClickOnNativeAdCallsDelegateForOpenExternal {
-    [self mockURLForOpeningExternalWithSuccess:YES];
 
     [self.loader handleClickOnNativeAd:self.nativeAd];
 
@@ -188,7 +189,7 @@
 }
 
 - (void)testHandleClickOnNativeAdDoesNotCallDelegateForOpenExternalFailure {
-    [self mockURLForOpeningExternalWithSuccess:NO];
+    self.urlOpener.successInCompletion = NO;
     self.delegate.willLeaveApplicationForNativeAd.inverted = YES;
 
     [self.loader handleClickOnNativeAd:self.nativeAd];
@@ -198,12 +199,6 @@
 }
 
 #pragma mark - Private
-
-- (void)mockURLForOpeningExternalWithSuccess:(BOOL)success {
-    self.urlMock = OCMClassMock([NSURL class]);
-    OCMStub([(id)self.urlMock cr_URLWithStringOrNil:OCMOCK_ANY]).andReturn(self.urlMock);
-    OCMExpect([(id)self.urlMock cr_openExternal:([OCMArg invokeBlockWithArgs:@(success), nil])]);
-}
 
 - (Criteo *)mockCriteo {
     Criteo *criteoMock = OCMStrictClassMock([Criteo class]);
@@ -233,8 +228,12 @@
     return criteoMock;
 }
 
-- (CRNativeLoader *)buildLoaderWithAdUnit:(CRNativeAdUnit *)adUnit criteo:(Criteo *)criteo {
-    CRNativeLoader *loader = [[CRNativeLoader alloc] initWithAdUnit:adUnit criteo:criteo];
+- (CRNativeLoader *)buildLoaderWithAdUnit:(CRNativeAdUnit *)adUnit
+                                   criteo:(Criteo *)criteo {
+    CR_URLOpenerMock *opener = [[CR_URLOpenerMock alloc] init];
+    CRNativeLoader *loader = [[CRNativeLoader alloc] initWithAdUnit:adUnit
+                                                             criteo:criteo
+                                                          urlOpener:opener];
     // Mock downloader to prevent actual downloads from the default downloader implementation.
     loader.mediaDownloader = self.mediaDownloaderMock;
     return loader;

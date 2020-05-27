@@ -262,6 +262,10 @@
 		7DDEF65E242CE06300BC129F /* CR_GdprSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DDEF65B242CE06300BC129F /* CR_GdprSerializer.h */; };
 		7DDEF660242CE06300BC129F /* CR_GdprSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDEF65C242CE06300BC129F /* CR_GdprSerializer.m */; };
 		7DE7064E242B5252007F4A72 /* NSUserDefaults+GDPR.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE7064D242B5252007F4A72 /* NSUserDefaults+GDPR.m */; };
+		7DFB2B0F247E5C67007CDFF3 /* CR_URLOpening.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFB2B0E247E5C67007CDFF3 /* CR_URLOpening.h */; };
+		7DFB2B11247E75E5007CDFF3 /* CR_URLOpening.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFB2B10247E75E5007CDFF3 /* CR_URLOpening.m */; };
+		7DFB2B14247E9302007CDFF3 /* CR_URLOpenerMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFB2B13247E9302007CDFF3 /* CR_URLOpenerMock.m */; };
+		7DFB2B15247E9302007CDFF3 /* CR_URLOpenerMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFB2B13247E9302007CDFF3 /* CR_URLOpenerMock.m */; };
 		90D0C9A36EF9136F4CC9E877 /* libPods-CriteoPublisherSdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CDD7544323F61638E0E8B7F /* libPods-CriteoPublisherSdk.a */; };
 		BAF31CA74BB0776CEC97BA5F /* libPods-pubsdkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 424B8FD0D9FFF59AAABA6319 /* libPods-pubsdkTests.a */; };
 		C07AB0222733EAA918843728 /* CR_NativeAssets+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABBC696D95F756547DA86 /* CR_NativeAssets+Testing.m */; };
@@ -620,6 +624,10 @@
 		7DDEF65C242CE06300BC129F /* CR_GdprSerializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_GdprSerializer.m; sourceTree = "<group>"; };
 		7DE7064C242B5252007F4A72 /* NSUserDefaults+GDPR.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+GDPR.h"; sourceTree = "<group>"; };
 		7DE7064D242B5252007F4A72 /* NSUserDefaults+GDPR.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+GDPR.m"; sourceTree = "<group>"; };
+		7DFB2B0E247E5C67007CDFF3 /* CR_URLOpening.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_URLOpening.h; sourceTree = "<group>"; };
+		7DFB2B10247E75E5007CDFF3 /* CR_URLOpening.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_URLOpening.m; sourceTree = "<group>"; };
+		7DFB2B12247E9302007CDFF3 /* CR_URLOpenerMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_URLOpenerMock.h; sourceTree = "<group>"; };
+		7DFB2B13247E9302007CDFF3 /* CR_URLOpenerMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_URLOpenerMock.m; sourceTree = "<group>"; };
 		95CE917D53BC717D5743ED84 /* Pods-pubsdk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdk.release.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdk/Pods-pubsdk.release.xcconfig"; sourceTree = "<group>"; };
 		C07AB093A865F67283614A5D /* CRMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRMediaView.m; sourceTree = "<group>"; };
 		C07AB1709D918AD4DA7A4384 /* NSUserDefaults+CR_Config.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+CR_Config.m"; sourceTree = "<group>"; };
@@ -730,6 +738,8 @@
 			isa = PBXGroup;
 			children = (
 				7D51ABFB23B0EDD900540094 /* CR_Assert.h */,
+				7DFB2B0E247E5C67007CDFF3 /* CR_URLOpening.h */,
+				7DFB2B10247E75E5007CDFF3 /* CR_URLOpening.m */,
 				25B650582206AB40008416D3 /* Logging.h */,
 				25B650592206AB40008416D3 /* Logging.m */,
 				DF3E3D3E23233809009E8CB5 /* NSArray+Criteo.h */,
@@ -1140,15 +1150,17 @@
 				7DA2F5BC23A0D9E400B35524 /* CR_DataProtectionConsentMock.m */,
 				7D523C8523DECFD600E79C88 /* CR_DeviceInfoMock.h */,
 				7D523C8623DECFD600E79C88 /* CR_DeviceInfoMock.m */,
+				7D80F61B24059E2D005B7BA3 /* CR_GdprMock.swift */,
+				7D548139244F643C005FB742 /* CR_InMemoryUserDefaults.h */,
+				7D54813A244F643C005FB742 /* CR_InMemoryUserDefaults.m */,
+				7D46571B244DBEFE00E4110E /* CR_SynchronousThreadManager.h */,
+				7D46571C244DBEFE00E4110E /* CR_SynchronousThreadManager.m */,
+				7DFB2B12247E9302007CDFF3 /* CR_URLOpenerMock.h */,
+				7DFB2B13247E9302007CDFF3 /* CR_URLOpenerMock.m */,
 				7D00896E23EAD19B00BA8F96 /* CRBannerViewDelegateMock.h */,
 				7D00896F23EAD19C00BA8F96 /* CRBannerViewDelegateMock.m */,
 				6540470D22581D32009235A1 /* MockWKWebView.h */,
 				6540470E22581D32009235A1 /* MockWKWebView.m */,
-				7D80F61B24059E2D005B7BA3 /* CR_GdprMock.swift */,
-				7D46571B244DBEFE00E4110E /* CR_SynchronousThreadManager.h */,
-				7D46571C244DBEFE00E4110E /* CR_SynchronousThreadManager.m */,
-				7D548139244F643C005FB742 /* CR_InMemoryUserDefaults.h */,
-				7D54813A244F643C005FB742 /* CR_InMemoryUserDefaults.m */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -1464,6 +1476,7 @@
 				547287882411096200B62235 /* CR_FeedbackStorage+MessageUpdating.h in Headers */,
 				46507F82246C2F6900B1DA78 /* CRNativeAdView.h in Headers */,
 				46813BEE2472E39000CD8E59 /* CRMediaDownloader.h in Headers */,
+				7DFB2B0F247E5C67007CDFF3 /* CR_URLOpening.h in Headers */,
 				53CA0F9622AB0ABD0098F96C /* CRBidResponse.h in Headers */,
 				7D58583023E1F1EC0039AC56 /* CR_ThreadManager.h in Headers */,
 				5E0658FBA75D85CA465F4A37 /* CR_FeedbackStorage+Internal.h in Headers */,
@@ -1751,6 +1764,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DF367CAD232B310D0044807B /* CR_NativePrivacy.m in Sources */,
+				7DFB2B11247E75E5007CDFF3 /* CR_URLOpening.m in Sources */,
 				DF367CC3232DC53A0044807B /* NSDictionary+Criteo.m in Sources */,
 				5472877D2411043700B62235 /* CR_DefaultFileManipulator.m in Sources */,
 				25BD5B5F2220D183004DE311 /* CR_AppEvents.m in Sources */,
@@ -1857,6 +1871,7 @@
 				462DCA902462C3D700B43A51 /* CR_NetworkCaptor.m in Sources */,
 				462DCA892462C31F00B43A51 /* CR_MopubInterstitialFunctionalTests.m in Sources */,
 				7D321B0C247416AD006CBC4E /* NSString+Testing.m in Sources */,
+				7DFB2B15247E9302007CDFF3 /* CR_URLOpenerMock.m in Sources */,
 				462DCA992462C75500B43A51 /* CR_NetworkManagerDecorator.m in Sources */,
 				462DCA9E2462C88600B43A51 /* CR_ThreadManagerWaiter.m in Sources */,
 				462DCA912462C3E300B43A51 /* CR_NetworkWaiter.m in Sources */,
@@ -1975,6 +1990,7 @@
 				7D51ABF523ACCC7700540094 /* CR_NetworkWaiterBuilder.m in Sources */,
 				7D006733243DB74B00E5D50D /* CR_FeedbackMessageFunctionalTests.m in Sources */,
 				6519C0DB2285FA8300111A5F /* CRInterstitialDelegateTests.m in Sources */,
+				7DFB2B14247E9302007CDFF3 /* CR_URLOpenerMock.m in Sources */,
 				54E0C239238D75AC004F9353 /* Criteo+Testing.m in Sources */,
 				7D3E422223915B6600BAF673 /* NSObject+CriteoTests.m in Sources */,
 				54680B7E2397E55200DB5A37 /* CR_TestAdUnits.m in Sources */,

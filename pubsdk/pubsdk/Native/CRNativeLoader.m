@@ -20,21 +20,27 @@
 #import "CRBidToken.h"
 #import "CR_TokenValue.h"
 #import "CRMediaContent+Internal.h"
+#import "CR_URLOpening.h"
 
 @implementation CRNativeLoader
 
 #pragma mark - Life cycle
 
 - (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit {
-    return [self initWithAdUnit:adUnit criteo:[Criteo sharedCriteo]];
+     return [self initWithAdUnit:adUnit
+                             criteo:[Criteo sharedCriteo]
+                          urlOpener:[[CR_URLOpener alloc] init]];
 }
 
-- (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit criteo:(Criteo *)criteo {
+- (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit
+                        criteo:(Criteo *)criteo
+                     urlOpener:(id<CR_URLOpening>)urlOpener {
     if (self = [super init]) {
         _adUnit = adUnit;
         _criteo = criteo;
         self.mediaDownloader = [[CR_DefaultMediaDownloader alloc] init];
         _threadManager = [[CR_ThreadManager alloc] init];
+        _urlOpener = urlOpener;
     }
     return self;
 }
@@ -73,7 +79,8 @@
     [self notifyDidDetectClick];
 
     NSURL *url = [NSURL cr_URLWithStringOrNil:nativeAd.product.clickUrl];
-    [url cr_openExternal:^(BOOL success) {
+    [self.urlOpener openExternalURL:url
+                     withCompletion:^(BOOL success) {
         if (success) {
             [self notifyWillLeaveApplicationForNativeAd];
         }

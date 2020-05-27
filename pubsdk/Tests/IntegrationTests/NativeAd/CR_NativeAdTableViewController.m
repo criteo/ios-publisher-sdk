@@ -12,6 +12,7 @@
 #import "CRNativeAdUnit.h"
 #import "CRNativeAd.h"
 #import "CRMediaView.h"
+#import "CR_URLOpenerMock.h"
 
 static NSString * const kAdCellIdentifier = @"AdCell";
 static NSString * const kNormalCellIdentifier = @"NormalCell";
@@ -42,7 +43,8 @@ static const NSUInteger kAdCellPosition = 10;
         _adUnit = adUnit;
         self.adLoader = (_adUnit) ?
             [[CRNativeLoader alloc] initWithAdUnit:adUnit
-                                            criteo:self.criteo] :
+                                            criteo:self.criteo
+                                         urlOpener:[[CR_URLOpenerMock alloc] init]] :
             nil;
         self.adLoader.delegate = self;
         [self.adLoader loadAd];
