@@ -14,13 +14,19 @@ NS_ASSUME_NONNULL_BEGIN
  with all the network calls.
  */
 FOUNDATION_EXPORT NSTimeInterval XCTestCaseCriteoTimeout;
+FOUNDATION_EXPORT NSTimeInterval XCTestCaseCriteoShortTimeout;
 
 @interface XCTestCase (Criteo)
 
 /**
- Wait for expectation with  XCTestCaseCriteoTimeout.
+ * Wait for expectation with  XCTestCaseCriteoTimeout.
  */
 - (void)cr_waitForExpectations:(NSArray<XCTestExpectation *> *)expectations;
+
+/**
+ * Wait for expectation with  XCTestCaseCriteoShortTimeout.
+ */
+- (void)cr_waitShortlyForExpectations:(NSArray<XCTestExpectation *> *)expectations;
 
 @end
 
