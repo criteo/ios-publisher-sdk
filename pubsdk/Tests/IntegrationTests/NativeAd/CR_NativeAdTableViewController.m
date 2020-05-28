@@ -83,10 +83,12 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath {
                                                                          forIndexPath:indexPath];
         cell.titleLabel.text = self.ad.title ?: @"No title";
         cell.bodyLabel.text = self.ad.body ?: @"No body";
+        cell.productMediaView.placeholder = self.mediaPlaceholder;
         cell.productMediaView.mediaContent = self.ad.productMedia;
         cell.callToActionLabel.text = self.ad.callToAction ?: @"No callToAction";
         cell.advertiserDescriptionLabel.text = self.ad.advertiserDescription ?: @"No advertiserDescription";
         cell.advertiserDomainUrlLabel.text = self.ad.advertiserDomain ?: @"No advertiserDomain";
+        cell.advertiserLogoMediaView.placeholder = self.mediaPlaceholder;
         cell.advertiserLogoMediaView.mediaContent = self.ad.advertiserLogoMedia;
         cell.priceLabel.text = self.ad.price ?: @"No price";
 

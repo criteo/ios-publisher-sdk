@@ -49,6 +49,7 @@
     [self initCriteoWithAdUnits:@[adUnit]];
     CR_NativeAdTableViewController *ctrl = [CR_NativeAdTableViewController
             nativeAdTableViewControllerWithCriteo:self.criteo];
+    ctrl.mediaPlaceholder = [[UIImage alloc] init];
     self.window = [UIWindow cr_keyWindowWithViewController:ctrl];
     XCTestExpectation *exp = [[XCTKVOExpectation alloc] initWithKeyPath:NSStringFromSelector(@selector(lastFilledAdCell))
                                                                  object:ctrl];
@@ -68,10 +69,12 @@
 
     // Product image
     XCTAssertNotNil(adCell.productMediaView.imageView.image);
+    XCTAssertNotEqualObjects(adCell.productMediaView.imageView.image, ctrl.mediaPlaceholder);
     XCTAssertEqualObjects(adCell.productMediaView.imageUrl.absoluteString, expectedAssets.products.firstObject.image.url);
 
-    // PreProd Advertiser logo is a SVG image which is not supported, so image is nil
-    XCTAssertNil(adCell.advertiserLogoMediaView.imageView.image);
+    // PreProd Advertiser logo is a SVG image which is not supported, so image is the placeholder
+    XCTAssertNotNil(adCell.advertiserLogoMediaView.imageView.image);
+    XCTAssertEqualObjects(adCell.advertiserLogoMediaView.imageView.image, ctrl.mediaPlaceholder);
     XCTAssertNil(adCell.advertiserLogoMediaView.imageUrl);
 }
 
