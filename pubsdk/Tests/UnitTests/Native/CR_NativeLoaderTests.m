@@ -17,6 +17,8 @@
 #import "CR_AdUnitHelper.h"
 #import "CR_BidManager.h"
 #import "CR_CdbBidBuilder.h"
+#import "CRBidToken+Internal.h"
+#import "CR_TokenValue.h"
 #import "CR_NativeAssets.h"
 #import "CR_NativeLoaderDispatchChecker.h"
 #import "CR_MediaDownloaderDispatchChecker.h"
@@ -24,6 +26,7 @@
 #import "CR_SynchronousThreadManager.h"
 #import "NSURL+Criteo.h"
 #import "XCTestCase+Criteo.h"
+#import "CR_NativeAssets+Testing.h"
 
 @interface CR_NativeLoaderTests : XCTestCase
 @property (strong, nonatomic) CRNativeLoader *loader;
@@ -65,6 +68,23 @@
             OCMExpect([delegateMock nativeLoader:loader didFailToReceiveAdWithError:[OCMArg any]]);
             OCMReject([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
         }];
+}
+
+- (void)testInHouseReceiveWithValidToken {
+
+    [self loadNativeWithTokenValue:self.validTokenValue delegate:nil verify:
+            ^(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock) {
+                OCMExpect([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
+                OCMReject([delegateMock nativeLoader:loader didFailToReceiveAdWithError:[OCMArg any]]);
+            }];
+}
+
+- (void)testInHouseFailureWithInvalidToken {
+    [self loadNativeWithTokenValue:nil delegate:nil verify:
+            ^(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock) {
+                OCMExpect([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
+                OCMReject([delegateMock nativeLoader:loader didFailToReceiveAdWithError:[OCMArg any]]);
+            }];
 }
 
 - (void)testReceiveOnMainQueue {
@@ -173,15 +193,30 @@
     OCMExpect([(id)self.urlMock cr_openExternal:([OCMArg invokeBlockWithArgs:@(success), nil])]);
 }
 
+- (Criteo *)mockCriteo {
+    Criteo *criteoMock = OCMStrictClassMock([Criteo class]);
+
+    CR_SynchronousThreadManager *threadManager = [[CR_SynchronousThreadManager alloc] init];
+    OCMStub([criteoMock threadManager]).andReturn(threadManager);
+
+    return criteoMock;
+}
+
 - (Criteo *)mockCriteoWithAdUnit:(CRNativeAdUnit *)adUnit
                        returnBid:(CR_CdbBid *)bid {
-    Criteo *criteoMock = OCMStrictClassMock([Criteo class]);
+    Criteo *criteoMock = [self mockCriteo];
 
     CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
     OCMStub([criteoMock getBid:cacheAdUnit]).andReturn(bid);
 
-    CR_SynchronousThreadManager *threadManager = [[CR_SynchronousThreadManager alloc] init];
-    OCMStub([criteoMock threadManager]).andReturn(threadManager);
+    return criteoMock;
+}
+
+- (Criteo *)mockCriteoWithBidToken:(CRBidToken *)bidToken
+                  returnTokenValue:(CR_TokenValue *)tokenValue {
+    Criteo *criteoMock = [self mockCriteo];
+
+    OCMStub([criteoMock tokenValueForBidToken:bidToken adUnitType:CRAdUnitTypeNative]).andReturn(tokenValue);
 
     return criteoMock;
 }
@@ -210,8 +245,26 @@
     [self loadNativeWithBid:bid delegate:nil verify:verify];
 }
 
+- (void)loadNativeWithTokenValue:(CR_TokenValue *)tokenValue
+                        delegate:(id <CRNativeDelegate>)delegate
+                          verify:(void (^)(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock))verify {
+    CRBidToken *bidToken = [CRBidToken.alloc initWithUUID:[NSUUID UUID]];
+    Criteo *criteoMock = [self mockCriteoWithBidToken:bidToken returnTokenValue:tokenValue];
+    id <CRNativeDelegate> testDelegate = delegate ?: OCMStrictProtocolMock(@protocol(CRNativeDelegate));
+    CRNativeLoader *loader = [self buildLoaderWithAdUnit:(CRNativeAdUnit *) tokenValue.adUnit criteo:criteoMock];
+    loader.delegate = testDelegate;
+    [loader loadAdWithBidToken:bidToken];
+    verify(loader, testDelegate, criteoMock);
+}
+
 - (CR_CdbBid *)validBid {
-    return CR_CdbBidBuilder.new.build;
+    return CR_CdbBidBuilder.new.nativeAssets([[CR_NativeAssets alloc] initWithDict:@{}]).build;
+}
+
+- (CR_TokenValue *)validTokenValue {
+    CRNativeAdUnit *adUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"123"];
+    CR_TokenValue *tokenValue = [CR_TokenValue.alloc initWithCdbBid:self.validBid adUnit:adUnit];
+    return tokenValue;
 }
 
 - (CRNativeLoader *)dispatchCheckerForBid:(CR_CdbBid *)bid
@@ -224,12 +277,20 @@
     return loader;
 }
 
-- (void)testDoesNotConsumeBidWhenNotListeningToAds {
+- (void)testStandaloneDoesNotConsumeBidWhenNotListeningToAds {
     id <CRNativeDelegate> delegateMock = OCMPartialMock([NSObject new]);
     [self loadNativeWithBid:self.validBid delegate:delegateMock verify:
-        ^(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock) {
-            OCMReject([criteoMock getBid:[OCMArg any]]);
-        }];
+            ^(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock) {
+                OCMReject([criteoMock getBid:[OCMArg any]]);
+            }];
+}
+
+- (void)testInHouseDoesNotConsumeBidWhenNotListeningToAds {
+    id <CRNativeDelegate> delegateMock = OCMPartialMock([NSObject new]);
+    [self loadNativeWithTokenValue:self.validTokenValue delegate:delegateMock verify:
+            ^(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock) {
+                OCMReject([criteoMock tokenValueForBidToken:[OCMArg any] adUnitType:CRAdUnitTypeNative]);
+            }];
 }
 
 @end

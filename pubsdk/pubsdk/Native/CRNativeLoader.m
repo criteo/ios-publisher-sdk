@@ -17,6 +17,8 @@
 #import "CR_DefaultMediaDownloader.h"
 #import "CR_SafeMediaDownloader.h"
 #import "CR_ThreadManager.h"
+#import "CRBidToken.h"
+#import "CR_TokenValue.h"
 
 @implementation CRNativeLoader
 
@@ -41,6 +43,15 @@
 - (void)loadAd {
     @try {
         [self unsafeLoadAd];
+    }
+    @catch (NSException *exception) {
+        CLogException(exception);
+    }
+}
+
+- (void)loadAdWithBidToken:(CRBidToken *)bidToken {
+    @try {
+        [self unsafeLoadAdWithBidToken:bidToken];
     }
     @catch (NSException *exception) {
         CLogException(exception);
@@ -87,15 +98,26 @@
 
     CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:self.adUnit];
     CR_CdbBid *bid = [self.criteo getBid:cacheAdUnit];
+    [self handleNativeAssets:bid.nativeAssets];
+}
 
-    if (bid.isEmpty) {
-        NSError *error = [NSError cr_errorWithCode:CRErrorCodeNoFill];
-        [self notifyFailToReceiveAdWithError:error];
+- (void)unsafeLoadAdWithBidToken:(CRBidToken *)bidToken {
+    if (!self.canConsumeBid) {
         return;
     }
 
-    CRNativeAd *ad = [[CRNativeAd alloc] initWithLoader:self assets:bid.nativeAssets];
-    [self notifyDidReceiveAd:ad];
+    CR_TokenValue * tokenValue = [self.criteo tokenValueForBidToken:bidToken adUnitType:CRAdUnitTypeNative];
+    [self handleNativeAssets:tokenValue.nativeAssets];
+}
+
+- (void)handleNativeAssets:(CR_NativeAssets *)nativeAssets {
+    if (!nativeAssets) {
+        NSError *error = [NSError cr_errorWithCode:CRErrorCodeNoFill];
+        [self notifyFailToReceiveAdWithError:error];
+    } else {
+        CRNativeAd *ad = [[CRNativeAd alloc] initWithLoader:self assets:nativeAssets];
+        [self notifyDidReceiveAd:ad];
+    }
 }
 
 #pragma mark - Delegate call
