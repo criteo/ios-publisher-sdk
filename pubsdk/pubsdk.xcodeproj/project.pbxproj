@@ -274,6 +274,7 @@
 		BAF31CA74BB0776CEC97BA5F /* libPods-pubsdkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 424B8FD0D9FFF59AAABA6319 /* libPods-pubsdkTests.a */; };
 		C07AB0222733EAA918843728 /* CR_NativeAssets+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABBC696D95F756547DA86 /* CR_NativeAssets+Testing.m */; };
 		C07AB0B23BDBEA53346DD6CC /* CR_FeedbackController.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABC983FB1DA60294D238A /* CR_FeedbackController.m */; };
+		C07AB1B2CF62822B6B95E9F9 /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = C07ABCED19D15ED05D88A0E9 /* image.png */; };
 		C07AB53ECEC45D1A7D9EA259 /* CRMediaViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABD1BF4C0321B88411398 /* CRMediaViewTests.m */; };
 		C07AB5492FE17D797F4C1306 /* CRMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB093A865F67283614A5D /* CRMediaView.m */; };
 		C07AB6C51EDDDE87A80D2666 /* CRMediaContent.h in Headers */ = {isa = PBXBuildFile; fileRef = C07ABFCB3CD0F740F0A7FB05 /* CRMediaContent.h */; };
@@ -290,6 +291,8 @@
 		C07ABD53E2A5C3175A6DAFEA /* CR_TokenValue+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB534154EFFFDE1A8A248 /* CR_TokenValue+Testing.m */; };
 		C07ABD881B3EF50E277BBEAC /* CR_FeedbackFeatureGuard.h in Headers */ = {isa = PBXBuildFile; fileRef = C07AB2A43FA7623D134F5246 /* CR_FeedbackFeatureGuard.h */; };
 		C07ABE08CDD58B26FFCCBCE1 /* NSUserDefaults+CR_Config.h in Headers */ = {isa = PBXBuildFile; fileRef = C07ABA8D45D123659567CEF2 /* NSUserDefaults+CR_Config.h */; };
+		C07ABE4119C225312438484B /* CR_DefaultMediaDownloaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABB7F084CBEDAC1960E3C /* CR_DefaultMediaDownloaderTests.m */; };
+		C07ABEC7592E4D7732580700 /* image.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C07AB641C0857180176F2280 /* image.jpeg */; };
 		C07ABF0597CEB2DD36AE7B51 /* CR_FeedbackControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABBA46FCA43B62B82A2A0 /* CR_FeedbackControllerTests.m */; };
 		CFA4C0E324487ED4003FC46B /* CR_FeedbackController.h in Headers */ = {isa = PBXBuildFile; fileRef = C07AB510AF4AF6C47D87E0F3 /* CR_FeedbackController.h */; };
 		CFD7A3A9C70A6EB460001546 /* libPods-pubsdkITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FE31E7220C00303FD00D349D /* libPods-pubsdkITests.a */; };
@@ -646,12 +649,15 @@
 		C07AB3CE717BDF28B66871B2 /* CRMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRMediaView.h; sourceTree = "<group>"; };
 		C07AB510AF4AF6C47D87E0F3 /* CR_FeedbackController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_FeedbackController.h; sourceTree = "<group>"; };
 		C07AB534154EFFFDE1A8A248 /* CR_TokenValue+Testing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CR_TokenValue+Testing.m"; path = "InHouseMediation/CR_TokenValue+Testing.m"; sourceTree = "<group>"; };
+		C07AB641C0857180176F2280 /* image.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image.jpeg; sourceTree = "<group>"; };
 		C07AB7277BC095D4A7DF86E2 /* CR_FeedbackFeatureGuard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_FeedbackFeatureGuard.m; sourceTree = "<group>"; };
 		C07AB967F5DA5C6504960784 /* CRMediaView+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CRMediaView+Internal.h"; sourceTree = "<group>"; };
 		C07ABA8D45D123659567CEF2 /* NSUserDefaults+CR_Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+CR_Config.h"; sourceTree = "<group>"; };
+		C07ABB7F084CBEDAC1960E3C /* CR_DefaultMediaDownloaderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_DefaultMediaDownloaderTests.m; sourceTree = "<group>"; };
 		C07ABBA46FCA43B62B82A2A0 /* CR_FeedbackControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_FeedbackControllerTests.m; sourceTree = "<group>"; };
 		C07ABBC696D95F756547DA86 /* CR_NativeAssets+Testing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CR_NativeAssets+Testing.m"; path = "Native/CR_NativeAssets+Testing.m"; sourceTree = "<group>"; };
 		C07ABC983FB1DA60294D238A /* CR_FeedbackController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_FeedbackController.m; sourceTree = "<group>"; };
+		C07ABCED19D15ED05D88A0E9 /* image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image.png; sourceTree = "<group>"; };
 		C07ABD1BF4C0321B88411398 /* CRMediaViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRMediaViewTests.m; sourceTree = "<group>"; };
 		C07ABD4814092221709B77BA /* CRMediaContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRMediaContent.m; sourceTree = "<group>"; };
 		C07ABE5D8FA5DDF53598C57A /* CR_NativeAssets+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CR_NativeAssets+Testing.h"; path = "Native/CR_NativeAssets+Testing.h"; sourceTree = "<group>"; };
@@ -1075,6 +1081,9 @@
 				198CD3F7C2A1974769B2CE1C /* CRNativeAdTests.m */,
 				46BC395F246EDA5200F0B2F1 /* CRNativeAdViewTests.m */,
 				C07ABD1BF4C0321B88411398 /* CRMediaViewTests.m */,
+				C07ABB7F084CBEDAC1960E3C /* CR_DefaultMediaDownloaderTests.m */,
+				C07ABCED19D15ED05D88A0E9 /* image.png */,
+				C07AB641C0857180176F2280 /* image.jpeg */,
 			);
 			path = Native;
 			sourceTree = "<group>";
@@ -1670,6 +1679,8 @@
 			files = (
 				7D3E423223915B6600BAF673 /* SampleBid.json in Resources */,
 				5E06565BD091B87AB797194F /* NativeAssetsFromCdb.json in Resources */,
+				C07AB1B2CF62822B6B95E9F9 /* image.png in Resources */,
+				C07ABEC7592E4D7732580700 /* image.jpeg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2042,6 +2053,7 @@
 				C07AB53ECEC45D1A7D9EA259 /* CRMediaViewTests.m in Sources */,
 				C07AB0222733EAA918843728 /* CR_NativeAssets+Testing.m in Sources */,
 				C07ABC001B1ED2BCB2447E73 /* CR_TokenValue+Testing.m in Sources */,
+				C07ABE4119C225312438484B /* CR_DefaultMediaDownloaderTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
