@@ -19,6 +19,7 @@
 #import "CR_ThreadManager.h"
 #import "CRBidToken.h"
 #import "CR_TokenValue.h"
+#import "CRMediaContent+Internal.h"
 
 @implementation CRNativeLoader
 
@@ -116,8 +117,15 @@
         [self notifyFailToReceiveAdWithError:error];
     } else {
         CRNativeAd *ad = [[CRNativeAd alloc] initWithLoader:self assets:nativeAssets];
+        [self preloadImageUrl:ad.productMedia.imageUrl];
+        [self preloadImageUrl:ad.advertiserLogoMedia.imageUrl];
+        [self preloadImageUrl:[NSURL cr_URLWithStringOrNil:nativeAssets.privacy.optoutImageUrl]];
         [self notifyDidReceiveAd:ad];
     }
+}
+
+- (void)preloadImageUrl:(NSURL *)imageUrl {
+    [self.mediaDownloader downloadImage:imageUrl completionHandler:^(UIImage *ignored1, NSError *ignored2){}];
 }
 
 #pragma mark - Delegate call

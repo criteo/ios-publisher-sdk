@@ -33,6 +33,7 @@
 @property (strong, nonatomic) CRNativeAd *nativeAd;
 @property (strong, nonatomic) CR_NativeLoaderDispatchChecker *delegate;
 @property (strong, nonatomic) OCMockObject *urlMock;
+@property (strong, nonatomic) OCMockObject<CRMediaDownloader> *mediaDownloaderMock;
 
 @end
 
@@ -50,6 +51,8 @@
 
     self.delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
     self.loader.delegate = self.delegate;
+
+    self.mediaDownloaderMock = OCMProtocolMock(@protocol(CRMediaDownloader));
 }
 
 #pragma mark - Tests
@@ -60,6 +63,9 @@
             OCMExpect([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
             OCMReject([delegateMock nativeLoader:loader didFailToReceiveAdWithError:[OCMArg any]]);
         }];
+
+    // FIXME We want to expect URL from native assets, but URL instances are mocked
+    OCMVerify(times(3), [self.mediaDownloaderMock downloadImage:[OCMArg any] completionHandler:[OCMArg any]]);
 }
 
 - (void)testFailureWithNoBid {
@@ -68,15 +74,19 @@
             OCMExpect([delegateMock nativeLoader:loader didFailToReceiveAdWithError:[OCMArg any]]);
             OCMReject([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
         }];
+
+    OCMVerify(never(), [self.mediaDownloaderMock downloadImage:[OCMArg any] completionHandler:[OCMArg any]]);
 }
 
 - (void)testInHouseReceiveWithValidToken {
-
     [self loadNativeWithTokenValue:self.validTokenValue delegate:nil verify:
             ^(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock) {
                 OCMExpect([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
                 OCMReject([delegateMock nativeLoader:loader didFailToReceiveAdWithError:[OCMArg any]]);
             }];
+
+    // FIXME We want to expect URL from native assets, but URL instances are mocked
+    OCMVerify(times(3), [self.mediaDownloaderMock downloadImage:[OCMArg any] completionHandler:[OCMArg any]]);
 }
 
 - (void)testInHouseFailureWithInvalidToken {
@@ -85,6 +95,8 @@
                 OCMExpect([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
                 OCMReject([delegateMock nativeLoader:loader didFailToReceiveAdWithError:[OCMArg any]]);
             }];
+
+    OCMVerify(never(), [self.mediaDownloaderMock downloadImage:[OCMArg any] completionHandler:[OCMArg any]]);
 }
 
 - (void)testReceiveOnMainQueue {
@@ -224,7 +236,7 @@
 - (CRNativeLoader *)buildLoaderWithAdUnit:(CRNativeAdUnit *)adUnit criteo:(Criteo *)criteo {
     CRNativeLoader *loader = [[CRNativeLoader alloc] initWithAdUnit:adUnit criteo:criteo];
     // Mock downloader to prevent actual downloads from the default downloader implementation.
-    loader.mediaDownloader = OCMProtocolMock(@protocol(CRMediaDownloader));
+    loader.mediaDownloader = self.mediaDownloaderMock;
     return loader;
 }
 
