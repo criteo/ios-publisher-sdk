@@ -7,9 +7,11 @@
 
 #import <XCTest/XCTest.h>
 #import "CR_TokenCache.h"
-#import "CRAdUnit+Internal.h"
 #import "CRBidToken.h"
 #import "CRBidToken+Internal.h"
+#import "CR_TokenValue+Testing.h"
+#import "CR_CdbBidBuilder.h"
+#import "CR_NativeAssets+Testing.h"
 
 @interface CR_TokenCacheTests : XCTestCase
 
@@ -71,9 +73,9 @@
     XCTAssertFalse([firstToken isEqual:secondToken]);
     XCTAssertFalse([secondToken isEqual:thirdToken]);
 
-    CR_TokenValue *firstExpectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"someJS1" insertTime:firstDate ttl:4000 adUnit:firstAdUnit];
-    CR_TokenValue *secondExpectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"someJS2" insertTime:secondDate ttl:5000 adUnit:secondAdUnit];
-    CR_TokenValue *thirdExpectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"someJS3" insertTime:thirdDate ttl:6000 adUnit:thirdAdUnit];
+    CR_TokenValue *firstExpectedTokenValue = [[CR_TokenValue alloc] initWithCdbBid:firstCdbBid adUnit:firstAdUnit];
+    CR_TokenValue *secondExpectedTokenValue = [[CR_TokenValue alloc] initWithCdbBid:secondCdbBid adUnit:secondAdUnit];
+    CR_TokenValue *thirdExpectedTokenValue = [[CR_TokenValue alloc] initWithCdbBid:thirdCdbBid adUnit:thirdAdUnit];
 
     XCTAssertTrue([firstExpectedTokenValue isEqual:[tokenCache getValueForToken:firstToken
                                                                      adUnitType:CRAdUnitTypeBanner]]);
@@ -112,7 +114,7 @@
 
     CR_TokenCache *tokenCache = [[CR_TokenCache alloc] init];
     CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:@"adunitid1" adUnitType:CRAdUnitTypeBanner];
-    CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"someJS1" insertTime:firstDate ttl:4000 adUnit:adUnit];
+    CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithCdbBid:cdbBid adUnit:adUnit];
     CRBidToken *token = [tokenCache getTokenForBid:cdbBid adUnitType:CRAdUnitTypeBanner];
 
     CR_TokenValue *consumedTokenValue = [tokenCache getValueForToken:token
@@ -134,10 +136,7 @@
     CR_TokenCache *tokenCache = [[CR_TokenCache alloc] init];
     CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
     CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:@"Hello" adUnitType:CRAdUnitTypeBanner];
-    CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@""
-                                                                       insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-400]
-                                                                              ttl:200
-                                                                           adUnit:adUnit];
+    CR_TokenValue *expectedTokenValue = [CR_TokenValue tokenValueWithDisplayUrl:@"" adUnit:adUnit expired:YES];
     [tokenCache setTokenMapWithValue:expectedTokenValue
                               forKey:token];
     CR_TokenValue *tokenValue = [tokenCache getValueForToken:token
@@ -150,16 +149,30 @@
     CR_TokenCache *tokenCache = [[CR_TokenCache alloc] init];
     CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
     CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:@"Hello" adUnitType:CRAdUnitTypeInterstitial];
-    CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@""
-                                                                       insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-400]
-                                                                              ttl:200
-                                                                           adUnit:adUnit];
+    CR_TokenValue *expectedTokenValue = [CR_TokenValue tokenValueWithDisplayUrl:@"" adUnit:adUnit];
     [tokenCache setTokenMapWithValue:expectedTokenValue
                               forKey:token];
     CR_TokenValue *tokenValue = [tokenCache getValueForToken:token
                                                   adUnitType:CRAdUnitTypeBanner];
     XCTAssertNil(tokenValue);
     XCTAssertEqual([tokenCache tokenValueForKey:token], expectedTokenValue);
+}
+
+- (void)testTokenValueForNativeBid {
+    CR_TokenCache *tokenCache = [[CR_TokenCache alloc] init];
+    
+    CR_NativeAssets *nativeAssets = [CR_NativeAssets nativeAssetsFromCdb];
+    CR_CdbBid *bid = CR_CdbBidBuilder.new
+            .displayUrl(nil)
+            .nativeAssets(nativeAssets)
+            .build;
+
+    CRBidToken *token = [tokenCache getTokenForBid:bid adUnitType:CRAdUnitTypeNative];
+    CR_TokenValue *tokenValue = [tokenCache getValueForToken:token adUnitType:CRAdUnitTypeNative];
+
+    XCTAssertNotNil(tokenValue);
+    XCTAssertNil(tokenValue.displayUrl);
+    XCTAssertEqualObjects(nativeAssets, tokenValue.nativeAssets);
 }
 
 

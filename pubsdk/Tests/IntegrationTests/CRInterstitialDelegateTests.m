@@ -11,11 +11,9 @@
 #import "Criteo.h"
 #import "Criteo+Internal.h"
 #import "CRInterstitial+Internal.h"
-#import "CRInterstitialDelegate.h"
 #import "CR_CdbBid.h"
 #import "NSError+Criteo.h"
 #import "CR_DeviceInfo.h"
-#import "CR_AdUnitHelper.h"
 #import "CRBidToken+Internal.h"
 #import "CR_TokenValue.h"
 #import "CR_Config.h"
@@ -23,6 +21,7 @@
 #import "CR_InterstitialViewController.h"
 #import "CR_Timer.h"
 #import "NSURL+Criteo.h"
+#import "CR_TokenValue+Testing.h"
 
 @interface CRInterstitialDelegateTests : XCTestCase
 {
@@ -635,10 +634,7 @@
                                                                isAdLoaded:NO
                                                                    adUnit:adUnit1];
     CRBidToken *bidToken = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
-    CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"test"
-                                                                       insertTime:[NSDate date]
-                                                                              ttl:200
-                                                                           adUnit:adUnit2];
+    CR_TokenValue *expectedTokenValue = [CR_TokenValue tokenValueWithDisplayUrl:@"test" adUnit:adUnit2];
     OCMStub([mockCriteo tokenValueForBidToken:bidToken
                                    adUnitType:CRAdUnitTypeInterstitial]).andReturn(expectedTokenValue);
 
@@ -663,10 +659,7 @@
                                                                isAdLoaded:NO
                                                                    adUnit:adUnit1];
     CRBidToken *bidToken = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
-    CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"test"
-                                                                       insertTime:[NSDate date]
-                                                                              ttl:200
-                                                                           adUnit:adUnit2];
+    CR_TokenValue *expectedTokenValue = [CR_TokenValue tokenValueWithDisplayUrl:@"test" adUnit:adUnit2];
     OCMStub([mockCriteo tokenValueForBidToken:bidToken
                                    adUnitType:CRAdUnitTypeInterstitial]).andReturn(expectedTokenValue);
 
@@ -699,10 +692,7 @@
                                                                    adUnit:adUnit1];
 
     CRBidToken *bidToken = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
-    CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"test"
-                                                                       insertTime:[NSDate date]
-                                                                              ttl:200
-                                                                           adUnit:adUnit2];
+    CR_TokenValue *expectedTokenValue = [CR_TokenValue tokenValueWithDisplayUrl:@"test" adUnit:adUnit2];
     OCMStub([mockCriteo tokenValueForBidToken:bidToken
                                    adUnitType:CRAdUnitTypeInterstitial]).andReturn(expectedTokenValue);
 

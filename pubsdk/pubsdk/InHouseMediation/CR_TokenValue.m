@@ -5,41 +5,64 @@
 //  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import "CR_TokenValue.h"
+#import "CR_CdbBid.h"
+
+@interface CR_TokenValue ()
+
+@property (readonly, nonatomic) CR_CdbBid *cdbBid;
+
+@end
 
 @implementation CR_TokenValue
 
-- (instancetype)initWithDisplayURL:(NSString *)displayURL
-                        insertTime:(NSDate *)insertTime
-                               ttl:(NSTimeInterval)ttl
-                            adUnit:(CRAdUnit *)adUnit {
+- (instancetype)initWithCdbBid:(CR_CdbBid *)cdbBid adUnit:(CRAdUnit *)adUnit {
     if(self = [super init]) {
-        _displayUrl = displayURL;
-        _insertTime = insertTime;
+        _cdbBid = cdbBid;
         _adUnit = adUnit;
-        _ttl = ttl;
     }
     return self;
 }
 
+- (NSString *)displayUrl {
+    return self.cdbBid.displayUrl;
+}
+
+- (CR_NativeAssets *)nativeAssets {
+    return self.cdbBid.nativeAssets;
+}
+
 - (BOOL)isExpired {
-    return
-    [[NSDate date]timeIntervalSinceReferenceDate] - [[self insertTime]timeIntervalSinceReferenceDate]
-    > self.ttl;
+    return self.cdbBid.isExpired;
 }
 
-- (BOOL)isEqual:(id)object{
-    if ([object isKindOfClass:[CR_TokenValue class]]) {
-        CR_TokenValue *other = object;
+- (BOOL)isEqual:(id)other {
+    if (other == self)
+        return YES;
+    if (!other || ![[other class] isEqual:[self class]])
+        return NO;
 
-        if ([self.displayUrl isEqualToString:other.displayUrl] &&
-            [self.insertTime isEqual:other.insertTime] &&
-            [self.adUnit isEqualToAdUnit:other.adUnit] &&
-            self.ttl == other.ttl) {
-            return YES;
-        }
-    }
-    return NO;
+    return [self isEqualToValue:other];
 }
+
+- (BOOL)isEqualToValue:(CR_TokenValue *)value {
+    if (self == value)
+        return YES;
+    if (value == nil)
+        return NO;
+    if (self.adUnit != value.adUnit && ![self.adUnit isEqualToAdUnit:value.adUnit])
+        return NO;
+    if (self.cdbBid != value.cdbBid && ![self.cdbBid isEqual:value.cdbBid])
+        return NO;
+    return YES;
+}
+
+- (NSUInteger)hash {
+    NSUInteger hash = [self.adUnit hash];
+    hash = hash * 31u + [self.cdbBid hash];
+    return hash;
+}
+
 
 @end

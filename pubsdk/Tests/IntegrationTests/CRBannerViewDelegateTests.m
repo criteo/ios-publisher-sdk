@@ -10,19 +10,17 @@
 #import "CRBannerView.h"
 #import "Criteo.h"
 #import "CRBannerView+Internal.h"
-#import "CRBannerViewDelegate.h"
 #import "Criteo+Internal.h"
 #import "CR_CdbBid.h"
 #import "NSError+Criteo.h"
 #import "CR_TokenValue.h"
 #import "CRBidToken+Internal.h"
-#import "CRBannerAdUnit.h"
 #import "CR_Config.h"
 #import "CRInterstitialAdUnit.h"
-#import "CR_Timer.h"
 #import "CRBannerViewDelegateMock.h"
 #import "XCTestCase+Criteo.h"
 #import "NSURL+Criteo.h"
+#import "CR_TokenValue+Testing.h"
 
 NSTimeInterval kExpectedTimeout = .5;
 
@@ -268,10 +266,7 @@ NSTimeInterval kExpectedTimeout = .5;
                                                            webView:mockWebView
                                                             adUnit:adUnit1];
     CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
-    CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"test"
-                                                                       insertTime:[NSDate date]
-                                                                              ttl:200
-                                                                           adUnit:adUnit2];
+    CR_TokenValue *expectedTokenValue = [CR_TokenValue tokenValueWithDisplayUrl:@"test" adUnit:adUnit2];;
     OCMStub([mockCriteo tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner]).andReturn(expectedTokenValue);
 
     CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];
@@ -294,10 +289,7 @@ NSTimeInterval kExpectedTimeout = .5;
                                                            webView:mockWebView
                                                             adUnit:adUnit1];
     CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
-    CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"test"
-                                                                       insertTime:[NSDate date]
-                                                                              ttl:200
-                                                                           adUnit:adUnit2];
+    CR_TokenValue *expectedTokenValue = [CR_TokenValue tokenValueWithDisplayUrl:@"test" adUnit:adUnit2];
     OCMStub([mockCriteo tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner]).andReturn(expectedTokenValue);
     id<CRBannerViewDelegate>mockBannerViewDelegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
     bannerView.delegate = mockBannerViewDelegate;
@@ -326,10 +318,7 @@ NSTimeInterval kExpectedTimeout = .5;
                                                            webView:mockWebView
                                                             adUnit:adUnit1];
     CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
-    CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:@"test"
-                                                                       insertTime:[NSDate date]
-                                                                              ttl:200
-                                                                           adUnit:adUnit2];
+    CR_TokenValue *expectedTokenValue = [CR_TokenValue tokenValueWithDisplayUrl:@"test" adUnit:adUnit2];;
     OCMStub([mockCriteo tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner]).andReturn(expectedTokenValue);
 
     CRBannerViewDelegateMock *delegate = [[CRBannerViewDelegateMock alloc] init];

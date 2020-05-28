@@ -276,8 +276,10 @@
 		C07AB936F1DBBE6CC8C2644E /* CRMediaContent.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABD4814092221709B77BA /* CRMediaContent.m */; };
 		C07AB9EA4BBE92ADD3C2B3CC /* CR_NativeAdFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D321B162474502A006CBC4E /* CR_NativeAdFunctionalTests.m */; };
 		C07AB9ED69EB74DA88306686 /* CR_FeedbackFeatureGuard.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB7277BC095D4A7DF86E2 /* CR_FeedbackFeatureGuard.m */; };
+		C07ABC001B1ED2BCB2447E73 /* CR_TokenValue+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB534154EFFFDE1A8A248 /* CR_TokenValue+Testing.m */; };
 		C07ABC5F0E8E39C7BA6F6E7D /* CRMediaContent+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = C07AB31126BE08B645463204 /* CRMediaContent+Internal.h */; };
 		C07ABD4FBC93A6A8C0C5085F /* CRMediaView.h in Headers */ = {isa = PBXBuildFile; fileRef = C07AB3CE717BDF28B66871B2 /* CRMediaView.h */; };
+		C07ABD53E2A5C3175A6DAFEA /* CR_TokenValue+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB534154EFFFDE1A8A248 /* CR_TokenValue+Testing.m */; };
 		C07ABD881B3EF50E277BBEAC /* CR_FeedbackFeatureGuard.h in Headers */ = {isa = PBXBuildFile; fileRef = C07AB2A43FA7623D134F5246 /* CR_FeedbackFeatureGuard.h */; };
 		C07ABE08CDD58B26FFCCBCE1 /* NSUserDefaults+CR_Config.h in Headers */ = {isa = PBXBuildFile; fileRef = C07ABA8D45D123659567CEF2 /* NSUserDefaults+CR_Config.h */; };
 		C07ABF0597CEB2DD36AE7B51 /* CR_FeedbackControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABBA46FCA43B62B82A2A0 /* CR_FeedbackControllerTests.m */; };
@@ -621,11 +623,13 @@
 		95CE917D53BC717D5743ED84 /* Pods-pubsdk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdk.release.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdk/Pods-pubsdk.release.xcconfig"; sourceTree = "<group>"; };
 		C07AB093A865F67283614A5D /* CRMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRMediaView.m; sourceTree = "<group>"; };
 		C07AB1709D918AD4DA7A4384 /* NSUserDefaults+CR_Config.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+CR_Config.m"; sourceTree = "<group>"; };
+		C07AB1737216EBC9BD280E3A /* CR_TokenValue+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CR_TokenValue+Testing.h"; path = "InHouseMediation/CR_TokenValue+Testing.h"; sourceTree = "<group>"; };
 		C07AB1A6DF0183C472138E98 /* NSUserDefaults+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Testing.h"; sourceTree = "<group>"; };
 		C07AB2A43FA7623D134F5246 /* CR_FeedbackFeatureGuard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_FeedbackFeatureGuard.h; sourceTree = "<group>"; };
 		C07AB31126BE08B645463204 /* CRMediaContent+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CRMediaContent+Internal.h"; sourceTree = "<group>"; };
 		C07AB3CE717BDF28B66871B2 /* CRMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRMediaView.h; sourceTree = "<group>"; };
 		C07AB510AF4AF6C47D87E0F3 /* CR_FeedbackController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_FeedbackController.h; sourceTree = "<group>"; };
+		C07AB534154EFFFDE1A8A248 /* CR_TokenValue+Testing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CR_TokenValue+Testing.m"; path = "InHouseMediation/CR_TokenValue+Testing.m"; sourceTree = "<group>"; };
 		C07AB7277BC095D4A7DF86E2 /* CR_FeedbackFeatureGuard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_FeedbackFeatureGuard.m; sourceTree = "<group>"; };
 		C07AB967F5DA5C6504960784 /* CRMediaView+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CRMediaView+Internal.h"; sourceTree = "<group>"; };
 		C07ABA8D45D123659567CEF2 /* NSUserDefaults+CR_Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+CR_Config.h"; sourceTree = "<group>"; };
@@ -977,6 +981,8 @@
 				7D58582923E1E6BB0039AC56 /* CR_ThreadManagerWaiter.m */,
 				C07ABBC696D95F756547DA86 /* CR_NativeAssets+Testing.m */,
 				C07ABE5D8FA5DDF53598C57A /* CR_NativeAssets+Testing.h */,
+				C07AB534154EFFFDE1A8A248 /* CR_TokenValue+Testing.m */,
+				C07AB1737216EBC9BD280E3A /* CR_TokenValue+Testing.h */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -1862,7 +1868,8 @@
 				C07AB9EA4BBE92ADD3C2B3CC /* CR_NativeAdFunctionalTests.m in Sources */,
 				C07AB8715B41471580743327 /* CR_NativeAssets+Testing.m in Sources */,
 				7D9CFF78247BFDFC0005DAE8 /* CR_NativeLoaderDispatchChecker.m in Sources */,
-				7D321B172474502A006CBC4E /* CR_NativeAdFunctionalTests.m in Sources */,
+				7D321B172474502A006CBC4E,
+				C07ABD53E2A5C3175A6DAFEA /* CR_TokenValue+Testing.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1993,6 +2000,7 @@
 				198CD5E258B0B62164C092E6 /* CRNativeAdTests.m in Sources */,
 				C07AB53ECEC45D1A7D9EA259 /* CRMediaViewTests.m in Sources */,
 				C07AB0222733EAA918843728 /* CR_NativeAssets+Testing.m in Sources */,
+				C07ABC001B1ED2BCB2447E73 /* CR_TokenValue+Testing.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -6,7 +6,6 @@
 //
 
 #import "CR_TokenCache.h"
-#import "CRAdUnit+Internal.h"
 #import "CRBidToken+Internal.h"
 
 @interface CR_TokenCache()
@@ -25,8 +24,7 @@
 }
 
 - (void)setTokenMapWithValue:(CR_TokenValue *)tokenValue forKey:(CRBidToken *)token {
-    [self.tokenMap setObject:tokenValue
-                      forKey:token];
+    self.tokenMap[token] = tokenValue;
 }
 
 - (CR_TokenValue *)tokenValueForKey:(CRBidToken *)token {
@@ -40,11 +38,9 @@
     }
     CRBidToken *token = [CR_TokenCache generateToken];
     CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:cdbBid.placementId adUnitType:adUnitType];
-    CR_TokenValue *tokenValue = [[CR_TokenValue alloc] initWithDisplayURL:cdbBid.displayUrl
-                                                               insertTime:cdbBid.insertTime
-                                                                      ttl:cdbBid.ttl
-                                                                   adUnit:adUnit];
-    [self.tokenMap setObject:tokenValue forKey:token];
+    CR_TokenValue *tokenValue = [[CR_TokenValue alloc] initWithCdbBid:cdbBid adUnit:adUnit];
+
+    self.tokenMap[token] = tokenValue;
     return token;
 }
 

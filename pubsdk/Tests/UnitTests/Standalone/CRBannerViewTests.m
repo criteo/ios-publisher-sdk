@@ -10,14 +10,12 @@
 #import "CR_BidManager.h"
 #import "Criteo.h"
 #import "Criteo+Internal.h"
-#import "CR_CacheAdUnit.h"
 #import "CRBannerView.h"
 #import "CRBannerView+Internal.h"
 #import "MockWKWebView.h"
 #import "CRBidToken+Internal.h"
-#import "NSError+Criteo.h"
-#import "CRBannerAdUnit.h"
 #import "NSURL+Criteo.h"
+#import "CR_TokenValue+Testing.h"
 
 @import WebKit;
 
@@ -285,10 +283,7 @@ didFinishNavigation:(WKNavigation *)navigation {
     CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
     NSString *displayURL = @"https://rdi.eu.criteo.com/delivery/r/ajs.php?did=5c98e9d9c574a3589f8e9465fce67b00&u=%7Cx8O2jgV2RMISbZvm2b09FrpmynuoN27jeqtp1aMfZdU%3D%7C&c1=oP5_e7JVVt0EkjVehxP6aIOIWS-fm2fzhyMXUboeuR1zkGydE3HlloxT1QAbHNNgeH7t9e1IR6mv0biMxm46ZSFdAXZXreJVeP6QwU8IPLUsA32HNafhqgpnKTwmx9RrrJm4CS5Wqj07vNY7UTgDei8AWqc5CGPT2wm7W02JRvgN2kA-oWbWifmmm6EPpqVZijDHDzXwaNgzrfsaEodEmYAjFepGF0mdElHoFUCPKuOtc7mUQijLG0BSS9RhwrCTcAv42KkEQ359Et_eDnQcSt9OAF3bL64QIvLQxt2ekYFNuv3zng03qL0DIHS2bDJwRb3ieUlvZCWHI49OqM5PqoGDpSzdhdwfTE18L6cOOVKqPQ0dPofN4dkSs9IbVGiYlPnjfibL88PwTspYvki2svidSDIa2agQMHVgEof8YY4x4VgPjA8XY-s93ttw_i-RN3lcQn2mGEp6FYmRsyjFEDxHgGfJ0j6U";
     CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:@"123" adUnitType:CRAdUnitTypeBanner];
-    CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:displayURL
-                                                                       insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-100]
-                                                                              ttl:200
-                                                                           adUnit:adUnit];
+    CR_TokenValue *expectedTokenValue = [CR_TokenValue tokenValueWithDisplayUrl:displayURL adUnit:adUnit];
     OCMStub([mockCriteo tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner]).andReturn(expectedTokenValue);
 
     [bannerView loadAdWithBidToken:token];
@@ -316,10 +311,7 @@ didFinishNavigation:(WKNavigation *)navigation {
 
     CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
     NSString *displayURL = @"whatDoYouMean";
-    CR_TokenValue *expectedTokenValue = [[CR_TokenValue alloc] initWithDisplayURL:displayURL
-                                                                       insertTime:[[NSDate alloc] initWithTimeIntervalSinceNow:-100]
-                                                                              ttl:200
-                                                                           adUnit:adUnit2];
+    CR_TokenValue *expectedTokenValue = [CR_TokenValue tokenValueWithDisplayUrl:displayURL adUnit:adUnit2];
     OCMStub([mockCriteo tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner]).andReturn(expectedTokenValue);
 
     [bannerView loadAdWithBidToken:token];
