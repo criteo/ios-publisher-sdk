@@ -111,6 +111,20 @@
     [self cr_waitForExpectations:@[exp]];
 }
 
+- (void)testGivenNativeAdsInTableView_whenClickOnAd_thenClickDetected {
+    CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
+    [self initCriteoWithAdUnits:@[adUnit]];
+    CR_NativeAdViewController *ctrl = [CR_NativeAdViewController
+                                       nativeAdViewControllerWithCriteo:self.criteo];
+    self.window = [UIWindow cr_keyWindowWithViewController:ctrl];
+    [self loadNativeAdUnit:adUnit inViewController:ctrl];
+    XCTestExpectation *exp = [self expectationForClickDetectionOnViewController:ctrl];
+
+    [ctrl.adView sendActionsForControlEvents:UIControlEventTouchUpInside];
+
+    [self cr_waitForExpectations:@[exp]];
+}
+
 #pragma mark - Private
 
 - (XCTestExpectation *)expectationForLeaingAppOnViewController:(CR_NativeAdViewController *)ctrl {
