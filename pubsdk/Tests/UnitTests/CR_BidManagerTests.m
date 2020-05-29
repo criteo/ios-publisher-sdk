@@ -41,6 +41,10 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                         beforeCdbCall:[OCMArg any] \
                     completionHandler:[OCMArg any]]);
 
+@interface CR_BidManager (Testing)
+@property (nonatomic) NSTimeInterval cdbTimeToNextCall;
+@end
+
 @interface CR_BidManagerTests : XCTestCase
 
 @property (nonatomic, strong) CR_CacheAdUnit *adUnit1;
@@ -133,8 +137,8 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 }
 
 - (void)testGetBidUncachedAdUnitInSilentMode {
-    self.builder.timeToNextCall = INFINITY; // in silent mode
     self.bidManager = [self.builder buildBidManager];
+    self.bidManager.cdbTimeToNextCall = INFINITY; // in silent mode
 
     CR_OCMockRejectCallCdb(self.apiHandlerMock, @[self.adUnitUncached]);
 
@@ -144,8 +148,8 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 }
 
 - (void)testGetEmptyBidForAdUnitInSilentMode {
-    self.builder.timeToNextCall = INFINITY; // in silent mode
     self.bidManager = [self.builder buildBidManager];
+    self.bidManager.cdbTimeToNextCall = INFINITY; // in silent mode
 
     CR_OCMockRejectCallCdb(self.apiHandlerMock, @[self.adUnitForEmptyBid]);
 
@@ -164,8 +168,8 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 }
 
 - (void)testGetBidWhenBeforeTtnc { // TTNC -> Time to next call
-    self.builder.timeToNextCall = [[NSDate dateWithTimeIntervalSinceNow:360] timeIntervalSinceReferenceDate];
     self.bidManager = [self.builder buildBidManager];
+    self.bidManager.cdbTimeToNextCall = [[NSDate dateWithTimeIntervalSinceNow:360] timeIntervalSinceReferenceDate];
     self.cacheManager.bidCache[self.adUnit1] = self.bid1;
     self.cacheManager.bidCache[self.adUnit2] = self.bid2;
 

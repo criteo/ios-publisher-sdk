@@ -25,7 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) CR_DeviceInfo *deviceInfo;
 @property (nonatomic, strong) CR_DataProtectionConsent *consent;
 @property (nonatomic, strong) CR_AppEvents *appEvents;
-@property (nonatomic, assign) NSTimeInterval timeToNextCall;
 @property (nonatomic, strong) CR_HeaderBidding *headerBidding;
 @property (nonatomic, strong) CR_FeedbackStorage *feedbackStorage;
 @property (nonatomic, strong) id <CR_FeedbackDelegate> feedbackDelegate;

@@ -16,6 +16,7 @@
 @property (nonatomic, assign, readonly) BOOL isInSilenceMode;
 @property (nonatomic, strong, readonly) CR_HeaderBidding *headerBidding;
 @property (nonatomic, strong, readonly) id <CR_FeedbackDelegate> feedbackDelegate;
+@property (nonatomic) NSTimeInterval cdbTimeToNextCall;
 
 @end
 
@@ -29,7 +30,6 @@
     CR_DeviceInfo      *deviceInfo;
     CR_NetworkManager  *networkManager;
     CR_AppEvents       *appEvents;
-    NSTimeInterval     cdbTimeToNextCall;
 }
 
 // Properties
@@ -54,7 +54,6 @@
                             consent:nil
                      networkManager:nil
                           appEvents:nil
-                     timeToNextCall:0
                       headerBidding:nil
                    feedbackDelegate:nil
                       threadManager:nil];
@@ -69,7 +68,6 @@
                             consent:(CR_DataProtectionConsent*)consent
                      networkManager:(CR_NetworkManager*)networkManager
                           appEvents:(CR_AppEvents *)appEvents
-                     timeToNextCall:(NSTimeInterval)timeToNextCall
                       headerBidding:(CR_HeaderBidding *)headerBidding
                     feedbackDelegate:(id <CR_FeedbackDelegate>)feedbackDelegate
                       threadManager:(CR_ThreadManager *)threadManager
@@ -83,8 +81,8 @@
         self->deviceInfo      = deviceInfo;
         self->networkManager  = networkManager;
         self->appEvents       = appEvents;
-        self->cdbTimeToNextCall=timeToNextCall;
-        _consent              = consent;
+        _cdbTimeToNextCall = 0;
+        _consent = consent;
         _feedbackDelegate = feedbackDelegate;
         _threadManager = threadManager;
         _headerBidding = headerBidding;
@@ -156,7 +154,7 @@
 }
 
 - (BOOL)isInSilenceMode {
-    return [[NSDate date] timeIntervalSinceReferenceDate] < self->cdbTimeToNextCall;
+    return [[NSDate date] timeIntervalSinceReferenceDate] < self.cdbTimeToNextCall;
 }
 
 - (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken
@@ -231,7 +229,7 @@
 
 - (void)updateTimeToNextCallIfProvided:(CR_CdbResponse *)cdbResponse {
     if(cdbResponse.timeToNextCall) {
-        self->cdbTimeToNextCall = [[NSDate dateWithTimeIntervalSinceNow:cdbResponse.timeToNextCall]
+        self.cdbTimeToNextCall = [[NSDate dateWithTimeIntervalSinceNow:cdbResponse.timeToNextCall]
             timeIntervalSinceReferenceDate];
     }
 }

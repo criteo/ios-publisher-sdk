@@ -143,7 +143,6 @@
                                                                   consent:self.consent
                                                            networkManager:self.networkManager
                                                                 appEvents:self.appEvents
-                                                           timeToNextCall:self.timeToNextCall
                                                             headerBidding:self.headerBidding
                                                          feedbackDelegate:self.feedbackDelegate
                                                             threadManager:self.threadManager];
