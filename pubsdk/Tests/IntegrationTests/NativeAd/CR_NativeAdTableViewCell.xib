@@ -120,6 +120,7 @@
                 <outlet property="advertiserLogoMediaView" destination="U2d-at-JtZ" id="tQs-15-MW5"/>
                 <outlet property="bodyLabel" destination="Ud3-E7-kjL" id="cax-He-XvM"/>
                 <outlet property="callToActionLabel" destination="18t-ZH-bca" id="5Xe-x6-spA"/>
+                <outlet property="nativeAdView" destination="ouf-Ke-QaH" id="8Hd-mE-T0r"/>
                 <outlet property="priceLabel" destination="OhL-La-bEF" id="b1Y-x4-EDs"/>
                 <outlet property="productMediaView" destination="ksW-wb-bmN" id="l5X-7z-ijy"/>
                 <outlet property="titleLabel" destination="abw-bX-K4d" id="cOq-Sm-aX6"/>

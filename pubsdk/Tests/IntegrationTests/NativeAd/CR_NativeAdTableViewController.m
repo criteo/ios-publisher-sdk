@@ -107,8 +107,8 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (nativeAdIndex != NSNotFound) {
         CR_NativeAdTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kAdCellIdentifier
                                                                          forIndexPath:indexPath];
-
         CRNativeAd *ad = (self.nativeAds.count > nativeAdIndex) ? self.nativeAds[nativeAdIndex] : nil;
+        cell.nativeAdView.nativeAd = ad;
         cell.titleLabel.text = ad.title ?: @"No title";
         cell.bodyLabel.text = ad.body ?: @"No body";
         cell.productMediaView.placeholder = self.mediaPlaceholder;
