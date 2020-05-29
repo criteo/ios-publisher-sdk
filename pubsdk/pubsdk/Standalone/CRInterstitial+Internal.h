@@ -14,6 +14,7 @@
 @class Criteo;
 @class CR_InterstitialViewController;
 @class CRInterstitialAdUnit;
+@protocol CR_URLOpening;
 
 @interface CRInterstitial () <WKNavigationDelegate>
 
@@ -27,7 +28,8 @@
 - (instancetype)initWithCriteo:(Criteo *)criteo
                 viewController:(CR_InterstitialViewController *)viewController
                     isAdLoaded:(BOOL)isAdLoaded
-                        adUnit:(CRInterstitialAdUnit *)adUnit;
+                        adUnit:(CRInterstitialAdUnit *)adUnit
+                     urlOpener:(id<CR_URLOpening>)urlOpener;
 
 - (instancetype)initWithAdUnit:(CRInterstitialAdUnit *)adUnit
                         criteo:(Criteo *)criteo;

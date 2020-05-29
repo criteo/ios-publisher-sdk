@@ -15,10 +15,13 @@
 #import "CR_InterstitialViewController.h"
 #import "NSURL+Criteo.h"
 #import "CR_DeviceInfo.h"
+#import "CR_URLOpening.h"
 
 @import WebKit;
 
 @interface CRInterstitial() <WKNavigationDelegate, WKUIDelegate>
+
+@property (strong, nonatomic) id<CR_URLOpening> urlOpener;
 
 @end
 
@@ -27,7 +30,8 @@
 - (instancetype)initWithCriteo:(Criteo *)criteo
                 viewController:(CR_InterstitialViewController *)viewController
                     isAdLoaded:(BOOL)isAdLoaded
-                        adUnit:(CRInterstitialAdUnit *)adUnit {
+                        adUnit:(CRInterstitialAdUnit *)adUnit
+                     urlOpener:(id<CR_URLOpening>)urlOpener {
     if (self = [super init]) {
         _criteo = criteo;
         viewController.webView.navigationDelegate = self;
@@ -35,6 +39,7 @@
         _viewController = viewController;
         _isAdLoaded = isAdLoaded;
         _adUnit = adUnit;
+        _urlOpener = urlOpener;
     }
     return self;
 }
@@ -48,12 +53,14 @@
     WKWebViewConfiguration *webViewConfiguration = [[WKWebViewConfiguration alloc] init];
     webViewConfiguration.allowsInlineMediaPlayback = YES;
     WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:webViewConfiguration];
+    CR_URLOpener *urlOpener = [[CR_URLOpener alloc] init];
     return [self initWithCriteo:criteo
                  viewController:[[CR_InterstitialViewController alloc] initWithWebView:webView
                                                                                   view:nil
                                                                           interstitial:self]
                      isAdLoaded:NO
-                         adUnit:adUnit];
+                         adUnit:adUnit
+                      urlOpener:urlOpener];
 }
 
 - (BOOL)checkSafeToLoad {
@@ -197,7 +204,7 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
             if([self.delegate respondsToSelector:@selector(interstitialWillLeaveApplication:)]) {
                 [self.delegate interstitialWillLeaveApplication:self];
             }
-            [navigationAction.request.URL cr_openExternal];
+            [self.urlOpener openExternalURL:navigationAction.request.URL];
             [self.viewController dismissViewController];
         });
         if(decisionHandler) {

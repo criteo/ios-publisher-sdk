@@ -19,6 +19,7 @@
 #import "CR_AdUnitHelper.h"
 #import "CR_BidManagerBuilder.h"
 #import "CR_NetworkCaptor.h"
+#import "CR_URLOpenerMock.h"
 #import "Criteo+Testing.h"
 #import "XCTestCase+Criteo.h"
 #import "CR_Timer.h"
@@ -84,7 +85,8 @@
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
                                                                isAdLoaded:NO
-                                                                   adUnit:self.adUnit];
+                                                                   adUnit:self.adUnit
+                                                                urlOpener:[[CR_URLOpenerMock alloc] init]];
 
     id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
     OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(320, 480));
@@ -112,7 +114,8 @@
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
                                                                isAdLoaded:NO
-                                                                   adUnit:nil];
+                                                                   adUnit:nil
+                                                                urlOpener:[[CR_URLOpenerMock alloc] init]];
     OCMExpect([mockCriteo getBid:OCMArg.any]).andReturn([self bidWithDisplayURL:@"whatDoYouMean"]);
 
     [interstitial loadAd];
@@ -133,7 +136,8 @@
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
                                                                isAdLoaded:YES
-                                                                   adUnit:self.adUnit];
+                                                                   adUnit:self.adUnit
+                                                                urlOpener:[[CR_URLOpenerMock alloc] init]];
     UIViewController *vc = OCMStrictClassMock([UIViewController class]);
     OCMStub([vc presentViewController:OCMArg.any animated:YES completion:[OCMArg isNotNil]]);
     [interstitial presentFromRootViewController:vc];
@@ -154,7 +158,8 @@
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
                                                                isAdLoaded:NO
-                                                                   adUnit:self.adUnit];
+                                                                   adUnit:self.adUnit
+                                                                urlOpener:[[CR_URLOpenerMock alloc] init]];
 
     CR_CdbBid *bid = [self bidWithDisplayURL:@"test"];
 
@@ -205,7 +210,8 @@
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
                                                                isAdLoaded:NO
-                                                                   adUnit:self.adUnit];
+                                                                   adUnit:self.adUnit
+                                                                urlOpener:[[CR_URLOpenerMock alloc] init]];
 
     id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
     OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(320, 480));
@@ -230,7 +236,8 @@
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
                                                                isAdLoaded:NO
-                                                                   adUnit:self.adUnit];
+                                                                   adUnit:self.adUnit
+                                                                urlOpener:[[CR_URLOpenerMock alloc] init]];
     WKNavigationAction *mockNavigationAction = OCMStrictClassMock([WKNavigationAction class]);
     OCMStub(mockNavigationAction.navigationType).andReturn(WKNavigationTypeOther);
     [interstitial webView:realWebView decidePolicyForNavigationAction:mockNavigationAction
@@ -252,6 +259,7 @@
 }
 
 - (void)testCancelNavigationActionPolicyForWebView {
+    CR_URLOpenerMock *opener = [[CR_URLOpenerMock alloc] init];
     // cancel webView navigation for clicks on Links from mainFrame and open in browser
     WKWebView *realWebView = [WKWebView new];
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
@@ -261,7 +269,8 @@
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
                                                                isAdLoaded:NO
-                                                                   adUnit:self.adUnit];
+                                                                   adUnit:self.adUnit
+                                                                urlOpener:opener];
 
     WKNavigationAction *mockNavigationAction = OCMStrictClassMock([WKNavigationAction class]);
     OCMStub(mockNavigationAction.navigationType).andReturn(WKNavigationTypeLinkActivated);
@@ -271,8 +280,6 @@
     NSURL *url = [[NSURL alloc] initWithString:@"123"];
     NSURLRequest *request =  [[NSURLRequest alloc] initWithURL:url];
     OCMStub(mockNavigationAction.request).andReturn(request);
-    id mockUrl = OCMPartialMock(url);
-    OCMStub([mockUrl cr_openExternal]);
 
     XCTestExpectation *openInBrowserExpectation = [self expectationWithDescription:@"URL opened in browser expectation"];
     [interstitial webView:realWebView decidePolicyForNavigationAction:mockNavigationAction
@@ -281,7 +288,7 @@
           }];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        OCMVerify([mockUrl cr_openExternal]);
+        XCTAssertEqual(opener.openExternalURLCount, 1);
         [openInBrowserExpectation fulfill];
     });
 
@@ -294,6 +301,7 @@
 // Test window.open navigation delegate
 // TODO: UITests for "window.open" in a "real" webview
 - (void)testCreateWebViewWithConfiguration {
+    CR_URLOpenerMock *opener = [[CR_URLOpenerMock alloc] init];
     WKWebView *realWebView = [WKWebView new];
     Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
     CR_InterstitialViewController *interstitialVC = [[CR_InterstitialViewController alloc] initWithWebView:realWebView
@@ -302,7 +310,8 @@
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
                                                                isAdLoaded:NO
-                                                                   adUnit:nil];
+                                                                   adUnit:nil
+                                                                urlOpener:opener];
 
     WKNavigationAction *mockNavigationAction = OCMStrictClassMock([WKNavigationAction class]);
     OCMStub(mockNavigationAction.navigationType).andReturn(WKNavigationTypeOther);
@@ -312,14 +321,12 @@
     NSURL *url = [[NSURL alloc] initWithString:@"123"];
     NSURLRequest *request =  [[NSURLRequest alloc] initWithURL:url];
     OCMStub(mockNavigationAction.request).andReturn(request);
-    id mockUrl = OCMPartialMock(url);
-    OCMStub([mockUrl cr_openExternal]);
 
     XCTestExpectation *openInBrowserExpectation = [self expectationWithDescription:@"URL opened in browser expectation"];
     [interstitial webView:realWebView createWebViewWithConfiguration:nil forNavigationAction:mockNavigationAction windowFeatures:nil];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        OCMVerify([mockUrl cr_openExternal]);
+        XCTAssertEqual(opener.openExternalURLCount, 1);
         [openInBrowserExpectation fulfill];
     });
 
@@ -353,7 +360,8 @@
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:criteo
                                                            viewController:interstitialVC
                                                                isAdLoaded:NO
-                                                                   adUnit:self.adUnit];
+                                                                   adUnit:self.adUnit
+                                                                urlOpener:[[CR_URLOpenerMock alloc] init]];
     [interstitial loadAd];
 }
 

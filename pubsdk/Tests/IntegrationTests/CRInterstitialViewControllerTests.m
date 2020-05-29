@@ -19,6 +19,7 @@
 #import "CRInterstitialAdUnit.h"
 #import "CR_Config.h"
 #import "CR_Timer.h"
+#import "CR_URLOpenerMock.h"
 
 @interface CR_InterstitialViewController () {
     BOOL _hasBeenDismissed;
@@ -78,7 +79,8 @@
     CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:mockCriteo
                                                            viewController:interstitialVC
                                                                isAdLoaded:YES
-                                                                   adUnit:self.adUnit];
+                                                                   adUnit:self.adUnit
+                                                                urlOpener:[[CR_URLOpenerMock alloc] init]];
     XCTestExpectation *vcDismissedExpectation = [self expectationWithDescription:@"View Controller dismissed on close button click"];
 
     UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
