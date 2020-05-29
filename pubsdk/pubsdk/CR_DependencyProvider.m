@@ -22,143 +22,154 @@
 #import "CR_BidFetchTracker.h"
 #import "CR_BidManager.h"
 
+#define CR_LAZY(object, assignment) ({ \
+    @synchronized(self) { \
+        object = object ?: assignment; \
+    } \
+    object; \
+})
+
 @implementation CR_DependencyProvider
 
 - (NSUserDefaults *)userDefaults {
-    if (_userDefaults == nil) {
-        _userDefaults = [NSUserDefaults standardUserDefaults];
-    }
-    return _userDefaults;
+    return CR_LAZY(
+            _userDefaults,
+            [NSUserDefaults standardUserDefaults]
+    );
 }
 
 - (NSNotificationCenter *)notificationCenter {
-    if (_notificationCenter == nil) {
-        _notificationCenter = [NSNotificationCenter defaultCenter];
-    }
-    return _notificationCenter;
+    return CR_LAZY(
+            _notificationCenter,
+            [NSNotificationCenter defaultCenter]
+    );
 }
 
 - (CR_ThreadManager *)threadManager {
-    if (_threadManager == nil) {
-        _threadManager = [[CR_ThreadManager alloc] init];
-    }
-    return _threadManager;
+    return CR_LAZY(
+            _threadManager,
+            [[CR_ThreadManager alloc] init]
+    );
 }
 
 - (CR_BidFetchTracker *)bidFetchTracker {
-    if (_bidFetchTracker == nil) {
-        _bidFetchTracker = [[CR_BidFetchTracker alloc] init];
-    }
-    return _bidFetchTracker;
+    return CR_LAZY(
+            _bidFetchTracker,
+            [[CR_BidFetchTracker alloc] init]
+    );
 }
 
 - (CR_NetworkManager *)networkManager {
-    if (_networkManager == nil) {
-        _networkManager = [[CR_NetworkManager alloc] initWithDeviceInfo:self.deviceInfo];
-    }
-    return _networkManager;
+    return CR_LAZY(
+            _networkManager,
+            [[CR_NetworkManager alloc] initWithDeviceInfo:self.deviceInfo]
+    );
 }
 
 - (CR_ApiHandler *)apiHandler {
-    if (_apiHandler == nil) {
-        _apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:self.networkManager
-                                                    bidFetchTracker:self.bidFetchTracker
-                                                      threadManager:self.threadManager];
-    }
-    return _apiHandler;
+    return CR_LAZY(
+            _apiHandler,
+            [[CR_ApiHandler alloc] initWithNetworkManager:self.networkManager
+                                          bidFetchTracker:self.bidFetchTracker
+                                            threadManager:self.threadManager]
+    );
 }
 
 - (CR_CacheManager *)cacheManager {
-    if (_cacheManager == nil) {
-        _cacheManager = [[CR_CacheManager alloc] init];
-    }
-    return _cacheManager;
+    return CR_LAZY(
+            _cacheManager,
+            [[CR_CacheManager alloc] init]
+    );
 }
 
 - (CR_TokenCache *)tokenCache {
-    if (_tokenCache == nil) {
-        _tokenCache = [[CR_TokenCache alloc] init];
-    }
-    return _tokenCache;
+    return CR_LAZY(
+            _tokenCache,
+            [[CR_TokenCache alloc] init]
+    );
 }
 
 - (CR_Config *)config {
-    if (_config == nil) {
-        _config = [[CR_Config alloc] initWithUserDefaults:self.userDefaults];
-    }
-    return _config;
+    return CR_LAZY(
+            _config,
+            [[CR_Config alloc] initWithUserDefaults:self.userDefaults]
+    );
 }
 
 - (CR_ConfigManager *)configManager {
-    if (_configManager == nil) {
-        _configManager = [[CR_ConfigManager alloc] initWithApiHandler:self.apiHandler
-                                                          userDefault:self.userDefaults];
-    }
-    return _configManager;
+    return CR_LAZY(
+            _configManager,
+            [[CR_ConfigManager alloc] initWithApiHandler:self.apiHandler
+                                             userDefault:self.userDefaults]
+    );
 }
 
 - (CR_DeviceInfo *)deviceInfo {
-    if (_deviceInfo == nil) {
-        _deviceInfo = [[CR_DeviceInfo alloc] initWithThreadManager:self.threadManager];
-    }
-    return _deviceInfo;
+    return CR_LAZY(
+            _deviceInfo,
+            [[CR_DeviceInfo alloc] initWithThreadManager:self.threadManager]
+    );
 }
 
 - (CR_DataProtectionConsent *)consent {
-    if (_consent == nil) {
-        _consent = [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
-    }
-    return _consent;
+    return CR_LAZY(
+            _consent,
+            [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults]
+    );
 }
 
 - (CR_AppEvents *)appEvents {
-    if (_appEvents == nil) {
-        _appEvents = [[CR_AppEvents alloc] initWithApiHandler:self.apiHandler
-                                                       config:self.config
-                                                      consent:self.consent
-                                                   deviceInfo:self.deviceInfo
-                                           notificationCenter:self.notificationCenter];
-    }
-    return _appEvents;
+    return CR_LAZY(
+            _appEvents,
+            [[CR_AppEvents alloc] initWithApiHandler:self.apiHandler
+                                              config:self.config
+                                             consent:self.consent
+                                          deviceInfo:self.deviceInfo
+                                  notificationCenter:self.notificationCenter]
+    );
 }
 
 - (CR_HeaderBidding *)headerBidding {
-    if (_headerBidding == nil) {
-        _headerBidding = [[CR_HeaderBidding alloc] initWithDevice:self.deviceInfo];
-    }
-    return _headerBidding;
+    return CR_LAZY(
+            _headerBidding,
+            [[CR_HeaderBidding alloc] initWithDevice:self.deviceInfo]
+    );
 }
 
 - (CR_FeedbackStorage *)feedbackStorage {
-    if (_feedbackStorage == nil) {
-        _feedbackStorage = [[CR_FeedbackStorage alloc] init];
-    }
-    return _feedbackStorage;
+    return CR_LAZY(
+            _feedbackStorage,
+            [[CR_FeedbackStorage alloc] init]
+    );
 }
 
 - (id <CR_FeedbackDelegate>)feedbackDelegate {
-    if (_feedbackDelegate == nil) {
-        _feedbackDelegate = [CR_FeedbackController controllerWithFeedbackStorage:self.feedbackStorage
-                                                                      apiHandler:self.apiHandler
-                                                                          config:self.config];
-    }
-    return _feedbackDelegate;
+    return CR_LAZY(
+            _feedbackDelegate,
+            [CR_FeedbackController controllerWithFeedbackStorage:self.feedbackStorage
+                                                      apiHandler:self.apiHandler
+                                                          config:self.config]
+    );
 }
 
-- (CR_BidManager *)buildBidManager {
-    CR_BidManager *bidManager = [[CR_BidManager alloc] initWithApiHandler:self.apiHandler
-                                                             cacheManager:self.cacheManager
-                                                               tokenCache:self.tokenCache
-                                                                   config:self.config
-                                                            configManager:self.configManager
-                                                               deviceInfo:self.deviceInfo
-                                                                  consent:self.consent
-                                                           networkManager:self.networkManager
-                                                                appEvents:self.appEvents
-                                                            headerBidding:self.headerBidding
-                                                         feedbackDelegate:self.feedbackDelegate
-                                                            threadManager:self.threadManager];
-    return bidManager;
+- (CR_BidManager *)bidManager {
+    return CR_LAZY(
+            _bidManager,
+            [[CR_BidManager alloc] initWithApiHandler:self.apiHandler
+                                         cacheManager:self.cacheManager
+                                           tokenCache:self.tokenCache
+                                               config:self.config
+                                        configManager:self.configManager
+                                           deviceInfo:self.deviceInfo
+                                              consent:self.consent
+                                       networkManager:self.networkManager
+                                            appEvents:self.appEvents
+                                        headerBidding:self.headerBidding
+                                     feedbackDelegate:self.feedbackDelegate
+                                        threadManager:self.threadManager]
+    );
 }
 
 @end
+
+#undef CR_LAZY

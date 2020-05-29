@@ -7,6 +7,7 @@
 
 #import <XCTest/XCTest.h>
 #import "Criteo+Testing.h"
+#import "Criteo+Internal.h"
 #import "CR_AdUnitHelper.h"
 #import "CR_BidManager.h"
 #import "CR_DependencyProvider.h"
@@ -42,9 +43,9 @@
     self.criteo = [Criteo testing_criteoWithNetworkCaptor];
 
     self.dependencyProvider = self.criteo.dependencyProvider;
-    self.bidManager = self.criteo.bidManager;
+    self.bidManager = self.dependencyProvider.bidManager;
     self.networkCaptor = (CR_NetworkCaptor *)self.dependencyProvider.networkManager;
-    self.config = self.criteo.dependencyProvider.config;
+    self.config = self.dependencyProvider.config;
 
     self.adUnit1 = [CR_TestAdUnits preprodBanner320x50];
     self.cacheAdUnit1 = [CR_AdUnitHelper cacheAdUnitForAdUnit:[CR_TestAdUnits preprodBanner320x50]];
@@ -86,7 +87,7 @@
     self.dependencyProvider.networkManager = networkManager;
     self.dependencyProvider.config = self.config;
     self.dependencyProvider.deviceInfo = [[CR_DeviceInfoMock alloc] init];
-    self.bidManager = [self.dependencyProvider buildBidManager];
+    self.bidManager = [self.dependencyProvider bidManager];
     [self.bidManager prefetchBid:self.cacheAdUnit1];
     [self.dependencyProvider.threadManager waiter_waitIdle];
 

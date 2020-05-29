@@ -11,6 +11,7 @@
 #import "CR_TestAdUnits.h"
 #import "CR_ThreadManager+Waiter.h"
 #import "CR_ThreadManagerWaiter.h"
+#import "Criteo+Internal.h"
 
 @interface CR_BidPerformanceTests : XCTestCase
 

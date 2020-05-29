@@ -29,29 +29,7 @@ NSString *const PreprodBannerAdUnitId = @"test-PubSdk-Base";
 NSString *const PreprodInterstitialAdUnitId = @"test-PubSdk-Interstitial";
 NSString *const PreprodNativeAdUnitId = @"test-PubSdk-Native";
 
-static void *CriteoTestingDependencyProviderKey = &CriteoTestingDependencyProviderKey;
-
 @implementation Criteo (Testing)
-
-@dynamic bidManager;
-
-- (instancetype)initWithDependencyProvider:(CR_DependencyProvider *)dependencyProvider
-{
-    CR_BidManager *bidManager = [dependencyProvider buildBidManager];
-    Criteo *criteo = [[Criteo alloc] initWithBidManager:bidManager];
-    criteo.dependencyProvider = dependencyProvider;
-    return criteo;
-}
-
-- (CR_DependencyProvider *)dependencyProvider
-{
-    return objc_getAssociatedObject(self, CriteoTestingDependencyProviderKey);
-}
-
-- (void)setDependencyProvider:(CR_DependencyProvider *)dependencyProvider
-{
-    objc_setAssociatedObject(self, CriteoTestingDependencyProviderKey, dependencyProvider, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
 
 - (CR_NetworkCaptor *)testing_networkCaptor {
     NSAssert([self.dependencyProvider.networkManager isKindOfClass:[CR_NetworkCaptor class]], @"Checking that the networkManager is the CR_NetworkCaptor");

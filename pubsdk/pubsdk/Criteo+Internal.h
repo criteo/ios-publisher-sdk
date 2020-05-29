@@ -20,9 +20,11 @@
 @class CR_Config;
 @class CR_BidManager;
 @class CR_ThreadManager;
+@class CR_DependencyProvider;
 
 @interface Criteo ()
 
+@property (strong, nonatomic, readonly) CR_DependencyProvider *dependencyProvider;
 @property (weak, nonatomic) id<CR_NetworkManagerDelegate> networkManagerDelegate;
 @property (strong, nonatomic, readonly) CR_Config *config;
 @property (strong, nonatomic, readonly) CR_ThreadManager *threadManager;
@@ -31,7 +33,7 @@
 - (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken
                               adUnitType:(CRAdUnitType)adUnitType;
 
-- (instancetype)initWithBidManager:(CR_BidManager *)bidManager;
+- (instancetype)initWithDependencyProvider:(CR_DependencyProvider *)dependencyProvider;
 + (instancetype)criteo;
 
 @end

@@ -4,6 +4,7 @@
 
 #import "CR_CreativeViewChecker.h"
 #import "Criteo.h"
+#import "Criteo+Internal.h"
 #import "CRBannerView+Internal.h"
 #import "UIView+Testing.h"
 #import "CR_Timer.h"

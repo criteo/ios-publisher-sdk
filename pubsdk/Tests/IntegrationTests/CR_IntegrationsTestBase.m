@@ -5,7 +5,6 @@
 #import "CR_IntegrationsTestBase.h"
 #import "Criteo+Testing.h"
 #import "Criteo+Internal.h"
-#import "CR_DependencyProvider.h"
 #import "CR_ThreadManager+Waiter.h"
 
 @implementation CR_IntegrationsTestBase
@@ -22,7 +21,6 @@
 }
 
 - (void)waitForIdleState {
-    [self.criteo.dependencyProvider.threadManager waiter_waitIdle];
     [self.criteo.threadManager waiter_waitIdle];
 }
 

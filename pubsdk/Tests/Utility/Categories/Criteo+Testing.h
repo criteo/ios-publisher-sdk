@@ -8,7 +8,6 @@
 @class CR_NetworkCaptor;
 @class CR_HttpContent;
 @class CR_BidManager;
-@class CR_DependencyProvider;
 @class OCMockObject;
 
 FOUNDATION_EXPORT NSString *const CriteoTestingPublisherId;
@@ -24,12 +23,8 @@ FOUNDATION_EXPORT NSString *const PreprodNativeAdUnitId;
 @property (nonatomic, readonly) CR_NetworkCaptor *testing_networkCaptor;
 @property (nonatomic, readonly) CR_HttpContent *testing_lastBidHttpContent;
 @property (nonatomic, readonly) CR_HttpContent *testing_lastAppEventHttpContent;
-@property (nonatomic, readonly, strong) CR_DependencyProvider *dependencyProvider;
-@property (nonatomic, readonly, strong) CR_BidManager *bidManager;
 
 + (Criteo *)testing_criteoWithNetworkCaptor;
-
-- (instancetype)initWithDependencyProvider:(CR_DependencyProvider *)dependencyProvider;
 
 - (void)testing_registerBanner;
 - (void)testing_registerInterstitial;

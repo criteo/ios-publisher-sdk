@@ -33,7 +33,7 @@
     CR_DependencyProvider *dependencyProvider = [CR_DependencyProvider testing_dependencyProvider];
     dependencyProvider.apiHandler = self.apiHandlerMock;
     dependencyProvider.feedbackStorage = feedbackStorage;
-    self.bidManager = [dependencyProvider buildBidManager];
+    self.bidManager = [dependencyProvider bidManager];
 }
 
 - (void)testEmptySendingQueue_ShouldNotCallSendMethod {

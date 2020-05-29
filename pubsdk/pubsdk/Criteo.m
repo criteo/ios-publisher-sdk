@@ -9,14 +9,14 @@
 #import "Criteo+Internal.h"
 #import "CR_AdUnitHelper.h"
 #import "CR_BidManager.h"
-#import "CR_DependencyProvider.h"
 #import "CR_ThreadManager.h"
 #import "Logging.h"
+#import "CR_DependencyProvider.h"
 
 @interface Criteo ()
 
 @property (nonatomic, strong) NSMutableArray<CR_CacheAdUnit *> *registeredAdUnits;
-@property (nonatomic, strong) CR_BidManager *bidManager;
+@property (nonatomic, strong, readonly) CR_BidManager *bidManager;
 @property (nonatomic, assign) bool hasPrefetched;
 @property (nonatomic, assign) bool registered;
 
@@ -59,16 +59,15 @@
 
 + (instancetype)criteo {
     CR_DependencyProvider *dependencyProvider = [[CR_DependencyProvider alloc] init];
-    CR_BidManager *bidManager = [dependencyProvider buildBidManager];
-    return [[self alloc] initWithBidManager:bidManager];
+    return [[self alloc] initWithDependencyProvider:dependencyProvider];
 }
 
-- (instancetype)initWithBidManager:(CR_BidManager *)bidManager {
+- (instancetype)initWithDependencyProvider:(CR_DependencyProvider *)dependencyProvider {
     if (self = [super init]) {
         _registeredAdUnits = [[NSMutableArray alloc] init];
         _registered = false;
         _hasPrefetched = false;
-        _bidManager = bidManager;
+        _dependencyProvider = dependencyProvider;
     }
     return self;
 }
@@ -79,7 +78,7 @@
         if (!self.registered) {
             self.registered = true;
             @try {
-                [self.bidManager.threadManager dispatchAsyncOnGlobalQueue:^{
+                [self.dependencyProvider.threadManager dispatchAsyncOnGlobalQueue:^{
                     [self _registerCriteoPublisherId:criteoPublisherId withAdUnits:adUnits];
                 }];
             }
@@ -98,6 +97,10 @@
     [self.registeredAdUnits addObjectsFromArray:cacheAdUnits];
     [self.bidManager registerWithSlots:cacheAdUnits];
     [self prefetchAll];
+}
+
+- (CR_BidManager *)bidManager {
+    return self.dependencyProvider.bidManager;
 }
 
 - (void) prefetchAll {
@@ -128,11 +131,11 @@
 }
 
 - (CR_Config *)config {
-    return self.bidManager.config;
+    return self.dependencyProvider.config;
 }
 
 - (CR_ThreadManager *)threadManager {
-    return self.bidManager.threadManager;
+    return self.dependencyProvider.threadManager;
 }
 
 @end

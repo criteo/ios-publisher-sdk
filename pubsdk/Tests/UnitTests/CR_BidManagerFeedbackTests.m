@@ -71,7 +71,7 @@
     dependencyProvider.cacheManager = self.cacheManager;
     dependencyProvider.feedbackStorage = feedbackStorage;
 
-    self.bidManager = [dependencyProvider buildBidManager];
+    self.bidManager = [dependencyProvider bidManager];
 
     self.adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adUnitForValid" width:300 height:250];
     self.adUnit2 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adUnitForValid2" width:300 height:250];
