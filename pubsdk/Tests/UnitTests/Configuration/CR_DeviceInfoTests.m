@@ -10,10 +10,17 @@
 
 #import "CR_DeviceInfo.h"
 #import "CR_ThreadManager.h"
+#import "XCTestCase+Criteo.h"
 
 @import WebKit;
 
 @interface CR_DeviceInfoTests : XCTestCase
+
+@end
+
+@interface CR_DeviceInfo (Tests)
+
+@property (strong, nonatomic, readonly) WKWebView *webView;
 
 @end
 
@@ -76,7 +83,7 @@
     [self waitForExpectations:@[expectation] timeout:5];
 }
 
-- (void)testWebViewInstanciateOnMainThread {
+- (void)testWebViewInstantiatedOnMainThread {
     XCTestExpectation *exp = [self expectationWithDescription:@"DeviceInfo created"];
     dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         XCTAssertNoThrow([[CR_DeviceInfo alloc] init]);
@@ -84,4 +91,18 @@
     });
     [self waitForExpectations:@[exp] timeout:0.2];
 }
+
+- (void)testWebViewReleasedAfterUse {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"WebView has been released"];
+
+    CR_DeviceInfo *device = [[CR_DeviceInfo alloc] init];
+    XCTAssertNotNil(device.webView, @"WebView has been allocated");
+    [device waitForUserAgent:^{
+        XCTAssertNil(device.webView, @"WebView has been released");
+        [expectation fulfill];
+    }];
+
+    [self cr_waitForExpectations:@[expectation]];
+}
+
 @end

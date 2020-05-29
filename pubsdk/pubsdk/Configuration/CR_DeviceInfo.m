@@ -14,7 +14,7 @@
 @interface CR_DeviceInfo ()
 
 @property (strong, nonatomic, readonly) CR_ThreadManager *threadManager;
-@property (strong, nonatomic, readonly) WKWebView *webView;
+@property (strong, nonatomic, nullable) WKWebView *webView;
 
 @end
 
@@ -80,6 +80,7 @@
             [context executeBlock:^{
                 [self.threadManager dispatchAsyncOnGlobalQueue:^{
                     @synchronized (self) {
+                        self.webView = nil;
                         CLog(@"-----> navigatorUserAgent = %@, error = %@", navigatorUserAgent, error);
                         if (!error && [navigatorUserAgent isKindOfClass:NSString.class]) {
                             self.userAgent = navigatorUserAgent;
