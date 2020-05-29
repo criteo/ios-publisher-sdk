@@ -38,9 +38,11 @@
     CR_NativeAdTableViewController *ctrl = [CR_NativeAdTableViewController
             nativeAdTableViewControllerWithCriteo:self.criteo];
     self.window = [UIWindow cr_keyWindowWithViewController:ctrl];
-    XCTestExpectation *exp = [[XCTKVOExpectation alloc] initWithKeyPath:@"adLoaded"
+    NSString *keyPath = NSStringFromSelector(@selector(adLoadedCount));
+    XCTestExpectation *exp = [[XCTKVOExpectation alloc] initWithKeyPath:keyPath
                                                                  object:ctrl];
     ctrl.adUnit = adUnit;
+    [ctrl.adLoader loadAd];
 
     [self cr_waitForExpectations:@[exp]];
 }
@@ -56,6 +58,7 @@
     XCTestExpectation *exp = [[XCTKVOExpectation alloc] initWithKeyPath:NSStringFromSelector(@selector(lastFilledAdCell))
                                                                  object:ctrl];
     ctrl.adUnit = adUnit;
+    [ctrl.adLoader loadAd];
 
     [self cr_waitForExpectations:@[exp]];
     [self waitForIdleState];
