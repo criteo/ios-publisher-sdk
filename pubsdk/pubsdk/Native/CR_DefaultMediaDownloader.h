@@ -8,6 +8,7 @@
 #import "CRMediaDownloader.h"
 
 @class CR_NetworkManager;
+@class CR_ImageCache;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithNetworkManager:(CR_NetworkManager *)networkManager NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithNetworkManager:(CR_NetworkManager *)networkManager
+                            imageCache:(CR_ImageCache *)imageCache NS_DESIGNATED_INITIALIZER;
 
 @end
 
