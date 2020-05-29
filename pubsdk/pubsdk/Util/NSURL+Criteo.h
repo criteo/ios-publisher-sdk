@@ -17,13 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (nullable NSURL *)cr_URLWithStringOrNil:(nullable NSString *)string;
 
-- (void)cr_openExternal;
-
-- (void)cr_openExternal:(void (^ __nullable)(BOOL success))completion;
-
-- (void)cr_openExternalWithOptions:(NSDictionary<UIApplicationOpenExternalURLOptionsKey, id> *)options
-                        completion:(void (^ __nullable)(BOOL success))completion;
-
 @end
 
 NS_ASSUME_NONNULL_END

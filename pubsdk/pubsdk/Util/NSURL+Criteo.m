@@ -17,23 +17,4 @@
     }
 }
 
-- (void)cr_openExternalWithOptions:(NSDictionary<UIApplicationOpenExternalURLOptionsKey, id> *)options
-                        completion:(void (^ __nullable)(BOOL success))completion {
-    if (@available(iOS 10, *)) {
-        [[UIApplication sharedApplication] openURL:self
-                                           options:options
-                                 completionHandler:completion];
-    } else {
-        completion([[UIApplication sharedApplication] openURL:self]);
-    }
-}
-
-- (void)cr_openExternal:(void (^ __nullable)(BOOL success))completion {
-    [self cr_openExternalWithOptions:@{} completion:completion];
-}
-
-- (void)cr_openExternal {
-    [self cr_openExternal:nil];
-}
-
 @end
