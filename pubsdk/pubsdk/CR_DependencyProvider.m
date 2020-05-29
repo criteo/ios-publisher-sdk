@@ -188,7 +188,10 @@
 - (CR_ImageCache *)imageCache {
     return CR_LAZY(
             _imageCache,
-            [[CR_ImageCache alloc] init]
+            ({
+                NSUInteger sizeLimit = 1024 * 1024 * 32; // 32Mo
+                [[CR_ImageCache alloc] initWithSizeLimit:sizeLimit];
+            })
     );
 }
 

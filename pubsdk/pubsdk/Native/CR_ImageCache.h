@@ -13,6 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_ImageCache : NSObject
 
+- (instancetype)init NS_UNAVAILABLE;
+
+- (instancetype)initWithSizeLimit:(NSUInteger)dataSizeLimit NS_DESIGNATED_INITIALIZER;
+
 - (void)setImage:(UIImage *)image forUrl:(NSURL *)url imageSize:(NSUInteger)size;
 
 - (nullable UIImage *) imageForUrl:(NSURL *)url;
