@@ -14,8 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 @class CR_NativeAdTableViewCell;
 @class CRNativeLoader;
 
-extern const NSUInteger kNativeAdCount;
-
 @interface CR_NativeAdTableViewController : UITableViewController
 
 + (instancetype)nativeAdTableViewControllerWithCriteo:(Criteo *)criteo;
@@ -33,6 +31,19 @@ extern const NSUInteger kNativeAdCount;
 #pragma Properties to verify the delegate
 
 @property (assign, nonatomic, readonly) NSUInteger adLoadedCount;
+@property (assign, nonatomic, readonly) NSUInteger detectImpressionCount;
+@property (assign, nonatomic, readonly) NSUInteger detectClickCount;
+@property (assign, nonatomic, readonly) NSUInteger leaveAppCount;
+
+/**
+ * Scroll at a given index path.
+ *
+ * The scroll is dispatch after less than one second. A lot of hours of debug
+ * have shown that if the tableview is reloading its data while we scroll, the
+ * scroll doesn't work and finish in the middle of nowhere. This approach may
+ * induce flackiness on slow devices. The time and the experience will show it (or not).
+ */
+- (void)scrollAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
 

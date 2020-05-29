@@ -112,7 +112,7 @@
     [self cr_waitForExpectations:@[exp]];
 }
 
-- (void)testGivenNativeAdsInTableView_whenClickOnAd_thenClickDetected {
+- (void)testGivenNativeAds_whenClickOnAd_thenClickDetected {
     CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
     [self initCriteoWithAdUnits:@[adUnit]];
     CR_NativeAdViewController *ctrl = [CR_NativeAdViewController
@@ -126,7 +126,51 @@
     [self cr_waitForExpectations:@[exp]];
 }
 
+- (void)testGivenNativeAds_whenLoadingAllNativeAd_triggerImpressionForVisibleAd {
+    CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
+    [self initCriteoWithAdUnits:@[adUnit]];
+    CR_NativeAdTableViewController *ctrl = [CR_NativeAdTableViewController
+                                       nativeAdTableViewControllerWithCriteo:self.criteo];
+    self.window = [UIWindow cr_keyWindowWithViewController:ctrl];
+    ctrl.adUnit = adUnit;
+    XCTestExpectation *expFor2 = [self expectationForImpressionInTableViewController:ctrl
+                                                                       expectedCount:2];
+    XCTestExpectation *notExpFor3 = [self expectationForImpressionInTableViewController:ctrl
+                                                                       expectedCount:3];
+    notExpFor3.inverted = YES;
+
+    [self loadAllNativeAdInTableViewController:ctrl];
+
+    [self cr_waitShortlyForExpectations:@[expFor2, notExpFor3]];
+}
+
+- (void)testGivenNativeAds_whenScrolling_triggerAllImpression {
+    CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
+    [self initCriteoWithAdUnits:@[adUnit]];
+    CR_NativeAdTableViewController *ctrl = [CR_NativeAdTableViewController
+                                       nativeAdTableViewControllerWithCriteo:self.criteo];
+    self.window = [UIWindow cr_keyWindowWithViewController:ctrl];
+    ctrl.adUnit = adUnit;
+    [self loadAllNativeAdInTableViewController:ctrl
+                       expectedImpressionCount:2];
+    XCTestExpectation *exp = [self expectationForImpressionInTableViewController:ctrl
+                                                expectedCount:3];
+
+    [ctrl scrollAtIndexPath:ctrl.nativeAdIndexPaths.lastObject];
+
+    [self cr_waitForExpectations:@[exp]];
+}
+
 #pragma mark - Private
+
+- (XCTestExpectation *)expectationForNativeAdLoadedInTableViewController:(CR_NativeAdTableViewController *)ctrl
+                                                           expectedCount:(NSUInteger)expectedCount {
+    NSString *keyPath = NSStringFromSelector(@selector(adLoadedCount));
+    XCTestExpectation *exp = [[XCTKVOExpectation alloc] initWithKeyPath:keyPath
+                                                                 object:ctrl
+                                                          expectedValue:@(expectedCount)];
+    return exp;
+}
 
 - (XCTestExpectation *)expectationForLeaingAppOnViewController:(CR_NativeAdViewController *)ctrl {
     NSString *keyPath = NSStringFromSelector(@selector(leaveAppCount));
@@ -144,6 +188,15 @@
     return exp;
 }
 
+- (XCTestExpectation *)expectationForImpressionInTableViewController:(CR_NativeAdTableViewController *)ctrl
+                                                       expectedCount:(NSUInteger)expectedCount {
+    NSString *keyPath = NSStringFromSelector(@selector(detectImpressionCount));
+    XCTestExpectation *exp = [[XCTKVOExpectation alloc] initWithKeyPath:keyPath
+                                                                 object:ctrl
+                                                          expectedValue:@(expectedCount)];
+    return exp;
+}
+
 - (void)loadNativeAdUnit:(CRNativeAdUnit *)adUnit
         inViewController:(CR_NativeAdViewController *)ctrl {
     ctrl.adUnit = adUnit;
@@ -157,6 +210,31 @@
 
 - (UIImage *)placeholderImage {
     return [UIImage testImageNamed:@"image.jpeg"];
+}
+
+- (void)loadAllNativeAdInTableViewController:(CR_NativeAdTableViewController *)ctrl
+                     expectedImpressionCount:(NSUInteger)expectedImpressionCount {
+    XCTestExpectation *exp = [self expectationForImpressionInTableViewController:ctrl
+                                                                   expectedCount:expectedImpressionCount];
+    [self loadAllNativeAdInTableViewController:ctrl];
+
+    [self cr_waitForExpectations:@[exp]];
+}
+
+- (void)loadAllNativeAdInTableViewController:(CR_NativeAdTableViewController *)ctrl {
+    for (NSUInteger i = 0; i < ctrl.nativeAdIndexPaths.count; i++) {
+        [self loadNativeAdInTableViewController:ctrl];
+    }
+}
+
+- (void)loadNativeAdInTableViewController:(CR_NativeAdTableViewController *)ctrl {
+    NSUInteger nextLoadCount = ctrl.adLoadedCount + 1;
+    NSString *keyPath = NSStringFromSelector(@selector(adLoadedCount));
+    XCTestExpectation *exp = [[XCTKVOExpectation alloc] initWithKeyPath:keyPath
+                                                                 object:ctrl
+                                                          expectedValue:@(nextLoadCount)];
+    [ctrl.adLoader loadAd];
+    [self cr_waitForExpectations:@[exp]];
 }
 
 @end

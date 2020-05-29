@@ -21,6 +21,7 @@
 @property (strong, nonatomic) CR_CustomNativeAdView *adView;
 
 @property (assign, nonatomic) NSUInteger adLoadedCount;
+@property (assign, nonatomic) NSUInteger detectImpression;
 @property (assign, nonatomic) NSUInteger detectClickCount;
 @property (assign, nonatomic) NSUInteger leaveAppCount;
 
@@ -73,7 +74,7 @@ didFailToReceiveAdWithError:(NSError *)error {
 }
 
 - (void)nativeLoaderDidDetectImpression:(CRNativeLoader *)loader {
-
+    self.detectImpression += 1;
 }
 
 - (void)nativeLoaderDidDetectClick:(CRNativeLoader *)loader {

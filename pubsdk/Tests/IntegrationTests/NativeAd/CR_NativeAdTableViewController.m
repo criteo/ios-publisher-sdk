@@ -27,8 +27,8 @@ static const NSUInteger kCellCount = 50;
 @property (strong, nonatomic) NSMutableArray<CRNativeAd *> *nativeAds;
 @property (strong, nonatomic) CR_NativeAdTableViewCell *lastFilledAdCell;
 
-@property (assign, nonatomic) NSUInteger loadAdCount;
 @property (assign, nonatomic) NSUInteger adLoadedCount;
+@property (assign, nonatomic) NSUInteger detectImpressionCount;
 @property (assign, nonatomic) NSUInteger detectClickCount;
 @property (assign, nonatomic) NSUInteger leaveAppCount;
 
@@ -83,6 +83,18 @@ static const NSUInteger kCellCount = 50;
          forCellReuseIdentifier:kAdCellIdentifier];
     [self.tableView registerClass:UITableViewCell.class
            forCellReuseIdentifier:kNormalCellIdentifier];
+}
+
+- (void)scrollAtIndexPath:(NSIndexPath *)indexPath {
+    // Force the reload of the cell if not loaded.
+    [self.tableView visibleCells];
+    // Let the reloading happen.
+    dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC));
+    dispatch_after(delay, dispatch_get_main_queue(), ^{
+        [self.tableView scrollToRowAtIndexPath:indexPath
+                              atScrollPosition:UITableViewScrollPositionMiddle
+                                      animated:NO];
+    });
 }
 
 #pragma mark - Table view data source / delegate
@@ -147,7 +159,7 @@ didFailToReceiveAdWithError:(NSError *)error {
 }
 
 - (void)nativeLoaderDidDetectImpression:(CRNativeLoader *)loader {
-
+    self.detectImpressionCount += 1;
 }
 
 - (void)nativeLoaderDidDetectClick:(CRNativeLoader *)loader {
