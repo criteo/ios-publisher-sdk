@@ -9,7 +9,7 @@
 #import "Criteo.h"
 #import "Criteo+Internal.h"
 #import "CR_Config.h"
-#import "CR_BidManagerBuilder.h"
+#import "CR_DependencyProvider.h"
 #import "CR_NetworkCaptor.h"
 #import "Criteo+Testing.h"
 #import "AdSupport/ASIdentifierManager.h"
@@ -31,7 +31,7 @@
 }
 
 - (void)tearDown {
-    [self.criteo.bidManagerBuilder.threadManager waiter_waitIdle];
+    [self.criteo.dependencyProvider.threadManager waiter_waitIdle];
     [super tearDown];
 }
 
@@ -43,7 +43,7 @@
     __weak typeof(self) weakSelf = self;
     [self.criteo.testing_networkCaptor setRequestListener:^(NSURL *url, CR_HTTPVerb verb, NSDictionary *body) {
 
-        CR_Config *config = weakSelf.criteo.bidManagerBuilder.config;
+        CR_Config *config = weakSelf.criteo.dependencyProvider.config;
         NSString *urlString = url.absoluteString;
 
         if ([urlString containsString:config.configUrl]) {
@@ -70,8 +70,8 @@
 
 - (void)testCdbApiCallDuringInitialisation {
     XCTestExpectation *expectation = [self expectationWithDescription:@"cdbApiCallExpectation"];
-    CR_Config *config = self.criteo.bidManagerBuilder.config;
-    CR_DeviceInfo *deviceInfo = self.criteo.bidManagerBuilder.deviceInfo;
+    CR_Config *config = self.criteo.dependencyProvider.config;
+    CR_DeviceInfo *deviceInfo = self.criteo.dependencyProvider.deviceInfo;
 
     [self.criteo.testing_networkCaptor setRequestListener:^(NSURL *url, CR_HTTPVerb verb, NSDictionary *postBody) {
         NSDictionary *user = postBody[@"user"];
@@ -91,7 +91,7 @@
 
 - (void)testConfigApiCallDuringInitialisation {
     XCTestExpectation *expectation = [self expectationWithDescription:@"configApiCallExpectation"];
-    CR_Config *config = self.criteo.bidManagerBuilder.config;
+    CR_Config *config = self.criteo.dependencyProvider.config;
     NSString *appIdValue = [NSBundle mainBundle].bundleIdentifier;
 
     [self.criteo.testing_networkCaptor setRequestListener:^(NSURL *url, CR_HTTPVerb verb, NSDictionary *body) {
@@ -117,7 +117,7 @@
 
     __weak typeof(self) weakSelf = self;
     [self.criteo.testing_networkCaptor setRequestListener:^(NSURL *url, CR_HTTPVerb verb, NSDictionary *body) {
-        if ([url.absoluteString containsString:weakSelf.criteo.bidManagerBuilder.config.appEventsUrl] &&
+        if ([url.absoluteString containsString:weakSelf.criteo.dependencyProvider.config.appEventsUrl] &&
             [self query:url.query hasParamKey:CR_ApiQueryKeys.idfa withValue:idfaValue] &&
             [self query:url.query hasParamKey:CR_ApiQueryKeys.limitedAdTracking withValue:limitedAdTrackingValue] &&
             [self query:url.query hasParamKey:CR_ApiQueryKeys.appId withValue:appIdValue] &&
@@ -133,7 +133,7 @@
 
 - (void)testInitDoNotMakeNetworkCalls
 {
-    [self.criteo.bidManagerBuilder.threadManager waiter_waitIdle];
+    [self.criteo.dependencyProvider.threadManager waiter_waitIdle];
 
     XCTAssertEqualObjects(self.criteo.testing_networkCaptor.pendingRequests, @[]);
     XCTAssertEqualObjects(self.criteo.testing_networkCaptor.finishedRequests, @[]);

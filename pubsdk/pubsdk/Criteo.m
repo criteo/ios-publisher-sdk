@@ -9,7 +9,7 @@
 #import "Criteo+Internal.h"
 #import "CR_AdUnitHelper.h"
 #import "CR_BidManager.h"
-#import "CR_BidManagerBuilder.h"
+#import "CR_DependencyProvider.h"
 #import "CR_ThreadManager.h"
 #import "Logging.h"
 
@@ -58,8 +58,8 @@
 }
 
 + (instancetype)criteo {
-    CR_BidManagerBuilder *builder = [[CR_BidManagerBuilder alloc] init];
-    CR_BidManager *bidManager = [builder buildBidManager];
+    CR_DependencyProvider *dependencyProvider = [[CR_DependencyProvider alloc] init];
+    CR_BidManager *bidManager = [dependencyProvider buildBidManager];
     return [[self alloc] initWithBidManager:bidManager];
 }
 

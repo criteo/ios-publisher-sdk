@@ -9,7 +9,7 @@
 #import "Criteo+Testing.h"
 #import "Criteo+Internal.h"
 #import "CR_ApiQueryKeys.h"
-#import "CR_BidManagerBuilder.h"
+#import "CR_DependencyProvider.h"
 #import "CR_DataProtectionConsent.h"
 #import "CR_DataProtectionConsentMock.h"
 #import "CR_Gdpr.h"
@@ -45,11 +45,11 @@ do { \
 
 - (void)setUp {
     self.criteo = [Criteo testing_criteoWithNetworkCaptor];
-    self.userDefaults = self.criteo.bidManagerBuilder.userDefaults;
+    self.userDefaults = self.criteo.dependencyProvider.userDefaults;
 }
 
 - (void)tearDown {
-    [self.criteo.bidManagerBuilder.threadManager waiter_waitIdle];
+    [self.criteo.dependencyProvider.threadManager waiter_waitIdle];
     [super tearDown];
 }
 

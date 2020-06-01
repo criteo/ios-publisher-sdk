@@ -8,7 +8,7 @@
 #import <XCTest/XCTest.h>
 #import <OCMock.h>
 #import "CR_BidManager.h"
-#import "CR_BidManagerBuilder+Testing.h"
+#import "CR_DependencyProvider+Testing.h"
 #import "pubsdkTests-Swift.h"
 
 @interface CR_BidManagerFeedbackSendingTests : XCTestCase
@@ -30,10 +30,10 @@
     CR_FeedbackStorage *feedbackStorage = [[CR_FeedbackStorage alloc] initWithFileManager:fileManagingMock
                                                                                 withQueue:self.feedbackSendingQueue];
 
-    CR_BidManagerBuilder *builder = [CR_BidManagerBuilder testing_bidManagerBuilder];
-    builder.apiHandler = self.apiHandlerMock;
-    builder.feedbackStorage = feedbackStorage;
-    self.bidManager = [builder buildBidManager];
+    CR_DependencyProvider *dependencyProvider = [CR_DependencyProvider testing_dependencyProvider];
+    dependencyProvider.apiHandler = self.apiHandlerMock;
+    dependencyProvider.feedbackStorage = feedbackStorage;
+    self.bidManager = [dependencyProvider buildBidManager];
 }
 
 - (void)testEmptySendingQueue_ShouldNotCallSendMethod {

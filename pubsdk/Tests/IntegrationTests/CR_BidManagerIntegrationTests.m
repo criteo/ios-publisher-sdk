@@ -9,7 +9,7 @@
 #import "Criteo+Testing.h"
 #import "CR_AdUnitHelper.h"
 #import "CR_BidManager.h"
-#import "CR_BidManagerBuilder.h"
+#import "CR_DependencyProvider.h"
 #import "CR_CdbBidBuilder.H"
 #import "CR_Config.h"
 #import "CR_DeviceInfoMock.h"
@@ -25,7 +25,7 @@
 @interface CR_BidManagerIntegrationTests : XCTestCase
 
 @property (nonatomic, strong) Criteo *criteo;
-@property (nonatomic, strong) CR_BidManagerBuilder *builder;
+@property (nonatomic, strong) CR_DependencyProvider *dependencyProvider;
 @property (nonatomic, strong) CR_NetworkCaptor *networkCaptor;
 @property (nonatomic, strong) CR_BidManager *bidManager;
 @property (nonatomic, strong) CR_Config *config;
@@ -41,10 +41,10 @@
 - (void)setUp {
     self.criteo = [Criteo testing_criteoWithNetworkCaptor];
 
-    self.builder = self.criteo.bidManagerBuilder;
+    self.dependencyProvider = self.criteo.dependencyProvider;
     self.bidManager = self.criteo.bidManager;
-    self.networkCaptor = (CR_NetworkCaptor *)self.builder.networkManager;
-    self.config = self.criteo.bidManagerBuilder.config;
+    self.networkCaptor = (CR_NetworkCaptor *)self.dependencyProvider.networkManager;
+    self.config = self.criteo.dependencyProvider.config;
 
     self.adUnit1 = [CR_TestAdUnits preprodBanner320x50];
     self.cacheAdUnit1 = [CR_AdUnitHelper cacheAdUnitForAdUnit:[CR_TestAdUnits preprodBanner320x50]];
@@ -52,7 +52,7 @@
 }
 
 - (void)tearDown {
-    [self.criteo.bidManagerBuilder.threadManager waiter_waitIdle];
+    [self.criteo.dependencyProvider.threadManager waiter_waitIdle];
     [super tearDown];
 }
 
@@ -82,16 +82,16 @@
         // as we test later on the number of network calls
         return [url testing_isBidUrlWithConfig:self.config];
     }];
-    self.builder = [[CR_BidManagerBuilder alloc] init]; // create new *clean* builder
-    self.builder.networkManager = networkManager;
-    self.builder.config = self.config;
-    self.builder.deviceInfo = [[CR_DeviceInfoMock alloc] init];
-    self.bidManager = [self.builder buildBidManager];
+    self.dependencyProvider = [[CR_DependencyProvider alloc] init]; // create new *clean* dependency provider
+    self.dependencyProvider.networkManager = networkManager;
+    self.dependencyProvider.config = self.config;
+    self.dependencyProvider.deviceInfo = [[CR_DeviceInfoMock alloc] init];
+    self.bidManager = [self.dependencyProvider buildBidManager];
     [self.bidManager prefetchBid:self.cacheAdUnit1];
-    [self.builder.threadManager waiter_waitIdle];
+    [self.dependencyProvider.threadManager waiter_waitIdle];
 
     [self.bidManager getBid:self.cacheAdUnit1];
-    [self.builder.threadManager waiter_waitIdle];
+    [self.dependencyProvider.threadManager waiter_waitIdle];
 
     XCTAssertEqual(networkManager.numberOfPostCall, 1);
 }

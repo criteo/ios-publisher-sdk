@@ -14,7 +14,7 @@
 #import "CR_AdUnitHelper.h"
 #import "CR_CdbBidBuilder.h"
 #import "Criteo+Testing.h"
-#import "CR_BidManagerBuilder.h"
+#import "CR_DependencyProvider.h"
 #import "CR_URLOpenerMock.h"
 #import "WkWebView+Testing.h"
 
@@ -37,7 +37,7 @@
     self.expectedCreativeUrl = creativeUrl;
     CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:self.adUnit];
     CR_CdbBid *bid = CR_CdbBidBuilder.new.adUnit(cacheAdUnit).cpm(@"15.00").displayUrl(creativeUrl).build;
-    self.criteo.bidManagerBuilder.cacheManager.bidCache[cacheAdUnit] = bid;
+    self.criteo.dependencyProvider.cacheManager.bidCache[cacheAdUnit] = bid;
 }
 
 - (void)dealloc {

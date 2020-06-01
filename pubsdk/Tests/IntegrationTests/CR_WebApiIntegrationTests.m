@@ -9,7 +9,7 @@
 
 #import "CR_AdUnitHelper.h"
 #import "CR_ApiHandler.h"
-#import "CR_BidManagerBuilder.h"
+#import "CR_DependencyProvider.h"
 #import "CR_Config.h"
 #import "CR_DataProtectionConsentMock.h"
 #import "CR_DeviceInfo.h"
@@ -46,8 +46,8 @@
     self.consentMock = [[CR_DataProtectionConsentMock alloc] init];
     self.config = [CR_Config configForTestWithCriteoPublisherId:CriteoTestingPublisherId
                                                       userDefaults:userDefaults];
-    CR_BidManagerBuilder *builder = [[CR_BidManagerBuilder alloc] init];
-    self.apiHandler = builder.apiHandler;
+    CR_DependencyProvider *dependencyProvider = [[CR_DependencyProvider alloc] init];
+    self.apiHandler = dependencyProvider.apiHandler;
 
     // We use the preprod adunit because
     // the GDPR of the demo adunit is not processed by RTB.

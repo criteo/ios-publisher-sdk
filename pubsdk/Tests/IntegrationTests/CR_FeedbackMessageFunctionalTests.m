@@ -11,7 +11,7 @@
 
 #import "Criteo+Testing.h"
 #import "Criteo+Internal.h"
-#import "CR_BidManagerBuilder+Testing.h"
+#import "CR_DependencyProvider+Testing.h"
 #import "CR_NetworkCaptor.h"
 #import "CR_NetworkManagerSimulator.h"
 #import "CR_NetworkWaiter.h"
@@ -34,15 +34,15 @@
     [super setUp];
     [self clearFileDisk];
 
-    CR_BidManagerBuilder *builder =
-        CR_BidManagerBuilder.new.withIsolatedUserDefaults
+    CR_DependencyProvider *dependencyProvider =
+        CR_DependencyProvider.new.withIsolatedUserDefaults
                                 .withPreprodConfiguration
                                 .withListenedNetworkManager
                                 // We don't want to isolate the tests from the disk
                                 //.withIsolatedFeedbackStorage
                                 .withIsolatedNotificationCenter;
 
-    self.criteo = [[Criteo alloc] initWithBidManagerBuilder:builder];
+    self.criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProvider];
     self.nsdateMock = OCMClassMock([NSDate class]);
 }
 
@@ -53,7 +53,7 @@
     // the associated test was finished on the main thread. This is an
     // erratic behavior and the stacktrace was always showing OCMockClass
     // API.
-    CR_ThreadManager *threadManager = self.criteo.bidManagerBuilder.threadManager;
+    CR_ThreadManager *threadManager = self.criteo.dependencyProvider.threadManager;
     [threadManager waiter_waitIdle];
     [self.nsdateMock stopMocking];
     [self clearFileDisk];
@@ -235,7 +235,7 @@ do { \
 
 - (void)preparePostResponseWithError:(NSError *)error
                           urlChecker:(BOOL(^)(NSURL *url, CR_Config *config))urlChecker {
-    CR_Config *config = self.criteo.bidManagerBuilder.config;
+    CR_Config *config = self.criteo.dependencyProvider.config;
     id urlArg = [OCMArg checkWithBlock:^BOOL(NSURL *url) {
         return urlChecker(url, config);
     }];
@@ -288,7 +288,7 @@ do { \
 }
 
 - (CR_FeedbackStorage *)feedbackStorage {
-    return self.criteo.bidManagerBuilder.feedbackStorage;
+    return self.criteo.dependencyProvider.feedbackStorage;
 }
 
 - (void)clearFileDisk {

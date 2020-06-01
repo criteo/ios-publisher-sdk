@@ -7,7 +7,7 @@
 
 #import "Criteo+Testing.h"
 #import "Criteo+Internal.h"
-#import "CR_BidManagerBuilder+Testing.h"
+#import "CR_DependencyProvider+Testing.h"
 #import "CR_NetworkManagerDecorator.h"
 #import "CR_NetworkCaptor.h"
 #import "CR_NetworkManagerSimulator.h"
@@ -28,45 +28,45 @@ NSString *const PreprodBannerAdUnitId = @"test-PubSdk-Base";
 NSString *const PreprodInterstitialAdUnitId = @"test-PubSdk-Interstitial";
 NSString *const PreprodNativeAdUnitId = @"test-PubSdk-Native";
 
-static void *CriteoTestingBidManagerBuilderKey = &CriteoTestingBidManagerBuilderKey;
+static void *CriteoTestingDependencyProviderKey = &CriteoTestingDependencyProviderKey;
 
 @implementation Criteo (Testing)
 
 @dynamic bidManager;
 
-- (instancetype)initWithBidManagerBuilder:(CR_BidManagerBuilder *)bidManagerBuilder
+- (instancetype)initWithDependencyProvider:(CR_DependencyProvider *)dependencyProvider
 {
-    CR_BidManager *bidManager = [bidManagerBuilder buildBidManager];
+    CR_BidManager *bidManager = [dependencyProvider buildBidManager];
     Criteo *criteo = [[Criteo alloc] initWithBidManager:bidManager];
-    criteo.bidManagerBuilder = bidManagerBuilder;
+    criteo.dependencyProvider = dependencyProvider;
     return criteo;
 }
 
-- (CR_BidManagerBuilder *)bidManagerBuilder
+- (CR_DependencyProvider *)dependencyProvider
 {
-    return objc_getAssociatedObject(self, CriteoTestingBidManagerBuilderKey);
+    return objc_getAssociatedObject(self, CriteoTestingDependencyProviderKey);
 }
 
-- (void)setBidManagerBuilder:(CR_BidManagerBuilder *)bidManagerBuilder
+- (void)setDependencyProvider:(CR_DependencyProvider *)dependencyProvider
 {
-    objc_setAssociatedObject(self, CriteoTestingBidManagerBuilderKey, bidManagerBuilder, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, CriteoTestingDependencyProviderKey, dependencyProvider, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (CR_NetworkCaptor *)testing_networkCaptor {
-    NSAssert([self.bidManagerBuilder.networkManager isKindOfClass:[CR_NetworkCaptor class]], @"Checking that the networkManager is the CR_NetworkCaptor");
-    return (CR_NetworkCaptor *) self.bidManagerBuilder.networkManager;
+    NSAssert([self.dependencyProvider.networkManager isKindOfClass:[CR_NetworkCaptor class]], @"Checking that the networkManager is the CR_NetworkCaptor");
+    return (CR_NetworkCaptor *) self.dependencyProvider.networkManager;
 }
 
 - (id)testing_networkManagerMock {
     // Note that [captor.networkManager isKindOfClass:[OCMockObject class]] doesn't work.
     // Indeed, OCMockObject is a subclass of NSProxy, not of NSObject. So to know if we
     // use an OCMock, we verify that is it an NSProxy with object.isProxy.
-    if ([self.bidManagerBuilder.networkManager isKindOfClass:[CR_NetworkCaptor class]]) {
+    if ([self.dependencyProvider.networkManager isKindOfClass:[CR_NetworkCaptor class]]) {
         NSAssert(self.testing_networkCaptor.networkManager.isProxy, @"OCMockObject class not found on the networkCaptor");
         return self.testing_networkCaptor.networkManager;
     } else {
-        NSAssert(self.bidManagerBuilder.networkManager.isProxy, @"OCMockObject class not found on the networkCaptor");
-        return self.bidManagerBuilder.networkManager;
+        NSAssert(self.dependencyProvider.networkManager.isProxy, @"OCMockObject class not found on the networkCaptor");
+        return self.dependencyProvider.networkManager;
     }
 }
 
@@ -90,8 +90,8 @@ static void *CriteoTestingBidManagerBuilderKey = &CriteoTestingBidManagerBuilder
 }
 
 + (Criteo *)testing_criteoWithNetworkCaptor {
-    CR_BidManagerBuilder *builder = [CR_BidManagerBuilder testing_bidManagerBuilder];
-    Criteo *criteo = [[Criteo alloc] initWithBidManagerBuilder:builder];
+    CR_DependencyProvider *dependencyProvider = [CR_DependencyProvider testing_dependencyProvider];
+    Criteo *criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProvider];
     return criteo;
 }
 

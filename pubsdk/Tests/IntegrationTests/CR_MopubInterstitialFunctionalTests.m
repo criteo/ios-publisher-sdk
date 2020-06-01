@@ -13,7 +13,7 @@
 #import "CR_AssertMopub.h"
 #import "Criteo+Internal.h"
 #import "Criteo+Testing.h"
-#import "CR_BidManagerBuilder.h"
+#import "CR_DependencyProvider.h"
 #import "CR_AdUnitHelper.h"
 #import "CR_MopubCreativeViewChecker.h"
 #import <MoPub.h>
@@ -42,8 +42,8 @@ static NSString *initialMopubKeywords = @"key1:value1,key2:value2";
     [self initCriteoWithAdUnits:@[interstitial]];
     MPInterstitialAdController *interstitialAdController = [[MPInterstitialAdController alloc] init];
     interstitialAdController.keywords = initialMopubKeywords;
-    CR_BidManagerBuilder *builder = [self.criteo bidManagerBuilder];
-    CR_CdbBid *bid = [builder.cacheManager getBidForAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:interstitial]];
+    CR_DependencyProvider *dependencyProvider = [self.criteo dependencyProvider];
+    CR_CdbBid *bid = [dependencyProvider.cacheManager getBidForAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:interstitial]];
 
     [self.criteo setBidsForRequest:interstitialAdController withAdUnit:interstitial];
 

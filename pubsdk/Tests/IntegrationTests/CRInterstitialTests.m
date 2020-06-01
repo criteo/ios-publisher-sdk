@@ -17,7 +17,7 @@
 #import "MockWKWebView.h"
 #import "CR_InterstitialViewController.h"
 #import "CR_AdUnitHelper.h"
-#import "CR_BidManagerBuilder.h"
+#import "CR_DependencyProvider.h"
 #import "CR_NetworkCaptor.h"
 #import "CR_URLOpenerMock.h"
 #import "Criteo+Testing.h"

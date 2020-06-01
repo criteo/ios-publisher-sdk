@@ -7,7 +7,7 @@
 
 #import <XCTest/XCTest.h>
 #import "Criteo+Testing.h"
-#import "CR_BidManagerBuilder+Testing.h"
+#import "CR_DependencyProvider+Testing.h"
 #import "CR_TestAdUnits.h"
 #import "CR_ThreadManager+Waiter.h"
 #import "CR_ThreadManagerWaiter.h"
@@ -21,15 +21,15 @@
 @implementation CR_BidPerformanceTests
 
 - (void)setUp {
-    CR_BidManagerBuilder *builder =
-    CR_BidManagerBuilder.new.withIsolatedUserDefaults
+    CR_DependencyProvider *dependencyProvider =
+    CR_DependencyProvider.new.withIsolatedUserDefaults
     .withPreprodConfiguration
     .withListenedNetworkManager
     // We don't want to isolate the tests from the disk
     //.withIsolatedFeedbackStorage
     .withIsolatedNotificationCenter;
 
-    self.criteo = [[Criteo alloc] initWithBidManagerBuilder:builder];
+    self.criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProvider];
 }
 
 - (void)test500Bids {
@@ -56,7 +56,7 @@
 }
 
 - (void)waitThreadManagerIdle {
-    CR_ThreadManager *threadManager = self.criteo.bidManagerBuilder.threadManager;
+    CR_ThreadManager *threadManager = self.criteo.dependencyProvider.threadManager;
     CR_ThreadManagerWaiter *waiter = [[CR_ThreadManagerWaiter alloc] initWithThreadManager:threadManager];
     [waiter waitIdleForPerformanceTests];
 }

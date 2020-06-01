@@ -10,7 +10,7 @@
 #import "pubsdkTests-Swift.h"
 #import "CR_CdbResponse.h"
 #import "CR_CdbBidBuilder.h"
-#import "CR_BidManagerBuilder+Testing.h"
+#import "CR_DependencyProvider+Testing.h"
 #import "CR_SynchronousThreadManager.h"
 
 @interface CR_BidManagerFeedbackTests : XCTestCase
@@ -61,14 +61,14 @@
     CR_FeedbackStorage *feedbackStorage = [[CR_FeedbackStorage alloc] initWithFileManager:self.feedbackFileManagingMock
                                                                                 withQueue:self.feedbackSendingQueue];
 
-    CR_BidManagerBuilder *builder = [CR_BidManagerBuilder testing_bidManagerBuilder];
-    builder.threadManager = [[CR_SynchronousThreadManager alloc] init];
-    builder.deviceInfo = [[CR_DeviceInfoMock alloc] init];
-    builder.apiHandler = self.apiHandlerMock;
-    builder.cacheManager = self.cacheManager;
-    builder.feedbackStorage = feedbackStorage;
+    CR_DependencyProvider *dependencyProvider = [CR_DependencyProvider testing_dependencyProvider];
+    dependencyProvider.threadManager = [[CR_SynchronousThreadManager alloc] init];
+    dependencyProvider.deviceInfo = [[CR_DeviceInfoMock alloc] init];
+    dependencyProvider.apiHandler = self.apiHandlerMock;
+    dependencyProvider.cacheManager = self.cacheManager;
+    dependencyProvider.feedbackStorage = feedbackStorage;
 
-    self.bidManager = [builder buildBidManager];
+    self.bidManager = [dependencyProvider buildBidManager];
 
     self.adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adUnitForValid" width:300 height:250];
     self.adUnit2 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adUnitForValid2" width:300 height:250];

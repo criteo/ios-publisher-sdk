@@ -13,8 +13,8 @@
 #import "DFPRequestClasses.h"
 #import "NSString+Testing.h"
 #import "CR_BidManager.h"
-#import "CR_BidManagerBuilder.h"
-#import "CR_BidManagerBuilder+Testing.h"
+#import "CR_DependencyProvider.h"
+#import "CR_DependencyProvider+Testing.h"
 #import "CR_CdbBidBuilder.h"
 #import "CR_DeviceInfoMock.h"
 #import "CR_HeaderBidding.h"
@@ -64,7 +64,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 @property (nonatomic, strong) CR_ApiHandler *apiHandlerMock;
 @property (nonatomic, strong) CR_ConfigManager *configManagerMock;
 @property (strong, nonatomic) CR_HeaderBidding *headerBiddingMock;
-@property (nonatomic, strong) CR_BidManagerBuilder *builder;
+@property (nonatomic, strong) CR_DependencyProvider *dependencyProvider;
 @property (nonatomic, strong) CR_BidManager *bidManager;
 
 @end
@@ -78,17 +78,17 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     self.apiHandlerMock = OCMClassMock([CR_ApiHandler class]);
     self.headerBiddingMock = OCMPartialMock(CR_HeaderBidding.new);
 
-    CR_BidManagerBuilder *builder = [CR_BidManagerBuilder testing_bidManagerBuilder];
-    builder.threadManager = [[CR_SynchronousThreadManager alloc] init];
-    builder.configManager = self.configManagerMock;
-    builder.cacheManager = self.cacheManager;
-    builder.apiHandler = self.apiHandlerMock;
-    builder.deviceInfo = self.deviceInfoMock;
-    builder.headerBidding = self.headerBiddingMock;
+    CR_DependencyProvider *dependencyProvider = [CR_DependencyProvider testing_dependencyProvider];
+    dependencyProvider.threadManager = [[CR_SynchronousThreadManager alloc] init];
+    dependencyProvider.configManager = self.configManagerMock;
+    dependencyProvider.cacheManager = self.cacheManager;
+    dependencyProvider.apiHandler = self.apiHandlerMock;
+    dependencyProvider.deviceInfo = self.deviceInfoMock;
+    dependencyProvider.headerBidding = self.headerBiddingMock;
 
-    self.builder = builder;
-    self.bidManager = [builder buildBidManager];
-    self.tokenCache = builder.tokenCache;
+    self.dependencyProvider = dependencyProvider;
+    self.bidManager = [dependencyProvider buildBidManager];
+    self.tokenCache = dependencyProvider.tokenCache;
 
     self.adUnit1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adUnit1" width:300 height:250];
     self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).build;
@@ -104,11 +104,11 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     self.dfpRequest = [[DFPRequest alloc] init];
     self.dfpRequest.customTargeting = @{ @"key_1": @"object 1", @"key_2": @"object_2" };
 
-    [self.builder.feedbackStorage popMessagesToSend];
+    [self.dependencyProvider.feedbackStorage popMessagesToSend];
 }
 
 - (void)tearDown {
-    [self.builder.feedbackStorage popMessagesToSend];
+    [self.dependencyProvider.feedbackStorage popMessagesToSend];
 }
 
 - (void)testGetBidForCachedAdUnits {
@@ -137,7 +137,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 }
 
 - (void)testGetBidUncachedAdUnitInSilentMode {
-    self.bidManager = [self.builder buildBidManager];
+    self.bidManager = [self.dependencyProvider buildBidManager];
     self.bidManager.cdbTimeToNextCall = INFINITY; // in silent mode
 
     CR_OCMockRejectCallCdb(self.apiHandlerMock, @[self.adUnitUncached]);
@@ -148,7 +148,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 }
 
 - (void)testGetEmptyBidForAdUnitInSilentMode {
-    self.bidManager = [self.builder buildBidManager];
+    self.bidManager = [self.dependencyProvider buildBidManager];
     self.bidManager.cdbTimeToNextCall = INFINITY; // in silent mode
 
     CR_OCMockRejectCallCdb(self.apiHandlerMock, @[self.adUnitForEmptyBid]);
@@ -168,7 +168,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 }
 
 - (void)testGetBidWhenBeforeTtnc { // TTNC -> Time to next call
-    self.bidManager = [self.builder buildBidManager];
+    self.bidManager = [self.dependencyProvider buildBidManager];
     self.bidManager.cdbTimeToNextCall = [[NSDate dateWithTimeIntervalSinceNow:360] timeIntervalSinceReferenceDate];
     self.cacheManager.bidCache[self.adUnit1] = self.bid1;
     self.cacheManager.bidCache[self.adUnit2] = self.bid2;
@@ -277,7 +277,7 @@ static NSString * const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 }
 
 - (void)testAddCriteoBidToRequestWhenKillSwitchIsEngagedShouldNotEnrichRequest {
-    self.builder.config.killSwitch = YES;
+    self.dependencyProvider.config.killSwitch = YES;
 
     [self.bidManager addCriteoBidToRequest:self.dfpRequest
                                  forAdUnit:self.adUnit1];

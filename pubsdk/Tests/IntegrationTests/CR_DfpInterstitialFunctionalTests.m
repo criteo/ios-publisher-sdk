@@ -11,7 +11,7 @@
 #import "CR_IntegrationsTestBase.h"
 #import "CR_TestAdUnits.h"
 #import "CR_AssertDfp.h"
-#import "CR_BidManagerBuilder.h"
+#import "CR_DependencyProvider.h"
 #import "CR_AdUnitHelper.h"
 #import "Criteo+Internal.h"
 #import "XCTestCase+Criteo.h"
@@ -58,8 +58,8 @@
 - (void)test_givenDfpRequest_whenSetBid_thenDisplayUrlEncodedProperly {
     CRInterstitialAdUnit *interstitialAdUnit = [CR_TestAdUnits demoInterstitial];
     [self initCriteoWithAdUnits:@[interstitialAdUnit]];
-    CR_BidManagerBuilder *builder = [self.criteo bidManagerBuilder];
-    CR_CdbBid *bid = [builder.cacheManager getBidForAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:interstitialAdUnit]];
+    CR_DependencyProvider *dependencyProvider = [self.criteo dependencyProvider];
+    CR_CdbBid *bid = [dependencyProvider.cacheManager getBidForAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:interstitialAdUnit]];
     DFPRequest *interstitialDfpRequest = [[DFPRequest alloc] init];
 
     [self.criteo setBidsForRequest:interstitialDfpRequest withAdUnit:interstitialAdUnit];
@@ -149,7 +149,7 @@ do { \
 #pragma mark - Private
 
 - (CR_DeviceInfoMock *)deviceInfo {
-    return (CR_DeviceInfoMock *) self.criteo.bidManagerBuilder.deviceInfo;
+    return (CR_DeviceInfoMock *) self.criteo.dependencyProvider.deviceInfo;
 }
 
 - (void)recordFailureOnBidRequestCrtSizeString:(NSString *)crtSizeString

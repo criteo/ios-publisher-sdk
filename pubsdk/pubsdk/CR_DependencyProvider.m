@@ -1,16 +1,16 @@
 //
-//  CR_BidManagerBuilder.m
+//  CR_DependencyProvider.m
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
-#import "CR_BidManagerBuilder.h"
+#import "CR_DependencyProvider.h"
 #import "CR_HeaderBidding.h"
 #import "CR_FeedbackController.h"
 #import "CR_ThreadManager.h"
 
-@implementation CR_BidManagerBuilder
+@implementation CR_DependencyProvider
 
 - (NSUserDefaults *)userDefaults {
     if (_userDefaults == nil) {

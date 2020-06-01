@@ -9,7 +9,7 @@
 #import "Criteo+Testing.h"
 #import "Criteo+Internal.h"
 #import "CR_AppEvents+Internal.h"
-#import "CR_BidManagerBuilder+Testing.h"
+#import "CR_DependencyProvider+Testing.h"
 #import "CR_NetworkCaptor.h"
 #import "CR_ThreadManager+Waiter.h"
 
@@ -26,13 +26,13 @@
 - (void)setUp {
     self.criteo = [Criteo testing_criteoWithNetworkCaptor];
     self.networkCaptor = self.criteo.testing_networkCaptor;
-    self.notificationCenter = self.criteo.bidManagerBuilder.notificationCenter;
+    self.notificationCenter = self.criteo.dependencyProvider.notificationCenter;
 
-    [self.criteo.bidManagerBuilder.appEvents disableThrottling];
+    [self.criteo.dependencyProvider.appEvents disableThrottling];
 }
 
 - (void)tearDown {
-    [self.criteo.bidManagerBuilder.threadManager waiter_waitIdle];
+    [self.criteo.dependencyProvider.threadManager waiter_waitIdle];
     [super tearDown];
 }
 

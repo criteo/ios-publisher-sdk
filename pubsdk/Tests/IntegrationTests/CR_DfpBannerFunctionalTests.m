@@ -13,7 +13,7 @@
 #import "CR_TestAdUnits.h"
 #import "CR_AssertDfp.h"
 #import "Criteo+Internal.h"
-#import "CR_BidManagerBuilder.h"
+#import "CR_DependencyProvider.h"
 #import "CR_AdUnitHelper.h"
 #import "CR_DfpCreativeViewChecker.h"
 #import "NSString+CriteoUrl.h"
@@ -51,8 +51,8 @@
 - (void)test_givenDfpRequest_whenSetBid_thenDisplayUrlEncodedProperly {
     CRBannerAdUnit *banner = [CR_TestAdUnits demoBanner320x50];
     [self initCriteoWithAdUnits:@[banner]];
-    CR_BidManagerBuilder *builder = [self.criteo bidManagerBuilder];
-    CR_CdbBid *bid = [builder.cacheManager getBidForAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:banner]];
+    CR_DependencyProvider *dependencyProvider = [self.criteo dependencyProvider];
+    CR_CdbBid *bid = [dependencyProvider.cacheManager getBidForAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:banner]];
     DFPRequest *bannerDfpRequest = [[DFPRequest alloc] init];
 
     [self.criteo setBidsForRequest:bannerDfpRequest withAdUnit:banner];

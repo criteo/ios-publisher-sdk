@@ -1,5 +1,5 @@
 //
-//  CR_BidManagerBuilder.h
+//  CR_DependencyProvider.h
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CR_BidManagerBuilder : NSObject
+@interface CR_DependencyProvider : NSObject
 
 @property (nonatomic, strong) NSUserDefaults *userDefaults;
 @property (nonatomic, strong) NSNotificationCenter *notificationCenter;
