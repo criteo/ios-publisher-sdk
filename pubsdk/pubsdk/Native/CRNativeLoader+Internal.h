@@ -17,7 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, readonly) Criteo *criteo;
 @property (nonatomic, strong, readonly) CRNativeAdUnit *adUnit;
-@property (nonatomic, strong, readonly) CR_ThreadManager *threadManager;
 @property (nonatomic, strong, readonly) id<CR_URLOpening> urlOpener;
 
 - (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit

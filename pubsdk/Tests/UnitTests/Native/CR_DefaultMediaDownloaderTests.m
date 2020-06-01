@@ -8,6 +8,7 @@
 #import <XCTest/XCTest.h>
 #import "CR_DefaultMediaDownloader.h"
 #import "XCTestCase+Criteo.h"
+#import "CR_DependencyProvider.h"
 
 @interface CR_DefaultMediaDownloaderTests : XCTestCase
 
@@ -19,7 +20,7 @@
 @implementation CR_DefaultMediaDownloaderTests
 
 - (void)setUp {
-    self.mediaDownloader = [[CR_DefaultMediaDownloader alloc] init];
+    self.mediaDownloader = CR_DependencyProvider.new.mediaDownloader;
 }
 
 - (void)testDownloadingPngImage {

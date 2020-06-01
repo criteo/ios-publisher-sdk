@@ -22,6 +22,7 @@
 #import "CR_TokenValue.h"
 #import "CRMediaContent+Internal.h"
 #import "CR_URLOpening.h"
+#import "CR_DependencyProvider.h"
 
 @implementation CRNativeLoader
 
@@ -45,8 +46,7 @@
     if (self = [super init]) {
         _adUnit = adUnit;
         _criteo = criteo;
-        self.mediaDownloader = [[CR_DefaultMediaDownloader alloc] init];
-        _threadManager = [[CR_ThreadManager alloc] init];
+        self.mediaDownloader = self.criteo.dependencyProvider.mediaDownloader;
         _urlOpener = urlOpener;
     }
     return self;

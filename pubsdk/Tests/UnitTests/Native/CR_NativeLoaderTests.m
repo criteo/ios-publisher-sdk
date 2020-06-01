@@ -35,6 +35,7 @@
 @property (strong, nonatomic) CR_NativeLoaderDispatchChecker *delegate;
 @property (strong, nonatomic) OCMockObject<CRMediaDownloader> *mediaDownloaderMock;
 @property (strong, nonatomic) CR_URLOpenerMock *urlOpener;
+@property (strong, nonatomic) Criteo *criteo;
 
 @end
 
@@ -43,9 +44,9 @@
 - (void)setUp {
     self.urlOpener = [[CR_URLOpenerMock alloc] init];
     CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
-    id criteoMock = OCMClassMock([Criteo class]);
+    self.criteo = OCMClassMock([Criteo class]);
     self.loader = [[CRNativeLoader alloc] initWithAdUnit:adUnit
-                                                  criteo:criteoMock
+                                                  criteo:self.criteo
                                                urlOpener:self.urlOpener];
     // Mock downloader to prevent actual downloads from the default downloader implementation.
     self.loader.mediaDownloader = OCMProtocolMock(@protocol(CRMediaDownloader));
@@ -132,8 +133,8 @@
 
 - (void)testMediaDownloadOnMainQueue {
     CRNativeAdUnit *adUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"123"];
-    Criteo *criteoMock = [self mockCriteoWithAdUnit:adUnit returnBid:[CR_CdbBid emptyBid]];
-    CRNativeLoader *loader = [self buildLoaderWithAdUnit:adUnit criteo:criteoMock];
+    [self mockCriteoWithAdUnit:adUnit returnBid:[CR_CdbBid emptyBid]];
+    CRNativeLoader *loader = [self buildLoaderWithAdUnit:adUnit criteo:self.criteo];
     CR_MediaDownloaderDispatchChecker *mediaDownloader = [CR_MediaDownloaderDispatchChecker new];
     loader.mediaDownloader = mediaDownloader;
     [loader.mediaDownloader downloadImage:[NSURL URLWithString:@""]
@@ -209,32 +210,15 @@
 
 #pragma mark - Private
 
-- (Criteo *)mockCriteo {
-    Criteo *criteoMock = OCMStrictClassMock([Criteo class]);
-
-    CR_SynchronousThreadManager *threadManager = [[CR_SynchronousThreadManager alloc] init];
-    OCMStub([criteoMock threadManager]).andReturn(threadManager);
-
-    return criteoMock;
-}
-
-- (Criteo *)mockCriteoWithAdUnit:(CRNativeAdUnit *)adUnit
+- (void)mockCriteoWithAdUnit:(CRNativeAdUnit *)adUnit
                        returnBid:(CR_CdbBid *)bid {
-    Criteo *criteoMock = [self mockCriteo];
-
     CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
-    OCMStub([criteoMock getBid:cacheAdUnit]).andReturn(bid);
-
-    return criteoMock;
+    OCMStub([self.criteo getBid:cacheAdUnit]).andReturn(bid);
 }
 
-- (Criteo *)mockCriteoWithBidToken:(CRBidToken *)bidToken
+- (void)mockCriteoWithBidToken:(CRBidToken *)bidToken
                   returnTokenValue:(CR_TokenValue *)tokenValue {
-    Criteo *criteoMock = [self mockCriteo];
-
-    OCMStub([criteoMock tokenValueForBidToken:bidToken adUnitType:CRAdUnitTypeNative]).andReturn(tokenValue);
-
-    return criteoMock;
+    OCMStub([self.criteo tokenValueForBidToken:bidToken adUnitType:CRAdUnitTypeNative]).andReturn(tokenValue);
 }
 
 - (CRNativeLoader *)buildLoaderWithAdUnit:(CRNativeAdUnit *)adUnit
@@ -252,12 +236,12 @@
                  delegate:(id <CRNativeDelegate>)delegate
                    verify:(void (^)(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock))verify {
     CRNativeAdUnit *adUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"123"];
-    Criteo *criteoMock = [self mockCriteoWithAdUnit:adUnit returnBid:bid];
+    [self mockCriteoWithAdUnit:adUnit returnBid:bid];
     id <CRNativeDelegate> testDelegate = delegate ?: OCMStrictProtocolMock(@protocol(CRNativeDelegate));
-    CRNativeLoader *loader = [self buildLoaderWithAdUnit:adUnit criteo:criteoMock];
+    CRNativeLoader *loader = [self buildLoaderWithAdUnit:adUnit criteo:self.criteo];
     loader.delegate = testDelegate;
     [loader loadAd];
-    verify(loader, testDelegate, criteoMock);
+    verify(loader, testDelegate, self.criteo);
 }
 
 - (void)loadNativeWithBid:(CR_CdbBid *)bid
@@ -269,12 +253,12 @@
                         delegate:(id <CRNativeDelegate>)delegate
                           verify:(void (^)(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock))verify {
     CRBidToken *bidToken = [CRBidToken.alloc initWithUUID:[NSUUID UUID]];
-    Criteo *criteoMock = [self mockCriteoWithBidToken:bidToken returnTokenValue:tokenValue];
+    [self mockCriteoWithBidToken:bidToken returnTokenValue:tokenValue];
     id <CRNativeDelegate> testDelegate = delegate ?: OCMStrictProtocolMock(@protocol(CRNativeDelegate));
-    CRNativeLoader *loader = [self buildLoaderWithAdUnit:(CRNativeAdUnit *) tokenValue.adUnit criteo:criteoMock];
+    CRNativeLoader *loader = [self buildLoaderWithAdUnit:(CRNativeAdUnit *) tokenValue.adUnit criteo:self.criteo];
     loader.delegate = testDelegate;
     [loader loadAdWithBidToken:bidToken];
-    verify(loader, testDelegate, criteoMock);
+    verify(loader, testDelegate, self.criteo);
 }
 
 - (CR_CdbBid *)validBid {
@@ -290,8 +274,8 @@
 - (CRNativeLoader *)dispatchCheckerForBid:(CR_CdbBid *)bid
                                  delegate:(id <CRNativeDelegate>)delegate {
     CRNativeAdUnit *adUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"123"];
-    Criteo *criteoMock = [self mockCriteoWithAdUnit:adUnit returnBid:bid];
-    CRNativeLoader *loader = [self buildLoaderWithAdUnit:adUnit criteo:criteoMock];
+    [self mockCriteoWithAdUnit:adUnit returnBid:bid];
+    CRNativeLoader *loader = [self buildLoaderWithAdUnit:adUnit criteo:self.criteo];
     loader.delegate = delegate;
     [loader loadAd];
     return loader;

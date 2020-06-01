@@ -22,6 +22,7 @@
 @class CR_NetworkManager;
 @class CR_BidFetchTracker;
 @class CR_BidManager;
+@protocol CRMediaDownloader;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -44,6 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) CR_FeedbackStorage *feedbackStorage;
 @property (nonatomic, strong) id <CR_FeedbackDelegate> feedbackDelegate;
 @property (nonatomic, strong) CR_BidManager *bidManager;
+@property (nonatomic, strong) id<CRMediaDownloader> mediaDownloader;
 
 @end
 

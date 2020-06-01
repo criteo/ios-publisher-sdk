@@ -21,6 +21,7 @@
 #import "CR_NetworkManager.h"
 #import "CR_BidFetchTracker.h"
 #import "CR_BidManager.h"
+#import "CR_DefaultMediaDownloader.h"
 
 #define CR_LAZY(object, assignment) ({ \
     @synchronized(self) { \
@@ -169,6 +170,14 @@
                                         threadManager:self.threadManager]
     );
 }
+
+- (id)mediaDownloader {
+    return CR_LAZY(
+            _mediaDownloader,
+            [[CR_DefaultMediaDownloader alloc] init]
+    );
+}
+
 
 @end
 
