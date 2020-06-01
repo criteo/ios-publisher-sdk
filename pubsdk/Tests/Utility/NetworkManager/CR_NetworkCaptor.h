@@ -34,7 +34,11 @@ typedef void (^CR_HTTPResponseListener)(CR_HttpContent *httpContent);
 @property (nonatomic, copy, nullable) CR_HTTPResponseListener responseListener;
 
 - (instancetype)initWithDeviceInfo:(CR_DeviceInfo*)deviceInfo NS_UNAVAILABLE;
-- (instancetype)initWithDeviceInfo:(CR_DeviceInfo*)deviceInfo session:(NSURLSession *)session NS_UNAVAILABLE;
+
+- (instancetype)initWithDeviceInfo:(CR_DeviceInfo *)deviceInfo
+                           session:(NSURLSession *)session
+                     threadManager:(CR_ThreadManager *)threadManager NS_UNAVAILABLE;
+
 - (instancetype)initWithNetworkManager:(CR_NetworkManager *)networkManager NS_DESIGNATED_INITIALIZER;
 
 - (void)clear;

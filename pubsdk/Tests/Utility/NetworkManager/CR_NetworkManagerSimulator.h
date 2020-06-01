@@ -20,7 +20,11 @@ extern const NSTimeInterval CR_NetworkManagerSimulatorInterstitialDefaultTtl;
 @property (class, assign, nonatomic, readonly) NSTimeInterval interstitialTtl;
 
 - (instancetype)initWithDeviceInfo:(CR_DeviceInfo *)deviceInfo NS_UNAVAILABLE;
-- (instancetype)initWithDeviceInfo:(CR_DeviceInfo *)deviceInfo session:(NSURLSession *)session NS_UNAVAILABLE;
+
+- (instancetype)initWithDeviceInfo:(CR_DeviceInfo *)deviceInfo
+                           session:(NSURLSession *)session
+                     threadManager:(CR_ThreadManager *)threadManager NS_UNAVAILABLE;
+
 - (instancetype)initWithConfig:(CR_Config *)config NS_DESIGNATED_INITIALIZER;
 
 @end

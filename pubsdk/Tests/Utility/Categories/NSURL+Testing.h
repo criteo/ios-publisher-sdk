@@ -18,6 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)testing_isAppEventUrlWithConfig:(CR_Config *)config;
 - (BOOL)testing_isAppLaunchEventUrlWithConfig:(CR_Config *)config;
 - (BOOL)testing_isConfigEventUrlWithConfig:(CR_Config *)config;
+- (BOOL)testing_isNativeProductImage;
+- (BOOL)testing_isNativeAdvertiserLogoImage;
+- (BOOL)testing_isNativeAdChoiceImage;
 
 @end
 

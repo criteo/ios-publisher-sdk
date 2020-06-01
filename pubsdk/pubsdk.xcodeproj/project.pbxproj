@@ -275,6 +275,8 @@
 		C07AB0222733EAA918843728 /* CR_NativeAssets+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABBC696D95F756547DA86 /* CR_NativeAssets+Testing.m */; };
 		C07AB0B23BDBEA53346DD6CC /* CR_FeedbackController.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABC983FB1DA60294D238A /* CR_FeedbackController.m */; };
 		C07AB1B2CF62822B6B95E9F9 /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = C07ABCED19D15ED05D88A0E9 /* image.png */; };
+		C07AB2F15CC0A2CE38B6DCD6 /* image.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C07AB641C0857180176F2280 /* image.jpeg */; };
+		C07AB38D20AD4B2876BBC539 /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = C07ABCED19D15ED05D88A0E9 /* image.png */; };
 		C07AB53ECEC45D1A7D9EA259 /* CRMediaViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABD1BF4C0321B88411398 /* CRMediaViewTests.m */; };
 		C07AB5492FE17D797F4C1306 /* CRMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB093A865F67283614A5D /* CRMediaView.m */; };
 		C07AB6C51EDDDE87A80D2666 /* CRMediaContent.h in Headers */ = {isa = PBXBuildFile; fileRef = C07ABFCB3CD0F740F0A7FB05 /* CRMediaContent.h */; };
@@ -1660,6 +1662,8 @@
 				462DCA802462C2B800B43A51 /* SampleBid.json in Resources */,
 				7D321B1224743637006CBC4E /* CR_NativeAdTableViewCell.xib in Resources */,
 				462DCA812462C2B800B43A51 /* NativeAssetsFromCdb.json in Resources */,
+				C07AB2F15CC0A2CE38B6DCD6 /* image.jpeg in Resources */,
+				C07AB38D20AD4B2876BBC539 /* image.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1918,7 +1922,7 @@
 				7D321B172474502A006CBC4E,
 				C07ABD53E2A5C3175A6DAFEA /* CR_TokenValue+Testing.m in Sources */,
 				7D9CFF81247CFDCF0005DAE8 /* CR_NativeAdViewController.m in Sources */,
-				7D321B172474502A006CBC4E /* CR_NativeAdFunctionalTests.m in Sources */,
+				7D321B172474502A006CBC4E,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

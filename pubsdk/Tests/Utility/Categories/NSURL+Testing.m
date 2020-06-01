@@ -8,6 +8,7 @@
 #import "NSURL+Testing.h"
 
 #import "CR_Config.h"
+#import "CR_NativeAssets+Testing.h"
 
 @implementation NSURL (Testing)
 
@@ -32,6 +33,18 @@
 
 - (BOOL)testing_isConfigEventUrlWithConfig:(CR_Config *)config {
     return [self.absoluteString containsString:config.configUrl];
+}
+
+- (BOOL)testing_isNativeProductImage {
+    return [self.absoluteString isEqualToString:CR_NativeAssets.nativeAssetsFromCdb.products[0].image.url];
+}
+
+- (BOOL)testing_isNativeAdvertiserLogoImage {
+    return [self.absoluteString isEqualToString:CR_NativeAssets.nativeAssetsFromCdb.advertiser.logoImage.url];
+}
+
+- (BOOL)testing_isNativeAdChoiceImage {
+    return [self.absoluteString isEqualToString:CR_NativeAssets.nativeAssetsFromCdb.privacy.optoutImageUrl];
 }
 
 @end

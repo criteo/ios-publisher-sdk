@@ -43,7 +43,7 @@ NSString *const CR_NetworkSessionEmptyBid = @"{\"slots\":[],\"requestId\":\"c412
     CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] initWithThreadManager:threadManager
                                                                      webView:webView];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    if (self = [super initWithDeviceInfo:deviceInfo session:session]) {
+    if (self = [super initWithDeviceInfo:deviceInfo session:session threadManager:threadManager]) {
         _config = config;
     }
     return self;
@@ -53,7 +53,10 @@ NSString *const CR_NetworkSessionEmptyBid = @"{\"slots\":[],\"requestId\":\"c412
    responseHandler:(CR_NMResponse)responseHandler {
     if (!responseHandler) return;
 
-    if ([url testing_isConfigEventUrlWithConfig:self.config]) {
+    if ([url.scheme isEqualToString:@"file"]) {
+        [super getFromUrl:url responseHandler:responseHandler];
+        return;
+    } else if ([url testing_isConfigEventUrlWithConfig:self.config]) {
         NSData *response = [CR_NetworkSessionReplayerKillSwitchFalse dataUsingEncoding:NSUTF8StringEncoding];
         responseHandler(response, nil);
         return;
@@ -61,6 +64,24 @@ NSString *const CR_NetworkSessionEmptyBid = @"{\"slots\":[],\"requestId\":\"c412
         NSData *response = [CR_NetworkSessionReplayerGumReponse dataUsingEncoding:NSUTF8StringEncoding];
         responseHandler(response, nil);
         return;
+    } else if ([url testing_isNativeProductImage]) {
+        NSBundle *bundle = [NSBundle bundleForClass:self.class];
+        NSURL *imageUrl = [bundle URLForResource:@"image" withExtension:@"png"];
+        NSData *response = [NSData dataWithContentsOfURL:imageUrl];
+        responseHandler(response, nil);
+        return;
+    } else if ([url testing_isNativeAdvertiserLogoImage]) {
+        // CDB preprod return an SVG
+        NSString * svg = @"<svg height=\"100\" width=\"100\">\n"
+        "<circle cx=\"50\" cy=\"50\" r=\"40\" stroke=\"black\" stroke-width=\"3\" fill=\"red\" />\n"
+        "</svg>";
+        NSData *response = [svg dataUsingEncoding:NSUTF8StringEncoding];
+        responseHandler(response, nil);
+    } else if ([url testing_isNativeAdChoiceImage]) {
+        NSBundle *bundle = [NSBundle bundleForClass:self.class];
+        NSURL *imageUrl = [bundle URLForResource:@"image" withExtension:@"jpeg"];
+        NSData *response = [NSData dataWithContentsOfURL:imageUrl];
+        responseHandler(response, nil);
     }
 
     NSAssert(NO, @"Unknown URL in GET: %@", url);

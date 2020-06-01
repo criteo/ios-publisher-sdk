@@ -16,6 +16,7 @@
 #import "CR_NetworkManager.h"
 #import "CR_NetworkManagerDelegate.h"
 #import "XCTestCase+Criteo.h"
+#import "CR_ThreadManager.h"
 
 @interface CR_NetworkManagerTests : XCTestCase
 
@@ -30,7 +31,9 @@
 - (void)setUp {
     self.config = [[CR_Config alloc] init];
     self.session = OCMStrictClassMock([NSURLSession class]);
-    self.networkManager = [[CR_NetworkManager alloc] initWithDeviceInfo: nil session:self.session];
+    self.networkManager = [[CR_NetworkManager alloc] initWithDeviceInfo:nil
+                                                                session:self.session
+                                                          threadManager:[[CR_ThreadManager alloc] init]];
 }
 
 - (void)testPostWithResponse204ShouldExecuteHandlerOnce {

@@ -63,8 +63,13 @@
 - (CR_NetworkManager *)networkManager {
     return CR_LAZY(
             _networkManager,
-            [[CR_NetworkManager alloc] initWithDeviceInfo:self.deviceInfo]
-    );
+            ({
+                NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+                NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
+                [[CR_NetworkManager alloc] initWithDeviceInfo:self.deviceInfo
+                                                      session:session
+                                                threadManager:self.threadManager];
+            }));
 }
 
 - (CR_ApiHandler *)apiHandler {
@@ -174,7 +179,7 @@
 - (id)mediaDownloader {
     return CR_LAZY(
             _mediaDownloader,
-            [[CR_DefaultMediaDownloader alloc] init]
+            [[CR_DefaultMediaDownloader alloc] initWithNetworkManager:self.networkManager]
     );
 }
 

@@ -27,7 +27,7 @@
     CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] initWithThreadManager:threadManager
                                                                      webView:webView];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    self = [super initWithDeviceInfo:deviceInfo session:session];
+    self = [super initWithDeviceInfo:deviceInfo session:session threadManager:threadManager];
     if (self) {
         _networkManager = networkManager;
         _internalPendingRequests = [[NSMutableArray alloc] init];

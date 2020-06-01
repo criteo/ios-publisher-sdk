@@ -7,6 +7,13 @@
 
 #import "CR_NetworkManager.h"
 #import "Logging.h"
+#import "CR_ThreadManager.h"
+
+@interface  CR_NetworkManager ()
+
+@property(nonatomic, strong) CR_ThreadManager *threadManager;
+
+@end
 
 @implementation CR_NetworkManager {
     CR_DeviceInfo *deviceInfo;
@@ -20,31 +27,34 @@
 
 - (instancetype) initWithDeviceInfo:(CR_DeviceInfo *)deviceInfo {
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    return [self initWithDeviceInfo:deviceInfo session:session];
+    return [self initWithDeviceInfo:deviceInfo session:session threadManager:[[CR_ThreadManager alloc] init]];
 }
 
-- (instancetype) initWithDeviceInfo:(CR_DeviceInfo *)deviceInfo session:(NSURLSession *)session {
+- (instancetype)initWithDeviceInfo:(CR_DeviceInfo *)deviceInfo
+                           session:(NSURLSession *)session
+                     threadManager:(CR_ThreadManager *)threadManager {
     if (self = [super init]) {
         self->deviceInfo = deviceInfo;
         self->session = session;
+        _threadManager = threadManager;
     }
     return self;
 }
 
 - (void) signalSentRequest:(NSURLRequest*)request {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    [self.threadManager dispatchAsyncOnMainQueue:^{
         if ([self.delegate respondsToSelector:@selector(networkManager:sentRequest:)]) {
             [self.delegate networkManager:self sentRequest:request];
         }
-    });
+    }];
 }
 
 - (void) signalReceivedResponse:(NSURLResponse*)response withData:(NSData*)data error:(NSError*)error {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    [self.threadManager dispatchAsyncOnMainQueue:^{
         if ([self.delegate respondsToSelector:@selector(networkManager:receivedResponse:withData:error:)]) {
             [self.delegate networkManager:self receivedResponse:response withData:data error:error];
         }
-    });
+    }];
 }
 
 - (void)getFromUrl:(NSURL *) url
@@ -56,33 +66,37 @@
             [request setValue:self->deviceInfo.userAgent forHTTPHeaderField:@"User-Agent"];
         }
 
-        void (^completionHandler)(NSData *, NSURLResponse *, NSError *) =
-        ^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error) {
-            @try {
-                [self signalReceivedResponse:response withData:data error:error];
+        [self.threadManager runWithCompletionContext:^(CR_CompletionContext *context) {
+            void (^completionHandler)(NSData *, NSURLResponse *, NSError *) =
+            ^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error) {
+                [context executeBlock:^{
+                    @try {
+                        [self signalReceivedResponse:response withData:data error:error];
 
-                if (error) {
-                    // Add logging or metrics code here
-                    responseHandler(nil, error);
-                }
-                if (response) {
-                    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
-                    if (httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299) {
-                        responseHandler(data, error);
-                    } else {
-                        // Add logging or metrics code here
-                        // Need to figure out how to handle redirects
+                        if (error) {
+                            // Add logging or metrics code here
+                            responseHandler(nil, error);
+                        }
+                        if (response) {
+                            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
+                            if (httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299) {
+                                responseHandler(data, error);
+                            } else {
+                                // Add logging or metrics code here
+                                // Need to figure out how to handle redirects
+                            }
+                        }
                     }
-                }
-            }
-            @catch (NSException *exception) {
-                CLogException(exception);
-            }
-        };
-        NSURLSessionDataTask *task = [self->session dataTaskWithRequest:request
-                                                      completionHandler:completionHandler];
-        [task resume];
-        [self signalSentRequest:request];
+                    @catch (NSException *exception) {
+                        CLogException(exception);
+                    }
+                }];
+            };
+            NSURLSessionDataTask *task = [self->session dataTaskWithRequest:request
+                                                          completionHandler:completionHandler];
+            [task resume];
+            [self signalSentRequest:request];
+        }];
     }];
 }
 
@@ -110,34 +124,38 @@
     //[postRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[jsonData length]] forHTTPHeaderField:@"Content-Length"];
     [postRequest setHTTPBody: jsonData];
 
-    void (^completionHandler)(NSData *, NSURLResponse *, NSError *) =
-    ^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error) {
-        @try {
-            [self signalReceivedResponse:response withData:data error:error];
-            if (error) {
-                // Add logging or metrics code here
-                responseHandler(nil, error);
-            }
-            if (response) {
-                NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
-                // 204 is no content and needs to be handled on it's own
-                if (httpResponse.statusCode == 204) {
-                    responseHandler(nil, error);
-                } else if (httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299) {
-                    responseHandler(data, error);
-                } else {
-                    // Add logging or metrics code here
+    [self.threadManager runWithCompletionContext:^(CR_CompletionContext *context) {
+        void (^completionHandler)(NSData *, NSURLResponse *, NSError *) =
+        ^(NSData *_Nullable data, NSURLResponse *_Nullable response, NSError *_Nullable error) {
+            [context executeBlock:^{
+                @try {
+                    [self signalReceivedResponse:response withData:data error:error];
+                    if (error) {
+                        // Add logging or metrics code here
+                        responseHandler(nil, error);
+                    }
+                    if (response) {
+                        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
+                        // 204 is no content and needs to be handled on it's own
+                        if (httpResponse.statusCode == 204) {
+                            responseHandler(nil, error);
+                        } else if (httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299) {
+                            responseHandler(data, error);
+                        } else {
+                            // Add logging or metrics code here
+                        }
+                    }
                 }
-            }
-        }
-        @catch (NSException *exception) {
-            CLogException(exception);
-        }
-    };
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:postRequest
-                                            completionHandler:completionHandler];
-    [task resume];
-    [self signalSentRequest:postRequest];
+                @catch (NSException *exception) {
+                    CLogException(exception);
+                }
+            }];
+        };
+        NSURLSessionDataTask *task = [self->session dataTaskWithRequest:postRequest
+                                                completionHandler:completionHandler];
+        [task resume];
+        [self signalSentRequest:postRequest];
+    }];
 }
 
 @end
