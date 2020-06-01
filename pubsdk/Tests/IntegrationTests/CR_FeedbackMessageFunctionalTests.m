@@ -19,6 +19,7 @@
 #import "CR_TestAdUnits.h"
 #import "CR_ThreadManager+Waiter.h"
 #import "NSURL+Testing.h"
+#import "CR_FeedbackStorage.h"
 #import "XCTestCase+Criteo.h"
 
 @interface CR_FeedbackMessageFunctionalTests : XCTestCase

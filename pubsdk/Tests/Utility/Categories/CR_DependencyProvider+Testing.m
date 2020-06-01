@@ -6,8 +6,6 @@
 //
 
 #import "CR_DependencyProvider+Testing.h"
-#import "CR_Config.h"
-#import "CR_FeedbackFileManager.h"
 #import "CR_InMemoryUserDefaults.h"
 #import "CR_NetworkManagerDecorator.h"
 #import "Criteo+Testing.h"

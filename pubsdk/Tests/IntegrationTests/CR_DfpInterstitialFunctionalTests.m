@@ -19,6 +19,7 @@
 #import "CR_DeviceInfoMock.h"
 #import "NSString+CriteoUrl.h"
 #import "CR_TargetingKeys.h"
+#import "CR_CacheManager.h"
 @import GoogleMobileAds;
 
 @interface CR_DfpInterstitialFunctionalTests : CR_IntegrationsTestBase
@@ -58,7 +59,7 @@
 - (void)test_givenDfpRequest_whenSetBid_thenDisplayUrlEncodedProperly {
     CRInterstitialAdUnit *interstitialAdUnit = [CR_TestAdUnits demoInterstitial];
     [self initCriteoWithAdUnits:@[interstitialAdUnit]];
-    CR_DependencyProvider *dependencyProvider = [self.criteo dependencyProvider];
+    CR_DependencyProvider *dependencyProvider = self.criteo.dependencyProvider;
     CR_CdbBid *bid = [dependencyProvider.cacheManager getBidForAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:interstitialAdUnit]];
     DFPRequest *interstitialDfpRequest = [[DFPRequest alloc] init];
 

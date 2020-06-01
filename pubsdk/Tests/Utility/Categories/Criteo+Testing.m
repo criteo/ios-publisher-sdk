@@ -17,6 +17,7 @@
 #import "CR_NetworkWaiterBuilder.h"
 #import "CR_TestAdUnits.h"
 #import "CR_Assert.h"
+#import "CR_Config.h"
 
 // This publisherId B-056946 exists in production.
 NSString *const CriteoTestingPublisherId = @"B-000001";

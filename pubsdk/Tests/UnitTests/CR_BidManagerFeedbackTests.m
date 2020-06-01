@@ -11,6 +11,9 @@
 #import "CR_CdbResponse.h"
 #import "CR_CdbBidBuilder.h"
 #import "CR_DependencyProvider+Testing.h"
+#import "CR_ApiHandler.h"
+#import "CR_CacheManager.h"
+#import "CR_BidManager.h"
 #import "CR_SynchronousThreadManager.h"
 
 @interface CR_BidManagerFeedbackTests : XCTestCase

@@ -6,7 +6,22 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CR_BidManager.h"
+
+@protocol CR_FeedbackDelegate;
+@class CR_FeedbackStorage;
+@class CR_ThreadManager;
+@class CR_HeaderBidding;
+@class CR_AppEvents;
+@class CR_DataProtectionConsent;
+@class CR_DeviceInfo;
+@class CR_ConfigManager;
+@class CR_Config;
+@class CR_TokenCache;
+@class CR_CacheManager;
+@class CR_ApiHandler;
+@class CR_NetworkManager;
+@class CR_BidFetchTracker;
+@class CR_BidManager;
 
 NS_ASSUME_NONNULL_BEGIN
 

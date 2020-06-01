@@ -13,7 +13,6 @@
 #import "DFPRequestClasses.h"
 #import "NSString+Testing.h"
 #import "CR_BidManager.h"
-#import "CR_DependencyProvider.h"
 #import "CR_DependencyProvider+Testing.h"
 #import "CR_CdbBidBuilder.h"
 #import "CR_DeviceInfoMock.h"

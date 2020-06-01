@@ -17,6 +17,7 @@
 #import <MoPub.h>
 #import "CR_MopubCreativeViewChecker.h"
 #import "NSString+Testing.h"
+#import "CR_CacheManager.h"
 
 static NSString * const kCpmKey = @"crt_cpm";
 static NSString * const kDictionaryDisplayUrlKey = @"crt_displayUrl";
@@ -46,7 +47,7 @@ static NSString *initialMopubKeywords = @"key1:value1,key2:value2";
     [self initCriteoWithAdUnits:@[banner]];
     MPAdView *adView = [[MPAdView alloc] init];
     adView.keywords = initialMopubKeywords;
-    CR_DependencyProvider *dependencyProvider = [self.criteo dependencyProvider];
+    CR_DependencyProvider *dependencyProvider = self.criteo.dependencyProvider;
     CR_CdbBid *bid = [dependencyProvider.cacheManager getBidForAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:banner]];
     NSDictionary *expected = @{
         kCpmKey : bid.cpm,

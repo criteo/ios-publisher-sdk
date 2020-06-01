@@ -9,6 +9,18 @@
 #import "CR_HeaderBidding.h"
 #import "CR_FeedbackController.h"
 #import "CR_ThreadManager.h"
+#import "CR_FeedbackStorage.h"
+#import "CR_AppEvents.h"
+#import "CR_DataProtectionConsent.h"
+#import "CR_DeviceInfo.h"
+#import "CR_ConfigManager.h"
+#import "CR_Config.h"
+#import "CR_TokenCache.h"
+#import "CR_CacheManager.h"
+#import "CR_ApiHandler.h"
+#import "CR_NetworkManager.h"
+#import "CR_BidFetchTracker.h"
+#import "CR_BidManager.h"
 
 @implementation CR_DependencyProvider
 

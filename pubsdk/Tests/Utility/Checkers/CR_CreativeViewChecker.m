@@ -17,6 +17,7 @@
 #import "CR_DependencyProvider.h"
 #import "CR_URLOpenerMock.h"
 #import "WkWebView+Testing.h"
+#import "CR_CacheManager.h"
 
 
 @implementation CR_CreativeViewChecker

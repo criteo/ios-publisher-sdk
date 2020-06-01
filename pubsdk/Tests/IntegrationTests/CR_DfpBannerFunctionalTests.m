@@ -19,6 +19,7 @@
 #import "NSString+CriteoUrl.h"
 #import "CR_TargetingKeys.h"
 #import "XCTestCase+Criteo.h"
+#import "CR_CacheManager.h"
 @import GoogleMobileAds;
 
 @interface CR_DfpBannerFunctionalTests : CR_IntegrationsTestBase
@@ -51,7 +52,7 @@
 - (void)test_givenDfpRequest_whenSetBid_thenDisplayUrlEncodedProperly {
     CRBannerAdUnit *banner = [CR_TestAdUnits demoBanner320x50];
     [self initCriteoWithAdUnits:@[banner]];
-    CR_DependencyProvider *dependencyProvider = [self.criteo dependencyProvider];
+    CR_DependencyProvider *dependencyProvider = self.criteo.dependencyProvider;
     CR_CdbBid *bid = [dependencyProvider.cacheManager getBidForAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:banner]];
     DFPRequest *bannerDfpRequest = [[DFPRequest alloc] init];
 
