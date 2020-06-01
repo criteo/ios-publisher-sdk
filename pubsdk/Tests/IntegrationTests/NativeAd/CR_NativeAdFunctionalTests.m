@@ -23,7 +23,6 @@
 @interface CR_NativeAdFunctionalTests : CR_IntegrationsTestBase
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) OCMockObject *urlMock;
 
 @end
 
@@ -82,7 +81,6 @@
 }
 
 - (void)testGivenNativeAd_whenClickOnAd_thenClickDetected {
-    self.urlMock = [self mockURLForOpeningExternalWithSuccess:YES];
     CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
     [self initCriteoWithAdUnits:@[adUnit]];
     CR_NativeAdViewController *ctrl = [CR_NativeAdViewController
@@ -97,7 +95,6 @@
 }
 
 - (void)testGivenNativeAd_whenClickOnAd_thenLeaveApp {
-    self.urlMock = [self mockURLForOpeningExternalWithSuccess:YES];
     CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
     [self initCriteoWithAdUnits:@[adUnit]];
     CR_NativeAdViewController *ctrl = [CR_NativeAdViewController
@@ -138,13 +135,6 @@
                                                           expectedValue:@1];
     [ctrl.adLoader loadAd];
     [self cr_waitForExpectations:@[exp]];
-}
-
-- (OCMockObject *)mockURLForOpeningExternalWithSuccess:(BOOL)success {
-    self.urlMock = OCMClassMock([NSURL class]);
-    OCMStub([(id)self.urlMock cr_URLWithStringOrNil:OCMOCK_ANY]).andReturn(self.urlMock);
-    OCMExpect([(id)self.urlMock cr_openExternal:([OCMArg invokeBlockWithArgs:@(success), nil])]);
-    return self.urlMock;
 }
 
 @end
