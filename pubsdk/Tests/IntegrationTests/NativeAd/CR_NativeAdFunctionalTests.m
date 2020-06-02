@@ -19,6 +19,7 @@
 #import "CR_NativeAdTableViewCell.h"
 #import "CRMediaView+Internal.h"
 #import "CR_NativeAssets+Testing.h"
+#import "UIImage+Testing.h"
 
 @interface CR_NativeAdFunctionalTests : CR_IntegrationsTestBase
 
@@ -53,7 +54,7 @@
     [self initCriteoWithAdUnits:@[adUnit]];
     CR_NativeAdTableViewController *ctrl = [CR_NativeAdTableViewController
             nativeAdTableViewControllerWithCriteo:self.criteo];
-    ctrl.mediaPlaceholder = [[UIImage alloc] init];
+    ctrl.mediaPlaceholder = [self placeholderImage];
     self.window = [UIWindow cr_keyWindowWithViewController:ctrl];
     XCTestExpectation *exp = [[XCTKVOExpectation alloc] initWithKeyPath:NSStringFromSelector(@selector(lastFilledAdCell))
                                                                  object:ctrl];
@@ -152,6 +153,10 @@
                                                           expectedValue:@1];
     [ctrl.adLoader loadAd];
     [self cr_waitForExpectations:@[exp]];
+}
+
+- (UIImage *)placeholderImage {
+    return [UIImage testImageNamed:@"image.jpeg"];
 }
 
 @end

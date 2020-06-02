@@ -13,6 +13,7 @@
 #import "CRMediaContent+Internal.h"
 #import "CRMediaDownloader.h"
 #import "NSURL+Criteo.h"
+#import "UIImage+Testing.h"
 
 @interface CRMediaViewTests : XCTestCase
 @end
@@ -35,7 +36,7 @@
 - (void)testSetMediaContent_GivenPlaceholderAndNoUrl_SetPlaceholderInView {
     CRMediaView *mediaView = [self buildMediaView];
     CRMediaContent *mediaContent = [self buildMediaContent:nil];
-    UIImage *placeholder = [[UIImage alloc] init];
+    UIImage *placeholder = [self imageWithWidth:1];
 
     mediaView.placeholder = placeholder;
     mediaView.mediaContent = mediaContent;
@@ -48,7 +49,7 @@
     NSURL *url = [[NSURL alloc] initWithString:@"http://image.url"];
     CRMediaView *mediaView = [self buildMediaView];
     CRMediaContent *mediaContent = [self buildMediaContent:url.absoluteString];
-    UIImage *placeholder = [[UIImage alloc] init];
+    UIImage *placeholder = [self imageWithWidth:1];
 
     [self prepareFailingLoaderIn:mediaContent andExpectedUrl:url];
 
@@ -63,8 +64,8 @@
     NSURL *url = [[NSURL alloc] initWithString:@"http://image.url"];
     CRMediaView *mediaView = [self buildMediaView];
     CRMediaContent *mediaContent = [self buildMediaContent:url.absoluteString];
-    UIImage *placeholder = [[UIImage alloc] init];
-    UIImage *downloadedImage = [[UIImage alloc] init];
+    UIImage *placeholder = [self imageWithWidth:1];
+    UIImage *downloadedImage = [self imageWithWidth:2];
 
     [self prepareSuccessfulLoaderIn:mediaContent
                      andExpectedUrl:url
@@ -86,11 +87,11 @@
     CRMediaContent *mediaContent1 = [self buildMediaContent:url1.absoluteString];
     CRMediaContent *mediaContent2 = [self buildMediaContent:url1.absoluteString];
     CRMediaContent *mediaContent3 = [self buildMediaContent:url2.absoluteString];
-    UIImage *placeholder = [[UIImage alloc] init];
-    UIImage *downloadedImage1 = [[UIImage alloc] init];
-    UIImage *downloadedImage2 = [[UIImage alloc] init];
-    UIImage *downloadedImage3 = [[UIImage alloc] init];
-    UIImage *downloadedImage4 = [[UIImage alloc] init];
+    UIImage *downloadedImage1 = [self imageWithWidth:1];
+    UIImage *downloadedImage2 = [self imageWithWidth:2];
+    UIImage *downloadedImage3 = [self imageWithWidth:3];
+    UIImage *downloadedImage4 = [self imageWithWidth:4];
+    UIImage *placeholder = [self imageWithWidth:5];
 
     [self prepareSuccessfulLoaderIn:mediaContent1
                      andExpectedUrl:url1
@@ -127,6 +128,10 @@
 }
 
 #pragma mark - Private
+
+- (UIImage *)imageWithWidth:(CGFloat)width {
+    return [UIImage imageWithSize:(CGSize) {width, 0}];
+}
 
 - (CRMediaView *)buildMediaView {
     return [[CRMediaView alloc] initWithFrame:(CGRect) {0, 0, 42, 1337}];

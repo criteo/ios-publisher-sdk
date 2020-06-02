@@ -11,6 +11,7 @@
 #import "CRMediaContent.h"
 #import "CRMediaContent+Internal.h"
 #import "CRMediaDownloader.h"
+#import "Logging.h"
 
 @implementation CRMediaView
 
@@ -20,7 +21,6 @@
     // Media downloader may spend time to load the image.
     // We only set the placeholder if a new image comes.
     if (url == nil || ![url isEqual:self.imageUrl]) {
-        self.imageView.image = nil;
         self.imageView.image = self.placeholder;
     }
 
@@ -32,20 +32,27 @@
     __weak typeof(self) weakSelf = self;
     [mediaContent.mediaDownloader downloadImage:url completionHandler:^(UIImage *image, NSError *error) {
         if (image != nil) {
-            weakSelf.imageView.image = nil;
             weakSelf.imageView.image = image;
             weakSelf.imageUrl = url;
+        } else if (error != nil) {
+            CLog(@"Error when fetching image %@ for media view" , url, error);
         }
     }];
 
     _mediaContent = mediaContent;
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.imageView.frame = self.bounds;
+}
+
 #pragma mark - Private
 
 - (UIImageView *)imageView {
     if (_imageView == nil) {
-        _imageView = [[UIImageView alloc] init];
+        _imageView = [[UIImageView alloc] initWithFrame:self.bounds];
+        _imageView.contentMode = UIViewContentModeScaleAspectFit;
         [self addSubview:_imageView];
     }
     return _imageView;

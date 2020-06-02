@@ -13,6 +13,7 @@
 #import "CR_ImageCache.h"
 #import "CR_NetworkManager.h"
 #import "CR_DependencyProvider+Testing.h"
+#import "UIImage+Testing.h"
 
 @interface CR_DefaultMediaDownloaderTests : XCTestCase
 
@@ -95,9 +96,7 @@
     NSURL *url = [[NSURL alloc] init];
     OCMStub([self.imageCache imageForUrl:url]).andReturn(nil);
 
-    NSBundle *testBundle = [NSBundle bundleForClass:[self class]];
-    NSString *expectedImagePath = [testBundle pathForResource:@"image" ofType:@"jpeg"];
-    UIImage *expectedImage = [UIImage imageWithContentsOfFile:expectedImagePath];
+    UIImage *expectedImage = [UIImage testImageNamed:@"image.jpeg"];
     NSData* downloadedData = UIImagePNGRepresentation(expectedImage);
     NSUInteger expectedSize = (NSUInteger) (expectedImage.size.width * expectedImage.size.height * 4 /* for 4 channel: RGBA */);
 
