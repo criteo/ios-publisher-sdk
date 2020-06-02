@@ -49,6 +49,11 @@
 #pragma mark - Private
 
 - (void)onTimerTick {
+    if (self.view == nil) {
+        [self stopDetection];
+        return;
+    }
+    
     BOOL isVisible = [self.class isViewVisible:self.view];
     if (!isVisible) {
         return;
