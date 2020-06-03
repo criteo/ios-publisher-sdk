@@ -5,7 +5,7 @@ platform :ios, '9.0'
 target 'AdViewer' do
   workspace 'fuji-test-app'
   # pod 'CriteoPublisherSdk' # to get published SDK
-  pod 'mopub-ios-sdk'
+  pod 'mopub-ios-sdk/Core'
   pod 'Google-Mobile-Ads-SDK'
   pod 'Eureka'
 end
