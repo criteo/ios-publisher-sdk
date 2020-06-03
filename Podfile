@@ -6,14 +6,14 @@ project 'pubsdk/pubsdk.xcodeproj'
 target 'pubsdkTests' do
     pod 'OCMock','~> 3.6'
     pod 'Google-Mobile-Ads-SDK'
-    pod 'mopub-ios-sdk'
+    pod 'mopub-ios-sdk/Core'
     pod 'FunctionalObjC', '~> 1.0'
 end
 
 target 'pubsdkITests' do
     pod 'OCMock','~> 3.6'
     pod 'Google-Mobile-Ads-SDK'
-    pod 'mopub-ios-sdk'
+    pod 'mopub-ios-sdk/Core'
     pod 'FunctionalObjC', '~> 1.0'
 end
 
