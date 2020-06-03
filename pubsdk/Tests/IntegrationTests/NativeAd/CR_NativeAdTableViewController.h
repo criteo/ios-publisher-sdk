@@ -45,6 +45,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)scrollAtIndexPath:(NSIndexPath *)indexPath;
 
+/**
+ * Tap on the native ad at the given index path.
+ *
+ * It use a retry mechanism to be sure that the tap is done when the cell is well configured.
+ * Indeed, there are some cases where the try to tap on a cell that has just been reloaded
+ * with [self.tableView reloadData] and the cell doesn't contain the native ad yet.
+ */
+- (void)tapOnNativeAdAtIndexPath:(NSIndexPath *)indexPath;
+
 @end
 
 NS_ASSUME_NONNULL_END

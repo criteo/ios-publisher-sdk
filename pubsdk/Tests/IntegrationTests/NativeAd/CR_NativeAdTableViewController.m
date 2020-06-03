@@ -97,6 +97,37 @@ static const NSUInteger kCellCount = 50;
     });
 }
 
+- (void)tapOnNativeAdAtIndexPath:(NSIndexPath *)indexPath {
+    NSAssert([self.nativeAdIndexPaths containsObject:indexPath],
+             @"Given index path %@ doesn't exist in %@",
+             indexPath, self.nativeAdIndexPaths);
+    [self tapOnNativeAdAtIndexPath:indexPath
+                             retry:10];
+}
+
+/**
+ * We use a retry mechanism to be sure that we tap on the native ad once it has been reload properly
+ * by the UITableView. Unfortunatly, UITableView doesn't provide a proper way to wait all cells to be
+ * properly reloaded. We have tried different approachs withous success:
+ * https://stackoverflow.com/questions/16071503/how-to-tell-when-uitableview-has-completed-reloaddata
+ */
+- (void)tapOnNativeAdAtIndexPath:(NSIndexPath *)indexPath
+                           retry:(NSUInteger)retry {
+    dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW,
+                                          (int64_t)(0.2 * NSEC_PER_SEC));
+    dispatch_after(delay, dispatch_get_main_queue(), ^{
+        CR_NativeAdTableViewCell *cell =
+        (CR_NativeAdTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        BOOL isRendered = cell.nativeAdView.nativeAd != nil;
+        if (isRendered) {
+            [cell.nativeAdView sendActionsForControlEvents:UIControlEventTouchUpInside];
+        } else if (retry > 0) {
+            [self tapOnNativeAdAtIndexPath:indexPath
+                                     retry:retry - 1];
+        }
+    });
+}
+
 #pragma mark - Table view data source / delegate
 
 - (CGFloat)tableView:(UITableView *)tableView

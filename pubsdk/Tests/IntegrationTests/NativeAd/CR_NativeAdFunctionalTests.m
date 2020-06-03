@@ -161,6 +161,24 @@
     [self cr_waitForExpectations:@[exp]];
 }
 
+- (void)testGivenNativeAds_whenTapOnLastOne_thenDetectClick {
+    CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
+    [self initCriteoWithAdUnits:@[adUnit]];
+    CR_NativeAdTableViewController *ctrl = [CR_NativeAdTableViewController
+                                       nativeAdTableViewControllerWithCriteo:self.criteo];
+    ctrl.adUnit = adUnit;
+    self.window = [UIWindow cr_keyWindowWithViewController:ctrl];
+    [self loadAllNativeAdInTableViewController:ctrl
+                       expectedImpressionCount:ctrl.nativeAdIndexPaths.count - 1];
+    [self scrollAtNativeAdAtIndexPath:ctrl.nativeAdIndexPaths.lastObject
+                inTableViewController:ctrl];
+    XCTestExpectation *exp = [self expectationForClickDetectionOnViewController:ctrl];
+
+    [ctrl tapOnNativeAdAtIndexPath:ctrl.nativeAdIndexPaths.lastObject];
+
+    [self cr_waitForExpectations:@[exp]];
+}
+
 #pragma mark - Private
 
 - (XCTestExpectation *)expectationForNativeAdLoadedInTableViewController:(CR_NativeAdTableViewController *)ctrl
@@ -180,7 +198,7 @@
     return exp;
 }
 
-- (XCTestExpectation *)expectationForClickDetectionOnViewController:(CR_NativeAdViewController *)ctrl {
+- (XCTestExpectation *)expectationForClickDetectionOnViewController:(id)ctrl {
     NSString *keyPath = NSStringFromSelector(@selector(detectClickCount));
     XCTestExpectation *exp = [[XCTKVOExpectation alloc] initWithKeyPath:keyPath
                                                                  object:ctrl
@@ -195,6 +213,17 @@
                                                                  object:ctrl
                                                           expectedValue:@(expectedCount)];
     return exp;
+}
+
+- (void)scrollAtNativeAdAtIndexPath:(NSIndexPath *)indexPath
+              inTableViewController:(CR_NativeAdTableViewController *)ctrl {
+    NSUInteger expectedCount = ctrl.detectImpressionCount + 1;
+    XCTestExpectation *exp = [self expectationForImpressionInTableViewController:ctrl
+                                                                   expectedCount:expectedCount];
+
+    [ctrl scrollAtIndexPath:indexPath];
+
+    [self cr_waitForExpectations:@[exp]];
 }
 
 - (void)loadNativeAdUnit:(CRNativeAdUnit *)adUnit
