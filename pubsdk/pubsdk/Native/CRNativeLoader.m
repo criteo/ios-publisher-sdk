@@ -28,9 +28,15 @@
 #pragma mark - Life cycle
 
 - (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit {
-     return [self initWithAdUnit:adUnit
-                             criteo:[Criteo sharedCriteo]
-                          urlOpener:[[CR_URLOpener alloc] init]];
+    return [self initWithAdUnit:adUnit
+                         criteo:[Criteo sharedCriteo]];
+}
+
+- (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit
+                        criteo:(Criteo *)criteo {
+    return [self initWithAdUnit:adUnit
+                         criteo:criteo
+                      urlOpener:[[CR_URLOpener alloc] init]];
 }
 
 - (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit
