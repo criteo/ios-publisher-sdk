@@ -133,10 +133,10 @@
                                        nativeAdTableViewControllerWithCriteo:self.criteo];
     self.window = [UIWindow cr_keyWindowWithViewController:ctrl];
     ctrl.adUnit = adUnit;
-    XCTestExpectation *expFor2 = [self expectationForImpressionInTableViewController:ctrl
-                                                                       expectedCount:2];
-    XCTestExpectation *notExpFor3 = [self expectationForImpressionInTableViewController:ctrl
-                                                                       expectedCount:3];
+    XCTestExpectation *expFor2 = [self expectationForImpressionOnViewController:ctrl
+                                                                  expectedCount:2];
+    XCTestExpectation *notExpFor3 = [self expectationForImpressionOnViewController:ctrl
+                                                                     expectedCount:3];
     notExpFor3.inverted = YES;
 
     [self loadAllNativeAdInTableViewController:ctrl];
@@ -153,8 +153,8 @@
     ctrl.adUnit = adUnit;
     [self loadAllNativeAdInTableViewController:ctrl
                        expectedImpressionCount:2];
-    XCTestExpectation *exp = [self expectationForImpressionInTableViewController:ctrl
-                                                expectedCount:3];
+    XCTestExpectation *exp = [self expectationForImpressionOnViewController:ctrl
+                                                              expectedCount:3];
 
     [ctrl scrollAtIndexPath:ctrl.nativeAdIndexPaths.lastObject];
 
@@ -198,7 +198,9 @@
     return exp;
 }
 
-- (XCTestExpectation *)expectationForClickDetectionOnViewController:(id)ctrl {
+- (XCTestExpectation *)expectationForClickDetectionOnViewController:(UIViewController *)ctrl {
+    NSAssert([ctrl respondsToSelector:@selector(detectClickCount)],
+    @"The given VC doesn't respond to 'detectClickCount' %@", ctrl);
     NSString *keyPath = NSStringFromSelector(@selector(detectClickCount));
     XCTestExpectation *exp = [[XCTKVOExpectation alloc] initWithKeyPath:keyPath
                                                                  object:ctrl
@@ -206,8 +208,10 @@
     return exp;
 }
 
-- (XCTestExpectation *)expectationForImpressionInTableViewController:(CR_NativeAdTableViewController *)ctrl
-                                                       expectedCount:(NSUInteger)expectedCount {
+- (XCTestExpectation *)expectationForImpressionOnViewController:(UIViewController *)ctrl
+                                                  expectedCount:(NSUInteger)expectedCount {
+    NSAssert([ctrl respondsToSelector:@selector(detectImpressionCount)],
+             @"The given VC doesn't respond to 'detectImpressionCount' %@", ctrl);
     NSString *keyPath = NSStringFromSelector(@selector(detectImpressionCount));
     XCTestExpectation *exp = [[XCTKVOExpectation alloc] initWithKeyPath:keyPath
                                                                  object:ctrl
@@ -218,8 +222,8 @@
 - (void)scrollAtNativeAdAtIndexPath:(NSIndexPath *)indexPath
               inTableViewController:(CR_NativeAdTableViewController *)ctrl {
     NSUInteger expectedCount = ctrl.detectImpressionCount + 1;
-    XCTestExpectation *exp = [self expectationForImpressionInTableViewController:ctrl
-                                                                   expectedCount:expectedCount];
+    XCTestExpectation *exp = [self expectationForImpressionOnViewController:ctrl
+                                                              expectedCount:expectedCount];
 
     [ctrl scrollAtIndexPath:indexPath];
 
@@ -243,8 +247,8 @@
 
 - (void)loadAllNativeAdInTableViewController:(CR_NativeAdTableViewController *)ctrl
                      expectedImpressionCount:(NSUInteger)expectedImpressionCount {
-    XCTestExpectation *exp = [self expectationForImpressionInTableViewController:ctrl
-                                                                   expectedCount:expectedImpressionCount];
+    XCTestExpectation *exp = [self expectationForImpressionOnViewController:ctrl
+                                                              expectedCount:expectedImpressionCount];
     [self loadAllNativeAdInTableViewController:ctrl];
 
     [self cr_waitForExpectations:@[exp]];
