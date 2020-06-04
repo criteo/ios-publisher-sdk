@@ -24,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startDetection;
 - (void)stopDetection;
 
++ (BOOL)isViewVisible:(UIView *)view;
+
 @end
 
 @protocol CR_ImpressionDetectorDelegate <NSObject>
