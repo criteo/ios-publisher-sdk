@@ -266,6 +266,8 @@
 		7DDEF65E242CE06300BC129F /* CR_GdprSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DDEF65B242CE06300BC129F /* CR_GdprSerializer.h */; };
 		7DDEF660242CE06300BC129F /* CR_GdprSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDEF65C242CE06300BC129F /* CR_GdprSerializer.m */; };
 		7DE7064E242B5252007F4A72 /* NSUserDefaults+GDPR.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE7064D242B5252007F4A72 /* NSUserDefaults+GDPR.m */; };
+		7DE88E0D248800A400F15D74 /* CR_SafeAreaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE88E0C248800A400F15D74 /* CR_SafeAreaView.m */; };
+		7DE88E0E248800A400F15D74 /* CR_SafeAreaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE88E0C248800A400F15D74 /* CR_SafeAreaView.m */; };
 		7DFB2B0F247E5C67007CDFF3 /* CR_URLOpening.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFB2B0E247E5C67007CDFF3 /* CR_URLOpening.h */; };
 		7DFB2B11247E75E5007CDFF3 /* CR_URLOpening.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFB2B10247E75E5007CDFF3 /* CR_URLOpening.m */; };
 		7DFB2B14247E9302007CDFF3 /* CR_URLOpenerMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFB2B13247E9302007CDFF3 /* CR_URLOpenerMock.m */; };
@@ -644,6 +646,8 @@
 		7DDEF65C242CE06300BC129F /* CR_GdprSerializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_GdprSerializer.m; sourceTree = "<group>"; };
 		7DE7064C242B5252007F4A72 /* NSUserDefaults+GDPR.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+GDPR.h"; sourceTree = "<group>"; };
 		7DE7064D242B5252007F4A72 /* NSUserDefaults+GDPR.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+GDPR.m"; sourceTree = "<group>"; };
+		7DE88E0B248800A400F15D74 /* CR_SafeAreaView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_SafeAreaView.h; sourceTree = "<group>"; };
+		7DE88E0C248800A400F15D74 /* CR_SafeAreaView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_SafeAreaView.m; sourceTree = "<group>"; };
 		7DFB2B0E247E5C67007CDFF3 /* CR_URLOpening.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_URLOpening.h; sourceTree = "<group>"; };
 		7DFB2B10247E75E5007CDFF3 /* CR_URLOpening.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_URLOpening.m; sourceTree = "<group>"; };
 		7DFB2B12247E9302007CDFF3 /* CR_URLOpenerMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_URLOpenerMock.h; sourceTree = "<group>"; };
@@ -1284,6 +1288,8 @@
 				7D9CFF7F247CFDCF0005DAE8 /* CR_NativeAdViewController.m */,
 				7DD76EB3247D008F0090BCDC /* CR_CustomNativeAdView.h */,
 				7DD76EB4247D008F0090BCDC /* CR_CustomNativeAdView.m */,
+				7DE88E0B248800A400F15D74 /* CR_SafeAreaView.h */,
+				7DE88E0C248800A400F15D74 /* CR_SafeAreaView.m */,
 			);
 			path = SimpleViewController;
 			sourceTree = "<group>";
@@ -1928,6 +1934,7 @@
 				7DFB2B15247E9302007CDFF3 /* CR_URLOpenerMock.m in Sources */,
 				462DCA992462C75500B43A51 /* CR_NetworkManagerDecorator.m in Sources */,
 				462DCA9E2462C88600B43A51 /* CR_ThreadManagerWaiter.m in Sources */,
+				7DE88E0E248800A400F15D74 /* CR_SafeAreaView.m in Sources */,
 				7DD76EB6247D008F0090BCDC /* CR_CustomNativeAdView.m in Sources */,
 				462DCA912462C3E300B43A51 /* CR_NetworkWaiter.m in Sources */,
 				462DCA922462C40500B43A51 /* CR_HttpContent.m in Sources */,
@@ -1938,7 +1945,6 @@
 				C07AB9EA4BBE92ADD3C2B3CC /* CR_NativeAdFunctionalTests.m in Sources */,
 				C07AB8715B41471580743327 /* CR_NativeAssets+Testing.m in Sources */,
 				7D9CFF78247BFDFC0005DAE8 /* CR_NativeLoaderDispatchChecker.m in Sources */,
-				7D321B172474502A006CBC4E,
 				C07ABD53E2A5C3175A6DAFEA /* CR_TokenValue+Testing.m in Sources */,
 				7D9CFF81247CFDCF0005DAE8 /* CR_NativeAdViewController.m in Sources */,
 				7D321B172474502A006CBC4E,
@@ -2017,6 +2023,7 @@
 				7D58583523E2D5DF0039AC56 /* CR_ThreadManagerTests.m in Sources */,
 				7D9CFF7B247BFFD40005DAE8 /* CR_MediaDownloaderDispatchChecker.m in Sources */,
 				7D523C8223DB5D9600E79C88 /* CR_CdbBidBuilder.m in Sources */,
+				7DE88E0D248800A400F15D74 /* CR_SafeAreaView.m in Sources */,
 				7D006730243CD7E800E5D50D /* CASObjectQueue+ArraySet.m in Sources */,
 				462DCAA42463055100B43A51 /* CR_CreativeViewChecker.m in Sources */,
 				7D3E422B23915B6600BAF673 /* CR_NativeAssetsTests.m in Sources */,
