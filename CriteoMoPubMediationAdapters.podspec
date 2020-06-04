@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.summary          = 'Criteo MoPub Mediation Adapters'
 
   s.description      = <<-DESC
-  This repository contains Criteo’s Adapter for MoPub Mediation. It must be used in conjunction with the Criteo Publisher SDK. For requirements, intructions, and other info, see Integrating Criteo with MoPub Mediation: https://publisherdocs.criteotilt.com/sdk-ios/3.1/mopub-mediation/
+  This repository contains Criteo’s Adapter for MoPub Mediation. It must be used in conjunction with the Criteo Publisher SDK. For requirements, intructions, and other info, see Integrating Criteo with MoPub Mediation: https://publisherdocs.criteotilt.com/app/ios/mediation/mopub/
                        DESC
 
   s.homepage         = 'https://github.com/criteo/ios-publisher-sdk-mopub-adapters'
