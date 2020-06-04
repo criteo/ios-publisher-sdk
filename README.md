@@ -100,4 +100,5 @@ xcodebuild \
 * Run `./scripts/azureDeploy.sh <Release version>`
 * Update the podspec accordingly to the release version and with the new URL for the release on Azure (e.g https://pubsdk-bin.criteo.com/publishersdk/ios/CriteoPublisherSdk_iOS_vX.X.X.Release.zip)
 * Run `pod spec lint CriteoPublisherSdk.podspec` to validate the podspec
+  * Disconnecting from VPN fix the warning `a problem validating the URL https://criteo.com.`
 * Run `pod trunk push CriteoPublisherSdk.podspec` to push the podspec to CocoaPods
