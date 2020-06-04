@@ -10,6 +10,10 @@
 @class WKWebView;
 @class CR_ThreadManager;
 
+#if TARGET_OS_SIMULATOR
+#define CR_SIMULATOR_IDFA @"8BADF00D-74BC-43D6-AA75-91D2B271A9A0"
+#endif
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_DeviceInfo : NSObject

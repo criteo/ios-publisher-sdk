@@ -105,7 +105,11 @@
 
 - (NSString *)deviceId {
     if (!_deviceId) {
+#if TARGET_OS_SIMULATOR
+        _deviceId = CR_SIMULATOR_IDFA;
+#else
         _deviceId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+#endif
     }
     return _deviceId;
 }

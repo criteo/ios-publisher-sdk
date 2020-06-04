@@ -112,7 +112,11 @@
 
     ASIdentifierManager *idfaManager = [ASIdentifierManager sharedManager];
     NSString *limitedAdTrackingValue = idfaManager.advertisingTrackingEnabled ? @"0" : @"1";
+#if TARGET_OS_SIMULATOR
+    NSString *idfaValue = CR_SIMULATOR_IDFA;
+#else
     NSString *idfaValue = [idfaManager.advertisingIdentifier UUIDString];
+#endif
     NSString *appIdValue = [NSBundle mainBundle].bundleIdentifier;
 
     __weak typeof(self) weakSelf = self;

@@ -37,7 +37,11 @@ NSString * const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String
         _userDefaults = userDefaults;
         _ccpa = [[CR_Ccpa alloc] initWithUserDefaults:userDefaults];
         _gdpr = [[CR_Gdpr alloc] initWithUserDefaults:userDefaults];
+#if TARGET_OS_SIMULATOR
+        _isAdTrackingEnabled = YES;
+#else
         _isAdTrackingEnabled = [[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled];
+#endif
     }
     return self;
 }
