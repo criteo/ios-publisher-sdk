@@ -152,6 +152,10 @@
     [self.mediaDownloader downloadImage:imageUrl completionHandler:^(UIImage *ignored1, NSError *ignored2){}];
 }
 
+- (CR_ThreadManager *)threadManager {
+    return self.criteo.dependencyProvider.threadManager;
+}
+
 #pragma mark - Delegate call
 
 - (void)notifyFailToReceiveAdWithError:(NSError *)error {
@@ -169,35 +173,35 @@
 }
 
 - (void)notifyDidReceiveAd:(CRNativeAd *)ad {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    [self.threadManager dispatchAsyncOnMainQueue:^{
         if(self.canNotifyDidReceiveAd) {
             [self.delegate nativeLoader:self didReceiveAd:ad];
         }
-    });
+    }];
 }
 
 - (void)notifyDidDetectImpression {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    [self.threadManager dispatchAsyncOnMainQueue:^{
         if([self.delegate respondsToSelector:@selector(nativeLoaderDidDetectImpression:)]) {
             [self.delegate nativeLoaderDidDetectImpression:self];
         }
-    });
+    }];
 }
 
 - (void)notifyDidDetectClick {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    [self.threadManager dispatchAsyncOnMainQueue:^{
         if([self.delegate respondsToSelector:@selector(nativeLoaderDidDetectClick:)]) {
             [self.delegate nativeLoaderDidDetectClick:self];
         }
-    });
+    }];
 }
 
 - (void)notifyWillLeaveApplicationForNativeAd {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    [self.threadManager dispatchAsyncOnMainQueue:^{
         if([self.delegate respondsToSelector:@selector(nativeLoaderWillLeaveApplicationForNativeAd:)]) {
             [self.delegate nativeLoaderWillLeaveApplicationForNativeAd:self];
         }
-    });
+    }];
 }
 
 @end

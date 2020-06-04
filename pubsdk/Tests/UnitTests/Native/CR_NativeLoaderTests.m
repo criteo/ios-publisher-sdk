@@ -17,6 +17,7 @@
 #import "CR_AdUnitHelper.h"
 #import "CR_BidManager.h"
 #import "CR_CdbBidBuilder.h"
+#import "CR_DependencyProvider+Testing.h"
 #import "CRBidToken+Internal.h"
 #import "CR_TokenValue.h"
 #import "CR_NativeAssets.h"
@@ -45,6 +46,7 @@
     self.urlOpener = [[CR_URLOpenerMock alloc] init];
     CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
     self.criteo = OCMClassMock([Criteo class]);
+    OCMStub([self.criteo dependencyProvider]).andReturn([CR_DependencyProvider testing_dependencyProvider]);
     self.loader = [[CRNativeLoader alloc] initWithAdUnit:adUnit
                                                   criteo:self.criteo
                                                urlOpener:self.urlOpener];
