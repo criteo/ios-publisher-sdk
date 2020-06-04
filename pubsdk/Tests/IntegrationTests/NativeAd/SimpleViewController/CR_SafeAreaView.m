@@ -23,7 +23,15 @@
         CGRectGetWidth(self.bounds),
         CGRectGetHeight(self.bounds) / 2
     };
+}
 
+- (CGRect)safeAreaFrame {
+    return (CGRect) {
+        0,
+        CGRectGetHeight(self.bounds) / 2,
+        CGRectGetWidth(self.bounds),
+        CGRectGetHeight(self.bounds) / 2
+    };
 }
 
 #pragma mark - UIView

@@ -161,6 +161,43 @@
     [self cr_waitForExpectations:@[exp]];
 }
 
+- (void)testGivenNativeAd_whenDisplayInSafeArea_thenImpressionDetected {
+    if (@available(iOS 11.0, *)) { // Safe area is available on iOS versions >= 11
+        CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
+        [self initCriteoWithAdUnits:@[adUnit]];
+        CR_NativeAdViewController *ctrl = [CR_NativeAdViewController
+                                           nativeAdViewControllerWithCriteo:self.criteo];
+        ctrl.adViewInSafeArea = YES;
+        self.window = [UIWindow cr_keyWindowWithViewController:ctrl];
+        XCTestExpectation *exp = [self expectationForImpressionOnViewController:ctrl
+                                                                  expectedCount:1];
+
+        [self loadNativeAdUnit:adUnit
+              inViewController:ctrl];
+
+        [self cr_waitForExpectations:@[exp]];
+    }
+}
+
+- (void)testGivenNativeAd_whenDisplayInNotSafeArea_thenImpressionNotDetected {
+    if (@available(iOS 11.0, *)) { // Safe area is available on iOS versions >= 11
+        CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
+        [self initCriteoWithAdUnits:@[adUnit]];
+        CR_NativeAdViewController *ctrl = [CR_NativeAdViewController
+                                           nativeAdViewControllerWithCriteo:self.criteo];
+        ctrl.adViewInSafeArea = NO;
+        self.window = [UIWindow cr_keyWindowWithViewController:ctrl];
+        XCTestExpectation *exp = [self expectationForImpressionOnViewController:ctrl
+                                                                  expectedCount:1];
+        exp.inverted = YES;
+
+        [self loadNativeAdUnit:adUnit
+              inViewController:ctrl];
+
+        [self cr_waitShortlyForExpectations:@[exp]];
+    }
+}
+
 - (void)testGivenNativeAds_whenTapOnLastOne_thenDetectClick {
     CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
     [self initCriteoWithAdUnits:@[adUnit]];

@@ -7,6 +7,7 @@
 
 #import <XCTest/XCTest.h>
 #import "CR_ImpressionDetector.h"
+#import "CR_SafeAreaView.h"
 
 @interface CR_ImpressionDetectionTests : XCTestCase
 
@@ -101,5 +102,30 @@
     XCTAssertFalse(visible);
 }
 
+- (void)testSafeAreaViewOutside {
+    if (@available(iOS 11.0, *)) {
+        CR_SafeAreaView *superView = [[CR_SafeAreaView alloc] initWithFrame:self.window.bounds];
+        UIView *innerView = [[UIView alloc] initWithFrame:superView.unsafeAreaFrame];
+        [self.window addSubview:superView];
+        [superView addSubview:innerView];
+
+        BOOL visible = [CR_ImpressionDetector isViewVisible:innerView];
+
+        XCTAssertFalse(visible);
+    }
+}
+
+- (void)testSafeAreaViewInside {
+    if (@available(iOS 11.0, *)) {
+        CR_SafeAreaView *superView = [[CR_SafeAreaView alloc] initWithFrame:self.window.bounds];
+        UIView *innerView = [[UIView alloc] initWithFrame:superView.safeAreaFrame];
+        [self.window addSubview:superView];
+        [superView addSubview:innerView];
+
+        BOOL visible = [CR_ImpressionDetector isViewVisible:innerView];
+
+        XCTAssertTrue(visible);
+    }
+}
 
 @end

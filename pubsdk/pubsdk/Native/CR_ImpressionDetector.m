@@ -74,26 +74,32 @@
         return YES;
     }
 
-    CGRect visibleFrame = view.bounds;
-    while (view.superview != nil) {
-        if (view.isHidden) {
+    UIView *visibleView = view;
+    CGRect visibleFrame = visibleView.bounds;
+    while (visibleView.superview != nil) {
+        if (visibleView.isHidden) {
             return NO;
         }
 
-        UIView *superview = view.superview;
-        CGRect convertedFrame = [view convertRect:visibleFrame
-                                           toView:superview];
+        UIView *superview = visibleView.superview;
+        CGRect convertedFrame = [visibleView convertRect:visibleFrame
+                                                  toView:superview];
 
-        visibleFrame = CGRectIntersection(superview.bounds, convertedFrame);
-        if (CGRectEqualToRect(visibleFrame, CGRectNull)) {
+        CGRect superviewSafeFrame = superview.bounds;
+        if (@available(iOS 11.0, *)) {
+            superviewSafeFrame = UIEdgeInsetsInsetRect(superview.bounds, superview.safeAreaInsets);
+        }
+        visibleFrame = CGRectIntersection(superviewSafeFrame, convertedFrame);
+
+        if (CGRectIsEmpty(visibleFrame)) {
             return NO;
         }
 
-        view = superview;
+        visibleView = superview;
     }
 
-    BOOL visible = CGRectIntersectsRect(view.frame, visibleFrame);
-    return visible;
+    BOOL isVisible = CGRectIntersectsRect(visibleView.frame, visibleFrame);
+    return isVisible;
 }
 
 @end
