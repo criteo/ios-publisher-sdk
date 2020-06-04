@@ -13,8 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_CustomNativeAdView : CRNativeAdView
 
-@property (strong, nonatomic) CRNativeAd *nativeAd;
-
 @end
 
 NS_ASSUME_NONNULL_END

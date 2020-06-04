@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * View that wrap a UIView for displaying an Advanced Native Ad.
+ *
+ * You need to call super if you override methods.
  */
 @interface CRNativeAdView : UIControl
 

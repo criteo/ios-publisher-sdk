@@ -17,8 +17,6 @@
 
 @implementation CR_CustomNativeAdView
 
-@synthesize nativeAd = _nativeAd;
-
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
@@ -30,18 +28,16 @@
 }
 
 - (void)setNativeAd:(CRNativeAd *)nativeAd {
-    if (_nativeAd != nativeAd) {
-        _nativeAd = nativeAd;
-        [self clearLabel];
-        [self addLabelValue:nativeAd.title  forKey:@"title"];
-        [self addLabelValue:nativeAd.body  forKey:@"body"];
-        [self addLabelValue:nativeAd.price  forKey:@"price"];
-        [self addLabelValue:nativeAd.callToAction  forKey:@"callToAction"];
-        [self addLabelValue:nativeAd.productMedia.imageUrl.absoluteString  forKey:@"productImageUrl"];
-        [self addLabelValue:nativeAd.advertiserLogoMedia.imageUrl.absoluteString  forKey:@"advertiserLogoImageUrl"];
-        [self addLabelValue:nativeAd.advertiserDescription  forKey:@"advertiserDescription"];
-        [self addLabelValue:nativeAd.advertiserDomain  forKey:@"advertiserDomain"];
-    }
+    [super setNativeAd:nativeAd];
+    [self clearLabel];
+    [self addLabelValue:nativeAd.title  forKey:@"title"];
+    [self addLabelValue:nativeAd.body  forKey:@"body"];
+    [self addLabelValue:nativeAd.price  forKey:@"price"];
+    [self addLabelValue:nativeAd.callToAction  forKey:@"callToAction"];
+    [self addLabelValue:nativeAd.productMedia.imageUrl.absoluteString  forKey:@"productImageUrl"];
+    [self addLabelValue:nativeAd.advertiserLogoMedia.imageUrl.absoluteString  forKey:@"advertiserLogoImageUrl"];
+    [self addLabelValue:nativeAd.advertiserDescription  forKey:@"advertiserDescription"];
+    [self addLabelValue:nativeAd.advertiserDomain  forKey:@"advertiserDomain"];
 }
 
 #pragma mark - Private
