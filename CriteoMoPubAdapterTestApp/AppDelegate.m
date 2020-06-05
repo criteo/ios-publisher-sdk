@@ -2,8 +2,7 @@
 //  AppDelegate.m
 //  CriteoMoPubAdapterTestApp
 //
-//  Created by Aleksandr Pakhmutov on 21/01/2020.
-//  Copyright © 2020 Criteo. All rights reserved.
+//  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
 #import "AppDelegate.h"
