@@ -22,6 +22,7 @@
 #import "CR_TokenValue.h"
 #import "CR_NativeAssets.h"
 #import "CR_NativeLoaderDispatchChecker.h"
+#import "CR_NetworkCaptor.h"
 #import "CR_MediaDownloaderDispatchChecker.h"
 #import "CR_TestAdUnits.h"
 #import "CR_SynchronousThreadManager.h"
@@ -37,30 +38,33 @@
 @property (strong, nonatomic) OCMockObject<CRMediaDownloader> *mediaDownloaderMock;
 @property (strong, nonatomic) CR_URLOpenerMock *urlOpener;
 @property (strong, nonatomic) Criteo *criteo;
+@property (strong, nonatomic) CR_NetworkManager *networkManagerMock;
 
 @end
 
 @implementation CR_NativeLoaderTests
 
 - (void)setUp {
+    self.delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
     self.urlOpener = [[CR_URLOpenerMock alloc] init];
-    CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
+    self.networkManagerMock = OCMClassMock([CR_NetworkManager class]);
+    self.mediaDownloaderMock = OCMProtocolMock(@protocol(CRMediaDownloader));
+
+    CR_DependencyProvider *provider = [CR_DependencyProvider testing_dependencyProvider];
+    provider.networkManager = self.networkManagerMock;
+    provider.mediaDownloader = self.mediaDownloaderMock;
+
     self.criteo = OCMClassMock([Criteo class]);
-    OCMStub([self.criteo dependencyProvider]).andReturn([CR_DependencyProvider testing_dependencyProvider]);
-    self.loader = [[CRNativeLoader alloc] initWithAdUnit:adUnit
+    OCMStub([self.criteo dependencyProvider]).andReturn(provider);
+
+    self.loader = [[CRNativeLoader alloc] initWithAdUnit:[CR_TestAdUnits preprodNative]
                                                   criteo:self.criteo
                                                urlOpener:self.urlOpener];
-    // Mock downloader to prevent actual downloads from the default downloader implementation.
-    self.loader.mediaDownloader = OCMProtocolMock(@protocol(CRMediaDownloader));
+    self.loader.delegate = self.delegate;
 
     CR_NativeAssets *assets = [[CR_NativeAssets alloc] initWithDict:@{}];
     self.nativeAd = [[CRNativeAd alloc] initWithLoader:self.loader
                                                 assets:assets];
-
-    self.delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
-    self.loader.delegate = self.delegate;
-
-    self.mediaDownloaderMock = OCMProtocolMock(@protocol(CRMediaDownloader));
 }
 
 #pragma mark - Tests
