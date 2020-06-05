@@ -40,7 +40,10 @@
 }
 
 - (BOOL)testing_isNativeAdvertiserLogoImage {
-    return [self.absoluteString isEqualToString:CR_NativeAssets.nativeAssetsFromCdb.advertiser.logoImage.url];
+    NSString *selfStr = self.absoluteString;
+    NSString *defaultLogoUrlStr = CR_NativeAssets.nativeAssetsFromCdb.advertiser.logoImage.url;
+    BOOL isEqual = [selfStr isEqualToString:defaultLogoUrlStr];
+    return isEqual;
 }
 
 - (BOOL)testing_isNativeAdChoiceImage {

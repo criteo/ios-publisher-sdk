@@ -55,21 +55,17 @@ NSString *const CR_NetworkSessionEmptyBid = @"{\"slots\":[],\"requestId\":\"c412
 
     if ([url.scheme isEqualToString:@"file://"]) {
         [super getFromUrl:url responseHandler:responseHandler];
-        return;
     } else if ([url testing_isConfigEventUrlWithConfig:self.config]) {
         NSData *response = [CR_NetworkSessionReplayerKillSwitchFalse dataUsingEncoding:NSUTF8StringEncoding];
         responseHandler(response, nil);
-        return;
     } else if ([url testing_isAppEventUrlWithConfig:self.config]) {
         NSData *response = [CR_NetworkSessionReplayerGumReponse dataUsingEncoding:NSUTF8StringEncoding];
         responseHandler(response, nil);
-        return;
     } else if ([url testing_isNativeProductImage]) {
         NSBundle *bundle = [NSBundle bundleForClass:self.class];
         NSURL *imageUrl = [bundle URLForResource:@"image" withExtension:@"png"];
         NSData *response = [NSData dataWithContentsOfURL:imageUrl];
         responseHandler(response, nil);
-        return;
     } else if ([url testing_isNativeAdvertiserLogoImage]) {
         // CDB preprod return an SVG
         NSString * svg = @"<svg height=\"100\" width=\"100\">\n"
@@ -82,9 +78,9 @@ NSString *const CR_NetworkSessionEmptyBid = @"{\"slots\":[],\"requestId\":\"c412
         NSURL *imageUrl = [bundle URLForResource:@"image" withExtension:@"jpeg"];
         NSData *response = [NSData dataWithContentsOfURL:imageUrl];
         responseHandler(response, nil);
+    } else {
+        NSAssert(NO, @"Unknown URL in GET: %@", url);
     }
-
-    NSAssert(NO, @"Unknown URL in GET: %@", url);
 }
 
 - (void) postToUrl:(NSURL *)url
