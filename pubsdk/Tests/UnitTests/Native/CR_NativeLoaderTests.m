@@ -20,7 +20,7 @@
 #import "CR_DependencyProvider+Testing.h"
 #import "CRBidToken+Internal.h"
 #import "CR_TokenValue.h"
-#import "CR_NativeAssets.h"
+#import "CR_NativeAssets+Testing.h"
 #import "CR_NativeLoaderDispatchChecker.h"
 #import "CR_NetworkCaptor.h"
 #import "CR_MediaDownloaderDispatchChecker.h"
@@ -62,7 +62,7 @@
                                                urlOpener:self.urlOpener];
     self.loader.delegate = self.delegate;
 
-    CR_NativeAssets *assets = [[CR_NativeAssets alloc] initWithDict:@{}];
+    CR_NativeAssets *assets = [CR_NativeAssets nativeAssetsFromCdb];
     self.nativeAd = [[CRNativeAd alloc] initWithLoader:self.loader
                                                 assets:assets];
 }
@@ -171,6 +171,25 @@
 
     [self waitForExpectations:@[self.delegate.didDetectImpression]
                       timeout:1.f];
+}
+
+- (void)testHandleImpressionOnNativeAdCallPixels {
+    [self.loader handleImpressionOnNativeAd:self.nativeAd];
+
+    NSUInteger expectedCallCount = self.nativeAd.assets.impressionPixels.count;
+    OCMVerify(times(expectedCallCount),
+              [self.networkManagerMock getFromUrl:[OCMArg any]
+                                  responseHandler:nil]);
+}
+
+- (void)testHandleImpressionOnNativeAdDoNotCallPixelsOnAlreadyMarkedNativeAd {
+    [self.nativeAd markAsImpressed];
+
+    [self.loader handleImpressionOnNativeAd:self.nativeAd];
+
+    OCMVerify(never(),
+              [self.networkManagerMock getFromUrl:[OCMArg any]
+                                  responseHandler:nil]);
 }
 
 #pragma mark handleClickOnNativeAd

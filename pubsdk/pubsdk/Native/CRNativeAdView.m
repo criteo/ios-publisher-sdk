@@ -107,7 +107,7 @@
 #pragma mark Impression Detection
 
 - (void)impressionDetectorDidDetectImpression:(CR_ImpressionDetector *)detector {
-    [self.loader notifyDidDetectImpression];
+    [self.loader handleImpressionOnNativeAd:self.nativeAd];
 }
 
 @end

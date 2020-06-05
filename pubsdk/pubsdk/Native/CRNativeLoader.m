@@ -23,6 +23,7 @@
 #import "CRMediaContent+Internal.h"
 #import "CR_URLOpening.h"
 #import "CR_DependencyProvider.h"
+#import "CR_NetworkManager.h"
 
 @implementation CRNativeLoader
 
@@ -79,6 +80,7 @@
         return;
     }
     [nativeAd markAsImpressed];
+    [self sendImpressionPixelForNativeAd:nativeAd];
     [self notifyDidDetectImpression];
 }
 
@@ -105,6 +107,14 @@
 }
 
 #pragma mark - Private
+
+- (void)sendImpressionPixelForNativeAd:(CRNativeAd *)nativeAd {
+    for (NSString *urlStr in nativeAd.assets.impressionPixels) {
+        NSURL *url = [[NSURL alloc] initWithString:urlStr];
+        [self.criteo.dependencyProvider.networkManager getFromUrl:url
+                                                  responseHandler:nil];
+    }
+}
 
 - (void)setMediaDownloader:(id)mediaDownloader {
     _mediaDownloader =

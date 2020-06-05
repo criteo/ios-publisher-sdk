@@ -19,6 +19,8 @@
 #import "CR_NativeAdTableViewCell.h"
 #import "CRMediaView+Internal.h"
 #import "CR_NativeAssets+Testing.h"
+#import "CR_NetworkCaptor.h"
+#import "NSURL+Testing.h"
 #import "UIImage+Testing.h"
 
 @interface CR_NativeAdFunctionalTests : CR_IntegrationsTestBase
@@ -174,6 +176,20 @@
     [self cr_waitForExpectations:@[exp]];
 }
 
+- (void)testGivenNativeAd_whenDisplay_thenImpressionPixelSent {
+    CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
+    [self initCriteoWithAdUnits:@[adUnit]];
+    CR_NativeAdViewController *ctrl = [CR_NativeAdViewController
+                                       nativeAdViewControllerWithCriteo:self.criteo];
+    self.window = [UIWindow cr_keyWindowWithViewController:ctrl];
+    XCTestExpectation *pixelSendExp = [self expectationForImpressionPixelsSend];
+
+    [self loadAndWaitUntilImpressionDetectionWithNativeAdUnit:adUnit
+                                               viewController:ctrl];
+
+    [self cr_waitForExpectations:@[pixelSendExp]];
+}
+
 - (void)testGivenNativeAd_whenDisplayInSafeArea_thenImpressionDetected {
     if (@available(iOS 11.0, *)) { // Safe area is available on iOS versions >= 11
         CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
@@ -231,6 +247,21 @@
 
 #pragma mark - Private
 
+- (XCTestExpectation *)expectationForImpressionPixelsSend {
+    XCTestExpectation *expectation = [self expectationWithDescription:
+                                      @"Impression pixels must be sent."];
+    expectation.expectedFulfillmentCount = 2;
+    CR_NetworkCaptor *captor = self.criteo.testing_networkCaptor;
+    captor.requestListener = ^(NSURL * _Nonnull url,
+                               CR_HTTPVerb verb,
+                               NSDictionary * _Nullable body) {
+        if ([url testing_isNativeAdImpressionPixel]) {
+            [expectation fulfill];
+        }
+    };
+    return expectation;
+}
+
 - (XCTestExpectation *)expectationForNativeAdLoadedInTableViewController:(CR_NativeAdTableViewController *)ctrl
                                                            expectedCount:(NSUInteger)expectedCount {
     NSString *keyPath = NSStringFromSelector(@selector(adLoadedCount));
@@ -277,6 +308,15 @@
 
     [ctrl scrollAtIndexPath:indexPath];
 
+    [self cr_waitForExpectations:@[exp]];
+}
+
+- (void)loadAndWaitUntilImpressionDetectionWithNativeAdUnit:(CRNativeAdUnit *)adUnit
+                                             viewController:(CR_NativeAdViewController *)ctrl {
+    XCTestExpectation *exp = [self expectationForImpressionOnViewController:ctrl
+                                                              expectedCount:1];
+    [self loadNativeAdUnit:adUnit
+          inViewController:ctrl];
     [self cr_waitForExpectations:@[exp]];
 }
 
