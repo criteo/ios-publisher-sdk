@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)testing_isNativeProductImage;
 - (BOOL)testing_isNativeAdvertiserLogoImage;
 - (BOOL)testing_isNativeAdChoiceImage;
+- (BOOL)testing_isNativeAdImpressionPixel;
 
 @end
 

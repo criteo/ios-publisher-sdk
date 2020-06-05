@@ -50,4 +50,14 @@
     return [self.absoluteString isEqualToString:CR_NativeAssets.nativeAssetsFromCdb.privacy.optoutImageUrl];
 }
 
+- (BOOL)testing_isNativeAdImpressionPixel {
+    NSArray<NSString *> *urlStrings = CR_NativeAssets.nativeAssetsFromCdb.impressionPixels;
+    for (NSString *urlStr in urlStrings) {
+        if ([self.absoluteString isEqualToString:urlStr]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 @end

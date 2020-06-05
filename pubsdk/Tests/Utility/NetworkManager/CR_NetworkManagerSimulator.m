@@ -78,6 +78,8 @@ NSString *const CR_NetworkSessionEmptyBid = @"{\"slots\":[],\"requestId\":\"c412
         NSURL *imageUrl = [bundle URLForResource:@"image" withExtension:@"jpeg"];
         NSData *response = [NSData dataWithContentsOfURL:imageUrl];
         responseHandler(response, nil);
+    } else if ([url testing_isNativeAdImpressionPixel]) {
+        responseHandler(nil, nil);
     } else {
         NSAssert(NO, @"Unknown URL in GET: %@", url);
     }
