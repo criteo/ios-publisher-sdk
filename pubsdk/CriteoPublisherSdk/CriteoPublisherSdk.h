@@ -23,6 +23,8 @@ FOUNDATION_EXPORT const unsigned char CriteoPublisherSdkVersionString[];
 #import <CriteoPublisherSdk/CRInterstitial.h>
 #import <CriteoPublisherSdk/CRInterstitialAdUnit.h>
 #import <CriteoPublisherSdk/CRInterstitialDelegate.h>
+#import <CriteoPublisherSdk/CRMediaContent.h>
+#import <CriteoPublisherSdk/CRMediaView.h>
 #import <CriteoPublisherSdk/CRNativeAd.h>
 #import <CriteoPublisherSdk/CRNativeAdView.h>
 #import <CriteoPublisherSdk/CRNativeAdUnit.h>
