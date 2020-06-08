@@ -13,8 +13,11 @@
 
 - (void)nativeLoader:(CRNativeLoader *)loader didReceiveAd:(CRNativeAd *)ad {
     self.nativeAd = ad;
-    self.titleLabel.text = ad.title;
-    self.bodyLabel.text = ad.body;
+    self.titleLabel.text = ad.title ?: @"No title";
+    self.bodyLabel.text = ad.body ?: @"No body";
+    self.productMediaView.mediaContent = ad.productMedia;
+    self.advertiserDescriptionLabel.text = ad.advertiserDescription ?: @"No advertiser description";
+    self.advertiserMediaView.mediaContent = ad.advertiserLogoMedia;
 }
 
 @end
