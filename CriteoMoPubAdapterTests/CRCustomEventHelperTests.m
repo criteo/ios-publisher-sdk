@@ -2,8 +2,7 @@
 //  CRCustomEventHelperTests.m
 //  CriteoMoPubAdapterTests
 //
-//  Created by Robert Aung Hein Oo on 8/12/19.
-//  Copyright © 2019 Sneha Pathrose. All rights reserved.
+//  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
