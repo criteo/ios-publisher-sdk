@@ -2,7 +2,8 @@
 
 ## Version management
 
-For now, the Adapter follows the Criteo Publisher SDK. It means that when we bump the SDK, we also bump the Adaptor. If the SDK version is 3.5.0, the adaptor version is 3.5.0.0 so that we can bump the last digit independantly.
+For now, the Adapter follows the Criteo Publisher SDK. It means that when we bump the SDK, we also bump the Adaptor.
+If the SDK version is 3.5.0, the adaptor version is 3.5.0.0 so that we can bump the last digit independently.
 
 You need to update:
 - the MARKETING_VERSION

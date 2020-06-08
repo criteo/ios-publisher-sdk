@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.summary          = 'Criteo Google Mediation Adapters'
 
   s.description      = <<-DESC
-  This repository contains Criteo’s Adapter for Admob Mediation. It must be used in conjunction with the Criteo Publisher SDK. For requirements, intructions, and other info, see Integrating Criteo with Admob Mediation https://publisherdocs.criteotilt.com/app/ios/mediation/admob/
+  This repository contains Criteo’s Adapter for Admob Mediation. It must be used in conjunction with the Criteo Publisher SDK. For requirements, instructions, and other info, see Integrating Criteo with Admob Mediation https://publisherdocs.criteotilt.com/app/ios/mediation/admob/
                        DESC
 
   s.homepage         = 'https://github.com/criteo/ios-publisher-sdk-google-adapters'
