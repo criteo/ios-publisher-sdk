@@ -22,7 +22,7 @@ PROJECT_FILE_DIRECTORY="${ROOT_DIRECTORY}/CriteoMoPubAdapter"
 RELEASE_FILE_DIRECTORY="${RELEASE_DIRECTORY}/ios-publisher-sdk-mopub-adapters"
 PROJECT_CHANGELOG_PATH="${ROOT_DIRECTORY}/CHANGELOG.md"
 RELEASE_CHANGELOG_PATH="${RELEASE_FILE_DIRECTORY}/CHANGELOG.md"
-GIT_REPOSITORY="https://github.com/criteo/ios-publisher-sdk-mopub-adapters.git"
+GIT_REPOSITORY="git@github.com:criteo/ios-publisher-sdk-mopub-adapters.git"
 
 echo "Prepare the release directory"
 rm -rf "$RELEASE_DIRECTORY"
