@@ -137,7 +137,7 @@ class AdViewerViewController: FormViewController {
                 configs.forEach { config in
                     group.enter()
                     queue.async {
-                        network.adViewBuilder.build(config: config, criteo: criteo)
+                        _ = network.adViewBuilder.build(config: config, criteo: criteo)
                         group.leave()
                     }
                 }
