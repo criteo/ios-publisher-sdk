@@ -98,6 +98,19 @@
     [self cr_waitForExpectations:@[exp]];
 }
 
+- (void)testGivenNativeAd_whenClickOnMediaView_thenClickPropagateToAdView {
+    CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
+    [self initCriteoWithAdUnits:@[adUnit]];
+    CR_NativeAdViewController *ctrl = [CR_NativeAdViewController
+                                       nativeAdViewControllerWithCriteo:self.criteo];
+    self.window = [UIWindow cr_keyWindowWithViewController:ctrl];
+
+    [self loadNativeAdUnit:adUnit inViewController:ctrl];
+
+    XCTAssertFalse(ctrl.adView.productMediaView.userInteractionEnabled);
+    XCTAssertFalse(ctrl.adView.advertiserLogoMediaView.userInteractionEnabled);
+}
+
 - (void)testGivenNativeAd_whenClickOnAd_thenLeaveApp {
     CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
     [self initCriteoWithAdUnits:@[adUnit]];

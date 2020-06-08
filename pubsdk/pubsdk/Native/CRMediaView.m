@@ -15,6 +15,22 @@
 
 @implementation CRMediaView
 
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder:coder];
+    if (self) {
+        self.userInteractionEnabled = NO;
+    }
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.userInteractionEnabled = NO;
+    }
+    return self;
+}
+
 - (void)setMediaContent:(CRMediaContent *)mediaContent {
     NSURL* url = mediaContent.imageUrl;
 
