@@ -85,7 +85,6 @@ function fuji-test () {
     xcodebuild \
         -workspace fuji.xcworkspace \
         -scheme "${XCODEBUILD_SCHEME_FOR_TESTING}" \
-        -configuration $CRITEO_CONFIGURATION \
         -IDEBuildOperationMaxNumberOfConcurrentCompileTasks=`sysctl -n hw.ncpu` \
         -derivedDataPath build/DerivedData  \
         -sdk iphonesimulator \
@@ -97,10 +96,8 @@ function fuji-test () {
         $2
 }
 
-CRITEO_CONFIGURATION="Release"
-
 if [ "$XCODEBUILD_SCHEME_FOR_TESTING" != skipTests ]; then
-    fuji-echo "Testing $CRITEO_CONFIGURATION"
+    fuji-echo "Testing"
     fuji-test "" build-for-testing | fuji-pretty
     fuji-test "-only-testing pubsdkITests" test-without-building \
       | fuji-pretty --report junit --report html
