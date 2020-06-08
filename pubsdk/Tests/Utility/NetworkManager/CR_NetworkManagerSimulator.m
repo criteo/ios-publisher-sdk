@@ -53,7 +53,7 @@ NSString *const CR_NetworkSessionEmptyBid = @"{\"slots\":[],\"requestId\":\"c412
    responseHandler:(CR_NMResponse)responseHandler {
     if (!responseHandler) return;
 
-    if ([url.scheme isEqualToString:@"file://"]) {
+    if ([url.scheme isEqualToString:@"file"]) {
         [super getFromUrl:url responseHandler:responseHandler];
     } else if ([url testing_isConfigEventUrlWithConfig:self.config]) {
         NSData *response = [CR_NetworkSessionReplayerKillSwitchFalse dataUsingEncoding:NSUTF8StringEncoding];
