@@ -464,6 +464,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3600;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = S655EV5659;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -484,7 +485,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 3.5.0.0;
+				MARKETING_VERSION = 3.6.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Criteo.CriteoGoogleAdapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -498,6 +499,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3600;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = S655EV5659;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -518,7 +520,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
-				MARKETING_VERSION = 3.5.0.0;
+				MARKETING_VERSION = 3.6.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Criteo.CriteoGoogleAdapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
