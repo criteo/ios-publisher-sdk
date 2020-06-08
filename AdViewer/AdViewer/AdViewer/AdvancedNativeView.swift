@@ -39,6 +39,18 @@ extension AdvancedNativeView: CRNativeDelegate {
     public func nativeLoader(_ loader: CRNativeLoader, didFailToReceiveAdWithError error: Error) {
         delegate?.nativeLoader?(loader, didFailToReceiveAdWithError: error)
     }
+
+    public func nativeLoaderDidDetectClick(_ loader: CRNativeLoader) {
+        delegate?.nativeLoaderDidDetectClick?(loader)
+    }
+
+    public func nativeLoaderDidDetectImpression(_ loader: CRNativeLoader) {
+        delegate?.nativeLoaderDidDetectImpression?(loader)
+    }
+
+    public func nativeLoaderWillLeaveApplication(forNativeAd loader: CRNativeLoader) {
+        delegate?.nativeLoaderWillLeaveApplication?(forNativeAd: loader)
+    }
 }
 
 private extension AdvancedNativeView {

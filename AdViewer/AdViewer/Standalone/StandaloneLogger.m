@@ -108,4 +108,16 @@
     [self.logManager logEvent:NSStringFromSelector(_cmd) info:loader error:error];
 }
 
+- (void)nativeLoaderDidDetectClick:(CRNativeLoader *)loader {
+    [self.logManager logEvent:NSStringFromSelector(_cmd) info:loader];
+}
+
+- (void)nativeLoaderDidDetectImpression:(CRNativeLoader *)loader {
+    [self.logManager logEvent:NSStringFromSelector(_cmd) info:loader];
+}
+
+- (void)nativeLoaderWillLeaveApplicationForNativeAd:(CRNativeLoader *)loader {
+    [self.logManager logEvent:NSStringFromSelector(_cmd) info:loader];
+}
+
 @end
