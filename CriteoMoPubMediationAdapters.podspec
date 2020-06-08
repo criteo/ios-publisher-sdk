@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'CriteoMoPubMediationAdapters'
-  s.version          = '3.5.0.0'
+  s.version          = '3.6.0.0'
   s.summary          = 'Criteo MoPub Mediation Adapters'
 
   s.description      = <<-DESC
@@ -16,6 +16,6 @@ Pod::Spec.new do |s|
 
   s.source_files = '*.{m,h}'
   s.static_framework = true
-  s.dependency 'CriteoPublisherSdk', '>= 3.5.0'
+  s.dependency 'CriteoPublisherSdk', '>= 3.6.0'
   s.dependency 'mopub-ios-sdk/Core', '>= 5.6'
 end
