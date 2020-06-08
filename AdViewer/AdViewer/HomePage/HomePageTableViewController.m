@@ -15,7 +15,7 @@
 
 NSString * const HomePageTableViewControllerUsPrivacyIabConsentStringKey = @"IABUSPrivacy_String";
 
-@interface HomePageTableViewController () <UITextFieldDelegate>
+@interface HomePageTableViewController () <UITextFieldDelegate, CRVNativeAdViewControllerDelegate>
 
 @property (strong, nonatomic) MoPub *mopub;
 @property (strong, nonatomic) Criteo *criteo;
@@ -96,7 +96,7 @@ NSString * const HomePageTableViewControllerUsPrivacyIabConsentStringKey = @"IAB
         self.standaloneVC.homePageVC = self;
     }
     else if ([segue.destinationViewController isKindOfClass:[CRVNativeAdViewController class]]) {
-        [segue.destinationViewController setDelegate:self];
+        [(CRVNativeAdViewController *)segue.destinationViewController setDelegate:self];
     }
 }
 
