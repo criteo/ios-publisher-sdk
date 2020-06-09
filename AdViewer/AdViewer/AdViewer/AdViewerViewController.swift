@@ -228,18 +228,15 @@ class AdViewerViewController: FormViewController {
            let config = adConfig,
            let criteo = criteo {
             let adView = network.adViewBuilder.build(config: config, criteo: criteo)
-
-            if self.display == .newView {
-                // TODO: return a dedicated view controller
-                let viewControler = AdViewerViewController(nibName: nil, bundle: nil)
-                viewControler.title = "Nothing for now"
-                self.show(viewControler, sender: self)
-                return
-            }
-
             switch (adView) {
             case .banner(let bannerView):
-                if let adsSection = self.form.sectionBy(tag: Tags.ads.rawValue) {
+                if self.display == .newView {
+                    // TODO: return a dedicated view controller
+                    let viewControler = AdViewerViewController(nibName: nil, bundle: nil)
+                    viewControler.title = "Nothing for now"
+                    self.navigationController?.pushViewController(viewControler, animated: true)
+                }
+                else if let adsSection = self.form.sectionBy(tag: Tags.ads.rawValue) {
                     let adRow = AdViewRow<UIView>(bannerView.description) { (row) in
                     }.cellSetup { (cell, row) in
                         cell.view = bannerView

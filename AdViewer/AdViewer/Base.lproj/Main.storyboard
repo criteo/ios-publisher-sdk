@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="r6y-pU-u64">
-    <device id="retina5_5" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="r6y-pU-u64">
+    <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -923,7 +921,7 @@ Mopub Consent is updated only in the Criteo SDK and cannot be retrieved from it.
                     </tabBar>
                     <connections>
                         <segue destination="fuT-WZ-8Nj" kind="relationship" relationship="viewControllers" id="U2L-Wc-XhK"/>
-                        <segue destination="AUP-2B-ZXP" kind="relationship" relationship="viewControllers" id="3ak-gR-5rh"/>
+                        <segue destination="dqQ-Bb-xXD" kind="relationship" relationship="viewControllers" id="gdH-Yd-8yP"/>
                         <segue destination="8EF-H0-0mh" kind="relationship" relationship="viewControllers" id="ucZ-WJ-HIQ"/>
                     </connections>
                 </tabBarController>
@@ -1029,7 +1027,7 @@ Mopub Consent is updated only in the Criteo SDK and cannot be retrieved from it.
             </objects>
             <point key="canvasLocation" x="1744.9275362318842" y="1439.6739130434785"/>
         </scene>
-        <!--New Viewer-->
+        <!--Ad Viewer View Controller-->
         <scene sceneID="RfK-Fh-UHI">
             <objects>
                 <viewController id="AUP-2B-ZXP" customClass="AdViewerViewController" customModule="AdViewer" customModuleProvider="target" sceneMemberID="viewController">
@@ -1042,12 +1040,30 @@ Mopub Consent is updated only in the Criteo SDK and cannot be retrieved from it.
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="New Viewer" id="wk6-km-EP7"/>
+                    <navigationItem key="navigationItem" id="efg-ce-d9f"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZUj-mk-Rrg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="41" y="-707"/>
+        </scene>
+        <!--New Viewer-->
+        <scene sceneID="VND-zm-c8l">
+            <objects>
+                <navigationController id="dqQ-Bb-xXD" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="New Viewer" id="ww3-lD-OuX"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ZzN-z2-Rjg">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="AUP-2B-ZXP" kind="relationship" relationship="rootViewController" id="Bkg-zt-EAu"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="r6X-0h-OdE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1181" y="-651"/>
         </scene>
     </scenes>
 </document>
