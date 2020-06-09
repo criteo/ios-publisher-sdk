@@ -114,15 +114,11 @@ class AdViewerViewController: FormViewController {
         }
         +++ Section("Advanced options") {
             $0.hidden = .function([Tags.network.rawValue, Tags.type.rawValue], { (form) -> Bool in
-                if  let networkRow: SegmentedRow<AdNetwork> = self.form.rowBy(tag: Tags.network.rawValue),
-                    let typeRow: SegmentedRow<AdType> = self.form.rowBy(tag: Tags.type.rawValue),
-                    let network = networkRow.value,
+                if  let typeRow: SegmentedRow<AdType> = self.form.rowBy(tag: Tags.type.rawValue),
                     let type = typeRow.value {
-                    if (network == self.networks.Criteo) && (type == .native) {
-                        return false
-                    }
+                    return type == .interstitial
                 }
-                return true
+                return false
             })
         }
         <<< SegmentedRow<DisplayMode>(Tags.display.rawValue) {
