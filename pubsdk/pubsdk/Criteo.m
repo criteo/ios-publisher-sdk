@@ -58,9 +58,16 @@
 }
 
 + (instancetype)criteo {
-    CR_DependencyProvider *dependencyProvider = [[CR_DependencyProvider alloc] init];
-    CR_BidManager *bidManager = [dependencyProvider buildBidManager];
-    return [[self alloc] initWithBidManager:bidManager];
+    Criteo *criteo = nil;
+    @try {
+        CR_DependencyProvider *dependencyProvider = [[CR_DependencyProvider alloc] init];
+        CR_BidManager *bidManager = [dependencyProvider buildBidManager];
+        criteo = [[self alloc] initWithBidManager:bidManager];
+    }
+    @catch (NSException *exception) {
+        CLogException(exception);
+    }
+    return criteo;
 }
 
 - (instancetype)initWithBidManager:(CR_BidManager *)bidManager {
