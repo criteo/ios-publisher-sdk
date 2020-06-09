@@ -26,7 +26,7 @@ mkdir -p $APP_DIR_PATH
 
 # Retrieve and compile the testing app
 cd $APP_DIR_PATH
-git clone https://review.crto.in/pub-sdk/fuji-test-app
+git clone --branch v3.6.1 https://review.crto.in/pub-sdk/fuji-test-app
 cd fuji-test-app
 cp -R $SDK_PATH $SDK_PATH_IN_APP
 ./scripts/compile-test.sh
