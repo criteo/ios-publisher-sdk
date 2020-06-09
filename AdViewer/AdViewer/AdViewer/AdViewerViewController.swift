@@ -231,9 +231,8 @@ class AdViewerViewController: FormViewController {
             switch (adView) {
             case .banner(let bannerView):
                 if self.display == .newView {
-                    // TODO: return a dedicated view controller
-                    let viewControler = AdViewerViewController(nibName: nil, bundle: nil)
-                    viewControler.title = "Nothing for now"
+                    let viewControler = AdTableViewController()
+                    viewControler.adView = bannerView
                     self.navigationController?.pushViewController(viewControler, animated: true)
                 }
                 else if let adsSection = self.form.sectionBy(tag: Tags.ads.rawValue) {

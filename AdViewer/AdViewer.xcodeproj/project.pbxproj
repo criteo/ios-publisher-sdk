@@ -43,6 +43,7 @@
 		7D0622F123F2EA950082F027 /* CRVNativeAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0622F023F2EA950082F027 /* CRVNativeAdView.m */; };
 		7DADDB6423F57C7A00DD82E7 /* CRVNativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DADDB6323F57C7A00DD82E7 /* CRVNativeAdView.xib */; };
 		7DC4A1D523EC73A20027DB5E /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CAF8C9232C2F990050D8D9 /* CriteoPublisherSdk.framework */; };
+		7DE88E5B248FA35B00F15D74 /* AdTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE88E5A248FA35B00F15D74 /* AdTableViewController.swift */; };
 		E73EE276C44A5021AC3258C6 /* libPods-AdViewer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE22D35658ED0F4914AE6FB /* libPods-AdViewer.a */; };
 /* End PBXBuildFile section */
 
@@ -141,6 +142,7 @@
 		7D0622EF23F2EA950082F027 /* CRVNativeAdView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRVNativeAdView.h; sourceTree = "<group>"; };
 		7D0622F023F2EA950082F027 /* CRVNativeAdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRVNativeAdView.m; sourceTree = "<group>"; };
 		7DADDB6323F57C7A00DD82E7 /* CRVNativeAdView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CRVNativeAdView.xib; sourceTree = "<group>"; };
+		7DE88E5A248FA35B00F15D74 /* AdTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdTableViewController.swift; sourceTree = "<group>"; };
 		BAE22D35658ED0F4914AE6FB /* libPods-AdViewer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AdViewer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -300,6 +302,7 @@
 				198CDF4848FDB0545CBB170C /* AdViewRow.swift */,
 				462A60722417DB5000E36D33 /* AdViewerViewController.swift */,
 				198CD20560ED9CCF03D83BF3 /* AdvancedNativeView.swift */,
+				7DE88E5A248FA35B00F15D74 /* AdTableViewController.swift */,
 			);
 			path = AdViewer;
 			sourceTree = "<group>";
@@ -576,6 +579,7 @@
 				198CD02A344ACEC28DFD3FC1 /* MopubAdViewBuilder.swift in Sources */,
 				198CD1A2C254D0AA046AAE80 /* AdNetwork.swift in Sources */,
 				198CDDAB5CB799E07E1DC055 /* AdFormat.swift in Sources */,
+				7DE88E5B248FA35B00F15D74 /* AdTableViewController.swift in Sources */,
 				198CD431F5C31D861CCDFF48 /* AdViewRow.swift in Sources */,
 				198CDBBD19505CE769C375C5 /* StandaloneAdViewBuilder.swift in Sources */,
 				7D0622F123F2EA950082F027 /* CRVNativeAdView.m in Sources */,
