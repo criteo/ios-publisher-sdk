@@ -19,7 +19,20 @@ class AdViewerViewController: FormViewController {
 
     // MARK: form helper properties
     private enum tags: String {
-        case network, type, size, ads
+        case network, type, size, display, ads
+    }
+
+    private enum DisplayMode: CustomStringConvertible {
+        case onScreen, newView
+        static func all() -> [DisplayMode] {
+            return [.onScreen, .newView]
+        }
+        var description : String {
+            switch self {
+            case .onScreen: return "Below"
+            case .newView: return "New View"
+            }
+        }
     }
 
     private var values: [String: Any?] {
@@ -33,6 +46,9 @@ class AdViewerViewController: FormViewController {
     }
     private var size: AdSize? {
         return self.values[tags.size.rawValue] as? AdSize
+    }
+    private var display: DisplayMode? {
+        return self.values[tags.display.rawValue] as? DisplayMode
     }
 
     override func viewDidLoad() {
@@ -96,7 +112,26 @@ class AdViewerViewController: FormViewController {
                 self.updateAdConfig()
             }
         }
-
+        +++ Section("Advanced options") {
+            $0.hidden = .function([tags.network.rawValue, tags.type.rawValue], { (form) -> Bool in
+                if  let networkRow: SegmentedRow<AdNetwork> = self.form.rowBy(tag: tags.network.rawValue),
+                    let typeRow: SegmentedRow<AdType> = self.form.rowBy(tag: tags.type.rawValue),
+                    let network = networkRow.value,
+                    let type = typeRow.value {
+                    if (network == self.networks.Criteo) && (type == .native) {
+                        return false
+                    }
+                }
+                return true
+            })
+        }
+        <<< SegmentedRow<DisplayMode>(tags.display.rawValue) {
+            $0.options = DisplayMode.all()
+            $0.value = $0.options?.first
+            $0.displayValueFor = {
+                $0?.description
+            }
+        }
         +++ Section()
         <<< ButtonRow() {
             $0.title = "Display Ad"
@@ -193,6 +228,15 @@ class AdViewerViewController: FormViewController {
            let config = adConfig,
            let criteo = criteo {
             let adView = network.adViewBuilder.build(config: config, criteo: criteo)
+
+            if self.display == .newView {
+                // TODO: return a dedicated view controller
+                let viewControler = AdViewerViewController(nibName: nil, bundle: nil)
+                viewControler.title = "Nothing for now"
+                self.show(viewControler, sender: self)
+                return
+            }
+
             switch (adView) {
             case .banner(let bannerView):
                 if let adsSection = self.form.sectionBy(tag: tags.ads.rawValue) {
