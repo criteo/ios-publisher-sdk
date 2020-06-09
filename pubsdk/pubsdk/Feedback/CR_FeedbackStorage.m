@@ -31,12 +31,30 @@ static NSUInteger const CR_FeedbackStorageSendingQueueMaxSize = 256 * 1024;
 }
 
 - (instancetype)initWithSendingQueueMaxSize:(NSUInteger)sendingQueueMaxSize {
-    CR_FeedbackFileManager * fileManager = [[CR_FeedbackFileManager alloc] init];
-    CASObjectQueue<CR_FeedbackMessage *> *queue =
-        [[CASBoundedFileObjectQueue alloc] initWithAbsolutePath:fileManager.sendingQueueFilePath
-                                                  maxFileLength:sendingQueueMaxSize
-                                                          error:nil];
+    return [self initWithSendingQueueMaxSize:sendingQueueMaxSize
+                                 fileManager:[[CR_FeedbackFileManager alloc] init]];
+}
+
+- (instancetype)initWithSendingQueueMaxSize:(NSUInteger)sendingQueueMaxSize
+                                fileManager:(id <CR_FeedbackFileManaging>)fileManager {
+    CASObjectQueue<CR_FeedbackMessage *> *queue = nil;
+    @try {
+        queue = [self buildSendingQueueWithMaxSize:sendingQueueMaxSize fileManager:fileManager];
+    }
+    @catch (NSException *exception) {
+        CLog(@"%@", exception);
+        // Try to recover by deleting potentially corrupted file
+        [fileManager removeSendingQueueFile];
+        queue = [self buildSendingQueueWithMaxSize:sendingQueueMaxSize fileManager:fileManager];
+    }
     return [self initWithFileManager:fileManager withQueue:queue];
+}
+
+- (CASObjectQueue<CR_FeedbackMessage *> *)buildSendingQueueWithMaxSize:(NSUInteger)sendingQueueMaxSize
+                                                           fileManager:(CR_FeedbackFileManager *)fileManager {
+    return [[CASBoundedFileObjectQueue alloc] initWithAbsolutePath:fileManager.sendingQueueFilePath
+                                                     maxFileLength:sendingQueueMaxSize
+                                                             error:nil];
 }
 
 - (instancetype)initWithFileManager:(id <CR_FeedbackFileManaging>)fileManaging

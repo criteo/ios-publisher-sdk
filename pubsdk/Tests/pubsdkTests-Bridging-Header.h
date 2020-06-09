@@ -13,7 +13,7 @@
 #import "CR_DataProtectionConsentMock.h"
 #import "CR_DefaultFileManipulator.h"
 #import "CR_FeedbackFileManager.h"
-#import "CR_FeedbackStorage.h"
+#import "CR_FeedbackStorage+Internal.h"
 #import "CR_Gdpr.h"
 #import "CR_GdprSerializer.h"
 

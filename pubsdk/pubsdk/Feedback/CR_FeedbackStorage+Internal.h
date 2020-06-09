@@ -12,6 +12,12 @@
 
 @interface CR_FeedbackStorage ()
 
+- (instancetype)initWithSendingQueueMaxSize:(NSUInteger)sendingQueueMaxSize
+                                fileManager:(id <CR_FeedbackFileManaging>)fileManager;
+
+- (CASObjectQueue<CR_FeedbackMessage *> *)buildSendingQueueWithMaxSize:(NSUInteger)sendingQueueMaxSize
+                                                           fileManager:(CR_FeedbackFileManager *)fileManage;
+
 - (NSString *)getOrCreateFilenameForAdUnit:(CR_CacheAdUnit *)adUnit;
 
 - (CR_FeedbackMessage *)readOrCreateFeedbackMessageByFilename:(NSString *)filename;

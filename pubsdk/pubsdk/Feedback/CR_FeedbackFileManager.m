@@ -90,6 +90,10 @@ static NSUInteger const CR_FeedbackFileManagerActiveMetricsMaxFileSize = 256 * 1
     return [self.fileManipulating contentsOfDirectoryAtPath:[self activeMetricsPath] error:nil];
 }
 
+- (void)removeSendingQueueFile {
+    [self.fileManipulating removeItemAtPath:_sendingQueueFilePath error:nil];
+}
+
 #pragma mark - Private methods
 
 - (NSString *)buildAbsolutePathByFilename:(NSString *)filename {
