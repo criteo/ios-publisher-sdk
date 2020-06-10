@@ -18,6 +18,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface CRNativeAdView : UIControl
 
+/**
+ * The advanced native ad associated to the view.
+ *
+ * The assignation of the native ad is mandatory to track the impression and the clicks on the
+ * advanced native ad.
+ */
 @property (strong, nonatomic, nullable) CRNativeAd *nativeAd;
 
 @end
