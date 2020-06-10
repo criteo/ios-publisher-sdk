@@ -18,6 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic, readonly) CRNativeLoader *loader;
 @property (strong, nonatomic, readonly) CR_NativeAssets *assets;
 @property (strong, nonatomic, readonly) CR_NativeProduct *product;
+/**
+ * True when the SDK has detect that the Advanced Native has been well displayed.
+ */
 @property (assign, nonatomic, readonly) BOOL isImpressed;
 
 - (instancetype)initWithLoader:(CRNativeLoader *)loader
