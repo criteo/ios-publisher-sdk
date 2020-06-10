@@ -48,7 +48,7 @@ gradle initWorkspace && \
 ### Testing against several device types & runtimes
 
 We might want to automate this at some point, but that requires additional runtimes to be installed,
-which requires actions on jenkins slaves. For now we can do this manually:
+which requires actions on jenkins agents. For now we can do this manually:
 After downloading runtimes from Xcode, create some test simulators:
 ```shell
 xcrun simctl create "Fuji Simulator 5s10.3" com.apple.CoreSimulator.SimDeviceType.iPhone-5s com.apple.CoreSimulator.SimRuntime.iOS-10-3
