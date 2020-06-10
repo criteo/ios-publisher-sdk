@@ -20,6 +20,6 @@
 /**
  * New media content to load in this view.
  */
-@property (copy, nonatomic, nullable) CRMediaContent *mediaContent;
+@property (strong, nonatomic, nullable) CRMediaContent *mediaContent;
 
 @end
