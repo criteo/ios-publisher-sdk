@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CR_NativeLoaderDispatchChecker : NSObject <CRNativeDelegate>
+@interface CR_NativeLoaderDispatchChecker : NSObject <CRNativeLoaderDelegate>
 
 @property (strong, nonatomic) XCTestExpectation *didReceiveOnMainQueue;
 @property (strong, nonatomic) XCTestExpectation *didFailOnMainQueue;

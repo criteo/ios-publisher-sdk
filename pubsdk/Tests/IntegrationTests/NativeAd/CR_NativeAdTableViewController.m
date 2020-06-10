@@ -21,7 +21,7 @@ static NSString * const kAdCellNibName = @"CR_NativeAdTableViewCell";
 static const NSUInteger kCellCount = 50;
 
 
-@interface CR_NativeAdTableViewController () <CRNativeDelegate>
+@interface CR_NativeAdTableViewController () <CRNativeLoaderDelegate>
 
 @property (strong, nonatomic) CRNativeLoader *adLoader;
 @property (strong, nonatomic) NSMutableArray<CRNativeAd *> *nativeAds;
@@ -197,7 +197,7 @@ didFailToReceiveAdWithError:(NSError *)error {
     self.detectClickCount += 1;
 }
 
--(void)nativeLoaderWillLeaveApplicationForNativeAd:(CRNativeLoader *)loader {
+-(void)nativeLoaderWillLeaveApplication:(CRNativeLoader *)loader {
     self.leaveAppCount += 1;
 }
 

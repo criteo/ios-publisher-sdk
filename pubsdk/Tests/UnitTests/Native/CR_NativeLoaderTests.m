@@ -71,7 +71,7 @@
 
 - (void)testReceiveWithValidBid {
     [self loadNativeWithBid:self.validBid verify:
-        ^(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock) {
+        ^(CRNativeLoader *loader, id <CRNativeLoaderDelegate> delegateMock, Criteo *criteoMock) {
             OCMExpect([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
             OCMReject([delegateMock nativeLoader:loader didFailToReceiveAdWithError:[OCMArg any]]);
         }];
@@ -82,7 +82,7 @@
 
 - (void)testFailureWithNoBid {
     [self loadNativeWithBid:[CR_CdbBid emptyBid] verify:
-        ^(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock) {
+        ^(CRNativeLoader *loader, id <CRNativeLoaderDelegate> delegateMock, Criteo *criteoMock) {
             OCMExpect([delegateMock nativeLoader:loader didFailToReceiveAdWithError:[OCMArg any]]);
             OCMReject([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
         }];
@@ -92,7 +92,7 @@
 
 - (void)testInHouseReceiveWithValidToken {
     [self loadNativeWithTokenValue:self.validTokenValue delegate:nil verify:
-            ^(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock) {
+            ^(CRNativeLoader *loader, id <CRNativeLoaderDelegate> delegateMock, Criteo *criteoMock) {
                 OCMExpect([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
                 OCMReject([delegateMock nativeLoader:loader didFailToReceiveAdWithError:[OCMArg any]]);
             }];
@@ -103,7 +103,7 @@
 
 - (void)testInHouseFailureWithInvalidToken {
     [self loadNativeWithTokenValue:nil delegate:nil verify:
-            ^(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock) {
+            ^(CRNativeLoader *loader, id <CRNativeLoaderDelegate> delegateMock, Criteo *criteoMock) {
                 OCMExpect([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
                 OCMReject([delegateMock nativeLoader:loader didFailToReceiveAdWithError:[OCMArg any]]);
             }];
@@ -258,11 +258,11 @@
 }
 
 - (void)loadNativeWithBid:(CR_CdbBid *)bid
-                 delegate:(id <CRNativeDelegate>)delegate
-                   verify:(void (^)(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock))verify {
+                 delegate:(id <CRNativeLoaderDelegate>)delegate
+                   verify:(void (^)(CRNativeLoader *loader, id <CRNativeLoaderDelegate> delegateMock, Criteo *criteoMock))verify {
     CRNativeAdUnit *adUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"123"];
     [self mockCriteoWithAdUnit:adUnit returnBid:bid];
-    id <CRNativeDelegate> testDelegate = delegate ?: OCMStrictProtocolMock(@protocol(CRNativeDelegate));
+    id <CRNativeLoaderDelegate> testDelegate = delegate ?: OCMStrictProtocolMock(@protocol(CRNativeLoaderDelegate));
     CRNativeLoader *loader = [self buildLoaderWithAdUnit:adUnit criteo:self.criteo];
     loader.delegate = testDelegate;
     [loader loadAd];
@@ -270,16 +270,16 @@
 }
 
 - (void)loadNativeWithBid:(CR_CdbBid *)bid
-                   verify:(void (^)(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock))verify {
+                   verify:(void (^)(CRNativeLoader *loader, id <CRNativeLoaderDelegate> delegateMock, Criteo *criteoMock))verify {
     [self loadNativeWithBid:bid delegate:nil verify:verify];
 }
 
 - (void)loadNativeWithTokenValue:(CR_TokenValue *)tokenValue
-                        delegate:(id <CRNativeDelegate>)delegate
-                          verify:(void (^)(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock))verify {
+                        delegate:(id <CRNativeLoaderDelegate>)delegate
+                          verify:(void (^)(CRNativeLoader *loader, id <CRNativeLoaderDelegate> delegateMock, Criteo *criteoMock))verify {
     CRBidToken *bidToken = [CRBidToken.alloc initWithUUID:[NSUUID UUID]];
     [self mockCriteoWithBidToken:bidToken returnTokenValue:tokenValue];
-    id <CRNativeDelegate> testDelegate = delegate ?: OCMStrictProtocolMock(@protocol(CRNativeDelegate));
+    id <CRNativeLoaderDelegate> testDelegate = delegate ?: OCMStrictProtocolMock(@protocol(CRNativeLoaderDelegate));
     CRNativeLoader *loader = [self buildLoaderWithAdUnit:(CRNativeAdUnit *) tokenValue.adUnit criteo:self.criteo];
     loader.delegate = testDelegate;
     [loader loadAdWithBidToken:bidToken];
@@ -297,7 +297,7 @@
 }
 
 - (CRNativeLoader *)dispatchCheckerForBid:(CR_CdbBid *)bid
-                                 delegate:(id <CRNativeDelegate>)delegate {
+                                 delegate:(id <CRNativeLoaderDelegate>)delegate {
     CRNativeAdUnit *adUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"123"];
     [self mockCriteoWithAdUnit:adUnit returnBid:bid];
     CRNativeLoader *loader = [self buildLoaderWithAdUnit:adUnit criteo:self.criteo];
@@ -307,17 +307,17 @@
 }
 
 - (void)testStandaloneDoesNotConsumeBidWhenNotListeningToAds {
-    id <CRNativeDelegate> delegateMock = OCMPartialMock([NSObject new]);
+    id <CRNativeLoaderDelegate> delegateMock = OCMPartialMock([NSObject new]);
     [self loadNativeWithBid:self.validBid delegate:delegateMock verify:
-            ^(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock) {
+            ^(CRNativeLoader *loader, id <CRNativeLoaderDelegate> delegateMock, Criteo *criteoMock) {
                 OCMReject([criteoMock getBid:[OCMArg any]]);
             }];
 }
 
 - (void)testInHouseDoesNotConsumeBidWhenNotListeningToAds {
-    id <CRNativeDelegate> delegateMock = OCMPartialMock([NSObject new]);
+    id <CRNativeLoaderDelegate> delegateMock = OCMPartialMock([NSObject new]);
     [self loadNativeWithTokenValue:self.validTokenValue delegate:delegateMock verify:
-            ^(CRNativeLoader *loader, id <CRNativeDelegate> delegateMock, Criteo *criteoMock) {
+            ^(CRNativeLoader *loader, id <CRNativeLoaderDelegate> delegateMock, Criteo *criteoMock) {
                 OCMReject([criteoMock tokenValueForBidToken:[OCMArg any] adUnitType:CRAdUnitTypeNative]);
             }];
 }

@@ -208,8 +208,8 @@
 
 - (void)notifyWillLeaveApplicationForNativeAd {
     [self.threadManager dispatchAsyncOnMainQueue:^{
-        if([self.delegate respondsToSelector:@selector(nativeLoaderWillLeaveApplicationForNativeAd:)]) {
-            [self.delegate nativeLoaderWillLeaveApplicationForNativeAd:self];
+        if([self.delegate respondsToSelector:@selector(nativeLoaderWillLeaveApplication:)]) {
+            [self.delegate nativeLoaderWillLeaveApplication:self];
         }
     }];
 }

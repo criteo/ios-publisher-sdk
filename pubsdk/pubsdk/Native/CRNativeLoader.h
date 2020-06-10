@@ -10,7 +10,7 @@
 @class CRNativeAdUnit;
 @class CRNativeAd;
 @class CRBidToken;
-@protocol CRNativeDelegate;
+@protocol CRNativeLoaderDelegate;
 @protocol CRMediaDownloader;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface CRNativeLoader : NSObject
 
-@property (nonatomic, weak) id<CRNativeDelegate> delegate;
+@property (nonatomic, weak) id<CRNativeLoaderDelegate> delegate;
 @property (nonatomic, strong) id<CRMediaDownloader> mediaDownloader;
 
 - (instancetype)init NS_UNAVAILABLE;
@@ -49,10 +49,10 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- * All the methods of the CRNativeDelegate are invoked on main dispatch queue,
+ * All the methods of the CRNativeLoaderDelegate are invoked on main dispatch queue,
  * so it is safe to execute UI operations in the implementation.
  */
-@protocol CRNativeDelegate <NSObject>
+@protocol CRNativeLoaderDelegate <NSObject>
 
 @optional
 
@@ -92,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param loader Native loader invoking the callback
  */
--(void)nativeLoaderWillLeaveApplicationForNativeAd:(CRNativeLoader *)loader;
+-(void)nativeLoaderWillLeaveApplication:(CRNativeLoader *)loader;
 
 @end
 

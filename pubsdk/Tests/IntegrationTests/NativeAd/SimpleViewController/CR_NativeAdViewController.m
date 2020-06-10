@@ -15,7 +15,7 @@
 #import "CR_SafeAreaView.h"
 #import "CR_URLOpenerMock.h"
 
-@interface CR_NativeAdViewController () <CRNativeDelegate>
+@interface CR_NativeAdViewController () <CRNativeLoaderDelegate>
 
 @property (strong, nonatomic, nullable) CR_SafeAreaView *safeView API_AVAILABLE(ios(11.0));
 
@@ -119,7 +119,7 @@ didFailToReceiveAdWithError:(NSError *)error {
     self.detectClickCount += 1;
 }
 
--(void)nativeLoaderWillLeaveApplicationForNativeAd:(CRNativeLoader *)loader {
+-(void)nativeLoaderWillLeaveApplication:(CRNativeLoader *)loader {
     self.leaveAppCount += 1;
 }
 

@@ -51,7 +51,7 @@
     [self.didDetectClick fulfill];
 }
 
-- (void)nativeLoaderWillLeaveApplicationForNativeAd:(CRNativeLoader *)loader {
+- (void)nativeLoaderWillLeaveApplication:(CRNativeLoader *)loader {
     if (@available(iOS 10.0, *)) {
         dispatch_assert_queue(dispatch_get_main_queue());
     }
