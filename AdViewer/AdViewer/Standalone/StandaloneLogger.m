@@ -116,7 +116,7 @@
     [self.logManager logEvent:NSStringFromSelector(_cmd) info:loader];
 }
 
-- (void)nativeLoaderWillLeaveApplicationForNativeAd:(CRNativeLoader *)loader {
+- (void)nativeLoaderWillLeaveApplication:(CRNativeLoader *)loader {
     [self.logManager logEvent:NSStringFromSelector(_cmd) info:loader];
 }
 

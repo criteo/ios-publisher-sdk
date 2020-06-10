@@ -11,7 +11,7 @@
 #import "LogManager.h"
 #import "StandaloneLogger.h"
 
-@interface CRVNativeAdViewController () <CRNativeDelegate>
+@interface CRVNativeAdViewController () <CRNativeLoaderDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *adViewContainer;
 

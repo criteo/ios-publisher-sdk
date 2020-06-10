@@ -5,7 +5,7 @@
 import Foundation
 
 class AdvancedNativeView: UIView {
-    public weak var delegate: CRNativeDelegate?
+    public weak var delegate: CRNativeLoaderDelegate?
     private var loader: CRNativeLoader!
     private var adView: CRVNativeAdView!
 
@@ -30,7 +30,7 @@ class AdvancedNativeView: UIView {
     }
 }
 
-extension AdvancedNativeView: CRNativeDelegate {
+extension AdvancedNativeView: CRNativeLoaderDelegate {
     public func nativeLoader(_ loader: CRNativeLoader, didReceive ad: CRNativeAd) {
         delegate?.nativeLoader?(loader, didReceive: ad)
         adView!.nativeLoader(loader, didReceive: ad)
@@ -48,8 +48,8 @@ extension AdvancedNativeView: CRNativeDelegate {
         delegate?.nativeLoaderDidDetectImpression?(loader)
     }
 
-    public func nativeLoaderWillLeaveApplication(forNativeAd loader: CRNativeLoader) {
-        delegate?.nativeLoaderWillLeaveApplication?(forNativeAd: loader)
+    public func nativeLoaderWillLeaveApplication(_ loader: CRNativeLoader) {
+        delegate?.nativeLoaderWillLeaveApplication?(loader)
     }
 }
 
