@@ -5,9 +5,9 @@ set -Eeuo pipefail
 
 # ----To be updated for each RC---------
 # For naming the frameworks
-SDK_VERSION_NUMBER="3.5.0-rc1"
+SDK_VERSION_NUMBER="3.6.1-rc1"
 # For getting the frameworks on Jenkins
-SDK_BUILD_NUMBER="1954"
+SDK_BUILD_NUMBER="2760"
 # ---------------------------------------
 
 SCRIPT_DIRECTORY="$( cd "$(dirname "$0")" ; pwd -P )"
@@ -28,7 +28,7 @@ echo "Download the artefact for debug: ${SDK_DEBUG_ZIP_NAME}"
 curl -o "$SDK_DEBUG_ZIP_NAME" "https://build.crto.in/job/pub-sdk-fuji-pre-submit/${SDK_BUILD_NUMBER}/artifact/build/output/CriteoPublisherSdk.framework.Debug.zip"
 
 echo "Clone the testing app for creating a new version"
-git clone https://review.crto.in/pub-sdk/fuji-test-app
+git clone --branch v3.6.1 https://review.crto.in/pub-sdk/fuji-test-app
 cp "$SDK_DEBUG_ZIP_NAME" "$SDK_DEBUG_DIR_IN_APP"
 unzip "$SDK_DEBUG_ZIP_NAME" -d "$SDK_DEBUG_DIR_IN_APP"
 cd "$SDK_DEBUG_DIR_IN_APP/.."

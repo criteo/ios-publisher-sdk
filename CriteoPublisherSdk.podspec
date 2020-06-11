@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'CriteoPublisherSdk'
-  s.version          = '3.5.0'
+  s.version          = '3.6.1'
   s.summary          = 'Display Criteo ads in your app.'
 
   s.description      = <<-DESC
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   s.homepage         = 'https://criteo.com'
   s.license          = { :type => 'Apache 2.0', :file => 'LICENSE' }
   s.author           = { 'Criteo' => 'opensource@criteo.com' }
-  s.source           = { :http => 'https://pubsdk-bin.criteo.com/publishersdk/ios/CriteoPublisherSdk_iOS_v3.5.0.Release.zip' }
+  s.source           = { :http => 'https://pubsdk-bin.criteo.com/publishersdk/ios/CriteoPublisherSdk_iOS_v3.6.1.Release.zip' }
   s.vendored_frameworks = 'CriteoPublisherSdk.framework'
   s.ios.deployment_target = '8.0'
 
