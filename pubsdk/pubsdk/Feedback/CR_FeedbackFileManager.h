@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray<NSString *> *)allActiveFeedbackFilenames;
 
+- (void)removeSendingQueueFile;
+
 @end
 
 

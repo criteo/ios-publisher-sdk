@@ -110,6 +110,11 @@ class CR_FeedbackStorageTests: XCTestCase {
         XCTAssertEqual(queue.size(), 1)
     }
 
+    func test_corruptedQueueFile_shouldBeDeleted() {
+        XCTAssertNoThrow(feedbackStorage = CR_FeedbackCorruptedStorage(sendingQueueMaxSize: 5, fileManager: fileManagingMock))
+        XCTAssertEqual(fileManagingMock.removeSendingQueueFileCount, 1)
+    }
+
     private func getAllItemsFromQueue() -> [CR_FeedbackMessage] {
         return queue.peek(queue.size())
     }
@@ -136,6 +141,9 @@ class CR_FeedbackFileManagingMock: NSObject, CR_FeedbackFileManaging {
 
     @objc var useReadWriteDictionary: Bool = false
     @objc var readWriteDictionary: Dictionary = Dictionary<String, CR_FeedbackMessage>()
+
+    @objc var sendingQueueFilePath: String = ""
+    var removeSendingQueueFileCount: Int = 0
 
     /// We use a synchronization queue to prevent data races.
     var syncQueue: DispatchQueue = DispatchQueue(label: "com.pubsdk.test.CR_FeedbackFileManagingMock")
@@ -182,5 +190,21 @@ class CR_FeedbackFileManagingMock: NSObject, CR_FeedbackFileManaging {
 
     func allActiveFeedbackFilenames() -> [String] {
         return allActiveFeedbackFilenamesResult
+    }
+
+    func removeSendingQueueFile() {
+        removeSendingQueueFileCount += 1
+    }
+}
+
+class CR_FeedbackCorruptedStorage: CR_FeedbackStorage {
+    var crashedOnce = false
+
+    @objc override func buildSendingQueue(withMaxSize: UInt, fileManager: CR_FeedbackFileManager!) -> CASObjectQueue<CR_FeedbackMessage> {
+        if (!crashedOnce) {
+            crashedOnce = true
+            NSException(name: NSExceptionName.rangeException, reason: "ノಠ益ಠノ彡┻━┻").raise()
+        }
+        return super.buildSendingQueue(withMaxSize: withMaxSize, fileManager: fileManager)
     }
 }

@@ -58,8 +58,15 @@
 }
 
 + (instancetype)criteo {
-    CR_DependencyProvider *dependencyProvider = [[CR_DependencyProvider alloc] init];
-    return [[self alloc] initWithDependencyProvider:dependencyProvider];
+    Criteo *criteo = nil;
+    @try {
+        CR_DependencyProvider *dependencyProvider = [[CR_DependencyProvider alloc] init];
+        criteo = [[self alloc] initWithDependencyProvider:dependencyProvider];
+    }
+    @catch (NSException *exception) {
+        CLogException(exception);
+    }
+    return criteo;
 }
 
 - (instancetype)initWithDependencyProvider:(CR_DependencyProvider *)dependencyProvider {

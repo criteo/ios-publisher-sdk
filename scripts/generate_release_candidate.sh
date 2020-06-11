@@ -5,9 +5,9 @@ set -Eeuo pipefail
 
 # ----To be updated for each RC---------
 # For naming the frameworks
-SDK_VERSION_NUMBER="3.5.0-rc1"
+SDK_VERSION_NUMBER="3.6.1-rc1"
 # For getting the frameworks on Jenkins
-SDK_BUILD_NUMBER="1954"
+SDK_BUILD_NUMBER="2760"
 # ---------------------------------------
 
 SCRIPT_DIRECTORY="$( cd "$(dirname "$0")" ; pwd -P )"

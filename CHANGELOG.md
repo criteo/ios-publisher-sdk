@@ -1,5 +1,10 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
+## Version 3.6.1
+
+### Bug fixes
+- Improve Criteo instance initialization reliability
+--------------------------------------------------------------------------------
 ## Version 3.6.0
 
 ### Features
