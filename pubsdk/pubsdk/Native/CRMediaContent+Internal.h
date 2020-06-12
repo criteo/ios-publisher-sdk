@@ -6,7 +6,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CoreGraphics/CoreGraphics.h>
 #import "CRMediaContent.h"
 
 @protocol CRMediaDownloader;
@@ -17,8 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CRMediaContent ()
 
-@property (copy, nonatomic, readonly, nullable) NSURL *url;
-@property (assign, nonatomic, readonly) CGSize imageSize;
 @property (weak, nonatomic, readonly) id <CRMediaDownloader> mediaDownloader;
 
 - (instancetype)initWithNativeImage:(CR_NativeImage *)image
