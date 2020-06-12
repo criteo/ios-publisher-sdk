@@ -14,6 +14,7 @@
 #import "CRMediaDownloader.h"
 #import "NSURL+Criteo.h"
 #import "UIImage+Testing.h"
+#import "CR_NativeImage.h"
 
 @interface CRMediaViewTests : XCTestCase
 @end
@@ -139,9 +140,9 @@
 
 - (CRMediaContent *)buildMediaContent:(NSString *)url {
     id mockDownloader = OCMStrictProtocolMock(@protocol(CRMediaDownloader));
-    NSURL *imageUrl = [NSURL cr_URLWithStringOrNil:url];
-    return [[CRMediaContent alloc] initWithUrl:imageUrl
-                               mediaDownloader:mockDownloader];
+    CR_NativeImage *image = url ? [[CR_NativeImage alloc] initWithDict:@{@"url": url}] : nil;
+    return [[CRMediaContent alloc] initWithNativeImage:image
+                                       mediaDownloader:mockDownloader];
 }
 
 - (UIImage *)getImageInMediaView:(CRMediaView *)mediaView {

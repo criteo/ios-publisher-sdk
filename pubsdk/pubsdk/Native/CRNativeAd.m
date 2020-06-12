@@ -10,7 +10,6 @@
 #import "CRNativeLoader.h"
 #import "CRMediaContent.h"
 #import "CRMediaContent+Internal.h"
-#import "NSURL+Criteo.h"
 
 @implementation CRNativeAd
 
@@ -61,18 +60,16 @@
 
 - (CRMediaContent *)productMedia {
     if (!_productMedia) {
-        NSURL *imageUrl = [NSURL cr_URLWithStringOrNil:self.product.image.url];
-        _productMedia = [[CRMediaContent alloc] initWithUrl:imageUrl
-                                            mediaDownloader:_loader.mediaDownloader];
+        _productMedia = [[CRMediaContent alloc] initWithNativeImage:self.product.image
+                                                    mediaDownloader:_loader.mediaDownloader];
     }
     return _productMedia;
 }
 
 - (CRMediaContent *)advertiserLogoMedia {
     if (!_advertiserLogoMedia) {
-        NSURL *imageUrl = [NSURL cr_URLWithStringOrNil:self.assets.advertiser.logoImage.url];
-        _advertiserLogoMedia = [[CRMediaContent alloc] initWithUrl:imageUrl
-                                                   mediaDownloader:_loader.mediaDownloader];
+        _advertiserLogoMedia = [[CRMediaContent alloc] initWithNativeImage:self.assets.advertiser.logoImage
+                                                           mediaDownloader:_loader.mediaDownloader];
     }
     return _advertiserLogoMedia;
 }
