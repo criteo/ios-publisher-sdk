@@ -17,21 +17,43 @@
 // limitations under the License.
 
 #import "CRCustomEventHelper.h"
+#import "MPNativeAdError.h"
 
-NSString * const cpId = @"cpId";
-NSString * const adUnitId = @"adUnitId";
+NSString * const kCRCustomEventHelperCpId = @"cpId";
+NSString * const kCRCustomEventHelperAdUnitId = @"adUnitId";
 
 @implementation CRCustomEventHelper
 
-+ (BOOL) checkValidInfo:(NSDictionary *)info {
-    if (info){
-        if ([info[cpId] isKindOfClass:NSString.class] && [info[adUnitId] isKindOfClass:NSString.class]){
-            if ([info[cpId] length] > 0 && [info[adUnitId] length] > 0){
-                return YES;
-            }
++ (BOOL)checkValidInfo:(NSDictionary *)info {
+    return [self checkValidInfo:info
+                      withError:nil];
+}
+
++ (BOOL)checkValidInfo:(NSDictionary *)eventInfo
+             withError:(NSError **)error {
+    NSArray<NSString *> *expectedKeys = @[
+        kCRCustomEventHelperCpId,
+        kCRCustomEventHelperAdUnitId
+    ];
+    NSMutableString *errorMsg = [[NSMutableString alloc] init];
+    BOOL isValid = YES;
+    for (NSString *key in expectedKeys) {
+        NSString *value = eventInfo[key];
+        if (![value isKindOfClass:NSString.class] ||
+            (value.length == 0)) {
+            isValid = NO;
+            NSString *str = [[NSString alloc] initWithFormat:
+                             @"The Criteo '%@' key is missing or invalid. ",
+                             key];
+            [errorMsg appendString:str];
         }
     }
-    return NO;
+    if (!isValid && (error != nil)) {
+        [errorMsg appendString:@"No ad request sent. "
+                                "Ensure this key is valid on the MoPub dashboard."];
+        *error = MPNativeAdNSErrorForInvalidAdServerResponse(errorMsg);
+    }
+    return isValid;
 }
 
 @end
