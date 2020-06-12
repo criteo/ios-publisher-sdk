@@ -212,7 +212,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1020;
-				ORGANIZATIONNAME = "Sneha Pathrose";
+				ORGANIZATIONNAME = Criteo;
 				TargetAttributes = {
 					54FC7D9F22F4136100202164 = {
 						CreatedOnToolsVersion = 10.2.1;
