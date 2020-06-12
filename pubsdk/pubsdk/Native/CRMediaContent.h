@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CRMediaContent : NSObject
 
 @property (copy, nonatomic, readonly, nullable) NSURL *url;
-@property (assign, nonatomic, readonly) CGSize imageSize;
+@property (assign, nonatomic, readonly) CGSize size;
 
 - (instancetype)init NS_UNAVAILABLE;
 

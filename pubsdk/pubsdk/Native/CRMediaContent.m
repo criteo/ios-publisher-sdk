@@ -17,7 +17,7 @@
                     mediaDownloader:(id <CRMediaDownloader>)mediaDownloader {
     if (self = [super init]) {
         _url = [NSURL cr_URLWithStringOrNil:image.url];
-        _imageSize = CGSizeMake(image.width, image.height);
+        _size = CGSizeMake(image.width, image.height);
         _mediaDownloader = mediaDownloader;
     }
     return self;
