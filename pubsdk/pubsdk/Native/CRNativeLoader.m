@@ -151,8 +151,8 @@
         [self notifyFailToReceiveAdWithError:error];
     } else {
         CRNativeAd *ad = [[CRNativeAd alloc] initWithLoader:self assets:nativeAssets];
-        [self preloadImageUrl:ad.productMedia.imageUrl];
-        [self preloadImageUrl:ad.advertiserLogoMedia.imageUrl];
+        [self preloadImageUrl:ad.productMedia.url];
+        [self preloadImageUrl:ad.advertiserLogoMedia.url];
         [self preloadImageUrl:[NSURL cr_URLWithStringOrNil:nativeAssets.privacy.optoutImageUrl]];
         [self notifyDidReceiveAd:ad];
     }

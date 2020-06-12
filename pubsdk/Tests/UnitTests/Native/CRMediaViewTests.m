@@ -140,8 +140,8 @@
 - (CRMediaContent *)buildMediaContent:(NSString *)url {
     id mockDownloader = OCMStrictProtocolMock(@protocol(CRMediaDownloader));
     NSURL *imageUrl = [NSURL cr_URLWithStringOrNil:url];
-    return [[CRMediaContent alloc] initWithImageUrl:imageUrl
-                                    mediaDownloader:mockDownloader];
+    return [[CRMediaContent alloc] initWithUrl:imageUrl
+                               mediaDownloader:mockDownloader];
 }
 
 - (UIImage *)getImageInMediaView:(CRMediaView *)mediaView {

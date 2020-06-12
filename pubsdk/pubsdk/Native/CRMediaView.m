@@ -32,7 +32,7 @@
 }
 
 - (void)setMediaContent:(CRMediaContent *)mediaContent {
-    NSURL* url = mediaContent.imageUrl;
+    NSURL* url = mediaContent.url;
 
     // Media downloader may spend time to load the image.
     // We only set the placeholder if a new image comes.

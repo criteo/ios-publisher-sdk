@@ -15,11 +15,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CRMediaContent ()
 
-@property(nonatomic, copy, readonly, nullable) NSURL *imageUrl;
-@property(nonatomic, weak, readonly) id <CRMediaDownloader> mediaDownloader;
+@property (copy, nonatomic, readonly, nullable) NSURL *url;
+@property (weak, nonatomic, readonly) id <CRMediaDownloader> mediaDownloader;
 
-- (instancetype)initWithImageUrl:(NSURL *_Nullable)imageUrl
-                 mediaDownloader:(id <CRMediaDownloader>)mediaDownloader
+- (instancetype)initWithUrl:(NSURL *_Nullable)url
+            mediaDownloader:(id <CRMediaDownloader>)mediaDownloader
 NS_DESIGNATED_INITIALIZER;
 
 @end

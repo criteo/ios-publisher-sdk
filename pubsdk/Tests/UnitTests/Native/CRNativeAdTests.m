@@ -31,13 +31,13 @@
     XCTAssertEqual(ad.body, product.description);
     XCTAssertEqual(ad.price, product.price);
     XCTAssertEqual(ad.callToAction, product.callToAction);
-    XCTAssertEqualObjects(ad.productMedia.imageUrl.absoluteString, product.image.url);
+    XCTAssertEqualObjects(ad.productMedia.url.absoluteString, product.image.url);
     XCTAssertEqual(ad.productMedia.mediaDownloader, mediaDownloader);
     // Advertiser
     CR_NativeAdvertiser *advertiser = assets.advertiser;
     XCTAssertEqual(ad.advertiserDescription, advertiser.description);
     XCTAssertEqual(ad.advertiserDomain, advertiser.domain);
-    XCTAssertEqualObjects(ad.advertiserLogoMedia.imageUrl.absoluteString, advertiser.logoImage.url);
+    XCTAssertEqualObjects(ad.advertiserLogoMedia.url.absoluteString, advertiser.logoImage.url);
     XCTAssertEqual(ad.advertiserLogoMedia.mediaDownloader, mediaDownloader);
 }
 

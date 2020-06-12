@@ -11,10 +11,10 @@
 
 @implementation CRMediaContent
 
-- (instancetype)initWithImageUrl:(NSURL *_Nullable)imageUrl
-                 mediaDownloader:(id <CRMediaDownloader>)mediaDownloader {
+- (instancetype)initWithUrl:(NSURL *_Nullable)url
+            mediaDownloader:(id <CRMediaDownloader>)mediaDownloader {
     if (self = [super init]) {
-        _imageUrl = imageUrl;
+        _url = url;
         _mediaDownloader = mediaDownloader;
     }
     return self;

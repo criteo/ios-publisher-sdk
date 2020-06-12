@@ -62,8 +62,8 @@
 - (CRMediaContent *)productMedia {
     if (!_productMedia) {
         NSURL *imageUrl = [NSURL cr_URLWithStringOrNil:self.product.image.url];
-        _productMedia = [[CRMediaContent alloc] initWithImageUrl:imageUrl
-                                                 mediaDownloader:_loader.mediaDownloader];
+        _productMedia = [[CRMediaContent alloc] initWithUrl:imageUrl
+                                            mediaDownloader:_loader.mediaDownloader];
     }
     return _productMedia;
 }
@@ -71,8 +71,8 @@
 - (CRMediaContent *)advertiserLogoMedia {
     if (!_advertiserLogoMedia) {
         NSURL *imageUrl = [NSURL cr_URLWithStringOrNil:self.assets.advertiser.logoImage.url];
-        _advertiserLogoMedia = [[CRMediaContent alloc] initWithImageUrl:imageUrl
-                                                        mediaDownloader:_loader.mediaDownloader];
+        _advertiserLogoMedia = [[CRMediaContent alloc] initWithUrl:imageUrl
+                                                   mediaDownloader:_loader.mediaDownloader];
     }
     return _advertiserLogoMedia;
 }
