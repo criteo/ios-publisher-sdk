@@ -32,8 +32,6 @@
     XCTAssertEqual(ad.price, product.price);
     XCTAssertEqual(ad.callToAction, product.callToAction);
     XCTAssertEqualObjects(ad.productMedia.url.absoluteString, product.image.url);
-    XCTAssertEqual(ad.productMedia.size.width, product.image.width);
-    XCTAssertEqual(ad.productMedia.size.height, product.image.height);
     XCTAssertEqual(ad.productMedia.mediaDownloader, mediaDownloader);
     // Advertiser
     CR_NativeAdvertiser *advertiser = assets.advertiser;
