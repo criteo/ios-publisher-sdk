@@ -176,8 +176,6 @@ function fuji-remove-headers () {
 
 CRITEO_CONFIGURATION="Release"
 fuji-fat-build
-# Remove advanced native ad from public headers
-fuji-remove-headers CRNativeAd.h CRNativeAdView.h CRNativeLoader.h
 fuji-archive
 
 CRITEO_CONFIGURATION="Debug"
