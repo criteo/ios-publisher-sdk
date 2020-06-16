@@ -134,6 +134,7 @@ NSString * const HomePageTableViewControllerUsPrivacyIabConsentStringKey = @"IAB
 
 - (void) viewDidDisappear:(BOOL)animated {
     [self clearUserDefaults];
+    [super viewDidDisappear:animated];
 }
 
 #pragma mark - CCPA
