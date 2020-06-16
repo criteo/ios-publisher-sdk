@@ -3,7 +3,7 @@ PODS:
   - FunctionalObjC (1.0.2)
   - Google-Mobile-Ads-SDK (7.60.0):
     - GoogleAppMeasurement (~> 6.0)
-  - GoogleAppMeasurement (6.5.1):
+  - GoogleAppMeasurement (6.6.1):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
     - GoogleUtilities/Network (~> 6.0)
@@ -33,7 +33,7 @@ PODS:
   - nanopb/decode (1.30905.0)
   - nanopb/encode (1.30905.0)
   - OCMock (3.6)
-  - PromisesObjC (1.2.8)
+  - PromisesObjC (1.2.9)
 
 DEPENDENCIES:
   - Cassette (= 1.0.0-beta3)
@@ -58,12 +58,12 @@ SPEC CHECKSUMS:
   Cassette: bd5900e0b8d67c796ca82272ff5ee388320cfc61
   FunctionalObjC: bd6aaa4b69abea0a5ac0e860a052c1ebebd5311c
   Google-Mobile-Ads-SDK: d70efb31e7ea19fe99d466dc5d4788966b6914f8
-  GoogleAppMeasurement: 137afe68bfa406c3f4221b9395253d9e5d4654cf
+  GoogleAppMeasurement: 2fd5c5a56c069db635c8e7b92d4809a9591d0a69
   GoogleUtilities: 39530bc0ad980530298e9c4af8549e991fd033b1
   mopub-ios-sdk: b63e15803e70b92d0b51c3e1c49bbcd78cd3d1d5
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   OCMock: 5ea90566be239f179ba766fd9fbae5885040b992
-  PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
+  PromisesObjC: b48e0338dbbac2207e611750777895f7a5811b75
 
 PODFILE CHECKSUM: 436778b44a7c26d875879b52e3129fc481b6eef8
 
