@@ -28,7 +28,7 @@
 }
 
 - (void)openExternalURL:(NSURL *)url
-             witOptions:(NSDictionary<UIApplicationOpenExternalURLOptionsKey, id> *)options
+            withOptions:(NSDictionary<UIApplicationOpenExternalURLOptionsKey, id> *)options
              completion:(nullable CR_URLOpeningCompletion)completion {
     self.openExternalURLCount += 1;
     completion(self.successInCompletion);

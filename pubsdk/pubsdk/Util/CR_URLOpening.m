@@ -17,18 +17,18 @@
 - (void)openExternalURL:(NSURL *)url
          withCompletion:(nullable CR_URLOpeningCompletion)completion {
     [self openExternalURL:url
-               witOptions:@{}
+              withOptions:@{}
                completion:completion];
 }
 
 - (void)openExternalURL:(NSURL *)url
-             witOptions:(NSDictionary<UIApplicationOpenExternalURLOptionsKey, id> *)options
+            withOptions:(NSDictionary<UIApplicationOpenExternalURLOptionsKey, id> *)options
              completion:(nullable CR_URLOpeningCompletion)completion {
     if (@available(iOS 10, *)) {
         [[UIApplication sharedApplication] openURL:url
                                            options:options
                                  completionHandler:completion];
-    } else {
+    } else if (completion) {
         completion([[UIApplication sharedApplication] openURL:url]);
     }
 }
