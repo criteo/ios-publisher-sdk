@@ -21,9 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, atomic) NSString *userAgent;
 @property (copy, nonatomic, readonly) NSString *deviceId;
 
-- (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager;
 - (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager
-                              webView:(WKWebView *)webView
 NS_DESIGNATED_INITIALIZER;
 
 - (void)waitForUserAgent:(void (^ _Nullable)(void))completion;

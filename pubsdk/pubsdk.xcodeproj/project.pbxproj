@@ -337,6 +337,7 @@
 
 /* Begin PBXFileReference section */
 		198CD3F7C2A1974769B2CE1C /* CRNativeAdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdTests.m; sourceTree = "<group>"; };
+		198CD49D6226F38F4FEACE9E /* CR_DeviceInfo+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CR_DeviceInfo+Testing.h"; sourceTree = "<group>"; };
 		198CDC22999EF696C16309C5 /* CASBoundedFileObjectQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CASBoundedFileObjectQueue.m; sourceTree = "<group>"; };
 		198CDC91DC407C38A0C16DA1 /* CASBoundedFileObjectQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CASBoundedFileObjectQueue.h; sourceTree = "<group>"; };
 		1CDD7544323F61638E0E8B7F /* libPods-CriteoPublisherSdk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoPublisherSdk.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1009,14 +1010,15 @@
 			isa = PBXGroup;
 			children = (
 				7D523C8923E046D400E79C88 /* Categories */,
+				5E065F6AC812E6AF04EF98AB /* Checkers */,
 				7D523C8423DECF7F00E79C88 /* Mocks */,
+				7DB5F8F123AA2B2500EF5602 /* NetworkManager */,
 				7D523C7F23DB5D3C00E79C88 /* Builders */,
 				7DB4E921239A4AB3008DE5E3 /* CR_AssertDfp.h */,
 				7DB4E91B239A468A008DE5E3 /* CR_AssertMopub.h */,
+				198CD49D6226F38F4FEACE9E /* CR_DeviceInfo+Testing.h */,
 				5E065ED9A843A9220D853806 /* CR_TestAdUnits.h */,
 				5E0655500052DF1F93D28212 /* CR_TestAdUnits.m */,
-				5E065F6AC812E6AF04EF98AB /* Checkers */,
-				7DB5F8F123AA2B2500EF5602 /* NetworkManager */,
 				7D51ABEE23AB781600540094 /* CR_Timer.h */,
 				7D51ABEF23AB781600540094 /* CR_Timer.m */,
 				7D58582823E1E6BB0039AC56 /* CR_ThreadManagerWaiter.h */,

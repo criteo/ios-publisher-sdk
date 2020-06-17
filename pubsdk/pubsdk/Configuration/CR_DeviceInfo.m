@@ -29,21 +29,22 @@
     return [self initWithThreadManager:[[CR_ThreadManager alloc] init]];
 }
 
-
 - (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager {
-    self = [self initWithThreadManager:threadManager
-                               webView:[self.class webView]];
-    return self;
-}
-
-- (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager
-                              webView:(WKWebView *)webView {
     self = [super init];
     if (self) {
         _loadUserAgentCompletionBlocks = [NSMutableSet new];
         _isLoadingUserAgent = NO;
         _threadManager = threadManager;
-        _webView = webView;
+    }
+    return self;
+}
+
+// For testing purposes only, webView will be lazily and properly instantiated on main queue if nil
+- (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager
+                          testWebView:(WKWebView *)testWebView {
+    self = [self initWithThreadManager:threadManager];
+    if (self) {
+        _webView = testWebView;
     }
     return self;
 }
@@ -95,10 +96,13 @@
             }];
         };
 
-        // Make sure we're on the main thread because we're calling WebView which isn't thread safe
+        // Make sure we're on the main queue because we're calling WebView which isn't thread safe
         [self.threadManager dispatchAsyncOnMainQueue:^{
+            if (!self.webView) {
+                self.webView = [[WKWebView alloc] initWithFrame:CGRectZero];
+            }
             [self.webView evaluateJavaScript:@"navigator.userAgent"
-                             completionHandler:completionHandler];
+                           completionHandler:completionHandler];
         }];
     }];
 }
@@ -121,20 +125,6 @@
 + (BOOL)validScreenSize:(CGSize)size {
     CGSize currentScreenSize = [CR_DeviceInfo getScreenSize];
     return CGSizeEqualToSize(size, currentScreenSize) || CGSizeEqualToSize(size, CGSizeMake(currentScreenSize.height, currentScreenSize.width));
-}
-
-#pragma mark - Private
-
-+ (WKWebView *)webView {
-    __block WKWebView *webview = nil;
-    if ([NSThread isMainThread]) {
-        webview = [[WKWebView alloc] initWithFrame:CGRectZero];
-    } else {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            webview = [[WKWebView alloc] initWithFrame:CGRectZero];
-        });
-    }
-    return webview;
 }
 
 @end

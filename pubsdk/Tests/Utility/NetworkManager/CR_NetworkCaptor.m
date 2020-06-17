@@ -7,7 +7,7 @@
 
 #import "CR_NetworkCaptor.h"
 
-#import "CR_DeviceInfo.h"
+#import "CR_DeviceInfo+Testing.h"
 #import "MockWKWebView.h"
 #import "CR_ThreadManager.h"
 
@@ -25,7 +25,7 @@
     MockWKWebView *webView = [[MockWKWebView alloc] init];
     CR_ThreadManager *threadManager = [[CR_ThreadManager alloc] init];
     CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] initWithThreadManager:threadManager
-                                                                     webView:webView];
+                                                                 testWebView:webView];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     self = [super initWithDeviceInfo:deviceInfo session:session threadManager:threadManager];
     if (self) {

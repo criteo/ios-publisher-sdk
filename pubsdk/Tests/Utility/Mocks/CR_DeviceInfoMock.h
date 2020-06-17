@@ -5,7 +5,7 @@
 //  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
-#import "CR_DeviceInfo.h"
+#import "CR_DeviceInfo+Testing.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
