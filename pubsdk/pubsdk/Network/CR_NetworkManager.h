@@ -14,7 +14,9 @@
 #import "CR_DeviceInfo.h"
 #import "CR_NetworkManagerDelegate.h"
 
-typedef void (^CR_NMResponse)(NSData *data, NSError *error);
+NS_ASSUME_NONNULL_BEGIN
+
+typedef void (^CR_NMResponse)(NSData *_Nullable data, NSError *_Nullable error);
 
 @interface CR_NetworkManager : NSObject
 
@@ -28,13 +30,15 @@ typedef void (^CR_NMResponse)(NSData *data, NSError *error);
 NS_DESIGNATED_INITIALIZER;
 
 - (void) getFromUrl:(NSURL *) url
-    responseHandler:(CR_NMResponse) responseHandler;
+    responseHandler:(nullable CR_NMResponse) responseHandler;
 
 // Assumes all POST calls are made via JSON
 - (void) postToUrl:(NSURL *) url
           postBody:(NSDictionary *) postBody
-   responseHandler:(CR_NMResponse) responseHandler;
+   responseHandler:(nullable CR_NMResponse) responseHandler;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* CR_NetworkManager_h */

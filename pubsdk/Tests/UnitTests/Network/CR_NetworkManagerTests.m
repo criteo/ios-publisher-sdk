@@ -31,7 +31,8 @@
 - (void)setUp {
     self.config = [[CR_Config alloc] init];
     self.session = OCMStrictClassMock([NSURLSession class]);
-    self.networkManager = [[CR_NetworkManager alloc] initWithDeviceInfo:nil
+    CR_DeviceInfo *mockDeviceInfo = OCMClassMock([CR_DeviceInfo class]);
+    self.networkManager = [[CR_NetworkManager alloc] initWithDeviceInfo:mockDeviceInfo
                                                                 session:self.session
                                                           threadManager:[[CR_ThreadManager alloc] init]];
 }
@@ -50,6 +51,22 @@
     // In case of responseHandler is executed > 1 times - expectation will fire an exception
     // because expectation can be fulfilled only once.
     [self cr_waitForExpectations:@[expectation]];
+}
+
+- (void)testGetWithoutResponseHandlerDoesNotCrash {
+    [self stubSessionDataTaskResponseWithStatusCode204];
+    XCTAssertNoThrow(
+        [self.networkManager getFromUrl:[NSURL URLWithString:self.config.cdbUrl]
+                        responseHandler:nil]
+    );
+}
+
+- (void)testPostWithoutResponseHandlerDoesNotCrash {
+    [self stubSessionDataTaskResponseWithStatusCode204];
+    XCTAssertNoThrow(
+        [self.networkManager postToUrl:[NSURL URLWithString:self.config.cdbUrl] postBody:@{}
+                       responseHandler:nil]
+    );
 }
 
 // NOT a unit test as it uses the interwebs.

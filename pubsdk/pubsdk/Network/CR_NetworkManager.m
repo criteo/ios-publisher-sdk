@@ -57,10 +57,9 @@
     }];
 }
 
-- (void)getFromUrl:(NSURL *) url
-   responseHandler:(CR_NMResponse) responseHandler {
+- (void)getFromUrl:(NSURL *)url
+   responseHandler:(nullable CR_NMResponse)responseHandler {
     [deviceInfo waitForUserAgent:^{
-        
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
         if (self->deviceInfo.userAgent) {
             [request setValue:self->deviceInfo.userAgent forHTTPHeaderField:@"User-Agent"];
@@ -72,7 +71,9 @@
                 [context executeBlock:^{
                     @try {
                         [self signalReceivedResponse:response withData:data error:error];
-
+                        if (!responseHandler) {
+                            return;
+                        }
                         if (error) {
                             // Add logging or metrics code here
                             responseHandler(nil, error);
@@ -100,10 +101,10 @@
     }];
 }
 
-- (void) postToUrl:(NSURL *) url
-          postBody:(NSDictionary *) postBody
-   responseHandler:(CR_NMResponse) responseHandler {
-    
+- (void)postToUrl:(NSURL *)url
+         postBody:(NSDictionary *)postBody
+  responseHandler:(nullable CR_NMResponse)responseHandler {
+
     NSMutableURLRequest *postRequest = [NSMutableURLRequest requestWithURL:url];
     [postRequest setTimeoutInterval: 30];
     [postRequest setHTTPMethod:@"POST"];
@@ -130,6 +131,9 @@
             [context executeBlock:^{
                 @try {
                     [self signalReceivedResponse:response withData:data error:error];
+                    if (!responseHandler) {
+                        return;
+                    }
                     if (error) {
                         // Add logging or metrics code here
                         responseHandler(nil, error);
