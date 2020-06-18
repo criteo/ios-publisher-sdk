@@ -15,23 +15,15 @@
 @import WebKit;
 
 @interface CR_DeviceInfoTests : XCTestCase
-
 @end
 
 @implementation CR_DeviceInfoTests
 
-- (void)setUp {
-}
-
-- (void)tearDown {
-}
-
 - (void)testWKWebViewSuccess {
     XCTestExpectation *expectation = [self expectationWithDescription:@"UserAgent is filled asynchronously"];
-
     WKWebView *wkWebViewMock = OCMStrictClassMock([WKWebView class]);
-    
-    OCMStub([wkWebViewMock evaluateJavaScript:@"navigator.userAgent" completionHandler:([OCMArg invokeBlockWithArgs:@"Some Ua", [NSNull null], nil])]);
+    OCMStub([wkWebViewMock evaluateJavaScript:@"navigator.userAgent" completionHandler:
+        ([OCMArg invokeBlockWithArgs:@"Some Ua", [NSNull null], nil])]);
     CR_ThreadManager *threadManager = [[CR_ThreadManager alloc] init];
     CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] initWithThreadManager:threadManager
                                                                  testWebView:wkWebViewMock];
@@ -39,17 +31,15 @@
         XCTAssertEqual(@"Some Ua", deviceInfo.userAgent, @"User agent should be set if WKWebView passes it");
         [expectation fulfill];
     }];
-    
-    [self waitForExpectations:@[expectation] timeout:0.1];
+    [self cr_waitShortlyForExpectations:@[expectation]];
 }
 
 - (void)testCompleteFailure {
     XCTestExpectation *expectation = [self expectationWithDescription:@"UserAgent is filled asynchronously"];
-    
     WKWebView *wkWebViewMock = OCMStrictClassMock([WKWebView class]);
-    
     NSError *anError = [NSError errorWithDomain:NSCocoaErrorDomain code:1 userInfo:nil];
-    OCMStub([wkWebViewMock evaluateJavaScript:@"navigator.userAgent" completionHandler:([OCMArg invokeBlockWithArgs:@"Not An UA", anError, nil])]);
+    OCMStub([wkWebViewMock evaluateJavaScript:@"navigator.userAgent"
+                            completionHandler:([OCMArg invokeBlockWithArgs:@"Not An UA", anError, nil])]);
     CR_ThreadManager *threadManager = [[CR_ThreadManager alloc] init];
     CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] initWithThreadManager:threadManager
                                                                  testWebView:wkWebViewMock];
@@ -57,14 +47,12 @@
         XCTAssertNil(deviceInfo.userAgent, @"User agent should be nil if we didn't manage to set it. Perhaps we can find a better solution in the future. Also we should log.");
         [expectation fulfill];
     }];
-    
-    [self waitForExpectations:@[expectation] timeout:0.1];
+    [self cr_waitShortlyForExpectations:@[expectation]];
 }
 
 // This is more an ITest and should probably be moved in a separate project
-- (void) testUserAgent {
+- (void)testUserAgent {
     XCTestExpectation *expectation = [self expectationWithDescription:@"UserAgent is filled asynchronously"];
-
     CR_DeviceInfo *device = [[CR_DeviceInfo alloc] init];
     XCTAssertNil(device.userAgent, @"User-Agent is nil when we create the object");
     [device waitForUserAgent:^{
@@ -73,29 +61,26 @@
         XCTAssertTrue(range.location != NSNotFound);
         [expectation fulfill];
     }];
-
-    [self waitForExpectations:@[expectation] timeout:5];
+    [self cr_waitForExpectations:@[expectation]];
 }
 
 - (void)testWebViewInstantiatedOnMainThread {
-    XCTestExpectation *exp = [self expectationWithDescription:@"DeviceInfo created"];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"DeviceInfo created"];
     dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         XCTAssertNoThrow([[CR_DeviceInfo alloc] init]);
-        [exp fulfill];
+        [expectation fulfill];
     });
-    [self waitForExpectations:@[exp] timeout:0.2];
+    [self cr_waitShortlyForExpectations:@[expectation]];
 }
 
 - (void)testWebViewReleasedAfterUse {
     XCTestExpectation *expectation = [self expectationWithDescription:@"WebView has been released"];
-
     CR_DeviceInfo *device = [[CR_DeviceInfo alloc] init];
     XCTAssertNotNil(device.webView, @"WebView has been allocated");
     [device waitForUserAgent:^{
         XCTAssertNil(device.webView, @"WebView has been released");
         [expectation fulfill];
     }];
-
     [self cr_waitForExpectations:@[expectation]];
 }
 
