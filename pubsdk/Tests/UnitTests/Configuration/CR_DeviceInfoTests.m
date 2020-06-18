@@ -75,10 +75,15 @@
 
 - (void)testWebViewReleasedAfterUse {
     XCTestExpectation *expectation = [self expectationWithDescription:@"WebView has been released"];
-    CR_DeviceInfo *device = [[CR_DeviceInfo alloc] init];
-    XCTAssertNotNil(device.webView, @"WebView has been allocated");
-    [device waitForUserAgent:^{
-        XCTAssertNil(device.webView, @"WebView has been released");
+    WKWebView *wkWebViewMock = OCMStrictClassMock([WKWebView class]);
+    NSError *anError = [NSError errorWithDomain:NSCocoaErrorDomain code:1 userInfo:nil];
+    OCMStub([wkWebViewMock evaluateJavaScript:@"navigator.userAgent"
+                            completionHandler:([OCMArg invokeBlockWithArgs:@"Not An UA", anError, nil])]);
+    CR_ThreadManager *threadManager = [[CR_ThreadManager alloc] init];
+    CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] initWithThreadManager:threadManager
+                                                                 testWebView:wkWebViewMock];
+    [deviceInfo waitForUserAgent:^{
+        XCTAssertNil(deviceInfo.webView, @"WebView has been released");
         [expectation fulfill];
     }];
     [self cr_waitForExpectations:@[expectation]];
