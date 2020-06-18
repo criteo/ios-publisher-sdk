@@ -54,7 +54,7 @@
                   Identifier = "CR_DataConsentFunctionalTests">
                </Test>
                <Test
-                  Identifier = "CR_DeviceInfoTests">
+                  Identifier = "CR_DeviceInfoTests/testUserAgent">
                </Test>
                <Test
                   Identifier = "CR_DfpBannerFunctionalTests">
