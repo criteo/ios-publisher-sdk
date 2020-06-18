@@ -26,9 +26,9 @@
 }
 
 - (void)downloadImage:(NSURL *)url completionHandler:(CRImageDownloaderHandler)handler {
-    __weak typeof(self) weakSelf = self;
+    CR_ThreadManager *threadManager = self.threadManager;
     [self.unsafeDownloader downloadImage:url completionHandler:^(UIImage *image, NSError *error) {
-        [weakSelf.threadManager dispatchAsyncOnMainQueue:^{
+        [threadManager dispatchAsyncOnMainQueue:^{
             handler(image, error);
         }];
     }];
