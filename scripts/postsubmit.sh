@@ -1,8 +1,12 @@
 #!/bin/bash -l
 
-SCRIPT_DIRECTORY="$( cd "$(dirname "$0")" ; pwd -P )"
-BUILD_SCRIPT_PATH="${SCRIPT_DIRECTORY}/build.sh"
-VERIFY_SCRIPT_PATH="${SCRIPT_DIRECTORY}/verify-app-integration.sh"
+set +x
+set -Eeuo pipefail
 
-$BUILD_SCRIPT_PATH "PostsubmitTests"
-$VERIFY_SCRIPT_PATH
+SCRIPT_DIRECTORY="$(
+  cd "$(dirname "$0")"
+  pwd -P
+)"
+"${SCRIPT_DIRECTORY}"/test.sh "PostsubmitTests"
+"${SCRIPT_DIRECTORY}"/archive.sh
+"${SCRIPT_DIRECTORY}"/test-app-integration.sh
