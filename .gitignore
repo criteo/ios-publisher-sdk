@@ -22,12 +22,13 @@ DerivedData
 xcuserdata/
 
 # Build artifacts
-build/
 xcodebuild.log
 
-#Buck
-.buckconfig
-buck-out/
-.buckd/
+# AppCode
 .idea/
+
+# CocoaPods
 Pods/
+
+# Bundler
+vendor
