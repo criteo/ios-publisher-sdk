@@ -12,11 +12,6 @@ source "$SCRIPT_DIRECTORY"/base.sh
 
 fuji-clean
 
-fuji-echo "CocoaPods repo update..."
-pod repo update --silent
-fuji-echo "CocoaPods install..."
-pod install --deployment --clean-install --no-repo-update
-
 if [ $# -eq 0 ]; then
   XCODEBUILD_SCHEME_FOR_TESTING="CriteoPublisherSdk"
 else

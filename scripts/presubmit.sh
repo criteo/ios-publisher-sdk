@@ -7,4 +7,5 @@ SCRIPT_DIRECTORY="$(
   cd "$(dirname "$0")"
   pwd -P
 )"
+"${SCRIPT_DIRECTORY}"/setup.sh
 "${SCRIPT_DIRECTORY}"/test.sh "PresubmitTests"
