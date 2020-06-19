@@ -93,7 +93,7 @@ xcodebuild \
 
 ## Push a validated release candidate to CocoaPods
 
-* Run `./scripts/setup.sh` if not already done for using Azure CLI.
+* Run `./scripts/dev-setup.sh` if not already done for using Azure CLI.
 * Zip the CriteoPublisherSdk.framework folder along with the LICENSE file in a file named CriteoPublisherSdk_iOS_vX.X.X.Release.zip (replace X.X.X by version number, please). It should be at repository root folder. As this zip file. LICENSE file is also available in pub-sdk/fuji/LICENSE. You can add file to zip using:
 
       $ zip -rv CriteoPublisherSdk_iOS_vX.X.X.Release.zip LICENSE
