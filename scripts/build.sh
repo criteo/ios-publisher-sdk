@@ -3,30 +3,14 @@
 set +x
 set -Eeuo pipefail
 
-rm -rf build/output
-mkdir -p build/output/sim
+SCRIPT_DIRECTORY="$(
+  cd "$(dirname "$0")"
+  pwd -P
+)"
+# shellcheck source=scripts/base.sh
+source "$SCRIPT_DIRECTORY"/base.sh
 
-export LANG=en_US.UTF-8
-
-CRITEO_WATCH_ARCHS='armv7k arm64_32'
-CRITEO_DEVICE_ARCHS='armv7 armv7s arm64'
-CRITEO_ARCHS="$CRITEO_DEVICE_ARCHS $CRITEO_WATCH_ARCHS"
-CRITEO_SIM_ARCHS='i386 x86_64'
-
-XCODEBUILD_LOG=build/output/xcodebuild.log
-
-# Configuration for compiling the project for the simulator.
-# For now, we set a fixed OS version instead of the "latest"
-# The goal is produce the same output from any machine
-# (whether you have updated your xcode or not).
-XCODEBUILD_DESTINATION_SIMULATOR_OS="latest"
-XCODEBUILD_DESTINATION_SIMULATOR_DEVICE="iPhone Xs"
-XCODEBUILD_DESTINATION_SIMULATOR_NAME="Fuji PreSubmit Tests Simulator"
-XCODEBUILD_DESTINATION_SIMULATOR="platform=iOS Simulator,name=${XCODEBUILD_DESTINATION_SIMULATOR_NAME},OS=${XCODEBUILD_DESTINATION_SIMULATOR_OS}"
-
-# Note: writes to STDERR to prevent breaking xcpretty
-function fuji-printf () { printf "[🏔 fuji] $*" 1>&2; }
-function fuji-echo () { printf "[🏔 fuji] $*\n" 1>&2; }
+fuji-clean
 
 if [ $# -eq 0 ]; then
     XCODEBUILD_SCHEME_FOR_TESTING="CriteoPublisherSdk"
@@ -75,10 +59,6 @@ fuji-echo "Cocoapods repo update..."
 pod repo update --silent
 fuji-echo "Cocoapods install..."
 pod install --deployment --clean-install --no-repo-update
-
-function fuji-pretty () {
-    tee -a $XCODEBUILD_LOG | xcpretty $*
-}
 
 function fuji-test () {
     fuji-echo "$2($1)"
@@ -142,16 +122,17 @@ function fuji-build-device () {
 function fuji-fat-build () {
     fuji-echo "Building $CRITEO_CONFIGURATION..."
 
+    mkdir -p build/output/simulator
     fuji-build-simulator clean build | fuji-pretty
-    cp -R "build/DerivedData/Build/Products/$CRITEO_CONFIGURATION-iphonesimulator/CriteoPublisherSdk.framework" build/output/sim
-    mkdir -p build/output/device
+    cp -R "build/DerivedData/Build/Products/$CRITEO_CONFIGURATION-iphonesimulator/CriteoPublisherSdk.framework" build/output/simulator
 
+    mkdir -p build/output/device
     fuji-build-device build | fuji-pretty
     cp -R "build/DerivedData/Build/Products/$CRITEO_CONFIGURATION-iphoneos/CriteoPublisherSdk.framework" build/output/device
     cp -R build/output/device/CriteoPublisherSdk.framework build/output
     rm build/output/CriteoPublisherSdk.framework/CriteoPublisherSdk
 
-    lipo -create -output build/output/CriteoPublisherSdk.framework/CriteoPublisherSdk build/output/sim/CriteoPublisherSdk.framework/CriteoPublisherSdk build/output/device/CriteoPublisherSdk.framework/CriteoPublisherSdk
+    lipo -create -output build/output/CriteoPublisherSdk.framework/CriteoPublisherSdk build/output/simulator/CriteoPublisherSdk.framework/CriteoPublisherSdk build/output/device/CriteoPublisherSdk.framework/CriteoPublisherSdk
     fuji-echo "Fat Binary Contents for $CRITEO_CONFIGURATION Build:"
     objdump -macho -universal-headers -arch all build/output/CriteoPublisherSdk.framework/CriteoPublisherSdk
 }
