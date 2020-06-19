@@ -1,6 +1,7 @@
 #!/bin/bash -l
 
 export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 export CRITEO_WATCH_ARCHS='armv7k arm64_32'
 export CRITEO_DEVICE_ARCHS='armv7 armv7s arm64'
