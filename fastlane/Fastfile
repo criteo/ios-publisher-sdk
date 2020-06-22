@@ -22,9 +22,7 @@ platform :ios do
     reports = Dir['test_output/*/*.junit'].map { |relpath| File.absolute_path(relpath) }
     collate_junit_reports(reports: reports, collated_report: File.join('build/reports', 'junit.xml'))
     failed_tests = tests_result[:failed_tests]
-    unless failed_tests.size.zero?
-      UI.error("Tests failure")
-    end
+    UI.user_error!("Tests failure") unless failed_tests.size.zero?
   end
 
   desc "Run Pre Submit Tests"
