@@ -37,53 +37,6 @@
                BlueprintName = "pubsdkTests"
                ReferencedContainer = "container:pubsdk.xcodeproj">
             </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "CRBannerViewTests/testWithRendering">
-               </Test>
-               <Test
-                  Identifier = "CRInterstitialDelegateTests">
-               </Test>
-               <Test
-                  Identifier = "CRInterstitialDelegateTests/testInterstitialWillAndDidAppear">
-               </Test>
-               <Test
-                  Identifier = "CRInterstitialTests/testWithRendering">
-               </Test>
-               <Test
-                  Identifier = "CR_DataConsentFunctionalTests">
-               </Test>
-               <Test
-                  Identifier = "CR_DeviceInfoTests/testUserAgent">
-               </Test>
-               <Test
-                  Identifier = "CR_DfpBannerFunctionalTests">
-               </Test>
-               <Test
-                  Identifier = "CR_DfpInterstitialFunctionalTests">
-               </Test>
-               <Test
-                  Identifier = "CR_DfpNativeFunctionalTests">
-               </Test>
-               <Test
-                  Identifier = "CR_FeedbackMessageFunctionalTests">
-               </Test>
-               <Test
-                  Identifier = "CR_FeedbackMessageFunctionalTests/testGivenBidExpired_whenGettingBid_thenSendFeedbackMessage">
-               </Test>
-               <Test
-                  Identifier = "CR_WebApiIntegrationTests/testSendAppEvent">
-               </Test>
-               <Test
-                  Identifier = "CR_WebApiIntegrationTests/testSendValidBidRequest">
-               </Test>
-               <Test
-                  Identifier = "CR_WebApiIntegrationTests/testSendValidBidRequestWithGdprTcf1_1">
-               </Test>
-               <Test
-                  Identifier = "CR_WebApiIntegrationTests/testSendValidBidRequestWithGdprTcf2_0">
-               </Test>
-            </SkippedTests>
          </TestableReference>
          <TestableReference
             skipped = "NO">
