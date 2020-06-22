@@ -37,6 +37,14 @@
                BlueprintName = "pubsdkTests"
                ReferencedContainer = "container:pubsdk.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "CR_DfpBannerFunctionalTests/test_givenBannerWithGoodAdUnitId_whenSetBids_thenRequestKeywordsUpdated">
+               </Test>
+               <Test
+                  Identifier = "CR_DfpInterstitialFunctionalTests/test_givenInterstitialWithGoodAdUnitId_whenSetBids_thenRequestKeywordsUpdated">
+               </Test>
+            </SkippedTests>
          </TestableReference>
          <TestableReference
             skipped = "NO">
@@ -47,6 +55,20 @@
                BlueprintName = "pubsdkITests"
                ReferencedContainer = "container:pubsdk.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "CR_MopubInterstitialFunctionalTests/test_givenInterstitialWithGoodAdUnitId_whenSetBids_thenRequestKeywordsUpdated">
+               </Test>
+               <Test
+                  Identifier = "CR_NativeAdFunctionalTests/testGivenNativeAds_whenLoadingAllNativeAd_triggerImpressionForVisibleAd">
+               </Test>
+               <Test
+                  Identifier = "CR_NativeAdFunctionalTests/testGivenNativeAds_whenScrolling_triggerAllImpression">
+               </Test>
+               <Test
+                  Identifier = "CR_NativeAdFunctionalTests/testGivenNativeAds_whenTapOnLastOne_thenDetectClick">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>

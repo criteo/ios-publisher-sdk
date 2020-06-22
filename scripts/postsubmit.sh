@@ -8,6 +8,9 @@ SCRIPT_DIRECTORY="$(
   pwd -P
 )"
 "${SCRIPT_DIRECTORY}"/setup.sh
-"${SCRIPT_DIRECTORY}"/test.sh "PostsubmitTests"
+#"${SCRIPT_DIRECTORY}"/test.sh "PostsubmitTests"
+
+bundle exec fastlane postsubmit_tests
+
 "${SCRIPT_DIRECTORY}"/archive.sh
 "${SCRIPT_DIRECTORY}"/test-app-integration.sh
