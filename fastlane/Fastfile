@@ -16,16 +16,15 @@ platform :ios do
   desc "Run Fuji Tests"
   lane :fuji_tests do |options|
     reset_simulator_contents() # Not needed on CI with virtualized env
-    scan(
-      scheme: options[:scheme],
-      only_testing: %w(pubsdkITests),
-      output_directory: 'build/reports'
-    )
-    scan(
-      scheme: options[:scheme],
-      only_testing: %w(pubsdkTests),
-      output_directory: 'build/reports'
-    )
+    tests_result = multi_scan(scheme: options[:scheme], try_count: 3, fail_build: false)
+    reports = Dir['test_output/*/*.html'].map { |relpath| File.absolute_path(relpath) }
+    collate_html_reports(reports: reports, collated_report: File.join('build/reports', 'tests.html'))
+    reports = Dir['test_output/*/*.junit'].map { |relpath| File.absolute_path(relpath) }
+    collate_junit_reports( reports: reports, collated_report: File.join('build/reports', 'junit.xml'))
+    failed_tests = tests_result[:failed_tests]
+    unless failed_tests.size.zero?
+      UI.error("Tests failed")
+    end
   end
 
   desc "Run Pre Submit Tests"
