@@ -17,6 +17,7 @@ platform :ios do
   lane :tests do
     multi_scan(
       try_count: 3,
+      parallel_testrun_count: 2,
       output_directory: "build/reports",
       output_files: "tests.html,junit.xml"
     )
