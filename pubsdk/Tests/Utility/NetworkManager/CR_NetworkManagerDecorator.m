@@ -19,28 +19,10 @@
 
 @implementation CR_NetworkManagerDecorator
 
-+ (BOOL)shouldRunTestsInIsolationFormNetwork
-{
-    static BOOL inInsolation = NO;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSDictionary *env = NSProcessInfo.processInfo.environment;
-        inInsolation = [env[@"RUN_TESTS_IN_ISOLATION_FROM_NETWORK"] boolValue];
-        NSLog(@"RUN_TESTS_IN_ISOLATION_FROM_NETWORK = %d", inInsolation);
-    });
-    return inInsolation;
-}
-
 + (instancetype)decoratorFromConfiguration:(CR_Config *)config {
-    if ([self shouldRunTestsInIsolationFormNetwork]) {
-        return [[CR_NetworkManagerDecorator alloc] initWithSimulating:YES
-                                                            capturing:YES
-                                                              config:config];
-    } else {
-        return [[CR_NetworkManagerDecorator alloc] initWithSimulating:NO
-                                                            capturing:YES
-                                                               config:config];
-    }
+    return [[CR_NetworkManagerDecorator alloc] initWithSimulating:YES
+                                                        capturing:YES
+                                                           config:config];
 }
 
 - (instancetype)initWithSimulating:(BOOL)simulating
