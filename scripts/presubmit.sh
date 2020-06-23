@@ -9,7 +9,6 @@ SCRIPT_DIRECTORY="$(
 )"
 # shellcheck source=scripts/base.sh
 source "$SCRIPT_DIRECTORY"/base.sh
-
 "${SCRIPT_DIRECTORY}"/setup.sh
 #"${SCRIPT_DIRECTORY}"/test.sh "PresubmitTests"
 
