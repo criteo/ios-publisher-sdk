@@ -26,37 +26,7 @@
 		25BD5B6D2220D1F0004DE311 /* CR_NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E1F2738321B9B58900A2FBFA /* CR_NetworkManager.m */; };
 		25BD5B6E2220D201004DE311 /* NSString+CriteoUrl.m in Sources */ = {isa = PBXBuildFile; fileRef = 255151C422027C9500F76E3F /* NSString+CriteoUrl.m */; };
 		25BD5B6F2220D209004DE311 /* Logging.m in Sources */ = {isa = PBXBuildFile; fileRef = 25B650592206AB40008416D3 /* Logging.m */; };
-		462DCA802462C2B800B43A51 /* SampleBid.json in Resources */ = {isa = PBXBuildFile; fileRef = 7D3E420523915B6600BAF673 /* SampleBid.json */; };
-		462DCA812462C2B800B43A51 /* NativeAssetsFromCdb.json in Resources */ = {isa = PBXBuildFile; fileRef = 5E065022DFE1021D3CF2B444 /* NativeAssetsFromCdb.json */; };
-		462DCA882462C31C00B43A51 /* CR_MopubBannerFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 54680B7823969E7300DB5A37 /* CR_MopubBannerFunctionalTests.m */; };
-		462DCA892462C31F00B43A51 /* CR_MopubInterstitialFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E06573035072D184799FC19 /* CR_MopubInterstitialFunctionalTests.m */; };
-		462DCA8A2462C36800B43A51 /* CR_IntegrationsTestBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 54680B7523969D5C00DB5A37 /* CR_IntegrationsTestBase.m */; };
-		462DCA8B2462C38100B43A51 /* CR_MopubCreativeViewChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E065FE195F039E520361B59 /* CR_MopubCreativeViewChecker.m */; };
-		462DCA8C2462C39000B43A51 /* CR_ViewCheckingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0659E91B2AF96B5DF83DA3 /* CR_ViewCheckingHelper.m */; };
-		462DCA8D2462C39A00B43A51 /* CR_TestAdUnits.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0655500052DF1F93D28212 /* CR_TestAdUnits.m */; };
-		462DCA8F2462C3C700B43A51 /* CR_NetworkWaiterBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D51ABF423ACCC7700540094 /* CR_NetworkWaiterBuilder.m */; };
-		462DCA902462C3D700B43A51 /* CR_NetworkCaptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB5F8FB23AA2B2500EF5602 /* CR_NetworkCaptor.m */; };
-		462DCA912462C3E300B43A51 /* CR_NetworkWaiter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB5F90023AA2B2500EF5602 /* CR_NetworkWaiter.m */; };
-		462DCA922462C40500B43A51 /* CR_HttpContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D523C7823DB31CD00E79C88 /* CR_HttpContent.m */; };
-		462DCA932462C41A00B43A51 /* MockWKWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6540470E22581D32009235A1 /* MockWKWebView.m */; };
-		462DCA942462C4D300B43A51 /* Criteo+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0653DCED07A1A1895CB076 /* Criteo+Testing.m */; };
-		462DCA952462C4F600B43A51 /* CR_DependencyProvider+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D569468242A3AC20095A0A6 /* CR_DependencyProvider+Testing.m */; };
-		462DCA972462C73D00B43A51 /* CR_InMemoryUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D54813A244F643C005FB742 /* CR_InMemoryUserDefaults.m */; };
-		462DCA982462C74A00B43A51 /* CR_DeviceInfoMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D523C8623DECFD600E79C88 /* CR_DeviceInfoMock.m */; };
-		462DCA992462C75500B43A51 /* CR_NetworkManagerDecorator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D51ABEB23AA6CAC00540094 /* CR_NetworkManagerDecorator.m */; };
-		462DCA9A2462C76500B43A51 /* CR_NetworkManagerSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB5F8FC23AA2B2500EF5602 /* CR_NetworkManagerSimulator.m */; };
-		462DCA9B2462C79400B43A51 /* NSURL+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D51ABF823ACE16800540094 /* NSURL+Testing.m */; };
-		462DCA9C2462C83000B43A51 /* CR_FeedbackStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E065DD39102A6790D4ADABA /* CR_FeedbackStorageTests.swift */; };
-		462DCA9D2462C85D00B43A51 /* CR_ThreadManager+Waiter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D523C9123E1CEBA00E79C88 /* CR_ThreadManager+Waiter.m */; };
-		462DCA9E2462C88600B43A51 /* CR_ThreadManagerWaiter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D58582923E1E6BB0039AC56 /* CR_ThreadManagerWaiter.m */; };
-		462DCA9F2462C93700B43A51 /* CASObjectQueue+ArraySet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D00672A243CD6F900E5D50D /* CASObjectQueue+ArraySet.m */; };
-		462DCAA02462C95600B43A51 /* UIView+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E065EFC53F2E9D25BAFEDEA /* UIView+Testing.m */; };
-		462DCAA12462C99600B43A51 /* WKWebView+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D49F9D7243B782400CF3941 /* WKWebView+Testing.m */; };
-		462DCAA22463052B00B43A51 /* CR_StandaloneBannerFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 548AFCAC23B1113C003C9C29 /* CR_StandaloneBannerFunctionalTests.m */; };
-		462DCAA32463054700B43A51 /* CR_CreativeViewChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E06534D114E0989D12A1E6B /* CR_CreativeViewChecker.m */; };
 		462DCAA42463055100B43A51 /* CR_CreativeViewChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E06534D114E0989D12A1E6B /* CR_CreativeViewChecker.m */; };
-		462DCAA52463055F00B43A51 /* CR_CdbBidBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D523C8123DB5D9600E79C88 /* CR_CdbBidBuilder.m */; };
-		462DCAA6246305A700B43A51 /* XCTestCase+Criteo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB4E90A239532BA008DE5E3 /* XCTestCase+Criteo.m */; };
 		462DCAA7246316B700B43A51 /* XCTestCase+Criteo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB4E90A239532BA008DE5E3 /* XCTestCase+Criteo.m */; };
 		4638C001249B8054007A8878 /* CR_SafeMediaDownloaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4638C000249B7EF6007A8878 /* CR_SafeMediaDownloaderTests.m */; };
 		46507F80246C2F6900B1DA78 /* CRNativeAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 46507F7D246C2F6900B1DA78 /* CRNativeAdView.m */; };
@@ -74,11 +44,19 @@
 		46AD5CF5245B003D00199315 /* CR_NativeLoaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46AD5CF4245B003D00199315 /* CR_NativeLoaderTests.m */; };
 		46B9780E243782A50061FC24 /* CR_UniqueIdGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 46240E0C2434BB4F001425AB /* CR_UniqueIdGenerator.m */; };
 		46BC3960246EDA5200F0B2F1 /* CRNativeAdViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46BC395F246EDA5200F0B2F1 /* CRNativeAdViewTests.m */; };
-		46C49B712472D7DF000B0D04 /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25BD5B572220D16D004DE311 /* CriteoPublisherSdk.framework */; };
 		46C49B722472D7E3000B0D04 /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25BD5B572220D16D004DE311 /* CriteoPublisherSdk.framework */; };
 		46C87E6C24405B2A0022978C /* CR_DefaultFileManipulatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C87E6B24405B2A0022978C /* CR_DefaultFileManipulatorTests.swift */; };
 		46D5C3C3245AD3B200818D37 /* CRNativeLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 4668FEEF2459BD1000D207AE /* CRNativeLoader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		46D5C3C4245AD3E100818D37 /* CRNativeAd.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D03F0FA23F18ECF00CB5D8B /* CRNativeAd.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		46D707D124A2450A0043D66F /* CR_BidPerformanceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCFBF762445F310009657F7 /* CR_BidPerformanceTests.m */; };
+		46D707D224A245450043D66F /* CR_NativeAdTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D321B0F24743598006CBC4E /* CR_NativeAdTableViewController.m */; };
+		46D707D324A2454B0043D66F /* CR_NativeAdTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D321B142474493B006CBC4E /* CR_NativeAdTableViewCell.m */; };
+		46D707D424A245520043D66F /* CR_NativeAdFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D321B162474502A006CBC4E /* CR_NativeAdFunctionalTests.m */; };
+		46D707D524A245630043D66F /* CR_MopubBannerFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 54680B7823969E7300DB5A37 /* CR_MopubBannerFunctionalTests.m */; };
+		46D707D624A245680043D66F /* CR_MopubInterstitialFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E06573035072D184799FC19 /* CR_MopubInterstitialFunctionalTests.m */; };
+		46D707D724A2456E0043D66F /* CR_StandaloneBannerFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 548AFCAC23B1113C003C9C29 /* CR_StandaloneBannerFunctionalTests.m */; };
+		46D707D824A245DB0043D66F /* NSString+GDPR.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB899DA2400126800948230 /* NSString+GDPR.m */; };
+		46D707DC24A284A00043D66F /* CR_NativeAdTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D321B1124743637006CBC4E /* CR_NativeAdTableViewCell.xib */; };
 		5397C0AF22A0AA3D00BC72FE /* CRAdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5397C08A22A0885700BC72FE /* CRAdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5397C0B022A0AA5600BC72FE /* CRAdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5397C08C22A0885800BC72FE /* CRAdUnit.m */; };
 		5397C0B122A0AA6600BC72FE /* CR_CacheAdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5397C0AC22A0A66E00BC72FE /* CR_CacheAdUnit.m */; };
@@ -153,7 +131,6 @@
 		65E3A5742270CB7A004156E9 /* CR_InterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */; };
 		7D00672D243CD6F900E5D50D /* CASObjectQueue+ArraySet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D00672A243CD6F900E5D50D /* CASObjectQueue+ArraySet.m */; };
 		7D00672F243CD6F900E5D50D /* CASObjectQueue+ArraySet.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D00672B243CD6F900E5D50D /* CASObjectQueue+ArraySet.h */; };
-		7D006730243CD7E800E5D50D /* CASObjectQueue+ArraySet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D00672A243CD6F900E5D50D /* CASObjectQueue+ArraySet.m */; };
 		7D006733243DB74B00E5D50D /* CR_FeedbackMessageFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D006732243DB74B00E5D50D /* CR_FeedbackMessageFunctionalTests.m */; };
 		7D00897023EAD19C00BA8F96 /* CRBannerViewDelegateMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D00896F23EAD19C00BA8F96 /* CRBannerViewDelegateMock.m */; };
 		7D03F0FF23F18ECF00CB5D8B /* CRNativeAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D03F0FB23F18ECF00CB5D8B /* CRNativeAd.m */; };
@@ -167,12 +144,7 @@
 		7D1A17CE242A796600816D32 /* CR_GdprVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D1A17CC242A796600816D32 /* CR_GdprVersion.h */; };
 		7D1A17D4242A7A1100816D32 /* CR_GdprVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D1A17D0242A7A1100816D32 /* CR_GdprVersion.m */; };
 		7D321B072472E9B0006CBC4E /* CR_HeaderBiddingDictionaryFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D321B062472E9B0006CBC4E /* CR_HeaderBiddingDictionaryFunctionalTests.m */; };
-		7D321B0C247416AD006CBC4E /* NSString+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D523C8B23E0471900E79C88 /* NSString+Testing.m */; };
-		7D321B1024743598006CBC4E /* CR_NativeAdTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D321B0F24743598006CBC4E /* CR_NativeAdTableViewController.m */; };
-		7D321B1224743637006CBC4E /* CR_NativeAdTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D321B1124743637006CBC4E /* CR_NativeAdTableViewCell.xib */; };
-		7D321B152474493B006CBC4E /* CR_NativeAdTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D321B142474493B006CBC4E /* CR_NativeAdTableViewCell.m */; };
 		7D321B1A2474513C006CBC4E /* UIWindow+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D321B192474513C006CBC4E /* UIWindow+Testing.m */; };
-		7D321B1B2474513C006CBC4E /* UIWindow+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D321B192474513C006CBC4E /* UIWindow+Testing.m */; };
 		7D344F6B23D9A5F70029E653 /* CR_BidManagerIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D344F6A23D9A5F70029E653 /* CR_BidManagerIntegrationTests.m */; };
 		7D3D6AA424519F3D00B91ADC /* CR_InterstitialChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3D6AA324519F3D00B91ADC /* CR_InterstitialChecker.m */; };
 		7D3E422223915B6600BAF673 /* NSObject+CriteoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41F223915B6600BAF673 /* NSObject+CriteoTests.m */; };
@@ -244,12 +216,8 @@
 		7D85E8D323D8891A00AFF91B /* CR_InHouseFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D85E8D223D8891A00AFF91B /* CR_InHouseFunctionalTests.m */; };
 		7D8BEDBE2407C21E0034AA7C /* CR_GdprTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8BEDBD2407C21E0034AA7C /* CR_GdprTests.m */; };
 		7D9CFF77247BFDFC0005DAE8 /* CR_NativeLoaderDispatchChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9CFF76247BFDFC0005DAE8 /* CR_NativeLoaderDispatchChecker.m */; };
-		7D9CFF78247BFDFC0005DAE8 /* CR_NativeLoaderDispatchChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9CFF76247BFDFC0005DAE8 /* CR_NativeLoaderDispatchChecker.m */; };
 		7D9CFF7B247BFFD40005DAE8 /* CR_MediaDownloaderDispatchChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9CFF7A247BFFD40005DAE8 /* CR_MediaDownloaderDispatchChecker.m */; };
-		7D9CFF7C247BFFD40005DAE8 /* CR_MediaDownloaderDispatchChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9CFF7A247BFFD40005DAE8 /* CR_MediaDownloaderDispatchChecker.m */; };
-		7D9CFF7D247C101D0005DAE8 /* CR_BidPerformanceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DCFBF762445F310009657F7 /* CR_BidPerformanceTests.m */; };
 		7D9CFF80247CFDCF0005DAE8 /* CR_NativeAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9CFF7F247CFDCF0005DAE8 /* CR_NativeAdViewController.m */; };
-		7D9CFF81247CFDCF0005DAE8 /* CR_NativeAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9CFF7F247CFDCF0005DAE8 /* CR_NativeAdViewController.m */; };
 		7DA2F5BD23A0D9E400B35524 /* CR_DataProtectionConsentMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA2F5BC23A0D9E400B35524 /* CR_DataProtectionConsentMock.m */; };
 		7DA2F5C423A0EAC000B35524 /* CR_DataConsentFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA2F5C323A0EAC000B35524 /* CR_DataConsentFunctionalTests.m */; };
 		7DB4E91123953757008DE5E3 /* CRInterstitialTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB4E90F2395374F008DE5E3 /* CRInterstitialTests.m */; };
@@ -259,54 +227,43 @@
 		7DB5F90A23AA2B2500EF5602 /* CR_NetworkManagerMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB5F8FD23AA2B2500EF5602 /* CR_NetworkManagerMock.m */; };
 		7DB5F90E23AA2B2500EF5602 /* CR_NetworkWaiter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB5F90023AA2B2500EF5602 /* CR_NetworkWaiter.m */; };
 		7DB899DC2400126800948230 /* NSString+GDPR.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DB899D92400126800948230 /* NSString+GDPR.h */; };
-		7DB899DE2400126800948230 /* NSString+GDPR.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB899DA2400126800948230 /* NSString+GDPR.m */; };
 		7DD76EB5247D008F0090BCDC /* CR_CustomNativeAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD76EB4247D008F0090BCDC /* CR_CustomNativeAdView.m */; };
-		7DD76EB6247D008F0090BCDC /* CR_CustomNativeAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD76EB4247D008F0090BCDC /* CR_CustomNativeAdView.m */; };
 		7DDEF657242CD8BE00BC129F /* CR_BidRequestSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DDEF654242CD8BE00BC129F /* CR_BidRequestSerializer.h */; };
 		7DDEF659242CD8BE00BC129F /* CR_BidRequestSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDEF655242CD8BE00BC129F /* CR_BidRequestSerializer.m */; };
 		7DDEF65E242CE06300BC129F /* CR_GdprSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DDEF65B242CE06300BC129F /* CR_GdprSerializer.h */; };
 		7DDEF660242CE06300BC129F /* CR_GdprSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDEF65C242CE06300BC129F /* CR_GdprSerializer.m */; };
 		7DE7064E242B5252007F4A72 /* NSUserDefaults+GDPR.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE7064D242B5252007F4A72 /* NSUserDefaults+GDPR.m */; };
 		7DE88E0D248800A400F15D74 /* CR_SafeAreaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE88E0C248800A400F15D74 /* CR_SafeAreaView.m */; };
-		7DE88E0E248800A400F15D74 /* CR_SafeAreaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE88E0C248800A400F15D74 /* CR_SafeAreaView.m */; };
 		7DE88E10248925C700F15D74 /* CR_ImpressionDetectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE88E0F248925C700F15D74 /* CR_ImpressionDetectionTests.m */; };
 		7DFB2B0F247E5C67007CDFF3 /* CR_URLOpening.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFB2B0E247E5C67007CDFF3 /* CR_URLOpening.h */; };
 		7DFB2B11247E75E5007CDFF3 /* CR_URLOpening.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFB2B10247E75E5007CDFF3 /* CR_URLOpening.m */; };
 		7DFB2B14247E9302007CDFF3 /* CR_URLOpenerMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFB2B13247E9302007CDFF3 /* CR_URLOpenerMock.m */; };
-		7DFB2B15247E9302007CDFF3 /* CR_URLOpenerMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFB2B13247E9302007CDFF3 /* CR_URLOpenerMock.m */; };
 		90D0C9A36EF9136F4CC9E877 /* libPods-CriteoPublisherSdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CDD7544323F61638E0E8B7F /* libPods-CriteoPublisherSdk.a */; };
 		BAF31CA74BB0776CEC97BA5F /* libPods-pubsdkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 424B8FD0D9FFF59AAABA6319 /* libPods-pubsdkTests.a */; };
 		C07AB0222733EAA918843728 /* CR_NativeAssets+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABBC696D95F756547DA86 /* CR_NativeAssets+Testing.m */; };
 		C07AB0B23BDBEA53346DD6CC /* CR_FeedbackController.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABC983FB1DA60294D238A /* CR_FeedbackController.m */; };
 		C07AB1B2CF62822B6B95E9F9 /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = C07ABCED19D15ED05D88A0E9 /* image.png */; };
 		C07AB22678B6CBC62B23F559 /* UIImage+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABA9489244F9DF952B8E3 /* UIImage+Testing.m */; };
-		C07AB2F15CC0A2CE38B6DCD6 /* image.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C07AB641C0857180176F2280 /* image.jpeg */; };
-		C07AB33F8B52A8760B5D624B /* UIImage+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABA9489244F9DF952B8E3 /* UIImage+Testing.m */; };
-		C07AB38D20AD4B2876BBC539 /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = C07ABCED19D15ED05D88A0E9 /* image.png */; };
 		C07AB53ECEC45D1A7D9EA259 /* CRMediaViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABD1BF4C0321B88411398 /* CRMediaViewTests.m */; };
 		C07AB5492FE17D797F4C1306 /* CRMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB093A865F67283614A5D /* CRMediaView.m */; };
 		C07AB6C51EDDDE87A80D2666 /* CRMediaContent.h in Headers */ = {isa = PBXBuildFile; fileRef = C07ABFCB3CD0F740F0A7FB05 /* CRMediaContent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C07AB779584EBF6DBACED48F /* NSUserDefaults+CR_Config.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB1709D918AD4DA7A4384 /* NSUserDefaults+CR_Config.m */; };
-		C07AB8715B41471580743327 /* CR_NativeAssets+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABBC696D95F756547DA86 /* CR_NativeAssets+Testing.m */; };
 		C07AB87AEEBF8383E4C029F6 /* CR_FeedbackFeatureGuardTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABEC0FA1873D8B0882250 /* CR_FeedbackFeatureGuardTests.m */; };
 		C07AB927256BB7EE061C89EA /* CRMediaView+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = C07AB967F5DA5C6504960784 /* CRMediaView+Internal.h */; };
 		C07AB936F1DBBE6CC8C2644E /* CRMediaContent.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABD4814092221709B77BA /* CRMediaContent.m */; };
 		C07AB96240CAD13D1FC39753 /* CR_ImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = C07ABDA25C65E3BBAAF68A79 /* CR_ImageCache.h */; };
-		C07AB9EA4BBE92ADD3C2B3CC /* CR_NativeAdFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D321B162474502A006CBC4E /* CR_NativeAdFunctionalTests.m */; };
 		C07AB9ED69EB74DA88306686 /* CR_FeedbackFeatureGuard.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB7277BC095D4A7DF86E2 /* CR_FeedbackFeatureGuard.m */; };
 		C07ABAA1393B946F538A802C /* CR_ImageCacheTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABE39613B18398CDF899E /* CR_ImageCacheTests.m */; };
 		C07ABC001B1ED2BCB2447E73 /* CR_TokenValue+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB534154EFFFDE1A8A248 /* CR_TokenValue+Testing.m */; };
 		C07ABC0F6A8997CD78597D6B /* CR_ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB7ACB684AE677947D589 /* CR_ImageCache.m */; };
 		C07ABC5F0E8E39C7BA6F6E7D /* CRMediaContent+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = C07AB31126BE08B645463204 /* CRMediaContent+Internal.h */; };
 		C07ABD4FBC93A6A8C0C5085F /* CRMediaView.h in Headers */ = {isa = PBXBuildFile; fileRef = C07AB3CE717BDF28B66871B2 /* CRMediaView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C07ABD53E2A5C3175A6DAFEA /* CR_TokenValue+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB534154EFFFDE1A8A248 /* CR_TokenValue+Testing.m */; };
 		C07ABD881B3EF50E277BBEAC /* CR_FeedbackFeatureGuard.h in Headers */ = {isa = PBXBuildFile; fileRef = C07AB2A43FA7623D134F5246 /* CR_FeedbackFeatureGuard.h */; };
 		C07ABE08CDD58B26FFCCBCE1 /* NSUserDefaults+CR_Config.h in Headers */ = {isa = PBXBuildFile; fileRef = C07ABA8D45D123659567CEF2 /* NSUserDefaults+CR_Config.h */; };
 		C07ABE4119C225312438484B /* CR_DefaultMediaDownloaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABB7F084CBEDAC1960E3C /* CR_DefaultMediaDownloaderTests.m */; };
 		C07ABEC7592E4D7732580700 /* image.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C07AB641C0857180176F2280 /* image.jpeg */; };
 		C07ABF0597CEB2DD36AE7B51 /* CR_FeedbackControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABBA46FCA43B62B82A2A0 /* CR_FeedbackControllerTests.m */; };
 		CFA4C0E324487ED4003FC46B /* CR_FeedbackController.h in Headers */ = {isa = PBXBuildFile; fileRef = C07AB510AF4AF6C47D87E0F3 /* CR_FeedbackController.h */; };
-		CFD7A3A9C70A6EB460001546 /* libPods-pubsdkITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FE31E7220C00303FD00D349D /* libPods-pubsdkITests.a */; };
 		DF367C8A232974210044807B /* CRNativeAdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = DF367C84232971810044807B /* CRNativeAdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DF367C8B2329743C0044807B /* CRNativeAdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = DF367C85232971810044807B /* CRNativeAdUnit.m */; };
 		DF367C9B232AE8510044807B /* CR_NativeImage.m in Sources */ = {isa = PBXBuildFile; fileRef = DF367C97232AE8510044807B /* CR_NativeImage.m */; };
@@ -320,13 +277,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		462DCA0A2462C2B800B43A51 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E1F2735B21B5F08D00A2FBFA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 543F6F6822820C1800A5DBE2;
-			remoteInfo = iTestHostApp;
-		};
 		543F6F7F22820C2B00A5DBE2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E1F2735B21B5F08D00A2FBFA /* Project object */;
@@ -346,8 +296,6 @@
 		25022DE5220A709000FF8ACE /* Criteo+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Criteo+Internal.h"; sourceTree = "<group>"; };
 		255151C322027C9500F76E3F /* NSString+CriteoUrl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+CriteoUrl.h"; sourceTree = "<group>"; };
 		255151C422027C9500F76E3F /* NSString+CriteoUrl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+CriteoUrl.m"; sourceTree = "<group>"; };
-		256CA51322A5F5FD00D14572 /* CRBidToken.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRBidToken.h; sourceTree = "<group>"; };
-		256CA51422A5F5FD00D14572 /* CRBidToken.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRBidToken.m; sourceTree = "<group>"; };
 		258821D021FD3FB600398E9F /* CR_ConfigManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_ConfigManager.h; sourceTree = "<group>"; };
 		258821D121FD3FB600398E9F /* CR_ConfigManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_ConfigManager.m; sourceTree = "<group>"; };
 		258821D722000F8000398E9F /* CR_DeviceInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_DeviceInfo.h; sourceTree = "<group>"; };
@@ -363,7 +311,6 @@
 		46240E0B2434BB4F001425AB /* CR_UniqueIdGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_UniqueIdGenerator.h; sourceTree = "<group>"; };
 		46240E0C2434BB4F001425AB /* CR_UniqueIdGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_UniqueIdGenerator.m; sourceTree = "<group>"; };
 		46240E132434BB91001425AB /* CR_UniqueIdGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_UniqueIdGeneratorTests.swift; sourceTree = "<group>"; };
-		462DCA862462C2B800B43A51 /* pubsdkITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = pubsdkITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4638C000249B7EF6007A8878 /* CR_SafeMediaDownloaderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_SafeMediaDownloaderTests.m; sourceTree = "<group>"; };
 		46507F7D246C2F6900B1DA78 /* CRNativeAdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdView.m; sourceTree = "<group>"; };
 		46507F7E246C2F6900B1DA78 /* CRNativeAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNativeAdView.h; sourceTree = "<group>"; };
@@ -392,8 +339,6 @@
 		5397C08E22A0885900BC72FE /* CRInterstitialAdUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialAdUnit.m; sourceTree = "<group>"; };
 		5397C08F22A0885900BC72FE /* CRBannerAdUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRBannerAdUnit.h; sourceTree = "<group>"; };
 		5397C09022A0885900BC72FE /* CRBannerAdUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRBannerAdUnit.m; sourceTree = "<group>"; };
-		5397C09E22A08C2F00BC72FE /* CRAdUnit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRAdUnit.h; sourceTree = "<group>"; };
-		5397C09F22A08C2F00BC72FE /* CRAdUnit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRAdUnit.m; sourceTree = "<group>"; };
 		5397C0AB22A0A66D00BC72FE /* CR_CacheAdUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_CacheAdUnit.h; sourceTree = "<group>"; };
 		5397C0AC22A0A66E00BC72FE /* CR_CacheAdUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_CacheAdUnit.m; sourceTree = "<group>"; };
 		5397C0B622A18F7B00BC72FE /* CRAdUnit+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CRAdUnit+Internal.h"; sourceTree = "<group>"; };
@@ -401,8 +346,6 @@
 		53BDFDB822EA498A0051EB40 /* NSObject+Criteo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Criteo.m"; sourceTree = "<group>"; };
 		53BDFDC322EB9F7C0051EB40 /* CR_BidManagerHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_BidManagerHelper.h; sourceTree = "<group>"; };
 		53BDFDC422EB9F7C0051EB40 /* CR_BidManagerHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_BidManagerHelper.m; sourceTree = "<group>"; };
-		53CA0F7222A9C1700098F96C /* CR_TokenCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_TokenCache.h; sourceTree = "<group>"; };
-		53CA0F7322A9C1700098F96C /* CR_TokenCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_TokenCache.m; sourceTree = "<group>"; };
 		53CA0F7922AAE1D10098F96C /* CRBidResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CRBidResponse.h; path = pubsdk/InHouseMediation/CRBidResponse.h; sourceTree = SOURCE_ROOT; };
 		53CA0F7A22AAE1D10098F96C /* CRBidResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CRBidResponse.m; path = pubsdk/InHouseMediation/CRBidResponse.m; sourceTree = SOURCE_ROOT; };
 		53CA0F7D22AAE2790098F96C /* CR_TokenValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CR_TokenValue.m; path = pubsdk/InHouseMediation/CR_TokenValue.m; sourceTree = SOURCE_ROOT; };
@@ -566,7 +509,6 @@
 		7D3E422023915B6600BAF673 /* CRAdUnitTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRAdUnitTests.m; sourceTree = "<group>"; };
 		7D3E422123915B6600BAF673 /* CR_AdUnitHelperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_AdUnitHelperTests.m; sourceTree = "<group>"; };
 		7D44BDCD24081969005E7906 /* NSString+GDPR.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+GDPR.h"; sourceTree = "<group>"; };
-		7D44BDCE24081969005E7906 /* NSString+GDPR.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+GDPR.m"; sourceTree = "<group>"; };
 		7D46571B244DBEFE00E4110E /* CR_SynchronousThreadManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_SynchronousThreadManager.h; sourceTree = "<group>"; };
 		7D46571C244DBEFE00E4110E /* CR_SynchronousThreadManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_SynchronousThreadManager.m; sourceTree = "<group>"; };
 		7D47C453246AD253009E7FE5 /* CR_HeaderBidding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_HeaderBidding.h; sourceTree = "<group>"; };
@@ -741,15 +683,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		462DCA7C2462C2B800B43A51 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				46C49B712472D7DF000B0D04 /* CriteoPublisherSdk.framework in Frameworks */,
-				CFD7A3A9C70A6EB460001546 /* libPods-pubsdkITests.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		543F6F6622820C1800A5DBE2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -855,19 +788,6 @@
 				C07ABEC0FA1873D8B0882250 /* CR_FeedbackFeatureGuardTests.m */,
 			);
 			path = Feedback;
-			sourceTree = "<group>";
-		};
-		53CA0F7822AADB0C0098F96C /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				5397C09E22A08C2F00BC72FE /* CRAdUnit.h */,
-				5397C09F22A08C2F00BC72FE /* CRAdUnit.m */,
-				256CA51322A5F5FD00D14572 /* CRBidToken.h */,
-				53CA0F7222A9C1700098F96C /* CR_TokenCache.h */,
-				256CA51422A5F5FD00D14572 /* CRBidToken.m */,
-				53CA0F7322A9C1700098F96C /* CR_TokenCache.m */,
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		542B05F523FD97380086A942 /* Feedback */ = {
@@ -1232,7 +1152,6 @@
 				7DB4E90B239532BA008DE5E3 /* XCTestCase+Criteo.h */,
 				7DB4E90A239532BA008DE5E3 /* XCTestCase+Criteo.m */,
 				7D44BDCD24081969005E7906 /* NSString+GDPR.h */,
-				7D44BDCE24081969005E7906 /* NSString+GDPR.m */,
 				7DE7064C242B5252007F4A72 /* NSUserDefaults+GDPR.h */,
 				7DE7064D242B5252007F4A72 /* NSUserDefaults+GDPR.m */,
 				7D49F9D6243B782400CF3941 /* WKWebView+Testing.h */,
@@ -1403,7 +1322,6 @@
 				E1F2736521B5F08D00A2FBFA /* Products */,
 				E583F8C77CE6CA066448D92A /* Pods */,
 				58922C790615A11D1E6D635B /* Frameworks */,
-				53CA0F7822AADB0C0098F96C /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1413,7 +1331,6 @@
 				E1F2736D21B5F08D00A2FBFA /* pubsdkTests.xctest */,
 				25BD5B572220D16D004DE311 /* CriteoPublisherSdk.framework */,
 				543F6F6922820C1800A5DBE2 /* iTestHostApp.app */,
-				462DCA862462C2B800B43A51 /* pubsdkITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1574,26 +1491,6 @@
 			productReference = 25BD5B572220D16D004DE311 /* CriteoPublisherSdk.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		462DCA062462C2B800B43A51 /* pubsdkITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 462DCA832462C2B800B43A51 /* Build configuration list for PBXNativeTarget "pubsdkITests" */;
-			buildPhases = (
-				462DCA0B2462C2B800B43A51 /* [CP] Check Pods Manifest.lock */,
-				462DCA0C2462C2B800B43A51 /* Sources */,
-				462DCA7C2462C2B800B43A51 /* Frameworks */,
-				462DCA7F2462C2B800B43A51 /* Resources */,
-				462DCA822462C2B800B43A51 /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				462DCA092462C2B800B43A51 /* PBXTargetDependency */,
-			);
-			name = pubsdkITests;
-			productName = pubsdkTests;
-			productReference = 462DCA862462C2B800B43A51 /* pubsdkITests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		543F6F6822820C1800A5DBE2 /* iTestHostApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 543F6F7C22820C1A00A5DBE2 /* Build configuration list for PBXNativeTarget "iTestHostApp" */;
@@ -1643,9 +1540,6 @@
 					25BD5B562220D16D004DE311 = {
 						CreatedOnToolsVersion = 10.1;
 					};
-					462DCA062462C2B800B43A51 = {
-						TestTargetID = 543F6F6822820C1800A5DBE2;
-					};
 					543F6F6822820C1800A5DBE2 = {
 						CreatedOnToolsVersion = 10.2.1;
 					};
@@ -1671,7 +1565,6 @@
 			targets = (
 				25BD5B562220D16D004DE311 /* CriteoPublisherSdk */,
 				E1F2736C21B5F08D00A2FBFA /* pubsdkTests */,
-				462DCA062462C2B800B43A51 /* pubsdkITests */,
 				543F6F6822820C1800A5DBE2 /* iTestHostApp */,
 			);
 		};
@@ -1682,18 +1575,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		462DCA7F2462C2B800B43A51 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				462DCA802462C2B800B43A51 /* SampleBid.json in Resources */,
-				7D321B1224743637006CBC4E /* CR_NativeAdTableViewCell.xib in Resources */,
-				462DCA812462C2B800B43A51 /* NativeAssetsFromCdb.json in Resources */,
-				C07AB2F15CC0A2CE38B6DCD6 /* image.jpeg in Resources */,
-				C07AB38D20AD4B2876BBC539 /* image.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1711,6 +1592,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46D707DC24A284A00043D66F /* CR_NativeAdTableViewCell.xib in Resources */,
 				7D3E423223915B6600BAF673 /* SampleBid.json in Resources */,
 				5E06565BD091B87AB797194F /* NativeAssetsFromCdb.json in Resources */,
 				C07AB1B2CF62822B6B95E9F9 /* image.png in Resources */,
@@ -1760,45 +1642,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		462DCA0B2462C2B800B43A51 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-pubsdkITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		462DCA822462C2B800B43A51 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-pubsdkITests/Pods-pubsdkITests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-pubsdkITests/Pods-pubsdkITests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-pubsdkITests/Pods-pubsdkITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		89DCBF6F7C3AA39849F39E70 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1844,7 +1687,6 @@
 				46B9780E243782A50061FC24 /* CR_UniqueIdGenerator.m in Sources */,
 				4660614424754E8100690E27 /* CR_SafeMediaDownloader.m in Sources */,
 				5397C0B022A0AA5600BC72FE /* CRAdUnit.m in Sources */,
-				7DB899DE2400126800948230 /* NSString+GDPR.m in Sources */,
 				46507F80246C2F6900B1DA78 /* CRNativeAdView.m in Sources */,
 				25BD5B672220D1CC004DE311 /* CR_DeviceInfo.m in Sources */,
 				53CA0F9322AB0A820098F96C /* CR_TokenValue.m in Sources */,
@@ -1907,56 +1749,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		462DCA0C2462C2B800B43A51 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				462DCAA52463055F00B43A51 /* CR_CdbBidBuilder.m in Sources */,
-				462DCA8C2462C39000B43A51 /* CR_ViewCheckingHelper.m in Sources */,
-				462DCAA6246305A700B43A51 /* XCTestCase+Criteo.m in Sources */,
-				462DCA9F2462C93700B43A51 /* CASObjectQueue+ArraySet.m in Sources */,
-				462DCAA12462C99600B43A51 /* WKWebView+Testing.m in Sources */,
-				462DCA882462C31C00B43A51 /* CR_MopubBannerFunctionalTests.m in Sources */,
-				462DCA942462C4D300B43A51 /* Criteo+Testing.m in Sources */,
-				462DCAA22463052B00B43A51 /* CR_StandaloneBannerFunctionalTests.m in Sources */,
-				462DCA972462C73D00B43A51 /* CR_InMemoryUserDefaults.m in Sources */,
-				462DCA8A2462C36800B43A51 /* CR_IntegrationsTestBase.m in Sources */,
-				462DCA932462C41A00B43A51 /* MockWKWebView.m in Sources */,
-				462DCAA02462C95600B43A51 /* UIView+Testing.m in Sources */,
-				7D9CFF7C247BFFD40005DAE8 /* CR_MediaDownloaderDispatchChecker.m in Sources */,
-				7D321B1B2474513C006CBC4E /* UIWindow+Testing.m in Sources */,
-				462DCA8D2462C39A00B43A51 /* CR_TestAdUnits.m in Sources */,
-				462DCA982462C74A00B43A51 /* CR_DeviceInfoMock.m in Sources */,
-				7D321B152474493B006CBC4E /* CR_NativeAdTableViewCell.m in Sources */,
-				7D321B1024743598006CBC4E /* CR_NativeAdTableViewController.m in Sources */,
-				462DCA9B2462C79400B43A51 /* NSURL+Testing.m in Sources */,
-				462DCA952462C4F600B43A51 /* CR_DependencyProvider+Testing.m in Sources */,
-				462DCA8B2462C38100B43A51 /* CR_MopubCreativeViewChecker.m in Sources */,
-				462DCA8F2462C3C700B43A51 /* CR_NetworkWaiterBuilder.m in Sources */,
-				462DCA9A2462C76500B43A51 /* CR_NetworkManagerSimulator.m in Sources */,
-				462DCA902462C3D700B43A51 /* CR_NetworkCaptor.m in Sources */,
-				462DCA892462C31F00B43A51 /* CR_MopubInterstitialFunctionalTests.m in Sources */,
-				7D321B0C247416AD006CBC4E /* NSString+Testing.m in Sources */,
-				7DFB2B15247E9302007CDFF3 /* CR_URLOpenerMock.m in Sources */,
-				462DCA992462C75500B43A51 /* CR_NetworkManagerDecorator.m in Sources */,
-				462DCA9E2462C88600B43A51 /* CR_ThreadManagerWaiter.m in Sources */,
-				7DE88E0E248800A400F15D74 /* CR_SafeAreaView.m in Sources */,
-				7DD76EB6247D008F0090BCDC /* CR_CustomNativeAdView.m in Sources */,
-				462DCA912462C3E300B43A51 /* CR_NetworkWaiter.m in Sources */,
-				462DCA922462C40500B43A51 /* CR_HttpContent.m in Sources */,
-				462DCA9D2462C85D00B43A51 /* CR_ThreadManager+Waiter.m in Sources */,
-				7D9CFF7D247C101D0005DAE8 /* CR_BidPerformanceTests.m in Sources */,
-				462DCAA32463054700B43A51 /* CR_CreativeViewChecker.m in Sources */,
-				462DCA9C2462C83000B43A51 /* CR_FeedbackStorageTests.swift in Sources */,
-				C07AB9EA4BBE92ADD3C2B3CC /* CR_NativeAdFunctionalTests.m in Sources */,
-				C07AB8715B41471580743327 /* CR_NativeAssets+Testing.m in Sources */,
-				7D9CFF78247BFDFC0005DAE8 /* CR_NativeLoaderDispatchChecker.m in Sources */,
-				C07ABD53E2A5C3175A6DAFEA /* CR_TokenValue+Testing.m in Sources */,
-				7D9CFF81247CFDCF0005DAE8 /* CR_NativeAdViewController.m in Sources */,
-				C07AB33F8B52A8760B5D624B /* UIImage+Testing.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		543F6F6522820C1800A5DBE2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1987,6 +1779,7 @@
 				7D3E422A23915B6600BAF673 /* CR_NativeImageTests.m in Sources */,
 				7D80F61524056CCF005B7BA3 /* CR_DataProtectionConsentTests.m in Sources */,
 				7D3E422923915B6600BAF673 /* CR_NativeProductTests.m in Sources */,
+				46D707D824A245DB0043D66F /* NSString+GDPR.m in Sources */,
 				7D523C8723DECFD600E79C88 /* CR_DeviceInfoMock.m in Sources */,
 				7D3E422D23915B6600BAF673 /* LoggingTests.m in Sources */,
 				7D3E423123915B6600BAF673 /* NSString+CriteoUrlTests.m in Sources */,
@@ -2016,6 +1809,7 @@
 				7DA2F5C423A0EAC000B35524 /* CR_DataConsentFunctionalTests.m in Sources */,
 				7D3E423323915B6600BAF673 /* CRBannerViewTests.m in Sources */,
 				7D3D6AA424519F3D00B91ADC /* CR_InterstitialChecker.m in Sources */,
+				46D707D524A245630043D66F /* CR_MopubBannerFunctionalTests.m in Sources */,
 				7D9CFF77247BFDFC0005DAE8 /* CR_NativeLoaderDispatchChecker.m in Sources */,
 				7D47C458246AEC75009E7FE5 /* CR_HeaderBiddingTests.m in Sources */,
 				7D523C9223E1CEBA00E79C88 /* CR_ThreadManager+Waiter.m in Sources */,
@@ -2027,16 +1821,20 @@
 				7D523C8E23E047EA00E79C88 /* NSString+Testing.m in Sources */,
 				7D3E423923915B6600BAF673 /* CR_AppEventsTests.m in Sources */,
 				7D58583523E2D5DF0039AC56 /* CR_ThreadManagerTests.m in Sources */,
+				46D707D424A245520043D66F /* CR_NativeAdFunctionalTests.m in Sources */,
 				7D9CFF7B247BFFD40005DAE8 /* CR_MediaDownloaderDispatchChecker.m in Sources */,
 				7D523C8223DB5D9600E79C88 /* CR_CdbBidBuilder.m in Sources */,
+				46D707D724A2456E0043D66F /* CR_StandaloneBannerFunctionalTests.m in Sources */,
 				7DE88E0D248800A400F15D74 /* CR_SafeAreaView.m in Sources */,
-				7D006730243CD7E800E5D50D /* CASObjectQueue+ArraySet.m in Sources */,
+				46D707D124A2450A0043D66F /* CR_BidPerformanceTests.m in Sources */,
 				462DCAA42463055100B43A51 /* CR_CreativeViewChecker.m in Sources */,
+				46D707D324A2454B0043D66F /* CR_NativeAdTableViewCell.m in Sources */,
 				7D3E422B23915B6600BAF673 /* CR_NativeAssetsTests.m in Sources */,
 				54ED19F322717E13009AA0B2 /* CRInterstitialViewControllerTests.m in Sources */,
 				7D85E8D323D8891A00AFF91B /* CR_InHouseFunctionalTests.m in Sources */,
 				7DE88E10248925C700F15D74 /* CR_ImpressionDetectionTests.m in Sources */,
 				7D3E424723915B6600BAF673 /* CRAdUnitTests.m in Sources */,
+				46D707D624A245680043D66F /* CR_MopubInterstitialFunctionalTests.m in Sources */,
 				7D3E423D23915B6600BAF673 /* CR_CacheManagerTests.m in Sources */,
 				7D3E422C23915B6600BAF673 /* CR_NativeAdvertiserTests.m in Sources */,
 				7D523C7923DB31CD00E79C88 /* CR_HttpContent.m in Sources */,
@@ -2048,6 +1846,7 @@
 				54FE074323FEED2C0035A026 /* CR_FeedbackMessageTests.swift in Sources */,
 				7D523C7D23DB32C600E79C88 /* CR_HttpContent+AdUnit.m in Sources */,
 				7D3E423623915B6600BAF673 /* CR_NetworkManagerTests.m in Sources */,
+				46D707D224A245450043D66F /* CR_NativeAdTableViewController.m in Sources */,
 				7D3E423A23915B6600BAF673 /* CRBannerAdUnitTests.m in Sources */,
 				7D0441CF2428EBA600D36C65 /* NSString+APIKeys.m in Sources */,
 				54F1E6BB239FA1A800985D09 /* CR_DfpCreativeViewChecker.m in Sources */,
@@ -2100,11 +1899,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		462DCA092462C2B800B43A51 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 543F6F6822820C1800A5DBE2 /* iTestHostApp */;
-			targetProxy = 462DCA0A2462C2B800B43A51 /* PBXContainerItemProxy */;
-		};
 		543F6F8022820C2B00A5DBE2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 543F6F6822820C1800A5DBE2 /* iTestHostApp */;
@@ -2177,53 +1971,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		462DCA842462C2B800B43A51 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = D8DCF8FDE3376281CE6BA7BD /* Pods-pubsdkITests.debug.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = S655EV5659;
-				INFOPLIST_FILE = "Tests/pubsdkTests-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.pubsdkTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Tests/pubsdkTests-Bridging-Header.h";
-				SWIFT_OBJC_INTERFACE_HEADER_NAME = "pubsdkTests-Swift.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iTestHostApp.app/iTestHostApp";
-				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/../Pods\"/**";
-			};
-			name = Debug;
-		};
-		462DCA852462C2B800B43A51 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72B4ADA01974459AFAB771A9 /* Pods-pubsdkITests.release.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = S655EV5659;
-				INFOPLIST_FILE = "Tests/pubsdkTests-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.pubsdkTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Tests/pubsdkTests-Bridging-Header.h";
-				SWIFT_OBJC_INTERFACE_HEADER_NAME = "pubsdkTests-Swift.h";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iTestHostApp.app/iTestHostApp";
-				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/../Pods\"/**";
 			};
 			name = Release;
 		};
@@ -2447,15 +2194,6 @@
 			buildConfigurations = (
 				25BD5B5C2220D16D004DE311 /* Debug */,
 				25BD5B5D2220D16D004DE311 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		462DCA832462C2B800B43A51 /* Build configuration list for PBXNativeTarget "pubsdkITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				462DCA842462C2B800B43A51 /* Debug */,
-				462DCA852462C2B800B43A51 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

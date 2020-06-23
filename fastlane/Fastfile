@@ -15,13 +15,12 @@ default_platform(:ios)
 platform :ios do
   desc "Run Fuji Tests"
   lane :fuji_tests do |options|
-    tests_result = multi_scan(scheme: options[:scheme], try_count: 3, fail_build: false)
-    reports = Dir['test_output/*/*.html'].map { |relpath| File.absolute_path(relpath) }
-    collate_html_reports(reports: reports, collated_report: File.join('build/reports', 'tests.html'))
-    reports = Dir['test_output/*/*.junit'].map { |relpath| File.absolute_path(relpath) }
-    collate_junit_reports(reports: reports, collated_report: File.join('build/reports', 'junit.xml'))
-    failed_tests = tests_result[:failed_tests]
-    UI.user_error!("Tests failure") unless failed_tests.size.zero?
+    multi_scan(
+      scheme: options[:scheme],
+      try_count: 3,
+      output_directory: "build/reports",
+      output_files: "tests.html,junit.xml"
+    )
   end
 
   desc "Run Pre Submit Tests"

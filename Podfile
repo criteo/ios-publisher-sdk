@@ -10,13 +10,6 @@ target 'pubsdkTests' do
     pod 'FunctionalObjC', '~> 1.0'
 end
 
-target 'pubsdkITests' do
-    pod 'OCMock','~> 3.6'
-    pod 'Google-Mobile-Ads-SDK'
-    pod 'mopub-ios-sdk/Core'
-    pod 'FunctionalObjC', '~> 1.0'
-end
-
 target 'CriteoPublisherSdk' do
     pod 'Cassette','1.0.0-beta3'
 end
@@ -29,4 +22,3 @@ post_install do |installer|
     end
   end
 end
-
