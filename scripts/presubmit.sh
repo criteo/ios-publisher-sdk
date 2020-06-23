@@ -12,4 +12,4 @@ source "$SCRIPT_DIRECTORY"/base.sh
 "${SCRIPT_DIRECTORY}"/setup.sh
 #"${SCRIPT_DIRECTORY}"/test.sh "PresubmitTests"
 
-bundle exec fastlane presubmit_tests
+bundle exec fastlane tests

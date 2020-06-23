@@ -16,21 +16,11 @@ or alternatively using `brew cask install fastlane`
 
 # Available Actions
 ## iOS
-### ios fuji_tests
+### ios tests
 ```
-fastlane ios fuji_tests
+fastlane ios tests
 ```
 Run Fuji Tests
-### ios presubmit_tests
-```
-fastlane ios presubmit_tests
-```
-Run Pre Submit Tests
-### ios postsubmit_tests
-```
-fastlane ios postsubmit_tests
-```
-Run Post Submit Tests
 
 ----
 

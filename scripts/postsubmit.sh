@@ -12,7 +12,7 @@ source "$SCRIPT_DIRECTORY"/base.sh
 "${SCRIPT_DIRECTORY}"/setup.sh
 #"${SCRIPT_DIRECTORY}"/test.sh "PostsubmitTests"
 
-bundle exec fastlane postsubmit_tests
+bundle exec fastlane tests
 
 "${SCRIPT_DIRECTORY}"/archive.sh
 "${SCRIPT_DIRECTORY}"/test-app-integration.sh
