@@ -9,7 +9,7 @@
 #import "CR_InMemoryUserDefaults.h"
 #import "CR_NetworkManagerDecorator.h"
 #import "Criteo+Testing.h"
-#import "pubsdkTests-Swift.h"
+#import "CriteoPublisherSdkTests-Swift.h"
 
 @implementation CR_DependencyProvider (Testing)
 

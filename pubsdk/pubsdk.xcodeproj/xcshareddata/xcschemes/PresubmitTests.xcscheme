@@ -33,8 +33,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E1F2736C21B5F08D00A2FBFA"
-               BuildableName = "pubsdkTests.xctest"
-               BlueprintName = "pubsdkTests"
+               BuildableName = "CriteoPublisherSdkTests.xctest"
+               BlueprintName = "CriteoPublisherSdkTests"
                ReferencedContainer = "container:pubsdk.xcodeproj">
             </BuildableReference>
          </TestableReference>

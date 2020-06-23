@@ -16,7 +16,7 @@
 #import "CR_TestAdUnits.h"
 #import "Criteo+Testing.h"
 #import "NSString+GDPR.h"
-#import "pubsdkTests-Swift.h"
+#import "CriteoPublisherSdkTests-Swift.h"
 #import "XCTestCase+Criteo.h"
 
 /**

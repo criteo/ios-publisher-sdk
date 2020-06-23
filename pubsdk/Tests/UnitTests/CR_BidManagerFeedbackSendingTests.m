@@ -9,7 +9,7 @@
 #import <OCMock.h>
 #import "CR_BidManager.h"
 #import "CR_DependencyProvider+Testing.h"
-#import "pubsdkTests-Swift.h"
+#import "CriteoPublisherSdkTests-Swift.h"
 
 @interface CR_BidManagerFeedbackSendingTests : XCTestCase
 

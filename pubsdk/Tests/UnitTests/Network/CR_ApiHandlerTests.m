@@ -25,7 +25,7 @@
 #import "NSString+APIKeys.h"
 #import "NSString+GDPR.h"
 #import "NSString+CriteoUrl.h"
-#import "pubsdkTests-Swift.h"
+#import "CriteoPublisherSdkTests-Swift.h"
 #import "XCTestCase+Criteo.h"
 
 #define CR_AssertLastAppEventUrlContains(name, val) \

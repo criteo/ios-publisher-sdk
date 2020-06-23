@@ -18,7 +18,7 @@
 #import "CR_DeviceInfoMock.h"
 #import "CR_HeaderBidding.h"
 #import "CR_SynchronousThreadManager.h"
-#import "pubsdkTests-Swift.h"
+#import "CriteoPublisherSdkTests-Swift.h"
 
 static NSString * const CR_BidManagerTestsCpm = @"crt_cpm";
 static NSString * const CR_BidManagerTestsDisplayUrl = @"crt_displayUrl";

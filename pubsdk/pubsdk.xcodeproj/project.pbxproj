@@ -239,7 +239,7 @@
 		7DFB2B11247E75E5007CDFF3 /* CR_URLOpening.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFB2B10247E75E5007CDFF3 /* CR_URLOpening.m */; };
 		7DFB2B14247E9302007CDFF3 /* CR_URLOpenerMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFB2B13247E9302007CDFF3 /* CR_URLOpenerMock.m */; };
 		90D0C9A36EF9136F4CC9E877 /* libPods-CriteoPublisherSdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CDD7544323F61638E0E8B7F /* libPods-CriteoPublisherSdk.a */; };
-		BAF31CA74BB0776CEC97BA5F /* libPods-pubsdkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 424B8FD0D9FFF59AAABA6319 /* libPods-pubsdkTests.a */; };
+		B1BD859C4CDDB6DB1B906C62 /* libPods-CriteoPublisherSdkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92039F91AE1122C08CF8EC36 /* libPods-CriteoPublisherSdkTests.a */; };
 		C07AB0222733EAA918843728 /* CR_NativeAssets+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABBC696D95F756547DA86 /* CR_NativeAssets+Testing.m */; };
 		C07AB0B23BDBEA53346DD6CC /* CR_FeedbackController.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABC983FB1DA60294D238A /* CR_FeedbackController.m */; };
 		C07AB1B2CF62822B6B95E9F9 /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = C07ABCED19D15ED05D88A0E9 /* image.png */; };
@@ -307,7 +307,6 @@
 		25BD5B5A2220D16D004DE311 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		29D24DDAFFC9D3813C55AD78 /* Pods-pubsdkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdkTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdkTests/Pods-pubsdkTests.release.xcconfig"; sourceTree = "<group>"; };
 		32116366A6DEEDBAD36BC1E8 /* Pods-CriteoPublisherSdk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoPublisherSdk.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-CriteoPublisherSdk/Pods-CriteoPublisherSdk.debug.xcconfig"; sourceTree = "<group>"; };
-		424B8FD0D9FFF59AAABA6319 /* libPods-pubsdkTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pubsdkTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		46240E0B2434BB4F001425AB /* CR_UniqueIdGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_UniqueIdGenerator.h; sourceTree = "<group>"; };
 		46240E0C2434BB4F001425AB /* CR_UniqueIdGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_UniqueIdGenerator.m; sourceTree = "<group>"; };
 		46240E132434BB91001425AB /* CR_UniqueIdGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_UniqueIdGeneratorTests.swift; sourceTree = "<group>"; };
@@ -597,6 +596,7 @@
 		7DFB2B10247E75E5007CDFF3 /* CR_URLOpening.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_URLOpening.m; sourceTree = "<group>"; };
 		7DFB2B12247E9302007CDFF3 /* CR_URLOpenerMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_URLOpenerMock.h; sourceTree = "<group>"; };
 		7DFB2B13247E9302007CDFF3 /* CR_URLOpenerMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_URLOpenerMock.m; sourceTree = "<group>"; };
+		92039F91AE1122C08CF8EC36 /* libPods-CriteoPublisherSdkTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoPublisherSdkTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		95CE917D53BC717D5743ED84 /* Pods-pubsdk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdk.release.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdk/Pods-pubsdk.release.xcconfig"; sourceTree = "<group>"; };
 		C07AB093A865F67283614A5D /* CRMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRMediaView.m; sourceTree = "<group>"; };
 		C07AB1709D918AD4DA7A4384 /* NSUserDefaults+CR_Config.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+CR_Config.m"; sourceTree = "<group>"; };
@@ -656,7 +656,7 @@
 		E12A7F6E220A20C3002B4548 /* CR_AppEvents.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_AppEvents.m; sourceTree = "<group>"; };
 		E1D7DF0122138E6D006090C0 /* CR_CdbResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_CdbResponse.h; sourceTree = "<group>"; };
 		E1D7DF0222138F9A006090C0 /* CR_CdbResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_CdbResponse.m; sourceTree = "<group>"; };
-		E1F2736D21B5F08D00A2FBFA /* pubsdkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = pubsdkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1F2736D21B5F08D00A2FBFA /* CriteoPublisherSdkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CriteoPublisherSdkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1F2738221B9B01200A2FBFA /* CR_NetworkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_NetworkManager.h; sourceTree = "<group>"; };
 		E1F2738321B9B58900A2FBFA /* CR_NetworkManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_NetworkManager.m; sourceTree = "<group>"; };
 		E1F2738521B9BE2700A2FBFA /* CR_ApiHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_ApiHandler.h; sourceTree = "<group>"; };
@@ -669,6 +669,8 @@
 		E1F273BA21C9733800A2FBFA /* CR_BidManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_BidManager.m; sourceTree = "<group>"; };
 		E1F273C021C9763E00A2FBFA /* CR_CacheManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_CacheManager.h; sourceTree = "<group>"; };
 		E1F273C121C9765100A2FBFA /* CR_CacheManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_CacheManager.m; sourceTree = "<group>"; };
+		E218929A73E76D05395B62D3 /* Pods-CriteoPublisherSdkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoPublisherSdkTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-CriteoPublisherSdkTests/Pods-CriteoPublisherSdkTests.debug.xcconfig"; sourceTree = "<group>"; };
+		FDC4B0AA9B87D4E7C14FBB7C /* Pods-CriteoPublisherSdkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoPublisherSdkTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-CriteoPublisherSdkTests/Pods-CriteoPublisherSdkTests.release.xcconfig"; sourceTree = "<group>"; };
 		FDEB12542B0821F04B68BC8E /* Pods-pubsdk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pubsdk.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-pubsdk/Pods-pubsdk.debug.xcconfig"; sourceTree = "<group>"; };
 		FE31E7220C00303FD00D349D /* libPods-pubsdkITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pubsdkITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -695,7 +697,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				46C49B722472D7E3000B0D04 /* CriteoPublisherSdk.framework in Frameworks */,
-				BAF31CA74BB0776CEC97BA5F /* libPods-pubsdkTests.a in Frameworks */,
+				B1BD859C4CDDB6DB1B906C62 /* libPods-CriteoPublisherSdkTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -884,8 +886,8 @@
 			children = (
 				547287842411075D00B62235 /* libCassette.a */,
 				1CDD7544323F61638E0E8B7F /* libPods-CriteoPublisherSdk.a */,
-				424B8FD0D9FFF59AAABA6319 /* libPods-pubsdkTests.a */,
 				FE31E7220C00303FD00D349D /* libPods-pubsdkITests.a */,
+				92039F91AE1122C08CF8EC36 /* libPods-CriteoPublisherSdkTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1328,7 +1330,7 @@
 		E1F2736521B5F08D00A2FBFA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E1F2736D21B5F08D00A2FBFA /* pubsdkTests.xctest */,
+				E1F2736D21B5F08D00A2FBFA /* CriteoPublisherSdkTests.xctest */,
 				25BD5B572220D16D004DE311 /* CriteoPublisherSdk.framework */,
 				543F6F6922820C1800A5DBE2 /* iTestHostApp.app */,
 			);
@@ -1408,6 +1410,8 @@
 				95CE917D53BC717D5743ED84 /* Pods-pubsdk.release.xcconfig */,
 				D8DCF8FDE3376281CE6BA7BD /* Pods-pubsdkITests.debug.xcconfig */,
 				72B4ADA01974459AFAB771A9 /* Pods-pubsdkITests.release.xcconfig */,
+				E218929A73E76D05395B62D3 /* Pods-CriteoPublisherSdkTests.debug.xcconfig */,
+				FDC4B0AA9B87D4E7C14FBB7C /* Pods-CriteoPublisherSdkTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -1508,9 +1512,9 @@
 			productReference = 543F6F6922820C1800A5DBE2 /* iTestHostApp.app */;
 			productType = "com.apple.product-type.application";
 		};
-		E1F2736C21B5F08D00A2FBFA /* pubsdkTests */ = {
+		E1F2736C21B5F08D00A2FBFA /* CriteoPublisherSdkTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E1F2737B21B5F08D00A2FBFA /* Build configuration list for PBXNativeTarget "pubsdkTests" */;
+			buildConfigurationList = E1F2737B21B5F08D00A2FBFA /* Build configuration list for PBXNativeTarget "CriteoPublisherSdkTests" */;
 			buildPhases = (
 				2A33ED979BC0CD8D80259A7B /* [CP] Check Pods Manifest.lock */,
 				E1F2736921B5F08D00A2FBFA /* Sources */,
@@ -1523,9 +1527,9 @@
 			dependencies = (
 				543F6F8022820C2B00A5DBE2 /* PBXTargetDependency */,
 			);
-			name = pubsdkTests;
+			name = CriteoPublisherSdkTests;
 			productName = pubsdkTests;
-			productReference = E1F2736D21B5F08D00A2FBFA /* pubsdkTests.xctest */;
+			productReference = E1F2736D21B5F08D00A2FBFA /* CriteoPublisherSdkTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -1564,7 +1568,7 @@
 			projectRoot = "";
 			targets = (
 				25BD5B562220D16D004DE311 /* CriteoPublisherSdk */,
-				E1F2736C21B5F08D00A2FBFA /* pubsdkTests */,
+				E1F2736C21B5F08D00A2FBFA /* CriteoPublisherSdkTests */,
 				543F6F6822820C1800A5DBE2 /* iTestHostApp */,
 			);
 		};
@@ -1609,15 +1613,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-pubsdkTests/Pods-pubsdkTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-CriteoPublisherSdkTests/Pods-CriteoPublisherSdkTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-pubsdkTests/Pods-pubsdkTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-CriteoPublisherSdkTests/Pods-CriteoPublisherSdkTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-pubsdkTests/Pods-pubsdkTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CriteoPublisherSdkTests/Pods-CriteoPublisherSdkTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		2A33ED979BC0CD8D80259A7B /* [CP] Check Pods Manifest.lock */ = {
@@ -1635,7 +1639,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-pubsdkTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-CriteoPublisherSdkTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2143,7 +2147,7 @@
 		};
 		E1F2737C21B5F08D00A2FBFA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4876E95088BFF48248FF7025 /* Pods-pubsdkTests.debug.xcconfig */;
+			baseConfigurationReference = E218929A73E76D05395B62D3 /* Pods-CriteoPublisherSdkTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S655EV5659;
@@ -2166,7 +2170,7 @@
 		};
 		E1F2737D21B5F08D00A2FBFA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 29D24DDAFFC9D3813C55AD78 /* Pods-pubsdkTests.release.xcconfig */;
+			baseConfigurationReference = FDC4B0AA9B87D4E7C14FBB7C /* Pods-CriteoPublisherSdkTests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S655EV5659;
@@ -2216,7 +2220,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E1F2737B21B5F08D00A2FBFA /* Build configuration list for PBXNativeTarget "pubsdkTests" */ = {
+		E1F2737B21B5F08D00A2FBFA /* Build configuration list for PBXNativeTarget "CriteoPublisherSdkTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E1F2737C21B5F08D00A2FBFA /* Debug */,

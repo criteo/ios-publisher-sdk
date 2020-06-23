@@ -8,7 +8,7 @@
 #import "CR_ApiHandler.h"
 #import "CR_FeedbackStorage.h"
 #import "CR_FeedbackController.h"
-#import "pubsdkTests-Swift.h"
+#import "CriteoPublisherSdkTests-Swift.h"
 #import "CR_CdbBidBuilder.h"
 
 @interface CR_FeedbackControllerTests : XCTestCase

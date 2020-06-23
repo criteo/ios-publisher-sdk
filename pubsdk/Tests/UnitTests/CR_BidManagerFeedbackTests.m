@@ -7,7 +7,7 @@
 
 #import <XCTest/XCTest.h>
 #import <OCMock.h>
-#import "pubsdkTests-Swift.h"
+#import "CriteoPublisherSdkTests-Swift.h"
 #import "CR_CdbResponse.h"
 #import "CR_CdbBidBuilder.h"
 #import "CR_DependencyProvider+Testing.h"

@@ -3,7 +3,7 @@ platform :ios, '8.0'
 workspace 'fuji.xcworkspace'
 project 'pubsdk/pubsdk.xcodeproj'
 
-target 'pubsdkTests' do
+target 'CriteoPublisherSdkTests' do
     pod 'OCMock','~> 3.6'
     pod 'Google-Mobile-Ads-SDK'
     pod 'mopub-ios-sdk/Core'
