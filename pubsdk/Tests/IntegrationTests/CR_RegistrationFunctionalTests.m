@@ -38,8 +38,7 @@
   XCTestExpectation *expectation = [self expectationForNotCallingCDBOnCriteo:self.criteo];
 
   [self.criteo testing_registerWithAdUnits:@[ adUnit ]];
-
-  [self waitForExpectations:@[ expectation ] timeout:1.f];
+  [self cr_waitShortlyForExpectations:@[ expectation ]];
 }
 
 - (XCTestExpectation *)expectationForNotCallingCDBOnCriteo:(Criteo *)criteo {

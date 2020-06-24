@@ -23,6 +23,7 @@
 #import "NSURL+Criteo.h"
 #import "CR_TokenValue+Testing.h"
 #import "CR_URLOpenerMock.h"
+#import "XCTestCase+Criteo.h"
 
 @interface CRInterstitialDelegateTests : XCTestCase {
   CR_CacheAdUnit *_cacheAdUnit;
@@ -190,7 +191,7 @@
                                                       didFailToReceiveAdWithError:expectedError]);
                                  [interstitialAdFetchFailExpectation fulfill];
                                }];
-  [self waitForExpectations:@[ interstitialAdFetchFailExpectation ] timeout:5];
+  [self cr_waitForExpectations:@[ interstitialAdFetchFailExpectation ]];
 }
 
 - (void)testInterstitialWillLeaveApplicationAndWasClicked {
@@ -293,7 +294,7 @@
                                          [interstitialPresentationExpectation fulfill];
                                        }];
   }
-  [self waitForExpectations:@[ interstitialPresentationExpectation ] timeout:5];
+  [self cr_waitForExpectations:@[ interstitialPresentationExpectation ]];
 }
 
 - (void)testInterstitialWillandDidDisappear {
@@ -361,7 +362,7 @@
                                  }
                                }];
 
-  [self waitForExpectations:@[ interstitialDismissExpectation ] timeout:5];
+  [self cr_waitForExpectations:@[ interstitialDismissExpectation ]];
 }
 
 - (void)testDidFailToReceiveAdContentWithErrorWhenWebViewFailsToNavigate {
@@ -394,7 +395,7 @@
                                        [interstitialWebViewNavigationFailExpectation fulfill];
                                        OCMVerifyAll((id)mockInterstitialDelegate);
                                      }];
-  [self waitForExpectations:@[ interstitialWebViewNavigationFailExpectation ] timeout:3];
+  [self cr_waitForExpectations:@[ interstitialWebViewNavigationFailExpectation ]];
 }
 
 - (void)testDidFailToReceiveAdContentWithErrorWebViewFailsToLoad {
@@ -422,7 +423,7 @@
                                  OCMVerify([mockInterstitialDelegate interstitial:interstitial
                                                didFailToReceiveAdContentWithError:[OCMArg any]]);
                                }];
-  [self waitForExpectations:@[ interstitialWebViewLoadExpectation ] timeout:3];
+  [self cr_waitShortlyForExpectations:@[ interstitialWebViewLoadExpectation ]];
 }
 
 // test no delegate method called when HTTP error
@@ -462,7 +463,7 @@
                                      block:^(NSTimer *_Nonnull timer) {
                                        [interstitialHTTPErrorExpectation fulfill];
                                      }];
-  [self waitForExpectations:@[ interstitialHTTPErrorExpectation ] timeout:3];
+  [self cr_waitShortlyForExpectations:@[ interstitialHTTPErrorExpectation ]];
 }
 
 // Test no delegate methods are called from WKNavigationDelegate's decidePolicyForNavigationResponse
@@ -501,7 +502,7 @@
                                      block:^(NSTimer *_Nonnull timer) {
                                        [interstitialHTTPErrorExpectation fulfill];
                                      }];
-  [self waitForExpectations:@[ interstitialHTTPErrorExpectation ] timeout:3];
+  [self cr_waitShortlyForExpectations:@[ interstitialHTTPErrorExpectation ]];
 }
 
 - (void)testInterstitialFailWhenRootViewControllerIsNil {
@@ -535,7 +536,7 @@
                                                       didFailToReceiveAdWithError:expectedError]);
                                  [rootVCNilExpectation fulfill];
                                }];
-  [self waitForExpectations:@[ rootVCNilExpectation ] timeout:5];
+  [self cr_waitForExpectations:@[ rootVCNilExpectation ]];
 }
 
 - (void)testInterstitialFailWhenAdIsBeingPresented {
@@ -573,7 +574,7 @@
                                                       didFailToReceiveAdWithError:expectedError]);
                                  [adBeingPresentedExpectation fulfill];
                                }];
-  [self waitForExpectations:@[ adBeingPresentedExpectation ] timeout:5];
+  [self cr_waitForExpectations:@[ adBeingPresentedExpectation ]];
 }
 
 - (void)testInterstitialPresentationFailWhenAdNotLoaded {

@@ -591,7 +591,7 @@
                  ahEventHandler:^(NSDictionary *appEventValues, NSDate *receivedAt) {
                    [expectation fulfill];
                  }];
-  [self waitForExpectations:@[ expectation ] timeout:.25];
+  [self cr_waitShortlyForExpectations:@[ expectation ]];
 }
 
 - (void)testSendAppEventUrlWithoutGdpr {
@@ -690,7 +690,7 @@
                    }
                    [expectation fulfill];
                  }];
-  [self waitForExpectations:@[ expectation ] timeout:.25];
+  [self cr_waitShortlyForExpectations:@[ expectation ]];
 }
 
 - (void)callCdb {

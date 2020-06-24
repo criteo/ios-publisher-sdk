@@ -41,8 +41,7 @@
   exp.inverted = YES;
 
   [self sendAppGoesForegroundNotification];
-
-  [self waitForExpectations:@[ exp ] timeout:1.];
+  [self cr_waitShortlyForExpectations:@[ exp ]];
 }
 
 - (void)testInactiveEventNotSentIfCriteoNotRegister {
@@ -50,8 +49,7 @@
   exp.inverted = YES;
 
   [self sendAppGoesBackgroundNotification];
-
-  [self waitForExpectations:@[ exp ] timeout:1.];
+  [self cr_waitShortlyForExpectations:@[ exp ]];
 }
 
 - (void)testActiveEventSentIfCriteoRegister {
@@ -59,7 +57,6 @@
   XCTestExpectation *exp = [self expectationForAppEventCall];
 
   [self sendAppGoesForegroundNotification];
-
   [self cr_waitForExpectations:@[ exp ]];
 }
 

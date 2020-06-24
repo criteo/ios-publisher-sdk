@@ -19,6 +19,7 @@
 #import "CR_URLOpenerMock.h"
 #import "NSURL+Criteo.h"
 #import "CR_TokenValue+Testing.h"
+#import "XCTestCase+Criteo.h"
 
 @import WebKit;
 
@@ -167,8 +168,7 @@
            [weakSelf _assertContentWithError:error result:result expectation:viewportExpectation];
          }];
   };
-  [self waitForExpectations:@[ marginExpectation, paddingExpectation, viewportExpectation ]
-                    timeout:5];
+  [self cr_waitForExpectations:@[ marginExpectation, paddingExpectation, viewportExpectation ]];
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
@@ -254,7 +254,7 @@
     [openInBrowserExpectation fulfill];
   });
 
-  [self waitForExpectations:@[ openInBrowserExpectation ] timeout:1];
+  [self cr_waitShortlyForExpectations:@[ openInBrowserExpectation ]];
 }
 
 // Test window.open navigation delegate
@@ -291,7 +291,7 @@
     [openInBrowserExpectation fulfill];
   });
 
-  [self waitForExpectations:@[ openInBrowserExpectation ] timeout:1];
+  [self cr_waitShortlyForExpectations:@[ openInBrowserExpectation ]];
 }
 
 #pragma inhouseSpecificTests

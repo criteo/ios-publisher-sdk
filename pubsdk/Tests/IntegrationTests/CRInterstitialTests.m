@@ -209,8 +209,7 @@
   [interstitial loadAd];
   OCMVerify([mockCriteo getBid:[self expectedCacheAdUnit]]);
 
-  [self waitForExpectations:@[ marginExpectation, paddingExpectation, viewportExpectation ]
-                    timeout:5];
+  [self cr_waitForExpectations:@[ marginExpectation, paddingExpectation, viewportExpectation ]];
 }
 
 - (void)testInterstitialFail {
@@ -307,7 +306,7 @@
     [openInBrowserExpectation fulfill];
   });
 
-  [self waitForExpectations:@[ openInBrowserExpectation ] timeout:1];
+  [self cr_waitShortlyForExpectations:@[ openInBrowserExpectation ]];
 }
 
 // Test window.open navigation delegate
@@ -345,7 +344,7 @@
     [openInBrowserExpectation fulfill];
   });
 
-  [self waitForExpectations:@[ openInBrowserExpectation ] timeout:1];
+  [self cr_waitShortlyForExpectations:@[ openInBrowserExpectation ]];
 }
 
 // Android:  whenLoadingAnInterstitial_GivenInitializedSdk_ShouldSetInterstitialFlagInTheRequest

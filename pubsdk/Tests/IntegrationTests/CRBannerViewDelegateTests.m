@@ -23,8 +23,6 @@
 #import "NSURL+Criteo.h"
 #import "CR_TokenValue+Testing.h"
 
-NSTimeInterval kExpectedTimeout = .5;
-
 @interface CRBannerViewDelegateTests : XCTestCase {
   CR_CacheAdUnit *cacheAdUnit;
   CRBannerAdUnit *adUnit;
@@ -106,7 +104,7 @@ NSTimeInterval kExpectedTimeout = .5;
 
   [bannerView loadAd];
 
-  [self waitForExpectations:@[ delegate.didReceiveAdExpectation ] timeout:kExpectedTimeout];
+  [self cr_waitShortlyForExpectations:@[ delegate.didReceiveAdExpectation ]];
 }
 
 // test banner fail when an empty bid is returned
@@ -129,8 +127,7 @@ NSTimeInterval kExpectedTimeout = .5;
 
   [bannerView loadAd];
 
-  [self waitForExpectations:@[ delegate.didFailToReceiveAdWithErrorExpectation ]
-                    timeout:kExpectedTimeout];
+  [self cr_waitShortlyForExpectations:@[ delegate.didFailToReceiveAdWithErrorExpectation ]];
 }
 
 - (void)testBannerWillLeaveApplicationAndWasClicked {
@@ -157,10 +154,9 @@ NSTimeInterval kExpectedTimeout = .5;
                       decisionHandler:^(WKNavigationActionPolicy decisionHandler){
                       }];
 
-  [self waitForExpectations:@[
+  [self cr_waitShortlyForExpectations:@[
     delegate.wasClickedExpectation, delegate.willLeaveApplicationExpectation
-  ]
-                    timeout:kExpectedTimeout];
+  ]];
 }
 
 // test no delegate method called when webView navigation fails
@@ -177,7 +173,7 @@ NSTimeInterval kExpectedTimeout = .5;
 
   [bannerView webView:nil didFailNavigation:nil withError:nil];
 
-  [self waitForExpectations:delegate.allExpectations timeout:kExpectedTimeout];
+  [self cr_waitShortlyForExpectations:delegate.allExpectations];
 }
 
 // test no delegate method called when webView load fails
@@ -195,7 +191,7 @@ NSTimeInterval kExpectedTimeout = .5;
 
   [bannerView webView:nil didFailProvisionalNavigation:nil withError:nil];
 
-  [self waitForExpectations:delegate.allExpectations timeout:kExpectedTimeout];
+  [self cr_waitShortlyForExpectations:delegate.allExpectations];
 }
 
 // test no delegate method called when HTTP error
@@ -220,7 +216,7 @@ NSTimeInterval kExpectedTimeout = .5;
                         decisionHandler:^(WKNavigationResponsePolicy decisionHandler){
                         }];
 
-  [self waitForExpectations:delegate.allExpectations timeout:kExpectedTimeout];
+  [self cr_waitShortlyForExpectations:delegate.allExpectations];
 }
 
 - (void)testNoDelegateWhenNoHttpResponse {
@@ -239,7 +235,7 @@ NSTimeInterval kExpectedTimeout = .5;
 
   OCMStub([mockCriteo getBid:[self expectedAdUnit]]).andReturn([self bidWithDisplayURL:@""]);
   [bannerView loadAd];
-  [self waitForExpectations:@[ delegate.didReceiveAdExpectation ] timeout:kExpectedTimeout];
+  [self cr_waitShortlyForExpectations:@[ delegate.didReceiveAdExpectation ]];
 }
 
 #pragma mark inhouseSpecificTests

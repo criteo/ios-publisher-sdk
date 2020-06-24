@@ -159,7 +159,7 @@
   [loader.mediaDownloader downloadImage:[NSURL URLWithString:@""]
                       completionHandler:^(UIImage *image, NSError *error){
                       }];
-  [self waitForExpectations:@[ mediaDownloader.didDownloadImageOnMainQueue ] timeout:5];
+  [self cr_waitForExpectations:@[ mediaDownloader.didDownloadImageOnMainQueue ]];
 }
 
 #pragma mark - Internal
@@ -182,8 +182,7 @@
   [self.nativeAd markAsImpressed];
 
   [self.loader handleImpressionOnNativeAd:self.nativeAd];
-
-  [self waitForExpectations:@[ self.delegate.didDetectImpression ] timeout:1.f];
+  [self cr_waitShortlyForExpectations:@[ self.delegate.didDetectImpression ]];
 }
 
 - (void)testHandleImpressionOnNativeAdCallPixels {
@@ -222,7 +221,7 @@
 
   [self.loader handleClickOnNativeAd:self.nativeAd];
 
-  [self waitForExpectations:@[ self.delegate.willLeaveApplicationForNativeAd ] timeout:1.f];
+  [self cr_waitShortlyForExpectations:@[ self.delegate.willLeaveApplicationForNativeAd ]];
 }
 
 - (void)testHandleClickOnAdChoiceCallDelegateForOpenExternal {
@@ -237,7 +236,7 @@
 
   [self.loader handleClickOnAdChoiceOfNativeAd:self.nativeAd];
 
-  [self waitForExpectations:@[ self.delegate.willLeaveApplicationForNativeAd ] timeout:1.f];
+  [self cr_waitShortlyForExpectations:@[ self.delegate.willLeaveApplicationForNativeAd ]];
 }
 
 #pragma mark - Private

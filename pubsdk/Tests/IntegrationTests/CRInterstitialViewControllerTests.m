@@ -20,6 +20,7 @@
 #import "CR_Config.h"
 #import "CR_Timer.h"
 #import "CR_URLOpenerMock.h"
+#import "XCTestCase+Criteo.h"
 
 @interface CR_InterstitialViewController () {
   BOOL _hasBeenDismissed;
@@ -126,7 +127,7 @@
                                  }
                                }];
 
-  [self waitForExpectations:@[ vcDismissedExpectation ] timeout:5];
+  [self cr_waitForExpectations:@[ vcDismissedExpectation ]];
 }
 
 @end
