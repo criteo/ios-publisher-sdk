@@ -189,7 +189,6 @@
 		7D49F9D8243B782400CF3941 /* WKWebView+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D49F9D7243B782400CF3941 /* WKWebView+Testing.m */; };
 		7D4B4A8A24191E8900E1E241 /* CR_ApiQueryKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = 54E0C24D23917D9A004F9353 /* CR_ApiQueryKeys.m */; };
 		7D4B4A8B24191E8E00E1E241 /* CR_ApiQueryKeys.h in Headers */ = {isa = PBXBuildFile; fileRef = 54E0C24C23917D9A004F9353 /* CR_ApiQueryKeys.h */; };
-		7D51ABEC23AA6CAC00540094 /* CR_NetworkManagerDecorator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D51ABEB23AA6CAC00540094 /* CR_NetworkManagerDecorator.m */; };
 		7D51ABF023AB781600540094 /* CR_Timer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D51ABEF23AB781600540094 /* CR_Timer.m */; };
 		7D51ABF523ACCC7700540094 /* CR_NetworkWaiterBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D51ABF423ACCC7700540094 /* CR_NetworkWaiterBuilder.m */; };
 		7D51ABF923ACE16800540094 /* NSURL+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D51ABF823ACE16800540094 /* NSURL+Testing.m */; };
@@ -515,8 +514,6 @@
 		7D47C457246AEC75009E7FE5 /* CR_HeaderBiddingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_HeaderBiddingTests.m; sourceTree = "<group>"; };
 		7D49F9D6243B782400CF3941 /* WKWebView+Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WKWebView+Testing.h"; sourceTree = "<group>"; };
 		7D49F9D7243B782400CF3941 /* WKWebView+Testing.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "WKWebView+Testing.m"; sourceTree = "<group>"; };
-		7D51ABEA23AA6CAC00540094 /* CR_NetworkManagerDecorator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_NetworkManagerDecorator.h; sourceTree = "<group>"; };
-		7D51ABEB23AA6CAC00540094 /* CR_NetworkManagerDecorator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_NetworkManagerDecorator.m; sourceTree = "<group>"; };
 		7D51ABEE23AB781600540094 /* CR_Timer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_Timer.h; sourceTree = "<group>"; };
 		7D51ABEF23AB781600540094 /* CR_Timer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_Timer.m; sourceTree = "<group>"; };
 		7D51ABF323ACCC7700540094 /* CR_NetworkWaiterBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_NetworkWaiterBuilder.h; sourceTree = "<group>"; };
@@ -1226,8 +1223,6 @@
 			children = (
 				7DB5F8F423AA2B2500EF5602 /* CR_NetworkCaptor.h */,
 				7DB5F8FB23AA2B2500EF5602 /* CR_NetworkCaptor.m */,
-				7D51ABEA23AA6CAC00540094 /* CR_NetworkManagerDecorator.h */,
-				7D51ABEB23AA6CAC00540094 /* CR_NetworkManagerDecorator.m */,
 				7DB5F8F523AA2B2500EF5602 /* CR_NetworkManagerMock.h */,
 				7DB5F8FD23AA2B2500EF5602 /* CR_NetworkManagerMock.m */,
 				7DB5F8F223AA2B2500EF5602 /* CR_NetworkManagerSimulator.h */,
@@ -1878,7 +1873,6 @@
 				7D3E422823915B6600BAF673 /* CR_NativePrivacyTests.m in Sources */,
 				54680B6A2395222B00DB5A37 /* CR_DfpBannerFunctionalTests.m in Sources */,
 				54F1E6B9239FA1A000985D09 /* UIWebView+Testing.m in Sources */,
-				7D51ABEC23AA6CAC00540094 /* CR_NetworkManagerDecorator.m in Sources */,
 				46C87E6C24405B2A0022978C /* CR_DefaultFileManipulatorTests.swift in Sources */,
 				7D3E423523915B6600BAF673 /* CR_CdbBidTests.m in Sources */,
 				7D569469242A3AC20095A0A6 /* CR_DependencyProvider+Testing.m in Sources */,

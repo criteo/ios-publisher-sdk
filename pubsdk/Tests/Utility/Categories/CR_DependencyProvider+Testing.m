@@ -5,9 +5,11 @@
 //  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
+#import <OCMock/OCMock.h>
 #import "CR_DependencyProvider+Testing.h"
 #import "CR_InMemoryUserDefaults.h"
-#import "CR_NetworkManagerDecorator.h"
+#import "CR_NetworkManagerSimulator.h"
+#import "CR_NetworkCaptor.h"
 #import "Criteo+Testing.h"
 #import "CriteoPublisherSdkTests-Swift.h"
 
@@ -23,8 +25,10 @@
 }
 
 - (CR_DependencyProvider *)withListenedNetworkManager {
-    CR_NetworkManagerDecorator *decorator = [CR_NetworkManagerDecorator decoratorFromConfiguration:self.config];
-    self.networkManager = [decorator decorateNetworkManager:self.networkManager];
+    CR_NetworkManager *networkManager = [[CR_NetworkManagerSimulator alloc] initWithConfig:self.config];
+    networkManager = OCMPartialMock(networkManager);
+    networkManager = [[CR_NetworkCaptor alloc] initWithNetworkManager:networkManager];
+    self.networkManager = networkManager;
     return self;
 }
 
