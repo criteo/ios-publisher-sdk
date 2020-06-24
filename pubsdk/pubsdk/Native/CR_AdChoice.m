@@ -13,7 +13,7 @@
 #import "CR_NativeAssets.h"
 #import "CRMediaDownloader.h"
 
-static const CGSize CR_AdChoiceButtonSize = (CGSize) {40, 15};
+static const CGSize CR_AdChoiceButtonSize = (CGSize) {19, 15};
 
 @interface CR_AdChoice ()
 @property (strong, nonatomic, readonly) CR_NativePrivacy *privacy;
