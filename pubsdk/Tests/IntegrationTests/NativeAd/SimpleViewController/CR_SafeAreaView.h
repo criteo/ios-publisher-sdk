@@ -11,8 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 API_AVAILABLE(ios(11.0)) @interface CR_SafeAreaView : UIView
 
-@property (assign, nonatomic) CGRect unsafeAreaFrame;
-@property (assign, nonatomic) CGRect safeAreaFrame;
+@property(assign, nonatomic) CGRect unsafeAreaFrame;
+@property(assign, nonatomic) CGRect safeAreaFrame;
 
 @end
 

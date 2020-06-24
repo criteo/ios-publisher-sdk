@@ -12,8 +12,8 @@
 @implementation CR_ThreadManager (Waiter)
 
 - (void)waiter_waitIdle {
-    CR_ThreadManagerWaiter *waiter = [[CR_ThreadManagerWaiter alloc] initWithThreadManager:self];
-    [waiter waitIdle];
+  CR_ThreadManagerWaiter *waiter = [[CR_ThreadManagerWaiter alloc] initWithThreadManager:self];
+  [waiter waitIdle];
 }
 
 @end

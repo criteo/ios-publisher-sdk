@@ -15,85 +15,86 @@
 
 @interface CR_AppEventsIntegrationTests : XCTestCase
 
-@property (strong, nonatomic) CR_NetworkCaptor *networkCaptor;
-@property (strong, nonatomic) NSNotificationCenter *notificationCenter;
-@property (strong, nonatomic) Criteo *criteo;
+@property(strong, nonatomic) CR_NetworkCaptor *networkCaptor;
+@property(strong, nonatomic) NSNotificationCenter *notificationCenter;
+@property(strong, nonatomic) Criteo *criteo;
 
 @end
 
 @implementation CR_AppEventsIntegrationTests
 
 - (void)setUp {
-    self.criteo = [Criteo testing_criteoWithNetworkCaptor];
-    self.networkCaptor = self.criteo.testing_networkCaptor;
-    self.notificationCenter = self.criteo.dependencyProvider.notificationCenter;
+  self.criteo = [Criteo testing_criteoWithNetworkCaptor];
+  self.networkCaptor = self.criteo.testing_networkCaptor;
+  self.notificationCenter = self.criteo.dependencyProvider.notificationCenter;
 
-    [self.criteo.dependencyProvider.appEvents disableThrottling];
+  [self.criteo.dependencyProvider.appEvents disableThrottling];
 }
 
 - (void)tearDown {
-    [self.criteo.dependencyProvider.threadManager waiter_waitIdle];
-    [super tearDown];
+  [self.criteo.dependencyProvider.threadManager waiter_waitIdle];
+  [super tearDown];
 }
 
 - (void)testActiveEventNotSentIfCriteoNotRegister {
-    XCTestExpectation *exp = [self expectationForAppEventCall];
-    exp.inverted = YES;
+  XCTestExpectation *exp = [self expectationForAppEventCall];
+  exp.inverted = YES;
 
-    [self sendAppGoesForegroundNotification];
+  [self sendAppGoesForegroundNotification];
 
-    [self waitForExpectations:@[exp] timeout:1.];
+  [self waitForExpectations:@[ exp ] timeout:1.];
 }
 
 - (void)testInactiveEventNotSentIfCriteoNotRegister {
-    XCTestExpectation *exp = [self expectationForAppEventCall];
-    exp.inverted = YES;
+  XCTestExpectation *exp = [self expectationForAppEventCall];
+  exp.inverted = YES;
 
-    [self sendAppGoesBackgroundNotification];
+  [self sendAppGoesBackgroundNotification];
 
-    [self waitForExpectations:@[exp] timeout:1.];
+  [self waitForExpectations:@[ exp ] timeout:1.];
 }
 
-
 - (void)testActiveEventSentIfCriteoRegister {
-    [self.criteo testing_registerBannerAndWaitForHTTPResponses];
-    XCTestExpectation *exp = [self expectationForAppEventCall];
+  [self.criteo testing_registerBannerAndWaitForHTTPResponses];
+  XCTestExpectation *exp = [self expectationForAppEventCall];
 
-    [self sendAppGoesForegroundNotification];
+  [self sendAppGoesForegroundNotification];
 
-    [self cr_waitForExpectations:@[exp]];
+  [self cr_waitForExpectations:@[ exp ]];
 }
 
 - (void)testInactiveEventSentIfCriteoRegister {
-    [self.criteo testing_registerBannerAndWaitForHTTPResponses];
-    XCTestExpectation *exp = [self expectationForAppEventCall];
+  [self.criteo testing_registerBannerAndWaitForHTTPResponses];
+  XCTestExpectation *exp = [self expectationForAppEventCall];
 
-    [self sendAppGoesBackgroundNotification];
+  [self sendAppGoesBackgroundNotification];
 
-    [self cr_waitForExpectations:@[exp]];
+  [self cr_waitForExpectations:@[ exp ]];
 }
 
 #pragma mark - Private
 
 - (void)sendAppGoesForegroundNotification {
-    [self.notificationCenter postNotificationName:UIApplicationDidBecomeActiveNotification
-                                           object:nil];
+  [self.notificationCenter postNotificationName:UIApplicationDidBecomeActiveNotification
+                                         object:nil];
 }
 
 - (void)sendAppGoesBackgroundNotification {
-    [self.notificationCenter postNotificationName:UIApplicationWillResignActiveNotification
-                                           object:nil];
+  [self.notificationCenter postNotificationName:UIApplicationWillResignActiveNotification
+                                         object:nil];
 }
 
 - (XCTestExpectation *)expectationForAppEventCall {
-    __weak typeof(self) weakSelf = self;
-    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"Expecting that AppEvent was sent"];
-    self.networkCaptor.requestListener = ^(NSURL * _Nonnull url, CR_HTTPVerb verb, NSDictionary * _Nullable body) {
+  __weak typeof(self) weakSelf = self;
+  XCTestExpectation *expectation =
+      [[XCTestExpectation alloc] initWithDescription:@"Expecting that AppEvent was sent"];
+  self.networkCaptor.requestListener =
+      ^(NSURL *_Nonnull url, CR_HTTPVerb verb, NSDictionary *_Nullable body) {
         if ([url.absoluteString containsString:weakSelf.criteo.config.appEventsUrl]) {
-            [expectation fulfill];
+          [expectation fulfill];
         }
-    };
-    return expectation;
+      };
+  return expectation;
 }
 
 @end

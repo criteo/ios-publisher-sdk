@@ -17,23 +17,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable NSData *)readDataForAbsolutePath:(NSString *)path;
 
-- (NSArray<NSURL *> *)URLsForDirectory:(NSSearchPathDirectory)directory inDomains:(NSSearchPathDomainMask)domainMask;
+- (NSArray<NSURL *> *)URLsForDirectory:(NSSearchPathDirectory)directory
+                             inDomains:(NSSearchPathDomainMask)domainMask;
 
 - (BOOL)fileExistsAtPath:(NSString *)path isDirectory:(nullable BOOL *)isDirectory;
 
 - (BOOL)createDirectoryAtPath:(NSString *)path
-  withIntermediateDirectories:(BOOL)createIntermediates
-                   attributes:(nullable NSDictionary<NSFileAttributeKey, id> *)attributes
-                        error:(NSError **)error;
+    withIntermediateDirectories:(BOOL)createIntermediates
+                     attributes:(nullable NSDictionary<NSFileAttributeKey, id> *)attributes
+                          error:(NSError **)error;
 
 - (BOOL)removeItemAtPath:(NSString *)path error:(NSError **)error;
 
-- (nullable NSArray<NSString *> *)contentsOfDirectoryAtPath:(NSString *)path error:(NSError **)error;
+- (nullable NSArray<NSString *> *)contentsOfDirectoryAtPath:(NSString *)path
+                                                      error:(NSError **)error;
 
 - (NSUInteger)sizeOfDirectoryAtPath:(NSString *)path error:(NSError **)error;
 
 @end
-
 
 @interface CR_DefaultFileManipulator : NSObject <CR_FileManipulating>
 

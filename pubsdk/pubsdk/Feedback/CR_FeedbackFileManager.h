@@ -27,13 +27,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-
 @interface CR_FeedbackFileManager : NSObject <CR_FeedbackFileManaging>
 
 @property(strong, nonatomic) NSString *sendingQueueFilePath;
 
-- (instancetype)initWithFileManipulating:(NSObject <CR_FileManipulating> *)fileManipulating
-                activeMetricsMaxFileSize:(NSUInteger)activeMetricsMaxFileSize NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithFileManipulating:(NSObject<CR_FileManipulating> *)fileManipulating
+                activeMetricsMaxFileSize:(NSUInteger)activeMetricsMaxFileSize
+    NS_DESIGNATED_INITIALIZER;
 
 @end
 

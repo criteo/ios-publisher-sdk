@@ -11,11 +11,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_Timer : NSObject
 
-@property (nonatomic, assign, readonly, getter=isValid) BOOL valid;
+@property(nonatomic, assign, readonly, getter=isValid) BOOL valid;
 
 + (CR_Timer *)scheduledTimerWithTimeInterval:(NSTimeInterval)interval
-                               repeats:(BOOL)repeats
-                                 block:(void (^)(NSTimer *timer))block;
+                                     repeats:(BOOL)repeats
+                                       block:(void (^)(NSTimer *timer))block;
 
 @end
 

@@ -13,20 +13,21 @@
 @implementation CR_TokenValue (Testing)
 
 + (CR_TokenValue *)tokenValueWithDisplayUrl:(NSString *)displayUrl adUnit:(CRAdUnit *)adUnit {
-    return [CR_TokenValue tokenValueWithDisplayUrl:displayUrl adUnit:adUnit expired:NO];
+  return [CR_TokenValue tokenValueWithDisplayUrl:displayUrl adUnit:adUnit expired:NO];
 }
 
-+ (CR_TokenValue *)tokenValueWithDisplayUrl:(NSString *)displayUrl adUnit:(CRAdUnit *)adUnit expired:(BOOL)expired {
-    CR_CdbBidBuilder *builder = CR_CdbBidBuilder.new.displayUrl(displayUrl);
++ (CR_TokenValue *)tokenValueWithDisplayUrl:(NSString *)displayUrl
+                                     adUnit:(CRAdUnit *)adUnit
+                                    expired:(BOOL)expired {
+  CR_CdbBidBuilder *builder = CR_CdbBidBuilder.new.displayUrl(displayUrl);
 
-    if (expired) {
-        builder = builder.expiredInsertTime();
-    }
+  if (expired) {
+    builder = builder.expiredInsertTime();
+  }
 
-    CR_CdbBid *cdbBid = builder.build;
+  CR_CdbBid *cdbBid = builder.build;
 
-    return [CR_TokenValue.alloc initWithCdbBid:cdbBid adUnit:adUnit];
+  return [CR_TokenValue.alloc initWithCdbBid:cdbBid adUnit:adUnit];
 }
-
 
 @end

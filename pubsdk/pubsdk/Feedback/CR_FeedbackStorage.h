@@ -16,8 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_FeedbackStorage : NSObject
 
-- (instancetype)initWithFileManager:(id <CR_FeedbackFileManaging>)fileManaging
-                          withQueue:(CASObjectQueue<CR_FeedbackMessage *> *)queue NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithFileManager:(id<CR_FeedbackFileManaging>)fileManaging
+                          withQueue:(CASObjectQueue<CR_FeedbackMessage *> *)queue
+    NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithSendingQueueMaxSize:(NSUInteger)sendingQueueMaxSize;
 
@@ -30,7 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 
  In case the object doesn't exists, it creates a new empty object before updating.
  */
-- (void)updateMessageWithImpressionId:(NSString *)impressionId by:(void (^)(CR_FeedbackMessage *message))updateFunction;
+- (void)updateMessageWithImpressionId:(NSString *)impressionId
+                                   by:(void (^)(CR_FeedbackMessage *message))updateFunction;
 
 @end
 

@@ -20,22 +20,20 @@ typedef void (^CR_NMResponse)(NSData *_Nullable data, NSError *_Nullable error);
 
 @interface CR_NetworkManager : NSObject
 
-@property (nonatomic) id<CR_NetworkManagerDelegate> delegate;
+@property(nonatomic) id<CR_NetworkManagerDelegate> delegate;
 
-- (instancetype) init NS_UNAVAILABLE;
-- (instancetype) initWithDeviceInfo:(CR_DeviceInfo*)deviceInfo;
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithDeviceInfo:(CR_DeviceInfo *)deviceInfo;
 - (instancetype)initWithDeviceInfo:(CR_DeviceInfo *)deviceInfo
                            session:(NSURLSession *)session
-                     threadManager:(CR_ThreadManager *)threadManager
-NS_DESIGNATED_INITIALIZER;
+                     threadManager:(CR_ThreadManager *)threadManager NS_DESIGNATED_INITIALIZER;
 
-- (void) getFromUrl:(NSURL *) url
-    responseHandler:(nullable CR_NMResponse) responseHandler;
+- (void)getFromUrl:(NSURL *)url responseHandler:(nullable CR_NMResponse)responseHandler;
 
 // Assumes all POST calls are made via JSON
-- (void) postToUrl:(NSURL *) url
-          postBody:(NSDictionary *) postBody
-   responseHandler:(nullable CR_NMResponse) responseHandler;
+- (void)postToUrl:(NSURL *)url
+           postBody:(NSDictionary *)postBody
+    responseHandler:(nullable CR_NMResponse)responseHandler;
 
 @end
 

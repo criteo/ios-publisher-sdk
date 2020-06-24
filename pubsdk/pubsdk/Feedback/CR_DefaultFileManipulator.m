@@ -10,50 +10,53 @@
 @implementation CR_DefaultFileManipulator
 
 - (nullable NSData *)readDataForAbsolutePath:(nonnull NSString *)path {
-    return [NSData dataWithContentsOfFile:path];
+  return [NSData dataWithContentsOfFile:path];
 }
 
 - (void)writeData:(nonnull NSData *)data forAbsolutePath:(nonnull NSString *)path {
-    NSError *error = nil;
-    [data writeToFile:path
-              options:NSDataWritingAtomic
-                error:&error];
-    NSAssert(!error, @"Impossible to write to file: %@ with error %@", path, error);
+  NSError *error = nil;
+  [data writeToFile:path options:NSDataWritingAtomic error:&error];
+  NSAssert(!error, @"Impossible to write to file: %@ with error %@", path, error);
 }
 
-- (nonnull NSArray<NSURL *> *)URLsForDirectory:(NSSearchPathDirectory)directory inDomains:(NSSearchPathDomainMask)domainMask {
-    return [[NSFileManager defaultManager] URLsForDirectory:directory inDomains:domainMask];
+- (nonnull NSArray<NSURL *> *)URLsForDirectory:(NSSearchPathDirectory)directory
+                                     inDomains:(NSSearchPathDomainMask)domainMask {
+  return [[NSFileManager defaultManager] URLsForDirectory:directory inDomains:domainMask];
 }
 
-- (nullable NSArray<NSString *> *)contentsOfDirectoryAtPath:(NSString *)path error:(NSError **)error {
-    return [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:error];
+- (nullable NSArray<NSString *> *)contentsOfDirectoryAtPath:(NSString *)path
+                                                      error:(NSError **)error {
+  return [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:error];
 }
 
 - (NSUInteger)sizeOfDirectoryAtPath:(NSString *)path error:(NSError **)error {
-    NSArray<NSString *> *files = [self contentsOfDirectoryAtPath:path error:error];
-    NSUInteger size = 0;
-    for (NSString *file in files) {
-        NSString *filePath = [path stringByAppendingPathComponent:file];
-        NSDictionary<NSFileAttributeKey, id> *attributes =
-            [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:error];
-        size += [attributes fileSize];
-    }
-    return size;
+  NSArray<NSString *> *files = [self contentsOfDirectoryAtPath:path error:error];
+  NSUInteger size = 0;
+  for (NSString *file in files) {
+    NSString *filePath = [path stringByAppendingPathComponent:file];
+    NSDictionary<NSFileAttributeKey, id> *attributes =
+        [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:error];
+    size += [attributes fileSize];
+  }
+  return size;
 }
 
 - (BOOL)createDirectoryAtPath:(NSString *)path
-  withIntermediateDirectories:(BOOL)createIntermediates
-                   attributes:(nullable NSDictionary<NSFileAttributeKey, id> *)attributes
-                        error:(NSError **)error {
-    return [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:createIntermediates attributes:attributes error:error];
+    withIntermediateDirectories:(BOOL)createIntermediates
+                     attributes:(nullable NSDictionary<NSFileAttributeKey, id> *)attributes
+                          error:(NSError **)error {
+  return [[NSFileManager defaultManager] createDirectoryAtPath:path
+                                   withIntermediateDirectories:createIntermediates
+                                                    attributes:attributes
+                                                         error:error];
 }
 
 - (BOOL)fileExistsAtPath:(nonnull NSString *)path isDirectory:(nullable BOOL *)isDirectory {
-    return [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:isDirectory];
+  return [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:isDirectory];
 }
 
 - (BOOL)removeItemAtPath:(NSString *)path error:(NSError **)error {
-    return [[NSFileManager defaultManager] removeItemAtPath:path error:error];
+  return [[NSFileManager defaultManager] removeItemAtPath:path error:error];
 }
 
 @end

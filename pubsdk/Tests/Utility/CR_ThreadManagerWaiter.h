@@ -16,9 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager;
 
 /**
-* Wait the idle state with a default timeout relevant for
+ * Wait the idle state with a default timeout relevant for
  * the unit tests and the integrations tests.
-*/
+ */
 - (void)waitIdle;
 
 /**

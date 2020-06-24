@@ -17,30 +17,30 @@ static const CGSize nativeSize = {2.0, 2.0};
 
 // return an array of cacheAdUnits
 + (CR_CacheAdUnitArray *)cacheAdUnitsForAdUnits:(NSArray<CRAdUnit *> *)adUnits {
-    NSMutableArray<CR_CacheAdUnit *> *cacheAdUnits = [NSMutableArray new];
-    for(int i = 0; i < [adUnits count]; i++) {
-        [cacheAdUnits addObject:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnits[i]]];
-    }
-    return [cacheAdUnits copy];
+  NSMutableArray<CR_CacheAdUnit *> *cacheAdUnits = [NSMutableArray new];
+  for (int i = 0; i < [adUnits count]; i++) {
+    [cacheAdUnits addObject:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnits[i]]];
+  }
+  return [cacheAdUnits copy];
 }
 
 + (CR_CacheAdUnit *)cacheAdUnitForAdUnit:(CRAdUnit *)adUnit {
-    switch([adUnit adUnitType]) {
-        case CRAdUnitTypeBanner:
-            return [[CR_CacheAdUnit alloc] initWithAdUnitId:[adUnit adUnitId]
-                                                      size:[(CRBannerAdUnit *)adUnit size]
-                                                 adUnitType:CRAdUnitTypeBanner];
-        case CRAdUnitTypeInterstitial:
-            return [CR_CacheAdUnit cacheAdUnitForInterstialWithAdUnitId:adUnit.adUnitId
-                    size:[CR_DeviceInfo getScreenSize]];
-        case CRAdUnitTypeNative:
-            return [[CR_CacheAdUnit alloc] initWithAdUnitId:adUnit.adUnitId
-                                                       size:nativeSize
-                                                   adUnitType:CRAdUnitTypeNative];
-        default:
-            CLog(@"cacheAdUnitsFromAdUnits got an unexpected AdUnitType: %d", [adUnit adUnitType]);
-            return nil;
-    }
+  switch ([adUnit adUnitType]) {
+    case CRAdUnitTypeBanner:
+      return [[CR_CacheAdUnit alloc] initWithAdUnitId:[adUnit adUnitId]
+                                                 size:[(CRBannerAdUnit *)adUnit size]
+                                           adUnitType:CRAdUnitTypeBanner];
+    case CRAdUnitTypeInterstitial:
+      return [CR_CacheAdUnit cacheAdUnitForInterstialWithAdUnitId:adUnit.adUnitId
+                                                             size:[CR_DeviceInfo getScreenSize]];
+    case CRAdUnitTypeNative:
+      return [[CR_CacheAdUnit alloc] initWithAdUnitId:adUnit.adUnitId
+                                                 size:nativeSize
+                                           adUnitType:CRAdUnitTypeNative];
+    default:
+      CLog(@"cacheAdUnitsFromAdUnits got an unexpected AdUnitType: %d", [adUnit adUnitType]);
+      return nil;
+  }
 }
 
 @end

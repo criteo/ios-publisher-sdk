@@ -14,8 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_ImpressionDetector : NSObject
 
-@property (weak, nonatomic, readonly) UIView *view;
-@property (weak, nonatomic) id <CR_ImpressionDetectorDelegate> delegate;
+@property(weak, nonatomic, readonly) UIView *view;
+@property(weak, nonatomic) id<CR_ImpressionDetectorDelegate> delegate;
 
 - (instancetype)init NS_UNAVAILABLE;
 

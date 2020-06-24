@@ -10,33 +10,31 @@
 
 @implementation CRBannerAdUnit
 
-- (instancetype) initWithAdUnitId:(NSString *)adUnitId
-                             size:(CGSize)size {
-    if(self = [super initWithAdUnitId:adUnitId adUnitType:CRAdUnitTypeBanner]) {
-        _size = size;
-    }
-    return self;
+- (instancetype)initWithAdUnitId:(NSString *)adUnitId size:(CGSize)size {
+  if (self = [super initWithAdUnitId:adUnitId adUnitType:CRAdUnitTypeBanner]) {
+    _size = size;
+  }
+  return self;
 }
 
-- (NSUInteger) hash
-{
-    return [super hash] ^ (NSUInteger)_size.height ^ (NSUInteger)_size.width;
+- (NSUInteger)hash {
+  return [super hash] ^ (NSUInteger)_size.height ^ (NSUInteger)_size.width;
 }
 
 - (BOOL)isEqual:(nullable id)object {
-    if (self == object) {
-        return YES;
-    }
+  if (self == object) {
+    return YES;
+  }
 
-    if (![object isKindOfClass:CRBannerAdUnit.class]) {
-        return NO;
-    }
+  if (![object isKindOfClass:CRBannerAdUnit.class]) {
+    return NO;
+  }
 
-    return [self isEqualToBannerAdUnit:object];
+  return [self isEqualToBannerAdUnit:object];
 }
 
 - (BOOL)isEqualToBannerAdUnit:(CRBannerAdUnit *)adUnit {
-    return CGSizeEqualToSize(_size, adUnit->_size) && [self isEqualToAdUnit:adUnit];
+  return CGSizeEqualToSize(_size, adUnit->_size) && [self isEqualToAdUnit:adUnit];
 }
 
 @end

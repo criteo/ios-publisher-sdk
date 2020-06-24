@@ -20,27 +20,23 @@
 // All of these tests are "Does Not Crash" tests
 // i.e. Successful execution of the test method means that the test passes
 
-- (void) testLogging
-{
-    NSString *testStr = @"This must not cause a crash";
+- (void)testLogging {
+  NSString *testStr = @"This must not cause a crash";
 
-    CLog(@"%@", testStr);
+  CLog(@"%@", testStr);
 }
 
-- (void) testLoggingNilVarArg
-{
-    CLog(@"%@", nil);
+- (void)testLoggingNilVarArg {
+  CLog(@"%@", nil);
 }
 
-- (void) testLoggingEmptyString
-{
-    CLog(@"");
+- (void)testLoggingEmptyString {
+  CLog(@"");
 }
 
-- (void) testLoggingEmptyStringWithVarArg
-{
-    CLog(@"", nil);
-    CLog(@"", @"SomeVarArg");
+- (void)testLoggingEmptyStringWithVarArg {
+  CLog(@"", nil);
+  CLog(@"", @"SomeVarArg");
 }
 
 @end

@@ -1,0 +1,7 @@
+---
+BasedOnStyle: Google
+SortIncludes: false
+---
+Language: ObjC
+BreakStringLiterals: false
+---

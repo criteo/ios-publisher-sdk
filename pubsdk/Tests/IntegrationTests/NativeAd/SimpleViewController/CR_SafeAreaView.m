@@ -9,7 +9,7 @@
 
 @interface CR_SafeAreaView ()
 
-@property (strong, nonatomic) UILabel *unsafeAreaLabel;
+@property(strong, nonatomic) UILabel *unsafeAreaLabel;
 
 @end
 
@@ -18,55 +18,44 @@
 #pragma mark - Public
 
 - (CGRect)unsafeAreaFrame {
-    return (CGRect) {
-        0, 0,
-        CGRectGetWidth(self.bounds),
-        CGRectGetHeight(self.bounds) / 2
-    };
+  return (CGRect){0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds) / 2};
 }
 
 - (CGRect)safeAreaFrame {
-    return (CGRect) {
-        0,
-        CGRectGetHeight(self.bounds) / 2,
-        CGRectGetWidth(self.bounds),
-        CGRectGetHeight(self.bounds) / 2
-    };
+  return (CGRect){0, CGRectGetHeight(self.bounds) / 2, CGRectGetWidth(self.bounds),
+                  CGRectGetHeight(self.bounds) / 2};
 }
 
 #pragma mark - UIView
 
--(void)layoutSubviews {
-    [super layoutSubviews];
-    [self addUnsafeAreaLabelIfNeeded];
-    self.unsafeAreaLabel.frame = self.unsafeAreaFrame;
-    [self bringSubviewToFront:self.unsafeAreaLabel];
+- (void)layoutSubviews {
+  [super layoutSubviews];
+  [self addUnsafeAreaLabelIfNeeded];
+  self.unsafeAreaLabel.frame = self.unsafeAreaFrame;
+  [self bringSubviewToFront:self.unsafeAreaLabel];
 }
 
 - (UIEdgeInsets)safeAreaInsets {
-    return (UIEdgeInsets) {
-        CGRectGetHeight(self.bounds) / 2,
-        0, 0, 0
-    };
+  return (UIEdgeInsets){CGRectGetHeight(self.bounds) / 2, 0, 0, 0};
 }
 
 #pragma mark - Private
 
 - (void)addUnsafeAreaLabelIfNeeded {
-    if (self.unsafeAreaLabel != nil) {
-        return;
-    }
+  if (self.unsafeAreaLabel != nil) {
+    return;
+  }
 
-    self.unsafeAreaLabel = [self buildUnsafeAreaLabel];
-    [self addSubview:self.unsafeAreaLabel];
+  self.unsafeAreaLabel = [self buildUnsafeAreaLabel];
+  [self addSubview:self.unsafeAreaLabel];
 }
 
 - (UILabel *)buildUnsafeAreaLabel {
-    UILabel *label = [[UILabel alloc] initWithFrame:self.unsafeAreaFrame];
-    label.text = @"Unsafe Area";
-    label.alpha = 0.5;
-    label.backgroundColor = [UIColor grayColor];
-    return label;
+  UILabel *label = [[UILabel alloc] initWithFrame:self.unsafeAreaFrame];
+  label.text = @"Unsafe Area";
+  label.alpha = 0.5;
+  label.backgroundColor = [UIColor grayColor];
+  return label;
 }
 
 @end

@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param image Downloaded UImage, nil on error
  * @param error Download error, nil on successful download
  */
-typedef void(^CRImageDownloaderHandler)(UIImage *_Nullable image, NSError *_Nullable error);
+typedef void (^CRImageDownloaderHandler)(UIImage *_Nullable image, NSError *_Nullable error);
 
 /**
  * Media downloader interface

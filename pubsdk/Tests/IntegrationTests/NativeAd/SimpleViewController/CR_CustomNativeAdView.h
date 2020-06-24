@@ -14,8 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_CustomNativeAdView : CRNativeAdView
 
-@property (strong, nonatomic) CRMediaView *productMediaView;
-@property (strong, nonatomic) CRMediaView *advertiserLogoMediaView;
+@property(strong, nonatomic) CRMediaView *productMediaView;
+@property(strong, nonatomic) CRMediaView *advertiserLogoMediaView;
 
 @end
 

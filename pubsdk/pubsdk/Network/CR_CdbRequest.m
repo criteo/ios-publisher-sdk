@@ -11,46 +11,46 @@
 
 @interface CR_CdbRequest ()
 
-@property (strong, nonatomic) NSDictionary *adUnitToImpressionIdMap;
+@property(strong, nonatomic) NSDictionary *adUnitToImpressionIdMap;
 
 @end
 
 @implementation CR_CdbRequest
 
 - (instancetype)initWithAdUnits:(CR_CacheAdUnitArray *)adUnits {
-    if (self = [super init]) {
-        _adUnits = adUnits;
-        _adUnitToImpressionIdMap = [self buildAdUnitToImpressionIdMapForAdUnits:adUnits];
-    }
-    return self;
+  if (self = [super init]) {
+    _adUnits = adUnits;
+    _adUnitToImpressionIdMap = [self buildAdUnitToImpressionIdMapForAdUnits:adUnits];
+  }
+  return self;
 }
 
 - (NSDictionary *)buildAdUnitToImpressionIdMapForAdUnits:(CR_CacheAdUnitArray *)adUnits {
-    NSMutableDictionary *map = [[NSMutableDictionary alloc] init];
-    for (CR_CacheAdUnit *adUnit in adUnits) {
-        map[adUnit] = [CR_UniqueIdGenerator generateId];
-    }
-    return map;
+  NSMutableDictionary *map = [[NSMutableDictionary alloc] init];
+  for (CR_CacheAdUnit *adUnit in adUnits) {
+    map[adUnit] = [CR_UniqueIdGenerator generateId];
+  }
+  return map;
 }
 
 - (NSString *)impressionIdForAdUnit:(CR_CacheAdUnit *)adUnit {
-    return self.adUnitToImpressionIdMap[adUnit];
+  return self.adUnitToImpressionIdMap[adUnit];
 }
 
 - (NSArray<NSString *> *)impressionIds {
-    return self.adUnitToImpressionIdMap.allValues;
+  return self.adUnitToImpressionIdMap.allValues;
 }
 
 - (NSArray<NSString *> *)impressionIdsMissingInCdbResponse:(CR_CdbResponse *)cdbResponse {
-    NSMutableArray<NSString *> *cdbRequestBidImpressionIds = [[NSMutableArray alloc] init];
-    for (CR_CdbBid *bid in cdbResponse.cdbBids) {
-        if (bid.impressionId) {
-            [cdbRequestBidImpressionIds addObject:bid.impressionId];
-        }
+  NSMutableArray<NSString *> *cdbRequestBidImpressionIds = [[NSMutableArray alloc] init];
+  for (CR_CdbBid *bid in cdbResponse.cdbBids) {
+    if (bid.impressionId) {
+      [cdbRequestBidImpressionIds addObject:bid.impressionId];
     }
-    NSMutableArray<NSString *> *result = [NSMutableArray arrayWithArray:self.impressionIds];
-    [result removeObjectsInArray:cdbRequestBidImpressionIds];
-    return result;
+  }
+  NSMutableArray<NSString *> *result = [NSMutableArray arrayWithArray:self.impressionIds];
+  [result removeObjectsInArray:cdbRequestBidImpressionIds];
+  return result;
 }
 
 @end

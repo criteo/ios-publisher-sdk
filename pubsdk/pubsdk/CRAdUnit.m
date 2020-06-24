@@ -8,37 +8,34 @@
 #import "CRAdUnit.h"
 #import "CRAdUnit+Internal.h"
 
-
 @implementation CRAdUnit
 
-- (instancetype) initWithAdUnitId:(NSString *)adUnitId
-                       adUnitType:(CRAdUnitType)adUnitType {
-    if(self = [super init]) {
-        _adUnitId = adUnitId;
-        _adUnitType = adUnitType;
-    }
-    return self;
+- (instancetype)initWithAdUnitId:(NSString *)adUnitId adUnitType:(CRAdUnitType)adUnitType {
+  if (self = [super init]) {
+    _adUnitId = adUnitId;
+    _adUnitType = adUnitType;
+  }
+  return self;
 }
 
-- (NSUInteger) hash
-{
-    return _adUnitId.hash ^ (NSUInteger)_adUnitType;
+- (NSUInteger)hash {
+  return _adUnitId.hash ^ (NSUInteger)_adUnitType;
 }
 
 - (BOOL)isEqual:(nullable id)object {
-    if (object == self) {
-        return YES;
-    }
+  if (object == self) {
+    return YES;
+  }
 
-    if (![object isKindOfClass:CRAdUnit.class]) {
-        return NO;
-    }
+  if (![object isKindOfClass:CRAdUnit.class]) {
+    return NO;
+  }
 
-    return [self isEqualToAdUnit:object];
+  return [self isEqualToAdUnit:object];
 }
 
 - (BOOL)isEqualToAdUnit:(CRAdUnit *)adUnit {
-    return _adUnitType == adUnit->_adUnitType && [_adUnitId isEqualToString:adUnit->_adUnitId];
+  return _adUnitType == adUnit->_adUnitType && [_adUnitId isEqualToString:adUnit->_adUnitId];
 }
 
 @end

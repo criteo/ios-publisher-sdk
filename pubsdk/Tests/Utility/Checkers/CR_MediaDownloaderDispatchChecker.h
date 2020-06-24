@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_MediaDownloaderDispatchChecker : NSObject <CRMediaDownloader>
 
-@property (strong, nonatomic) XCTestExpectation *didDownloadImageOnMainQueue;
+@property(strong, nonatomic) XCTestExpectation *didDownloadImageOnMainQueue;
 
 @end
 

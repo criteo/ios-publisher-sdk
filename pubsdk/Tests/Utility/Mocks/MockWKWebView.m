@@ -9,12 +9,11 @@
 
 @implementation MockWKWebView
 
-- (nullable WKNavigation *)loadHTMLString:(NSString *)string baseURL:(nullable NSURL *)baseURL
-{
-    self.loadedBaseURL = baseURL;
-    self.loadedHTMLString = string;
-    [super loadHTMLString:string baseURL:baseURL];
-    return nil;
+- (nullable WKNavigation *)loadHTMLString:(NSString *)string baseURL:(nullable NSURL *)baseURL {
+  self.loadedBaseURL = baseURL;
+  self.loadedHTMLString = string;
+  [super loadHTMLString:string baseURL:baseURL];
+  return nil;
 }
 
 @end

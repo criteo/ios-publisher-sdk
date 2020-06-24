@@ -22,67 +22,72 @@ static NSString *creativeUrl2 = @"www.apple.com";
 @implementation CR_StandaloneBannerFunctionalTests
 
 - (void)test_givenBannerWithBadAdUnitId_whenLoadAd_thenDelegateReceiveFail {
-    CRBannerAdUnit *banner = [CR_TestAdUnits randomBanner320x50];
-    [self initCriteoWithAdUnits:@[banner]];
+  CRBannerAdUnit *banner = [CR_TestAdUnits randomBanner320x50];
+  [self initCriteoWithAdUnits:@[ banner ]];
 
-    CR_CreativeViewChecker *viewChecker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner criteo:self.criteo];
+  CR_CreativeViewChecker *viewChecker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner
+                                                                                criteo:self.criteo];
 
-    [viewChecker.bannerView loadAd];
+  [viewChecker.bannerView loadAd];
 
-    [self cr_waitForExpectations:@[viewChecker.bannerViewFailToReceiveAdExpectation]];
+  [self cr_waitForExpectations:@[ viewChecker.bannerViewFailToReceiveAdExpectation ]];
 }
 
 - (void)test_givenBannerWithGoodAdUnitId_whenLoadAd_thenDelegateInvoked {
-    CRBannerAdUnit *banner = [CR_TestAdUnits demoBanner320x50];
-    [self initCriteoWithAdUnits:@[banner]];
-    CR_CreativeViewChecker *viewChecker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner criteo:self.criteo];
+  CRBannerAdUnit *banner = [CR_TestAdUnits demoBanner320x50];
+  [self initCriteoWithAdUnits:@[ banner ]];
+  CR_CreativeViewChecker *viewChecker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner
+                                                                                criteo:self.criteo];
 
-    [viewChecker.bannerView loadAd];
+  [viewChecker.bannerView loadAd];
 
-    [self cr_waitForExpectations:@[viewChecker.bannerViewDidReceiveAdExpectation]];
+  [self cr_waitForExpectations:@[ viewChecker.bannerViewDidReceiveAdExpectation ]];
 }
 
 - (void)test_givenBannerWithGoodAdUnitId_whenLoadAd_thenAdIsLoadedProperly {
-    CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
-    [self initCriteoWithAdUnits:@[banner]];
-    CR_CreativeViewChecker *viewChecker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner criteo:self.criteo];
+  CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
+  [self initCriteoWithAdUnits:@[ banner ]];
+  CR_CreativeViewChecker *viewChecker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner
+                                                                                criteo:self.criteo];
 
-    [viewChecker.bannerView loadAd];
+  [viewChecker.bannerView loadAd];
 
-    [self cr_waitForExpectations:@[viewChecker.adCreativeRenderedExpectation]];
+  [self cr_waitForExpectations:@[ viewChecker.adCreativeRenderedExpectation ]];
 }
 
 - (void)test_givenTwoAdRenderings_whenReuseSameBannerView_thenTwoAdsPresented {
-    CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
-    [self initCriteoWithAdUnits:@[banner]];
-    CR_CreativeViewChecker *viewChecker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner criteo:self.criteo];
+  CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
+  [self initCriteoWithAdUnits:@[ banner ]];
+  CR_CreativeViewChecker *viewChecker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner
+                                                                                criteo:self.criteo];
 
-    [viewChecker injectBidWithExpectedCreativeUrl:creativeUrl1];
-    [viewChecker.bannerView loadAd];
-    [self cr_waitForExpectations:@[viewChecker.adCreativeRenderedExpectation]];
+  [viewChecker injectBidWithExpectedCreativeUrl:creativeUrl1];
+  [viewChecker.bannerView loadAd];
+  [self cr_waitForExpectations:@[ viewChecker.adCreativeRenderedExpectation ]];
 
-    [viewChecker resetExpectations];
+  [viewChecker resetExpectations];
 
-    [viewChecker injectBidWithExpectedCreativeUrl:creativeUrl2];
-    [viewChecker.bannerView loadAd];
-    [self cr_waitForExpectations:@[viewChecker.adCreativeRenderedExpectation]];
+  [viewChecker injectBidWithExpectedCreativeUrl:creativeUrl2];
+  [viewChecker.bannerView loadAd];
+  [self cr_waitForExpectations:@[ viewChecker.adCreativeRenderedExpectation ]];
 }
 
 - (void)test_givenTwoAdRenderings_whenRecreateBannerView_thenTwoAdsPresented {
-    CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
-    [self initCriteoWithAdUnits:@[banner]];
-    CR_CreativeViewChecker *viewChecker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner criteo:self.criteo];
+  CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
+  [self initCriteoWithAdUnits:@[ banner ]];
+  CR_CreativeViewChecker *viewChecker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner
+                                                                                criteo:self.criteo];
 
-    [viewChecker injectBidWithExpectedCreativeUrl:creativeUrl1];
-    [viewChecker.bannerView loadAd];
-    [self cr_waitForExpectations:@[viewChecker.adCreativeRenderedExpectation]];
+  [viewChecker injectBidWithExpectedCreativeUrl:creativeUrl1];
+  [viewChecker.bannerView loadAd];
+  [self cr_waitForExpectations:@[ viewChecker.adCreativeRenderedExpectation ]];
 
-    [viewChecker resetExpectations];
-    [viewChecker resetBannerView];
+  [viewChecker resetExpectations];
+  [viewChecker resetBannerView];
 
-    [viewChecker injectBidWithExpectedCreativeUrl:creativeUrl2];
-    [viewChecker.bannerView loadAd];
-    [self cr_waitForExpectations:@[viewChecker.adCreativeRenderedExpectation]];
+  [viewChecker injectBidWithExpectedCreativeUrl:creativeUrl2];
+  [viewChecker.bannerView loadAd];
+  [self cr_waitForExpectations:@[ viewChecker.adCreativeRenderedExpectation ]];
 }
 
 @end

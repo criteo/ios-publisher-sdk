@@ -14,15 +14,15 @@
 
 @interface CR_CacheManager : NSObject
 
-@property (nonatomic, strong) NSMutableDictionary<CR_CacheAdUnit *, CR_CdbBid *> *bidCache;
+@property(nonatomic, strong) NSMutableDictionary<CR_CacheAdUnit *, CR_CdbBid *> *bidCache;
 
-- (void) initSlots: (CR_CacheAdUnitArray *) slotIds;
+- (void)initSlots:(CR_CacheAdUnitArray *)slotIds;
 
-- (CR_CacheAdUnit *)setBid: (CR_CdbBid *) bid;
+- (CR_CacheAdUnit *)setBid:(CR_CdbBid *)bid;
 
-- (CR_CdbBid *) getBidForAdUnit: (CR_CacheAdUnit *) adUnit;
+- (CR_CdbBid *)getBidForAdUnit:(CR_CacheAdUnit *)adUnit;
 
-- (void) removeBidForAdUnit: (CR_CacheAdUnit *) adUnit;
+- (void)removeBidForAdUnit:(CR_CacheAdUnit *)adUnit;
 
 @end
 

@@ -11,7 +11,7 @@ SCRIPT_DIRECTORY="$(
 source "$SCRIPT_DIRECTORY"/base.sh
 "${SCRIPT_DIRECTORY}"/setup.sh
 
-bundle exec fastlane tests
+bundle exec fastlane test
 
 "${SCRIPT_DIRECTORY}"/archive.sh
 "${SCRIPT_DIRECTORY}"/test-app-integration.sh

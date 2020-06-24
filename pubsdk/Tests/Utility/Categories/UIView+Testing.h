@@ -10,6 +10,6 @@
 
 - (UIWebView *)testing_findFirstWebView;
 - (WKWebView *)testing_findFirstWKWebView;
-- (NSMutableArray*)testing_findAllElementsOfClass:(Class)class;
+- (NSMutableArray *)testing_findAllElementsOfClass:(Class)class;
 
 @end

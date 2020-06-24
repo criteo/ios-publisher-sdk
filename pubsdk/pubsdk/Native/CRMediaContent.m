@@ -14,12 +14,12 @@
 @implementation CRMediaContent
 
 - (instancetype)initWithNativeImage:(CR_NativeImage *)image
-                    mediaDownloader:(id <CRMediaDownloader>)mediaDownloader {
-    if (self = [super init]) {
-        _url = [NSURL cr_URLWithStringOrNil:image.url];
-        _mediaDownloader = mediaDownloader;
-    }
-    return self;
+                    mediaDownloader:(id<CRMediaDownloader>)mediaDownloader {
+  if (self = [super init]) {
+    _url = [NSURL cr_URLWithStringOrNil:image.url];
+    _mediaDownloader = mediaDownloader;
+  }
+  return self;
 }
 
 @end

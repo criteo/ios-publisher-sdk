@@ -10,7 +10,7 @@
 
 @class CRInterstitial;
 
-@protocol CRInterstitialDelegate  <NSObject>
+@protocol CRInterstitialDelegate <NSObject>
 @optional
 
 - (void)interstitialDidReceiveAd:(CRInterstitial *)interstitial;
@@ -26,7 +26,8 @@
 - (void)interstitialWasClicked:(CRInterstitial *)interstitial;
 
 - (void)interstitialIsReadyToPresent:(CRInterstitial *)interstitial;
-- (void)interstitial:(CRInterstitial *)interstitial didFailToReceiveAdContentWithError:(NSError *)error;
+- (void)interstitial:(CRInterstitial *)interstitial
+    didFailToReceiveAdContentWithError:(NSError *)error;
 
 @end
 

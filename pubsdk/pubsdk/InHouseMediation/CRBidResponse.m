@@ -9,16 +9,15 @@
 
 @implementation CRBidResponse
 
-- (instancetype) initWithPrice:(double) price
-                    bidSuccess:(BOOL) bidSuccess
-                      bidToken:(CRBidToken*)bidToken {
-    if (self = [super init]){
-        _price = price;
-        _bidSuccess = bidSuccess;
-        _bidToken = bidToken;
-    }
-    return self;
+- (instancetype)initWithPrice:(double)price
+                   bidSuccess:(BOOL)bidSuccess
+                     bidToken:(CRBidToken*)bidToken {
+  if (self = [super init]) {
+    _price = price;
+    _bidSuccess = bidSuccess;
+    _bidToken = bidToken;
+  }
+  return self;
 }
-
 
 @end

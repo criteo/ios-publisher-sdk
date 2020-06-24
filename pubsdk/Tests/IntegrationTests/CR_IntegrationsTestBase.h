@@ -11,7 +11,7 @@
 
 @interface CR_IntegrationsTestBase : XCTestCase
 
-@property (nonatomic) Criteo* criteo;
+@property(nonatomic) Criteo *criteo;
 
 - (void)initCriteoWithAdUnits:(NSArray<CRAdUnit *> *)adUnits;
 

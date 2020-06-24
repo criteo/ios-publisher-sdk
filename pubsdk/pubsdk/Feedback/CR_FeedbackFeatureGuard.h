@@ -15,8 +15,7 @@
 - (instancetype)init NS_UNAVAILABLE;
 
 - (instancetype)initWithController:(CR_FeedbackController *)controller
-                            config:(CR_Config *)config
-NS_DESIGNATED_INITIALIZER;
+                            config:(CR_Config *)config NS_DESIGNATED_INITIALIZER;
 
 @end
 

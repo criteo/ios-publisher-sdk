@@ -12,11 +12,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_NativeLoaderDispatchChecker : NSObject <CRNativeLoaderDelegate>
 
-@property (strong, nonatomic) XCTestExpectation *didReceiveOnMainQueue;
-@property (strong, nonatomic) XCTestExpectation *didFailOnMainQueue;
-@property (strong, nonatomic) XCTestExpectation *didDetectImpression;
-@property (strong, nonatomic) XCTestExpectation *didDetectClick;
-@property (strong, nonatomic) XCTestExpectation *willLeaveApplicationForNativeAd;
+@property(strong, nonatomic) XCTestExpectation *didReceiveOnMainQueue;
+@property(strong, nonatomic) XCTestExpectation *didFailOnMainQueue;
+@property(strong, nonatomic) XCTestExpectation *didDetectImpression;
+@property(strong, nonatomic) XCTestExpectation *didDetectClick;
+@property(strong, nonatomic) XCTestExpectation *willLeaveApplicationForNativeAd;
 
 @end
 

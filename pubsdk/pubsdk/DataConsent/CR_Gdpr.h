@@ -13,15 +13,16 @@ NS_ASSUME_NONNULL_BEGIN
  Versions of the Transparency and Consent Framework (TCF).
  */
 typedef NS_ENUM(NSInteger, CR_GdprTcfVersion) {
-    CR_GdprTcfVersionUnknown = 0,
-    CR_GdprTcfVersion1_1,
-    CR_GdprTcfVersion2_0,
+  CR_GdprTcfVersionUnknown = 0,
+  CR_GdprTcfVersion1_1,
+  CR_GdprTcfVersion2_0,
 };
 
 /**
  The IAB implementation of  the European General Data Protection Regulation (GDPR).
 
- Specification: https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework
+ Specification:
+ https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework
  */
 @interface CR_Gdpr : NSObject
 
@@ -30,17 +31,17 @@ typedef NS_ENUM(NSInteger, CR_GdprTcfVersion) {
 
  If two versions co-exist, we take the highest one.
  */
-@property (nonatomic, readonly, assign) CR_GdprTcfVersion tcfVersion;
+@property(nonatomic, readonly, assign) CR_GdprTcfVersion tcfVersion;
 
 /**
  String specified by IAB that content all elements regarding the consent
  */
-@property (copy, nonatomic, readonly, nullable) NSString *consentString;
+@property(copy, nonatomic, readonly, nullable) NSString *consentString;
 
 /**
  @YES if the GDPR is applied on this device.
  */
-@property (copy, nonatomic, readonly, nullable) NSNumber *applies;
+@property(copy, nonatomic, readonly, nullable) NSNumber *applies;
 
 - (instancetype)initWithUserDefaults:(NSUserDefaults *)userDefaults NS_DESIGNATED_INITIALIZER;
 

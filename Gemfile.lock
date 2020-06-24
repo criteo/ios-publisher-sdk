@@ -131,6 +131,7 @@ GEM
       xcodeproj (>= 1.13.0, < 2.0.0)
       xcpretty (~> 0.3.0)
       xcpretty-travis-formatter (>= 0.0.3)
+    fastlane-plugin-clang_format (1.0.0)
     fastlane-plugin-test_center (3.11.3)
       colorize
       json
@@ -247,6 +248,7 @@ PLATFORMS
 DEPENDENCIES
   cocoapods
   fastlane
+  fastlane-plugin-clang_format
   fastlane-plugin-test_center
 
 BUNDLED WITH

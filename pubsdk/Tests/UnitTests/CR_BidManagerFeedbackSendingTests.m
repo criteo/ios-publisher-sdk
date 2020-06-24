@@ -13,74 +13,75 @@
 
 @interface CR_BidManagerFeedbackSendingTests : XCTestCase
 
-@property (nonatomic, strong) CR_BidManager *bidManager;
-@property (nonatomic, strong) CR_ApiHandler *apiHandlerMock;
-@property (nonatomic, strong) CASObjectQueue *feedbackSendingQueue;
-@property (nonatomic, strong) CR_CacheAdUnit *adUnit;
+@property(nonatomic, strong) CR_BidManager *bidManager;
+@property(nonatomic, strong) CR_ApiHandler *apiHandlerMock;
+@property(nonatomic, strong) CASObjectQueue *feedbackSendingQueue;
+@property(nonatomic, strong) CR_CacheAdUnit *adUnit;
 
 @end
 
 @implementation CR_BidManagerFeedbackSendingTests
 
 - (void)setUp {
-    self.adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"id" width:300 height:200];
-    self.apiHandlerMock = OCMClassMock([CR_ApiHandler class]);
-    self.feedbackSendingQueue = [[CASInMemoryObjectQueue alloc] init];
-    CR_FeedbackFileManagingMock *fileManagingMock = [[CR_FeedbackFileManagingMock alloc] init];
-    CR_FeedbackStorage *feedbackStorage = [[CR_FeedbackStorage alloc] initWithFileManager:fileManagingMock
-                                                                                withQueue:self.feedbackSendingQueue];
+  self.adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"id" width:300 height:200];
+  self.apiHandlerMock = OCMClassMock([CR_ApiHandler class]);
+  self.feedbackSendingQueue = [[CASInMemoryObjectQueue alloc] init];
+  CR_FeedbackFileManagingMock *fileManagingMock = [[CR_FeedbackFileManagingMock alloc] init];
+  CR_FeedbackStorage *feedbackStorage =
+      [[CR_FeedbackStorage alloc] initWithFileManager:fileManagingMock
+                                            withQueue:self.feedbackSendingQueue];
 
-    CR_DependencyProvider *dependencyProvider = [CR_DependencyProvider testing_dependencyProvider];
-    dependencyProvider.apiHandler = self.apiHandlerMock;
-    dependencyProvider.feedbackStorage = feedbackStorage;
-    self.bidManager = [dependencyProvider bidManager];
+  CR_DependencyProvider *dependencyProvider = [CR_DependencyProvider testing_dependencyProvider];
+  dependencyProvider.apiHandler = self.apiHandlerMock;
+  dependencyProvider.feedbackStorage = feedbackStorage;
+  self.bidManager = [dependencyProvider bidManager];
 }
 
 - (void)testEmptySendingQueue_ShouldNotCallSendMethod {
-    OCMReject([self.apiHandlerMock sendFeedbackMessages:[OCMArg any]
-                                                 config:[OCMArg any]
-                                      completionHandler:[OCMArg any]]);
+  OCMReject([self.apiHandlerMock sendFeedbackMessages:[OCMArg any]
+                                               config:[OCMArg any]
+                                    completionHandler:[OCMArg any]]);
 
-    XCTAssertEqual(self.feedbackSendingQueue.size, 0);
-    [self.bidManager prefetchBid:self.adUnit];
+  XCTAssertEqual(self.feedbackSendingQueue.size, 0);
+  [self.bidManager prefetchBid:self.adUnit];
 }
 
 - (void)testNonEmptySendingQueue_ShouldSendAllMessages {
-    XCTAssertEqual(self.feedbackSendingQueue.size, 0);
-    CR_FeedbackMessage *message1 = [[CR_FeedbackMessage alloc] init];
-    CR_FeedbackMessage *message2 = [[CR_FeedbackMessage alloc] init];
-    [self.feedbackSendingQueue add:message1];
-    [self.feedbackSendingQueue add:message2];
-    [self.bidManager prefetchBid:self.adUnit];
+  XCTAssertEqual(self.feedbackSendingQueue.size, 0);
+  CR_FeedbackMessage *message1 = [[CR_FeedbackMessage alloc] init];
+  CR_FeedbackMessage *message2 = [[CR_FeedbackMessage alloc] init];
+  [self.feedbackSendingQueue add:message1];
+  [self.feedbackSendingQueue add:message2];
+  [self.bidManager prefetchBid:self.adUnit];
 
-    NSArray *messages = @[message1, message2];
-    OCMVerify([self.apiHandlerMock sendFeedbackMessages:messages
-                                                 config:[OCMArg any]
-                                      completionHandler:[OCMArg any]]);
+  NSArray *messages = @[ message1, message2 ];
+  OCMVerify([self.apiHandlerMock sendFeedbackMessages:messages
+                                               config:[OCMArg any]
+                                    completionHandler:[OCMArg any]]);
 }
 
 - (void)testSuccessfulSending_ShouldClearSendingQueue {
-    OCMStub([self.apiHandlerMock sendFeedbackMessages:[OCMArg any]
-                                               config:[OCMArg any]
-                                    completionHandler:[OCMArg invokeBlock]]);
-    XCTAssertEqual(self.feedbackSendingQueue.size, 0);
-    [self.feedbackSendingQueue add:[[CR_FeedbackMessage alloc] init]];
-    [self.bidManager prefetchBid:self.adUnit];
+  OCMStub([self.apiHandlerMock sendFeedbackMessages:[OCMArg any]
+                                             config:[OCMArg any]
+                                  completionHandler:[OCMArg invokeBlock]]);
+  XCTAssertEqual(self.feedbackSendingQueue.size, 0);
+  [self.feedbackSendingQueue add:[[CR_FeedbackMessage alloc] init]];
+  [self.bidManager prefetchBid:self.adUnit];
 
-    XCTAssertEqual(self.feedbackSendingQueue.size, 0);
+  XCTAssertEqual(self.feedbackSendingQueue.size, 0);
 }
 
 - (void)testSendingFailed_ShouldClearSendingQueue {
-    NSError *error = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:1 userInfo:nil];
-    id completeionWithError = [OCMArg invokeBlockWithArgs:error, nil];
-    OCMStub([self.apiHandlerMock sendFeedbackMessages:[OCMArg any]
-                                               config:[OCMArg any]
-                                    completionHandler:completeionWithError]);
-    XCTAssertEqual(self.feedbackSendingQueue.size, 0);
-    [self.feedbackSendingQueue add:[[CR_FeedbackMessage alloc] init]];
-    [self.bidManager prefetchBid:self.adUnit];
+  NSError *error = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:1 userInfo:nil];
+  id completeionWithError = [OCMArg invokeBlockWithArgs:error, nil];
+  OCMStub([self.apiHandlerMock sendFeedbackMessages:[OCMArg any]
+                                             config:[OCMArg any]
+                                  completionHandler:completeionWithError]);
+  XCTAssertEqual(self.feedbackSendingQueue.size, 0);
+  [self.feedbackSendingQueue add:[[CR_FeedbackMessage alloc] init]];
+  [self.bidManager prefetchBid:self.adUnit];
 
-    XCTAssertEqual(self.feedbackSendingQueue.size, 1);
+  XCTAssertEqual(self.feedbackSendingQueue.size, 1);
 }
 
 @end

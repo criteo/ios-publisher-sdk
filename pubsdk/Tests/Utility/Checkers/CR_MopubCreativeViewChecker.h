@@ -6,11 +6,11 @@
 #import <MoPub.h>
 #import <XCTest/XCTest.h>
 
+@interface CR_MopubCreativeViewChecker
+    : NSObject <MPAdViewDelegate, MPInterstitialAdControllerDelegate>
 
-@interface CR_MopubCreativeViewChecker : NSObject <MPAdViewDelegate, MPInterstitialAdControllerDelegate>
-
-@property (strong, nonatomic, readonly) XCTestExpectation *adCreativeRenderedExpectation;
-@property (weak, nonatomic, readonly) UIWindow *uiWindow;
+@property(strong, nonatomic, readonly) XCTestExpectation *adCreativeRenderedExpectation;
+@property(weak, nonatomic, readonly) UIWindow *uiWindow;
 
 - (instancetype)initWithBanner:(MPAdView *)adView;
 

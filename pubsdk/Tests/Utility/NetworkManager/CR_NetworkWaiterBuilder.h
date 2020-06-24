@@ -15,12 +15,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_NetworkWaiterBuilder : NSObject
 
-@property (nonatomic, weak, readonly) CR_NetworkWaiterBuilder *withConfig;
-@property (nonatomic, weak, readonly) CR_NetworkWaiterBuilder *withLaunchAppEvent;
-@property (nonatomic, weak, readonly) CR_NetworkWaiterBuilder *withBid;
-@property (nonatomic, weak, readonly) CR_NetworkWaiterBuilder *withFeedbackMessageSent;
-@property (nonatomic, weak, readonly) CR_NetworkWaiterBuilder *withFinishedRequestsIncluded;
-@property (nonatomic, weak, readonly) CR_NetworkWaiter *build;
+@property(nonatomic, weak, readonly) CR_NetworkWaiterBuilder *withConfig;
+@property(nonatomic, weak, readonly) CR_NetworkWaiterBuilder *withLaunchAppEvent;
+@property(nonatomic, weak, readonly) CR_NetworkWaiterBuilder *withBid;
+@property(nonatomic, weak, readonly) CR_NetworkWaiterBuilder *withFeedbackMessageSent;
+@property(nonatomic, weak, readonly) CR_NetworkWaiterBuilder *withFinishedRequestsIncluded;
+@property(nonatomic, weak, readonly) CR_NetworkWaiter *build;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithConfig:(CR_Config *)config

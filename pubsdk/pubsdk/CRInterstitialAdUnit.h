@@ -13,9 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithAdUnitId:(NSString *)adUnitId;
 
-- (NSUInteger) hash;
-- (BOOL) isEqual:(nullable id)object;
-- (BOOL) isEqualToInterstitialAdUnit:(CRInterstitialAdUnit *)adUnit;
+- (NSUInteger)hash;
+- (BOOL)isEqual:(nullable id)object;
+- (BOOL)isEqualToInterstitialAdUnit:(CRInterstitialAdUnit *)adUnit;
 
 @end
 

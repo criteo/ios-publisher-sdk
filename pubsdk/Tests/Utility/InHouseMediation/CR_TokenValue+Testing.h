@@ -12,6 +12,8 @@
 
 + (CR_TokenValue *)tokenValueWithDisplayUrl:(NSString *)displayUrl adUnit:(CRAdUnit *)adUnit;
 
-+ (CR_TokenValue *)tokenValueWithDisplayUrl:(NSString *)displayUrl adUnit:(CRAdUnit *)adUnit expired:(BOOL)expired;
++ (CR_TokenValue *)tokenValueWithDisplayUrl:(NSString *)displayUrl
+                                     adUnit:(CRAdUnit *)adUnit
+                                    expired:(BOOL)expired;
 
 @end

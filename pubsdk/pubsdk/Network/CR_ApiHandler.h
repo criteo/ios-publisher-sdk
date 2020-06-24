@@ -23,47 +23,47 @@
 @class CR_FeedbackStorage;
 @class CR_ThreadManager;
 
-typedef void (^CR_CdbCompletionHandler)(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error);
+typedef void (^CR_CdbCompletionHandler)(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse,
+                                        NSError *error);
 typedef void (^CR_BeforeCdbCall)(CR_CdbRequest *cdbRequest);
 typedef void (^AHConfigResponse)(NSDictionary *configValues);
 typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receivedAt);
 typedef void (^CR_CsmCompletionHandler)(NSError *error);
 
 @interface CR_ApiHandler : NSObject
-@property (strong, nonatomic) CR_NetworkManager *networkManager;
-@property (strong, nonatomic) CR_BidFetchTracker *bidFetchTracker;
+@property(strong, nonatomic) CR_NetworkManager *networkManager;
+@property(strong, nonatomic) CR_BidFetchTracker *bidFetchTracker;
 
-- (instancetype) init NS_UNAVAILABLE;
-- (instancetype) initWithNetworkManager:(CR_NetworkManager *)networkManager
-                        bidFetchTracker:(CR_BidFetchTracker *)bidFetchTracker
-                          threadManager:(CR_ThreadManager *)threadManager NS_DESIGNATED_INITIALIZER;
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithNetworkManager:(CR_NetworkManager *)networkManager
+                       bidFetchTracker:(CR_BidFetchTracker *)bidFetchTracker
+                         threadManager:(CR_ThreadManager *)threadManager NS_DESIGNATED_INITIALIZER;
 
 /**
  * Calls CDB and get the bid & creative for the adUnit
  * adUnit must have an Id, width and length.
  */
-- (void)  callCdb:(CR_CacheAdUnitArray *)adUnits
-          consent:(CR_DataProtectionConsent *)consent
-           config:(CR_Config *)config
-       deviceInfo:(CR_DeviceInfo *)deviceInfo
-    beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
-completionHandler:(CR_CdbCompletionHandler)completionHandler;
+- (void)callCdb:(CR_CacheAdUnitArray *)adUnits
+              consent:(CR_DataProtectionConsent *)consent
+               config:(CR_Config *)config
+           deviceInfo:(CR_DeviceInfo *)deviceInfo
+        beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
+    completionHandler:(CR_CdbCompletionHandler)completionHandler;
 
 /**
  * Calls the pub-sdk config endpoint and gets the config values for the publisher
  * NetworkId, AppId/BundleId, sdkVersion must be present in the config
  */
-- (void) getConfig: (CR_Config *) config
-   ahConfigHandler:(AHConfigResponse) ahConfigHandler;
+- (void)getConfig:(CR_Config *)config ahConfigHandler:(AHConfigResponse)ahConfigHandler;
 
 /**
  * Calls the app event endpoint and gets the throttleSec value for the user
  */
-- (void) sendAppEvent: (NSString *)event
-              consent:(CR_DataProtectionConsent *)consent
-               config:(CR_Config *) config
-           deviceInfo:(CR_DeviceInfo *) deviceInfo
-       ahEventHandler:(AHAppEventsResponse) ahEventHandler;
+- (void)sendAppEvent:(NSString *)event
+             consent:(CR_DataProtectionConsent *)consent
+              config:(CR_Config *)config
+          deviceInfo:(CR_DeviceInfo *)deviceInfo
+      ahEventHandler:(AHAppEventsResponse)ahEventHandler;
 
 /**
  * Calls CSM endpoint and send collected metrics

@@ -1,5 +1,6 @@
 //
-//  Use this file to import your target's public headers that you would like to expose to Swift.
+//  Use this file to import your target's public headers that you would like to
+//  expose to Swift.
 //
 #import <Cassette.h>
 
@@ -22,4 +23,3 @@
 #import "CR_FeedbacksSerializer.h"
 #import "CR_Config.h"
 #import "CR_UniqueIdGenerator.h"
-

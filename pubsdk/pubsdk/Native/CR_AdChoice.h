@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_AdChoice : UIButton
 
-@property (strong, nonatomic, nullable) CRNativeAd *nativeAd;
+@property(strong, nonatomic, nullable) CRNativeAd *nativeAd;
 
 @end
 

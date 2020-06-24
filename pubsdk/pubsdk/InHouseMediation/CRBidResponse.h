@@ -12,11 +12,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CRBidResponse : NSObject
 
-@property (nonatomic, readonly) double price;
-@property (nonatomic, readonly) BOOL bidSuccess;
-@property (nonatomic, readonly) CRBidToken *bidToken;
+@property(nonatomic, readonly) double price;
+@property(nonatomic, readonly) BOOL bidSuccess;
+@property(nonatomic, readonly) CRBidToken *bidToken;
 
-- (instancetype) init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 

@@ -18,12 +18,12 @@
 
 @interface CRInterstitial () <WKNavigationDelegate>
 
-@property (nonatomic) BOOL isAdLoading;
-@property (nonatomic, readwrite) BOOL isAdLoaded;
-@property (nonatomic) BOOL isResponseValid;
-@property (nonatomic, strong) Criteo *criteo;
-@property (nonatomic, strong) CR_InterstitialViewController *viewController;
-@property (nonatomic, readonly) CRInterstitialAdUnit *adUnit;
+@property(nonatomic) BOOL isAdLoading;
+@property(nonatomic, readwrite) BOOL isAdLoaded;
+@property(nonatomic) BOOL isResponseValid;
+@property(nonatomic, strong) Criteo *criteo;
+@property(nonatomic, strong) CR_InterstitialViewController *viewController;
+@property(nonatomic, readonly) CRInterstitialAdUnit *adUnit;
 
 - (instancetype)initWithCriteo:(Criteo *)criteo
                 viewController:(CR_InterstitialViewController *)viewController
@@ -31,30 +31,31 @@
                         adUnit:(CRInterstitialAdUnit *)adUnit
                      urlOpener:(id<CR_URLOpening>)urlOpener;
 
-- (instancetype)initWithAdUnit:(CRInterstitialAdUnit *)adUnit
-                        criteo:(Criteo *)criteo;
+- (instancetype)initWithAdUnit:(CRInterstitialAdUnit *)adUnit criteo:(Criteo *)criteo;
 
-- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
-decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler;
+- (void)webView:(WKWebView *)webView
+    decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
+                    decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler;
 
-- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation
-      withError:(NSError *)error;
+- (void)webView:(WKWebView *)webView
+    didFailNavigation:(WKNavigation *)navigation
+            withError:(NSError *)error;
 
-- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation
-      withError:(NSError *)error;
+- (void)webView:(WKWebView *)webView
+    didFailProvisionalNavigation:(WKNavigation *)navigation
+                       withError:(NSError *)error;
 
-- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse
-decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler;
+- (void)webView:(WKWebView *)webView
+    decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse
+                      decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler;
 
--     (void)webView:(WKWebView *)webView
-didFinishNavigation:(WKNavigation *)navigation;
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation;
 
 - (WKWebView *)webView:(WKWebView *)webView
-createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
-   forNavigationAction:(WKNavigationAction *)navigationAction
-        windowFeatures:(WKWindowFeatures *)windowFeatures;
+    createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
+               forNavigationAction:(WKNavigationAction *)navigationAction
+                    windowFeatures:(WKWindowFeatures *)windowFeatures;
 
 @end
-
 
 #endif /* CRInterstitial_Internal_h */

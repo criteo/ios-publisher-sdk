@@ -15,25 +15,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CRNativeAd ()
 
-@property (weak, nonatomic, readonly) CRNativeLoader *loader;
-@property (strong, nonatomic, readonly) CR_NativeAssets *assets;
-@property (strong, nonatomic, readonly) CR_NativeProduct *product;
+@property(weak, nonatomic, readonly) CRNativeLoader *loader;
+@property(strong, nonatomic, readonly) CR_NativeAssets *assets;
+@property(strong, nonatomic, readonly) CR_NativeProduct *product;
 /**
  * True when the SDK has detect that the Advanced Native has been well displayed.
  */
-@property (assign, nonatomic, readonly) BOOL isImpressed;
+@property(assign, nonatomic, readonly) BOOL isImpressed;
 
-- (instancetype)initWithLoader:(CRNativeLoader *)loader
-                        assets:(CR_NativeAssets *)assets;
+- (instancetype)initWithLoader:(CRNativeLoader *)loader assets:(CR_NativeAssets *)assets;
 
 - (instancetype)initWithNativeAssets:(CR_NativeAssets *)assets;
 
-- (instancetype)initWithTitle:(NSString * _Nullable)title
-                         body:(NSString * _Nullable)body
-                        price:(NSString * _Nullable)price
-                 callToAction:(NSString * _Nullable)callToAction
-        advertiserDescription:(NSString * _Nullable)advertiserDescription
-             advertiserDomain:(NSString * _Nullable)advertiserDomain NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithTitle:(NSString *_Nullable)title
+                         body:(NSString *_Nullable)body
+                        price:(NSString *_Nullable)price
+                 callToAction:(NSString *_Nullable)callToAction
+        advertiserDescription:(NSString *_Nullable)advertiserDescription
+             advertiserDomain:(NSString *_Nullable)advertiserDomain NS_DESIGNATED_INITIALIZER;
 
 - (void)markAsImpressed;
 

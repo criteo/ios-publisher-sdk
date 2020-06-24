@@ -10,31 +10,34 @@
 NS_ASSUME_NONNULL_BEGIN
 
 // TCF v2.0 keys
-// Specifications: https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#what-does-the-gdprapplies-value-mean
-extern NSString * const CR_GdprAppliesForTcf2_0Key;
-extern NSString * const CR_GdprConsentStringForTcf2_0Key;
+// Specifications:
+// https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#what-does-the-gdprapplies-value-mean
+extern NSString *const CR_GdprAppliesForTcf2_0Key;
+extern NSString *const CR_GdprConsentStringForTcf2_0Key;
 
 // TCF v1.1 keys
-// Specifications: https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/Mobile%20In-App%20Consent%20APIs%20v1.0%20Final.md#cmp-internal-structure-defined-api-
-extern NSString * const CR_GdprSubjectToGdprForTcf1_1Key;
-extern NSString * const CR_GdprConsentStringForTcf1_1Key;
+// Specifications:
+// https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/Mobile%20In-App%20Consent%20APIs%20v1.0%20Final.md#cmp-internal-structure-defined-api-
+extern NSString *const CR_GdprSubjectToGdprForTcf1_1Key;
+extern NSString *const CR_GdprConsentStringForTcf1_1Key;
 
 @protocol CR_GdprVersion <NSObject>
 
 @required
 
-@property (assign, nonatomic, readonly, getter=isValid) BOOL valid;
-@property (assign, nonatomic, readonly) CR_GdprTcfVersion tcfVersion;
-@property (copy, nonatomic, readonly, nullable) NSString *consentString;
+@property(assign, nonatomic, readonly, getter=isValid) BOOL valid;
+@property(assign, nonatomic, readonly) CR_GdprTcfVersion tcfVersion;
+@property(copy, nonatomic, readonly, nullable) NSString *consentString;
 /**
- * A boxed boolean that can be nil if the value doesn't exist or cannot coerces certain ”truthy” values.
+ * A boxed boolean that can be nil if the value doesn't exist or cannot coerces certain ”truthy”
+ * values.
  *
  * Like NSUserDefaults API,  ”truthy” values can be "0", "1", 0, 1, "true", "false", true , false,
  * In TCF1, the applies value is a string (e.g "0" or "1").
  * In TCF2, the applies value is a integer.
  * So we manage both case this here.
  */
-@property (strong, nonatomic, readonly, nullable) NSNumber *applies;
+@property(strong, nonatomic, readonly, nullable) NSNumber *applies;
 
 @end
 

@@ -20,7 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CR_BidRequestSerializer : NSObject
 
 - (instancetype)init;
-- (instancetype)initWithGdprSerializer:(CR_GdprSerializer *)gdprSerializer NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithGdprSerializer:(CR_GdprSerializer *)gdprSerializer
+    NS_DESIGNATED_INITIALIZER;
 
 - (NSURL *)urlWithConfig:(CR_Config *)config;
 - (NSDictionary *)bodyWithCdbRequest:(CR_CdbRequest *)cdbRequest

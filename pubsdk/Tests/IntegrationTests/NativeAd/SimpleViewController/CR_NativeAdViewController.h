@@ -19,20 +19,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)nativeAdViewControllerWithCriteo:(Criteo *)criteo;
 
-@property (assign, nonatomic, getter = isAdViewInSafeArea) BOOL adViewInSafeArea
-API_AVAILABLE(ios(11.0)); // Default YES
+@property(assign, nonatomic, getter=isAdViewInSafeArea)
+    BOOL adViewInSafeArea API_AVAILABLE(ios(11.0));  // Default YES
 
-@property (strong, nonatomic) Criteo *criteo;
-@property (strong, nonatomic) CRNativeAdUnit *adUnit;
-@property (strong, nonatomic, readonly) CRNativeLoader *adLoader;
-@property (strong, nonatomic, readonly) CR_CustomNativeAdView *adView;
+@property(strong, nonatomic) Criteo *criteo;
+@property(strong, nonatomic) CRNativeAdUnit *adUnit;
+@property(strong, nonatomic, readonly) CRNativeLoader *adLoader;
+@property(strong, nonatomic, readonly) CR_CustomNativeAdView *adView;
 
 #pragma mark Delegate counters
 
-@property (assign, nonatomic, readonly) NSUInteger adLoadedCount;
-@property (assign, nonatomic, readonly) NSUInteger detectImpressionCount;
-@property (assign, nonatomic, readonly) NSUInteger detectClickCount;
-@property (assign, nonatomic, readonly) NSUInteger leaveAppCount;
+@property(assign, nonatomic, readonly) NSUInteger adLoadedCount;
+@property(assign, nonatomic, readonly) NSUInteger detectImpressionCount;
+@property(assign, nonatomic, readonly) NSUInteger detectClickCount;
+@property(assign, nonatomic, readonly) NSUInteger leaveAppCount;
 
 @end
 

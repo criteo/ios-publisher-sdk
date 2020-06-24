@@ -15,14 +15,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CRNativeLoader ()
 
-@property (nonatomic, strong, readonly) Criteo *criteo;
-@property (nonatomic, strong, readonly) CRNativeAdUnit *adUnit;
-@property (nonatomic, strong, readonly) id<CR_URLOpening> urlOpener;
+@property(nonatomic, strong, readonly) Criteo *criteo;
+@property(nonatomic, strong, readonly) CRNativeAdUnit *adUnit;
+@property(nonatomic, strong, readonly) id<CR_URLOpening> urlOpener;
 
 - (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit
                         criteo:(Criteo *)criteo
-                     urlOpener:(id<CR_URLOpening>)urlOpener
-NS_DESIGNATED_INITIALIZER;
+                     urlOpener:(id<CR_URLOpening>)urlOpener NS_DESIGNATED_INITIALIZER;
 
 - (void)handleImpressionOnNativeAd:(CRNativeAd *)nativeAd;
 - (void)handleClickOnNativeAd:(CRNativeAd *)nativeAd;

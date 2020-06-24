@@ -30,48 +30,43 @@
 
 @interface CR_BidManager : NSObject
 
-@property (nonatomic) id<CR_NetworkManagerDelegate> networkManagerDelegate;
-@property (nonatomic, readonly) CR_Config *config;
-@property (nonatomic, strong) CR_DataProtectionConsent *consent;
-@property (nonatomic, strong) CR_ThreadManager *threadManager;
+@property(nonatomic) id<CR_NetworkManagerDelegate> networkManagerDelegate;
+@property(nonatomic, readonly) CR_Config *config;
+@property(nonatomic, strong) CR_DataProtectionConsent *consent;
+@property(nonatomic, strong) CR_ThreadManager *threadManager;
 
-- (instancetype) init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype) initWithApiHandler:(CR_ApiHandler *)apiHandler
-                       cacheManager:(CR_CacheManager *)cacheManager
-                         tokenCache:(CR_TokenCache *)tokenCache
-                             config:(CR_Config *)config
-                      configManager:(CR_ConfigManager *)configManager
-                         deviceInfo:(CR_DeviceInfo *)deviceInfo
-                            consent:(CR_DataProtectionConsent *)consent
-                     networkManager:(CR_NetworkManager *)networkManager
-                          appEvents:(CR_AppEvents *)appEvents
-                      headerBidding:(CR_HeaderBidding *)headerBidding
-                    feedbackDelegate:(id <CR_FeedbackDelegate>)feedbackDelegate
-                      threadManager:(CR_ThreadManager *)threadManager
-NS_DESIGNATED_INITIALIZER;
-
+- (instancetype)initWithApiHandler:(CR_ApiHandler *)apiHandler
+                      cacheManager:(CR_CacheManager *)cacheManager
+                        tokenCache:(CR_TokenCache *)tokenCache
+                            config:(CR_Config *)config
+                     configManager:(CR_ConfigManager *)configManager
+                        deviceInfo:(CR_DeviceInfo *)deviceInfo
+                           consent:(CR_DataProtectionConsent *)consent
+                    networkManager:(CR_NetworkManager *)networkManager
+                         appEvents:(CR_AppEvents *)appEvents
+                     headerBidding:(CR_HeaderBidding *)headerBidding
+                  feedbackDelegate:(id<CR_FeedbackDelegate>)feedbackDelegate
+                     threadManager:(CR_ThreadManager *)threadManager NS_DESIGNATED_INITIALIZER;
 
 - (void)registerWithSlots:(CR_CacheAdUnitArray *)slots;
 
-- (NSDictionary *) getBids: (CR_CacheAdUnitArray *) slots;
+- (NSDictionary *)getBids:(CR_CacheAdUnitArray *)slots;
 
-- (CR_CdbBid *) getBid: (CR_CacheAdUnit *) slot;
+- (CR_CdbBid *)getBid:(CR_CacheAdUnit *)slot;
 
 - (CRBidResponse *)bidResponseForCacheAdUnit:(CR_CacheAdUnit *)cacheAdUnit
                                   adUnitType:(CRAdUnitType)adUnitType;
 
-- (void) prefetchBid:(CR_CacheAdUnit *) adUnit;
+- (void)prefetchBid:(CR_CacheAdUnit *)adUnit;
 
-- (void) prefetchBids:(CR_CacheAdUnitArray *) adUnits;
+- (void)prefetchBids:(CR_CacheAdUnitArray *)adUnits;
 
-- (void) addCriteoBidToRequest:(id) adRequest
-                     forAdUnit:(CR_CacheAdUnit *) adUnit;
+- (void)addCriteoBidToRequest:(id)adRequest forAdUnit:(CR_CacheAdUnit *)adUnit;
 
-- (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken
-                              adUnitType:(CRAdUnitType)adUnitType;
+- (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken adUnitType:(CRAdUnitType)adUnitType;
 
 @end
-
 
 #endif /* BidManager_h */

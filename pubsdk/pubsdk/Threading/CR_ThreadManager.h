@@ -18,14 +18,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface CR_ThreadManager : NSObject
 
-@property (atomic, assign, readonly) BOOL isIdle;
-@property (atomic, assign, readonly) NSInteger blockInProgressCounter;
+@property(atomic, assign, readonly) BOOL isIdle;
+@property(atomic, assign, readonly) NSInteger blockInProgressCounter;
 
 - (void)dispatchAsyncOnMainQueue:(dispatch_block_t)block;
 - (void)dispatchAsyncOnGlobalQueue:(dispatch_block_t)block;
 
 /** Runs with a context interacting with the CR_ThreadManager instance. */
-- (void)runWithCompletionContext:(void(^)(CR_CompletionContext *)) block;
+- (void)runWithCompletionContext:(void (^)(CR_CompletionContext *))block;
 
 @end
 
@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager NS_DESIGNATED_INITIALIZER;
 
 /** Execute the block. Can be called only once per instance. */
-- (void)executeBlock:(void(^)(void))block;
+- (void)executeBlock:(void (^)(void))block;
 
 @end
 

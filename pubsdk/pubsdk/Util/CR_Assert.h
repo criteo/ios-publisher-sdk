@@ -11,12 +11,12 @@
 #import "Logging.h"
 
 /** Handle the Release mode that remove the NSAsserts */
-#define CR_Assert(condition, desc, ...) \
-do { \
+#define CR_Assert(condition, desc, ...)       \
+  do {                                        \
     NSAssert(condition, desc, ##__VA_ARGS__); \
-    if (!condition) { \
-        CLog(desc, ##__VA_ARGS__); \
-    } \
-} while(0)
+    if (!condition) {                         \
+      CLog(desc, ##__VA_ARGS__);              \
+    }                                         \
+  } while (0)
 
 #endif /* CR_Assert_h */

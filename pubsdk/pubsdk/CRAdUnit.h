@@ -11,11 +11,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CRAdUnit : NSObject
 
-@property (readonly, nonatomic) NSString *adUnitId;
+@property(readonly, nonatomic) NSString *adUnitId;
 
-- (instancetype) init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
-- (NSUInteger) hash;
+- (NSUInteger)hash;
 - (BOOL)isEqual:(nullable id)object;
 - (BOOL)isEqualToAdUnit:(CRAdUnit *)adUnit;
 

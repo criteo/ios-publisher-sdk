@@ -18,13 +18,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_DeviceInfo : NSObject
 
-@property (copy, atomic) NSString *userAgent;
-@property (copy, nonatomic, readonly) NSString *deviceId;
+@property(copy, atomic) NSString *userAgent;
+@property(copy, nonatomic, readonly) NSString *deviceId;
 
-- (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager
-NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager NS_DESIGNATED_INITIALIZER;
 
-- (void)waitForUserAgent:(void (^ _Nullable)(void))completion;
+- (void)waitForUserAgent:(void (^_Nullable)(void))completion;
 + (CGSize)getScreenSize;
 + (BOOL)validScreenSize:(CGSize)size;
 @end

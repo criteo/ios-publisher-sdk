@@ -17,25 +17,25 @@
 @implementation CR_TokenValueTests
 
 - (void)testTokenValueExpired {
-    CR_CdbBid *cdbBid = OCMClassMock([CR_CdbBid class]);
-    OCMStub(cdbBid.isExpired).andReturn(YES);
+  CR_CdbBid *cdbBid = OCMClassMock([CR_CdbBid class]);
+  OCMStub(cdbBid.isExpired).andReturn(YES);
 
-    CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:@"Helios" adUnitType:CRAdUnitTypeBanner];
+  CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:@"Helios" adUnitType:CRAdUnitTypeBanner];
 
-    CR_TokenValue *tokenValue = [[CR_TokenValue alloc] initWithCdbBid:cdbBid adUnit:adUnit];
+  CR_TokenValue *tokenValue = [[CR_TokenValue alloc] initWithCdbBid:cdbBid adUnit:adUnit];
 
-    XCTAssertTrue([tokenValue isExpired]);
+  XCTAssertTrue([tokenValue isExpired]);
 }
 
 - (void)testTokenValueNotExpired {
-    CR_CdbBid *cdbBid = OCMClassMock([CR_CdbBid class]);
-    OCMStub(cdbBid.isExpired).andReturn(NO);
+  CR_CdbBid *cdbBid = OCMClassMock([CR_CdbBid class]);
+  OCMStub(cdbBid.isExpired).andReturn(NO);
 
-    CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:@"Helios" adUnitType:CRAdUnitTypeBanner];
+  CRAdUnit *adUnit = [[CRAdUnit alloc] initWithAdUnitId:@"Helios" adUnitType:CRAdUnitTypeBanner];
 
-    CR_TokenValue *tokenValue = [[CR_TokenValue alloc] initWithCdbBid:cdbBid adUnit:adUnit];
+  CR_TokenValue *tokenValue = [[CR_TokenValue alloc] initWithCdbBid:cdbBid adUnit:adUnit];
 
-    XCTAssertFalse([tokenValue isExpired]);
+  XCTAssertFalse([tokenValue isExpired]);
 }
 
 @end

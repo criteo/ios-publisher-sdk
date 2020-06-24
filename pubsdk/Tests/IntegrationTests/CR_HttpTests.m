@@ -19,135 +19,142 @@
 
 @interface CR_HttpTests : XCTestCase
 
-@property (strong, nonatomic) Criteo *criteo;
+@property(strong, nonatomic) Criteo *criteo;
 
 @end
 
 @implementation CR_HttpTests
 
 - (void)setUp {
-    [super setUp];
-    self.criteo = [Criteo testing_criteoWithNetworkCaptor];
+  [super setUp];
+  self.criteo = [Criteo testing_criteoWithNetworkCaptor];
 }
 
 - (void)tearDown {
-    [self.criteo.dependencyProvider.threadManager waiter_waitIdle];
-    [super tearDown];
+  [self.criteo.dependencyProvider.threadManager waiter_waitIdle];
+  [super tearDown];
 }
 
 - (void)testThreeMainApiCallsWerePerformed {
-    XCTestExpectation *configApiCallExpectation = [self expectationWithDescription:@"configApiCallExpectation"];
-    XCTestExpectation *eventApiCallExpectation = [self expectationWithDescription:@"eventApiCallExpectation"];
-    XCTestExpectation *cdbApiCallExpectation = [self expectationWithDescription:@"cdbApiCallExpectation"];
+  XCTestExpectation *configApiCallExpectation =
+      [self expectationWithDescription:@"configApiCallExpectation"];
+  XCTestExpectation *eventApiCallExpectation =
+      [self expectationWithDescription:@"eventApiCallExpectation"];
+  XCTestExpectation *cdbApiCallExpectation =
+      [self expectationWithDescription:@"cdbApiCallExpectation"];
 
-    __weak typeof(self) weakSelf = self;
-    [self.criteo.testing_networkCaptor setRequestListener:^(NSURL *url, CR_HTTPVerb verb, NSDictionary *body) {
-
+  __weak typeof(self) weakSelf = self;
+  [self.criteo.testing_networkCaptor
+      setRequestListener:^(NSURL *url, CR_HTTPVerb verb, NSDictionary *body) {
         CR_Config *config = weakSelf.criteo.dependencyProvider.config;
         NSString *urlString = url.absoluteString;
 
         if ([urlString containsString:config.configUrl]) {
-            [configApiCallExpectation fulfill];
+          [configApiCallExpectation fulfill];
         }
 
-        if ([urlString containsString:config.appEventsUrl] && [urlString containsString:@"eventType=Launch"]) {
-            [eventApiCallExpectation fulfill];
+        if ([urlString containsString:config.appEventsUrl] &&
+            [urlString containsString:@"eventType=Launch"]) {
+          [eventApiCallExpectation fulfill];
         }
 
         if ([urlString containsString:config.cdbUrl]) {
-            [cdbApiCallExpectation fulfill];
+          [cdbApiCallExpectation fulfill];
         }
-    }];
+      }];
 
-    [self.criteo testing_registerInterstitial];
-    NSArray *expectations = @[
-        configApiCallExpectation,
-        eventApiCallExpectation,
-        cdbApiCallExpectation,
-    ];
-    [self cr_waitForExpectations:expectations];
+  [self.criteo testing_registerInterstitial];
+  NSArray *expectations = @[
+    configApiCallExpectation,
+    eventApiCallExpectation,
+    cdbApiCallExpectation,
+  ];
+  [self cr_waitForExpectations:expectations];
 }
 
 - (void)testCdbApiCallDuringInitialisation {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"cdbApiCallExpectation"];
-    CR_Config *config = self.criteo.dependencyProvider.config;
-    CR_DeviceInfo *deviceInfo = self.criteo.dependencyProvider.deviceInfo;
+  XCTestExpectation *expectation = [self expectationWithDescription:@"cdbApiCallExpectation"];
+  CR_Config *config = self.criteo.dependencyProvider.config;
+  CR_DeviceInfo *deviceInfo = self.criteo.dependencyProvider.deviceInfo;
 
-    [self.criteo.testing_networkCaptor setRequestListener:^(NSURL *url, CR_HTTPVerb verb, NSDictionary *postBody) {
-        NSDictionary *user = postBody[@"user"];
-        if ([url.absoluteString containsString:config.cdbUrl] &&
-            postBody[@"sdkVersion"] == config.sdkVersion &&
-            user[@"deviceId"] == deviceInfo.deviceId &&
-            user[@"deviceOs"] == config.deviceOs &&
-            user[@"userAgent"] == deviceInfo.userAgent) {
-            [expectation fulfill];
-        }
-    }];
+  [self.criteo.testing_networkCaptor setRequestListener:^(NSURL *url, CR_HTTPVerb verb,
+                                                          NSDictionary *postBody) {
+    NSDictionary *user = postBody[@"user"];
+    if ([url.absoluteString containsString:config.cdbUrl] &&
+        postBody[@"sdkVersion"] == config.sdkVersion && user[@"deviceId"] == deviceInfo.deviceId &&
+        user[@"deviceOs"] == config.deviceOs && user[@"userAgent"] == deviceInfo.userAgent) {
+      [expectation fulfill];
+    }
+  }];
 
-    [self.criteo testing_registerInterstitial];
+  [self.criteo testing_registerInterstitial];
 
-    [self cr_waitForExpectations:@[expectation]];
+  [self cr_waitForExpectations:@[ expectation ]];
 }
 
 - (void)testConfigApiCallDuringInitialisation {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"configApiCallExpectation"];
-    CR_Config *config = self.criteo.dependencyProvider.config;
-    NSString *appIdValue = [NSBundle mainBundle].bundleIdentifier;
+  XCTestExpectation *expectation = [self expectationWithDescription:@"configApiCallExpectation"];
+  CR_Config *config = self.criteo.dependencyProvider.config;
+  NSString *appIdValue = [NSBundle mainBundle].bundleIdentifier;
 
-    [self.criteo.testing_networkCaptor setRequestListener:^(NSURL *url, CR_HTTPVerb verb, NSDictionary *body) {
-        if ([url.absoluteString containsString:config.configUrl] &&
-            [self query:url.query hasParamKey:CR_ApiQueryKeys.appId withValue:appIdValue] &&
-            [self query:url.query hasParamKey:CR_ApiQueryKeys.sdkVersion withValue:config.sdkVersion]) {
-            [expectation fulfill];
-        }
-    }];
+  [self.criteo.testing_networkCaptor setRequestListener:^(NSURL *url, CR_HTTPVerb verb,
+                                                          NSDictionary *body) {
+    if ([url.absoluteString containsString:config.configUrl] &&
+        [self query:url.query hasParamKey:CR_ApiQueryKeys.appId withValue:appIdValue] &&
+        [self query:url.query hasParamKey:CR_ApiQueryKeys.sdkVersion withValue:config.sdkVersion]) {
+      [expectation fulfill];
+    }
+  }];
 
-    [self.criteo testing_registerInterstitial];
+  [self.criteo testing_registerInterstitial];
 
-    [self cr_waitForExpectations:@[expectation]];
+  [self cr_waitForExpectations:@[ expectation ]];
 }
 
 - (void)testEventApiCallDuringInitialization {
-    XCTestExpectation *expectation = [self expectationWithDescription:@"eventApiCallExpectation"];
+  XCTestExpectation *expectation = [self expectationWithDescription:@"eventApiCallExpectation"];
 
-    ASIdentifierManager *idfaManager = [ASIdentifierManager sharedManager];
-    NSString *limitedAdTrackingValue = idfaManager.advertisingTrackingEnabled ? @"0" : @"1";
+  ASIdentifierManager *idfaManager = [ASIdentifierManager sharedManager];
+  NSString *limitedAdTrackingValue = idfaManager.advertisingTrackingEnabled ? @"0" : @"1";
 #if TARGET_OS_SIMULATOR
-    NSString *idfaValue = CR_SIMULATOR_IDFA;
+  NSString *idfaValue = CR_SIMULATOR_IDFA;
 #else
-    NSString *idfaValue = [idfaManager.advertisingIdentifier UUIDString];
+  NSString *idfaValue = [idfaManager.advertisingIdentifier UUIDString];
 #endif
-    NSString *appIdValue = [NSBundle mainBundle].bundleIdentifier;
+  NSString *appIdValue = [NSBundle mainBundle].bundleIdentifier;
 
-    __weak typeof(self) weakSelf = self;
-    [self.criteo.testing_networkCaptor setRequestListener:^(NSURL *url, CR_HTTPVerb verb, NSDictionary *body) {
-        if ([url.absoluteString containsString:weakSelf.criteo.dependencyProvider.config.appEventsUrl] &&
+  __weak typeof(self) weakSelf = self;
+  [self.criteo.testing_networkCaptor
+      setRequestListener:^(NSURL *url, CR_HTTPVerb verb, NSDictionary *body) {
+        if ([url.absoluteString
+                containsString:weakSelf.criteo.dependencyProvider.config.appEventsUrl] &&
             [self query:url.query hasParamKey:CR_ApiQueryKeys.idfa withValue:idfaValue] &&
-            [self query:url.query hasParamKey:CR_ApiQueryKeys.limitedAdTracking withValue:limitedAdTrackingValue] &&
+            [self query:url.query
+                hasParamKey:CR_ApiQueryKeys.limitedAdTracking
+                  withValue:limitedAdTrackingValue] &&
             [self query:url.query hasParamKey:CR_ApiQueryKeys.appId withValue:appIdValue] &&
             [self query:url.query hasParamKey:CR_ApiQueryKeys.eventType withValue:@"Launch"]) {
-            [expectation fulfill];
+          [expectation fulfill];
         }
-    }];
+      }];
 
-    [self.criteo testing_registerInterstitial];
+  [self.criteo testing_registerInterstitial];
 
-    [self cr_waitForExpectations:@[expectation]];
+  [self cr_waitForExpectations:@[ expectation ]];
 }
 
-- (void)testInitDoNotMakeNetworkCalls
-{
-    [self.criteo.dependencyProvider.threadManager waiter_waitIdle];
+- (void)testInitDoNotMakeNetworkCalls {
+  [self.criteo.dependencyProvider.threadManager waiter_waitIdle];
 
-    XCTAssertEqualObjects(self.criteo.testing_networkCaptor.pendingRequests, @[]);
-    XCTAssertEqualObjects(self.criteo.testing_networkCaptor.finishedRequests, @[]);
+  XCTAssertEqualObjects(self.criteo.testing_networkCaptor.pendingRequests, @[]);
+  XCTAssertEqualObjects(self.criteo.testing_networkCaptor.finishedRequests, @[]);
 }
-
 
 #pragma mark - Private methods
 
 - (BOOL)query:(NSString *)query hasParamKey:(NSString *)key withValue:(NSString *)value {
-    return [[query componentsSeparatedByString:@"&"] containsObject:[NSString stringWithFormat:@"%@=%@", key, value]];
+  return [[query componentsSeparatedByString:@"&"]
+      containsObject:[NSString stringWithFormat:@"%@=%@", key, value]];
 }
 
 @end

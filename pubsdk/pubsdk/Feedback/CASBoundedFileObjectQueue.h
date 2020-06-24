@@ -16,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (nullable instancetype)initWithAbsolutePath:(NSString *)filePath
                                 maxFileLength:(NSUInteger)maxFileLength
-                                        error:(NSError *__autoreleasing *_Nullable)error NS_DESIGNATED_INITIALIZER;
+                                        error:(NSError *__autoreleasing *_Nullable)error
+    NS_DESIGNATED_INITIALIZER;
 
 @end
 

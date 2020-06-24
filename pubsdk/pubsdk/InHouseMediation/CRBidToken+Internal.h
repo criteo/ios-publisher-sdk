@@ -13,11 +13,10 @@
 
 @interface CRBidToken ()
 
-@property (nonatomic, readonly) NSUUID* bidTokenUUID;
+@property(nonatomic, readonly) NSUUID* bidTokenUUID;
 
-- (instancetype) initWithUUID:(NSUUID *)uuid NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithUUID:(NSUUID*)uuid NS_DESIGNATED_INITIALIZER;
 
 @end
-
 
 #endif /* CRBidToken_Internal_h */

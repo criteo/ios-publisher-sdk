@@ -10,24 +10,23 @@
 @implementation CR_IntegrationsTestBase
 
 - (void)setUp {
-    [super setUp];
+  [super setUp];
 
-    self.criteo = nil;
+  self.criteo = nil;
 }
 
 - (void)initCriteoWithAdUnits:(NSArray<CRAdUnit *> *)adUnits {
-    self.criteo = [Criteo testing_criteoWithNetworkCaptor];
-    [self.criteo testing_registerAndWaitForHTTPResponseWithAdUnits:adUnits];
+  self.criteo = [Criteo testing_criteoWithNetworkCaptor];
+  [self.criteo testing_registerAndWaitForHTTPResponseWithAdUnits:adUnits];
 }
 
 - (void)waitForIdleState {
-    [self.criteo.threadManager waiter_waitIdle];
+  [self.criteo.threadManager waiter_waitIdle];
 }
 
-
 - (void)tearDown {
-    [self waitForIdleState];
-    [super tearDown];
+  [self waitForIdleState];
+  [super tearDown];
 }
 
 @end

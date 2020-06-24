@@ -4,7 +4,6 @@
 
 #import <Foundation/Foundation.h>
 
-
 @interface CR_ViewCheckingHelper : NSObject
 
 + (NSString *)preprodCreativeImageUrl;

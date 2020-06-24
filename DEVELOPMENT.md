@@ -1,13 +1,13 @@
-#  README
+# Criteo Publisher Sdk - Development
 
 ## General practices
-
 Follow the Robert Martin suggestion about [Clean Code](https://gist.github.com/wojteklu/73c6914cc446146b8b533c0988cf8d29).
 
 ## Coding Style
-
-There is a lack of coherency in the code base regarding the coding style. The cameleon style must not be applied here. All code that you touch must respect the following [Ray Wenderlich's coding style](https://github.com/raywenderlich/objective-c-style-guide).
-
+To ensure code style consistency, code must respect the following:
+1. Formatted with [Clang Format](https://clang.llvm.org/docs/ClangFormat.html). This is verified by
+  CI and can be done easily with ` bundle exec fastlane format`.
+2. Follow [Ray Wenderlich's coding style](https://github.com/raywenderlich/objective-c-style-guide)
 
 ## Testing
 
@@ -28,7 +28,6 @@ The tests in this project are organised according to the following convention:
     - Use Mobile Safari on a publisher website such as laredoute.fr, browsing its catalog and adding products to your cart
 
 ### Testing against a local CDB
-
 When working in debug environment, the SDK hits the preprod of CDB. To test integration with CDB,
 you can make the SDK hit a local instance of CDB instead. You need to:
 
@@ -46,7 +45,6 @@ gradle initWorkspace && \
 - Uncomment the `#define HIT_LOCAL_CDB` line in the `CR_Config.m` file.
 
 ### Testing against several device types & runtimes
-
 We might want to automate this at some point, but that requires additional runtimes to be installed,
 which requires actions on jenkins agents. For now we can do this manually:
 After downloading runtimes from Xcode, create some test simulators:
@@ -80,7 +78,6 @@ xcodebuild \
 # How to release the publisher SDK
 
 ## Create a release candidate
-
 * Push a version bump to Gerrit:
     * [fuji](https://review.crto.in/659643)
     * [fuji-test-app](https://review.crto.in/659663)

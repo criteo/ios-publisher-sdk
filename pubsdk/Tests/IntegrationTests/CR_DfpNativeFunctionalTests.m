@@ -22,77 +22,83 @@
 @implementation CR_DfpNativeFunctionalTests
 
 - (void)test_givenNativeWithBadAdUnitId_whenSetBids_thenRequestKeywordsDoNotChange {
-    CRNativeAdUnit *native = [CR_TestAdUnits randomNative];
-    [self initCriteoWithAdUnits:@[native]];
-    DFPRequest *dfpRequest = [[DFPRequest alloc] init];
+  CRNativeAdUnit *native = [CR_TestAdUnits randomNative];
+  [self initCriteoWithAdUnits:@[ native ]];
+  DFPRequest *dfpRequest = [[DFPRequest alloc] init];
 
-    [self.criteo setBidsForRequest:dfpRequest withAdUnit:native];
+  [self.criteo setBidsForRequest:dfpRequest withAdUnit:native];
 
-    XCTAssertNil(dfpRequest.customTargeting);
+  XCTAssertNil(dfpRequest.customTargeting);
 }
 
 - (void)test_givenNativeWithGoodAdUnitId_whenSetBids_thenRequestKeywordsUpdated {
-    CRNativeAdUnit *native = [CR_TestAdUnits preprodNative];
-    [self initCriteoWithAdUnits:@[native]];
-    DFPRequest *dfpRequest = [[DFPRequest alloc] init];
+  CRNativeAdUnit *native = [CR_TestAdUnits preprodNative];
+  [self initCriteoWithAdUnits:@[ native ]];
+  DFPRequest *dfpRequest = [[DFPRequest alloc] init];
 
-    [self.criteo setBidsForRequest:dfpRequest withAdUnit:native];
+  [self.criteo setBidsForRequest:dfpRequest withAdUnit:native];
 
-    CR_NativeAssets *assets = [CR_NativeAssets nativeAssetsFromCdb];
-    CR_NativeProduct *product = assets.products[0];
-    CR_NativeAdvertiser *advertiser = assets.advertiser;
-    CR_NativePrivacy *privacy = assets.privacy;
+  CR_NativeAssets *assets = [CR_NativeAssets nativeAssetsFromCdb];
+  CR_NativeProduct *product = assets.products[0];
+  CR_NativeAdvertiser *advertiser = assets.advertiser;
+  CR_NativePrivacy *privacy = assets.privacy;
 
-    NSDictionary *targeting = dfpRequest.customTargeting;
+  NSDictionary *targeting = dfpRequest.customTargeting;
 
-    XCTAssertNotNil(targeting[CR_TargetingKey_crtCpm]);
-    XCTAssertNil(targeting[CR_TargetingKey_crtDfpDisplayUrl]);
+  XCTAssertNotNil(targeting[CR_TargetingKey_crtCpm]);
+  XCTAssertNil(targeting[CR_TargetingKey_crtDfpDisplayUrl]);
 
-    XCTAssertEqualObjects([self _decode:targeting[CR_TargetingKey_crtnTitle]], product.title);
-    XCTAssertEqualObjects([self _decode:targeting[CR_TargetingKey_crtnDesc]], product.description);
-    XCTAssertEqualObjects([self _decode:targeting[CR_TargetingKey_crtnImageUrl]], product.image.url);
-    XCTAssertEqualObjects([self _decode:targeting[CR_TargetingKey_crtnPrice]], product.price);
-    XCTAssertEqualObjects([self _decode:targeting[CR_TargetingKey_crtnClickUrl]], product.clickUrl);
-    XCTAssertEqualObjects([self _decode:targeting[CR_TargetingKey_crtnCta]], product.callToAction);
+  XCTAssertEqualObjects([self _decode:targeting[CR_TargetingKey_crtnTitle]], product.title);
+  XCTAssertEqualObjects([self _decode:targeting[CR_TargetingKey_crtnDesc]], product.description);
+  XCTAssertEqualObjects([self _decode:targeting[CR_TargetingKey_crtnImageUrl]], product.image.url);
+  XCTAssertEqualObjects([self _decode:targeting[CR_TargetingKey_crtnPrice]], product.price);
+  XCTAssertEqualObjects([self _decode:targeting[CR_TargetingKey_crtnClickUrl]], product.clickUrl);
+  XCTAssertEqualObjects([self _decode:targeting[CR_TargetingKey_crtnCta]], product.callToAction);
 
-    XCTAssertEqualObjects([self _decode:targeting[CR_TargetingKey_crtnAdvName]], advertiser.description);
-    XCTAssertEqualObjects([self _decode:targeting[CR_TargetingKey_crtnAdvDomain]], advertiser.domain);
-    XCTAssertEqualObjects([self _decode:targeting[CR_TargetingKey_crtnAdvLogoUrl]], advertiser.logoImage.url);
-    XCTAssertEqualObjects([self _decode:targeting[CR_TargetingKey_crtnAdvUrl]], advertiser.logoClickUrl);
+  XCTAssertEqualObjects([self _decode:targeting[CR_TargetingKey_crtnAdvName]],
+                        advertiser.description);
+  XCTAssertEqualObjects([self _decode:targeting[CR_TargetingKey_crtnAdvDomain]], advertiser.domain);
+  XCTAssertEqualObjects([self _decode:targeting[CR_TargetingKey_crtnAdvLogoUrl]],
+                        advertiser.logoImage.url);
+  XCTAssertEqualObjects([self _decode:targeting[CR_TargetingKey_crtnAdvUrl]],
+                        advertiser.logoClickUrl);
 
-    XCTAssertEqualObjects([self _decode:targeting[CR_TargetingKey_crtnPrUrl]], privacy.optoutClickUrl);
-    XCTAssertEqualObjects([self _decode:targeting[CR_TargetingKey_crtnPrImageUrl]], privacy.optoutImageUrl);
+  XCTAssertEqualObjects([self _decode:targeting[CR_TargetingKey_crtnPrUrl]],
+                        privacy.optoutClickUrl);
+  XCTAssertEqualObjects([self _decode:targeting[CR_TargetingKey_crtnPrImageUrl]],
+                        privacy.optoutImageUrl);
 
-    XCTAssertEqualObjects([self _decode:targeting[[self _crtnPixUrl:0]]], assets.impressionPixels[0]);
-    XCTAssertEqualObjects([self _decode:targeting[[self _crtnPixUrl:1]]], assets.impressionPixels[1]);
+  XCTAssertEqualObjects([self _decode:targeting[[self _crtnPixUrl:0]]], assets.impressionPixels[0]);
+  XCTAssertEqualObjects([self _decode:targeting[[self _crtnPixUrl:1]]], assets.impressionPixels[1]);
 
-    NSString *pixelCount = [NSString stringWithFormat:@"%@", @(assets.impressionPixels.count)];
-    XCTAssertEqualObjects(targeting[CR_TargetingKey_crtnPixCount], pixelCount);
+  NSString *pixelCount = [NSString stringWithFormat:@"%@", @(assets.impressionPixels.count)];
+  XCTAssertEqualObjects(targeting[CR_TargetingKey_crtnPixCount], pixelCount);
 }
 
 - (void)test_givenValidNative_whenLoadingNative_thenDfpViewContainsNativeCreative {
-    CRNativeAdUnit *bannerAdUnit = [CR_TestAdUnits preprodNative];
-    [self initCriteoWithAdUnits:@[bannerAdUnit]];
-    DFPRequest *bannerDfpRequest = [[DFPRequest alloc] init];
+  CRNativeAdUnit *bannerAdUnit = [CR_TestAdUnits preprodNative];
+  [self initCriteoWithAdUnits:@[ bannerAdUnit ]];
+  DFPRequest *bannerDfpRequest = [[DFPRequest alloc] init];
 
-    CR_DfpCreativeViewChecker *dfpViewChecker = [[CR_DfpCreativeViewChecker alloc] initWithBannerWithSize:kGADAdSizeFluid
-                                                                                             withAdUnitId:CR_TestAdUnits.dfpNativeId];
+  CR_DfpCreativeViewChecker *dfpViewChecker =
+      [[CR_DfpCreativeViewChecker alloc] initWithBannerWithSize:kGADAdSizeFluid
+                                                   withAdUnitId:CR_TestAdUnits.dfpNativeId];
 
-    [self.criteo setBidsForRequest:bannerDfpRequest withAdUnit:bannerAdUnit];
-    [dfpViewChecker.dfpBannerView loadRequest:bannerDfpRequest];
+  [self.criteo setBidsForRequest:bannerDfpRequest withAdUnit:bannerAdUnit];
+  [dfpViewChecker.dfpBannerView loadRequest:bannerDfpRequest];
 
-    BOOL renderedProperly = [dfpViewChecker waitAdCreativeRendered];
-    XCTAssertTrue(renderedProperly);
+  BOOL renderedProperly = [dfpViewChecker waitAdCreativeRendered];
+  XCTAssertTrue(renderedProperly);
 }
 
 #pragma mark - Private methods
 
 - (NSString *)_crtnPixUrl:(int)index {
-    return [NSString stringWithFormat:@"%@%d", CR_TargetingKey_crtnPixUrl, index];
+  return [NSString stringWithFormat:@"%@%d", CR_TargetingKey_crtnPixUrl, index];
 }
 
 - (NSString *)_decode:(NSString *)value {
-    return [NSString cr_decodeDfpCompatibleString:value];
+  return [NSString cr_decodeDfpCompatibleString:value];
 }
 
 @end

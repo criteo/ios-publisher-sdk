@@ -29,25 +29,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_DependencyProvider : NSObject
 
-@property (nonatomic, strong) NSUserDefaults *userDefaults;
-@property (nonatomic, strong) NSNotificationCenter *notificationCenter;
-@property (nonatomic, strong) CR_ThreadManager *threadManager;
-@property (nonatomic, strong) CR_BidFetchTracker *bidFetchTracker;
-@property (nonatomic, strong) CR_NetworkManager *networkManager;
-@property (nonatomic, strong) CR_ApiHandler *apiHandler;
-@property (nonatomic, strong) CR_CacheManager *cacheManager;
-@property (nonatomic, strong) CR_TokenCache *tokenCache;
-@property (nonatomic, strong) CR_Config *config;
-@property (nonatomic, strong) CR_ConfigManager *configManager;
-@property (nonatomic, strong) CR_DeviceInfo *deviceInfo;
-@property (nonatomic, strong) CR_DataProtectionConsent *consent;
-@property (nonatomic, strong) CR_AppEvents *appEvents;
-@property (nonatomic, strong) CR_HeaderBidding *headerBidding;
-@property (nonatomic, strong) CR_FeedbackStorage *feedbackStorage;
-@property (nonatomic, strong) id <CR_FeedbackDelegate> feedbackDelegate;
-@property (nonatomic, strong) CR_BidManager *bidManager;
-@property (nonatomic, strong) id<CRMediaDownloader> mediaDownloader;
-@property (nonatomic, strong) CR_ImageCache *imageCache;
+@property(nonatomic, strong) NSUserDefaults *userDefaults;
+@property(nonatomic, strong) NSNotificationCenter *notificationCenter;
+@property(nonatomic, strong) CR_ThreadManager *threadManager;
+@property(nonatomic, strong) CR_BidFetchTracker *bidFetchTracker;
+@property(nonatomic, strong) CR_NetworkManager *networkManager;
+@property(nonatomic, strong) CR_ApiHandler *apiHandler;
+@property(nonatomic, strong) CR_CacheManager *cacheManager;
+@property(nonatomic, strong) CR_TokenCache *tokenCache;
+@property(nonatomic, strong) CR_Config *config;
+@property(nonatomic, strong) CR_ConfigManager *configManager;
+@property(nonatomic, strong) CR_DeviceInfo *deviceInfo;
+@property(nonatomic, strong) CR_DataProtectionConsent *consent;
+@property(nonatomic, strong) CR_AppEvents *appEvents;
+@property(nonatomic, strong) CR_HeaderBidding *headerBidding;
+@property(nonatomic, strong) CR_FeedbackStorage *feedbackStorage;
+@property(nonatomic, strong) id<CR_FeedbackDelegate> feedbackDelegate;
+@property(nonatomic, strong) CR_BidManager *bidManager;
+@property(nonatomic, strong) id<CRMediaDownloader> mediaDownloader;
+@property(nonatomic, strong) CR_ImageCache *imageCache;
 
 @end
 

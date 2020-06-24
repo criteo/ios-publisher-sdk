@@ -11,8 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_URLOpenerMock : NSObject <CR_URLOpening>
 
-@property (assign, nonatomic) BOOL successInCompletion;
-@property (assign, nonatomic) NSUInteger openExternalURLCount;
+@property(assign, nonatomic) BOOL successInCompletion;
+@property(assign, nonatomic) NSUInteger openExternalURLCount;
 
 @end
 

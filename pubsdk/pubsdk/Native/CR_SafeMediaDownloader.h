@@ -16,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 
 - (instancetype)initWithUnsafeDownloader:(id<CRMediaDownloader>)downloader
-                           threadManager:(CR_ThreadManager *)threadManager NS_DESIGNATED_INITIALIZER;
+                           threadManager:(CR_ThreadManager *)threadManager
+    NS_DESIGNATED_INITIALIZER;
 
 @end
 

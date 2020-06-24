@@ -12,14 +12,46 @@
 
 default_platform(:ios)
 
+project_dir = "pubsdk"
+
 platform :ios do
-  desc "Run Fuji Tests"
-  lane :tests do
+  desc %(Run tests:
+    - format_check: check code formatting
+    - multi_scan: run Unit & Functional tests
+  )
+  lane :test do
+    format_check
     multi_scan(
       try_count: 3,
       parallel_testrun_count: 2,
       output_directory: "build/reports",
       output_files: "tests.html,junit.xml"
+    )
+  end
+
+  desc %(Check code format)
+  lane :format_check do
+    run_clang_format(
+      script_path: "tools/clang-format/run-clang-format.py",
+      extensions: "h,m",
+      paths: ["#{project_dir}"],
+      executable: "tools/clang-format/clang-format"
+    )
+  end
+
+  desc %(Format code)
+  lane :format do
+    files = []
+    Dir.chdir("..") do
+      files = Dir.glob("#{project_dir}/**/*.{h,m}")
+    end
+
+    clang_format(
+      clang_format_path: "tools/clang-format/clang-format",
+      inplace: true,
+      style: "file",
+      verbose: true,
+      files: files
     )
   end
 end

@@ -17,7 +17,8 @@
 /**
  * Update metrics files accordingly to received events.
  *
- * @see Client side metric specification: https://confluence.criteois.com/display/PUBSDK/Publisher+SDK+-+Client+Side+Metrics
+ * @see Client side metric specification:
+ * https://confluence.criteois.com/display/PUBSDK/Publisher+SDK+-+Client+Side+Metrics
  */
 @protocol CR_FeedbackDelegate
 
@@ -57,7 +58,7 @@
  *
  * @param failure Error representing the failure of the call
  * @param request Request that was sent to CDB
-   */
+ */
 - (void)onCdbCallFailure:(NSError *)failure fromRequest:(CR_CdbRequest *)request;
 
 /**
@@ -87,26 +88,27 @@
 
 @end
 
-@interface CR_FeedbackController : NSObject<CR_FeedbackDelegate>
+@interface CR_FeedbackController : NSObject <CR_FeedbackDelegate>
 
 - (instancetype)init NS_UNAVAILABLE;
 
 - (instancetype)initWithFeedbackStorage:(CR_FeedbackStorage *)feedbackStorage
                              apiHandler:(CR_ApiHandler *)apiHandler
-                                 config:(CR_Config *)config
-NS_DESIGNATED_INITIALIZER;
+                                 config:(CR_Config *)config NS_DESIGNATED_INITIALIZER;
 
 /**
- * Helper method to create a feedback delegate based on a feedback controller but guarded by the CSM feature flag.
+ * Helper method to create a feedback delegate based on a feedback controller but guarded by the CSM
+ * feature flag.
  *
- * @param feedbackStorage internal storage used to handle living metrics and queued ready-to-send metrics
+ * @param feedbackStorage internal storage used to handle living metrics and queued ready-to-send
+ * metrics
  * @param apiHandler handler used to send ready-to-send metrics
  * @param config global config to help the API and enabled/disabled this CSM feature
  * @return feedback delegate
  */
-+ (id <CR_FeedbackDelegate>)controllerWithFeedbackStorage:(CR_FeedbackStorage *)feedbackStorage
-                                               apiHandler:(CR_ApiHandler *)apiHandler
-                                                   config:(CR_Config *)config;
++ (id<CR_FeedbackDelegate>)controllerWithFeedbackStorage:(CR_FeedbackStorage *)feedbackStorage
+                                              apiHandler:(CR_ApiHandler *)apiHandler
+                                                  config:(CR_Config *)config;
 
 @end
 

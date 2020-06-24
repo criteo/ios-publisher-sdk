@@ -10,12 +10,12 @@
 
 @interface CR_NativeProduct : NSObject <NSCopying>
 
-@property (readonly, copy, nonatomic) NSString *title;
-@property (readonly, copy, nonatomic) NSString *description;
-@property (readonly, copy, nonatomic) NSString *price;
-@property (readonly, copy, nonatomic) NSString *clickUrl;
-@property (readonly, copy, nonatomic) NSString *callToAction;
-@property (readonly, copy, nonatomic) CR_NativeImage *image;
+@property(readonly, copy, nonatomic) NSString *title;
+@property(readonly, copy, nonatomic) NSString *description;
+@property(readonly, copy, nonatomic) NSString *price;
+@property(readonly, copy, nonatomic) NSString *clickUrl;
+@property(readonly, copy, nonatomic) NSString *callToAction;
+@property(readonly, copy, nonatomic) CR_NativeImage *image;
 
 - (instancetype)initWithDict:(NSDictionary *)dict;
 + (CR_NativeProduct *)nativeProductWithDict:(NSDictionary *)dict;

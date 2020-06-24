@@ -12,87 +12,87 @@
 #pragma mark - General
 
 + (NSString *)userKey {
-    return @"user";
+  return @"user";
 }
 
 + (NSString *)sdkVersionKey {
-    return @"sdkVersion";
+  return @"sdkVersion";
 }
 
 + (NSString *)publisherKey {
-    return @"publisher";
+  return @"publisher";
 }
 
 + (NSString *)profileIdKey {
-    return @"profileId";
+  return @"profileId";
 }
 
 #pragma mark - Publisher
 
 + (NSString *)bundleIdKey {
-    return @"bundleId";
+  return @"bundleId";
 }
 
 + (NSString *)cpIdKey {
-    return @"cpId";
+  return @"cpId";
 }
 
 #pragma mark - User
 
 + (NSString *)userAgentKey {
-    return @"userAgent";
+  return @"userAgent";
 }
 
 + (NSString *)deviceIdKey {
-    return @"deviceId";
+  return @"deviceId";
 }
 
 + (NSString *)deviceOsKey {
-    return @"deviceOs";
+  return @"deviceOs";
 }
 
 + (NSString *)deviceModelKey {
-    return @"deviceModel";
+  return @"deviceModel";
 }
 
 + (NSString *)deviceIdTypeKey {
-    return @"deviceIdType";
+  return @"deviceIdType";
 }
 
 + (NSString *)deviceIdTypeValue {
-    return @"IDFA";
+  return @"IDFA";
 }
 
 #pragma mark - GDPR
 
 + (NSString *)gdprConsentKey {
-    return @"gdprConsent";
+  return @"gdprConsent";
 }
 
 + (NSString *)gdprAppliesKey {
-    return @"gdprApplies";
+  return @"gdprApplies";
 }
 
 + (NSString *)gdprVersionKey {
-    return @"version";
+  return @"version";
 }
 
 + (NSString *)gdprConsentDataKey {
-    return @"consentData";
+  return @"consentData";
 }
 
 #pragma mark - US privacy
 
 + (NSString *)uspCriteoOptout {
-    return @"uspOptout";
+  return @"uspOptout";
 }
 
 + (NSString *)uspIabKey {
-    return @"uspIab";
+  return @"uspIab";
 }
 
 + (NSString *)mopubConsent {
-    return @"mopubConsent";
+  return @"mopubConsent";
 }
 
 @end

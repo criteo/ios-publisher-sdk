@@ -19,9 +19,9 @@
 
 @import WebKit;
 
-@interface CRInterstitial() <WKNavigationDelegate, WKUIDelegate>
+@interface CRInterstitial () <WKNavigationDelegate, WKUIDelegate>
 
-@property (strong, nonatomic) id<CR_URLOpening> urlOpener;
+@property(strong, nonatomic) id<CR_URLOpening> urlOpener;
 
 @end
 
@@ -32,248 +32,281 @@
                     isAdLoaded:(BOOL)isAdLoaded
                         adUnit:(CRInterstitialAdUnit *)adUnit
                      urlOpener:(id<CR_URLOpening>)urlOpener {
-    if (self = [super init]) {
-        _criteo = criteo;
-        viewController.webView.navigationDelegate = self;
-        viewController.webView.UIDelegate = self;
-        _viewController = viewController;
-        _isAdLoaded = isAdLoaded;
-        _adUnit = adUnit;
-        _urlOpener = urlOpener;
-    }
-    return self;
+  if (self = [super init]) {
+    _criteo = criteo;
+    viewController.webView.navigationDelegate = self;
+    viewController.webView.UIDelegate = self;
+    _viewController = viewController;
+    _isAdLoaded = isAdLoaded;
+    _adUnit = adUnit;
+    _urlOpener = urlOpener;
+  }
+  return self;
 }
 
 - (instancetype)initWithAdUnit:(CRInterstitialAdUnit *)adUnit {
-    return [self initWithAdUnit:adUnit criteo:[Criteo sharedCriteo]];
+  return [self initWithAdUnit:adUnit criteo:[Criteo sharedCriteo]];
 }
 
-- (instancetype)initWithAdUnit:(CRInterstitialAdUnit *)adUnit
-                        criteo:(Criteo *)criteo {
-    WKWebViewConfiguration *webViewConfiguration = [[WKWebViewConfiguration alloc] init];
-    webViewConfiguration.allowsInlineMediaPlayback = YES;
-    WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:webViewConfiguration];
-    CR_URLOpener *urlOpener = [[CR_URLOpener alloc] init];
-    return [self initWithCriteo:criteo
-                 viewController:[[CR_InterstitialViewController alloc] initWithWebView:webView
-                                                                                  view:nil
-                                                                          interstitial:self]
-                     isAdLoaded:NO
-                         adUnit:adUnit
-                      urlOpener:urlOpener];
+- (instancetype)initWithAdUnit:(CRInterstitialAdUnit *)adUnit criteo:(Criteo *)criteo {
+  WKWebViewConfiguration *webViewConfiguration = [[WKWebViewConfiguration alloc] init];
+  webViewConfiguration.allowsInlineMediaPlayback = YES;
+  WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero
+                                          configuration:webViewConfiguration];
+  CR_URLOpener *urlOpener = [[CR_URLOpener alloc] init];
+  return [self initWithCriteo:criteo
+               viewController:[[CR_InterstitialViewController alloc] initWithWebView:webView
+                                                                                view:nil
+                                                                        interstitial:self]
+                   isAdLoaded:NO
+                       adUnit:adUnit
+                    urlOpener:urlOpener];
 }
 
 - (BOOL)checkSafeToLoad {
-    if(self.isAdLoading) {
-        // Already loading
-        [self safelyNotifyAdLoadFail:CRErrorCodeInvalidRequest description:@"An Ad is already being loaded."];
-        return NO;
-    }
-    if(self.viewController.presentingViewController) {
-        // Already presenting
-        [self safelyNotifyAdLoadFail:CRErrorCodeInvalidRequest description:@"Ad cannot load as another is already being presented."];
-        return NO;
-    }
+  if (self.isAdLoading) {
+    // Already loading
+    [self safelyNotifyAdLoadFail:CRErrorCodeInvalidRequest
+                     description:@"An Ad is already being loaded."];
+    return NO;
+  }
+  if (self.viewController.presentingViewController) {
+    // Already presenting
+    [self safelyNotifyAdLoadFail:CRErrorCodeInvalidRequest
+                     description:@"Ad cannot load as another is already being presented."];
+    return NO;
+  }
 
-    self.isAdLoading = YES;
-    self.isAdLoaded = NO;
-    self.isResponseValid = NO;
-    return YES;
+  self.isAdLoading = YES;
+  self.isAdLoaded = NO;
+  self.isResponseValid = NO;
+  return YES;
 }
 
 - (void)loadAd {
-    if(![self checkSafeToLoad]) {
-        return;
-    }
-    CR_CacheAdUnit *cacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:self.adUnit.adUnitId
-                                                                      size:[CR_DeviceInfo getScreenSize]
-                                                                adUnitType:CRAdUnitTypeInterstitial];
-    CR_CdbBid *bid = [self.criteo getBid:cacheAdUnit];
-    if([bid isEmpty]) {
-        self.isAdLoading = NO;
-        return [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
-    }
+  if (![self checkSafeToLoad]) {
+    return;
+  }
+  CR_CacheAdUnit *cacheAdUnit =
+      [[CR_CacheAdUnit alloc] initWithAdUnitId:self.adUnit.adUnitId
+                                          size:[CR_DeviceInfo getScreenSize]
+                                    adUnitType:CRAdUnitTypeInterstitial];
+  CR_CdbBid *bid = [self.criteo getBid:cacheAdUnit];
+  if ([bid isEmpty]) {
+    self.isAdLoading = NO;
+    return [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
+  }
 
-    if(!bid.displayUrl) return [self safelyNotifyAdLoadFail:CRErrorCodeInternalError description:@"No display URL in bid response"];
+  if (!bid.displayUrl)
+    return [self safelyNotifyAdLoadFail:CRErrorCodeInternalError
+                            description:@"No display URL in bid response"];
 
-    [self.viewController initWebViewIfNeeded];
-    [self dispatchDidReceiveAdDelegate];
-    [self loadWebViewWithDisplayURL:bid.displayUrl];
+  [self.viewController initWebViewIfNeeded];
+  [self dispatchDidReceiveAdDelegate];
+  [self loadWebViewWithDisplayURL:bid.displayUrl];
 }
 
 - (void)loadWebViewWithDisplayURL:(NSString *)displayURL {
-    CR_Config *config = _criteo.config;
+  CR_Config *config = _criteo.config;
 
-    NSString *viewportWidth = [NSString stringWithFormat:@"%ld", (long)[UIScreen mainScreen].bounds.size.width];
+  NSString *viewportWidth =
+      [NSString stringWithFormat:@"%ld", (long)[UIScreen mainScreen].bounds.size.width];
 
-    NSString *htmlString = [[config.adTagUrlMode stringByReplacingOccurrencesOfString:config.viewportWidthMacro withString:viewportWidth] stringByReplacingOccurrencesOfString:config.displayURLMacro withString:displayURL];
+  NSString *htmlString =
+      [[config.adTagUrlMode stringByReplacingOccurrencesOfString:config.viewportWidthMacro
+                                                      withString:viewportWidth]
+          stringByReplacingOccurrencesOfString:config.displayURLMacro
+                                    withString:displayURL];
 
-    [self.viewController.webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"https://criteo.com"]];
+  [self.viewController.webView loadHTMLString:htmlString
+                                      baseURL:[NSURL URLWithString:@"https://criteo.com"]];
 }
 
 - (void)dispatchDidReceiveAdDelegate {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if([self.delegate respondsToSelector:@selector(interstitialDidReceiveAd:)]) {
-            [self.delegate interstitialDidReceiveAd:self];
-        }
-    });
+  dispatch_async(dispatch_get_main_queue(), ^{
+    if ([self.delegate respondsToSelector:@selector(interstitialDidReceiveAd:)]) {
+      [self.delegate interstitialDidReceiveAd:self];
+    }
+  });
 }
 
 - (void)loadAdWithBidToken:(CRBidToken *)bidToken {
-    if(![self checkSafeToLoad]) {
-        return;
-    }
-    CR_TokenValue *tokenValue = [self.criteo tokenValueForBidToken:bidToken
-                                                        adUnitType:CRAdUnitTypeInterstitial];
-    if (!tokenValue) {
-        [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
-        self.isAdLoading = NO;
-        return;
-    }
-    if (![tokenValue.adUnit isEqual:self.adUnit]) {
-        [self safelyNotifyAdLoadFail:CRErrorCodeInvalidParameter description:
-         @"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRInterstitial was initialized with"];
-        self.isAdLoading = NO;
-        return;
-    }
-    if(!tokenValue.displayUrl) return [self safelyNotifyAdLoadFail:CRErrorCodeInternalError description:@"No display URL in bid response"];
+  if (![self checkSafeToLoad]) {
+    return;
+  }
+  CR_TokenValue *tokenValue = [self.criteo tokenValueForBidToken:bidToken
+                                                      adUnitType:CRAdUnitTypeInterstitial];
+  if (!tokenValue) {
+    [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
+    self.isAdLoading = NO;
+    return;
+  }
+  if (![tokenValue.adUnit isEqual:self.adUnit]) {
+    [self
+        safelyNotifyAdLoadFail:CRErrorCodeInvalidParameter
+                   description:
+                       @"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRInterstitial was initialized with"];
+    self.isAdLoading = NO;
+    return;
+  }
+  if (!tokenValue.displayUrl)
+    return [self safelyNotifyAdLoadFail:CRErrorCodeInternalError
+                            description:@"No display URL in bid response"];
 
-    [self.viewController initWebViewIfNeeded];
-    [self dispatchDidReceiveAdDelegate];
-    [self loadWebViewWithDisplayURL:tokenValue.displayUrl];
+  [self.viewController initWebViewIfNeeded];
+  [self dispatchDidReceiveAdDelegate];
+  [self loadWebViewWithDisplayURL:tokenValue.displayUrl];
 }
 
--     (void)webView:(WKWebView *)webView
-didFinishNavigation:(WKNavigation *)navigation {
-    self.isAdLoading = NO;
-    if(self.isResponseValid) {
-        self.isAdLoaded = YES;
-        [self safelyNotifyInterstitialCanPresent];
-    } else {
-        [self safelyNotifyInterstitialCannotPresent:CRErrorCodeNetworkError];
-    }
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+  self.isAdLoading = NO;
+  if (self.isResponseValid) {
+    self.isAdLoaded = YES;
+    [self safelyNotifyInterstitialCanPresent];
+  } else {
+    [self safelyNotifyInterstitialCannotPresent:CRErrorCodeNetworkError];
+  }
 }
 
 - (void)presentFromRootViewController:(UIViewController *)rootViewController {
-    if (self.viewController.presentingViewController) return [self safelyNotifyAdLoadFail:CRErrorCodeInvalidRequest description:@"An Ad is already being presented."];
+  if (self.viewController.presentingViewController)
+    return [self safelyNotifyAdLoadFail:CRErrorCodeInvalidRequest
+                            description:@"An Ad is already being presented."];
 
-    if (!rootViewController) return [self safelyNotifyAdLoadFail:CRErrorCodeInvalidParameter description:@"rootViewController parameter must not be nil."];
+  if (!rootViewController)
+    return [self safelyNotifyAdLoadFail:CRErrorCodeInvalidParameter
+                            description:@"rootViewController parameter must not be nil."];
 
-    if(!self.isAdLoaded) return [self safelyNotifyAdLoadFail:CRErrorCodeInvalidRequest description:@"Interstitial Ad is not loaded."];
+  if (!self.isAdLoaded)
+    return [self safelyNotifyAdLoadFail:CRErrorCodeInvalidRequest
+                            description:@"Interstitial Ad is not loaded."];
 
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if([self.delegate respondsToSelector:@selector(interstitialWillAppear:)]) {
-            [self.delegate interstitialWillAppear:self];
-        }
-    });
-    self.viewController.modalPresentationStyle = UIModalPresentationFullScreen;
-    [rootViewController presentViewController:self.viewController
-                                     animated:YES
-                                   completion:^{
-                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                           if([self.delegate respondsToSelector:@selector(interstitialDidAppear:)]) {
-                                               [self.delegate interstitialDidAppear:self];
-                                           }
-                                       });
-                                   }];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    if ([self.delegate respondsToSelector:@selector(interstitialWillAppear:)]) {
+      [self.delegate interstitialWillAppear:self];
+    }
+  });
+  self.viewController.modalPresentationStyle = UIModalPresentationFullScreen;
+  [rootViewController
+      presentViewController:self.viewController
+                   animated:YES
+                 completion:^{
+                   dispatch_async(dispatch_get_main_queue(), ^{
+                     if ([self.delegate respondsToSelector:@selector(interstitialDidAppear:)]) {
+                       [self.delegate interstitialDidAppear:self];
+                     }
+                   });
+                 }];
 }
 
 // When the creative uses window.open(url) to open the URL, this method will be called
 - (WKWebView *)webView:(WKWebView *)webView
-createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
-   forNavigationAction:(WKNavigationAction *)navigationAction
-        windowFeatures:(WKWindowFeatures *)windowFeatures {
-    [self handlePotentialClickForNavigationAction:navigationAction decisionHandler:nil allowedNavigationType:WKNavigationTypeOther];
-    return nil;
+    createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
+               forNavigationAction:(WKNavigationAction *)navigationAction
+                    windowFeatures:(WKWindowFeatures *)windowFeatures {
+  [self handlePotentialClickForNavigationAction:navigationAction
+                                decisionHandler:nil
+                          allowedNavigationType:WKNavigationTypeOther];
+  return nil;
 }
 // When the creative uses <a href="url"> to open the URL, this method will be called
-- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
-decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
-    [self handlePotentialClickForNavigationAction:navigationAction decisionHandler:decisionHandler allowedNavigationType:WKNavigationTypeLinkActivated];
+- (void)webView:(WKWebView *)webView
+    decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
+                    decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+  [self handlePotentialClickForNavigationAction:navigationAction
+                                decisionHandler:decisionHandler
+                          allowedNavigationType:WKNavigationTypeLinkActivated];
 }
 
 - (void)handlePotentialClickForNavigationAction:(WKNavigationAction *)navigationAction
-                                decisionHandler:(nullable void (^)(WKNavigationActionPolicy))decisionHandler
+                                decisionHandler:
+                                    (nullable void (^)(WKNavigationActionPolicy))decisionHandler
                           allowedNavigationType:(WKNavigationType)allowedNavigationType {
-    if(navigationAction.navigationType == allowedNavigationType
-       && navigationAction.request.URL != nil) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if([self.delegate respondsToSelector:@selector(interstitialWasClicked:)]) {
-                [self.delegate interstitialWasClicked:self];
-            }
-            if([self.delegate respondsToSelector:@selector(interstitialWillLeaveApplication:)]) {
-                [self.delegate interstitialWillLeaveApplication:self];
-            }
-            [self.urlOpener openExternalURL:navigationAction.request.URL];
-            [self.viewController dismissViewController];
-        });
-        if(decisionHandler) {
-            decisionHandler(WKNavigationActionPolicyCancel);
-        }
-        return;
+  if (navigationAction.navigationType == allowedNavigationType &&
+      navigationAction.request.URL != nil) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      if ([self.delegate respondsToSelector:@selector(interstitialWasClicked:)]) {
+        [self.delegate interstitialWasClicked:self];
+      }
+      if ([self.delegate respondsToSelector:@selector(interstitialWillLeaveApplication:)]) {
+        [self.delegate interstitialWillLeaveApplication:self];
+      }
+      [self.urlOpener openExternalURL:navigationAction.request.URL];
+      [self.viewController dismissViewController];
+    });
+    if (decisionHandler) {
+      decisionHandler(WKNavigationActionPolicyCancel);
     }
-    if(decisionHandler) {
-        decisionHandler(WKNavigationActionPolicyAllow);
-    }
+    return;
+  }
+  if (decisionHandler) {
+    decisionHandler(WKNavigationActionPolicyAllow);
+  }
 }
 
 // Delegate errors that occur during web view navigation
-- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
-    self.isAdLoading = NO;
-    [self safelyNotifyInterstitialCannotPresent:CRErrorCodeNetworkError];
+- (void)webView:(WKWebView *)webView
+    didFailNavigation:(WKNavigation *)navigation
+            withError:(NSError *)error {
+  self.isAdLoading = NO;
+  [self safelyNotifyInterstitialCannotPresent:CRErrorCodeNetworkError];
 }
 
 // Delegate errors that occur while the web view is loading content.
-- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
-    self.isAdLoading = NO;
-    [self safelyNotifyInterstitialCannotPresent:CRErrorCodeNetworkError];
+- (void)webView:(WKWebView *)webView
+    didFailProvisionalNavigation:(WKNavigation *)navigation
+                       withError:(NSError *)error {
+  self.isAdLoading = NO;
+  [self safelyNotifyInterstitialCannotPresent:CRErrorCodeNetworkError];
 }
 
 // Delegate HTTP errors
-- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler {
-    if([navigationResponse.response isKindOfClass:[NSHTTPURLResponse class]]) {
-        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)navigationResponse.response;
-        if(httpResponse.statusCode >= 400) {
-            self.isResponseValid = NO;
-            self.isAdLoading = NO;
-        }
-        else {
-            self.isResponseValid = YES;
-        }
+- (void)webView:(WKWebView *)webView
+    decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse
+                      decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler {
+  if ([navigationResponse.response isKindOfClass:[NSHTTPURLResponse class]]) {
+    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)navigationResponse.response;
+    if (httpResponse.statusCode >= 400) {
+      self.isResponseValid = NO;
+      self.isAdLoading = NO;
+    } else {
+      self.isResponseValid = YES;
     }
-    decisionHandler(WKNavigationResponsePolicyAllow);
+  }
+  decisionHandler(WKNavigationResponsePolicyAllow);
 }
 
 - (void)safelyNotifyAdLoadFail:(CRErrorCode)errorCode {
-    return [self safelyNotifyAdLoadFail:errorCode description:nil];
+  return [self safelyNotifyAdLoadFail:errorCode description:nil];
 }
 
 - (void)safelyNotifyAdLoadFail:(CRErrorCode)errorCode description:(NSString *)description {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if([self.delegate respondsToSelector:@selector(interstitial:didFailToReceiveAdWithError:)]) {
-            NSError *error = description
-            ? [NSError cr_errorWithCode:errorCode description:description]
-            : [NSError cr_errorWithCode:errorCode];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    if ([self.delegate respondsToSelector:@selector(interstitial:didFailToReceiveAdWithError:)]) {
+      NSError *error = description ? [NSError cr_errorWithCode:errorCode description:description]
+                                   : [NSError cr_errorWithCode:errorCode];
 
-            [self.delegate interstitial:self didFailToReceiveAdWithError:error];
-        }
-    });
+      [self.delegate interstitial:self didFailToReceiveAdWithError:error];
+    }
+  });
 }
 
 - (void)safelyNotifyInterstitialCanPresent {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if([self.delegate respondsToSelector:@selector(interstitialIsReadyToPresent:)]) {
-            [self.delegate interstitialIsReadyToPresent:self];
-        }
-    });
+  dispatch_async(dispatch_get_main_queue(), ^{
+    if ([self.delegate respondsToSelector:@selector(interstitialIsReadyToPresent:)]) {
+      [self.delegate interstitialIsReadyToPresent:self];
+    }
+  });
 }
 
-- (void)safelyNotifyInterstitialCannotPresent:(CRErrorCode) errorCode {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if([self.delegate respondsToSelector:@selector(interstitial:didFailToReceiveAdContentWithError:)]) {
-            [self.delegate interstitial:self didFailToReceiveAdContentWithError:[NSError cr_errorWithCode:errorCode]];
-        }
-    });
+- (void)safelyNotifyInterstitialCannotPresent:(CRErrorCode)errorCode {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    if ([self.delegate respondsToSelector:@selector(interstitial:
+                                              didFailToReceiveAdContentWithError:)]) {
+      [self.delegate interstitial:self
+          didFailToReceiveAdContentWithError:[NSError cr_errorWithCode:errorCode]];
+    }
+  });
 }
 
 @end

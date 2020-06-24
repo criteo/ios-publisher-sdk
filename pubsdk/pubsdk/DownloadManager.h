@@ -8,5 +8,4 @@
 #ifndef DownloadManager_h
 #define DownloadManager_h
 
-
 #endif /* DownloadManager_h */

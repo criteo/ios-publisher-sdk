@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setImage:(UIImage *)image forUrl:(NSURL *)url imageSize:(NSUInteger)size;
 
-- (nullable UIImage *) imageForUrl:(NSURL *)url;
+- (nullable UIImage *)imageForUrl:(NSURL *)url;
 
 @end
 

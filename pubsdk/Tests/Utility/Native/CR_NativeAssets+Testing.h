@@ -8,7 +8,6 @@
 #import <Foundation/Foundation.h>
 #import "CR_NativeAssets.h"
 
-
 @interface CR_NativeAssets (Testing)
 
 + (CR_NativeAssets *)nativeAssetsFromCdb;

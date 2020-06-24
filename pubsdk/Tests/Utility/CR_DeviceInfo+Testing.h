@@ -9,7 +9,7 @@
 
 @interface CR_DeviceInfo (Testing)
 
-@property (strong, nonatomic, readonly) WKWebView *webView;
+@property(strong, nonatomic, readonly) WKWebView *webView;
 
 - (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager
                           testWebView:(WKWebView *)testWebView;

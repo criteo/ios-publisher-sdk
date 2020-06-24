@@ -12,7 +12,7 @@
 
 @interface CRMediaView ()
 
-@property (strong, nonatomic, nullable) UIImageView *imageView;
-@property (strong, nonatomic, nullable) NSURL *imageUrl;
+@property(strong, nonatomic, nullable) UIImageView *imageView;
+@property(strong, nonatomic, nullable) NSURL *imageUrl;
 
 @end

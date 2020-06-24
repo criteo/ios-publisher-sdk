@@ -14,8 +14,7 @@ typedef void (^CR_URLOpeningCompletion)(BOOL success);
 @protocol CR_URLOpening <NSObject>
 
 - (void)openExternalURL:(NSURL *)url;
-- (void)openExternalURL:(NSURL *)url
-         withCompletion:(nullable CR_URLOpeningCompletion)completion;
+- (void)openExternalURL:(NSURL *)url withCompletion:(nullable CR_URLOpeningCompletion)completion;
 - (void)openExternalURL:(NSURL *)url
             withOptions:(NSDictionary<UIApplicationOpenExternalURLOptionsKey, id> *)options
              completion:(nullable CR_URLOpeningCompletion)completion;

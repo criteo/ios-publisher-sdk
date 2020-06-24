@@ -10,33 +10,33 @@
 
 @implementation CRBidToken
 
-- (instancetype) init {
-    return [self initWithUUID:nil];
+- (instancetype)init {
+  return [self initWithUUID:nil];
 }
 
-- (instancetype) initWithUUID:(NSUUID *)uuid {
-    if (self = [super init]) {
-        _bidTokenUUID = uuid ? uuid : [NSUUID UUID];
-    }
-    return self;
+- (instancetype)initWithUUID:(NSUUID *)uuid {
+  if (self = [super init]) {
+    _bidTokenUUID = uuid ? uuid : [NSUUID UUID];
+  }
+  return self;
 }
 
-- (instancetype) copyWithZone:(NSZone *)zone {
-    return [[CRBidToken alloc] initWithUUID:_bidTokenUUID];
+- (instancetype)copyWithZone:(NSZone *)zone {
+  return [[CRBidToken alloc] initWithUUID:_bidTokenUUID];
 }
 
-- (NSUInteger) hash {
-    return _bidTokenUUID.hash;
+- (NSUInteger)hash {
+  return _bidTokenUUID.hash;
 }
 
 - (BOOL)isEqual:(id)object {
-    if ([object isKindOfClass:[CRBidToken class]]) {
-        CRBidToken *other = object;
-        if ([self.bidTokenUUID isEqual:other.bidTokenUUID]) {
-            return YES;
-        }
+  if ([object isKindOfClass:[CRBidToken class]]) {
+    CRBidToken *other = object;
+    if ([self.bidTokenUUID isEqual:other.bidTokenUUID]) {
+      return YES;
     }
-    return NO;
+  }
+  return NO;
 }
 
 @end

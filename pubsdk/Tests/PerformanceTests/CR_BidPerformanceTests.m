@@ -15,51 +15,51 @@
 
 @interface CR_BidPerformanceTests : XCTestCase
 
-@property (strong, nonatomic) Criteo *criteo;
+@property(strong, nonatomic) Criteo *criteo;
 
 @end
 
 @implementation CR_BidPerformanceTests
 
 - (void)setUp {
-    CR_DependencyProvider *dependencyProvider =
-    CR_DependencyProvider.new.withIsolatedUserDefaults
-    .withPreprodConfiguration
-    .withListenedNetworkManager
-    // We don't want to isolate the tests from the disk
-    //.withIsolatedFeedbackStorage
-    .withIsolatedNotificationCenter;
+  CR_DependencyProvider *dependencyProvider =
+      CR_DependencyProvider.new.withIsolatedUserDefaults.withPreprodConfiguration
+          .withListenedNetworkManager
+          // We don't want to isolate the tests from the disk
+          //.withIsolatedFeedbackStorage
+          .withIsolatedNotificationCenter;
 
-    self.criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProvider];
+  self.criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProvider];
 }
 
 - (void)test500Bids {
-    NSArray *adUnits = [self badAdUnitsWithCount:500];
+  NSArray *adUnits = [self badAdUnitsWithCount:500];
 
-    [self.criteo testing_registerWithAdUnits:adUnits];
-    [self waitThreadManagerIdle];
+  [self.criteo testing_registerWithAdUnits:adUnits];
+  [self waitThreadManagerIdle];
 
-    for (NSUInteger i = 0; i < adUnits.count; i++) {
-        CRAdUnit *adUnit = adUnits[i];
-        XCTAssertNoThrow([self.criteo getBidResponseForAdUnit:adUnit]);
-    }
-    [self waitThreadManagerIdle];
+  for (NSUInteger i = 0; i < adUnits.count; i++) {
+    CRAdUnit *adUnit = adUnits[i];
+    XCTAssertNoThrow([self.criteo getBidResponseForAdUnit:adUnit]);
+  }
+  [self waitThreadManagerIdle];
 }
 
 - (NSArray<CRAdUnit *> *)badAdUnitsWithCount:(NSUInteger)count {
-    NSMutableArray *adUnitArray = [[NSMutableArray alloc] init];
-    for (NSUInteger i = 0; i < count; i++) {
-        NSString *adUnitId = [[NSString alloc] initWithFormat:@"bad_adunit_%ld", (unsigned long)i];
-        CRAdUnit *adUnit = [CR_TestAdUnits banner320x50WithId:adUnitId];
-        [adUnitArray addObject:adUnit];
-    }
-    return adUnitArray;
+  NSMutableArray *adUnitArray = [[NSMutableArray alloc] init];
+  for (NSUInteger i = 0; i < count; i++) {
+    NSString *adUnitId = [[NSString alloc] initWithFormat:@"bad_adunit_%ld", (unsigned long)i];
+    CRAdUnit *adUnit = [CR_TestAdUnits banner320x50WithId:adUnitId];
+    [adUnitArray addObject:adUnit];
+  }
+  return adUnitArray;
 }
 
 - (void)waitThreadManagerIdle {
-    CR_ThreadManager *threadManager = self.criteo.dependencyProvider.threadManager;
-    CR_ThreadManagerWaiter *waiter = [[CR_ThreadManagerWaiter alloc] initWithThreadManager:threadManager];
-    [waiter waitIdleForPerformanceTests];
+  CR_ThreadManager *threadManager = self.criteo.dependencyProvider.threadManager;
+  CR_ThreadManagerWaiter *waiter =
+      [[CR_ThreadManagerWaiter alloc] initWithThreadManager:threadManager];
+  [waiter waitIdleForPerformanceTests];
 }
 
 @end

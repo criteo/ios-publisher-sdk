@@ -15,12 +15,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CRInterstitial : NSObject
 
-@property (nonatomic, readonly) BOOL isAdLoaded;
-@property (nullable, nonatomic, weak) id <CRInterstitialDelegate> delegate;
+@property(nonatomic, readonly) BOOL isAdLoaded;
+@property(nullable, nonatomic, weak) id<CRInterstitialDelegate> delegate;
 
-- (instancetype) init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype) initWithAdUnit:(CRInterstitialAdUnit *)adUnit;
+- (instancetype)initWithAdUnit:(CRInterstitialAdUnit *)adUnit;
 - (void)loadAd;
 - (void)loadAdWithBidToken:(CRBidToken *)bidToken;
 - (void)presentFromRootViewController:(UIViewController *)rootViewController;

@@ -19,25 +19,28 @@
                        adUnit:(CRBannerAdUnit *)adUnit
                     urlOpener:(id<CR_URLOpening>)opener;
 
-- (instancetype)initWithAdUnit:(CRBannerAdUnit *)adUnit
-                        criteo:(Criteo *)criteo;
+- (instancetype)initWithAdUnit:(CRBannerAdUnit *)adUnit criteo:(Criteo *)criteo;
 
-- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
-decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler;
+- (void)webView:(WKWebView *)webView
+    decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
+                    decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler;
 
-- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation
-      withError:(NSError *)error;
+- (void)webView:(WKWebView *)webView
+    didFailNavigation:(WKNavigation *)navigation
+            withError:(NSError *)error;
 
-- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation
-      withError:(NSError *)error;
+- (void)webView:(WKWebView *)webView
+    didFailProvisionalNavigation:(WKNavigation *)navigation
+                       withError:(NSError *)error;
 
-- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse
-decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler;
+- (void)webView:(WKWebView *)webView
+    decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse
+                      decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler;
 
 - (WKWebView *)webView:(WKWebView *)webView
-createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
-   forNavigationAction:(WKNavigationAction *)navigationAction
-        windowFeatures:(WKWindowFeatures *)windowFeatures;
+    createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
+               forNavigationAction:(WKNavigationAction *)navigationAction
+                    windowFeatures:(WKWindowFeatures *)windowFeatures;
 
 @end
 

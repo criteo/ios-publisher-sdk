@@ -12,12 +12,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CRBannerAdUnit : CRAdUnit
 
-@property (readonly, nonatomic) CGSize size;
+@property(readonly, nonatomic) CGSize size;
 
-- (instancetype) initWithAdUnitId:(NSString *)adUnitId
-                             size:(CGSize)size;
+- (instancetype)initWithAdUnitId:(NSString *)adUnitId size:(CGSize)size;
 
-- (NSUInteger) hash;
+- (NSUInteger)hash;
 - (BOOL)isEqual:(nullable id)object;
 - (BOOL)isEqualToBannerAdUnit:(CRBannerAdUnit *)adUnit;
 

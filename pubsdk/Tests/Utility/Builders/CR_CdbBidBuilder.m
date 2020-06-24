@@ -16,66 +16,67 @@ NSString *CR_CdbBidBuilderCurrencyValueDefault = @"USD";
 NSUInteger CR_CdbBidBuilderWidthValueDefault = 300;
 NSUInteger CR_CdbBidBuilderHeightValueDefault = 250;
 NSTimeInterval CR_CdbBidBuilderTtlValueDefault = 200;
-NSString *CR_CdbBidBuilderDisplayUrlValueDefault = @"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js";
+NSString *CR_CdbBidBuilderDisplayUrlValueDefault =
+    @"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js";
 NSString *CR_CdbBidBuilderImpressionIdValueDefault = @"thisIsImpId";
 
 #define PROPERTY_INJECTION(name, type, defaultValue) \
-do { \
-    __weak typeof(self) weakSelf = self; \
-    _ ## name ## Value = defaultValue; \
-    _ ## name = ^CR_CdbBidBuilder *(type value) { \
-        weakSelf.name ## Value = value; \
-        return weakSelf; \
-    }; \
-} while (0);
+  do {                                               \
+    __weak typeof(self) weakSelf = self;             \
+    _##name##Value = defaultValue;                   \
+    _##name = ^CR_CdbBidBuilder *(type value) {      \
+      weakSelf.name##Value = value;                  \
+      return weakSelf;                               \
+    };                                               \
+  } while (0);
 
 @implementation CR_CdbBidBuilder
 
 - (instancetype)init {
-    if (self = [super init]) {
-        PROPERTY_INJECTION(zoneId, NSUInteger, CR_CdbBidBuilderZoneIdValueDefault);
-        PROPERTY_INJECTION(placementId, NSString * _Nullable, CR_CdbBidBuilderPlacementIdValueDefault);
-        PROPERTY_INJECTION(cpm, NSString * _Nullable, CR_CdbBidBuilderCpmValueDefault);
-        PROPERTY_INJECTION(currency, NSString * _Nullable, CR_CdbBidBuilderCurrencyValueDefault);
-        PROPERTY_INJECTION(width, NSUInteger, CR_CdbBidBuilderWidthValueDefault);
-        PROPERTY_INJECTION(height, NSUInteger, CR_CdbBidBuilderHeightValueDefault);
-        PROPERTY_INJECTION(ttl, NSTimeInterval, CR_CdbBidBuilderTtlValueDefault);
-        PROPERTY_INJECTION(creative, NSString * _Nullable, @"");
-        PROPERTY_INJECTION(displayUrl, NSString * _Nullable, CR_CdbBidBuilderDisplayUrlValueDefault);
-        PROPERTY_INJECTION(insertTime, NSDate * _Nullable, [NSDate date]);
-        PROPERTY_INJECTION(nativeAssets, CR_NativeAssets * _Nullable, nil);
-        PROPERTY_INJECTION(impressionId, NSString * _Nullable, CR_CdbBidBuilderImpressionIdValueDefault);
+  if (self = [super init]) {
+    PROPERTY_INJECTION(zoneId, NSUInteger, CR_CdbBidBuilderZoneIdValueDefault);
+    PROPERTY_INJECTION(placementId, NSString * _Nullable, CR_CdbBidBuilderPlacementIdValueDefault);
+    PROPERTY_INJECTION(cpm, NSString * _Nullable, CR_CdbBidBuilderCpmValueDefault);
+    PROPERTY_INJECTION(currency, NSString * _Nullable, CR_CdbBidBuilderCurrencyValueDefault);
+    PROPERTY_INJECTION(width, NSUInteger, CR_CdbBidBuilderWidthValueDefault);
+    PROPERTY_INJECTION(height, NSUInteger, CR_CdbBidBuilderHeightValueDefault);
+    PROPERTY_INJECTION(ttl, NSTimeInterval, CR_CdbBidBuilderTtlValueDefault);
+    PROPERTY_INJECTION(creative, NSString * _Nullable, @"");
+    PROPERTY_INJECTION(displayUrl, NSString * _Nullable, CR_CdbBidBuilderDisplayUrlValueDefault);
+    PROPERTY_INJECTION(insertTime, NSDate * _Nullable, [NSDate date]);
+    PROPERTY_INJECTION(nativeAssets, CR_NativeAssets * _Nullable, nil);
+    PROPERTY_INJECTION(impressionId, NSString * _Nullable,
+                       CR_CdbBidBuilderImpressionIdValueDefault);
 
-        __weak typeof(self) weakSelf = self;
-        _adUnit = ^CR_CdbBidBuilder *(CR_CacheAdUnit *value) {
-            weakSelf.placementIdValue = value.adUnitId;
-            weakSelf.widthValue = value.size.width;
-            weakSelf.heightValue = value.size.height;
-            return weakSelf;
-        };
-        _expiredInsertTime = ^CR_CdbBidBuilder *(void) {
-            weakSelf.insertTimeValue = [NSDate dateWithTimeIntervalSinceNow:-400];
-            return weakSelf;
-        };
-    }
-    return self;
+    __weak typeof(self) weakSelf = self;
+    _adUnit = ^CR_CdbBidBuilder *(CR_CacheAdUnit *value) {
+      weakSelf.placementIdValue = value.adUnitId;
+      weakSelf.widthValue = value.size.width;
+      weakSelf.heightValue = value.size.height;
+      return weakSelf;
+    };
+    _expiredInsertTime = ^CR_CdbBidBuilder *(void) {
+      weakSelf.insertTimeValue = [NSDate dateWithTimeIntervalSinceNow:-400];
+      return weakSelf;
+    };
+  }
+  return self;
 }
 
 - (CR_CdbBid *)build {
-    CR_CdbBid *bid = [[CR_CdbBid alloc] initWithZoneId:@(self.zoneIdValue)
-                                           placementId:self.placementIdValue
-                                                   cpm:self.cpmValue
-                                              currency:self.currencyValue
-                                                 width:@(self.widthValue)
-                                                height:@(self.heightValue)
-                                                   ttl:self.ttlValue
-                                              creative:self.currencyValue
-                                            displayUrl:self.displayUrlValue
-                                            insertTime:self.insertTimeValue
-                                          nativeAssets:self.nativeAssetsValue
-                                          impressionId:self.impressionIdValue];
-    return bid;
+  CR_CdbBid *bid = [[CR_CdbBid alloc] initWithZoneId:@(self.zoneIdValue)
+                                         placementId:self.placementIdValue
+                                                 cpm:self.cpmValue
+                                            currency:self.currencyValue
+                                               width:@(self.widthValue)
+                                              height:@(self.heightValue)
+                                                 ttl:self.ttlValue
+                                            creative:self.currencyValue
+                                          displayUrl:self.displayUrlValue
+                                          insertTime:self.insertTimeValue
+                                        nativeAssets:self.nativeAssetsValue
+                                        impressionId:self.impressionIdValue];
+  return bid;
 }
 
 @end
-

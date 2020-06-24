@@ -24,19 +24,17 @@
 
 @interface Criteo ()
 
-@property (strong, nonatomic, readonly) CR_DependencyProvider *dependencyProvider;
-@property (weak, nonatomic) id<CR_NetworkManagerDelegate> networkManagerDelegate;
-@property (strong, nonatomic, readonly) CR_Config *config;
-@property (strong, nonatomic, readonly) CR_ThreadManager *threadManager;
+@property(strong, nonatomic, readonly) CR_DependencyProvider *dependencyProvider;
+@property(weak, nonatomic) id<CR_NetworkManagerDelegate> networkManagerDelegate;
+@property(strong, nonatomic, readonly) CR_Config *config;
+@property(strong, nonatomic, readonly) CR_ThreadManager *threadManager;
 
 - (CR_CdbBid *)getBid:(CR_CacheAdUnit *)slot;
-- (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken
-                              adUnitType:(CRAdUnitType)adUnitType;
+- (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken adUnitType:(CRAdUnitType)adUnitType;
 
 - (instancetype)initWithDependencyProvider:(CR_DependencyProvider *)dependencyProvider;
 + (instancetype)criteo;
 
 @end
-
 
 #endif /* Criteo_Internal_h */

@@ -16,11 +16,24 @@ or alternatively using `brew cask install fastlane`
 
 # Available Actions
 ## iOS
-### ios tests
+### ios test
 ```
-fastlane ios tests
+fastlane ios test
 ```
-Run Fuji Tests
+Run tests:
+    - format_check: check code formatting
+    - multi_scan: run Unit & Functional tests
+  
+### ios format_check
+```
+fastlane ios format_check
+```
+Check code format
+### ios format
+```
+fastlane ios format
+```
+Format code
 
 ----
 

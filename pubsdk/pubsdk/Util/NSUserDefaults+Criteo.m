@@ -10,9 +10,7 @@
 @implementation NSUserDefaults (Criteo)
 
 - (BOOL)cr_containsKey:(NSString *)key {
-    return ([self objectForKey:key] != nil);
+  return ([self objectForKey:key] != nil);
 }
 
 @end
-
-

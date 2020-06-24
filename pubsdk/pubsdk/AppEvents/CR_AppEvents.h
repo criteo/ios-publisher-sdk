@@ -17,16 +17,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_AppEvents : NSObject
 
-@property (readonly, nonatomic) NSUInteger throttleSec;
-@property (readonly, nonatomic) NSDate *latestEventSent;
-@property (readonly, nonatomic) BOOL throttleExpired;
+@property(readonly, nonatomic) NSUInteger throttleSec;
+@property(readonly, nonatomic) NSDate *latestEventSent;
+@property(readonly, nonatomic) BOOL throttleExpired;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithApiHandler:(CR_ApiHandler *)apiHandler
-                             config:(CR_Config *)config
-                            consent:(CR_DataProtectionConsent *)consent
-                         deviceInfo:(CR_DeviceInfo *)deviceInfo
-                 notificationCenter:(NSNotificationCenter *)notificationCenter NS_DESIGNATED_INITIALIZER;
+                            config:(CR_Config *)config
+                           consent:(CR_DataProtectionConsent *)consent
+                        deviceInfo:(CR_DeviceInfo *)deviceInfo
+                notificationCenter:(NSNotificationCenter *)notificationCenter
+    NS_DESIGNATED_INITIALIZER;
 - (void)registerForIosEvents;
 - (void)sendLaunchEvent;
 

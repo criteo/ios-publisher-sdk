@@ -25,323 +25,332 @@
 @property(nonatomic, strong) NSMutableArray<NSString *> *mockedGeneratedIds;
 @property(nonatomic, strong) OCMockObject *uniqueIdGenerator;
 
-@property(nonatomic, strong) id <CR_FeedbackDelegate> feedbackController;
+@property(nonatomic, strong) id<CR_FeedbackDelegate> feedbackController;
 
 @end
 
 @implementation CR_FeedbackControllerTests
 
 - (void)setUp {
-    [super setUp];
+  [super setUp];
 
-    self.feedbackFileManagingMock = [[CR_FeedbackFileManagingMock alloc] init];
-    self.feedbackFileManagingMock.useReadWriteDictionary = YES;
-    self.feedbackSendingQueue = [[CASInMemoryObjectQueue alloc] init];
-    self.feedbackStorage = [[CR_FeedbackStorage alloc] initWithFileManager:self.feedbackFileManagingMock
-                                                                                withQueue:self.feedbackSendingQueue];
+  self.feedbackFileManagingMock = [[CR_FeedbackFileManagingMock alloc] init];
+  self.feedbackFileManagingMock.useReadWriteDictionary = YES;
+  self.feedbackSendingQueue = [[CASInMemoryObjectQueue alloc] init];
+  self.feedbackStorage =
+      [[CR_FeedbackStorage alloc] initWithFileManager:self.feedbackFileManagingMock
+                                            withQueue:self.feedbackSendingQueue];
 
-    self.apiHandler = OCMClassMock([CR_ApiHandler class]);
-    self.config = [[CR_Config alloc] init];
+  self.apiHandler = OCMClassMock([CR_ApiHandler class]);
+  self.config = [[CR_Config alloc] init];
 
-    [self setUpMockedUniqueIdGenerator];
-    [self setUpMockedClock];
-    [self setUpFeedbackController];
+  [self setUpMockedUniqueIdGenerator];
+  [self setUpMockedClock];
+  [self setUpFeedbackController];
 }
 
 - (void)tearDown {
-    [self.nsDate stopMocking];
-    [self.uniqueIdGenerator stopMocking];
-    [super tearDown];
+  [self.nsDate stopMocking];
+  [self.uniqueIdGenerator stopMocking];
+  [super tearDown];
 }
 
 - (void)testOnCdbCallStarted_GivenDeactivatedCsm_DoNothing {
-    [self prepareDisabledCsm];
-    [self prepareStrictMockedFeedbackStorage];
+  [self prepareDisabledCsm];
+  [self prepareStrictMockedFeedbackStorage];
 
-    CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[@"id"]];
+  CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[ @"id" ]];
 
-    [self.feedbackController onCdbCallStarted:request];
+  [self.feedbackController onCdbCallStarted:request];
 
-    [self assertNoInteractionOnFeedbackStorage];
+  [self assertNoInteractionOnFeedbackStorage];
 }
 
 - (void)testOnCdbCallStarted_GivenMultipleSlot_UpdateAllStartTimeAndRequestIdOfMetricsById {
-    [self prepareEnabledCsm];
+  [self prepareEnabledCsm];
 
-    CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[@"id1", @"id2"]];
+  CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[ @"id1", @"id2" ]];
 
-    [self prepareMockedClock:42];
-    [self prepareMockedIdGenerator:@"myRequestId"];
-    [self prepareMockedIdGenerator:@"shouldNotBeUsed"];
+  [self prepareMockedClock:42];
+  [self prepareMockedIdGenerator:@"myRequestId"];
+  [self prepareMockedIdGenerator:@"shouldNotBeUsed"];
 
-    CR_FeedbackMessage *expected1 = [[CR_FeedbackMessage alloc] init];
-    expected1.requestGroupId = @"myRequestId";
-    expected1.impressionId = @"id1";
-    expected1.cdbCallStartTimestamp = @42000;
+  CR_FeedbackMessage *expected1 = [[CR_FeedbackMessage alloc] init];
+  expected1.requestGroupId = @"myRequestId";
+  expected1.impressionId = @"id1";
+  expected1.cdbCallStartTimestamp = @42000;
 
-    CR_FeedbackMessage *expected2 = [[CR_FeedbackMessage alloc] init];
-    expected2.requestGroupId = @"myRequestId";
-    expected2.impressionId = @"id2";
-    expected2.cdbCallStartTimestamp = @42000;
+  CR_FeedbackMessage *expected2 = [[CR_FeedbackMessage alloc] init];
+  expected2.requestGroupId = @"myRequestId";
+  expected2.impressionId = @"id2";
+  expected2.cdbCallStartTimestamp = @42000;
 
-    [self.feedbackController onCdbCallStarted:request];
+  [self.feedbackController onCdbCallStarted:request];
 
-    [self assertStorageOnlyContainsAll:@[expected1, expected2]];
-    [self assertQueueOnlyContainsAll:@[]];
+  [self assertStorageOnlyContainsAll:@[ expected1, expected2 ]];
+  [self assertQueueOnlyContainsAll:@[]];
 }
 
 - (void)testOnCdbCallResponse_GivenDeactivatedCsm_DoNothing {
-    [self prepareDisabledCsm];
-    [self prepareStrictMockedFeedbackStorage];
+  [self prepareDisabledCsm];
+  [self prepareStrictMockedFeedbackStorage];
 
-    CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[@"id"]];
-    CR_CdbResponse *response = [[CR_CdbResponse alloc] init];
+  CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[ @"id" ]];
+  CR_CdbResponse *response = [[CR_CdbResponse alloc] init];
 
-    [self.feedbackController onCdbCallResponse:response fromRequest:request];
+  [self.feedbackController onCdbCallResponse:response fromRequest:request];
 
-    [self assertNoInteractionOnFeedbackStorage];
+  [self assertNoInteractionOnFeedbackStorage];
 }
 
 - (void)testOnCdbCallResponse_GivenNoBidAndInvalidBidAndValidBid_UpdateThemByIdAccordingly {
-    [self prepareEnabledCsm];
+  [self prepareEnabledCsm];
 
-    CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[@"noBidId", @"invalidId", @"validId"]];
+  CR_CdbRequest *request =
+      [self prepareCdbRequestWithSlots:@[ @"noBidId", @"invalidId", @"validId" ]];
 
-    [self prepareMockedClock:1337];
+  [self prepareMockedClock:1337];
 
-    CR_CdbBid *invalidBid = CR_CdbBidBuilder.new.impressionId(@"invalidId").cpm(@"-1.0").build;
-    CR_CdbBid *validBid = CR_CdbBidBuilder.new.impressionId(@"validId").build;
+  CR_CdbBid *invalidBid = CR_CdbBidBuilder.new.impressionId(@"invalidId").cpm(@"-1.0").build;
+  CR_CdbBid *validBid = CR_CdbBidBuilder.new.impressionId(@"validId").build;
 
-    CR_CdbResponse *response = [[CR_CdbResponse alloc] init];
-    response.cdbBids = @[validBid, invalidBid];
+  CR_CdbResponse *response = [[CR_CdbResponse alloc] init];
+  response.cdbBids = @[ validBid, invalidBid ];
 
-    CR_FeedbackMessage *expectedValid = [[CR_FeedbackMessage alloc] init];
-    expectedValid.cdbCallEndTimestamp = @1337000;
-    expectedValid.cachedBidUsed = YES;
+  CR_FeedbackMessage *expectedValid = [[CR_FeedbackMessage alloc] init];
+  expectedValid.cdbCallEndTimestamp = @1337000;
+  expectedValid.cachedBidUsed = YES;
 
-    CR_FeedbackMessage *expectedInvalid = [[CR_FeedbackMessage alloc] init];
-    expectedInvalid.expired = YES;
+  CR_FeedbackMessage *expectedInvalid = [[CR_FeedbackMessage alloc] init];
+  expectedInvalid.expired = YES;
 
-    CR_FeedbackMessage *expectedNoBid = [[CR_FeedbackMessage alloc] init];
-    expectedNoBid.cdbCallEndTimestamp = @1337000;
-    expectedNoBid.expired = YES;
+  CR_FeedbackMessage *expectedNoBid = [[CR_FeedbackMessage alloc] init];
+  expectedNoBid.cdbCallEndTimestamp = @1337000;
+  expectedNoBid.expired = YES;
 
-    [self.feedbackController onCdbCallResponse:response fromRequest:request];
+  [self.feedbackController onCdbCallResponse:response fromRequest:request];
 
-    [self assertStorageOnlyContainsAll:@[expectedValid]];
-    [self assertQueueOnlyContainsAll:@[expectedInvalid, expectedNoBid]];
+  [self assertStorageOnlyContainsAll:@[ expectedValid ]];
+  [self assertQueueOnlyContainsAll:@[ expectedInvalid, expectedNoBid ]];
 }
 
 - (void)testOnCdbCallFailure_GivenDeactivatedCsm_DoNothing {
-    [self prepareDisabledCsm];
-    [self prepareStrictMockedFeedbackStorage];
+  [self prepareDisabledCsm];
+  [self prepareStrictMockedFeedbackStorage];
 
-    CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[@"id"]];
-    NSError *error = [[NSError alloc] init];
+  CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[ @"id" ]];
+  NSError *error = [[NSError alloc] init];
 
-    [self.feedbackController onCdbCallFailure:error fromRequest:request];
+  [self.feedbackController onCdbCallFailure:error fromRequest:request];
 
-    [self assertNoInteractionOnFeedbackStorage];
+  [self assertNoInteractionOnFeedbackStorage];
 }
 
 - (void)testOnCdbCallFailure_GivenTimeoutError_UpdateAllForTimeout {
-    [self prepareEnabledCsm];
+  [self prepareEnabledCsm];
 
-    CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[@"id1", @"id2"]];
+  CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[ @"id1", @"id2" ]];
 
-    NSError *error = [[NSError alloc] initWithDomain:NSCocoaErrorDomain
-                                                code:NSURLErrorTimedOut
-                                            userInfo:nil];
+  NSError *error = [[NSError alloc] initWithDomain:NSCocoaErrorDomain
+                                              code:NSURLErrorTimedOut
+                                          userInfo:nil];
 
-    CR_FeedbackMessage *expected1 = [[CR_FeedbackMessage alloc] init];
-    expected1.timeout = YES;
-    expected1.expired = YES;
+  CR_FeedbackMessage *expected1 = [[CR_FeedbackMessage alloc] init];
+  expected1.timeout = YES;
+  expected1.expired = YES;
 
-    CR_FeedbackMessage *expected2 = [[CR_FeedbackMessage alloc] init];
-    expected2.timeout = YES;
-    expected2.expired = YES;
+  CR_FeedbackMessage *expected2 = [[CR_FeedbackMessage alloc] init];
+  expected2.timeout = YES;
+  expected2.expired = YES;
 
-    [self.feedbackController onCdbCallFailure:error fromRequest:request];
+  [self.feedbackController onCdbCallFailure:error fromRequest:request];
 
-    [self assertStorageOnlyContainsAll:@[]];
-    [self assertQueueOnlyContainsAll:@[expected1, expected2]];
+  [self assertStorageOnlyContainsAll:@[]];
+  [self assertQueueOnlyContainsAll:@[ expected1, expected2 ]];
 }
 
 - (void)testOnCdbCallFailure_GivenNotATimeoutError_UpdateAllForNetworkError {
-    [self prepareEnabledCsm];
+  [self prepareEnabledCsm];
 
-    CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[@"id1", @"id2"]];
+  CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[ @"id1", @"id2" ]];
 
-    NSError *error = [[NSError alloc] initWithDomain:NSCocoaErrorDomain
-                                                code:NSURLErrorNetworkConnectionLost
-                                            userInfo:nil];
+  NSError *error = [[NSError alloc] initWithDomain:NSCocoaErrorDomain
+                                              code:NSURLErrorNetworkConnectionLost
+                                          userInfo:nil];
 
-    CR_FeedbackMessage *expected1 = [[CR_FeedbackMessage alloc] init];
-    expected1.expired = YES;
+  CR_FeedbackMessage *expected1 = [[CR_FeedbackMessage alloc] init];
+  expected1.expired = YES;
 
-    CR_FeedbackMessage *expected2 = [[CR_FeedbackMessage alloc] init];
-    expected2.expired = YES;
+  CR_FeedbackMessage *expected2 = [[CR_FeedbackMessage alloc] init];
+  expected2.expired = YES;
 
-    [self.feedbackController onCdbCallFailure:error fromRequest:request];
+  [self.feedbackController onCdbCallFailure:error fromRequest:request];
 
-    [self assertStorageOnlyContainsAll:@[]];
-    [self assertQueueOnlyContainsAll:@[expected1, expected2]];
+  [self assertStorageOnlyContainsAll:@[]];
+  [self assertQueueOnlyContainsAll:@[ expected1, expected2 ]];
 }
 
 - (void)testOnBidConsumed_GivenDeactivatedCsm_DoNothing {
-    [self prepareDisabledCsm];
-    [self prepareStrictMockedFeedbackStorage];
+  [self prepareDisabledCsm];
+  [self prepareStrictMockedFeedbackStorage];
 
-    CR_CdbBid *bid = CR_CdbBidBuilder.new.impressionId(@"id").build;
+  CR_CdbBid *bid = CR_CdbBidBuilder.new.impressionId(@"id").build;
 
-    [self.feedbackController onBidConsumed:bid];
+  [self.feedbackController onBidConsumed:bid];
 
-    [self assertNoInteractionOnFeedbackStorage];
+  [self assertNoInteractionOnFeedbackStorage];
 }
 
 - (void)testOnBidConsumed_GivenNotExpiredBid_SetElapsedTime {
-    [self prepareEnabledCsm];
+  [self prepareEnabledCsm];
 
-    CR_CdbBid *bid = CR_CdbBidBuilder.new.impressionId(@"id").build;
+  CR_CdbBid *bid = CR_CdbBidBuilder.new.impressionId(@"id").build;
 
-    [self prepareMockedClock:42];
+  [self prepareMockedClock:42];
 
-    CR_FeedbackMessage *expected = [[CR_FeedbackMessage alloc] init];
-    expected.elapsedTimestamp = @42000;
+  CR_FeedbackMessage *expected = [[CR_FeedbackMessage alloc] init];
+  expected.elapsedTimestamp = @42000;
 
-    [self.feedbackController onBidConsumed:bid];
+  [self.feedbackController onBidConsumed:bid];
 
-    [self assertStorageOnlyContainsAll:@[]];
-    [self assertQueueOnlyContainsAll:@[expected]];
+  [self assertStorageOnlyContainsAll:@[]];
+  [self assertQueueOnlyContainsAll:@[ expected ]];
 }
 
 - (void)testOnBidConsumed_GivenExpiredBid_SetExpiredFlag {
-    [self prepareEnabledCsm];
+  [self prepareEnabledCsm];
 
-    CR_CdbBid *bid = CR_CdbBidBuilder.new.impressionId(@"id").ttl(-1).build;
+  CR_CdbBid *bid = CR_CdbBidBuilder.new.impressionId(@"id").ttl(-1).build;
 
-    CR_FeedbackMessage *expected = [[CR_FeedbackMessage alloc] init];
-    expected.expired = YES;
+  CR_FeedbackMessage *expected = [[CR_FeedbackMessage alloc] init];
+  expected.expired = YES;
 
-    [self.feedbackController onBidConsumed:bid];
+  [self.feedbackController onBidConsumed:bid];
 
-    [self assertStorageOnlyContainsAll:@[]];
-    [self assertQueueOnlyContainsAll:@[expected]];
+  [self assertStorageOnlyContainsAll:@[]];
+  [self assertQueueOnlyContainsAll:@[ expected ]];
 }
 
 - (void)testSendFeedbackBatch_GivenDeactivatedCsm_DoNothing {
-    [self prepareDisabledCsm];
-    [self prepareStrictMockedFeedbackStorage];
+  [self prepareDisabledCsm];
+  [self prepareStrictMockedFeedbackStorage];
 
-    [self.feedbackController sendFeedbackBatch];
+  [self.feedbackController sendFeedbackBatch];
 
-    [self assertNoInteractionOnFeedbackStorage];
+  [self assertNoInteractionOnFeedbackStorage];
 }
 
 #pragma mark - Private
 
 - (void)setUpFeedbackController {
-    self.feedbackController = [CR_FeedbackController controllerWithFeedbackStorage:self.feedbackStorage
-                                                                        apiHandler:self.apiHandler
-                                                                            config:self.config];
+  self.feedbackController =
+      [CR_FeedbackController controllerWithFeedbackStorage:self.feedbackStorage
+                                                apiHandler:self.apiHandler
+                                                    config:self.config];
 }
 
 - (void)setUpMockedUniqueIdGenerator {
-    self.uniqueIdGenerator = OCMClassMock([CR_UniqueIdGenerator class]);
-    self.mockedGeneratedIds = [[NSMutableArray alloc] init];
-    OCMStub([(id) self.uniqueIdGenerator generateId]).andDo([self returnSequentialValues:self.mockedGeneratedIds]);
+  self.uniqueIdGenerator = OCMClassMock([CR_UniqueIdGenerator class]);
+  self.mockedGeneratedIds = [[NSMutableArray alloc] init];
+  OCMStub([(id)self.uniqueIdGenerator generateId])
+      .andDo([self returnSequentialValues:self.mockedGeneratedIds]);
 }
 
 - (void)setUpMockedClock {
-    self.nsDate = OCMClassMock([NSDate class]);
-    self.mockedDates = [[NSMutableArray alloc] init];
-    OCMStub([(id) self.nsDate date]).andDo([self returnSequentialValues:self.mockedDates]);
+  self.nsDate = OCMClassMock([NSDate class]);
+  self.mockedDates = [[NSMutableArray alloc] init];
+  OCMStub([(id)self.nsDate date]).andDo([self returnSequentialValues:self.mockedDates]);
 }
 
 - (CR_CdbRequest *)prepareCdbRequestWithSlots:(NSArray<NSString *> *)impressionIds {
-    NSMutableArray<CR_CacheAdUnit *> *adUnits = [[NSMutableArray alloc] init];
-    for (NSUInteger i = 0; i < impressionIds.count; i++) {
-        NSString *adUnitId = [NSString stringWithFormat:@"adUnit%lu", (unsigned long) i];
-        CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:adUnitId width:300 height:250];
-        [adUnits addObject:adUnit];
+  NSMutableArray<CR_CacheAdUnit *> *adUnits = [[NSMutableArray alloc] init];
+  for (NSUInteger i = 0; i < impressionIds.count; i++) {
+    NSString *adUnitId = [NSString stringWithFormat:@"adUnit%lu", (unsigned long)i];
+    CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:adUnitId
+                                                                width:300
+                                                               height:250];
+    [adUnits addObject:adUnit];
 
-        [self prepareMockedIdGenerator:impressionIds[i]];
-    }
+    [self prepareMockedIdGenerator:impressionIds[i]];
+  }
 
-    CR_CdbRequest *request = [[CR_CdbRequest alloc] initWithAdUnits:adUnits];
+  CR_CdbRequest *request = [[CR_CdbRequest alloc] initWithAdUnits:adUnits];
 
-    return request;
+  return request;
 }
 
 - (void)prepareMockedClock:(NSTimeInterval)dateInSeconds {
-    NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:dateInSeconds];
-    [self.mockedDates addObject:date];
+  NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:dateInSeconds];
+  [self.mockedDates addObject:date];
 }
 
 - (void)prepareMockedIdGenerator:(NSString *)generatedId {
-    [self.mockedGeneratedIds addObject:generatedId];
+  [self.mockedGeneratedIds addObject:generatedId];
 }
 
 - (void)prepareEnabledCsm {
-    self.config.csmEnabled = YES;
+  self.config.csmEnabled = YES;
 }
 
 - (void)prepareDisabledCsm {
-    self.config.csmEnabled = NO;
+  self.config.csmEnabled = NO;
 }
 
 - (void)prepareStrictMockedFeedbackStorage {
-    self.feedbackStorage = OCMStrictClassMock([CR_FeedbackStorage class]);
-    [self setUpFeedbackController];
+  self.feedbackStorage = OCMStrictClassMock([CR_FeedbackStorage class]);
+  [self setUpFeedbackController];
 }
 
 - (void)assertNoInteractionOnFeedbackStorage {
-    // as the mock is strict, and nothing is expected, this will fail if there is an interaction.
-    OCMVerifyAll((id) self.feedbackStorage);
+  // as the mock is strict, and nothing is expected, this will fail if there is an interaction.
+  OCMVerifyAll((id)self.feedbackStorage);
 }
 
 - (void)assertStorageOnlyContainsAll:(NSArray<CR_FeedbackMessage *> *)allExpected {
-    NSArray *feedbacks = self.feedbackFileManagingMock.writeFeedbackResults;
-    [self assertContainer:feedbacks onlyContainsAll:allExpected];
+  NSArray *feedbacks = self.feedbackFileManagingMock.writeFeedbackResults;
+  [self assertContainer:feedbacks onlyContainsAll:allExpected];
 }
 
 - (void)assertQueueOnlyContainsAll:(NSArray<CR_FeedbackMessage *> *)allExpected {
-    NSArray *feedbacks = [self.feedbackSendingQueue peek:NSUIntegerMax];
-    [self assertContainer:feedbacks onlyContainsAll:allExpected];
+  NSArray *feedbacks = [self.feedbackSendingQueue peek:NSUIntegerMax];
+  [self assertContainer:feedbacks onlyContainsAll:allExpected];
 }
 
-- (void)assertContainer:(NSArray<CR_FeedbackMessage *> *)container onlyContainsAll:(NSArray<CR_FeedbackMessage *> *)allExpected {
-    XCTAssertEqual(container.count, allExpected.count,
-            "Expected container to only contain all expected elements but their lengths differ.\n"
-            "Container length: %lu, expected elements length: %lu",
-            (unsigned long) container.count, (unsigned long) allExpected.count);
+- (void)assertContainer:(NSArray<CR_FeedbackMessage *> *)container
+        onlyContainsAll:(NSArray<CR_FeedbackMessage *> *)allExpected {
+  XCTAssertEqual(
+      container.count, allExpected.count,
+      "Expected container to only contain all expected elements but their lengths differ.\n"
+      "Container length: %lu, expected elements length: %lu",
+      (unsigned long)container.count, (unsigned long)allExpected.count);
 
-    for (NSUInteger index = 0; index < allExpected.count; index++) {
-        CR_FeedbackMessage *expectedMessage = allExpected[index];
-        XCTAssertTrue([container containsObject:expectedMessage],
-                "Expected container to contain the element `%@` at index %lu but it is not found.\n"
-                "Container: %@",
-                expectedMessage, (unsigned long) index, container);
-    }
+  for (NSUInteger index = 0; index < allExpected.count; index++) {
+    CR_FeedbackMessage *expectedMessage = allExpected[index];
+    XCTAssertTrue(
+        [container containsObject:expectedMessage],
+        "Expected container to contain the element `%@` at index %lu but it is not found.\n"
+        "Container: %@",
+        expectedMessage, (unsigned long)index, container);
+  }
 }
 
 - (void (^)(NSInvocation *))returnSequentialValues:(NSMutableArray *)values {
-    __block NSNumber *index = @-1;
+  __block NSNumber *index = @-1;
 
-    return ^(NSInvocation *invocation) {
-        NSUInteger currentIndex = index.unsignedIntegerValue;
+  return ^(NSInvocation *invocation) {
+    NSUInteger currentIndex = index.unsignedIntegerValue;
 
-        if (currentIndex + 1 < values.count) {
-            currentIndex = currentIndex + 1;
-        }
+    if (currentIndex + 1 < values.count) {
+      currentIndex = currentIndex + 1;
+    }
 
-        if (currentIndex < values.count) {
-            NSObject *value = values[currentIndex];
-            [invocation setReturnValue:&value];
-        }
+    if (currentIndex < values.count) {
+      NSObject *value = values[currentIndex];
+      [invocation setReturnValue:&value];
+    }
 
-        index = @(currentIndex);
-    };
+    index = @(currentIndex);
+  };
 }
 
 @end

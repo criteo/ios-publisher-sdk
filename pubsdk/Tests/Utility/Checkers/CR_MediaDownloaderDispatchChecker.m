@@ -11,18 +11,19 @@
 @implementation CR_MediaDownloaderDispatchChecker
 
 - (instancetype)init {
-    self = [super init];
-    if (self) {
-        _didDownloadImageOnMainQueue = [[XCTestExpectation alloc] initWithDescription:@"Download handler should be called on main queue"];
-    }
-    return self;
+  self = [super init];
+  if (self) {
+    _didDownloadImageOnMainQueue = [[XCTestExpectation alloc]
+        initWithDescription:@"Download handler should be called on main queue"];
+  }
+  return self;
 }
 
 - (void)downloadImage:(NSURL *)url completionHandler:(CRImageDownloaderHandler)handler {
-    if (@available(iOS 10.0, *)) {
-        dispatch_assert_queue(dispatch_get_main_queue());
-        [self.didDownloadImageOnMainQueue fulfill];
-    }
+  if (@available(iOS 10.0, *)) {
+    dispatch_assert_queue(dispatch_get_main_queue());
+    [self.didDownloadImageOnMainQueue fulfill];
+  }
 }
 
 @end

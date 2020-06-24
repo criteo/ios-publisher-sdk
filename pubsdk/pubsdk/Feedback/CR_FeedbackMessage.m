@@ -12,122 +12,119 @@
 #pragma mark - NSCoding
 
 - (void)encodeWithCoder:(nonnull NSCoder *)coder {
-    [coder encodeObject:self.impressionId forKey:@"impressionId"];
-    [coder encodeObject:self.requestGroupId forKey:@"requestGroupId"];
-    [coder encodeObject:self.cdbCallStartTimestamp forKey:@"cdbCallStartTimestamp"];
-    [coder encodeObject:self.cdbCallEndTimestamp forKey:@"cdbCallEndTimestamp"];
-    [coder encodeObject:self.elapsedTimestamp forKey:@"elapsedTimestamp"];
-    [coder encodeBool:self.timeout forKey:@"timeout"];
-    [coder encodeBool:self.expired forKey:@"expired"];
-    [coder encodeBool:self.cachedBidUsed forKey:@"cachedBidUsed"];
+  [coder encodeObject:self.impressionId forKey:@"impressionId"];
+  [coder encodeObject:self.requestGroupId forKey:@"requestGroupId"];
+  [coder encodeObject:self.cdbCallStartTimestamp forKey:@"cdbCallStartTimestamp"];
+  [coder encodeObject:self.cdbCallEndTimestamp forKey:@"cdbCallEndTimestamp"];
+  [coder encodeObject:self.elapsedTimestamp forKey:@"elapsedTimestamp"];
+  [coder encodeBool:self.timeout forKey:@"timeout"];
+  [coder encodeBool:self.expired forKey:@"expired"];
+  [coder encodeBool:self.cachedBidUsed forKey:@"cachedBidUsed"];
 }
 
 - (nullable instancetype)initWithCoder:(nonnull NSCoder *)coder {
-    if (self = [super init]) {
-        self.impressionId = [coder decodeObjectOfClass:NSString.class forKey:@"impressionId"];
-        self.requestGroupId = [coder decodeObjectOfClass:NSString.class forKey:@"requestGroupId"];
-        self.cdbCallStartTimestamp = [coder decodeObjectOfClass:NSNumber.class forKey:@"cdbCallStartTimestamp"];
-        self.cdbCallEndTimestamp = [coder decodeObjectOfClass:NSNumber.class forKey:@"cdbCallEndTimestamp"];
-        self.elapsedTimestamp = [coder decodeObjectOfClass:NSNumber.class forKey:@"elapsedTimestamp"];
-        self.timeout = [coder decodeBoolForKey:@"timeout"];
-        self.expired = [coder decodeBoolForKey:@"expired"];
-        self.cachedBidUsed = [coder decodeBoolForKey:@"cachedBidUsed"];
-    }
-    return self;
+  if (self = [super init]) {
+    self.impressionId = [coder decodeObjectOfClass:NSString.class forKey:@"impressionId"];
+    self.requestGroupId = [coder decodeObjectOfClass:NSString.class forKey:@"requestGroupId"];
+    self.cdbCallStartTimestamp =
+        [coder decodeObjectOfClass:NSNumber.class forKey:@"cdbCallStartTimestamp"];
+    self.cdbCallEndTimestamp =
+        [coder decodeObjectOfClass:NSNumber.class forKey:@"cdbCallEndTimestamp"];
+    self.elapsedTimestamp = [coder decodeObjectOfClass:NSNumber.class forKey:@"elapsedTimestamp"];
+    self.timeout = [coder decodeBoolForKey:@"timeout"];
+    self.expired = [coder decodeBoolForKey:@"expired"];
+    self.cachedBidUsed = [coder decodeBoolForKey:@"cachedBidUsed"];
+  }
+  return self;
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"{\n\t%@\t%@\t%@\t%@\t%@\t%@\t%@\t%@}",
-                                      [NSString stringWithFormat:@"impressionId: %@\n", self.impressionId],
-                                      [NSString stringWithFormat:@"requestGroupId: %@\n", self.requestGroupId],
-                                      [NSString stringWithFormat:@"cdbCallStartTimestamp: %@\n", self.cdbCallStartTimestamp],
-                                      [NSString stringWithFormat:@"cdbCallEndTimestamp: %@\n", self.cdbCallEndTimestamp],
-                                      [NSString stringWithFormat:@"elapsedTimestamp: %@\n", self.elapsedTimestamp],
-                                      [NSString stringWithFormat:@"timeout: %@\n", @(self.timeout)],
-                                      [NSString stringWithFormat:@"expired: %@\n", @(self.expired)],
-                                      [NSString stringWithFormat:@"cachedBidUsed: %@\n", @(self.cachedBidUsed)]
-    ];
+  return [NSString
+      stringWithFormat:@"{\n\t%@\t%@\t%@\t%@\t%@\t%@\t%@\t%@}",
+                       [NSString stringWithFormat:@"impressionId: %@\n", self.impressionId],
+                       [NSString stringWithFormat:@"requestGroupId: %@\n", self.requestGroupId],
+                       [NSString stringWithFormat:@"cdbCallStartTimestamp: %@\n",
+                                                  self.cdbCallStartTimestamp],
+                       [NSString
+                           stringWithFormat:@"cdbCallEndTimestamp: %@\n", self.cdbCallEndTimestamp],
+                       [NSString stringWithFormat:@"elapsedTimestamp: %@\n", self.elapsedTimestamp],
+                       [NSString stringWithFormat:@"timeout: %@\n", @(self.timeout)],
+                       [NSString stringWithFormat:@"expired: %@\n", @(self.expired)],
+                       [NSString stringWithFormat:@"cachedBidUsed: %@\n", @(self.cachedBidUsed)]];
 }
 
 - (BOOL)isReadyToSend {
-    return self.elapsedTimestamp != nil || self.expired || self.timeout;
+  return self.elapsedTimestamp != nil || self.expired || self.timeout;
 }
 
 #pragma mark - NSSecureCoding
 
-+ (BOOL)supportsSecureCoding
-{
-    return YES;
++ (BOOL)supportsSecureCoding {
+  return YES;
 }
 
 #pragma mark - Equality methods
 
 - (BOOL)isEqualToFeedbackMessage:(CR_FeedbackMessage *)other {
-    BOOL impIdEq = (!self.impressionId && !other.impressionId) ||
-        (self.impressionId && other.impressionId &&
-         [self.impressionId isEqualToString:other.impressionId]);
+  BOOL impIdEq = (!self.impressionId && !other.impressionId) ||
+                 (self.impressionId && other.impressionId &&
+                  [self.impressionId isEqualToString:other.impressionId]);
 
-    BOOL grpIdEq = (!self.requestGroupId && !other.requestGroupId) ||
-        (self.requestGroupId && other.requestGroupId &&
-         [self.requestGroupId isEqualToString:other.requestGroupId]);
+  BOOL grpIdEq = (!self.requestGroupId && !other.requestGroupId) ||
+                 (self.requestGroupId && other.requestGroupId &&
+                  [self.requestGroupId isEqualToString:other.requestGroupId]);
 
-    BOOL cdbStEq = (self.cdbCallStartTimestamp == nil && other.cdbCallStartTimestamp == nil) ||
-        (self.cdbCallStartTimestamp && other.cdbCallStartTimestamp &&
-         [self.cdbCallStartTimestamp isEqualToNumber:other.cdbCallStartTimestamp]);
+  BOOL cdbStEq = (self.cdbCallStartTimestamp == nil && other.cdbCallStartTimestamp == nil) ||
+                 (self.cdbCallStartTimestamp && other.cdbCallStartTimestamp &&
+                  [self.cdbCallStartTimestamp isEqualToNumber:other.cdbCallStartTimestamp]);
 
-    BOOL cdbEndEq = (self.cdbCallEndTimestamp == nil && other.cdbCallEndTimestamp == nil) ||
-        (self.cdbCallEndTimestamp && other.cdbCallEndTimestamp &&
-         [self.cdbCallEndTimestamp isEqualToNumber:other.cdbCallEndTimestamp]);
+  BOOL cdbEndEq = (self.cdbCallEndTimestamp == nil && other.cdbCallEndTimestamp == nil) ||
+                  (self.cdbCallEndTimestamp && other.cdbCallEndTimestamp &&
+                   [self.cdbCallEndTimestamp isEqualToNumber:other.cdbCallEndTimestamp]);
 
-    BOOL elpTimeEq = (self.elapsedTimestamp == nil && other.elapsedTimestamp == nil) ||
-        (self.elapsedTimestamp && other.elapsedTimestamp &&
-         [self.elapsedTimestamp isEqualToNumber:other.elapsedTimestamp]);
+  BOOL elpTimeEq = (self.elapsedTimestamp == nil && other.elapsedTimestamp == nil) ||
+                   (self.elapsedTimestamp && other.elapsedTimestamp &&
+                    [self.elapsedTimestamp isEqualToNumber:other.elapsedTimestamp]);
 
-    return impIdEq && grpIdEq && cdbStEq && cdbEndEq && elpTimeEq &&
-        self.timeout == other.timeout &&
-        self.expired == other.expired &&
-        self.cachedBidUsed == other.cachedBidUsed;
+  return impIdEq && grpIdEq && cdbStEq && cdbEndEq && elpTimeEq && self.timeout == other.timeout &&
+         self.expired == other.expired && self.cachedBidUsed == other.cachedBidUsed;
 }
 
 - (BOOL)isEqual:(id)object {
-    if (self == object) {
-        return YES;
-    }
+  if (self == object) {
+    return YES;
+  }
 
-    if (![object isKindOfClass:[CR_FeedbackMessage class]]) {
-        return NO;
-    }
+  if (![object isKindOfClass:[CR_FeedbackMessage class]]) {
+    return NO;
+  }
 
-    return [self isEqualToFeedbackMessage:object];
+  return [self isEqualToFeedbackMessage:object];
 }
 
 - (NSUInteger)hash {
-    NSUInteger timeoutHash = [@(self.timeout) unsignedIntegerValue];
-    NSUInteger expiredHash = [@(self.expired) unsignedIntegerValue];
-    NSUInteger cachedBidUsed = [@(self.cachedBidUsed) unsignedIntegerValue];
-    return [self.impressionId hash] << 1 ^
-        [self.requestGroupId hash] << 2 ^
-        [self.cdbCallStartTimestamp hash] << 3 ^
-        [self.cdbCallEndTimestamp hash] << 4 ^
-        [self.elapsedTimestamp hash] << 5 ^
-        expiredHash << 6 ^
-        timeoutHash << 7 ^
-        cachedBidUsed << 8;
+  NSUInteger timeoutHash = [@(self.timeout) unsignedIntegerValue];
+  NSUInteger expiredHash = [@(self.expired) unsignedIntegerValue];
+  NSUInteger cachedBidUsed = [@(self.cachedBidUsed) unsignedIntegerValue];
+  return [self.impressionId hash] << 1 ^ [self.requestGroupId hash] << 2 ^
+         [self.cdbCallStartTimestamp hash] << 3 ^ [self.cdbCallEndTimestamp hash] << 4 ^
+         [self.elapsedTimestamp hash] << 5 ^ expiredHash << 6 ^ timeoutHash << 7 ^
+         cachedBidUsed << 8;
 }
 
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
-    CR_FeedbackMessage *m = [[CR_FeedbackMessage allocWithZone:zone] init];
-    m.impressionId = self.impressionId;
-    m.requestGroupId = self.requestGroupId;
-    m.cdbCallStartTimestamp = self.cdbCallStartTimestamp;
-    m.cdbCallEndTimestamp = self.cdbCallEndTimestamp;
-    m.elapsedTimestamp = self.elapsedTimestamp;
-    m.timeout = self.timeout;
-    m.expired = self.expired;
-    m.cachedBidUsed = self.cachedBidUsed;
-    return m;
+  CR_FeedbackMessage *m = [[CR_FeedbackMessage allocWithZone:zone] init];
+  m.impressionId = self.impressionId;
+  m.requestGroupId = self.requestGroupId;
+  m.cdbCallStartTimestamp = self.cdbCallStartTimestamp;
+  m.cdbCallEndTimestamp = self.cdbCallEndTimestamp;
+  m.elapsedTimestamp = self.elapsedTimestamp;
+  m.timeout = self.timeout;
+  m.expired = self.expired;
+  m.cachedBidUsed = self.cachedBidUsed;
+  return m;
 }
 
 @end

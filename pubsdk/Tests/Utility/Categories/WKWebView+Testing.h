@@ -15,11 +15,13 @@ extern const NSTimeInterval WKWebViewTestingEvalJavascriptTimeout;
 @interface WKWebView (Testing)
 
 - (void)testing_evaluateJavaScript:(NSString *)javaScriptString
-                 validationHandler:(BOOL (^)(_Nullable id, NSError * _Nullable error))validationHandler
+                 validationHandler:(BOOL (^)(_Nullable id,
+                                             NSError *_Nullable error))validationHandler
                  completionHandler:(void (^)(BOOL success))completionHandler;
 
 - (void)testing_evaluateJavaScript:(NSString *)javaScriptString
-                 validationHandler:(BOOL (^)(_Nullable id, NSError * _Nullable error))validationHandler
+                 validationHandler:(BOOL (^)(_Nullable id,
+                                             NSError *_Nullable error))validationHandler
                            timeout:(NSUInteger)timeout
                  completionHandler:(void (^)(BOOL success))completionHandler;
 @end

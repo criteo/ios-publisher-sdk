@@ -10,10 +10,10 @@
 
 @implementation UIWebView (Testing)
 
-
 - (NSString *)testing_getHtmlContent {
-    NSString *script = @"(function() { return document.getElementsByTagName('html')[0].outerHTML; })();";
-    return [self stringByEvaluatingJavaScriptFromString:script];
+  NSString *script =
+      @"(function() { return document.getElementsByTagName('html')[0].outerHTML; })();";
+  return [self stringByEvaluatingJavaScriptFromString:script];
 }
 
 @end

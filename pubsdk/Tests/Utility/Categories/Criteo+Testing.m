@@ -30,89 +30,92 @@ NSString *const PreprodNativeAdUnitId = @"test-PubSdk-Native";
 @implementation Criteo (Testing)
 
 - (CR_NetworkCaptor *)testing_networkCaptor {
-    NSAssert([self.dependencyProvider.networkManager isKindOfClass:[CR_NetworkCaptor class]], @"Checking that the networkManager is the CR_NetworkCaptor");
-    return (CR_NetworkCaptor *) self.dependencyProvider.networkManager;
+  NSAssert([self.dependencyProvider.networkManager isKindOfClass:[CR_NetworkCaptor class]],
+           @"Checking that the networkManager is the CR_NetworkCaptor");
+  return (CR_NetworkCaptor *)self.dependencyProvider.networkManager;
 }
 
 - (id)testing_networkManagerMock {
-    // Note that [captor.networkManager isKindOfClass:[OCMockObject class]] doesn't work.
-    // Indeed, OCMockObject is a subclass of NSProxy, not of NSObject. So to know if we
-    // use an OCMock, we verify that is it an NSProxy with object.isProxy.
-    if ([self.dependencyProvider.networkManager isKindOfClass:[CR_NetworkCaptor class]]) {
-        NSAssert(self.testing_networkCaptor.networkManager.isProxy, @"OCMockObject class not found on the networkCaptor");
-        return self.testing_networkCaptor.networkManager;
-    } else {
-        NSAssert(self.dependencyProvider.networkManager.isProxy, @"OCMockObject class not found on the networkCaptor");
-        return self.dependencyProvider.networkManager;
-    }
+  // Note that [captor.networkManager isKindOfClass:[OCMockObject class]] doesn't work.
+  // Indeed, OCMockObject is a subclass of NSProxy, not of NSObject. So to know if we
+  // use an OCMock, we verify that is it an NSProxy with object.isProxy.
+  if ([self.dependencyProvider.networkManager isKindOfClass:[CR_NetworkCaptor class]]) {
+    NSAssert(self.testing_networkCaptor.networkManager.isProxy,
+             @"OCMockObject class not found on the networkCaptor");
+    return self.testing_networkCaptor.networkManager;
+  } else {
+    NSAssert(self.dependencyProvider.networkManager.isProxy,
+             @"OCMockObject class not found on the networkCaptor");
+    return self.dependencyProvider.networkManager;
+  }
 }
 
-- (CR_HttpContent *)testing_lastBidHttpContent
-{
-    for (CR_HttpContent *content in [self.testing_networkCaptor.finishedRequests reverseObjectEnumerator]) {
-        if ([content.url.absoluteString containsString:self.config.cdbUrl]) {
-            return content;
-        }
+- (CR_HttpContent *)testing_lastBidHttpContent {
+  for (CR_HttpContent *content in
+       [self.testing_networkCaptor.finishedRequests reverseObjectEnumerator]) {
+    if ([content.url.absoluteString containsString:self.config.cdbUrl]) {
+      return content;
     }
-    return nil;
+  }
+  return nil;
 }
 
 - (CR_HttpContent *)testing_lastAppEventHttpContent {
-    for (CR_HttpContent *content in [self.testing_networkCaptor.finishedRequests reverseObjectEnumerator]) {
-        if ([content.url.absoluteString containsString:self.config.appEventsUrl]) {
-            return content;
-        }
+  for (CR_HttpContent *content in
+       [self.testing_networkCaptor.finishedRequests reverseObjectEnumerator]) {
+    if ([content.url.absoluteString containsString:self.config.appEventsUrl]) {
+      return content;
     }
-    return nil;
+  }
+  return nil;
 }
 
 + (Criteo *)testing_criteoWithNetworkCaptor {
-    CR_DependencyProvider *dependencyProvider = [CR_DependencyProvider testing_dependencyProvider];
-    Criteo *criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProvider];
-    return criteo;
+  CR_DependencyProvider *dependencyProvider = [CR_DependencyProvider testing_dependencyProvider];
+  Criteo *criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProvider];
+  return criteo;
 }
 
 #pragma mark - Register
 
 - (void)testing_registerInterstitial {
-    [self testing_registerWithAdUnits:@[[CR_TestAdUnits randomInterstitial]]];
+  [self testing_registerWithAdUnits:@[ [CR_TestAdUnits randomInterstitial] ]];
 }
 
 - (void)testing_registerBanner {
-    [self testing_registerWithAdUnits:@[[CR_TestAdUnits randomBanner320x50]]];
+  [self testing_registerWithAdUnits:@[ [CR_TestAdUnits randomBanner320x50] ]];
 }
 
 - (void)testing_registerWithAdUnits:(NSArray<CRAdUnit *> *)adUnits {
-    [self registerCriteoPublisherId:CriteoTestingPublisherId withAdUnits:adUnits];
+  [self registerCriteoPublisherId:CriteoTestingPublisherId withAdUnits:adUnits];
 }
 
 #pragma mark - Wait
 
 - (BOOL)testing_waitForRegisterHTTPResponses {
-    CR_NetworkWaiterBuilder *builder = [[CR_NetworkWaiterBuilder alloc] initWithConfig:self.config
-                                                                         networkCaptor:self.testing_networkCaptor];
-    CR_NetworkWaiter *waiter = builder  .withBid
-                                        .withConfig
-                                        .withLaunchAppEvent
-                                        .withFinishedRequestsIncluded
-                                        .build;
-    return [waiter wait];
+  CR_NetworkWaiterBuilder *builder =
+      [[CR_NetworkWaiterBuilder alloc] initWithConfig:self.config
+                                        networkCaptor:self.testing_networkCaptor];
+  CR_NetworkWaiter *waiter =
+      builder.withBid.withConfig.withLaunchAppEvent.withFinishedRequestsIncluded.build;
+  return [waiter wait];
 }
 
 #pragma mark - Register & Wait
 
 - (void)testing_registerInterstitialAndWaitForHTTPResponses {
-    [self testing_registerAndWaitForHTTPResponseWithAdUnits:@[[CR_TestAdUnits randomInterstitial]]];
+  [self testing_registerAndWaitForHTTPResponseWithAdUnits:@[ [CR_TestAdUnits randomInterstitial] ]];
 }
 
 - (void)testing_registerBannerAndWaitForHTTPResponses {
-    [self testing_registerAndWaitForHTTPResponseWithAdUnits:@[[CR_TestAdUnits randomBanner320x50]]];
+  [self testing_registerAndWaitForHTTPResponseWithAdUnits:@[ [CR_TestAdUnits randomBanner320x50] ]];
 }
 
 - (void)testing_registerAndWaitForHTTPResponseWithAdUnits:(NSArray<CRAdUnit *> *)adUnits {
-    [self testing_registerWithAdUnits:adUnits];
-    BOOL finished = [self testing_waitForRegisterHTTPResponses];
-    CR_Assert(finished, @"Failed to received all the requests for the register: %@", self.testing_networkCaptor);
+  [self testing_registerWithAdUnits:adUnits];
+  BOOL finished = [self testing_waitForRegisterHTTPResponses];
+  CR_Assert(finished, @"Failed to received all the requests for the register: %@",
+            self.testing_networkCaptor);
 }
 
 @end

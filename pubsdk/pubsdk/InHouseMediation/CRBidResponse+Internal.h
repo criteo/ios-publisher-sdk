@@ -14,14 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CRBidResponse ()
 
-- (instancetype) initWithPrice:(double) price
-                    bidSuccess:(BOOL) bidSuccess
-                      bidToken:(nullable CRBidToken*)bidToken;
+- (instancetype)initWithPrice:(double)price
+                   bidSuccess:(BOOL)bidSuccess
+                     bidToken:(nullable CRBidToken*)bidToken;
 
 @end
 
 NS_ASSUME_NONNULL_END
 
 #endif /* CRBidResponse_Internal_h */
-
-

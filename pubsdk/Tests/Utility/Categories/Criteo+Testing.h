@@ -19,10 +19,10 @@ FOUNDATION_EXPORT NSString *const PreprodNativeAdUnitId;
 
 @interface Criteo (Testing)
 /** An OCPartialMock set as an id (like in the OCMock library) for API conveniance. */
-@property (nonatomic, readonly) id testing_networkManagerMock;
-@property (nonatomic, readonly) CR_NetworkCaptor *testing_networkCaptor;
-@property (nonatomic, readonly) CR_HttpContent *testing_lastBidHttpContent;
-@property (nonatomic, readonly) CR_HttpContent *testing_lastAppEventHttpContent;
+@property(nonatomic, readonly) id testing_networkManagerMock;
+@property(nonatomic, readonly) CR_NetworkCaptor *testing_networkCaptor;
+@property(nonatomic, readonly) CR_HttpContent *testing_lastBidHttpContent;
+@property(nonatomic, readonly) CR_HttpContent *testing_lastAppEventHttpContent;
 
 + (Criteo *)testing_criteoWithNetworkCaptor;
 

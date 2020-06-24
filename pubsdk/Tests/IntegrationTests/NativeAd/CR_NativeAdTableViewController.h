@@ -18,22 +18,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)nativeAdTableViewControllerWithCriteo:(Criteo *)criteo;
 
-@property (strong, nonatomic) Criteo *criteo;
-@property (strong, nonatomic) CRNativeAdUnit *adUnit;
-@property (strong, nonatomic, readonly) CRNativeLoader *adLoader;
+@property(strong, nonatomic) Criteo *criteo;
+@property(strong, nonatomic) CRNativeAdUnit *adUnit;
+@property(strong, nonatomic, readonly) CRNativeLoader *adLoader;
 /**
  * If nil, a default value is assigned,
  */
-@property (strong, nonatomic) NSArray<NSIndexPath *> *nativeAdIndexPaths;
-@property (strong, nonatomic, readonly) CR_NativeAdTableViewCell *lastFilledAdCell;
-@property (strong, nonatomic) UIImage *mediaPlaceholder;
+@property(strong, nonatomic) NSArray<NSIndexPath *> *nativeAdIndexPaths;
+@property(strong, nonatomic, readonly) CR_NativeAdTableViewCell *lastFilledAdCell;
+@property(strong, nonatomic) UIImage *mediaPlaceholder;
 
 #pragma Properties to verify the delegate
 
-@property (assign, nonatomic, readonly) NSUInteger adLoadedCount;
-@property (assign, nonatomic, readonly) NSUInteger detectImpressionCount;
-@property (assign, nonatomic, readonly) NSUInteger detectClickCount;
-@property (assign, nonatomic, readonly) NSUInteger leaveAppCount;
+@property(assign, nonatomic, readonly) NSUInteger adLoadedCount;
+@property(assign, nonatomic, readonly) NSUInteger detectImpressionCount;
+@property(assign, nonatomic, readonly) NSUInteger detectClickCount;
+@property(assign, nonatomic, readonly) NSUInteger leaveAppCount;
 
 /**
  * Scroll at a given index path.

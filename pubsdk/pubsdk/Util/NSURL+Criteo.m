@@ -10,11 +10,11 @@
 @implementation NSURL (Criteo)
 
 + (nullable NSURL *)cr_URLWithStringOrNil:(nullable NSString *)string {
-    if (string && [string isKindOfClass:NSString.class]) {
-        return [NSURL URLWithString:string];
-    } else {
-        return nil;
-    }
+  if (string && [string isKindOfClass:NSString.class]) {
+    return [NSURL URLWithString:string];
+  } else {
+    return nil;
+  }
 }
 
 @end

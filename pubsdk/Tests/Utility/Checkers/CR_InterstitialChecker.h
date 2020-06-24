@@ -16,10 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_InterstitialChecker : NSObject
 
-@property (strong, nonatomic, readonly) CRInterstitial *intertitial;
+@property(strong, nonatomic, readonly) CRInterstitial *intertitial;
 
-@property (strong, nonatomic, readonly) XCTestExpectation *receiveAdExpectation;
-@property (strong, nonatomic, readonly) XCTestExpectation *failToReceiveAdExpectation;
+@property(strong, nonatomic, readonly) XCTestExpectation *receiveAdExpectation;
+@property(strong, nonatomic, readonly) XCTestExpectation *failToReceiveAdExpectation;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithAdUnit:(CRInterstitialAdUnit *)adUnit

@@ -11,45 +11,45 @@
 
 @interface CR_DefaultMediaDownloader ()
 
-@property (strong, nonatomic, readonly) CR_NetworkManager *networkManager;
-@property (strong, nonatomic, readonly) CR_ImageCache *imageCache;
+@property(strong, nonatomic, readonly) CR_NetworkManager *networkManager;
+@property(strong, nonatomic, readonly) CR_ImageCache *imageCache;
 
 @end
 
 @implementation CR_DefaultMediaDownloader
 
 - (instancetype)initWithNetworkManager:(CR_NetworkManager *)networkManager
-        imageCache:(CR_ImageCache *)imageCache{
-    if (self = [super init]) {
-        _networkManager = networkManager;
-        _imageCache = imageCache;
-    }
-    return self;
+                            imageCache:(CR_ImageCache *)imageCache {
+  if (self = [super init]) {
+    _networkManager = networkManager;
+    _imageCache = imageCache;
+  }
+  return self;
 }
 
-
 - (void)downloadImage:(NSURL *)url completionHandler:(CRImageDownloaderHandler)handler {
-    UIImage *cachedImage = [self.imageCache imageForUrl:url];
-    if (cachedImage) {
-        handler(cachedImage, nil);
-        return;
-    }
+  UIImage *cachedImage = [self.imageCache imageForUrl:url];
+  if (cachedImage) {
+    handler(cachedImage, nil);
+    return;
+  }
 
-    [self.networkManager getFromUrl:url responseHandler:^(NSData *data, NSError *error) {
-        UIImage *image;
-        if (data) {
-            image = [UIImage imageWithData:data];
-            [self.imageCache setImage:image forUrl:url imageSize:[self imageSize:image]];
-        }
-        handler(image, error);
-    }];
+  [self.networkManager getFromUrl:url
+                  responseHandler:^(NSData *data, NSError *error) {
+                    UIImage *image;
+                    if (data) {
+                      image = [UIImage imageWithData:data];
+                      [self.imageCache setImage:image forUrl:url imageSize:[self imageSize:image]];
+                    }
+                    handler(image, error);
+                  }];
 }
 
 #pragma - Private
 
 - (NSUInteger)imageSize:(UIImage *)image {
-    CGImageRef cgImage = image.CGImage;
-    return CGImageGetHeight(cgImage) * CGImageGetBytesPerRow(cgImage);
+  CGImageRef cgImage = image.CGImage;
+  return CGImageGetHeight(cgImage) * CGImageGetBytesPerRow(cgImage);
 }
 
 @end

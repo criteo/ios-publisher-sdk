@@ -20,11 +20,11 @@
 /**
  * Placeholder to display while the media content is loading or in case of error.
  */
-@property (strong, nonatomic, nullable) UIImage *placeholder;
+@property(strong, nonatomic, nullable) UIImage *placeholder;
 
 /**
  * New media content to load in this view.
  */
-@property (strong, nonatomic, nullable) CRMediaContent *mediaContent;
+@property(strong, nonatomic, nullable) CRMediaContent *mediaContent;
 
 @end

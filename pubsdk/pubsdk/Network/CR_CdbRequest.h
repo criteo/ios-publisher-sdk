@@ -14,15 +14,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_CdbRequest : NSObject
 
-@property (strong, nonatomic, readonly) CR_CacheAdUnitArray *adUnits;
+@property(strong, nonatomic, readonly) CR_CacheAdUnitArray *adUnits;
 
-@property (strong, nonatomic, readonly) NSArray<NSString *> *impressionIds;
+@property(strong, nonatomic, readonly) NSArray<NSString *> *impressionIds;
 
-- (instancetype) init NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype) initWithAdUnits:(CR_CacheAdUnitArray *)adUnits NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithAdUnits:(CR_CacheAdUnitArray *)adUnits NS_DESIGNATED_INITIALIZER;
 
--(NSString *)impressionIdForAdUnit:(CR_CacheAdUnit *)adUnit;
+- (NSString *)impressionIdForAdUnit:(CR_CacheAdUnit *)adUnit;
 
 - (NSArray<NSString *> *)impressionIdsMissingInCdbResponse:(CR_CdbResponse *)cdbResponse;
 

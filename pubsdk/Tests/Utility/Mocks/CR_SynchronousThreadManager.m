@@ -9,21 +9,21 @@
 
 @interface CR_SynchronousThreadManager ()
 
-@property (assign, nonatomic) NSUInteger dispatchAsyncOnGlobalQueueCount;
-@property (assign, nonatomic) NSUInteger dispatchAsyncOnMainQueueCount;
+@property(assign, nonatomic) NSUInteger dispatchAsyncOnGlobalQueueCount;
+@property(assign, nonatomic) NSUInteger dispatchAsyncOnMainQueueCount;
 
 @end
 
 @implementation CR_SynchronousThreadManager
 
 - (void)dispatchAsyncOnMainQueue:(dispatch_block_t)block {
-    NSAssert(block, @"Given block is empty");
-    block();
+  NSAssert(block, @"Given block is empty");
+  block();
 }
 
 - (void)dispatchAsyncOnGlobalQueue:(dispatch_block_t)block {
-    NSAssert(block, @"Given block is empty");
-    block();
+  NSAssert(block, @"Given block is empty");
+  block();
 }
 
 @end

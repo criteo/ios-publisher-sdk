@@ -20,8 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface CRNativeLoader : NSObject
 
-@property (nonatomic, weak) id<CRNativeLoaderDelegate> delegate;
-@property (nonatomic, strong) id<CRMediaDownloader> mediaDownloader;
+@property(nonatomic, weak) id<CRNativeLoaderDelegate> delegate;
+@property(nonatomic, strong) id<CRMediaDownloader> mediaDownloader;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -37,14 +37,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Load the native ad for In-House integration.
  *
- * If the token represent a valid bid, you'll be notified with the native assets via the nativeLoader:didReceiveAd:
- * method of the delegate.
+ * If the token represent a valid bid, you'll be notified with the native assets via the
+ * nativeLoader:didReceiveAd: method of the delegate.
  *
  * Do nothing if the delegate is nil or if it doesn't implement nativeLoader:didReceiveAd:.
  *
  * @param bidToken token to get an Ad from
  */
-- (void)loadAdWithBidToken:(CRBidToken * _Nullable)bidToken;
+- (void)loadAdWithBidToken:(CRBidToken *_Nullable)bidToken;
 
 @end
 
@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param loader Native loader invoking the callback
  * @param ad native ad with the data that may be used to render it
  */
--(void)nativeLoader:(CRNativeLoader *)loader didReceiveAd:(CRNativeAd *)ad;
+- (void)nativeLoader:(CRNativeLoader *)loader didReceiveAd:(CRNativeAd *)ad;
 
 /**
  * Callback invoked when the SDK fails to provide a native ad.
@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param loader Native loader invoking the callback
  * @param error error indicating the reason of the failure
  */
--(void)nativeLoader:(CRNativeLoader *)loader didFailToReceiveAdWithError:(NSError *)error;
+- (void)nativeLoader:(CRNativeLoader *)loader didFailToReceiveAdWithError:(NSError *)error;
 
 /**
  * Callback invoked when a native ad impression is detected.
@@ -92,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param loader Native loader invoking the callback
  */
--(void)nativeLoaderWillLeaveApplication:(CRNativeLoader *)loader;
+- (void)nativeLoaderWillLeaveApplication:(CRNativeLoader *)loader;
 
 @end
 

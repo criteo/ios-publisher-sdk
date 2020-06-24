@@ -14,16 +14,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_TokenCache : NSObject
 
-- (instancetype) init;
+- (instancetype)init;
 
-- (CRBidToken *) getTokenForBid:(CR_CdbBid *)cdbBid
-                     adUnitType:(CRAdUnitType)adUnitType;
+- (CRBidToken *)getTokenForBid:(CR_CdbBid *)cdbBid adUnitType:(CRAdUnitType)adUnitType;
 
-- (nullable CR_TokenValue *) getValueForToken:(CRBidToken *)token
-                          adUnitType:(CRAdUnitType)adUnitType;
+- (nullable CR_TokenValue *)getValueForToken:(CRBidToken *)token
+                                  adUnitType:(CRAdUnitType)adUnitType;
 
-- (void)setTokenMapWithValue:(CR_TokenValue *)tokenValue
-                      forKey:(CRBidToken *)token;
+- (void)setTokenMapWithValue:(CR_TokenValue *)tokenValue forKey:(CRBidToken *)token;
 
 - (CR_TokenValue *)tokenValueForKey:(CRBidToken *)token;
 

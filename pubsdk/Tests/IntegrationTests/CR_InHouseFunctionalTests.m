@@ -26,160 +26,164 @@ static NSString *creativeUrl2 = @"www.apple.com";
 #pragma mark - Banners
 
 - (void)test_givenBanner_whenLoadBidToken_thenBannerReceiveAd {
-    CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
-    [self initCriteoWithAdUnits:@[banner]];
-    CRBidResponse *response = [self.criteo getBidResponseForAdUnit:banner];
-    CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner criteo:self.criteo];
+  CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
+  [self initCriteoWithAdUnits:@[ banner ]];
+  CRBidResponse *response = [self.criteo getBidResponseForAdUnit:banner];
+  CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner
+                                                                            criteo:self.criteo];
 
-    [checker.bannerView loadAdWithBidToken:response.bidToken];
+  [checker.bannerView loadAdWithBidToken:response.bidToken];
 
-    [self cr_waitForExpectations:@[checker.bannerViewDidReceiveAdExpectation]];
+  [self cr_waitForExpectations:@[ checker.bannerViewDidReceiveAdExpectation ]];
 }
 
 - (void)test_givenBannerWithBadAdUnitId_whenLoadBidToken_thenBannerFailToReceiveAd {
-    CRBannerAdUnit *banner = [CR_TestAdUnits randomBanner320x50];
-    [self initCriteoWithAdUnits:@[banner]];
-    CRBidResponse *response = [self.criteo getBidResponseForAdUnit:banner];
-    CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner criteo:self.criteo];
+  CRBannerAdUnit *banner = [CR_TestAdUnits randomBanner320x50];
+  [self initCriteoWithAdUnits:@[ banner ]];
+  CRBidResponse *response = [self.criteo getBidResponseForAdUnit:banner];
+  CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner
+                                                                            criteo:self.criteo];
 
-    [checker.bannerView loadAdWithBidToken:response.bidToken];
+  [checker.bannerView loadAdWithBidToken:response.bidToken];
 
-    [self cr_waitForExpectations:@[checker.bannerViewFailToReceiveAdExpectation]];
+  [self cr_waitForExpectations:@[ checker.bannerViewFailToReceiveAdExpectation ]];
 }
 
 - (void)test_givenBadBanner_whenLoadValidBidToken_thenBannerFailToReceiveAd {
-    CRBannerAdUnit *banner1 = [CR_TestAdUnits preprodBanner320x50];
-    CRBannerAdUnit *banner2 = [CR_TestAdUnits randomBanner320x50];
-    [self initCriteoWithAdUnits:@[banner1]];
-    CRBidResponse *response = [self.criteo getBidResponseForAdUnit:banner1];
-    CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner2 criteo:self.criteo];
+  CRBannerAdUnit *banner1 = [CR_TestAdUnits preprodBanner320x50];
+  CRBannerAdUnit *banner2 = [CR_TestAdUnits randomBanner320x50];
+  [self initCriteoWithAdUnits:@[ banner1 ]];
+  CRBidResponse *response = [self.criteo getBidResponseForAdUnit:banner1];
+  CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner2
+                                                                            criteo:self.criteo];
 
-    [checker.bannerView loadAdWithBidToken:response.bidToken];
+  [checker.bannerView loadAdWithBidToken:response.bidToken];
 
-    [self cr_waitForExpectations:@[checker.bannerViewFailToReceiveAdExpectation]];
+  [self cr_waitForExpectations:@[ checker.bannerViewFailToReceiveAdExpectation ]];
 }
 
 - (void)test_givenBanner_whenLoadWrongBidToken_thenBannerFailToReceiveAd {
-    CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
-    CRBannerAdUnit *orphan = [CR_TestAdUnits demoBanner320x50];
-    [self initCriteoWithAdUnits:@[adUnit, orphan]];
-    CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:adUnit
-                                                                              criteo:self.criteo];
-    CRBidResponse *orphanBid = [self.criteo getBidResponseForAdUnit:orphan];
+  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
+  CRBannerAdUnit *orphan = [CR_TestAdUnits demoBanner320x50];
+  [self initCriteoWithAdUnits:@[ adUnit, orphan ]];
+  CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:adUnit
+                                                                            criteo:self.criteo];
+  CRBidResponse *orphanBid = [self.criteo getBidResponseForAdUnit:orphan];
 
-    [checker.bannerView loadAdWithBidToken:orphanBid.bidToken];
+  [checker.bannerView loadAdWithBidToken:orphanBid.bidToken];
 
-    [self cr_waitForExpectations:@[checker.bannerViewFailToReceiveAdExpectation]];
+  [self cr_waitForExpectations:@[ checker.bannerViewFailToReceiveAdExpectation ]];
 }
 
 - (void)test_givenBannerLoadWrongBidToken_whenLoadGoodBidToken_thenBannerReceiveAd {
-    CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
-    CRBannerAdUnit *orphan = [CR_TestAdUnits demoBanner320x50];
-    [self initCriteoWithAdUnits:@[adUnit, orphan]];
-    CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:adUnit
-                                                                              criteo:self.criteo];
-    CRBidResponse *orphanBid = [self.criteo getBidResponseForAdUnit:orphan];
-    [checker.bannerView loadAdWithBidToken:orphanBid.bidToken];
-    [checker resetExpectations];
+  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
+  CRBannerAdUnit *orphan = [CR_TestAdUnits demoBanner320x50];
+  [self initCriteoWithAdUnits:@[ adUnit, orphan ]];
+  CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:adUnit
+                                                                            criteo:self.criteo];
+  CRBidResponse *orphanBid = [self.criteo getBidResponseForAdUnit:orphan];
+  [checker.bannerView loadAdWithBidToken:orphanBid.bidToken];
+  [checker resetExpectations];
 
-    CRBidResponse *goodBid = [self.criteo getBidResponseForAdUnit:adUnit];
-    [checker.bannerView loadAdWithBidToken:goodBid.bidToken];
-    [self cr_waitForExpectations:@[checker.bannerViewDidReceiveAdExpectation]];
+  CRBidResponse *goodBid = [self.criteo getBidResponseForAdUnit:adUnit];
+  [checker.bannerView loadAdWithBidToken:goodBid.bidToken];
+  [self cr_waitForExpectations:@[ checker.bannerViewDidReceiveAdExpectation ]];
 }
 
 - (void)test_givenBanner_whenLoadBidTokenTwice_thenBannerFailToReceiveAd {
-    CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
-    [self initCriteoWithAdUnits:@[banner]];
-    CRBidResponse *response = [self.criteo getBidResponseForAdUnit:banner];
-    CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner criteo:self.criteo];
-    [checker.bannerView loadAdWithBidToken:response.bidToken];
-    [self cr_waitForExpectations:@[checker.bannerViewDidReceiveAdExpectation]];
-    checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner criteo:self.criteo];
+  CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
+  [self initCriteoWithAdUnits:@[ banner ]];
+  CRBidResponse *response = [self.criteo getBidResponseForAdUnit:banner];
+  CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner
+                                                                            criteo:self.criteo];
+  [checker.bannerView loadAdWithBidToken:response.bidToken];
+  [self cr_waitForExpectations:@[ checker.bannerViewDidReceiveAdExpectation ]];
+  checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner criteo:self.criteo];
 
-    [checker.bannerView loadAdWithBidToken:response.bidToken];
+  [checker.bannerView loadAdWithBidToken:response.bidToken];
 
-    [self cr_waitForExpectations:@[checker.bannerViewFailToReceiveAdExpectation]];
+  [self cr_waitForExpectations:@[ checker.bannerViewFailToReceiveAdExpectation ]];
 }
 
 - (void)test_givenTwoAdRenderings_whenReuseSameBannerView_thenTwoAdsPresented {
-    CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
-    [self initCriteoWithAdUnits:@[banner]];
-    CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner criteo:self.criteo];
+  CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
+  [self initCriteoWithAdUnits:@[ banner ]];
+  CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner
+                                                                            criteo:self.criteo];
 
-    [checker injectBidWithExpectedCreativeUrl:creativeUrl2];
-    CRBidResponse *response = [self.criteo getBidResponseForAdUnit:banner];
-    [checker.bannerView loadAdWithBidToken:response.bidToken];
-    [self cr_waitForExpectations:@[checker.bannerViewDidReceiveAdExpectation]];
+  [checker injectBidWithExpectedCreativeUrl:creativeUrl2];
+  CRBidResponse *response = [self.criteo getBidResponseForAdUnit:banner];
+  [checker.bannerView loadAdWithBidToken:response.bidToken];
+  [self cr_waitForExpectations:@[ checker.bannerViewDidReceiveAdExpectation ]];
 
-    [checker resetExpectations];
+  [checker resetExpectations];
 
-    [checker injectBidWithExpectedCreativeUrl:creativeUrl2];
-    response = [self.criteo getBidResponseForAdUnit:banner];
-    [checker.bannerView loadAdWithBidToken:response.bidToken];
-    [self cr_waitForExpectations:@[checker.bannerViewDidReceiveAdExpectation]];
+  [checker injectBidWithExpectedCreativeUrl:creativeUrl2];
+  response = [self.criteo getBidResponseForAdUnit:banner];
+  [checker.bannerView loadAdWithBidToken:response.bidToken];
+  [self cr_waitForExpectations:@[ checker.bannerViewDidReceiveAdExpectation ]];
 }
 
 - (void)test_givenTwoAdRenderings_whenRecreateBannerView_thenTwoAdsPresented {
-    CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
-    [self initCriteoWithAdUnits:@[banner]];
-    CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner criteo:self.criteo];
+  CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
+  [self initCriteoWithAdUnits:@[ banner ]];
+  CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner
+                                                                            criteo:self.criteo];
 
-    [checker injectBidWithExpectedCreativeUrl:creativeUrl1];
-    CRBidResponse *response = [self.criteo getBidResponseForAdUnit:banner];
-    [checker.bannerView loadAdWithBidToken:response.bidToken];
-    [self cr_waitForExpectations:@[checker.bannerViewDidReceiveAdExpectation]];
+  [checker injectBidWithExpectedCreativeUrl:creativeUrl1];
+  CRBidResponse *response = [self.criteo getBidResponseForAdUnit:banner];
+  [checker.bannerView loadAdWithBidToken:response.bidToken];
+  [self cr_waitForExpectations:@[ checker.bannerViewDidReceiveAdExpectation ]];
 
-    [checker resetExpectations];
-    [checker resetBannerView];
+  [checker resetExpectations];
+  [checker resetBannerView];
 
-    [checker injectBidWithExpectedCreativeUrl:creativeUrl2];
-    response = [self.criteo getBidResponseForAdUnit:banner];
-    [checker.bannerView loadAdWithBidToken:response.bidToken];
-    [self cr_waitForExpectations:@[checker.bannerViewDidReceiveAdExpectation]];
+  [checker injectBidWithExpectedCreativeUrl:creativeUrl2];
+  response = [self.criteo getBidResponseForAdUnit:banner];
+  [checker.bannerView loadAdWithBidToken:response.bidToken];
+  [self cr_waitForExpectations:@[ checker.bannerViewDidReceiveAdExpectation ]];
 }
 
 #pragma mark - Interstitial
 
 - (void)test_givenInterstitial_whenLoadBidToken_thenReceiveAd {
-    CRInterstitialAdUnit *adUnit = [CR_TestAdUnits preprodInterstitial];
-    [self initCriteoWithAdUnits:@[adUnit]];
-    CR_InterstitialChecker *checker = [[CR_InterstitialChecker alloc] initWithAdUnit:adUnit
-                                                                              criteo:self.criteo];
-    CRBidResponse *bid = [self.criteo getBidResponseForAdUnit:adUnit];
+  CRInterstitialAdUnit *adUnit = [CR_TestAdUnits preprodInterstitial];
+  [self initCriteoWithAdUnits:@[ adUnit ]];
+  CR_InterstitialChecker *checker = [[CR_InterstitialChecker alloc] initWithAdUnit:adUnit
+                                                                            criteo:self.criteo];
+  CRBidResponse *bid = [self.criteo getBidResponseForAdUnit:adUnit];
 
-    [checker.intertitial loadAdWithBidToken:bid.bidToken];
+  [checker.intertitial loadAdWithBidToken:bid.bidToken];
 
-    [self cr_waitForExpectations:@[checker.receiveAdExpectation]];
+  [self cr_waitForExpectations:@[ checker.receiveAdExpectation ]];
 }
 
-
 - (void)test_givenInterstitial_whenLoadWrongBidToken_thenFailToReceiveAd {
-    CRInterstitialAdUnit *adUnit = [CR_TestAdUnits preprodInterstitial];
-    CRInterstitialAdUnit *orphan = [CR_TestAdUnits demoInterstitial];
-    [self initCriteoWithAdUnits:@[adUnit, orphan]];
-    CR_InterstitialChecker *checker = [[CR_InterstitialChecker alloc] initWithAdUnit:adUnit
-                                                                              criteo:self.criteo];
-    CRBidResponse *orphanBid = [self.criteo getBidResponseForAdUnit:orphan];
+  CRInterstitialAdUnit *adUnit = [CR_TestAdUnits preprodInterstitial];
+  CRInterstitialAdUnit *orphan = [CR_TestAdUnits demoInterstitial];
+  [self initCriteoWithAdUnits:@[ adUnit, orphan ]];
+  CR_InterstitialChecker *checker = [[CR_InterstitialChecker alloc] initWithAdUnit:adUnit
+                                                                            criteo:self.criteo];
+  CRBidResponse *orphanBid = [self.criteo getBidResponseForAdUnit:orphan];
 
-    [checker.intertitial loadAdWithBidToken:orphanBid.bidToken];
+  [checker.intertitial loadAdWithBidToken:orphanBid.bidToken];
 
-    [self cr_waitForExpectations:@[checker.failToReceiveAdExpectation]];
+  [self cr_waitForExpectations:@[ checker.failToReceiveAdExpectation ]];
 }
 
 - (void)test_givenIntertitialLoadWrongBidToken_whenLoadGoodBidToken_thenReceiveAd {
-    CRInterstitialAdUnit *adUnit = [CR_TestAdUnits preprodInterstitial];
-    CRInterstitialAdUnit *orphan = [CR_TestAdUnits demoInterstitial];
-    [self initCriteoWithAdUnits:@[adUnit, orphan]];
-    CR_InterstitialChecker *checker = [[CR_InterstitialChecker alloc] initWithAdUnit:adUnit
-                                                                              criteo:self.criteo];
-    CRBidResponse *orphanBid = [self.criteo getBidResponseForAdUnit:orphan];
-    [checker.intertitial loadAdWithBidToken:orphanBid.bidToken];
-    [checker resetExpectations];
+  CRInterstitialAdUnit *adUnit = [CR_TestAdUnits preprodInterstitial];
+  CRInterstitialAdUnit *orphan = [CR_TestAdUnits demoInterstitial];
+  [self initCriteoWithAdUnits:@[ adUnit, orphan ]];
+  CR_InterstitialChecker *checker = [[CR_InterstitialChecker alloc] initWithAdUnit:adUnit
+                                                                            criteo:self.criteo];
+  CRBidResponse *orphanBid = [self.criteo getBidResponseForAdUnit:orphan];
+  [checker.intertitial loadAdWithBidToken:orphanBid.bidToken];
+  [checker resetExpectations];
 
-    CRBidResponse *goodBid = [self.criteo getBidResponseForAdUnit:adUnit];
-    [checker.intertitial loadAdWithBidToken:goodBid.bidToken];
-    [self cr_waitForExpectations:@[checker.receiveAdExpectation]];
+  CRBidResponse *goodBid = [self.criteo getBidResponseForAdUnit:adUnit];
+  [checker.intertitial loadAdWithBidToken:goodBid.bidToken];
+  [self cr_waitForExpectations:@[ checker.receiveAdExpectation ]];
 }
-
 
 @end

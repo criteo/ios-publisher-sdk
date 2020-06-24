@@ -16,10 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_ConfigManager : NSObject
 
-- (instancetype) init NS_UNAVAILABLE;
-- (instancetype) initWithApiHandler:(CR_ApiHandler*)apiHandler
-                        userDefault:(NSUserDefaults *)userDefault NS_DESIGNATED_INITIALIZER;
-- (void) refreshConfig:(CR_Config*)config;
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithApiHandler:(CR_ApiHandler *)apiHandler
+                       userDefault:(NSUserDefaults *)userDefault NS_DESIGNATED_INITIALIZER;
+- (void)refreshConfig:(CR_Config *)config;
 
 @end
 

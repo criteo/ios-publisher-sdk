@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSString (CriteoUrl)
 
-+ (nullable NSString *)cr_dfpCompatibleString:(nullable NSString*)string;
++ (nullable NSString *)cr_dfpCompatibleString:(nullable NSString *)string;
 + (nullable NSString *)cr_decodeDfpCompatibleString:(nullable NSString *)string;
 + (nullable NSString *)cr_mopubCompatibleDisplayUrlForDisplayUrl:(nullable NSString *)displayUrl;
 

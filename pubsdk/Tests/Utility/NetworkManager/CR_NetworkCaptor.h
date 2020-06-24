@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^CR_HTTPRequestListener)(NSURL *url, CR_HTTPVerb verb, NSDictionary * _Nullable body);
+typedef void (^CR_HTTPRequestListener)(NSURL *url, CR_HTTPVerb verb, NSDictionary *_Nullable body);
 typedef void (^CR_HTTPResponseListener)(CR_HttpContent *httpContent);
 
 /**
@@ -19,27 +19,28 @@ typedef void (^CR_HTTPResponseListener)(CR_HttpContent *httpContent);
  */
 @interface CR_NetworkCaptor : CR_NetworkManager
 
-@property (nonatomic, strong, readonly) CR_NetworkManager *networkManager;
+@property(nonatomic, strong, readonly) CR_NetworkManager *networkManager;
 
-@property (nonatomic, copy, readonly) NSArray<CR_HttpContent *> *allRequests;
-@property (nonatomic, copy, readonly) NSArray<CR_HttpContent *> *finishedRequests;
-@property (nonatomic, copy, readonly) NSArray<CR_HttpContent *> *pendingRequests;
+@property(nonatomic, copy, readonly) NSArray<CR_HttpContent *> *allRequests;
+@property(nonatomic, copy, readonly) NSArray<CR_HttpContent *> *finishedRequests;
+@property(nonatomic, copy, readonly) NSArray<CR_HttpContent *> *pendingRequests;
 /**
  Listener that is called each time that the NetworkManager launch a request.
  */
-@property (nonatomic, copy, nullable) CR_HTTPRequestListener requestListener;
+@property(nonatomic, copy, nullable) CR_HTTPRequestListener requestListener;
 /**
  Listener that is called each time that the NetworkManager get a response and store in the history.
  */
-@property (nonatomic, copy, nullable) CR_HTTPResponseListener responseListener;
+@property(nonatomic, copy, nullable) CR_HTTPResponseListener responseListener;
 
-- (instancetype)initWithDeviceInfo:(CR_DeviceInfo*)deviceInfo NS_UNAVAILABLE;
+- (instancetype)initWithDeviceInfo:(CR_DeviceInfo *)deviceInfo NS_UNAVAILABLE;
 
 - (instancetype)initWithDeviceInfo:(CR_DeviceInfo *)deviceInfo
                            session:(NSURLSession *)session
                      threadManager:(CR_ThreadManager *)threadManager NS_UNAVAILABLE;
 
-- (instancetype)initWithNetworkManager:(CR_NetworkManager *)networkManager NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithNetworkManager:(CR_NetworkManager *)networkManager
+    NS_DESIGNATED_INITIALIZER;
 
 - (void)clear;
 
