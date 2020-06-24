@@ -15,7 +15,6 @@ default_platform(:ios)
 platform :ios do
   desc "Run Fuji Tests"
   lane :fuji_tests do |options|
-    reset_simulator_contents() # Not needed on CI with virtualized env
     tests_result = multi_scan(scheme: options[:scheme], try_count: 3, fail_build: false)
     reports = Dir['test_output/*/*.html'].map { |relpath| File.absolute_path(relpath) }
     collate_html_reports(reports: reports, collated_report: File.join('build/reports', 'tests.html'))
