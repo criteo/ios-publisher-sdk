@@ -1,5 +1,18 @@
-export AZURE_STORAGE_ACCOUNT=pubsdkuseprod
-export AZURE_STORAGE_KEY=IBXkbamPEDzFFvLFgjL8bG5v7GOLy/2HY2xMVtgXICxSXG/AYYP57Xme9lxNgcoaznc2XGdye/zDT7fPUYrXbA==
+#!/bin/bash -l
+
+set +x
+set -Eeuo pipefail
+
+SCRIPT_DIRECTORY="$(
+  cd "$(dirname "$0")"
+  pwd -P
+)"
+
+# TODO EE-1047 Get those credentials from a vault
+if [[ -f "$SCRIPT_DIRECTORY/env.secret.sh" ]]; then
+  source "$SCRIPT_DIRECTORY/env.secret.sh"
+fi
+
 release=$1
 export container_name=publishersdk
 export blob_name=ios/CriteoPublisherSdk_iOS_v${release}.Release.zip

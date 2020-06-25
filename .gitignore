@@ -44,3 +44,6 @@ vendor
 
 # scan temporary files
 **/fastlane/test_output
+
+# Secret file
+env.secret.sh
