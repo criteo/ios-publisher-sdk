@@ -16,8 +16,8 @@ As much as possible, respect the ["Arrange, Act, Assert" convention](http://wiki
 
 ### Test organisation
 The tests in this project are organised according to the following conventions:
-- Unit tests are located within the [UnitTests](pubsdk/Tests/UnitTests) directory.
-- Integration tests are written in the [IntegrationTests](pubsdk/Tests/IntegrationTests) directory.
+- Unit tests are located within the [UnitTests](CriteoPublisherSdk/Tests/UnitTests) directory.
+- Integration tests are written in the [IntegrationTests](CriteoPublisherSdk/Tests/IntegrationTests) directory.
 - The subset of integration tests which represent one of the functional tests defined [here](https://confluence.criteois.com/display/EE/Functional+Tests)
  are post-fixed with `FunctionTests`. The rest are post-fixed with `IntegrationTests`.
 
@@ -55,7 +55,7 @@ xcrun simctl create "Fuji Simulator XS12.4" com.apple.CoreSimulator.SimDeviceTyp
 ```
 Then run tests, in parallel can help, but expect flaky tests to fail:
 ```shell
-XCODEBUILD_SCHEME_FOR_TESTING="pubsdk"; \
+XCODEBUILD_SCHEME_FOR_TESTING="CriteoPublisherSdk"; \
 CRITEO_CONFIGURATION="Release"; \
 CRITEO_SIM_ARCHS='i386 x86_64'; \
 xcodebuild \

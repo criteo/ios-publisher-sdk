@@ -12,7 +12,7 @@
 
 default_platform(:ios)
 
-project_dir = "pubsdk"
+project_dir = "CriteoPublisherSdk"
 
 platform :ios do
   desc %(Run tests:

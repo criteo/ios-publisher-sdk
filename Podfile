@@ -1,7 +1,7 @@
 platform :ios, '8.0'
 
-workspace 'fuji.xcworkspace'
-project 'pubsdk/pubsdk.xcodeproj'
+workspace 'CriteoPublisherSdk.xcworkspace'
+project 'CriteoPublisherSdk/CriteoPublisherSdk.xcodeproj'
 
 target 'CriteoPublisherSdkTests' do
     pod 'OCMock','~> 3.6'
