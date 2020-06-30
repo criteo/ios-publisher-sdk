@@ -8,7 +8,7 @@
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:../fuji/pubsdk/pubsdk.xcodeproj">
+      location = "group:../fuji/CriteoPublisherSdk/CriteoPublisherSdk.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:../fuji/Pods/Pods.xcodeproj">

@@ -32,15 +32,15 @@ printf "Launching $CRITEO_CONFIGURATION build\nARCHS: $CRITEO_ARCHS\nSIM ARCHS: 
 
 rm -rf fuji
 rm -rf CriteoPublisher.framework
-git clone ssh://qabot@review.crto.in:29418/pub-sdk/fuji
+git clone https://review.crto.in/pub-sdk/fuji
 
 cd fuji
-fuji-pod-install
+./scripts/setup.sh
 
 mkdir -p build/output/sim
 
 xcodebuild \
-    -workspace fuji.xcworkspace \
+        -workspace CriteoPublisherSdk.xcworkspace \
         -scheme CriteoPublisherSdk \
         -configuration $CRITEO_CONFIGURATION \
         -IDEBuildOperationMaxNumberOfConcurrentCompileTasks=`sysctl -n hw.ncpu` \
@@ -57,7 +57,7 @@ xcodebuild \
 mkdir -p build/output/device
 
 xcodebuild \
-    -workspace fuji.xcworkspace \
+        -workspace CriteoPublisherSdk.xcworkspace \
         -scheme CriteoPublisherSdk \
         -configuration $CRITEO_CONFIGURATION \
         -IDEBuildOperationMaxNumberOfConcurrentCompileTasks=`sysctl -n hw.ncpu` \
