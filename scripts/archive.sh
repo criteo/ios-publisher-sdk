@@ -15,7 +15,7 @@ fuji-clean
 function fuji-build-simulator() {
   fuji-echo "[simulator] build($*)"
   xcodebuild \
-    -workspace fuji.xcworkspace \
+    -workspace CriteoPublisherSdk.xcworkspace \
     -scheme CriteoPublisherSdk \
     -configuration "$CRITEO_CONFIGURATION" \
     -IDEBuildOperationMaxNumberOfConcurrentCompileTasks="$(sysctl -n hw.ncpu)" \
@@ -31,7 +31,7 @@ function fuji-build-simulator() {
 function fuji-build-device() {
   fuji-echo "[device] build($*)"
   xcodebuild \
-    -workspace fuji.xcworkspace \
+    -workspace CriteoPublisherSdk.xcworkspace \
     -scheme CriteoPublisherSdk \
     -configuration "$CRITEO_CONFIGURATION" \
     -IDEBuildOperationMaxNumberOfConcurrentCompileTasks="$(sysctl -n hw.ncpu)" \
