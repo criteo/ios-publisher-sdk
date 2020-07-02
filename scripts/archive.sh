@@ -10,12 +10,12 @@ SCRIPT_DIRECTORY="$(
 # shellcheck source=scripts/base.sh
 source "$SCRIPT_DIRECTORY"/base.sh
 
-fuji-clean
+crto-clean
 
-fuji-fat-build Release
-fuji-archive
+crto-fat-build Release
+crto-archive
 
-fuji-fat-build Debug
-fuji-archive
+crto-fat-build Debug
+crto-archive
 
-fuji-echo "Archive completed."
+crto-echo "Archive completed."

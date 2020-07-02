@@ -10,18 +10,18 @@ SCRIPT_DIRECTORY="$(
 # shellcheck source=scripts/base.sh
 source "$SCRIPT_DIRECTORY"/base.sh
 
-fuji-echo "Checking tool versions"
-fuji-printf "xcpretty "
+crto-echo "Checking tool versions"
+crto-printf "xcpretty "
 xcpretty -version
-fuji-printf
+crto-printf
 xcodebuild -version
-fuji-printf
+crto-printf
 ruby --version
-fuji-printf
+crto-printf
 bundle --version
 
-fuji-echo "Bundle install..."
+crto-echo "Bundle install..."
 bundle install --path vendor
 
-fuji-echo "CocoaPods install..."
+crto-echo "CocoaPods install..."
 bundle exec fastlane run cocoapods
