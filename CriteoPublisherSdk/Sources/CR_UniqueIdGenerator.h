@@ -36,12 +36,9 @@ NS_ASSUME_NONNULL_BEGIN
  * This is based on an algorithm already done in C#, Scala and Java to generate
  * impression id. Generation IDs are suitable for Impression IDs
  *
- * @see Publisher SDK Android implementation:
- *https://review.crto.in/gitweb?p=pub-sdk/mochi.git;a=blob;f=publisher-sdk/src/main/java/com/criteo/publisher/bid/UniqueIdGenerator.java;hb=master
- * @see CDB ImpressionIdHelper
- * https://review.crto.in/gitweb?p=publisher/direct-bidder.git;a=blob;f=directbidder-app/src/main/scala/com/criteo/directbidder/helpers/ImpressionIdHelper.scala;hb=master
- * @see Arbitrage ArtbitrageId:
- * https://review.crto.in/gitweb?p=adserving-backend/criteo-arbitration.git;a=blob;f=Criteo.Arbitration.Protocol/ArbitrageId.cs;hb=master
+ * @see Publisher SDK Android version has a similar implementation
+ * @see CDB ImpressionIdHelper: https://go.crto.in/publisher-sdk-cdb-impressionidhelper
+ * @see Arbitrage ArtbitrageId: https://go.crto.in/publisher-sdk-arbitrage-arbitrageid
  *
  * @return a new ID
  */

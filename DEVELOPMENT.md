@@ -18,7 +18,7 @@ As much as possible, respect the ["Arrange, Act, Assert" convention](http://wiki
 The tests in this project are organised according to the following conventions:
 - Unit tests are located within the [UnitTests](CriteoPublisherSdk/Tests/UnitTests) directory.
 - Integration tests are written in the [IntegrationTests](CriteoPublisherSdk/Tests/IntegrationTests) directory.
-- The subset of integration tests which represent one of the functional tests defined [here](https://confluence.criteois.com/display/EE/Functional+Tests)
+- The subset of integration tests which represent one of the functional tests defined [here](https://go.crto.in/publisher-sdk-functional-tests)
  are post-fixed with `FunctionTests`. The rest are post-fixed with `IntegrationTests`.
 
 ### Getting ads on iOS Simulator
@@ -83,7 +83,6 @@ xcodebuild \
     * [fuji-test-app](https://review.crto.in/659663)
 * From Gerrit or from your terminal create a new tag (e.g `v3_5_0_RC1`)
 * Update the constants at the top of `scripts/generate_release_candidate.sh` and then launch it. This will open Xcode on test app project with the SDK RC, and Finder on the folder containing Frameworks:
-    * Upload frameworks to the [release page](https://confluence.criteois.com/display/PUBSDK/Releases).
     * From Xcode create an archive and push it to iTunes Connect, "Distribute through the App Store".
 * Go to [iTunes Connect](https://itunesconnect.apple.com/)
     * Make a new version of the testing app available to the testers via Testflight.

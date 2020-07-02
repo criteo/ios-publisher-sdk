@@ -222,8 +222,6 @@
   if (!config) {
     CLog(@"Config hasn't been fetched. So no bids will be fetched.");
     return YES;
-    // TODO : move kill switch logic out of bid manager
-    // https://review.crto.in/#/c/461220/10/pubsdk/pubsdkTests/CR_BidManagerTests.m
   } else if ([config killSwitch]) {
     CLog(@"killSwitch is engaged. No bid will be fetched.");
     return YES;
@@ -256,8 +254,6 @@
   if (!config) {
     CLog(@"Config hasn't been fetched. So no bids will be fetched.");
     return;
-    // TODO : move kill switch logic out of bid manager
-    // https://review.crto.in/#/c/461220/10/pubsdk/pubsdkTests/CR_BidManagerTests.m
   } else if ([config killSwitch]) {
     CLog(@"killSwitch is engaged. No bid will be fetched.");
     return;

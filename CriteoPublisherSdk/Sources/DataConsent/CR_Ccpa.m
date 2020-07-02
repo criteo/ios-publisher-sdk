@@ -22,8 +22,7 @@
 /**
  Public spec for CCPA:
  https://iabtechlab.com/wp-content/uploads/2019/11/U.S.-Privacy-String-v1.0-IAB-Tech-Lab.pdf
- Internal spec for CCPA:
- https://confluence.criteois.com/display/PP/CCPA+Buying+Policy?focusedCommentId=532758801#comment-532758801
+ Internal spec for CCPA: https://go.crto.in/publisher-sdk-ccpa
 */
 
 NSString *const CR_CcpaIabConsentStringKey = @"IABUSPrivacy_String";

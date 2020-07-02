@@ -32,8 +32,7 @@
 /**
  * Update metrics files accordingly to received events.
  *
- * @see Client side metric specification:
- * https://confluence.criteois.com/display/PUBSDK/Publisher+SDK+-+Client+Side+Metrics
+ * @see Client side metric specification: https://go.crto.in/publisher-sdk-csm
  */
 @protocol CR_FeedbackDelegate
 

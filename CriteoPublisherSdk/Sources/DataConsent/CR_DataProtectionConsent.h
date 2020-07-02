@@ -42,16 +42,15 @@ FOUNDATION_EXTERN NSString *const CR_DataProtectionConsentMopubConsentKey;
 
 /**
  Store dedicated consent for mopub.
- Spec: https://confluence.criteois.com/display/PUBSDK/GDPR+for+Mopub+CMP
- CDB: https://confluence.criteois.com/display/PUB/CDB+-+Mopub+Consent+support
+ Spec: https://go.crto.in/publisher-sdk-gdpr-mopub-cmp
+ CDB: https://go.crto.in/publisher-sdk-cdb-mopub-consent
  */
 @property(nonatomic, copy) NSString *mopubConsent;
 
 /**
  Send events if the user didn't opt out from the Us Privacy or from MoPub.
- US Privacy:
- https://confluence.criteois.com/display/PP/CCPA+Buying+Policy?focusedCommentId=532758801#comment-532758801
- Mopub:        https://confluence.criteois.com/display/PUBSDK/Mopub+consent+on+PubSDK
+ US Privacy: https://go.crto.in/publisher-sdk-ccpa
+ Mopub:      https://go.crto.in/publisher-sdk-mopub-consent
  */
 @property(nonatomic, assign, readonly) BOOL shouldSendAppEvent;
 

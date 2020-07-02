@@ -139,8 +139,7 @@
 }
 
 #pragma mark - Feedback Message State
-// Relies on the diagram introduced here:
-// https://confluence.criteois.com/display/PUBSDK/Publisher+SDK+-+Client+Side+Metrics
+// Relies on the diagram introduced here: https://go.crto.in/publisher-sdk-csm
 
 - (void)testFeedbackMessageStateBeforeBidRequest {
   [self invokeBeforeCdbHandlerOnBidRequestWithCdbRequest:self.cdbRequest];
