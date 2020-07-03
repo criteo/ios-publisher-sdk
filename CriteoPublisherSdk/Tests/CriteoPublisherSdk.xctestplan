@@ -1,0 +1,36 @@
+{
+  "configurations" : [
+    {
+      "id" : "91667446-33C4-4473-998E-B6C8F291B9F7",
+      "name" : "Default",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:CriteoPublisherSdk.xcodeproj",
+      "identifier" : "25BD5B562220D16D004DE311",
+      "name" : "CriteoPublisherSdk"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "skippedTests" : [
+        "CR_DfpBannerFunctionalTests\/test_givenValidBanner_whenLoadingDfpBanner_thenDfpViewContainsCreative",
+        "CR_MopubBannerFunctionalTests\/test_givenValidBanner_whenLoadingMopubBanner_thenMopubViewContainsCreative",
+        "CR_StandaloneBannerFunctionalTests\/test_givenBannerWithGoodAdUnitId_whenLoadAd_thenAdIsLoadedProperly",
+        "CR_WebApiIntegrationTests"
+      ],
+      "target" : {
+        "containerPath" : "container:CriteoPublisherSdk.xcodeproj",
+        "identifier" : "E1F2736C21B5F08D00A2FBFA",
+        "name" : "CriteoPublisherSdkTests"
+      }
+    }
+  ],
+  "version" : 1
+}
