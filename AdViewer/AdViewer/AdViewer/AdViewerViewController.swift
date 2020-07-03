@@ -10,8 +10,6 @@ import Eureka
 class AdViewerViewController: FormViewController {
     private lazy var networks = AdNetworks(controller: self)
     private lazy var defaultNetwork = networks.all.first!
-    // TODO Advanced config
-    private let publisherId = "B-056946"
 
     private var adConfig: AdConfig?
     private var criteo: Criteo?
@@ -19,7 +17,7 @@ class AdViewerViewController: FormViewController {
 
     // MARK: form helper properties
     private enum Tags: String {
-        case network, type, size, display, ads
+        case network, type, size, display, ads, publisherId
     }
 
     private enum DisplayMode: CustomStringConvertible {
@@ -129,6 +127,13 @@ class AdViewerViewController: FormViewController {
                 $0?.description
             }
         }
+        <<< TextRow(Tags.publisherId.rawValue) {
+            $0.title = "Publisher ID"
+            $0.placeholder = AdNetworks.defaultPublisherId
+            $0.onChange { _ in
+                self.updateAdConfig()
+            }
+        }
 
         +++ Section()
         <<< ButtonRow() {
@@ -155,7 +160,8 @@ class AdViewerViewController: FormViewController {
         if let network = (self.values[Tags.network.rawValue] as? AdNetwork),
            let type = (self.values[Tags.type.rawValue] as? AdType) {
             let size = (self.values[Tags.size.rawValue] as? AdSize)
-            // TODO Advanced config
+            let publisherId = (self.values[Tags.publisherId.rawValue] as? String)
+                    ?? AdNetworks.defaultPublisherId
             let format: AdFormat
             switch size {
             case .some(let size): format = .sized(type, size)
@@ -174,13 +180,13 @@ class AdViewerViewController: FormViewController {
     }
 
     private func buildCriteo(adConfig: AdConfig) -> Criteo {
-        return buildCriteo(adUnits: [adConfig.adUnit])
+        return buildCriteo(publisherId: adConfig.publisherId, adUnits: [adConfig.adUnit])
     }
 
-    private func buildCriteo(adUnits: [CRAdUnit]) -> Criteo {
+    private func buildCriteo(publisherId: String, adUnits: [CRAdUnit]) -> Criteo {
         let criteo = Criteo()!
         criteo.networkManagerDelegate = LogManager.sharedInstance()
-        criteo.registerPublisherId(self.publisherId, with: adUnits)
+        criteo.registerPublisherId(publisherId, with: adUnits)
         return criteo
     }
 

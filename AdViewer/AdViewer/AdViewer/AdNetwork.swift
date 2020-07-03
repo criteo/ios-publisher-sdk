@@ -48,6 +48,7 @@ struct AdNetworks {
     let Mopub: AdNetwork
     let Criteo: AdNetwork
     let all: [AdNetwork]
+    static let defaultPublisherId = "B-056946"
 
     init(controller: AdViewController) {
         self.Google = AdNetwork(name: "Google", supportedFormats: [
