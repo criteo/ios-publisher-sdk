@@ -1,6 +1,6 @@
 [![CI](https://github.com/criteo/ios-publisher-sdk/workflows/CI/badge.svg)]()
-[![CocoaPods-Version](https://img.shields.io/cocoapods/v/CriteoPublisherSdk.svg)]()
-[![CocoaPods-License](https://img.shields.io/cocoapods/l/CriteoPublisherSdk.svg)]()
+[![CocoaPods](https://img.shields.io/cocoapods/v/CriteoPublisherSdk.svg)]()
+[![License](https://img.shields.io/github/license/criteo/ios-publisher-sdk.svg)]()
 [![iOS8](https://img.shields.io/badge/iOS-8.0%2B-lightgrey.svg)]()
 
 # Criteo Publisher SDK
