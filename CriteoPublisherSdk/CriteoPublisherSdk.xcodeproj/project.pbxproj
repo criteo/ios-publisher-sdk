@@ -305,6 +305,7 @@
 		25BD5B592220D16D004DE311 /* CriteoPublisherSdk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CriteoPublisherSdk.h; sourceTree = "<group>"; };
 		25BD5B5A2220D16D004DE311 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		32116366A6DEEDBAD36BC1E8 /* Pods-CriteoPublisherSdk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoPublisherSdk.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-CriteoPublisherSdk/Pods-CriteoPublisherSdk.debug.xcconfig"; sourceTree = "<group>"; };
+		4607BD0D24AF4F8300F18AF5 /* CriteoPublisherSdk.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CriteoPublisherSdk.xctestplan; sourceTree = "<group>"; };
 		46240E0B2434BB4F001425AB /* CR_UniqueIdGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_UniqueIdGenerator.h; sourceTree = "<group>"; };
 		46240E0C2434BB4F001425AB /* CR_UniqueIdGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_UniqueIdGenerator.m; sourceTree = "<group>"; };
 		46240E132434BB91001425AB /* CR_UniqueIdGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_UniqueIdGeneratorTests.swift; sourceTree = "<group>"; };
@@ -1368,6 +1369,7 @@
 		E1F2737121B5F08D00A2FBFA /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				4607BD0D24AF4F8300F18AF5 /* CriteoPublisherSdk.xctestplan */,
 				54FE074123FEED2B0035A026 /* CriteoPublisherSdkTests-Bridging-Header.h */,
 				7D3E41EF23915A8B00BAF673 /* CriteoPublisherSdkTests-Info.plist */,
 				7DCFBF752445F2BE009657F7 /* PerformanceTests */,
