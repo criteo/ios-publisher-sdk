@@ -8,9 +8,9 @@
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:../fuji/CriteoPublisherSdk/CriteoPublisherSdk.xcodeproj">
+      location = "group:../ios-publisher-sdk/CriteoPublisherSdk/CriteoPublisherSdk.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:../fuji/Pods/Pods.xcodeproj">
+      location = "group:../ios-publisher-sdk/Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>
