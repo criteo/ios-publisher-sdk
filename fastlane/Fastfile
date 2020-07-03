@@ -30,7 +30,7 @@ platform :ios do
       script_path: "tools/clang-format/run-clang-format.py",
       extensions: "h,m",
       paths: ["#{project_dir}"],
-      executable: "tools/clang-format/clang-format"
+      executable: "tools/clang-format/clang-format",
     )
   end
 
@@ -46,7 +46,7 @@ platform :ios do
       inplace: true,
       style: "file",
       verbose: true,
-      files: files
+      files: files,
     )
   end
 end
