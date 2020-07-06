@@ -42,18 +42,20 @@
                            price:product.price
                     callToAction:product.callToAction
            advertiserDescription:assets.advertiser.description
-                advertiserDomain:assets.advertiser.domain]) {
+                advertiserDomain:assets.advertiser.domain
+                       legalText:assets.privacy.longLegalText]) {
     _assets = assets;
   }
   return self;
 }
 
-- (instancetype)initWithTitle:(NSString *)title
-                         body:(NSString *)body
-                        price:(NSString *)price
-                 callToAction:(NSString *)callToAction
-        advertiserDescription:(NSString *)advertiserDescription
-             advertiserDomain:(NSString *)advertiserDomain {
+- (instancetype)initWithTitle:(NSString *_Nullable)title
+                         body:(NSString *_Nullable)body
+                        price:(NSString *_Nullable)price
+                 callToAction:(NSString *_Nullable)callToAction
+        advertiserDescription:(NSString *_Nullable)advertiserDescription
+             advertiserDomain:(NSString *_Nullable)advertiserDomain
+                    legalText:(NSString *_Nullable)legalText {
   if (self = [super init]) {
     _title = title;
     _body = body;
@@ -61,6 +63,7 @@
     _callToAction = callToAction;
     _advertiserDescription = advertiserDescription;
     _advertiserDomain = advertiserDomain;
+    _legalText = legalText;
   }
   return self;
 }

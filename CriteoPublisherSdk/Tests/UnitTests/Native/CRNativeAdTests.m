@@ -51,6 +51,9 @@
   XCTAssertEqual(ad.advertiserDomain, advertiser.domain);
   XCTAssertEqualObjects(ad.advertiserLogoMedia.url.absoluteString, advertiser.logoImage.url);
   XCTAssertEqual(ad.advertiserLogoMedia.mediaDownloader, mediaDownloader);
+  // Privacy
+  CR_NativePrivacy *privacy = assets.privacy;
+  XCTAssertEqual(ad.legalText, privacy.longLegalText);
 }
 
 @end

@@ -35,6 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(weak, nonatomic) IBOutlet UILabel *advertiserDescriptionLabel;
 @property(weak, nonatomic) IBOutlet UILabel *advertiserDomainUrlLabel;
 @property(weak, nonatomic) IBOutlet CRMediaView *advertiserLogoMediaView;
+@property(weak, nonatomic) IBOutlet UILabel *legalTextLabel;
 
 @end
 

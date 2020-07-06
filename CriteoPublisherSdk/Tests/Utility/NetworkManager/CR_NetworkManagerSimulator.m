@@ -198,7 +198,7 @@ NSString *const CR_NetworkSessionEmptyBid =
     @"privacy" : @{
       @"optoutClickUrl" : @"https://info.criteo.com/privacy/informations",
       @"optoutImageUrl" : @"https://static.criteo.net/flash/icon/nai_small.png",
-      @"longLegalText" : @""
+      @"longLegalText" : @"Long Legal Text"
     },
     @"impressionPixels" : @[
       @{@"url" : @"https://my-impression-pixel/test/impression"},

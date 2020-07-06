@@ -88,6 +88,7 @@
   XCTAssertEqualObjects(adCell.advertiserDomainUrlLabel.text, expectedAssets.advertiser.domain);
   XCTAssertEqualObjects(adCell.advertiserDescriptionLabel.text,
                         expectedAssets.advertiser.description);
+  XCTAssertEqualObjects(adCell.legalTextLabel.text, expectedAssets.privacy.longLegalText);
 
   // Product image
   XCTAssertNotNil(adCell.productMediaView.imageView.image);
