@@ -162,6 +162,7 @@ static const NSUInteger kCellCount = 50;
     cell.advertiserLogoMediaView.placeholder = self.mediaPlaceholder;
     cell.advertiserLogoMediaView.mediaContent = ad.advertiserLogoMedia;
     cell.priceLabel.text = ad.price ?: @"No price";
+    cell.legalTextLabel.text = ad.legalText ?: @"No legalText";
 
     if (ad) {
       self.lastFilledAdCell = cell;

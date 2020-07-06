@@ -44,6 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy, readonly) NSString *advertiserDomain;
 /** The logo of the company that advertises the product. */
 @property(nonatomic, copy, readonly, nullable) CRMediaContent *advertiserLogoMedia;
+/** The legal text related to ad. */
+@property(nonatomic, copy, readonly, nullable) NSString *legalText;
 
 - (instancetype)init NS_UNAVAILABLE;
 

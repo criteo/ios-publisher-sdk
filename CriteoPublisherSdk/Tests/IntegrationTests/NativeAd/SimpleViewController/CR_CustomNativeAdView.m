@@ -54,6 +54,7 @@
   [self addLabelValue:nativeAd.callToAction forKey:@"callToAction"];
   [self addLabelValue:nativeAd.advertiserDescription forKey:@"advertiserDescription"];
   [self addLabelValue:nativeAd.advertiserDomain forKey:@"advertiserDomain"];
+  [self addLabelValue:nativeAd.legalText forKey:@"legalText"];
   self.advertiserLogoMediaView.mediaContent = nativeAd.advertiserLogoMedia;
   self.productMediaView.mediaContent = nativeAd.productMedia;
 }

@@ -44,7 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
                         price:(NSString *_Nullable)price
                  callToAction:(NSString *_Nullable)callToAction
         advertiserDescription:(NSString *_Nullable)advertiserDescription
-             advertiserDomain:(NSString *_Nullable)advertiserDomain NS_DESIGNATED_INITIALIZER;
+             advertiserDomain:(NSString *_Nullable)advertiserDomain
+                    legalText:(NSString *_Nullable)legalText NS_DESIGNATED_INITIALIZER;
 
 - (void)markAsImpressed;
 
