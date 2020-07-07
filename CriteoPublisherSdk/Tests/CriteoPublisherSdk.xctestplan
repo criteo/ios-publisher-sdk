@@ -20,9 +20,6 @@
     {
       "parallelizable" : true,
       "skippedTests" : [
-        "CR_DfpBannerFunctionalTests\/test_givenValidBanner_whenLoadingDfpBanner_thenDfpViewContainsCreative",
-        "CR_MopubBannerFunctionalTests\/test_givenValidBanner_whenLoadingMopubBanner_thenMopubViewContainsCreative",
-        "CR_StandaloneBannerFunctionalTests\/test_givenBannerWithGoodAdUnitId_whenLoadAd_thenAdIsLoadedProperly",
         "CR_WebApiIntegrationTests"
       ],
       "target" : {
