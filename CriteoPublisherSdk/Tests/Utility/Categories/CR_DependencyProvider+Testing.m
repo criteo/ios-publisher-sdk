@@ -43,9 +43,12 @@
 }
 
 - (CR_DependencyProvider *)withPreprodConfiguration {
-  CR_Config *config = [CR_Config configForTestWithCriteoPublisherId:CriteoTestingPublisherId
-                                                       userDefaults:self.userDefaults];
-  self.config = config;
+  static NSString *cdbPreprodUrl = @"https://directbidder-test-app.par.preprod.crto.in";
+  self.config = [[CR_Config alloc] initWithCriteoPublisherId:CriteoTestingPublisherId
+                                                      cdbUrl:cdbPreprodUrl
+                                                appEventsUrl:CR_ConfigAppEventsUrl
+                                                   configUrl:CR_ConfigConfigurationUrl
+                                                userDefaults:self.userDefaults];
   return self;
 }
 
