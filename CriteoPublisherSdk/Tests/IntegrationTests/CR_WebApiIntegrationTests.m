@@ -50,8 +50,6 @@
 @implementation CR_WebApiIntegrationTests
 
 - (void)setUp {
-  NSString *userDefaultsId = NSStringFromClass(self.class);
-  [[NSUserDefaults new] removePersistentDomainForName:userDefaultsId];
   self.deviceInfo = [[CR_DeviceInfo alloc] init];
   self.consentMock = [[CR_DataProtectionConsentMock alloc] init];
   CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.new.withPreprodConfiguration;
