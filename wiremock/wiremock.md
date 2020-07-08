@@ -43,4 +43,14 @@ You can check it works on wiremock side
 curl -k 'https://localhost:9099/cdb-stubs/delivery/ajs.php?width=320&height=50'
 ```
 
+## Register Self Signed certificate on iOS simulator
+
+You can register the self-signed certificate by drag & dropping the `crt` file
+to the Simulator window. You can also do this using [iostrust] gem by running
+the following command:
+```sh
+bundle exec iostrust add ./wiremock/cert/wiremock.crt
+```
+
 [ios-self-signed]: https://medium.com/vmware-end-user-computing/creating-a-tls-connection-with-wiremock-e275daf72549
+[iostrust]: https://github.com/yageek/iostrust
