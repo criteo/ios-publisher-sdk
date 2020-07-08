@@ -71,6 +71,8 @@ GEM
     colored (1.2)
     colored2 (3.1.2)
     colorize (0.8.1)
+    commander (4.4.6)
+      highline (~> 1.7.2)
     commander-fastlane (4.4.6)
       highline (~> 1.7.2)
     concurrent-ruby (1.1.6)
@@ -176,6 +178,9 @@ GEM
     httpclient (2.8.3)
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
+    iostrust (1.0.0)
+      commander (~> 4.3)
+      sqlite3
     jmespath (1.4.0)
     json (2.3.1)
     jwt (2.1.0)
@@ -213,6 +218,7 @@ GEM
       CFPropertyList
       naturally
     slack-notifier (2.3.2)
+    sqlite3 (1.4.2)
     terminal-notifier (2.0.0)
     terminal-table (1.8.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
@@ -251,6 +257,7 @@ DEPENDENCIES
   fastlane
   fastlane-plugin-clang_format
   fastlane-plugin-test_center
+  iostrust
 
 BUNDLED WITH
    2.1.4

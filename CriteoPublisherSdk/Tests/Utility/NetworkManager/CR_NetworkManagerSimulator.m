@@ -29,7 +29,6 @@
 #import "CR_ViewCheckingHelper.h"
 
 NSString *const CR_NetworkManagerSimulatorDefaultDisplayUrl =
-//    @"https://directbidder-stubs.par.preprod.crto.in/delivery/ajs.php?width=320&height=50";
     @"https://localhost:9099/cdb-stubs/delivery/ajs.php?width=320&height=50";
 
 NSString *const CR_NetworkManagerSimulatorDefaultCpm = @"1.12";

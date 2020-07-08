@@ -21,7 +21,11 @@ platform :ios do
   )
   lane :test do
     format_check
-    multi_scan(try_count: 3, parallel_testrun_count: 2)
+    multi_scan(try_count: 3, parallel_testrun_count: 2, only_testing: [
+      "CriteoPublisherSdkTests/CR_DfpBannerFunctionalTests/test_givenValidBanner_whenLoadingDfpBanner_thenDfpViewContainsCreative",
+      "CriteoPublisherSdkTests/CR_MopubBannerFunctionalTests/test_givenValidBanner_whenLoadingMopubBanner_thenMopubViewContainsCreative",
+      "CriteoPublisherSdkTests/CR_StandaloneBannerFunctionalTests/test_givenBannerWithGoodAdUnitId_whenLoadAd_thenAdIsLoadedProperly",
+    ])
   end
 
   desc %(Check code format)
