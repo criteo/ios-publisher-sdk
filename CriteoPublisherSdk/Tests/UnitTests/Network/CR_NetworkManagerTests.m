@@ -80,10 +80,7 @@
                                   responseHandler:nil]);
 }
 
-// NOT a unit test as it uses the interwebs.
-// This keeps failing, skip it until we have something that could work
-// EE-204
-- (void)skipped_testNetworkManagerPostCall {
+- (void)testNetworkManagerPostCall {
   XCTestExpectation *expectation = [self expectationWithDescription:@"CDB network call"];
   CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] init];
   // test values
@@ -138,7 +135,7 @@
                                nil],
           @"slots", nil];
 
-  NSURL *url = [NSURL URLWithString:@"http://directbidder-test-app.par.preprod.crto.in/"
+  NSURL *url = [NSURL URLWithString:@"https://localhost:9099/directbidder-test-app/"
                                     @"inapp/v1?profileId=235"];
 
   CR_NetworkManager *networkManager = [[CR_NetworkManager alloc] initWithDeviceInfo:deviceInfo];

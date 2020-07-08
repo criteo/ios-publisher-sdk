@@ -1,0 +1,20 @@
+{
+  "name": "directbidder-test-app",
+  "metadata": {
+    "origin": "http://directbidder-test-app.par.preprod.crto.in/inapp/v1?profileId=235"
+  },
+  "request": {
+    "url": "/directbidder-test-app/inapp/v1?profileId=235",
+    "method": "POST"
+  },
+  "response": {
+    "status" : 200,
+    "body" : "{\r\n      \"slots\": [{\r\n        \"impId\": \"5f05ec4e58f360e11c914a9de6650fc4\",\r\n        \"placementId\": \"div-Test-DirectBidder\",\r\n        \"arbitrageId\": \"arbitrage_id\",\r\n        \"cpm\": \"1.00\",\r\n        \"currency\": \"EUR\",\r\n        \"width\": 300,\r\n        \"height\": 250,\r\n        \"ttl\": 0,\r\n        \"displayUrl\": \"https:\/\/directbidder-stubs.par.preprod.crto.in\/delivery\/ajs.php?width=300&height=250\"\r\n      }],\r\n      \"requestId\": \"bffa74c5-c75e-47ff-8ddf-ead9a88f74ae\"\r\n    }",
+    "headers" : {
+      "content-type" : "text/plain; charset=utf-8",
+      "vary" : "Origin"
+    }
+  },
+  "persistent": true,
+  "insertionIndex": 1
+}
