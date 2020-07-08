@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 // ⚠️ Call those methods in this order to have a good dependency management.
 @property(weak, nonatomic, readonly) CR_DependencyProvider *withIsolatedUserDefaults;
 @property(weak, nonatomic, readonly) CR_DependencyProvider *withIsolatedDeviceInfo;
+@property(weak, nonatomic, readonly) CR_DependencyProvider *withWireMockConfiguration;
 @property(weak, nonatomic, readonly) CR_DependencyProvider *withPreprodConfiguration;
 @property(weak, nonatomic, readonly) CR_DependencyProvider *withListenedNetworkManager;
 @property(weak, nonatomic, readonly) CR_DependencyProvider *withIsolatedNotificationCenter;
