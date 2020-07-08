@@ -1,0 +1,47 @@
+[ req ]
+default_bits        = 2048
+default_keyfile     = wiremock.key
+default_md          = sha256
+default_days        = 365
+encrypt_key         = no
+distinguished_name  = req_distinguished_name
+req_extensions      = req_ext
+x509_extensions     = x509_ext
+string_mask         = utf8only
+prompt              = no
+
+
+[ req_distinguished_name ]
+OU                      = Amit G. SelfSigned Inc.
+countryName             = US
+stateOrProvinceName     = PaloAlto
+localityName            = CA
+organizationName        = Amit G. SelfSigned Inc.
+commonName              = wiremock.lan
+emailAddress            = me@email.com
+
+[ x509_ext ]
+subjectKeyIdentifier    = hash
+authorityKeyIdentifier  = keyid:always,issuer
+basicConstraints        = critical, CA:TRUE
+keyUsage                = critical, digitalSignature, keyEncipherment, cRLSign, keyCertSign
+subjectAltName          = @alternate_names
+#extendedKeyUsage is must for iOS13, use one of the following
+#serverAuth, clientAuth, codeSigning, emailProtection, timeStamping, ocspSigning, ipsecEndSystem,ipsecTunnel,ipsecUser
+#reference: http://javadoc.iaik.tugraz.at/iaik_jce/current/iaik/x509/extensions/ExtendedKeyUsage.html
+extendedKeyUsage        = serverAuth,clientAuth
+
+[ req_ext ]
+subjectKeyIdentifier    = hash
+basicConstraints        = CA:FALSE
+keyUsage                = nonRepudiation, digitalSignature, keyEncipherment
+subjectAltName          = DNS:127.0.0.1, DNS:localhost.com
+nsComment               = "OpenSSL Generated Certificate"
+
+[ alternate_names ]
+DNS.1       = localhost.localdomain
+DNS.2       = localhost.amit.com
+DNS.3       = 127.0.0.1
+DNS.4       = localhost
+DNS.5       = ::1
+IP.1        = 127.0.0.1
