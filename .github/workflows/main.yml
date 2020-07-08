@@ -43,6 +43,16 @@ jobs:
       run: |
         bundle exec fastlane run cocoapods
 
+    - name: Java setup
+      uses: actions/setup-java@v1
+      with:
+        java-version: '11'
+    - name: WireMock setup
+      run: |
+        curl https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-jre8-standalone/2.27.0/wiremock-jre8-standalone-2.27.0.jar -o wiremock.jar -s
+        bundle exec iostrust add ./wiremock/cert/wiremock.crt
+        java -jar wiremock.jar --https-port 9099 --root-dir wiremock --https-keystore wiremock/cert/wiremock.jks --keystore-password password --verbose &
+
     - name: Test
       run: |
         bundle exec fastlane test
