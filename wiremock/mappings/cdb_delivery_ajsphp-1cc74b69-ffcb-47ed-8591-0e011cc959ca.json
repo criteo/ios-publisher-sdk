@@ -1,0 +1,21 @@
+{
+  "id" : "1cc74b69-ffcb-47ed-8591-0e011cc959ca",
+  "name" : "cdb_delivery_ajsphp",
+  "request" : {
+    "url" : "/cdb-stubs/delivery/ajs.php?width=320&height=50",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "(function(){\nvar s = \"\";\ns += \"<\"+\"a href=\\\"https://criteo.com\\\">\\n\";\ns += \"  <\"+\"img width='320' height='50' src=\\\"https://publisherdirect.criteo.com/publishertag/preprodtest/creative_cas.png\\\"/>\\n\";\ns += \"<\"+\"/a>\\n\";\ns += \"\\n\";\ndocument.write(s);})();",
+    "headers" : {
+      "date" : "Tue, 07 Jul 2020 13:32:28 GMT",
+      "server" : "Finatra",
+      "content-type" : "text/plain; charset=utf-8",
+      "vary" : "Origin"
+    }
+  },
+  "uuid" : "1cc74b69-ffcb-47ed-8591-0e011cc959ca",
+  "persistent" : true,
+  "insertionIndex" : 1
+}
