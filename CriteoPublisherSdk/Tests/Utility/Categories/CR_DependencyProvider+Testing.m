@@ -29,7 +29,7 @@
 
 + (instancetype)testing_dependencyProvider {
   return CR_DependencyProvider.new.withIsolatedUserDefaults.withIsolatedDeviceInfo
-      .withPreprodConfiguration.withListenedNetworkManager.withIsolatedNotificationCenter
+      .withWireMockConfiguration.withListenedNetworkManager.withIsolatedNotificationCenter
       .withIsolatedFeedbackStorage;
 }
 
@@ -39,6 +39,21 @@
   networkManager = OCMPartialMock(networkManager);
   networkManager = [[CR_NetworkCaptor alloc] initWithNetworkManager:networkManager];
   self.networkManager = networkManager;
+  return self;
+}
+
+- (NSString *)wireMockEndPoint:(NSString *)path {
+  static const NSString *wireMockUrl = @"https://localhost:9099";
+  return [wireMockUrl stringByAppendingPathComponent:path];
+}
+
+- (CR_DependencyProvider *)withWireMockConfiguration {
+  self.config =
+      [[CR_Config alloc] initWithCriteoPublisherId:CriteoTestingPublisherId
+                                            cdbUrl:[self wireMockEndPoint:@"cdb"]
+                                      appEventsUrl:[self wireMockEndPoint:@"gum/appevent/v1"]
+                                         configUrl:[self wireMockEndPoint:@"cfg/v2.0/api/config"]
+                                      userDefaults:self.userDefaults];
   return self;
 }
 

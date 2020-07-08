@@ -48,7 +48,7 @@
   [self clearFileDisk];
 
   CR_DependencyProvider *dependencyProvider =
-      CR_DependencyProvider.new.withIsolatedUserDefaults.withPreprodConfiguration
+      CR_DependencyProvider.new.withIsolatedUserDefaults.withWireMockConfiguration
           .withListenedNetworkManager
           // We don't want to isolate the tests from the disk
           //.withIsolatedFeedbackStorage
