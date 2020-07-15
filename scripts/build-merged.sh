@@ -6,7 +6,7 @@ set -Eeuo pipefail
 rm -rf build/output
 mkdir -p build/output/sim
 
-pod install
+pod install --repo-update
 
 CRITEO_CONFIGURATION="Release"
 
