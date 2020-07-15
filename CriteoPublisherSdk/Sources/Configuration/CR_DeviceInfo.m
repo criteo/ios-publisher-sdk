@@ -134,6 +134,14 @@
   return [UIScreen mainScreen].bounds.size;
 }
 
+- (CGSize)safeScreenSize {
+  if (@available(iOS 11.0, *)) {
+    UIWindow *keyWindow = UIApplication.sharedApplication.keyWindow;
+    return keyWindow.safeAreaLayoutGuide.layoutFrame.size;
+  }
+  return self.screenSize;
+}
+
 - (BOOL)validScreenSize:(CGSize)size {
   CGSize currentScreenSize = self.screenSize;
   return CGSizeEqualToSize(size, currentScreenSize) ||
