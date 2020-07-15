@@ -36,6 +36,8 @@
 #import "CR_TokenValue+Testing.h"
 #import "CR_URLOpenerMock.h"
 #import "XCTestCase+Criteo.h"
+#import "CR_DependencyProvider.h"
+#import "CR_DependencyProvider+Testing.h"
 
 @interface CRInterstitialDelegateTests : XCTestCase {
   CR_CacheAdUnit *_cacheAdUnit;
@@ -128,9 +130,12 @@
 }
 
 - (void)testInterstitialDidReceiveAd {
-  // create mock objects
+  CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
+
   Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+  OCMStub(mockCriteo.dependencyProvider).andReturn(dependencyProvider);
   OCMStub(mockCriteo.config).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
+
   WKWebView *mockWebView = OCMClassMock([WKWebView class]);
   UIView *mockView = OCMClassMock([UIView class]);
   CR_InterstitialViewController *interstitialVC =
@@ -146,7 +151,8 @@
 
   // stub methods for loadAd
   id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
-  OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(320, 480));
+  OCMStub([deviceInfoClassMock screenSize]).andReturn(CGSizeMake(320, 480));
+  dependencyProvider.deviceInfo = deviceInfoClassMock;
 
   OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]])
       .andReturn([self bidWithDisplayURL:@"test"]);
@@ -173,7 +179,11 @@
 }
 
 - (void)testInterstitialAdFetchFail {
+  CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
+
   Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+  OCMStub(mockCriteo.dependencyProvider).andReturn(dependencyProvider);
+
   CRInterstitial *interstitial =
       [[CRInterstitial alloc] initWithCriteo:mockCriteo
                               viewController:nil
@@ -190,7 +200,8 @@
                      didFailToReceiveAdWithError:[OCMArg any]]);
 
   id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
-  OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(320, 480));
+  OCMStub([deviceInfoClassMock screenSize]).andReturn(CGSizeMake(320, 480));
+  dependencyProvider.deviceInfo = deviceInfoClassMock;
 
   XCTestExpectation *interstitialAdFetchFailExpectation =
       [self expectationWithDescription:@"interstitialDidFail delegate method called"];
@@ -237,8 +248,12 @@
 }
 
 - (void)testInterstitialWillAndDidAppear {
+  CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
+
   Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+  OCMStub(mockCriteo.dependencyProvider).andReturn(dependencyProvider);
   OCMStub(mockCriteo.config).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
+
   WKWebView *mockWebView = OCMClassMock([WKWebView class]);
   UIView *mockView = OCMClassMock([UIView class]);
   CR_InterstitialViewController *interstitialVC =
@@ -273,7 +288,8 @@
                                          completion:[OCMArg invokeBlock]]);
 
   id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
-  OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(320, 480));
+  OCMStub([deviceInfoClassMock screenSize]).andReturn(CGSizeMake(320, 480));
+  dependencyProvider.deviceInfo = deviceInfoClassMock;
 
   OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]])
       .andReturn([self bidWithDisplayURL:@"test"]);
@@ -613,8 +629,12 @@
 
 // test the only delegate called is didReceiveAd: when no HTTP response
 - (void)testDidReceiveAdWhenNoHttpResponse {
+  CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
+
   Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
   OCMStub(mockCriteo.config).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
+  OCMStub(mockCriteo.dependencyProvider).andReturn(dependencyProvider);
+
   WKWebView *realWebView = [WKWebView new];
   CR_InterstitialViewController *interstitialVC =
       [[CR_InterstitialViewController alloc] initWithWebView:realWebView view:nil interstitial:nil];
@@ -624,8 +644,10 @@
                                   isAdLoaded:NO
                                       adUnit:self.adUnit
                                    urlOpener:[[CR_URLOpenerMock alloc] init]];
+
   id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
-  OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(320, 480));
+  OCMStub([deviceInfoClassMock screenSize]).andReturn(CGSizeMake(320, 480));
+  dependencyProvider.deviceInfo = deviceInfoClassMock;
 
   OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]])
       .andReturn([self bidWithDisplayURL:@"test"]);
@@ -642,8 +664,12 @@
 }
 
 - (void)testInterstitialFailWhenAnotherAdIsBeingLoaded {
+  CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
+
   Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+  OCMStub(mockCriteo.dependencyProvider).andReturn(dependencyProvider);
   OCMStub(mockCriteo.config).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
+
   WKWebView *realWebView = [WKWebView new];
   CR_InterstitialViewController *interstitialVC =
       [[CR_InterstitialViewController alloc] initWithWebView:realWebView view:nil interstitial:nil];
@@ -654,7 +680,8 @@
                                       adUnit:self.adUnit
                                    urlOpener:[[CR_URLOpenerMock alloc] init]];
   id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
-  OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(320, 480));
+  OCMStub([deviceInfoClassMock screenSize]).andReturn(CGSizeMake(320, 480));
+  dependencyProvider.deviceInfo = deviceInfoClassMock;
 
   OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]])
       .andReturn([self bidWithDisplayURL:@"test"]);
@@ -841,9 +868,12 @@
 }
 
 - (void)testCacheHasAdButAdContentFetchFailed {
-  // create mock objects
+  CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
+
   Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+  OCMStub(mockCriteo.dependencyProvider).andReturn(dependencyProvider);
   OCMStub(mockCriteo.config).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
+
   WKWebView *mockWebView = OCMClassMock([WKWebView class]);
   UIView *mockView = OCMClassMock([UIView class]);
   CR_InterstitialViewController *interstitialVC =
@@ -859,7 +889,8 @@
 
   // stub methods for loadAd
   id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
-  OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(320, 480));
+  OCMStub([deviceInfoClassMock screenSize]).andReturn(CGSizeMake(320, 480));
+  dependencyProvider.deviceInfo = deviceInfoClassMock;
 
   OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]])
       .andReturn([self bidWithDisplayURL:@"test"]);

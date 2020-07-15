@@ -28,6 +28,7 @@
 #import "NSURL+Criteo.h"
 #import "CR_DeviceInfo.h"
 #import "CR_URLOpening.h"
+#import "CR_DependencyProvider.h"
 
 @import WebKit;
 
@@ -99,10 +100,9 @@
   if (![self checkSafeToLoad]) {
     return;
   }
-  CR_CacheAdUnit *cacheAdUnit =
-      [[CR_CacheAdUnit alloc] initWithAdUnitId:self.adUnit.adUnitId
-                                          size:[CR_DeviceInfo getScreenSize]
-                                    adUnitType:CRAdUnitTypeInterstitial];
+  CR_CacheAdUnit *cacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:self.adUnit.adUnitId
+                                                                    size:self.deviceInfo.screenSize
+                                                              adUnitType:CRAdUnitTypeInterstitial];
   CR_CdbBid *bid = [self.criteo getBid:cacheAdUnit];
   if ([bid isEmpty]) {
     self.isAdLoading = NO;
@@ -319,6 +319,10 @@
           didFailToReceiveAdContentWithError:[NSError cr_errorWithCode:errorCode]];
     }
   });
+}
+
+- (CR_DeviceInfo *)deviceInfo {
+  return _criteo.dependencyProvider.deviceInfo;
 }
 
 @end
