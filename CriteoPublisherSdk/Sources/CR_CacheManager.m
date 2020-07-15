@@ -20,6 +20,9 @@
 #import "CR_CacheManager.h"
 #import "Logging.h"
 #import "CR_DeviceInfo.h"
+#import "Criteo.h"
+#import "Criteo+Internal.h"
+#import "CR_DependencyProvider.h"
 
 @implementation CR_CacheManager
 
@@ -40,7 +43,7 @@
   if (bid.nativeAssets) {
     return CRAdUnitTypeNative;
   }
-  if ([CR_DeviceInfo validScreenSize:CGSizeMake(bid.width.floatValue, bid.height.floatValue)]) {
+  if ([self.deviceInfo validScreenSize:CGSizeMake(bid.width.floatValue, bid.height.floatValue)]) {
     return CRAdUnitTypeInterstitial;
   }
   return CRAdUnitTypeBanner;
@@ -78,6 +81,12 @@
 - (void)removeBidForAdUnit:(CR_CacheAdUnit *)adUnit {
   CLogInfo(@"[INFO][CACH] removeBidForAdUnit: %@", adUnit);
   _bidCache[adUnit] = nil;
+}
+
+#pragma - Private
+
+- (CR_DeviceInfo *)deviceInfo {
+  return Criteo.sharedCriteo.dependencyProvider.deviceInfo;
 }
 
 @end

@@ -293,11 +293,4 @@
   return isInPortrait;
 }
 
-- (CGSize)screenSize {
-  // getScreenSize should be remove at some point because it doesn't respect
-  // the naming convention of Apple and class method are usefull for
-  // tests on iOS.
-  return [self.class getScreenSize];
-}
-
 @end

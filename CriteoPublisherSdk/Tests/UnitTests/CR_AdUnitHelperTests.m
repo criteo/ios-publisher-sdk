@@ -26,6 +26,7 @@
 #import "CRNativeAdUnit.h"
 #import "CR_DeviceInfo.h"
 #import "CR_AdUnitHelper.h"
+#import "CR_DependencyProvider.h"
 
 @interface CR_AdUnitHelperTests : XCTestCase
 
@@ -53,8 +54,9 @@
                                     adUnitType:CRAdUnitTypeInterstitial];
   CRBannerAdUnit *bannerAdUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"1234"
                                                                      size:CGSizeMake(320.0, 50.0)];
-  id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
-  OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(400.0, 480.0));
+  CR_DeviceInfo *deviceInfo = [self mockDeviceInfo];
+  OCMStub([deviceInfo screenSize]).andReturn(CGSizeMake(400.0, 480.0));
+
   CR_CacheAdUnitArray *cacheAdUnits =
       [CR_AdUnitHelper cacheAdUnitsForAdUnits:@[ bannerAdUnit, interstitialAdUnit ]];
   XCTAssertTrue([expectedInterstitialCacheAdUnit isEqual:[cacheAdUnits objectAtIndex:1]]);
@@ -78,8 +80,10 @@
       [[CR_CacheAdUnit alloc] initWithAdUnitId:@"1234"
                                           size:CGSizeMake(2.0, 2.0)
                                     adUnitType:CRAdUnitTypeNative];
-  id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
-  OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(400.0, 700.0));
+
+  CR_DeviceInfo *deviceInfo = [self mockDeviceInfo];
+  OCMStub(deviceInfo.screenSize).andReturn(CGSizeMake(400.0, 700.0));
+
   // for banner, interstitial and native
   XCTAssertTrue(
       [expectedBannerCacheAdUnit isEqual:[CR_AdUnitHelper cacheAdUnitForAdUnit:bannerAdUnit]]);
@@ -97,6 +101,12 @@
                                     adUnitType:CRAdUnitTypeNative];
   XCTAssertTrue([expectedCacheAdUnit
       isEqual:[[CR_AdUnitHelper cacheAdUnitsForAdUnits:@[ nativeAdUnit ]] objectAtIndex:0]]);
+}
+
+- (CR_DeviceInfo *)mockDeviceInfo {
+  CR_DeviceInfo *deviceInfo = OCMClassMock([CR_DeviceInfo class]);
+  Criteo.sharedCriteo.dependencyProvider.deviceInfo = deviceInfo;
+  return deviceInfo;
 }
 
 @end
