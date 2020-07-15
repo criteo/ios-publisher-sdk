@@ -26,7 +26,6 @@
 #import "CR_Config.h"
 #import "Logging.h"
 #import "CR_NetworkManager.h"
-#import "CR_NetworkManagerDelegate.h"
 #import "XCTestCase+Criteo.h"
 #import "CR_ThreadManager.h"
 
@@ -80,15 +79,10 @@
                                   responseHandler:nil]);
 }
 
-// NOT a unit test as it uses the interwebs.
-// This keeps failing, skip it until we have something that could work
-// EE-204
-- (void)skipped_testNetworkManagerPostCall {
+- (void)testNetworkManagerPostCall {
   XCTestExpectation *expectation = [self expectationWithDescription:@"CDB network call"];
   CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] init];
-  // test values
   NSString *placementId = @"div-Test-DirectBidder";
-  // NSNumber *zoneId = @(497747);
   NSUInteger width = 300;
   NSUInteger height = 250;
   CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:placementId
@@ -104,42 +98,35 @@
       @"BOO9ZXlOO9auMAKABBITA1-AAAAZ17_______9______9uz_Gv_r_f__33e8_39v_h_7_u_"
       @"_7m_-zzV4-_lrQV1yPA1OrZArgEA";
 
-  NSDictionary *user = [NSDictionary
-      dictionaryWithObjectsAndKeys:@"A0EF6A5A-428B-4C96-AAF0-9A23795C5F0C",
-                                   @"deviceId",  // The ID that uniquely identifies a device (IDFA,
-                                                 // GAID or Hashed Android ID)
-                                   @"IDFA", @"deviceIdType",  // The device type. This parameter can
-                                                              // only have two values: IDFA or GAID
-                                   @"iPhone XR", @"deviceModel", @"12.1",
-                                   @"deviceOs",  // The operating system of the device.
-                                   userAgent, @"userAgent", nil];
+  NSDictionary *user = @{
+    @"deviceId" : @"A0EF6A5A-428B-4C96-AAF0-9A23795C5F0C",
+    @"deviceIdType" : @"IDFA",
+    @"deviceModel" : @"iPhone 11",
+    @"deviceOs" : @"ios",
+    @"userAgent" : userAgent
+  };
 
-  NSDictionary *publisher = [NSDictionary dictionaryWithObjectsAndKeys:
-                                              // borrowing from Android folks for now
-                                              @"com.criteo.sdk.publisher",
-                                              @"bundleId",  // The bundle ID identifying the app
-                                              @(1), @"networkId", nil];
+  NSDictionary *publisher =
+      @{@"cpId" : @"B-056946", @"bundleId" : @"com.criteo.PublisherSDKTester"};
 
-  NSDictionary *gdprDict = [NSDictionary
-      dictionaryWithObjectsAndKeys:consentString, @"consentData", @(gdprApplies), @"gdprApplies",
-                                   @(consentGiven), @"consentGiven", nil];
+  NSDictionary *gdprDict = @{
+    @"consentData" : consentString,
+    @"gdprApplies" : @(gdprApplies),
+    @"consentGiven" : @(consentGiven),
+    @"version" : @(1)
+  };
 
-  NSDictionary *postBody = [NSDictionary
-      dictionaryWithObjectsAndKeys:
-          gdprDict, @"gdprConsent", user, @"user", publisher, @"publisher", @"1.0", @"sdkVersion",
-          @(235), @"profileId",
-          [NSArray
-              arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                 placementId,
-                                                 @"placementId",  // The adunit id provided
-                                                                  // in the request
-                                                 [NSArray arrayWithObjects:adUnit.cdbSize, nil],
-                                                 @"sizes", nil],
-                               nil],
-          @"slots", nil];
+  NSDictionary *postBody = @{
+    @"gdprConsent" : gdprDict,
+    @"user" : user,
+    @"publisher" : publisher,
+    @"sdkVersion" : @"2.0",
+    @"profileId" : @(235),
+    @"slots" : @[ @{@"placementId" : placementId, @"sizes" : @[ adUnit.cdbSize ]} ]
+  };
 
-  NSURL *url = [NSURL URLWithString:@"http://directbidder-test-app.par.preprod.crto.in/"
-                                    @"inapp/v1?profileId=235"];
+  NSURL *url = [NSURL URLWithString:@"https://localhost:9099/directbidder-test-app/"
+                                    @"inapp/v2?profileId=235"];
 
   CR_NetworkManager *networkManager = [[CR_NetworkManager alloc] initWithDeviceInfo:deviceInfo];
   id<CR_NetworkManagerDelegate> delegateMock =
