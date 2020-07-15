@@ -1,5 +1,7 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
+## Version 3.8.0
+
 ### Features
 - Provide legal privacy text for native in `CriteoNativeAd.legalText`
 --------------------------------------------------------------------------------

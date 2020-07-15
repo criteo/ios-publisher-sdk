@@ -5,7 +5,7 @@ set -Eeuo pipefail
 
 # ----To be updated for each RC---------
 # For naming the frameworks
-SDK_VERSION_NUMBER="3.7.0-rc4"
+SDK_VERSION_NUMBER="3.8.0-rc1"
 # For getting the frameworks on Jenkins
 SDK_BUILD_NUMBER="2808"
 # ---------------------------------------
