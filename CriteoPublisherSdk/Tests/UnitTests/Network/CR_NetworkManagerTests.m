@@ -126,7 +126,7 @@
   };
 
   NSURL *url = [NSURL URLWithString:@"https://localhost:9099/directbidder-test-app/"
-                                    @"inapp/v1?profileId=235"];
+                                    @"inapp/v2?profileId=235"];
 
   CR_NetworkManager *networkManager = [[CR_NetworkManager alloc] initWithDeviceInfo:deviceInfo];
   id<CR_NetworkManagerDelegate> delegateMock =

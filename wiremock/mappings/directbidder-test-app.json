@@ -1,15 +1,15 @@
 {
   "name": "directbidder-test-app",
   "metadata": {
-    "origin": "http://directbidder-test-app.par.preprod.crto.in/inapp/v1?profileId=235"
+    "origin": "http://directbidder-test-app.par.preprod.crto.in/inapp/v2?profileId=235"
   },
   "request": {
-    "url": "/directbidder-test-app/inapp/v1?profileId=235",
+    "url": "/directbidder-test-app/inapp/v2?profileId=235",
     "method": "POST"
   },
   "response": {
     "status" : 200,
-    "body" : "{\r\n      \"slots\": [{\r\n        \"impId\": \"5f05ec4e58f360e11c914a9de6650fc4\",\r\n        \"placementId\": \"div-Test-DirectBidder\",\r\n        \"arbitrageId\": \"arbitrage_id\",\r\n        \"cpm\": \"1.00\",\r\n        \"currency\": \"EUR\",\r\n        \"width\": 300,\r\n        \"height\": 250,\r\n        \"ttl\": 0,\r\n        \"displayUrl\": \"https:\/\/directbidder-stubs.par.preprod.crto.in\/delivery\/ajs.php?width=300&height=250\"\r\n      }],\r\n      \"requestId\": \"bffa74c5-c75e-47ff-8ddf-ead9a88f74ae\"\r\n    }",
+    "body" : "{\r\n\t\"slots\": [{\r\n\t\t\"impId\": \"5f0ee21d9825a14e6c0f187ad9b99cb1\",\r\n\t\t\"placementId\": \"\/140800857\/Endeavour_320x50\",\r\n\t\t\"arbitrageId\": \"5f0ee21de63ad25f09b6c098d1a03500\",\r\n\t\t\"cpm\": \"0.15\",\r\n\t\t\"currency\": \"USD\",\r\n\t\t\"width\": 320,\r\n\t\t\"height\": 50,\r\n\t\t\"ttl\": 3600,\r\n\t\t\"displayUrl\": \"https:\/\/ads.eu.criteo.com\/delivery\/r\/ajs.php?did=5f0ee21de63ad25f09b6c098d1a03500&u=%7Cs24iHghwTtW2CqHfXNB3tuYI4ZJA3ZZUD4JUdXiZ0GI%3D%7C&c1=bXzSPZ7XI4X4_eFA_ib-N7k6ayqfn4hlMBTatiYKxuTGVTBcI1VNzEbwEKS44St5EQ4YnwKmKih09x2DugKGyNLqcizM4550V_cDSPMIdxkXk05qWqfmtedIx2W9imk3a6wIf0AT8imiX_Rc4UADLbayWi2rEQAYmN0FU55BaJTdCHSshLKhFv3MPNuwTQU-2vHCeHO2J3qjRDuycF5gvuy6AsbmCkDuNcKRI6f4MxwuXqb1XrFmOJR4GtwZFEAD8nbOmezf7XZwafq8fovbMxqnjlEeKUdvFTnHaVL_xWjYRIbGa9eYVwNUuH3i17EuoRuqgyW_YDq7Yo4CUKp-uOeDnS4FxRc7ykZXe4h78WeWUHiMtNUEEboMDUOcFA_gPNEDrPV9A17yFhUAGCSEZdsnedkUd469gO3A0-8T0D78G3pcHD5uxtdD-N2yo9dHxNGQthCCtS8\"\r\n\t}],\r\n\t\"requestId\": \"83bc1892-a5ab-4d29-9c13-c88180336be0\"\r\n}",
     "headers" : {
       "content-type" : "text/plain; charset=utf-8",
       "vary" : "Origin"
