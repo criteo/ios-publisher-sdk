@@ -21,16 +21,18 @@
 #import "CRCustomEventHelper.h"
 #import "NSString+MPConsentStatus.h"
 
-// Private property
 @interface CRInterstitialCustomEvent ()
 
-@property (nonatomic, strong) CRInterstitial *interstitial;
+@property(nonatomic, weak) id <MPFullscreenAdAdapterDelegate> delegate;
+@property(nonatomic, strong) CRInterstitial *interstitial;
 
 @end
 
 @implementation CRInterstitialCustomEvent
 
-- (instancetype) init {
+@synthesize localExtras;
+
+- (instancetype)init {
     self = [super init];
     return self;
 }
@@ -39,17 +41,13 @@
     self.interstitial.delegate = nil;
 }
 
-- (void) requestInterstitialWithCustomEventInfo:(NSDictionary *)info {
-    [self requestInterstitialWithCustomEventInfo:info adMarkup:nil];
-}
-
-- (void) requestInterstitialWithCustomEventInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
+- (void)requestAdWithAdapterInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
     if(![CRCustomEventHelper checkValidInfo:info]) {
-        if([self.delegate respondsToSelector:@selector(interstitialCustomEvent:didFailToLoadAdWithError:)]) {
+        if([self.delegate respondsToSelector:@selector(fullscreenAdAdapter:didFailToLoadAdWithError:)]) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.delegate interstitialCustomEvent:self
-                              didFailToLoadAdWithError:[NSError errorWithCode:MOPUBErrorServerError
-                                                         localizedDescription:@"Criteo Interstitial ad request failed due to invalid server parameters."]];
+                [self.delegate fullscreenAdAdapter:self
+                          didFailToLoadAdWithError:[NSError errorWithCode:MOPUBErrorServerError
+                                                     localizedDescription:@"Criteo Interstitial ad request failed due to invalid server parameters."]];
             });
         }
         return;
@@ -66,75 +64,91 @@
     [self.interstitial loadAd];
 }
 
-- (void) showInterstitialFromRootViewController:(UIViewController *)rootViewController {
-    [self.interstitial presentFromRootViewController:rootViewController];
+# pragma mark - MoPub required overrides
+
+- (BOOL)enableAutomaticImpressionAndClickTracking {
+  return YES;
+}
+
+- (BOOL)isRewardExpected {
+  return NO;
+}
+
+- (void)setHasAdAvailable:(BOOL)hasAdAvailable {}
+
+- (BOOL)hasAdAvailable {
+  return self.interstitial.isAdLoaded;
+}
+
+- (void)presentAdFromViewController:(UIViewController *)viewController {
+  [self.interstitial presentFromRootViewController:viewController];
 }
 
 # pragma mark - MoPub required delegate methods
+
 // These callbacks are called on the main thread from the Criteo SDK
 - (void) interstitialDidReceiveAd:(CRInterstitial *)interstitial {
     // Signals that Criteo is willing to display an ad
     // Intentionally left blank
 }
 
-- (void) interstitial:(CRInterstitial *)interstitial didFailToReceiveAdWithError:(NSError *)error {
-    if([self.delegate respondsToSelector:@selector(interstitialCustomEvent:didFailToLoadAdWithError:)]) {
-        NSString *failure = [NSString stringWithFormat:@"Criteo Interstitial failed to load with error : %@"
-                             , error.localizedDescription];
+- (void)interstitial:(CRInterstitial *)interstitial didFailToReceiveAdWithError:(NSError *)error {
+    if ([self.delegate respondsToSelector:@selector(fullscreenAdAdapter:didFailToLoadAdWithError:)]) {
+        NSString *failure = [NSString stringWithFormat:@"Criteo Interstitial failed to load with error : %@",
+                                                       error.localizedDescription];
         NSError *finalError = [NSError errorWithCode:MOPUBErrorAdapterFailedToLoadAd localizedDescription:failure];
-        [self.delegate interstitialCustomEvent:self
-                      didFailToLoadAdWithError:finalError];
+        [self.delegate fullscreenAdAdapter:self didFailToLoadAdWithError:finalError];
     }
 }
 
-- (void) interstitialWillAppear:(CRInterstitial *)interstitial {
-    if([self.delegate respondsToSelector:@selector(interstitialCustomEventWillAppear:)]) {
-        [self.delegate interstitialCustomEventWillAppear:self];
+- (void)interstitialWillAppear:(CRInterstitial *)interstitial {
+    if ([self.delegate respondsToSelector:@selector(fullscreenAdAdapterAdWillAppear:)]) {
+        [self.delegate fullscreenAdAdapterAdWillAppear:self];
     }
 }
 
-- (void) interstitialDidAppear:(CRInterstitial *)interstitial {
-    if([self.delegate respondsToSelector:@selector(interstitialCustomEventDidAppear:)]) {
-        [self.delegate interstitialCustomEventDidAppear:self];
+- (void)interstitialDidAppear:(CRInterstitial *)interstitial {
+    if ([self.delegate respondsToSelector:@selector(fullscreenAdAdapterAdDidAppear:)]) {
+        [self.delegate fullscreenAdAdapterAdDidAppear:self];
     }
 }
 
-- (void) interstitialWillDisappear:(CRInterstitial *)interstitial {
-    if([self.delegate respondsToSelector:@selector(interstitialCustomEventWillDisappear:)]) {
-        [self.delegate interstitialCustomEventWillDisappear:self];
+- (void)interstitialWillDisappear:(CRInterstitial *)interstitial {
+    if ([self.delegate respondsToSelector:@selector(fullscreenAdAdapterAdWillDisappear:)]) {
+        [self.delegate fullscreenAdAdapterAdWillDisappear:self];
     }
 }
 
-- (void) interstitialDidDisappear:(CRInterstitial *)interstitial {
-    if([self.delegate respondsToSelector:(@selector(interstitialCustomEventDidDisappear:))]) {
-        [self.delegate interstitialCustomEventDidDisappear:self];
+- (void)interstitialDidDisappear:(CRInterstitial *)interstitial {
+    if ([self.delegate respondsToSelector:(@selector(fullscreenAdAdapterAdDidDisappear:))]) {
+        [self.delegate fullscreenAdAdapterAdDidDisappear:self];
     }
 }
 
-- (void) interstitialIsReadyToPresent:(CRInterstitial *)interstitial {
-    if([self.delegate respondsToSelector:@selector(interstitialCustomEvent:didLoadAd:)]) {
-        [self.delegate interstitialCustomEvent:self didLoadAd:interstitial];
+- (void)interstitialIsReadyToPresent:(CRInterstitial *)interstitial {
+    if ([self.delegate respondsToSelector:@selector(fullscreenAdAdapterDidLoadAd:)]) {
+        [self.delegate fullscreenAdAdapterDidLoadAd:self];
     }
 }
 
-- (void) interstitial:(CRInterstitial *)interstitial didFailToReceiveAdContentWithError:(NSError *)error {
+- (void)interstitial:(CRInterstitial *)interstitial didFailToReceiveAdContentWithError:(NSError *)error {
     // Signals that there was an error when Criteo was attempting to fetch the ad content
-    if([self.delegate respondsToSelector:@selector(interstitialCustomEvent:didFailToLoadAdWithError:)]) {
-        NSString *failure = [NSString stringWithFormat:@"Criteo Interstitial failed to load ad content with error : %@"
-                             , error.localizedDescription];
+    if ([self.delegate respondsToSelector:@selector(fullscreenAdAdapter:didFailToLoadAdWithError:)]) {
+        NSString *failure = [NSString stringWithFormat:@"Criteo Interstitial failed to load ad content with error : %@",
+                                                       error.localizedDescription];
         NSError *finalError = [NSError errorWithCode:MOPUBErrorAdapterFailedToLoadAd localizedDescription:failure];
-        [self.delegate interstitialCustomEvent:self
-                      didFailToLoadAdWithError:finalError];
+        [self.delegate fullscreenAdAdapter:self didFailToLoadAdWithError:finalError];
     }
 }
 
 # pragma mark - MoPub delegate to track clicks
-- (void) interstitialWillLeaveApplication:(CRInterstitial *)interstitial {
-    if ([self.delegate respondsToSelector:@selector(interstitialCustomEventWillLeaveApplication:)]) {
-        [self.delegate interstitialCustomEventWillLeaveApplication:self];
+
+- (void)interstitialWillLeaveApplication:(CRInterstitial *)interstitial {
+    if ([self.delegate respondsToSelector:@selector(fullscreenAdAdapterWillLeaveApplication:)]) {
+        [self.delegate fullscreenAdAdapterWillLeaveApplication:self];
     }
-    if([self.delegate respondsToSelector:@selector(interstitialCustomEventDidReceiveTapEvent:)]) {
-        [self.delegate interstitialCustomEventDidReceiveTapEvent:self];
+    if ([self.delegate respondsToSelector:@selector(fullscreenAdAdapterDidReceiveTap:)]) {
+        [self.delegate fullscreenAdAdapterDidReceiveTap:self];
     }
 }
 

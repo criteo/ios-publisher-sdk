@@ -22,7 +22,7 @@
 #import <MoPubSDKFramework/MoPub.h>
 #else
 #import "MoPub.h"
-#import "MPInterstitialCustomEvent.h"
+#import "MPFullscreenAdAdapter.h"
 #endif
 
 #import <Foundation/Foundation.h>
@@ -30,14 +30,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CRInterstitialCustomEvent : MPInterstitialCustomEvent <CRInterstitialDelegate>
-
-- (instancetype) init;
-
-- (void) requestInterstitialWithCustomEventInfo:(NSDictionary *)info;
-
-- (void) showInterstitialFromRootViewController:(UIViewController *)rootViewController;
-
+@interface CRInterstitialCustomEvent : MPFullscreenAdAdapter <CRInterstitialDelegate, MPThirdPartyFullscreenAdAdapter>
 @end
 
 NS_ASSUME_NONNULL_END

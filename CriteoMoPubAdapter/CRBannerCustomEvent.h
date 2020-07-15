@@ -22,7 +22,7 @@
 #import <MoPubSDKFramework/MoPub.h>
 #else
 #import "MoPub.h"
-#import "MPBannerCustomEvent.h"
+#import "MPInlineAdAdapter.h"
 #endif
 
 #import <Foundation/Foundation.h>
@@ -31,10 +31,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CRBannerCustomEvent : MPBannerCustomEvent <CRBannerViewDelegate>
-
-- (instancetype) init;
-
+@interface CRBannerCustomEvent : MPInlineAdAdapter <CRBannerViewDelegate, MPThirdPartyInlineAdAdapter>
 @end
 
 NS_ASSUME_NONNULL_END

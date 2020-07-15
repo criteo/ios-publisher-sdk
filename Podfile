@@ -1,11 +1,10 @@
-# Uncomment the next line to define a global platform for your project
-platform :ios, '8.0'
+platform :ios, '10.0'
 
 workspace 'CriteoMoPubAdapter.xcworkspace'
 project 'CriteoMoPubAdapter.xcodeproj'
 
 target 'CriteoMoPubAdapter' do
-  pod 'mopub-ios-sdk/Core'
+  pod 'mopub-ios-sdk/Core', '~> 5.13'
   # pod 'CriteoPublisherSdk'
 end
 
@@ -15,6 +14,6 @@ end
 
 target 'CriteoMoPubAdapterTestApp' do
   project 'CriteoMoPubAdapterTestApp'
-  pod 'mopub-ios-sdk/Core'
+  pod 'mopub-ios-sdk/Core', '~> 5.13'
   # pod 'CriteoPublisherSdk'
 end

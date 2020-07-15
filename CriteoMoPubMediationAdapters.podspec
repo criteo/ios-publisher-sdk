@@ -12,10 +12,10 @@ Pod::Spec.new do |s|
   s.author           = { 'Criteo' => 'opensource@criteo.com' }
   s.source           = { :git => 'https://github.com/criteo/ios-publisher-sdk-mopub-adapters.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '10.0'
 
   s.source_files = '*.{m,h}'
   s.static_framework = true
   s.dependency 'CriteoPublisherSdk', '~> 3.7.0'
-  s.dependency 'mopub-ios-sdk/Core', '~> 5.6'
+  s.dependency 'mopub-ios-sdk/Core', '~> 5.13'
 end

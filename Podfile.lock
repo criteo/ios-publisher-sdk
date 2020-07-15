@@ -1,9 +1,9 @@
 PODS:
-  - mopub-ios-sdk/Core (5.8.0)
+  - mopub-ios-sdk/Core (5.13.1)
   - OCMock (3.6)
 
 DEPENDENCIES:
-  - mopub-ios-sdk/Core
+  - mopub-ios-sdk/Core (~> 5.13)
   - OCMock
 
 SPEC REPOS:
@@ -12,9 +12,9 @@ SPEC REPOS:
     - OCMock
 
 SPEC CHECKSUMS:
-  mopub-ios-sdk: b63e15803e70b92d0b51c3e1c49bbcd78cd3d1d5
+  mopub-ios-sdk: 18af57aaf79d0ea3d0232b43b2d603ae8ea8e826
   OCMock: 5ea90566be239f179ba766fd9fbae5885040b992
 
-PODFILE CHECKSUM: c1cc2d06d364136c941e23ebde71109822b41af9
+PODFILE CHECKSUM: e3cd45dd35ea380d02d4fae28ac7747a3c9db793
 
 COCOAPODS: 1.9.1
