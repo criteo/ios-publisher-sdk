@@ -38,6 +38,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, readonly) CGSize screenSize;
 
+/**
+ * Size of the main screen when considering the safe area.
+ * If there is no safe area, then this returns the same than `screeSize`
+ */
+@property(nonatomic, readonly) CGSize safeScreenSize;
+
 - (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager NS_DESIGNATED_INITIALIZER;
 
 - (void)waitForUserAgent:(void (^_Nullable)(void))completion;

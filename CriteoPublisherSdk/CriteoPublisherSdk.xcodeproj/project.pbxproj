@@ -240,6 +240,7 @@
 		B1BD859C4CDDB6DB1B906C62 /* libPods-CriteoPublisherSdkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92039F91AE1122C08CF8EC36 /* libPods-CriteoPublisherSdkTests.a */; };
 		C07AB0222733EAA918843728 /* CR_NativeAssets+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABBC696D95F756547DA86 /* CR_NativeAssets+Testing.m */; };
 		C07AB0B23BDBEA53346DD6CC /* CR_FeedbackController.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABC983FB1DA60294D238A /* CR_FeedbackController.m */; };
+		C07AB1021EE9DC0423DB6A20 /* CR_DisplaySizeInjector.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB2F6780ADB490DBA61E9 /* CR_DisplaySizeInjector.m */; };
 		C07AB11AEFF7DFF4A4638A4F /* CR_RemoteConfigRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABE5447E776FA3F981ED0 /* CR_RemoteConfigRequest.m */; };
 		C07AB1B2CF62822B6B95E9F9 /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = C07ABCED19D15ED05D88A0E9 /* image.png */; };
 		C07AB22678B6CBC62B23F559 /* UIImage+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABA9489244F9DF952B8E3 /* UIImage+Testing.m */; };
@@ -253,7 +254,9 @@
 		C07AB936F1DBBE6CC8C2644E /* CRMediaContent.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABD4814092221709B77BA /* CRMediaContent.m */; };
 		C07AB96240CAD13D1FC39753 /* CR_ImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = C07ABDA25C65E3BBAAF68A79 /* CR_ImageCache.h */; };
 		C07AB9ED69EB74DA88306686 /* CR_FeedbackFeatureGuard.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB7277BC095D4A7DF86E2 /* CR_FeedbackFeatureGuard.m */; };
+		C07AB9F7F2A6BB33242A47D5 /* CR_DisplaySizeInjectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB4BAE67CF9EC778F3E5C /* CR_DisplaySizeInjectorTests.m */; };
 		C07ABAA1393B946F538A802C /* CR_ImageCacheTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABE39613B18398CDF899E /* CR_ImageCacheTests.m */; };
+		C07ABADD3A4C59D7ACCC39CB /* CR_DisplaySizeInjector.h in Headers */ = {isa = PBXBuildFile; fileRef = C07ABE649A8AE6559CD8D6D1 /* CR_DisplaySizeInjector.h */; };
 		C07ABC001B1ED2BCB2447E73 /* CR_TokenValue+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB534154EFFFDE1A8A248 /* CR_TokenValue+Testing.m */; };
 		C07ABC0F6A8997CD78597D6B /* CR_ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB7ACB684AE677947D589 /* CR_ImageCache.m */; };
 		C07ABC5F0E8E39C7BA6F6E7D /* CRMediaContent+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = C07AB31126BE08B645463204 /* CRMediaContent+Internal.h */; };
@@ -598,8 +601,10 @@
 		C07AB1737216EBC9BD280E3A /* CR_TokenValue+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CR_TokenValue+Testing.h"; path = "InHouseMediation/CR_TokenValue+Testing.h"; sourceTree = "<group>"; };
 		C07AB1A6DF0183C472138E98 /* NSUserDefaults+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Testing.h"; sourceTree = "<group>"; };
 		C07AB2A43FA7623D134F5246 /* CR_FeedbackFeatureGuard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_FeedbackFeatureGuard.h; sourceTree = "<group>"; };
+		C07AB2F6780ADB490DBA61E9 /* CR_DisplaySizeInjector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CR_DisplaySizeInjector.m; path = Display/CR_DisplaySizeInjector.m; sourceTree = "<group>"; };
 		C07AB31126BE08B645463204 /* CRMediaContent+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CRMediaContent+Internal.h"; sourceTree = "<group>"; };
 		C07AB3CE717BDF28B66871B2 /* CRMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRMediaView.h; sourceTree = "<group>"; };
+		C07AB4BAE67CF9EC778F3E5C /* CR_DisplaySizeInjectorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CR_DisplaySizeInjectorTests.m; path = Display/CR_DisplaySizeInjectorTests.m; sourceTree = "<group>"; };
 		C07AB510AF4AF6C47D87E0F3 /* CR_FeedbackController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_FeedbackController.h; sourceTree = "<group>"; };
 		C07AB534154EFFFDE1A8A248 /* CR_TokenValue+Testing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CR_TokenValue+Testing.m"; path = "InHouseMediation/CR_TokenValue+Testing.m"; sourceTree = "<group>"; };
 		C07AB63817F4AC10B390B880 /* CR_RemoteConfigRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_RemoteConfigRequestTests.m; sourceTree = "<group>"; };
@@ -622,6 +627,7 @@
 		C07ABE39613B18398CDF899E /* CR_ImageCacheTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_ImageCacheTests.m; sourceTree = "<group>"; };
 		C07ABE5447E776FA3F981ED0 /* CR_RemoteConfigRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_RemoteConfigRequest.m; sourceTree = "<group>"; };
 		C07ABE5D8FA5DDF53598C57A /* CR_NativeAssets+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CR_NativeAssets+Testing.h"; path = "Native/CR_NativeAssets+Testing.h"; sourceTree = "<group>"; };
+		C07ABE649A8AE6559CD8D6D1 /* CR_DisplaySizeInjector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CR_DisplaySizeInjector.h; path = Display/CR_DisplaySizeInjector.h; sourceTree = "<group>"; };
 		C07ABEC0FA1873D8B0882250 /* CR_FeedbackFeatureGuardTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_FeedbackFeatureGuardTests.m; sourceTree = "<group>"; };
 		C07ABFCB3CD0F740F0A7FB05 /* CRMediaContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRMediaContent.h; sourceTree = "<group>"; };
 		D674306DEEFA97D34CCBFDA8 /* Pods-CriteoPublisherSdk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoPublisherSdk.release.xcconfig"; path = "../Pods/Target Support Files/Pods-CriteoPublisherSdk/Pods-CriteoPublisherSdk.release.xcconfig"; sourceTree = "<group>"; };
@@ -985,6 +991,7 @@
 				7D3E420623915B6600BAF673 /* Standalone */,
 				7D58583323E2D5AD0039AC56 /* Threading */,
 				7D3E41FF23915B6600BAF673 /* Util */,
+				C07AB4BAE67CF9EC778F3E5C /* CR_DisplaySizeInjectorTests.m */,
 			);
 			path = UnitTests;
 			sourceTree = "<group>";
@@ -1368,6 +1375,8 @@
 				650915F222555C21001D6673 /* Standalone */,
 				7D58582C23E1F1BD0039AC56 /* Threading */,
 				255151C222027C6000F76E3F /* Util */,
+				C07AB2F6780ADB490DBA61E9 /* CR_DisplaySizeInjector.m */,
+				C07ABE649A8AE6559CD8D6D1 /* CR_DisplaySizeInjector.h */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -1451,6 +1460,7 @@
 				C07ABD4FBC93A6A8C0C5085F /* CRMediaView.h in Headers */,
 				C07AB927256BB7EE061C89EA /* CRMediaView+Internal.h in Headers */,
 				C07AB96240CAD13D1FC39753 /* CR_ImageCache.h in Headers */,
+				C07ABADD3A4C59D7ACCC39CB /* CR_DisplaySizeInjector.h in Headers */,
 				C07AB2D5B72491EB58DD4114 /* CR_RemoteConfigRequest.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1733,6 +1743,7 @@
 				C07AB5492FE17D797F4C1306 /* CRMediaView.m in Sources */,
 				C07ABC0F6A8997CD78597D6B /* CR_ImageCache.m in Sources */,
 				C07AB11AEFF7DFF4A4638A4F /* CR_RemoteConfigRequest.m in Sources */,
+				C07AB1021EE9DC0423DB6A20 /* CR_DisplaySizeInjector.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1878,6 +1889,7 @@
 				C07ABE4119C225312438484B /* CR_DefaultMediaDownloaderTests.m in Sources */,
 				C07ABAA1393B946F538A802C /* CR_ImageCacheTests.m in Sources */,
 				C07AB22678B6CBC62B23F559 /* UIImage+Testing.m in Sources */,
+				C07AB9F7F2A6BB33242A47D5 /* CR_DisplaySizeInjectorTests.m in Sources */,
 				C07ABD165AFA5B3044B8AAD3 /* CR_RemoteConfigRequestTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
