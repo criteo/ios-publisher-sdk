@@ -43,9 +43,7 @@
 		532603402301DD83000C5BAB /* CRCustomEventHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRCustomEventHelper.m; sourceTree = "<group>"; };
 		532603432301DEAC000C5BAB /* CRCustomEventHelperTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRCustomEventHelperTests.m; sourceTree = "<group>"; };
 		532603472301F274000C5BAB /* CRCriteoAdapterConfigurationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRCriteoAdapterConfigurationTests.m; sourceTree = "<group>"; };
-		538ADDF822FC86E20047A8A5 /* MoPubSDKFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MoPubSDKFramework.framework; sourceTree = "<group>"; };
 		538ADE1122FCA1030047A8A5 /* CriteoMoPubAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CriteoMoPubAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		538ADE1322FCA1030047A8A5 /* CriteoMoPubAdapterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CriteoMoPubAdapterTests.m; sourceTree = "<group>"; };
 		538F0B8622F50EC30034E6CB /* CRCriteoAdapterConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRCriteoAdapterConfiguration.h; sourceTree = "<group>"; };
 		538F0B8722F50EC30034E6CB /* CRCriteoAdapterConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRCriteoAdapterConfiguration.m; sourceTree = "<group>"; };
 		5439D11A22FDD85000BB94A2 /* CriteoPublisherSdk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CriteoPublisherSdk.framework; sourceTree = "<group>"; };
@@ -98,15 +96,6 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		5326033022FDF91D000C5BAB /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				538ADDF822FC86E20047A8A5 /* MoPubSDKFramework.framework */,
-				538ADE1322FCA1030047A8A5 /* CriteoMoPubAdapterTests.m */,
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
 		5326033122FDF99C000C5BAB /* CriteoMoPubAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -127,7 +116,6 @@
 				54FC7D7922F403F100202164 /* Products */,
 				14180DC5299BAE51A95B1A59 /* Pods */,
 				7D8FADD0D637479BEC012569 /* Frameworks */,
-				5326033022FDF91D000C5BAB /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};

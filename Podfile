@@ -16,4 +16,5 @@ end
 target 'CriteoMoPubAdapterTestApp' do
   project 'CriteoMoPubAdapterTestApp'
   pod 'mopub-ios-sdk/Core'
+  # pod 'CriteoPublisherSdk'
 end
