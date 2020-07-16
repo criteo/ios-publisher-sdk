@@ -30,20 +30,11 @@
 
 @interface CRInterstitialCustomEvent (Test)
 
-- (instancetype) initWithInterstitial:(CRInterstitial *)crInterstitial;
-
 - (void)requestAdWithAdapterInfo:(NSDictionary *)info;
 
 @end
 
 @implementation CRInterstitialCustomEvent (Test)
-
-- (instancetype) initWithInterstitial:(CRInterstitial *)crInterstitial {
-    if (self = [super init]) {
-        self.interstitial = crInterstitial;
-    }
-    return self;
-}
 
 - (void)requestAdWithAdapterInfo:(NSDictionary *)info {
     [self requestAdWithAdapterInfo:info adMarkup:nil];
@@ -60,6 +51,7 @@
     NSString *publisherId;
     id mockInterstitial;
     id mockDelegate;
+    CRInterstitialCustomEvent *event;
 }
 
 - (void) setUp {
@@ -68,6 +60,9 @@
     info = @{@"cpId": publisherId, @"adUnitId" : adUnitId};
     mockInterstitial = OCMClassMock([CRInterstitial class]);
     mockDelegate = OCMStrictProtocolMock(@protocol(MPFullscreenAdAdapterDelegate));
+    event = [[CRInterstitialCustomEvent alloc] init];
+    event.interstitial = mockInterstitial;
+    event.delegate = mockDelegate;
 }
 
 - (void)tearDown {
@@ -83,17 +78,12 @@
     CRInterstitialAdUnit *adUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:adUnitId];
     OCMExpect([mockCriteo registerCriteoPublisherId:info[@"cpId"] withAdUnits:@[adUnit]]);
 
-    CRInterstitialCustomEvent *interstitialEvent = [[CRInterstitialCustomEvent alloc] initWithInterstitial:mockInterstitial];
-    [interstitialEvent requestAdWithAdapterInfo:info];
+    [event requestAdWithAdapterInfo:info];
     OCMVerifyAll(mockCriteo);
 }
 
 - (void) testIncorrectDataFromMoPub {
     NSDictionary *badInfoFromMoPub = @{@"cpId" : publisherId, @"adUnitId" : @""};
-
-    CRInterstitialCustomEvent *event = [[CRInterstitialCustomEvent alloc] initWithInterstitial:mockInterstitial];
-    event.delegate = mockDelegate;
-
     NSError *error = [NSError errorWithCode:MOPUBErrorServerError
                        localizedDescription:@"Criteo Interstitial ad request failed due to invalid server parameters."];
     OCMExpect([mockDelegate fullscreenAdAdapter:event didFailToLoadAdWithError:error]);
@@ -103,12 +93,9 @@
 }
 
 - (void) testCorrectDataFromMoPub {
-    CRInterstitialCustomEvent *event = [[CRInterstitialCustomEvent alloc] initWithInterstitial:mockInterstitial];
-    event.delegate = mockDelegate;
-
     OCMStub([mockInterstitial loadAd]).andDo(^(NSInvocation *invocation){
-        [event interstitialDidReceiveAd:self->mockInterstitial];
-        [event interstitialIsReadyToPresent:self->mockInterstitial];
+        [self->event interstitialDidReceiveAd:self->mockInterstitial];
+        [self->event interstitialIsReadyToPresent:self->mockInterstitial];
     });
 
     OCMExpect([mockDelegate fullscreenAdAdapterDidLoadAd:event]);
@@ -120,8 +107,6 @@
 }
 
 - (void) testCrInterstitialShowIsCalled {
-    CRInterstitialCustomEvent *event = [[CRInterstitialCustomEvent alloc] initWithInterstitial:mockInterstitial];
-
     id mockViewController = OCMClassMock([UIViewController class]);
     OCMExpect([mockInterstitial presentFromRootViewController:mockViewController]);
 
@@ -130,11 +115,8 @@
 }
 
 - (void) testAdFailedToLoad {
-    CRInterstitialCustomEvent *event = [[CRInterstitialCustomEvent alloc] initWithInterstitial:mockInterstitial];
-    event.delegate = mockDelegate;
-
     OCMStub([mockInterstitial loadAd]).andDo(^(NSInvocation *invocation){
-        [event interstitial:self->mockInterstitial didFailToReceiveAdWithError:[NSError errorWithCode:MOPUBErrorUnknown]];
+        [self->event interstitial:self->mockInterstitial didFailToReceiveAdWithError:[NSError errorWithCode:MOPUBErrorUnknown]];
     });
 
     NSError *criteoError = [NSError errorWithCode:MOPUBErrorUnknown];
@@ -148,12 +130,9 @@
 }
 
 - (void) testAdReceivedButFailedToLoadContent {
-    CRInterstitialCustomEvent *event = [[CRInterstitialCustomEvent alloc] initWithInterstitial:mockInterstitial];
-    event.delegate = mockDelegate;
-
     OCMStub([mockInterstitial loadAd]).andDo(^(NSInvocation *invocation){
-        [event interstitialDidReceiveAd:self->mockInterstitial];
-        [event interstitial:self->mockInterstitial didFailToReceiveAdContentWithError:[NSError errorWithCode:MOPUBErrorUnknown]];
+        [self->event interstitialDidReceiveAd:self->mockInterstitial];
+        [self->event interstitial:self->mockInterstitial didFailToReceiveAdContentWithError:[NSError errorWithCode:MOPUBErrorUnknown]];
     });
 
     NSError *criteoError = [NSError errorWithCode:MOPUBErrorUnknown];
@@ -167,12 +146,9 @@
 }
 
 - (void) testAppearDelegates {
-    CRInterstitialCustomEvent *event = [[CRInterstitialCustomEvent alloc] initWithInterstitial:mockInterstitial];
-    event.delegate = mockDelegate;
-
     OCMStub([mockInterstitial loadAd]).andDo(^(NSInvocation *invocation){
-        [event interstitialWillAppear:self->mockInterstitial];
-        [event interstitialDidAppear:self->mockInterstitial];
+        [self->event interstitialWillAppear:self->mockInterstitial];
+        [self->event interstitialDidAppear:self->mockInterstitial];
     });
 
     OCMExpect([mockDelegate fullscreenAdAdapterAdWillAppear:event]);
@@ -182,12 +158,9 @@
 }
 
 - (void) testDisappearDelegates {
-    CRInterstitialCustomEvent *event = [[CRInterstitialCustomEvent alloc] initWithInterstitial:mockInterstitial];
-    event.delegate = mockDelegate;
-
     OCMStub([mockInterstitial loadAd]).andDo(^(NSInvocation *invocation){
-        [event interstitialWillDisappear:self->mockInterstitial];
-        [event interstitialDidDisappear:self->mockInterstitial];
+        [self->event interstitialWillDisappear:self->mockInterstitial];
+        [self->event interstitialDidDisappear:self->mockInterstitial];
     });
 
     OCMExpect([mockDelegate fullscreenAdAdapterAdWillDisappear:event]);
@@ -198,11 +171,8 @@
 }
 
 - (void) testInterstitialWillLeaveApplicationDelegate {
-    CRInterstitialCustomEvent *event = [[CRInterstitialCustomEvent alloc] initWithInterstitial:mockInterstitial];
-    event.delegate = mockDelegate;
-
     OCMStub([mockInterstitial loadAd]).andDo(^(NSInvocation *invocation){
-        [event interstitialWillLeaveApplication:self->mockInterstitial];
+        [self->event interstitialWillLeaveApplication:self->mockInterstitial];
     });
 
     OCMExpect([mockDelegate fullscreenAdAdapterWillLeaveApplication:event]);
@@ -215,7 +185,6 @@
 - (void) testInterstitialSetMopubConsentToCriteo {
     id mockCriteo = [OCMockObject partialMockForObject:[Criteo sharedCriteo]];
     id mockMopub = [OCMockObject partialMockForObject:[MoPub sharedInstance]];
-    CRInterstitialCustomEvent *event = [[CRInterstitialCustomEvent alloc] initWithInterstitial:mockInterstitial];
     OCMStub([mockMopub currentConsentStatus]).andReturn(MPConsentStatusDoNotTrack);
 
     [mockCriteo setExpectationOrderMatters:YES];
