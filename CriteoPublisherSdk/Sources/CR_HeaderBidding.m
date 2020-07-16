@@ -26,18 +26,22 @@
 #import "CRAdUnit+Internal.h"
 #import "CR_BidManagerHelper.h"
 #import "NSString+CriteoUrl.h"
+#import "CR_DisplaySizeInjector.h"
 
 @interface CR_HeaderBidding ()
 
 @property(strong, nonatomic, readonly) id<CR_HeaderBiddingDevice> device;
+@property(strong, nonatomic, readonly) CR_DisplaySizeInjector *displaySizeInjector;
 
 @end
 
 @implementation CR_HeaderBidding
 
-- (instancetype)initWithDevice:(id<CR_HeaderBiddingDevice>)device {
+- (instancetype)initWithDevice:(id<CR_HeaderBiddingDevice>)device
+           displaySizeInjector:(CR_DisplaySizeInjector *)displaySizeInjector {
   if (self = [super init]) {
     _device = device;
+    _displaySizeInjector = displaySizeInjector;
   }
   return self;
 }
@@ -198,6 +202,14 @@
     }
 
     if ([targeting isKindOfClass:[NSString class]]) {
+      NSString *displayUrl = bid.mopubCompatibleDisplayUrl;
+
+      // MoPub interstitial restrains itself to the safe area.
+      if (adUnit.adUnitType == CRAdUnitTypeInterstitial) {
+        displayUrl = [self.displaySizeInjector
+            injectSafeScreenSizeInDisplayUrl:bid.mopubCompatibleDisplayUrl];
+      }
+
       NSMutableString *keywords = [[NSMutableString alloc] initWithString:targeting];
       if ([keywords length] > 0) {
         [keywords appendString:@","];
@@ -208,7 +220,7 @@
       [keywords appendString:@","];
       [keywords appendString:CR_TargetingKey_crtDisplayUrl];
       [keywords appendString:@":"];
-      [keywords appendString:bid.mopubCompatibleDisplayUrl];
+      [keywords appendString:displayUrl];
 
       if (adUnit.adUnitType == CRAdUnitTypeBanner) {
         NSString *sizeStr = [self stringSizeForBannerWithAdUnit:adUnit];

@@ -24,6 +24,7 @@
 @protocol CR_HeaderBiddingDevice;
 @class CR_CdbBid;
 @class CR_CacheAdUnit;
+@class CR_DisplaySizeInjector;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -35,7 +36,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CR_HeaderBidding : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithDevice:(id<CR_HeaderBiddingDevice>)device NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithDevice:(id<CR_HeaderBiddingDevice>)device
+           displaySizeInjector:(CR_DisplaySizeInjector *)displaySizeInjector
+    NS_DESIGNATED_INITIALIZER;
 
 /**
  * Add the Criteo bid to the request.

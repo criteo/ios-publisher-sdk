@@ -35,6 +35,7 @@
 #import "CR_BidManager.h"
 #import "CR_DefaultMediaDownloader.h"
 #import "CR_ImageCache.h"
+#import "CR_DisplaySizeInjector.h"
 
 #define CR_LAZY(object, assignment)  \
   ({                                 \
@@ -114,7 +115,13 @@
 }
 
 - (CR_HeaderBidding *)headerBidding {
-  return CR_LAZY(_headerBidding, [[CR_HeaderBidding alloc] initWithDevice:self.deviceInfo]);
+  return CR_LAZY(_headerBidding, ({
+                   CR_DisplaySizeInjector *displaySizeInjector =
+                       [[CR_DisplaySizeInjector alloc] initWithDeviceInfo:self.deviceInfo];
+
+                   [[CR_HeaderBidding alloc] initWithDevice:self.deviceInfo
+                                        displaySizeInjector:displaySizeInjector];
+                 }));
 }
 
 - (CR_FeedbackStorage *)feedbackStorage {
