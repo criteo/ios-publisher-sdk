@@ -7,7 +7,7 @@ set -Eeuo pipefail
 # For naming the frameworks
 SDK_VERSION_NUMBER="3.8.0-rc1"
 # For getting the frameworks on Jenkins
-SDK_BUILD_NUMBER="2808"
+SDK_BUILD_NUMBER="638"
 # ---------------------------------------
 
 SCRIPT_DIRECTORY="$( cd "$(dirname "$0")" ; pwd -P )"

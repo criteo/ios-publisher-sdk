@@ -8,14 +8,14 @@
 
 Pod::Spec.new do |s|
   s.name             = 'CriteoPublisherSdk'
-  s.version          = '3.8.0'
-  s.summary          = 'Display Criteo ads in your app.'
-
+  s.version          = '3.8.0-rc1'
+  s.summary          = 'Criteo Publisher SDK for iOS'
   s.description      = <<-DESC
-  Criteo Publisher SDK maximizes revenue by directly connecting your premium inventory to our premium demand. That means you retain the full value of every impression we buy.
-                         DESC
-
-  s.homepage         = 'https://criteo.com'
+    Criteo Publisher SDK maximizes revenue by directly connecting your premium
+    inventory to our premium demand. That means you retain the full value of
+    every impression we buy.
+  DESC
+  s.homepage         = 'https://github.com/criteo/ios-publisher-sdk/'
   s.license          = { :type => 'Apache 2.0', :file => 'LICENSE' }
   s.author           = { 'Criteo' => 'opensource@criteo.com' }
   s.source           = { :http => "https://pubsdk-bin.criteo.com/publishersdk/ios/CriteoPublisherSdk_iOS_v#{s.version}.Release.zip" }
