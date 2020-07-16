@@ -5,7 +5,7 @@ project 'CriteoMoPubAdapter.xcodeproj'
 
 target 'CriteoMoPubAdapter' do
   pod 'mopub-ios-sdk/Core', '~> 5.13'
-  # pod 'CriteoPublisherSdk'
+  # pod 'CriteoPublisherSdk', '~> 3.0', '~> 3.0-alpha', '~> 3.0-beta', '~> 3.0-rc'
 end
 
 target 'CriteoMoPubAdapterTests' do
@@ -15,5 +15,5 @@ end
 target 'CriteoMoPubAdapterTestApp' do
   project 'CriteoMoPubAdapterTestApp'
   pod 'mopub-ios-sdk/Core', '~> 5.13'
-  # pod 'CriteoPublisherSdk'
+  # pod 'CriteoPublisherSdk', '~> 3.0', '~> 3.0-alpha', '~> 3.0-beta', '~> 3.0-rc'
 end
