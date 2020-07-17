@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'CriteoPublisherSdk'
-  s.version          = '3.8.0-rc1'
+  s.version          = '3.8.0'
   s.summary          = 'Criteo Publisher SDK for iOS'
   s.description      = <<-DESC
     Criteo Publisher SDK maximizes revenue by directly connecting your premium
@@ -25,5 +25,4 @@ Pod::Spec.new do |s|
   s.platform          = :ios
 
   s.weak_frameworks = 'WebKit'
-
 end
