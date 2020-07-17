@@ -112,6 +112,7 @@ class AdViewerViewController: FormViewController {
                 self.updateAdConfig()
             }
         }
+
         +++ Section("Advanced options") {
             $0.hidden = .function([Tags.network.rawValue, Tags.type.rawValue], { (form) -> Bool in
                 if  let typeRow: SegmentedRow<AdType> = self.form.rowBy(tag: Tags.type.rawValue),
@@ -128,6 +129,7 @@ class AdViewerViewController: FormViewController {
                 $0?.description
             }
         }
+
         +++ Section()
         <<< ButtonRow() {
             $0.title = "Display Ad"
@@ -135,48 +137,11 @@ class AdViewerViewController: FormViewController {
             self.displayAd()
         }
 
-        /* //Load Test
-        +++ Section()
-        <<< ButtonRow() {
-            $0.title = "Load Test"
-        }.onCellSelection { cell, row in
-            self.loadTestAd()
-        } */
-
         +++ Section() {
             $0.tag = Tags.ads.rawValue
         }
 
         self.updateAdConfig()
-    }
-
-    private func loadTestAd(iterations: Int = 1000) {
-        if let network = (self.values[Tags.network.rawValue] as? AdNetwork) {
-            let configs = network.defaultAdUnits.map { format, adUnitId -> AdConfig in
-                return AdConfig(
-                        publisherId: publisherId,
-                        adUnitId: adUnitId,
-                        adFormat: format)
-            }
-            var adViewCounter = 0
-            let adUnits = configs.map { return $0.adUnit }
-            let criteo = buildCriteo(adUnits: adUnits)
-            sleep(3) // FIXME: waiting for register
-            let queue = DispatchQueue(label: "loadTestQueue", attributes: .concurrent)
-            let group = DispatchGroup()
-            for _ in 1...iterations {
-                configs.forEach { config in
-                    group.enter()
-                    queue.async {
-                        _ = network.adViewBuilder.build(config: config, criteo: criteo)
-                        group.leave()
-                    }
-                }
-                adViewCounter += configs.count
-            }
-            group.wait()
-            print("Loaded \(adViewCounter) adViews")
-        }
     }
 
     private func updateAdConfig() {
