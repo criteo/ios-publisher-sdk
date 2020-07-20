@@ -6,23 +6,23 @@
 # To learn more about a Podspec see https://guides.cocoapods.org/syntax/podspec.html
 #
 
-Pod::Spec.new do |s|
-  s.name             = 'CriteoPublisherSdk'
-  s.version          = '3.8.0'
-  s.summary          = 'Criteo Publisher SDK for iOS'
-  s.description      = <<-DESC
+Pod::Spec.new do |spec|
+  spec.name             = 'CriteoPublisherSdk'
+  spec.version          = '3.8.0'
+  spec.summary          = 'Criteo Publisher SDK for iOS'
+  spec.description      = <<-DESC
     Criteo Publisher SDK maximizes revenue by directly connecting your premium
     inventory to our premium demand. That means you retain the full value of
     every impression we buy.
   DESC
-  s.homepage         = 'https://github.com/criteo/ios-publisher-sdk/'
-  s.license          = { :type => 'Apache 2.0', :file => 'LICENSE' }
-  s.author           = { 'Criteo' => 'opensource@criteo.com' }
-  s.source           = { :http => "https://pubsdk-bin.criteo.com/publishersdk/ios/CriteoPublisherSdk_iOS_v#{s.version}.Release.zip" }
-  s.vendored_frameworks = 'CriteoPublisherSdk.framework'
-  s.ios.deployment_target = '8.0'
+  spec.homepage         = 'https://github.com/criteo/ios-publisher-sdk/'
+  spec.license          = { :type => 'Apache 2.0', :file => 'LICENSE' }
+  spec.author           = { 'Criteo' => 'opensource@criteo.com' }
+  spec.source           = { :http => "https://pubsdk-bin.criteo.com/publishersdk/ios/CriteoPublisherSdk_iOS_v#{spec.version}.Release.zip" }
+  spec.vendored_frameworks = 'CriteoPublisherSdk.framework'
+  spec.ios.deployment_target = '8.0'
 
-  s.platform          = :ios
+  spec.platform          = :ios
 
-  s.weak_frameworks = 'WebKit'
+  spec.weak_frameworks = 'WebKit'
 end
