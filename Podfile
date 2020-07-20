@@ -4,14 +4,17 @@ workspace 'CriteoPublisherSdk.xcworkspace'
 project 'CriteoPublisherSdk/CriteoPublisherSdk.xcodeproj'
 
 target 'CriteoPublisherSdkTests' do
-    pod 'OCMock','~> 3.6'
-    pod 'Google-Mobile-Ads-SDK'
-    pod 'mopub-ios-sdk/Core'
-    pod 'FunctionalObjC', '~> 1.0'
+  # Test libs
+  pod 'OCMock', '~> 3.6'
+  pod 'FunctionalObjC', '~> 1.0'
+
+  # Third party SDKs
+  pod 'mopub-ios-sdk/Core'
+  pod 'Google-Mobile-Ads-SDK'
 end
 
 target 'CriteoPublisherSdk' do
-    pod 'Cassette','1.0.0-beta3'
+  pod 'Cassette', '~> 1.0-beta'
 end
 
 post_install do |installer|
