@@ -16,9 +16,18 @@ Pod::Spec.new do |spec|
   spec.platform              = :ios
   spec.ios.deployment_target = "8.0"
 
-  spec.source           = { :http => "https://pubsdk-bin.criteo.com/publishersdk/ios/CriteoPublisherSdk_iOS_v#{spec.version}.Release.zip" }
+  spec.source            = {
+    :git => "https://github.com/criteo/ios-publisher-sdk.git",
+    :tag => spec.version
+  }
 
-  spec.vendored_frameworks = "CriteoPublisherSdk.framework"
+  spec.requires_arc      = true
+  spec.default_subspecs  = "CriteoPublisherSdk"
 
-  spec.weak_frameworks = "WebKit"
+  spec.subspec "CriteoPublisherSdk" do |sdk|
+    sdk.source_files     = "CriteoPublisherSdk/Sources/**/*.{h,m}"
+    sdk.weak_frameworks  = [ "WebKit" ]
+    sdk.dependency       "Cassette", "~> 1.0-beta"
+  end
+
 end
