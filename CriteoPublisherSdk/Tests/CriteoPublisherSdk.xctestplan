@@ -19,9 +19,6 @@
   "testTargets" : [
     {
       "parallelizable" : true,
-      "skippedTests" : [
-        "CR_WebApiIntegrationTests"
-      ],
       "target" : {
         "containerPath" : "container:CriteoPublisherSdk.xcodeproj",
         "identifier" : "E1F2736C21B5F08D00A2FBFA",
