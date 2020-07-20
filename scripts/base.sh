@@ -79,7 +79,7 @@ function crto-fat-build() {
 function crto-archive() {
   pushd "$BUILD_PATH"
   crto-echo "Archiving..."
-  zip -r "CriteoPublisherSdk.framework.$CRITEO_CONFIGURATION.zip" CriteoPublisherSdk.framework
+  zip -r "CriteoPublisherSdk.$CRITEO_CONFIGURATION.zip" CriteoPublisherSdk.framework
   popd
 }
 
