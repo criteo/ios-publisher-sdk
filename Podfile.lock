@@ -1,30 +1,30 @@
 PODS:
   - Cassette (1.0.0-beta3)
   - FunctionalObjC (1.0.2)
-  - Google-Mobile-Ads-SDK (7.61.0):
+  - Google-Mobile-Ads-SDK (7.62.0):
     - GoogleAppMeasurement (~> 6.0)
-  - GoogleAppMeasurement (6.6.1):
+  - GoogleAppMeasurement (6.6.2):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
     - GoogleUtilities/Network (~> 6.0)
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (~> 1.30905.0)
-  - GoogleUtilities/AppDelegateSwizzler (6.6.0):
+  - GoogleUtilities/AppDelegateSwizzler (6.7.1):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (6.6.0):
+  - GoogleUtilities/Environment (6.7.1):
     - PromisesObjC (~> 1.2)
-  - GoogleUtilities/Logger (6.6.0):
+  - GoogleUtilities/Logger (6.7.1):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (6.6.0):
+  - GoogleUtilities/MethodSwizzler (6.7.1):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (6.6.0):
+  - GoogleUtilities/Network (6.7.1):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (6.6.0)"
-  - GoogleUtilities/Reachability (6.6.0):
+  - "GoogleUtilities/NSData+zlib (6.7.1)"
+  - GoogleUtilities/Reachability (6.7.1):
     - GoogleUtilities/Logger
   - mopub-ios-sdk/Core (5.8.0)
   - nanopb (1.30905.0):
@@ -36,7 +36,7 @@ PODS:
   - PromisesObjC (1.2.9)
 
 DEPENDENCIES:
-  - Cassette (= 1.0.0-beta3)
+  - Cassette (~> 1.0-beta)
   - FunctionalObjC (~> 1.0)
   - Google-Mobile-Ads-SDK
   - mopub-ios-sdk/Core
@@ -57,14 +57,14 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Cassette: bd5900e0b8d67c796ca82272ff5ee388320cfc61
   FunctionalObjC: bd6aaa4b69abea0a5ac0e860a052c1ebebd5311c
-  Google-Mobile-Ads-SDK: 4c3b24b04293b4bb370b2cb392cdd3ee97c87752
-  GoogleAppMeasurement: 2fd5c5a56c069db635c8e7b92d4809a9591d0a69
-  GoogleUtilities: 39530bc0ad980530298e9c4af8549e991fd033b1
+  Google-Mobile-Ads-SDK: c92c27666fbf684c964259785a6b3cdd3068e06f
+  GoogleAppMeasurement: 8cd1f289d60e629cf16ab03363b9e89c776b9651
+  GoogleUtilities: e121a3867449ce16b0e35ddf1797ea7a389ffdf2
   mopub-ios-sdk: b63e15803e70b92d0b51c3e1c49bbcd78cd3d1d5
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   OCMock: 5ea90566be239f179ba766fd9fbae5885040b992
   PromisesObjC: b48e0338dbbac2207e611750777895f7a5811b75
 
-PODFILE CHECKSUM: 8a608adb3b7e7aac0a0fd1c3f11d237b48ef10ed
+PODFILE CHECKSUM: c9156054727f1a2fbd592020ff6cc91aa2051b0a
 
 COCOAPODS: 1.9.3
