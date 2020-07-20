@@ -52,4 +52,14 @@ platform :ios do
       files: files,
     )
   end
+
+  desc %(Extract last version changelog)
+  lane :last_changelog do
+    changelog = File.open("../CHANGELOG.md").read
+    last_changelog = changelog
+        .split(/----*\n/)[1] # Get last version section
+        .lines[2..-1].join   # Remove first line that contains version
+        .strip!
+    File.write('../last-changelog.md', last_changelog)
+  end
 end
