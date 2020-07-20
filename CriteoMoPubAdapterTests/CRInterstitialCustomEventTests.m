@@ -23,12 +23,13 @@
 
 @interface CRInterstitialCustomEvent ()
 
-@property(nonatomic, weak) id <MPFullscreenAdAdapterDelegate> delegate;
 @property(nonatomic, strong) CRInterstitial *interstitial;
 
 @end
 
 @interface CRInterstitialCustomEvent (Test)
+
+@property(nonatomic, weak) id <MPFullscreenAdAdapterDelegate> delegate;
 
 - (void)requestAdWithAdapterInfo:(NSDictionary *)info;
 
@@ -38,6 +39,17 @@
 
 - (void)requestAdWithAdapterInfo:(NSDictionary *)info {
     [self requestAdWithAdapterInfo:info adMarkup:nil];
+}
+
+@dynamic delegate;
+static void *DelegateAssociationKey;
+
+- (id)delegate {
+  return objc_getAssociatedObject(self, DelegateAssociationKey);
+}
+
+- (void)setDelegate:(id)delegate {
+  objc_setAssociatedObject(self, DelegateAssociationKey, delegate, OBJC_ASSOCIATION_ASSIGN);
 }
 
 @end

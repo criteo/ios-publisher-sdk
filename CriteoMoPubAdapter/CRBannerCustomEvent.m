@@ -23,13 +23,13 @@
 // Private properties
 @interface CRBannerCustomEvent()
 
-@property(nonatomic, weak) id <MPInlineAdAdapterDelegate> delegate;
 @property(nonatomic, strong) CRBannerView *bannerView;
 
 @end
 
 @implementation CRBannerCustomEvent
 
+@synthesize delegate;
 @synthesize localExtras;
 
 - (instancetype) init {

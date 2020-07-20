@@ -23,7 +23,6 @@
 
 @interface CRBannerCustomEvent()
 
-@property(nonatomic, weak) id <MPInlineAdAdapterDelegate> delegate;
 @property(nonatomic, strong) CRBannerView *bannerView;
 
 @end
@@ -33,6 +32,8 @@
 - (instancetype) initWithBannerView:(CRBannerView *)bannerView;
 
 - (void)requestAdWithSize:(CGSize)size adapterInfo:(NSDictionary *)info;
+
+@property(nonatomic, weak) id <MPInlineAdAdapterDelegate> delegate;
 
 @end
 
@@ -47,6 +48,17 @@
 
 - (void)requestAdWithSize:(CGSize)size adapterInfo:(NSDictionary *)info {
     [self requestAdWithSize:size adapterInfo:info adMarkup:nil];
+}
+
+@dynamic delegate;
+static void *DelegateAssociationKey;
+
+- (id)delegate {
+  return objc_getAssociatedObject(self, DelegateAssociationKey);
+}
+
+- (void)setDelegate:(id)delegate {
+  objc_setAssociatedObject(self, DelegateAssociationKey, delegate, OBJC_ASSOCIATION_ASSIGN);
 }
 
 @end

@@ -23,13 +23,13 @@
 
 @interface CRInterstitialCustomEvent ()
 
-@property(nonatomic, weak) id <MPFullscreenAdAdapterDelegate> delegate;
 @property(nonatomic, strong) CRInterstitial *interstitial;
 
 @end
 
 @implementation CRInterstitialCustomEvent
 
+@synthesize delegate;
 @synthesize localExtras;
 
 - (instancetype)init {
