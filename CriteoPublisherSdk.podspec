@@ -9,6 +9,7 @@ Pod::Spec.new do |spec|
     every impression we buy.
   DESC
   spec.homepage          = "https://github.com/criteo/ios-publisher-sdk/"
+  spec.documentation_url = "https://publisherdocs.criteotilt.com/app/ios/get-started/"
   spec.license           = { :type => "Apache 2.0", :file => "LICENSE" }
   spec.author            = { "Criteo" => "opensource@criteo.com" }
 
