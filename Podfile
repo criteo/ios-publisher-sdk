@@ -4,6 +4,8 @@ workspace 'CriteoPublisherSdk.xcworkspace'
 project 'CriteoPublisherSdk/CriteoPublisherSdk.xcodeproj'
 
 target 'CriteoPublisherSdkTests' do
+  platform :ios, '10.0' # iOS 10 required by MoPub
+
   # Test libs
   pod 'OCMock', '~> 3.6'
   pod 'FunctionalObjC', '~> 1.0'
