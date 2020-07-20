@@ -57,16 +57,6 @@
   return self;
 }
 
-- (CR_DependencyProvider *)withPreprodConfiguration {
-  static NSString *cdbPreprodUrl = @"https://directbidder-test-app.par.preprod.crto.in";
-  self.config = [[CR_Config alloc] initWithCriteoPublisherId:CriteoTestingPublisherId
-                                                      cdbUrl:cdbPreprodUrl
-                                                appEventsUrl:CR_ConfigAppEventsUrl
-                                                   configUrl:CR_ConfigConfigurationUrl
-                                                userDefaults:self.userDefaults];
-  return self;
-}
-
 - (CR_DependencyProvider *)withIsolatedDeviceInfo {
   self.deviceInfo = [[CR_DeviceInfoMock alloc] init];
   return self;
