@@ -22,12 +22,19 @@ Pod::Spec.new do |spec|
   }
 
   spec.requires_arc      = true
-  spec.default_subspecs  = "CriteoPublisherSdk"
+  spec.default_subspecs  = "Sdk"
 
-  spec.subspec "CriteoPublisherSdk" do |sdk|
+  spec.subspec "Sdk" do |sdk|
     sdk.source_files     = "CriteoPublisherSdk/Sources/**/*.{h,m}"
     sdk.weak_frameworks  = [ "WebKit" ]
     sdk.dependency       "Cassette", "~> 1.0-beta"
+  end
+
+  spec.subspec "MoPubAdapter" do |adapter|
+    adapter.source_files     = "CriteoMoPubAdapter/Sources/CriteoMoPubAdapter/**/*.{h,m}"
+    adapter.dependency       "CriteoPublisherSdk/Sdk"
+    adapter.dependency       "mopub-ios-sdk/Core", "~> 5.13"
+    adapter.ios.deployment_target = "10.0"
   end
 
 end
