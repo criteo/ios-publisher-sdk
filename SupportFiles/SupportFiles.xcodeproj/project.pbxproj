@@ -1,0 +1,95 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXFileReference section */
+		466AEEED24C6EB2F0034081E /* Gemfile */ = {isa = PBXFileReference; lastKnownFileType = text; name = Gemfile; path = ../Gemfile; sourceTree = "<group>"; };
+		466AEEEE24C6EB2F0034081E /* CriteoPublisherSdk.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; name = CriteoPublisherSdk.podspec; path = ../CriteoPublisherSdk.podspec; sourceTree = "<group>"; };
+		466AEEEF24C6EB2F0034081E /* tools */ = {isa = PBXFileReference; lastKnownFileType = folder; name = tools; path = ../tools; sourceTree = "<group>"; };
+		466AEEF024C6EB300034081E /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../CHANGELOG.md; sourceTree = "<group>"; };
+		466AEEF124C6EB300034081E /* wiremock */ = {isa = PBXFileReference; lastKnownFileType = folder; name = wiremock; path = ../wiremock; sourceTree = "<group>"; };
+		466AEEF224C6EB300034081E /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		466AEEF324C6EB300034081E /* DEVELOPMENT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = DEVELOPMENT.md; path = ../DEVELOPMENT.md; sourceTree = "<group>"; };
+		466AEEF424C6EB300034081E /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = scripts; path = ../scripts; sourceTree = "<group>"; };
+		466AEEF524C6EB300034081E /* fastlane */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fastlane; path = ../fastlane; sourceTree = "<group>"; };
+		466AEEF624C6EB300034081E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		466AEEF724C6EBA90034081E /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = "<group>"; };
+		466AEEF824C6EBF90034081E /* .github */ = {isa = PBXFileReference; lastKnownFileType = folder; name = .github; path = ../.github; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		466AEEE624C6EAA50034081E = {
+			isa = PBXGroup;
+			children = (
+				466AEEF624C6EB300034081E /* README.md */,
+				466AEEF324C6EB300034081E /* DEVELOPMENT.md */,
+				466AEEF024C6EB300034081E /* CHANGELOG.md */,
+				466AEEF224C6EB300034081E /* LICENSE */,
+				466AEEED24C6EB2F0034081E /* Gemfile */,
+				466AEEF724C6EBA90034081E /* Podfile */,
+				466AEEEE24C6EB2F0034081E /* CriteoPublisherSdk.podspec */,
+				466AEEF824C6EBF90034081E /* .github */,
+				466AEEF524C6EB300034081E /* fastlane */,
+				466AEEF424C6EB300034081E /* scripts */,
+				466AEEEF24C6EB2F0034081E /* tools */,
+				466AEEF124C6EB300034081E /* wiremock */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		466AEEE724C6EAA50034081E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1160;
+			};
+			buildConfigurationList = 466AEEEA24C6EAA50034081E /* Build configuration list for PBXProject "SupportFiles" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 466AEEE624C6EAA50034081E;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		466AEEEB24C6EAA50034081E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		466AEEEC24C6EAA50034081E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		466AEEEA24C6EAA50034081E /* Build configuration list for PBXProject "SupportFiles" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				466AEEEB24C6EAA50034081E /* Debug */,
+				466AEEEC24C6EAA50034081E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 466AEEE724C6EAA50034081E /* Project object */;
+}
