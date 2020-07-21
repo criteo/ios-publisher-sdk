@@ -21,7 +21,10 @@ platform :ios do
   )
   lane :test do
     format_check
-    multi_scan(try_count: 3, parallel_testrun_count: 2)
+    multi_scan(
+      scheme: "CriteoPublisherSdk",
+      try_count: 3, parallel_testrun_count: 2
+    )
   end
 
   desc %(Check code format)
