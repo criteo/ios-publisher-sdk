@@ -25,15 +25,14 @@
 
 @implementation CRCriteoAdapterConfigurationTests
 
-- (void)testBiddingToken{
-    CRCriteoAdapterConfiguration *config = [[CRCriteoAdapterConfiguration alloc] init];
-    XCTAssertNil([config biddingToken]);
+- (void)testBiddingToken {
+  CRCriteoAdapterConfiguration *config = [[CRCriteoAdapterConfiguration alloc] init];
+  XCTAssertNil([config biddingToken]);
 }
 
-- (void)testmoPubNetworkName{
-    CRCriteoAdapterConfiguration *config = [[CRCriteoAdapterConfiguration alloc] init];
-    XCTAssertEqual([config moPubNetworkName], @"criteo");
+- (void)testmoPubNetworkName {
+  CRCriteoAdapterConfiguration *config = [[CRCriteoAdapterConfiguration alloc] init];
+  XCTAssertEqual([config moPubNetworkName], @"criteo");
 }
 
 @end
-

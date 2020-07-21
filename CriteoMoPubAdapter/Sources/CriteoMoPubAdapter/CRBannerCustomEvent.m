@@ -21,7 +21,7 @@
 #import "NSString+MPConsentStatus.h"
 
 // Private properties
-@interface CRBannerCustomEvent()
+@interface CRBannerCustomEvent ()
 
 @property(nonatomic, strong) CRBannerView *bannerView;
 
@@ -32,57 +32,66 @@
 @synthesize delegate;
 @synthesize localExtras;
 
-- (instancetype) init {
-    self = [super init];
-    return self;
+- (instancetype)init {
+  self = [super init];
+  return self;
 }
 
-- (void)requestAdWithSize:(CGSize)size adapterInfo:(NSDictionary *)info adMarkup:(NSString *)adMarkup {
-    if (![CRCustomEventHelper checkValidInfo:info]) {
-        if ([self.delegate respondsToSelector:@selector(inlineAdAdapter:didFailToLoadAdWithError:)]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSString *errorDescription = @"Criteo Banner ad request failed due to invalid server parameters.";
-                NSError *error = [NSError errorWithCode:MOPUBErrorServerError
-                                   localizedDescription:errorDescription];
-                [self.delegate inlineAdAdapter:self didFailToLoadAdWithError:error];
-            });
-        }
-        return;
+- (void)requestAdWithSize:(CGSize)size
+              adapterInfo:(NSDictionary *)info
+                 adMarkup:(NSString *)adMarkup {
+  if (![CRCustomEventHelper checkValidInfo:info]) {
+    if ([self.delegate respondsToSelector:@selector(inlineAdAdapter:didFailToLoadAdWithError:)]) {
+      dispatch_async(dispatch_get_main_queue(), ^{
+        NSString *errorDescription =
+            @"Criteo Banner ad request failed due to invalid server parameters.";
+        NSError *error = [NSError errorWithCode:MOPUBErrorServerError
+                           localizedDescription:errorDescription];
+        [self.delegate inlineAdAdapter:self didFailToLoadAdWithError:error];
+      });
     }
-    [Criteo.sharedCriteo setMopubConsent:[NSString stringFromConsentStatus:MoPub.sharedInstance.currentConsentStatus]];
-    CRBannerAdUnit *bannerAdUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:info[@"adUnitId"] size:size];
-    [[Criteo sharedCriteo] registerCriteoPublisherId:info[@"cpId"] withAdUnits:@[bannerAdUnit]];
-    // MoPub SDK instantiates a new CustomEvent object on every ad call so the bannerView will not be reused.
-    // This check is done so that a mock bannerView can be injected without being replaced again during testing.
-    if (!self.bannerView) {
-        self.bannerView = [[CRBannerView alloc] initWithAdUnit:bannerAdUnit];
-    }
-    self.bannerView.delegate = self;
-    [self.bannerView loadAd];
+    return;
+  }
+  [Criteo.sharedCriteo
+      setMopubConsent:[NSString stringFromConsentStatus:MoPub.sharedInstance.currentConsentStatus]];
+  CRBannerAdUnit *bannerAdUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:info[@"adUnitId"]
+                                                                     size:size];
+  [[Criteo sharedCriteo] registerCriteoPublisherId:info[@"cpId"] withAdUnits:@[ bannerAdUnit ]];
+  // MoPub SDK instantiates a new CustomEvent object on every ad call so the bannerView will not be
+  // reused. This check is done so that a mock bannerView can be injected without being replaced
+  // again during testing.
+  if (!self.bannerView) {
+    self.bannerView = [[CRBannerView alloc] initWithAdUnit:bannerAdUnit];
+  }
+  self.bannerView.delegate = self;
+  [self.bannerView loadAd];
 }
 
-# pragma mark - CRBannerViewDelegate methods
+#pragma mark - CRBannerViewDelegate methods
 
 - (void)bannerDidReceiveAd:(CRBannerView *)bannerView {
-    if ([self.delegate respondsToSelector:@selector(inlineAdAdapter:didLoadAdWithAdView:)]) {
-        [self.delegate inlineAdAdapter:self didLoadAdWithAdView:self.bannerView];
-    }
+  if ([self.delegate respondsToSelector:@selector(inlineAdAdapter:didLoadAdWithAdView:)]) {
+    [self.delegate inlineAdAdapter:self didLoadAdWithAdView:self.bannerView];
+  }
 }
 
-- (void) banner:(CRBannerView *)bannerView didFailToReceiveAdWithError:(NSError *)error {
-    if ([self.delegate respondsToSelector:@selector(inlineAdAdapter:didFailToLoadAdWithError:)]) {
-        NSString *errorDescription = [NSString stringWithFormat:@"Criteo Banner failed to load with error: %@", error.localizedDescription];
-        NSError *mopubError = [NSError errorWithCode:MOPUBErrorAdapterFailedToLoadAd localizedDescription:errorDescription];
-        [self.delegate inlineAdAdapter:self didFailToLoadAdWithError:mopubError];
-    }
+- (void)banner:(CRBannerView *)bannerView didFailToReceiveAdWithError:(NSError *)error {
+  if ([self.delegate respondsToSelector:@selector(inlineAdAdapter:didFailToLoadAdWithError:)]) {
+    NSString *errorDescription =
+        [NSString stringWithFormat:@"Criteo Banner failed to load with error: %@",
+                                   error.localizedDescription];
+    NSError *mopubError = [NSError errorWithCode:MOPUBErrorAdapterFailedToLoadAd
+                            localizedDescription:errorDescription];
+    [self.delegate inlineAdAdapter:self didFailToLoadAdWithError:mopubError];
+  }
 }
 
-# pragma mark - optional delegate invocations
+#pragma mark - optional delegate invocations
 
-- (void) bannerWillLeaveApplication:(CRBannerView *)bannerView {
-    if ([self.delegate respondsToSelector:@selector(inlineAdAdapterWillLeaveApplication:)]) {
-        [self.delegate inlineAdAdapterWillLeaveApplication:self];
-    }
+- (void)bannerWillLeaveApplication:(CRBannerView *)bannerView {
+  if ([self.delegate respondsToSelector:@selector(inlineAdAdapterWillLeaveApplication:)]) {
+    [self.delegate inlineAdAdapterWillLeaveApplication:self];
+  }
 }
 
 @end

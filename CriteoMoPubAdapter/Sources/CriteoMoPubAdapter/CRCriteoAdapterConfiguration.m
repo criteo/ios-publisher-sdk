@@ -21,26 +21,27 @@
 @implementation CRCriteoAdapterConfiguration
 
 - (NSString *)adapterVersion {
-    // We use an hardcoded value (not a macro) so
-    // that the file is self-contained in the
-    // open-source repository.
-    return @"3.8.0.0";
+  // We use an hardcoded value (not a macro) so
+  // that the file is self-contained in the
+  // open-source repository.
+  return @"3.8.0.0";
 }
 
 - (NSString *)biddingToken {
-    return nil;
+  return nil;
 }
 
-- (NSString *)moPubNetworkName{
-    return @"criteo";
+- (NSString *)moPubNetworkName {
+  return @"criteo";
 }
 
 - (NSString *)networkSdkVersion {
-    return @"3.8.0.0";
+  return @"3.8.0.0";
 }
 
-- (void)initializeNetworkWithConfiguration:(NSDictionary<NSString *, id> *)configuration complete:(void(^)(NSError *))complete {
-    complete(nil);
+- (void)initializeNetworkWithConfiguration:(NSDictionary<NSString *, id> *)configuration
+                                  complete:(void (^)(NSError *))complete {
+  complete(nil);
 }
 
 @end

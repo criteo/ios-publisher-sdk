@@ -20,15 +20,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString * const kCRCustomEventHelperCpId;
-extern NSString * const kCRCustomEventHelperAdUnitId;
+extern NSString *const kCRCustomEventHelperCpId;
+extern NSString *const kCRCustomEventHelperAdUnitId;
 
 @interface CRCustomEventHelper : NSObject
 
 + (BOOL)checkValidInfo:(NSDictionary *)info;
 
-+ (BOOL)checkValidInfo:(NSDictionary *)eventInfo
-             withError:(NSError **)error;
++ (BOOL)checkValidInfo:(NSDictionary *)eventInfo withError:(NSError **)error;
 
 @end
 
