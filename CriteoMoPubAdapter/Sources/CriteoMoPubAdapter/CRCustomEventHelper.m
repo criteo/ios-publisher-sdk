@@ -19,41 +19,34 @@
 #import "CRCustomEventHelper.h"
 #import "MPNativeAdError.h"
 
-NSString * const kCRCustomEventHelperCpId = @"cpId";
-NSString * const kCRCustomEventHelperAdUnitId = @"adUnitId";
+NSString *const kCRCustomEventHelperCpId = @"cpId";
+NSString *const kCRCustomEventHelperAdUnitId = @"adUnitId";
 
 @implementation CRCustomEventHelper
 
 + (BOOL)checkValidInfo:(NSDictionary *)info {
-    return [self checkValidInfo:info
-                      withError:nil];
+  return [self checkValidInfo:info withError:nil];
 }
 
-+ (BOOL)checkValidInfo:(NSDictionary *)eventInfo
-             withError:(NSError **)error {
-    NSArray<NSString *> *expectedKeys = @[
-        kCRCustomEventHelperCpId,
-        kCRCustomEventHelperAdUnitId
-    ];
-    NSMutableString *errorMsg = [[NSMutableString alloc] init];
-    BOOL isValid = YES;
-    for (NSString *key in expectedKeys) {
-        NSString *value = eventInfo[key];
-        if (![value isKindOfClass:NSString.class] ||
-            (value.length == 0)) {
-            isValid = NO;
-            NSString *str = [[NSString alloc] initWithFormat:
-                             @"The Criteo '%@' key is missing or invalid. ",
-                             key];
-            [errorMsg appendString:str];
-        }
++ (BOOL)checkValidInfo:(NSDictionary *)eventInfo withError:(NSError **)error {
+  NSArray<NSString *> *expectedKeys = @[ kCRCustomEventHelperCpId, kCRCustomEventHelperAdUnitId ];
+  NSMutableString *errorMsg = [[NSMutableString alloc] init];
+  BOOL isValid = YES;
+  for (NSString *key in expectedKeys) {
+    NSString *value = eventInfo[key];
+    if (![value isKindOfClass:NSString.class] || (value.length == 0)) {
+      isValid = NO;
+      NSString *str =
+          [[NSString alloc] initWithFormat:@"The Criteo '%@' key is missing or invalid. ", key];
+      [errorMsg appendString:str];
     }
-    if (!isValid && (error != nil)) {
-        [errorMsg appendString:@"No ad request sent. "
-                                "Ensure this key is valid on the MoPub dashboard."];
-        *error = MPNativeAdNSErrorForInvalidAdServerResponse(errorMsg);
-    }
-    return isValid;
+  }
+  if (!isValid && (error != nil)) {
+    [errorMsg appendString:@"No ad request sent. "
+                            "Ensure this key is valid on the MoPub dashboard."];
+    *error = MPNativeAdNSErrorForInvalidAdServerResponse(errorMsg);
+  }
+  return isValid;
 }
 
 @end

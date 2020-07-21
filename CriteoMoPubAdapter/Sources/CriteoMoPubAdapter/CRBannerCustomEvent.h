@@ -31,7 +31,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CRBannerCustomEvent : MPInlineAdAdapter <CRBannerViewDelegate, MPThirdPartyInlineAdAdapter>
+@interface CRBannerCustomEvent
+    : MPInlineAdAdapter <CRBannerViewDelegate, MPThirdPartyInlineAdAdapter>
 @end
 
 NS_ASSUME_NONNULL_END
