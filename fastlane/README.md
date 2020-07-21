@@ -21,8 +21,8 @@ or alternatively using `brew install fastlane`
 fastlane ios test
 ```
 Run tests:
-    - format_check: check code formatting
-    - multi_scan: run Unit & Functional tests
+    - Check code formatting
+    - Run Unit & Functional tests with retries
   
 ### ios format_check
 ```
