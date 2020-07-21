@@ -31,9 +31,9 @@
 		5431C81023D72665002F0282 /* HomePageTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomePageTableViewController.h; sourceTree = "<group>"; };
 		5431C81123D72665002F0282 /* HomePageTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomePageTableViewController.m; sourceTree = "<group>"; };
 		5431C83223D7599E002F0282 /* CriteoPublisherSdk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CriteoPublisherSdk.framework; sourceTree = "<group>"; };
-		86BDED0EE091D330B8F2E5FF /* Pods-CriteoMoPubAdapterTestApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapterTestApp.release.xcconfig"; path = "Target Support Files/Pods-CriteoMoPubAdapterTestApp/Pods-CriteoMoPubAdapterTestApp.release.xcconfig"; sourceTree = "<group>"; };
+		86BDED0EE091D330B8F2E5FF /* Pods-CriteoMoPubAdapterTestApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapterTestApp.release.xcconfig"; path = "../../Pods/Target Support Files/Pods-CriteoMoPubAdapterTestApp/Pods-CriteoMoPubAdapterTestApp.release.xcconfig"; sourceTree = "<group>"; };
 		A552A4043F3142BE912DD619 /* libPods-CriteoMoPubAdapterTestApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoMoPubAdapterTestApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BCC7CF4160838D508C9AF5F5 /* Pods-CriteoMoPubAdapterTestApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapterTestApp.debug.xcconfig"; path = "Target Support Files/Pods-CriteoMoPubAdapterTestApp/Pods-CriteoMoPubAdapterTestApp.debug.xcconfig"; sourceTree = "<group>"; };
+		BCC7CF4160838D508C9AF5F5 /* Pods-CriteoMoPubAdapterTestApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapterTestApp.debug.xcconfig"; path = "../../Pods/Target Support Files/Pods-CriteoMoPubAdapterTestApp/Pods-CriteoMoPubAdapterTestApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,7 +80,8 @@
 				5431C7FB23D7231F002F0282 /* main.m */,
 				5431C7F223D7231D002F0282 /* Main.storyboard */,
 			);
-			path = CriteoMoPubAdapterTestApp;
+			name = CriteoMoPubAdapterTestApp;
+			path = Sources/CriteoMoPubAdapterTestApp;
 			sourceTree = "<group>";
 		};
 		5431C81323D7267B002F0282 /* HomePage */ = {
@@ -374,7 +375,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = CriteoMoPubAdapterTestApp/Info.plist;
+				INFOPLIST_FILE = Sources/CriteoMoPubAdapterTestApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -397,7 +398,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = CriteoMoPubAdapterTestApp/Info.plist;
+				INFOPLIST_FILE = Sources/CriteoMoPubAdapterTestApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
