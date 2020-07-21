@@ -34,6 +34,11 @@ Check code format
 fastlane ios format
 ```
 Format code
+### ios last_changelog
+```
+fastlane ios last_changelog
+```
+Extract last version changelog
 
 ----
 
