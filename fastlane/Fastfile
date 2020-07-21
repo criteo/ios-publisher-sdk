@@ -13,11 +13,12 @@
 default_platform(:ios)
 
 project_dir = "CriteoPublisherSdk"
+adapter_mopub_dir = "CriteoMoPubAdapter"
 
 platform :ios do
   desc %(Run tests:
-    - format_check: check code formatting
-    - multi_scan: run Unit & Functional tests
+    - Check code formatting
+    - Run Unit & Functional tests with retries
   )
   lane :test do
     format_check
@@ -25,6 +26,7 @@ platform :ios do
       scheme: "CriteoPublisherSdk",
       try_count: 3, parallel_testrun_count: 2
     )
+    scan(scheme: "CriteoMoPubAdapter")
   end
 
   desc %(Check code format)
@@ -32,7 +34,7 @@ platform :ios do
     run_clang_format(
       script_path: "tools/clang-format/run-clang-format.py",
       extensions: "h,m",
-      paths: ["#{project_dir}"],
+      paths: [project_dir, adapter_mopub_dir],
       executable: "tools/clang-format/clang-format",
     )
   end
@@ -41,7 +43,9 @@ platform :ios do
   lane :format do
     files = []
     Dir.chdir("..") do
-      files = Dir.glob("#{project_dir}/**/*.{h,m}")
+      files =
+        Dir.glob("#{project_dir}/**/*.{h,m}") +
+        Dir.glob("#{adapter_mopub_dir}/**/*.{h,m}")
     end
 
     clang_format(
