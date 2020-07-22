@@ -20,6 +20,6 @@
 #ifndef CRConstants_h
 #define CRConstants_h
 
-#define CRITEO_PUBLISHER_SDK_VERSION @"3.8.0"
+#define CRITEO_PUBLISHER_SDK_VERSION @"4.0.0-alpha1"
 
 #endif /* CRConstants_h */
