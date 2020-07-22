@@ -8,18 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		257D7F85987A73B1F0A8090D /* libPods-CriteoMoPubAdapterTestApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A552A4043F3142BE912DD619 /* libPods-CriteoMoPubAdapterTestApp.a */; };
-		469F5BB724C05CAF0018B963 /* CriteoMoPubAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 469F5BB624C05CAF0018B963 /* CriteoMoPubAdapter.framework */; };
 		5431C7EB23D7231D002F0282 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5431C7EA23D7231D002F0282 /* AppDelegate.m */; };
 		5431C7F423D7231D002F0282 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5431C7F223D7231D002F0282 /* Main.storyboard */; };
 		5431C7F623D7231F002F0282 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5431C7F523D7231F002F0282 /* Assets.xcassets */; };
 		5431C7F923D7231F002F0282 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5431C7F723D7231F002F0282 /* LaunchScreen.storyboard */; };
 		5431C7FC23D7231F002F0282 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5431C7FB23D7231F002F0282 /* main.m */; };
 		5431C81223D72665002F0282 /* HomePageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5431C81123D72665002F0282 /* HomePageTableViewController.m */; };
-		5431C83323D7599E002F0282 /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5431C83223D7599E002F0282 /* CriteoPublisherSdk.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		469F5BB624C05CAF0018B963 /* CriteoMoPubAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CriteoMoPubAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5431C7E623D7231D002F0282 /* CriteoMoPubAdapterTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CriteoMoPubAdapterTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5431C7E923D7231D002F0282 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5431C7EA23D7231D002F0282 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -30,7 +27,6 @@
 		5431C7FB23D7231F002F0282 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5431C81023D72665002F0282 /* HomePageTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomePageTableViewController.h; sourceTree = "<group>"; };
 		5431C81123D72665002F0282 /* HomePageTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomePageTableViewController.m; sourceTree = "<group>"; };
-		5431C83223D7599E002F0282 /* CriteoPublisherSdk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CriteoPublisherSdk.framework; sourceTree = "<group>"; };
 		86BDED0EE091D330B8F2E5FF /* Pods-CriteoMoPubAdapterTestApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapterTestApp.release.xcconfig"; path = "../../Pods/Target Support Files/Pods-CriteoMoPubAdapterTestApp/Pods-CriteoMoPubAdapterTestApp.release.xcconfig"; sourceTree = "<group>"; };
 		A552A4043F3142BE912DD619 /* libPods-CriteoMoPubAdapterTestApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoMoPubAdapterTestApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCC7CF4160838D508C9AF5F5 /* Pods-CriteoMoPubAdapterTestApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapterTestApp.debug.xcconfig"; path = "../../Pods/Target Support Files/Pods-CriteoMoPubAdapterTestApp/Pods-CriteoMoPubAdapterTestApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -41,8 +37,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				469F5BB724C05CAF0018B963 /* CriteoMoPubAdapter.framework in Frameworks */,
-				5431C83323D7599E002F0282 /* CriteoPublisherSdk.framework in Frameworks */,
 				257D7F85987A73B1F0A8090D /* libPods-CriteoMoPubAdapterTestApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -96,8 +90,6 @@
 		5D5BC082B6696EE89EFE6D4A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				469F5BB624C05CAF0018B963 /* CriteoMoPubAdapter.framework */,
-				5431C83223D7599E002F0282 /* CriteoPublisherSdk.framework */,
 				A552A4043F3142BE912DD619 /* libPods-CriteoMoPubAdapterTestApp.a */,
 			);
 			name = Frameworks;
