@@ -19,7 +19,7 @@
 #import <XCTest/XCTest.h>
 #import "CRBannerCustomEvent.h"
 #import <OCMock.h>
-@import CriteoPublisherSdk;
+#import <CriteoPublisherSdk/CriteoPublisherSdk.h>
 
 @interface CRBannerCustomEvent ()
 

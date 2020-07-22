@@ -26,7 +26,7 @@
 #endif
 
 #import <Foundation/Foundation.h>
-@import CriteoPublisherSdk;
+#import <CriteoPublisherSdk/CriteoPublisherSdk.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
