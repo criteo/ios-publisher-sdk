@@ -155,25 +155,24 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 
 - (void)getConfig:(CR_RemoteConfigRequest *)request
     ahConfigHandler:(AHConfigResponse)ahConfigHandler {
-  NSString *urlString =
-      [NSString stringWithFormat:@"%@?%@", request.configUrl, request.queryString];
-  NSURL *url = [NSURL URLWithString:urlString];
+  NSURL *url = [NSURL URLWithString:request.configUrl];
 
   CLogInfo(@"[INFO][API_] ConfigGetCall.start");
-  [self.networkManager getFromUrl:url
-                  responseHandler:^(NSData *data, NSError *error) {
-                    CLogInfo(@"[INFO][API_] ConfigGetCall.finished");
-                    if (error == nil) {
-                      if (data && ahConfigHandler) {
-                        NSDictionary *configValues = [CR_Config getConfigValuesFromData:data];
-                        ahConfigHandler(configValues);
-                      } else {
-                        CLog(@"Error on get from Config: response from Config was nil");
-                      }
-                    } else {
-                      CLog(@"Error on get from Config : %@", error);
-                    }
-                  }];
+  [self.networkManager postToUrl:url
+                        postBody:request.postBody
+                 responseHandler:^(NSData *data, NSError *error) {
+                   CLogInfo(@"[INFO][API_] ConfigGetCall.finished");
+                   if (error == nil) {
+                     if (data && ahConfigHandler) {
+                       NSDictionary *configValues = [CR_Config getConfigValuesFromData:data];
+                       ahConfigHandler(configValues);
+                     } else {
+                       CLog(@"Error on get from Config: response from Config was nil");
+                     }
+                   } else {
+                     CLog(@"Error on get from Config : %@", error);
+                   }
+                 }];
 }
 
 - (void)sendAppEvent:(NSString *)event

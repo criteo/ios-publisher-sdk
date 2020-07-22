@@ -25,10 +25,12 @@
 @property(copy, nonatomic) NSString *criteoPublisherId;
 @property(copy, nonatomic) NSString *sdkVersion;
 @property(copy, nonatomic) NSString *appId;
+@property(copy, nonatomic) NSNumber *profileId;
 
 - (instancetype)initWithCriteoPublisherId:(NSString *)criteoPublisherId
                                sdkVersion:(NSString *)sdkVersion
                                     appId:(NSString *)appId
+                                profileId:(NSNumber *)profileId
                                 configUrl:(NSString *)configUrl;
 
 @end
@@ -39,25 +41,32 @@
   return [CR_RemoteConfigRequest.alloc initWithCriteoPublisherId:config.criteoPublisherId
                                                       sdkVersion:config.sdkVersion
                                                            appId:config.appId
+                                                       profileId:config.profileId
                                                        configUrl:config.configUrl];
 }
 
 - (instancetype)initWithCriteoPublisherId:(NSString *)criteoPublisherId
                                sdkVersion:(NSString *)sdkVersion
                                     appId:(NSString *)appId
+                                profileId:(NSNumber *)profileId
                                 configUrl:(NSString *)configUrl {
   if (self = [super init]) {
     _criteoPublisherId = criteoPublisherId;
     _sdkVersion = sdkVersion;
     _appId = appId;
+    _profileId = profileId;
     _configUrl = configUrl;
   }
   return self;
 }
 
-- (NSString *)queryString {
-  return [NSString stringWithFormat:@"cpId=%@&sdkVersion=%@&appId=%@", self.criteoPublisherId,
-                                    self.sdkVersion, self.appId];
+- (NSDictionary *)postBody {
+  return @{
+    @"cpId" : self.criteoPublisherId,
+    @"bundleId" : self.appId,
+    @"sdkVersion" : self.sdkVersion,
+    @"rtbProfileId" : self.profileId
+  };
 }
 
 @end

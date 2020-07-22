@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CR_RemoteConfigRequest : NSObject
 
 @property(copy, nonatomic, readonly) NSString *configUrl;
-@property(copy, nonatomic, readonly) NSString *queryString;
+@property(copy, nonatomic, readonly) NSDictionary *postBody;
 
 + (instancetype)requestWithConfig:(CR_Config *)config;
 

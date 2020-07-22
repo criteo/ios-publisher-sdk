@@ -25,7 +25,7 @@
 // Production
 NSString *const CR_ConfigCdbUrl = @"https://bidder.criteo.com";
 NSString *const CR_ConfigAppEventsUrl = @"https://gum.criteo.com/appevent/v1";
-NSString *const CR_ConfigConfigurationUrl = @"https://pub-sdk-cfg.criteo.com/v2.0/api/config";
+NSString *const CR_ConfigConfigurationUrl = @"https://bidder.criteo.com/config/app";
 
 @interface CR_Config ()
 
