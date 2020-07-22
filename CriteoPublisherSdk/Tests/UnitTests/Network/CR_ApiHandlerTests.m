@@ -39,6 +39,7 @@
 #import "NSString+CriteoUrl.h"
 #import "CriteoPublisherSdkTests-Swift.h"
 #import "XCTestCase+Criteo.h"
+#import "CR_RemoteConfigRequest.h"
 
 #define CR_AssertLastAppEventUrlContains(name, val)                         \
   do {                                                                      \
@@ -211,12 +212,14 @@
   OCMStub([mockConfig appId]).andReturn(@"com.criteo.sdk.publisher");
   OCMStub([mockConfig configUrl]).andReturn(@"https://url-for-getting-config");
 
+  CR_RemoteConfigRequest *request = [CR_RemoteConfigRequest requestWithConfig:mockConfig];
+
   CR_ApiHandler *apiHandler =
       [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager
                                     bidFetchTracker:[CR_BidFetchTracker new]
                                       threadManager:[[CR_ThreadManager alloc] init]];
 
-  [apiHandler getConfig:mockConfig
+  [apiHandler getConfig:request
         ahConfigHandler:^(NSDictionary *configValues) {
           CLog(@"Data length is %ld", [configValues count]);
           XCTAssertNotNil(configValues);

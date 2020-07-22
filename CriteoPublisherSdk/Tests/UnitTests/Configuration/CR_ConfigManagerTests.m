@@ -106,7 +106,7 @@
   NSData *dataResponse = [jsonResponse dataUsingEncoding:NSUTF8StringEncoding];
   NSDictionary *dictionaryResponse = [CR_Config getConfigValuesFromData:dataResponse];
 
-  OCMStub([mockApiHandler getConfig:localConfig
+  OCMStub([mockApiHandler getConfig:OCMOCK_ANY
                     ahConfigHandler:([OCMArg invokeBlockWithArgs:dictionaryResponse, nil])]);
 }
 

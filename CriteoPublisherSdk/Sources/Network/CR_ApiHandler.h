@@ -34,6 +34,7 @@
 
 @class CR_FeedbackStorage;
 @class CR_ThreadManager;
+@class CR_RemoteConfigRequest;
 
 typedef void (^CR_CdbCompletionHandler)(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse,
                                         NSError *error);
@@ -66,7 +67,8 @@ typedef void (^CR_CsmCompletionHandler)(NSError *error);
  * Calls the pub-sdk config endpoint and gets the config values for the publisher
  * NetworkId, AppId/BundleId, sdkVersion must be present in the config
  */
-- (void)getConfig:(CR_Config *)config ahConfigHandler:(AHConfigResponse)ahConfigHandler;
+- (void)getConfig:(CR_RemoteConfigRequest *)request
+    ahConfigHandler:(AHConfigResponse)ahConfigHandler;
 
 /**
  * Calls the app event endpoint and gets the throttleSec value for the user
