@@ -35,7 +35,10 @@
   if (@available(iOS 10, *)) {
     [[UIApplication sharedApplication] openURL:url options:options completionHandler:completion];
   } else if (completion) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     completion([[UIApplication sharedApplication] openURL:url]);
+#pragma clang diagnostic pop
   }
 }
 
