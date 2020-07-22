@@ -71,10 +71,6 @@ NSString *const CR_NetworkSessionEmptyBid =
 
   if ([url.scheme isEqualToString:@"file"]) {
     [super getFromUrl:url responseHandler:responseHandler];
-  } else if ([url testing_isConfigEventUrlWithConfig:self.config]) {
-    NSData *response =
-        [CR_NetworkSessionReplayerKillSwitchFalse dataUsingEncoding:NSUTF8StringEncoding];
-    responseHandler(response, nil);
   } else if ([url testing_isAppEventUrlWithConfig:self.config]) {
     NSData *response = [CR_NetworkSessionReplayerGumReponse dataUsingEncoding:NSUTF8StringEncoding];
     responseHandler(response, nil);
@@ -117,6 +113,13 @@ NSString *const CR_NetworkSessionEmptyBid =
 
   if ([url testing_isFeedbackMessageUrlWithConfig:self.config]) {
     responseHandler(nil, nil);
+    return;
+  }
+
+  if ([url testing_isConfigEventUrlWithConfig:self.config]) {
+    NSData *response =
+        [CR_NetworkSessionReplayerKillSwitchFalse dataUsingEncoding:NSUTF8StringEncoding];
+    responseHandler(response, nil);
     return;
   }
 
