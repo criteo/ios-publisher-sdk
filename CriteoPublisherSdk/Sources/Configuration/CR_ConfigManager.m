@@ -18,6 +18,7 @@
 //
 
 #import "CR_ConfigManager.h"
+#import "CR_RemoteConfigRequest.h"
 
 @interface CR_ConfigManager ()
 
@@ -40,7 +41,8 @@
 }
 
 - (void)refreshConfig:(CR_Config *)config {
-  [self->apiHandler getConfig:config
+  CR_RemoteConfigRequest *request = [CR_RemoteConfigRequest requestWithConfig:config];
+  [self->apiHandler getConfig:request
               ahConfigHandler:^(NSDictionary *configValues) {
                 if (configValues[@"killSwitch"] &&
                     [configValues[@"killSwitch"] isKindOfClass:NSNumber.class]) {

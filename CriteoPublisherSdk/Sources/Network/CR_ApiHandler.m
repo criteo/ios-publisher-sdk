@@ -28,6 +28,7 @@
 #import "CR_ThreadManager.h"
 #import "NSString+CriteoUrl.h"
 #import "CR_FeedbacksSerializer.h"
+#import "CR_RemoteConfigRequest.h"
 
 static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 
@@ -152,13 +153,12 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
   }
 }
 
-- (void)getConfig:(CR_Config *)config ahConfigHandler:(AHConfigResponse)ahConfigHandler {
-  // TODO: Move the url + query building logic to CR_Config class
-  NSString *query =
-      [NSString stringWithFormat:@"cpId=%@&sdkVersion=%@&appId=%@", [config criteoPublisherId],
-                                 [config sdkVersion], [config appId]];
-  NSString *urlString = [NSString stringWithFormat:@"%@?%@", config.configUrl, query];
+- (void)getConfig:(CR_RemoteConfigRequest *)request
+    ahConfigHandler:(AHConfigResponse)ahConfigHandler {
+  NSString *urlString =
+      [NSString stringWithFormat:@"%@?%@", request.configUrl, request.queryString];
   NSURL *url = [NSURL URLWithString:urlString];
+
   CLogInfo(@"[INFO][API_] ConfigGetCall.start");
   [self.networkManager getFromUrl:url
                   responseHandler:^(NSData *data, NSError *error) {
