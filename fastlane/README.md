@@ -34,6 +34,11 @@ Check code format
 fastlane ios format
 ```
 Format code
+### ios version_bump
+```
+fastlane ios version_bump
+```
+Set marketing version
 ### ios last_changelog
 ```
 fastlane ios last_changelog
