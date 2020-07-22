@@ -53,6 +53,18 @@ platform :ios do
     )
   end
 
+  desc %(Set marketing version)
+  lane :version_bump do |options|
+    version = increment_version_number(
+      version_number: options[:version],
+      xcodeproj: "CriteoPublisherSdk/CriteoPublisherSdk.xcodeproj"
+    )
+    file_replace("CriteoPublisherSdk.podspec",
+                 /(spec.version.*)".*"/, "\\1\"#{version}\"")
+    file_replace("CriteoPublisherSdk/Sources/CRConstants.h",
+                 /(SDK_VERSION.*)".*"/, "\\1\"#{version}\"")
+  end
+
   desc %(Extract last version changelog)
   lane :last_changelog do
     changelog = File.open("../CHANGELOG.md").read
@@ -61,5 +73,11 @@ platform :ios do
         .lines[2..-1].join   # Remove first line that contains version
         .strip!
     File.write('../last-changelog.md', last_changelog)
+  end
+
+  def file_replace(filename, regex, replace)
+    filename = '../' + filename
+    puts "🏔 Replacing in #{filename} #{regex} with #{replace}"
+    File.write(filename, File.open(filename).read.gsub(regex, replace))
   end
 end
