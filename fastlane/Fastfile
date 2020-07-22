@@ -63,6 +63,10 @@ platform :ios do
       version_number: options[:version],
       xcodeproj: "CriteoPublisherSdk/CriteoPublisherSdk.xcodeproj"
     )
+    increment_version_number(
+      version_number: version,
+      xcodeproj: "CriteoMoPubAdapter/CriteoMoPubAdapter.xcodeproj"
+    )
     file_replace("CriteoPublisherSdk.podspec",
                  /(spec.version.*)".*"/, "\\1\"#{version}\"")
     file_replace("CriteoPublisherSdk/Sources/CRConstants.h",
