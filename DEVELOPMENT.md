@@ -24,3 +24,12 @@ The tests in this project are organised according to the following conventions:
 - Integration tests are written in the [IntegrationTests](CriteoPublisherSdk/Tests/IntegrationTests) directory.
 - The subset of integration tests which represent one of the functional tests defined [here](https://go.crto.in/publisher-sdk-functional-tests)
  are post-fixed with `FunctionTests`. The rest are post-fixed with `IntegrationTests`.
+
+## Release
+
+1. Bump version: `bundle exec fastlane version_bump version:4.0.0`
+2. Check changes and merge
+3. Ensure `CHANGELOG.md` is up to date
+4. Tag the version on GitHub then check the CI result on (releases)[http://github.com/criteo/ios-publisher-sdk/releases]
+6. If good/wanted uncheck the pre-release flag
+7. Profit 🚀🥳
