@@ -153,16 +153,6 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 }
 
 - (void)getConfig:(CR_Config *)config ahConfigHandler:(AHConfigResponse)ahConfigHandler {
-  if (![config criteoPublisherId] || [config sdkVersion].length == 0 ||
-      [config appId].length == 0) {
-    CLog(
-        @"Config is is missing one of the following required values criteoPublisherId = %@, sdkVersion = %@, appId = %@",
-        [config criteoPublisherId], [config sdkVersion], [config appId]);
-    if (ahConfigHandler) {
-      ahConfigHandler(nil);
-    }
-  }
-
   // TODO: Move the url + query building logic to CR_Config class
   NSString *query =
       [NSString stringWithFormat:@"cpId=%@&sdkVersion=%@&appId=%@", [config criteoPublisherId],
