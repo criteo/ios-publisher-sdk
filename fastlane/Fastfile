@@ -20,7 +20,6 @@ platform :ios do
     - multi_scan: run Unit & Functional tests
   )
   lane :test do
-    format_check
     multi_scan(
       scheme: "CriteoPublisherSdk",
       try_count: 5, parallel_testrun_count: 2

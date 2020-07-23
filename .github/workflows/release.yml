@@ -2,7 +2,7 @@ name: Release
 
 on:
   push:
-    tags: [ '*' ]
+    tags: '*'
 
 jobs:
   test-and-release:
@@ -51,6 +51,10 @@ jobs:
         curl https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-jre8-standalone/2.27.0/wiremock-jre8-standalone-2.27.0.jar -o wiremock.jar -s
         bundle exec iostrust add ./wiremock/cert/wiremock.crt
         java -jar wiremock.jar --https-port 9099 --root-dir wiremock --https-keystore wiremock/cert/wiremock.jks --keystore-password password --verbose &
+
+    - name: Format check
+      run: |
+        bundle exec fastlane format_check
 
     - name: Test
       run: |
