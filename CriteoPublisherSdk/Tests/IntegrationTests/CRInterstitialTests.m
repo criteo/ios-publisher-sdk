@@ -37,6 +37,7 @@
 #import "CR_Timer.h"
 #import "NSURL+Criteo.h"
 #import "CR_DependencyProvider+Testing.h"
+#import "CR_DisplaySizeInjector.h"
 
 @interface CRInterstitialTests : XCTestCase {
   CR_CdbBid *_bid;
@@ -108,12 +109,18 @@
   OCMStub([deviceInfoClassMock screenSize]).andReturn(CGSizeMake(320, 480));
   dependencyProvider.deviceInfo = deviceInfoClassMock;
 
+  CR_DisplaySizeInjector *displaySizeInjector = OCMClassMock([CR_DisplaySizeInjector class]);
+  OCMStub([displaySizeInjector injectSafeScreenSizeInDisplayUrl:@"test"])
+      .andReturn(@"test?safearea");
+  dependencyProvider.displaySizeInjector = displaySizeInjector;
+
   OCMExpect([mockCriteo getBid:[self expectedCacheAdUnit]])
       .andReturn([self bidWithDisplayURL:@"test"]);
 
   [interstitial loadAd];
 
-  XCTAssertTrue([mockWebView.loadedHTMLString containsString:@"<script src=\"test\"></script>"]);
+  XCTAssertTrue(
+      [mockWebView.loadedHTMLString containsString:@"<script src=\"test?safearea\"></script>"]);
   XCTAssertEqualObjects([NSURL URLWithString:@"https://criteo.com"], mockWebView.loadedBaseURL);
 }
 
@@ -129,6 +136,11 @@
   config.displayURLMacro = @"ˆURLˆ";
   OCMExpect(mockCriteo.config).andReturn(config);
 
+  CR_DisplaySizeInjector *displaySizeInjector = OCMClassMock([CR_DisplaySizeInjector class]);
+  OCMStub([displaySizeInjector injectSafeScreenSizeInDisplayUrl:@"whatDoYouMean"])
+      .andReturn(@"myUrl");
+  dependencyProvider.displaySizeInjector = displaySizeInjector;
+
   MockWKWebView *mockWebView = [MockWKWebView new];
   CR_InterstitialViewController *interstitialVC =
       [[CR_InterstitialViewController alloc] initWithWebView:mockWebView view:nil interstitial:nil];
@@ -143,7 +155,7 @@
   [interstitial loadAd];
 
   NSString *expectedHtml =
-      [NSString stringWithFormat:@"Good Morning, my width is %ld and my URL is whatDoYouMean",
+      [NSString stringWithFormat:@"Good Morning, my width is %ld and my URL is myUrl",
                                  (long)[UIScreen mainScreen].bounds.size.width];
 
   XCTAssertEqualObjects(mockWebView.loadedHTMLString, expectedHtml);

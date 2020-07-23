@@ -29,6 +29,7 @@
 #import "CR_DeviceInfo.h"
 #import "CR_URLOpening.h"
 #import "CR_DependencyProvider.h"
+#import "CR_DisplaySizeInjector.h"
 
 @import WebKit;
 
@@ -123,6 +124,9 @@
 
   NSString *viewportWidth =
       [NSString stringWithFormat:@"%ld", (long)[UIScreen mainScreen].bounds.size.width];
+
+  // Standalone and In-House use the safe area for rendering the interstitial
+  displayURL = [self.displaySizeInjector injectSafeScreenSizeInDisplayUrl:displayURL];
 
   NSString *htmlString =
       [[config.adTagUrlMode stringByReplacingOccurrencesOfString:config.viewportWidthMacro
@@ -323,6 +327,10 @@
 
 - (CR_DeviceInfo *)deviceInfo {
   return _criteo.dependencyProvider.deviceInfo;
+}
+
+- (CR_DisplaySizeInjector *)displaySizeInjector {
+  return _criteo.dependencyProvider.displaySizeInjector;
 }
 
 @end
