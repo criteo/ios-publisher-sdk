@@ -17,14 +17,12 @@
 // limitations under the License.
 
 #import "CRCriteoAdapterConfiguration.h"
+#import <CriteoPublisherSdk/CRConstants.h>
 
 @implementation CRCriteoAdapterConfiguration
 
 - (NSString *)adapterVersion {
-  // We use an hardcoded value (not a macro) so
-  // that the file is self-contained in the
-  // open-source repository.
-  return @"3.8.0.0";
+  return CRITEO_PUBLISHER_SDK_VERSION;
 }
 
 - (NSString *)biddingToken {
@@ -36,7 +34,7 @@
 }
 
 - (NSString *)networkSdkVersion {
-  return @"3.8.0.0";
+  return CRITEO_PUBLISHER_SDK_VERSION;
 }
 
 - (void)initializeNetworkWithConfiguration:(NSDictionary<NSString *, id> *)configuration
