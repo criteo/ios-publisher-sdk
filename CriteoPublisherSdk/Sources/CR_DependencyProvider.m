@@ -115,13 +115,14 @@
 }
 
 - (CR_HeaderBidding *)headerBidding {
-  return CR_LAZY(_headerBidding, ({
-                   CR_DisplaySizeInjector *displaySizeInjector =
-                       [[CR_DisplaySizeInjector alloc] initWithDeviceInfo:self.deviceInfo];
+  return CR_LAZY(_headerBidding,
+                 [[CR_HeaderBidding alloc] initWithDevice:self.deviceInfo
+                                      displaySizeInjector:self.displaySizeInjector]);
+}
 
-                   [[CR_HeaderBidding alloc] initWithDevice:self.deviceInfo
-                                        displaySizeInjector:displaySizeInjector];
-                 }));
+- (CR_DisplaySizeInjector *)displaySizeInjector {
+  return CR_LAZY(_displaySizeInjector,
+                 [[CR_DisplaySizeInjector alloc] initWithDeviceInfo:self.deviceInfo]);
 }
 
 - (CR_FeedbackStorage *)feedbackStorage {
