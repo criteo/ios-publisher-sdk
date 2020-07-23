@@ -176,6 +176,23 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   XCTAssertEqualObjects(targeting[kSizeKey], @"300x250");
 }
 
+- (void)testDfpRequestWithInterstitialHasItsDisplayUrlInjected {
+  DFPRequest *request = [[DFPRequest alloc] init];
+  self.device.mock_screenSize = (CGSize){42, 1337};
+
+  OCMStub([self.displaySizeInjector injectFullScreenSizeInDisplayUrl:self.bid1.displayUrl])
+      .andReturn(@"display.url");
+
+  [self.headerBidding enrichRequest:request withBid:self.bid1 adUnit:self.interstitialAdUnit];
+
+  NSDictionary *targeting = request.customTargeting;
+  NSString *expectedDfpDisplayUrl = [NSString cr_dfpCompatibleString:@"display.url"];
+  XCTAssertEqual(targeting.count, 3);
+  XCTAssertEqualObjects(targeting[kDfpDisplayUrlKey], expectedDfpDisplayUrl);
+  XCTAssertEqualObjects(targeting[kCpmKey], self.bid1.cpm);
+  XCTAssertEqualObjects(targeting[kSizeKey], @"320x480");
+}
+
 - (void)testDfpRequestWithNativeBid {
   CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"/140800857/Endeavour_Native"
                                                                size:CGSizeMake(2, 2)

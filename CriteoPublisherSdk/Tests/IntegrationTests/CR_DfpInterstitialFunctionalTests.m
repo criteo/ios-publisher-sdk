@@ -80,7 +80,12 @@
   NSString *encodedUrl = interstitialDfpRequest.customTargeting[CR_TargetingKey_crtDfpDisplayUrl];
   NSString *decodedUrl = [NSString cr_decodeDfpCompatibleString:encodedUrl];
 
-  XCTAssertEqualObjects(bid.displayUrl, decodedUrl);
+  CGSize screenSize = dependencyProvider.deviceInfo.screenSize;
+  NSString *expectedDisplayUrl =
+      [NSString stringWithFormat:@"%@?wvw=%d&wvh=%d", bid.displayUrl, (int)screenSize.width,
+                                 (int)screenSize.height];
+
+  XCTAssertEqualObjects(expectedDisplayUrl, decodedUrl);
 }
 
 - (void)test_givenValidInterstitial_whenLoadingDfpInterstitial_thenDfpViewContainsCreative {

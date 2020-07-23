@@ -174,9 +174,11 @@
         }
       } else {
         NSString *displayUrl = bid.displayUrl;
-
         if (adUnit.adUnitType == CRAdUnitTypeInterstitial) {
           customTargeting[CR_TargetingKey_crtSize] = [self stringSizeForInterstitial];
+
+          // DFP is the whole screen even out of the safe area.
+          displayUrl = [self.displaySizeInjector injectFullScreenSizeInDisplayUrl:displayUrl];
         } else if (adUnit.adUnitType == CRAdUnitTypeBanner) {
           customTargeting[CR_TargetingKey_crtSize] = [self stringSizeForBannerWithAdUnit:adUnit];
         }
