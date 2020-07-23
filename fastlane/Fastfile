@@ -22,7 +22,6 @@ platform :ios do
     - Run Unit & Functional tests with retries
   )
   lane :test do
-    format_check
     scan(scheme: "CriteoGoogleAdapter")
     scan(scheme: "CriteoMoPubAdapter")
     multi_scan(
