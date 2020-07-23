@@ -31,6 +31,12 @@ Pod::Spec.new do |spec|
     sdk.dependency             "Cassette", "~> 1.0-beta"
   end
 
+  spec.subspec "GoogleAdapter" do |adapter|
+    adapter.source_files     = "CriteoGoogleAdapter/Sources/**/*.{h,m}"
+    adapter.dependency         "CriteoPublisherSdk/Sdk"
+    adapter.dependency         "Google-Mobile-Ads-SDK", "~> 7.49.0"
+  end
+
   spec.subspec "MoPubAdapter" do |adapter|
     adapter.source_files     = "CriteoMoPubAdapter/Sources/**/*.{h,m}"
     adapter.exclude_files    = "CriteoMoPubAdapter/Sources/CriteoMoPubAdapterTestApp"
