@@ -48,7 +48,7 @@ target 'CriteoMoPubAdapterTests' do
 end
 
 target 'CriteoMoPubAdapterTestApp' do
-  project 'CriteoMoPubAdapter/CriteoMoPubAdapterTestApp'
+  project 'CriteoMoPubAdapterTestApp/CriteoMoPubAdapterTestApp'
   platform :ios, '10.0' # iOS 10 required by MoPub
 
   pod 'mopub-ios-sdk/Core', '~> 5.13'
