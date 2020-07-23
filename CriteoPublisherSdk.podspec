@@ -25,9 +25,10 @@ Pod::Spec.new do |spec|
   spec.default_subspecs  = "Sdk"
 
   spec.subspec "Sdk" do |sdk|
-    sdk.source_files     = "CriteoPublisherSdk/Sources/**/*.{h,m}"
-    sdk.weak_frameworks  = [ "WebKit" ]
-    sdk.dependency       "Cassette", "~> 1.0-beta"
+    sdk.source_files         = "CriteoPublisherSdk/Sources/**/*.{h,m}"
+    sdk.private_header_files = "**/{CR_,CAS}*.h", "**/*+{Private,Internal}.h"
+    sdk.weak_frameworks      = "WebKit"
+    sdk.dependency             "Cassette", "~> 1.0-beta"
   end
 
   spec.subspec "MoPubAdapter" do |adapter|
