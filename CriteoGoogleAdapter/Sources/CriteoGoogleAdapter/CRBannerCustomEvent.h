@@ -17,9 +17,9 @@
 #ifndef CRBannerCustomEvent_h
 #define CRBannerCustomEvent_h
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 @import GoogleMobileAds;
-@import CriteoPublisherSdk;
+#import <CriteoPublisherSdk/CriteoPublisherSdk.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
