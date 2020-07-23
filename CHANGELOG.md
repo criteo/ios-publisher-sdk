@@ -4,6 +4,11 @@
 
 ### Features
 - Provide legal privacy text for native in `CriteoNativeAd.legalText`
+
+### MoPub Adapter
+ - Mopub SDK v5.13 support:
+   - Has breaking changes that are not backward compatible
+   - Requires Mopub >= 5.13 and as a consequence iOS 10
 --------------------------------------------------------------------------------
 ## Version 3.7.0
 
@@ -24,4 +29,9 @@
 
 ### Bug fixes
 - Fix issue related to `WKWebView`
+--------------------------------------------------------------------------------
+## Version 3.4.1
+
+### MoPub Adapter
+- Update the Criteo Publisher SDK with the Mopub's consent
 --------------------------------------------------------------------------------
