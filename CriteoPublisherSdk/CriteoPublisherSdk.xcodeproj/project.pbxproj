@@ -42,6 +42,7 @@
 		469301CA24740289006F8D82 /* CR_ImpressionDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 469301C824740289006F8D82 /* CR_ImpressionDetector.m */; };
 		46AC066B24619FA400796AAA /* libCassette.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 547287842411075D00B62235 /* libCassette.a */; };
 		46AD5CF5245B003D00199315 /* CR_NativeLoaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46AD5CF4245B003D00199315 /* CR_NativeLoaderTests.m */; };
+		46B6115724C9DBD4002896F8 /* CRConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 46E8A70324B74D69007103B9 /* CRConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		46B9780E243782A50061FC24 /* CR_UniqueIdGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 46240E0C2434BB4F001425AB /* CR_UniqueIdGenerator.m */; };
 		46BC3960246EDA5200F0B2F1 /* CRNativeAdViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46BC395F246EDA5200F0B2F1 /* CRNativeAdViewTests.m */; };
 		46C49B722472D7E3000B0D04 /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25BD5B572220D16D004DE311 /* CriteoPublisherSdk.framework */; };
@@ -1346,6 +1347,7 @@
 				5397C0B622A18F7B00BC72FE /* CRAdUnit+Internal.h */,
 				5397C08F22A0885900BC72FE /* CRBannerAdUnit.h */,
 				5397C09022A0885900BC72FE /* CRBannerAdUnit.m */,
+				46E8A70324B74D69007103B9 /* CRConstants.h */,
 				5397C08B22A0885800BC72FE /* CRInterstitialAdUnit.h */,
 				5397C08E22A0885900BC72FE /* CRInterstitialAdUnit.m */,
 				DF367C84232971810044807B /* CRNativeAdUnit.h */,
@@ -1360,7 +1362,6 @@
 				650915F222555C21001D6673 /* Standalone */,
 				7D58582C23E1F1BD0039AC56 /* Threading */,
 				255151C222027C6000F76E3F /* Util */,
-				46E8A70324B74D69007103B9 /* CRConstants.h */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -1402,6 +1403,7 @@
 				25BD5B682220D1D2004DE311 /* Criteo.h in Headers */,
 				5397C0B522A0AA8500BC72FE /* CRInterstitialAdUnit.h in Headers */,
 				7DDEF65E242CE06300BC129F /* CR_GdprSerializer.h in Headers */,
+				46B6115724C9DBD4002896F8 /* CRConstants.h in Headers */,
 				7DB899DC2400126800948230 /* NSString+GDPR.h in Headers */,
 				7D1A17CE242A796600816D32 /* CR_GdprVersion.h in Headers */,
 				5397C0AF22A0AA3D00BC72FE /* CRAdUnit.h in Headers */,
