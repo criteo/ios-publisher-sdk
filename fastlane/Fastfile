@@ -68,6 +68,10 @@ platform :ios do
     )
     increment_version_number(
       version_number: version,
+      xcodeproj: "CriteoGoogleAdapter/CriteoGoogleAdapter.xcodeproj"
+    )
+    increment_version_number(
+      version_number: version,
       xcodeproj: "CriteoMoPubAdapter/CriteoMoPubAdapter.xcodeproj"
     )
     file_replace("CriteoPublisherSdk.podspec",
