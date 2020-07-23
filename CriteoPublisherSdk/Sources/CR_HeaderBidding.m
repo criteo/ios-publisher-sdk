@@ -173,12 +173,16 @@
                inDictionary:customTargeting];
         }
       } else {
-        customTargeting[CR_TargetingKey_crtDfpDisplayUrl] = bid.dfpCompatibleDisplayUrl;
+        NSString *displayUrl = bid.displayUrl;
+
         if (adUnit.adUnitType == CRAdUnitTypeInterstitial) {
           customTargeting[CR_TargetingKey_crtSize] = [self stringSizeForInterstitial];
         } else if (adUnit.adUnitType == CRAdUnitTypeBanner) {
           customTargeting[CR_TargetingKey_crtSize] = [self stringSizeForBannerWithAdUnit:adUnit];
         }
+
+        NSString *dfpCompatibleString = [NSString cr_dfpCompatibleString:displayUrl];
+        customTargeting[CR_TargetingKey_crtDfpDisplayUrl] = dfpCompatibleString;
       }
       NSDictionary *updatedDictionary = [NSDictionary dictionaryWithDictionary:customTargeting];
       [adRequest performSelector:dfpSetCustomTargeting withObject:updatedDictionary];

@@ -24,6 +24,7 @@
 #import "CR_CdbBid.h"
 #import "CR_CdbBidBuilder.h"
 #import "CR_NativeAssets.h"
+#import "NSString+CriteoUrl.h"
 
 @interface CR_CdbBidTests : XCTestCase
 
@@ -196,7 +197,6 @@
   XCTAssertEqual(bid.ttl, 900);
   XCTAssertNil(bid.creative);
   XCTAssertNil(bid.displayUrl);
-  XCTAssertNil(bid.dfpCompatibleDisplayUrl);
   XCTAssertNil(bid.mopubCompatibleDisplayUrl);
   XCTAssertNil(bid.nativeAssets);
   XCTAssertNil(bid.impressionId);
@@ -213,7 +213,6 @@
   XCTAssertEqual(bid.ttl, 900);
   XCTAssertNil(bid.creative);
   XCTAssertNil(bid.displayUrl);
-  XCTAssertNil(bid.dfpCompatibleDisplayUrl);
   XCTAssertNil(bid.mopubCompatibleDisplayUrl);
   XCTAssertNil(bid.nativeAssets);
   XCTAssertNil(bid.impressionId);
@@ -482,23 +481,10 @@
   NSString *doubleUrlEncodedBase64DisplayUrl =
       @"aHR0cHM6Ly9hZHMudXMuY3JpdGVvLmNvbS9kZWxpdmVyeS9yL2Fqcy5waHA%252FZGlkPTVjNTYwYTE5MzgzYjdhZDkzYmIzNzUwOGRlYjAzYTAwJnU9JTdDSFgxZU0wenBQaXRWYmYweFQyNHZhTTZVNEFpWTFUZVlnZmpEVVZWYmR1NCUzRCU3QyZjMT1lRzlJQVpJSzJNS25saWZfQTNWWjEtOFBFeDVfYkZWb2ZRVnJQUGlLaGRhOEprQ3NLV0JzRDJ6WXZDX0Y5b3dXc2lLUUFOUGp6SnMyaU0zbTViQ0hlaTN3MXpOS3h0QjNDeF9UQmxlTkt0TDVWSzFhcXlLNjhYVGEwQTQzcWx3TE5hU3RUNU5YQjNNejdreDZmRFoyMFJoNmVBR0FXMkY5U1hWTl83eGlMZ1AyODgtNE9xdEstUjdwemlaRFMwNExSVWhrTDdvaExtQUZGeVZ1d1FUUkVIYnB4LTROb29uc2lRUkhLbjdaa3VJcVpSX3JxRWV3SFEyWW93eGJJM0VPb3d4bzZPVjUwZmFXQ2M3UU81TTM4OEZIdjhOeGVPZ09IMDNMSFpUX2EyUEVLRjF4aDAtR19xZHU1d2l5R2pKWXlQRW9OVnhCME9hRW5EYUZWdE03Y1ZhSERtNGpyaktsZkZodElHdUpiOG1nMkVlSE4wbWhVTF8wZXl2OXhXVVVRNm9zWWgzQi1qaWF3SHE0NTkya0REQ3BTMmtZWWVxUjA3M0lPb1JORk5SQ1I3Rm5sMHloSUE%253D";
 
-  CR_CdbBid *testBid = [[CR_CdbBid alloc] initWithZoneId:nil
-                                             placementId:nil
-                                                     cpm:nil
-                                                currency:nil
-                                                   width:nil
-                                                  height:nil
-                                                     ttl:0.0
-                                                creative:nil
-                                              displayUrl:displayUrl
-                                              insertTime:nil
-                                            nativeAssets:nil
-                                            impressionId:nil];
+  NSString *dfpCompatibleDisplayUrl = [NSString cr_dfpCompatibleString:displayUrl];
 
-  XCTAssertEqualObjects(displayUrl, testBid.displayUrl,
-                        @"displayUrl property should not alter displayUrl");
   XCTAssertEqualObjects(
-      doubleUrlEncodedBase64DisplayUrl, testBid.dfpCompatibleDisplayUrl,
+      doubleUrlEncodedBase64DisplayUrl, dfpCompatibleDisplayUrl,
       @"dfpCompatibleDisplayUrl property is not a properly encoded version of displayUrl");
 }
 

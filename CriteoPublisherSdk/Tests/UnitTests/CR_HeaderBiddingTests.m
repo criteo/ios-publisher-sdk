@@ -155,8 +155,9 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   [self.headerBidding enrichRequest:request withBid:self.bid1 adUnit:self.adUnit1];
 
   NSDictionary *targeting = request.customTargeting;
+  NSString *expectedDfpDisplayUrl = [NSString cr_dfpCompatibleString:self.bid1.displayUrl];
   XCTAssertEqual(targeting.count, 3);
-  XCTAssertEqualObjects(targeting[kDfpDisplayUrlKey], self.bid1.dfpCompatibleDisplayUrl);
+  XCTAssertEqualObjects(targeting[kDfpDisplayUrlKey], expectedDfpDisplayUrl);
   XCTAssertEqualObjects(targeting[kCpmKey], self.bid1.cpm);
   XCTAssertEqualObjects(targeting[kSizeKey], @"300x250");
 }
@@ -168,8 +169,9 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   [self.headerBidding enrichRequest:request withBid:self.bid1 adUnit:self.adUnit1];
 
   NSDictionary *targeting = request.customTargeting;
+  NSString *expectedDfpDisplayUrl = [NSString cr_dfpCompatibleString:self.bid1.displayUrl];
   XCTAssertEqual(targeting.count, 3);
-  XCTAssertEqualObjects(targeting[kDfpDisplayUrlKey], self.bid1.dfpCompatibleDisplayUrl);
+  XCTAssertEqualObjects(targeting[kDfpDisplayUrlKey], expectedDfpDisplayUrl);
   XCTAssertEqualObjects(targeting[kCpmKey], self.bid1.cpm);
   XCTAssertEqualObjects(targeting[kSizeKey], @"300x250");
 }
