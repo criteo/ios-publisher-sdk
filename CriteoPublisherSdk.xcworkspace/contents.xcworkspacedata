@@ -11,7 +11,7 @@
       location = "group:CriteoMoPubAdapter/CriteoMoPubAdapter.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:CriteoMoPubAdapter/CriteoMoPubAdapterTestApp.xcodeproj">
+      location = "group:CriteoMoPubAdapterTestApp/CriteoMoPubAdapterTestApp.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:SupportFiles/SupportFiles.xcodeproj">
