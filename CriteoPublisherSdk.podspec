@@ -15,6 +15,7 @@ Pod::Spec.new do |spec|
 
   spec.platform              = :ios
   spec.ios.deployment_target = "8.0"
+  spec.static_framework      = true # Required by Google Sdk
 
   spec.source            = {
     :git => "https://github.com/criteo/ios-publisher-sdk.git",
