@@ -33,9 +33,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1DCEFA360467E4609048B381 /* Pods-CriteoGoogleAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapter.debug.xcconfig"; path = "Target Support Files/Pods-CriteoGoogleAdapter/Pods-CriteoGoogleAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		1DCEFA360467E4609048B381 /* Pods-CriteoGoogleAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapter.debug.xcconfig"; path = "../../Pods/Target Support Files/Pods-CriteoGoogleAdapter/Pods-CriteoGoogleAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 		26D9C65D4FFAA50128EE5DB4 /* libPods-CriteoGoogleAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoGoogleAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		282330E581BEC0B05B9B0D3D /* Pods-CriteoGoogleAdapterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapterTests.debug.xcconfig"; path = "Target Support Files/Pods-CriteoGoogleAdapterTests/Pods-CriteoGoogleAdapterTests.debug.xcconfig"; sourceTree = "<group>"; };
+		282330E581BEC0B05B9B0D3D /* Pods-CriteoGoogleAdapterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapterTests.debug.xcconfig"; path = "../../Pods/Target Support Files/Pods-CriteoGoogleAdapterTests/Pods-CriteoGoogleAdapterTests.debug.xcconfig"; sourceTree = "<group>"; };
 		54865DA022FA1BA1001F9A67 /* CRInterstitialCustomEventTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialCustomEventTests.m; sourceTree = "<group>"; };
 		54FC7DA022F4136100202164 /* CriteoGoogleAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CriteoGoogleAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		54FC7DA422F4136100202164 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -43,7 +43,7 @@
 		54FC7DB022F4136100202164 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54FC7DBA22F4147100202164 /* CRInterstitialCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRInterstitialCustomEvent.h; sourceTree = "<group>"; };
 		54FC7DBB22F4147100202164 /* CRInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialCustomEvent.m; sourceTree = "<group>"; };
-		95644F837BB2E093B4851A33 /* Pods-CriteoGoogleAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapter.release.xcconfig"; path = "Target Support Files/Pods-CriteoGoogleAdapter/Pods-CriteoGoogleAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		95644F837BB2E093B4851A33 /* Pods-CriteoGoogleAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapter.release.xcconfig"; path = "../../Pods/Target Support Files/Pods-CriteoGoogleAdapter/Pods-CriteoGoogleAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		BF43AF45DE0BEECB9A9247A6 /* libPods-CriteoGoogleAdapterTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoGoogleAdapterTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF4356A7230485FA0051AC45 /* CRBannerCustomEventTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRBannerCustomEventTests.m; sourceTree = "<group>"; };
 		DFC3F49923035A9100318644 /* CRBannerCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRBannerCustomEvent.m; sourceTree = "<group>"; };
@@ -52,7 +52,7 @@
 		DFC3F49F23035AF800318644 /* CRGoogleMediationParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRGoogleMediationParameters.m; sourceTree = "<group>"; };
 		DFC3F4A323035EF500318644 /* CriteoPublisherSdk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CriteoPublisherSdk.framework; path = fuji/build/output/CriteoPublisherSdk.framework; sourceTree = "<group>"; };
 		DFC3F4AD230370F700318644 /* CRGoogleMediationParametersTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRGoogleMediationParametersTests.m; sourceTree = "<group>"; };
-		FFE280808F2B96A9AAE0643D /* Pods-CriteoGoogleAdapterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapterTests.release.xcconfig"; path = "Target Support Files/Pods-CriteoGoogleAdapterTests/Pods-CriteoGoogleAdapterTests.release.xcconfig"; sourceTree = "<group>"; };
+		FFE280808F2B96A9AAE0643D /* Pods-CriteoGoogleAdapterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapterTests.release.xcconfig"; path = "../../Pods/Target Support Files/Pods-CriteoGoogleAdapterTests/Pods-CriteoGoogleAdapterTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,7 +118,8 @@
 				54FC7DBB22F4147100202164 /* CRInterstitialCustomEvent.m */,
 				54FC7DA422F4136100202164 /* Info.plist */,
 			);
-			path = CriteoGoogleAdapter;
+			name = CriteoGoogleAdapter;
+			path = Sources/CriteoGoogleAdapter;
 			sourceTree = "<group>";
 		};
 		54FC7DAD22F4136100202164 /* CriteoGoogleAdapterTests */ = {
@@ -129,7 +130,8 @@
 				54FC7DB022F4136100202164 /* Info.plist */,
 				54865DA022FA1BA1001F9A67 /* CRInterstitialCustomEventTests.m */,
 			);
-			path = CriteoGoogleAdapterTests;
+			name = CriteoGoogleAdapterTests;
+			path = Tests/CriteoGoogleAdapterTests;
 			sourceTree = "<group>";
 		};
 		60DB79F49722C886D2BA3E9E /* Pods */ = {
@@ -388,7 +390,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MACH_O_TYPE = staticlib;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -446,7 +448,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MACH_O_TYPE = staticlib;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -476,9 +478,8 @@
 					"\"${PODS_ROOT}/GoogleAppMeasurement/Frameworks\"",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = CriteoGoogleAdapter/Info.plist;
+				INFOPLIST_FILE = Sources/CriteoGoogleAdapter/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -511,9 +512,8 @@
 					"\"${PODS_ROOT}/GoogleAppMeasurement/Frameworks\"",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = CriteoGoogleAdapter/Info.plist;
+				INFOPLIST_FILE = Sources/CriteoGoogleAdapter/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -538,7 +538,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = CriteoGoogleAdapterTests/Info.plist;
+				INFOPLIST_FILE = Tests/CriteoGoogleAdapterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -561,7 +561,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = CriteoGoogleAdapterTests/Info.plist;
+				INFOPLIST_FILE = Tests/CriteoGoogleAdapterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

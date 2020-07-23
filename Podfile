@@ -20,6 +20,19 @@ target 'CriteoPublisherSdkTests' do
   pod 'Google-Mobile-Ads-SDK'
 end
 
+target 'CriteoGoogleAdapter' do
+  project 'CriteoGoogleAdapter/CriteoGoogleAdapter'
+
+  pod 'Google-Mobile-Ads-SDK'
+end
+
+target 'CriteoGoogleAdapterTests' do
+  project 'CriteoGoogleAdapter/CriteoGoogleAdapter'
+
+  # Test libs
+  pod 'OCMock', '~> 3.6'
+end
+
 target 'CriteoMoPubAdapter' do
   project 'CriteoMoPubAdapter/CriteoMoPubAdapter'
   platform :ios, '10.0' # iOS 10 required by MoPub
