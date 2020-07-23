@@ -11,6 +11,7 @@
     - from `@import CriteoPublisherSdk;` _(Semantic import for frameworks)_
     - to `#import <CriteoPublisherSdk/CriteoPublisherSdk.h>` _(Standard CocoaPods imports)_
   - Alternatively, binary frameworks are still provided through [GitHub releases][gh_release]
+- **[Breaking change]** iOS 9 is now the minimum supported version of iOS _(bumped from iOS 8)_
 --------------------------------------------------------------------------------
 ## Version 3.8.0
 
