@@ -17,7 +17,7 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-@import CriteoPublisherSdk;
+#import <CriteoPublisherSdk/CriteoPublisherSdk.h>
 @import GoogleMobileAds;
 
 NS_ASSUME_NONNULL_BEGIN
