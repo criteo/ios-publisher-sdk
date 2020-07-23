@@ -29,7 +29,7 @@
 // Private property (duplicates code in CRIntrstitialCustomEvent.m so that we can use it in testing)
 @interface CRInterstitialCustomEvent ()
 
-@property (nonatomic, strong)CRInterstitial *interstitial;
+@property(nonatomic, strong) CRInterstitial *interstitial;
 
 @end
 
@@ -43,10 +43,10 @@
 @implementation CRInterstitialCustomEvent (Test)
 
 - (instancetype)initWithInterstitial:(CRInterstitial *)interstitial {
-    if(self = [super init]) {
-        self.interstitial = interstitial;
-    }
-    return self;
+  if (self = [super init]) {
+    self.interstitial = interstitial;
+  }
+  return self;
 }
 
 @end
@@ -56,137 +56,160 @@
 @implementation CRInterstitialCustomEventTests
 
 - (void)testCustomEventDelegateFailWhenParametersIsNil {
-    CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
-    id mockGADInterstitialDelegate = OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
-    OCMExpect([mockGADInterstitialDelegate customEventInterstitial:customEvent didFailAd:[NSError errorWithDomain:kGADErrorDomain
-                                                                                                             code:kGADErrorInvalidArgument
-                                                                                                         userInfo:nil]]);
-    NSString *invalidServerParameter = @"{\"cpIDD\":\"testCpId\"}";
-    customEvent.delegate = mockGADInterstitialDelegate;
-    [customEvent requestInterstitialAdWithParameter:invalidServerParameter label:nil request:[GADCustomEventRequest new]];
-    OCMVerifyAllWithDelay(mockGADInterstitialDelegate, 1);
+  CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
+  id mockGADInterstitialDelegate =
+      OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
+  OCMExpect([mockGADInterstitialDelegate
+      customEventInterstitial:customEvent
+                    didFailAd:[NSError errorWithDomain:kGADErrorDomain
+                                                  code:kGADErrorInvalidArgument
+                                              userInfo:nil]]);
+  NSString *invalidServerParameter = @"{\"cpIDD\":\"testCpId\"}";
+  customEvent.delegate = mockGADInterstitialDelegate;
+  [customEvent requestInterstitialAdWithParameter:invalidServerParameter
+                                            label:nil
+                                          request:[GADCustomEventRequest new]];
+  OCMVerifyAllWithDelay(mockGADInterstitialDelegate, 1);
 }
 
 - (void)testLoadAndPresentFromRootViewController {
-    CRInterstitial *mockCRInterstitial = OCMStrictClassMock([CRInterstitial class]);
-    CRInterstitialAdUnit *interstitialAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"testAdUnitId"];
-    CRInterstitialCustomEvent *customEvent = [[CRInterstitialCustomEvent alloc] initWithInterstitial:mockCRInterstitial];
+  CRInterstitial *mockCRInterstitial = OCMStrictClassMock([CRInterstitial class]);
+  CRInterstitialAdUnit *interstitialAdUnit =
+      [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"testAdUnitId"];
+  CRInterstitialCustomEvent *customEvent =
+      [[CRInterstitialCustomEvent alloc] initWithInterstitial:mockCRInterstitial];
 
-    OCMStub([mockCRInterstitial loadAd]);
-    OCMStub([mockCRInterstitial setDelegate:customEvent]);
-    UIViewController *realVC = [UIViewController new];
-    OCMStub([mockCRInterstitial presentFromRootViewController:realVC]);
+  OCMStub([mockCRInterstitial loadAd]);
+  OCMStub([mockCRInterstitial setDelegate:customEvent]);
+  UIViewController *realVC = [UIViewController new];
+  OCMStub([mockCRInterstitial presentFromRootViewController:realVC]);
 
-    id mockCriteo = OCMStrictClassMock([Criteo class]);
-    OCMStub([mockCriteo sharedCriteo]).andReturn(mockCriteo);
-    OCMStub([mockCriteo registerCriteoPublisherId:@"testCpId" withAdUnits:@[interstitialAdUnit]]);
+  id mockCriteo = OCMStrictClassMock([Criteo class]);
+  OCMStub([mockCriteo sharedCriteo]).andReturn(mockCriteo);
+  OCMStub([mockCriteo registerCriteoPublisherId:@"testCpId" withAdUnits:@[ interstitialAdUnit ]]);
 
-    [customEvent requestInterstitialAdWithParameter:SERVER_PARAMETER label:nil request:[GADCustomEventRequest new]];
-    [customEvent presentFromRootViewController:realVC];
+  [customEvent requestInterstitialAdWithParameter:SERVER_PARAMETER
+                                            label:nil
+                                          request:[GADCustomEventRequest new]];
+  [customEvent presentFromRootViewController:realVC];
 
-    OCMVerify([mockCRInterstitial loadAd]);
-    OCMVerify([mockCRInterstitial setDelegate:customEvent]);
-    OCMVerify([mockCRInterstitial presentFromRootViewController:realVC]);
-    OCMVerify([mockCriteo registerCriteoPublisherId:@"testCpId" withAdUnits:@[interstitialAdUnit]]);
+  OCMVerify([mockCRInterstitial loadAd]);
+  OCMVerify([mockCRInterstitial setDelegate:customEvent]);
+  OCMVerify([mockCRInterstitial presentFromRootViewController:realVC]);
+  OCMVerify([mockCriteo registerCriteoPublisherId:@"testCpId" withAdUnits:@[ interstitialAdUnit ]]);
 }
 
 #pragma mark CRInterstitial Delegate tests
 
 - (void)testDidReceiveAdDelegate {
-    CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
-    id mockGADInterstitialDelegate = OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
-    OCMReject([mockGADInterstitialDelegate customEventInterstitialDidReceiveAd:customEvent]);
+  CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
+  id mockGADInterstitialDelegate =
+      OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
+  OCMReject([mockGADInterstitialDelegate customEventInterstitialDidReceiveAd:customEvent]);
 
-    customEvent.delegate = mockGADInterstitialDelegate;
-    [customEvent interstitialDidReceiveAd:[CRInterstitial new]];
-    OCMVerifyAll(mockGADInterstitialDelegate);
+  customEvent.delegate = mockGADInterstitialDelegate;
+  [customEvent interstitialDidReceiveAd:[CRInterstitial new]];
+  OCMVerifyAll(mockGADInterstitialDelegate);
 }
 
 - (void)testDidFailToReceiveAdDelegate {
-    CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
-    id mockGADInterstitialDelegate = OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
-    NSError *CriteoError = [NSError errorWithDomain:@"test domain"
-                                               code:0
-                                           userInfo:[NSDictionary dictionaryWithObject:@"test description"
-                                                                                forKey:NSLocalizedDescriptionKey]];
-    NSError *expectedError = [NSError errorWithDomain:kGADErrorDomain
-                                                 code:kGADErrorNoFill
-                                             userInfo:[NSDictionary dictionaryWithObject:CriteoError.description
-                                                                                  forKey:NSLocalizedDescriptionKey]];
-    OCMExpect([mockGADInterstitialDelegate customEventInterstitial:customEvent didFailAd:expectedError]);
+  CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
+  id mockGADInterstitialDelegate =
+      OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
+  NSError *CriteoError =
+      [NSError errorWithDomain:@"test domain"
+                          code:0
+                      userInfo:[NSDictionary dictionaryWithObject:@"test description"
+                                                           forKey:NSLocalizedDescriptionKey]];
+  NSError *expectedError =
+      [NSError errorWithDomain:kGADErrorDomain
+                          code:kGADErrorNoFill
+                      userInfo:[NSDictionary dictionaryWithObject:CriteoError.description
+                                                           forKey:NSLocalizedDescriptionKey]];
+  OCMExpect([mockGADInterstitialDelegate customEventInterstitial:customEvent
+                                                       didFailAd:expectedError]);
 
-    customEvent.delegate = mockGADInterstitialDelegate;
-    [customEvent interstitial:[CRInterstitial new] didFailToReceiveAdWithError:CriteoError];
-    OCMVerifyAll(mockGADInterstitialDelegate);
+  customEvent.delegate = mockGADInterstitialDelegate;
+  [customEvent interstitial:[CRInterstitial new] didFailToReceiveAdWithError:CriteoError];
+  OCMVerifyAll(mockGADInterstitialDelegate);
 }
 
 - (void)testWillAppearDelegate {
-    CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
-    id mockGADInterstitialDelegate = OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
-    OCMExpect([mockGADInterstitialDelegate customEventInterstitialWillPresent:customEvent]);
+  CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
+  id mockGADInterstitialDelegate =
+      OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
+  OCMExpect([mockGADInterstitialDelegate customEventInterstitialWillPresent:customEvent]);
 
-    customEvent.delegate = mockGADInterstitialDelegate;
-    [customEvent interstitialWillAppear:[CRInterstitial new]];
-    OCMVerifyAll(mockGADInterstitialDelegate);
+  customEvent.delegate = mockGADInterstitialDelegate;
+  [customEvent interstitialWillAppear:[CRInterstitial new]];
+  OCMVerifyAll(mockGADInterstitialDelegate);
 }
 
 - (void)testWillDisappearDelegate {
-    CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
-    id mockGADInterstitialDelegate = OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
-    OCMExpect([mockGADInterstitialDelegate customEventInterstitialWillDismiss:customEvent]);
+  CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
+  id mockGADInterstitialDelegate =
+      OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
+  OCMExpect([mockGADInterstitialDelegate customEventInterstitialWillDismiss:customEvent]);
 
-    customEvent.delegate = mockGADInterstitialDelegate;
-    [customEvent interstitialWillDisappear:[CRInterstitial new]];
-    OCMVerifyAll(mockGADInterstitialDelegate);
+  customEvent.delegate = mockGADInterstitialDelegate;
+  [customEvent interstitialWillDisappear:[CRInterstitial new]];
+  OCMVerifyAll(mockGADInterstitialDelegate);
 }
 
 - (void)testDidDisappearDelegate {
-    CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
-    id mockGADInterstitialDelegate = OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
-    OCMExpect([mockGADInterstitialDelegate customEventInterstitialDidDismiss:customEvent]);
+  CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
+  id mockGADInterstitialDelegate =
+      OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
+  OCMExpect([mockGADInterstitialDelegate customEventInterstitialDidDismiss:customEvent]);
 
-    customEvent.delegate = mockGADInterstitialDelegate;
-    [customEvent interstitialDidDisappear:[CRInterstitial new]];
-    OCMVerifyAll(mockGADInterstitialDelegate);
+  customEvent.delegate = mockGADInterstitialDelegate;
+  [customEvent interstitialDidDisappear:[CRInterstitial new]];
+  OCMVerifyAll(mockGADInterstitialDelegate);
 }
 
 - (void)testWillLeaveApplicationDelegate {
-    CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
-    id mockGADInterstitialDelegate = OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
-    OCMExpect([mockGADInterstitialDelegate customEventInterstitialWasClicked:customEvent]);
-    OCMExpect([mockGADInterstitialDelegate customEventInterstitialWillLeaveApplication:customEvent]);
+  CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
+  id mockGADInterstitialDelegate =
+      OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
+  OCMExpect([mockGADInterstitialDelegate customEventInterstitialWasClicked:customEvent]);
+  OCMExpect([mockGADInterstitialDelegate customEventInterstitialWillLeaveApplication:customEvent]);
 
-    customEvent.delegate = mockGADInterstitialDelegate;
-    [customEvent interstitialWillLeaveApplication:[CRInterstitial new]];
-    OCMVerifyAll(mockGADInterstitialDelegate);
+  customEvent.delegate = mockGADInterstitialDelegate;
+  [customEvent interstitialWillLeaveApplication:[CRInterstitial new]];
+  OCMVerifyAll(mockGADInterstitialDelegate);
 }
 
 - (void)testInterstitialIsReadyToPresentDelegate {
-    CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
-    id mockGADInterstitialDelegate = OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
-    OCMExpect([mockGADInterstitialDelegate customEventInterstitialDidReceiveAd:customEvent]);
+  CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
+  id mockGADInterstitialDelegate =
+      OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
+  OCMExpect([mockGADInterstitialDelegate customEventInterstitialDidReceiveAd:customEvent]);
 
-    customEvent.delegate = mockGADInterstitialDelegate;
-    [customEvent interstitialIsReadyToPresent:[CRInterstitial new]];
-    OCMVerifyAll(mockGADInterstitialDelegate);
+  customEvent.delegate = mockGADInterstitialDelegate;
+  [customEvent interstitialIsReadyToPresent:[CRInterstitial new]];
+  OCMVerifyAll(mockGADInterstitialDelegate);
 }
 
 - (void)testInterstitialDidFailToReceiveAdContentWithErrorDelegate {
-    CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
-    id mockGADInterstitialDelegate = OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
-    OCMExpect([mockGADInterstitialDelegate customEventInterstitial:customEvent didFailAd:[OCMArg any]]);
+  CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
+  id mockGADInterstitialDelegate =
+      OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
+  OCMExpect([mockGADInterstitialDelegate customEventInterstitial:customEvent
+                                                       didFailAd:[OCMArg any]]);
 
-    customEvent.delegate = mockGADInterstitialDelegate;
-    NSError *CriteoError = [NSError errorWithDomain:@"test domain"
-                                               code:0
-                                           userInfo:[NSDictionary dictionaryWithObject:@"test description"
-                                                                                forKey:NSLocalizedDescriptionKey]];
-    NSError *expectedError = [NSError errorWithDomain:kGADErrorDomain
-                                                 code:kGADErrorNetworkError
-                                             userInfo:[NSDictionary dictionaryWithObject:CriteoError.description
-                                                                                  forKey:NSLocalizedDescriptionKey]];
-    [customEvent interstitial:[CRInterstitial new] didFailToReceiveAdContentWithError:expectedError];
-    OCMVerifyAll(mockGADInterstitialDelegate);
+  customEvent.delegate = mockGADInterstitialDelegate;
+  NSError *CriteoError =
+      [NSError errorWithDomain:@"test domain"
+                          code:0
+                      userInfo:[NSDictionary dictionaryWithObject:@"test description"
+                                                           forKey:NSLocalizedDescriptionKey]];
+  NSError *expectedError =
+      [NSError errorWithDomain:kGADErrorDomain
+                          code:kGADErrorNetworkError
+                      userInfo:[NSDictionary dictionaryWithObject:CriteoError.description
+                                                           forKey:NSLocalizedDescriptionKey]];
+  [customEvent interstitial:[CRInterstitial new] didFailToReceiveAdContentWithError:expectedError];
+  OCMVerifyAll(mockGADInterstitialDelegate);
 }
 
 @end
