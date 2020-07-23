@@ -53,6 +53,10 @@ jobs:
         bundle exec iostrust add ./wiremock/cert/wiremock.crt
         java -jar wiremock.jar --https-port 9099 --root-dir wiremock --https-keystore wiremock/cert/wiremock.jks --keystore-password password --verbose &
 
+    - name: Format check
+      run: |
+        bundle exec fastlane format_check
+
     - name: Test
       run: |
         bundle exec fastlane test
