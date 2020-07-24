@@ -19,6 +19,8 @@
 
 #import "CR_IntegrationRegistry.h"
 
+NSString *const NSUserDefaultsIntegrationKey = @"CRITEO_ProfileId";
+
 @interface CR_IntegrationRegistry ()
 
 @property(nonatomic, strong, readonly) NSUserDefaults *userDefaults;
@@ -39,12 +41,23 @@
 }
 
 - (void)declare:(CR_IntegrationType)integrationType {
-  // TODO
+  [self.userDefaults setInteger:integrationType forKey:NSUserDefaultsIntegrationKey];
 }
 
 - (NSNumber *)profileId {
-  // TODO
-  return @(CR_IntegrationFallback);
+  NSInteger profileId = [self.userDefaults integerForKey:NSUserDefaultsIntegrationKey];
+  switch (profileId) {
+    case CR_IntegrationStandalone:
+    case CR_IntegrationInHouse:
+    case CR_IntegrationAdmobMediation:
+    case CR_IntegrationMopubMediation:
+    case CR_IntegrationMopubAppBidding:
+    case CR_IntegrationGamAppBidding:
+    case CR_IntegrationCustomAppBidding:
+      return @(profileId);
+    default:
+      return @(CR_IntegrationFallback);
+  }
 }
 
 @end
