@@ -23,19 +23,14 @@
 #import "CR_ThreadManager.h"
 #import "CR_FeedbackStorage.h"
 #import "CR_AppEvents.h"
-#import "CR_DataProtectionConsent.h"
-#import "CR_DeviceInfo.h"
 #import "CR_ConfigManager.h"
-#import "CR_Config.h"
 #import "CR_TokenCache.h"
 #import "CR_CacheManager.h"
-#import "CR_ApiHandler.h"
-#import "CR_NetworkManager.h"
-#import "CR_BidFetchTracker.h"
 #import "CR_BidManager.h"
 #import "CR_DefaultMediaDownloader.h"
 #import "CR_ImageCache.h"
 #import "CR_DisplaySizeInjector.h"
+#import "CR_IntegrationRegistry.h"
 
 #define CR_LAZY(object, assignment)  \
   ({                                 \
@@ -86,6 +81,11 @@
 
 - (CR_TokenCache *)tokenCache {
   return CR_LAZY(_tokenCache, [[CR_TokenCache alloc] init]);
+}
+
+- (CR_IntegrationRegistry *)integrationRegistry {
+  return CR_LAZY(_integrationRegistry,
+                 [[CR_IntegrationRegistry alloc] initWithUserDefaults:self.userDefaults]);
 }
 
 - (CR_Config *)config {
