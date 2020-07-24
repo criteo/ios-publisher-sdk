@@ -24,6 +24,8 @@ NSString *const NSUserDefaultsIntegrationKey = @"CRITEO_ProfileId";
 @interface CR_IntegrationRegistry ()
 
 @property(nonatomic, strong, readonly) NSUserDefaults *userDefaults;
+@property(nonatomic, readonly) BOOL isMoPubMediationPresent;
+@property(nonatomic, readonly) BOOL isAdMobMediationPresent;
 
 @end
 
@@ -45,6 +47,14 @@ NSString *const NSUserDefaultsIntegrationKey = @"CRITEO_ProfileId";
 }
 
 - (NSNumber *)profileId {
+  if (self.isMoPubMediationPresent && self.isAdMobMediationPresent) {
+    return @(CR_IntegrationFallback);
+  } else if (self.isMoPubMediationPresent) {
+    return @(CR_IntegrationMopubMediation);
+  } else if (self.isAdMobMediationPresent) {
+    return @(CR_IntegrationAdmobMediation);
+  }
+
   NSInteger profileId = [self.userDefaults integerForKey:NSUserDefaultsIntegrationKey];
   switch (profileId) {
     case CR_IntegrationStandalone:
@@ -58,6 +68,16 @@ NSString *const NSUserDefaultsIntegrationKey = @"CRITEO_ProfileId";
     default:
       return @(CR_IntegrationFallback);
   }
+}
+
+- (BOOL)isMoPubMediationPresent {
+  return NSClassFromString(@"CRBannerCustomEvent") != nil &&
+         NSProtocolFromString(@"MPThirdPartyInlineAdAdapter") != nil;
+}
+
+- (BOOL)isAdMobMediationPresent {
+  return NSClassFromString(@"CRBannerCustomEvent") != nil &&
+         NSProtocolFromString(@"GADCustomEventBanner") != nil;
 }
 
 @end
