@@ -34,7 +34,6 @@
 @property(readonly) NSTimeInterval ttl;
 @property(readonly, nonatomic) NSString *creative;
 @property(readonly, nonatomic) NSString *displayUrl;
-@property(readonly, nonatomic) NSString *mopubCompatibleDisplayUrl;
 @property(readonly, nonatomic) NSString *impressionId;
 @property(readonly, nonatomic) NSDate *insertTime;
 @property(readonly, copy, nonatomic) CR_NativeAssets *nativeAssets;

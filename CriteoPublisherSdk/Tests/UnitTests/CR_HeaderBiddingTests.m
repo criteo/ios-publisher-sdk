@@ -247,8 +247,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   MPInterstitialAdController *controller = [MPInterstitialAdController new];
   NSDictionary *expected = @{kCpmKey : self.bid1.cpm, kDictionaryDisplayUrlKey : @"display.url"};
 
-  OCMStub([self.displaySizeInjector
-              injectSafeScreenSizeInDisplayUrl:self.bid1.mopubCompatibleDisplayUrl])
+  OCMStub([self.displaySizeInjector injectSafeScreenSizeInDisplayUrl:self.bid1.displayUrl])
       .andReturn(@"display.url");
 
   [self.headerBidding enrichRequest:controller withBid:self.bid1 adUnit:self.interstitialAdUnit];
@@ -264,7 +263,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
     @"key_1" : @"object_1",
     @"key_2" : @"object_2",
     kCpmKey : self.bid1.cpm,
-    kDictionaryDisplayUrlKey : self.bid1.mopubCompatibleDisplayUrl,
+    kDictionaryDisplayUrlKey : self.bid1.displayUrl,
     kSizeKey : @"300x250"
   };
 
@@ -300,11 +299,9 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
     kDictionaryDisplayUrlKey : @"display.url.2"
   };
 
-  OCMStub([self.displaySizeInjector
-              injectSafeScreenSizeInDisplayUrl:self.bid1.mopubCompatibleDisplayUrl])
+  OCMStub([self.displaySizeInjector injectSafeScreenSizeInDisplayUrl:self.bid1.displayUrl])
       .andReturn(@"display.url.1");
-  OCMStub([self.displaySizeInjector
-              injectSafeScreenSizeInDisplayUrl:self.bid2.mopubCompatibleDisplayUrl])
+  OCMStub([self.displaySizeInjector injectSafeScreenSizeInDisplayUrl:self.bid2.displayUrl])
       .andReturn(@"display.url.2");
 
   [self.headerBidding enrichRequest:request withBid:self.bid1 adUnit:self.interstitialAdUnit];

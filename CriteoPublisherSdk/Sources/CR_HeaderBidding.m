@@ -208,12 +208,11 @@
     }
 
     if ([targeting isKindOfClass:[NSString class]]) {
-      NSString *displayUrl = bid.mopubCompatibleDisplayUrl;
+      NSString *displayUrl = bid.displayUrl;
 
       // MoPub interstitial restrains itself to the safe area.
       if (adUnit.adUnitType == CRAdUnitTypeInterstitial) {
-        displayUrl = [self.displaySizeInjector
-            injectSafeScreenSizeInDisplayUrl:bid.mopubCompatibleDisplayUrl];
+        displayUrl = [self.displaySizeInjector injectSafeScreenSizeInDisplayUrl:bid.displayUrl];
       }
 
       NSMutableString *keywords = [[NSMutableString alloc] initWithString:targeting];

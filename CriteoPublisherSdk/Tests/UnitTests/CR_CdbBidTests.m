@@ -197,7 +197,6 @@
   XCTAssertEqual(bid.ttl, 900);
   XCTAssertNil(bid.creative);
   XCTAssertNil(bid.displayUrl);
-  XCTAssertNil(bid.mopubCompatibleDisplayUrl);
   XCTAssertNil(bid.nativeAssets);
   XCTAssertNil(bid.impressionId);
 }
@@ -213,7 +212,6 @@
   XCTAssertEqual(bid.ttl, 900);
   XCTAssertNil(bid.creative);
   XCTAssertNil(bid.displayUrl);
-  XCTAssertNil(bid.mopubCompatibleDisplayUrl);
   XCTAssertNil(bid.nativeAssets);
   XCTAssertNil(bid.impressionId);
 }
