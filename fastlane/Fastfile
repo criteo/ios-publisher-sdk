@@ -23,7 +23,7 @@ platform :ios do
     format_check
     multi_scan(
       scheme: "CriteoPublisherSdk",
-      try_count: 3, parallel_testrun_count: 2
+      try_count: 5, parallel_testrun_count: 2
     )
   end
 
