@@ -1,0 +1,610 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		174087F82C298114175BCBB5 /* libPods-CriteoGoogleAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 26D9C65D4FFAA50128EE5DB4 /* libPods-CriteoGoogleAdapter.a */; };
+		5474B966230F0E3600CBD47E /* CRInterstitialCustomEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 54865DA022FA1BA1001F9A67 /* CRInterstitialCustomEventTests.m */; };
+		54FC7DBC22F4147100202164 /* CRInterstitialCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 54FC7DBA22F4147100202164 /* CRInterstitialCustomEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		54FC7DBD22F4147100202164 /* CRInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 54FC7DBB22F4147100202164 /* CRInterstitialCustomEvent.m */; };
+		A36837911ADA01CEDFA729A9 /* libPods-CriteoGoogleAdapterTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF43AF45DE0BEECB9A9247A6 /* libPods-CriteoGoogleAdapterTests.a */; };
+		DF4356A8230485FA0051AC45 /* CRBannerCustomEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DF4356A7230485FA0051AC45 /* CRBannerCustomEventTests.m */; };
+		DF4356B12304E7B30051AC45 /* CriteoGoogleAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54FC7DA022F4136100202164 /* CriteoGoogleAdapter.framework */; };
+		DFC3F49B23035A9200318644 /* CRBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = DFC3F49923035A9100318644 /* CRBannerCustomEvent.m */; };
+		DFC3F49C23035A9200318644 /* CRBannerCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = DFC3F49A23035A9100318644 /* CRBannerCustomEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DFC3F4A023035AF800318644 /* CRGoogleMediationParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = DFC3F49D23035AF800318644 /* CRGoogleMediationParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DFC3F4A223035AF800318644 /* CRGoogleMediationParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = DFC3F49F23035AF800318644 /* CRGoogleMediationParameters.m */; };
+		DFC3F4A423035EF500318644 /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFC3F4A323035EF500318644 /* CriteoPublisherSdk.framework */; };
+		DFC3F4AE230370F700318644 /* CRGoogleMediationParametersTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DFC3F4AD230370F700318644 /* CRGoogleMediationParametersTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		541ABDC722F4AA3200485B53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 54FC7D9722F4136100202164 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 54FC7D9F22F4136100202164;
+			remoteInfo = CriteoGoogleAdapter;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1DCEFA360467E4609048B381 /* Pods-CriteoGoogleAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapter.debug.xcconfig"; path = "Target Support Files/Pods-CriteoGoogleAdapter/Pods-CriteoGoogleAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		26D9C65D4FFAA50128EE5DB4 /* libPods-CriteoGoogleAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoGoogleAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		282330E581BEC0B05B9B0D3D /* Pods-CriteoGoogleAdapterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapterTests.debug.xcconfig"; path = "Target Support Files/Pods-CriteoGoogleAdapterTests/Pods-CriteoGoogleAdapterTests.debug.xcconfig"; sourceTree = "<group>"; };
+		54865DA022FA1BA1001F9A67 /* CRInterstitialCustomEventTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialCustomEventTests.m; sourceTree = "<group>"; };
+		54FC7DA022F4136100202164 /* CriteoGoogleAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CriteoGoogleAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		54FC7DA422F4136100202164 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		54FC7DA922F4136100202164 /* CriteoGoogleAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CriteoGoogleAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		54FC7DB022F4136100202164 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		54FC7DBA22F4147100202164 /* CRInterstitialCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRInterstitialCustomEvent.h; sourceTree = "<group>"; };
+		54FC7DBB22F4147100202164 /* CRInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialCustomEvent.m; sourceTree = "<group>"; };
+		95644F837BB2E093B4851A33 /* Pods-CriteoGoogleAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapter.release.xcconfig"; path = "Target Support Files/Pods-CriteoGoogleAdapter/Pods-CriteoGoogleAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		BF43AF45DE0BEECB9A9247A6 /* libPods-CriteoGoogleAdapterTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoGoogleAdapterTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DF4356A7230485FA0051AC45 /* CRBannerCustomEventTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRBannerCustomEventTests.m; sourceTree = "<group>"; };
+		DFC3F49923035A9100318644 /* CRBannerCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRBannerCustomEvent.m; sourceTree = "<group>"; };
+		DFC3F49A23035A9100318644 /* CRBannerCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRBannerCustomEvent.h; sourceTree = "<group>"; };
+		DFC3F49D23035AF800318644 /* CRGoogleMediationParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRGoogleMediationParameters.h; sourceTree = "<group>"; };
+		DFC3F49F23035AF800318644 /* CRGoogleMediationParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRGoogleMediationParameters.m; sourceTree = "<group>"; };
+		DFC3F4A323035EF500318644 /* CriteoPublisherSdk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CriteoPublisherSdk.framework; path = fuji/build/output/CriteoPublisherSdk.framework; sourceTree = "<group>"; };
+		DFC3F4AD230370F700318644 /* CRGoogleMediationParametersTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRGoogleMediationParametersTests.m; sourceTree = "<group>"; };
+		FFE280808F2B96A9AAE0643D /* Pods-CriteoGoogleAdapterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapterTests.release.xcconfig"; path = "Target Support Files/Pods-CriteoGoogleAdapterTests/Pods-CriteoGoogleAdapterTests.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		54FC7D9D22F4136100202164 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DFC3F4A423035EF500318644 /* CriteoPublisherSdk.framework in Frameworks */,
+				174087F82C298114175BCBB5 /* libPods-CriteoGoogleAdapter.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		54FC7DA622F4136100202164 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DF4356B12304E7B30051AC45 /* CriteoGoogleAdapter.framework in Frameworks */,
+				A36837911ADA01CEDFA729A9 /* libPods-CriteoGoogleAdapterTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3CF2926D760C675680C3BA20 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DFC3F4A323035EF500318644 /* CriteoPublisherSdk.framework */,
+				26D9C65D4FFAA50128EE5DB4 /* libPods-CriteoGoogleAdapter.a */,
+				BF43AF45DE0BEECB9A9247A6 /* libPods-CriteoGoogleAdapterTests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		54FC7D9622F4136100202164 = {
+			isa = PBXGroup;
+			children = (
+				54FC7DA222F4136100202164 /* CriteoGoogleAdapter */,
+				54FC7DAD22F4136100202164 /* CriteoGoogleAdapterTests */,
+				54FC7DA122F4136100202164 /* Products */,
+				60DB79F49722C886D2BA3E9E /* Pods */,
+				3CF2926D760C675680C3BA20 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		54FC7DA122F4136100202164 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				54FC7DA022F4136100202164 /* CriteoGoogleAdapter.framework */,
+				54FC7DA922F4136100202164 /* CriteoGoogleAdapterTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		54FC7DA222F4136100202164 /* CriteoGoogleAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				DFC3F49D23035AF800318644 /* CRGoogleMediationParameters.h */,
+				DFC3F49F23035AF800318644 /* CRGoogleMediationParameters.m */,
+				DFC3F49A23035A9100318644 /* CRBannerCustomEvent.h */,
+				DFC3F49923035A9100318644 /* CRBannerCustomEvent.m */,
+				54FC7DBA22F4147100202164 /* CRInterstitialCustomEvent.h */,
+				54FC7DBB22F4147100202164 /* CRInterstitialCustomEvent.m */,
+				54FC7DA422F4136100202164 /* Info.plist */,
+			);
+			path = CriteoGoogleAdapter;
+			sourceTree = "<group>";
+		};
+		54FC7DAD22F4136100202164 /* CriteoGoogleAdapterTests */ = {
+			isa = PBXGroup;
+			children = (
+				DFC3F4AD230370F700318644 /* CRGoogleMediationParametersTests.m */,
+				DF4356A7230485FA0051AC45 /* CRBannerCustomEventTests.m */,
+				54FC7DB022F4136100202164 /* Info.plist */,
+				54865DA022FA1BA1001F9A67 /* CRInterstitialCustomEventTests.m */,
+			);
+			path = CriteoGoogleAdapterTests;
+			sourceTree = "<group>";
+		};
+		60DB79F49722C886D2BA3E9E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1DCEFA360467E4609048B381 /* Pods-CriteoGoogleAdapter.debug.xcconfig */,
+				95644F837BB2E093B4851A33 /* Pods-CriteoGoogleAdapter.release.xcconfig */,
+				282330E581BEC0B05B9B0D3D /* Pods-CriteoGoogleAdapterTests.debug.xcconfig */,
+				FFE280808F2B96A9AAE0643D /* Pods-CriteoGoogleAdapterTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		54FC7D9B22F4136100202164 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				54FC7DBC22F4147100202164 /* CRInterstitialCustomEvent.h in Headers */,
+				DFC3F49C23035A9200318644 /* CRBannerCustomEvent.h in Headers */,
+				DFC3F4A023035AF800318644 /* CRGoogleMediationParameters.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DFC3F4AF230371A400318644 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		54FC7D9F22F4136100202164 /* CriteoGoogleAdapter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 54FC7DB422F4136100202164 /* Build configuration list for PBXNativeTarget "CriteoGoogleAdapter" */;
+			buildPhases = (
+				22D334F997F183AE888E3F74 /* [CP] Check Pods Manifest.lock */,
+				54FC7D9B22F4136100202164 /* Headers */,
+				54FC7D9C22F4136100202164 /* Sources */,
+				54FC7D9D22F4136100202164 /* Frameworks */,
+				54FC7D9E22F4136100202164 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CriteoGoogleAdapter;
+			productName = CriteoGoogleAdapter;
+			productReference = 54FC7DA022F4136100202164 /* CriteoGoogleAdapter.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		54FC7DA822F4136100202164 /* CriteoGoogleAdapterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 54FC7DB722F4136100202164 /* Build configuration list for PBXNativeTarget "CriteoGoogleAdapterTests" */;
+			buildPhases = (
+				2FE59A480B90512286A03569 /* [CP] Check Pods Manifest.lock */,
+				DFC3F4AF230371A400318644 /* Headers */,
+				54FC7DA522F4136100202164 /* Sources */,
+				54FC7DA622F4136100202164 /* Frameworks */,
+				54FC7DA722F4136100202164 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				541ABDC822F4AA3200485B53 /* PBXTargetDependency */,
+			);
+			name = CriteoGoogleAdapterTests;
+			productName = CriteoGoogleAdapterTests;
+			productReference = 54FC7DA922F4136100202164 /* CriteoGoogleAdapterTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		54FC7D9722F4136100202164 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1020;
+				ORGANIZATIONNAME = Criteo;
+				TargetAttributes = {
+					54FC7D9F22F4136100202164 = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
+					54FC7DA822F4136100202164 = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
+				};
+			};
+			buildConfigurationList = 54FC7D9A22F4136100202164 /* Build configuration list for PBXProject "CriteoGoogleAdapter" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 54FC7D9622F4136100202164;
+			productRefGroup = 54FC7DA122F4136100202164 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				54FC7D9F22F4136100202164 /* CriteoGoogleAdapter */,
+				54FC7DA822F4136100202164 /* CriteoGoogleAdapterTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		54FC7D9E22F4136100202164 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		54FC7DA722F4136100202164 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		22D334F997F183AE888E3F74 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CriteoGoogleAdapter-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2FE59A480B90512286A03569 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CriteoGoogleAdapterTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		54FC7D9C22F4136100202164 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DFC3F49B23035A9200318644 /* CRBannerCustomEvent.m in Sources */,
+				54FC7DBD22F4147100202164 /* CRInterstitialCustomEvent.m in Sources */,
+				DFC3F4A223035AF800318644 /* CRGoogleMediationParameters.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		54FC7DA522F4136100202164 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5474B966230F0E3600CBD47E /* CRInterstitialCustomEventTests.m in Sources */,
+				DF4356A8230485FA0051AC45 /* CRBannerCustomEventTests.m in Sources */,
+				DFC3F4AE230370F700318644 /* CRGoogleMediationParametersTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		541ABDC822F4AA3200485B53 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 54FC7D9F22F4136100202164 /* CriteoGoogleAdapter */;
+			targetProxy = 541ABDC722F4AA3200485B53 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		54FC7DB222F4136100202164 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACH_O_TYPE = staticlib;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				SDKROOT = iphoneos;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		54FC7DB322F4136100202164 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACH_O_TYPE = staticlib;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		54FC7DB522F4136100202164 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1DCEFA360467E4609048B381 /* Pods-CriteoGoogleAdapter.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = S655EV5659;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework-Current\"",
+					"\"${PODS_ROOT}/GoogleAppMeasurement/Frameworks\"",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = CriteoGoogleAdapter/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 3.8.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Criteo.CriteoGoogleAdapter;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		54FC7DB622F4136100202164 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 95644F837BB2E093B4851A33 /* Pods-CriteoGoogleAdapter.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = S655EV5659;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Google-Mobile-Ads-SDK/Frameworks/GoogleMobileAdsFramework-Current\"",
+					"\"${PODS_ROOT}/GoogleAppMeasurement/Frameworks\"",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = CriteoGoogleAdapter/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MARKETING_VERSION = 3.8.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Criteo.CriteoGoogleAdapter;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		54FC7DB822F4136100202164 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 282330E581BEC0B05B9B0D3D /* Pods-CriteoGoogleAdapterTests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = S655EV5659;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = CriteoGoogleAdapterTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = mh_bundle;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Criteo.CriteoGoogleAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		54FC7DB922F4136100202164 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FFE280808F2B96A9AAE0643D /* Pods-CriteoGoogleAdapterTests.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = S655EV5659;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = CriteoGoogleAdapterTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = mh_bundle;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Criteo.CriteoGoogleAdapterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		54FC7D9A22F4136100202164 /* Build configuration list for PBXProject "CriteoGoogleAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				54FC7DB222F4136100202164 /* Debug */,
+				54FC7DB322F4136100202164 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		54FC7DB422F4136100202164 /* Build configuration list for PBXNativeTarget "CriteoGoogleAdapter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				54FC7DB522F4136100202164 /* Debug */,
+				54FC7DB622F4136100202164 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		54FC7DB722F4136100202164 /* Build configuration list for PBXNativeTarget "CriteoGoogleAdapterTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				54FC7DB822F4136100202164 /* Debug */,
+				54FC7DB922F4136100202164 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 54FC7D9722F4136100202164 /* Project object */;
+}
