@@ -74,7 +74,6 @@ static CR_CdbBid *emptyBid;
     _creative = creative;
     _ttl = ttl;
     _displayUrl = displayUrl;
-    _mopubCompatibleDisplayUrl = [NSString cr_mopubCompatibleDisplayUrlForDisplayUrl:displayUrl];
     _insertTime = insertTime;
     _nativeAssets = [nativeAssets copy];
     _impressionId = impressionId;

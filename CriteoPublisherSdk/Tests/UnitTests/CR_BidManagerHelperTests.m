@@ -63,12 +63,12 @@
 
   [headerBidding enrichRequest:mopubBidRequest withBid:testBid_1 adUnit:slot_1];
 
-  XCTAssertTrue([mopubBidRequest.keywords containsString:[testBid_1 mopubCompatibleDisplayUrl]]);
+  XCTAssertTrue([mopubBidRequest.keywords containsString:[testBid_1 displayUrl]]);
   XCTAssertTrue([mopubBidRequest.keywords containsString:[testBid_1 cpm]]);
 
   [CR_BidManagerHelper removeCriteoBidsFromMoPubRequest:mopubBidRequest];
 
-  XCTAssertFalse([mopubBidRequest.keywords containsString:[testBid_1 mopubCompatibleDisplayUrl]]);
+  XCTAssertFalse([mopubBidRequest.keywords containsString:[testBid_1 displayUrl]]);
   XCTAssertFalse([mopubBidRequest.keywords containsString:[testBid_1 cpm]]);
   XCTAssertFalse([mopubBidRequest.keywords containsString:@"crt_"]);
 }
