@@ -18,9 +18,17 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <OCMock.h>
 #import "CR_IntegrationRegistry.h"
 
 FOUNDATION_EXPORT NSString *const NSUserDefaultsIntegrationKey;
+
+@interface CR_IntegrationRegistry (Testing)
+
+@property(nonatomic, readonly) BOOL isMoPubMediationPresent;
+@property(nonatomic, readonly) BOOL isAdMobMediationPresent;
+
+@end
 
 @interface CR_IntegrationRegistryTests : XCTestCase
 
@@ -35,7 +43,8 @@ FOUNDATION_EXPORT NSString *const NSUserDefaultsIntegrationKey;
   [super setUp];
 
   self.userDefault = [[NSUserDefaults alloc] init];
-  self.integrationRegistry = [[CR_IntegrationRegistry alloc] initWithUserDefaults:self.userDefault];
+  self.integrationRegistry =
+      OCMPartialMock([[CR_IntegrationRegistry alloc] initWithUserDefaults:self.userDefault]);
 }
 
 - (void)tearDown {
@@ -89,6 +98,49 @@ FOUNDATION_EXPORT NSString *const NSUserDefaultsIntegrationKey;
   NSNumber *profileId = self.integrationRegistry.profileId;
 
   XCTAssertEqualObjects(profileId, @(CR_IntegrationInHouse));
+}
+
+- (void)testProfileId_GivenStandaloneDeclaredButMoPubMediationIsDetected_ReturnMoPubMediation {
+  OCMStub(self.integrationRegistry.isMoPubMediationPresent).andReturn(YES);
+
+  [self.integrationRegistry declare:CR_IntegrationStandalone];
+  NSNumber *profileId = self.integrationRegistry.profileId;
+
+  XCTAssertEqualObjects(profileId, @(CR_IntegrationMopubMediation));
+}
+
+- (void)testProfileId_GivenStandaloneDeclaredButAdMobMediationIsDetected_ReturnAdMobMediation {
+  OCMStub(self.integrationRegistry.isAdMobMediationPresent).andReturn(YES);
+
+  [self.integrationRegistry declare:CR_IntegrationStandalone];
+  NSNumber *profileId = self.integrationRegistry.profileId;
+
+  XCTAssertEqualObjects(profileId, @(CR_IntegrationAdmobMediation));
+}
+
+- (void)testProfileId_GivenBothMediationAdaptersDetected_ReturnFallback {
+  OCMStub(self.integrationRegistry.isMoPubMediationPresent).andReturn(YES);
+  OCMStub(self.integrationRegistry.isAdMobMediationPresent).andReturn(YES);
+
+  NSNumber *profileId = self.integrationRegistry.profileId;
+
+  XCTAssertEqualObjects(profileId, @(CR_IntegrationFallback));
+}
+
+- (void)testIsMoPubMediationPresent_GivenMoPubMediationNotInRuntime_ReturnNo {
+  // Assume that no adapters are present in this runtime
+
+  BOOL isPresent = self.integrationRegistry.isMoPubMediationPresent;
+
+  XCTAssertFalse(isPresent);
+}
+
+- (void)testIsAdMobMediationPresent_GivenAdMobMediationNotInRuntime_ReturnNo {
+  // Assume that no adapters are present in this runtime
+
+  BOOL isPresent = self.integrationRegistry.isAdMobMediationPresent;
+
+  XCTAssertFalse(isPresent);
 }
 
 @end
