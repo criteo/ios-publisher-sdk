@@ -29,6 +29,8 @@
 		462DCAA42463055100B43A51 /* CR_CreativeViewChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E06534D114E0989D12A1E6B /* CR_CreativeViewChecker.m */; };
 		462DCAA7246316B700B43A51 /* XCTestCase+Criteo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB4E90A239532BA008DE5E3 /* XCTestCase+Criteo.m */; };
 		4638C001249B8054007A8878 /* CR_SafeMediaDownloaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4638C000249B7EF6007A8878 /* CR_SafeMediaDownloaderTests.m */; };
+		4642C9C624CAD93E0080AC4F /* CR_IntegrationRegistry.h in Headers */ = {isa = PBXBuildFile; fileRef = 4642C9C424CAD93E0080AC4F /* CR_IntegrationRegistry.h */; };
+		4642C9C724CAD93E0080AC4F /* CR_IntegrationRegistry.m in Sources */ = {isa = PBXBuildFile; fileRef = 4642C9C524CAD93E0080AC4F /* CR_IntegrationRegistry.m */; };
 		46507F80246C2F6900B1DA78 /* CRNativeAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 46507F7D246C2F6900B1DA78 /* CRNativeAdView.m */; };
 		46507F82246C2F6900B1DA78 /* CRNativeAdView.h in Headers */ = {isa = PBXBuildFile; fileRef = 46507F7E246C2F6900B1DA78 /* CRNativeAdView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		465D3CF92434D3D500BD36AC /* CR_UniqueIdGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46240E132434BB91001425AB /* CR_UniqueIdGeneratorTests.swift */; };
@@ -315,6 +317,8 @@
 		46240E0C2434BB4F001425AB /* CR_UniqueIdGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_UniqueIdGenerator.m; sourceTree = "<group>"; };
 		46240E132434BB91001425AB /* CR_UniqueIdGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_UniqueIdGeneratorTests.swift; sourceTree = "<group>"; };
 		4638C000249B7EF6007A8878 /* CR_SafeMediaDownloaderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_SafeMediaDownloaderTests.m; sourceTree = "<group>"; };
+		4642C9C424CAD93E0080AC4F /* CR_IntegrationRegistry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_IntegrationRegistry.h; sourceTree = "<group>"; };
+		4642C9C524CAD93E0080AC4F /* CR_IntegrationRegistry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_IntegrationRegistry.m; sourceTree = "<group>"; };
 		46507F7D246C2F6900B1DA78 /* CRNativeAdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdView.m; sourceTree = "<group>"; };
 		46507F7E246C2F6900B1DA78 /* CRNativeAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNativeAdView.h; sourceTree = "<group>"; };
 		465E9167246C406700227D29 /* CR_AdChoice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_AdChoice.h; sourceTree = "<group>"; };
@@ -744,6 +748,8 @@
 				258821D121FD3FB600398E9F /* CR_ConfigManager.m */,
 				258821D722000F8000398E9F /* CR_DeviceInfo.h */,
 				258821D822000F8000398E9F /* CR_DeviceInfo.m */,
+				4642C9C424CAD93E0080AC4F /* CR_IntegrationRegistry.h */,
+				4642C9C524CAD93E0080AC4F /* CR_IntegrationRegistry.m */,
 				C07ABE5447E776FA3F981ED0 /* CR_RemoteConfigRequest.m */,
 				C07ABCFF5BBAF82978CD2E45 /* CR_RemoteConfigRequest.h */,
 			);
@@ -1442,6 +1448,7 @@
 				7DDEF657242CD8BE00BC129F /* CR_BidRequestSerializer.h in Headers */,
 				4660614324754E8100690E27 /* CR_SafeMediaDownloader.h in Headers */,
 				7D80F6202406B18F005B7BA3 /* CR_Gdpr.h in Headers */,
+				4642C9C624CAD93E0080AC4F /* CR_IntegrationRegistry.h in Headers */,
 				542FCFB4242D08EE000D9DA9 /* CR_FeedbacksSerializer.h in Headers */,
 				547287802411043E00B62235 /* CR_FeedbackMessage.h in Headers */,
 				547287882411096200B62235 /* CR_FeedbackStorage+MessageUpdating.h in Headers */,
@@ -1741,6 +1748,7 @@
 				C07AB779584EBF6DBACED48F /* NSUserDefaults+CR_Config.m in Sources */,
 				C07AB936F1DBBE6CC8C2644E /* CRMediaContent.m in Sources */,
 				C07AB5492FE17D797F4C1306 /* CRMediaView.m in Sources */,
+				4642C9C724CAD93E0080AC4F /* CR_IntegrationRegistry.m in Sources */,
 				C07ABC0F6A8997CD78597D6B /* CR_ImageCache.m in Sources */,
 				C07AB11AEFF7DFF4A4638A4F /* CR_RemoteConfigRequest.m in Sources */,
 				C07AB1021EE9DC0423DB6A20 /* CR_DisplaySizeInjector.m in Sources */,
