@@ -27,29 +27,39 @@
 #import "CR_BidManagerHelper.h"
 #import "NSString+CriteoUrl.h"
 #import "CR_DisplaySizeInjector.h"
+#import "CR_IntegrationRegistry.h"
 
 @interface CR_HeaderBidding ()
 
 @property(strong, nonatomic, readonly) id<CR_HeaderBiddingDevice> device;
 @property(strong, nonatomic, readonly) CR_DisplaySizeInjector *displaySizeInjector;
+@property(strong, nonatomic, readonly) CR_IntegrationRegistry *integrationRegistry;
 
 @end
 
 @implementation CR_HeaderBidding
 
 - (instancetype)initWithDevice:(id<CR_HeaderBiddingDevice>)device
-           displaySizeInjector:(CR_DisplaySizeInjector *)displaySizeInjector {
+           displaySizeInjector:(CR_DisplaySizeInjector *)displaySizeInjector
+           integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry {
   if (self = [super init]) {
     _device = device;
     _displaySizeInjector = displaySizeInjector;
+    _integrationRegistry = integrationRegistry;
   }
   return self;
 }
 
 - (void)enrichRequest:(id)adRequest withBid:(CR_CdbBid *)bid adUnit:(CR_CacheAdUnit *)adUnit {
-  // Reset the keywords in the request in case there is empty bid (EE-412).
-  if ([self isMoPubRequest:adRequest]) {
+  if ([self isDfpRequest:adRequest]) {
+    [self.integrationRegistry declare:CR_IntegrationGamAppBidding];
+  } else if ([self isMoPubRequest:adRequest]) {
+    [self.integrationRegistry declare:CR_IntegrationMopubAppBidding];
+
+    // Reset the keywords in the request in case there is empty bid (EE-412).
     [self removeCriteoBidsFromMoPubRequest:adRequest];
+  } else if ([self isCustomRequest:adRequest]) {
+    [self.integrationRegistry declare:CR_IntegrationCustomAppBidding];
   }
 
   if ([bid isEmpty]) {
@@ -60,7 +70,7 @@
     [self addCriteoBidToDfpRequest:adRequest withBid:bid adUnit:adUnit];
   } else if ([self isMoPubRequest:adRequest]) {
     [self addCriteoBidToMopubRequest:adRequest withBid:bid adUnit:adUnit];
-  } else if ([adRequest isKindOfClass:NSMutableDictionary.class]) {
+  } else if ([self isCustomRequest:adRequest]) {
     [self addCriteoBidToDictionary:adRequest withBid:bid adUnit:adUnit];
   }
 }
@@ -80,6 +90,10 @@
 }
 
 #pragma mark - Private
+
+- (BOOL)isCustomRequest:(id)request {
+  return [request isKindOfClass:NSMutableDictionary.class];
+}
 
 - (BOOL)isDfpRequest:(id)request {
   NSString *name = NSStringFromClass([request class]);
