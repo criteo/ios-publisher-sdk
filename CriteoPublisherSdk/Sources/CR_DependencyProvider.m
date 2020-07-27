@@ -70,9 +70,11 @@
 }
 
 - (CR_ApiHandler *)apiHandler {
-  return CR_LAZY(_apiHandler, [[CR_ApiHandler alloc] initWithNetworkManager:self.networkManager
-                                                            bidFetchTracker:self.bidFetchTracker
-                                                              threadManager:self.threadManager]);
+  return CR_LAZY(_apiHandler,
+                 [[CR_ApiHandler alloc] initWithNetworkManager:self.networkManager
+                                               bidFetchTracker:self.bidFetchTracker
+                                                 threadManager:self.threadManager
+                                           integrationRegistry:self.integrationRegistry]);
 }
 
 - (CR_CacheManager *)cacheManager {

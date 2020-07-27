@@ -24,11 +24,11 @@
 #import "CR_Gdpr.h"
 #import "CR_GdprSerializer.h"
 #import "Logging.h"
-#import "NSArray+Criteo.h"
 #import "CR_ThreadManager.h"
 #import "NSString+CriteoUrl.h"
 #import "CR_FeedbacksSerializer.h"
 #import "CR_RemoteConfigRequest.h"
+#import "CR_IntegrationRegistry.h"
 
 static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 
@@ -38,24 +38,22 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 @property(strong, nonatomic, readonly) CR_BidRequestSerializer *bidRequestSerializer;
 @property(strong, nonatomic, readonly) CR_GdprSerializer *gdprSerializer;
 @property(strong, nonatomic, readonly) CR_FeedbacksSerializer *feedbackSerializer;
+@property(strong, nonatomic, readonly) CR_IntegrationRegistry *integrationRegistry;
 
 @end
 
 @implementation CR_ApiHandler
 
-- (instancetype)init {
-  NSAssert(false, @"Do not use this initializer");
-  return [self initWithNetworkManager:nil bidFetchTracker:nil threadManager:nil];
-}
-
 - (instancetype)initWithNetworkManager:(CR_NetworkManager *)networkManager
                        bidFetchTracker:(CR_BidFetchTracker *)bidFetchTracker
-                         threadManager:(CR_ThreadManager *)threadManager {
+                         threadManager:(CR_ThreadManager *)threadManager
+                   integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry {
   if (self = [super init]) {
     _networkManager = networkManager;
     _bidFetchTracker = bidFetchTracker;
     _threadManager = threadManager;
     _gdprSerializer = [[CR_GdprSerializer alloc] init];
+    _integrationRegistry = integrationRegistry;
     _bidRequestSerializer =
         [[CR_BidRequestSerializer alloc] initWithGdprSerializer:_gdprSerializer];
     _feedbackSerializer = [[CR_FeedbacksSerializer alloc] init];
