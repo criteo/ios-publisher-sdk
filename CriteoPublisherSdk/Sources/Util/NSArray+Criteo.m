@@ -29,4 +29,20 @@
   return chunks;
 }
 
+- (NSDictionary *)cr_groupByKey:(id<NSCopying> (^)(id item))keyForItemBlock {
+  NSMutableDictionary *grouped = [NSMutableDictionary new];
+  for (id item in self) {
+    id<NSCopying> key = keyForItemBlock(item);
+    NSParameterAssert(key);
+
+    NSMutableArray *groupForKey = grouped[key];
+    if (groupForKey == nil) {
+      groupForKey = [NSMutableArray new];
+      grouped[key] = groupForKey;
+    }
+    [groupForKey addObject:item];
+  }
+  return grouped;
+}
+
 @end

@@ -30,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSArray (Criteo)
 
 - (NSArray *)cr_splitIntoChunks:(NSUInteger)chunkSize;
+- (NSDictionary *)cr_groupByKey:(id<NSCopying> (^)(id item))keyForItemBlock;
 
 @end
 
