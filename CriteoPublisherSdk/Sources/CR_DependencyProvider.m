@@ -116,7 +116,8 @@
 - (CR_HeaderBidding *)headerBidding {
   return CR_LAZY(_headerBidding,
                  [[CR_HeaderBidding alloc] initWithDevice:self.deviceInfo
-                                      displaySizeInjector:self.displaySizeInjector]);
+                                      displaySizeInjector:self.displaySizeInjector
+                                      integrationRegistry:self.integrationRegistry]);
 }
 
 - (CR_DisplaySizeInjector *)displaySizeInjector {

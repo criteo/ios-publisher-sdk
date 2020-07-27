@@ -30,6 +30,8 @@
 #import "NSString+Testing.h"
 #import "NSString+CriteoUrl.h"
 #import "CR_DisplaySizeInjector.h"
+#import "CR_IntegrationRegistry.h"
+#import "CR_DependencyProvider.h"
 
 static NSString *const kCpmKey = @"crt_cpm";
 static NSString *const kDictionaryDisplayUrlKey = @"crt_displayUrl";
@@ -65,6 +67,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 
 @property(strong, nonatomic) CR_DeviceInfoMock *device;
 @property(strong, nonatomic) CR_DisplaySizeInjector *displaySizeInjector;
+@property(strong, nonatomic) CR_IntegrationRegistry *integrationRegistry;
 @property(strong, nonatomic) CR_HeaderBidding *headerBidding;
 
 @property(nonatomic, strong) CR_CacheAdUnit *interstitialAdUnit;
@@ -84,8 +87,13 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 - (void)setUp {
   self.device = [[CR_DeviceInfoMock alloc] init];
   self.displaySizeInjector = OCMClassMock([CR_DisplaySizeInjector class]);
-  self.headerBidding = [[CR_HeaderBidding alloc] initWithDevice:self.device
-                                            displaySizeInjector:self.displaySizeInjector];
+  self.integrationRegistry = OCMClassMock([CR_IntegrationRegistry class]);
+
+  CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.new;
+  dependencyProvider.deviceInfo = self.device;
+  dependencyProvider.displaySizeInjector = self.displaySizeInjector;
+  dependencyProvider.integrationRegistry = self.integrationRegistry;
+  self.headerBidding = dependencyProvider.headerBidding;
 
   self.adUnit1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adUnit1" width:300 height:250];
   self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).build;
@@ -106,29 +114,32 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 
 #pragma mark - Empty Bid
 
-- (void)testEmptyBidWitDictionary {
+- (void)testEmptyBidWithDictionary {
   NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 
   [self.headerBidding enrichRequest:dictionary withBid:[CR_CdbBid emptyBid] adUnit:self.adUnit1];
 
   XCTAssertEqual(dictionary.count, 0);
+  OCMVerify([self.integrationRegistry declare:CR_IntegrationCustomAppBidding]);
 }
 
-- (void)testEmptyBidWitDfpRequest {
+- (void)testEmptyBidWithDfpRequest {
   GADRequest *request = [[GADRequest alloc] init];
 
   [self.headerBidding enrichRequest:request withBid:[CR_CdbBid emptyBid] adUnit:self.adUnit1];
 
   XCTAssertEqual(request.customTargeting.count, 0);
+  OCMVerify([self.integrationRegistry declare:CR_IntegrationGamAppBidding]);
 }
 
-- (void)testEmptyBidWitMoPubRequest {
+- (void)testEmptyBidWithMoPubRequest {
   MPAdView *request = [[MPAdView alloc] init];
   request.keywords = @"k:v";
 
   [self.headerBidding enrichRequest:request withBid:[CR_CdbBid emptyBid] adUnit:self.adUnit1];
 
   XCTAssertEqual(request.keywords.length, 3);
+  OCMVerify([self.integrationRegistry declare:CR_IntegrationMopubAppBidding]);
 }
 
 #pragma mark - Dictionary
@@ -144,6 +155,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   [self.headerBidding enrichRequest:dictionary withBid:self.bid1 adUnit:self.adUnit1];
 
   XCTAssertEqualObjects(dictionary, expected);
+  OCMVerify([self.integrationRegistry declare:CR_IntegrationCustomAppBidding]);
 }
 
 #pragma mark - Google Ad
@@ -160,6 +172,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   XCTAssertEqualObjects(targeting[kDfpDisplayUrlKey], expectedDfpDisplayUrl);
   XCTAssertEqualObjects(targeting[kCpmKey], self.bid1.cpm);
   XCTAssertEqualObjects(targeting[kSizeKey], @"300x250");
+  OCMVerify([self.integrationRegistry declare:CR_IntegrationGamAppBidding]);
 }
 
 - (void)testDfpRequest {
@@ -174,6 +187,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   XCTAssertEqualObjects(targeting[kDfpDisplayUrlKey], expectedDfpDisplayUrl);
   XCTAssertEqualObjects(targeting[kCpmKey], self.bid1.cpm);
   XCTAssertEqualObjects(targeting[kSizeKey], @"300x250");
+  OCMVerify([self.integrationRegistry declare:CR_IntegrationGamAppBidding]);
 }
 
 - (void)testDfpRequestWithInterstitialHasItsDisplayUrlInjected {
@@ -205,7 +219,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   CR_NativeAssets *nativeAssets = nativeBid.nativeAssets;
   NSDictionary *dfpTargeting = self.dfpRequest.customTargeting;
   XCTAssertTrue(dfpTargeting.count > 2);
-  XCTAssertNil([dfpTargeting objectForKey:kDfpDisplayUrlKey]);
+  XCTAssertNil(dfpTargeting[kDfpDisplayUrlKey]);
   XCTAssertEqual(nativeBid.cpm, dfpTargeting[kCpmKey]);
   [self checkMandatoryNativeAssets:self.dfpRequest nativeBid:nativeBid];
   CR_AssertEqualDfpString(nativeAssets.advertiser.description, dfpTargeting[@"crtn_advname"]);
@@ -213,6 +227,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   CR_AssertEqualDfpString(nativeAssets.advertiser.logoImage.url, dfpTargeting[@"crtn_advlogourl"]);
   CR_AssertEqualDfpString(nativeAssets.advertiser.logoClickUrl, dfpTargeting[@"crtn_advurl"]);
   CR_AssertEqualDfpString(nativeAssets.privacy.longLegalText, dfpTargeting[@"crtn_prtext"]);
+  OCMVerify([self.integrationRegistry declare:CR_IntegrationGamAppBidding]);
 }
 
 - (void)testAddCriteoToDfpRequestForInCompleteNativeBid {
@@ -231,13 +246,13 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 
   NSDictionary *dfpTargeting = self.dfpRequest.customTargeting;
   XCTAssertGreaterThan(dfpTargeting.count, 2);
-  XCTAssertNil([dfpTargeting objectForKey:kDfpDisplayUrlKey]);
-  XCTAssertNil([dfpTargeting objectForKey:@"crtn_advname"]);
-  XCTAssertNil([dfpTargeting objectForKey:@"crtn_advdomain"]);
-  XCTAssertNil([dfpTargeting objectForKey:@"crtn_advlogourl"]);
-  XCTAssertNil([dfpTargeting objectForKey:@"crtn_advurl"]);
-  XCTAssertNil([dfpTargeting objectForKey:@"crtn_prtext"]);
-  XCTAssertEqual(nativeBid.cpm, [dfpTargeting objectForKey:kCpmKey]);
+  XCTAssertNil(dfpTargeting[kDfpDisplayUrlKey]);
+  XCTAssertNil(dfpTargeting[@"crtn_advname"]);
+  XCTAssertNil(dfpTargeting[@"crtn_advdomain"]);
+  XCTAssertNil(dfpTargeting[@"crtn_advlogourl"]);
+  XCTAssertNil(dfpTargeting[@"crtn_advurl"]);
+  XCTAssertNil(dfpTargeting[@"crtn_prtext"]);
+  XCTAssertEqual(nativeBid.cpm, dfpTargeting[kCpmKey]);
   [self checkMandatoryNativeAssets:self.dfpRequest nativeBid:nativeBid];
 }
 
@@ -254,6 +269,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 
   NSDictionary *keywords = [controller.keywords testing_moPubKeywordDictionary];
   XCTAssertEqualObjects(keywords, expected);
+  OCMVerify([self.integrationRegistry declare:CR_IntegrationMopubAppBidding]);
 }
 
 - (void)testMPAdView {
@@ -271,6 +287,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 
   NSDictionary *keywords = [request.keywords testing_moPubKeywordDictionary];
   XCTAssertEqualObjects(keywords, expected);
+  OCMVerify([self.integrationRegistry declare:CR_IntegrationMopubAppBidding]);
 }
 
 - (void)testLoadMopubInterstitial {
