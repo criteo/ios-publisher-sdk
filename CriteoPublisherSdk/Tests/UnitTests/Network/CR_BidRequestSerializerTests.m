@@ -21,6 +21,8 @@
 #import "CR_BidRequestSerializer.h"
 #import "CR_CacheAdUnit.h"
 #import "CR_CdbRequest.h"
+#import "CR_GdprSerializer.h"
+#import "CR_IntegrationRegistry.h"
 
 @interface CR_BidRequestSerializerTests : XCTestCase
 
@@ -31,7 +33,8 @@
 @implementation CR_BidRequestSerializerTests
 
 - (void)setUp {
-  _serializer = [[CR_BidRequestSerializer alloc] init];
+  CR_GdprSerializer *serializer = [[CR_GdprSerializer alloc] init];
+  _serializer = [[CR_BidRequestSerializer alloc] initWithGdprSerializer:serializer];
 }
 
 #pragma mark - Tests to be refactored
@@ -41,7 +44,7 @@
   CR_CacheAdUnit *adUnit2 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"slot2" width:42 height:33];
   CR_CacheAdUnit *adUnit3 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"slot2" width:43 height:33];
   CR_CacheAdUnitArray *adUnits = @[ adUnit1, adUnit2, adUnit3 ];
-  CR_CdbRequest *cdbRequest = [[CR_CdbRequest alloc] initWithAdUnits:adUnits];
+  CR_CdbRequest *cdbRequest = [[CR_CdbRequest alloc] initWithProfileId:@42 adUnits:adUnits];
   NSArray *slots = [self.serializer slotsWithCdbRequest:cdbRequest];
   XCTAssertEqual(slots.count, adUnits.count);
   for (int i = 0; i < adUnits.count; i++) {
@@ -58,7 +61,8 @@
   CR_CacheAdUnit *nativeAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"testAdUnit"
                                                                      size:CGSizeMake(2, 2)
                                                                adUnitType:CRAdUnitTypeNative];
-  CR_CdbRequest *cdbRequest = [[CR_CdbRequest alloc] initWithAdUnits:@[ nativeAdUnit ]];
+  CR_CdbRequest *cdbRequest = [[CR_CdbRequest alloc] initWithProfileId:@42
+                                                               adUnits:@[ nativeAdUnit ]];
   NSArray *slots = [self.serializer slotsWithCdbRequest:cdbRequest];
   XCTAssertTrue([slots[0][@"placementId"] isEqualToString:nativeAdUnit.adUnitId]);
   XCTAssertTrue([slots[0][@"sizes"] isEqual:@[ nativeAdUnit.cdbSize ]]);
@@ -68,7 +72,8 @@
       [[CR_CacheAdUnit alloc] initWithAdUnitId:@"testAdUnit"
                                           size:CGSizeMake(2, 2)
                                     adUnitType:CRAdUnitTypeInterstitial];
-  CR_CdbRequest *cdbRequest2 = [[CR_CdbRequest alloc] initWithAdUnits:@[ nonNativeAdUnit ]];
+  CR_CdbRequest *cdbRequest2 = [[CR_CdbRequest alloc] initWithProfileId:@42
+                                                                adUnits:@[ nonNativeAdUnit ]];
   NSArray *nonNativeSlots = [self.serializer slotsWithCdbRequest:cdbRequest2];
   XCTAssertTrue([nonNativeSlots[0][@"placementId"] isEqualToString:nonNativeAdUnit.adUnitId]);
   XCTAssertTrue([nonNativeSlots[0][@"sizes"] isEqual:@[ nonNativeAdUnit.cdbSize ]]);

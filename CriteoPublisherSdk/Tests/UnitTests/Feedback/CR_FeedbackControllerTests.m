@@ -289,7 +289,7 @@
     [self prepareMockedIdGenerator:impressionIds[i]];
   }
 
-  CR_CdbRequest *request = [[CR_CdbRequest alloc] initWithAdUnits:adUnits];
+  CR_CdbRequest *request = [[CR_CdbRequest alloc] initWithProfileId:@42 adUnits:adUnits];
 
   return request;
 }

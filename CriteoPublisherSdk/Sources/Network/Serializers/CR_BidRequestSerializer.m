@@ -24,6 +24,7 @@
 #import "CR_DataProtectionConsent.h"
 #import "CR_DeviceInfo.h"
 #import "CR_GdprSerializer.h"
+#import "CR_IntegrationRegistry.h"
 
 @interface CR_BidRequestSerializer ()
 
@@ -34,10 +35,6 @@
 @implementation CR_BidRequestSerializer
 
 #pragma mark - Life cycle
-
-- (instancetype)init {
-  return [self initWithGdprSerializer:[[CR_GdprSerializer alloc] init]];
-}
 
 - (instancetype)initWithGdprSerializer:(CR_GdprSerializer *)gdprSerializer {
   if (self = [super init]) {
@@ -60,14 +57,13 @@
                           deviceInfo:(CR_DeviceInfo *)deviceInfo {
   NSMutableDictionary *postBody = [NSMutableDictionary new];
   postBody[CR_ApiQueryKeys.sdkVersion] = config.sdkVersion;
-  postBody[CR_ApiQueryKeys.profileId] = config.profileId;
+  postBody[CR_ApiQueryKeys.profileId] = cdbRequest.profileId;
   postBody[CR_ApiQueryKeys.publisher] = [self publisherWithConfig:config];
   postBody[CR_ApiQueryKeys.gdpr] = [self.gdprSerializer dictionaryForGdpr:consent.gdpr];
   postBody[CR_ApiQueryKeys.bidSlots] = [self slotsWithCdbRequest:cdbRequest];
   postBody[CR_ApiQueryKeys.user] = [self userWithConsent:consent
                                                   config:config
                                               deviceInfo:deviceInfo];
-
   return postBody;
 }
 

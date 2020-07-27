@@ -29,10 +29,14 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
     var consent: CR_DataProtectionConsentMock = CR_DataProtectionConsentMock()
     var deviceInfo: CR_DeviceInfoMock = CR_DeviceInfoMock()
 
+    let userDefaults = CR_InMemoryUserDefaults()
+    let testIntegrationType = CR_IntegrationType.gamAppBidding
+    lazy var testProfileId = NSNumber(value: testIntegrationType.rawValue)
+
     override func setUp() {
         gdprSerializer = CR_GdprSerializerMock()
         serializer = CR_BidRequestSerializer(gdprSerializer: gdprSerializer)
-        request = CR_CdbRequest(adUnits: [
+        request = CR_CdbRequest(profileId:testProfileId, adUnits:[
             CR_CacheAdUnit(adUnitId: "1", width: 1, height: 1),
             CR_CacheAdUnit(adUnitId: "2", width: 2, height: 2)
         ])
@@ -43,7 +47,6 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
         let expected = URL(string:"https://bidder.criteo.com/inapp/v2")
 
         let url = serializer.url(with: config)
-
         XCTAssertEqual(url, expected)
     }
 
@@ -58,7 +61,7 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
         let body = generateBody()
 
         let profileId = body[NSString.profileIdKey]! as! NSNumber
-        XCTAssertEqual(profileId, config.profileId)
+        XCTAssertEqual(profileId, testProfileId)
     }
 
     func testBodyWithPublisher() {
