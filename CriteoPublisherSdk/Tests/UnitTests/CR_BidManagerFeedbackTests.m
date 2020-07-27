@@ -67,6 +67,7 @@
   self.apiHandlerMock = OCMClassMock([CR_ApiHandler class]);
   OCMStub([self.apiHandlerMock sendFeedbackMessages:[OCMArg any]
                                              config:[OCMArg any]
+                                          profileId:[OCMArg any]
                                   completionHandler:[OCMArg any]];)
       .andCall(self, @selector(captureSentMessages:));
   self.cacheManager = [[CR_CacheManager alloc] init];
@@ -86,9 +87,10 @@
 
   self.bidManager = [dependencyProvider bidManager];
 
+  NSNumber *profileId = @42;
   self.adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adUnitForValid" width:300 height:250];
   self.adUnit2 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adUnitForValid2" width:300 height:250];
-  self.cdbRequest = [[CR_CdbRequest alloc] initWithProfileId:@42 adUnits:@[ self.adUnit ]];
+  self.cdbRequest = [[CR_CdbRequest alloc] initWithProfileId:profileId adUnits:@[ self.adUnit ]];
   self.impressionId = [self.cdbRequest impressionIdForAdUnit:self.adUnit];
   self.impressionId2 = [self.cdbRequest impressionIdForAdUnit:self.adUnit2];
   self.validBid = CR_CdbBidBuilder.new.adUnit(self.adUnit).impressionId(self.impressionId).build;
@@ -100,7 +102,7 @@
                                                                 width:300
                                                                height:250];
   self.cdbRequestForInvalidBid =
-      [[CR_CdbRequest alloc] initWithProfileId:@42 adUnits:@[ self.adUnitForInvalidBid ]];
+      [[CR_CdbRequest alloc] initWithProfileId:profileId adUnits:@[ self.adUnitForInvalidBid ]];
   self.impressionIdForInvalidBid =
       [self.cdbRequestForInvalidBid impressionIdForAdUnit:self.adUnitForInvalidBid];
   self.invalidBid = CR_CdbBidBuilder.new.adUnit(self.adUnitForInvalidBid)
@@ -122,6 +124,7 @@
   OCMStub([(id)self.uniqueIdGeneratorMock generateId]).andReturn(self.generatedId);
 
   self.defaultMessage = [[CR_FeedbackMessage alloc] init];
+  self.defaultMessage.profileId = profileId;
   self.defaultMessage.requestGroupId = self.generatedId;
   self.defaultMessage.impressionId = self.impressionId;
   self.defaultMessage.cdbCallStartTimestamp = self.dateInMillisecondsNumber;

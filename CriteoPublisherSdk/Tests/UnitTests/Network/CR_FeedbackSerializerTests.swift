@@ -24,12 +24,13 @@ class CR_FeedbackSerializerTests: XCTestCase {
 
     var serializer: CR_FeedbacksSerializer = CR_FeedbacksSerializer()
     var config: CR_Config = CR_Config(criteoPublisherId: "publisherId")
+    let profileId = NSNumber(value: 42)
 
     func testConfigValuesPassed() {
-        let body = self.serializer.postBody(forCsm: [], config: config) as NSDictionary
+        let body = self.serializer.postBody(forCsm:[], config:config, profileId:profileId) as NSDictionary
 
         XCTAssertEqual(body["wrapper_version"] as? String, config.sdkVersion)
-        XCTAssertEqual(body["profile_id"] as? NSNumber, config.profileId)
+        XCTAssertEqual(body["profile_id"] as? NSNumber, profileId)
     }
 
     func testMessagesCount() {
@@ -38,7 +39,7 @@ class CR_FeedbackSerializerTests: XCTestCase {
             CR_FeedbackMessage(),
             CR_FeedbackMessage()
         ]
-        let body = self.serializer.postBody(forCsm: messages, config: config) as NSDictionary
+        let body = self.serializer.postBody(forCsm:messages,config:config, profileId:profileId) as NSDictionary
         let feedbacks = body["feedbacks"] as? NSArray
         XCTAssertEqual(feedbacks?.count, messages.count)
     }
@@ -101,7 +102,7 @@ class CR_FeedbackSerializerTests: XCTestCase {
     }
 
     private func serializeSingleMessage(message: CR_FeedbackMessage) -> NSDictionary {
-        let body = self.serializer.postBody(forCsm: [message], config: config) as NSDictionary
+        let body = self.serializer.postBody(forCsm:[message], config:config, profileId:profileId) as NSDictionary
         let feedbacks = body["feedbacks"] as! NSArray
         let feedback = feedbacks[0] as! NSDictionary
         return feedback

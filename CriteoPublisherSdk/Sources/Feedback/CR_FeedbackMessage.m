@@ -24,6 +24,7 @@
 #pragma mark - NSCoding
 
 - (void)encodeWithCoder:(nonnull NSCoder *)coder {
+  [coder encodeObject:self.profileId forKey:@"profileId"];
   [coder encodeObject:self.impressionId forKey:@"impressionId"];
   [coder encodeObject:self.requestGroupId forKey:@"requestGroupId"];
   [coder encodeObject:self.cdbCallStartTimestamp forKey:@"cdbCallStartTimestamp"];
@@ -36,6 +37,7 @@
 
 - (nullable instancetype)initWithCoder:(nonnull NSCoder *)coder {
   if (self = [super init]) {
+    self.profileId = [coder decodeObjectOfClass:NSNumber.class forKey:@"profileId"];
     self.impressionId = [coder decodeObjectOfClass:NSString.class forKey:@"impressionId"];
     self.requestGroupId = [coder decodeObjectOfClass:NSString.class forKey:@"requestGroupId"];
     self.cdbCallStartTimestamp =
@@ -52,7 +54,8 @@
 
 - (NSString *)description {
   return [NSString
-      stringWithFormat:@"{\n\t%@\t%@\t%@\t%@\t%@\t%@\t%@\t%@}",
+      stringWithFormat:@"{\n\t%@\t%@\t%@\t%@\t%@\t%@\t%@\t%@\t%@}",
+                       [NSString stringWithFormat:@"profileId: %@\n", self.profileId],
                        [NSString stringWithFormat:@"impressionId: %@\n", self.impressionId],
                        [NSString stringWithFormat:@"requestGroupId: %@\n", self.requestGroupId],
                        [NSString stringWithFormat:@"cdbCallStartTimestamp: %@\n",
@@ -78,6 +81,10 @@
 #pragma mark - Equality methods
 
 - (BOOL)isEqualToFeedbackMessage:(CR_FeedbackMessage *)other {
+  BOOL proIdEq =
+      (!self.profileId && !other.profileId) ||
+      (self.profileId && other.profileId && [self.profileId isEqualToNumber:other.profileId]);
+
   BOOL impIdEq = (!self.impressionId && !other.impressionId) ||
                  (self.impressionId && other.impressionId &&
                   [self.impressionId isEqualToString:other.impressionId]);
@@ -98,8 +105,9 @@
                    (self.elapsedTimestamp && other.elapsedTimestamp &&
                     [self.elapsedTimestamp isEqualToNumber:other.elapsedTimestamp]);
 
-  return impIdEq && grpIdEq && cdbStEq && cdbEndEq && elpTimeEq && self.timeout == other.timeout &&
-         self.expired == other.expired && self.cachedBidUsed == other.cachedBidUsed;
+  return proIdEq && impIdEq && grpIdEq && cdbStEq && cdbEndEq && elpTimeEq &&
+         self.timeout == other.timeout && self.expired == other.expired &&
+         self.cachedBidUsed == other.cachedBidUsed;
 }
 
 - (BOOL)isEqual:(id)object {
@@ -121,13 +129,14 @@
   return [self.impressionId hash] << 1 ^ [self.requestGroupId hash] << 2 ^
          [self.cdbCallStartTimestamp hash] << 3 ^ [self.cdbCallEndTimestamp hash] << 4 ^
          [self.elapsedTimestamp hash] << 5 ^ expiredHash << 6 ^ timeoutHash << 7 ^
-         cachedBidUsed << 8;
+         cachedBidUsed << 8 ^ [self.profileId hash] << 9;
 }
 
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
   CR_FeedbackMessage *m = [[CR_FeedbackMessage allocWithZone:zone] init];
+  m.profileId = self.profileId;
   m.impressionId = self.impressionId;
   m.requestGroupId = self.requestGroupId;
   m.cdbCallStartTimestamp = self.cdbCallStartTimestamp;

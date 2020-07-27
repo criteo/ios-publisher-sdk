@@ -87,6 +87,7 @@ typedef void (^CR_CsmCompletionHandler)(NSError *error);
  */
 - (void)sendFeedbackMessages:(NSArray<CR_FeedbackMessage *> *)messages
                       config:(CR_Config *)config
+                   profileId:(NSNumber *)profileId
            completionHandler:(CR_CsmCompletionHandler)completionHandler;
 
 /**

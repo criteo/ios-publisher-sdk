@@ -217,11 +217,18 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 
 - (void)sendFeedbackMessages:(NSArray<CR_FeedbackMessage *> *)messages
                       config:(CR_Config *)config
+                   profileId:(NSNumber *)profileId
            completionHandler:(CR_CsmCompletionHandler)completionHandler {
+  if (messages.count == 0) {
+    return;
+  }
+
   NSString *urlString = [NSString stringWithFormat:@"%@/%@", [config cdbUrl], [config csmPath]];
   NSURL *url = [NSURL URLWithString:urlString];
 
-  NSDictionary *postBody = [self.feedbackSerializer postBodyForCsm:messages config:config];
+  NSDictionary *postBody = [self.feedbackSerializer postBodyForCsm:messages
+                                                            config:config
+                                                         profileId:profileId];
   [self.networkManager postToUrl:url
                         postBody:postBody
                  responseHandler:^(NSData *data, NSError *error) {

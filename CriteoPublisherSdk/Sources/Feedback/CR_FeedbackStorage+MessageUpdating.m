@@ -21,13 +21,15 @@
 
 @implementation CR_FeedbackStorage (MessageUpdating)
 
-- (void)setCdbStartAndImpressionIdForImpressionId:(NSString *)impressionId
-                                   requestGroupId:(NSString *)requestGroupId {
+- (void)setCdbStartForImpressionId:(NSString *)impressionId
+                         profileId:(NSNumber *)profileId
+                    requestGroupId:(NSString *)requestGroupId {
   [self updateMessageWithImpressionId:impressionId
                                    by:^(CR_FeedbackMessage *message) {
                                      message.cdbCallStartTimestamp =
                                          [self dateTimeNowInMilliseconds];
                                      message.impressionId = impressionId;
+                                     message.profileId = profileId;
                                      message.requestGroupId = requestGroupId;
                                    }];
 }
