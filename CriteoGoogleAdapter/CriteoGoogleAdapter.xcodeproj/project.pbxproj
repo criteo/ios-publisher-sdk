@@ -12,6 +12,7 @@
 		54FC7DBC22F4147100202164 /* CRInterstitialCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 54FC7DBA22F4147100202164 /* CRInterstitialCustomEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		54FC7DBD22F4147100202164 /* CRInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 54FC7DBB22F4147100202164 /* CRInterstitialCustomEvent.m */; };
 		A36837911ADA01CEDFA729A9 /* libPods-CriteoGoogleAdapterTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF43AF45DE0BEECB9A9247A6 /* libPods-CriteoGoogleAdapterTests.a */; };
+		CF6AE25E24CEB22F00E00CDA /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF6AE25D24CEB22F00E00CDA /* CriteoPublisherSdk.framework */; };
 		DF4356A8230485FA0051AC45 /* CRBannerCustomEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DF4356A7230485FA0051AC45 /* CRBannerCustomEventTests.m */; };
 		DF4356B12304E7B30051AC45 /* CriteoGoogleAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54FC7DA022F4136100202164 /* CriteoGoogleAdapter.framework */; };
 		DFC3F49B23035A9200318644 /* CRBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = DFC3F49923035A9100318644 /* CRBannerCustomEvent.m */; };
@@ -45,6 +46,7 @@
 		54FC7DBB22F4147100202164 /* CRInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialCustomEvent.m; sourceTree = "<group>"; };
 		95644F837BB2E093B4851A33 /* Pods-CriteoGoogleAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapter.release.xcconfig"; path = "../../Pods/Target Support Files/Pods-CriteoGoogleAdapter/Pods-CriteoGoogleAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		BF43AF45DE0BEECB9A9247A6 /* libPods-CriteoGoogleAdapterTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoGoogleAdapterTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF6AE25D24CEB22F00E00CDA /* CriteoPublisherSdk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CriteoPublisherSdk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF4356A7230485FA0051AC45 /* CRBannerCustomEventTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRBannerCustomEventTests.m; sourceTree = "<group>"; };
 		DFC3F49923035A9100318644 /* CRBannerCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRBannerCustomEvent.m; sourceTree = "<group>"; };
 		DFC3F49A23035A9100318644 /* CRBannerCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRBannerCustomEvent.h; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF6AE25E24CEB22F00E00CDA /* CriteoPublisherSdk.framework in Frameworks */,
 				DF4356B12304E7B30051AC45 /* CriteoGoogleAdapter.framework in Frameworks */,
 				A36837911ADA01CEDFA729A9 /* libPods-CriteoGoogleAdapterTests.a in Frameworks */,
 			);
@@ -80,6 +83,7 @@
 		3CF2926D760C675680C3BA20 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CF6AE25D24CEB22F00E00CDA /* CriteoPublisherSdk.framework */,
 				DFC3F4A323035EF500318644 /* CriteoPublisherSdk.framework */,
 				26D9C65D4FFAA50128EE5DB4 /* libPods-CriteoGoogleAdapter.a */,
 				BF43AF45DE0BEECB9A9247A6 /* libPods-CriteoGoogleAdapterTests.a */,
