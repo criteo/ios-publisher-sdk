@@ -88,7 +88,7 @@
 
   self.adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adUnitForValid" width:300 height:250];
   self.adUnit2 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adUnitForValid2" width:300 height:250];
-  self.cdbRequest = [[CR_CdbRequest alloc] initWithAdUnits:@[ self.adUnit ]];
+  self.cdbRequest = [[CR_CdbRequest alloc] initWithProfileId:@42 adUnits:@[ self.adUnit ]];
   self.impressionId = [self.cdbRequest impressionIdForAdUnit:self.adUnit];
   self.impressionId2 = [self.cdbRequest impressionIdForAdUnit:self.adUnit2];
   self.validBid = CR_CdbBidBuilder.new.adUnit(self.adUnit).impressionId(self.impressionId).build;
@@ -100,7 +100,7 @@
                                                                 width:300
                                                                height:250];
   self.cdbRequestForInvalidBid =
-      [[CR_CdbRequest alloc] initWithAdUnits:@[ self.adUnitForInvalidBid ]];
+      [[CR_CdbRequest alloc] initWithProfileId:@42 adUnits:@[ self.adUnitForInvalidBid ]];
   self.impressionIdForInvalidBid =
       [self.cdbRequestForInvalidBid impressionIdForAdUnit:self.adUnitForInvalidBid];
   self.invalidBid = CR_CdbBidBuilder.new.adUnit(self.adUnitForInvalidBid)

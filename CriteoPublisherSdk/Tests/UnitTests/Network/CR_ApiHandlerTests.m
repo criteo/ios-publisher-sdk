@@ -410,7 +410,7 @@
   [self callCdb];
 
   XCTAssertEqualObjects(self.cdbPayload[CR_ApiQueryKeys.sdkVersion], self.configMock.sdkVersion);
-  XCTAssertEqualObjects(self.cdbPayload[CR_ApiQueryKeys.profileId], self.configMock.profileId);
+  XCTAssertEqualObjects(self.cdbPayload[CR_ApiQueryKeys.profileId], @42);
 }
 
 - (void)testCdbCallContainsPublisherInfo {

@@ -113,10 +113,12 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
     return;
   }
 
+  NSNumber *profileId = self.integrationRegistry.profileId;
   NSArray<CR_CacheAdUnitArray *> *adUnitChunks =
       [requestAdUnits cr_splitIntoChunks:maxAdUnitsPerCdbRequest];
   for (CR_CacheAdUnitArray *adUnitChunk in adUnitChunks) {
-    CR_CdbRequest *cdbRequest = [[CR_CdbRequest alloc] initWithAdUnits:adUnitChunk];
+    CR_CdbRequest *cdbRequest = [[CR_CdbRequest alloc] initWithProfileId:profileId
+                                                                 adUnits:adUnitChunk];
 
     if (beforeCdbCall) {
       beforeCdbCall(cdbRequest);
