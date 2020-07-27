@@ -25,6 +25,7 @@
 #import "CR_ApiHandler.h"
 #import "Logging.h"
 #import "CR_FeedbackFeatureGuard.h"
+#import "CR_IntegrationRegistry.h"
 
 @interface CR_FeedbackController ()
 
@@ -69,8 +70,9 @@
 - (void)onCdbCallStarted:(CR_CdbRequest *)request {
   NSString *requestGroupId = [CR_UniqueIdGenerator generateId];
   for (NSString *impressionId in request.impressionIds) {
-    [self.feedbackStorage setCdbStartAndImpressionIdForImpressionId:impressionId
-                                                     requestGroupId:requestGroupId];
+    [self.feedbackStorage setCdbStartForImpressionId:impressionId
+                                           profileId:request.profileId
+                                      requestGroupId:requestGroupId];
   }
 }
 
@@ -111,18 +113,28 @@
 }
 
 - (void)sendFeedbackBatch {
-  NSArray<CR_FeedbackMessage *> *feedbackMessages = [self.feedbackStorage popMessagesToSend];
-  if (feedbackMessages.count == 0) {
-    return;
-  }
+  NSArray<CR_FeedbackMessage *> *messages = [self.feedbackStorage popMessagesToSend];
+  NSDictionary<NSNumber *, NSArray<CR_FeedbackMessage *> *> *messagesByProfileId =
+      [messages cr_groupByKey:^NSNumber *(CR_FeedbackMessage *message) {
+        return message.profileId ?: @(CR_IntegrationFallback);
+      }];
+  [messagesByProfileId
+      enumerateKeysAndObjectsUsingBlock:^(NSNumber *profileId,
+                                          NSArray<CR_FeedbackMessage *> *messages_, BOOL *stop) {
+        [self sendFeedbacks:messages_ profileId:profileId];
+      }];
+}
 
+- (void)sendFeedbacks:(NSArray<CR_FeedbackMessage *> *)messages profileId:(NSNumber *)profileId {
+  NSArray<CR_FeedbackMessage *> *messagesToRollback = messages;
   [self.apiHandler
-      sendFeedbackMessages:feedbackMessages
+      sendFeedbackMessages:messagesToRollback
                     config:self.config
+                 profileId:profileId
          completionHandler:^(NSError *error) {
            if (error) {
              CLog(@"CSM sending was failed with error: %@", error.localizedDescription);
-             [self.feedbackStorage pushMessagesToSend:feedbackMessages];
+             [self.feedbackStorage pushMessagesToSend:messagesToRollback];
            }
          }];
 }

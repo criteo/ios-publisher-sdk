@@ -37,6 +37,9 @@
 @property(nonatomic, strong) NSMutableArray<NSDate *> *mockedDates;
 @property(nonatomic, strong) OCMockObject *nsDate;
 
+@property(nonatomic, strong) NSMutableArray<NSNumber *> *mockedProfileIds;
+@property(nonatomic, strong) CR_IntegrationRegistry *integrationRegistry;
+
 @property(nonatomic, strong) NSMutableArray<NSString *> *mockedGeneratedIds;
 @property(nonatomic, strong) OCMockObject *uniqueIdGenerator;
 
@@ -59,6 +62,7 @@
   self.apiHandler = OCMClassMock([CR_ApiHandler class]);
   self.config = [[CR_Config alloc] init];
 
+  [self setUpMockedIntegrationRegistry];
   [self setUpMockedUniqueIdGenerator];
   [self setUpMockedClock];
   [self setUpFeedbackController];
@@ -74,7 +78,7 @@
   [self prepareDisabledCsm];
   [self prepareStrictMockedFeedbackStorage];
 
-  CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[ @"id" ]];
+  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42 impressionIds:@[ @"id" ]];
 
   [self.feedbackController onCdbCallStarted:request];
 
@@ -84,18 +88,24 @@
 - (void)testOnCdbCallStarted_GivenMultipleSlot_UpdateAllStartTimeAndRequestIdOfMetricsById {
   [self prepareEnabledCsm];
 
-  CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[ @"id1", @"id2" ]];
+  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
+                                                  impressionIds:@[ @"id1", @"id2" ]];
 
   [self prepareMockedClock:42];
+  NSNumber *profileId1 = @1337, *profileId2 = @4242;
+  [self prepareProfileIdGenerator:profileId1];
   [self prepareMockedIdGenerator:@"myRequestId"];
+  [self prepareProfileIdGenerator:profileId2];
   [self prepareMockedIdGenerator:@"shouldNotBeUsed"];
 
   CR_FeedbackMessage *expected1 = [[CR_FeedbackMessage alloc] init];
+  expected1.profileId = @42;
   expected1.requestGroupId = @"myRequestId";
   expected1.impressionId = @"id1";
   expected1.cdbCallStartTimestamp = @42000;
 
   CR_FeedbackMessage *expected2 = [[CR_FeedbackMessage alloc] init];
+  expected2.profileId = @42;
   expected2.requestGroupId = @"myRequestId";
   expected2.impressionId = @"id2";
   expected2.cdbCallStartTimestamp = @42000;
@@ -110,7 +120,7 @@
   [self prepareDisabledCsm];
   [self prepareStrictMockedFeedbackStorage];
 
-  CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[ @"id" ]];
+  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42 impressionIds:@[ @"id" ]];
   CR_CdbResponse *response = [[CR_CdbResponse alloc] init];
 
   [self.feedbackController onCdbCallResponse:response fromRequest:request];
@@ -122,7 +132,8 @@
   [self prepareEnabledCsm];
 
   CR_CdbRequest *request =
-      [self prepareCdbRequestWithSlots:@[ @"noBidId", @"invalidId", @"validId" ]];
+      [self prepareCdbRequestWithProfileId:@42
+                             impressionIds:@[ @"noBidId", @"invalidId", @"validId" ]];
 
   [self prepareMockedClock:1337];
 
@@ -153,7 +164,7 @@
   [self prepareDisabledCsm];
   [self prepareStrictMockedFeedbackStorage];
 
-  CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[ @"id" ]];
+  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42 impressionIds:@[ @"id" ]];
   NSError *error = [[NSError alloc] init];
 
   [self.feedbackController onCdbCallFailure:error fromRequest:request];
@@ -164,7 +175,8 @@
 - (void)testOnCdbCallFailure_GivenTimeoutError_UpdateAllForTimeout {
   [self prepareEnabledCsm];
 
-  CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[ @"id1", @"id2" ]];
+  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
+                                                  impressionIds:@[ @"id1", @"id2" ]];
 
   NSError *error = [[NSError alloc] initWithDomain:NSCocoaErrorDomain
                                               code:NSURLErrorTimedOut
@@ -187,7 +199,8 @@
 - (void)testOnCdbCallFailure_GivenNotATimeoutError_UpdateAllForNetworkError {
   [self prepareEnabledCsm];
 
-  CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[ @"id1", @"id2" ]];
+  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
+                                                  impressionIds:@[ @"id1", @"id2" ]];
 
   NSError *error = [[NSError alloc] initWithDomain:NSCocoaErrorDomain
                                               code:NSURLErrorNetworkConnectionLost
@@ -264,6 +277,13 @@
                                                     config:self.config];
 }
 
+- (void)setUpMockedIntegrationRegistry {
+  self.integrationRegistry = OCMClassMock([CR_IntegrationRegistry class]);
+  self.mockedProfileIds = [[NSMutableArray alloc] init];
+  OCMStub([(id)self.integrationRegistry profileId])
+      .andDo([self returnSequentialValues:self.mockedProfileIds]);
+}
+
 - (void)setUpMockedUniqueIdGenerator {
   self.uniqueIdGenerator = OCMClassMock([CR_UniqueIdGenerator class]);
   self.mockedGeneratedIds = [[NSMutableArray alloc] init];
@@ -277,7 +297,8 @@
   OCMStub([(id)self.nsDate date]).andDo([self returnSequentialValues:self.mockedDates]);
 }
 
-- (CR_CdbRequest *)prepareCdbRequestWithSlots:(NSArray<NSString *> *)impressionIds {
+- (CR_CdbRequest *)prepareCdbRequestWithProfileId:(NSNumber *)profileId
+                                    impressionIds:(NSArray<NSString *> *)impressionIds {
   NSMutableArray<CR_CacheAdUnit *> *adUnits = [[NSMutableArray alloc] init];
   for (NSUInteger i = 0; i < impressionIds.count; i++) {
     NSString *adUnitId = [NSString stringWithFormat:@"adUnit%lu", (unsigned long)i];
@@ -289,14 +310,18 @@
     [self prepareMockedIdGenerator:impressionIds[i]];
   }
 
-  CR_CdbRequest *request = [[CR_CdbRequest alloc] initWithProfileId:@42 adUnits:adUnits];
-
+  CR_CdbRequest *request = [[CR_CdbRequest alloc] initWithProfileId:profileId adUnits:adUnits];
+  [self prepareProfileIdGenerator:profileId];
   return request;
 }
 
 - (void)prepareMockedClock:(NSTimeInterval)dateInSeconds {
   NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:dateInSeconds];
   [self.mockedDates addObject:date];
+}
+
+- (void)prepareProfileIdGenerator:(NSNumber *)profileId {
+  [self.mockedProfileIds addObject:profileId];
 }
 
 - (void)prepareMockedIdGenerator:(NSString *)generatedId {

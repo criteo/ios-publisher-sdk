@@ -52,6 +52,7 @@
 - (void)testEmptySendingQueue_ShouldNotCallSendMethod {
   OCMReject([self.apiHandlerMock sendFeedbackMessages:[OCMArg any]
                                                config:[OCMArg any]
+                                            profileId:[OCMArg any]
                                     completionHandler:[OCMArg any]]);
 
   XCTAssertEqual(self.feedbackSendingQueue.size, 0);
@@ -69,12 +70,40 @@
   NSArray *messages = @[ message1, message2 ];
   OCMVerify([self.apiHandlerMock sendFeedbackMessages:messages
                                                config:[OCMArg any]
+                                            profileId:[OCMArg any]
                                     completionHandler:[OCMArg any]]);
+}
+
+- (void)testMultipleProfileIds_ShouldBeSentSeparatelyGrouped {
+  XCTAssertEqual(self.feedbackSendingQueue.size, 0);
+  CR_FeedbackMessage *message1 = [[CR_FeedbackMessage alloc] init];
+  message1.profileId = @(1);
+  CR_FeedbackMessage *message21 = [[CR_FeedbackMessage alloc] init];
+  message21.profileId = @(2);
+  CR_FeedbackMessage *message22 = [[CR_FeedbackMessage alloc] init];
+  message22.profileId = @(2);
+  [self.feedbackSendingQueue add:message1];
+  [self.feedbackSendingQueue add:message21];
+  [self.feedbackSendingQueue add:message22];
+
+  NSArray *messages1 = @[ message1 ];
+  OCMExpect([self.apiHandlerMock sendFeedbackMessages:messages1
+                                               config:[OCMArg any]
+                                            profileId:@1
+                                    completionHandler:[OCMArg any]]);
+  NSArray *messages2 = @[ message21, message22 ];
+  OCMExpect([self.apiHandlerMock sendFeedbackMessages:messages2
+                                               config:[OCMArg any]
+                                            profileId:@2
+                                    completionHandler:[OCMArg any]]);
+  [self.bidManager prefetchBid:self.adUnit];
+  OCMVerifyAll(self.apiHandlerMock);
 }
 
 - (void)testSuccessfulSending_ShouldClearSendingQueue {
   OCMStub([self.apiHandlerMock sendFeedbackMessages:[OCMArg any]
                                              config:[OCMArg any]
+                                          profileId:[OCMArg any]
                                   completionHandler:[OCMArg invokeBlock]]);
   XCTAssertEqual(self.feedbackSendingQueue.size, 0);
   [self.feedbackSendingQueue add:[[CR_FeedbackMessage alloc] init]];
@@ -88,6 +117,7 @@
   id completeionWithError = [OCMArg invokeBlockWithArgs:error, nil];
   OCMStub([self.apiHandlerMock sendFeedbackMessages:[OCMArg any]
                                              config:[OCMArg any]
+                                          profileId:[OCMArg any]
                                   completionHandler:completeionWithError]);
   XCTAssertEqual(self.feedbackSendingQueue.size, 0);
   [self.feedbackSendingQueue add:[[CR_FeedbackMessage alloc] init]];

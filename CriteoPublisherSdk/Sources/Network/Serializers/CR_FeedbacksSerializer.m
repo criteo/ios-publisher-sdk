@@ -25,7 +25,8 @@
 @implementation CR_FeedbacksSerializer
 
 - (NSDictionary *)postBodyForCsm:(NSArray<CR_FeedbackMessage *> *)messages
-                          config:(CR_Config *)config {
+                          config:(CR_Config *)config
+                       profileId:(NSNumber *)profileId {
   NSMutableDictionary *postBody = [[NSMutableDictionary alloc] init];
   NSMutableArray *feedbacks = [[NSMutableArray alloc] init];
   for (CR_FeedbackMessage *message in messages) {
@@ -33,7 +34,7 @@
   }
   postBody[CR_ApiQueryKeys.feedbacks] = feedbacks;
   postBody[CR_ApiQueryKeys.wrapperVersion] = [config sdkVersion];
-  postBody[CR_ApiQueryKeys.profile_id] = [config profileId];
+  postBody[CR_ApiQueryKeys.profile_id] = profileId;
   return postBody;
 }
 
@@ -47,12 +48,12 @@
   feedbackDict[CR_ApiQueryKeys.requestGroupId] = message.requestGroupId;
 
   feedbackDict[CR_ApiQueryKeys.cdbCallEndElapsed] =
-      [self.class substractionWithNumber1:message.cdbCallEndTimestamp
-                                  number2:message.cdbCallStartTimestamp];
+      [self.class subtractionWithNumber1:message.cdbCallEndTimestamp
+                                 number2:message.cdbCallStartTimestamp];
 
   feedbackDict[CR_ApiQueryKeys.feedbackElapsed] =
-      [self.class substractionWithNumber1:message.elapsedTimestamp
-                                  number2:message.cdbCallStartTimestamp];
+      [self.class subtractionWithNumber1:message.elapsedTimestamp
+                                 number2:message.cdbCallStartTimestamp];
 
   return feedbackDict;
 }
@@ -64,7 +65,7 @@
   return slotDict;
 }
 
-+ (NSNumber *)substractionWithNumber1:(NSNumber *)number1 number2:(NSNumber *)number2 {
++ (NSNumber *)subtractionWithNumber1:(NSNumber *)number1 number2:(NSNumber *)number2 {
   if (number1 != nil) {
     return @([number1 integerValue] - [number2 integerValue]);
   }

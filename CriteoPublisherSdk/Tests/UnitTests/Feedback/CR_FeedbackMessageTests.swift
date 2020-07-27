@@ -88,6 +88,7 @@ class CR_FeedbackMessageTests : XCTestCase {
 
     private func createFullyFilledFeedbackMessage() -> CR_FeedbackMessage {
         let result = CR_FeedbackMessage()
+        result.profileId = 42
         result.impressionId = "impression id value"
         result.cdbCallStartTimestamp = 100
         result.cdbCallEndTimestamp = 200
