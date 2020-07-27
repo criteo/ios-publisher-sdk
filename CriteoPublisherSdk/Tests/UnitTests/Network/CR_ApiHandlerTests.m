@@ -744,7 +744,6 @@
   CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
   OCMStub([mockConfig criteoPublisherId]).andReturn(@("1"));
   OCMStub([mockConfig sdkVersion]).andReturn(@"1.0");
-  OCMStub([mockConfig profileId]).andReturn(@(235));
   OCMStub([mockConfig cdbUrl]).andReturn(@"https://dummyCdb.com");
   OCMStub([mockConfig path]).andReturn(@"inApp");
   OCMStub([mockConfig appId]).andReturn(@"com.criteo.sdk.publisher");
