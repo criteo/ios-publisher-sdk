@@ -95,7 +95,9 @@
 }
 
 - (CR_ConfigManager *)configManager {
-  return CR_LAZY(_configManager, [[CR_ConfigManager alloc] initWithApiHandler:self.apiHandler]);
+  return CR_LAZY(_configManager,
+                 [[CR_ConfigManager alloc] initWithApiHandler:self.apiHandler
+                                          integrationRegistry:self.integrationRegistry]);
 }
 
 - (CR_DeviceInfo *)deviceInfo {
