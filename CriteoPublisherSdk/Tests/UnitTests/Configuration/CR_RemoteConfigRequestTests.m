@@ -32,16 +32,17 @@
   OCMStub(config.criteoPublisherId).andReturn(@"myCpId");
   OCMStub(config.sdkVersion).andReturn(@"1.3.3.7");
   OCMStub(config.appId).andReturn(@"myAppId");
-  OCMStub(config.profileId).andReturn(@42);
+  NSNumber *profileId = @42;
 
-  CR_RemoteConfigRequest *request = [CR_RemoteConfigRequest requestWithConfig:config];
+  CR_RemoteConfigRequest *request = [CR_RemoteConfigRequest requestWithConfig:config
+                                                                    profileId:profileId];
   NSDictionary *postBody = request.postBody;
 
   NSDictionary *expected = @{
     @"cpId" : @"myCpId",
     @"bundleId" : @"myAppId",
     @"sdkVersion" : @"1.3.3.7",
-    @"rtbProfileId" : @42
+    @"rtbProfileId" : profileId
   };
 
   XCTAssertEqualObjects(postBody, expected);

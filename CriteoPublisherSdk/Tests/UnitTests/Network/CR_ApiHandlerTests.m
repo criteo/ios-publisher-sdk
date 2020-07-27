@@ -215,9 +215,9 @@
   OCMStub([mockConfig sdkVersion]).andReturn(@"1.0");
   OCMStub([mockConfig appId]).andReturn(@"com.criteo.sdk.publisher");
   OCMStub([mockConfig configUrl]).andReturn(@"https://url-for-getting-config");
-  OCMStub([mockConfig profileId]).andReturn(@42);
 
-  CR_RemoteConfigRequest *request = [CR_RemoteConfigRequest requestWithConfig:mockConfig];
+  CR_RemoteConfigRequest *request = [CR_RemoteConfigRequest requestWithConfig:mockConfig
+                                                                    profileId:@42];
 
   CR_ApiHandler *apiHandler =
       [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager
