@@ -35,6 +35,7 @@
 @class CR_FeedbackStorage;
 @class CR_ThreadManager;
 @class CR_RemoteConfigRequest;
+@class CR_IntegrationRegistry;
 
 typedef void (^CR_CdbCompletionHandler)(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse,
                                         NSError *error);
@@ -50,7 +51,9 @@ typedef void (^CR_CsmCompletionHandler)(NSError *error);
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithNetworkManager:(CR_NetworkManager *)networkManager
                        bidFetchTracker:(CR_BidFetchTracker *)bidFetchTracker
-                         threadManager:(CR_ThreadManager *)threadManager NS_DESIGNATED_INITIALIZER;
+                         threadManager:(CR_ThreadManager *)threadManager
+                   integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry
+    NS_DESIGNATED_INITIALIZER;
 
 /**
  * Calls CDB and get the bid & creative for the adUnit
