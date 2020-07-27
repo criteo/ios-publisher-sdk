@@ -26,6 +26,8 @@
 #import "CR_TokenValue.h"
 #import "NSURL+Criteo.h"
 #import "CR_URLOpening.h"
+#import "CR_IntegrationRegistry.h"
+#import "CR_DependencyProvider.h"
 
 // TODO check import strategy
 @import WebKit;
@@ -101,6 +103,8 @@
 }
 
 - (void)loadAd {
+  [self.integrationRegistry declare:CR_IntegrationStandalone];
+
   self.isResponseValid = NO;
   CR_CacheAdUnit *cacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:_adUnit.adUnitId
                                                                     size:self.frame.size
@@ -226,6 +230,10 @@
       [self.delegate banner:self didFailToReceiveAdWithError:error];
     }
   });
+}
+
+- (CR_IntegrationRegistry *)integrationRegistry {
+  return self.criteo.dependencyProvider.integrationRegistry;
 }
 
 @end

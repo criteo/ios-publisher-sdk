@@ -30,6 +30,7 @@
 #import "CR_URLOpening.h"
 #import "CR_DependencyProvider.h"
 #import "CR_DisplaySizeInjector.h"
+#import "CR_IntegrationRegistry.h"
 
 @import WebKit;
 
@@ -98,6 +99,8 @@
 }
 
 - (void)loadAd {
+  [self.integrationRegistry declare:CR_IntegrationStandalone];
+
   if (![self checkSafeToLoad]) {
     return;
   }
@@ -331,6 +334,10 @@
 
 - (CR_DisplaySizeInjector *)displaySizeInjector {
   return _criteo.dependencyProvider.displaySizeInjector;
+}
+
+- (CR_IntegrationRegistry *)integrationRegistry {
+  return _criteo.dependencyProvider.integrationRegistry;
 }
 
 @end

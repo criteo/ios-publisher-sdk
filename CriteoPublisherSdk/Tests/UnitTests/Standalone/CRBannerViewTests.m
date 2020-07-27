@@ -33,6 +33,7 @@
 #import "CR_TokenValue+Testing.h"
 #import "XCTestCase+Criteo.h"
 #import "CR_DependencyProvider+Testing.h"
+#import "CR_IntegrationRegistry.h"
 
 @import WebKit;
 
@@ -43,6 +44,7 @@
 @property(nonatomic, strong) CRBannerAdUnit *adUnit;
 @property(strong, nonatomic) CR_URLOpenerMock *urlOpener;
 @property(strong, nonatomic) Criteo *criteo;
+@property(strong, nonatomic) CR_IntegrationRegistry *integrationRegistry;
 
 @end
 
@@ -55,7 +57,11 @@
   self.adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"123" size:CGSizeMake(47.0, 57.0)];
   self.urlOpener = [[CR_URLOpenerMock alloc] init];
 
+  self.integrationRegistry = OCMClassMock([CR_IntegrationRegistry class]);
+
   CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
+  dependencyProvider.integrationRegistry = self.integrationRegistry;
+
   self.criteo = OCMPartialMock([Criteo.alloc initWithDependencyProvider:dependencyProvider]);
 }
 
@@ -82,6 +88,7 @@
       containsString:
           @"<script src=\"https://rdi.eu.criteo.com/delivery/r/ajs.php?did=5c98e9d9c574a3589f8e9465fce67b00&u=%7Cx8O2jgV2RMISbZvm2b09FrpmynuoN27jeqtp1aMfZdU%3D%7C&c1=oP5_e7JVVt0EkjVehxP6aIOIWS-fm2fzhyMXUboeuR1zkGydE3HlloxT1QAbHNNgeH7t9e1IR6mv0biMxm46ZSFdAXZXreJVeP6QwU8IPLUsA32HNafhqgpnKTwmx9RrrJm4CS5Wqj07vNY7UTgDei8AWqc5CGPT2wm7W02JRvgN2kA-oWbWifmmm6EPpqVZijDHDzXwaNgzrfsaEodEmYAjFepGF0mdElHoFUCPKuOtc7mUQijLG0BSS9RhwrCTcAv42KkEQ359Et_eDnQcSt9OAF3bL64QIvLQxt2ekYFNuv3zng03qL0DIHS2bDJwRb3ieUlvZCWHI49OqM5PqoGDpSzdhdwfTE18L6cOOVKqPQ0dPofN4dkSs9IbVGiYlPnjfibL88PwTspYvki2svidSDIa2agQMHVgEof8YY4x4VgPjA8XY-s93ttw_i-RN3lcQn2mGEp6FYmRsyjFEDxHgGfJ0j6U\"></script>"]);
   XCTAssertEqualObjects([NSURL URLWithString:@"https://criteo.com"], mockWebView.loadedBaseURL);
+  OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
 }
 
 - (void)testWebViewAddedToViewHierarchy {
@@ -148,6 +155,7 @@
   [bannerView loadAd];
 
   OCMVerify([self.criteo getBid:[self expectedCacheAdUnit]]);
+  OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
 }
 
 // TODO: UITests for "click" on a "real" webview with a real link

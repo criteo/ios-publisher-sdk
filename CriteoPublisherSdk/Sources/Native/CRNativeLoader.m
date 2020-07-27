@@ -36,6 +36,7 @@
 #import "CR_URLOpening.h"
 #import "CR_DependencyProvider.h"
 #import "CR_NetworkManager.h"
+#import "CR_IntegrationRegistry.h"
 
 @implementation CRNativeLoader
 
@@ -132,6 +133,8 @@
 }
 
 - (void)unsafeLoadAd {
+  [self.integrationRegistry declare:CR_IntegrationStandalone];
+
   if (!self.canConsumeBid) {
     return;
   }
@@ -172,6 +175,10 @@
 
 - (CR_ThreadManager *)threadManager {
   return self.criteo.dependencyProvider.threadManager;
+}
+
+- (CR_IntegrationRegistry *)integrationRegistry {
+  return self.criteo.dependencyProvider.integrationRegistry;
 }
 
 #pragma mark - Delegate call

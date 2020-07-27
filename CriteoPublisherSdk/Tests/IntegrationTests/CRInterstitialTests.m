@@ -38,6 +38,7 @@
 #import "NSURL+Criteo.h"
 #import "CR_DependencyProvider+Testing.h"
 #import "CR_DisplaySizeInjector.h"
+#import "CR_IntegrationRegistry.h"
 
 @interface CRInterstitialTests : XCTestCase
 
@@ -46,6 +47,7 @@
 @property(nonatomic, strong) Criteo *criteo;
 @property(nonatomic, strong) CR_URLOpenerMock *urlOpener;
 @property(nonatomic, strong) CR_DisplaySizeInjector *displaySizeInjector;
+@property(nonatomic, strong) CR_IntegrationRegistry *integrationRegistry;
 
 @end
 
@@ -59,10 +61,12 @@
 
   self.urlOpener = CR_URLOpenerMock.new;
 
-  CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
-
   self.displaySizeInjector = OCMClassMock([CR_DisplaySizeInjector class]);
+  self.integrationRegistry = OCMClassMock([CR_IntegrationRegistry class]);
+
+  CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
   dependencyProvider.displaySizeInjector = self.displaySizeInjector;
+  dependencyProvider.integrationRegistry = self.integrationRegistry;
 
   self.criteo = OCMPartialMock([Criteo.alloc initWithDependencyProvider:dependencyProvider]);
 }
@@ -84,6 +88,7 @@
   XCTAssertTrue(
       [mockWebView.loadedHTMLString containsString:@"<script src=\"test?safearea\"></script>"]);
   XCTAssertEqualObjects([NSURL URLWithString:@"https://criteo.com"], mockWebView.loadedBaseURL);
+  OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
 }
 
 - (void)testTemplatingFromConfig {
@@ -199,6 +204,7 @@
   [interstitial loadAd];
 
   OCMVerify([self.criteo getBid:[self expectedCacheAdUnit]]);
+  OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
 }
 
 // TODO: UITests for "click" on a "real" webview with a real link
