@@ -112,8 +112,7 @@
   [self.criteo.testing_networkCaptor setRequestListener:^(NSURL *url, CR_HTTPVerb verb,
                                                           NSDictionary *body) {
     if ([url.absoluteString containsString:config.configUrl] &&
-        [self query:url.query hasParamKey:CR_ApiQueryKeys.appId withValue:appIdValue] &&
-        [self query:url.query hasParamKey:CR_ApiQueryKeys.sdkVersion withValue:config.sdkVersion]) {
+        [body[@"bundleId"] isEqual:appIdValue] && [body[@"sdkVersion"] isEqual:config.sdkVersion]) {
       [expectation fulfill];
     }
   }];

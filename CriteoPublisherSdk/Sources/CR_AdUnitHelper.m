@@ -22,6 +22,9 @@
 #import "CRAdUnit+Internal.h"
 #import "CR_DeviceInfo.h"
 #import "Logging.h"
+#import "Criteo.h"
+#import "Criteo+Internal.h"
+#import "CR_DependencyProvider.h"
 
 @implementation CR_AdUnitHelper
 
@@ -44,7 +47,7 @@ static const CGSize nativeSize = {2.0, 2.0};
                                            adUnitType:CRAdUnitTypeBanner];
     case CRAdUnitTypeInterstitial:
       return [CR_CacheAdUnit cacheAdUnitForInterstialWithAdUnitId:adUnit.adUnitId
-                                                             size:[CR_DeviceInfo getScreenSize]];
+                                                             size:self.deviceInfo.screenSize];
     case CRAdUnitTypeNative:
       return [[CR_CacheAdUnit alloc] initWithAdUnitId:adUnit.adUnitId
                                                  size:nativeSize
@@ -53,6 +56,12 @@ static const CGSize nativeSize = {2.0, 2.0};
       CLog(@"cacheAdUnitsFromAdUnits got an unexpected AdUnitType: %d", [adUnit adUnitType]);
       return nil;
   }
+}
+
+#pragma - Private
+
++ (CR_DeviceInfo *)deviceInfo {
+  return Criteo.sharedCriteo.dependencyProvider.deviceInfo;
 }
 
 @end

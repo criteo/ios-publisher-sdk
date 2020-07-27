@@ -1,5 +1,5 @@
 //
-//  NSString+CriteoUrl.h
+//  CR_RemoteConfigRequest.h
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -19,27 +19,16 @@
 
 #import <Foundation/Foundation.h>
 
+@class CR_Config;
+
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSString (CriteoUrl)
+@interface CR_RemoteConfigRequest : NSObject
 
-+ (nullable NSString *)cr_dfpCompatibleString:(nullable NSString *)string;
-+ (nullable NSString *)cr_decodeDfpCompatibleString:(nullable NSString *)string;
+@property(copy, nonatomic, readonly) NSString *configUrl;
+@property(copy, nonatomic, readonly) NSDictionary *postBody;
 
-/**
- Build an URL query params to append to a base URL.
- */
-+ (NSString *)cr_urlQueryParamsWithDictionary:(NSDictionary<NSString *, NSString *> *)dictionary;
-
-/**
- Extract and return the URL query param as dictionary.
- */
-- (nullable NSDictionary<NSString *, NSString *> *)cr_urlQueryParamsDictionary;
-
-/**
-Escape special characters for safe URL parameters.
-*/
-- (NSString *)cr_urlEncode;
++ (instancetype)requestWithConfig:(CR_Config *)config;
 
 @end
 

@@ -1,5 +1,5 @@
 //
-//  NSString+CriteoUrl.h
+//  CR_IntegrationRegistry.h
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -19,27 +19,29 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSInteger, CR_IntegrationType) {
+  CR_IntegrationFallback = 235,
+
+  CR_IntegrationStandalone = 295,
+  CR_IntegrationInHouse = 296,
+  // Mediation
+  CR_IntegrationMopubMkediation = 297,
+  CR_IntegrationAdmobMediation = 298,
+  // AppBidding
+  CR_IntegrationMopubAppBidding = 299,
+  CR_IntegrationGamAppBidding = 300,
+  CR_IntegrationCustomAppBidding = 301
+};
+
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSString (CriteoUrl)
+@interface CR_IntegrationRegistry : NSObject
 
-+ (nullable NSString *)cr_dfpCompatibleString:(nullable NSString *)string;
-+ (nullable NSString *)cr_decodeDfpCompatibleString:(nullable NSString *)string;
+@property(copy, nonatomic, readonly) NSNumber *profileId;
 
-/**
- Build an URL query params to append to a base URL.
- */
-+ (NSString *)cr_urlQueryParamsWithDictionary:(NSDictionary<NSString *, NSString *> *)dictionary;
+- (instancetype)initWithUserDefaults:(NSUserDefaults *)userDefaults NS_DESIGNATED_INITIALIZER;
 
-/**
- Extract and return the URL query param as dictionary.
- */
-- (nullable NSDictionary<NSString *, NSString *> *)cr_urlQueryParamsDictionary;
-
-/**
-Escape special characters for safe URL parameters.
-*/
-- (NSString *)cr_urlEncode;
+- (void)declare:(CR_IntegrationType)integrationType;
 
 @end
 

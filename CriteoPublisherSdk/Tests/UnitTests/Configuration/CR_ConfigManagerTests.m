@@ -41,8 +41,7 @@
   mockApiHandler = OCMStrictClassMock(CR_ApiHandler.class);
 
   self.userDefault = [[NSUserDefaults alloc] init];
-  self.configManager = [[CR_ConfigManager alloc] initWithApiHandler:mockApiHandler
-                                                        userDefault:self.userDefault];
+  self.configManager = [[CR_ConfigManager alloc] initWithApiHandler:mockApiHandler];
 }
 
 - (void)tearDown {
@@ -106,7 +105,7 @@
   NSData *dataResponse = [jsonResponse dataUsingEncoding:NSUTF8StringEncoding];
   NSDictionary *dictionaryResponse = [CR_Config getConfigValuesFromData:dataResponse];
 
-  OCMStub([mockApiHandler getConfig:localConfig
+  OCMStub([mockApiHandler getConfig:OCMOCK_ANY
                     ahConfigHandler:([OCMArg invokeBlockWithArgs:dictionaryResponse, nil])]);
 }
 

@@ -1,5 +1,5 @@
 //
-//  CR_ConfigManager.h
+//  CR_IntegrationRegistry.m
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -17,23 +17,34 @@
 // limitations under the License.
 //
 
-#ifndef CR_ConfigManager_h
-#define CR_ConfigManager_h
+#import "CR_IntegrationRegistry.h"
 
-#import <Foundation/Foundation.h>
-#import "CR_ApiHandler.h"
-#import "CR_Config.h"
+@interface CR_IntegrationRegistry ()
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface CR_ConfigManager : NSObject
-
-- (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithApiHandler:(CR_ApiHandler *)apiHandler NS_DESIGNATED_INITIALIZER;
-- (void)refreshConfig:(CR_Config *)config;
+@property(nonatomic, strong, readonly) NSUserDefaults *userDefaults;
 
 @end
 
-NS_ASSUME_NONNULL_END
+@implementation CR_IntegrationRegistry
 
-#endif /* CR_ConfigManager_h */
+- (instancetype)init {
+  return [self initWithUserDefaults:[NSUserDefaults standardUserDefaults]];
+}
+
+- (instancetype)initWithUserDefaults:(NSUserDefaults *)userDefaults {
+  if (self = [super init]) {
+    _userDefaults = userDefaults;
+  }
+  return self;
+}
+
+- (void)declare:(CR_IntegrationType)integrationType {
+  // TODO
+}
+
+- (NSNumber *)profileId {
+  // TODO
+  return @(CR_IntegrationFallback);
+}
+
+@end

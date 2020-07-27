@@ -1,4 +1,8 @@
 # Criteo Publisher SDK Changelog
+
+### Features
+- Consider safe area when displaying interstitial Ads for Standalone, In-House, MoPub AppBidding and
+  mediation adapters. DFP and Custom AppBidding are still always fullscreen.
 --------------------------------------------------------------------------------
 ## Version 4.0.0
 

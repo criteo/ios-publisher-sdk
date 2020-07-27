@@ -36,6 +36,8 @@
 #import "XCTestCase+Criteo.h"
 #import "CR_Timer.h"
 #import "NSURL+Criteo.h"
+#import "CR_DependencyProvider+Testing.h"
+#import "CR_DisplaySizeInjector.h"
 
 @interface CRInterstitialTests : XCTestCase {
   CR_CdbBid *_bid;
@@ -87,8 +89,12 @@
 }
 
 - (void)testInterstitialSuccess {
+  CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
+
   Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
   OCMStub(mockCriteo.config).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
+  OCMStub(mockCriteo.dependencyProvider).andReturn(dependencyProvider);
+
   MockWKWebView *mockWebView = [MockWKWebView new];
   CR_InterstitialViewController *interstitialVC =
       [[CR_InterstitialViewController alloc] initWithWebView:mockWebView view:nil interstitial:nil];
@@ -100,24 +106,40 @@
                                    urlOpener:[[CR_URLOpenerMock alloc] init]];
 
   id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
-  OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(320, 480));
+  OCMStub([deviceInfoClassMock screenSize]).andReturn(CGSizeMake(320, 480));
+  dependencyProvider.deviceInfo = deviceInfoClassMock;
+
+  CR_DisplaySizeInjector *displaySizeInjector = OCMClassMock([CR_DisplaySizeInjector class]);
+  OCMStub([displaySizeInjector injectSafeScreenSizeInDisplayUrl:@"test"])
+      .andReturn(@"test?safearea");
+  dependencyProvider.displaySizeInjector = displaySizeInjector;
 
   OCMExpect([mockCriteo getBid:[self expectedCacheAdUnit]])
       .andReturn([self bidWithDisplayURL:@"test"]);
 
   [interstitial loadAd];
 
-  XCTAssertTrue([mockWebView.loadedHTMLString containsString:@"<script src=\"test\"></script>"]);
+  XCTAssertTrue(
+      [mockWebView.loadedHTMLString containsString:@"<script src=\"test?safearea\"></script>"]);
   XCTAssertEqualObjects([NSURL URLWithString:@"https://criteo.com"], mockWebView.loadedBaseURL);
 }
 
 - (void)testTemplatingFromConfig {
   Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+
+  CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
+  OCMStub(mockCriteo.dependencyProvider).andReturn(dependencyProvider);
+
   CR_Config *config = [CR_Config new];
   config.adTagUrlMode = @"Good Morning, my width is #WEEDTH# and my URL is ˆURLˆ";
   config.viewportWidthMacro = @"#WEEDTH#";
   config.displayURLMacro = @"ˆURLˆ";
   OCMExpect(mockCriteo.config).andReturn(config);
+
+  CR_DisplaySizeInjector *displaySizeInjector = OCMClassMock([CR_DisplaySizeInjector class]);
+  OCMStub([displaySizeInjector injectSafeScreenSizeInDisplayUrl:@"whatDoYouMean"])
+      .andReturn(@"myUrl");
+  dependencyProvider.displaySizeInjector = displaySizeInjector;
 
   MockWKWebView *mockWebView = [MockWKWebView new];
   CR_InterstitialViewController *interstitialVC =
@@ -133,7 +155,7 @@
   [interstitial loadAd];
 
   NSString *expectedHtml =
-      [NSString stringWithFormat:@"Good Morning, my width is %ld and my URL is whatDoYouMean",
+      [NSString stringWithFormat:@"Good Morning, my width is %ld and my URL is myUrl",
                                  (long)[UIScreen mainScreen].bounds.size.width];
 
   XCTAssertEqualObjects(mockWebView.loadedHTMLString, expectedHtml);
@@ -164,8 +186,12 @@
 }
 
 - (void)testWithRendering {
+  CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
+
   Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+  OCMStub(mockCriteo.dependencyProvider).andReturn(dependencyProvider);
   OCMStub(mockCriteo.config).andReturn([[CR_Config alloc] initWithCriteoPublisherId:@"123"]);
+
   WKWebView *realWebView = [WKWebView new];
   CR_InterstitialViewController *interstitialVC =
       [[CR_InterstitialViewController alloc] initWithWebView:realWebView view:nil interstitial:nil];
@@ -179,7 +205,8 @@
   CR_CdbBid *bid = [self bidWithDisplayURL:@"test"];
 
   id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
-  OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(320, 480));
+  OCMStub([deviceInfoClassMock screenSize]).andReturn(CGSizeMake(320, 480));
+  dependencyProvider.deviceInfo = deviceInfoClassMock;
 
   XCTestExpectation __block *marginExpectation =
       [self expectationWithDescription:@"WebView body has 0px margin"];
@@ -225,7 +252,11 @@
 }
 
 - (void)testInterstitialFail {
+  CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
+
   Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+  OCMStub(mockCriteo.dependencyProvider).andReturn(dependencyProvider);
+
   CR_InterstitialViewController *interstitialVC =
       OCMStrictClassMock([CR_InterstitialViewController class]);
   WKWebView *realWebView = [WKWebView new];
@@ -238,7 +269,8 @@
                                    urlOpener:[[CR_URLOpenerMock alloc] init]];
 
   id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
-  OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(320, 480));
+  OCMStub([deviceInfoClassMock screenSize]).andReturn(CGSizeMake(320, 480));
+  dependencyProvider.deviceInfo = deviceInfoClassMock;
 
   OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([CR_CdbBid emptyBid]);
   OCMStub([interstitialVC presentingViewController]).andReturn(nil);

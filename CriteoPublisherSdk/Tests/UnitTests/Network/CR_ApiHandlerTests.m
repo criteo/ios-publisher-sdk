@@ -39,6 +39,7 @@
 #import "NSString+CriteoUrl.h"
 #import "CriteoPublisherSdkTests-Swift.h"
 #import "XCTestCase+Criteo.h"
+#import "CR_RemoteConfigRequest.h"
 
 #define CR_AssertLastAppEventUrlContains(name, val)                         \
   do {                                                                      \
@@ -202,21 +203,25 @@
   // OCM substitues "[NSNull null]" to nil at runtime
   id error = [NSNull null];
 
-  OCMStub([mockNetworkManager getFromUrl:[OCMArg isKindOfClass:[NSURL class]]
-                         responseHandler:([OCMArg invokeBlockWithArgs:responseData, error, nil])]);
+  OCMStub([mockNetworkManager postToUrl:OCMOCK_ANY
+                               postBody:OCMOCK_ANY
+                        responseHandler:([OCMArg invokeBlockWithArgs:responseData, error, nil])]);
 
   CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
   OCMStub([mockConfig criteoPublisherId]).andReturn(@("1"));
   OCMStub([mockConfig sdkVersion]).andReturn(@"1.0");
   OCMStub([mockConfig appId]).andReturn(@"com.criteo.sdk.publisher");
   OCMStub([mockConfig configUrl]).andReturn(@"https://url-for-getting-config");
+  OCMStub([mockConfig profileId]).andReturn(@42);
+
+  CR_RemoteConfigRequest *request = [CR_RemoteConfigRequest requestWithConfig:mockConfig];
 
   CR_ApiHandler *apiHandler =
       [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager
                                     bidFetchTracker:[CR_BidFetchTracker new]
                                       threadManager:[[CR_ThreadManager alloc] init]];
 
-  [apiHandler getConfig:mockConfig
+  [apiHandler getConfig:request
         ahConfigHandler:^(NSDictionary *configValues) {
           CLog(@"Data length is %ld", [configValues count]);
           XCTAssertNotNil(configValues);

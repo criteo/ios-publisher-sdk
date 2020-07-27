@@ -19,6 +19,7 @@
 
 #import <WebKit/WebKit.h>
 #import <AdSupport/ASIdentifierManager.h>
+#import <UIKit/UIKit.h>
 #import "CR_DeviceInfo.h"
 #import "CR_ThreadManager.h"
 #import "Logging.h"
@@ -129,12 +130,20 @@
   return _deviceId;
 }
 
-+ (CGSize)getScreenSize {
+- (CGSize)screenSize {
   return [UIScreen mainScreen].bounds.size;
 }
 
-+ (BOOL)validScreenSize:(CGSize)size {
-  CGSize currentScreenSize = [CR_DeviceInfo getScreenSize];
+- (CGSize)safeScreenSize {
+  if (@available(iOS 11.0, *)) {
+    UIWindow *keyWindow = UIApplication.sharedApplication.keyWindow;
+    return keyWindow.safeAreaLayoutGuide.layoutFrame.size;
+  }
+  return self.screenSize;
+}
+
+- (BOOL)validScreenSize:(CGSize)size {
+  CGSize currentScreenSize = self.screenSize;
   return CGSizeEqualToSize(size, currentScreenSize) ||
          CGSizeEqualToSize(size, CGSizeMake(currentScreenSize.height, currentScreenSize.width));
 }

@@ -60,3 +60,10 @@ jobs:
     - name: Test
       run: |
         bundle exec fastlane test
+
+    - name: Tests reports upload
+      uses: actions/upload-artifact@v2
+      if: failure()
+      with:
+        name: tests-reports
+        path: "fastlane/test_output"

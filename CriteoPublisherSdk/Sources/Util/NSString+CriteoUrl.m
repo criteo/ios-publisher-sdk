@@ -62,10 +62,6 @@ static NSCharacterSet *allowedCharacters = nil;
   return decodedString;
 }
 
-+ (NSString *)cr_mopubCompatibleDisplayUrlForDisplayUrl:(nullable NSString *)displayUrl {
-  return displayUrl;
-}
-
 + (NSString *)cr_urlQueryParamsWithDictionary:(NSDictionary<NSString *, NSString *> *)dictionary {
   NSMutableArray<NSString *> *parts = [[NSMutableArray alloc] init];
   for (NSString *key in dictionary) {

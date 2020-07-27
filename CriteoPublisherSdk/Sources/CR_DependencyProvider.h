@@ -26,8 +26,9 @@
 @class CR_AppEvents;
 @class CR_DataProtectionConsent;
 @class CR_DeviceInfo;
-@class CR_ConfigManager;
+@class CR_IntegrationRegistry;
 @class CR_Config;
+@class CR_ConfigManager;
 @class CR_TokenCache;
 @class CR_CacheManager;
 @class CR_ApiHandler;
@@ -35,6 +36,7 @@
 @class CR_BidFetchTracker;
 @class CR_BidManager;
 @class CR_ImageCache;
+@class CR_DisplaySizeInjector;
 @protocol CRMediaDownloader;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -49,6 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) CR_ApiHandler *apiHandler;
 @property(nonatomic, strong) CR_CacheManager *cacheManager;
 @property(nonatomic, strong) CR_TokenCache *tokenCache;
+@property(nonatomic, strong) CR_IntegrationRegistry *integrationRegistry;
 @property(nonatomic, strong) CR_Config *config;
 @property(nonatomic, strong) CR_ConfigManager *configManager;
 @property(nonatomic, strong) CR_DeviceInfo *deviceInfo;
@@ -60,6 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) CR_BidManager *bidManager;
 @property(nonatomic, strong) id<CRMediaDownloader> mediaDownloader;
 @property(nonatomic, strong) CR_ImageCache *imageCache;
+@property(nonatomic, strong) CR_DisplaySizeInjector *displaySizeInjector;
 
 @end
 

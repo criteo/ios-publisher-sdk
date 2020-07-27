@@ -25,6 +25,7 @@
 #import "CR_CdbBid.h"
 #import "CR_HeaderBidding.h"
 #import "CR_DeviceInfoMock.h"
+#import "CR_DisplaySizeInjector.h"
 
 @interface CR_BidManagerHelperTests : XCTestCase
 
@@ -33,8 +34,10 @@
 @implementation CR_BidManagerHelperTests
 
 - (void)testRemoveCriteoBidFromMopubAdRequest {
+  CR_DisplaySizeInjector *displaySizeInjector = OCMClassMock([CR_DisplaySizeInjector class]);
   CR_DeviceInfoMock *device = [[CR_DeviceInfoMock alloc] init];
-  CR_HeaderBidding *headerBidding = [[CR_HeaderBidding alloc] initWithDevice:device];
+  CR_HeaderBidding *headerBidding = [[CR_HeaderBidding alloc] initWithDevice:device
+                                                         displaySizeInjector:displaySizeInjector];
   CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid"
                                                               width:300
                                                              height:250];
@@ -51,17 +54,21 @@
           insertTime:[NSDate date]
         nativeAssets:nil
         impressionId:nil];
+
+  OCMStub([displaySizeInjector injectSafeScreenSizeInDisplayUrl:testBid_1.displayUrl])
+      .andReturn(testBid_1.displayUrl);
+
   MPInterstitialAdController *mopubBidRequest = [[MPInterstitialAdController alloc] init];
   mopubBidRequest.keywords = @"key1:object_1,key_2:object_2";
 
   [headerBidding enrichRequest:mopubBidRequest withBid:testBid_1 adUnit:slot_1];
 
-  XCTAssertTrue([mopubBidRequest.keywords containsString:[testBid_1 mopubCompatibleDisplayUrl]]);
+  XCTAssertTrue([mopubBidRequest.keywords containsString:[testBid_1 displayUrl]]);
   XCTAssertTrue([mopubBidRequest.keywords containsString:[testBid_1 cpm]]);
 
   [CR_BidManagerHelper removeCriteoBidsFromMoPubRequest:mopubBidRequest];
 
-  XCTAssertFalse([mopubBidRequest.keywords containsString:[testBid_1 mopubCompatibleDisplayUrl]]);
+  XCTAssertFalse([mopubBidRequest.keywords containsString:[testBid_1 displayUrl]]);
   XCTAssertFalse([mopubBidRequest.keywords containsString:[testBid_1 cpm]]);
   XCTAssertFalse([mopubBidRequest.keywords containsString:@"crt_"]);
 }

@@ -19,6 +19,7 @@
 
 #import <MoPub.h>
 #import <XCTest/XCTest.h>
+#import <OCMock/OCMock.h>
 
 #import "DFPRequestClasses.h"
 #import "CR_CacheAdUnit.h"
@@ -28,6 +29,7 @@
 #import "CR_DeviceInfoMock.h"
 #import "NSString+Testing.h"
 #import "NSString+CriteoUrl.h"
+#import "CR_DisplaySizeInjector.h"
 
 static NSString *const kCpmKey = @"crt_cpm";
 static NSString *const kDictionaryDisplayUrlKey = @"crt_displayUrl";
@@ -62,8 +64,10 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 @interface CR_HeaderBiddingTests : XCTestCase
 
 @property(strong, nonatomic) CR_DeviceInfoMock *device;
+@property(strong, nonatomic) CR_DisplaySizeInjector *displaySizeInjector;
 @property(strong, nonatomic) CR_HeaderBidding *headerBidding;
 
+@property(nonatomic, strong) CR_CacheAdUnit *interstitialAdUnit;
 @property(nonatomic, strong) CR_CacheAdUnit *adUnit1;
 @property(nonatomic, strong) CR_CdbBid *bid1;
 
@@ -79,7 +83,9 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 
 - (void)setUp {
   self.device = [[CR_DeviceInfoMock alloc] init];
-  self.headerBidding = [[CR_HeaderBidding alloc] initWithDevice:self.device];
+  self.displaySizeInjector = OCMClassMock([CR_DisplaySizeInjector class]);
+  self.headerBidding = [[CR_HeaderBidding alloc] initWithDevice:self.device
+                                            displaySizeInjector:self.displaySizeInjector];
 
   self.adUnit1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adUnit1" width:300 height:250];
   self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).build;
@@ -87,6 +93,10 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   self.adUnit2 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adUnit2" width:200 height:100];
   self.bid2 =
       CR_CdbBidBuilder.new.adUnit(self.adUnit2).cpm(@"0.5").displayUrl(@"bid2.displayUrl").build;
+
+  self.interstitialAdUnit = [CR_CacheAdUnit.alloc initWithAdUnitId:@"interstitial"
+                                                              size:CGSizeMake(1, 2)
+                                                        adUnitType:CRAdUnitTypeInterstitial];
 
   self.dfpRequest = [[DFPRequest alloc] init];
   self.dfpRequest.customTargeting = @{@"key_1" : @"object 1", @"key_2" : @"object_2"};
@@ -145,8 +155,9 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   [self.headerBidding enrichRequest:request withBid:self.bid1 adUnit:self.adUnit1];
 
   NSDictionary *targeting = request.customTargeting;
+  NSString *expectedDfpDisplayUrl = [NSString cr_dfpCompatibleString:self.bid1.displayUrl];
   XCTAssertEqual(targeting.count, 3);
-  XCTAssertEqualObjects(targeting[kDfpDisplayUrlKey], self.bid1.dfpCompatibleDisplayUrl);
+  XCTAssertEqualObjects(targeting[kDfpDisplayUrlKey], expectedDfpDisplayUrl);
   XCTAssertEqualObjects(targeting[kCpmKey], self.bid1.cpm);
   XCTAssertEqualObjects(targeting[kSizeKey], @"300x250");
 }
@@ -158,10 +169,28 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   [self.headerBidding enrichRequest:request withBid:self.bid1 adUnit:self.adUnit1];
 
   NSDictionary *targeting = request.customTargeting;
+  NSString *expectedDfpDisplayUrl = [NSString cr_dfpCompatibleString:self.bid1.displayUrl];
   XCTAssertEqual(targeting.count, 3);
-  XCTAssertEqualObjects(targeting[kDfpDisplayUrlKey], self.bid1.dfpCompatibleDisplayUrl);
+  XCTAssertEqualObjects(targeting[kDfpDisplayUrlKey], expectedDfpDisplayUrl);
   XCTAssertEqualObjects(targeting[kCpmKey], self.bid1.cpm);
   XCTAssertEqualObjects(targeting[kSizeKey], @"300x250");
+}
+
+- (void)testDfpRequestWithInterstitialHasItsDisplayUrlInjected {
+  DFPRequest *request = [[DFPRequest alloc] init];
+  self.device.mock_screenSize = (CGSize){42, 1337};
+
+  OCMStub([self.displaySizeInjector injectFullScreenSizeInDisplayUrl:self.bid1.displayUrl])
+      .andReturn(@"display.url");
+
+  [self.headerBidding enrichRequest:request withBid:self.bid1 adUnit:self.interstitialAdUnit];
+
+  NSDictionary *targeting = request.customTargeting;
+  NSString *expectedDfpDisplayUrl = [NSString cr_dfpCompatibleString:@"display.url"];
+  XCTAssertEqual(targeting.count, 3);
+  XCTAssertEqualObjects(targeting[kDfpDisplayUrlKey], expectedDfpDisplayUrl);
+  XCTAssertEqualObjects(targeting[kCpmKey], self.bid1.cpm);
+  XCTAssertEqualObjects(targeting[kSizeKey], @"320x480");
 }
 
 - (void)testDfpRequestWithNativeBid {
@@ -216,13 +245,12 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 
 - (void)testMPInterstitialAdController {
   MPInterstitialAdController *controller = [MPInterstitialAdController new];
-  NSDictionary *expected = @{
-    kCpmKey : self.bid1.cpm,
-    kDictionaryDisplayUrlKey : self.bid1.mopubCompatibleDisplayUrl,
-    kSizeKey : @"300x250"
-  };
+  NSDictionary *expected = @{kCpmKey : self.bid1.cpm, kDictionaryDisplayUrlKey : @"display.url"};
 
-  [self.headerBidding enrichRequest:controller withBid:self.bid1 adUnit:self.adUnit1];
+  OCMStub([self.displaySizeInjector injectSafeScreenSizeInDisplayUrl:self.bid1.displayUrl])
+      .andReturn(@"display.url");
+
+  [self.headerBidding enrichRequest:controller withBid:self.bid1 adUnit:self.interstitialAdUnit];
 
   NSDictionary *keywords = [controller.keywords testing_moPubKeywordDictionary];
   XCTAssertEqualObjects(keywords, expected);
@@ -235,7 +263,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
     @"key_1" : @"object_1",
     @"key_2" : @"object_2",
     kCpmKey : self.bid1.cpm,
-    kDictionaryDisplayUrlKey : self.bid1.mopubCompatibleDisplayUrl,
+    kDictionaryDisplayUrlKey : self.bid1.displayUrl,
     kSizeKey : @"300x250"
   };
 
@@ -264,16 +292,20 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 - (void)testDuplicateEnrichment {
   MPInterstitialAdController *request = [[MPInterstitialAdController alloc] init];
   request.keywords = @"key_1:object_1,key_2:object_2";
-  [self.headerBidding enrichRequest:request withBid:self.bid1 adUnit:self.adUnit1];
   NSDictionary *expected = @{
     @"key_1" : @"object_1",
     @"key_2" : @"object_2",
     kCpmKey : self.bid2.cpm,
-    kDictionaryDisplayUrlKey : self.bid2.mopubCompatibleDisplayUrl,
-    kSizeKey : @"200x100"
+    kDictionaryDisplayUrlKey : @"display.url.2"
   };
 
-  [self.headerBidding enrichRequest:request withBid:self.bid2 adUnit:self.adUnit2];
+  OCMStub([self.displaySizeInjector injectSafeScreenSizeInDisplayUrl:self.bid1.displayUrl])
+      .andReturn(@"display.url.1");
+  OCMStub([self.displaySizeInjector injectSafeScreenSizeInDisplayUrl:self.bid2.displayUrl])
+      .andReturn(@"display.url.2");
+
+  [self.headerBidding enrichRequest:request withBid:self.bid1 adUnit:self.interstitialAdUnit];
+  [self.headerBidding enrichRequest:request withBid:self.bid2 adUnit:self.interstitialAdUnit];
 
   NSDictionary *keywords = [request.keywords testing_moPubKeywordDictionary];
   XCTAssertEqualObjects(keywords, expected);

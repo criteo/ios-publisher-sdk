@@ -26,18 +26,22 @@
 #import "CRAdUnit+Internal.h"
 #import "CR_BidManagerHelper.h"
 #import "NSString+CriteoUrl.h"
+#import "CR_DisplaySizeInjector.h"
 
 @interface CR_HeaderBidding ()
 
 @property(strong, nonatomic, readonly) id<CR_HeaderBiddingDevice> device;
+@property(strong, nonatomic, readonly) CR_DisplaySizeInjector *displaySizeInjector;
 
 @end
 
 @implementation CR_HeaderBidding
 
-- (instancetype)initWithDevice:(id<CR_HeaderBiddingDevice>)device {
+- (instancetype)initWithDevice:(id<CR_HeaderBiddingDevice>)device
+           displaySizeInjector:(CR_DisplaySizeInjector *)displaySizeInjector {
   if (self = [super init]) {
     _device = device;
+    _displaySizeInjector = displaySizeInjector;
   }
   return self;
 }
@@ -169,12 +173,18 @@
                inDictionary:customTargeting];
         }
       } else {
-        customTargeting[CR_TargetingKey_crtDfpDisplayUrl] = bid.dfpCompatibleDisplayUrl;
+        NSString *displayUrl = bid.displayUrl;
         if (adUnit.adUnitType == CRAdUnitTypeInterstitial) {
           customTargeting[CR_TargetingKey_crtSize] = [self stringSizeForInterstitial];
+
+          // DFP is the whole screen even out of the safe area.
+          displayUrl = [self.displaySizeInjector injectFullScreenSizeInDisplayUrl:displayUrl];
         } else if (adUnit.adUnitType == CRAdUnitTypeBanner) {
           customTargeting[CR_TargetingKey_crtSize] = [self stringSizeForBannerWithAdUnit:adUnit];
         }
+
+        NSString *dfpCompatibleString = [NSString cr_dfpCompatibleString:displayUrl];
+        customTargeting[CR_TargetingKey_crtDfpDisplayUrl] = dfpCompatibleString;
       }
       NSDictionary *updatedDictionary = [NSDictionary dictionaryWithDictionary:customTargeting];
       [adRequest performSelector:dfpSetCustomTargeting withObject:updatedDictionary];
@@ -198,6 +208,13 @@
     }
 
     if ([targeting isKindOfClass:[NSString class]]) {
+      NSString *displayUrl = bid.displayUrl;
+
+      // MoPub interstitial restrains itself to the safe area.
+      if (adUnit.adUnitType == CRAdUnitTypeInterstitial) {
+        displayUrl = [self.displaySizeInjector injectSafeScreenSizeInDisplayUrl:bid.displayUrl];
+      }
+
       NSMutableString *keywords = [[NSMutableString alloc] initWithString:targeting];
       if ([keywords length] > 0) {
         [keywords appendString:@","];
@@ -208,7 +225,7 @@
       [keywords appendString:@","];
       [keywords appendString:CR_TargetingKey_crtDisplayUrl];
       [keywords appendString:@":"];
-      [keywords appendString:bid.mopubCompatibleDisplayUrl];
+      [keywords appendString:displayUrl];
 
       if (adUnit.adUnitType == CRAdUnitTypeBanner) {
         NSString *sizeStr = [self stringSizeForBannerWithAdUnit:adUnit];
@@ -291,13 +308,6 @@
   UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
   BOOL isInPortrait = UIDeviceOrientationIsPortrait(orientation);
   return isInPortrait;
-}
-
-- (CGSize)screenSize {
-  // getScreenSize should be remove at some point because it doesn't respect
-  // the naming convention of Apple and class method are usefull for
-  // tests on iOS.
-  return [self.class getScreenSize];
 }
 
 @end

@@ -20,10 +20,13 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 #import <OCMock.h>
+#import "Criteo.h"
+#import "Criteo+Internal.h"
 #import "CR_CacheAdUnit.h"
 #import "CR_CacheManager.h"
 #import "CR_DeviceInfo.h"
 #import "CR_CdbBidBuilder.h"
+#import "CR_DependencyProvider.h"
 
 @interface CR_CacheManagerTests : XCTestCase
 
@@ -107,8 +110,8 @@
 }
 
 - (void)testSetBidForInterstitial {
-  id deviceInfoClassMock = OCMClassMock([CR_DeviceInfo class]);
-  OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(320, 50));
+  CR_DeviceInfo *deviceInfo = [self mockDeviceInfo];
+  OCMStub(deviceInfo.screenSize).andReturn(CGSizeMake(320, 50));
 
   [self createAdUnitAndTestBidWithSize:CGSizeMake(320, 50)
                             adUnitType:CRAdUnitTypeInterstitial
@@ -117,7 +120,7 @@
   [self.cacheManager setBid:self.testBid];
   XCTAssertTrue([[self.cacheManager getBidForAdUnit:self.adUnit] isEqual:self.testBid]);
 
-  OCMStub([deviceInfoClassMock getScreenSize]).andReturn(CGSizeMake(50, 320));
+  OCMStub(deviceInfo.screenSize).andReturn(CGSizeMake(50, 320));
   [self.cacheManager setBid:self.testBid];
   XCTAssertTrue([[self.cacheManager getBidForAdUnit:self.adUnit] isEqual:self.testBid]);
 }
@@ -190,6 +193,13 @@
                      .nativeAssets(nativeAssets)
                      .impressionId(nil)
                      .build;
+}
+
+- (CR_DeviceInfo *)mockDeviceInfo {
+  CR_DeviceInfo *realDeviceInfo = Criteo.sharedCriteo.dependencyProvider.deviceInfo;
+  CR_DeviceInfo *deviceInfo = OCMPartialMock(realDeviceInfo);
+  Criteo.sharedCriteo.dependencyProvider.deviceInfo = deviceInfo;
+  return deviceInfo;
 }
 
 @end

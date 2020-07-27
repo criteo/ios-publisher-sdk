@@ -23,18 +23,14 @@
 #import "CR_ThreadManager.h"
 #import "CR_FeedbackStorage.h"
 #import "CR_AppEvents.h"
-#import "CR_DataProtectionConsent.h"
-#import "CR_DeviceInfo.h"
 #import "CR_ConfigManager.h"
-#import "CR_Config.h"
 #import "CR_TokenCache.h"
 #import "CR_CacheManager.h"
-#import "CR_ApiHandler.h"
-#import "CR_NetworkManager.h"
-#import "CR_BidFetchTracker.h"
 #import "CR_BidManager.h"
 #import "CR_DefaultMediaDownloader.h"
 #import "CR_ImageCache.h"
+#import "CR_DisplaySizeInjector.h"
+#import "CR_IntegrationRegistry.h"
 
 #define CR_LAZY(object, assignment)  \
   ({                                 \
@@ -87,13 +83,17 @@
   return CR_LAZY(_tokenCache, [[CR_TokenCache alloc] init]);
 }
 
+- (CR_IntegrationRegistry *)integrationRegistry {
+  return CR_LAZY(_integrationRegistry,
+                 [[CR_IntegrationRegistry alloc] initWithUserDefaults:self.userDefaults]);
+}
+
 - (CR_Config *)config {
   return CR_LAZY(_config, [[CR_Config alloc] initWithUserDefaults:self.userDefaults]);
 }
 
 - (CR_ConfigManager *)configManager {
-  return CR_LAZY(_configManager, [[CR_ConfigManager alloc] initWithApiHandler:self.apiHandler
-                                                                  userDefault:self.userDefaults]);
+  return CR_LAZY(_configManager, [[CR_ConfigManager alloc] initWithApiHandler:self.apiHandler]);
 }
 
 - (CR_DeviceInfo *)deviceInfo {
@@ -114,7 +114,14 @@
 }
 
 - (CR_HeaderBidding *)headerBidding {
-  return CR_LAZY(_headerBidding, [[CR_HeaderBidding alloc] initWithDevice:self.deviceInfo]);
+  return CR_LAZY(_headerBidding,
+                 [[CR_HeaderBidding alloc] initWithDevice:self.deviceInfo
+                                      displaySizeInjector:self.displaySizeInjector]);
+}
+
+- (CR_DisplaySizeInjector *)displaySizeInjector {
+  return CR_LAZY(_displaySizeInjector,
+                 [[CR_DisplaySizeInjector alloc] initWithDeviceInfo:self.deviceInfo]);
 }
 
 - (CR_FeedbackStorage *)feedbackStorage {

@@ -28,6 +28,8 @@
 #import "NSURL+Criteo.h"
 #import "CR_DeviceInfo.h"
 #import "CR_URLOpening.h"
+#import "CR_DependencyProvider.h"
+#import "CR_DisplaySizeInjector.h"
 
 @import WebKit;
 
@@ -99,10 +101,9 @@
   if (![self checkSafeToLoad]) {
     return;
   }
-  CR_CacheAdUnit *cacheAdUnit =
-      [[CR_CacheAdUnit alloc] initWithAdUnitId:self.adUnit.adUnitId
-                                          size:[CR_DeviceInfo getScreenSize]
-                                    adUnitType:CRAdUnitTypeInterstitial];
+  CR_CacheAdUnit *cacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:self.adUnit.adUnitId
+                                                                    size:self.deviceInfo.screenSize
+                                                              adUnitType:CRAdUnitTypeInterstitial];
   CR_CdbBid *bid = [self.criteo getBid:cacheAdUnit];
   if ([bid isEmpty]) {
     self.isAdLoading = NO;
@@ -123,6 +124,9 @@
 
   NSString *viewportWidth =
       [NSString stringWithFormat:@"%ld", (long)[UIScreen mainScreen].bounds.size.width];
+
+  // Standalone and In-House use the safe area for rendering the interstitial
+  displayURL = [self.displaySizeInjector injectSafeScreenSizeInDisplayUrl:displayURL];
 
   NSString *htmlString =
       [[config.adTagUrlMode stringByReplacingOccurrencesOfString:config.viewportWidthMacro
@@ -319,6 +323,14 @@
           didFailToReceiveAdContentWithError:[NSError cr_errorWithCode:errorCode]];
     }
   });
+}
+
+- (CR_DeviceInfo *)deviceInfo {
+  return _criteo.dependencyProvider.deviceInfo;
+}
+
+- (CR_DisplaySizeInjector *)displaySizeInjector {
+  return _criteo.dependencyProvider.displaySizeInjector;
 }
 
 @end

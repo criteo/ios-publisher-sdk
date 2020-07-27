@@ -28,6 +28,7 @@
 #import "CR_ThreadManager.h"
 #import "NSString+CriteoUrl.h"
 #import "CR_FeedbacksSerializer.h"
+#import "CR_RemoteConfigRequest.h"
 
 static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 
@@ -152,38 +153,26 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
   }
 }
 
-- (void)getConfig:(CR_Config *)config ahConfigHandler:(AHConfigResponse)ahConfigHandler {
-  if (![config criteoPublisherId] || [config sdkVersion].length == 0 ||
-      [config appId].length == 0) {
-    CLog(
-        @"Config is is missing one of the following required values criteoPublisherId = %@, sdkVersion = %@, appId = %@",
-        [config criteoPublisherId], [config sdkVersion], [config appId]);
-    if (ahConfigHandler) {
-      ahConfigHandler(nil);
-    }
-  }
+- (void)getConfig:(CR_RemoteConfigRequest *)request
+    ahConfigHandler:(AHConfigResponse)ahConfigHandler {
+  NSURL *url = [NSURL URLWithString:request.configUrl];
 
-  // TODO: Move the url + query building logic to CR_Config class
-  NSString *query =
-      [NSString stringWithFormat:@"cpId=%@&sdkVersion=%@&appId=%@", [config criteoPublisherId],
-                                 [config sdkVersion], [config appId]];
-  NSString *urlString = [NSString stringWithFormat:@"%@?%@", config.configUrl, query];
-  NSURL *url = [NSURL URLWithString:urlString];
   CLogInfo(@"[INFO][API_] ConfigGetCall.start");
-  [self.networkManager getFromUrl:url
-                  responseHandler:^(NSData *data, NSError *error) {
-                    CLogInfo(@"[INFO][API_] ConfigGetCall.finished");
-                    if (error == nil) {
-                      if (data && ahConfigHandler) {
-                        NSDictionary *configValues = [CR_Config getConfigValuesFromData:data];
-                        ahConfigHandler(configValues);
-                      } else {
-                        CLog(@"Error on get from Config: response from Config was nil");
-                      }
-                    } else {
-                      CLog(@"Error on get from Config : %@", error);
-                    }
-                  }];
+  [self.networkManager postToUrl:url
+                        postBody:request.postBody
+                 responseHandler:^(NSData *data, NSError *error) {
+                   CLogInfo(@"[INFO][API_] ConfigGetCall.finished");
+                   if (error == nil) {
+                     if (data && ahConfigHandler) {
+                       NSDictionary *configValues = [CR_Config getConfigValuesFromData:data];
+                       ahConfigHandler(configValues);
+                     } else {
+                       CLog(@"Error on get from Config: response from Config was nil");
+                     }
+                   } else {
+                     CLog(@"Error on get from Config : %@", error);
+                   }
+                 }];
 }
 
 - (void)sendAppEvent:(NSString *)event

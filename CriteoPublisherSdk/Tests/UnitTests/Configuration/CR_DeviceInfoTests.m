@@ -112,4 +112,19 @@
   [self cr_waitForExpectations:@[ expectation ]];
 }
 
+- (void)testSafeScreenSize_GivenAnyDevice_ReturnNonZeroSizeBelowFullScreenSize {
+  WKWebView *wkWebViewMock = OCMStrictClassMock([WKWebView class]);
+  CR_ThreadManager *threadManager = [[CR_ThreadManager alloc] init];
+  CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] initWithThreadManager:threadManager
+                                                               testWebView:wkWebViewMock];
+
+  CGSize safeScreenSize = deviceInfo.safeScreenSize;
+  CGSize fullScreenSize = deviceInfo.screenSize;
+
+  XCTAssertGreaterThan(safeScreenSize.width, 0);
+  XCTAssertGreaterThan(safeScreenSize.height, 0);
+  XCTAssertLessThanOrEqual(safeScreenSize.width, fullScreenSize.width);
+  XCTAssertLessThanOrEqual(safeScreenSize.height, fullScreenSize.height);
+}
+
 @end
