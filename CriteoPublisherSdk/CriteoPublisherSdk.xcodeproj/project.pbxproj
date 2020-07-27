@@ -1356,6 +1356,8 @@
 				E1F273C121C9765100A2FBFA /* CR_CacheManager.m */,
 				E1F2738D21BF1AB300A2FBFA /* CR_CdbBid.h */,
 				E1F273B821C87A2F00A2FBFA /* CR_CdbBid.m */,
+				C07ABE649A8AE6559CD8D6D1 /* CR_DisplaySizeInjector.h */,
+				C07AB2F6780ADB490DBA61E9 /* CR_DisplaySizeInjector.m */,
 				7D47C453246AD253009E7FE5 /* CR_HeaderBidding.h */,
 				7D47C454246AD253009E7FE5 /* CR_HeaderBidding.m */,
 				5E0653D789EC6659FC47123D /* CR_TargetingKeys.h */,
@@ -1381,8 +1383,6 @@
 				650915F222555C21001D6673 /* Standalone */,
 				7D58582C23E1F1BD0039AC56 /* Threading */,
 				255151C222027C6000F76E3F /* Util */,
-				C07AB2F6780ADB490DBA61E9 /* CR_DisplaySizeInjector.m */,
-				C07ABE649A8AE6559CD8D6D1 /* CR_DisplaySizeInjector.h */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
