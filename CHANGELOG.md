@@ -7,7 +7,6 @@
 ## Version 4.0.0
 
 ### Breaking changes
-### Breaking changes
 - **CocoaPods**: Pod is now source provided rather than binary. Few potential changes required on
 pod clients, you can:
   - Either add [`use_frameworks!`][use_frameworks] to your Podfile so CocoaPods produce frameworks
