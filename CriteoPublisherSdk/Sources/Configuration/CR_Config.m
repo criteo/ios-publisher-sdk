@@ -44,7 +44,6 @@ NSString *const CR_ConfigConfigurationUrl = @"https://bidder.criteo.com/config/a
                              userDefaults:(NSUserDefaults *)userDefaults {
   if (self = [super init]) {
     _criteoPublisherId = criteoPublisherId;
-    _profileId = @(235);
     _cdbUrl = [cdbUrl copy];
     _path = @"inapp/v2";
     _csmPath = @"csm";

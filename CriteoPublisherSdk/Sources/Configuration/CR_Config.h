@@ -33,9 +33,8 @@ FOUNDATION_EXTERN NSString *const CR_ConfigConfigurationUrl;
 @property(copy, nonatomic, nullable) NSString *criteoPublisherId;
 
 /**
- ID for differenciate the SDK from other adapters like Publisher tag.
+ ID for differentiate the SDK from other adapters like Publisher tag.
  */
-@property(copy, nonatomic, readonly) NSNumber *profileId;
 @property(copy, nonatomic, readonly) NSString *cdbUrl;
 @property(copy, nonatomic, readonly) NSString *path;
 @property(copy, nonatomic, readonly) NSString *csmPath;
