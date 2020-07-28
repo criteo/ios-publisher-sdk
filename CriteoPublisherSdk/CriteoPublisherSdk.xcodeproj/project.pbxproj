@@ -35,6 +35,7 @@
 		46507F82246C2F6900B1DA78 /* CRNativeAdView.h in Headers */ = {isa = PBXBuildFile; fileRef = 46507F7E246C2F6900B1DA78 /* CRNativeAdView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		465D3CF92434D3D500BD36AC /* CR_UniqueIdGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46240E132434BB91001425AB /* CR_UniqueIdGeneratorTests.swift */; };
 		465E9172246C406700227D29 /* CR_AdChoice.m in Sources */ = {isa = PBXBuildFile; fileRef = 465E916A246C406700227D29 /* CR_AdChoice.m */; };
+		465FE09F24D068BE00CAF6F9 /* CR_ProfileIdFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 465FE09E24D068BE00CAF6F9 /* CR_ProfileIdFunctionalTests.m */; };
 		4660614324754E8100690E27 /* CR_SafeMediaDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 4660614124754E8100690E27 /* CR_SafeMediaDownloader.h */; };
 		4660614424754E8100690E27 /* CR_SafeMediaDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 4660614224754E8100690E27 /* CR_SafeMediaDownloader.m */; };
 		4668FEF52459BD3A00D207AE /* CRNativeLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 4668FEF12459BD1000D207AE /* CRNativeLoader.m */; };
@@ -326,6 +327,7 @@
 		46507F7E246C2F6900B1DA78 /* CRNativeAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNativeAdView.h; sourceTree = "<group>"; };
 		465E9167246C406700227D29 /* CR_AdChoice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_AdChoice.h; sourceTree = "<group>"; };
 		465E916A246C406700227D29 /* CR_AdChoice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_AdChoice.m; sourceTree = "<group>"; };
+		465FE09E24D068BE00CAF6F9 /* CR_ProfileIdFunctionalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_ProfileIdFunctionalTests.m; sourceTree = "<group>"; };
 		4660614124754E8100690E27 /* CR_SafeMediaDownloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_SafeMediaDownloader.h; sourceTree = "<group>"; };
 		4660614224754E8100690E27 /* CR_SafeMediaDownloader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_SafeMediaDownloader.m; sourceTree = "<group>"; };
 		4668FEEF2459BD1000D207AE /* CRNativeLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNativeLoader.h; sourceTree = "<group>"; };
@@ -875,6 +877,7 @@
 				54680B7523969D5C00DB5A37 /* CR_IntegrationsTestBase.m */,
 				54680B7823969E7300DB5A37 /* CR_MopubBannerFunctionalTests.m */,
 				5E06573035072D184799FC19 /* CR_MopubInterstitialFunctionalTests.m */,
+				465FE09E24D068BE00CAF6F9 /* CR_ProfileIdFunctionalTests.m */,
 				7DB4E9122397AB6B008DE5E3 /* CR_RegistrationFunctionalTests.m */,
 				548AFCAC23B1113C003C9C29 /* CR_StandaloneBannerFunctionalTests.m */,
 				543F6FA12283B5F500A5DBE2 /* CRBannerViewDelegateTests.m */,
@@ -1799,6 +1802,7 @@
 				7D523C8723DECFD600E79C88 /* CR_DeviceInfoMock.m in Sources */,
 				7D3E422D23915B6600BAF673 /* LoggingTests.m in Sources */,
 				7D3E423123915B6600BAF673 /* NSString+CriteoUrlTests.m in Sources */,
+				465FE09F24D068BE00CAF6F9 /* CR_ProfileIdFunctionalTests.m in Sources */,
 				7D51ABF023AB781600540094 /* CR_Timer.m in Sources */,
 				7D0FD301242DEF40007154E0 /* CR_GdprSerializerTests.swift in Sources */,
 				7D51ABF923ACE16800540094 /* NSURL+Testing.m in Sources */,
