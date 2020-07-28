@@ -76,18 +76,48 @@ platform :ios do
                  /(SDK_VERSION.*)".*"/, "\\1\"#{version}\"")
   end
 
-  desc %(Extract last version changelog)
-  lane :last_changelog do
-    changelog = File.open("../CHANGELOG.md").read
-    last_changelog = changelog
+  desc %(Generates Debug & Release frameworks zip archives)
+  lane :archive do
+    Dir.chdir("..") do
+      sh("scripts/archive.sh")
+    end
+  end
+
+  lane :github_release do |options|
+    version = options[:version]
+    assets = Dir.chdir("..") do
+      Dir.glob("build/output/*.zip")
+    end
+    changelog = last_changelog rescue ""
+    puts "🏔 [GitHub] Releasing #{version}\nChangelog:\n#{changelog}\nAssets: #{assets}..."
+    set_github_release(
+      repository_name: "criteo/ios-publisher-sdk",
+      api_token: ENV["GITHUB_TOKEN"],
+      name: version,
+      tag_name: version,
+      description: changelog,
+      is_draft: true,
+      is_prerelease: version.include?("-"),
+      upload_assets: assets
+    )
+  end
+
+  desc %(Archive then release version to GitHub and CocoaPods)
+  lane :release do |options|
+    archive
+    github_release(options)
+    pod_push
+  end
+
+  def last_changelog
+    File.open("../CHANGELOG.md").read
         .split(/----*\n/)[1] # Get last version section
-        .lines[2..-1].join   # Remove first line that contains version
+        .lines[2..-1].join # Remove first line that contains version
         .strip!
-    File.write('../last-changelog.md', last_changelog)
   end
 
   def file_replace(filename, regex, replace)
-    filename = '../' + filename
+    filename = "../" + filename
     puts "🏔 Replacing in #{filename} #{regex} with #{replace}"
     File.write(filename, File.open(filename).read.gsub(regex, replace))
   end

@@ -31,5 +31,5 @@ The tests in this project are organised according to the following conventions:
 2. Check changes and merge
 3. Ensure `CHANGELOG.md` is up to date
 4. Tag the version on GitHub then check the CI result on (releases)[http://github.com/criteo/ios-publisher-sdk/releases]
-6. If good/wanted uncheck the pre-release flag
+6. Review GitHub release draft, if wanted uncheck the pre-release flag, publish
 7. Profit 🚀🥳
