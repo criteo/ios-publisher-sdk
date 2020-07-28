@@ -125,8 +125,7 @@
     @"slots" : @[ @{@"placementId" : placementId, @"sizes" : @[ adUnit.cdbSize ]} ]
   };
 
-  NSURL *url = [NSURL URLWithString:@"https://localhost:9099/directbidder-test-app/"
-                                    @"inapp/v2?profileId=235"];
+  NSURL *url = [NSURL URLWithString:@"https://localhost:9099/directbidder-test-app/inapp/v2"];
 
   CR_NetworkManager *networkManager = [[CR_NetworkManager alloc] initWithDeviceInfo:deviceInfo];
   id<CR_NetworkManagerDelegate> delegateMock =

@@ -49,8 +49,7 @@
 #pragma mark - Public
 
 - (NSURL *)urlWithConfig:(CR_Config *)config {
-  NSString *query = [NSString stringWithFormat:@"profileId=%@", config.profileId];
-  NSString *urlString = [NSString stringWithFormat:@"%@/%@?%@", config.cdbUrl, config.path, query];
+  NSString *urlString = [NSString stringWithFormat:@"%@/%@", config.cdbUrl, config.path];
   NSURL *url = [NSURL URLWithString:urlString];
   return url;
 }
