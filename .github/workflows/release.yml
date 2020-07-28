@@ -68,25 +68,9 @@ jobs:
         path: "fastlane/test_output"
 
     # Publish additional steps to test job
-    - name: Archive
-      run: |
-        ./scripts/archive.sh
-
-    - name: Generate Changelog
-      run: |
-        bundle exec fastlane last_changelog
-
     - name: Release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: build/output/*.zip
-        body_path: last-changelog.md
-        prerelease: true
+      run: |
+        bundle exec fastlane release version:${{ github.ref }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Cocoapods push
-      run: |
-        bundle exec fastlane run pod_push
-      env:
         COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}

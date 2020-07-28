@@ -36,11 +36,21 @@ Format code
 fastlane ios version_bump
 ```
 Set marketing version
-### ios last_changelog
+### ios archive
 ```
-fastlane ios last_changelog
+fastlane ios archive
 ```
-Extract last version changelog
+Generates Debug & Release frameworks zip archives
+### ios github_release
+```
+fastlane ios github_release
+```
+
+### ios release
+```
+fastlane ios release
+```
+Archive then release version to GitHub and CocoaPods
 
 ----
 
