@@ -1,0 +1,427 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		257D7F85987A73B1F0A8090D /* libPods-CriteoMoPubAdapterTestApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A552A4043F3142BE912DD619 /* libPods-CriteoMoPubAdapterTestApp.a */; };
+		5431C7EB23D7231D002F0282 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5431C7EA23D7231D002F0282 /* AppDelegate.m */; };
+		5431C7F423D7231D002F0282 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5431C7F223D7231D002F0282 /* Main.storyboard */; };
+		5431C7F623D7231F002F0282 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5431C7F523D7231F002F0282 /* Assets.xcassets */; };
+		5431C7F923D7231F002F0282 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5431C7F723D7231F002F0282 /* LaunchScreen.storyboard */; };
+		5431C7FC23D7231F002F0282 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5431C7FB23D7231F002F0282 /* main.m */; };
+		5431C81223D72665002F0282 /* HomePageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5431C81123D72665002F0282 /* HomePageTableViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		5431C7E623D7231D002F0282 /* CriteoMoPubAdapterTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CriteoMoPubAdapterTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5431C7E923D7231D002F0282 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		5431C7EA23D7231D002F0282 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		5431C7F323D7231D002F0282 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		5431C7F523D7231F002F0282 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5431C7F823D7231F002F0282 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		5431C7FA23D7231F002F0282 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5431C7FB23D7231F002F0282 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		5431C81023D72665002F0282 /* HomePageTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomePageTableViewController.h; sourceTree = "<group>"; };
+		5431C81123D72665002F0282 /* HomePageTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomePageTableViewController.m; sourceTree = "<group>"; };
+		86BDED0EE091D330B8F2E5FF /* Pods-CriteoMoPubAdapterTestApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapterTestApp.release.xcconfig"; path = "../../Pods/Target Support Files/Pods-CriteoMoPubAdapterTestApp/Pods-CriteoMoPubAdapterTestApp.release.xcconfig"; sourceTree = "<group>"; };
+		A552A4043F3142BE912DD619 /* libPods-CriteoMoPubAdapterTestApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoMoPubAdapterTestApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCC7CF4160838D508C9AF5F5 /* Pods-CriteoMoPubAdapterTestApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapterTestApp.debug.xcconfig"; path = "../../Pods/Target Support Files/Pods-CriteoMoPubAdapterTestApp/Pods-CriteoMoPubAdapterTestApp.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5431C7E323D7231D002F0282 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				257D7F85987A73B1F0A8090D /* libPods-CriteoMoPubAdapterTestApp.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5431C7DD23D7231D002F0282 = {
+			isa = PBXGroup;
+			children = (
+				5431C7E823D7231D002F0282 /* CriteoMoPubAdapterTestApp */,
+				5431C7E723D7231D002F0282 /* Products */,
+				F957205D4A5DA3F6B8E853AF /* Pods */,
+				5D5BC082B6696EE89EFE6D4A /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		5431C7E723D7231D002F0282 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5431C7E623D7231D002F0282 /* CriteoMoPubAdapterTestApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5431C7E823D7231D002F0282 /* CriteoMoPubAdapterTestApp */ = {
+			isa = PBXGroup;
+			children = (
+				5431C7E923D7231D002F0282 /* AppDelegate.h */,
+				5431C7EA23D7231D002F0282 /* AppDelegate.m */,
+				5431C7F523D7231F002F0282 /* Assets.xcassets */,
+				5431C81323D7267B002F0282 /* HomePage */,
+				5431C7FA23D7231F002F0282 /* Info.plist */,
+				5431C7F723D7231F002F0282 /* LaunchScreen.storyboard */,
+				5431C7FB23D7231F002F0282 /* main.m */,
+				5431C7F223D7231D002F0282 /* Main.storyboard */,
+			);
+			name = CriteoMoPubAdapterTestApp;
+			path = Sources/CriteoMoPubAdapterTestApp;
+			sourceTree = "<group>";
+		};
+		5431C81323D7267B002F0282 /* HomePage */ = {
+			isa = PBXGroup;
+			children = (
+				5431C81023D72665002F0282 /* HomePageTableViewController.h */,
+				5431C81123D72665002F0282 /* HomePageTableViewController.m */,
+			);
+			path = HomePage;
+			sourceTree = "<group>";
+		};
+		5D5BC082B6696EE89EFE6D4A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A552A4043F3142BE912DD619 /* libPods-CriteoMoPubAdapterTestApp.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F957205D4A5DA3F6B8E853AF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BCC7CF4160838D508C9AF5F5 /* Pods-CriteoMoPubAdapterTestApp.debug.xcconfig */,
+				86BDED0EE091D330B8F2E5FF /* Pods-CriteoMoPubAdapterTestApp.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5431C7E523D7231D002F0282 /* CriteoMoPubAdapterTestApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5431C80A23D7231F002F0282 /* Build configuration list for PBXNativeTarget "CriteoMoPubAdapterTestApp" */;
+			buildPhases = (
+				B9D93DB177C497A5CB5C8AF0 /* [CP] Check Pods Manifest.lock */,
+				5431C7E223D7231D002F0282 /* Sources */,
+				5431C7E323D7231D002F0282 /* Frameworks */,
+				5431C7E423D7231D002F0282 /* Resources */,
+				FD10B7B83960E406F6111B00 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CriteoMoPubAdapterTestApp;
+			productName = CriteoMoPubAdapterTestApp;
+			productReference = 5431C7E623D7231D002F0282 /* CriteoMoPubAdapterTestApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5431C7DE23D7231D002F0282 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1120;
+				ORGANIZATIONNAME = Criteo;
+				TargetAttributes = {
+					5431C7E523D7231D002F0282 = {
+						CreatedOnToolsVersion = 11.2.1;
+					};
+				};
+			};
+			buildConfigurationList = 5431C7E123D7231D002F0282 /* Build configuration list for PBXProject "CriteoMoPubAdapterTestApp" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 5431C7DD23D7231D002F0282;
+			productRefGroup = 5431C7E723D7231D002F0282 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5431C7E523D7231D002F0282 /* CriteoMoPubAdapterTestApp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5431C7E423D7231D002F0282 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5431C7F923D7231F002F0282 /* LaunchScreen.storyboard in Resources */,
+				5431C7F623D7231F002F0282 /* Assets.xcassets in Resources */,
+				5431C7F423D7231D002F0282 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B9D93DB177C497A5CB5C8AF0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CriteoMoPubAdapterTestApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FD10B7B83960E406F6111B00 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CriteoMoPubAdapterTestApp/Pods-CriteoMoPubAdapterTestApp-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CriteoMoPubAdapterTestApp/Pods-CriteoMoPubAdapterTestApp-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CriteoMoPubAdapterTestApp/Pods-CriteoMoPubAdapterTestApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5431C7E223D7231D002F0282 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5431C81223D72665002F0282 /* HomePageTableViewController.m in Sources */,
+				5431C7EB23D7231D002F0282 /* AppDelegate.m in Sources */,
+				5431C7FC23D7231F002F0282 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		5431C7F223D7231D002F0282 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5431C7F323D7231D002F0282 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		5431C7F723D7231F002F0282 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5431C7F823D7231F002F0282 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		5431C80823D7231F002F0282 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		5431C80923D7231F002F0282 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		5431C80B23D7231F002F0282 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCC7CF4160838D508C9AF5F5 /* Pods-CriteoMoPubAdapterTestApp.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HS6BDUKANM;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = Sources/CriteoMoPubAdapterTestApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.CriteoMoPubAdapterTestApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5431C80C23D7231F002F0282 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 86BDED0EE091D330B8F2E5FF /* Pods-CriteoMoPubAdapterTestApp.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HS6BDUKANM;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = Sources/CriteoMoPubAdapterTestApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.CriteoMoPubAdapterTestApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5431C7E123D7231D002F0282 /* Build configuration list for PBXProject "CriteoMoPubAdapterTestApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5431C80823D7231F002F0282 /* Debug */,
+				5431C80923D7231F002F0282 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5431C80A23D7231F002F0282 /* Build configuration list for PBXNativeTarget "CriteoMoPubAdapterTestApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5431C80B23D7231F002F0282 /* Debug */,
+				5431C80C23D7231F002F0282 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5431C7DE23D7231D002F0282 /* Project object */;
+}

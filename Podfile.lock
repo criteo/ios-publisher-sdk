@@ -39,7 +39,7 @@ DEPENDENCIES:
   - Cassette (~> 1.0-beta)
   - FunctionalObjC (~> 1.0)
   - Google-Mobile-Ads-SDK
-  - mopub-ios-sdk/Core
+  - mopub-ios-sdk/Core (~> 5.13)
   - OCMock (~> 3.6)
 
 SPEC REPOS:
@@ -65,6 +65,6 @@ SPEC CHECKSUMS:
   OCMock: 75fbeaa46a9b11f8c182bbb1d1f7e9a35ccc9955
   PromisesObjC: b48e0338dbbac2207e611750777895f7a5811b75
 
-PODFILE CHECKSUM: 3b5b4618d5c511005054a93fae023a3fc746b11f
+PODFILE CHECKSUM: e9be2869070795e92ad0036acaae96c90dd0ea94
 
 COCOAPODS: 1.9.3

@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name              = "CriteoPublisherSdk"
-  spec.version           = "3.8.0"
+  spec.version           = "4.0.0-alpha1"
   spec.summary           = "Criteo Publisher SDK for iOS"
 
   spec.description       = <<-DESC
@@ -15,10 +15,35 @@ Pod::Spec.new do |spec|
 
   spec.platform              = :ios
   spec.ios.deployment_target = "8.0"
+  spec.static_framework      = true # Required by Google Sdk
 
-  spec.source           = { :http => "https://pubsdk-bin.criteo.com/publishersdk/ios/CriteoPublisherSdk_iOS_v#{spec.version}.Release.zip" }
+  spec.source            = {
+    :git => "https://github.com/criteo/ios-publisher-sdk.git",
+    :tag => spec.version
+  }
 
-  spec.vendored_frameworks = "CriteoPublisherSdk.framework"
+  spec.requires_arc      = true
+  spec.default_subspecs  = "Sdk"
 
-  spec.weak_frameworks = "WebKit"
+  spec.subspec "Sdk" do |sdk|
+    sdk.source_files         = "CriteoPublisherSdk/Sources/**/*.{h,m}"
+    sdk.private_header_files = "**/{CR_,CAS}*.h", "**/*+{Private,Internal}.h"
+    sdk.weak_frameworks      = "WebKit"
+    sdk.dependency             "Cassette", "~> 1.0-beta"
+  end
+
+  spec.subspec "GoogleAdapter" do |adapter|
+    adapter.source_files     = "CriteoGoogleAdapter/Sources/**/*.{h,m}"
+    adapter.dependency         "CriteoPublisherSdk/Sdk"
+    adapter.dependency         "Google-Mobile-Ads-SDK", "~> 7.49.0"
+  end
+
+  spec.subspec "MoPubAdapter" do |adapter|
+    adapter.source_files     = "CriteoMoPubAdapter/Sources/**/*.{h,m}"
+    adapter.exclude_files    = "CriteoMoPubAdapter/Sources/CriteoMoPubAdapterTestApp"
+    adapter.dependency         "CriteoPublisherSdk/Sdk"
+    adapter.dependency         "mopub-ios-sdk/Core", "~> 5.13"
+    adapter.ios.deployment_target = "10.0"
+  end
+
 end

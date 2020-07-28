@@ -20,10 +20,7 @@ or alternatively using `brew install fastlane`
 ```
 fastlane ios test
 ```
-Run tests:
-    - format_check: check code formatting
-    - multi_scan: run Unit & Functional tests
-  
+Run tests: Run Unit & Functional tests with retries
 ### ios format_check
 ```
 fastlane ios format_check
@@ -34,6 +31,11 @@ Check code format
 fastlane ios format
 ```
 Format code
+### ios version_bump
+```
+fastlane ios version_bump
+```
+Set marketing version
 ### ios last_changelog
 ```
 fastlane ios last_changelog

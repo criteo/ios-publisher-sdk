@@ -5,6 +5,15 @@
       location = "group:CriteoPublisherSdk/CriteoPublisherSdk.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:CriteoGoogleAdapter/CriteoGoogleAdapter.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:CriteoMoPubAdapter/CriteoMoPubAdapter.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:CriteoMoPubAdapterTestApp/CriteoMoPubAdapterTestApp.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:SupportFiles/SupportFiles.xcodeproj">
    </FileRef>
    <FileRef
