@@ -40,7 +40,7 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
     }
 
     func testUrl() {
-        let expected = URL(string:"https://bidder.criteo.com/inapp/v2?profileId=235")
+        let expected = URL(string:"https://bidder.criteo.com/inapp/v2")
 
         let url = serializer.url(with: config)
 
