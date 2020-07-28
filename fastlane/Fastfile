@@ -23,7 +23,7 @@ platform :ios do
     scan(scheme: "CriteoMoPubAdapter")
     multi_scan(
       scheme: "CriteoPublisherSdk",
-      try_count: 5, parallel_testrun_count: 2
+      try_count: 5, parallel_testrun_count: 2,
     )
   end
 
@@ -39,12 +39,10 @@ platform :ios do
 
   desc %(Format code)
   lane :format do
-    files = []
-    Dir.chdir("..") do
-      files =
-        Dir.glob("#{project_dir}/**/*.{h,m}") +
-        Dir.glob("#{adapter_google_dir}/**/*.{h,m}") +
-        Dir.glob("#{adapter_mopub_dir}/**/*.{h,m}")
+    files = Dir.chdir("..") do
+      Dir.glob("#{project_dir}/**/*.{h,m}") +
+      Dir.glob("#{adapter_google_dir}/**/*.{h,m}") +
+      Dir.glob("#{adapter_mopub_dir}/**/*.{h,m}")
     end
 
     clang_format(
@@ -60,15 +58,15 @@ platform :ios do
   lane :version_bump do |options|
     version = increment_version_number(
       version_number: options[:version],
-      xcodeproj: "CriteoPublisherSdk/CriteoPublisherSdk.xcodeproj"
+      xcodeproj: "CriteoPublisherSdk/CriteoPublisherSdk.xcodeproj",
     )
     increment_version_number(
       version_number: version,
-      xcodeproj: "CriteoGoogleAdapter/CriteoGoogleAdapter.xcodeproj"
+      xcodeproj: "CriteoGoogleAdapter/CriteoGoogleAdapter.xcodeproj",
     )
     increment_version_number(
       version_number: version,
-      xcodeproj: "CriteoMoPubAdapter/CriteoMoPubAdapter.xcodeproj"
+      xcodeproj: "CriteoMoPubAdapter/CriteoMoPubAdapter.xcodeproj",
     )
     file_replace("CriteoPublisherSdk.podspec",
                  /(spec.version.*)".*"/, "\\1\"#{version}\"")
@@ -98,7 +96,7 @@ platform :ios do
       description: changelog,
       is_draft: true,
       is_prerelease: version.include?("-"),
-      upload_assets: assets
+      upload_assets: assets,
     )
   end
 
