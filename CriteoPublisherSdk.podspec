@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name              = "CriteoPublisherSdk"
-  spec.version           = "3.8.0"
+  spec.version           = "3.9.0-rc1"
   spec.summary           = "Criteo Publisher SDK for iOS"
 
   spec.description       = <<-DESC
@@ -16,7 +16,9 @@ Pod::Spec.new do |spec|
   spec.platform              = :ios
   spec.ios.deployment_target = "8.0"
 
-  spec.source           = { :http => "https://pubsdk-bin.criteo.com/publishersdk/ios/CriteoPublisherSdk_iOS_v#{spec.version}.Release.zip" }
+  spec.source           = {
+   :http => "https://github.com/criteo/ios-publisher-sdk/releases/download/#{spec.version}/CriteoPublisherSdk.Release.zip"
+  }
 
   spec.vendored_frameworks = "CriteoPublisherSdk.framework"
 

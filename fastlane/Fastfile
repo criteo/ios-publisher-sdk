@@ -13,13 +13,14 @@
 default_platform(:ios)
 
 project_dir = "CriteoPublisherSdk"
+adapter_google_dir = "CriteoGoogleAdapter"
+adapter_mopub_dir = "CriteoMoPubAdapter"
 
 platform :ios do
-  desc %(Run tests:
-    - format_check: check code formatting
-    - multi_scan: run Unit & Functional tests
-  )
+  desc %(Run tests: Run Unit & Functional tests with retries)
   lane :test do
+    scan(scheme: "CriteoGoogleAdapter")
+    scan(scheme: "CriteoMoPubAdapter")
     multi_scan(
       scheme: "CriteoPublisherSdk",
       try_count: 5, parallel_testrun_count: 2
@@ -31,7 +32,7 @@ platform :ios do
     run_clang_format(
       script_path: "tools/clang-format/run-clang-format.py",
       extensions: "h,m",
-      paths: ["#{project_dir}"],
+      paths: [project_dir, adapter_google_dir, adapter_mopub_dir],
       executable: "tools/clang-format/clang-format",
     )
   end
@@ -40,7 +41,10 @@ platform :ios do
   lane :format do
     files = []
     Dir.chdir("..") do
-      files = Dir.glob("#{project_dir}/**/*.{h,m}")
+      files =
+        Dir.glob("#{project_dir}/**/*.{h,m}") +
+        Dir.glob("#{adapter_google_dir}/**/*.{h,m}") +
+        Dir.glob("#{adapter_mopub_dir}/**/*.{h,m}")
     end
 
     clang_format(
@@ -52,6 +56,26 @@ platform :ios do
     )
   end
 
+  desc %(Set marketing version)
+  lane :version_bump do |options|
+    version = increment_version_number(
+      version_number: options[:version],
+      xcodeproj: "CriteoPublisherSdk/CriteoPublisherSdk.xcodeproj"
+    )
+    increment_version_number(
+      version_number: version,
+      xcodeproj: "CriteoGoogleAdapter/CriteoGoogleAdapter.xcodeproj"
+    )
+    increment_version_number(
+      version_number: version,
+      xcodeproj: "CriteoMoPubAdapter/CriteoMoPubAdapter.xcodeproj"
+    )
+    file_replace("CriteoPublisherSdk.podspec",
+                 /(spec.version.*)".*"/, "\\1\"#{version}\"")
+    file_replace("CriteoPublisherSdk/Sources/CRConstants.h",
+                 /(SDK_VERSION.*)".*"/, "\\1\"#{version}\"")
+  end
+
   desc %(Extract last version changelog)
   lane :last_changelog do
     changelog = File.open("../CHANGELOG.md").read
@@ -60,5 +84,11 @@ platform :ios do
         .lines[2..-1].join   # Remove first line that contains version
         .strip!
     File.write('../last-changelog.md', last_changelog)
+  end
+
+  def file_replace(filename, regex, replace)
+    filename = '../' + filename
+    puts "🏔 Replacing in #{filename} #{regex} with #{replace}"
+    File.write(filename, File.open(filename).read.gsub(regex, replace))
   end
 end

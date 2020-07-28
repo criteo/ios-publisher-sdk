@@ -17,9 +17,11 @@
 // limitations under the License.
 //
 
-#import "CR_Config.h"
-#import "Logging.h"
 #import <UIKit/UIKit.h>
+
+#import "CR_Config.h"
+#import "CRConstants.h"
+#import "Logging.h"
 #import "NSUserDefaults+CR_Config.h"
 
 // Production
@@ -46,7 +48,7 @@ NSString *const CR_ConfigConfigurationUrl = @"https://bidder.criteo.com/config/a
     _cdbUrl = [cdbUrl copy];
     _path = @"inapp/v2";
     _csmPath = @"csm";
-    _sdkVersion = SDK_VERSION;  // Note: Injected from GCC_PREPROCESSOR_DEFINITIONS
+    _sdkVersion = CRITEO_PUBLISHER_SDK_VERSION;
     _appId = [[NSBundle mainBundle] bundleIdentifier];
     _killSwitch = [userDefaults cr_valueForKillSwitch];
     _deviceModel = [[UIDevice currentDevice] model];
