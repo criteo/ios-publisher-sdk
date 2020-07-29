@@ -97,14 +97,20 @@
   XCTAssert(result, @"Failed waiting for a bid");
 }
 
-- (NSDictionary *)cdbRequest {
+- (NSDictionary *)requestPassingTest:(BOOL (^)(CR_HttpContent *))predicate {
   NSArray<CR_HttpContent *> *requests = self.criteo.testing_networkCaptor.allRequests;
-  NSUInteger index = [requests indexOfObjectPassingTest:^BOOL(CR_HttpContent *_Nonnull obj,
-                                                              NSUInteger idx, BOOL *_Nonnull stop) {
-    return [obj.url testing_isBidUrlWithConfig:self.criteo.config];
-  }];
+  NSUInteger index = [requests
+      indexOfObjectPassingTest:^BOOL(CR_HttpContent *httpContent, NSUInteger idx, BOOL *stop) {
+        return predicate(httpContent);
+      }];
   CR_HttpContent *request = (index != NSNotFound) ? requests[index] : nil;
   return request.requestBody;
+}
+
+- (NSDictionary *)cdbRequest {
+  return [self requestPassingTest:^BOOL(CR_HttpContent *httpContent) {
+    return [httpContent.url testing_isBidUrlWithConfig:self.criteo.config];
+  }];
 }
 
 @end
