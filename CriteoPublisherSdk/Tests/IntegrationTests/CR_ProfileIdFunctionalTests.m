@@ -76,6 +76,28 @@
   XCTAssertEqualObjects(request[@"profileId"], @(CR_IntegrationInHouse));
 }
 
+#pragma mark - Config
+
+- (void)testRemoteConfig_GivenSdkUsedForTheFirstTime_UseFallbackProfileId {
+  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
+  [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
+
+  NSDictionary *request = [self configRequest];
+  XCTAssertEqualObjects(request[@"rtbProfileId"], @(CR_IntegrationFallback));
+}
+
+- (void)testRemoteConfig_GivenUsedSdk_UseLastProfileId {
+  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
+  [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
+  [self getBidResponseWithAdUnit:adUnit];
+
+  [self resetCriteo];
+  [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
+
+  NSDictionary *request = [self configRequest];
+  XCTAssertEqualObjects(request[@"rtbProfileId"], @(CR_IntegrationInHouse));
+}
+
 #pragma mark - Private
 
 - (void)resetCriteo {
@@ -115,6 +137,12 @@
 - (NSDictionary *)cdbRequest {
   return [self requestPassingTest:^BOOL(CR_HttpContent *httpContent) {
     return [httpContent.url testing_isBidUrlWithConfig:self.criteo.config];
+  }];
+}
+
+- (NSDictionary *)configRequest {
+  return [self requestPassingTest:^BOOL(CR_HttpContent *httpContent) {
+    return [httpContent.url testing_isConfigUrlWithConfig:self.criteo.config];
   }];
 }
 
