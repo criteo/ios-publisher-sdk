@@ -32,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(weak, nonatomic, readonly) CR_DependencyProvider *withListenedNetworkManager;
 @property(weak, nonatomic, readonly) CR_DependencyProvider *withIsolatedNotificationCenter;
 @property(weak, nonatomic, readonly) CR_DependencyProvider *withIsolatedFeedbackStorage;
+@property(weak, nonatomic, readonly) CR_DependencyProvider *withIsolatedIntegrationRegistry;
 
 + (instancetype)testing_dependencyProvider;
 

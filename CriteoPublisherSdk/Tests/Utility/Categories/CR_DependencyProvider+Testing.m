@@ -20,6 +20,7 @@
 #import <OCMock/OCMock.h>
 #import "CR_DependencyProvider+Testing.h"
 #import "CR_InMemoryUserDefaults.h"
+#import "CR_IntegrationRegistry.h"
 #import "CR_NetworkManagerSimulator.h"
 #import "CR_NetworkCaptor.h"
 #import "Criteo+Testing.h"
@@ -81,6 +82,13 @@
 
 - (CR_DependencyProvider *)withIsolatedUserDefaults {
   self.userDefaults = [[CR_InMemoryUserDefaults alloc] init];
+  return self;
+}
+
+- (CR_DependencyProvider *)withIsolatedIntegrationRegistry {
+  CR_IntegrationRegistry *mock = OCMClassMock(CR_IntegrationRegistry.class);
+  OCMStub([mock profileId]).andReturn(@42);
+  self.integrationRegistry = mock;
   return self;
 }
 
