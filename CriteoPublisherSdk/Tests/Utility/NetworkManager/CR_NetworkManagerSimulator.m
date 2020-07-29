@@ -116,7 +116,7 @@ NSString *const CR_NetworkSessionEmptyBid =
     return;
   }
 
-  if ([url testing_isConfigEventUrlWithConfig:self.config]) {
+  if ([url testing_isConfigUrlWithConfig:self.config]) {
     NSData *response =
         [CR_NetworkSessionReplayerKillSwitchFalse dataUsingEncoding:NSUTF8StringEncoding];
     responseHandler(response, nil);
