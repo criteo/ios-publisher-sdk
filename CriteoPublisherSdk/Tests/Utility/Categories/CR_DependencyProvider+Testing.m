@@ -31,7 +31,7 @@
 + (instancetype)testing_dependencyProvider {
   return CR_DependencyProvider.new.withIsolatedUserDefaults.withIsolatedDeviceInfo
       .withWireMockConfiguration.withListenedNetworkManager.withIsolatedNotificationCenter
-      .withIsolatedFeedbackStorage;
+      .withIsolatedFeedbackStorage.withIsolatedIntegrationRegistry;
 }
 
 - (CR_DependencyProvider *)withListenedNetworkManager {
