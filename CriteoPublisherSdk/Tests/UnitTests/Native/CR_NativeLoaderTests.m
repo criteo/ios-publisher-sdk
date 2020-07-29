@@ -63,12 +63,11 @@
   self.urlOpener = [[CR_URLOpenerMock alloc] init];
   self.networkManagerMock = OCMClassMock([CR_NetworkManager class]);
   self.mediaDownloaderMock = OCMProtocolMock(@protocol(CRMediaDownloader));
-  self.integrationRegistry = OCMClassMock([CR_IntegrationRegistry class]);
 
   CR_DependencyProvider *provider = [CR_DependencyProvider testing_dependencyProvider];
   provider.networkManager = self.networkManagerMock;
   provider.mediaDownloader = self.mediaDownloaderMock;
-  provider.integrationRegistry = self.integrationRegistry;
+  self.integrationRegistry = provider.integrationRegistry;
 
   self.criteo = OCMClassMock([Criteo class]);
   OCMStub([self.criteo dependencyProvider]).andReturn(provider);
