@@ -138,6 +138,8 @@
 - (void)testWithRendering {
   WKWebView *realWebView = [WKWebView new];
 
+  OCMStub([self.displaySizeInjector injectSafeScreenSizeInDisplayUrl:@"test"])
+      .andReturn(@"test?safearea");
   CR_CdbBid *bid = [self bidWithDisplayURL:@"test"];
 
   [self prepareMockedDeviceInfo];
