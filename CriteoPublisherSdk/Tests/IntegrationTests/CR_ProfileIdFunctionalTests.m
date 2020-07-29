@@ -98,6 +98,31 @@
   XCTAssertEqualObjects(request[@"rtbProfileId"], @(CR_IntegrationInHouse));
 }
 
+#pragma mark - CSM
+
+- (void)testCsm_GivenPrefetchWithSdkUsedForTheFirstTime_UseFallbackProfileId {
+  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
+  [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
+  [self getBidResponseWithAdUnit:adUnit];
+
+  NSDictionary *request = [self csmRequest];
+  XCTAssertEqualObjects(request[@"profile_id"], @(CR_IntegrationFallback));
+}
+
+- (void)
+    testCsm_GivenIntegrationSpecificBidConsumedWithSdkUsedForTheFirstTime_UseIntegrationProfileId {
+  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
+  [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
+  [self getBidResponseWithAdUnit:adUnit];
+
+  [self resetCriteo];
+  [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
+  [self getBidResponseWithAdUnit:adUnit];
+
+  NSDictionary *request = [self csmRequest];
+  XCTAssertEqualObjects(request[@"profile_id"], @(CR_IntegrationInHouse));
+}
+
 #pragma mark - Private
 
 - (void)resetCriteo {
@@ -143,6 +168,12 @@
 - (NSDictionary *)configRequest {
   return [self requestPassingTest:^BOOL(CR_HttpContent *httpContent) {
     return [httpContent.url testing_isConfigUrlWithConfig:self.criteo.config];
+  }];
+}
+
+- (NSDictionary *)csmRequest {
+  return [self requestPassingTest:^BOOL(CR_HttpContent *httpContent) {
+    return [httpContent.url testing_isFeedbackMessageUrlWithConfig:self.criteo.config];
   }];
 }
 
