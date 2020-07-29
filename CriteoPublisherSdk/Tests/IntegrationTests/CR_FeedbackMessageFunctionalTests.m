@@ -52,7 +52,7 @@
           .withListenedNetworkManager
           // We don't want to isolate the tests from the disk
           //.withIsolatedFeedbackStorage
-          .withIsolatedNotificationCenter;
+          .withIsolatedNotificationCenter.withIsolatedIntegrationRegistry;
 
   self.criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProvider];
   self.nsdateMock = OCMClassMock([NSDate class]);
