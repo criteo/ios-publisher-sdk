@@ -34,6 +34,7 @@
 @interface CR_ProfileIdFunctionalTests : XCTestCase
 
 @property(strong, nonatomic) Criteo *criteo;
+@property(strong, nonatomic) CR_DependencyProvider *dependencyProvider;
 
 @end
 
@@ -42,11 +43,11 @@
 - (void)setUp {
   [super setUp];
 
-  CR_DependencyProvider *dependencyProvider =
+  self.dependencyProvider =
       CR_DependencyProvider.new.withIsolatedUserDefaults.withWireMockConfiguration
           .withListenedNetworkManager.withIsolatedFeedbackStorage.withIsolatedNotificationCenter;
 
-  self.criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProvider];
+  [self resetCriteo];
 }
 
 - (void)tearDown {
@@ -76,6 +77,10 @@
 }
 
 #pragma mark - Private
+
+- (void)resetCriteo {
+  self.criteo = [[Criteo alloc] initWithDependencyProvider:self.dependencyProvider];
+}
 
 - (void)prepareCriteoForGettingBidWithAdUnits:(NSArray *)adUnits {
   [self.criteo testing_registerWithAdUnits:adUnits];
