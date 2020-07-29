@@ -31,7 +31,7 @@
 #import "NSString+CriteoUrl.h"
 #import "CR_DisplaySizeInjector.h"
 #import "CR_IntegrationRegistry.h"
-#import "CR_DependencyProvider.h"
+#import "CR_DependencyProvider+Testing.h"
 
 static NSString *const kCpmKey = @"crt_cpm";
 static NSString *const kDictionaryDisplayUrlKey = @"crt_displayUrl";
@@ -87,13 +87,13 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 - (void)setUp {
   self.device = [[CR_DeviceInfoMock alloc] init];
   self.displaySizeInjector = OCMClassMock([CR_DisplaySizeInjector class]);
-  self.integrationRegistry = OCMClassMock([CR_IntegrationRegistry class]);
 
-  CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.new;
+  CR_DependencyProvider *dependencyProvider =
+      CR_DependencyProvider.new.withIsolatedIntegrationRegistry;
   dependencyProvider.deviceInfo = self.device;
   dependencyProvider.displaySizeInjector = self.displaySizeInjector;
-  dependencyProvider.integrationRegistry = self.integrationRegistry;
   self.headerBidding = dependencyProvider.headerBidding;
+  self.integrationRegistry = dependencyProvider.integrationRegistry;
 
   self.adUnit1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adUnit1" width:300 height:250];
   self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).build;

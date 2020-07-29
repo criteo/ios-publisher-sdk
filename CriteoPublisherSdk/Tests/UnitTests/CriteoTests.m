@@ -36,10 +36,8 @@
 @implementation CriteoTests
 
 - (void)setUp {
-  self.integrationRegistry = OCMClassMock([CR_IntegrationRegistry class]);
-
   CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
-  dependencyProvider.integrationRegistry = self.integrationRegistry;
+  self.integrationRegistry = dependencyProvider.integrationRegistry;
 
   self.criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProvider];
 }

@@ -62,11 +62,10 @@
   self.urlOpener = CR_URLOpenerMock.new;
 
   self.displaySizeInjector = OCMClassMock([CR_DisplaySizeInjector class]);
-  self.integrationRegistry = OCMClassMock([CR_IntegrationRegistry class]);
 
   CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
   dependencyProvider.displaySizeInjector = self.displaySizeInjector;
-  dependencyProvider.integrationRegistry = self.integrationRegistry;
+  self.integrationRegistry = dependencyProvider.integrationRegistry;
 
   self.criteo = OCMPartialMock([Criteo.alloc initWithDependencyProvider:dependencyProvider]);
 }
