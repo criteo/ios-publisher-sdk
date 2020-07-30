@@ -70,7 +70,7 @@ jobs:
     # Publish additional steps to test job
     - name: Release
       run: |
-        bundle exec fastlane release version:${{ github.ref }}
+        bundle exec fastlane release ref:${{ github.ref }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
