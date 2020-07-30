@@ -99,13 +99,17 @@ platform :ios do
     )
   end
 
-  desc %(Archive then release version to GitHub and CocoaPods)
-  lane :release do |options|
+  desc %(Archive then release version to GitHub)
+  lane :release_github do |options|
     if ref = options[:ref]
       # Only supports semver refs such refs/tags/x.y.z-rc1
       options[:version] = ref.split("/").last
     end
     github_release(options)
+  end
+
+  desc %(Release version to CocoaPods)
+  lane :release_cocoapods do
     pod_push
   end
 

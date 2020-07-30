@@ -46,11 +46,16 @@ Generates Debug & Release frameworks zip archives
 fastlane ios github_release
 ```
 
-### ios release
+### ios release_github
 ```
-fastlane ios release
+fastlane ios release_github
 ```
-Archive then release version to GitHub and CocoaPods
+Archive then release version to GitHub
+### ios release_cocoapods
+```
+fastlane ios release_cocoapods
+```
+Release version to CocoaPods
 
 ----
 

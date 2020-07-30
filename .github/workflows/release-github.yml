@@ -1,4 +1,4 @@
-name: Release
+name: Test & Release on GitHub
 
 on:
   push:
@@ -74,7 +74,7 @@ jobs:
 
     - name: Release
       run: |
-        bundle exec fastlane release ref:${{ github.ref }}
+        bundle exec fastlane release_github ref:${{ github.ref }}
       env:
         # Fastlane does not support GITHUB_TOKEN for now:
         # https://github.com/fastlane/fastlane/issues/16618
