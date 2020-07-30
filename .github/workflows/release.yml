@@ -68,6 +68,10 @@ jobs:
         path: "fastlane/test_output"
 
     # Publish additional steps to test job
+    - name: Archive
+      run: |
+        ./scripts/archive.sh
+
     - name: Release
       run: |
         bundle exec fastlane release ref:${{ github.ref }}
