@@ -76,5 +76,8 @@ jobs:
       run: |
         bundle exec fastlane release ref:${{ github.ref }}
       env:
-        FL_GITHUB_RELEASE_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Fastlane does not support GITHUB_TOKEN for now:
+        # https://github.com/fastlane/fastlane/issues/16618
+        # FL_GITHUB_RELEASE_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        FL_GITHUB_RELEASE_API_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
         COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
