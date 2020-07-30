@@ -1,4 +1,6 @@
 # Criteo Publisher SDK Changelog
+--------------------------------------------------------------------------------
+## Version 3.9.0
 
 ### Features
 - Consider safe area when displaying interstitial Ads for Standalone, In-House, MoPub AppBidding and
