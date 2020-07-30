@@ -90,7 +90,6 @@ platform :ios do
     puts "🏔 [GitHub] Releasing #{version}\nChangelog:\n#{changelog}\nAssets: #{assets}..."
     set_github_release(
       repository_name: "criteo/ios-publisher-sdk",
-      api_token: ENV["GITHUB_TOKEN"],
       name: version,
       tag_name: version,
       description: changelog,
