@@ -59,18 +59,14 @@
 #pragma mark - Prefetch
 
 - (void)testPrefetch_GivenSdkUsedForTheFirstTime_UseFallbackProfileId {
-  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
-  [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
+  [self prepareCriteoForGettingBid];
 
   NSDictionary *request = [self cdbRequest];
   XCTAssertEqualObjects(request[@"profileId"], @(CR_IntegrationFallback));
 }
 
 - (void)testPrefetch_GivenUsedSdk_UseLastProfileId {
-  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
-  [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
-
-  [self getBidResponseWithAdUnit:adUnit];
+  [self prepareCriteoAndGetBid];
 
   NSDictionary *request = [self cdbRequest];
   XCTAssertEqualObjects(request[@"profileId"], @(CR_IntegrationInHouse));
@@ -79,20 +75,17 @@
 #pragma mark - Config
 
 - (void)testRemoteConfig_GivenSdkUsedForTheFirstTime_UseFallbackProfileId {
-  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
-  [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
+  [self prepareCriteoForGettingBid];
 
   NSDictionary *request = [self configRequest];
   XCTAssertEqualObjects(request[@"rtbProfileId"], @(CR_IntegrationFallback));
 }
 
 - (void)testRemoteConfig_GivenUsedSdk_UseLastProfileId {
-  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
-  [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
-  [self getBidResponseWithAdUnit:adUnit];
+  [self prepareCriteoAndGetBid];
 
   [self resetCriteo];
-  [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
+  [self prepareCriteoForGettingBid];
 
   NSDictionary *request = [self configRequest];
   XCTAssertEqualObjects(request[@"rtbProfileId"], @(CR_IntegrationInHouse));
@@ -101,9 +94,7 @@
 #pragma mark - CSM
 
 - (void)testCsm_GivenPrefetchWithSdkUsedForTheFirstTime_UseFallbackProfileId {
-  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
-  [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
-  [self getBidResponseWithAdUnit:adUnit];
+  [self prepareCriteoAndGetBid];
 
   NSDictionary *request = [self csmRequest];
   XCTAssertEqualObjects(request[@"profile_id"], @(CR_IntegrationFallback));
@@ -111,9 +102,7 @@
 
 - (void)
     testCsm_GivenIntegrationSpecificBidConsumedWithSdkUsedForTheFirstTime_UseIntegrationProfileId {
-  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
-  [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
-  [self getBidResponseWithAdUnit:adUnit];
+  CRBannerAdUnit *adUnit = [self prepareCriteoAndGetBid];
 
   [self resetCriteo];
   [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
@@ -132,6 +121,19 @@
 - (void)prepareCriteoForGettingBidWithAdUnits:(NSArray *)adUnits {
   [self.criteo testing_registerWithAdUnits:adUnits];
   [self.criteo testing_waitForRegisterHTTPResponses];
+}
+
+- (CRBannerAdUnit *)prepareCriteoForGettingBid {
+  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
+  [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
+  return adUnit;
+}
+
+- (CRBannerAdUnit *)prepareCriteoAndGetBid {
+  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
+  [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
+  [self getBidResponseWithAdUnit:adUnit];
+  return adUnit;
 }
 
 - (void)getBidResponseWithAdUnit:(CRAdUnit *)adUnit {
