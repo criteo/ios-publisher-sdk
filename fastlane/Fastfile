@@ -102,6 +102,9 @@ platform :ios do
 
   desc %(Archive then release version to GitHub and CocoaPods)
   lane :release do |options|
+    if ref = options[:ref]
+      options[:version] = ref.split("/").last
+    end
     archive
     github_release(options)
     pod_push
