@@ -19,6 +19,7 @@
 
 #import <FunctionalObjC/FBLFunctional.h>
 #import <XCTest/XCTest.h>
+#import <OCMock.h>
 
 #import "Criteo+Testing.h"
 #import "Criteo+Internal.h"
@@ -30,6 +31,11 @@
 #import "CR_TestAdUnits.h"
 #import "CR_ThreadManager+Waiter.h"
 #import "NSURL+Testing.h"
+#import "CRBannerView.h"
+#import "CRBannerView+Internal.h"
+#import "CRInterstitial+Internal.h"
+#import "CRNativeLoader+Internal.h"
+#import "CR_URLOpenerMock.h"
 
 @interface CR_ProfileIdFunctionalTests : XCTestCase
 
@@ -112,6 +118,57 @@
   XCTAssertEqualObjects(request[@"profile_id"], @(CR_IntegrationInHouse));
 }
 
+#pragma mark - Standalone
+
+- (void)prepareStandaloneTest:(CRAdUnit *)adUnit {
+  [self prepareCriteoAndGetBidWithAdUnit:adUnit];
+
+  [self resetCriteo];
+  [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
+  [self.criteo.testing_networkCaptor clear];
+}
+
+- (void)validateStandaloneTest {
+  [self waitForBid];
+  NSDictionary *request = [self cdbRequest];
+  XCTAssertEqualObjects(request[@"profileId"], @(CR_IntegrationStandalone));
+}
+
+- (void)testStandaloneBanner_GivenAnyPreviousIntegration_UseStandaloneProfileId {
+  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
+  [self prepareStandaloneTest:adUnit];
+
+  CRBannerView *bannerView = [[CRBannerView alloc] initWithAdUnit:adUnit criteo:self.criteo];
+  [bannerView loadAd];
+
+  [self validateStandaloneTest];
+}
+
+- (void)testStandaloneInterstitial_GivenAnyPreviousIntegration_UseStandaloneProfileId {
+  CRInterstitialAdUnit *adUnit = [CR_TestAdUnits preprodInterstitial];
+  [self prepareStandaloneTest:adUnit];
+
+  CRInterstitial *interstitial = [[CRInterstitial alloc] initWithAdUnit:adUnit criteo:self.criteo];
+  [interstitial loadAd];
+
+  [self validateStandaloneTest];
+}
+
+// FIXME Fails at getting a bid
+- (void)broken_testStandaloneNative_GivenAnyPreviousIntegration_UseStandaloneProfileId {
+  CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
+  [self prepareStandaloneTest:adUnit];
+
+  CRNativeLoader *nativeLoader =
+      [[CRNativeLoader alloc] initWithAdUnit:adUnit
+                                      criteo:self.criteo
+                                   urlOpener:[[CR_URLOpenerMock alloc] init]];
+  nativeLoader.delegate = OCMProtocolMock(@protocol(CRNativeLoaderDelegate));
+  [nativeLoader loadAd];
+
+  [self validateStandaloneTest];
+}
+
 #pragma mark - Private
 
 - (void)resetCriteo {
@@ -129,10 +186,14 @@
   return adUnit;
 }
 
-- (CRBannerAdUnit *)prepareCriteoAndGetBid {
-  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
+- (void)prepareCriteoAndGetBidWithAdUnit:(CRAdUnit *)adUnit {
   [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
   [self getBidResponseWithAdUnit:adUnit];
+}
+
+- (CRBannerAdUnit *)prepareCriteoAndGetBid {
+  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
+  [self prepareCriteoAndGetBidWithAdUnit:adUnit];
   return adUnit;
 }
 
