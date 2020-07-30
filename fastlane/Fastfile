@@ -87,17 +87,17 @@ platform :ios do
       Dir.glob("build/output/*.zip")
     end
     changelog = last_changelog rescue ""
-    puts "🏔 [GitHub] Releasing #{version}\nChangelog:\n#{changelog}\nAssets: #{assets}..."
-    set_github_release(
-      repository_name: "criteo/ios-publisher-sdk",
-      api_token: ENV["GITHUB_TOKEN"],
-      name: version,
-      tag_name: version,
-      description: changelog,
-      is_draft: true,
-      is_prerelease: version.include?("-"),
-      upload_assets: assets,
-    )
+    puts "🏔 [GitHub] Releasing[#{ENV["GITHUB_TOKEN"]}] #{version}\nChangelog:\n#{changelog}\nAssets: #{assets}..."
+#     set_github_release(
+#       repository_name: "criteo/ios-publisher-sdk",
+#       api_token: ENV["GITHUB_TOKEN"],
+#       name: version,
+#       tag_name: version,
+#       description: changelog,
+#       is_draft: true,
+#       is_prerelease: version.include?("-"),
+#       upload_assets: assets,
+#     )
   end
 
   desc %(Archive then release version to GitHub and CocoaPods)
@@ -105,9 +105,8 @@ platform :ios do
     if ref = options[:ref]
       options[:version] = ref.split("/").last
     end
-    archive
     github_release(options)
-    pod_push
+#     pod_push
   end
 
   def last_changelog

@@ -1,6 +1,6 @@
 #!/bin/bash -l
 
-set +x
+set -x
 set -Eeuo pipefail
 
 SCRIPT_DIRECTORY="$(
