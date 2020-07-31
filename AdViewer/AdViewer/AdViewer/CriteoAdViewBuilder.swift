@@ -2,12 +2,18 @@
 // Copyright © 2018-2020 Criteo. All rights reserved.
 //
 
-class StandaloneAdViewBuilder: AdViewBuilder {
-    private let logger: StandaloneLogger
+enum CriteoAdType {
+    case standalone, inHouse
+}
 
-    init(controller: AdViewController) {
+class CriteoAdViewBuilder: AdViewBuilder {
+    private let logger: StandaloneLogger
+    private let adType: CriteoAdType
+
+    init(controller: AdViewController, type: CriteoAdType) {
         logger = StandaloneLogger()
         logger.interstitialDelegate = controller
+        adType = type
     }
 
     func build(config: AdConfig, criteo: Criteo) -> AdView {
@@ -26,21 +32,39 @@ class StandaloneAdViewBuilder: AdViewBuilder {
     private func buildBanner(adUnit: CRAdUnit, criteo: Criteo) -> CRBannerView {
         let adView = CRBannerView(adUnit: adUnit as? CRBannerAdUnit, criteo: criteo)!
         adView.delegate = logger
-        adView.loadAd()
+        switch adType {
+        case .standalone:
+            adView.loadAd()
+        case .inHouse:
+            let bidResponse = criteo.getBidResponse(for: adUnit)
+            adView.loadAd(with: bidResponse.bidToken)
+        }
         return adView
     }
 
     private func buildInterstitial(adUnit: CRAdUnit, criteo: Criteo) -> CRInterstitial {
         let adView = CRInterstitial(adUnit: adUnit as? CRInterstitialAdUnit, criteo: criteo)!
         adView.delegate = logger
-        adView.loadAd()
+        switch adType {
+        case .standalone:
+            adView.loadAd()
+        case .inHouse:
+            let bidResponse = criteo.getBidResponse(for: adUnit)
+            adView.loadAd(with: bidResponse.bidToken)
+        }
         return adView
     }
 
     private func buildNative(adUnit: CRAdUnit, criteo: Criteo) -> AdvancedNativeView {
         let adView = AdvancedNativeView(adUnit: adUnit as! CRNativeAdUnit, criteo: criteo)
         adView.delegate = logger
-        adView.loadAd()
+        switch adType {
+        case .standalone:
+            adView.loadAd()
+        case .inHouse:
+            //InHouse is not supported on Native > Act as Standalone
+            adView.loadAd()
+        }
         return adView
     }
 }

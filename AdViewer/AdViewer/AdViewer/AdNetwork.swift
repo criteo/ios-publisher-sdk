@@ -46,7 +46,8 @@ struct AdNetwork: Equatable {
 struct AdNetworks {
     let Google: AdNetwork
     let Mopub: AdNetwork
-    let Criteo: AdNetwork
+    let Standalone: AdNetwork
+    let InHouse: AdNetwork
     let all: [AdNetwork]
     static let defaultPublisherId = "B-056946"
 
@@ -75,7 +76,7 @@ struct AdNetworks {
         ], adViewBuilder: MopubAdViewBuilder(controller: controller,
                 adUnitIdForAppInitialization: mopubBanner320x50AdUnitId))
 
-        self.Criteo = AdNetwork(name: "Standalone", supportedFormats: [
+        self.Standalone = AdNetwork(name: "Standalone", supportedFormats: [
             AdFormat.banner320x50,
             AdFormat.interstitial,
             AdFormat.native,
@@ -83,8 +84,16 @@ struct AdNetworks {
             AdFormat.banner320x50: "30s6zt3ayypfyemwjvmp",
             AdFormat.interstitial: "6yws53jyfjgoq1ghnuqb",
             AdFormat.native: "190tsfngohsvfkh3hmkm",
-        ], adViewBuilder: StandaloneAdViewBuilder(controller: controller))
+        ], adViewBuilder: CriteoAdViewBuilder(controller: controller, type: .standalone))
 
-        self.all = [Google, Mopub, Criteo]
+        self.InHouse = AdNetwork(name: "InHouse", supportedFormats: [
+            AdFormat.banner320x50,
+            AdFormat.interstitial,
+        ], defaultAdUnits: [
+            AdFormat.banner320x50: "30s6zt3ayypfyemwjvmp",
+            AdFormat.interstitial: "6yws53jyfjgoq1ghnuqb",
+        ], adViewBuilder: CriteoAdViewBuilder(controller: controller, type: .inHouse))
+
+        self.all = [Google, Mopub, Standalone, InHouse]
     }
 }

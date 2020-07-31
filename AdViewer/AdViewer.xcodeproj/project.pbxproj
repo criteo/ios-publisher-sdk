@@ -15,7 +15,7 @@
 		198CD431F5C31D861CCDFF48 /* AdViewRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198CDF4848FDB0545CBB170C /* AdViewRow.swift */; };
 		198CD92AB7B891196874B7B2 /* AdvancedNativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198CD20560ED9CCF03D83BF3 /* AdvancedNativeView.swift */; };
 		198CDA414DD3208D6D93F1EC /* AdConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198CDA0A7F408237FDF8C5E9 /* AdConfig.swift */; };
-		198CDBBD19505CE769C375C5 /* StandaloneAdViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198CDF8D630812D8072F12AB /* StandaloneAdViewBuilder.swift */; };
+		198CDBBD19505CE769C375C5 /* CriteoAdViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198CDF8D630812D8072F12AB /* CriteoAdViewBuilder.swift */; };
 		198CDDAB5CB799E07E1DC055 /* AdFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198CD1615965A5E039286CB4 /* AdFormat.swift */; };
 		404AC94B219650FF008C6267 /* GoogleDFPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 404AC94A219650FF008C6267 /* GoogleDFPTableViewController.m */; };
 		4077EBA9218BC48300C41E68 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBA8218BC48300C41E68 /* AppDelegate.m */; };
@@ -89,7 +89,7 @@
 		198CDB33AF8D5AFDA0670CE3 /* StandaloneLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandaloneLogger.h; sourceTree = "<group>"; };
 		198CDBC606F70054B8627178 /* MopubLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MopubLogger.h; sourceTree = "<group>"; };
 		198CDF4848FDB0545CBB170C /* AdViewRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdViewRow.swift; sourceTree = "<group>"; };
-		198CDF8D630812D8072F12AB /* StandaloneAdViewBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StandaloneAdViewBuilder.swift; sourceTree = "<group>"; };
+		198CDF8D630812D8072F12AB /* CriteoAdViewBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriteoAdViewBuilder.swift; sourceTree = "<group>"; };
 		198CDF9CA007F85D34B51EA5 /* GoogleAdViewBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleAdViewBuilder.swift; sourceTree = "<group>"; };
 		25022DE7220A72EF00FF8ACE /* Criteo+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Criteo+Internal.h"; path = "AdViewer/Criteo/Criteo+Internal.h"; sourceTree = SOURCE_ROOT; };
 		25022DE8220A778600FF8ACE /* NetworkManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NetworkManagerDelegate.h; path = AdViewer/Criteo/NetworkManagerDelegate.h; sourceTree = SOURCE_ROOT; };
@@ -298,7 +298,7 @@
 				462A60752417E56900E36D33 /* AdViewBuilder.swift */,
 				198CDF9CA007F85D34B51EA5 /* GoogleAdViewBuilder.swift */,
 				198CD514D8EC12FAA2A05967 /* MopubAdViewBuilder.swift */,
-				198CDF8D630812D8072F12AB /* StandaloneAdViewBuilder.swift */,
+				198CDF8D630812D8072F12AB /* CriteoAdViewBuilder.swift */,
 				198CDF4848FDB0545CBB170C /* AdViewRow.swift */,
 				462A60722417DB5000E36D33 /* AdViewerViewController.swift */,
 				198CD20560ED9CCF03D83BF3 /* AdvancedNativeView.swift */,
@@ -581,7 +581,7 @@
 				198CDDAB5CB799E07E1DC055 /* AdFormat.swift in Sources */,
 				7DE88E5B248FA35B00F15D74 /* AdTableViewController.swift in Sources */,
 				198CD431F5C31D861CCDFF48 /* AdViewRow.swift in Sources */,
-				198CDBBD19505CE769C375C5 /* StandaloneAdViewBuilder.swift in Sources */,
+				198CDBBD19505CE769C375C5 /* CriteoAdViewBuilder.swift in Sources */,
 				7D0622F123F2EA950082F027 /* CRVNativeAdView.m in Sources */,
 				198CD92AB7B891196874B7B2 /* AdvancedNativeView.swift in Sources */,
 			);
