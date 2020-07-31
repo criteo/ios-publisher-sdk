@@ -2,7 +2,9 @@ name: Test & Release on GitHub
 
 on:
   push:
-    tags: '*'
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+      - '[0-9]+.[0-9]+.[0-9]+-[a-z]+[0-9]+'
 
 jobs:
   test-and-release:
