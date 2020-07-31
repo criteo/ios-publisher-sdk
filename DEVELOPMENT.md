@@ -29,10 +29,19 @@ The tests in this project are organised according to the following conventions:
 
 ## Release
 
-1. Bump version: `bundle exec fastlane version_bump version:4.0.0`
-2. Check changes and merge
-3. Ensure `CHANGELOG.md` is up to date
-4. Tag the version on GitHub then check the CI result on (releases)[http://github.com/criteo/ios-publisher-sdk/releases]
-6. Review GitHub release draft, if wanted uncheck the pre-release flag, publish
-7. Once published, a GitHub action will push spec to CocoaPods
-8. Profit 🚀🥳
+1. Bump version: `bundle exec fastlane version_bump version:x.y.z`
+2. Ensure `CHANGELOG.md` is up to date and properly formatted:
+    - Sections separated by lines `---` are used to split the changelog
+    - The first section without version line will be used as Release description 
+3. Check changes and submit a PR / merge if needed
+4. Push a semver compliant version tag (`x.y.z` or `x.y.z-rc1`) to GitHub
+    - That will trigger a [Test & Release to GitHub][ga-release-github] workflow
+    - Check the result on [GitHub releases page][github-release]
+5. Review the added GitHub release draft, publish it
+6. Once published, it will trigger another [Release to CocoaPods][ga-release-cocoapods] workflow
+that will push the spec to CocoaPods
+7. Profit 🚀🥳
+
+[github-release]: http://github.com/criteo/ios-publisher-sdk/releases
+[ga-release-github]: https://github.com/criteo/ios-publisher-sdk/actions?query=workflow%3A%22Test+%26+Release+on+GitHub%22
+[ga-release-cocoapods]: https://github.com/criteo/ios-publisher-sdk/actions?query=workflow%3A%22Release+on+CocoaPods%22
