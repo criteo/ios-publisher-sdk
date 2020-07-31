@@ -77,6 +77,7 @@ function crto-fat-build() {
 }
 
 function crto-archive() {
+  cp LICENSE "$BUILD_PATH"
   pushd "$BUILD_PATH"
   crto-echo "Archiving..."
   zip -r "CriteoPublisherSdk.$CRITEO_CONFIGURATION.zip" CriteoPublisherSdk.framework LICENSE
