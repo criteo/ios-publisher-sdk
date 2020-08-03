@@ -63,6 +63,24 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 #define CR_AssertEqualDfpString(notDfpStr, dfpStr) \
   XCTAssertEqualObjects([NSString cr_dfpCompatibleString:notDfpStr], dfpStr);
 
+@interface CR_HeaderBidding (Testing)
+
+- (BOOL)isDfpRequest:(id)request;
+
+@end
+
+@interface MyGADRequest : GADRequest
+@end
+
+@implementation MyGADRequest
+@end
+
+@interface MyDFPRequest : DFPRequest
+@end
+
+@implementation MyDFPRequest
+@end
+
 @interface CR_HeaderBiddingTests : XCTestCase
 
 @property(strong, nonatomic) CR_DeviceInfoMock *device;
@@ -159,6 +177,46 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 }
 
 #pragma mark - Google Ad
+
+- (void)testIsDFPRequest_GivenGADRequest_ReturnTrue {
+  id request = GADRequest.new;
+
+  BOOL isDfpRequest = [self.headerBidding isDfpRequest:request];
+
+  XCTAssertTrue(isDfpRequest);
+}
+
+- (void)testIsDFPRequest_GivenSubClassOfGADRequest_ReturnTrue {
+  id request = MyGADRequest.new;
+
+  BOOL isDfpRequest = [self.headerBidding isDfpRequest:request];
+
+  XCTAssertTrue(isDfpRequest);
+}
+
+- (void)testIsDFPRequest_GivenDFPRequest_ReturnTrue {
+  id request = DFPRequest.new;
+
+  BOOL isDfpRequest = [self.headerBidding isDfpRequest:request];
+
+  XCTAssertTrue(isDfpRequest);
+}
+
+- (void)testIsDFPRequest_GivenSubClassOfDFPRequest_ReturnTrue {
+  id request = MyDFPRequest.new;
+
+  BOOL isDfpRequest = [self.headerBidding isDfpRequest:request];
+
+  XCTAssertTrue(isDfpRequest);
+}
+
+- (void)testIsDFPRequest_GivenUnrelatedObject_ReturnFalse {
+  id request = NSObject.new;
+
+  BOOL isDfpRequest = [self.headerBidding isDfpRequest:request];
+
+  XCTAssertFalse(isDfpRequest);
+}
 
 - (void)testGADRequest {
   GADRequest *request = [[GADRequest alloc] init];

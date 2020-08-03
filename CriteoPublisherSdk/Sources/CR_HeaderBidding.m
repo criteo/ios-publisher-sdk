@@ -75,6 +75,8 @@
   }
 }
 
+#pragma mark - Private
+
 - (void)removeCriteoBidsFromMoPubRequest:(id)adRequest {
   NSAssert([self isMoPubRequest:adRequest], @"Given object isn't from MoPub API: %@", adRequest);
   // For now, this method is a class method because it is used
@@ -89,18 +91,25 @@
   return result;
 }
 
-#pragma mark - Private
-
 - (BOOL)isCustomRequest:(id)request {
   return [request isKindOfClass:NSMutableDictionary.class];
 }
 
 - (BOOL)isDfpRequest:(id)request {
-  NSString *name = NSStringFromClass([request class]);
-  BOOL result = [name isEqualToString:@"DFPRequest"] || [name isEqualToString:@"DFPNRequest"] ||
-                [name isEqualToString:@"DFPORequest"] || [name isEqualToString:@"GADRequest"] ||
-                [name isEqualToString:@"GADORequest"] || [name isEqualToString:@"GADNRequest"];
-  return result;
+  return [self is:request kindOfClassByName:@"DFPRequest"] ||
+         [self is:request kindOfClassByName:@"DFPNRequest"] ||
+         [self is:request kindOfClassByName:@"DFPORequest"] ||
+         [self is:request kindOfClassByName:@"GADRequest"] ||
+         [self is:request kindOfClassByName:@"GADORequest"] ||
+         [self is:request kindOfClassByName:@"GADNRequest"];
+}
+
+- (BOOL)is:(id)request kindOfClassByName:(NSString *)name {
+  Class klass = NSClassFromString(name);
+  if (klass == nil) {
+    return NO;
+  }
+  return [request isKindOfClass:klass];
 }
 
 - (void)addCriteoBidToDictionary:(NSMutableDictionary *)dictionary
