@@ -66,6 +66,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 @interface CR_HeaderBidding (Testing)
 
 - (BOOL)isDfpRequest:(id)request;
+- (BOOL)isMoPubRequest:(id)request;
 
 @end
 
@@ -79,6 +80,18 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 @end
 
 @implementation MyDFPRequest
+@end
+
+@interface MyMPAdView : MPAdView
+@end
+
+@implementation MyMPAdView
+@end
+
+@interface MyMPInterstitialAdController : MPInterstitialAdController
+@end
+
+@implementation MyMPInterstitialAdController
 @end
 
 @interface CR_HeaderBiddingTests : XCTestCase
@@ -315,6 +328,46 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 }
 
 #pragma mark - Mopub
+
+- (void)testIsMoPubRequest_GivenMoPubView_ReturnTrue {
+  id request = MPAdView.new;
+
+  BOOL isMoPubRequest = [self.headerBidding isMoPubRequest:request];
+
+  XCTAssertTrue(isMoPubRequest);
+}
+
+- (void)testIsMoPubRequest_GivenSubClassOfMoPubView_ReturnTrue {
+  id request = MyMPAdView.new;
+
+  BOOL isMoPubRequest = [self.headerBidding isMoPubRequest:request];
+
+  XCTAssertTrue(isMoPubRequest);
+}
+
+- (void)testIsMoPubRequest_GivenMoPubInterstitial_ReturnTrue {
+  id request = MPInterstitialAdController.new;
+
+  BOOL isMoPubRequest = [self.headerBidding isMoPubRequest:request];
+
+  XCTAssertTrue(isMoPubRequest);
+}
+
+- (void)testIsMoPubRequest_GivenSubClassOfMoPubInterstitialRequest_ReturnTrue {
+  id request = MyMPInterstitialAdController.new;
+
+  BOOL isMoPubRequest = [self.headerBidding isMoPubRequest:request];
+
+  XCTAssertTrue(isMoPubRequest);
+}
+
+- (void)testIsMoPubRequest_GivenUnrelatedObject_ReturnFalse {
+  id request = NSObject.new;
+
+  BOOL isMoPubRequest = [self.headerBidding isMoPubRequest:request];
+
+  XCTAssertFalse(isMoPubRequest);
+}
 
 - (void)testMPInterstitialAdController {
   MPInterstitialAdController *controller = [MPInterstitialAdController new];

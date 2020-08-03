@@ -85,10 +85,8 @@
 }
 
 - (BOOL)isMoPubRequest:(id)request {
-  NSString *className = NSStringFromClass([request class]);
-  BOOL result = [className isEqualToString:@"MPAdView"] ||
-                [className isEqualToString:@"MPInterstitialAdController"];
-  return result;
+  return [self is:request kindOfClassByName:@"MPAdView"] ||
+         [self is:request kindOfClassByName:@"MPInterstitialAdController"];
 }
 
 - (BOOL)isCustomRequest:(id)request {
