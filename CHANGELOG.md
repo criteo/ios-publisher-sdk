@@ -4,6 +4,7 @@
 
 ### Features
 - GAM App-Bidding: Support sub classes of GAM objects: `DFPRequest`, `GADRequest`, ...
+- MoPub App-Bidding: Support sub classes of `MPAdView` and `MPInterstitialAdController`.
 --------------------------------------------------------------------------------
 ## Version 3.9.0
 
