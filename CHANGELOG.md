@@ -1,5 +1,10 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
+## Next
+
+### Features
+- GAM App-Bidding: Support sub classes of GAM objects: `DFPRequest`, `GADRequest`, ...
+--------------------------------------------------------------------------------
 ## Version 3.9.0
 
 ### Features
