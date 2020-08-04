@@ -64,6 +64,13 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
         XCTAssertEqual(profileId, testProfileId)
     }
 
+    func testBodyWithRequestGroupId() {
+        let body = generateBody()
+
+        let requestGroupId = body["id"]! as! String
+        XCTAssertEqual(requestGroupId, request.requestGroupId)
+    }
+
     func testBodyWithPublisher() {
         let expected = [
             NSString.bundleIdKey: config.appId,

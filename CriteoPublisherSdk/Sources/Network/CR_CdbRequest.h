@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CR_CdbRequest : NSObject
 
 @property(strong, nonatomic, readonly) NSNumber *profileId;
+@property(strong, nonatomic, readonly) NSString *requestGroupId;
 @property(strong, nonatomic, readonly) CR_CacheAdUnitArray *adUnits;
 @property(strong, nonatomic, readonly) NSArray<NSString *> *impressionIds;
 

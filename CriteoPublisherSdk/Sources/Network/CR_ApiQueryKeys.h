@@ -53,6 +53,7 @@
 @property(class, nonatomic, readonly) NSString *profile_id;
 @property(class, nonatomic, readonly) NSString *profileId;
 @property(class, nonatomic, readonly) NSString *publisher;
+@property(class, nonatomic, readonly) NSString *id;
 @property(class, nonatomic, readonly) NSString *requestGroupId;
 @property(class, nonatomic, readonly) NSString *sdkVersion;
 @property(class, nonatomic, readonly) NSString *uspIab;

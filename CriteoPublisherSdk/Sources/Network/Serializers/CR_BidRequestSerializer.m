@@ -58,6 +58,7 @@
   NSMutableDictionary *postBody = [NSMutableDictionary new];
   postBody[CR_ApiQueryKeys.sdkVersion] = config.sdkVersion;
   postBody[CR_ApiQueryKeys.profileId] = cdbRequest.profileId;
+  postBody[CR_ApiQueryKeys.id] = cdbRequest.requestGroupId;
   postBody[CR_ApiQueryKeys.publisher] = [self publisherWithConfig:config];
   postBody[CR_ApiQueryKeys.gdpr] = [self.gdprSerializer dictionaryForGdpr:consent.gdpr];
   postBody[CR_ApiQueryKeys.bidSlots] = [self slotsWithCdbRequest:cdbRequest];
