@@ -78,7 +78,9 @@
   [self prepareDisabledCsm];
   [self prepareStrictMockedFeedbackStorage];
 
-  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42 impressionIds:@[ @"id" ]];
+  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
+                                                 requestGroupId:@"requestId"
+                                                  impressionIds:@[ @"id" ]];
 
   [self.feedbackController onCdbCallStarted:request];
 
@@ -89,14 +91,13 @@
   [self prepareEnabledCsm];
 
   CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
+                                                 requestGroupId:@"myRequestId"
                                                   impressionIds:@[ @"id1", @"id2" ]];
 
   [self prepareMockedClock:42];
   NSNumber *profileId1 = @1337, *profileId2 = @4242;
   [self prepareProfileIdGenerator:profileId1];
-  [self prepareMockedIdGenerator:@"myRequestId"];
   [self prepareProfileIdGenerator:profileId2];
-  [self prepareMockedIdGenerator:@"shouldNotBeUsed"];
 
   CR_FeedbackMessage *expected1 = [[CR_FeedbackMessage alloc] init];
   expected1.profileId = @42;
@@ -120,7 +121,9 @@
   [self prepareDisabledCsm];
   [self prepareStrictMockedFeedbackStorage];
 
-  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42 impressionIds:@[ @"id" ]];
+  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
+                                                 requestGroupId:@"requestId"
+                                                  impressionIds:@[ @"id" ]];
   CR_CdbResponse *response = [[CR_CdbResponse alloc] init];
 
   [self.feedbackController onCdbCallResponse:response fromRequest:request];
@@ -133,6 +136,7 @@
 
   CR_CdbRequest *request =
       [self prepareCdbRequestWithProfileId:@42
+                            requestGroupId:@"requestId"
                              impressionIds:@[ @"noBidId", @"invalidId", @"validId" ]];
 
   [self prepareMockedClock:1337];
@@ -164,7 +168,9 @@
   [self prepareDisabledCsm];
   [self prepareStrictMockedFeedbackStorage];
 
-  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42 impressionIds:@[ @"id" ]];
+  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
+                                                 requestGroupId:@"requestId"
+                                                  impressionIds:@[ @"id" ]];
   NSError *error = [[NSError alloc] init];
 
   [self.feedbackController onCdbCallFailure:error fromRequest:request];
@@ -176,6 +182,7 @@
   [self prepareEnabledCsm];
 
   CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
+                                                 requestGroupId:@"requestId"
                                                   impressionIds:@[ @"id1", @"id2" ]];
 
   NSError *error = [[NSError alloc] initWithDomain:NSCocoaErrorDomain
@@ -200,6 +207,7 @@
   [self prepareEnabledCsm];
 
   CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
+                                                 requestGroupId:@"requestId"
                                                   impressionIds:@[ @"id1", @"id2" ]];
 
   NSError *error = [[NSError alloc] initWithDomain:NSCocoaErrorDomain
@@ -298,7 +306,10 @@
 }
 
 - (CR_CdbRequest *)prepareCdbRequestWithProfileId:(NSNumber *)profileId
+                                   requestGroupId:(NSString *)requestGroupId
                                     impressionIds:(NSArray<NSString *> *)impressionIds {
+  [self prepareMockedIdGenerator:requestGroupId];
+
   NSMutableArray<CR_CacheAdUnit *> *adUnits = [[NSMutableArray alloc] init];
   for (NSUInteger i = 0; i < impressionIds.count; i++) {
     NSString *adUnitId = [NSString stringWithFormat:@"adUnit%lu", (unsigned long)i];

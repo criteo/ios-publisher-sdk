@@ -117,6 +117,9 @@
 + (NSString *)publisher {
   return @"publisher";
 }
++ (NSString *)id {
+  return @"id";
+}
 + (NSString *)requestGroupId {
   return @"requestGroupId";
 }

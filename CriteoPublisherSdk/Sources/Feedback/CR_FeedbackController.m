@@ -68,11 +68,10 @@
 }
 
 - (void)onCdbCallStarted:(CR_CdbRequest *)request {
-  NSString *requestGroupId = [CR_UniqueIdGenerator generateId];
   for (NSString *impressionId in request.impressionIds) {
     [self.feedbackStorage setCdbStartForImpressionId:impressionId
                                            profileId:request.profileId
-                                      requestGroupId:requestGroupId];
+                                      requestGroupId:request.requestGroupId];
   }
 }
 
