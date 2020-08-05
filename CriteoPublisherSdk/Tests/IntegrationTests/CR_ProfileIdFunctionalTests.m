@@ -169,6 +169,30 @@
   [self validateStandaloneTest];
 }
 
+#pragma mark - InHouse
+
+- (void)prepareInHouseTest:(CRAdUnit *)adUnit {
+  [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
+  [self.criteo setBidsForRequest:NSMutableDictionary.new withAdUnit:adUnit];
+  [self waitForIdleState];
+
+  [self resetCriteo];
+  [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
+  [self.criteo.testing_networkCaptor clear];
+}
+
+- (void)testInHouse_GivenAnyPreviousIntegration_UseInHouseProfileId {
+  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
+
+  [self prepareInHouseTest:adUnit];
+
+  [self.criteo getBidResponseForAdUnit:adUnit];
+  [self waitForIdleState];
+
+  NSDictionary *request = [self cdbRequest];
+  XCTAssertEqualObjects(request[@"profileId"], @(CR_IntegrationInHouse));
+}
+
 #pragma mark - Private
 
 - (void)resetCriteo {
