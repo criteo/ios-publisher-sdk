@@ -85,12 +85,14 @@ class CR_FeedbackSerializerTests: XCTestCase {
         let impressionId = "impId123"
         message.impressionId = impressionId
         message.cachedBidUsed = true
+        message.zoneId = 42;
 
         let feedback = serializeSingleMessage(message: message)
         let slot = (feedback["slots"] as! NSArray)[0] as! NSDictionary
 
         XCTAssertEqual(slot["cachedBidUsed"] as? Bool, true)
         XCTAssertEqual(slot["impressionId"] as? String, impressionId)
+        XCTAssertEqual(slot["zoneId"] as? Int, 42)
     }
 
     func testEmptyMessage_SlotPart() {
@@ -99,6 +101,7 @@ class CR_FeedbackSerializerTests: XCTestCase {
 
         XCTAssertEqual(slot["cachedBidUsed"] as? Bool, false)
         XCTAssertNil(slot["impressionId"] as? String)
+        XCTAssertNil(slot["zoneId"] as? Int)
     }
 
     private func serializeSingleMessage(message: CR_FeedbackMessage) -> NSDictionary {

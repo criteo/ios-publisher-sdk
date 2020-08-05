@@ -243,6 +243,7 @@ NSString *const CR_NetworkSessionEmptyBid =
   dict[@"impId"] = payload[@"impId"];
   dict[@"placementId"] = payload[@"placementId"];
   dict[@"arbitrageId"] = [[NSString alloc] initWithFormat:@"arbitrage-%@", payload[@"placementId"]];
+  dict[@"zoneId"] = @25742;
   dict[@"cpm"] = CR_NetworkManagerSimulatorDefaultCpm;
   dict[@"currency"] = @"USD";
   dict[@"ttl"] = @0;

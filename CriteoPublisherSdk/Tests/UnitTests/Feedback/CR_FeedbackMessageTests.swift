@@ -90,6 +90,8 @@ class CR_FeedbackMessageTests : XCTestCase {
         let result = CR_FeedbackMessage()
         result.profileId = 42
         result.impressionId = "impression id value"
+        result.requestGroupId = "request group id"
+        result.zoneId = 1337
         result.cdbCallStartTimestamp = 100
         result.cdbCallEndTimestamp = 200
         result.elapsedTimestamp = 300

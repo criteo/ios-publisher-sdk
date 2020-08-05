@@ -62,6 +62,7 @@
   NSMutableDictionary *slotDict = [[NSMutableDictionary alloc] init];
   slotDict[CR_ApiQueryKeys.bidSlotsImpressionId] = message.impressionId;
   slotDict[CR_ApiQueryKeys.bidSlotsCachedBidUsed] = @(message.cachedBidUsed);
+  slotDict[CR_ApiQueryKeys.zoneId] = message.zoneId;
   return slotDict;
 }
 

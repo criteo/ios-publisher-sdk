@@ -141,8 +141,9 @@
 
   [self prepareMockedClock:1337];
 
-  CR_CdbBid *invalidBid = CR_CdbBidBuilder.new.impressionId(@"invalidId").cpm(@"-1.0").build;
-  CR_CdbBid *validBid = CR_CdbBidBuilder.new.impressionId(@"validId").build;
+  CR_CdbBid *invalidBid =
+      CR_CdbBidBuilder.new.impressionId(@"invalidId").cpm(@"-1.0").zoneId(42).build;
+  CR_CdbBid *validBid = CR_CdbBidBuilder.new.impressionId(@"validId").zoneId(1337).build;
 
   CR_CdbResponse *response = [[CR_CdbResponse alloc] init];
   response.cdbBids = @[ validBid, invalidBid ];
@@ -150,6 +151,7 @@
   CR_FeedbackMessage *expectedValid = [[CR_FeedbackMessage alloc] init];
   expectedValid.cdbCallEndTimestamp = @1337000;
   expectedValid.cachedBidUsed = YES;
+  expectedValid.zoneId = @1337;
 
   CR_FeedbackMessage *expectedInvalid = [[CR_FeedbackMessage alloc] init];
   expectedInvalid.expired = YES;

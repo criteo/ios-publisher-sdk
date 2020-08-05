@@ -85,7 +85,8 @@
   for (CR_CdbBid *bid in response.cdbBids) {
     if (bid.impressionId) {
       if (bid.isValid) {
-        [self.feedbackStorage setCdbEndAndCacheBidUsedIdForImpressionId:bid.impressionId];
+        [self.feedbackStorage setCdbEndAndCacheBidUsedIdForImpressionId:bid.impressionId
+                                                                 zoneId:bid.zoneId];
       } else {
         [self.feedbackStorage setExpiredForImpressionId:bid.impressionId];
       }
