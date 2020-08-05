@@ -122,6 +122,7 @@
 
 - (void)prepareStandaloneTest:(CRAdUnit *)adUnit {
   [self prepareCriteoAndGetBidWithAdUnit:adUnit];
+  [self waitForIdleState];
 
   [self resetCriteo];
   [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
@@ -129,7 +130,7 @@
 }
 
 - (void)validateStandaloneTest {
-  [self waitForBid];
+  [self waitForIdleState];
   NSDictionary *request = [self cdbRequest];
   XCTAssertEqualObjects(request[@"profileId"], @(CR_IntegrationStandalone));
 }
@@ -154,8 +155,7 @@
   [self validateStandaloneTest];
 }
 
-// FIXME Fails at getting a bid
-- (void)broken_testStandaloneNative_GivenAnyPreviousIntegration_UseStandaloneProfileId {
+- (void)testStandaloneNative_GivenAnyPreviousIntegration_UseStandaloneProfileId {
   CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
   [self prepareStandaloneTest:adUnit];
 
@@ -177,7 +177,7 @@
 
 - (void)prepareCriteoForGettingBidWithAdUnits:(NSArray *)adUnits {
   [self.criteo testing_registerWithAdUnits:adUnits];
-  [self.criteo testing_waitForRegisterHTTPResponses];
+  [self waitForIdleState];
 }
 
 - (CRBannerAdUnit *)prepareCriteoForGettingBid {
@@ -200,16 +200,11 @@
 - (void)getBidResponseWithAdUnit:(CRAdUnit *)adUnit {
   [self.criteo.testing_networkCaptor clear];
   [self.criteo getBidResponseForAdUnit:adUnit];
-  [self waitForBid];
+  [self waitForIdleState];
 }
 
-- (void)waitForBid {
-  CR_NetworkWaiterBuilder *builder =
-      [[CR_NetworkWaiterBuilder alloc] initWithConfig:self.criteo.config
-                                        networkCaptor:self.criteo.testing_networkCaptor];
-  CR_NetworkWaiter *waiter = builder.withBid.withFinishedRequestsIncluded.build;
-  const BOOL result = [waiter wait];
-  XCTAssert(result, @"Failed waiting for a bid");
+- (void)waitForIdleState {
+  [self.dependencyProvider.threadManager waiter_waitIdle];
 }
 
 - (NSDictionary *)requestPassingTest:(BOOL (^)(CR_HttpContent *))predicate {
