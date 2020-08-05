@@ -141,5 +141,8 @@
 + (NSString *)wrapperVersion {
   return @"wrapper_version";
 }
++ (NSString *)zoneId {
+  return @"zoneId";
+}
 
 @end

@@ -61,5 +61,6 @@
 @property(class, nonatomic, readonly) NSString *userAgent;
 @property(class, nonatomic, readonly) NSString *uspCriteoOptout;
 @property(class, nonatomic, readonly) NSString *wrapperVersion;
+@property(class, nonatomic, readonly) NSString *zoneId;
 
 @end

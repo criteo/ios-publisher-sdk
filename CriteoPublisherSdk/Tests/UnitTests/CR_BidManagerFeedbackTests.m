@@ -90,8 +90,10 @@
   self.cdbRequest = [[CR_CdbRequest alloc] initWithProfileId:profileId adUnits:@[ self.adUnit ]];
   self.impressionId = [self.cdbRequest impressionIdForAdUnit:self.adUnit];
   self.impressionId2 = [self.cdbRequest impressionIdForAdUnit:self.adUnit2];
-  self.validBid = CR_CdbBidBuilder.new.adUnit(self.adUnit).impressionId(self.impressionId).build;
-  self.validBid2 = CR_CdbBidBuilder.new.adUnit(self.adUnit2).impressionId(self.impressionId2).build;
+  self.validBid =
+      CR_CdbBidBuilder.new.adUnit(self.adUnit).impressionId(self.impressionId).zoneId(23).build;
+  self.validBid2 =
+      CR_CdbBidBuilder.new.adUnit(self.adUnit2).impressionId(self.impressionId2).zoneId(24).build;
   self.cdbResponse = [[CR_CdbResponse alloc] init];
   self.cdbResponse.cdbBids = @[ self.validBid, self.validBid2 ];
 
@@ -163,6 +165,8 @@
   CR_FeedbackMessage *expected = [self.defaultMessage copy];
   expected.cdbCallEndTimestamp = self.dateInMillisecondsNumber;
   expected.cachedBidUsed = YES;
+  expected.zoneId = self.validBid.zoneId;
+
   [self configureApiHandlerMockWithCdbRequest:self.cdbRequest
                                   cdbResponse:self.cdbResponse
                                         error:nil];
@@ -237,6 +241,8 @@
   expected.cdbCallEndTimestamp = self.dateInMillisecondsNumber;
   expected.elapsedTimestamp = self.dateInMillisecondsNumber;
   expected.cachedBidUsed = YES;
+  expected.zoneId = self.validBid.zoneId;
+
   // TODO: improve this test so that we don't need to call
   // the prefetchBid. Make sure that the message is already in
   // a state verified here: testFeedbackMessageStateOnValidBidReceived
@@ -256,11 +262,16 @@
   expected.cdbCallEndTimestamp = self.dateInMillisecondsNumber;
   expected.expired = YES;
   expected.cachedBidUsed = YES;
+  expected.zoneId = @123;
+
   // TODO: improve this test so that we don't need to call
   // the prefetchBid. Make sure that the message is already in
   // a state verified here: testFeedbackMessageStateOnValidBidReceived
-  CR_CdbBid *expired =
-      CR_CdbBidBuilder.new.adUnit(self.adUnit).ttl(-1).impressionId(self.impressionId).build;
+  CR_CdbBid *expired = CR_CdbBidBuilder.new.adUnit(self.adUnit)
+                           .ttl(-1)
+                           .impressionId(self.impressionId)
+                           .zoneId(123)
+                           .build;
   self.cdbResponse.cdbBids = @[ expired ];
   [self configureApiHandlerMockWithCdbRequest:self.cdbRequest
                                   cdbResponse:self.cdbResponse
