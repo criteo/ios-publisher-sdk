@@ -36,6 +36,9 @@
 #import "CRInterstitial+Internal.h"
 #import "CRNativeLoader+Internal.h"
 #import "CR_URLOpenerMock.h"
+#import "DFPRequestClasses.h"
+#import "MPAdView.h"
+#import "MPInterstitialAdController.h"
 
 @interface CR_ProfileIdFunctionalTests : XCTestCase
 
@@ -120,15 +123,6 @@
 
 #pragma mark - Standalone
 
-- (void)prepareStandaloneTest:(CRAdUnit *)adUnit {
-  [self prepareCriteoAndGetBidWithAdUnit:adUnit];
-  [self waitForIdleState];
-
-  [self resetCriteo];
-  [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
-  [self.criteo.testing_networkCaptor clear];
-}
-
 - (void)validateStandaloneTest {
   [self waitForIdleState];
   NSDictionary *request = [self cdbRequest];
@@ -137,7 +131,7 @@
 
 - (void)testStandaloneBanner_GivenAnyPreviousIntegration_UseStandaloneProfileId {
   CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
-  [self prepareStandaloneTest:adUnit];
+  [self prepareUsedSdkWithInHouse:adUnit];
 
   CRBannerView *bannerView = [[CRBannerView alloc] initWithAdUnit:adUnit criteo:self.criteo];
   [bannerView loadAd];
@@ -147,7 +141,7 @@
 
 - (void)testStandaloneInterstitial_GivenAnyPreviousIntegration_UseStandaloneProfileId {
   CRInterstitialAdUnit *adUnit = [CR_TestAdUnits preprodInterstitial];
-  [self prepareStandaloneTest:adUnit];
+  [self prepareUsedSdkWithInHouse:adUnit];
 
   CRInterstitial *interstitial = [[CRInterstitial alloc] initWithAdUnit:adUnit criteo:self.criteo];
   [interstitial loadAd];
@@ -157,7 +151,7 @@
 
 - (void)testStandaloneNative_GivenAnyPreviousIntegration_UseStandaloneProfileId {
   CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
-  [self prepareStandaloneTest:adUnit];
+  [self prepareUsedSdkWithInHouse:adUnit];
 
   CRNativeLoader *nativeLoader =
       [[CRNativeLoader alloc] initWithAdUnit:adUnit
@@ -193,7 +187,66 @@
   XCTAssertEqualObjects(request[@"profileId"], @(CR_IntegrationInHouse));
 }
 
+#pragma mark - AppBidding
+
+- (void)testCustomAppBidding_GivenAnyPreviousIntegration_UseCustomAppBiddingProfileId {
+  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
+
+  [self prepareUsedSdkWithInHouse:adUnit];
+
+  [self.criteo setBidsForRequest:NSMutableDictionary.new withAdUnit:adUnit];
+  [self waitForIdleState];
+
+  NSDictionary *request = [self cdbRequest];
+  XCTAssertEqualObjects(request[@"profileId"], @(CR_IntegrationCustomAppBidding));
+}
+
+- (void)testGamAppBidding_GivenAnyPreviousIntegration_UseCustomAppBiddingProfileId {
+  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
+
+  [self prepareUsedSdkWithInHouse:adUnit];
+
+  [self.criteo setBidsForRequest:DFPRequest.new withAdUnit:adUnit];
+  [self waitForIdleState];
+
+  NSDictionary *request = [self cdbRequest];
+  XCTAssertEqualObjects(request[@"profileId"], @(CR_IntegrationGamAppBidding));
+}
+
+- (void)testMopubAppBiddingBanner_GivenAnyPreviousIntegration_UseCustomAppBiddingProfileId {
+  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
+
+  [self prepareUsedSdkWithInHouse:adUnit];
+
+  [self.criteo setBidsForRequest:MPAdView.new withAdUnit:adUnit];
+  [self waitForIdleState];
+
+  NSDictionary *request = [self cdbRequest];
+  XCTAssertEqualObjects(request[@"profileId"], @(CR_IntegrationMopubAppBidding));
+}
+
+- (void)testMopubAppBiddingInterstitial_GivenAnyPreviousIntegration_UseCustomAppBiddingProfileId {
+  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
+
+  [self prepareUsedSdkWithInHouse:adUnit];
+
+  [self.criteo setBidsForRequest:MPInterstitialAdController.new withAdUnit:adUnit];
+  [self waitForIdleState];
+
+  NSDictionary *request = [self cdbRequest];
+  XCTAssertEqualObjects(request[@"profileId"], @(CR_IntegrationMopubAppBidding));
+}
+
 #pragma mark - Private
+
+- (void)prepareUsedSdkWithInHouse:(CRAdUnit *)adUnit {
+  [self prepareCriteoAndGetBidWithAdUnit:adUnit];
+  [self waitForIdleState];
+
+  [self resetCriteo];
+  [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
+  [self.criteo.testing_networkCaptor clear];
+}
 
 - (void)resetCriteo {
   self.criteo = [[Criteo alloc] initWithDependencyProvider:self.dependencyProvider];
