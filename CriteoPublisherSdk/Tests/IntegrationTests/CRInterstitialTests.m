@@ -70,7 +70,23 @@
   self.criteo = OCMPartialMock([Criteo.alloc initWithDependencyProvider:dependencyProvider]);
 }
 
-- (void)testInterstitialSuccess {
+- (void)testInterstitialLoadWithDataSuccess {
+  MockWKWebView *mockWebView = [MockWKWebView new];
+
+  [self prepareMockedDeviceInfo];
+
+  OCMStub([self.displaySizeInjector injectSafeScreenSizeInDisplayUrl:@"test"])
+      .andReturn(@"test?safearea");
+
+  CRInterstitial *interstitial = [self interstitialWithWebView:mockWebView];
+  [interstitial loadAdWithDisplayData:@"test"];
+
+  XCTAssertTrue(
+      [mockWebView.loadedHTMLString containsString:@"<script src=\"test?safearea\"></script>"]);
+  XCTAssertEqualObjects([NSURL URLWithString:@"https://criteo.com"], mockWebView.loadedBaseURL);
+}
+
+- (void)testInterstitialLoadSuccess {
   MockWKWebView *mockWebView = [MockWKWebView new];
 
   [self prepareMockedDeviceInfo];

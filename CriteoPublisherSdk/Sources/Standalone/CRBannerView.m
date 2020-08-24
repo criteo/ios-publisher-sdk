@@ -23,8 +23,6 @@
 #import "Criteo+Internal.h"
 #import "CR_BidManager.h"
 #import "NSError+Criteo.h"
-#import "CR_TokenValue.h"
-#import "NSURL+Criteo.h"
 #import "CR_URLOpening.h"
 #import "CR_IntegrationRegistry.h"
 #import "CR_DependencyProvider.h"
@@ -113,12 +111,7 @@
 
   if ([bid isEmpty]) return [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
 
-  if (!bid.displayUrl)
-    return [self safelyNotifyAdLoadFail:CRErrorCodeInternalError
-                            description:@"No display URL in bid response"];
-
-  [self dispatchDidReceiveAdDelegate];
-  [self loadWebViewWithDisplayUrl:bid.displayUrl];
+  [self loadAdWithDisplayData:bid.displayUrl];
 }
 
 - (void)loadAdWithBidToken:(CRBidToken *)bidToken {
@@ -137,12 +130,17 @@
                        @"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRBannerView was initialized with"];
     return;
   }
-  if (!tokenValue.displayUrl)
-    return [self safelyNotifyAdLoadFail:CRErrorCodeInternalError
-                            description:@"No display URL in bid response"];
+
+  [self loadAdWithDisplayData:tokenValue.displayUrl];
+}
+
+- (void)loadAdWithDisplayData:(NSString *)displayData {
+  if (!displayData || displayData.length == 0) {
+    return [self safelyNotifyAdLoadFail:CRErrorCodeInternalError description:@"No display URL"];
+  }
 
   [self dispatchDidReceiveAdDelegate];
-  [self loadWebViewWithDisplayUrl:tokenValue.displayUrl];
+  [self loadWebViewWithDisplayUrl:displayData];
 }
 
 // When the creative uses window.open(url) to open the URL, this method will be called

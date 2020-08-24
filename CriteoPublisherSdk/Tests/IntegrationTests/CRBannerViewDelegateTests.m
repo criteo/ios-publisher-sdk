@@ -181,7 +181,7 @@
 - (void)testNoDelegateWhenNoHttpResponse {
   WKWebView *realWebView = [WKWebView new];
 
-  OCMStub([self.criteo getBid:[self expectedCacheAdUnit]]).andReturn([self bidWithDisplayURL:@""]);
+  OCMStub([self.criteo getBid:[self expectedCacheAdUnit]]).andReturn([self bidWithDisplayURL:@"-"]);
 
   CRBannerView *bannerView = [self bannerViewWithWebView:realWebView];
   bannerView.delegate = self.delegate;

@@ -34,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)loadAd;
 - (void)loadAdWithBidToken:(CRBidToken *)bidToken;
+- (void)loadAdWithDisplayData:(NSString *)displayData;
 
 @end
 
