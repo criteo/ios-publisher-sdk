@@ -113,13 +113,7 @@
     return [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
   }
 
-  if (!bid.displayUrl)
-    return [self safelyNotifyAdLoadFail:CRErrorCodeInternalError
-                            description:@"No display URL in bid response"];
-
-  [self.viewController initWebViewIfNeeded];
-  [self dispatchDidReceiveAdDelegate];
-  [self loadWebViewWithDisplayURL:bid.displayUrl];
+  [self loadAdWithDisplayData:bid.displayUrl];
 }
 
 - (void)loadWebViewWithDisplayURL:(NSString *)displayURL {
@@ -168,13 +162,17 @@
     self.isAdLoading = NO;
     return;
   }
-  if (!tokenValue.displayUrl)
-    return [self safelyNotifyAdLoadFail:CRErrorCodeInternalError
-                            description:@"No display URL in bid response"];
+
+  [self loadAdWithDisplayData:tokenValue.displayUrl];
+}
+
+- (void)loadAdWithDisplayData:(NSString *)displayData {
+  if (!displayData || displayData.length == 0)
+    return [self safelyNotifyAdLoadFail:CRErrorCodeInternalError description:@"No display URL"];
 
   [self.viewController initWebViewIfNeeded];
   [self dispatchDidReceiveAdDelegate];
-  [self loadWebViewWithDisplayURL:tokenValue.displayUrl];
+  [self loadWebViewWithDisplayURL:displayData];
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
