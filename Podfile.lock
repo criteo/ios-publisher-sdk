@@ -28,7 +28,14 @@ PODS:
   - "GoogleUtilities/NSData+zlib (7.1.1)"
   - GoogleUtilities/Reachability (7.1.1):
     - GoogleUtilities/Logger
+  - mopub-ios-sdk (5.15.0):
+    - mopub-ios-sdk/MoPubSDK (= 5.15.0)
   - mopub-ios-sdk/Core (5.15.0)
+  - mopub-ios-sdk/MoPubSDK (5.15.0):
+    - mopub-ios-sdk/Core
+    - mopub-ios-sdk/NativeAds
+  - mopub-ios-sdk/NativeAds (5.15.0):
+    - mopub-ios-sdk/Core
   - nanopb (2.30906.0):
     - nanopb/decode (= 2.30906.0)
     - nanopb/encode (= 2.30906.0)
@@ -42,6 +49,7 @@ DEPENDENCIES:
   - Eureka
   - FunctionalObjC (~> 1.0)
   - Google-Mobile-Ads-SDK
+  - mopub-ios-sdk
   - mopub-ios-sdk/Core
   - OCMock (~> 3.6)
   - SwiftLint
@@ -73,6 +81,6 @@ SPEC CHECKSUMS:
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
   SwiftLint: c585ebd615d9520d7fbdbe151f527977b0534f1e
 
-PODFILE CHECKSUM: 6254282a15f92cc3b143494dfa7017357be84382
+PODFILE CHECKSUM: 74bd9c039efe340444c6c72f4c950c41740cd8ec
 
 COCOAPODS: 1.10.0
