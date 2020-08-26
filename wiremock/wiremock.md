@@ -14,7 +14,7 @@ certificate. It was generated mostly following [this post][ios-self-signed]
 
 1. Generate self signed certificate
     ```sh
-    openssl req -config wiremock.cnf -new -x509 -out wiremock.crt
+    openssl req -config wiremock.cnf -new -x509 -days 3650 -out wiremock.crt
     ```
     You can check certificate correctness
     ```sh
