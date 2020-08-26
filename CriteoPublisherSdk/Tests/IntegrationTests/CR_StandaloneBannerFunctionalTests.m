@@ -56,6 +56,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
   [self cr_waitForExpectations:@[ viewChecker.bannerViewDidReceiveAdExpectation ]];
 }
 
+// Note this test relies on WireMock, for more information see wiremock/wiremock.md
 - (void)test_givenBannerWithGoodAdUnitId_whenLoadAd_thenAdIsLoadedProperly {
   CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
   [self initCriteoWithAdUnits:@[ banner ]];
