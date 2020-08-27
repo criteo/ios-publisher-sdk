@@ -25,6 +25,7 @@
 #endif
 
 #import "CRCustomEventHelper.h"
+#import "CRNativeAdAdapter.h"
 #import "CRNativeCustomEvent.h"
 
 @interface CRNativeCustomEvent () <CRNativeLoaderDelegate>
@@ -91,8 +92,9 @@
 #pragma mark CRNativeLoaderDelegate
 
 - (void)nativeLoader:(CRNativeLoader *)loader didReceiveAd:(CRNativeAd *)ad {
-  // TODO: Implement native ad adapter
-  // TODO: Call delegate's nativeCustomEvent:didLoadAd:
+  CRNativeAdAdapter *adapter = [[CRNativeAdAdapter alloc] initWithNativeAd:ad];
+  MPNativeAd *nativeAd = [[MPNativeAd alloc] initWithAdAdapter:adapter];
+  [self.delegate nativeCustomEvent:self didLoadAd:nativeAd];
 }
 
 - (void)nativeLoader:(CRNativeLoader *)loader didFailToReceiveAdWithError:(NSError *)error {

@@ -66,6 +66,18 @@
 
 #pragma mark - Delegate call
 
+- (void)testNativeLoaderDidReceiveAd {
+  CRNativeCustomEvent *event = [self nativeCustomEventWithMocks];
+  event.delegate = OCMProtocolMock(@protocol(MPNativeCustomEventDelegate));
+  [event requestAdWithCustomEventInfo:self.defaultEventInfo adMarkup:nil];
+
+  CRNativeAd *ad = OCMClassMock(CRNativeAd.class);
+  CRNativeLoader *loader = nil;
+  [self.loaderDelegate nativeLoader:loader didReceiveAd:ad];
+
+  OCMVerify(times(1), [event.delegate nativeCustomEvent:event didLoadAd:OCMOCK_ANY]);
+}
+
 - (void)testNativeLoaderDidFailToReceiveAdWithError {
   CRNativeCustomEvent *event = [self nativeCustomEventWithMocks];
   event.delegate = OCMProtocolMock(@protocol(MPNativeCustomEventDelegate));

@@ -26,6 +26,9 @@
 		91049DD324F4F73B0038C016 /* CRNativeCustomEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9114196524F4E77400B52E42 /* CRNativeCustomEventTests.m */; };
 		9114195C24F4E17100B52E42 /* CRNativeCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 9114195A24F4E17100B52E42 /* CRNativeCustomEvent.h */; };
 		9114195D24F4E17100B52E42 /* CRNativeCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 9114195B24F4E17100B52E42 /* CRNativeCustomEvent.m */; };
+		9114196324F4E68D00B52E42 /* CRNativeAdAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 9114196124F4E68D00B52E42 /* CRNativeAdAdapter.h */; };
+		9114196424F4E68D00B52E42 /* CRNativeAdAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9114196224F4E68D00B52E42 /* CRNativeAdAdapter.m */; };
+		91D237A924F7784E00B44B26 /* CRNativeAdAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D237A724F777AF00B44B26 /* CRNativeAdAdapterTests.m */; };
 		C07ABFAD40F1E3FF91FE3BC3 /* CR_MoPubIntegrationRegistryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABD835088D792F704713F /* CR_MoPubIntegrationRegistryTests.m */; };
 		F6952EC254DDD2B2099A3099 /* libPods-CriteoMoPubAdapterTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 723A18C84F38211EF6A89DA5 /* libPods-CriteoMoPubAdapterTests.a */; };
 		F7103A3B3D4D582BF0F8168F /* libPods-CriteoMoPubAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E36D96B9F6BA73F79BB4D7F0 /* libPods-CriteoMoPubAdapter.a */; };
@@ -67,7 +70,10 @@
 		A2CE91A70E44C568BC9C09AC /* Pods-CriteoMoPubAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapter.debug.xcconfig"; path = "Target Support Files/Pods-CriteoMoPubAdapter/Pods-CriteoMoPubAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 		9114195A24F4E17100B52E42 /* CRNativeCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRNativeCustomEvent.h; sourceTree = "<group>"; };
 		9114195B24F4E17100B52E42 /* CRNativeCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRNativeCustomEvent.m; sourceTree = "<group>"; };
+		9114196124F4E68D00B52E42 /* CRNativeAdAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRNativeAdAdapter.h; sourceTree = "<group>"; };
+		9114196224F4E68D00B52E42 /* CRNativeAdAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdAdapter.m; sourceTree = "<group>"; };
 		9114196524F4E77400B52E42 /* CRNativeCustomEventTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRNativeCustomEventTests.m; sourceTree = "<group>"; };
+		91D237A724F777AF00B44B26 /* CRNativeAdAdapterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdAdapterTests.m; sourceTree = "<group>"; };
 		C07ABD835088D792F704713F /* CR_MoPubIntegrationRegistryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_MoPubIntegrationRegistryTests.m; sourceTree = "<group>"; };
 		E36D96B9F6BA73F79BB4D7F0 /* libPods-CriteoMoPubAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoMoPubAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -108,6 +114,8 @@
 				466AEECC24C6D7E10034081E /* CRInterstitialCustomEvent.m */,
 				9114195A24F4E17100B52E42 /* CRNativeCustomEvent.h */,
 				9114195B24F4E17100B52E42 /* CRNativeCustomEvent.m */,
+				9114196124F4E68D00B52E42 /* CRNativeAdAdapter.h */,
+				9114196224F4E68D00B52E42 /* CRNativeAdAdapter.m */,
 				466AEECF24C6D7E10034081E /* Info.plist */,
 			);
 			name = CriteoMoPubAdapter;
@@ -123,6 +131,7 @@
 				466AEEDB24C6D82F0034081E /* CRInterstitialCustomEventTests.m */,
 				466AEEDC24C6D82F0034081E /* CRBannerCustomEventTests.m */,
 				9114196524F4E77400B52E42 /* CRNativeCustomEventTests.m */,
+				91D237A724F777AF00B44B26 /* CRNativeAdAdapterTests.m */,
 				466AEEDD24C6D8300034081E /* CRCustomEventHelperTests.m */,
 				C07ABD835088D792F704713F /* CR_MoPubIntegrationRegistryTests.m */,
 			);
@@ -182,6 +191,7 @@
 				466AEED724C6D7E10034081E /* CRCriteoAdapterConfiguration.h in Headers */,
 				9114195C24F4E17100B52E42 /* CRNativeCustomEvent.h in Headers */,
 				466AEED224C6D7E10034081E /* CRInterstitialCustomEvent.h in Headers */,
+				9114196324F4E68D00B52E42 /* CRNativeAdAdapter.h in Headers */,
 				466AEED624C6D7E10034081E /* CRCustomEventHelper.h in Headers */,
 				466AEED424C6D7E10034081E /* CRBannerCustomEvent.h in Headers */,
 			);
@@ -376,6 +386,7 @@
 				466AEEE224C6D8300034081E /* CRCustomEventHelperTests.m in Sources */,
 				466AEEDF24C6D8300034081E /* CRCriteoAdapterConfigurationTests.m in Sources */,
 				C07ABFAD40F1E3FF91FE3BC3 /* CR_MoPubIntegrationRegistryTests.m in Sources */,
+				91D237A924F7784E00B44B26 /* CRNativeAdAdapterTests.m in Sources */,
 				91049DD324F4F73B0038C016 /* CRNativeCustomEventTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -384,6 +395,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9114196424F4E68D00B52E42 /* CRNativeAdAdapter.m in Sources */,
 				466AEED524C6D7E10034081E /* CRInterstitialCustomEvent.m in Sources */,
 				9114195D24F4E17100B52E42 /* CRNativeCustomEvent.m in Sources */,
 				466AEED124C6D7E10034081E /* CRCustomEventHelper.m in Sources */,
