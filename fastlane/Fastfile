@@ -63,6 +63,10 @@ platform :ios do
       version_number: options[:version],
       xcodeproj: "CriteoPublisherSdk/CriteoPublisherSdk.xcodeproj",
     )
+    version = increment_version_number(
+      version_number: options[:version],
+      xcodeproj: "CriteoAdViewer/CriteoAdViewer.xcodeproj",
+    )
     increment_version_number(
       version_number: version,
       xcodeproj: "CriteoGoogleAdapter/CriteoGoogleAdapter.xcodeproj",
