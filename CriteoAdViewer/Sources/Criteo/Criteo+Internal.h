@@ -15,7 +15,7 @@
 
 @interface Criteo ()
 
-@property (nonatomic) id <NetworkManagerDelegate> networkManagerDelegate;
+@property(nonatomic) id<NetworkManagerDelegate> networkManagerDelegate;
 
 + (instancetype)criteo;
 

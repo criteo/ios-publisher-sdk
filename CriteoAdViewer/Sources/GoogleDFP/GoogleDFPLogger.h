@@ -12,13 +12,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GoogleDFPLogger : NSObject <GADBannerViewDelegate, GADInterstitialDelegate, GADAdSizeDelegate>
+@interface GoogleDFPLogger
+    : NSObject <GADBannerViewDelegate, GADInterstitialDelegate, GADAdSizeDelegate>
 
 #pragma mark - Lifecycle
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithInterstitialDelegate:(id <InterstitialUpdateDelegate>)interstitialDelegate;
+- (instancetype)initWithInterstitialDelegate:(id<InterstitialUpdateDelegate>)interstitialDelegate;
 
 @end
 

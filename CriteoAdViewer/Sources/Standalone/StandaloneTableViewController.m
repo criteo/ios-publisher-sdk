@@ -11,65 +11,66 @@
 #import "StandaloneLogger.h"
 
 @interface StandaloneTableViewController ()
-@property (strong, nonatomic) StandaloneLogger *logger;
+@property(strong, nonatomic) StandaloneLogger *logger;
 
-@property (weak, nonatomic) IBOutlet UIView *banner_320x50View;
+@property(weak, nonatomic) IBOutlet UIView *banner_320x50View;
 
-@property (nonatomic, strong) CRBannerView *cr_banner_320x50View;
-@property (nonatomic, strong) CRInterstitial *cr_interstitialView;
-@property (weak, nonatomic) IBOutlet UISwitch *bannerShouldCreateNewObject;
-@property (weak, nonatomic) IBOutlet UISwitch *interstitialShouldCreateNewObject;
+@property(nonatomic, strong) CRBannerView *cr_banner_320x50View;
+@property(nonatomic, strong) CRInterstitial *cr_interstitialView;
+@property(weak, nonatomic) IBOutlet UISwitch *bannerShouldCreateNewObject;
+@property(weak, nonatomic) IBOutlet UISwitch *interstitialShouldCreateNewObject;
 
 @end
 
 @implementation StandaloneTableViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    self.logger = [[StandaloneLogger alloc] init];
-    self.logger.interstitialDelegate = self;
+  [super viewDidLoad];
+  self.logger = [[StandaloneLogger alloc] init];
+  self.logger.interstitialDelegate = self;
 }
 
 - (IBAction)banner320x50ButtonClick:(id)sender {
-    if (self.bannerShouldCreateNewObject.on) {
-        self.cr_banner_320x50View = [[CRBannerView alloc] initWithAdUnit:self.homePageVC.criteoBannerAdUnit_320x50];
-        self.cr_banner_320x50View.delegate = self.logger;
-    }
+  if (self.bannerShouldCreateNewObject.on) {
+    self.cr_banner_320x50View =
+        [[CRBannerView alloc] initWithAdUnit:self.homePageVC.criteoBannerAdUnit_320x50];
+    self.cr_banner_320x50View.delegate = self.logger;
+  }
 
-    [self.cr_banner_320x50View loadAd];
-    [self.banner_320x50View addSubview:self.cr_banner_320x50View];
+  [self.cr_banner_320x50View loadAd];
+  [self.banner_320x50View addSubview:self.cr_banner_320x50View];
 }
 
 - (IBAction)clearButton:(id)sender {
-    [self resetBannerView:self.cr_banner_320x50View];
-    [super interstitialUpdated:NO];
-    self.cr_interstitialView = nil;
+  [self resetBannerView:self.cr_banner_320x50View];
+  [super interstitialUpdated:NO];
+  self.cr_interstitialView = nil;
 }
 
 - (IBAction)loadInterstitialClick:(id)sender {
-    [super onLoadInterstitial];
+  [super onLoadInterstitial];
 
-    if (self.interstitialShouldCreateNewObject.on) {
-        CRInterstitialAdUnit *adUnit = super.interstitialVideoSwitch.on
-            ? self.homePageVC.criteoInterstitialVideoAdUnit
-            : self.homePageVC.criteoInterstitialAdUnit;
-        self.cr_interstitialView = [[CRInterstitial alloc] initWithAdUnit:adUnit];
-        self.cr_interstitialView.delegate = self.logger;
-    }
+  if (self.interstitialShouldCreateNewObject.on) {
+    CRInterstitialAdUnit *adUnit = super.interstitialVideoSwitch.on
+                                       ? self.homePageVC.criteoInterstitialVideoAdUnit
+                                       : self.homePageVC.criteoInterstitialAdUnit;
+    self.cr_interstitialView = [[CRInterstitial alloc] initWithAdUnit:adUnit];
+    self.cr_interstitialView.delegate = self.logger;
+  }
 
-    [self.cr_interstitialView loadAd];
+  [self.cr_interstitialView loadAd];
 }
 
 - (IBAction)showInterstitialClick:(id)sender {
-    [self.cr_interstitialView presentFromRootViewController:self];
+  [self.cr_interstitialView presentFromRootViewController:self];
 }
 
-# pragma mark - Private
+#pragma mark - Private
 
-- (void) resetBannerView:(UIView *)bannerView {
-    if (bannerView) {
-        [bannerView removeFromSuperview];
-    }
+- (void)resetBannerView:(UIView *)bannerView {
+  if (bannerView) {
+    [bannerView removeFromSuperview];
+  }
 }
 
 @end

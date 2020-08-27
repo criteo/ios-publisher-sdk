@@ -13,13 +13,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface IntegrationBaseTableViewController : UITableViewController <InterstitialUpdateDelegate>
 
-@property (weak, nonatomic) IBOutlet UIButton *loadInterstitialButton;
-@property (weak, nonatomic) IBOutlet UIButton *showInterstitialButton;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitalSpinner;
-@property (weak, nonatomic) IBOutlet UISwitch *interstitialVideoSwitch;
-@property (weak, nonatomic) IBOutlet UILabel *interstitialVideoSwitchLabel;
+@property(weak, nonatomic) IBOutlet UIButton *loadInterstitialButton;
+@property(weak, nonatomic) IBOutlet UIButton *showInterstitialButton;
+@property(weak, nonatomic) IBOutlet UIActivityIndicatorView *interstitalSpinner;
+@property(weak, nonatomic) IBOutlet UISwitch *interstitialVideoSwitch;
+@property(weak, nonatomic) IBOutlet UILabel *interstitialVideoSwitchLabel;
 
-@property (nonatomic, strong) HomePageTableViewController *homePageVC;
+@property(nonatomic, strong) HomePageTableViewController *homePageVC;
 
 - (void)onLoadInterstitial;
 
