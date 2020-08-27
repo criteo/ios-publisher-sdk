@@ -7,7 +7,7 @@
 
 #import <MoPub.h>
 
-@import CriteoPublisherSdk;
+#import <CriteoPublisherSdk/CriteoPublisherSdk.h>
 #import "Criteo+Internal.h"
 
 #import "LogManager.h"
