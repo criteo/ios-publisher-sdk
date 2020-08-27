@@ -9,9 +9,9 @@
 
 @interface EventLogEntry ()
 
-@property (copy, nonatomic) NSDate *timestamp;
-@property (copy, nonatomic) NSString *event;
-@property (copy, nonatomic) NSString *detail;
+@property(copy, nonatomic) NSDate *timestamp;
+@property(copy, nonatomic) NSString *event;
+@property(copy, nonatomic) NSString *detail;
 
 @end
 
@@ -20,26 +20,25 @@
 #pragma mark - Lifecycle
 
 - (instancetype)initWithEvent:(NSString *)event detail:(NSString *)detail {
-    if (self = [super init]) {
-        _timestamp = [NSDate date];
-        _event = [event copy];
-        _detail = [detail copy];
-    }
-    return self;
+  if (self = [super init]) {
+    _timestamp = [NSDate date];
+    _event = [event copy];
+    _detail = [detail copy];
+  }
+  return self;
 }
-
 
 #pragma mark - Public
 
 - (NSString *)title {
-    return [NSString stringWithFormat:@"⏺ %@", self.event];
+  return [NSString stringWithFormat:@"⏺ %@", self.event];
 }
 
 - (NSString *)subtitle {
-    NSDateFormatter *timestampFormatter = [[NSDateFormatter alloc] init];
-    timestampFormatter.dateFormat = @"HH:mm:ss.SSS";
-    NSString *ts = [timestampFormatter stringFromDate:self.timestamp];
-    return ts;
+  NSDateFormatter *timestampFormatter = [[NSDateFormatter alloc] init];
+  timestampFormatter.dateFormat = @"HH:mm:ss.SSS";
+  NSString *ts = [timestampFormatter stringFromDate:self.timestamp];
+  return ts;
 }
 
 @end

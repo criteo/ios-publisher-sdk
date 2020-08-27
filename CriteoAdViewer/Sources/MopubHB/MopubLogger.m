@@ -11,9 +11,9 @@
 
 @interface MopubLogger ()
 
-@property (weak, nonatomic) LogManager *logManager;
-@property (weak, nonatomic) UIViewController *viewControllerForPresentingModalView;
-@property (weak, nonatomic) id <InterstitialUpdateDelegate> interstitialDelegate;
+@property(weak, nonatomic) LogManager *logManager;
+@property(weak, nonatomic) UIViewController *viewControllerForPresentingModalView;
+@property(weak, nonatomic) id<InterstitialUpdateDelegate> interstitialDelegate;
 
 @end
 
@@ -21,76 +21,78 @@
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithInterstitialDelegate:(UIViewController <InterstitialUpdateDelegate> *)interstitialDelegate {
-    if (self = [super init]) {
-        self.logManager = [LogManager sharedInstance];
-        self.interstitialDelegate = interstitialDelegate;
-        self.viewControllerForPresentingModalView = interstitialDelegate;
-    }
-    return self;
+- (instancetype)initWithInterstitialDelegate:
+    (UIViewController<InterstitialUpdateDelegate> *)interstitialDelegate {
+  if (self = [super init]) {
+    self.logManager = [LogManager sharedInstance];
+    self.interstitialDelegate = interstitialDelegate;
+    self.viewControllerForPresentingModalView = interstitialDelegate;
+  }
+  return self;
 };
 
-# pragma mark - MPAdViewDelegate
+#pragma mark - MPAdViewDelegate
 
 - (void)adViewDidLoadAd:(MPAdView *)view adSize:(CGSize)adSize {
-    [self.logManager logEvent:NSStringFromSelector(_cmd) info:view];
+  [self.logManager logEvent:NSStringFromSelector(_cmd) info:view];
 }
 
 - (void)adView:(MPAdView *)view didFailToLoadAdWithError:(NSError *)error {
-    [self.logManager logEvent:NSStringFromSelector(_cmd) info:view error:error];
+  [self.logManager logEvent:NSStringFromSelector(_cmd) info:view error:error];
 }
 
 - (void)willPresentModalViewForAd:(MPAdView *)view {
-    [self.logManager logEvent:NSStringFromSelector(_cmd) info:view];
+  [self.logManager logEvent:NSStringFromSelector(_cmd) info:view];
 }
 
 - (void)didDismissModalViewForAd:(MPAdView *)view {
-    [self.logManager logEvent:NSStringFromSelector(_cmd) info:view];
+  [self.logManager logEvent:NSStringFromSelector(_cmd) info:view];
 }
 
 - (void)willLeaveApplicationFromAd:(MPAdView *)view {
-    [self.logManager logEvent:NSStringFromSelector(_cmd) info:view];
+  [self.logManager logEvent:NSStringFromSelector(_cmd) info:view];
 }
 
-# pragma mark - MPInterstitialAdControllerDelegate
+#pragma mark - MPInterstitialAdControllerDelegate
 
 - (void)interstitialDidLoadAd:(MPInterstitialAdController *)interstitial {
-    [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial];
-    [self.interstitialDelegate interstitialUpdated:YES];
+  [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial];
+  [self.interstitialDelegate interstitialUpdated:YES];
 }
 
 - (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial {
-    [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial];
+  [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial];
 }
 
-- (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial withError:(NSError *)error {
-    [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial error:error];
-    [self.interstitialDelegate interstitialUpdated:NO];
+- (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial
+                          withError:(NSError *)error {
+  [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial error:error];
+  [self.interstitialDelegate interstitialUpdated:NO];
 }
 
 - (void)interstitialWillAppear:(MPInterstitialAdController *)interstitial {
-    [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial];
+  [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial];
 }
 
 - (void)interstitialDidAppear:(MPInterstitialAdController *)interstitial {
-    [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial];
+  [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial];
 }
 
 - (void)interstitialWillDisappear:(MPInterstitialAdController *)interstitial {
-    [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial];
-    [self.interstitialDelegate interstitialUpdated:NO];
+  [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial];
+  [self.interstitialDelegate interstitialUpdated:NO];
 }
 
 - (void)interstitialDidDisappear:(MPInterstitialAdController *)interstitial {
-    [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial];
+  [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial];
 }
 
 - (void)interstitialDidExpire:(MPInterstitialAdController *)interstitial {
-    [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial];
+  [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial];
 }
 
 - (void)interstitialDidReceiveTapEvent:(MPInterstitialAdController *)interstitial {
-    [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial];
+  [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial];
 }
 
 @end

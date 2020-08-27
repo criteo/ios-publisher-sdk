@@ -18,7 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithInterstitialDelegate:(UIViewController <InterstitialUpdateDelegate> *)viewController;
+- (instancetype)initWithInterstitialDelegate:
+    (UIViewController<InterstitialUpdateDelegate> *)viewController;
 
 @end
 

@@ -25,19 +25,18 @@
 
 @interface HomePageTableViewController : UITableViewController
 
-@property (nonatomic, strong) CRBannerAdUnit *googleBannerAdUnit_320x50;
-@property (nonatomic, strong) CRBannerAdUnit *googleBannerAdUnit_300x250;
-@property (nonatomic, strong) CRInterstitialAdUnit *googleInterstitialAdUnit;
-@property (nonatomic, strong) CRNativeAdUnit *googleNativeAdUnit_Fluid;
+@property(nonatomic, strong) CRBannerAdUnit *googleBannerAdUnit_320x50;
+@property(nonatomic, strong) CRBannerAdUnit *googleBannerAdUnit_300x250;
+@property(nonatomic, strong) CRInterstitialAdUnit *googleInterstitialAdUnit;
+@property(nonatomic, strong) CRNativeAdUnit *googleNativeAdUnit_Fluid;
 
-@property (nonatomic, strong) CRBannerAdUnit *moPubBannerAdUnit_320x50;
-@property (nonatomic, strong) CRBannerAdUnit *moPubBannerAdUnit_300x250;
-@property (nonatomic, strong) CRInterstitialAdUnit *moPubInterstitialAdUnit;
+@property(nonatomic, strong) CRBannerAdUnit *moPubBannerAdUnit_320x50;
+@property(nonatomic, strong) CRBannerAdUnit *moPubBannerAdUnit_300x250;
+@property(nonatomic, strong) CRInterstitialAdUnit *moPubInterstitialAdUnit;
 
-@property (nonatomic, strong) CRBannerAdUnit *criteoBannerAdUnit_320x50;
-@property (nonatomic, strong) CRInterstitialAdUnit *criteoInterstitialAdUnit;
-@property (nonatomic, strong) CRInterstitialAdUnit *criteoInterstitialVideoAdUnit;
-@property (nonatomic, strong) CRNativeAdUnit *criteoNativeAdUnit;
+@property(nonatomic, strong) CRBannerAdUnit *criteoBannerAdUnit_320x50;
+@property(nonatomic, strong) CRInterstitialAdUnit *criteoInterstitialAdUnit;
+@property(nonatomic, strong) CRInterstitialAdUnit *criteoInterstitialVideoAdUnit;
+@property(nonatomic, strong) CRNativeAdUnit *criteoNativeAdUnit;
 
 @end
-

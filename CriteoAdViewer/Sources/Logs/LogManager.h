@@ -22,7 +22,7 @@ extern NSString *const kLogUpdateKey;
 
 #pragma mark - Public
 
-@property (strong, nonatomic, readonly) NSArray<id <LogEntry>> *logs;
+@property(strong, nonatomic, readonly) NSArray<id<LogEntry>> *logs;
 
 - (void)logEvent:(NSString *)event detail:(NSString *)detail;
 

@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CRVNativeAdViewController : UIViewController
 
-@property (nonatomic, weak) id<CRVNativeAdViewControllerDelegate> delegate;
+@property(nonatomic, weak) id<CRVNativeAdViewControllerDelegate> delegate;
 
 @end
 

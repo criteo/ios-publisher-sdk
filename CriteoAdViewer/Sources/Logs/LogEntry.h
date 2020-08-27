@@ -13,10 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Properties
 
-@property (copy, nonatomic, readonly) NSDate *timestamp;
-@property (copy, nonatomic, readonly) NSString *title;
-@property (copy, nonatomic, readonly) NSString *subtitle;
-@property (copy, nonatomic, readonly) NSString *detail;
+@property(copy, nonatomic, readonly) NSDate *timestamp;
+@property(copy, nonatomic, readonly) NSString *title;
+@property(copy, nonatomic, readonly) NSString *subtitle;
+@property(copy, nonatomic, readonly) NSString *detail;
 
 @end
 

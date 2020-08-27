@@ -12,9 +12,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface StandaloneLogger : NSObject <CRBannerViewDelegate, CRInterstitialDelegate, CRNativeLoaderDelegate>
+@interface StandaloneLogger
+    : NSObject <CRBannerViewDelegate, CRInterstitialDelegate, CRNativeLoaderDelegate>
 
-@property (weak, nonatomic) id <InterstitialUpdateDelegate> interstitialDelegate;
+@property(weak, nonatomic) id<InterstitialUpdateDelegate> interstitialDelegate;
 
 @end
 
