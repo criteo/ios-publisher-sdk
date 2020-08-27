@@ -1,5 +1,6 @@
 PODS:
   - Cassette (1.0.0-beta3)
+  - Eureka (5.2.1)
   - FunctionalObjC (1.0.2)
   - Google-Mobile-Ads-SDK (7.63.0):
     - GoogleAppMeasurement (~> 6.0)
@@ -37,14 +38,17 @@ PODS:
 
 DEPENDENCIES:
   - Cassette (~> 1.0-beta)
+  - Eureka
   - FunctionalObjC (~> 1.0)
   - Google-Mobile-Ads-SDK
+  - mopub-ios-sdk/Core
   - mopub-ios-sdk/Core (~> 5.13)
   - OCMock (~> 3.6)
 
 SPEC REPOS:
   trunk:
     - Cassette
+    - Eureka
     - FunctionalObjC
     - Google-Mobile-Ads-SDK
     - GoogleAppMeasurement
@@ -56,6 +60,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Cassette: bd5900e0b8d67c796ca82272ff5ee388320cfc61
+  Eureka: c883105488e05bc65539f583246ecf9657cabbfe
   FunctionalObjC: bd6aaa4b69abea0a5ac0e860a052c1ebebd5311c
   Google-Mobile-Ads-SDK: a71d6bc14f9cf1f66d686dbdf9ad2091de04059c
   GoogleAppMeasurement: 3def7652b1f5b5a576178dc332e2a36a260fbef6
@@ -65,6 +70,6 @@ SPEC CHECKSUMS:
   OCMock: 75fbeaa46a9b11f8c182bbb1d1f7e9a35ccc9955
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
 
-PODFILE CHECKSUM: dcc66a55c5fb8976e05a05761a5826561a1c5e73
+PODFILE CHECKSUM: 32089132898536adab7c22edc6d44aa36966f9cc
 
 COCOAPODS: 1.9.3

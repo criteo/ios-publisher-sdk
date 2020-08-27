@@ -17,6 +17,7 @@
 		198CDA414DD3208D6D93F1EC /* AdConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198CDA0A7F408237FDF8C5E9 /* AdConfig.swift */; };
 		198CDBBD19505CE769C375C5 /* CriteoAdViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198CDF8D630812D8072F12AB /* CriteoAdViewBuilder.swift */; };
 		198CDDAB5CB799E07E1DC055 /* AdFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198CD1615965A5E039286CB4 /* AdFormat.swift */; };
+		1BA1F5FDF6FEA87C9F2FAC25 /* libPods-CriteoAdViewer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 57CFA2BE9A79C9EB66122CD1 /* libPods-CriteoAdViewer.a */; };
 		404AC94B219650FF008C6267 /* GoogleDFPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 404AC94A219650FF008C6267 /* GoogleDFPTableViewController.m */; };
 		4077EBA9218BC48300C41E68 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBA8218BC48300C41E68 /* AppDelegate.m */; };
 		4077EBAC218BC48300C41E68 /* HomePageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBAB218BC48300C41E68 /* HomePageTableViewController.m */; };
@@ -24,9 +25,7 @@
 		4077EBB1218BC48300C41E68 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4077EBB0218BC48300C41E68 /* Assets.xcassets */; };
 		4077EBB4218BC48300C41E68 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4077EBB2218BC48300C41E68 /* LaunchScreen.storyboard */; };
 		4077EBB7218BC48300C41E68 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBB6218BC48300C41E68 /* main.m */; };
-		4077EBC1218BC48400C41E68 /* AdViewerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBC0218BC48400C41E68 /* AdViewerTests.m */; };
 		4077EBCC218BC48400C41E68 /* AdViewerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBCB218BC48400C41E68 /* AdViewerUITests.m */; };
-		40DE984B219F533300C4BA05 /* AdViewerTest2.m in Sources */ = {isa = PBXBuildFile; fileRef = 40DE984A219F533300C4BA05 /* AdViewerTest2.m */; };
 		46151AB2240EC74100D514BE /* LogEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46151AB1240EC74100D514BE /* LogEntryViewController.swift */; };
 		46151AB5240FB8A500D514BE /* RequestLogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 46151AB4240FB8A500D514BE /* RequestLogEntry.m */; };
 		46151AB8240FC10F00D514BE /* ResponseLogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 46151AB7240FC10F00D514BE /* ResponseLogEntry.m */; };
@@ -44,17 +43,9 @@
 		7DADDB6423F57C7A00DD82E7 /* CRVNativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DADDB6323F57C7A00DD82E7 /* CRVNativeAdView.xib */; };
 		7DC4A1D523EC73A20027DB5E /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CAF8C9232C2F990050D8D9 /* CriteoPublisherSdk.framework */; };
 		7DE88E5B248FA35B00F15D74 /* AdTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE88E5A248FA35B00F15D74 /* AdTableViewController.swift */; };
-		E73EE276C44A5021AC3258C6 /* libPods-AdViewer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE22D35658ED0F4914AE6FB /* libPods-AdViewer.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		4077EBBD218BC48400C41E68 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4077EB9C218BC48300C41E68 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4077EBA3218BC48300C41E68;
-			remoteInfo = AdViewer;
-		};
 		4077EBC8218BC48400C41E68 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4077EB9C218BC48300C41E68 /* Project object */;
@@ -78,6 +69,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		08E8205493A04DACE2FB2A30 /* Pods-CriteoAdViewer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoAdViewer.release.xcconfig"; path = "Target Support Files/Pods-CriteoAdViewer/Pods-CriteoAdViewer.release.xcconfig"; sourceTree = "<group>"; };
 		198CD1615965A5E039286CB4 /* AdFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdFormat.swift; sourceTree = "<group>"; };
 		198CD20560ED9CCF03D83BF3 /* AdvancedNativeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvancedNativeView.swift; sourceTree = "<group>"; };
 		198CD20A4B30A50C6D562506 /* InterstitialUpdateDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterstitialUpdateDelegate.h; sourceTree = "<group>"; };
@@ -91,27 +83,23 @@
 		198CDF4848FDB0545CBB170C /* AdViewRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdViewRow.swift; sourceTree = "<group>"; };
 		198CDF8D630812D8072F12AB /* CriteoAdViewBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriteoAdViewBuilder.swift; sourceTree = "<group>"; };
 		198CDF9CA007F85D34B51EA5 /* GoogleAdViewBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleAdViewBuilder.swift; sourceTree = "<group>"; };
-		25022DE7220A72EF00FF8ACE /* Criteo+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Criteo+Internal.h"; path = "AdViewer/Criteo/Criteo+Internal.h"; sourceTree = SOURCE_ROOT; };
-		25022DE8220A778600FF8ACE /* NetworkManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NetworkManagerDelegate.h; path = AdViewer/Criteo/NetworkManagerDelegate.h; sourceTree = SOURCE_ROOT; };
-		404AC949219650FF008C6267 /* GoogleDFPTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GoogleDFPTableViewController.h; path = AdViewer/GoogleDFP/GoogleDFPTableViewController.h; sourceTree = SOURCE_ROOT; };
-		404AC94A219650FF008C6267 /* GoogleDFPTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = GoogleDFPTableViewController.m; path = AdViewer/GoogleDFP/GoogleDFPTableViewController.m; sourceTree = SOURCE_ROOT; };
-		4077EBA4218BC48300C41E68 /* AdViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AdViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		25022DE7220A72EF00FF8ACE /* Criteo+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Criteo+Internal.h"; sourceTree = "<group>"; };
+		25022DE8220A778600FF8ACE /* NetworkManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkManagerDelegate.h; sourceTree = "<group>"; };
+		404AC949219650FF008C6267 /* GoogleDFPTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleDFPTableViewController.h; sourceTree = "<group>"; };
+		404AC94A219650FF008C6267 /* GoogleDFPTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoogleDFPTableViewController.m; sourceTree = "<group>"; };
+		4077EBA4218BC48300C41E68 /* CriteoAdViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CriteoAdViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4077EBA7218BC48300C41E68 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4077EBA8218BC48300C41E68 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		4077EBAA218BC48300C41E68 /* HomePageTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HomePageTableViewController.h; path = AdViewer/HomePage/HomePageTableViewController.h; sourceTree = SOURCE_ROOT; };
-		4077EBAB218BC48300C41E68 /* HomePageTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HomePageTableViewController.m; path = AdViewer/HomePage/HomePageTableViewController.m; sourceTree = SOURCE_ROOT; };
+		4077EBAA218BC48300C41E68 /* HomePageTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomePageTableViewController.h; sourceTree = "<group>"; };
+		4077EBAB218BC48300C41E68 /* HomePageTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomePageTableViewController.m; sourceTree = "<group>"; };
 		4077EBAE218BC48300C41E68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4077EBB0218BC48300C41E68 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4077EBB3218BC48300C41E68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4077EBB5218BC48300C41E68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4077EBB6218BC48300C41E68 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		4077EBBC218BC48400C41E68 /* AdViewerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AdViewerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4077EBC0218BC48400C41E68 /* AdViewerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdViewerTests.m; sourceTree = "<group>"; };
-		4077EBC2218BC48400C41E68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4077EBC7218BC48400C41E68 /* AdViewerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AdViewerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4077EBC7218BC48400C41E68 /* CriteoAdViewerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CriteoAdViewerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4077EBCB218BC48400C41E68 /* AdViewerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdViewerUITests.m; sourceTree = "<group>"; };
 		4077EBCD218BC48400C41E68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		40DE984A219F533300C4BA05 /* AdViewerTest2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdViewerTest2.m; sourceTree = "<group>"; };
 		46151AAE240EAFFB00D514BE /* LogEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LogEntry.h; sourceTree = "<group>"; };
 		46151AB1240EC74100D514BE /* LogEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogEntryViewController.swift; sourceTree = "<group>"; };
 		46151AB3240FB8A500D514BE /* RequestLogEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RequestLogEntry.h; sourceTree = "<group>"; };
@@ -122,19 +110,22 @@
 		462A60652417A6C100E36D33 /* GoogleDFPLogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoogleDFPLogger.m; sourceTree = "<group>"; };
 		462A60722417DB5000E36D33 /* AdViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdViewerViewController.swift; sourceTree = "<group>"; };
 		462A60752417E56900E36D33 /* AdViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdViewBuilder.swift; sourceTree = "<group>"; };
+		4677506524F8062E00375263 /* CriteoAdViewerUITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CriteoAdViewerUITests.xctestplan; sourceTree = "<group>"; };
 		467A28E724168A1B00CEF5C7 /* EventLogEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventLogEntry.h; sourceTree = "<group>"; };
 		467A28E824168A1B00CEF5C7 /* EventLogEntry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventLogEntry.m; sourceTree = "<group>"; };
 		4687264C240E9D7E0090489E /* AdViewer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AdViewer-Bridging-Header.h"; sourceTree = "<group>"; };
 		4687264D240E9D7E0090489E /* LogTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogTableViewController.swift; sourceTree = "<group>"; };
 		46872653240EA2D20090489E /* LogManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LogManager.h; sourceTree = "<group>"; };
 		46872654240EA31B0090489E /* LogManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogManager.m; sourceTree = "<group>"; };
+		48E17F661A46B5D3D90B855C /* Pods-CriteoAdViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoAdViewer.debug.xcconfig"; path = "Target Support Files/Pods-CriteoAdViewer/Pods-CriteoAdViewer.debug.xcconfig"; sourceTree = "<group>"; };
 		54B578F023682A9A004DF616 /* StandaloneTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StandaloneTableViewController.h; sourceTree = "<group>"; };
 		54B578F123682A9A004DF616 /* StandaloneTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StandaloneTableViewController.m; sourceTree = "<group>"; };
 		54B579132369CE5C004DF616 /* IntegrationBaseTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntegrationBaseTableViewController.h; sourceTree = "<group>"; };
 		54B579142369CE5C004DF616 /* IntegrationBaseTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntegrationBaseTableViewController.m; sourceTree = "<group>"; };
 		54CAF8C9232C2F990050D8D9 /* CriteoPublisherSdk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CriteoPublisherSdk.framework; sourceTree = "<group>"; };
-		54CAF8D0232C5EC70050D8D9 /* MopubTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MopubTableViewController.h; path = AdViewer/MopubHB/MopubTableViewController.h; sourceTree = SOURCE_ROOT; };
-		54CAF8D1232C5EC70050D8D9 /* MopubTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MopubTableViewController.m; path = AdViewer/MopubHB/MopubTableViewController.m; sourceTree = SOURCE_ROOT; };
+		54CAF8D0232C5EC70050D8D9 /* MopubTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MopubTableViewController.h; sourceTree = "<group>"; };
+		54CAF8D1232C5EC70050D8D9 /* MopubTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MopubTableViewController.m; sourceTree = "<group>"; };
+		57CFA2BE9A79C9EB66122CD1 /* libPods-CriteoAdViewer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoAdViewer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		64AA5508A38A4FE3F3B75508 /* Pods-AdViewer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdViewer.release.xcconfig"; path = "Target Support Files/Pods-AdViewer/Pods-AdViewer.release.xcconfig"; sourceTree = "<group>"; };
 		6F9FE320C665D130C4D90CEC /* Pods-AdViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdViewer.debug.xcconfig"; path = "Target Support Files/Pods-AdViewer/Pods-AdViewer.debug.xcconfig"; sourceTree = "<group>"; };
 		7D03F10723F194D800CB5D8B /* CRVNativeAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRVNativeAdViewController.h; sourceTree = "<group>"; };
@@ -143,7 +134,6 @@
 		7D0622F023F2EA950082F027 /* CRVNativeAdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRVNativeAdView.m; sourceTree = "<group>"; };
 		7DADDB6323F57C7A00DD82E7 /* CRVNativeAdView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CRVNativeAdView.xib; sourceTree = "<group>"; };
 		7DE88E5A248FA35B00F15D74 /* AdTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdTableViewController.swift; sourceTree = "<group>"; };
-		BAE22D35658ED0F4914AE6FB /* libPods-AdViewer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AdViewer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,14 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7DC4A1D523EC73A20027DB5E /* CriteoPublisherSdk.framework in Frameworks */,
-				E73EE276C44A5021AC3258C6 /* libPods-AdViewer.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4077EBB9218BC48400C41E68 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				1BA1F5FDF6FEA87C9F2FAC25 /* libPods-CriteoAdViewer.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,6 +161,8 @@
 			children = (
 				6F9FE320C665D130C4D90CEC /* Pods-AdViewer.debug.xcconfig */,
 				64AA5508A38A4FE3F3B75508 /* Pods-AdViewer.release.xcconfig */,
+				48E17F661A46B5D3D90B855C /* Pods-CriteoAdViewer.debug.xcconfig */,
+				08E8205493A04DACE2FB2A30 /* Pods-CriteoAdViewer.release.xcconfig */,
 			);
 			name = Pods;
 			path = ../Pods;
@@ -189,9 +174,8 @@
 				25022DE7220A72EF00FF8ACE /* Criteo+Internal.h */,
 				25022DE8220A778600FF8ACE /* NetworkManagerDelegate.h */,
 			);
-			name = Criteo;
-			path = AdViewer/Criteo;
-			sourceTree = SOURCE_ROOT;
+			path = Criteo;
+			sourceTree = "<group>";
 		};
 		404AC9482196509E008C6267 /* GoogleDFP */ = {
 			isa = PBXGroup;
@@ -201,17 +185,14 @@
 				404AC949219650FF008C6267 /* GoogleDFPTableViewController.h */,
 				404AC94A219650FF008C6267 /* GoogleDFPTableViewController.m */,
 			);
-			name = GoogleDFP;
-			path = AdViewer/GoogleDFP;
-			sourceTree = SOURCE_ROOT;
+			path = GoogleDFP;
+			sourceTree = "<group>";
 		};
 		4077EB9B218BC48300C41E68 = {
 			isa = PBXGroup;
 			children = (
-				54CAF8C9232C2F990050D8D9 /* CriteoPublisherSdk.framework */,
-				4077EBA6218BC48300C41E68 /* AdViewer */,
-				4077EBBF218BC48400C41E68 /* AdViewerTests */,
-				4077EBCA218BC48400C41E68 /* AdViewerUITests */,
+				4077EBA6218BC48300C41E68 /* Sources */,
+				4077EBCA218BC48400C41E68 /* UITests */,
 				4077EBA5218BC48300C41E68 /* Products */,
 				AEB379A3E47D7093DEBA6DA1 /* Frameworks */,
 				1CB942FBAD7B51564EEC0EAF /* Pods */,
@@ -221,14 +202,13 @@
 		4077EBA5218BC48300C41E68 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4077EBA4218BC48300C41E68 /* AdViewer.app */,
-				4077EBBC218BC48400C41E68 /* AdViewerTests.xctest */,
-				4077EBC7218BC48400C41E68 /* AdViewerUITests.xctest */,
+				4077EBA4218BC48300C41E68 /* CriteoAdViewer.app */,
+				4077EBC7218BC48400C41E68 /* CriteoAdViewerUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		4077EBA6218BC48300C41E68 /* AdViewer */ = {
+		4077EBA6218BC48300C41E68 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				462A60712417DB1C00E36D33 /* AdViewer */,
@@ -249,26 +229,17 @@
 				4077EBB6218BC48300C41E68 /* main.m */,
 				4687264C240E9D7E0090489E /* AdViewer-Bridging-Header.h */,
 			);
-			path = AdViewer;
+			path = Sources;
 			sourceTree = "<group>";
 		};
-		4077EBBF218BC48400C41E68 /* AdViewerTests */ = {
+		4077EBCA218BC48400C41E68 /* UITests */ = {
 			isa = PBXGroup;
 			children = (
-				4077EBC0218BC48400C41E68 /* AdViewerTests.m */,
-				4077EBC2218BC48400C41E68 /* Info.plist */,
-				40DE984A219F533300C4BA05 /* AdViewerTest2.m */,
-			);
-			path = AdViewerTests;
-			sourceTree = "<group>";
-		};
-		4077EBCA218BC48400C41E68 /* AdViewerUITests */ = {
-			isa = PBXGroup;
-			children = (
+				4677506524F8062E00375263 /* CriteoAdViewerUITests.xctestplan */,
 				4077EBCB218BC48400C41E68 /* AdViewerUITests.m */,
 				4077EBCD218BC48400C41E68 /* Info.plist */,
 			);
-			path = AdViewerUITests;
+			path = UITests;
 			sourceTree = "<group>";
 		};
 		4077EBD9218CB5C000C41E68 /* Splash */ = {
@@ -285,9 +256,8 @@
 				4077EBAA218BC48300C41E68 /* HomePageTableViewController.h */,
 				4077EBAB218BC48300C41E68 /* HomePageTableViewController.m */,
 			);
-			name = HomePage;
-			path = AdViewer/HomePage;
-			sourceTree = SOURCE_ROOT;
+			path = HomePage;
+			sourceTree = "<group>";
 		};
 		462A60712417DB1C00E36D33 /* AdViewer */ = {
 			isa = PBXGroup;
@@ -354,9 +324,8 @@
 				198CD671D01D703762C2CC20 /* MopubLogger.m */,
 				198CDBC606F70054B8627178 /* MopubLogger.h */,
 			);
-			name = MopubHB;
-			path = AdViewer/MopubHB;
-			sourceTree = SOURCE_ROOT;
+			path = MopubHB;
+			sourceTree = "<group>";
 		};
 		7D03F10623F1949900CB5D8B /* NativeAd */ = {
 			isa = PBXGroup;
@@ -373,7 +342,8 @@
 		AEB379A3E47D7093DEBA6DA1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BAE22D35658ED0F4914AE6FB /* libPods-AdViewer.a */,
+				54CAF8C9232C2F990050D8D9 /* CriteoPublisherSdk.framework */,
+				57CFA2BE9A79C9EB66122CD1 /* libPods-CriteoAdViewer.a */,
 			);
 			path = Frameworks;
 			sourceTree = "<group>";
@@ -381,9 +351,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4077EBA3218BC48300C41E68 /* AdViewer */ = {
+		4077EBA3218BC48300C41E68 /* CriteoAdViewer */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4077EBD0218BC48400C41E68 /* Build configuration list for PBXNativeTarget "AdViewer" */;
+			buildConfigurationList = 4077EBD0218BC48400C41E68 /* Build configuration list for PBXNativeTarget "CriteoAdViewer" */;
 			buildPhases = (
 				CD19B3480BF07D422DEFCF36 /* [CP] Check Pods Manifest.lock */,
 				4077EBA0218BC48300C41E68 /* Sources */,
@@ -396,32 +366,14 @@
 			);
 			dependencies = (
 			);
-			name = AdViewer;
+			name = CriteoAdViewer;
 			productName = AdViewer;
-			productReference = 4077EBA4218BC48300C41E68 /* AdViewer.app */;
+			productReference = 4077EBA4218BC48300C41E68 /* CriteoAdViewer.app */;
 			productType = "com.apple.product-type.application";
 		};
-		4077EBBB218BC48400C41E68 /* AdViewerTests */ = {
+		4077EBC6218BC48400C41E68 /* CriteoAdViewerUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4077EBD3218BC48400C41E68 /* Build configuration list for PBXNativeTarget "AdViewerTests" */;
-			buildPhases = (
-				4077EBB8218BC48400C41E68 /* Sources */,
-				4077EBB9218BC48400C41E68 /* Frameworks */,
-				4077EBBA218BC48400C41E68 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				4077EBBE218BC48400C41E68 /* PBXTargetDependency */,
-			);
-			name = AdViewerTests;
-			productName = AdViewerTests;
-			productReference = 4077EBBC218BC48400C41E68 /* AdViewerTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		4077EBC6218BC48400C41E68 /* AdViewerUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 4077EBD6218BC48400C41E68 /* Build configuration list for PBXNativeTarget "AdViewerUITests" */;
+			buildConfigurationList = 4077EBD6218BC48400C41E68 /* Build configuration list for PBXNativeTarget "CriteoAdViewerUITests" */;
 			buildPhases = (
 				4077EBC3218BC48400C41E68 /* Sources */,
 				4077EBC4218BC48400C41E68 /* Frameworks */,
@@ -432,9 +384,9 @@
 			dependencies = (
 				4077EBC9218BC48400C41E68 /* PBXTargetDependency */,
 			);
-			name = AdViewerUITests;
+			name = CriteoAdViewerUITests;
 			productName = AdViewerUITests;
-			productReference = 4077EBC7218BC48400C41E68 /* AdViewerUITests.xctest */;
+			productReference = 4077EBC7218BC48400C41E68 /* CriteoAdViewerUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -450,17 +402,13 @@
 						CreatedOnToolsVersion = 10.0;
 						LastSwiftMigration = 1130;
 					};
-					4077EBBB218BC48400C41E68 = {
-						CreatedOnToolsVersion = 10.0;
-						TestTargetID = 4077EBA3218BC48300C41E68;
-					};
 					4077EBC6218BC48400C41E68 = {
 						CreatedOnToolsVersion = 10.0;
 						TestTargetID = 4077EBA3218BC48300C41E68;
 					};
 				};
 			};
-			buildConfigurationList = 4077EB9F218BC48300C41E68 /* Build configuration list for PBXProject "AdViewer" */;
+			buildConfigurationList = 4077EB9F218BC48300C41E68 /* Build configuration list for PBXProject "CriteoAdViewer" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -473,9 +421,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4077EBA3218BC48300C41E68 /* AdViewer */,
-				4077EBBB218BC48400C41E68 /* AdViewerTests */,
-				4077EBC6218BC48400C41E68 /* AdViewerUITests */,
+				4077EBA3218BC48300C41E68 /* CriteoAdViewer */,
+				4077EBC6218BC48400C41E68 /* CriteoAdViewerUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -489,13 +436,6 @@
 				4077EBB1218BC48300C41E68 /* Assets.xcassets in Resources */,
 				7DADDB6423F57C7A00DD82E7 /* CRVNativeAdView.xib in Resources */,
 				4077EBAF218BC48300C41E68 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4077EBBA218BC48400C41E68 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,7 +464,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AdViewer-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-CriteoAdViewer-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -537,15 +477,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AdViewer/Pods-AdViewer-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-CriteoAdViewer/Pods-CriteoAdViewer-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AdViewer/Pods-AdViewer-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-CriteoAdViewer/Pods-CriteoAdViewer-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AdViewer/Pods-AdViewer-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CriteoAdViewer/Pods-CriteoAdViewer-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -587,15 +527,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4077EBB8218BC48400C41E68 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				40DE984B219F533300C4BA05 /* AdViewerTest2.m in Sources */,
-				4077EBC1218BC48400C41E68 /* AdViewerTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4077EBC3218BC48400C41E68 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -607,14 +538,9 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		4077EBBE218BC48400C41E68 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4077EBA3218BC48300C41E68 /* AdViewer */;
-			targetProxy = 4077EBBD218BC48400C41E68 /* PBXContainerItemProxy */;
-		};
 		4077EBC9218BC48400C41E68 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4077EBA3218BC48300C41E68 /* AdViewer */;
+			target = 4077EBA3218BC48300C41E68 /* CriteoAdViewer */;
 			targetProxy = 4077EBC8218BC48400C41E68 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -758,7 +684,7 @@
 		};
 		4077EBD1218BC48400C41E68 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6F9FE320C665D130C4D90CEC /* Pods-AdViewer.debug.xcconfig */;
+			baseConfigurationReference = 48E17F661A46B5D3D90B855C /* Pods-CriteoAdViewer.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -777,7 +703,7 @@
 					"$(SRCROOT)/**",
 					"$(PROJECT_DIR)/**",
 				);
-				INFOPLIST_FILE = AdViewer/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -785,7 +711,7 @@
 				MARKETING_VERSION = 3.9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.PublisherSDKTester;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "AdViewer/AdViewer-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sources/AdViewer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -800,7 +726,7 @@
 		};
 		4077EBD2218BC48400C41E68 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 64AA5508A38A4FE3F3B75508 /* Pods-AdViewer.release.xcconfig */;
+			baseConfigurationReference = 08E8205493A04DACE2FB2A30 /* Pods-CriteoAdViewer.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -819,7 +745,7 @@
 					"$(SRCROOT)/**",
 					"$(PROJECT_DIR)/**",
 				);
-				INFOPLIST_FILE = AdViewer/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -827,7 +753,7 @@
 				MARKETING_VERSION = 3.9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.PublisherSDKTester;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "AdViewer/AdViewer-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sources/AdViewer-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = (
@@ -836,76 +762,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
 				);
-			};
-			name = Release;
-		};
-		4077EBD4218BC48400C41E68 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = S655EV5659;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/Google-Mobile-Ads-SDK/Frameworks/frameworks\"",
-					"\"${PODS_ROOT}/mopub-ios-sdk/MoPubSDK/Viewability/MOAT\"",
-				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/Google-Mobile-Ads-SDK\"",
-					"\"${PODS_ROOT}/Headers/Public/mopub-ios-sdk\"",
-					"$(PROJECT_DIR)",
-				);
-				INFOPLIST_FILE = AdViewerTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				"LIBRARY_SEARCH_PATHS[arch=*]" = (
-					"$(inherited)",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/mopub-ios-sdk\"",
-					"\"${PODS_ROOT}/Google-Mobile-Ads-SDK/Libraries\"",
-					"\"${PODS_ROOT}/mopub-ios-sdk/MoPubSDK/Viewability/Avid\"",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.AdViewerTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AdViewer.app/AdViewer";
-			};
-			name = Debug;
-		};
-		4077EBD5218BC48400C41E68 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = S655EV5659;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/Google-Mobile-Ads-SDK/Frameworks/frameworks\"",
-					"\"${PODS_ROOT}/mopub-ios-sdk/MoPubSDK/Viewability/MOAT\"",
-				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/Google-Mobile-Ads-SDK\"",
-					"\"${PODS_ROOT}/Headers/Public/mopub-ios-sdk\"",
-					"$(PROJECT_DIR)",
-				);
-				INFOPLIST_FILE = AdViewerTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.AdViewerTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AdViewer.app/AdViewer";
 			};
 			name = Release;
 		};
@@ -921,7 +777,7 @@
 					"\"${PODS_ROOT}/Google-Mobile-Ads-SDK/Frameworks/frameworks\"",
 					"\"${PODS_ROOT}/mopub-ios-sdk/MoPubSDK/Viewability/MOAT\"",
 				);
-				INFOPLIST_FILE = AdViewerUITests/Info.plist;
+				INFOPLIST_FILE = UITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -929,8 +785,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.AdViewerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = AdViewer;
+				TEST_TARGET_NAME = CriteoAdViewer;
 			};
 			name = Debug;
 		};
@@ -946,7 +803,7 @@
 					"\"${PODS_ROOT}/Google-Mobile-Ads-SDK/Frameworks/frameworks\"",
 					"\"${PODS_ROOT}/mopub-ios-sdk/MoPubSDK/Viewability/MOAT\"",
 				);
-				INFOPLIST_FILE = AdViewerUITests/Info.plist;
+				INFOPLIST_FILE = UITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -954,15 +811,16 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.AdViewerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = AdViewer;
+				TEST_TARGET_NAME = CriteoAdViewer;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4077EB9F218BC48300C41E68 /* Build configuration list for PBXProject "AdViewer" */ = {
+		4077EB9F218BC48300C41E68 /* Build configuration list for PBXProject "CriteoAdViewer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4077EBCE218BC48400C41E68 /* Debug */,
@@ -971,7 +829,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4077EBD0218BC48400C41E68 /* Build configuration list for PBXNativeTarget "AdViewer" */ = {
+		4077EBD0218BC48400C41E68 /* Build configuration list for PBXNativeTarget "CriteoAdViewer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4077EBD1218BC48400C41E68 /* Debug */,
@@ -980,16 +838,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4077EBD3218BC48400C41E68 /* Build configuration list for PBXNativeTarget "AdViewerTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4077EBD4218BC48400C41E68 /* Debug */,
-				4077EBD5218BC48400C41E68 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		4077EBD6218BC48400C41E68 /* Build configuration list for PBXNativeTarget "AdViewerUITests" */ = {
+		4077EBD6218BC48400C41E68 /* Build configuration list for PBXNativeTarget "CriteoAdViewerUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4077EBD7218BC48400C41E68 /* Debug */,
