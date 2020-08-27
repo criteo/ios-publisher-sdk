@@ -6,7 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@import CriteoPublisherSdk;
+#import <CriteoPublisherSdk/CriteoPublisherSdk.h>
 #import "Criteo+Internal.h"
 
 #define GOOGLEBANNERADUNITID_320x50 @"/140800857/Endeavour_320x50"
