@@ -27,15 +27,6 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4077EBA3218BC48300C41E68"
-            BuildableName = "AdViewer.app"
-            BlueprintName = "AdViewer"
-            ReferencedContainer = "container:AdViewer.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <TestPlans>
          <TestPlanReference
             reference = "container:UITests/CriteoAdViewerUITests.xctestplan"

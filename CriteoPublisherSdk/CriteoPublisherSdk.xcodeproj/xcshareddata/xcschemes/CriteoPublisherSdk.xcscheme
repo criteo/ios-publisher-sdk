@@ -27,15 +27,6 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "25BD5B562220D16D004DE311"
-            BuildableName = "CriteoPublisherSdk.framework"
-            BlueprintName = "CriteoPublisherSdk"
-            ReferencedContainer = "container:CriteoPublisherSdk.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <TestPlans>
          <TestPlanReference
             reference = "container:Tests/CriteoPublisherSdk.xctestplan"
