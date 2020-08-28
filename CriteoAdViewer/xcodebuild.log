@@ -1,0 +1,202 @@
+User defaults from command line:
+    IDEBuildOperationMaxNumberOfConcurrentCompileTasks = 8
+
+Build Preparation
+Build task concurrency set to 8 via user default IDEBuildOperationMaxNumberOfConcurrentCompileTasks
+
+note: Using new build system
+note: Planning build
+note: Using build description from disk
+CreateBuildDirectory /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex (in target: mopub-ios-sdk)
+    cd /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/Pods
+    builtin-create-build-directory /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex
+
+CreateBuildDirectory /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products (in target: mopub-ios-sdk)
+    cd /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/Pods
+    builtin-create-build-directory /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products
+
+ProcessProductPackaging "" /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewer.build/AdViewer.app-Simulated.xcent (in target: AdViewer)
+    cd /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer
+    
+
+Entitlements:
+
+{
+    "application-identifier" = "S655EV5659.com.criteo.AdViewer";
+    "keychain-access-groups" =     (
+        "S655EV5659.com.criteo.AdViewer"
+    );
+}
+
+
+    builtin-productPackagingUtility -entitlements -format xml -o /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewer.build/AdViewer.app-Simulated.xcent
+
+ProcessProductPackaging "" /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewer.build/AdViewer.app.xcent (in target: AdViewer)
+    cd /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer
+    
+
+Entitlements:
+
+{
+    "com.apple.security.get-task-allow" = 1;
+}
+
+
+    builtin-productPackagingUtility -entitlements -format xml -o /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewer.build/AdViewer.app.xcent
+
+PhaseScriptExecution [CP]\ Check\ Pods\ Manifest.lock /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewer.build/Script-27FA714EC9C6D79BBD174088.sh (in target: AdViewer)
+    cd /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer
+    /bin/sh -c /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewer.build/Script-27FA714EC9C6D79BBD174088.sh
+
+Ld /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/AdViewer.app/AdViewer normal x86_64 (in target: AdViewer)
+    cd /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer
+    export IPHONEOS_DEPLOYMENT_TARGET=8.0
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator12.1.sdk -L/Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator -L/Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/mopub-ios-sdk -L/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/Google-Mobile-Ads-SDK/Libraries -L/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Viewability/Avid -F/Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator -F/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks -F/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Viewability/MOAT -filelist /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewer.build/Objects-normal/x86_64/AdViewer.LinkFileList -Xlinker -rpath -Xlinker @executable_path/Frameworks -mios-simulator-version-min=8.0 -dead_strip -Xlinker -object_path_lto -Xlinker /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewer.build/Objects-normal/x86_64/AdViewer_lto.o -Xlinker -export_dynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -fobjc-arc -fobjc-link-runtime -ObjC -lAvid-mopub-3.6.1 -lGoogleMobileAds -lmopub-ios-sdk -lsqlite3 -lz -framework AVFoundation -framework AudioToolbox -framework CFNetwork -framework CoreGraphics -framework CoreLocation -framework CoreMedia -framework CoreMotion -framework CoreTelephony -framework CoreVideo -framework Foundation -framework GLKit -framework GoogleMobileAds -framework MPUBMoatMobileAppKit -framework MediaPlayer -framework MessageUI -framework MobileCoreServices -framework OpenGLES -framework QuartzCore -framework SafariServices -framework Security -framework StoreKit -framework SystemConfiguration -framework UIKit -weak_framework AdSupport -weak_framework JavaScriptCore -weak_framework SafariServices -weak_framework StoreKit -weak_framework WebKit -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __entitlements -Xlinker /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewer.build/AdViewer.app-Simulated.xcent -lPods-AdViewer -Xlinker -dependency_info -Xlinker /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewer.build/Objects-normal/x86_64/AdViewer_dependency_info.dat -o /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/AdViewer.app/AdViewer
+
+PhaseScriptExecution [CP]\ Copy\ Pods\ Resources /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewer.build/Script-779D7B98AF2FB9402A53CB83.sh (in target: AdViewer)
+    cd /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer
+    /bin/sh -c /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewer.build/Script-779D7B98AF2FB9402A53CB83.sh
+ibtool --reference-external-strings-file --errors --warnings --notices --minimum-deployment-target 8.0 --output-format human-readable-text --compile /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/AdViewer.app/MPAdBrowserController.nib /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Internal/Common/MPAdBrowserController.xib --sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator12.1.sdk --target-device ipad --target-device iphone
+/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Resources/MPCloseBtn.png
+/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Resources/MPCloseBtn@2x.png
+/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Resources/MPCloseBtn@3x.png
+/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Resources/MPCloseButtonX.png
+/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Resources/MPCloseButtonX@2x.png
+/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Resources/MPCloseButtonX@3x.png
+/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Resources/MPCountdownTimer.html
+/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Resources/MPDAAIcon.png
+/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Resources/MPDAAIcon@2x.png
+/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Resources/MPDAAIcon@3x.png
+/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Resources/MPMutedBtn.png
+/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Resources/MPMutedBtn@2x.png
+/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Resources/MPMutedBtn@3x.png
+/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Resources/MPPlayBtn.png
+/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Resources/MPPlayBtn@2x.png
+/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Resources/MPPlayBtn@3x.png
+/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Resources/MPUnmutedBtn.png
+/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Resources/MPUnmutedBtn@2x.png
+/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Resources/MPUnmutedBtn@3x.png
+/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Resources/MRAID.bundle
+building file list ... 
+done
+
+sent 428 bytes  received 20 bytes  896.00 bytes/sec
+total size is 54738  speedup is 122.18
+
+ProcessInfoPlistFile /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/AdViewer.app/Info.plist /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/AdViewer/Info.plist (in target: AdViewer)
+    cd /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer
+    builtin-infoPlistUtility /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/AdViewer/Info.plist -genpkginfo /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/AdViewer.app/PkgInfo -expandbuildsettings -format binary -platform iphonesimulator -additionalcontentfile /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewer.build/Base.lproj/LaunchScreen-SBPartialInfo.plist -additionalcontentfile /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewer.build/Base.lproj/Main-SBPartialInfo.plist -additionalcontentfile /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewer.build/assetcatalog_generated_info.plist -o /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/AdViewer.app/Info.plist
+
+CodeSign /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/AdViewer.app (in target: AdViewer)
+    cd /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer
+    export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/codesign_allocate
+    
+Signing Identity:     "-"
+
+    /usr/bin/codesign --force --sign - --entitlements /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewer.build/AdViewer.app.xcent --timestamp=none /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/AdViewer.app
+
+ProcessProductPackaging "" /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewerUITests.build/AdViewerUITests.xctest.xcent (in target: AdViewerUITests)
+    cd /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer
+    
+
+Entitlements:
+
+{
+    "com.apple.security.get-task-allow" = 1;
+}
+
+
+    builtin-productPackagingUtility -entitlements -format xml -o /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewerUITests.build/AdViewerUITests.xctest.xcent
+
+ProcessProductPackaging "" /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewerUITests.build/AdViewerUITests.xctest-Simulated.xcent (in target: AdViewerUITests)
+    cd /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer
+    
+
+Entitlements:
+
+{
+    "application-identifier" = "S655EV5659.com.criteo.AdViewerUITests";
+    "keychain-access-groups" =     (
+        "S655EV5659.com.criteo.AdViewerUITests"
+    );
+}
+
+
+    builtin-productPackagingUtility -entitlements -format xml -o /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewerUITests.build/AdViewerUITests.xctest-Simulated.xcent
+
+ProcessInfoPlistFile /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/AdViewerUITests-Runner.app/PlugIns/AdViewerUITests.xctest/Info.plist /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/AdViewerUITests/Info.plist (in target: AdViewerUITests)
+    cd /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer
+    builtin-infoPlistUtility /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/AdViewerUITests/Info.plist -expandbuildsettings -format binary -platform iphonesimulator -additionalcontentfile /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewerUITests.build/ProductTypeInfoPlistAdditions.plist -o /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/AdViewerUITests-Runner.app/PlugIns/AdViewerUITests.xctest/Info.plist
+
+PhaseScriptExecution [CP]\ Check\ Pods\ Manifest.lock /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewerUITests.build/Script-1AAEF919F4DD96AC342CF076.sh (in target: AdViewerUITests)
+    cd /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer
+    /bin/sh -c /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewerUITests.build/Script-1AAEF919F4DD96AC342CF076.sh
+
+ProcessProductPackaging "" /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewerTests.build/AdViewerTests.xctest-Simulated.xcent (in target: AdViewerTests)
+    cd /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer
+    
+
+Entitlements:
+
+{
+    "application-identifier" = "S655EV5659.com.criteo.AdViewerTests";
+    "keychain-access-groups" =     (
+        "S655EV5659.com.criteo.AdViewerTests"
+    );
+}
+
+
+    builtin-productPackagingUtility -entitlements -format xml -o /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewerTests.build/AdViewerTests.xctest-Simulated.xcent
+
+PhaseScriptExecution [CP]\ Check\ Pods\ Manifest.lock /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewerTests.build/Script-17D35F83FE8C3EF2E8C1F482.sh (in target: AdViewerTests)
+    cd /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer
+    /bin/sh -c /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewerTests.build/Script-17D35F83FE8C3EF2E8C1F482.sh
+
+ProcessInfoPlistFile /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/AdViewer.app/PlugIns/AdViewerTests.xctest/Info.plist /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/AdViewerTests/Info.plist (in target: AdViewerTests)
+    cd /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer
+    builtin-infoPlistUtility /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/AdViewerTests/Info.plist -expandbuildsettings -format binary -platform iphonesimulator -o /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/AdViewer.app/PlugIns/AdViewerTests.xctest/Info.plist
+
+Ld /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/AdViewerUITests-Runner.app/PlugIns/AdViewerUITests.xctest/AdViewerUITests normal x86_64 (in target: AdViewerUITests)
+    cd /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer
+    export IPHONEOS_DEPLOYMENT_TARGET=12.0
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -arch x86_64 -bundle -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator12.1.sdk -L/Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator -L/Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/mopub-ios-sdk -L/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/Google-Mobile-Ads-SDK/Libraries -L/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Viewability/Avid -F/Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator -F/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks -F/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Viewability/MOAT -F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -filelist /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewerUITests.build/Objects-normal/x86_64/AdViewerUITests.LinkFileList -Xlinker -rpath -Xlinker @executable_path/Frameworks -Xlinker -rpath -Xlinker @loader_path/Frameworks -mios-simulator-version-min=12.0 -dead_strip -Xlinker -object_path_lto -Xlinker /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewerUITests.build/Objects-normal/x86_64/AdViewerUITests_lto.o -Xlinker -export_dynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -fobjc-arc -fobjc-link-runtime -ObjC -lsqlite3 -lz -framework AVFoundation -framework AudioToolbox -framework CFNetwork -framework CoreGraphics -framework CoreLocation -framework CoreMedia -framework CoreMotion -framework CoreTelephony -framework CoreVideo -framework Foundation -framework GLKit -framework MediaPlayer -framework MessageUI -framework MobileCoreServices -framework OpenGLES -framework QuartzCore -framework SafariServices -framework Security -framework StoreKit -framework SystemConfiguration -framework UIKit -weak_framework AdSupport -weak_framework JavaScriptCore -weak_framework SafariServices -weak_framework StoreKit -weak_framework WebKit -framework XCTest -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __entitlements -Xlinker /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewerUITests.build/AdViewerUITests.xctest-Simulated.xcent -lPods-AdViewerUITests -Xlinker -dependency_info -Xlinker /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewerUITests.build/Objects-normal/x86_64/AdViewerUITests_dependency_info.dat -o /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/AdViewerUITests-Runner.app/PlugIns/AdViewerUITests.xctest/AdViewerUITests
+
+Ld /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/AdViewer.app/PlugIns/AdViewerTests.xctest/AdViewerTests normal x86_64 (in target: AdViewerTests)
+    cd /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer
+    export IPHONEOS_DEPLOYMENT_TARGET=12.0
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -arch x86_64 -bundle -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator12.1.sdk -L/Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator -L/Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/mopub-ios-sdk -L/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/Google-Mobile-Ads-SDK/Libraries -L/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Viewability/Avid -F/Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator -F/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks -F/Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer/../Pods/mopub-ios-sdk/MoPubSDK/Viewability/MOAT -F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -filelist /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewerTests.build/Objects-normal/x86_64/AdViewerTests.LinkFileList -Xlinker -rpath -Xlinker @executable_path/Frameworks -Xlinker -rpath -Xlinker @loader_path/Frameworks -mios-simulator-version-min=12.0 -dead_strip -bundle_loader /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/AdViewer.app/AdViewer -Xlinker -object_path_lto -Xlinker /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewerTests.build/Objects-normal/x86_64/AdViewerTests_lto.o -Xlinker -export_dynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -fobjc-arc -fobjc-link-runtime -ObjC -lsqlite3 -lz -framework AVFoundation -framework AudioToolbox -framework CFNetwork -framework CoreGraphics -framework CoreLocation -framework CoreMedia -framework CoreMotion -framework CoreTelephony -framework CoreVideo -framework Foundation -framework GLKit -framework MediaPlayer -framework MessageUI -framework MobileCoreServices -framework OpenGLES -framework QuartzCore -framework SafariServices -framework Security -framework StoreKit -framework SystemConfiguration -framework UIKit -weak_framework AdSupport -weak_framework JavaScriptCore -weak_framework SafariServices -weak_framework StoreKit -weak_framework WebKit -framework XCTest -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __entitlements -Xlinker /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewerTests.build/AdViewerTests.xctest-Simulated.xcent -lPods-AdViewerTests -Xlinker -dependency_info -Xlinker /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewerTests.build/Objects-normal/x86_64/AdViewerTests_dependency_info.dat -o /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/AdViewer.app/PlugIns/AdViewerTests.xctest/AdViewerTests
+
+CodeSign /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/AdViewer.app/PlugIns/AdViewerTests.xctest (in target: AdViewerTests)
+    cd /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer
+    export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/codesign_allocate
+    
+Signing Identity:     "-"
+
+    /usr/bin/codesign --force --sign - --timestamp=none /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/AdViewer.app/PlugIns/AdViewerTests.xctest
+
+CodeSign /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/AdViewerUITests-Runner.app/PlugIns/AdViewerUITests.xctest (in target: AdViewerUITests)
+    cd /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer
+    export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/codesign_allocate
+    
+Signing Identity:     "-"
+
+    /usr/bin/codesign --force --sign - --entitlements /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewerUITests.build/AdViewerUITests.xctest.xcent --timestamp=none /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/AdViewerUITests-Runner.app/PlugIns/AdViewerUITests.xctest
+
+CodeSign /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/AdViewerUITests-Runner.app (in target: AdViewerUITests)
+    cd /Users/y.paulikau/Documents/Repos/pub-sdk/fuji-test-app/AdViewer
+    export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/codesign_allocate
+    
+Signing Identity:     "-"
+
+    /usr/bin/codesign --force --sign - --entitlements /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Intermediates.noindex/AdViewer.build/Debug-iphonesimulator/AdViewerUITests.build/AdViewerUITests.xctest.xcent --timestamp=none /Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/AdViewerUITests-Runner.app
+/Users/y.paulikau/Library/Developer/Xcode/DerivedData/fuji-test-app-asgrdbkslpkhnaeichjradvbdebe/Build/Products/Debug-iphonesimulator/AdViewerUITests-Runner.app: replacing existing signature
+
+
+** TEST SUCCEEDED ** [39.635 sec]
+
+Testing started on 'iPhone 5s'
+Test suite 'AdViewerTests' started on 'Clone 1 of iPhone 5s - AdViewer.app (72016)'
+Test case '-[AdViewerTests testPerformanceExample]' passed on 'Clone 1 of iPhone 5s - AdViewer.app (72016)' (0.275 seconds)
+Test case '-[AdViewerTests testExample]' passed on 'Clone 1 of iPhone 5s - AdViewer.app (72016)' (0.000 seconds)
+Test suite 'AdViewerUITests' started on 'Clone 1 of iPhone 5s - AdViewerUITests-Runner.app (72025)'
+Test case '-[AdViewerUITests testExample]' passed on 'Clone 1 of iPhone 5s - AdViewerUITests-Runner.app (72025)' (5.722 seconds)
