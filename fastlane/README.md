@@ -31,11 +31,16 @@ Check code format
 fastlane ios format
 ```
 Format code
+### ios set_versions
+```
+fastlane ios set_versions
+```
+Sets marketing and bundle versions to a Xcode project
 ### ios version_bump
 ```
 fastlane ios version_bump
 ```
-Set marketing version
+Sets cocoapods, marketing and bundle versions from a semver `version` and an optional `build` number
 ### ios archive
 ```
 fastlane ios archive
