@@ -20,6 +20,6 @@ defaults write com.apple.dt.xcodebuild IDEBuildOperationMaxNumberOfConcurrentCom
 defaults write com.apple.dt.Xcode PBXNumberOfParallelBuildSubtasks "$num_cpu"
 defaults write com.apple.dt.Xcode IDEBuildOperationMaxNumberOfConcurrentCompileTasks "$num_cpu"
 
-# Clang format
-brew install clang-format
-cp tools/clang-format/clang-format-git-hook.sh .git/hooks/pre-commit
+# Code format
+brew install clang-format swift-format
+cp tools/code-format-git-hook.sh .git/hooks/pre-commit

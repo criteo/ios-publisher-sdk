@@ -11,10 +11,12 @@ Follow the Robert Martin suggestion about [Clean Code](https://gist.github.com/w
 
 ## Coding Style
 To ensure code style consistency, it must respect the following:
-1. Formatted with [Clang Format](https://clang.llvm.org/docs/ClangFormat.html). This is checked by
-  CI and can be applied easily with `bundle exec fastlane format`. Alternatively to ease your
-  workflow, you can also add a git hook with:
-    `cp tools/clang-format/clang-format-git-hook.sh .git/hooks/pre-commit` 
+1. Code Formatted:
+    - Obj-C: [Clang Format](https://clang.llvm.org/docs/ClangFormat.html). _(Checked by CI)_
+    - Swift: [swift-format](https://github.com/apple/swift-format). _(Not checked by CI)_
+    - You can format whole repository with `bundle exec fastlane format`
+    - Alternatively to ease your workflow, you can also add a git hook with:
+      `cp tools/code-format-git-hook.sh .git/hooks/pre-commit`
 2. Follow [Ray Wenderlich's coding style](https://github.com/raywenderlich/objective-c-style-guide).
 
 ## Tests

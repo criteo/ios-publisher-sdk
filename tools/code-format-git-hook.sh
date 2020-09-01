@@ -1,11 +1,12 @@
 #!/bin/bash
 
-# cp tools/clang-format/clang-format-git-hook.sh .git/hooks/pre-commit
+# cp tools/code-format-git-hook.sh .git/hooks/pre-commit
 
 format_file() {
   file="${1}"
   if [ -f "$file" ]; then
     clang-format -i "$file"
+    swift-format -i "$file"
   fi
 }
 
