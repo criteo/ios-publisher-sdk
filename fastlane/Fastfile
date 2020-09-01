@@ -57,22 +57,36 @@ platform :ios do
     )
   end
 
-  desc %(Set marketing version)
+  desc %(Sets marketing and bundle versions to a Xcode project)
+  lane :set_versions do |options|
+    increment_version_number(version_number: options[:marketing_version], xcodeproj: options[:xcodeproj])
+    increment_build_number(build_number: options[:bundle_version], xcodeproj: options[:xcodeproj])
+  end
+
+  desc %(Sets cocoapods, marketing and bundle versions from a semver `version` and an optional `build` number)
   lane :version_bump do |options|
-    version = increment_version_number(
-      version_number: options[:version],
+    version = options[:version]
+    marketing_version = version.split("-")[0]
+    bundle_version = options[:build] || 1
+    puts "Bumping to #{version}, marketing_version=#{marketing_version}, bundle_version=#{bundle_version}"
+    set_versions(
+      marketing_version: marketing_version,
+      bundle_version: bundle_version,
       xcodeproj: "CriteoPublisherSdk/CriteoPublisherSdk.xcodeproj",
     )
-    version = increment_version_number(
-      version_number: options[:version],
+    set_versions(
+      marketing_version: marketing_version,
+      bundle_version: bundle_version,
       xcodeproj: "CriteoAdViewer/CriteoAdViewer.xcodeproj",
     )
-    increment_version_number(
-      version_number: version,
+    set_versions(
+      marketing_version: marketing_version,
+      bundle_version: bundle_version,
       xcodeproj: "CriteoGoogleAdapter/CriteoGoogleAdapter.xcodeproj",
     )
-    increment_version_number(
-      version_number: version,
+    set_versions(
+      marketing_version: marketing_version,
+      bundle_version: bundle_version,
       xcodeproj: "CriteoMoPubAdapter/CriteoMoPubAdapter.xcodeproj",
     )
     file_replace("CriteoPublisherSdk.podspec",

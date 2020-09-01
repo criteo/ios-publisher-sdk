@@ -29,7 +29,13 @@ The tests in this project are organised according to the following conventions:
 
 ## Release
 
-1. Bump version: `bundle exec fastlane version_bump version:x.y.z`
+1. Bump version:
+    - Releases: `bundle exec fastlane version_bump version:x.y.z`
+    - For RCs use `version:x.y.z-rc1`
+    - If you release several times the same `x.y.z` version, for instance several RCs, you have to
+    bump bundle version, you can do this adding an extra `build:2` argument.
+    e.g. `bundle exec fastlane version_bump version:x.y.z-rc2 build:2`
+   
 2. Ensure `CHANGELOG.md` is up to date and properly formatted:
     - Sections separated by lines `---` are used to split the changelog
     - The first section without version line will be used as Release description 
