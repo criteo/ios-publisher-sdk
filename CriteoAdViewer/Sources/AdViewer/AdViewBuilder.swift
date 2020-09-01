@@ -20,16 +20,16 @@
 typealias BannerView = UIView
 
 protocol InterstitialView {
-    func present(viewController: UIViewController)
+  func present(viewController: UIViewController)
 }
 
 enum AdView {
-    case banner(BannerView)
-    case interstitial(InterstitialView)
+  case banner(BannerView)
+  case interstitial(InterstitialView)
 }
 
 typealias AdViewController = UIViewController & InterstitialUpdateDelegate
 
 protocol AdViewBuilder {
-    func build(config: AdConfig, criteo: Criteo) -> AdView
+  func build(config: AdConfig, criteo: Criteo) -> AdView
 }
