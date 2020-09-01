@@ -37,6 +37,7 @@ platform :ios do
       paths: [project_dir, ad_viewer_dir, adapter_google_dir, adapter_mopub_dir],
       executable: "tools/clang-format/clang-format",
     )
+    # FIXME swift-format check for CI enforcement
   end
 
   desc %(Format code)
@@ -55,6 +56,7 @@ platform :ios do
       verbose: true,
       files: files,
     )
+    sh("swift-format -ir ../Criteo*/")
   end
 
   desc %(Sets marketing and bundle versions to a Xcode project)
