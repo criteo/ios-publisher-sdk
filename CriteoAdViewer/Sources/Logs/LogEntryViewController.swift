@@ -18,11 +18,11 @@
 //
 
 class LogEntryViewController: UIViewController {
-    @IBOutlet weak var logTextView: UITextView!
-    var logEntry: LogEntry?
+  @IBOutlet weak var logTextView: UITextView!
+  var logEntry: LogEntry?
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        logTextView.text = logEntry?.detail
-    }
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    logTextView.text = logEntry?.detail
+  }
 }
