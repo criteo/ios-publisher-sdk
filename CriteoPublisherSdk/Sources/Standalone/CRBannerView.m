@@ -111,6 +111,7 @@
 
   if ([bid isEmpty]) return [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
 
+  [self dispatchDidReceiveAdDelegate];
   [self loadAdWithDisplayData:bid.displayUrl];
 }
 
@@ -131,6 +132,7 @@
     return;
   }
 
+  [self dispatchDidReceiveAdDelegate];
   [self loadAdWithDisplayData:tokenValue.displayUrl];
 }
 
@@ -139,7 +141,6 @@
     return [self safelyNotifyAdLoadFail:CRErrorCodeInternalError description:@"No display URL"];
   }
 
-  [self dispatchDidReceiveAdDelegate];
   [self loadWebViewWithDisplayUrl:displayData];
 }
 
