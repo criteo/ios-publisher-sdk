@@ -24,6 +24,8 @@
 		5326033E22FE0DAA000C5BAB /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5439D11A22FDD85000BB94A2 /* CriteoPublisherSdk.framework */; };
 		53F2BA16230473B400D046D5 /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5439D11A22FDD85000BB94A2 /* CriteoPublisherSdk.framework */; };
 		91049DD324F4F73B0038C016 /* CRNativeCustomEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9114196524F4E77400B52E42 /* CRNativeCustomEventTests.m */; };
+		9104F74D2519EAB200C3BC25 /* CRNativeAdRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9104F74B2519EAB200C3BC25 /* CRNativeAdRenderer.m */; };
+		9104F74E2519EAB200C3BC25 /* CRNativeAdRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9104F74C2519EAB200C3BC25 /* CRNativeAdRenderer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9114195C24F4E17100B52E42 /* CRNativeCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 9114195A24F4E17100B52E42 /* CRNativeCustomEvent.h */; };
 		9114195D24F4E17100B52E42 /* CRNativeCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 9114195B24F4E17100B52E42 /* CRNativeCustomEvent.m */; };
 		9114196324F4E68D00B52E42 /* CRNativeAdAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 9114196124F4E68D00B52E42 /* CRNativeAdAdapter.h */; };
@@ -68,6 +70,8 @@
 		54FC7D7822F403F100202164 /* CriteoMoPubAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CriteoMoPubAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		723A18C84F38211EF6A89DA5 /* libPods-CriteoMoPubAdapterTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoMoPubAdapterTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2CE91A70E44C568BC9C09AC /* Pods-CriteoMoPubAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapter.debug.xcconfig"; path = "Target Support Files/Pods-CriteoMoPubAdapter/Pods-CriteoMoPubAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		9104F74B2519EAB200C3BC25 /* CRNativeAdRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdRenderer.m; sourceTree = "<group>"; };
+		9104F74C2519EAB200C3BC25 /* CRNativeAdRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNativeAdRenderer.h; sourceTree = "<group>"; };
 		9114195A24F4E17100B52E42 /* CRNativeCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRNativeCustomEvent.h; sourceTree = "<group>"; };
 		9114195B24F4E17100B52E42 /* CRNativeCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRNativeCustomEvent.m; sourceTree = "<group>"; };
 		9114196124F4E68D00B52E42 /* CRNativeAdAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRNativeAdAdapter.h; sourceTree = "<group>"; };
@@ -116,6 +120,8 @@
 				9114195B24F4E17100B52E42 /* CRNativeCustomEvent.m */,
 				9114196124F4E68D00B52E42 /* CRNativeAdAdapter.h */,
 				9114196224F4E68D00B52E42 /* CRNativeAdAdapter.m */,
+				9104F74C2519EAB200C3BC25 /* CRNativeAdRenderer.h */,
+				9104F74B2519EAB200C3BC25 /* CRNativeAdRenderer.m */,
 				466AEECF24C6D7E10034081E /* Info.plist */,
 			);
 			name = CriteoMoPubAdapter;
@@ -190,6 +196,7 @@
 			files = (
 				466AEED724C6D7E10034081E /* CRCriteoAdapterConfiguration.h in Headers */,
 				9114195C24F4E17100B52E42 /* CRNativeCustomEvent.h in Headers */,
+				9104F74E2519EAB200C3BC25 /* CRNativeAdRenderer.h in Headers */,
 				466AEED224C6D7E10034081E /* CRInterstitialCustomEvent.h in Headers */,
 				9114196324F4E68D00B52E42 /* CRNativeAdAdapter.h in Headers */,
 				466AEED624C6D7E10034081E /* CRCustomEventHelper.h in Headers */,
@@ -401,6 +408,7 @@
 				466AEED124C6D7E10034081E /* CRCustomEventHelper.m in Sources */,
 				466AEED024C6D7E10034081E /* CRBannerCustomEvent.m in Sources */,
 				466AEED324C6D7E10034081E /* CRCriteoAdapterConfiguration.m in Sources */,
+				9104F74D2519EAB200C3BC25 /* CRNativeAdRenderer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
