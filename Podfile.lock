@@ -4,12 +4,12 @@ PODS:
   - FunctionalObjC (1.0.2)
   - Google-Mobile-Ads-SDK (7.63.0):
     - GoogleAppMeasurement (~> 6.0)
-  - GoogleAppMeasurement (6.7.2):
+  - GoogleAppMeasurement (6.8.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.7)
     - GoogleUtilities/MethodSwizzler (~> 6.7)
     - GoogleUtilities/Network (~> 6.7)
     - "GoogleUtilities/NSData+zlib (~> 6.7)"
-    - nanopb (~> 1.30905.0)
+    - nanopb (~> 1.30906.0)
   - GoogleUtilities/AppDelegateSwizzler (6.7.2):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -28,11 +28,11 @@ PODS:
   - GoogleUtilities/Reachability (6.7.2):
     - GoogleUtilities/Logger
   - mopub-ios-sdk/Core (5.13.1)
-  - nanopb (1.30905.0):
-    - nanopb/decode (= 1.30905.0)
-    - nanopb/encode (= 1.30905.0)
-  - nanopb/decode (1.30905.0)
-  - nanopb/encode (1.30905.0)
+  - nanopb (1.30906.0):
+    - nanopb/decode (= 1.30906.0)
+    - nanopb/encode (= 1.30906.0)
+  - nanopb/decode (1.30906.0)
+  - nanopb/encode (1.30906.0)
   - OCMock (3.7.1)
   - PromisesObjC (1.2.10)
 
@@ -63,10 +63,10 @@ SPEC CHECKSUMS:
   Eureka: c883105488e05bc65539f583246ecf9657cabbfe
   FunctionalObjC: bd6aaa4b69abea0a5ac0e860a052c1ebebd5311c
   Google-Mobile-Ads-SDK: a71d6bc14f9cf1f66d686dbdf9ad2091de04059c
-  GoogleAppMeasurement: 3def7652b1f5b5a576178dc332e2a36a260fbef6
+  GoogleAppMeasurement: ecc30d0ab5b66d7d18e85ce1b8e2b345db60626d
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
   mopub-ios-sdk: 18af57aaf79d0ea3d0232b43b2d603ae8ea8e826
-  nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
+  nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   OCMock: 75fbeaa46a9b11f8c182bbb1d1f7e9a35ccc9955
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
 
