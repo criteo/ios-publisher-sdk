@@ -22,4 +22,6 @@
 
 #define CRITEO_PUBLISHER_SDK_VERSION @"3.10.0"
 
+#define CRITEO_AD_NETWORK_IDENTIFIER @"hs6bdukanm.skadnetwork"
+
 #endif /* CRConstants_h */

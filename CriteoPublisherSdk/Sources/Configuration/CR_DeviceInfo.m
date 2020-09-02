@@ -21,6 +21,7 @@
 #import "CR_DeviceInfo.h"
 #import "CR_ThreadManager.h"
 #import "Logging.h"
+#import "CRConstants.h"
 
 @interface CR_DeviceInfo ()
 
@@ -35,14 +36,19 @@
   NSMutableSet *_loadUserAgentCompletionBlocks;
 }
 
-- (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager {
+- (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager bundle:(NSBundle *)bundle {
   self = [super init];
   if (self) {
+    _threadManager = threadManager;
     _loadUserAgentCompletionBlocks = [NSMutableSet new];
     _isLoadingUserAgent = NO;
-    _threadManager = threadManager;
+    _isAppInstallCapable = [self checkAppInstallCapacity:bundle];
   }
   return self;
+}
+
+- (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager {
+  return [self initWithThreadManager:threadManager bundle:[NSBundle mainBundle]];
 }
 
 // For testing purposes only, webView will be lazily and properly instantiated on main queue if nil
@@ -140,6 +146,21 @@
   CGSize currentScreenSize = self.screenSize;
   return CGSizeEqualToSize(size, currentScreenSize) ||
          CGSizeEqualToSize(size, CGSizeMake(currentScreenSize.height, currentScreenSize.width));
+}
+
+- (BOOL)checkAppInstallCapacity:(NSBundle *)bundle {
+  if (@available(iOS 14, *)) {
+    NSString *trackingUsageDescription =
+        [bundle objectForInfoDictionaryKey:@"NSUserTrackingUsageDescription"];
+    NSArray *adNetworks = [bundle objectForInfoDictionaryKey:@"SKAdNetworkItems"];
+    NSUInteger networkIndex = [adNetworks
+        indexOfObjectPassingTest:^BOOL(NSMutableDictionary *network, NSUInteger idx, BOOL *stop) {
+          return [CRITEO_AD_NETWORK_IDENTIFIER isEqual:network[@"SKAdNetworkIdentifier"]];
+        }];
+    return trackingUsageDescription != nil && networkIndex != NSNotFound;
+  } else {
+    return true;
+  }
 }
 
 @end

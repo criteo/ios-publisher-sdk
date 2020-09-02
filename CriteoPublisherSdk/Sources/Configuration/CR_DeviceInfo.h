@@ -44,8 +44,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, readonly) CGSize safeScreenSize;
 
+/**
+ * Checks if app is properly setup and capable of handling App Install attribution through StoreKit
+ * SDKAdNetwork
+ */
+@property(nonatomic, readonly) BOOL isAppInstallCapable;
+
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager
+                               bundle:(NSBundle *)bundle NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager;
 
 - (void)waitForUserAgent:(void (^_Nullable)(void))completion;
 

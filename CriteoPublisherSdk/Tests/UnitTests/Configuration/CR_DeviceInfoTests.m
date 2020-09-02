@@ -29,6 +29,11 @@
 @interface CR_DeviceInfoTests : XCTestCase
 @end
 
+@interface CR_BundleMock : NSBundle
+@property(strong, nonatomic) NSDictionary *info;
+- (instancetype)initWithInfo:(NSDictionary *)info;
+@end
+
 @implementation CR_DeviceInfoTests
 
 - (void)testWKWebViewSuccess {
@@ -73,7 +78,8 @@
 - (void)testUserAgent {
   XCTestExpectation *expectation =
       [self expectationWithDescription:@"UserAgent is filled asynchronously"];
-  CR_DeviceInfo *device = [[CR_DeviceInfo alloc] init];
+  CR_DeviceInfo *device =
+      [[CR_DeviceInfo alloc] initWithThreadManager:[[CR_ThreadManager alloc] init]];
   XCTAssertNil(device.userAgent, @"User-Agent is nil when we create the object");
   [device waitForUserAgent:^{
     XCTAssertNotNil(device.userAgent,
@@ -89,7 +95,7 @@
 - (void)testWebViewInstantiatedOnMainThread {
   XCTestExpectation *expectation = [self expectationWithDescription:@"DeviceInfo created"];
   dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-    XCTAssertNoThrow([[CR_DeviceInfo alloc] init]);
+    XCTAssertNoThrow([[CR_DeviceInfo alloc] initWithThreadManager:[[CR_ThreadManager alloc] init]]);
     [expectation fulfill];
   });
   [self cr_waitShortlyForExpectations:@[ expectation ]];
@@ -125,6 +131,61 @@
   XCTAssertGreaterThan(safeScreenSize.height, 0);
   XCTAssertLessThanOrEqual(safeScreenSize.width, fullScreenSize.width);
   XCTAssertLessThanOrEqual(safeScreenSize.height, fullScreenSize.height);
+}
+
+- (void)testSupportsAppInstallWithProperInfoBundle {
+  if (@available(iOS 14, *)) {
+    NSBundle *bundleMock = [[CR_BundleMock alloc] initWithInfo:@{
+      @"NSUserTrackingUsageDescription" :
+          @"Your data will be used to deliver personalized ads to you.",
+      @"SKAdNetworkItems" : @[ @{@"SKAdNetworkIdentifier" : @"hs6bdukanm.skadnetwork"} ]
+    }];
+    CR_DeviceInfo *deviceInfo =
+        [[CR_DeviceInfo alloc] initWithThreadManager:[[CR_ThreadManager alloc] init]
+                                              bundle:bundleMock];
+    XCTAssertTrue(deviceInfo.isAppInstallCapable);
+  }
+}
+
+- (void)testDoesNotSupportsAppInstallWithoutAdNetworkID {
+  if (@available(iOS 14, *)) {
+    NSBundle *bundleMock = [[CR_BundleMock alloc] initWithInfo:@{
+      @"NSUserTrackingUsageDescription" :
+          @"Your data will be used to deliver personalized ads to you.",
+      @"SKAdNetworkItems" : @[ @{@"SKAdNetworkIdentifier" : @"someother.skadnetwork"} ]
+    }];
+    CR_DeviceInfo *deviceInfo =
+        [[CR_DeviceInfo alloc] initWithThreadManager:[[CR_ThreadManager alloc] init]
+                                              bundle:bundleMock];
+    XCTAssertFalse(deviceInfo.isAppInstallCapable);
+  }
+}
+
+- (void)testDoesNotSupportsAppInstallWithoutTrackingUsage {
+  if (@available(iOS 14, *)) {
+    NSBundle *bundleMock = [[CR_BundleMock alloc] initWithInfo:@{
+      @"SKAdNetworkItems" : @[ @{@"SKAdNetworkIdentifier" : @"hs6bdukanm.skadnetwork"} ]
+    }];
+    CR_DeviceInfo *deviceInfo =
+        [[CR_DeviceInfo alloc] initWithThreadManager:[[CR_ThreadManager alloc] init]
+                                              bundle:bundleMock];
+    XCTAssertFalse(deviceInfo.isAppInstallCapable);
+  }
+}
+
+@end
+
+@implementation CR_BundleMock
+
+- (instancetype)initWithInfo:(NSDictionary *)info {
+  if (self = [self init]) {
+    _info = info;
+  }
+  return self;
+}
+
+- (nullable id)objectForInfoDictionaryKey:(NSString *)key {
+  return _info[key];
 }
 
 @end
