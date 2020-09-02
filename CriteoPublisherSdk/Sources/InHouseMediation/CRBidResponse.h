@@ -18,7 +18,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CRBidToken.h"
+
+#import <CriteoPublisherSdk/CRBidToken.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

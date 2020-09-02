@@ -17,7 +17,7 @@
 // limitations under the License.
 //
 
-#import "CRAdUnit.h"
+#import <CriteoPublisherSdk/CRAdUnit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

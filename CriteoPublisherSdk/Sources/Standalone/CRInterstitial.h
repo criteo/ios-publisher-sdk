@@ -19,9 +19,10 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "CRInterstitialDelegate.h"
-#import "CRBidToken.h"
-#import "CRInterstitialAdUnit.h"
+
+#import <CriteoPublisherSdk/CRInterstitialDelegate.h>
+#import <CriteoPublisherSdk/CRBidToken.h>
+#import <CriteoPublisherSdk/CRInterstitialAdUnit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

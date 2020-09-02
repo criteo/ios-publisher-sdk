@@ -18,9 +18,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CRBannerViewDelegate.h"
-#import "CRBidToken.h"
-#import "CRBannerAdUnit.h"
+
+#import <CriteoPublisherSdk/CRBannerViewDelegate.h>
+#import <CriteoPublisherSdk/CRBidToken.h>
+#import <CriteoPublisherSdk/CRBannerAdUnit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
