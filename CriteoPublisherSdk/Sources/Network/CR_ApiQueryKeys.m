@@ -102,6 +102,9 @@
 + (NSString *)isTimeout {
   return @"isTimeout";
 }
++ (NSString *)isAppInstallCapable {
+  return @"isAppInstallCapable";
+}
 + (NSString *)limitedAdTracking {
   return @"limitedAdTracking";
 }

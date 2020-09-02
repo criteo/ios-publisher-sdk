@@ -43,6 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(copy, nonatomic, class, readonly) NSString *deviceModelKey;
 @property(copy, nonatomic, class, readonly) NSString *deviceIdTypeKey;
 @property(copy, nonatomic, class, readonly) NSString *deviceIdTypeValue;
+@property(copy, nonatomic, class, readonly) NSString *isAppInstallCapable;
 
 #pragma mark GDPR
 

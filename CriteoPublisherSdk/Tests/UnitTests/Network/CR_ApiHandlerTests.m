@@ -430,6 +430,7 @@
     CR_ApiQueryKeys.deviceId : self.deviceInfoMock.deviceId,
     CR_ApiQueryKeys.deviceOs : self.configMock.deviceOs,
     CR_ApiQueryKeys.deviceModel : self.configMock.deviceModel,
+    CR_ApiQueryKeys.isAppInstallCapable : @(self.deviceInfoMock.isAppInstallCapable),
     CR_ApiQueryKeys.userAgent : self.deviceInfoMock.userAgent,
     CR_ApiQueryKeys.uspIab : CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString
   };

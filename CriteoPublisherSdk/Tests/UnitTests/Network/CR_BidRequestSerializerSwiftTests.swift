@@ -89,9 +89,10 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
         let body = generateBody()
 
         let user: [String: AnyHashable] = body[NSString.userKey]! as! [String: AnyHashable]
-        XCTAssertEqual(user.count, 6)
+        XCTAssertEqual(user.count, 7)
         XCTAssertEqual(user[NSString.userAgentKey], deviceInfo.userAgent)
         XCTAssertEqual(user[NSString.deviceIdKey], deviceInfo.deviceId)
+        XCTAssertEqual(user[NSString.isAppInstallCapable], deviceInfo.isAppInstallCapable)
         XCTAssertEqual(user[NSString.deviceOsKey], config.deviceOs)
         XCTAssertEqual(user[NSString.deviceModelKey], config.deviceModel)
         XCTAssertEqual(user[NSString.deviceIdTypeKey], NSString.deviceIdTypeValue)

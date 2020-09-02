@@ -75,6 +75,10 @@
   return @"IDFA";
 }
 
++ (NSString *)isAppInstallCapable {
+  return @"isAppInstallCapable";
+}
+
 #pragma mark - GDPR
 
 + (NSString *)gdprConsentKey {

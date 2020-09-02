@@ -78,6 +78,7 @@
   userDict[CR_ApiQueryKeys.deviceOs] = config.deviceOs;
   userDict[CR_ApiQueryKeys.deviceId] = deviceInfo.deviceId;
   userDict[CR_ApiQueryKeys.userAgent] = deviceInfo.userAgent;
+  userDict[CR_ApiQueryKeys.isAppInstallCapable] = @(deviceInfo.isAppInstallCapable);
   userDict[CR_ApiQueryKeys.deviceIdType] = CR_ApiQueryKeys.deviceIdValue;
 
   if (consent.usPrivacyIabConsentString.length > 0) {
