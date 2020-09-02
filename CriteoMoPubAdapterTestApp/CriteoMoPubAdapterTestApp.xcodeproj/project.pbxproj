@@ -14,7 +14,26 @@
 		5431C7F923D7231F002F0282 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5431C7F723D7231F002F0282 /* LaunchScreen.storyboard */; };
 		5431C7FC23D7231F002F0282 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5431C7FB23D7231F002F0282 /* main.m */; };
 		5431C81223D72665002F0282 /* HomePageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5431C81123D72665002F0282 /* HomePageTableViewController.m */; };
+		914705F02500CBD2003A3909 /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 914705EF2500CBD1003A3909 /* CriteoPublisherSdk.framework */; };
+		914705F12500CBD2003A3909 /* CriteoPublisherSdk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 914705EF2500CBD1003A3909 /* CriteoPublisherSdk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		91B54FF124F7B67900E94932 /* CriteoMoPubAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91B54FF024F7B67900E94932 /* CriteoMoPubAdapter.framework */; };
+		91B54FF224F7B67900E94932 /* CriteoMoPubAdapter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 91B54FF024F7B67900E94932 /* CriteoMoPubAdapter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		91B54FF324F7B67900E94932 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				914705F12500CBD2003A3909 /* CriteoPublisherSdk.framework in Embed Frameworks */,
+				91B54FF224F7B67900E94932 /* CriteoMoPubAdapter.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0E665419EA3974D10C2D7ED9 /* Pods-CriteoMoPubAdapterTestApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapterTestApp.debug.xcconfig"; path = "Target Support Files/Pods-CriteoMoPubAdapterTestApp/Pods-CriteoMoPubAdapterTestApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -29,6 +48,8 @@
 		5431C7FB23D7231F002F0282 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5431C81023D72665002F0282 /* HomePageTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomePageTableViewController.h; sourceTree = "<group>"; };
 		5431C81123D72665002F0282 /* HomePageTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomePageTableViewController.m; sourceTree = "<group>"; };
+		914705EF2500CBD1003A3909 /* CriteoPublisherSdk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CriteoPublisherSdk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		91B54FF024F7B67900E94932 /* CriteoMoPubAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CriteoMoPubAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A552A4043F3142BE912DD619 /* libPods-CriteoMoPubAdapterTestApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoMoPubAdapterTestApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -37,7 +58,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91B54FF124F7B67900E94932 /* CriteoMoPubAdapter.framework in Frameworks */,
 				257D7F85987A73B1F0A8090D /* libPods-CriteoMoPubAdapterTestApp.a in Frameworks */,
+				914705F02500CBD2003A3909 /* CriteoPublisherSdk.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,7 +113,9 @@
 		5D5BC082B6696EE89EFE6D4A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				914705EF2500CBD1003A3909 /* CriteoPublisherSdk.framework */,
 				A552A4043F3142BE912DD619 /* libPods-CriteoMoPubAdapterTestApp.a */,
+				91B54FF024F7B67900E94932 /* CriteoMoPubAdapter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -117,6 +142,7 @@
 				5431C7E323D7231D002F0282 /* Frameworks */,
 				5431C7E423D7231D002F0282 /* Resources */,
 				FD10B7B83960E406F6111B00 /* [CP] Copy Pods Resources */,
+				91B54FF324F7B67900E94932 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
