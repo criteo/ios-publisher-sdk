@@ -40,6 +40,13 @@ FOUNDATION_EXPORT NSTimeInterval XCTestCaseCriteoShortTimeout;
  */
 - (void)cr_waitShortlyForExpectations:(NSArray<XCTestExpectation *> *)expectations;
 
+/**
+ * Deprecated method fallback
+ */
+- (void)cr_recordFailureWithDescription:(NSString *)description
+                                 inFile:(NSString *)filePath
+                                 atLine:(NSUInteger)lineNumber
+                               expected:(BOOL)expected;
 @end
 
 NS_ASSUME_NONNULL_END

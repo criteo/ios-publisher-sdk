@@ -184,7 +184,7 @@
         [[NSString alloc] initWithFormat:@"%@ (crt_size) should be equal to %@, %@", actualCrtSize,
                                          crtSizeString, self.request.customTargeting];
     NSString *file = [[NSString alloc] initWithCString:__FILE__ encoding:NSUTF8StringEncoding];
-    [self recordFailureWithDescription:desc inFile:file atLine:lineNumber expected:YES];
+    [self cr_recordFailureWithDescription:desc inFile:file atLine:lineNumber expected:YES];
   }
 }
 

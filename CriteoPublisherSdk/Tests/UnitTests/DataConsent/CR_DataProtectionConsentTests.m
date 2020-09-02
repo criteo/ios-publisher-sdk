@@ -20,6 +20,7 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 
+#import "XCTestCase+Criteo.h"
 #import "CR_DataProtectionConsent.h"
 #import "CR_DataProtectionConsentMock.h"
 
@@ -209,7 +210,7 @@ NSString *const CR_DataProtectionConsentTestsMalformed90CharsVendorString =
             @"usPrivacyCriteoState = %ld & iabConsentString = %@, mopubConsent = %@ => shouldSendAppEvent %d",
             (long)usPrivacyCriteoState, iabConsentString, mopubConsent, shouldSendAppEvent];
     NSString *file = [[NSString alloc] initWithCString:__FILE__ encoding:NSUTF8StringEncoding];
-    [self recordFailureWithDescription:desc inFile:file atLine:lineNumber expected:YES];
+    [self cr_recordFailureWithDescription:desc inFile:file atLine:lineNumber expected:YES];
   }
 
   [self.userDefaults removeObjectForKey:CR_CcpaCriteoStateKey];

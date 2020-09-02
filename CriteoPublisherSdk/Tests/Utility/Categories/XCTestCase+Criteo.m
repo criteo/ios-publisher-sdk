@@ -32,4 +32,19 @@ NSTimeInterval XCTestCaseCriteoShortTimeout = 3.f;
   [self waitForExpectations:expectations timeout:XCTestCaseCriteoShortTimeout];
 }
 
+- (void)cr_recordFailureWithDescription:(NSString *)description
+                                 inFile:(NSString *)filePath
+                                 atLine:(NSUInteger)lineNumber
+                               expected:(BOOL)expected {
+  XCTSourceCodeLocation *location = [[XCTSourceCodeLocation alloc] initWithFilePath:filePath
+                                                                         lineNumber:lineNumber];
+  XCTSourceCodeContext *context = [[XCTSourceCodeContext alloc] initWithLocation:location];
+  [self recordIssue:[[XCTIssue alloc] initWithType:XCTIssueTypeAssertionFailure
+                                compactDescription:description
+                               detailedDescription:nil
+                                 sourceCodeContext:context
+                                   associatedError:nil
+                                       attachments:@[]]];
+}
+
 @end
