@@ -690,7 +690,7 @@
     NSString *file = [[NSString alloc] initWithCString:__FILE__ encoding:NSUTF8StringEncoding];
     NSString *desc = [[NSString alloc] initWithFormat:@"Given key=value %@ not found in URL %@",
                                                       keyValueStr, self.appEventUrlString];
-    [self recordFailureWithDescription:desc inFile:file atLine:line expected:YES];
+    [self cr_recordFailureWithDescription:desc inFile:file atLine:line expected:YES];
   }
 }
 
@@ -700,7 +700,7 @@
     NSString *file = [[NSString alloc] initWithCString:__FILE__ encoding:NSUTF8StringEncoding];
     NSString *desc = [[NSString alloc]
         initWithFormat:@"Given key %@ is found in the URL %@", keyValueStr, self.appEventUrlString];
-    [self recordFailureWithDescription:desc inFile:file atLine:line expected:YES];
+    [self cr_recordFailureWithDescription:desc inFile:file atLine:line expected:YES];
   }
 }
 

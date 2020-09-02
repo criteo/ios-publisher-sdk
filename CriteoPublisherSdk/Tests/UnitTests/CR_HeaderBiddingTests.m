@@ -21,6 +21,7 @@
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
 
+#import "XCTestCase+Criteo.h"
 #import "DFPRequestClasses.h"
 #import "CR_CacheAdUnit.h"
 #import "CR_CdbBidBuilder.h"
@@ -521,7 +522,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
         [[NSString alloc] initWithFormat:@"The customTargeting doesn't contain \"%@ \": %@:%@",
                                          kSizeKey, crtSize, target];
     NSString *file = [[NSString alloc] initWithCString:__FILE__ encoding:NSUTF8StringEncoding];
-    [self recordFailureWithDescription:desc inFile:file atLine:lineNumber expected:YES];
+    [self cr_recordFailureWithDescription:desc inFile:file atLine:lineNumber expected:YES];
   }
 }
 
