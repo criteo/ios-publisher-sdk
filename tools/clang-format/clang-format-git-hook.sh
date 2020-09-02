@@ -6,7 +6,6 @@ format_file() {
   file="${1}"
   if [ -f "$file" ]; then
     clang-format -i "$file"
-    git add "$file"
   fi
 }
 
