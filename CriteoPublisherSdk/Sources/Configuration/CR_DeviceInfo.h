@@ -44,6 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, readonly) CGSize safeScreenSize;
 
+- (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager NS_DESIGNATED_INITIALIZER;
 
 - (void)waitForUserAgent:(void (^_Nullable)(void))completion;

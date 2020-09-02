@@ -32,11 +32,6 @@
   NSURLSession *session;
 }
 
-- (instancetype)init {
-  NSAssert(false, @"Do not use this initializer");
-  return [self initWithDeviceInfo:[[CR_DeviceInfo alloc] init]];
-}
-
 - (instancetype)initWithDeviceInfo:(CR_DeviceInfo *)deviceInfo {
   NSURLSession *session = [NSURLSession
       sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];

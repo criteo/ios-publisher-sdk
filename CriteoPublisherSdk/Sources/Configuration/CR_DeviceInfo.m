@@ -18,8 +18,6 @@
 //
 
 #import <WebKit/WebKit.h>
-#import <AdSupport/ASIdentifierManager.h>
-#import <UIKit/UIKit.h>
 #import "CR_DeviceInfo.h"
 #import "CR_ThreadManager.h"
 #import "Logging.h"
@@ -35,10 +33,6 @@
   NSString *_deviceId;
   BOOL _isLoadingUserAgent;
   NSMutableSet *_loadUserAgentCompletionBlocks;
-}
-
-- (instancetype)init {
-  return [self initWithThreadManager:[[CR_ThreadManager alloc] init]];
 }
 
 - (instancetype)initWithThreadManager:(CR_ThreadManager *)threadManager {

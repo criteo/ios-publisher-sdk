@@ -81,7 +81,8 @@
 
 - (void)testNetworkManagerPostCall {
   XCTestExpectation *expectation = [self expectationWithDescription:@"CDB network call"];
-  CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] init];
+  CR_DeviceInfo *deviceInfo =
+      [[CR_DeviceInfo alloc] initWithThreadManager:[[CR_ThreadManager alloc] init]];
   NSString *placementId = @"div-Test-DirectBidder";
   NSUInteger width = 300;
   NSUInteger height = 250;
