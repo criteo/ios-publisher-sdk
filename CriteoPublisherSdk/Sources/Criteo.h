@@ -21,8 +21,8 @@
 #define Criteo_h
 
 #import <Foundation/Foundation.h>
-#import "CRAdUnit.h"
-#import "CRBidResponse.h"
+#import <CriteoPublisherSdk/CRAdUnit.h>
+#import <CriteoPublisherSdk/CRBidResponse.h>
 
 NS_ASSUME_NONNULL_BEGIN
 @interface Criteo : NSObject

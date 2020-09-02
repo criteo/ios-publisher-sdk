@@ -46,7 +46,7 @@
 		466AEEE724C6EAA50034081E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1160;
+				LastUpgradeCheck = 1200;
 			};
 			buildConfigurationList = 466AEEEA24C6EAA50034081E /* Build configuration list for PBXProject "SupportFiles" */;
 			compatibilityVersion = "Xcode 9.3";

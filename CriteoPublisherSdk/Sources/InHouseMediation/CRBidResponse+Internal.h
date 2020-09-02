@@ -20,7 +20,7 @@
 #ifndef CRBidResponse_Internal_h
 #define CRBidResponse_Internal_h
 
-#import "CRBidResponse.h"
+#import <CriteoPublisherSdk/CRBidResponse.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
