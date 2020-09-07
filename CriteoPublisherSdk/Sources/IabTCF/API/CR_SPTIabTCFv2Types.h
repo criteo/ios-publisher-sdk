@@ -10,10 +10,9 @@
 #define CR_SPTIabTCFv2Types_h
 
 typedef NS_ENUM(NSInteger, GdprApplies) {
-    GdprApplies_Unset = -1,
-    GdprApplies_No = 0,
-    GdprApplies_Yes = 1
+  GdprApplies_Unset = -1,
+  GdprApplies_No = 0,
+  GdprApplies_Yes = 1
 };
-
 
 #endif /* CR_SPTIabTCFTypes_h */

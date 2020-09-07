@@ -11,18 +11,18 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, PublisherRestrictionType) {
-    Restriction_NotAllowedByPublisher = 0,
-    Restriction_RequireConsent = 1,
-    Restriction_RequireLegitimateInterest = 2,
-    Restriction_Undefined = 3
+  Restriction_NotAllowedByPublisher = 0,
+  Restriction_RequireConsent = 1,
+  Restriction_RequireLegitimateInterest = 2,
+  Restriction_Undefined = 3
 };
 
 @interface CR_SPTIabPublisherRestriction : NSObject
 
-@property (assign, nonatomic) NSInteger purposeId;
-@property (assign, nonatomic) PublisherRestrictionType retrictionType;
-@property (retain, nonatomic) NSArray * vendorsIds;
-@property (retain, nonatomic) NSString * parsedVendors;
+@property(assign, nonatomic) NSInteger purposeId;
+@property(assign, nonatomic) PublisherRestrictionType retrictionType;
+@property(retain, nonatomic) NSArray *vendorsIds;
+@property(retain, nonatomic) NSString *parsedVendors;
 
 - (NSDictionary *)asJson;
 

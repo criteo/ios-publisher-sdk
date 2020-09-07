@@ -12,12 +12,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_SPTIabTCFUtils : NSObject
 
-+(NSString*)addPaddingIfNeeded:(NSString*)base64String;
-+(unsigned char*)NSDataToBinary:(NSData *)decodedData;
-+(NSString*)replaceSafeCharacters:(NSString*)consentString;
-+(NSString*)safeBase64ConsentString:(NSString*)consentString;
-+(BOOL)BinaryToBoolean:(unsigned char*)buffer atIndex:(int)index;
-+(NSInteger)BinaryToDecimal:(unsigned char*)buffer fromIndex:(int)startIndex length:(int)totalOffset;
++ (NSString *)addPaddingIfNeeded:(NSString *)base64String;
++ (unsigned char *)NSDataToBinary:(NSData *)decodedData;
++ (NSString *)replaceSafeCharacters:(NSString *)consentString;
++ (NSString *)safeBase64ConsentString:(NSString *)consentString;
++ (BOOL)BinaryToBoolean:(unsigned char *)buffer atIndex:(int)index;
++ (NSInteger)BinaryToDecimal:(unsigned char *)buffer
+                   fromIndex:(int)startIndex
+                      length:(int)totalOffset;
 
 @end
 

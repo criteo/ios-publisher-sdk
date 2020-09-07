@@ -21,7 +21,7 @@
 /**
  Set to true if consents of IAB v1 are considered deprecated or non valid (default @c true)
  */
-@property (nonatomic, assign) BOOL ignoreV1;
+@property(nonatomic, assign) BOOL ignoreV1;
 
 - (instancetype)initWithUserDefault:(NSUserDefaults *)userDefs;
 
@@ -29,9 +29,9 @@
 /**
  The consent string passed as a websafe base64-encoded string.
  */
-@property (nonatomic, retain) NSString *consentString;
+@property(nonatomic, retain) NSString *consentString;
 
-- (NSInteger)tcfVersionForTCString:(NSString*)string;
+- (NSInteger)tcfVersionForTCString:(NSString *)string;
 
 //******************************************************************
 #pragma mark - V1 Specific
@@ -42,19 +42,17 @@
                         'SubjectToGDPR_No' – value 0, not subject to GDPR
                         'SubjectToGDPR_Yes' – value 1, subject to GDPR,
  */
-@property (nonatomic, assign) SubjectToGDPR subjectToGDPR;
+@property(nonatomic, assign) SubjectToGDPR subjectToGDPR;
 
 /**
  Integer ID of the IAB CMP
  */
-@property (nonatomic, assign) NSInteger cmpID;
-
+@property(nonatomic, assign) NSInteger cmpID;
 
 /**
  Boolean that indicates if a CMP implementing the iAB specification is present in the application
  */
-@property (nonatomic, assign) BOOL cmpPresent;
-
+@property(nonatomic, assign) BOOL cmpPresent;
 
 //******************************************************************
 #pragma mark - V1 & V2
@@ -63,12 +61,12 @@
 /**
  String that contains the consent information for all vendors.
  */
-@property (nonatomic, retain, readonly) NSString *parsedVendorConsents;
+@property(nonatomic, retain, readonly) NSString *parsedVendorConsents;
 
 /**
  String that contains the consent information for all purposes.
  */
-@property (nonatomic, retain, readonly) NSString *parsedPurposeConsents;
+@property(nonatomic, retain, readonly) NSString *parsedPurposeConsents;
 
 //- (void)setParsedVendorConsents:(NSString *)parsedVendorConsents forV1:(BOOL)forV1;
 //- (void)setParsedPurposeConsents:(NSString *)parsedPurposeConsents forV1:(BOOL)forV1;
@@ -76,7 +74,7 @@
 /**
 Returns true if user consent has been given to vendor for the specified consent string
 */
-- (BOOL)isVendorConsentGivenFor:(int)vendorId inConsentString:(NSString*)string;
+- (BOOL)isVendorConsentGivenFor:(int)vendorId inConsentString:(NSString *)string;
 
 /**
  Returns true if user consent has been given to vendor
@@ -86,7 +84,7 @@ Returns true if user consent has been given to vendor for the specified consent 
 /**
  Returns true if user consent has been given for purpose for the specified consent string
  */
-- (BOOL)isPurposeConsentGivenFor:(int)purposeId inConsentString:(NSString*)string;
+- (BOOL)isPurposeConsentGivenFor:(int)purposeId inConsentString:(NSString *)string;
 
 /**
  Returns true if user consent has been given for purpose
@@ -102,19 +100,20 @@ Returns true if user consent has been given to vendor for the specified consent 
                         'SubjectToGDPR_No' – value 0, not subject to GDPR
                         'SubjectToGDPR_Yes' – value 1, subject to GDPR,
  */
-@property (assign, nonatomic) NSInteger cmpSdkId;
-@property (assign, nonatomic) NSInteger cmpSdkVersion;
-@property (assign, nonatomic) NSInteger policyVersion;
-@property (assign, nonatomic) GdprApplies gdprApplies;
-@property (retain, nonatomic) NSString * publisherCountryCode;
-@property (assign, nonatomic) BOOL purposeOneTreatment;
-@property (assign, nonatomic) BOOL useNonStandardStack;
-@property (assign, nonatomic) BOOL isServiceSpecific;
+@property(assign, nonatomic) NSInteger cmpSdkId;
+@property(assign, nonatomic) NSInteger cmpSdkVersion;
+@property(assign, nonatomic) NSInteger policyVersion;
+@property(assign, nonatomic) GdprApplies gdprApplies;
+@property(retain, nonatomic) NSString *publisherCountryCode;
+@property(assign, nonatomic) BOOL purposeOneTreatment;
+@property(assign, nonatomic) BOOL useNonStandardStack;
+@property(assign, nonatomic) BOOL isServiceSpecific;
 
 - (BOOL)isVendorLegitimateInterestGivenFor:(int)vendorId;
 - (BOOL)isPurposeLegitimateInterestGivenFor:(int)vendorId;
 
-- (PublisherRestrictionType)publisherRestrictionTypeForVendor:(int)vendorId forPurpose:(int)purposeId;
+- (PublisherRestrictionType)publisherRestrictionTypeForVendor:(int)vendorId
+                                                   forPurpose:(int)purposeId;
 
 - (BOOL)isSpecialFeatureOptedInFor:(int)specialFeatureId;
 
@@ -129,8 +128,7 @@ Returns true if user consent has been given to vendor for the specified consent 
  The object that provides all the GDPR-related data for further processing.
  The default data storage is NSUserDefaults.
  */
-@property (nonatomic, retain) id<CR_SPTIabTCFv1StorageProtocol> v1DataStorage;
-@property (nonatomic, retain) id<CR_SPTIabTCFv2StorageProtocol> v2DataStorage;
+@property(nonatomic, retain) id<CR_SPTIabTCFv1StorageProtocol> v1DataStorage;
+@property(nonatomic, retain) id<CR_SPTIabTCFv2StorageProtocol> v2DataStorage;
 
 @end
-

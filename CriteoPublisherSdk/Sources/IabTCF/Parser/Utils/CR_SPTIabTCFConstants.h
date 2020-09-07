@@ -12,7 +12,7 @@
 #define CMPConsentConstant_h
 
 //******************************************************************
-#pragma mark --------- V 1  &  V 2 --------
+#pragma mark--------- V 1  &  V 2 --------
 //******************************************************************
 static int VERSION_BIT_OFFSET = 0;
 static int VERSION_BIT_LENGTH = 6;
@@ -44,16 +44,15 @@ static int NUM_ENTRIES_BIT_LENGTH = 12;
 static int START_OR_ONLY_VENDOR_ID_BIT_LENGTH = 16;
 static int END_VENDOR_ID_BIT_LENGTH = 16;
 
-
 //******************************************************************
-#pragma mark --------- V 1 ------------
+#pragma mark--------- V 1 ------------
 //******************************************************************
 static int PURPOSES_ALLOWED_V1_BIT_OFFSET = 132;
 static int PURPOSES_ALLOWED_V1_BIT_LENGTH = 24;
 static int MAX_VENDOR_ID_V1_BIT_OFFSET = 156;
 
 //******************************************************************
-#pragma mark --------- V 2 ------------
+#pragma mark--------- V 2 ------------
 //******************************************************************
 static int POLICY_VERSION_BIT_OFFSET = 132;
 static int POLICY_VERSION_BIT_LENGTH = 6;
@@ -95,7 +94,7 @@ static int PUBLISHER_PURPOSES_LEGIT_INTEREST_BIT_LENGTH = 24;
 static int PUBLISHER_NUM_CUSTOM_PURPOSES_BIT_OFFSET = 51;
 static int PUBLISHER_NUM_CUSTOM_PURPOSES_BIT_LENGTH = 6;
 
-
-//static NSArray *v1 = @[@6, @36, @36, @12, @12, @6, @12, @12, @24, @16, @1, @1, @[@12,@1,@16,@16,@16]];
+// static NSArray *v1 = @[@6, @36, @36, @12, @12, @6, @12, @12, @24, @16, @1,
+// @1, @[@12,@1,@16,@16,@16]];
 
 #endif /* CMPConsentConstant_h */
