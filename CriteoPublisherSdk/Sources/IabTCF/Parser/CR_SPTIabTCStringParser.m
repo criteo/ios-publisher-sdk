@@ -11,6 +11,8 @@
 #import "CR_SPTIabTCFConstants.h"
 #import "CR_SPTIabPublisherRestriction.h"
 
+#import "Logging.h"
+
 typedef NS_ENUM(NSInteger, CR_SPTIabTCFSegmentType) {
   SegmentTypeCore = 0,
   SegmentTypeDisclosedVendors = 1,
@@ -286,8 +288,7 @@ typedef NS_ENUM(NSInteger, SPTTcfDecoderVendorStringType) {
   int a = 65;  // first char
   int charBitLenght = 6;
   if (length % charBitLenght != 0) {
-    NSDebugLog(
-        @"CR_SPTIabConsentStringParser: Invalid 6 bit char encoded string (not a 6 multiple)");
+    CLog(@"CR_SPTIabConsentStringParser: Invalid 6 bit char encoded string (not a 6 multiple)");
     return @"";
   }
   int characterNumber = length / charBitLenght;
