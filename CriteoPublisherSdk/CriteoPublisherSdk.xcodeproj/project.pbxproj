@@ -40,6 +40,26 @@
 		4660614424754E8100690E27 /* CR_SafeMediaDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 4660614224754E8100690E27 /* CR_SafeMediaDownloader.m */; };
 		4668FEF52459BD3A00D207AE /* CRNativeLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 4668FEF12459BD1000D207AE /* CRNativeLoader.m */; };
 		467D34CA243E060A00852B4D /* CASBoundedFileObjectQueueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 467D34C9243E060A00852B4D /* CASBoundedFileObjectQueueTests.m */; };
+		467DCE92250620AE00F9BCD0 /* CR_SPTIabTCFv2StorageUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 467DCE79250620AE00F9BCD0 /* CR_SPTIabTCFv2StorageUserDefaults.m */; };
+		467DCE93250620AE00F9BCD0 /* CR_SPTIabTCFv2StorageProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 467DCE7A250620AE00F9BCD0 /* CR_SPTIabTCFv2StorageProtocol.h */; };
+		467DCE94250620AE00F9BCD0 /* CR_SPTIabTCFv2StorageUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = 467DCE7B250620AE00F9BCD0 /* CR_SPTIabTCFv2StorageUserDefaults.h */; };
+		467DCE95250620AE00F9BCD0 /* CR_SPTIabTCFModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 467DCE7D250620AE00F9BCD0 /* CR_SPTIabTCFModel.h */; };
+		467DCE96250620AE00F9BCD0 /* CR_SPTIabPublisherRestriction.m in Sources */ = {isa = PBXBuildFile; fileRef = 467DCE7E250620AE00F9BCD0 /* CR_SPTIabPublisherRestriction.m */; };
+		467DCE97250620AE00F9BCD0 /* CR_SPTIabTCFModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 467DCE7F250620AE00F9BCD0 /* CR_SPTIabTCFModel.m */; };
+		467DCE98250620AE00F9BCD0 /* CR_SPTIabPublisherRestriction.h in Headers */ = {isa = PBXBuildFile; fileRef = 467DCE80250620AE00F9BCD0 /* CR_SPTIabPublisherRestriction.h */; };
+		467DCE99250620AE00F9BCD0 /* CR_SPTIabTCFConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 467DCE83250620AE00F9BCD0 /* CR_SPTIabTCFConstants.h */; };
+		467DCE9A250620AE00F9BCD0 /* CR_SPTIabTCFUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 467DCE84250620AE00F9BCD0 /* CR_SPTIabTCFUtils.m */; };
+		467DCE9B250620AE00F9BCD0 /* CR_SPTIabTCFUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 467DCE85250620AE00F9BCD0 /* CR_SPTIabTCFUtils.h */; };
+		467DCE9C250620AE00F9BCD0 /* CR_SPTIabTCStringParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 467DCE86250620AE00F9BCD0 /* CR_SPTIabTCStringParser.m */; };
+		467DCE9D250620AE00F9BCD0 /* CR_SPTIabTCStringParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 467DCE87250620AE00F9BCD0 /* CR_SPTIabTCStringParser.h */; };
+		467DCE9E250620AE00F9BCD0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 467DCE88250620AE00F9BCD0 /* README.md */; };
+		467DCE9F250620AE00F9BCD0 /* CR_SPTIabTCFv1StorageUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = 467DCE8A250620AE00F9BCD0 /* CR_SPTIabTCFv1StorageUserDefaults.h */; };
+		467DCEA0250620AE00F9BCD0 /* CR_SPTIabTCFv1StorageProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 467DCE8B250620AE00F9BCD0 /* CR_SPTIabTCFv1StorageProtocol.h */; };
+		467DCEA1250620AE00F9BCD0 /* CR_SPTIabTCFv1StorageUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 467DCE8C250620AE00F9BCD0 /* CR_SPTIabTCFv1StorageUserDefaults.m */; };
+		467DCEA2250620AE00F9BCD0 /* CR_SPTIabTCFApi.h in Headers */ = {isa = PBXBuildFile; fileRef = 467DCE8E250620AE00F9BCD0 /* CR_SPTIabTCFApi.h */; };
+		467DCEA3250620AE00F9BCD0 /* CR_SPTIabTCFv1Types.h in Headers */ = {isa = PBXBuildFile; fileRef = 467DCE8F250620AE00F9BCD0 /* CR_SPTIabTCFv1Types.h */; };
+		467DCEA4250620AE00F9BCD0 /* CR_SPTIabTCFApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 467DCE90250620AE00F9BCD0 /* CR_SPTIabTCFApi.m */; };
+		467DCEA5250620AE00F9BCD0 /* CR_SPTIabTCFv2Types.h in Headers */ = {isa = PBXBuildFile; fileRef = 467DCE91250620AE00F9BCD0 /* CR_SPTIabTCFv2Types.h */; };
 		46813BEE2472E39000CD8E59 /* CRMediaDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 46813BEC2472E39000CD8E59 /* CRMediaDownloader.h */; };
 		46813BF32472EA5D00CD8E59 /* CR_DefaultMediaDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 46813BF12472EA5D00CD8E59 /* CR_DefaultMediaDownloader.m */; };
 		469301CA24740289006F8D82 /* CR_ImpressionDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 469301C824740289006F8D82 /* CR_ImpressionDetector.m */; };
@@ -333,6 +353,26 @@
 		4668FEEF2459BD1000D207AE /* CRNativeLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNativeLoader.h; sourceTree = "<group>"; };
 		4668FEF12459BD1000D207AE /* CRNativeLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNativeLoader.m; sourceTree = "<group>"; };
 		467D34C9243E060A00852B4D /* CASBoundedFileObjectQueueTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CASBoundedFileObjectQueueTests.m; sourceTree = "<group>"; };
+		467DCE79250620AE00F9BCD0 /* CR_SPTIabTCFv2StorageUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_SPTIabTCFv2StorageUserDefaults.m; sourceTree = "<group>"; };
+		467DCE7A250620AE00F9BCD0 /* CR_SPTIabTCFv2StorageProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_SPTIabTCFv2StorageProtocol.h; sourceTree = "<group>"; };
+		467DCE7B250620AE00F9BCD0 /* CR_SPTIabTCFv2StorageUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_SPTIabTCFv2StorageUserDefaults.h; sourceTree = "<group>"; };
+		467DCE7D250620AE00F9BCD0 /* CR_SPTIabTCFModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_SPTIabTCFModel.h; sourceTree = "<group>"; };
+		467DCE7E250620AE00F9BCD0 /* CR_SPTIabPublisherRestriction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_SPTIabPublisherRestriction.m; sourceTree = "<group>"; };
+		467DCE7F250620AE00F9BCD0 /* CR_SPTIabTCFModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_SPTIabTCFModel.m; sourceTree = "<group>"; };
+		467DCE80250620AE00F9BCD0 /* CR_SPTIabPublisherRestriction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_SPTIabPublisherRestriction.h; sourceTree = "<group>"; };
+		467DCE83250620AE00F9BCD0 /* CR_SPTIabTCFConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_SPTIabTCFConstants.h; sourceTree = "<group>"; };
+		467DCE84250620AE00F9BCD0 /* CR_SPTIabTCFUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_SPTIabTCFUtils.m; sourceTree = "<group>"; };
+		467DCE85250620AE00F9BCD0 /* CR_SPTIabTCFUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_SPTIabTCFUtils.h; sourceTree = "<group>"; };
+		467DCE86250620AE00F9BCD0 /* CR_SPTIabTCStringParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_SPTIabTCStringParser.m; sourceTree = "<group>"; };
+		467DCE87250620AE00F9BCD0 /* CR_SPTIabTCStringParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_SPTIabTCStringParser.h; sourceTree = "<group>"; };
+		467DCE88250620AE00F9BCD0 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		467DCE8A250620AE00F9BCD0 /* CR_SPTIabTCFv1StorageUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_SPTIabTCFv1StorageUserDefaults.h; sourceTree = "<group>"; };
+		467DCE8B250620AE00F9BCD0 /* CR_SPTIabTCFv1StorageProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_SPTIabTCFv1StorageProtocol.h; sourceTree = "<group>"; };
+		467DCE8C250620AE00F9BCD0 /* CR_SPTIabTCFv1StorageUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_SPTIabTCFv1StorageUserDefaults.m; sourceTree = "<group>"; };
+		467DCE8E250620AE00F9BCD0 /* CR_SPTIabTCFApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_SPTIabTCFApi.h; sourceTree = "<group>"; };
+		467DCE8F250620AE00F9BCD0 /* CR_SPTIabTCFv1Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_SPTIabTCFv1Types.h; sourceTree = "<group>"; };
+		467DCE90250620AE00F9BCD0 /* CR_SPTIabTCFApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_SPTIabTCFApi.m; sourceTree = "<group>"; };
+		467DCE91250620AE00F9BCD0 /* CR_SPTIabTCFv2Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_SPTIabTCFv2Types.h; sourceTree = "<group>"; };
 		46813BEC2472E39000CD8E59 /* CRMediaDownloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRMediaDownloader.h; sourceTree = "<group>"; };
 		46813BF02472EA5D00CD8E59 /* CR_DefaultMediaDownloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_DefaultMediaDownloader.h; sourceTree = "<group>"; };
 		46813BF12472EA5D00CD8E59 /* CR_DefaultMediaDownloader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_DefaultMediaDownloader.m; sourceTree = "<group>"; };
@@ -783,6 +823,81 @@
 				25022DE4220A3F0300FF8ACE /* CR_NetworkManagerDelegate.h */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		467DCE77250620AE00F9BCD0 /* IabTCF */ = {
+			isa = PBXGroup;
+			children = (
+				467DCE88250620AE00F9BCD0 /* README.md */,
+				467DCE8D250620AE00F9BCD0 /* API */,
+				467DCE7C250620AE00F9BCD0 /* Models */,
+				467DCE81250620AE00F9BCD0 /* Parser */,
+				467DCE89250620AE00F9BCD0 /* StorageV1 */,
+				467DCE78250620AE00F9BCD0 /* StorageV2 */,
+			);
+			path = IabTCF;
+			sourceTree = "<group>";
+		};
+		467DCE78250620AE00F9BCD0 /* StorageV2 */ = {
+			isa = PBXGroup;
+			children = (
+				467DCE7A250620AE00F9BCD0 /* CR_SPTIabTCFv2StorageProtocol.h */,
+				467DCE7B250620AE00F9BCD0 /* CR_SPTIabTCFv2StorageUserDefaults.h */,
+				467DCE79250620AE00F9BCD0 /* CR_SPTIabTCFv2StorageUserDefaults.m */,
+			);
+			path = StorageV2;
+			sourceTree = "<group>";
+		};
+		467DCE7C250620AE00F9BCD0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				467DCE80250620AE00F9BCD0 /* CR_SPTIabPublisherRestriction.h */,
+				467DCE7E250620AE00F9BCD0 /* CR_SPTIabPublisherRestriction.m */,
+				467DCE7D250620AE00F9BCD0 /* CR_SPTIabTCFModel.h */,
+				467DCE7F250620AE00F9BCD0 /* CR_SPTIabTCFModel.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		467DCE81250620AE00F9BCD0 /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				467DCE82250620AE00F9BCD0 /* Utils */,
+				467DCE87250620AE00F9BCD0 /* CR_SPTIabTCStringParser.h */,
+				467DCE86250620AE00F9BCD0 /* CR_SPTIabTCStringParser.m */,
+			);
+			path = Parser;
+			sourceTree = "<group>";
+		};
+		467DCE82250620AE00F9BCD0 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				467DCE83250620AE00F9BCD0 /* CR_SPTIabTCFConstants.h */,
+				467DCE85250620AE00F9BCD0 /* CR_SPTIabTCFUtils.h */,
+				467DCE84250620AE00F9BCD0 /* CR_SPTIabTCFUtils.m */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		467DCE89250620AE00F9BCD0 /* StorageV1 */ = {
+			isa = PBXGroup;
+			children = (
+				467DCE8B250620AE00F9BCD0 /* CR_SPTIabTCFv1StorageProtocol.h */,
+				467DCE8A250620AE00F9BCD0 /* CR_SPTIabTCFv1StorageUserDefaults.h */,
+				467DCE8C250620AE00F9BCD0 /* CR_SPTIabTCFv1StorageUserDefaults.m */,
+			);
+			path = StorageV1;
+			sourceTree = "<group>";
+		};
+		467DCE8D250620AE00F9BCD0 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				467DCE8E250620AE00F9BCD0 /* CR_SPTIabTCFApi.h */,
+				467DCE90250620AE00F9BCD0 /* CR_SPTIabTCFApi.m */,
+				467DCE8F250620AE00F9BCD0 /* CR_SPTIabTCFv1Types.h */,
+				467DCE91250620AE00F9BCD0 /* CR_SPTIabTCFv2Types.h */,
+			);
+			path = API;
 			sourceTree = "<group>";
 		};
 		46C87E6A244053930022978C /* Feedback */ = {
@@ -1389,6 +1504,7 @@
 				258821D622000D3B00398E9F /* Configuration */,
 				542B05F523FD97380086A942 /* Feedback */,
 				7D93A61523FC3286007E8B30 /* DataConsent */,
+				467DCE77250620AE00F9BCD0 /* IabTCF */,
 				545A39F522A880BD00648957 /* InHouseMediation */,
 				DF367CDA23304BE50044807B /* Native */,
 				25B6505E22091F1D008416D3 /* Network */,
@@ -1441,12 +1557,15 @@
 				7D1A17CE242A796600816D32 /* CR_GdprVersion.h in Headers */,
 				5397C0AF22A0AA3D00BC72FE /* CRAdUnit.h in Headers */,
 				5472877C2411043500B62235 /* CR_DefaultFileManipulator.h in Headers */,
+				467DCEA2250620AE00F9BCD0 /* CR_SPTIabTCFApi.h in Headers */,
 				542FCFAA242B6324000D9DA9 /* CR_CdbRequest.h in Headers */,
 				547287822411044200B62235 /* CR_FeedbackStorage.h in Headers */,
+				467DCE95250620AE00F9BCD0 /* CR_SPTIabTCFModel.h in Headers */,
 				7D07DA1D23DAF6DD00ECCF02 /* CR_Ccpa.h in Headers */,
 				5397C0B422A0AA7E00BC72FE /* CRBannerAdUnit.h in Headers */,
 				54658897228C6DB1009746E0 /* CRInterstitialDelegate.h in Headers */,
 				7D167014246D4D5F0097880F /* CR_HeaderBidding.h in Headers */,
+				467DCE98250620AE00F9BCD0 /* CR_SPTIabPublisherRestriction.h in Headers */,
 				650915FD225565E6001D6673 /* CRBannerView.h in Headers */,
 				7D00672F243CD6F900E5D50D /* CASObjectQueue+ArraySet.h in Headers */,
 				DF367C8A232974210044807B /* CRNativeAdUnit.h in Headers */,
@@ -1462,9 +1581,11 @@
 				4660614324754E8100690E27 /* CR_SafeMediaDownloader.h in Headers */,
 				7D80F6202406B18F005B7BA3 /* CR_Gdpr.h in Headers */,
 				4642C9C624CAD93E0080AC4F /* CR_IntegrationRegistry.h in Headers */,
+				467DCEA5250620AE00F9BCD0 /* CR_SPTIabTCFv2Types.h in Headers */,
 				542FCFB4242D08EE000D9DA9 /* CR_FeedbacksSerializer.h in Headers */,
 				547287802411043E00B62235 /* CR_FeedbackMessage.h in Headers */,
 				547287882411096200B62235 /* CR_FeedbackStorage+MessageUpdating.h in Headers */,
+				467DCEA3250620AE00F9BCD0 /* CR_SPTIabTCFv1Types.h in Headers */,
 				46507F82246C2F6900B1DA78 /* CRNativeAdView.h in Headers */,
 				46813BEE2472E39000CD8E59 /* CRMediaDownloader.h in Headers */,
 				7DFB2B0F247E5C67007CDFF3 /* CR_URLOpening.h in Headers */,
@@ -1474,13 +1595,20 @@
 				46D5C3C3245AD3B200818D37 /* CRNativeLoader.h in Headers */,
 				198CD4A32B7B46B6F1FAC786 /* CASBoundedFileObjectQueue.h in Headers */,
 				C07ABD881B3EF50E277BBEAC /* CR_FeedbackFeatureGuard.h in Headers */,
+				467DCE9D250620AE00F9BCD0 /* CR_SPTIabTCStringParser.h in Headers */,
 				C07ABE08CDD58B26FFCCBCE1 /* NSUserDefaults+CR_Config.h in Headers */,
+				467DCE94250620AE00F9BCD0 /* CR_SPTIabTCFv2StorageUserDefaults.h in Headers */,
+				467DCE9F250620AE00F9BCD0 /* CR_SPTIabTCFv1StorageUserDefaults.h in Headers */,
 				C07AB6C51EDDDE87A80D2666 /* CRMediaContent.h in Headers */,
 				C07ABC5F0E8E39C7BA6F6E7D /* CRMediaContent+Internal.h in Headers */,
 				C07ABD4FBC93A6A8C0C5085F /* CRMediaView.h in Headers */,
 				C07AB927256BB7EE061C89EA /* CRMediaView+Internal.h in Headers */,
+				467DCE9B250620AE00F9BCD0 /* CR_SPTIabTCFUtils.h in Headers */,
+				467DCE93250620AE00F9BCD0 /* CR_SPTIabTCFv2StorageProtocol.h in Headers */,
+				467DCEA0250620AE00F9BCD0 /* CR_SPTIabTCFv1StorageProtocol.h in Headers */,
 				C07AB96240CAD13D1FC39753 /* CR_ImageCache.h in Headers */,
 				C07ABADD3A4C59D7ACCC39CB /* CR_DisplaySizeInjector.h in Headers */,
+				467DCE99250620AE00F9BCD0 /* CR_SPTIabTCFConstants.h in Headers */,
 				C07AB2D5B72491EB58DD4114 /* CR_RemoteConfigRequest.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1591,6 +1719,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				467DCE9E250620AE00F9BCD0 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1696,6 +1825,7 @@
 				7D3E427023915E7900BAF673 /* NSUserDefaults+Criteo.m in Sources */,
 				53D6429822C2C615005791D4 /* CR_TokenCache.m in Sources */,
 				5496876022A5C774007D2578 /* CR_AdUnitHelper.m in Sources */,
+				467DCEA1250620AE00F9BCD0 /* CR_SPTIabTCFv1StorageUserDefaults.m in Sources */,
 				25BD5B692220D1D9004DE311 /* Criteo.m in Sources */,
 				25BD5B622220D1A8004DE311 /* CR_BidManager.m in Sources */,
 				5470B17123A3BC6600C2B003 /* CR_TargetingKeys.m in Sources */,
@@ -1712,6 +1842,7 @@
 				545A39A622A8210A00648957 /* NSError+Criteo.m in Sources */,
 				25BD5B652220D1BB004DE311 /* CR_Config.m in Sources */,
 				5472877F2411043C00B62235 /* CR_FeedbackFileManager.m in Sources */,
+				467DCE92250620AE00F9BCD0 /* CR_SPTIabTCFv2StorageUserDefaults.m in Sources */,
 				654858AA226538D500DC471A /* CRInterstitial.m in Sources */,
 				46813BF32472EA5D00CD8E59 /* CR_DefaultMediaDownloader.m in Sources */,
 				547287812411044000B62235 /* CR_FeedbackMessage.m in Sources */,
@@ -1721,8 +1852,10 @@
 				5397C0B122A0AA6600BC72FE /* CR_CacheAdUnit.m in Sources */,
 				25BD5B6F2220D209004DE311 /* Logging.m in Sources */,
 				7D00672D243CD6F900E5D50D /* CASObjectQueue+ArraySet.m in Sources */,
+				467DCE9A250620AE00F9BCD0 /* CR_SPTIabTCFUtils.m in Sources */,
 				25BD5B6B2220D1E6004DE311 /* CR_ApiHandler.m in Sources */,
 				465E9172246C406700227D29 /* CR_AdChoice.m in Sources */,
+				467DCE96250620AE00F9BCD0 /* CR_SPTIabPublisherRestriction.m in Sources */,
 				542FCFB6242D08EE000D9DA9 /* CR_FeedbacksSerializer.m in Sources */,
 				7D3E426F23915E4200BAF673 /* CR_DependencyProvider.m in Sources */,
 				25BD5B6C2220D1EC004DE311 /* CR_CdbResponse.m in Sources */,
@@ -1739,9 +1872,11 @@
 				25BD5B662220D1C6004DE311 /* CR_ConfigManager.m in Sources */,
 				65E3A5742270CB7A004156E9 /* CR_InterstitialViewController.m in Sources */,
 				DF367CE5233087740044807B /* NSURL+Criteo.m in Sources */,
+				467DCE97250620AE00F9BCD0 /* CR_SPTIabTCFModel.m in Sources */,
 				7DDEF660242CE06300BC129F /* CR_GdprSerializer.m in Sources */,
 				53CA0F9122AB0A730098F96C /* CRBidToken.m in Sources */,
 				53CA0F8122AAE3C20098F96C /* CRBidResponse.m in Sources */,
+				467DCEA4250620AE00F9BCD0 /* CR_SPTIabTCFApi.m in Sources */,
 				53BDFDC822EB9F7C0051EB40 /* CR_BidManagerHelper.m in Sources */,
 				DF367CA5232B20F90044807B /* CR_NativeAdvertiser.m in Sources */,
 				547BC945230650BB00FB8599 /* CR_BidFetchTracker.m in Sources */,
@@ -1752,6 +1887,7 @@
 				25BD5B632220D1AE004DE311 /* CR_CacheManager.m in Sources */,
 				547287832411044400B62235 /* CR_FeedbackStorage.m in Sources */,
 				650915F82255622E001D6673 /* CRBannerView.m in Sources */,
+				467DCE9C250620AE00F9BCD0 /* CR_SPTIabTCStringParser.m in Sources */,
 				DF367CE023307AFB0044807B /* NSString+Criteo.m in Sources */,
 				547287892411096400B62235 /* CR_FeedbackStorage+MessageUpdating.m in Sources */,
 				198CDFA1D272C69DA0CE470D /* CASBoundedFileObjectQueue.m in Sources */,
