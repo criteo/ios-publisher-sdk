@@ -1,5 +1,10 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
+## Version Next
+
+### Features
+- GDPR: Disable performance metrics when TCF v2 consent is not given for purposes 1 or 7
+--------------------------------------------------------------------------------
 ## Version 3.10.0
 
 ### Features

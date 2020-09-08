@@ -33,6 +33,7 @@
 @property(nonatomic, strong) CR_FeedbackStorage *feedbackStorage;
 @property(nonatomic, strong) CR_ApiHandler *apiHandler;
 @property(nonatomic, strong) CR_Config *config;
+@property(nonatomic, strong) CR_DataProtectionConsentMock *consentMock;
 
 @property(nonatomic, strong) NSMutableArray<NSDate *> *mockedDates;
 @property(nonatomic, strong) OCMockObject *nsDate;
@@ -61,6 +62,7 @@
 
   self.apiHandler = OCMClassMock([CR_ApiHandler class]);
   self.config = [[CR_Config alloc] init];
+  self.consentMock = [[CR_DataProtectionConsentMock alloc] init];
 
   [self setUpMockedIntegrationRegistry];
   [self setUpMockedUniqueIdGenerator];
@@ -76,6 +78,19 @@
 
 - (void)testOnCdbCallStarted_GivenDeactivatedCsm_DoNothing {
   [self prepareDisabledCsm];
+  [self prepareStrictMockedFeedbackStorage];
+
+  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
+                                                 requestGroupId:@"requestId"
+                                                  impressionIds:@[ @"id" ]];
+
+  [self.feedbackController onCdbCallStarted:request];
+
+  [self assertNoInteractionOnFeedbackStorage];
+}
+
+- (void)testOnCdbCallStarted_GivenNoConsent_DoNothing {
+  [self prepareNoConsent];
   [self prepareStrictMockedFeedbackStorage];
 
   CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
@@ -131,6 +146,20 @@
   [self assertNoInteractionOnFeedbackStorage];
 }
 
+- (void)testOnCdbCallResponse_GivenNoConsent_DoNothing {
+  [self prepareNoConsent];
+  [self prepareStrictMockedFeedbackStorage];
+
+  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
+                                                 requestGroupId:@"requestId"
+                                                  impressionIds:@[ @"id" ]];
+  CR_CdbResponse *response = [[CR_CdbResponse alloc] init];
+
+  [self.feedbackController onCdbCallResponse:response fromRequest:request];
+
+  [self assertNoInteractionOnFeedbackStorage];
+}
+
 - (void)testOnCdbCallResponse_GivenNoBidAndInvalidBidAndValidBid_UpdateThemByIdAccordingly {
   [self prepareEnabledCsm];
 
@@ -168,6 +197,20 @@
 
 - (void)testOnCdbCallFailure_GivenDeactivatedCsm_DoNothing {
   [self prepareDisabledCsm];
+  [self prepareStrictMockedFeedbackStorage];
+
+  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
+                                                 requestGroupId:@"requestId"
+                                                  impressionIds:@[ @"id" ]];
+  NSError *error = [[NSError alloc] init];
+
+  [self.feedbackController onCdbCallFailure:error fromRequest:request];
+
+  [self assertNoInteractionOnFeedbackStorage];
+}
+
+- (void)testOnCdbCallFailure_GivenNoConsent_DoNothing {
+  [self prepareNoConsent];
   [self prepareStrictMockedFeedbackStorage];
 
   CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
@@ -239,6 +282,17 @@
   [self assertNoInteractionOnFeedbackStorage];
 }
 
+- (void)testOnBidConsumed_GivenNoConsent_DoNothing {
+  [self prepareNoConsent];
+  [self prepareStrictMockedFeedbackStorage];
+
+  CR_CdbBid *bid = CR_CdbBidBuilder.new.impressionId(@"id").build;
+
+  [self.feedbackController onBidConsumed:bid];
+
+  [self assertNoInteractionOnFeedbackStorage];
+}
+
 - (void)testOnBidConsumed_GivenNotExpiredBid_SetElapsedTime {
   [self prepareEnabledCsm];
 
@@ -278,13 +332,23 @@
   [self assertNoInteractionOnFeedbackStorage];
 }
 
+- (void)testSendFeedbackBatch_GivenNoConsent_DoNothing {
+  [self prepareNoConsent];
+  [self prepareStrictMockedFeedbackStorage];
+
+  [self.feedbackController sendFeedbackBatch];
+
+  [self assertNoInteractionOnFeedbackStorage];
+}
+
 #pragma mark - Private
 
 - (void)setUpFeedbackController {
   self.feedbackController =
       [CR_FeedbackController controllerWithFeedbackStorage:self.feedbackStorage
                                                 apiHandler:self.apiHandler
-                                                    config:self.config];
+                                                    config:self.config
+                                                   consent:self.consentMock];
 }
 
 - (void)setUpMockedIntegrationRegistry {
@@ -347,6 +411,10 @@
 
 - (void)prepareDisabledCsm {
   self.config.csmEnabled = NO;
+}
+
+- (void)prepareNoConsent {
+  self.consentMock.gdprMock.purposeConsents[1] = @NO;
 }
 
 - (void)prepareStrictMockedFeedbackStorage {

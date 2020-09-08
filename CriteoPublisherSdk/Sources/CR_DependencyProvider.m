@@ -137,7 +137,8 @@
   return CR_LAZY(_feedbackDelegate,
                  [CR_FeedbackController controllerWithFeedbackStorage:self.feedbackStorage
                                                            apiHandler:self.apiHandler
-                                                               config:self.config]);
+                                                               config:self.config
+                                                              consent:self.consent]);
 }
 
 - (CR_BidManager *)bidManager {
