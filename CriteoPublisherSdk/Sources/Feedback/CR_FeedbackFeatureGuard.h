@@ -17,8 +17,8 @@
 // limitations under the License.
 //
 
-#ifndef CR_FeedbackProxy_H
-#define CR_FeedbackProxy_H
+#ifndef CR_FeedbackFeatureGuard_H
+#define CR_FeedbackFeatureGuard_H
 
 #import <Foundation/Foundation.h>
 #import "CR_FeedbackController.h"
@@ -29,9 +29,9 @@
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithController:(CR_FeedbackController *)controller
+- (instancetype)initWithController:(id<CR_FeedbackDelegate>)controller
                             config:(CR_Config *)config NS_DESIGNATED_INITIALIZER;
 
 @end
 
-#endif /* CR_FeedbackProxy_H */
+#endif /* CR_FeedbackFeatureGuard_H */
