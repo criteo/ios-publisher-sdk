@@ -61,6 +61,8 @@
 		46D707D724A2456E0043D66F /* CR_StandaloneBannerFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 548AFCAC23B1113C003C9C29 /* CR_StandaloneBannerFunctionalTests.m */; };
 		46D707D824A245DB0043D66F /* NSString+GDPR.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB899DA2400126800948230 /* NSString+GDPR.m */; };
 		46D707DC24A284A00043D66F /* CR_NativeAdTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D321B1124743637006CBC4E /* CR_NativeAdTableViewCell.xib */; };
+		46DD2E60250696D400EEBBD0 /* NSString+TcfTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 198CD00E34B2A1CCF4C9A337 /* NSString+TcfTests.m */; };
+		46DD2E64250698B500EEBBD0 /* NSString+Tcf.m in Sources */ = {isa = PBXBuildFile; fileRef = 46DD2E63250698B500EEBBD0 /* NSString+Tcf.m */; };
 		5397C0AF22A0AA3D00BC72FE /* CRAdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5397C08A22A0885700BC72FE /* CRAdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5397C0B022A0AA5600BC72FE /* CRAdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5397C08C22A0885800BC72FE /* CRAdUnit.m */; };
 		5397C0B122A0AA6600BC72FE /* CR_CacheAdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5397C0AC22A0A66E00BC72FE /* CR_CacheAdUnit.m */; };
@@ -297,6 +299,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		198CD00E34B2A1CCF4C9A337 /* NSString+TcfTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TcfTests.m"; sourceTree = "<group>"; };
 		198CD3F7C2A1974769B2CE1C /* CRNativeAdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdTests.m; sourceTree = "<group>"; };
 		198CD49D6226F38F4FEACE9E /* CR_DeviceInfo+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CR_DeviceInfo+Testing.h"; sourceTree = "<group>"; };
 		198CDC22999EF696C16309C5 /* CASBoundedFileObjectQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CASBoundedFileObjectQueue.m; sourceTree = "<group>"; };
@@ -341,6 +344,8 @@
 		46AD5CF4245B003D00199315 /* CR_NativeLoaderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_NativeLoaderTests.m; sourceTree = "<group>"; };
 		46BC395F246EDA5200F0B2F1 /* CRNativeAdViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdViewTests.m; sourceTree = "<group>"; };
 		46C87E6B24405B2A0022978C /* CR_DefaultFileManipulatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_DefaultFileManipulatorTests.swift; sourceTree = "<group>"; };
+		46DD2E62250698B500EEBBD0 /* NSString+Tcf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Tcf.h"; sourceTree = "<group>"; };
+		46DD2E63250698B500EEBBD0 /* NSString+Tcf.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Tcf.m"; sourceTree = "<group>"; };
 		46E8A70324B74D69007103B9 /* CRConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRConstants.h; sourceTree = "<group>"; };
 		53374B7C22AED93A007084FB /* CRBidResponse+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CRBidResponse+Internal.h"; sourceTree = "<group>"; };
 		53374B7E22AEDBE4007084FB /* CR_TokenCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_TokenCache.m; sourceTree = "<group>"; };
@@ -1053,6 +1058,7 @@
 				7D3E420123915B6600BAF673 /* NSArray+CriteoTests.m */,
 				7D3E420323915B6600BAF673 /* NSDictionary+CriteoTests.m */,
 				7D3E420223915B6600BAF673 /* NSError+CriteoTests.m */,
+				198CD00E34B2A1CCF4C9A337 /* NSString+TcfTests.m */,
 				7D3E420423915B6600BAF673 /* NSString+CriteoUrlTests.m */,
 			);
 			path = Util;
@@ -1206,6 +1212,8 @@
 				E12A7F5521F8FD25002B4548 /* CR_DataProtectionConsent.m */,
 				7D1A17CC242A796600816D32 /* CR_GdprVersion.h */,
 				7D1A17D0242A7A1100816D32 /* CR_GdprVersion.m */,
+				46DD2E62250698B500EEBBD0 /* NSString+Tcf.h */,
+				46DD2E63250698B500EEBBD0 /* NSString+Tcf.m */,
 			);
 			path = DataConsent;
 			sourceTree = "<group>";
@@ -1711,6 +1719,7 @@
 				7D03F0FF23F18ECF00CB5D8B /* CRNativeAd.m in Sources */,
 				545A39A622A8210A00648957 /* NSError+Criteo.m in Sources */,
 				25BD5B652220D1BB004DE311 /* CR_Config.m in Sources */,
+				46DD2E64250698B500EEBBD0 /* NSString+Tcf.m in Sources */,
 				5472877F2411043C00B62235 /* CR_FeedbackFileManager.m in Sources */,
 				654858AA226538D500DC471A /* CRInterstitial.m in Sources */,
 				46813BF32472EA5D00CD8E59 /* CR_DefaultMediaDownloader.m in Sources */,
@@ -1915,6 +1924,7 @@
 				C07ABD165AFA5B3044B8AAD3 /* CR_RemoteConfigRequestTests.m in Sources */,
 				C07AB98B6BF9878FBBD190FF /* CriteoTests.m in Sources */,
 				C07ABA93B122BDB3E135E36C /* CR_IntegrationRegistryTests.m in Sources */,
+				46DD2E60250696D400EEBBD0 /* NSString+TcfTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
