@@ -22,6 +22,8 @@ public class CR_GdprMock: CR_Gdpr {
     @objc public var tcfVersionValue: CR_GdprTcfVersion = .versionUnknown
     @objc public var consentStringValue: String? = nil
     @objc public var appliesValue: NSNumber? = NSNumber(booleanLiteral: false)
+    @objc public var purposeConsents: NSMutableArray =
+      NSMutableArray(array: Array(repeating: NSNumber(true), count: 10 + 1)) // +1 for zero index
 
     override init(userDefaults: UserDefaults) {
         super.init(userDefaults: userDefaults)
@@ -58,4 +60,7 @@ public class CR_GdprMock: CR_Gdpr {
         return appliesValue
     }
 
+    public override func isConsentGiven(forPurpose id: UInt) -> Bool {
+        return (purposeConsents[Int(id)] as! NSNumber).boolValue
+    }
 }
