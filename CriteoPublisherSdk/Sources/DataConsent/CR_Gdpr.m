@@ -61,6 +61,10 @@
   return self.selectedVersion.applies;
 }
 
+- (BOOL)isConsentGivenForPurpose:(NSUInteger)id {
+  return [self.selectedVersion isConsentGivenForPurpose:id];
+}
+
 #pragma mark - Private
 
 - (id<CR_GdprVersion>)selectedVersion {
