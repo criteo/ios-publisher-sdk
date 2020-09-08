@@ -21,9 +21,9 @@
 #import "CR_FeedbackStorage+MessageUpdating.h"
 #import "CR_CdbRequest.h"
 #import "CR_CdbResponse.h"
-#import "CR_UniqueIdGenerator.h"
 #import "CR_ApiHandler.h"
 #import "Logging.h"
+#import "CR_FeedbackConsentGuard.h"
 #import "CR_FeedbackFeatureGuard.h"
 #import "CR_IntegrationRegistry.h"
 
@@ -44,7 +44,8 @@
 
 - (instancetype)initWithFeedbackStorage:(CR_FeedbackStorage *)feedbackStorage
                              apiHandler:(CR_ApiHandler *)apiHandler
-                                 config:(CR_Config *)config {
+                                 config:(CR_Config *)config
+                                consent:(CR_DataProtectionConsent *)consent {
   if (self = [super init]) {
     _feedbackStorage = feedbackStorage;
     _apiHandler = apiHandler;
@@ -55,14 +56,18 @@
 
 + (id<CR_FeedbackDelegate>)controllerWithFeedbackStorage:(CR_FeedbackStorage *)feedbackStorage
                                               apiHandler:(CR_ApiHandler *)apiHandler
-                                                  config:(CR_Config *)config {
+                                                  config:(CR_Config *)config
+                                                 consent:(CR_DataProtectionConsent *)consent {
   CR_FeedbackController *controller =
       [[CR_FeedbackController alloc] initWithFeedbackStorage:feedbackStorage
                                                   apiHandler:apiHandler
-                                                      config:config];
+                                                      config:config
+                                                     consent:consent];
 
+  CR_FeedbackConsentGuard *consentGuard =
+      [[CR_FeedbackConsentGuard alloc] initWithController:controller consent:consent];
   CR_FeedbackFeatureGuard *featureGuard =
-      [[CR_FeedbackFeatureGuard alloc] initWithController:controller config:config];
+      [[CR_FeedbackFeatureGuard alloc] initWithController:consentGuard config:config];
 
   return featureGuard;
 }
