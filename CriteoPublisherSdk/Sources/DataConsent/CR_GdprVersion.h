@@ -40,6 +40,7 @@ extern NSString *const CR_GdprConsentStringForTcf1_1Key;
 @property(assign, nonatomic, readonly, getter=isValid) BOOL valid;
 @property(assign, nonatomic, readonly) CR_GdprTcfVersion tcfVersion;
 @property(copy, nonatomic, readonly, nullable) NSString *consentString;
+
 /**
  * A boxed boolean that can be nil if the value doesn't exist or cannot coerces certain ”truthy”
  * values.
@@ -51,6 +52,15 @@ extern NSString *const CR_GdprConsentStringForTcf1_1Key;
  */
 @property(strong, nonatomic, readonly, nullable) NSNumber *applies;
 
+/**
+ * Gives the status of a purpose consent from NSUserDefaults
+ * Note: As this is a TCF 2 only feature, it will be true for TCF 1
+ *
+ * @param id the purpose id
+ * @return consent for purpose
+ */
+- (BOOL)isConsentGivenForPurpose:(NSUInteger)id;
+
 @end
 
 @interface CR_GdprVersionWithKeys : NSObject <CR_GdprVersion>
@@ -60,6 +70,7 @@ extern NSString *const CR_GdprConsentStringForTcf1_1Key;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithConsentStringKey:(NSString *)constantStringKey
+                      purposeConsentsKey:(nullable NSString *)purposeConsentsKey
                               appliesKey:(NSString *)appliesKey
                               tcfVersion:(CR_GdprTcfVersion)tcfVersion
                             userDefaults:(NSUserDefaults *)userDefaults NS_DESIGNATED_INITIALIZER;

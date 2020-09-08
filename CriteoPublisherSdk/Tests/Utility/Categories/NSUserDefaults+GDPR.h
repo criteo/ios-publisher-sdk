@@ -42,6 +42,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setGdprTcf1_1GdprApplies:(nullable NSObject *)gdprApplies;
 - (void)setGdprTcf2_0GdprApplies:(nullable NSObject *)gdprApplies;
 
+#pragma mark Purpose Consents
+
+- (void)setGdprTcf2_0PurposeConsents:(nullable NSObject *)purposeConsents;
+
 @end
 
 NS_ASSUME_NONNULL_END

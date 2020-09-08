@@ -57,6 +57,14 @@ typedef NS_ENUM(NSInteger, CR_GdprTcfVersion) {
 
 - (instancetype)initWithUserDefaults:(NSUserDefaults *)userDefaults NS_DESIGNATED_INITIALIZER;
 
+/**
+ * Gives the status of a user consent for a given purpose
+ *
+ * @param id Purpose id
+ * @return YES if consent is given for purpose
+ */
+- (BOOL)isConsentGivenForPurpose:(NSUInteger)id;
+
 @end
 
 NS_ASSUME_NONNULL_END

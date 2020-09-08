@@ -18,9 +18,11 @@
 //
 
 #import "CR_GdprVersion.h"
+#import "NSString+Tcf.h"
 
 NSString *const CR_GdprAppliesForTcf2_0Key = @"IABTCF_gdprApplies";
 NSString *const CR_GdprConsentStringForTcf2_0Key = @"IABTCF_TCString";
+NSString *const CR_GdprPurposeConsentsStringForTcf2_0Key = @"IABTCF_PurposeConsents";
 
 NSString *const CR_GdprSubjectToGdprForTcf1_1Key = @"IABConsent_SubjectToGDPR";
 NSString *const CR_GdprConsentStringForTcf1_1Key = @"IABConsent_ConsentString";
@@ -28,6 +30,7 @@ NSString *const CR_GdprConsentStringForTcf1_1Key = @"IABConsent_ConsentString";
 @interface CR_GdprVersionWithKeys ()
 
 @property(copy, nonatomic, readonly) NSString *consentStringKey;
+@property(copy, nonatomic, readonly) NSString *purposeConsentsKey;
 @property(copy, nonatomic, readonly) NSString *appliesKey;
 @property(strong, nonatomic, readonly) NSUserDefaults *userDefaults;
 
@@ -41,6 +44,7 @@ NSString *const CR_GdprConsentStringForTcf1_1Key = @"IABConsent_ConsentString";
 
 + (instancetype)gdprTcf1_1WithUserDefaults:(NSUserDefaults *)userDefaults {
   return [[self.class alloc] initWithConsentStringKey:CR_GdprConsentStringForTcf1_1Key
+                                   purposeConsentsKey:nil
                                            appliesKey:CR_GdprSubjectToGdprForTcf1_1Key
                                            tcfVersion:CR_GdprTcfVersion1_1
                                          userDefaults:userDefaults];
@@ -48,6 +52,7 @@ NSString *const CR_GdprConsentStringForTcf1_1Key = @"IABConsent_ConsentString";
 
 + (instancetype)gdprTcf2_0WithUserDefaults:(NSUserDefaults *)userDefaults {
   return [[self.class alloc] initWithConsentStringKey:CR_GdprConsentStringForTcf2_0Key
+                                   purposeConsentsKey:CR_GdprPurposeConsentsStringForTcf2_0Key
                                            appliesKey:CR_GdprAppliesForTcf2_0Key
                                            tcfVersion:CR_GdprTcfVersion2_0
                                          userDefaults:userDefaults];
@@ -55,12 +60,14 @@ NSString *const CR_GdprConsentStringForTcf1_1Key = @"IABConsent_ConsentString";
 
 #pragma mark - Life cycle
 
-- (instancetype)initWithConsentStringKey:(NSString *)constantStringKey
+- (instancetype)initWithConsentStringKey:(NSString *)consentStringKey
+                      purposeConsentsKey:(NSString *)purposeConsentsKey
                               appliesKey:(NSString *)appliesKey
                               tcfVersion:(CR_GdprTcfVersion)tcfVersion
                             userDefaults:(NSUserDefaults *)userDefaults {
   if (self = [super init]) {
-    _consentStringKey = [constantStringKey copy];
+    _consentStringKey = [consentStringKey copy];
+    _purposeConsentsKey = [purposeConsentsKey copy];
     _appliesKey = [appliesKey copy];
     _userDefaults = userDefaults;
     _tcfVersion = tcfVersion;
@@ -87,6 +94,15 @@ NSString *const CR_GdprConsentStringForTcf1_1Key = @"IABConsent_ConsentString";
   return @(applies);
 }
 
+- (BOOL)isConsentGivenForPurpose:(NSUInteger)id {
+  if (self.purposeConsentsKey == nil) {
+    return YES;
+  }
+  NSString *purposeConsents = [self.userDefaults stringForKey:self.purposeConsentsKey];
+  NSNumber *purposeConsent = [purposeConsents cr_tcfBinaryStringValueAtIndex:id];
+  return purposeConsent != nil ? purposeConsent.boolValue : YES;
+}
+
 @end
 
 @implementation CR_NoGdpr
@@ -105,6 +121,11 @@ NSString *const CR_GdprConsentStringForTcf1_1Key = @"IABConsent_ConsentString";
 
 - (NSNumber *)applies {
   return nil;
+}
+
+// Note: As this is a TCF 2 only feature, it is assumed to be true for TCF 1
+- (BOOL)isConsentGivenForPurpose:(NSUInteger)id {
+  return YES;
 }
 
 @end
