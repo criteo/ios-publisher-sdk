@@ -118,30 +118,30 @@
 #undef AssertGdprApply
 }
 
-- (void)testGDPRApplyWithNoContentString {
+- (void)testGDPRApplyWithNoConsentString {
   XCTAssertNil(self.gdpr.applies);
 }
 
-- (void)testGDPRApplyEmptyWithContentStringForTcf1_1 {
+- (void)testGDPRApplyEmptyWithConsentStringForTcf1_1 {
   [self.userDefaults setGdprTcf1_1DefaultConsentString];
   XCTAssertNil(self.gdpr.applies);
 }
 
-- (void)testGDPRApplyEmptyWithContentStringForTcf2_0 {
+- (void)testGDPRApplyEmptyWithConsentStringForTcf2_0 {
   [self.userDefaults setGdprTcf2_0DefaultConsentString];
   XCTAssertNil(self.gdpr.applies);
 }
 
 #pragma mark TCF2/TCF2
 
-- (void)testGDPRApplyWithContentStringForTcf1_1andTcf2_0 {
+- (void)testGDPRApplyWithConsentStringForTcf1_1andTcf2_0 {
   [self.userDefaults setGdprTcf1_1DefaultConsentString];
   [self.userDefaults setGdprTcf2_0DefaultConsentString];
   [self.userDefaults setGdprTcf2_0GdprApplies:@YES];
   XCTAssertEqualObjects(self.gdpr.applies, @YES);
 }
 
-- (void)testGDPRApplyTCF1WithContentStringForTcf1_1andTcf2_0 {
+- (void)testGDPRApplyTCF1WithConsentStringForTcf1_1andTcf2_0 {
   [self.userDefaults setGdprTcf1_1DefaultConsentString];
   [self.userDefaults setGdprTcf2_0DefaultConsentString];
   [self.userDefaults setGdprTcf1_1GdprApplies:@YES];
