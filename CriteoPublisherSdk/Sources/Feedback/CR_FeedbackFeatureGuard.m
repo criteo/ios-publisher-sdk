@@ -22,20 +22,18 @@
 
 @interface CR_FeedbackFeatureGuard ()
 
-@property(nonatomic, strong, readonly) CR_FeedbackController *realController;
+@property(nonatomic, strong, readonly) id<CR_FeedbackDelegate> realController;
 @property(nonatomic, strong, readonly) CR_Config *config;
 
-@property(atomic, strong) CR_FeedbackController *controller;
+@property(atomic, strong) id<CR_FeedbackDelegate> controller;
 
 @end
 
 @implementation CR_FeedbackFeatureGuard
 
-- (void)dealloc {
-  [self.config removeObserver:self forKeyPath:@"csmEnabled"];
-}
+#pragma mark - Lifecyle
 
-- (instancetype)initWithController:(CR_FeedbackController *)controller config:(CR_Config *)config {
+- (instancetype)initWithController:(id<CR_FeedbackDelegate>)controller config:(CR_Config *)config {
   if (self = [super init]) {
     _realController = controller;
     _config = config;
@@ -45,6 +43,12 @@
   }
   return self;
 }
+
+- (void)dealloc {
+  [self.config removeObserver:self forKeyPath:@"csmEnabled"];
+}
+
+#pragma mark - CR_FeedbackDelegate
 
 - (void)onCdbCallStarted:(CR_CdbRequest *)request {
   [self.controller onCdbCallStarted:request];
