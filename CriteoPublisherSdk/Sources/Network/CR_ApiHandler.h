@@ -67,6 +67,13 @@ typedef void (^CR_CsmCompletionHandler)(NSError *error);
     completionHandler:(CR_CdbCompletionHandler)completionHandler;
 
 /**
+ * Builds the CDB response for given Data. This method is intended to mock responses.
+ * @param data raw data from network
+ * @return CDB response model object instance
+ */
+- (CR_CdbResponse *)cdbResponseWithData:(NSData *)data;
+
+/**
  * Calls the pub-sdk config endpoint and gets the config values for the publisher
  * NetworkId, AppId/BundleId, sdkVersion must be present in the config
  */
