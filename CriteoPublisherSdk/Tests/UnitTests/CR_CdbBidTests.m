@@ -524,7 +524,7 @@
                                                   currency:@"EUR"
                                                      width:@(300)
                                                     height:@(250)
-                                                       ttl:900
+                                                       ttl:0
                                                   creative:nil
                                                 displayUrl:@""
                                                 insertTime:testDate
