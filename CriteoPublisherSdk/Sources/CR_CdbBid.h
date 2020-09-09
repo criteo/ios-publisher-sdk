@@ -46,6 +46,11 @@
  */
 @property(assign, nonatomic, readonly) BOOL isRenewable;
 
+/**
+ * YES if a bid is "immediate". i.e. CPM > 0, TTL = 0
+ */
+@property(assign, nonatomic, readonly) BOOL isImmediate;
+
 + (instancetype)emptyBid;
 
 /*
@@ -73,6 +78,8 @@
 - (BOOL)isEmpty;
 - (BOOL)isExpired;
 - (BOOL)isValid;
+
+- (void)setDefaultTtl;
 
 @end
 

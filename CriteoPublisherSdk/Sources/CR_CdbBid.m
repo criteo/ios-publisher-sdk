@@ -21,6 +21,7 @@
 #import "Logging.h"
 #import "NSObject+Criteo.h"
 #import "NSString+Criteo.h"
+#import "CRConstants.h"
 
 @interface CR_CdbBid ()
 
@@ -81,7 +82,6 @@ static CR_CdbBid *emptyBid;
 }
 
 - (instancetype)initWithDict:(NSDictionary *)slot receivedAt:(NSDate *)receivedAt {
-  const double defaultValue = 900;
   self = [super init];
   if (self) {
     NSNumber *zoneId = slot[@"zoneId"];
@@ -94,12 +94,8 @@ static CR_CdbBid *emptyBid;
     NSNumber *height = slot[@"height"];
     NSString *creative = slot[@"creative"];
     NSString *impId = slot[@"impId"];
-    // Hard coding to 15 minutes for now
-    // TODO: move this default to the config
-    NSTimeInterval ttl = (slot && slot[@"ttl"]) ? [slot[@"ttl"] doubleValue] : defaultValue;
-    if ([cpm doubleValue] > 0 && ttl == 0) {
-      ttl = defaultValue;
-    }
+    NSTimeInterval ttl =
+        (slot && slot[@"ttl"]) ? [slot[@"ttl"] doubleValue] : CRITEO_DEFAULT_BID_TTL_IN_SECONDS;
     NSString *displayUrl = [NSString cr_StringWithStringOrNil:slot[@"displayUrl"]];
     NSDictionary *assetsDict = slot[@"native"];
     CR_NativeAssets *nativeAssets =
@@ -219,6 +215,14 @@ static CR_CdbBid *emptyBid;
 
 - (BOOL)isRenewable {
   return !self.isInSilenceMode || self.isExpired;
+}
+
+- (BOOL)isImmediate {
+  return self.cpm.floatValue > 0 && self.ttl == 0;
+}
+
+- (void)setDefaultTtl {
+  _ttl = CRITEO_DEFAULT_BID_TTL_IN_SECONDS;
 }
 
 #pragma mark - Description
