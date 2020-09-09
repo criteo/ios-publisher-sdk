@@ -18,22 +18,22 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <OCMock.h>
+
 #import "Criteo+Testing.h"
 #import "Criteo+Internal.h"
 #import "CR_AdUnitHelper.h"
 #import "CR_BidManager.h"
 #import "CR_DependencyProvider.h"
-#import "CR_CdbBidBuilder.H"
-#import "CR_Config.h"
 #import "CR_DeviceInfoMock.h"
 #import "CR_HttpContent+AdUnit.h"
 #import "CR_NetworkCaptor.h"
 #import "CR_NetworkWaiter.h"
 #import "CR_NetworkManagerMock.h"
-#import "CR_ThreadManagerWaiter.h"
 #import "CR_TestAdUnits.h"
 #import "CR_ThreadManager+Waiter.h"
 #import "NSURL+Testing.h"
+#import "CRConstants.h"
 
 @interface CR_BidManagerIntegrationTests : XCTestCase
 
@@ -111,6 +111,26 @@
   XCTAssertEqual(networkManager.numberOfPostCall, 1);
 }
 
+- (void)test_givenPrefetchingBid_whenGetImmediateBid_ShouldPopulateCacheWithTtlSetToDefaultOne {
+  [self givenMockedCdbResponseBid:self.immediateBid];
+
+  [self.criteo testing_registerWithAdUnits:@[ self.adUnit1 ]];
+  [self.criteo testing_waitForRegisterHTTPResponses];
+
+  CR_CdbBid *cachedBid = [self.bidManager getBid:self.cacheAdUnit1];
+  XCTAssertEqual(cachedBid.ttl, CRITEO_DEFAULT_BID_TTL_IN_SECONDS);
+}
+
+#pragma mark - Private
+
+- (void)givenMockedCdbResponseBid:(CR_CdbBid *)bid {
+  CR_ApiHandler *apiHandler = OCMPartialMock(_dependencyProvider.apiHandler);
+  CR_CdbResponse *response = OCMClassMock([CR_CdbResponse class]);
+  OCMStub(response.cdbBids).andReturn(@[ bid ]);
+  OCMStub([apiHandler cdbResponseWithData:[OCMArg any]]).andReturn(response);
+  _dependencyProvider.apiHandler = apiHandler;
+}
+
 - (void)_waitNetworkCallForBids:(CR_CacheAdUnitArray *)caches {
   NSArray *tests = @[ ^BOOL(CR_HttpContent *_Nonnull httpContent) {
     return [httpContent.url testing_isBidUrlWithConfig:self.config] &&
@@ -123,4 +143,20 @@
   XCTAssert(result, @"Fail to send bid request.");
 }
 
+- (CR_CdbBid *)immediateBid {
+  CR_CdbBid *bid = [[CR_CdbBid alloc] initWithZoneId:@123
+                                         placementId:self.adUnit1.adUnitId
+                                                 cpm:@"1.2"
+                                            currency:@"EUR"
+                                               width:@320
+                                              height:@50
+                                                 ttl:0
+                                            creative:nil
+                                          displayUrl:@"https://display.url"
+                                          insertTime:nil
+                                        nativeAssets:nil
+                                        impressionId:nil];
+  XCTAssertTrue(bid.isImmediate);
+  return bid;
+}
 @end
