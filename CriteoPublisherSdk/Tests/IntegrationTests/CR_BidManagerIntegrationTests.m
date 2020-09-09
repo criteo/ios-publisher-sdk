@@ -121,16 +121,41 @@
   XCTAssertEqual(cachedBid.ttl, CRITEO_DEFAULT_BID_TTL_IN_SECONDS);
 }
 
+- (void)test_givenPrefetchingBid_whenNoBid_ShouldNotPopulateCache {
+  [self givenMockedCdbResponseBids:@[]];
+
+  [self.criteo testing_registerWithAdUnits:@[ self.adUnit1 ]];
+  [self.criteo testing_waitForRegisterHTTPResponses];
+
+  CR_CdbBid *cachedBid = [self.bidManager getBid:self.cacheAdUnit1];
+  XCTAssertEqualObjects(cachedBid, CR_CdbBid.emptyBid);
+
+  [self givenUnmockedCdbResponse];
+
+  [self.bidManager prefetchBid:self.cacheAdUnit1];
+  [self.dependencyProvider.threadManager waiter_waitIdle];
+
+  cachedBid = [self.bidManager getBid:self.cacheAdUnit1];
+  XCTAssertNotEqualObjects(cachedBid, CR_CdbBid.emptyBid);
+}
+
 #pragma mark - Private
 
-- (void)givenMockedCdbResponseBid:(CR_CdbBid *)bid {
+- (void)givenMockedCdbResponseBids:(NSArray<CR_CdbBid *> *)bids {
   CR_ApiHandler *apiHandler = OCMPartialMock(_dependencyProvider.apiHandler);
   CR_CdbResponse *response = OCMClassMock([CR_CdbResponse class]);
-  OCMStub(response.cdbBids).andReturn(@[ bid ]);
+  OCMStub(response.cdbBids).andReturn(bids);
   OCMStub([apiHandler cdbResponseWithData:[OCMArg any]]).andReturn(response);
   _dependencyProvider.apiHandler = apiHandler;
 }
 
+- (void)givenMockedCdbResponseBid:(CR_CdbBid *)bid {
+  return [self givenMockedCdbResponseBids:@[ bid ]];
+}
+
+- (void)givenUnmockedCdbResponse {
+  [(id)_dependencyProvider.apiHandler stopMocking];
+}
 - (void)_waitNetworkCallForBids:(CR_CacheAdUnitArray *)caches {
   NSArray *tests = @[ ^BOOL(CR_HttpContent *_Nonnull httpContent) {
     return [httpContent.url testing_isBidUrlWithConfig:self.config] &&
