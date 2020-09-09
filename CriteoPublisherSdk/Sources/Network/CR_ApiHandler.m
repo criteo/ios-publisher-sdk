@@ -136,8 +136,7 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
                      CLogInfo(@"[INFO][API_] CdbPostCall.finished");
                      if (error == nil) {
                        if (completionHandler) {
-                         CR_CdbResponse *cdbResponse =
-                             [CR_CdbResponse responseWithData:data receivedAt:[NSDate date]];
+                         CR_CdbResponse *cdbResponse = [self cdbResponseWithData:data];
                          completionHandler(cdbRequest, cdbResponse, error);
                        }
                      } else {
@@ -151,6 +150,10 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
                      }
                    }];
   }
+}
+
+- (CR_CdbResponse *)cdbResponseWithData:(NSData *)data {
+  return [CR_CdbResponse responseWithData:data receivedAt:[NSDate date]];
 }
 
 - (void)getConfig:(CR_RemoteConfigRequest *)request
