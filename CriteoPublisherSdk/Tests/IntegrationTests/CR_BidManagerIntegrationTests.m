@@ -128,6 +128,14 @@
   [self checkAnotherPrefetchPopulateCache];
 }
 
+- (void)test_givenPrefetchingBid_whenNoContent_ShouldNotPopulateCache {
+  [self givenMockedCdbEmptyResponse];
+  [self whenPrefetchingBid];
+  [self shouldNotPopulateCache];
+
+  [self checkAnotherPrefetchPopulateCache];
+}
+
 #pragma mark - Private
 #pragma mark Response mocks
 
@@ -141,6 +149,14 @@
 
 - (void)givenMockedCdbResponseBid:(CR_CdbBid *)bid {
   return [self givenMockedCdbResponseBids:@[ bid ]];
+}
+
+- (void)givenMockedCdbEmptyResponse {
+  CR_ApiHandler *apiHandler = _dependencyProvider.apiHandler;
+  CR_ApiHandler *apiHandlerMock = OCMPartialMock(_dependencyProvider.apiHandler);
+  OCMStub([apiHandlerMock cdbResponseWithData:[OCMArg any]])
+      .andReturn([apiHandler cdbResponseWithData:nil]);
+  _dependencyProvider.apiHandler = apiHandlerMock;
 }
 
 - (void)givenUnmockedCdbResponse {
