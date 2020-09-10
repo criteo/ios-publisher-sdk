@@ -136,6 +136,17 @@
   [self checkAnotherPrefetchPopulateCache];
 }
 
+- (void)test_givenPrefetchingBid_whenExpiredBid_ShouldBeRemovedFromCache {
+  CR_CdbBid *bidMock = OCMPartialMock(self.validBid);
+  [self givenMockedCdbResponseBid:bidMock];
+  [self whenPrefetchingBid];
+
+  OCMStub([bidMock isExpired]).andReturn(YES);
+  [self shouldNotPopulateCache];
+
+  [self checkAnotherPrefetchPopulateCache];
+}
+
 #pragma mark - Private
 #pragma mark Response mocks
 
@@ -186,6 +197,7 @@
   CR_CdbBid *cachedBid = [self.bidManager getBid:self.cacheAdUnit1];
   XCTAssertNotEqualObjects(cachedBid, CR_CdbBid.emptyBid);
 }
+
 - (void)_waitNetworkCallForBids:(CR_CacheAdUnitArray *)caches {
   NSArray *tests = @[ ^BOOL(CR_HttpContent *_Nonnull httpContent) {
     return [httpContent.url testing_isBidUrlWithConfig:self.config] &&
@@ -224,4 +236,22 @@
   XCTAssertTrue(bid.isImmediate);
   return bid;
 }
+
+- (CR_CdbBid *)validBid {
+  CR_CdbBid *bid = [[CR_CdbBid alloc] initWithZoneId:@123
+                                         placementId:self.adUnit1.adUnitId
+                                                 cpm:@"1.2"
+                                            currency:@"EUR"
+                                               width:@320
+                                              height:@50
+                                                 ttl:10
+                                            creative:nil
+                                          displayUrl:@"https://display.url"
+                                          insertTime:nil
+                                        nativeAssets:nil
+                                        impressionId:nil];
+  XCTAssertTrue(bid.isValid);
+  return bid;
+}
+
 @end
