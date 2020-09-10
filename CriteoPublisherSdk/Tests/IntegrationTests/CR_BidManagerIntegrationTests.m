@@ -113,33 +113,23 @@
 
 - (void)test_givenPrefetchingBid_whenGetImmediateBid_ShouldPopulateCacheWithTtlSetToDefaultOne {
   [self givenMockedCdbResponseBid:self.immediateBid];
-
-  [self.criteo testing_registerWithAdUnits:@[ self.adUnit1 ]];
-  [self.criteo testing_waitForRegisterHTTPResponses];
-
+  [self whenPrefetchingBid];
   CR_CdbBid *cachedBid = [self.bidManager getBid:self.cacheAdUnit1];
   XCTAssertEqual(cachedBid.ttl, CRITEO_DEFAULT_BID_TTL_IN_SECONDS);
+
+  [self checkAnotherPrefetchPopulateCache];
 }
 
 - (void)test_givenPrefetchingBid_whenNoBid_ShouldNotPopulateCache {
   [self givenMockedCdbResponseBids:@[]];
+  [self whenPrefetchingBid];
+  [self shouldNotPopulateCache];
 
-  [self.criteo testing_registerWithAdUnits:@[ self.adUnit1 ]];
-  [self.criteo testing_waitForRegisterHTTPResponses];
-
-  CR_CdbBid *cachedBid = [self.bidManager getBid:self.cacheAdUnit1];
-  XCTAssertEqualObjects(cachedBid, CR_CdbBid.emptyBid);
-
-  [self givenUnmockedCdbResponse];
-
-  [self.bidManager prefetchBid:self.cacheAdUnit1];
-  [self.dependencyProvider.threadManager waiter_waitIdle];
-
-  cachedBid = [self.bidManager getBid:self.cacheAdUnit1];
-  XCTAssertNotEqualObjects(cachedBid, CR_CdbBid.emptyBid);
+  [self checkAnotherPrefetchPopulateCache];
 }
 
 #pragma mark - Private
+#pragma mark Response mocks
 
 - (void)givenMockedCdbResponseBids:(NSArray<CR_CdbBid *> *)bids {
   CR_ApiHandler *apiHandler = OCMPartialMock(_dependencyProvider.apiHandler);
