@@ -156,6 +156,30 @@
 - (void)givenUnmockedCdbResponse {
   [(id)_dependencyProvider.apiHandler stopMocking];
 }
+
+#pragma mark Prefetch actions
+
+- (void)whenPrefetchingBid {
+  [self.criteo testing_registerWithAdUnits:@[ self.adUnit1 ]];
+  [self.criteo testing_waitForRegisterHTTPResponses];
+}
+
+- (void)whenPrefetchingAnotherBid {
+  [self.bidManager prefetchBid:self.cacheAdUnit1];
+  [self.dependencyProvider.threadManager waiter_waitIdle];
+}
+
+#pragma mark Cache validation
+
+- (void)shouldNotPopulateCache {
+  CR_CdbBid *cachedBid = [self.bidManager getBid:self.cacheAdUnit1];
+  XCTAssertEqualObjects(cachedBid, CR_CdbBid.emptyBid);
+}
+
+- (void)shouldPopulateCache {
+  CR_CdbBid *cachedBid = [self.bidManager getBid:self.cacheAdUnit1];
+  XCTAssertNotEqualObjects(cachedBid, CR_CdbBid.emptyBid);
+}
 - (void)_waitNetworkCallForBids:(CR_CacheAdUnitArray *)caches {
   NSArray *tests = @[ ^BOOL(CR_HttpContent *_Nonnull httpContent) {
     return [httpContent.url testing_isBidUrlWithConfig:self.config] &&
@@ -167,6 +191,16 @@
   BOOL result = [waiter wait];
   XCTAssert(result, @"Fail to send bid request.");
 }
+
+#pragma mark Checks
+
+- (void)checkAnotherPrefetchPopulateCache {
+  [self givenUnmockedCdbResponse];
+  [self whenPrefetchingAnotherBid];
+  [self shouldPopulateCache];
+}
+
+#pragma mark Model helpers
 
 - (CR_CdbBid *)immediateBid {
   CR_CdbBid *bid = [[CR_CdbBid alloc] initWithZoneId:@123
