@@ -20,7 +20,7 @@
 public class CR_GdprMock: CR_Gdpr {
 
   @objc public var tcfVersionValue: CR_GdprTcfVersion = .versionUnknown
-  @objc public var consentStringValue: String? = nil
+  @objc public var consentStringValue: String?
   @objc public var appliesValue: NSNumber? = NSNumber(booleanLiteral: false)
   @objc public var purposeConsents: NSMutableArray =
     NSMutableArray(array: Array(repeating: NSNumber(true), count: 10 + 1))  // +1 for zero index
