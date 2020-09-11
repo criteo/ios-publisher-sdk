@@ -120,7 +120,7 @@
   [self checkAnotherPrefetchPopulateCache];
 }
 
-- (void)test_givenPrefetchingBid_whenNoBid_ShouldNotPopulateCache {
+- (void)test_givenPrefetchingBid_whenMissingBid_ShouldNotPopulateCache {
   [self givenMockedCdbResponseBids:@[]];
   [self whenPrefetchingBid];
   [self shouldNotPopulateCache];
@@ -142,6 +142,14 @@
   [self whenPrefetchingBid];
 
   OCMStub([bidMock isExpired]).andReturn(YES);
+  [self shouldNotPopulateCache];
+
+  [self checkAnotherPrefetchPopulateCache];
+}
+
+- (void)test_givenPrefetchingBid_whenSilenceModeBid_ShouldNotPopulateCache {
+  [self givenMockedCdbResponseBids:@[ self.silenceModeBid ]];
+  [self whenPrefetchingBid];
   [self shouldNotPopulateCache];
 
   [self checkAnotherPrefetchPopulateCache];
@@ -251,6 +259,23 @@
                                         nativeAssets:nil
                                         impressionId:nil];
   XCTAssertTrue(bid.isValid);
+  return bid;
+}
+
+- (CR_CdbBid *)silenceModeBid {
+  CR_CdbBid *bid = [[CR_CdbBid alloc] initWithZoneId:@123
+                                         placementId:self.adUnit1.adUnitId
+                                                 cpm:@"0"
+                                            currency:@"EUR"
+                                               width:@320
+                                              height:@50
+                                                 ttl:10
+                                            creative:nil
+                                          displayUrl:@"https://display.url"
+                                          insertTime:nil
+                                        nativeAssets:nil
+                                        impressionId:nil];
+  XCTAssertTrue(bid.isInSilenceMode);
   return bid;
 }
 
