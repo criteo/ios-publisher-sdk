@@ -21,5 +21,5 @@ defaults write com.apple.dt.Xcode PBXNumberOfParallelBuildSubtasks "$num_cpu"
 defaults write com.apple.dt.Xcode IDEBuildOperationMaxNumberOfConcurrentCompileTasks "$num_cpu"
 
 # Code format
-brew install clang-format swift-format
+brew install clang-format swift-format swiflint
 cp tools/code-format-git-hook.sh .git/hooks/pre-commit
