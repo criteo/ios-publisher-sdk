@@ -55,9 +55,10 @@ class LogTableViewController: UITableViewController {
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == "LogEntryDetail" {
-      let logEntryVC = segue.destination as! LogEntryViewController
-      let indexPath = self.tableView.indexPathForSelectedRow!
-      logEntryVC.logEntry = logManager.logs[indexPath.row]
+      if let logEntryVC = segue.destination as? LogEntryViewController {
+        let indexPath = self.tableView.indexPathForSelectedRow!
+        logEntryVC.logEntry = logManager.logs[indexPath.row]
+      }
     }
   }
 }

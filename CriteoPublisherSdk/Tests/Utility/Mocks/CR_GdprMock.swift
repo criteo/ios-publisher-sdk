@@ -21,7 +21,7 @@ public class CR_GdprMock: CR_Gdpr {
 
   @objc public var tcfVersionValue: CR_GdprTcfVersion = .versionUnknown
   @objc public var consentStringValue: String?
-  @objc public var appliesValue: NSNumber? = NSNumber(booleanLiteral: false)
+  @objc public var appliesValue: NSNumber? = false
   @objc public var purposeConsents: NSMutableArray =
     NSMutableArray(array: Array(repeating: NSNumber(true), count: 10 + 1))  // +1 for zero index
 
@@ -34,33 +34,33 @@ public class CR_GdprMock: CR_Gdpr {
     case .versionUnknown:
       self.tcfVersionValue = .versionUnknown
       self.consentStringValue = nil
-      self.appliesValue = NSNumber(booleanLiteral: false)
+      self.appliesValue = false
     case .version1_1:
       self.tcfVersionValue = .version1_1
       self.consentStringValue = NSString.gdprConsentStringForTcf1_1
-      self.appliesValue = NSNumber(booleanLiteral: true)
+      self.appliesValue = true
     case .version2_0:
       self.tcfVersionValue = .version2_0
       self.consentStringValue = NSString.gdprConsentStringForTcf2_0
-      self.appliesValue = NSNumber(booleanLiteral: true)
+      self.appliesValue = true
     @unknown default:
       fatalError()
     }
   }
 
   public override var consentString: String? {
-    return consentStringValue
+    consentStringValue
   }
 
   public override var tcfVersion: CR_GdprTcfVersion {
-    return tcfVersionValue
+    tcfVersionValue
   }
 
   public override var applies: NSNumber? {
-    return appliesValue
+    appliesValue
   }
 
   public override func isConsentGiven(forPurpose id: UInt) -> Bool {
-    return (purposeConsents[Int(id)] as! NSNumber).boolValue
+    (purposeConsents[Int(id)] as! NSNumber).boolValue
   }
 }
