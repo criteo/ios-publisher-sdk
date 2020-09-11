@@ -32,20 +32,20 @@ class CriteoAdViewBuilder: AdViewBuilder {
   }
 
   func build(config: AdConfig, criteo: Criteo) -> AdView {
-    switch config.adFormat {
-    case .sized(.banner, _):
-      return .banner(buildBanner(adUnit: config.adUnit, criteo: criteo))
-    case .flexible(.interstitial):
-      return .interstitial(buildInterstitial(adUnit: config.adUnit, criteo: criteo))
-    case .flexible(.native):
-      return .banner(buildNative(adUnit: config.adUnit, criteo: criteo))
+    switch (config.adFormat, config.adUnit) {
+    case (.sized(.banner, _), let adUnit as CRBannerAdUnit):
+      return .banner(buildBanner(adUnit, criteo))
+    case (.flexible(.interstitial), let adUnit as CRInterstitialAdUnit):
+      return .interstitial(buildInterstitial(adUnit, criteo))
+    case (.flexible(.native), let adUnit as CRNativeAdUnit):
+      return .banner(buildNative(adUnit, criteo))
     case _:
       fatalError("Unsupported")
     }
   }
 
-  private func buildBanner(adUnit: CRAdUnit, criteo: Criteo) -> CRBannerView {
-    let adView = CRBannerView(adUnit: adUnit as? CRBannerAdUnit, criteo: criteo)!
+  private func buildBanner(_ adUnit: CRBannerAdUnit, _ criteo: Criteo) -> CRBannerView {
+    let adView = CRBannerView(adUnit: adUnit, criteo: criteo)!
     adView.delegate = logger
     switch adType {
     case .standalone:
@@ -57,8 +57,9 @@ class CriteoAdViewBuilder: AdViewBuilder {
     return adView
   }
 
-  private func buildInterstitial(adUnit: CRAdUnit, criteo: Criteo) -> CRInterstitial {
-    let adView = CRInterstitial(adUnit: adUnit as? CRInterstitialAdUnit, criteo: criteo)!
+  private func buildInterstitial(_ adUnit: CRInterstitialAdUnit, _ criteo: Criteo) -> CRInterstitial
+  {
+    let adView = CRInterstitial(adUnit: adUnit, criteo: criteo)!
     adView.delegate = logger
     switch adType {
     case .standalone:
@@ -70,8 +71,8 @@ class CriteoAdViewBuilder: AdViewBuilder {
     return adView
   }
 
-  private func buildNative(adUnit: CRAdUnit, criteo: Criteo) -> AdvancedNativeView {
-    let adView = AdvancedNativeView(adUnit: adUnit as! CRNativeAdUnit, criteo: criteo)
+  private func buildNative(_ adUnit: CRNativeAdUnit, _ criteo: Criteo) -> AdvancedNativeView {
+    let adView = AdvancedNativeView(adUnit: adUnit, criteo: criteo)
     adView.delegate = logger
     switch adType {
     case .standalone:
