@@ -49,6 +49,12 @@
 
 @end
 
+@interface CR_BidManager (Testing)
+
+@property(nonatomic, assign, readonly) BOOL isInSilenceMode;
+
+@end
+
 @implementation CR_BidManagerIntegrationTests
 
 - (void)setUp {
@@ -170,18 +176,39 @@
   [self shouldPopulateCache];
 }
 
+- (void)test_givenPrefetchingBid_whenUserSilenceModeBid_ShouldNotPopulateCache {
+  CR_BidManager *bidManager = OCMPartialMock(_dependencyProvider.bidManager);
+  _dependencyProvider.bidManager = bidManager;
+
+  CR_CdbResponse *response = [self givenMockedCdbResponseBids:@[]];
+  OCMStub(response.timeToNextCall).andReturn(30);
+  [self whenPrefetchingBid];
+  [self shouldNotPopulateCache];
+  XCTAssertTrue(self.bidManager.isInSilenceMode);
+
+  [self givenUnmockedCdbResponse];
+  // Simulating Bid Manager timeToNextCall elapsed, i.e. not silenced anymore
+  // Which we expect to cause a prefetch of a valid bid on next get bid from cache
+  OCMStub([bidManager isInSilenceMode]).andReturn(NO);
+  [self shouldNotPopulateCache];
+  [self.dependencyProvider.threadManager waiter_waitIdle];
+
+  [self shouldPopulateCache];
+}
+
 #pragma mark - Private
 #pragma mark Response mocks
 
-- (void)givenMockedCdbResponseBids:(NSArray<CR_CdbBid *> *)bids {
+- (CR_CdbResponse *)givenMockedCdbResponseBids:(NSArray<CR_CdbBid *> *)bids {
   CR_ApiHandler *apiHandler = OCMPartialMock(_dependencyProvider.apiHandler);
   CR_CdbResponse *response = OCMClassMock([CR_CdbResponse class]);
   OCMStub(response.cdbBids).andReturn(bids);
   OCMStub([apiHandler cdbResponseWithData:[OCMArg any]]).andReturn(response);
   _dependencyProvider.apiHandler = apiHandler;
+  return response;
 }
 
-- (void)givenMockedCdbResponseBid:(CR_CdbBid *)bid {
+- (CR_CdbResponse *)givenMockedCdbResponseBid:(CR_CdbBid *)bid {
   return [self givenMockedCdbResponseBids:@[ bid ]];
 }
 
