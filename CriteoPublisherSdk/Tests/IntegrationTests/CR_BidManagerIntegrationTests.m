@@ -147,6 +147,14 @@
   [self checkAnotherPrefetchPopulateCache];
 }
 
+- (void)test_givenPrefetchingBid_whenNoBidModeBid_ShouldNotPopulateCache {
+  [self givenMockedCdbResponseBids:@[ self.noBidModeBid ]];
+  [self whenPrefetchingBid];
+  [self shouldNotPopulateCache];
+
+  [self checkAnotherPrefetchPopulateCache];
+}
+
 - (void)test_givenPrefetchingBid_whenSilenceModeBid_ShouldNotPopulateCache {
   [self givenMockedCdbResponseBids:@[ self.silenceModeBid ]];
   [self whenPrefetchingBid];
@@ -259,6 +267,23 @@
                                         nativeAssets:nil
                                         impressionId:nil];
   XCTAssertTrue(bid.isValid);
+  return bid;
+}
+
+- (CR_CdbBid *)noBidModeBid {
+  CR_CdbBid *bid = [[CR_CdbBid alloc] initWithZoneId:@123
+                                         placementId:self.adUnit1.adUnitId
+                                                 cpm:@"0"
+                                            currency:@"EUR"
+                                               width:@320
+                                              height:@50
+                                                 ttl:0
+                                            creative:nil
+                                          displayUrl:@"https://display.url"
+                                          insertTime:nil
+                                        nativeAssets:nil
+                                        impressionId:nil];
+  XCTAssertTrue(bid.isExpired);
   return bid;
 }
 
