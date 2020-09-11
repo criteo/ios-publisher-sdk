@@ -35,6 +35,7 @@ PODS:
   - nanopb/encode (1.30906.0)
   - OCMock (3.7.1)
   - PromisesObjC (1.2.10)
+  - SwiftLint (0.40.2)
 
 DEPENDENCIES:
   - Cassette (~> 1.0-beta)
@@ -44,6 +45,7 @@ DEPENDENCIES:
   - mopub-ios-sdk/Core
   - mopub-ios-sdk/Core (~> 5.13)
   - OCMock (~> 3.6)
+  - SwiftLint
 
 SPEC REPOS:
   trunk:
@@ -57,6 +59,7 @@ SPEC REPOS:
     - nanopb
     - OCMock
     - PromisesObjC
+    - SwiftLint
 
 SPEC CHECKSUMS:
   Cassette: bd5900e0b8d67c796ca82272ff5ee388320cfc61
@@ -69,7 +72,8 @@ SPEC CHECKSUMS:
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   OCMock: 75fbeaa46a9b11f8c182bbb1d1f7e9a35ccc9955
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
+  SwiftLint: 1216c910d27c2633ade33b4f071bb6b930982e62
 
-PODFILE CHECKSUM: 32089132898536adab7c22edc6d44aa36966f9cc
+PODFILE CHECKSUM: a7bec70b4fe342aa1dc689d26a75782a0d34fc1a
 
 COCOAPODS: 1.9.3
