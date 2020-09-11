@@ -31,6 +31,11 @@ Check code format
 fastlane ios format
 ```
 Format code
+### ios lint_swift
+```
+fastlane ios lint_swift
+```
+Lint swift code
 ### ios set_versions
 ```
 fastlane ios set_versions

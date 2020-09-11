@@ -11,9 +11,10 @@ Follow the Robert Martin suggestion about [Clean Code](https://gist.github.com/w
 
 ## Coding Style
 To ensure code style consistency, it must respect the following:
-1. Code Formatted:
-    - Obj-C: [Clang Format](https://clang.llvm.org/docs/ClangFormat.html). _(Checked by CI)_
+1. Code Formatted and Linted:
+    - Obj-C: [ClangFormat](https://clang.llvm.org/docs/ClangFormat.html). _(Checked by CI)_
     - Swift: [swift-format](https://github.com/apple/swift-format). _(Not checked by CI)_
+    - Swift: [SwiftLint](https://github.com/realm/SwiftLint). _(Checked by CI)_
     - You can format whole repository with `bundle exec fastlane format`
     - Alternatively to ease your workflow, you can also add a git hook with:
       `cp tools/code-format-git-hook.sh .git/hooks/pre-commit`
