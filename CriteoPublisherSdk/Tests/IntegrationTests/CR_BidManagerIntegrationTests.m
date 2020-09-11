@@ -147,6 +147,21 @@
   [self checkAnotherPrefetchPopulateCache];
 }
 
+- (void)test_givenPrefetchingBid_whenSilenceModeBid_ShouldNotPopulateCache {
+  CR_CdbBid *silencedBidMock = OCMPartialMock(self.silenceModeBid);
+  [self givenMockedCdbResponseBids:@[ silencedBidMock ]];
+  [self whenPrefetchingBid];
+  [self shouldNotPopulateCache];
+
+  [self givenUnmockedCdbResponse];
+  // Simulate expiration after ttl, which causes a prefetch of a valid bid
+  OCMStub([silencedBidMock isExpired]).andReturn(YES);
+  [self shouldNotPopulateCache];
+  [self.dependencyProvider.threadManager waiter_waitIdle];
+
+  [self shouldPopulateCache];
+}
+
 #pragma mark - Private
 #pragma mark Response mocks
 
@@ -251,6 +266,23 @@
                                         nativeAssets:nil
                                         impressionId:nil];
   XCTAssertTrue(bid.isValid);
+  return bid;
+}
+
+- (CR_CdbBid *)silenceModeBid {
+  CR_CdbBid *bid = [[CR_CdbBid alloc] initWithZoneId:@123
+                                         placementId:self.adUnit1.adUnitId
+                                                 cpm:@"0"
+                                            currency:@"EUR"
+                                               width:@320
+                                              height:@50
+                                                 ttl:10
+                                            creative:nil
+                                          displayUrl:@"https://display.url"
+                                          insertTime:[NSDate date]
+                                        nativeAssets:nil
+                                        impressionId:nil];
+  XCTAssertTrue(bid.isInSilenceMode);
   return bid;
 }
 
