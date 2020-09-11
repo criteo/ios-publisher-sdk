@@ -56,7 +56,7 @@ public class AdViewCell<ViewType: UIView, ValueType: Equatable>: Cell<ValueType>
       forName: UIContentSizeCategory.didChangeNotification,
       object: nil,
       queue: nil,
-      using: { [weak self] (note) in
+      using: { [weak self] (_) in
         self?.setNeedsLayout()
       })
 

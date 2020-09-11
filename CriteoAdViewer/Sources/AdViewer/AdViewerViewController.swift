@@ -155,7 +155,7 @@ class AdViewerViewController: FormViewController {
       +++ Section()
       <<< ButtonRow {
         $0.title = "Display Ad"
-      }.onCellSelection { cell, row in
+      }.onCellSelection { _, _ in
         self.displayAd()
       }
 
@@ -215,15 +215,15 @@ class AdViewerViewController: FormViewController {
       let criteo = criteo
     {
       let adView = network.adViewBuilder.build(config: config, criteo: criteo)
-      switch (adView) {
+      switch adView {
       case .banner(let bannerView):
         if self.display == .newView {
           let viewControler = AdTableViewController()
           viewControler.adView = bannerView
           self.navigationController?.pushViewController(viewControler, animated: true)
         } else if let adsSection = self.form.sectionBy(tag: Tags.ads.rawValue) {
-          let adRow = AdViewRow<UIView>(bannerView.description) { (row) in
-          }.cellSetup { (cell, row) in
+          let adRow = AdViewRow<UIView>(bannerView.description) { (_) in
+          }.cellSetup { (cell, _) in
             cell.view = bannerView
           }
           // Note: this is a workaround to missing insert method,
