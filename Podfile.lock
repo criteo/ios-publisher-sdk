@@ -4,7 +4,7 @@ PODS:
   - FunctionalObjC (1.0.2)
   - Google-Mobile-Ads-SDK (7.63.0):
     - GoogleAppMeasurement (~> 6.0)
-  - GoogleAppMeasurement (6.8.0):
+  - GoogleAppMeasurement (6.8.1):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.7)
     - GoogleUtilities/MethodSwizzler (~> 6.7)
     - GoogleUtilities/Network (~> 6.7)
@@ -66,7 +66,7 @@ SPEC CHECKSUMS:
   Eureka: c883105488e05bc65539f583246ecf9657cabbfe
   FunctionalObjC: bd6aaa4b69abea0a5ac0e860a052c1ebebd5311c
   Google-Mobile-Ads-SDK: a71d6bc14f9cf1f66d686dbdf9ad2091de04059c
-  GoogleAppMeasurement: ecc30d0ab5b66d7d18e85ce1b8e2b345db60626d
+  GoogleAppMeasurement: e3618c6e9f5166a6b320b03b759da3b04ec2a101
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
   mopub-ios-sdk: 18af57aaf79d0ea3d0232b43b2d603ae8ea8e826
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
