@@ -1,5 +1,25 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
+## Version 4.0.0
+
+### Breaking changes
+- **CocoaPods**: Pod is now source provided rather than binary. Few potential changes required on
+pod clients, you can:
+  - Either add [`use_frameworks!`][use_frameworks] to your Podfile so CocoaPods produce frameworks
+    from source as before, keeping the same imports working.
+  - Either edit Sdk imports:
+    - from `@import CriteoPublisherSdk;` _(Semantic import for frameworks)_
+    - to `#import <CriteoPublisherSdk/CriteoPublisherSdk.h>` _(Standard CocoaPods imports)_
+  - Alternatively, binary frameworks are now provided through [GitHub releases][gh_releases]
+- **iOS 9** is now the minimum supported version of iOS _(bumped from iOS 8)_
+- **Mediation Adapters**: These have been merged in this repository. For CocoaPods pods are now 
+  declared as _subspecs_, meaning you have to edit your `Podfile`:
+  - Google: From `CriteoGoogleMediationAdapters` to `CriteoPublisherSdk/GoogleAdapter`
+  - MoPub: From `CriteoMoPubMediationAdapters` to `CriteoPublisherSdk/MoPubAdapter`
+
+[gh_releases]: https://github.com/criteo/ios-publisher-sdk/releases
+[use_frameworks]: https://guides.cocoapods.org/syntax/podfile.html#tab_use_frameworks_bang
+--------------------------------------------------------------------------------
 ## Version Next
 
 ### Features
