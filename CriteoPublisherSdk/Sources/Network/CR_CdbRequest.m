@@ -29,8 +29,10 @@
 
 @implementation CR_CdbRequest
 
-- (instancetype)initWithAdUnits:(CR_CacheAdUnitArray *)adUnits {
+- (instancetype)initWithProfileId:(NSNumber *)profileId adUnits:(CR_CacheAdUnitArray *)adUnits {
   if (self = [super init]) {
+    _profileId = profileId;
+    _requestGroupId = [CR_UniqueIdGenerator generateId];
     _adUnits = adUnits;
     _adUnitToImpressionIdMap = [self buildAdUnitToImpressionIdMapForAdUnits:adUnits];
   }

@@ -21,18 +21,21 @@
 
 @implementation CR_FeedbackStorage (MessageUpdating)
 
-- (void)setCdbStartAndImpressionIdForImpressionId:(NSString *)impressionId
-                                   requestGroupId:(NSString *)requestGroupId {
+- (void)setCdbStartForImpressionId:(NSString *)impressionId
+                         profileId:(NSNumber *)profileId
+                    requestGroupId:(NSString *)requestGroupId {
   [self updateMessageWithImpressionId:impressionId
                                    by:^(CR_FeedbackMessage *message) {
                                      message.cdbCallStartTimestamp =
                                          [self dateTimeNowInMilliseconds];
                                      message.impressionId = impressionId;
+                                     message.profileId = profileId;
                                      message.requestGroupId = requestGroupId;
                                    }];
 }
 
-- (void)setCdbEndAndCacheBidUsedIdForImpressionId:(NSString *)impressionId {
+- (void)setCdbEndAndCacheBidUsedIdForImpressionId:(NSString *)impressionId
+                                           zoneId:(NSNumber *)zoneId {
   [self updateMessageWithImpressionId:impressionId
                                    by:^(CR_FeedbackMessage *message) {
                                      message.cdbCallEndTimestamp = [self dateTimeNowInMilliseconds];
@@ -40,6 +43,7 @@
                                      // implementation, the value for this field will be true if the
                                      // bid is ready to be consumed
                                      message.cachedBidUsed = YES;
+                                     message.zoneId = zoneId;
                                    }];
 }
 

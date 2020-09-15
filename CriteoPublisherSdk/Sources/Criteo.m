@@ -24,6 +24,7 @@
 #import "CR_ThreadManager.h"
 #import "Logging.h"
 #import "CR_DependencyProvider.h"
+#import "CR_IntegrationRegistry.h"
 
 @interface Criteo ()
 
@@ -128,6 +129,7 @@
 }
 
 - (CRBidResponse *)getBidResponseForAdUnit:(CRAdUnit *)adUnit {
+  [self.integrationRegistry declare:CR_IntegrationInHouse];
   return [self.bidManager bidResponseForCacheAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit]
                                          adUnitType:adUnit.adUnitType];
 }
@@ -147,6 +149,10 @@
 
 - (CR_ThreadManager *)threadManager {
   return self.dependencyProvider.threadManager;
+}
+
+- (CR_IntegrationRegistry *)integrationRegistry {
+  return self.dependencyProvider.integrationRegistry;
 }
 
 @end

@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "BE70AAEA-2096-47F0-8C6E-98D38A85F7F6",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:CriteoAdViewer.xcodeproj",
+        "identifier" : "4077EBC6218BC48400C41E68",
+        "name" : "CriteoAdViewerUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

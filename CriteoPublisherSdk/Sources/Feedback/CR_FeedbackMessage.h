@@ -23,8 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_FeedbackMessage : NSObject <NSSecureCoding, NSCopying>
 
+@property(strong, nonatomic) NSNumber *profileId;
 @property(strong, nonatomic) NSString *impressionId;
 @property(strong, nonatomic) NSString *requestGroupId;
+@property(strong, nonatomic) NSNumber *zoneId;
 @property(strong, nonatomic) NSNumber *cdbCallStartTimestamp;
 @property(strong, nonatomic) NSNumber *cdbCallEndTimestamp;
 @property(strong, nonatomic) NSNumber *elapsedTimestamp;

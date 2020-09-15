@@ -19,7 +19,6 @@
 
 #import "NSUserDefaults+GDPR.h"
 #import "NSString+GDPR.h"
-
 @implementation NSUserDefaults (GDPR)
 
 - (void)clearGdpr {
@@ -27,6 +26,7 @@
   [self removeObjectForKey:NSString.gdprConsentStringUserDefaultsKeyTcf2_0];
   [self removeObjectForKey:NSString.gdprAppliesUserDefaultsKeyTcf1_1];
   [self removeObjectForKey:NSString.gdprConsentStringUserDefaultsKeyTcf1_1];
+  [self removeObjectForKey:NSString.gdprPurposeConsentsStringForTcf2_0];
 }
 
 - (void)setGdprTcf1_1DefaultConsentString {
@@ -51,6 +51,10 @@
 
 - (void)setGdprTcf2_0GdprApplies:(NSObject *)gdprApplies {
   [self setObject:gdprApplies forKey:NSString.gdprAppliesUserDefaultsKeyTcf2_0];
+}
+
+- (void)setGdprTcf2_0PurposeConsents:(nullable NSObject *)purposeConsents {
+  [self setObject:purposeConsents forKey:NSString.gdprPurposeConsentsStringForTcf2_0];
 }
 
 @end

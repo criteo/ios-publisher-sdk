@@ -70,9 +70,11 @@
 }
 
 - (CR_ApiHandler *)apiHandler {
-  return CR_LAZY(_apiHandler, [[CR_ApiHandler alloc] initWithNetworkManager:self.networkManager
-                                                            bidFetchTracker:self.bidFetchTracker
-                                                              threadManager:self.threadManager]);
+  return CR_LAZY(_apiHandler,
+                 [[CR_ApiHandler alloc] initWithNetworkManager:self.networkManager
+                                               bidFetchTracker:self.bidFetchTracker
+                                                 threadManager:self.threadManager
+                                           integrationRegistry:self.integrationRegistry]);
 }
 
 - (CR_CacheManager *)cacheManager {
@@ -93,7 +95,9 @@
 }
 
 - (CR_ConfigManager *)configManager {
-  return CR_LAZY(_configManager, [[CR_ConfigManager alloc] initWithApiHandler:self.apiHandler]);
+  return CR_LAZY(_configManager,
+                 [[CR_ConfigManager alloc] initWithApiHandler:self.apiHandler
+                                          integrationRegistry:self.integrationRegistry]);
 }
 
 - (CR_DeviceInfo *)deviceInfo {
@@ -116,7 +120,8 @@
 - (CR_HeaderBidding *)headerBidding {
   return CR_LAZY(_headerBidding,
                  [[CR_HeaderBidding alloc] initWithDevice:self.deviceInfo
-                                      displaySizeInjector:self.displaySizeInjector]);
+                                      displaySizeInjector:self.displaySizeInjector
+                                      integrationRegistry:self.integrationRegistry]);
 }
 
 - (CR_DisplaySizeInjector *)displaySizeInjector {
@@ -132,7 +137,8 @@
   return CR_LAZY(_feedbackDelegate,
                  [CR_FeedbackController controllerWithFeedbackStorage:self.feedbackStorage
                                                            apiHandler:self.apiHandler
-                                                               config:self.config]);
+                                                               config:self.config
+                                                              consent:self.consent]);
 }
 
 - (CR_BidManager *)bidManager {

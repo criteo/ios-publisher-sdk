@@ -104,4 +104,25 @@
   XCTAssertTrue([batches5[1] isEqualToArray:@[ units[8] ]]);
 }
 
+- (void)testGroupByOnEmptyArray {
+  XCTAssertNoThrow([NSArray.new cr_groupByKey:^id<NSCopying>(id item) {
+    return nil;
+  }]);
+}
+
+- (void)testGroupByOnBasicArray {
+  NSArray *input = @[ @1, @2, @2 ];
+  NSDictionary *expected = @{@1 : @[ @1 ], @2 : @[ @2, @2 ]};
+  NSDictionary *grouped = [input cr_groupByKey:^id<NSCopying>(id item) {
+    return item;
+  }];
+  XCTAssertEqualObjects(grouped, expected);
+}
+
+- (void)testGroupByOnArrayWithNilKey {
+  XCTAssertThrows([@[ @"dummy" ] cr_groupByKey:^id<NSCopying>(id item) {
+    return nil;
+  }]);
+}
+
 @end

@@ -1,0 +1,4 @@
+disabled_rules:
+  # Relaxed rules for tests where it can be acceptable to crash
+  - force_cast
+

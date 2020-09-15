@@ -117,6 +117,9 @@
 + (NSString *)publisher {
   return @"publisher";
 }
++ (NSString *)id {
+  return @"id";
+}
 + (NSString *)requestGroupId {
   return @"requestGroupId";
 }
@@ -137,6 +140,9 @@
 }
 + (NSString *)wrapperVersion {
   return @"wrapper_version";
+}
++ (NSString *)zoneId {
+  return @"zoneId";
 }
 
 @end

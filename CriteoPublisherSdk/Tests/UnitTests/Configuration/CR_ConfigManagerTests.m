@@ -22,6 +22,8 @@
 #import <OCMock.h>
 
 #import "CR_ConfigManager.h"
+#import "CR_IntegrationRegistry.h"
+#import "CR_RemoteConfigRequest.h"
 #import "NSUserDefaults+Testing.h"
 
 @interface CR_ConfigManagerTests : XCTestCase
@@ -34,14 +36,18 @@
 @implementation CR_ConfigManagerTests {
   CR_Config *localConfig;
   CR_ApiHandler *mockApiHandler;
+  CR_IntegrationRegistry *mockIntegrationRegistry;
 }
 
 - (void)setUp {
-  localConfig = [[CR_Config alloc] initWithCriteoPublisherId:nil];
+  localConfig = [[CR_Config alloc] initWithCriteoPublisherId:@"1337"];
   mockApiHandler = OCMStrictClassMock(CR_ApiHandler.class);
+  mockIntegrationRegistry = OCMStrictClassMock(CR_IntegrationRegistry.class);
+  OCMStub([mockIntegrationRegistry profileId]).andReturn(@42);
 
   self.userDefault = [[NSUserDefaults alloc] init];
-  self.configManager = [[CR_ConfigManager alloc] initWithApiHandler:mockApiHandler];
+  self.configManager = [[CR_ConfigManager alloc] initWithApiHandler:mockApiHandler
+                                                integrationRegistry:mockIntegrationRegistry];
 }
 
 - (void)tearDown {
@@ -97,6 +103,16 @@
   [self.configManager refreshConfig:localConfig];
 
   XCTAssertFalse(localConfig.isCsmEnabled);
+}
+
+- (void)testRefreshConfig_GivenIntegrationRegistry_ProfileIdIsUsedInRequest {
+  BOOL (^checkRequest)(CR_RemoteConfigRequest *) = ^(CR_RemoteConfigRequest *request) {
+    XCTAssertEqual(request.postBody[@"rtbProfileId"], @42);
+    return YES;
+  };
+  OCMStub([mockApiHandler getConfig:[OCMArg checkWithBlock:checkRequest]
+                    ahConfigHandler:([OCMArg invokeBlockWithArgs:@{}, nil])];);
+  [self.configManager refreshConfig:localConfig];
 }
 
 #pragma mark - Private

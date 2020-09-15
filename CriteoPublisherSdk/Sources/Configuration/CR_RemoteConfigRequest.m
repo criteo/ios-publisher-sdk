@@ -37,11 +37,11 @@
 
 @implementation CR_RemoteConfigRequest
 
-+ (instancetype)requestWithConfig:(CR_Config *)config {
++ (instancetype)requestWithConfig:(CR_Config *)config profileId:(NSNumber *)profileId {
   return [CR_RemoteConfigRequest.alloc initWithCriteoPublisherId:config.criteoPublisherId
                                                       sdkVersion:config.sdkVersion
                                                            appId:config.appId
-                                                       profileId:config.profileId
+                                                       profileId:profileId
                                                        configUrl:config.configUrl];
 }
 

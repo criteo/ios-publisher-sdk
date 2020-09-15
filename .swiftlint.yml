@@ -1,0 +1,9 @@
+disabled_rules:
+  # Disable swift-format overlapping rules
+  # We prefer to favor swift-format as swift.org official formatter
+  - opening_brace
+  - trailing_comma
+  # Other rules
+  - identifier_name
+  - type_name
+

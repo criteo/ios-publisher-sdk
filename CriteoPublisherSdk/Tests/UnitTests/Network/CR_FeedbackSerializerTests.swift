@@ -22,88 +22,97 @@ import XCTest
 
 class CR_FeedbackSerializerTests: XCTestCase {
 
-    var serializer: CR_FeedbacksSerializer = CR_FeedbacksSerializer()
-    var config: CR_Config = CR_Config(criteoPublisherId: "publisherId")
+  var serializer: CR_FeedbacksSerializer = CR_FeedbacksSerializer()
+  var config: CR_Config = CR_Config(criteoPublisherId: "publisherId")
+  let profileId = NSNumber(value: 42)
 
-    func testConfigValuesPassed() {
-        let body = self.serializer.postBody(forCsm: [], config: config) as NSDictionary
+  func testConfigValuesPassed() {
+    let body =
+      self.serializer.postBody(forCsm: [], config: config, profileId: profileId) as NSDictionary
 
-        XCTAssertEqual(body["wrapper_version"] as? String, config.sdkVersion)
-        XCTAssertEqual(body["profile_id"] as? NSNumber, config.profileId)
-    }
+    XCTAssertEqual(body["wrapper_version"] as? String, config.sdkVersion)
+    XCTAssertEqual(body["profile_id"] as? NSNumber, profileId)
+  }
 
-    func testMessagesCount() {
-        let messages = [
-            CR_FeedbackMessage(),
-            CR_FeedbackMessage(),
-            CR_FeedbackMessage()
-        ]
-        let body = self.serializer.postBody(forCsm: messages, config: config) as NSDictionary
-        let feedbacks = body["feedbacks"] as? NSArray
-        XCTAssertEqual(feedbacks?.count, messages.count)
-    }
+  func testMessagesCount() {
+    let messages = [
+      CR_FeedbackMessage(),
+      CR_FeedbackMessage(),
+      CR_FeedbackMessage(),
+    ]
+    let body =
+      self.serializer.postBody(forCsm: messages, config: config, profileId: profileId)
+      as NSDictionary
+    let feedbacks = body["feedbacks"] as? NSArray
+    XCTAssertEqual(feedbacks?.count, messages.count)
+  }
 
-    func testFilledMessage() {
-        let cdbStartTimeStamp = 123123
-        let cdbCallDuration = 10
-        let bidConsumedDuration = 20
-        let message = CR_FeedbackMessage()
-        message.isTimeout = true
-        message.cdbCallStartTimestamp = NSNumber(value: cdbStartTimeStamp)
-        message.cdbCallEndTimestamp = NSNumber(value: cdbStartTimeStamp + cdbCallDuration)
-        message.elapsedTimestamp = NSNumber(value: cdbStartTimeStamp + bidConsumedDuration)
+  func testFilledMessage() {
+    let cdbStartTimeStamp = 123123
+    let cdbCallDuration = 10
+    let bidConsumedDuration = 20
+    let message = CR_FeedbackMessage()
+    message.isTimeout = true
+    message.cdbCallStartTimestamp = NSNumber(value: cdbStartTimeStamp)
+    message.cdbCallEndTimestamp = NSNumber(value: cdbStartTimeStamp + cdbCallDuration)
+    message.elapsedTimestamp = NSNumber(value: cdbStartTimeStamp + bidConsumedDuration)
 
-        let feedback = serializeSingleMessage(message: message)
+    let feedback = serializeSingleMessage(message: message)
 
-        XCTAssertEqual(feedback["isTimeout"] as? Bool, true)
-        XCTAssertEqual(feedback["cdbCallStartElapsed"] as? Int, 0)
-        XCTAssertEqual(feedback["cdbCallEndElapsed"] as? Int, cdbCallDuration)
-        XCTAssertEqual(feedback["elapsed"] as? Int, bidConsumedDuration)
+    XCTAssertEqual(feedback["isTimeout"] as? Bool, true)
+    XCTAssertEqual(feedback["cdbCallStartElapsed"] as? Int, 0)
+    XCTAssertEqual(feedback["cdbCallEndElapsed"] as? Int, cdbCallDuration)
+    XCTAssertEqual(feedback["elapsed"] as? Int, bidConsumedDuration)
 
-    }
+  }
 
-    func testEmptyMessage() {
-        let feedback = serializeSingleMessage(message: CR_FeedbackMessage())
+  func testEmptyMessage() {
+    let feedback = serializeSingleMessage(message: CR_FeedbackMessage())
 
-        XCTAssertEqual(feedback["isTimeout"] as? Bool, false)
-        XCTAssertEqual(feedback["cdbCallStartElapsed"] as? Int, 0)
-        XCTAssertNil(feedback["cdbCallEndElapsed"] as? Int)
-        XCTAssertNil(feedback["elapsed"] as? Int)
-    }
+    XCTAssertEqual(feedback["isTimeout"] as? Bool, false)
+    XCTAssertEqual(feedback["cdbCallStartElapsed"] as? Int, 0)
+    XCTAssertNil(feedback["cdbCallEndElapsed"] as? Int)
+    XCTAssertNil(feedback["elapsed"] as? Int)
+  }
 
-    func testAnyMessageContainsSlotsField() {
-        let feedback = serializeSingleMessage(message: CR_FeedbackMessage())
-        let slots = feedback["slots"] as? NSArray
+  func testAnyMessageContainsSlotsField() {
+    let feedback = serializeSingleMessage(message: CR_FeedbackMessage())
+    let slots = feedback["slots"] as? NSArray
 
-        XCTAssertNotNil(slots)
-        XCTAssertEqual(slots?.count, 1)
-    }
+    XCTAssertNotNil(slots)
+    XCTAssertEqual(slots?.count, 1)
+  }
 
-    func testFilledMessage_SlotPart() {
-        let message = CR_FeedbackMessage()
-        let impressionId = "impId123"
-        message.impressionId = impressionId
-        message.cachedBidUsed = true
+  func testFilledMessage_SlotPart() {
+    let message = CR_FeedbackMessage()
+    let impressionId = "impId123"
+    message.impressionId = impressionId
+    message.cachedBidUsed = true
+    message.zoneId = 42
 
-        let feedback = serializeSingleMessage(message: message)
-        let slot = (feedback["slots"] as! NSArray)[0] as! NSDictionary
+    let feedback = serializeSingleMessage(message: message)
+    let slot = (feedback["slots"] as! NSArray)[0] as! NSDictionary
 
-        XCTAssertEqual(slot["cachedBidUsed"] as? Bool, true)
-        XCTAssertEqual(slot["impressionId"] as? String, impressionId)
-    }
+    XCTAssertEqual(slot["cachedBidUsed"] as? Bool, true)
+    XCTAssertEqual(slot["impressionId"] as? String, impressionId)
+    XCTAssertEqual(slot["zoneId"] as? Int, 42)
+  }
 
-    func testEmptyMessage_SlotPart() {
-        let feedback = serializeSingleMessage(message: CR_FeedbackMessage())
-        let slot = (feedback["slots"] as! NSArray)[0] as! NSDictionary
+  func testEmptyMessage_SlotPart() {
+    let feedback = serializeSingleMessage(message: CR_FeedbackMessage())
+    let slot = (feedback["slots"] as! NSArray)[0] as! NSDictionary
 
-        XCTAssertEqual(slot["cachedBidUsed"] as? Bool, false)
-        XCTAssertNil(slot["impressionId"] as? String)
-    }
+    XCTAssertEqual(slot["cachedBidUsed"] as? Bool, false)
+    XCTAssertNil(slot["impressionId"] as? String)
+    XCTAssertNil(slot["zoneId"] as? Int)
+  }
 
-    private func serializeSingleMessage(message: CR_FeedbackMessage) -> NSDictionary {
-        let body = self.serializer.postBody(forCsm: [message], config: config) as NSDictionary
-        let feedbacks = body["feedbacks"] as! NSArray
-        let feedback = feedbacks[0] as! NSDictionary
-        return feedback
-    }
+  private func serializeSingleMessage(message: CR_FeedbackMessage) -> NSDictionary {
+    let body =
+      self.serializer.postBody(forCsm: [message], config: config, profileId: profileId)
+      as NSDictionary
+    let feedbacks = body["feedbacks"] as! NSArray
+    let feedback = feedbacks[0] as! NSDictionary
+    return feedback
+  }
 }

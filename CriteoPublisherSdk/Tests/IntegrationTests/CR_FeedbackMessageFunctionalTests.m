@@ -52,7 +52,7 @@
           .withListenedNetworkManager
           // We don't want to isolate the tests from the disk
           //.withIsolatedFeedbackStorage
-          .withIsolatedNotificationCenter;
+          .withIsolatedNotificationCenter.withIsolatedIntegrationRegistry;
 
   self.criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProvider];
   self.nsdateMock = OCMClassMock([NSDate class]);
@@ -85,6 +85,11 @@
     XCTAssertEqualObjects(feedback[@"slots"][0][@"cachedBidUsed"], @(cachedBidUsed), @"%@", \
                           feedback);                                                        \
     XCTAssertNotNil(feedback[@"slots"][0][@"impressionId"], @"%@", feedback);               \
+    if (cachedBidUsed) {                                                                    \
+      XCTAssertNotNil(feedback[@"slots"][0][@"zoneId"], @"%@", feedback);                   \
+    } else {                                                                                \
+      XCTAssertNil(feedback[@"slots"][0][@"zoneId"], @"%@", feedback);                      \
+    }                                                                                       \
   } while (0)
 
 #define AssertArrayWithUniqueElements(array, uniqueElementCount) \

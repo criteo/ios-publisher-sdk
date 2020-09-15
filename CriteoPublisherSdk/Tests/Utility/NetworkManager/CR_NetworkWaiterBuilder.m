@@ -63,7 +63,7 @@
 - (CR_NetworkWaiterBuilder *)withConfig {
   __weak typeof(self) weakSelf = self;
   [self.testers addObject:^BOOL(CR_HttpContent *_Nonnull httpContent) {
-    return [httpContent.url testing_isConfigEventUrlWithConfig:weakSelf.config];
+    return [httpContent.url testing_isConfigUrlWithConfig:weakSelf.config];
   }];
   return self;
 }

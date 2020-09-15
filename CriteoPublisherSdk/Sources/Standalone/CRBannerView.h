@@ -21,6 +21,7 @@
 #import "CRBannerViewDelegate.h"
 #import "CRBidToken.h"
 #import "CRBannerAdUnit.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CRBannerView : UIView
@@ -29,9 +30,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
 
-- (void)loadAdWithBidToken:(CRBidToken *)bidToken;
 - (instancetype)initWithAdUnit:(CRBannerAdUnit *)adUnit;
+
 - (void)loadAd;
+- (void)loadAdWithBidToken:(CRBidToken *)bidToken;
+- (void)loadAdWithDisplayData:(NSString *)displayData;
+
 @end
 
 NS_ASSUME_NONNULL_END

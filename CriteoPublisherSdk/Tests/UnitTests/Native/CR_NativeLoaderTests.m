@@ -42,6 +42,7 @@
 #import "CRMediaDownloader.h"
 #import "XCTestCase+Criteo.h"
 #import "CR_NativeAssets+Testing.h"
+#import "CR_IntegrationRegistry.h"
 
 @interface CR_NativeLoaderTests : XCTestCase
 @property(strong, nonatomic) CRNativeLoader *loader;
@@ -51,6 +52,7 @@
 @property(strong, nonatomic) CR_URLOpenerMock *urlOpener;
 @property(strong, nonatomic) Criteo *criteo;
 @property(strong, nonatomic) CR_NetworkManager *networkManagerMock;
+@property(strong, nonatomic) CR_IntegrationRegistry *integrationRegistry;
 
 @end
 
@@ -65,6 +67,7 @@
   CR_DependencyProvider *provider = [CR_DependencyProvider testing_dependencyProvider];
   provider.networkManager = self.networkManagerMock;
   provider.mediaDownloader = self.mediaDownloaderMock;
+  self.integrationRegistry = provider.integrationRegistry;
 
   self.criteo = OCMClassMock([Criteo class]);
   OCMStub([self.criteo dependencyProvider]).andReturn(provider);
@@ -92,6 +95,7 @@
   // FIXME We want to expect URL from native assets, but URL instances are mocked
   OCMVerify(times(3), [self.mediaDownloaderMock downloadImage:[OCMArg any]
                                             completionHandler:[OCMArg any]]);
+  OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
 }
 
 - (void)testFailureWithNoBid {
@@ -105,6 +109,7 @@
 
   OCMVerify(never(), [self.mediaDownloaderMock downloadImage:[OCMArg any]
                                            completionHandler:[OCMArg any]]);
+  OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
 }
 
 - (void)testInHouseReceiveWithValidToken {
@@ -337,6 +342,8 @@
                             Criteo *criteoMock) {
                      OCMReject([criteoMock getBid:[OCMArg any]]);
                    }];
+
+  OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
 }
 
 - (void)testInHouseDoesNotConsumeBidWhenNotListeningToAds {

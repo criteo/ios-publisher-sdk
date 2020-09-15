@@ -118,30 +118,60 @@
 #undef AssertGdprApply
 }
 
-- (void)testGDPRApplyWithNoContentString {
+- (void)testGDPRApplyWithNoConsentString {
   XCTAssertNil(self.gdpr.applies);
 }
 
-- (void)testGDPRApplyEmptyWithContentStringForTcf1_1 {
+- (void)testGDPRApplyEmptyWithConsentStringForTcf1_1 {
   [self.userDefaults setGdprTcf1_1DefaultConsentString];
   XCTAssertNil(self.gdpr.applies);
 }
 
-- (void)testGDPRApplyEmptyWithContentStringForTcf2_0 {
+- (void)testGDPRApplyEmptyWithConsentStringForTcf2_0 {
   [self.userDefaults setGdprTcf2_0DefaultConsentString];
   XCTAssertNil(self.gdpr.applies);
 }
 
+#pragma mark - Purpose consent
+
+- (void)testPurposeConsentSimpleCases {
+#define AssertPurposeConsent(tcfVersion, consents, id, expected)       \
+  do {                                                                 \
+    [self.userDefaults clearGdpr];                                     \
+    [self.userDefaults setGdprTcf##tcfVersion##GdprApplies:@YES];      \
+    [self.userDefaults setGdprTcf2_0PurposeConsents:consents];         \
+    XCTAssertEqual([self.gdpr isConsentGivenForPurpose:id], expected); \
+  } while (0);
+
+  AssertPurposeConsent(1_1, nil, 1, YES);
+  AssertPurposeConsent(2_0, @"", 4, YES);
+  AssertPurposeConsent(2_0, @"malformed", 1, YES);
+  AssertPurposeConsent(2_0, @"0001", 4, YES);
+  AssertPurposeConsent(2_0, @"1110", 4, NO);
+
+#undef AssertPurposeConsent
+}
+
+- (void)testPurposeConsentMissingWithConsentStringForTcf1_1 {
+  [self.userDefaults setGdprTcf1_1DefaultConsentString];
+  XCTAssertTrue([self.gdpr isConsentGivenForPurpose:1]);
+}
+
+- (void)testPurposeConsentMissingWithConsentStringForTcf2_0 {
+  [self.userDefaults setGdprTcf2_0DefaultConsentString];
+  XCTAssertTrue([self.gdpr isConsentGivenForPurpose:1]);
+}
+
 #pragma mark TCF2/TCF2
 
-- (void)testGDPRApplyWithContentStringForTcf1_1andTcf2_0 {
+- (void)testGDPRApplyWithConsentStringForTcf1_1andTcf2_0 {
   [self.userDefaults setGdprTcf1_1DefaultConsentString];
   [self.userDefaults setGdprTcf2_0DefaultConsentString];
   [self.userDefaults setGdprTcf2_0GdprApplies:@YES];
   XCTAssertEqualObjects(self.gdpr.applies, @YES);
 }
 
-- (void)testGDPRApplyTCF1WithContentStringForTcf1_1andTcf2_0 {
+- (void)testGDPRApplyTCF1WithConsentStringForTcf1_1andTcf2_0 {
   [self.userDefaults setGdprTcf1_1DefaultConsentString];
   [self.userDefaults setGdprTcf2_0DefaultConsentString];
   [self.userDefaults setGdprTcf1_1GdprApplies:@YES];

@@ -20,10 +20,7 @@ or alternatively using `brew install fastlane`
 ```
 fastlane ios test
 ```
-Run tests:
-    - Check code formatting
-    - Run Unit & Functional tests with retries
-  
+Run tests: Run Unit & Functional tests with retries
 ### ios format_check
 ```
 fastlane ios format_check
@@ -34,16 +31,41 @@ Check code format
 fastlane ios format
 ```
 Format code
+### ios lint_swift
+```
+fastlane ios lint_swift
+```
+Lint swift code
+### ios set_versions
+```
+fastlane ios set_versions
+```
+Sets marketing and bundle versions to a Xcode project
 ### ios version_bump
 ```
 fastlane ios version_bump
 ```
-Set marketing version
-### ios last_changelog
+Sets cocoapods, marketing and bundle versions from a semver `version` and an optional `build` number
+### ios archive
 ```
-fastlane ios last_changelog
+fastlane ios archive
 ```
-Extract last version changelog
+Generates Debug & Release frameworks zip archives
+### ios github_release
+```
+fastlane ios github_release
+```
+
+### ios release_github
+```
+fastlane ios release_github
+```
+Archive then release version to GitHub
+### ios release_cocoapods
+```
+fastlane ios release_cocoapods
+```
+Release version to CocoaPods
 
 ----
 
