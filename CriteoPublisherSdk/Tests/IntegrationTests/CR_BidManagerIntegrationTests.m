@@ -117,83 +117,83 @@
   XCTAssertEqual(networkManager.numberOfPostCall, 1);
 }
 
-- (void)test_givenPrefetchingBid_whenGetImmediateBid_ShouldPopulateCacheWithTtlSetToDefaultOne {
+- (void)test_givenPrefetchingBid_whenGetImmediateBid_shouldProvideBidWithTtlSetToDefaultOne {
   [self givenMockedCdbResponseBid:self.immediateBid];
   [self whenPrefetchingBid];
   CR_CdbBid *cachedBid = [self.bidManager getBid:self.cacheAdUnit1];
   XCTAssertEqual(cachedBid.ttl, CRITEO_DEFAULT_BID_TTL_IN_SECONDS);
 
-  [self checkAnotherPrefetchPopulateCache];
+  [self checkAnotherPrefetchProvideBid];
 }
 
-- (void)test_givenPrefetchingBid_whenMissingBid_ShouldNotPopulateCache {
+- (void)test_givenPrefetchingBid_whenMissingBid_shouldProvideEmptyBid {
   [self givenMockedCdbResponseBids:@[]];
   [self whenPrefetchingBid];
-  [self shouldNotPopulateCache];
+  [self shouldProvideEmptyBid];
 
-  [self checkAnotherPrefetchPopulateCache];
+  [self checkAnotherPrefetchProvideBid];
 }
 
-- (void)test_givenPrefetchingBid_whenNoContent_ShouldNotPopulateCache {
+- (void)test_givenPrefetchingBid_whenNoContent_shouldProvideEmptyBid {
   [self givenMockedCdbEmptyResponse];
   [self whenPrefetchingBid];
-  [self shouldNotPopulateCache];
+  [self shouldProvideEmptyBid];
 
-  [self checkAnotherPrefetchPopulateCache];
+  [self checkAnotherPrefetchProvideBid];
 }
 
-- (void)test_givenPrefetchingBid_whenExpiredBid_ShouldBeRemovedFromCache {
+- (void)test_givenPrefetchingBid_whenExpiredBid_shouldProvideEmptyBid {
   CR_CdbBid *bidMock = OCMPartialMock(self.validBid);
   [self givenMockedCdbResponseBid:bidMock];
   [self whenPrefetchingBid];
 
   OCMStub([bidMock isExpired]).andReturn(YES);
-  [self shouldNotPopulateCache];
+  [self shouldProvideEmptyBid];
 
-  [self checkAnotherPrefetchPopulateCache];
+  [self checkAnotherPrefetchProvideBid];
 }
 
-- (void)test_givenPrefetchingBid_whenNoBidModeBid_ShouldNotPopulateCache {
+- (void)test_givenPrefetchingBid_whenNoBidModeBid_shouldProvideEmptyBid {
   [self givenMockedCdbResponseBids:@[ self.noBidModeBid ]];
   [self whenPrefetchingBid];
-  [self shouldNotPopulateCache];
+  [self shouldProvideEmptyBid];
 
-  [self checkAnotherPrefetchPopulateCache];
+  [self checkAnotherPrefetchProvideBid];
 }
 
-- (void)test_givenPrefetchingBid_whenSilenceModeBid_ShouldNotPopulateCache {
+- (void)test_givenPrefetchingBid_whenSilenceModeBid_shouldProvideEmptyBid {
   CR_CdbBid *silencedBidMock = OCMPartialMock(self.silenceModeBid);
   [self givenMockedCdbResponseBids:@[ silencedBidMock ]];
   [self whenPrefetchingBid];
-  [self shouldNotPopulateCache];
+  [self shouldProvideEmptyBid];
 
   [self givenUnmockedCdbResponse];
   // Simulate expiration after ttl, which causes a prefetch of a valid bid
   OCMStub([silencedBidMock isExpired]).andReturn(YES);
-  [self shouldNotPopulateCache];
+  [self shouldProvideEmptyBid];
   [self.dependencyProvider.threadManager waiter_waitIdle];
 
-  [self shouldPopulateCache];
+  [self shouldProvideBid];
 }
 
-- (void)test_givenPrefetchingBid_whenUserSilenceModeBid_ShouldNotPopulateCache {
+- (void)test_givenPrefetchingBid_whenUserSilenceModeBid_shouldProvideEmptyBid {
   CR_BidManager *bidManager = OCMPartialMock(_dependencyProvider.bidManager);
   _dependencyProvider.bidManager = bidManager;
 
   CR_CdbResponse *response = [self givenMockedCdbResponseBids:@[]];
   OCMStub(response.timeToNextCall).andReturn(30);
   [self whenPrefetchingBid];
-  [self shouldNotPopulateCache];
+  [self shouldProvideEmptyBid];
   XCTAssertTrue(self.bidManager.isInSilenceMode);
 
   [self givenUnmockedCdbResponse];
   // Simulating Bid Manager timeToNextCall elapsed, i.e. not silenced anymore
   // Which we expect to cause a prefetch of a valid bid on next get bid from cache
   OCMStub([bidManager isInSilenceMode]).andReturn(NO);
-  [self shouldNotPopulateCache];
+  [self shouldProvideEmptyBid];
   [self.dependencyProvider.threadManager waiter_waitIdle];
 
-  [self shouldPopulateCache];
+  [self shouldProvideBid];
 }
 
 #pragma mark - Private
@@ -236,18 +236,6 @@
   [self.dependencyProvider.threadManager waiter_waitIdle];
 }
 
-#pragma mark Cache validation
-
-- (void)shouldNotPopulateCache {
-  CR_CdbBid *cachedBid = [self.bidManager getBid:self.cacheAdUnit1];
-  XCTAssertEqualObjects(cachedBid, CR_CdbBid.emptyBid);
-}
-
-- (void)shouldPopulateCache {
-  CR_CdbBid *cachedBid = [self.bidManager getBid:self.cacheAdUnit1];
-  XCTAssertNotEqualObjects(cachedBid, CR_CdbBid.emptyBid);
-}
-
 - (void)_waitNetworkCallForBids:(CR_CacheAdUnitArray *)caches {
   NSArray *tests = @[ ^BOOL(CR_HttpContent *_Nonnull httpContent) {
     return [httpContent.url testing_isBidUrlWithConfig:self.config] &&
@@ -260,12 +248,24 @@
   XCTAssert(result, @"Fail to send bid request.");
 }
 
+#pragma mark Cache validation
+
+- (void)shouldProvideEmptyBid {
+  CR_CdbBid *cachedBid = [self.bidManager getBid:self.cacheAdUnit1];
+  XCTAssertEqualObjects(cachedBid, CR_CdbBid.emptyBid);
+}
+
+- (void)shouldProvideBid {
+  CR_CdbBid *cachedBid = [self.bidManager getBid:self.cacheAdUnit1];
+  XCTAssertNotEqualObjects(cachedBid, CR_CdbBid.emptyBid);
+}
+
 #pragma mark Checks
 
-- (void)checkAnotherPrefetchPopulateCache {
+- (void)checkAnotherPrefetchProvideBid {
   [self givenUnmockedCdbResponse];
   [self whenPrefetchingAnotherBid];
-  [self shouldPopulateCache];
+  [self shouldProvideBid];
 }
 
 #pragma mark Model helpers
