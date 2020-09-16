@@ -168,8 +168,6 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
   return [tokenCache getValueForToken:bidToken adUnitType:adUnitType];
 }
 
-// TODO: Figure out a way to test this
-
 - (void)prefetchBidForAdUnit:(CR_CacheAdUnit *)adUnit {
   [self prefetchBidsForAdUnits:@[ adUnit ]];
 }
