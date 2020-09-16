@@ -160,12 +160,19 @@
       .andReturn(@"test?safearea");
   dependencyProvider.displaySizeInjector = displaySizeInjector;
 
-  OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]])
-      .andReturn([self bidWithDisplayURL:@"test"]);
+  OCMStub([mockCriteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler([self bidWithDisplayURL:@"test"]);
+      });
+
   id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
   interstitial.delegate = mockInterstitialDelegate;
   OCMExpect([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
   OCMExpect([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
+  XCTestExpectation *webViewLoadedExpectation =
+      [[XCTestExpectation alloc] initWithDescription:@"webViewLoadedExpectation"];
   OCMStub([mockWebView loadHTMLString:[self htmlString]
                               baseURL:[NSURL URLWithString:@"https://criteo.com"]])
       .andDo(^(NSInvocation *args) {
@@ -176,10 +183,15 @@
                               }];
       })
       .andDo(^(NSInvocation *args) {
+        [webViewLoadedExpectation fulfill];
+      })
+      .andDo(^(NSInvocation *args) {
         [interstitial webView:mockWebView didFinishNavigation:nil];
       });
 
   [interstitial loadAd];
+
+  [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
   XCTAssertTrue(interstitial.isAdLoaded);
   OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
 }
@@ -196,8 +208,12 @@
                                   isAdLoaded:NO
                                       adUnit:self.adUnit
                                    urlOpener:[[CR_URLOpenerMock alloc] init]];
-  OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([CR_CdbBid emptyBid]);
-
+  OCMStub([mockCriteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler([CR_CdbBid emptyBid]);
+      });
   id<CRInterstitialDelegate> mockInterstitialDelegate =
       OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
   NSError *expectedError = [NSError cr_errorWithCode:CRErrorCodeNoFill];
@@ -302,8 +318,14 @@
       .andReturn(@"test?safearea");
   dependencyProvider.displaySizeInjector = displaySizeInjector;
 
-  OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]])
-      .andReturn([self bidWithDisplayURL:@"test"]);
+  OCMStub([mockCriteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler([self bidWithDisplayURL:@"test"]);
+      });
+  XCTestExpectation *webViewLoadedExpectation =
+      [[XCTestExpectation alloc] initWithDescription:@"webViewLoadedExpectation"];
   OCMStub([mockWebView loadHTMLString:[self htmlString]
                               baseURL:[NSURL URLWithString:@"https://criteo.com"]])
       .andDo(^(NSInvocation *args) {
@@ -314,6 +336,9 @@
                               }];
       })
       .andDo(^(NSInvocation *args) {
+        [webViewLoadedExpectation fulfill];
+      })
+      .andDo(^(NSInvocation *args) {
         [interstitial webView:mockWebView didFinishNavigation:nil];
       });
 
@@ -321,6 +346,8 @@
       expectationWithDescription:
           @"InterstitialWillAppear and InterstitialDidAppear delegate methods called in order"];
   [interstitial loadAd];
+  [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
+
   if (interstitial.isAdLoaded) {
     [interstitial presentFromRootViewController:rootViewController];
     [CR_Timer scheduledTimerWithTimeInterval:2
@@ -660,8 +687,12 @@
   OCMStub([deviceInfoClassMock screenSize]).andReturn(CGSizeMake(320, 480));
   dependencyProvider.deviceInfo = deviceInfoClassMock;
 
-  OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]])
-      .andReturn([self bidWithDisplayURL:@"test"]);
+  OCMStub([mockCriteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler([self bidWithDisplayURL:@"test"]);
+      });
 
   id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
   interstitial.delegate = mockInterstitialDelegate;
@@ -694,8 +725,12 @@
   OCMStub([deviceInfoClassMock screenSize]).andReturn(CGSizeMake(320, 480));
   dependencyProvider.deviceInfo = deviceInfoClassMock;
 
-  OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]])
-      .andReturn([self bidWithDisplayURL:@"test"]);
+  OCMStub([mockCriteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler([self bidWithDisplayURL:@"test"]);
+      });
   id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
   NSError *expectedError = [NSError cr_errorWithCode:CRErrorCodeInvalidRequest
                                          description:@"An Ad is already being loaded."];
@@ -916,8 +951,12 @@
       .andReturn(@"test?safearea");
   dependencyProvider.displaySizeInjector = displaySizeInjector;
 
-  OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]])
-      .andReturn([self bidWithDisplayURL:@"test"]);
+  OCMStub([mockCriteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler([self bidWithDisplayURL:@"test"]);
+      });
   id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
   interstitial.delegate = mockInterstitialDelegate;
   OCMExpect([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
