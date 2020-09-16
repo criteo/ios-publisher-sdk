@@ -56,7 +56,7 @@
                                     completionHandler:[OCMArg any]]);
 
   XCTAssertEqual(self.feedbackSendingQueue.size, 0);
-  [self.bidManager prefetchBid:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit];
 }
 
 - (void)testNonEmptySendingQueue_ShouldSendAllMessages {
@@ -65,7 +65,7 @@
   CR_FeedbackMessage *message2 = [[CR_FeedbackMessage alloc] init];
   [self.feedbackSendingQueue add:message1];
   [self.feedbackSendingQueue add:message2];
-  [self.bidManager prefetchBid:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit];
 
   NSArray *messages = @[ message1, message2 ];
   OCMVerify([self.apiHandlerMock sendFeedbackMessages:messages
@@ -96,7 +96,7 @@
                                                config:[OCMArg any]
                                             profileId:@2
                                     completionHandler:[OCMArg any]]);
-  [self.bidManager prefetchBid:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit];
   OCMVerifyAll(self.apiHandlerMock);
 }
 
@@ -107,7 +107,7 @@
                                   completionHandler:[OCMArg invokeBlock]]);
   XCTAssertEqual(self.feedbackSendingQueue.size, 0);
   [self.feedbackSendingQueue add:[[CR_FeedbackMessage alloc] init]];
-  [self.bidManager prefetchBid:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit];
 
   XCTAssertEqual(self.feedbackSendingQueue.size, 0);
 }
@@ -121,7 +121,7 @@
                                   completionHandler:completeionWithError]);
   XCTAssertEqual(self.feedbackSendingQueue.size, 0);
   [self.feedbackSendingQueue add:[[CR_FeedbackMessage alloc] init]];
-  [self.bidManager prefetchBid:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit];
 
   XCTAssertEqual(self.feedbackSendingQueue.size, 1);
 }

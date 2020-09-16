@@ -118,7 +118,7 @@
 
 - (void)prefetchAll {
   if (!self.hasPrefetched) {
-    [self.bidManager prefetchBids:self.registeredAdUnits];
+    [self.bidManager prefetchBidsForAdUnits:self.registeredAdUnits];
     self.hasPrefetched = YES;
   }
 }
