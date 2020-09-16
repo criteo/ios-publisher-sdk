@@ -160,8 +160,13 @@
       .andReturn(@"test?safearea");
   dependencyProvider.displaySizeInjector = displaySizeInjector;
 
-  OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]])
-      .andReturn([self bidWithDisplayURL:@"test"]);
+  OCMStub([mockCriteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler([self bidWithDisplayURL:@"test"]);
+      });
+
   id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
   interstitial.delegate = mockInterstitialDelegate;
   OCMExpect([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
@@ -196,8 +201,12 @@
                                   isAdLoaded:NO
                                       adUnit:self.adUnit
                                    urlOpener:[[CR_URLOpenerMock alloc] init]];
-  OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]]).andReturn([CR_CdbBid emptyBid]);
-
+  OCMStub([mockCriteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler([CR_CdbBid emptyBid]);
+      });
   id<CRInterstitialDelegate> mockInterstitialDelegate =
       OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
   NSError *expectedError = [NSError cr_errorWithCode:CRErrorCodeNoFill];
@@ -302,8 +311,12 @@
       .andReturn(@"test?safearea");
   dependencyProvider.displaySizeInjector = displaySizeInjector;
 
-  OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]])
-      .andReturn([self bidWithDisplayURL:@"test"]);
+  OCMStub([mockCriteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler([self bidWithDisplayURL:@"test"]);
+      });
   OCMStub([mockWebView loadHTMLString:[self htmlString]
                               baseURL:[NSURL URLWithString:@"https://criteo.com"]])
       .andDo(^(NSInvocation *args) {
@@ -660,8 +673,12 @@
   OCMStub([deviceInfoClassMock screenSize]).andReturn(CGSizeMake(320, 480));
   dependencyProvider.deviceInfo = deviceInfoClassMock;
 
-  OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]])
-      .andReturn([self bidWithDisplayURL:@"test"]);
+  OCMStub([mockCriteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler([self bidWithDisplayURL:@"test"]);
+      });
 
   id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
   interstitial.delegate = mockInterstitialDelegate;
@@ -694,8 +711,12 @@
   OCMStub([deviceInfoClassMock screenSize]).andReturn(CGSizeMake(320, 480));
   dependencyProvider.deviceInfo = deviceInfoClassMock;
 
-  OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]])
-      .andReturn([self bidWithDisplayURL:@"test"]);
+  OCMStub([mockCriteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler([self bidWithDisplayURL:@"test"]);
+      });
   id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
   NSError *expectedError = [NSError cr_errorWithCode:CRErrorCodeInvalidRequest
                                          description:@"An Ad is already being loaded."];
@@ -916,8 +937,12 @@
       .andReturn(@"test?safearea");
   dependencyProvider.displaySizeInjector = displaySizeInjector;
 
-  OCMStub([mockCriteo getBid:[self expectedCacheAdUnit]])
-      .andReturn([self bidWithDisplayURL:@"test"]);
+  OCMStub([mockCriteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler([self bidWithDisplayURL:@"test"]);
+      });
   id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
   interstitial.delegate = mockInterstitialDelegate;
   OCMExpect([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);

@@ -74,12 +74,17 @@
 - (void)testBannerSuccess {
   MockWKWebView *mockWebView = [MockWKWebView new];
   CR_CdbBid *bid = [self cdbBidWithDisplayUrl:TEST_DISPLAY_URL];
-  OCMStub([self.criteo getBid:[self expectedCacheAdUnit]]).andReturn(bid);
+  OCMStub([self.criteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler(bid);
+      });
 
   CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView];
   [bannerView loadAd];
 
-  OCMVerify([self.criteo getBid:[self expectedCacheAdUnit]]);
+  OCMVerify([self.criteo getBid:[self expectedCacheAdUnit] responseHandler:[OCMArg any]]);
 
   XCTAssertTrue([mockWebView.loadedHTMLString
       containsString:@"<script src=\"" TEST_DISPLAY_URL "\"></script>"]);
@@ -99,7 +104,12 @@
   WKWebView *realWebView = [WKWebView new];
 
   CR_CdbBid *bid = [self cdbBidWithDisplayUrl:@"-"];
-  OCMStub([self.criteo getBid:[self expectedCacheAdUnit]]).andReturn(bid);
+  OCMStub([self.criteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler(bid);
+      });
 
   CRBannerView *bannerView = [self bannerViewWithWebView:realWebView];
   realWebView.navigationDelegate = self;
@@ -145,12 +155,17 @@
 
 - (void)testBannerFail {
   WKWebView *realWebView = [WKWebView new];
-  OCMStub([self.criteo getBid:[self expectedCacheAdUnit]]).andReturn(nil);
+  OCMStub([self.criteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler(nil);
+      });
 
   CRBannerView *bannerView = [self bannerViewWithWebView:realWebView];
   [bannerView loadAd];
 
-  OCMVerify([self.criteo getBid:[self expectedCacheAdUnit]]);
+  OCMVerify([self.criteo getBid:[self expectedCacheAdUnit] responseHandler:[OCMArg any]]);
   OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
 }
 

@@ -92,8 +92,12 @@
 
 - (void)testBannerDidReceiveAd {
   WKWebView *realWebView = [WKWebView new];
-  OCMStub([self.criteo getBid:[self expectedCacheAdUnit]])
-      .andReturn([self bidWithDisplayURL:@"test"]);
+  OCMStub([self.criteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler([self bidWithDisplayURL:@"test"]);
+      });
 
   CRBannerView *bannerView = [self bannerViewWithWebView:realWebView];
   bannerView.delegate = self.delegate;
@@ -106,8 +110,12 @@
 - (void)testBannerAdFetchFail {
   self.delegate.expectedError = [NSError cr_errorWithCode:CRErrorCodeNoFill];
 
-  OCMStub([self.criteo getBid:self.expectedCacheAdUnit]).andReturn([CR_CdbBid emptyBid]);
-
+  OCMStub([self.criteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler([CR_CdbBid emptyBid]);
+      });
   CRBannerView *bannerView = [self bannerViewWithWebView:nil];
   bannerView.delegate = self.delegate;
   [bannerView loadAd];
@@ -181,8 +189,12 @@
 - (void)testNoDelegateWhenNoHttpResponse {
   WKWebView *realWebView = [WKWebView new];
 
-  OCMStub([self.criteo getBid:[self expectedCacheAdUnit]]).andReturn([self bidWithDisplayURL:@"-"]);
-
+  OCMStub([self.criteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler([self bidWithDisplayURL:@"-"]);
+      });
   CRBannerView *bannerView = [self bannerViewWithWebView:realWebView];
   bannerView.delegate = self.delegate;
   [bannerView loadAd];
