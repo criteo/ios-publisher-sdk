@@ -23,6 +23,8 @@
 #import "CR_HeaderBidding.h"
 #import "CR_ThreadManager.h"
 
+typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
+
 @interface CR_BidManager ()
 
 @property(nonatomic, assign, readonly) BOOL isInSilenceMode;
@@ -173,12 +175,19 @@
 }
 
 - (void)prefetchBids:(CR_CacheAdUnitArray *)adUnits {
+  [self fetchBidsForAdUnits:adUnits
+         cdbResponseHandler:^(CR_CdbResponse *cdbResponse) {
+           [self cacheBidsFromResponse:cdbResponse];
+         }];
+}
+
+- (void)fetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits
+         cdbResponseHandler:(CR_CdbResponseHandler)responseHandler {
   if ([self shouldCancelCdbCall]) {
     return;
   }
 
-  CLogInfo(@"[INFO][BIDS] Start prefetching for %@", adUnits);
-
+  CLogInfo(@"Fetching bids for ad units: %@", adUnits);
   [deviceInfo waitForUserAgent:^{
     [self->apiHandler callCdb:adUnits
         consent:self.consent
@@ -191,8 +200,14 @@
                             NSError *error) {
           if (error) {
             [self handleError:error cdbRequest:cdbRequest];
+            if (responseHandler) {
+              responseHandler(nil);
+            }
           } else if (cdbResponse) {
             [self handleResponse:cdbResponse cdbRequest:cdbRequest];
+            if (responseHandler) {
+              responseHandler(cdbResponse);
+            }
           }
         }];
   }];
@@ -215,7 +230,6 @@
     if (bid.isImmediate) {
       [bid setDefaultTtl];
     }
-    [self->cacheManager setBid:bid];
   }
 
   [self.feedbackDelegate onCdbCallResponse:cdbResponse fromRequest:cdbRequest];
@@ -276,6 +290,12 @@
   return [[CRBidResponse alloc] initWithPrice:[bid.cpm doubleValue]
                                    bidSuccess:YES
                                      bidToken:bidToken];
+}
+
+- (void)cacheBidsFromResponse:(CR_CdbResponse *)cdbResponse {
+  for (CR_CdbBid *bid in cdbResponse.cdbBids) {
+    [cacheManager setBid:bid];
+  }
 }
 
 - (CR_Config *)config {
