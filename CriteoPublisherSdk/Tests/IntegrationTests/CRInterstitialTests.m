@@ -71,7 +71,16 @@
 }
 
 - (void)testInterstitialLoadWithDataSuccess {
-  MockWKWebView *mockWebView = [MockWKWebView new];
+  WKWebView *mockWebView = OCMPartialMock([WKWebView new]);
+  XCTestExpectation *webViewLoadedExpectation =
+      [[XCTestExpectation alloc] initWithDescription:@"webViewLoadedExpectation"];
+  OCMExpect([mockWebView loadHTMLString:[OCMArg checkWithBlock:^BOOL(NSString *html) {
+                           return [html containsString:@"<script src=\"test?safearea\"></script>"];
+                         }]
+                                baseURL:[NSURL URLWithString:@"https://criteo.com"]])
+      .andDo(^(NSInvocation *args) {
+        [webViewLoadedExpectation fulfill];
+      });
 
   [self prepareMockedDeviceInfo];
 
@@ -81,28 +90,39 @@
   CRInterstitial *interstitial = [self interstitialWithWebView:mockWebView];
   [interstitial loadAdWithDisplayData:@"test"];
 
-  XCTAssertTrue(
-      [mockWebView.loadedHTMLString containsString:@"<script src=\"test?safearea\"></script>"]);
-  XCTAssertEqualObjects([NSURL URLWithString:@"https://criteo.com"], mockWebView.loadedBaseURL);
+  [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
+  OCMVerifyAll(mockWebView);
 }
 
 - (void)testInterstitialLoadSuccess {
-  MockWKWebView *mockWebView = [MockWKWebView new];
+  WKWebView *mockWebView = OCMPartialMock([WKWebView new]);
+  XCTestExpectation *webViewLoadedExpectation =
+      [[XCTestExpectation alloc] initWithDescription:@"webViewLoadedExpectation"];
+  OCMExpect([mockWebView loadHTMLString:[OCMArg checkWithBlock:^BOOL(NSString *html) {
+                           return [html containsString:@"<script src=\"test?safearea\"></script>"];
+                         }]
+                                baseURL:[NSURL URLWithString:@"https://criteo.com"]])
+      .andDo(^(NSInvocation *args) {
+        [webViewLoadedExpectation fulfill];
+      });
 
   [self prepareMockedDeviceInfo];
 
   OCMStub([self.displaySizeInjector injectSafeScreenSizeInDisplayUrl:@"test"])
       .andReturn(@"test?safearea");
 
-  OCMExpect([self.criteo getBid:[self expectedCacheAdUnit]])
-      .andReturn([self bidWithDisplayURL:@"test"]);
+  OCMExpect([self.criteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler([self bidWithDisplayURL:@"test"]);
+      });
 
   CRInterstitial *interstitial = [self interstitialWithWebView:mockWebView];
   [interstitial loadAd];
 
-  XCTAssertTrue(
-      [mockWebView.loadedHTMLString containsString:@"<script src=\"test?safearea\"></script>"]);
-  XCTAssertEqualObjects([NSURL URLWithString:@"https://criteo.com"], mockWebView.loadedBaseURL);
+  [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
+  OCMVerifyAll(mockWebView);
   OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
 }
 
@@ -116,18 +136,31 @@
   OCMStub([self.displaySizeInjector injectSafeScreenSizeInDisplayUrl:@"whatDoYouMean"])
       .andReturn(@"myUrl");
 
-  MockWKWebView *mockWebView = [MockWKWebView new];
-
-  OCMExpect([self.criteo getBid:OCMArg.any]).andReturn([self bidWithDisplayURL:@"whatDoYouMean"]);
-
-  CRInterstitial *interstitial = [self interstitialWithWebView:mockWebView];
-  [interstitial loadAd];
-
+  WKWebView *mockWebView = OCMPartialMock([WKWebView new]);
   NSString *expectedHtml =
       [NSString stringWithFormat:@"Good Morning, my width is %ld and my URL is myUrl",
                                  (long)[UIScreen mainScreen].bounds.size.width];
 
-  XCTAssertEqualObjects(mockWebView.loadedHTMLString, expectedHtml);
+  XCTestExpectation *webViewLoadedExpectation =
+      [[XCTestExpectation alloc] initWithDescription:@"webViewLoadedExpectation"];
+  OCMExpect([mockWebView loadHTMLString:expectedHtml
+                                baseURL:[NSURL URLWithString:@"https://criteo.com"]])
+      .andDo(^(NSInvocation *args) {
+        [webViewLoadedExpectation fulfill];
+      });
+
+  OCMExpect([self.criteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler([self bidWithDisplayURL:@"whatDoYouMean"]);
+      });
+
+  CRInterstitial *interstitial = [self interstitialWithWebView:mockWebView];
+  [interstitial loadAd];
+
+  [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
+  OCMVerifyAll(mockWebView);
 }
 
 - (void)testWebViewAddedToViewHierarchy {
@@ -196,12 +229,17 @@
   };
   [CR_Timer scheduledTimerWithTimeInterval:2 repeats:NO block:javascriptChecks];
 
-  OCMStub([self.criteo getBid:[self expectedCacheAdUnit]]).andReturn(bid);
+  OCMStub([self.criteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler(bid);
+      });
 
   CRInterstitial *interstitial = [self interstitialWithWebView:realWebView];
   [interstitial loadAd];
 
-  OCMVerify([self.criteo getBid:[self expectedCacheAdUnit]]);
+  OCMVerify([self.criteo getBid:[self expectedCacheAdUnit] responseHandler:OCMArg.any]);
 
   [self cr_waitForExpectations:@[ marginExpectation, paddingExpectation, viewportExpectation ]];
 }
@@ -214,13 +252,18 @@
 
   [self prepareMockedDeviceInfo];
 
-  OCMStub([self.criteo getBid:[self expectedCacheAdUnit]]).andReturn([CR_CdbBid emptyBid]);
+  OCMStub([self.criteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler([CR_CdbBid emptyBid]);
+      });
   OCMStub([interstitialVC presentingViewController]).andReturn(nil);
 
   CRInterstitial *interstitial = [self interstitialWithController:interstitialVC];
   [interstitial loadAd];
 
-  OCMVerify([self.criteo getBid:[self expectedCacheAdUnit]]);
+  OCMVerify([self.criteo getBid:[self expectedCacheAdUnit] responseHandler:[OCMArg any]]);
   OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
 }
 

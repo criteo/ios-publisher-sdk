@@ -140,8 +140,10 @@
   }
 
   CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:self.adUnit];
-  CR_CdbBid *bid = [self.criteo getBid:cacheAdUnit];
-  [self handleNativeAssets:bid.nativeAssets];
+  [self.criteo getBid:cacheAdUnit
+      responseHandler:^(CR_CdbBid *bid) {
+        [self handleNativeAssets:bid.nativeAssets];
+      }];
 }
 
 - (void)unsafeLoadAdWithBidToken:(CRBidToken *)bidToken {

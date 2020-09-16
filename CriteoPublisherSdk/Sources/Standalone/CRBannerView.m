@@ -63,6 +63,20 @@
                       webView:(WKWebView *)webView
                        adUnit:(CRBannerAdUnit *)adUnit
                     urlOpener:(id<CR_URLOpening>)opener {
+  return [self initWithFrame:rect
+                      criteo:criteo
+                     webView:webView
+                  addWebView:YES
+                      adUnit:adUnit
+                   urlOpener:opener];
+}
+
+- (instancetype)initWithFrame:(CGRect)rect
+                       criteo:(Criteo *)criteo
+                      webView:(WKWebView *)webView
+                   addWebView:(BOOL)addWebView
+                       adUnit:(CRBannerAdUnit *)adUnit
+                    urlOpener:(id<CR_URLOpening>)opener {
   if (self = [super initWithFrame:rect]) {
     _criteo = criteo;
     _webView = webView;
@@ -70,11 +84,19 @@
     _webView.scrollView.scrollEnabled = false;
     _webView.navigationDelegate = self;
     _webView.UIDelegate = self;
-    [self addSubview:webView];
+    if (addWebView) {
+      [self addSubview:webView];
+    }
     _adUnit = adUnit;
     _urlOpener = opener;
   }
   return self;
+}
+
+- (void)safelyLoadWebViewWithDisplayUrl:(NSString *)displayUrl {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self loadWebViewWithDisplayUrl:displayUrl];
+  });
 }
 
 - (void)loadWebViewWithDisplayUrl:(NSString *)displayUrl {
@@ -107,11 +129,15 @@
   CR_CacheAdUnit *cacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:_adUnit.adUnitId
                                                                     size:self.frame.size
                                                               adUnitType:CRAdUnitTypeBanner];
-  CR_CdbBid *bid = [self.criteo getBid:cacheAdUnit];
 
-  if ([bid isEmpty]) return [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
-
-  [self loadAdWithDisplayData:bid.displayUrl];
+  [self.criteo getBid:cacheAdUnit
+      responseHandler:^(CR_CdbBid *bid) {
+        if (!bid || bid.isEmpty) {
+          [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
+        } else {
+          [self loadAdWithDisplayData:bid.displayUrl];
+        }
+      }];
 }
 
 - (void)loadAdWithBidToken:(CRBidToken *)bidToken {
@@ -140,7 +166,7 @@
   }
 
   [self dispatchDidReceiveAdDelegate];
-  [self loadWebViewWithDisplayUrl:displayData];
+  [self safelyLoadWebViewWithDisplayUrl:displayData];
 }
 
 // When the creative uses window.open(url) to open the URL, this method will be called

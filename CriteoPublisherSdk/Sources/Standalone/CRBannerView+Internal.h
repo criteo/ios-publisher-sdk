@@ -31,6 +31,14 @@
                        adUnit:(CRBannerAdUnit *)adUnit
                     urlOpener:(id<CR_URLOpening>)opener;
 
+/// For tests only, where we need to mock the webview, which crashes on addSubview
+- (instancetype)initWithFrame:(CGRect)rect
+                       criteo:(Criteo *)criteo
+                      webView:(WKWebView *)webView
+                   addWebView:(BOOL)addWebView
+                       adUnit:(CRBannerAdUnit *)adUnit
+                    urlOpener:(id<CR_URLOpening>)opener;
+
 - (instancetype)initWithAdUnit:(CRBannerAdUnit *)adUnit criteo:(Criteo *)criteo;
 
 - (void)webView:(WKWebView *)webView

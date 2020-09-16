@@ -72,25 +72,39 @@
 }
 
 - (void)testBannerSuccess {
-  MockWKWebView *mockWebView = [MockWKWebView new];
+  WKWebView *mockWebView = OCMPartialMock([[WKWebView alloc] init]);
   CR_CdbBid *bid = [self cdbBidWithDisplayUrl:TEST_DISPLAY_URL];
-  OCMStub([self.criteo getBid:[self expectedCacheAdUnit]]).andReturn(bid);
+  OCMStub([self.criteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler(bid);
+      });
+
+  XCTestExpectation *webViewLoadedExpectation =
+      [[XCTestExpectation alloc] initWithDescription:@"webViewLoadedExpectation"];
+  OCMExpect([mockWebView loadHTMLString:[OCMArg checkWithBlock:^BOOL(NSString *html) {
+                           return [html
+                               containsString:@"<script src=\"" TEST_DISPLAY_URL "\"></script>"];
+                         }]
+                                baseURL:[NSURL URLWithString:@"https://criteo.com"]])
+      .andDo(^(NSInvocation *args) {
+        [webViewLoadedExpectation fulfill];
+      });
 
   CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView];
   [bannerView loadAd];
 
-  OCMVerify([self.criteo getBid:[self expectedCacheAdUnit]]);
-
-  XCTAssertTrue([mockWebView.loadedHTMLString
-      containsString:@"<script src=\"" TEST_DISPLAY_URL "\"></script>"]);
-  XCTAssertEqualObjects([NSURL URLWithString:@"https://criteo.com"], mockWebView.loadedBaseURL);
+  [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
+  OCMVerifyAll(mockWebView);
+  OCMVerify([self.criteo getBid:[self expectedCacheAdUnit] responseHandler:[OCMArg any]]);
   OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
 }
 
 - (void)testWebViewAddedToViewHierarchy {
   MockWKWebView *mockWebView = [MockWKWebView new];
 
-  CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView];
+  CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView addWebView:YES];
 
   XCTAssertEqual(mockWebView, bannerView.subviews[0]);
 }
@@ -99,7 +113,12 @@
   WKWebView *realWebView = [WKWebView new];
 
   CR_CdbBid *bid = [self cdbBidWithDisplayUrl:@"-"];
-  OCMStub([self.criteo getBid:[self expectedCacheAdUnit]]).andReturn(bid);
+  OCMStub([self.criteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler(bid);
+      });
 
   CRBannerView *bannerView = [self bannerViewWithWebView:realWebView];
   realWebView.navigationDelegate = self;
@@ -145,12 +164,17 @@
 
 - (void)testBannerFail {
   WKWebView *realWebView = [WKWebView new];
-  OCMStub([self.criteo getBid:[self expectedCacheAdUnit]]).andReturn(nil);
+  OCMStub([self.criteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler(nil);
+      });
 
   CRBannerView *bannerView = [self bannerViewWithWebView:realWebView];
   [bannerView loadAd];
 
-  OCMVerify([self.criteo getBid:[self expectedCacheAdUnit]]);
+  OCMVerify([self.criteo getBid:[self expectedCacheAdUnit] responseHandler:[OCMArg any]]);
   OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
 }
 
@@ -245,19 +269,40 @@
 }
 
 - (void)testDisplayAdWithDataSuccess {
-  MockWKWebView *mockWebView = [MockWKWebView new];
+  WKWebView *mockWebView = OCMPartialMock([WKWebView new]);
+  XCTestExpectation *webViewLoadedExpectation =
+      [[XCTestExpectation alloc] initWithDescription:@"webViewLoadedExpectation"];
+  OCMExpect([mockWebView loadHTMLString:[OCMArg checkWithBlock:^BOOL(NSString *html) {
+                           return [html
+                               containsString:@"<script src=\"" TEST_DISPLAY_URL "\"></script>"];
+                         }]
+                                baseURL:[NSURL URLWithString:@"https://criteo.com"]])
+      .andDo(^(NSInvocation *args) {
+        [webViewLoadedExpectation fulfill];
+      });
+
   CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView];
   [bannerView loadAdWithDisplayData:TEST_DISPLAY_URL];
 
-  XCTAssertTrue([mockWebView.loadedHTMLString
-      containsString:@"<script src=\"" TEST_DISPLAY_URL "\"></script>"]);
-  XCTAssertEqualObjects([NSURL URLWithString:@"https://criteo.com"], mockWebView.loadedBaseURL);
+  [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
+  OCMVerifyAll(mockWebView);
 }
 
 #pragma - In House
 
 - (void)testLoadingWithTokenSuccess {
-  MockWKWebView *mockWebView = [MockWKWebView new];
+  WKWebView *mockWebView = OCMPartialMock([WKWebView new]);
+  XCTestExpectation *webViewLoadedExpectation =
+      [[XCTestExpectation alloc] initWithDescription:@"webViewLoadedExpectation"];
+  OCMExpect([mockWebView loadHTMLString:[OCMArg checkWithBlock:^BOOL(NSString *html) {
+                           return [html
+                               containsString:@"<script src=\"" TEST_DISPLAY_URL "\"></script>"];
+                         }]
+                                baseURL:[NSURL URLWithString:@"https://criteo.com"]])
+      .andDo(^(NSInvocation *args) {
+        [webViewLoadedExpectation fulfill];
+      });
+
   CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
   CR_TokenValue *expectedTokenValue = [CR_TokenValue tokenValueWithDisplayUrl:TEST_DISPLAY_URL
                                                                        adUnit:self.adUnit];
@@ -267,9 +312,8 @@
   CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView];
   [bannerView loadAdWithBidToken:token];
 
-  XCTAssertTrue([mockWebView.loadedHTMLString
-      containsString:@"<script src=\"" TEST_DISPLAY_URL "\"></script>"]);
-  XCTAssertEqualObjects([NSURL URLWithString:@"https://criteo.com"], mockWebView.loadedBaseURL);
+  [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
+  OCMVerifyAll(mockWebView);
 }
 
 - (void)testTemplatingFromConfig {
@@ -279,7 +323,14 @@
   config.displayURLMacro = @"ˆURLˆ";
   self.criteo.dependencyProvider.config = config;
 
-  MockWKWebView *mockWebView = [MockWKWebView new];
+  WKWebView *mockWebView = OCMPartialMock([WKWebView new]);
+  XCTestExpectation *webViewLoadedExpectation =
+      [[XCTestExpectation alloc] initWithDescription:@"webViewLoadedExpectation"];
+  OCMExpect([mockWebView loadHTMLString:@"Good Morning, my width is 47 and my URL is whatDoYouMean"
+                                baseURL:[NSURL URLWithString:@"https://criteo.com"]])
+      .andDo(^(NSInvocation *args) {
+        [webViewLoadedExpectation fulfill];
+      });
 
   CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
   NSString *displayURL = @"whatDoYouMean";
@@ -291,8 +342,8 @@
   CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView];
   [bannerView loadAdWithBidToken:token];
 
-  XCTAssertEqualObjects(mockWebView.loadedHTMLString,
-                        @"Good Morning, my width is 47 and my URL is whatDoYouMean");
+  [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
+  OCMVerifyAll(mockWebView);
 }
 
 #pragma mark - Private
@@ -316,9 +367,14 @@
 }
 
 - (CRBannerView *)bannerViewWithWebView:(WKWebView *)webView {
+  return [self bannerViewWithWebView:webView addWebView:NO];
+}
+
+- (CRBannerView *)bannerViewWithWebView:(WKWebView *)webView addWebView:(BOOL)addWebView {
   return [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                       criteo:self.criteo
                                      webView:webView
+                                  addWebView:addWebView
                                       adUnit:self.adUnit
                                    urlOpener:self.urlOpener];
 }
