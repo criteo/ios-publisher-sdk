@@ -34,6 +34,8 @@
 @class CR_ThreadManager;
 @class CR_DependencyProvider;
 
+typedef void (^CR_BidResponseHandler)(CR_CdbBid *bid);
+
 @interface Criteo ()
 
 @property(strong, nonatomic, readonly) CR_DependencyProvider *dependencyProvider;
@@ -42,6 +44,8 @@
 @property(strong, nonatomic, readonly) CR_ThreadManager *threadManager;
 
 - (CR_CdbBid *)getBid:(CR_CacheAdUnit *)slot;
+- (void)getBid:(CR_CacheAdUnit *)slot responseHandler:(CR_BidResponseHandler)responseHandler;
+
 - (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken adUnitType:(CRAdUnitType)adUnitType;
 
 - (instancetype)initWithDependencyProvider:(CR_DependencyProvider *)dependencyProvider;
