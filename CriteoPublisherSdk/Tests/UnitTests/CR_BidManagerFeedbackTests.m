@@ -141,7 +141,7 @@
 - (void)testFeedbackMessageStateBeforeBidRequest {
   [self invokeBeforeCdbHandlerOnBidRequestWithCdbRequest:self.cdbRequest];
 
-  [self.bidManager prefetchBid:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit];
 
   CR_FeedbackMessage *message = self.feedbackFileManagingMock.writeFeedbackResults.lastObject;
   XCTAssertEqualObjects(message, self.defaultMessage);
@@ -151,7 +151,7 @@
   [self configureApiHandlerMockWithCdbRequest:self.cdbRequest
                                   cdbResponse:self.cdbResponse
                                         error:nil];
-  [self.bidManager prefetchBid:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit];
 
   NSArray<CR_FeedbackMessage *> *feedbacks = [self.feedbackFileManagingMock writeFeedbackResults];
   NSString *requestGroupId = feedbacks[0].requestGroupId;
@@ -171,7 +171,7 @@
                                   cdbResponse:self.cdbResponse
                                         error:nil];
 
-  [self.bidManager prefetchBid:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit];
 
   CR_FeedbackMessage *message = self.feedbackFileManagingMock.writeFeedbackResults.lastObject;
   XCTAssertEqualObjects(message, expected);
@@ -186,7 +186,7 @@
                                   cdbResponse:self.cdbResponse
                                         error:nil];
 
-  [self.bidManager prefetchBid:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit];
 
   CR_FeedbackMessage *message = self.feedbackFileManagingMock.writeFeedbackResults.lastObject;
   XCTAssertEqualObjects(message, expected);
@@ -201,7 +201,7 @@
                                           userInfo:nil];
   [self configureApiHandlerMockWithCdbRequest:self.cdbRequest cdbResponse:nil error:error];
 
-  [self.bidManager prefetchBid:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit];
 
   CR_FeedbackMessage *message = self.lastSentMessages[0];
   XCTAssertEqualObjects(message, expected);
@@ -215,7 +215,7 @@
                                           userInfo:nil];
   [self configureApiHandlerMockWithCdbRequest:self.cdbRequest cdbResponse:nil error:error];
 
-  [self.bidManager prefetchBid:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit];
 
   CR_FeedbackMessage *message = self.lastSentMessages[0];
   XCTAssertEqualObjects(message, expected);
@@ -230,7 +230,7 @@
                                   cdbResponse:self.cdbResponseWithInvalidBid
                                         error:nil];
 
-  [self.bidManager prefetchBid:self.adUnitForInvalidBid];
+  [self.bidManager prefetchBidForAdUnit:self.adUnitForInvalidBid];
 
   CR_FeedbackMessage *message = self.lastSentMessages[0];
   XCTAssertEqualObjects(message, expected);
@@ -249,7 +249,7 @@
   [self configureApiHandlerMockWithCdbRequest:self.cdbRequest
                                   cdbResponse:self.cdbResponse
                                         error:nil];
-  [self.bidManager prefetchBid:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit];
 
   [self.bidManager getBid:self.adUnit];
 
@@ -276,7 +276,7 @@
   [self configureApiHandlerMockWithCdbRequest:self.cdbRequest
                                   cdbResponse:self.cdbResponse
                                         error:nil];
-  [self.bidManager prefetchBid:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit];
 
   [self.bidManager getBid:self.adUnit];
 
@@ -293,7 +293,7 @@
                                   cdbResponse:self.cdbResponse
                                         error:nil];
   [self.bidManager registerWithSlots:@[ self.adUnit ]];  // fullfill the cache with an empty bid
-  [self.bidManager prefetchBid:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit];
 
   [self.bidManager getBid:self.adUnit];
 
@@ -308,7 +308,7 @@
                                   cdbResponse:self.cdbResponse
                                         error:nil];
 
-  [self.bidManager prefetchBid:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit];
 
   XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 1);
   XCTAssertEqual([self.feedbackSendingQueue size], 0);
@@ -321,7 +321,7 @@
                                   cdbResponse:self.cdbResponse
                                         error:nil];
 
-  [self.bidManager prefetchBid:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit];
 
   XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
   XCTAssertEqual(self.lastSentMessages.count, 1);
@@ -333,7 +333,7 @@
                                           userInfo:nil];
   [self configureApiHandlerMockWithCdbRequest:self.cdbRequest cdbResponse:nil error:error];
 
-  [self.bidManager prefetchBid:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit];
 
   XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
   XCTAssertEqual(self.lastSentMessages.count, 1);
@@ -345,7 +345,7 @@
                                           userInfo:nil];
   [self configureApiHandlerMockWithCdbRequest:self.cdbRequest cdbResponse:nil error:error];
 
-  [self.bidManager prefetchBid:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit];
 
   XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
   XCTAssertEqual(self.lastSentMessages.count, 1);
@@ -356,7 +356,7 @@
                                   cdbResponse:self.cdbResponseWithInvalidBid
                                         error:nil];
 
-  [self.bidManager prefetchBid:self.adUnitForInvalidBid];
+  [self.bidManager prefetchBidForAdUnit:self.adUnitForInvalidBid];
 
   XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
   XCTAssertEqual(self.lastSentMessages.count, 1);
@@ -369,7 +369,7 @@
   [self configureApiHandlerMockWithCdbRequest:self.cdbRequest
                                   cdbResponse:self.cdbResponse
                                         error:nil];
-  [self.bidManager prefetchBid:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit];
 
   [self.bidManager getBid:self.adUnit];
 
@@ -393,7 +393,7 @@
                                   cdbResponse:self.cdbResponse
                                         error:nil];
   [self.bidManager registerWithSlots:@[ self.adUnit ]];  // fullfill the cache with an empty bid
-  [self.bidManager prefetchBid:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit];
   self.lastSentMessages = nil;
 
   [self.bidManager getBid:self.adUnit];

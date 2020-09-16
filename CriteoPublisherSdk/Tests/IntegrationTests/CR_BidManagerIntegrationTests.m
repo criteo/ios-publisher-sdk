@@ -77,7 +77,7 @@
 
 // Prefetch should populate cache with given ad units
 - (void)test_given2AdUnits_whenPrefetchBid_thenGet2Bids {
-  [self.bidManager prefetchBids:@[ self.cacheAdUnit1, self.cacheAdUnit2 ]];
+  [self.bidManager prefetchBidsForAdUnits:@[ self.cacheAdUnit1, self.cacheAdUnit2 ]];
 
   [self _waitNetworkCallForBids:@[ self.cacheAdUnit1, self.cacheAdUnit2 ]];
   XCTAssertNotNil([self.bidManager getBid:self.cacheAdUnit1]);
@@ -108,7 +108,7 @@
   self.dependencyProvider.config = self.config;
   self.dependencyProvider.deviceInfo = [[CR_DeviceInfoMock alloc] init];
   self.bidManager = [self.dependencyProvider bidManager];
-  [self.bidManager prefetchBid:self.cacheAdUnit1];
+  [self.bidManager prefetchBidForAdUnit:self.cacheAdUnit1];
   [self.dependencyProvider.threadManager waiter_waitIdle];
 
   [self.bidManager getBid:self.cacheAdUnit1];
@@ -232,7 +232,7 @@
 }
 
 - (void)whenPrefetchingAnotherBid {
-  [self.bidManager prefetchBid:self.cacheAdUnit1];
+  [self.bidManager prefetchBidForAdUnit:self.cacheAdUnit1];
   [self.dependencyProvider.threadManager waiter_waitIdle];
 }
 

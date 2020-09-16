@@ -152,7 +152,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
       [self.feedbackDelegate onBidConsumed:bid];
     }
     if (!self.isInSilenceMode && ((bid == nil) || bid.isRenewable)) {
-      [self prefetchBid:slot];
+      [self prefetchBidForAdUnit:slot];
     }
   }];
 
@@ -170,11 +170,11 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 
 // TODO: Figure out a way to test this
 
-- (void)prefetchBid:(CR_CacheAdUnit *)adUnit {
-  [self prefetchBids:@[ adUnit ]];
+- (void)prefetchBidForAdUnit:(CR_CacheAdUnit *)adUnit {
+  [self prefetchBidsForAdUnits:@[ adUnit ]];
 }
 
-- (void)prefetchBids:(CR_CacheAdUnitArray *)adUnits {
+- (void)prefetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits {
   [self fetchBidsForAdUnits:adUnits
          cdbResponseHandler:^(CR_CdbResponse *cdbResponse) {
            [self cacheBidsFromResponse:cdbResponse];
