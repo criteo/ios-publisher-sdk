@@ -20,7 +20,7 @@
 #import "CRInterstitialCustomEvent.h"
 #import <OCMock.h>
 
-@import CriteoPublisherSdk;
+#import <CriteoPublisherSdk/CriteoPublisherSdk.h>
 
 @interface CRInterstitialCustomEventTests : XCTestCase
 

@@ -19,43 +19,48 @@
 
 public class CR_GdprMock: CR_Gdpr {
 
-    @objc public var tcfVersionValue: CR_GdprTcfVersion = .versionUnknown
-    @objc public var consentStringValue: String? = nil
-    @objc public var appliesValue: NSNumber? = NSNumber(booleanLiteral: false)
+  @objc public var tcfVersionValue: CR_GdprTcfVersion = .versionUnknown
+  @objc public var consentStringValue: String?
+  @objc public var appliesValue: NSNumber? = false
+  @objc public var purposeConsents: NSMutableArray =
+    NSMutableArray(array: Array(repeating: NSNumber(true), count: 10 + 1))  // +1 for zero index
 
-    override init(userDefaults: UserDefaults) {
-        super.init(userDefaults: userDefaults)
+  override init(userDefaults: UserDefaults) {
+    super.init(userDefaults: userDefaults)
+  }
+
+  @objc public func configure(tcfVersion: CR_GdprTcfVersion) {
+    switch tcfVersion {
+    case .versionUnknown:
+      self.tcfVersionValue = .versionUnknown
+      self.consentStringValue = nil
+      self.appliesValue = false
+    case .version1_1:
+      self.tcfVersionValue = .version1_1
+      self.consentStringValue = NSString.gdprConsentStringForTcf1_1
+      self.appliesValue = true
+    case .version2_0:
+      self.tcfVersionValue = .version2_0
+      self.consentStringValue = NSString.gdprConsentStringForTcf2_0
+      self.appliesValue = true
+    @unknown default:
+      fatalError()
     }
+  }
 
-    @objc public func configure(tcfVersion: CR_GdprTcfVersion) {
-        switch tcfVersion {
-        case .versionUnknown:
-            self.tcfVersionValue = .versionUnknown
-            self.consentStringValue = nil
-            self.appliesValue = NSNumber(booleanLiteral: false)
-        case .version1_1:
-            self.tcfVersionValue = .version1_1
-            self.consentStringValue = NSString.gdprConsentStringForTcf1_1
-            self.appliesValue = NSNumber(booleanLiteral: true)
-        case .version2_0:
-            self.tcfVersionValue = .version2_0
-            self.consentStringValue = NSString.gdprConsentStringForTcf2_0
-            self.appliesValue = NSNumber(booleanLiteral: true)
-        @unknown default:
-            fatalError()
-        }
-    }
+  public override var consentString: String? {
+    consentStringValue
+  }
 
-    public override var consentString: String? {
-        return consentStringValue
-    }
+  public override var tcfVersion: CR_GdprTcfVersion {
+    tcfVersionValue
+  }
 
-    public override var tcfVersion: CR_GdprTcfVersion {
-        return tcfVersionValue
-    }
+  public override var applies: NSNumber? {
+    appliesValue
+  }
 
-    public override var applies: NSNumber? {
-        return appliesValue
-    }
-
+  public override func isConsentGiven(forPurpose id: UInt) -> Bool {
+    (purposeConsents[Int(id)] as! NSNumber).boolValue
+  }
 }

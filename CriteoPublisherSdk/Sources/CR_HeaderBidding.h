@@ -25,6 +25,7 @@
 @class CR_CdbBid;
 @class CR_CacheAdUnit;
 @class CR_DisplaySizeInjector;
+@class CR_IntegrationRegistry;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -38,6 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithDevice:(id<CR_HeaderBiddingDevice>)device
            displaySizeInjector:(CR_DisplaySizeInjector *)displaySizeInjector
+           integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry
     NS_DESIGNATED_INITIALIZER;
 
 /**

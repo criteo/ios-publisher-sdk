@@ -21,10 +21,11 @@
 #import "CR_FeedbackStorage+MessageUpdating.h"
 #import "CR_CdbRequest.h"
 #import "CR_CdbResponse.h"
-#import "CR_UniqueIdGenerator.h"
 #import "CR_ApiHandler.h"
 #import "Logging.h"
+#import "CR_FeedbackConsentGuard.h"
 #import "CR_FeedbackFeatureGuard.h"
+#import "CR_IntegrationRegistry.h"
 
 @interface CR_FeedbackController ()
 
@@ -43,7 +44,8 @@
 
 - (instancetype)initWithFeedbackStorage:(CR_FeedbackStorage *)feedbackStorage
                              apiHandler:(CR_ApiHandler *)apiHandler
-                                 config:(CR_Config *)config {
+                                 config:(CR_Config *)config
+                                consent:(CR_DataProtectionConsent *)consent {
   if (self = [super init]) {
     _feedbackStorage = feedbackStorage;
     _apiHandler = apiHandler;
@@ -54,23 +56,27 @@
 
 + (id<CR_FeedbackDelegate>)controllerWithFeedbackStorage:(CR_FeedbackStorage *)feedbackStorage
                                               apiHandler:(CR_ApiHandler *)apiHandler
-                                                  config:(CR_Config *)config {
+                                                  config:(CR_Config *)config
+                                                 consent:(CR_DataProtectionConsent *)consent {
   CR_FeedbackController *controller =
       [[CR_FeedbackController alloc] initWithFeedbackStorage:feedbackStorage
                                                   apiHandler:apiHandler
-                                                      config:config];
+                                                      config:config
+                                                     consent:consent];
 
+  CR_FeedbackConsentGuard *consentGuard =
+      [[CR_FeedbackConsentGuard alloc] initWithController:controller consent:consent];
   CR_FeedbackFeatureGuard *featureGuard =
-      [[CR_FeedbackFeatureGuard alloc] initWithController:controller config:config];
+      [[CR_FeedbackFeatureGuard alloc] initWithController:consentGuard config:config];
 
   return featureGuard;
 }
 
 - (void)onCdbCallStarted:(CR_CdbRequest *)request {
-  NSString *requestGroupId = [CR_UniqueIdGenerator generateId];
   for (NSString *impressionId in request.impressionIds) {
-    [self.feedbackStorage setCdbStartAndImpressionIdForImpressionId:impressionId
-                                                     requestGroupId:requestGroupId];
+    [self.feedbackStorage setCdbStartForImpressionId:impressionId
+                                           profileId:request.profileId
+                                      requestGroupId:request.requestGroupId];
   }
 }
 
@@ -84,7 +90,8 @@
   for (CR_CdbBid *bid in response.cdbBids) {
     if (bid.impressionId) {
       if (bid.isValid) {
-        [self.feedbackStorage setCdbEndAndCacheBidUsedIdForImpressionId:bid.impressionId];
+        [self.feedbackStorage setCdbEndAndCacheBidUsedIdForImpressionId:bid.impressionId
+                                                                 zoneId:bid.zoneId];
       } else {
         [self.feedbackStorage setExpiredForImpressionId:bid.impressionId];
       }
@@ -111,18 +118,28 @@
 }
 
 - (void)sendFeedbackBatch {
-  NSArray<CR_FeedbackMessage *> *feedbackMessages = [self.feedbackStorage popMessagesToSend];
-  if (feedbackMessages.count == 0) {
-    return;
-  }
+  NSArray<CR_FeedbackMessage *> *messages = [self.feedbackStorage popMessagesToSend];
+  NSDictionary<NSNumber *, NSArray<CR_FeedbackMessage *> *> *messagesByProfileId =
+      [messages cr_groupByKey:^NSNumber *(CR_FeedbackMessage *message) {
+        return message.profileId ?: @(CR_IntegrationFallback);
+      }];
+  [messagesByProfileId
+      enumerateKeysAndObjectsUsingBlock:^(NSNumber *profileId,
+                                          NSArray<CR_FeedbackMessage *> *messages_, BOOL *stop) {
+        [self sendFeedbacks:messages_ profileId:profileId];
+      }];
+}
 
+- (void)sendFeedbacks:(NSArray<CR_FeedbackMessage *> *)messages profileId:(NSNumber *)profileId {
+  NSArray<CR_FeedbackMessage *> *messagesToRollback = messages;
   [self.apiHandler
-      sendFeedbackMessages:feedbackMessages
+      sendFeedbackMessages:messagesToRollback
                     config:self.config
+                 profileId:profileId
          completionHandler:^(NSError *error) {
            if (error) {
              CLog(@"CSM sending was failed with error: %@", error.localizedDescription);
-             [self.feedbackStorage pushMessagesToSend:feedbackMessages];
+             [self.feedbackStorage pushMessagesToSend:messagesToRollback];
            }
          }];
 }

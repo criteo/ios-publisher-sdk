@@ -1,8 +1,10 @@
-name: Release
+name: Test & Release on GitHub
 
 on:
   push:
-    tags: '*'
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+      - '[0-9]+.[0-9]+.[0-9]+-[a-z]+[0-9]+'
 
 jobs:
   test-and-release:
@@ -72,15 +74,12 @@ jobs:
       run: |
         ./scripts/archive.sh
 
-    - name: Generate Changelog
-      run: |
-        bundle exec fastlane last_changelog
-
     - name: Release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: build/output/*.zip
-        body_path: last-changelog.md
-        prerelease: true
+      run: |
+        bundle exec fastlane release_github ref:${{ github.ref }}
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Fastlane does not support GITHUB_TOKEN for now:
+        # https://github.com/fastlane/fastlane/issues/16618
+        # FL_GITHUB_RELEASE_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        FL_GITHUB_RELEASE_API_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
+        COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}

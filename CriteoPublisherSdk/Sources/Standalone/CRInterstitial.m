@@ -30,6 +30,7 @@
 #import "CR_URLOpening.h"
 #import "CR_DependencyProvider.h"
 #import "CR_DisplaySizeInjector.h"
+#import "CR_IntegrationRegistry.h"
 
 @import WebKit;
 
@@ -98,6 +99,8 @@
 }
 
 - (void)loadAd {
+  [self.integrationRegistry declare:CR_IntegrationStandalone];
+
   if (![self checkSafeToLoad]) {
     return;
   }
@@ -110,13 +113,7 @@
     return [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
   }
 
-  if (!bid.displayUrl)
-    return [self safelyNotifyAdLoadFail:CRErrorCodeInternalError
-                            description:@"No display URL in bid response"];
-
-  [self.viewController initWebViewIfNeeded];
-  [self dispatchDidReceiveAdDelegate];
-  [self loadWebViewWithDisplayURL:bid.displayUrl];
+  [self loadAdWithDisplayData:bid.displayUrl];
 }
 
 - (void)loadWebViewWithDisplayURL:(NSString *)displayURL {
@@ -165,13 +162,17 @@
     self.isAdLoading = NO;
     return;
   }
-  if (!tokenValue.displayUrl)
-    return [self safelyNotifyAdLoadFail:CRErrorCodeInternalError
-                            description:@"No display URL in bid response"];
+
+  [self loadAdWithDisplayData:tokenValue.displayUrl];
+}
+
+- (void)loadAdWithDisplayData:(NSString *)displayData {
+  if (!displayData || displayData.length == 0)
+    return [self safelyNotifyAdLoadFail:CRErrorCodeInternalError description:@"No display URL"];
 
   [self.viewController initWebViewIfNeeded];
   [self dispatchDidReceiveAdDelegate];
-  [self loadWebViewWithDisplayURL:tokenValue.displayUrl];
+  [self loadWebViewWithDisplayURL:displayData];
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
@@ -331,6 +332,10 @@
 
 - (CR_DisplaySizeInjector *)displaySizeInjector {
   return _criteo.dependencyProvider.displaySizeInjector;
+}
+
+- (CR_IntegrationRegistry *)integrationRegistry {
+  return _criteo.dependencyProvider.integrationRegistry;
 }
 
 @end

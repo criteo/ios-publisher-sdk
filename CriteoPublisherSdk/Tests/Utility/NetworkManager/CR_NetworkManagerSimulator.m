@@ -54,13 +54,15 @@ NSString *const CR_NetworkSessionEmptyBid =
 }
 
 - (instancetype)initWithConfig:(CR_Config *)config {
-  MockWKWebView *webView = [[MockWKWebView alloc] init];
-  CR_ThreadManager *threadManager = [[CR_ThreadManager alloc] init];
-  CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] initWithThreadManager:threadManager
-                                                               testWebView:webView];
-  NSURLSession *session = [NSURLSession
-      sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-  if (self = [super initWithDeviceInfo:deviceInfo session:session threadManager:threadManager]) {
+  // FIXME EE-1228 This is a different implementation and network manager should be a protocol. This
+  // would
+  //  allow to not mess up constructor like this.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+  self = [super initWithDeviceInfo:nil session:nil threadManager:nil];
+#pragma clang diagnostic pop
+
+  if (self) {
     _config = config;
   }
   return self;
@@ -116,7 +118,7 @@ NSString *const CR_NetworkSessionEmptyBid =
     return;
   }
 
-  if ([url testing_isConfigEventUrlWithConfig:self.config]) {
+  if ([url testing_isConfigUrlWithConfig:self.config]) {
     NSData *response =
         [CR_NetworkSessionReplayerKillSwitchFalse dataUsingEncoding:NSUTF8StringEncoding];
     responseHandler(response, nil);
@@ -243,6 +245,7 @@ NSString *const CR_NetworkSessionEmptyBid =
   dict[@"impId"] = payload[@"impId"];
   dict[@"placementId"] = payload[@"placementId"];
   dict[@"arbitrageId"] = [[NSString alloc] initWithFormat:@"arbitrage-%@", payload[@"placementId"]];
+  dict[@"zoneId"] = @25742;
   dict[@"cpm"] = CR_NetworkManagerSimulatorDefaultCpm;
   dict[@"currency"] = @"USD";
   dict[@"ttl"] = @0;

@@ -19,21 +19,26 @@
 
 #import "CR_ConfigManager.h"
 #import "CR_RemoteConfigRequest.h"
+#import "CR_IntegrationRegistry.h"
 
 @implementation CR_ConfigManager {
   CR_ApiHandler *_apiHandler;
+  CR_IntegrationRegistry *_integrationRegistry;
 }
 
-- (instancetype)initWithApiHandler:(CR_ApiHandler *)apiHandler {
+- (instancetype)initWithApiHandler:(CR_ApiHandler *)apiHandler
+               integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry {
   if (self = [super init]) {
     _apiHandler = apiHandler;
+    _integrationRegistry = integrationRegistry;
   }
 
   return self;
 }
 
 - (void)refreshConfig:(CR_Config *)config {
-  CR_RemoteConfigRequest *request = [CR_RemoteConfigRequest requestWithConfig:config];
+  CR_RemoteConfigRequest *request =
+      [CR_RemoteConfigRequest requestWithConfig:config profileId:_integrationRegistry.profileId];
   [_apiHandler getConfig:request
          ahConfigHandler:^(NSDictionary *configValues) {
            if (configValues[@"killSwitch"] &&

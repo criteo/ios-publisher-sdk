@@ -1,10 +1,10 @@
 {
   "name": "directbidder-test-app",
   "metadata": {
-    "origin": "http://directbidder-test-app.par.preprod.crto.in/inapp/v2?profileId=235"
+    "origin": "http://directbidder-test-app.par.preprod.crto.in/inapp/v2"
   },
   "request": {
-    "url": "/directbidder-test-app/inapp/v2?profileId=235",
+    "url": "/directbidder-test-app/inapp/v2",
     "method": "POST"
   },
   "response": {

@@ -11,8 +11,13 @@ Follow the Robert Martin suggestion about [Clean Code](https://gist.github.com/w
 
 ## Coding Style
 To ensure code style consistency, it must respect the following:
-1. Formatted with [Clang Format](https://clang.llvm.org/docs/ClangFormat.html). This is checked by
-  CI and can be applied easily with `bundle exec fastlane format`.
+1. Code Formatted and Linted:
+    - Obj-C: [ClangFormat](https://clang.llvm.org/docs/ClangFormat.html). _(Checked by CI)_
+    - Swift: [swift-format](https://github.com/apple/swift-format). _(Not checked by CI)_
+    - Swift: [SwiftLint](https://github.com/realm/SwiftLint). _(Checked by CI)_
+    - You can format whole repository with `bundle exec fastlane format`
+    - Alternatively to ease your workflow, you can also add a git hook with:
+      `cp tools/code-format-git-hook.sh .git/hooks/pre-commit`
 2. Follow [Ray Wenderlich's coding style](https://github.com/raywenderlich/objective-c-style-guide).
 
 ## Tests
@@ -27,9 +32,25 @@ The tests in this project are organised according to the following conventions:
 
 ## Release
 
-1. Bump version: `bundle exec fastlane version_bump version:4.0.0`
-2. Check changes and merge
-3. Ensure `CHANGELOG.md` is up to date
-4. Tag the version on GitHub then check the CI result on (releases)[http://github.com/criteo/ios-publisher-sdk/releases]
-6. If good/wanted uncheck the pre-release flag
+1. Bump version:
+    - Releases: `bundle exec fastlane version_bump version:x.y.z`
+    - For RCs use `version:x.y.z-rc1`
+    - If you release several times the same `x.y.z` version, for instance several RCs, you have to
+    bump bundle version, you can do this adding an extra `build:2` argument.
+    e.g. `bundle exec fastlane version_bump version:x.y.z-rc2 build:2`
+   
+2. Ensure `CHANGELOG.md` is up to date and properly formatted:
+    - Sections separated by lines `---` are used to split the changelog
+    - The first section without version line will be used as Release description 
+3. Check changes and submit a PR / merge if needed
+4. Push a semver compliant version tag (`x.y.z` or `x.y.z-rc1`) to GitHub
+    - That will trigger a [Test & Release to GitHub][ga-release-github] workflow
+    - Check the result on [GitHub releases page][github-release]
+5. Review the added GitHub release draft, publish it
+6. Once published, it will trigger another [Release to CocoaPods][ga-release-cocoapods] workflow
+that will push the spec to CocoaPods
 7. Profit 🚀🥳
+
+[github-release]: http://github.com/criteo/ios-publisher-sdk/releases
+[ga-release-github]: https://github.com/criteo/ios-publisher-sdk/actions?query=workflow%3A%22Test+%26+Release+on+GitHub%22
+[ga-release-cocoapods]: https://github.com/criteo/ios-publisher-sdk/actions?query=workflow%3A%22Release+on+CocoaPods%22

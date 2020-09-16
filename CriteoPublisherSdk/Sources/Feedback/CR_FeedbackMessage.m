@@ -24,8 +24,10 @@
 #pragma mark - NSCoding
 
 - (void)encodeWithCoder:(nonnull NSCoder *)coder {
+  [coder encodeObject:self.profileId forKey:@"profileId"];
   [coder encodeObject:self.impressionId forKey:@"impressionId"];
   [coder encodeObject:self.requestGroupId forKey:@"requestGroupId"];
+  [coder encodeObject:self.zoneId forKey:@"zoneId"];
   [coder encodeObject:self.cdbCallStartTimestamp forKey:@"cdbCallStartTimestamp"];
   [coder encodeObject:self.cdbCallEndTimestamp forKey:@"cdbCallEndTimestamp"];
   [coder encodeObject:self.elapsedTimestamp forKey:@"elapsedTimestamp"];
@@ -36,8 +38,10 @@
 
 - (nullable instancetype)initWithCoder:(nonnull NSCoder *)coder {
   if (self = [super init]) {
+    self.profileId = [coder decodeObjectOfClass:NSNumber.class forKey:@"profileId"];
     self.impressionId = [coder decodeObjectOfClass:NSString.class forKey:@"impressionId"];
     self.requestGroupId = [coder decodeObjectOfClass:NSString.class forKey:@"requestGroupId"];
+    self.zoneId = [coder decodeObjectOfClass:NSString.class forKey:@"zoneId"];
     self.cdbCallStartTimestamp =
         [coder decodeObjectOfClass:NSNumber.class forKey:@"cdbCallStartTimestamp"];
     self.cdbCallEndTimestamp =
@@ -52,9 +56,11 @@
 
 - (NSString *)description {
   return [NSString
-      stringWithFormat:@"{\n\t%@\t%@\t%@\t%@\t%@\t%@\t%@\t%@}",
+      stringWithFormat:@"{\n\t%@\t%@\t%@\t%@\t%@\t%@\t%@\t%@\t%@\t%@}",
+                       [NSString stringWithFormat:@"profileId: %@\n", self.profileId],
                        [NSString stringWithFormat:@"impressionId: %@\n", self.impressionId],
                        [NSString stringWithFormat:@"requestGroupId: %@\n", self.requestGroupId],
+                       [NSString stringWithFormat:@"zoneId: %@\n", self.zoneId],
                        [NSString stringWithFormat:@"cdbCallStartTimestamp: %@\n",
                                                   self.cdbCallStartTimestamp],
                        [NSString
@@ -78,6 +84,10 @@
 #pragma mark - Equality methods
 
 - (BOOL)isEqualToFeedbackMessage:(CR_FeedbackMessage *)other {
+  BOOL proIdEq =
+      (!self.profileId && !other.profileId) ||
+      (self.profileId && other.profileId && [self.profileId isEqualToNumber:other.profileId]);
+
   BOOL impIdEq = (!self.impressionId && !other.impressionId) ||
                  (self.impressionId && other.impressionId &&
                   [self.impressionId isEqualToString:other.impressionId]);
@@ -85,6 +95,9 @@
   BOOL grpIdEq = (!self.requestGroupId && !other.requestGroupId) ||
                  (self.requestGroupId && other.requestGroupId &&
                   [self.requestGroupId isEqualToString:other.requestGroupId]);
+
+  BOOL zoneIdEq = (!self.zoneId && !other.zoneId) ||
+                  (self.zoneId && other.zoneId && [self.zoneId isEqualToNumber:other.zoneId]);
 
   BOOL cdbStEq = (self.cdbCallStartTimestamp == nil && other.cdbCallStartTimestamp == nil) ||
                  (self.cdbCallStartTimestamp && other.cdbCallStartTimestamp &&
@@ -98,8 +111,9 @@
                    (self.elapsedTimestamp && other.elapsedTimestamp &&
                     [self.elapsedTimestamp isEqualToNumber:other.elapsedTimestamp]);
 
-  return impIdEq && grpIdEq && cdbStEq && cdbEndEq && elpTimeEq && self.timeout == other.timeout &&
-         self.expired == other.expired && self.cachedBidUsed == other.cachedBidUsed;
+  return proIdEq && impIdEq && grpIdEq && cdbStEq && cdbEndEq && elpTimeEq && zoneIdEq &&
+         self.timeout == other.timeout && self.expired == other.expired &&
+         self.cachedBidUsed == other.cachedBidUsed;
 }
 
 - (BOOL)isEqual:(id)object {
@@ -121,15 +135,17 @@
   return [self.impressionId hash] << 1 ^ [self.requestGroupId hash] << 2 ^
          [self.cdbCallStartTimestamp hash] << 3 ^ [self.cdbCallEndTimestamp hash] << 4 ^
          [self.elapsedTimestamp hash] << 5 ^ expiredHash << 6 ^ timeoutHash << 7 ^
-         cachedBidUsed << 8;
+         cachedBidUsed << 8 ^ [self.profileId hash] << 9 ^ [self.zoneId hash] << 10;
 }
 
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(nullable NSZone *)zone {
   CR_FeedbackMessage *m = [[CR_FeedbackMessage allocWithZone:zone] init];
+  m.profileId = self.profileId;
   m.impressionId = self.impressionId;
   m.requestGroupId = self.requestGroupId;
+  m.zoneId = self.zoneId;
   m.cdbCallStartTimestamp = self.cdbCallStartTimestamp;
   m.cdbCallEndTimestamp = self.cdbCallEndTimestamp;
   m.elapsedTimestamp = self.elapsedTimestamp;

@@ -27,7 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CR_FeedbacksSerializer : NSObject
 
 - (NSDictionary *)postBodyForCsm:(NSArray<CR_FeedbackMessage *> *)messages
-                          config:(CR_Config *)config;
+                          config:(CR_Config *)config
+                       profileId:(NSNumber *)profileId;
 
 @end
 

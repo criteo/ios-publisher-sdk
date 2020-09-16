@@ -43,7 +43,7 @@
          [self.absoluteString containsString:@"eventType=Launch"];
 }
 
-- (BOOL)testing_isConfigEventUrlWithConfig:(CR_Config *)config {
+- (BOOL)testing_isConfigUrlWithConfig:(CR_Config *)config {
   return [self.absoluteString containsString:config.configUrl];
 }
 

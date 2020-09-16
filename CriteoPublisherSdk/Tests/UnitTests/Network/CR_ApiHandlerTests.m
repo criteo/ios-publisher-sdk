@@ -24,12 +24,9 @@
 
 #import "CR_ApiQueryKeys.h"
 #import "CR_BidManager.h"
-#import "CR_CacheManager.h"
-#import "CR_Config.h"
-#import "CR_DataProtectionConsent.h"
 #import "CR_DataProtectionConsentMock.h"
 #import "CR_Gdpr.h"
-#import "CR_NetworkManager.h"
+#import "CR_IntegrationRegistry.h"
 #import "CR_NetworkManagerMock.h"
 #import "CR_ThreadManager.h"
 #import "CR_ThreadManager+Waiter.h"
@@ -59,6 +56,7 @@
 @property(nonatomic, strong) CR_DeviceInfo *deviceInfoMock;
 @property(nonatomic, strong) CR_Config *configMock;
 @property(nonatomic, strong) CR_ThreadManager *threadManager;
+@property(nonatomic, strong) CR_IntegrationRegistry *integrationRegistry;
 
 // overridden properties
 @property(strong, nonatomic, readonly, nullable) NSDictionary *cdbPayload;
@@ -74,9 +72,13 @@
   self.consentMock = [[CR_DataProtectionConsentMock alloc] init];
   self.networkManagerMock = [[CR_NetworkManagerMock alloc] initWithDeviceInfo:self.deviceInfoMock];
   self.threadManager = [[CR_ThreadManager alloc] init];
+  self.integrationRegistry = OCMClassMock(CR_IntegrationRegistry.class);
+  OCMStub([self.integrationRegistry profileId]).andReturn(@42);
+
   self.apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:self.networkManagerMock
                                                   bidFetchTracker:[CR_BidFetchTracker new]
-                                                    threadManager:self.threadManager];
+                                                    threadManager:self.threadManager
+                                              integrationRegistry:self.integrationRegistry];
 }
 
 - (void)testCallCdb {
@@ -159,7 +161,8 @@
   CR_ApiHandler *apiHandler =
       [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager
                                     bidFetchTracker:[CR_BidFetchTracker new]
-                                      threadManager:[[CR_ThreadManager alloc] init]];
+                                      threadManager:[[CR_ThreadManager alloc] init]
+                                integrationRegistry:self.integrationRegistry];
 
   CR_CdbBid *testBid_1 = [self buildEuroBid];
   CR_CdbBid *testBid_2 = [self buildDollarBid];
@@ -200,7 +203,7 @@
   // Json response from CR_Config
   NSString *rawJsonCdbResponse = @"{\"killSwitch\":true}";
   NSData *responseData = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
-  // OCM substitues "[NSNull null]" to nil at runtime
+  // OCM substitutes "[NSNull null]" to nil at runtime
   id error = [NSNull null];
 
   OCMStub([mockNetworkManager postToUrl:OCMOCK_ANY
@@ -212,14 +215,15 @@
   OCMStub([mockConfig sdkVersion]).andReturn(@"1.0");
   OCMStub([mockConfig appId]).andReturn(@"com.criteo.sdk.publisher");
   OCMStub([mockConfig configUrl]).andReturn(@"https://url-for-getting-config");
-  OCMStub([mockConfig profileId]).andReturn(@42);
 
-  CR_RemoteConfigRequest *request = [CR_RemoteConfigRequest requestWithConfig:mockConfig];
+  CR_RemoteConfigRequest *request = [CR_RemoteConfigRequest requestWithConfig:mockConfig
+                                                                    profileId:@42];
 
   CR_ApiHandler *apiHandler =
       [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager
                                     bidFetchTracker:[CR_BidFetchTracker new]
-                                      threadManager:[[CR_ThreadManager alloc] init]];
+                                      threadManager:[[CR_ThreadManager alloc] init]
+                                integrationRegistry:self.integrationRegistry];
 
   [apiHandler getConfig:request
         ahConfigHandler:^(NSDictionary *configValues) {
@@ -245,7 +249,8 @@
   CR_ApiHandler *apiHandler =
       [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager
                                     bidFetchTracker:mockBidFetchTracker
-                                      threadManager:[[CR_ThreadManager alloc] init]];
+                                      threadManager:[[CR_ThreadManager alloc] init]
+                                integrationRegistry:self.integrationRegistry];
   [apiHandler callCdb:@[ testAdUnit ]
                 consent:nil
                  config:nil
@@ -270,7 +275,8 @@
   CR_ApiHandler *apiHandler =
       [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager
                                     bidFetchTracker:mockBidFetchTracker
-                                      threadManager:[[CR_ThreadManager alloc] init]];
+                                      threadManager:[[CR_ThreadManager alloc] init]
+                                integrationRegistry:self.integrationRegistry];
   [apiHandler callCdb:@[ testAdUnit ]
                 consent:nil
                  config:nil
@@ -298,7 +304,8 @@
   CR_ApiHandler *apiHandler =
       [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager
                                     bidFetchTracker:mockBidFetchTracker
-                                      threadManager:[[CR_ThreadManager alloc] init]];
+                                      threadManager:[[CR_ThreadManager alloc] init]
+                                integrationRegistry:self.integrationRegistry];
   [apiHandler callCdb:@[ testAdUnit ]
                 consent:nil
                  config:nil
@@ -324,7 +331,8 @@
   CR_ApiHandler *apiHandler =
       [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager
                                     bidFetchTracker:mockBidFetchTracker
-                                      threadManager:[[CR_ThreadManager alloc] init]];
+                                      threadManager:[[CR_ThreadManager alloc] init]
+                                integrationRegistry:self.integrationRegistry];
   [apiHandler callCdb:@[ testAdUnit ]
                 consent:nil
                  config:nil
@@ -373,7 +381,8 @@
   CR_ApiHandler *apiHandler =
       [[CR_ApiHandler alloc] initWithNetworkManager:nil
                                     bidFetchTracker:bidFetchTracker
-                                      threadManager:[[CR_ThreadManager alloc] init]];
+                                      threadManager:[[CR_ThreadManager alloc] init]
+                                integrationRegistry:self.integrationRegistry];
 
   CR_CacheAdUnitArray *adUnits1 = @[ adUnit1, adUnit2, adUnit3, adUnit4 ];
   CR_CacheAdUnitArray *filteredAdUnits1 =
@@ -401,7 +410,7 @@
   [self callCdb];
 
   XCTAssertEqualObjects(self.cdbPayload[CR_ApiQueryKeys.sdkVersion], self.configMock.sdkVersion);
-  XCTAssertEqualObjects(self.cdbPayload[CR_ApiQueryKeys.profileId], self.configMock.profileId);
+  XCTAssertEqualObjects(self.cdbPayload[CR_ApiQueryKeys.profileId], @42);
 }
 
 - (void)testCdbCallContainsPublisherInfo {
@@ -735,7 +744,6 @@
   CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
   OCMStub([mockConfig criteoPublisherId]).andReturn(@("1"));
   OCMStub([mockConfig sdkVersion]).andReturn(@"1.0");
-  OCMStub([mockConfig profileId]).andReturn(@(235));
   OCMStub([mockConfig cdbUrl]).andReturn(@"https://dummyCdb.com");
   OCMStub([mockConfig path]).andReturn(@"inApp");
   OCMStub([mockConfig appId]).andReturn(@"com.criteo.sdk.publisher");

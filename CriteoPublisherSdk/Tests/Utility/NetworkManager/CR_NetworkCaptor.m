@@ -33,13 +33,14 @@
 @implementation CR_NetworkCaptor
 
 - (instancetype)initWithNetworkManager:(CR_NetworkManager *)networkManager {
-  MockWKWebView *webView = [[MockWKWebView alloc] init];
-  CR_ThreadManager *threadManager = [[CR_ThreadManager alloc] init];
-  CR_DeviceInfo *deviceInfo = [[CR_DeviceInfo alloc] initWithThreadManager:threadManager
-                                                               testWebView:webView];
-  NSURLSession *session = [NSURLSession
-      sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-  self = [super initWithDeviceInfo:deviceInfo session:session threadManager:threadManager];
+  // FIXME EE-1228 This is a decorator and network manager should be a protocol. This would allow to
+  // not
+  //  mess up constructor like this.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+  self = [super initWithDeviceInfo:nil session:nil threadManager:nil];
+#pragma clang diagnostic pop
+
   if (self) {
     _networkManager = networkManager;
     _internalPendingRequests = [[NSMutableArray alloc] init];

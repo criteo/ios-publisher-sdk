@@ -26,6 +26,7 @@
 #import "CR_HeaderBidding.h"
 #import "CR_DeviceInfoMock.h"
 #import "CR_DisplaySizeInjector.h"
+#import "CR_DependencyProvider.h"
 
 @interface CR_BidManagerHelperTests : XCTestCase
 
@@ -34,10 +35,10 @@
 @implementation CR_BidManagerHelperTests
 
 - (void)testRemoveCriteoBidFromMopubAdRequest {
-  CR_DisplaySizeInjector *displaySizeInjector = OCMClassMock([CR_DisplaySizeInjector class]);
-  CR_DeviceInfoMock *device = [[CR_DeviceInfoMock alloc] init];
-  CR_HeaderBidding *headerBidding = [[CR_HeaderBidding alloc] initWithDevice:device
-                                                         displaySizeInjector:displaySizeInjector];
+  CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.new;
+  dependencyProvider.displaySizeInjector = OCMClassMock([CR_DisplaySizeInjector class]);
+  dependencyProvider.deviceInfo = [[CR_DeviceInfoMock alloc] init];
+  CR_HeaderBidding *headerBidding = dependencyProvider.headerBidding;
   CR_CacheAdUnit *slot_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid"
                                                               width:300
                                                              height:250];
@@ -55,7 +56,8 @@
         nativeAssets:nil
         impressionId:nil];
 
-  OCMStub([displaySizeInjector injectSafeScreenSizeInDisplayUrl:testBid_1.displayUrl])
+  OCMStub([dependencyProvider.displaySizeInjector
+              injectSafeScreenSizeInDisplayUrl:testBid_1.displayUrl])
       .andReturn(testBid_1.displayUrl);
 
   MPInterstitialAdController *mopubBidRequest = [[MPInterstitialAdController alloc] init];

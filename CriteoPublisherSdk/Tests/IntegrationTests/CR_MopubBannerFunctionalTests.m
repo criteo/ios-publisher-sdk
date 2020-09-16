@@ -76,6 +76,7 @@ static NSString *initialMopubKeywords = @"key1:value1,key2:value2";
   XCTAssertEqualObjects(keywords, expected);
 }
 
+// Note this test relies on WireMock, for more information see wiremock/wiremock.md
 - (void)test_givenValidBanner_whenLoadingMopubBanner_thenMopubViewContainsCreative {
   CRBannerAdUnit *bannerAdUnit = [CR_TestAdUnits preprodBanner320x50];
   [self initCriteoWithAdUnits:@[ bannerAdUnit ]];

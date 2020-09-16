@@ -23,7 +23,7 @@
 @interface CR_Gdpr ()
 
 @property(strong, nonatomic, readonly) id<CR_GdprVersion> noGdpr;
-@property(copy, nonatomic, readonly) NSArray<id<CR_GdprVersion>> *sorteredVersions;
+@property(copy, nonatomic, readonly) NSArray<id<CR_GdprVersion>> *sortedVersions;
 @property(strong, nonatomic, readonly) id<CR_GdprVersion> selectedVersion;
 
 @end
@@ -39,7 +39,7 @@
 - (instancetype)initWithUserDefaults:(NSUserDefaults *)userDefaults {
   if (self = [super init]) {
     _noGdpr = [[CR_NoGdpr alloc] init];
-    _sorteredVersions = @[
+    _sortedVersions = @[
       [CR_GdprVersionWithKeys gdprTcf2_0WithUserDefaults:userDefaults],
       [CR_GdprVersionWithKeys gdprTcf1_1WithUserDefaults:userDefaults]
     ];
@@ -61,10 +61,14 @@
   return self.selectedVersion.applies;
 }
 
+- (BOOL)isConsentGivenForPurpose:(NSUInteger)id {
+  return [self.selectedVersion isConsentGivenForPurpose:id];
+}
+
 #pragma mark - Private
 
 - (id<CR_GdprVersion>)selectedVersion {
-  for (id<CR_GdprVersion> version in self.sorteredVersions) {
+  for (id<CR_GdprVersion> version in self.sortedVersions) {
     if (version.isValid) {
       return version;
     }

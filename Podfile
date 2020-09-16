@@ -20,6 +20,15 @@ target 'CriteoPublisherSdkTests' do
   pod 'Google-Mobile-Ads-SDK'
 end
 
+target 'CriteoAdViewer' do
+  project 'CriteoAdViewer/CriteoAdViewer'
+  platform :ios, '10.0' # iOS 10 required by MoPub
+
+  pod 'mopub-ios-sdk/Core'
+  pod 'Google-Mobile-Ads-SDK'
+  pod 'Eureka'
+end
+
 target 'CriteoGoogleAdapter' do
   project 'CriteoGoogleAdapter/CriteoGoogleAdapter'
 
@@ -54,3 +63,14 @@ target 'CriteoMoPubAdapterTestApp' do
   pod 'mopub-ios-sdk/Core', '~> 5.13'
 end
 
+# Development tools
+pod 'SwiftLint'
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '8.0' unless target.to_s == "Eureka"
+      config.build_settings['GCC_WARN_INHIBIT_ALL_WARNINGS'] = 'YES'
+    end
+  end
+end

@@ -33,8 +33,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 
 - (instancetype)initWithAdUnit:(CRInterstitialAdUnit *)adUnit;
+
 - (void)loadAd;
 - (void)loadAdWithBidToken:(CRBidToken *)bidToken;
+- (void)loadAdWithDisplayData:(NSString *)displayData;
+
 - (void)presentFromRootViewController:(UIViewController *)rootViewController;
 
 @end

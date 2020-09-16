@@ -18,22 +18,22 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <OCMock.h>
+
 #import "Criteo+Testing.h"
 #import "Criteo+Internal.h"
 #import "CR_AdUnitHelper.h"
 #import "CR_BidManager.h"
 #import "CR_DependencyProvider.h"
-#import "CR_CdbBidBuilder.H"
-#import "CR_Config.h"
 #import "CR_DeviceInfoMock.h"
 #import "CR_HttpContent+AdUnit.h"
 #import "CR_NetworkCaptor.h"
 #import "CR_NetworkWaiter.h"
 #import "CR_NetworkManagerMock.h"
-#import "CR_ThreadManagerWaiter.h"
 #import "CR_TestAdUnits.h"
 #import "CR_ThreadManager+Waiter.h"
 #import "NSURL+Testing.h"
+#import "CRConstants.h"
 
 @interface CR_BidManagerIntegrationTests : XCTestCase
 
@@ -46,6 +46,12 @@
 @property(nonatomic, strong) CRBannerAdUnit *adUnit1;
 @property(nonatomic, strong) CR_CacheAdUnit *cacheAdUnit1;
 @property(nonatomic, strong) CR_CacheAdUnit *cacheAdUnit2;
+
+@end
+
+@interface CR_BidManager (Testing)
+
+@property(nonatomic, assign, readonly) BOOL isInSilenceMode;
 
 @end
 
@@ -111,6 +117,125 @@
   XCTAssertEqual(networkManager.numberOfPostCall, 1);
 }
 
+- (void)test_givenPrefetchingBid_whenGetImmediateBid_shouldProvideBidWithTtlSetToDefaultOne {
+  [self givenMockedCdbResponseBid:self.immediateBid];
+  [self whenPrefetchingBid];
+  CR_CdbBid *cachedBid = [self.bidManager getBid:self.cacheAdUnit1];
+  XCTAssertEqual(cachedBid.ttl, CRITEO_DEFAULT_BID_TTL_IN_SECONDS);
+
+  [self checkAnotherPrefetchProvideBid];
+}
+
+- (void)test_givenPrefetchingBid_whenMissingBid_shouldProvideEmptyBid {
+  [self givenMockedCdbResponseBids:@[]];
+  [self whenPrefetchingBid];
+  [self shouldProvideEmptyBid];
+
+  [self checkAnotherPrefetchProvideBid];
+}
+
+- (void)test_givenPrefetchingBid_whenNoContent_shouldProvideEmptyBid {
+  [self givenMockedCdbEmptyResponse];
+  [self whenPrefetchingBid];
+  [self shouldProvideEmptyBid];
+
+  [self checkAnotherPrefetchProvideBid];
+}
+
+- (void)test_givenPrefetchingBid_whenExpiredBid_shouldProvideEmptyBid {
+  CR_CdbBid *bidMock = OCMPartialMock(self.validBid);
+  [self givenMockedCdbResponseBid:bidMock];
+  [self whenPrefetchingBid];
+
+  OCMStub([bidMock isExpired]).andReturn(YES);
+  [self shouldProvideEmptyBid];
+
+  [self checkAnotherPrefetchProvideBid];
+}
+
+- (void)test_givenPrefetchingBid_whenNoBidModeBid_shouldProvideEmptyBid {
+  [self givenMockedCdbResponseBids:@[ self.noBidModeBid ]];
+  [self whenPrefetchingBid];
+  [self shouldProvideEmptyBid];
+
+  [self checkAnotherPrefetchProvideBid];
+}
+
+- (void)test_givenPrefetchingBid_whenSilenceModeBid_shouldProvideEmptyBid {
+  CR_CdbBid *silencedBidMock = OCMPartialMock(self.silenceModeBid);
+  [self givenMockedCdbResponseBids:@[ silencedBidMock ]];
+  [self whenPrefetchingBid];
+  [self shouldProvideEmptyBid];
+
+  [self givenUnmockedCdbResponse];
+  // Simulate expiration after ttl, which causes a prefetch of a valid bid
+  OCMStub([silencedBidMock isExpired]).andReturn(YES);
+  [self shouldProvideEmptyBid];
+  [self.dependencyProvider.threadManager waiter_waitIdle];
+
+  [self shouldProvideBid];
+}
+
+- (void)test_givenPrefetchingBid_whenUserSilenceModeBid_shouldProvideEmptyBid {
+  CR_BidManager *bidManager = OCMPartialMock(_dependencyProvider.bidManager);
+  _dependencyProvider.bidManager = bidManager;
+
+  CR_CdbResponse *response = [self givenMockedCdbResponseBids:@[]];
+  OCMStub(response.timeToNextCall).andReturn(30);
+  [self whenPrefetchingBid];
+  [self shouldProvideEmptyBid];
+  XCTAssertTrue(self.bidManager.isInSilenceMode);
+
+  [self givenUnmockedCdbResponse];
+  // Simulating Bid Manager timeToNextCall elapsed, i.e. not silenced anymore
+  // Which we expect to cause a prefetch of a valid bid on next get bid from cache
+  OCMStub([bidManager isInSilenceMode]).andReturn(NO);
+  [self shouldProvideEmptyBid];
+  [self.dependencyProvider.threadManager waiter_waitIdle];
+
+  [self shouldProvideBid];
+}
+
+#pragma mark - Private
+#pragma mark Response mocks
+
+- (CR_CdbResponse *)givenMockedCdbResponseBids:(NSArray<CR_CdbBid *> *)bids {
+  CR_ApiHandler *apiHandler = OCMPartialMock(_dependencyProvider.apiHandler);
+  CR_CdbResponse *response = OCMClassMock([CR_CdbResponse class]);
+  OCMStub(response.cdbBids).andReturn(bids);
+  OCMStub([apiHandler cdbResponseWithData:[OCMArg any]]).andReturn(response);
+  _dependencyProvider.apiHandler = apiHandler;
+  return response;
+}
+
+- (CR_CdbResponse *)givenMockedCdbResponseBid:(CR_CdbBid *)bid {
+  return [self givenMockedCdbResponseBids:@[ bid ]];
+}
+
+- (void)givenMockedCdbEmptyResponse {
+  CR_ApiHandler *apiHandler = _dependencyProvider.apiHandler;
+  CR_ApiHandler *apiHandlerMock = OCMPartialMock(_dependencyProvider.apiHandler);
+  OCMStub([apiHandlerMock cdbResponseWithData:[OCMArg any]])
+      .andReturn([apiHandler cdbResponseWithData:nil]);
+  _dependencyProvider.apiHandler = apiHandlerMock;
+}
+
+- (void)givenUnmockedCdbResponse {
+  [(id)_dependencyProvider.apiHandler stopMocking];
+}
+
+#pragma mark Prefetch actions
+
+- (void)whenPrefetchingBid {
+  [self.criteo testing_registerWithAdUnits:@[ self.adUnit1 ]];
+  [self.criteo testing_waitForRegisterHTTPResponses];
+}
+
+- (void)whenPrefetchingAnotherBid {
+  [self.bidManager prefetchBid:self.cacheAdUnit1];
+  [self.dependencyProvider.threadManager waiter_waitIdle];
+}
+
 - (void)_waitNetworkCallForBids:(CR_CacheAdUnitArray *)caches {
   NSArray *tests = @[ ^BOOL(CR_HttpContent *_Nonnull httpContent) {
     return [httpContent.url testing_isBidUrlWithConfig:self.config] &&
@@ -121,6 +246,96 @@
   waiter.finishedRequestsIncluded = YES;
   BOOL result = [waiter wait];
   XCTAssert(result, @"Fail to send bid request.");
+}
+
+#pragma mark Cache validation
+
+- (void)shouldProvideEmptyBid {
+  CR_CdbBid *cachedBid = [self.bidManager getBid:self.cacheAdUnit1];
+  XCTAssertEqualObjects(cachedBid, CR_CdbBid.emptyBid);
+}
+
+- (void)shouldProvideBid {
+  CR_CdbBid *cachedBid = [self.bidManager getBid:self.cacheAdUnit1];
+  XCTAssertNotEqualObjects(cachedBid, CR_CdbBid.emptyBid);
+}
+
+#pragma mark Checks
+
+- (void)checkAnotherPrefetchProvideBid {
+  [self givenUnmockedCdbResponse];
+  [self whenPrefetchingAnotherBid];
+  [self shouldProvideBid];
+}
+
+#pragma mark Model helpers
+
+- (CR_CdbBid *)immediateBid {
+  CR_CdbBid *bid = [[CR_CdbBid alloc] initWithZoneId:@123
+                                         placementId:self.adUnit1.adUnitId
+                                                 cpm:@"1.2"
+                                            currency:@"EUR"
+                                               width:@320
+                                              height:@50
+                                                 ttl:0
+                                            creative:nil
+                                          displayUrl:@"https://display.url"
+                                          insertTime:nil
+                                        nativeAssets:nil
+                                        impressionId:nil];
+  XCTAssertTrue(bid.isImmediate);
+  return bid;
+}
+
+- (CR_CdbBid *)validBid {
+  CR_CdbBid *bid = [[CR_CdbBid alloc] initWithZoneId:@123
+                                         placementId:self.adUnit1.adUnitId
+                                                 cpm:@"1.2"
+                                            currency:@"EUR"
+                                               width:@320
+                                              height:@50
+                                                 ttl:10
+                                            creative:nil
+                                          displayUrl:@"https://display.url"
+                                          insertTime:nil
+                                        nativeAssets:nil
+                                        impressionId:nil];
+  XCTAssertTrue(bid.isValid);
+  return bid;
+}
+
+- (CR_CdbBid *)noBidModeBid {
+  CR_CdbBid *bid = [[CR_CdbBid alloc] initWithZoneId:@123
+                                         placementId:self.adUnit1.adUnitId
+                                                 cpm:@"0"
+                                            currency:@"EUR"
+                                               width:@320
+                                              height:@50
+                                                 ttl:0
+                                            creative:nil
+                                          displayUrl:@"https://display.url"
+                                          insertTime:nil
+                                        nativeAssets:nil
+                                        impressionId:nil];
+  XCTAssertTrue(bid.isExpired);
+  return bid;
+}
+
+- (CR_CdbBid *)silenceModeBid {
+  CR_CdbBid *bid = [[CR_CdbBid alloc] initWithZoneId:@123
+                                         placementId:self.adUnit1.adUnitId
+                                                 cpm:@"0"
+                                            currency:@"EUR"
+                                               width:@320
+                                              height:@50
+                                                 ttl:10
+                                            creative:nil
+                                          displayUrl:@"https://display.url"
+                                          insertTime:[NSDate date]
+                                        nativeAssets:nil
+                                        impressionId:nil];
+  XCTAssertTrue(bid.isInSilenceMode);
+  return bid;
 }
 
 @end

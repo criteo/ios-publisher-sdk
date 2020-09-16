@@ -1,8 +1,4 @@
 # Criteo Publisher SDK Changelog
-
-### Features
-- Consider safe area when displaying interstitial Ads for Standalone, In-House, MoPub AppBidding and
-  mediation adapters. DFP and Custom AppBidding are still always fullscreen.
 --------------------------------------------------------------------------------
 ## Version 4.0.0
 
@@ -23,7 +19,24 @@ pod clients, you can:
 
 [gh_releases]: https://github.com/criteo/ios-publisher-sdk/releases
 [use_frameworks]: https://guides.cocoapods.org/syntax/podfile.html#tab_use_frameworks_bang
+--------------------------------------------------------------------------------
+## Version Next
 
+### Features
+- GDPR: Disable performance metrics when TCF v2 consent is not given for purposes 1 or 7
+--------------------------------------------------------------------------------
+## Version 3.10.0
+
+### Features
+- GAM App-Bidding: Support sub classes of GAM objects: `DFPRequest`, `GADRequest`, ...
+- MoPub App-Bidding: Support sub classes of `MPAdView` and `MPInterstitialAdController`.
+- Server Side bidding: `loadAdWithDisplayData` added to `CRBannerView` and `CRInterstitial`
+--------------------------------------------------------------------------------
+## Version 3.9.0
+
+### Features
+- Consider safe area when displaying interstitial Ads for Standalone, In-House, MoPub AppBidding and
+  mediation adapters. DFP and Custom AppBidding are still always fullscreen.
 --------------------------------------------------------------------------------
 ## Version 3.8.0
 

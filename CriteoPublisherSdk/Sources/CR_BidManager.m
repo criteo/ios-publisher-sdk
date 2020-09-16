@@ -212,6 +212,9 @@
   [self updateTimeToNextCallIfProvided:cdbResponse];
 
   for (CR_CdbBid *bid in cdbResponse.cdbBids) {
+    if (bid.isImmediate) {
+      [bid setDefaultTtl];
+    }
     [self->cacheManager setBid:bid];
   }
 

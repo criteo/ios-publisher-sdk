@@ -33,9 +33,13 @@
 @property(nonatomic, strong) CR_FeedbackStorage *feedbackStorage;
 @property(nonatomic, strong) CR_ApiHandler *apiHandler;
 @property(nonatomic, strong) CR_Config *config;
+@property(nonatomic, strong) CR_DataProtectionConsentMock *consentMock;
 
 @property(nonatomic, strong) NSMutableArray<NSDate *> *mockedDates;
 @property(nonatomic, strong) OCMockObject *nsDate;
+
+@property(nonatomic, strong) NSMutableArray<NSNumber *> *mockedProfileIds;
+@property(nonatomic, strong) CR_IntegrationRegistry *integrationRegistry;
 
 @property(nonatomic, strong) NSMutableArray<NSString *> *mockedGeneratedIds;
 @property(nonatomic, strong) OCMockObject *uniqueIdGenerator;
@@ -58,7 +62,9 @@
 
   self.apiHandler = OCMClassMock([CR_ApiHandler class]);
   self.config = [[CR_Config alloc] init];
+  self.consentMock = [[CR_DataProtectionConsentMock alloc] init];
 
+  [self setUpMockedIntegrationRegistry];
   [self setUpMockedUniqueIdGenerator];
   [self setUpMockedClock];
   [self setUpFeedbackController];
@@ -74,7 +80,22 @@
   [self prepareDisabledCsm];
   [self prepareStrictMockedFeedbackStorage];
 
-  CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[ @"id" ]];
+  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
+                                                 requestGroupId:@"requestId"
+                                                  impressionIds:@[ @"id" ]];
+
+  [self.feedbackController onCdbCallStarted:request];
+
+  [self assertNoInteractionOnFeedbackStorage];
+}
+
+- (void)testOnCdbCallStarted_GivenNoConsent_DoNothing {
+  [self prepareNoConsent];
+  [self prepareStrictMockedFeedbackStorage];
+
+  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
+                                                 requestGroupId:@"requestId"
+                                                  impressionIds:@[ @"id" ]];
 
   [self.feedbackController onCdbCallStarted:request];
 
@@ -84,18 +105,23 @@
 - (void)testOnCdbCallStarted_GivenMultipleSlot_UpdateAllStartTimeAndRequestIdOfMetricsById {
   [self prepareEnabledCsm];
 
-  CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[ @"id1", @"id2" ]];
+  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
+                                                 requestGroupId:@"myRequestId"
+                                                  impressionIds:@[ @"id1", @"id2" ]];
 
   [self prepareMockedClock:42];
-  [self prepareMockedIdGenerator:@"myRequestId"];
-  [self prepareMockedIdGenerator:@"shouldNotBeUsed"];
+  NSNumber *profileId1 = @1337, *profileId2 = @4242;
+  [self prepareProfileIdGenerator:profileId1];
+  [self prepareProfileIdGenerator:profileId2];
 
   CR_FeedbackMessage *expected1 = [[CR_FeedbackMessage alloc] init];
+  expected1.profileId = @42;
   expected1.requestGroupId = @"myRequestId";
   expected1.impressionId = @"id1";
   expected1.cdbCallStartTimestamp = @42000;
 
   CR_FeedbackMessage *expected2 = [[CR_FeedbackMessage alloc] init];
+  expected2.profileId = @42;
   expected2.requestGroupId = @"myRequestId";
   expected2.impressionId = @"id2";
   expected2.cdbCallStartTimestamp = @42000;
@@ -110,7 +136,23 @@
   [self prepareDisabledCsm];
   [self prepareStrictMockedFeedbackStorage];
 
-  CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[ @"id" ]];
+  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
+                                                 requestGroupId:@"requestId"
+                                                  impressionIds:@[ @"id" ]];
+  CR_CdbResponse *response = [[CR_CdbResponse alloc] init];
+
+  [self.feedbackController onCdbCallResponse:response fromRequest:request];
+
+  [self assertNoInteractionOnFeedbackStorage];
+}
+
+- (void)testOnCdbCallResponse_GivenNoConsent_DoNothing {
+  [self prepareNoConsent];
+  [self prepareStrictMockedFeedbackStorage];
+
+  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
+                                                 requestGroupId:@"requestId"
+                                                  impressionIds:@[ @"id" ]];
   CR_CdbResponse *response = [[CR_CdbResponse alloc] init];
 
   [self.feedbackController onCdbCallResponse:response fromRequest:request];
@@ -122,12 +164,15 @@
   [self prepareEnabledCsm];
 
   CR_CdbRequest *request =
-      [self prepareCdbRequestWithSlots:@[ @"noBidId", @"invalidId", @"validId" ]];
+      [self prepareCdbRequestWithProfileId:@42
+                            requestGroupId:@"requestId"
+                             impressionIds:@[ @"noBidId", @"invalidId", @"validId" ]];
 
   [self prepareMockedClock:1337];
 
-  CR_CdbBid *invalidBid = CR_CdbBidBuilder.new.impressionId(@"invalidId").cpm(@"-1.0").build;
-  CR_CdbBid *validBid = CR_CdbBidBuilder.new.impressionId(@"validId").build;
+  CR_CdbBid *invalidBid =
+      CR_CdbBidBuilder.new.impressionId(@"invalidId").cpm(@"-1.0").zoneId(42).build;
+  CR_CdbBid *validBid = CR_CdbBidBuilder.new.impressionId(@"validId").zoneId(1337).build;
 
   CR_CdbResponse *response = [[CR_CdbResponse alloc] init];
   response.cdbBids = @[ validBid, invalidBid ];
@@ -135,6 +180,7 @@
   CR_FeedbackMessage *expectedValid = [[CR_FeedbackMessage alloc] init];
   expectedValid.cdbCallEndTimestamp = @1337000;
   expectedValid.cachedBidUsed = YES;
+  expectedValid.zoneId = @1337;
 
   CR_FeedbackMessage *expectedInvalid = [[CR_FeedbackMessage alloc] init];
   expectedInvalid.expired = YES;
@@ -153,7 +199,23 @@
   [self prepareDisabledCsm];
   [self prepareStrictMockedFeedbackStorage];
 
-  CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[ @"id" ]];
+  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
+                                                 requestGroupId:@"requestId"
+                                                  impressionIds:@[ @"id" ]];
+  NSError *error = [[NSError alloc] init];
+
+  [self.feedbackController onCdbCallFailure:error fromRequest:request];
+
+  [self assertNoInteractionOnFeedbackStorage];
+}
+
+- (void)testOnCdbCallFailure_GivenNoConsent_DoNothing {
+  [self prepareNoConsent];
+  [self prepareStrictMockedFeedbackStorage];
+
+  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
+                                                 requestGroupId:@"requestId"
+                                                  impressionIds:@[ @"id" ]];
   NSError *error = [[NSError alloc] init];
 
   [self.feedbackController onCdbCallFailure:error fromRequest:request];
@@ -164,7 +226,9 @@
 - (void)testOnCdbCallFailure_GivenTimeoutError_UpdateAllForTimeout {
   [self prepareEnabledCsm];
 
-  CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[ @"id1", @"id2" ]];
+  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
+                                                 requestGroupId:@"requestId"
+                                                  impressionIds:@[ @"id1", @"id2" ]];
 
   NSError *error = [[NSError alloc] initWithDomain:NSCocoaErrorDomain
                                               code:NSURLErrorTimedOut
@@ -187,7 +251,9 @@
 - (void)testOnCdbCallFailure_GivenNotATimeoutError_UpdateAllForNetworkError {
   [self prepareEnabledCsm];
 
-  CR_CdbRequest *request = [self prepareCdbRequestWithSlots:@[ @"id1", @"id2" ]];
+  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
+                                                 requestGroupId:@"requestId"
+                                                  impressionIds:@[ @"id1", @"id2" ]];
 
   NSError *error = [[NSError alloc] initWithDomain:NSCocoaErrorDomain
                                               code:NSURLErrorNetworkConnectionLost
@@ -207,6 +273,17 @@
 
 - (void)testOnBidConsumed_GivenDeactivatedCsm_DoNothing {
   [self prepareDisabledCsm];
+  [self prepareStrictMockedFeedbackStorage];
+
+  CR_CdbBid *bid = CR_CdbBidBuilder.new.impressionId(@"id").build;
+
+  [self.feedbackController onBidConsumed:bid];
+
+  [self assertNoInteractionOnFeedbackStorage];
+}
+
+- (void)testOnBidConsumed_GivenNoConsent_DoNothing {
+  [self prepareNoConsent];
   [self prepareStrictMockedFeedbackStorage];
 
   CR_CdbBid *bid = CR_CdbBidBuilder.new.impressionId(@"id").build;
@@ -255,13 +332,30 @@
   [self assertNoInteractionOnFeedbackStorage];
 }
 
+- (void)testSendFeedbackBatch_GivenNoConsent_DoNothing {
+  [self prepareNoConsent];
+  [self prepareStrictMockedFeedbackStorage];
+
+  [self.feedbackController sendFeedbackBatch];
+
+  [self assertNoInteractionOnFeedbackStorage];
+}
+
 #pragma mark - Private
 
 - (void)setUpFeedbackController {
   self.feedbackController =
       [CR_FeedbackController controllerWithFeedbackStorage:self.feedbackStorage
                                                 apiHandler:self.apiHandler
-                                                    config:self.config];
+                                                    config:self.config
+                                                   consent:self.consentMock];
+}
+
+- (void)setUpMockedIntegrationRegistry {
+  self.integrationRegistry = OCMClassMock([CR_IntegrationRegistry class]);
+  self.mockedProfileIds = [[NSMutableArray alloc] init];
+  OCMStub([(id)self.integrationRegistry profileId])
+      .andDo([self returnSequentialValues:self.mockedProfileIds]);
 }
 
 - (void)setUpMockedUniqueIdGenerator {
@@ -277,7 +371,11 @@
   OCMStub([(id)self.nsDate date]).andDo([self returnSequentialValues:self.mockedDates]);
 }
 
-- (CR_CdbRequest *)prepareCdbRequestWithSlots:(NSArray<NSString *> *)impressionIds {
+- (CR_CdbRequest *)prepareCdbRequestWithProfileId:(NSNumber *)profileId
+                                   requestGroupId:(NSString *)requestGroupId
+                                    impressionIds:(NSArray<NSString *> *)impressionIds {
+  [self prepareMockedIdGenerator:requestGroupId];
+
   NSMutableArray<CR_CacheAdUnit *> *adUnits = [[NSMutableArray alloc] init];
   for (NSUInteger i = 0; i < impressionIds.count; i++) {
     NSString *adUnitId = [NSString stringWithFormat:@"adUnit%lu", (unsigned long)i];
@@ -289,14 +387,18 @@
     [self prepareMockedIdGenerator:impressionIds[i]];
   }
 
-  CR_CdbRequest *request = [[CR_CdbRequest alloc] initWithAdUnits:adUnits];
-
+  CR_CdbRequest *request = [[CR_CdbRequest alloc] initWithProfileId:profileId adUnits:adUnits];
+  [self prepareProfileIdGenerator:profileId];
   return request;
 }
 
 - (void)prepareMockedClock:(NSTimeInterval)dateInSeconds {
   NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:dateInSeconds];
   [self.mockedDates addObject:date];
+}
+
+- (void)prepareProfileIdGenerator:(NSNumber *)profileId {
+  [self.mockedProfileIds addObject:profileId];
 }
 
 - (void)prepareMockedIdGenerator:(NSString *)generatedId {
@@ -309,6 +411,10 @@
 
 - (void)prepareDisabledCsm {
   self.config.csmEnabled = NO;
+}
+
+- (void)prepareNoConsent {
+  self.consentMock.gdprMock.purposeConsents[1] = @NO;
 }
 
 - (void)prepareStrictMockedFeedbackStorage {

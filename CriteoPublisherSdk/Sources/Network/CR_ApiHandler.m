@@ -24,11 +24,11 @@
 #import "CR_Gdpr.h"
 #import "CR_GdprSerializer.h"
 #import "Logging.h"
-#import "NSArray+Criteo.h"
 #import "CR_ThreadManager.h"
 #import "NSString+CriteoUrl.h"
 #import "CR_FeedbacksSerializer.h"
 #import "CR_RemoteConfigRequest.h"
+#import "CR_IntegrationRegistry.h"
 
 static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 
@@ -38,24 +38,22 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 @property(strong, nonatomic, readonly) CR_BidRequestSerializer *bidRequestSerializer;
 @property(strong, nonatomic, readonly) CR_GdprSerializer *gdprSerializer;
 @property(strong, nonatomic, readonly) CR_FeedbacksSerializer *feedbackSerializer;
+@property(strong, nonatomic, readonly) CR_IntegrationRegistry *integrationRegistry;
 
 @end
 
 @implementation CR_ApiHandler
 
-- (instancetype)init {
-  NSAssert(false, @"Do not use this initializer");
-  return [self initWithNetworkManager:nil bidFetchTracker:nil threadManager:nil];
-}
-
 - (instancetype)initWithNetworkManager:(CR_NetworkManager *)networkManager
                        bidFetchTracker:(CR_BidFetchTracker *)bidFetchTracker
-                         threadManager:(CR_ThreadManager *)threadManager {
+                         threadManager:(CR_ThreadManager *)threadManager
+                   integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry {
   if (self = [super init]) {
     _networkManager = networkManager;
     _bidFetchTracker = bidFetchTracker;
     _threadManager = threadManager;
     _gdprSerializer = [[CR_GdprSerializer alloc] init];
+    _integrationRegistry = integrationRegistry;
     _bidRequestSerializer =
         [[CR_BidRequestSerializer alloc] initWithGdprSerializer:_gdprSerializer];
     _feedbackSerializer = [[CR_FeedbacksSerializer alloc] init];
@@ -115,10 +113,12 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
     return;
   }
 
+  NSNumber *profileId = self.integrationRegistry.profileId;
   NSArray<CR_CacheAdUnitArray *> *adUnitChunks =
       [requestAdUnits cr_splitIntoChunks:maxAdUnitsPerCdbRequest];
   for (CR_CacheAdUnitArray *adUnitChunk in adUnitChunks) {
-    CR_CdbRequest *cdbRequest = [[CR_CdbRequest alloc] initWithAdUnits:adUnitChunk];
+    CR_CdbRequest *cdbRequest = [[CR_CdbRequest alloc] initWithProfileId:profileId
+                                                                 adUnits:adUnitChunk];
 
     if (beforeCdbCall) {
       beforeCdbCall(cdbRequest);
@@ -136,8 +136,7 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
                      CLogInfo(@"[INFO][API_] CdbPostCall.finished");
                      if (error == nil) {
                        if (completionHandler) {
-                         CR_CdbResponse *cdbResponse =
-                             [CR_CdbResponse responseWithData:data receivedAt:[NSDate date]];
+                         CR_CdbResponse *cdbResponse = [self cdbResponseWithData:data];
                          completionHandler(cdbRequest, cdbResponse, error);
                        }
                      } else {
@@ -151,6 +150,10 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
                      }
                    }];
   }
+}
+
+- (CR_CdbResponse *)cdbResponseWithData:(NSData *)data {
+  return [CR_CdbResponse responseWithData:data receivedAt:[NSDate date]];
 }
 
 - (void)getConfig:(CR_RemoteConfigRequest *)request
@@ -217,11 +220,18 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 
 - (void)sendFeedbackMessages:(NSArray<CR_FeedbackMessage *> *)messages
                       config:(CR_Config *)config
+                   profileId:(NSNumber *)profileId
            completionHandler:(CR_CsmCompletionHandler)completionHandler {
+  if (messages.count == 0) {
+    return;
+  }
+
   NSString *urlString = [NSString stringWithFormat:@"%@/%@", [config cdbUrl], [config csmPath]];
   NSURL *url = [NSURL URLWithString:urlString];
 
-  NSDictionary *postBody = [self.feedbackSerializer postBodyForCsm:messages config:config];
+  NSDictionary *postBody = [self.feedbackSerializer postBodyForCsm:messages
+                                                            config:config
+                                                         profileId:profileId];
   [self.networkManager postToUrl:url
                         postBody:postBody
                  responseHandler:^(NSData *data, NSError *error) {

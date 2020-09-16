@@ -21,122 +21,135 @@ import XCTest
 
 class CR_BidRequestSerializerSwiftTests: XCTestCase {
 
-    var serializer: CR_BidRequestSerializer!
-    var gdprSerializer: CR_GdprSerializerMock!
-    var request: CR_CdbRequest!
+  var serializer: CR_BidRequestSerializer!
+  var gdprSerializer: CR_GdprSerializerMock!
+  var request: CR_CdbRequest!
 
-    var config: CR_Config = CR_Config()
-    var consent: CR_DataProtectionConsentMock = CR_DataProtectionConsentMock()
-    var deviceInfo: CR_DeviceInfoMock = CR_DeviceInfoMock()
+  var config: CR_Config = CR_Config()
+  var consent: CR_DataProtectionConsentMock = CR_DataProtectionConsentMock()
+  var deviceInfo: CR_DeviceInfoMock = CR_DeviceInfoMock()
 
-    override func setUp() {
-        gdprSerializer = CR_GdprSerializerMock()
-        serializer = CR_BidRequestSerializer(gdprSerializer: gdprSerializer)
-        request = CR_CdbRequest(adUnits: [
-            CR_CacheAdUnit(adUnitId: "1", width: 1, height: 1),
-            CR_CacheAdUnit(adUnitId: "2", width: 2, height: 2)
-        ])
-        config.criteoPublisherId = "Test Published Id"
-    }
+  let userDefaults = CR_InMemoryUserDefaults()
+  let testIntegrationType = CR_IntegrationType.gamAppBidding
+  lazy var testProfileId = NSNumber(value: testIntegrationType.rawValue)
 
-    func testUrl() {
-        let expected = URL(string:"https://bidder.criteo.com/inapp/v2?profileId=235")
+  override func setUp() {
+    gdprSerializer = CR_GdprSerializerMock()
+    serializer = CR_BidRequestSerializer(gdprSerializer: gdprSerializer)
+    request = CR_CdbRequest(
+      profileId: testProfileId,
+      adUnits: [
+        CR_CacheAdUnit(adUnitId: "1", width: 1, height: 1),
+        CR_CacheAdUnit(adUnitId: "2", width: 2, height: 2),
+      ])
+    config.criteoPublisherId = "Test Published Id"
+  }
 
-        let url = serializer.url(with: config)
+  func testUrl() {
+    let expected = URL(string: "https://bidder.criteo.com/inapp/v2")
 
-        XCTAssertEqual(url, expected)
-    }
+    let url = serializer.url(with: config)
+    XCTAssertEqual(url, expected)
+  }
 
-    func testBodyWithSdkVersion() {
-        let body = generateBody()
+  func testBodyWithSdkVersion() {
+    let body = generateBody()
 
-        let sdkVersion = body[NSString.sdkVersionKey]! as! String
-        XCTAssertEqual(sdkVersion, config.sdkVersion)
-    }
+    let sdkVersion = body[NSString.sdkVersionKey]! as! String
+    XCTAssertEqual(sdkVersion, config.sdkVersion)
+  }
 
-    func testBodyWithProfileId() {
-        let body = generateBody()
+  func testBodyWithProfileId() {
+    let body = generateBody()
 
-        let profileId = body[NSString.profileIdKey]! as! NSNumber
-        XCTAssertEqual(profileId, config.profileId)
-    }
+    let profileId = body[NSString.profileIdKey]! as! NSNumber
+    XCTAssertEqual(profileId, testProfileId)
+  }
 
-    func testBodyWithPublisher() {
-        let expected = [
-            NSString.bundleIdKey: config.appId,
-            NSString.cpIdKey: config.criteoPublisherId!,
-        ]
+  func testBodyWithRequestGroupId() {
+    let body = generateBody()
 
-        let body = generateBody()
+    let requestGroupId = body["id"]! as! String
+    XCTAssertEqual(requestGroupId, request.requestGroupId)
+  }
 
-        let publisher: [String: AnyHashable] = body[NSString.publisherKey]! as! [String: AnyHashable]
-        XCTAssertEqual(publisher, expected)
-    }
+  func testBodyWithPublisher() {
+    let expected = [
+      NSString.bundleIdKey: config.appId,
+      NSString.cpIdKey: config.criteoPublisherId!,
+    ]
 
-    // MARK: User in body
+    let body = generateBody()
 
-    func testBodyWithUser() {
-        let body = generateBody()
+    let publisher: [String: AnyHashable] = body[NSString.publisherKey]! as! [String: AnyHashable]
+    XCTAssertEqual(publisher, expected)
+  }
 
-        let user: [String: AnyHashable] = body[NSString.userKey]! as! [String: AnyHashable]
-        XCTAssertEqual(user.count, 6)
-        XCTAssertEqual(user[NSString.userAgentKey], deviceInfo.userAgent)
-        XCTAssertEqual(user[NSString.deviceIdKey], deviceInfo.deviceId)
-        XCTAssertEqual(user[NSString.deviceOsKey], config.deviceOs)
-        XCTAssertEqual(user[NSString.deviceModelKey], config.deviceModel)
-        XCTAssertEqual(user[NSString.deviceIdTypeKey], NSString.deviceIdTypeValue)
-        XCTAssertEqual(user[NSString.uspIabKey], consent.usPrivacyIabConsentString!)
-    }
+  // MARK: User in body
 
-    func testBodyWithUsPrivacyConsentString() {
-        consent.usPrivacyIabConsentString_mock = "US Privacy String"
+  func testBodyWithUser() {
+    let body = generateBody()
 
-        let body = generateBody()
+    let user: [String: AnyHashable] = body[NSString.userKey]! as! [String: AnyHashable]
+    XCTAssertEqual(user.count, 6)
+    XCTAssertEqual(user[NSString.userAgentKey], deviceInfo.userAgent)
+    XCTAssertEqual(user[NSString.deviceIdKey], deviceInfo.deviceId)
+    XCTAssertEqual(user[NSString.deviceOsKey], config.deviceOs)
+    XCTAssertEqual(user[NSString.deviceModelKey], config.deviceModel)
+    XCTAssertEqual(user[NSString.deviceIdTypeKey], NSString.deviceIdTypeValue)
+    XCTAssertEqual(user[NSString.uspIabKey], consent.usPrivacyIabConsentString!)
+  }
 
-        let user: [String: AnyHashable] = body[NSString.userKey]! as! [String: AnyHashable]
-        XCTAssertEqual(user[NSString.uspIabKey]!, "US Privacy String")
-    }
+  func testBodyWithUsPrivacyConsentString() {
+    consent.usPrivacyIabConsentString_mock = "US Privacy String"
 
-    func testBodyWithCriteoPrivacyOpIn() {
-        consent.usPrivacyCriteoState = .optIn
+    let body = generateBody()
 
-        let body = generateBody()
+    let user: [String: AnyHashable] = body[NSString.userKey]! as! [String: AnyHashable]
+    XCTAssertEqual(user[NSString.uspIabKey]!, "US Privacy String")
+  }
 
-        let user: [String: AnyHashable] = body[NSString.userKey]! as! [String: AnyHashable]
-        XCTAssertEqual(user[NSString.uspCriteoOptout]!, false)
-    }
+  func testBodyWithCriteoPrivacyOpIn() {
+    consent.usPrivacyCriteoState = .optIn
 
-    func testBodyWithCriteoPrivacyOpOut() {
-        consent.usPrivacyCriteoState = .optOut
+    let body = generateBody()
 
-        let body = generateBody()
+    let user: [String: AnyHashable] = body[NSString.userKey]! as! [String: AnyHashable]
+    XCTAssertEqual(user[NSString.uspCriteoOptout]!, false)
+  }
 
-        let user: [String: AnyHashable] = body[NSString.userKey]! as! [String: AnyHashable]
-        XCTAssertEqual(user[NSString.uspCriteoOptout]!, true)
-    }
+  func testBodyWithCriteoPrivacyOpOut() {
+    consent.usPrivacyCriteoState = .optOut
 
-    func testBodyWithMopubConsent() {
-        consent.mopubConsent = "Privacy consent for mopub"
+    let body = generateBody()
 
-        let body = generateBody()
+    let user: [String: AnyHashable] = body[NSString.userKey]! as! [String: AnyHashable]
+    XCTAssertEqual(user[NSString.uspCriteoOptout]!, true)
+  }
 
-        let user: [String: AnyHashable] = body[NSString.userKey]! as! [String: AnyHashable]
-        XCTAssertEqual(user[NSString.mopubConsent]!, "Privacy consent for mopub")
-    }
+  func testBodyWithMopubConsent() {
+    consent.mopubConsent = "Privacy consent for mopub"
 
-    private func generateBody() -> [String: AnyHashable] {
-        return serializer.body(with: request,
-                               consent: consent,
-                               config: config,
-                               deviceInfo: deviceInfo) as! [String: AnyHashable]
-    }
+    let body = generateBody()
+
+    let user: [String: AnyHashable] = body[NSString.userKey]! as! [String: AnyHashable]
+    XCTAssertEqual(user[NSString.mopubConsent]!, "Privacy consent for mopub")
+  }
+
+  private func generateBody() -> [String: AnyHashable] {
+    return serializer.body(
+      with: request,
+      consent: consent,
+      config: config,
+      deviceInfo: deviceInfo) as! [String: AnyHashable]
+  }
 }
 
-class CR_GdprSerializerMock : CR_GdprSerializer {
+class CR_GdprSerializerMock: CR_GdprSerializer {
 
-    var dictionaryValue: [String : NSObject]? = .some([ "key": "value" as NSObject ])
+  var dictionaryValue: [String: NSObject]? = .some(["key": "value" as NSObject])
 
-    open override func dictionary(for gdpr: CR_Gdpr) -> [String : NSObject]? {
-        return dictionaryValue
-    }
+  open override func dictionary(for gdpr: CR_Gdpr) -> [String: NSObject]? {
+    return dictionaryValue
+  }
 }

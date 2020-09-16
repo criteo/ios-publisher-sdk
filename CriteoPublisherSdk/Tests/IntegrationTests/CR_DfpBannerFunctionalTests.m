@@ -76,6 +76,7 @@
   XCTAssertEqualObjects(bid.displayUrl, decodedUrl);
 }
 
+// Note this test relies on WireMock, for more information see wiremock/wiremock.md
 - (void)test_givenValidBanner_whenLoadingDfpBanner_thenDfpViewContainsCreative {
   CRBannerAdUnit *bannerAdUnit = [CR_TestAdUnits preprodBanner320x50];
   [self initCriteoWithAdUnits:@[ bannerAdUnit ]];

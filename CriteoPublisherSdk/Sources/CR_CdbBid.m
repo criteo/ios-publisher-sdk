@@ -19,9 +19,9 @@
 
 #import "CR_CdbBid.h"
 #import "Logging.h"
-#import "NSString+CriteoUrl.h"
 #import "NSObject+Criteo.h"
 #import "NSString+Criteo.h"
+#import "CRConstants.h"
 
 @interface CR_CdbBid ()
 
@@ -82,7 +82,6 @@ static CR_CdbBid *emptyBid;
 }
 
 - (instancetype)initWithDict:(NSDictionary *)slot receivedAt:(NSDate *)receivedAt {
-  const double defaultValue = 900;
   self = [super init];
   if (self) {
     NSNumber *zoneId = slot[@"zoneId"];
@@ -95,12 +94,8 @@ static CR_CdbBid *emptyBid;
     NSNumber *height = slot[@"height"];
     NSString *creative = slot[@"creative"];
     NSString *impId = slot[@"impId"];
-    // Hard coding to 15 minutes for now
-    // TODO: move this default to the config
-    NSTimeInterval ttl = (slot && slot[@"ttl"]) ? [slot[@"ttl"] doubleValue] : defaultValue;
-    if ([cpm doubleValue] > 0 && ttl == 0) {
-      ttl = defaultValue;
-    }
+    NSTimeInterval ttl =
+        (slot && slot[@"ttl"]) ? [slot[@"ttl"] doubleValue] : CRITEO_DEFAULT_BID_TTL_IN_SECONDS;
     NSString *displayUrl = [NSString cr_StringWithStringOrNil:slot[@"displayUrl"]];
     NSDictionary *assetsDict = slot[@"native"];
     CR_NativeAssets *nativeAssets =
@@ -124,20 +119,20 @@ static CR_CdbBid *emptyBid;
 // Hash values of two CR_NativeAssets objects must be the same if the objects are equal. The reverse
 // is not guaranteed (nor does it need to be).
 - (NSUInteger)hash {
-  NSUInteger hashval = 0;
-  hashval ^= _zoneId.hash;
-  hashval ^= _placementId.hash;
-  hashval ^= _cpm.hash;
-  hashval ^= _currency.hash;
-  hashval ^= _width.hash;
-  hashval ^= _height.hash;
-  hashval ^= _creative.hash;
-  hashval ^= _displayUrl.hash;
-  hashval ^= (NSUInteger)_ttl;
-  hashval ^= _insertTime.hash;
-  hashval ^= _nativeAssets.hash;
-  hashval ^= _impressionId.hash;
-  return hashval;
+  NSUInteger hash = 0;
+  hash ^= _zoneId.hash;
+  hash ^= _placementId.hash;
+  hash ^= _cpm.hash;
+  hash ^= _currency.hash;
+  hash ^= _width.hash;
+  hash ^= _height.hash;
+  hash ^= _creative.hash;
+  hash ^= _displayUrl.hash;
+  hash ^= (NSUInteger)_ttl;
+  hash ^= _insertTime.hash;
+  hash ^= _nativeAssets.hash;
+  hash ^= _impressionId.hash;
+  return hash;
 }
 
 - (BOOL)isEqual:(nullable id)other {
@@ -215,13 +210,19 @@ static CR_CdbBid *emptyBid;
 }
 
 - (BOOL)isValid {
-  return [[NSScanner scannerWithString:self.cpm] scanFloat:NULL] && self.cpm.floatValue >= 0.0f &&
-         [self isValidNativeAssetsOrUrl];
+  return self.isValidCpm && self.isValidNativeAssetsOrUrl;
 }
 
 - (BOOL)isRenewable {
-  BOOL result = !self.isInSilenceMode || self.isExpired;
-  return result;
+  return !self.isInSilenceMode || self.isExpired;
+}
+
+- (BOOL)isImmediate {
+  return self.cpm.floatValue > 0 && self.ttl == 0;
+}
+
+- (void)setDefaultTtl {
+  _ttl = CRITEO_DEFAULT_BID_TTL_IN_SECONDS;
 }
 
 #pragma mark - Description
@@ -243,6 +244,10 @@ static CR_CdbBid *emptyBid;
 }
 
 #pragma mark - Private
+
+- (BOOL)isValidCpm {
+  return [[NSScanner scannerWithString:self.cpm] scanFloat:NULL] && self.cpm.floatValue >= 0.0f;
+}
 
 - (BOOL)isValidNativeAssetsOrUrl {
   if (self.nativeAssets) {
