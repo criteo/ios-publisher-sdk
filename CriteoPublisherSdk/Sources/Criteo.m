@@ -138,6 +138,10 @@
   return [self.bidManager getBid:slot];
 }
 
+- (void)getBid:(CR_CacheAdUnit *)slot responseHandler:(CR_BidResponseHandler)responseHandler {
+  [self.bidManager fetchLiveBidForAdUnit:slot bidResponseHandler:responseHandler];
+}
+
 - (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken
                               adUnitType:(CRAdUnitType)adUnitType {
   return [self.bidManager tokenValueForBidToken:bidToken adUnitType:adUnitType];

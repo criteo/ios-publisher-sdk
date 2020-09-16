@@ -35,8 +35,7 @@
 #import "CR_TokenCache.h"
 #import "CRBidResponse+Internal.h"
 #import "CR_FeedbackStorage.h"
-
-typedef void (^CR_BidResponseHandler)(CR_CdbBid *bid);
+#import "Criteo+Internal.h"
 
 @protocol CR_FeedbackDelegate;
 @class CR_HeaderBidding;
