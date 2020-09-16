@@ -71,9 +71,8 @@
 - (CRBidResponse *)bidResponseForCacheAdUnit:(CR_CacheAdUnit *)cacheAdUnit
                                   adUnitType:(CRAdUnitType)adUnitType;
 
-- (void)prefetchBid:(CR_CacheAdUnit *)adUnit;
-
-- (void)prefetchBids:(CR_CacheAdUnitArray *)adUnits;
+- (void)prefetchBidForAdUnit:(CR_CacheAdUnit *)adUnit;
+- (void)prefetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits;
 
 - (void)addCriteoBidToRequest:(id)adRequest forAdUnit:(CR_CacheAdUnit *)adUnit;
 
