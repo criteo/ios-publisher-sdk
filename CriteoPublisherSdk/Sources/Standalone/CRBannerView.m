@@ -107,11 +107,14 @@
   CR_CacheAdUnit *cacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:_adUnit.adUnitId
                                                                     size:self.frame.size
                                                               adUnitType:CRAdUnitTypeBanner];
-  CR_CdbBid *bid = [self.criteo getBid:cacheAdUnit];
 
-  if ([bid isEmpty]) return [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
-
-  [self loadAdWithDisplayData:bid.displayUrl];
+  [self.criteo getBid:cacheAdUnit
+      responseHandler:^(CR_CdbBid *bid) {
+        if (bid.isEmpty) {
+          return [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
+        }
+        [self loadAdWithDisplayData:bid.displayUrl];
+      }];
 }
 
 - (void)loadAdWithBidToken:(CRBidToken *)bidToken {
