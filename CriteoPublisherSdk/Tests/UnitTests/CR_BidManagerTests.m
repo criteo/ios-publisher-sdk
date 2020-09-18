@@ -199,8 +199,8 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   XCTAssertTrue([bids[self.adUnitUncached] isEmpty]);
 }
 
-- (void)testGetBidForAdUnitInSilenceMode {  // Silence mode = cpm ==0 && ttl > 0
-  self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).cpm(@"0.0").ttl(42.0).build;
+- (void)testGetBidForAdUnitInSilenceMode {
+  self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).silenced().build;
   self.cacheManager.bidCache[self.adUnit1] = self.bid1;
   CR_OCMockRejectCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
 
@@ -209,10 +209,8 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   XCTAssert(bid.isEmpty);
 }
 
-- (void)testGetBidForBidWithSilencedModeElapsed {  // Silence mode = cpm ==0 && ttl > 0 &&
-                                                   // insertTime + ttl expired
-  self.bid1 =
-      CR_CdbBidBuilder.new.adUnit(self.adUnit1).cpm(@"0.0").ttl(42.0).expiredInsertTime().build;
+- (void)testGetBidForBidWithSilencedModeElapsed {
+  self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).silenced().expired().build;
   self.cacheManager.bidCache[self.adUnit1] = self.bid1;
 
   CR_CdbBid *bid = [self.bidManager getBid:self.adUnit1];
@@ -248,8 +246,8 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   XCTAssert(bidResponse.bidSuccess);
 }
 
-- (void)testGetBidWhenNoBid {  // No bid: cpm == 0 && ttl == 0
-  self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).cpm(@"0.0").ttl(0).build;
+- (void)testGetBidWhenNoBid {
+  self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).noBid().build;
   self.cacheManager.bidCache[self.adUnit1] = self.bid1;
 
   CR_CdbBid *bid = [self.bidManager getBid:self.adUnit1];
@@ -259,7 +257,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 }
 
 - (void)testGetBidWhenBidExpired {
-  self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).expiredInsertTime().build;
+  self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).expired().build;
   self.cacheManager.bidCache[self.adUnit1] = self.bid1;
 
   CR_CdbBid *bid = [self.bidManager getBid:self.adUnit1];

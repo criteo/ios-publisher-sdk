@@ -34,6 +34,7 @@
 #import "CR_ThreadManager+Waiter.h"
 #import "NSURL+Testing.h"
 #import "CRConstants.h"
+#import "CR_CdbBidBuilder.h"
 
 @interface CR_BidManagerIntegrationTests : XCTestCase
 
@@ -118,7 +119,8 @@
 }
 
 - (void)test_givenPrefetchingBid_whenGetImmediateBid_shouldProvideBidWithTtlSetToDefaultOne {
-  [self givenMockedCdbResponseBid:self.immediateBid];
+  CR_CdbBid *immediateBid = CR_CdbBidBuilder.new.adUnit(self.cacheAdUnit1).immediate().build;
+  [self givenMockedCdbResponseBid:immediateBid];
   [self whenPrefetchingBid];
   CR_CdbBid *cachedBid = [self.bidManager getBid:self.cacheAdUnit1];
   XCTAssertEqual(cachedBid.ttl, CRITEO_DEFAULT_BID_TTL_IN_SECONDS);
@@ -143,7 +145,8 @@
 }
 
 - (void)test_givenPrefetchingBid_whenExpiredBid_shouldProvideEmptyBid {
-  CR_CdbBid *bidMock = OCMPartialMock(self.validBid);
+  CR_CdbBid *validBid = CR_CdbBidBuilder.new.adUnit(self.cacheAdUnit1).build;
+  CR_CdbBid *bidMock = OCMPartialMock(validBid);
   [self givenMockedCdbResponseBid:bidMock];
   [self whenPrefetchingBid];
 
@@ -154,7 +157,8 @@
 }
 
 - (void)test_givenPrefetchingBid_whenNoBidModeBid_shouldProvideEmptyBid {
-  [self givenMockedCdbResponseBids:@[ self.noBidModeBid ]];
+  CR_CdbBid *noBidModeBid = CR_CdbBidBuilder.new.adUnit(self.cacheAdUnit1).noBid().build;
+  [self givenMockedCdbResponseBids:@[ noBidModeBid ]];
   [self whenPrefetchingBid];
   [self shouldProvideEmptyBid];
 
@@ -162,7 +166,8 @@
 }
 
 - (void)test_givenPrefetchingBid_whenSilenceModeBid_shouldProvideEmptyBid {
-  CR_CdbBid *silencedBidMock = OCMPartialMock(self.silenceModeBid);
+  CR_CdbBid *silenceModeBid = CR_CdbBidBuilder.new.adUnit(self.cacheAdUnit1).silenced().build;
+  CR_CdbBid *silencedBidMock = OCMPartialMock(silenceModeBid);
   [self givenMockedCdbResponseBids:@[ silencedBidMock ]];
   [self whenPrefetchingBid];
   [self shouldProvideEmptyBid];
@@ -266,76 +271,6 @@
   [self givenUnmockedCdbResponse];
   [self whenPrefetchingAnotherBid];
   [self shouldProvideBid];
-}
-
-#pragma mark Model helpers
-
-- (CR_CdbBid *)immediateBid {
-  CR_CdbBid *bid = [[CR_CdbBid alloc] initWithZoneId:@123
-                                         placementId:self.adUnit1.adUnitId
-                                                 cpm:@"1.2"
-                                            currency:@"EUR"
-                                               width:@320
-                                              height:@50
-                                                 ttl:0
-                                            creative:nil
-                                          displayUrl:@"https://display.url"
-                                          insertTime:nil
-                                        nativeAssets:nil
-                                        impressionId:nil];
-  XCTAssertTrue(bid.isImmediate);
-  return bid;
-}
-
-- (CR_CdbBid *)validBid {
-  CR_CdbBid *bid = [[CR_CdbBid alloc] initWithZoneId:@123
-                                         placementId:self.adUnit1.adUnitId
-                                                 cpm:@"1.2"
-                                            currency:@"EUR"
-                                               width:@320
-                                              height:@50
-                                                 ttl:10
-                                            creative:nil
-                                          displayUrl:@"https://display.url"
-                                          insertTime:nil
-                                        nativeAssets:nil
-                                        impressionId:nil];
-  XCTAssertTrue(bid.isValid);
-  return bid;
-}
-
-- (CR_CdbBid *)noBidModeBid {
-  CR_CdbBid *bid = [[CR_CdbBid alloc] initWithZoneId:@123
-                                         placementId:self.adUnit1.adUnitId
-                                                 cpm:@"0"
-                                            currency:@"EUR"
-                                               width:@320
-                                              height:@50
-                                                 ttl:0
-                                            creative:nil
-                                          displayUrl:@"https://display.url"
-                                          insertTime:nil
-                                        nativeAssets:nil
-                                        impressionId:nil];
-  XCTAssertTrue(bid.isExpired);
-  return bid;
-}
-
-- (CR_CdbBid *)silenceModeBid {
-  CR_CdbBid *bid = [[CR_CdbBid alloc] initWithZoneId:@123
-                                         placementId:self.adUnit1.adUnitId
-                                                 cpm:@"0"
-                                            currency:@"EUR"
-                                               width:@320
-                                              height:@50
-                                                 ttl:10
-                                            creative:nil
-                                          displayUrl:@"https://display.url"
-                                          insertTime:[NSDate date]
-                                        nativeAssets:nil
-                                        impressionId:nil];
-  XCTAssertTrue(bid.isInSilenceMode);
-  return bid;
 }
 
 @end

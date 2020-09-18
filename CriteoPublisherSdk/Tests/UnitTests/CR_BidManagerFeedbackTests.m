@@ -378,7 +378,7 @@
 }
 
 - (void)testReadyToSendOnBidExpired {
-  CR_CdbBid *expiredBid = CR_CdbBidBuilder.new.adUnit(self.adUnit).ttl(-1).build;
+  CR_CdbBid *expiredBid = CR_CdbBidBuilder.new.adUnit(self.adUnit).expired().build;
   self.cacheManager.bidCache[self.adUnit] = expiredBid;
 
   [self.bidManager getBid:self.adUnit];
