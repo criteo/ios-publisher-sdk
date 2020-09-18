@@ -46,7 +46,12 @@ PROPERTY_DECLARATION(impressionId, NSString *_Nullable, copy);
 
 /** Shortcut for placementId, width and height of the ad unit. */
 @property(nonatomic, readonly, copy) CR_CdbBidBuilder * (^adUnit)(CR_CacheAdUnit *);
-@property(nonatomic, readonly, copy) CR_CdbBidBuilder * (^expiredInsertTime)(void);
+
+/** Commonly tested bid types */
+@property(nonatomic, readonly, copy) CR_CdbBidBuilder * (^noBid)(void);
+@property(nonatomic, readonly, copy) CR_CdbBidBuilder * (^expired)(void);
+@property(nonatomic, readonly, copy) CR_CdbBidBuilder * (^silenced)(void);
+@property(nonatomic, readonly, copy) CR_CdbBidBuilder * (^immediate)(void);
 
 @property(nonatomic, readonly, strong) CR_CdbBid *build;
 
