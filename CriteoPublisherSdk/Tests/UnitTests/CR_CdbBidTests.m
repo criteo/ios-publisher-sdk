@@ -655,17 +655,17 @@
 }
 
 - (void)testIsRenewableWithExpired {
-  CR_CdbBid *bid = CR_CdbBidBuilder.new.expiredInsertTime().build;
+  CR_CdbBid *bid = CR_CdbBidBuilder.new.expired().build;
   XCTAssertTrue(bid.isRenewable);
 }
 
 - (void)testIsRenewableWithSilenceMode {
-  CR_CdbBid *bid = CR_CdbBidBuilder.new.cpm(@"0.0").ttl(42.0).build;
+  CR_CdbBid *bid = CR_CdbBidBuilder.new.silenced().build;
   XCTAssertFalse(bid.isRenewable);
 }
 
 - (void)testIsRenewableWithSilenceModeExpired {
-  CR_CdbBid *bid = CR_CdbBidBuilder.new.cpm(@"0.0").ttl(42.0).expiredInsertTime().build;
+  CR_CdbBid *bid = CR_CdbBidBuilder.new.silenced().expired().build;
   XCTAssertTrue(bid.isRenewable);
 }
 

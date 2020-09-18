@@ -67,8 +67,23 @@ NSString *CR_CdbBidBuilderImpressionIdValueDefault = @"thisIsImpId";
       weakSelf.heightValue = value.size.height;
       return weakSelf;
     };
-    _expiredInsertTime = ^CR_CdbBidBuilder *(void) {
+    _noBid = ^CR_CdbBidBuilder *(void) {
+      weakSelf.cpmValue = @"0";
+      weakSelf.ttlValue = 0;
+      return weakSelf;
+    };
+    _expired = ^CR_CdbBidBuilder *(void) {
       weakSelf.insertTimeValue = [NSDate dateWithTimeIntervalSinceNow:-400];
+      return weakSelf;
+    };
+    _silenced = ^CR_CdbBidBuilder *(void) {
+      weakSelf.cpmValue = @"0";
+      weakSelf.ttlValue = 300;
+      return weakSelf;
+    };
+    _immediate = ^CR_CdbBidBuilder *(void) {
+      weakSelf.cpmValue = @"0.4";
+      weakSelf.ttlValue = 0;
       return weakSelf;
     };
   }
