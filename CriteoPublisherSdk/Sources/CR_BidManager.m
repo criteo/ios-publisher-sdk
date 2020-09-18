@@ -22,6 +22,7 @@
 #import "CR_FeedbackController.h"
 #import "CR_HeaderBidding.h"
 #import "CR_ThreadManager.h"
+#import "CRConstants.h"
 
 typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 
@@ -177,6 +178,47 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
          cdbResponseHandler:^(CR_CdbResponse *cdbResponse) {
            [self cacheBidsFromResponse:cdbResponse];
          }];
+}
+
+- (void)fetchLiveBidForAdUnit:(CR_CacheAdUnit *)adUnit
+           bidResponseHandler:(CR_BidResponseHandler)responseHandler {
+  [self fetchLiveBidForAdUnit:adUnit
+           bidResponseHandler:responseHandler
+                   timeBudget:CRITEO_DEFAULT_LIVE_BID_TIME_BUDGET_IN_SECONDS];
+}
+
+- (void)fetchLiveBidForAdUnit:(CR_CacheAdUnit *)adUnit
+           bidResponseHandler:(CR_BidResponseHandler)responseHandler
+                   timeBudget:(NSTimeInterval)timeBudget {
+  [self.threadManager dispatchAsyncOnGlobalQueueWithTimeout:timeBudget
+      operationHandler:^void(void (^completionHandler)(dispatchWithTimeoutHandler)) {
+        [self fetchBidsForAdUnits:@[ adUnit ]
+               cdbResponseHandler:^(CR_CdbResponse *cdbResponse) {
+                 completionHandler(^(BOOL handled) {
+                   [self.threadManager dispatchAsyncOnMainQueue:^{
+                     if (!handled) {
+                       NSAssert(cdbResponse.cdbBids.count <= 1,
+                                @"During a live request, only one bid will be fetched at a time.");
+                       if (cdbResponse.cdbBids.count == 1) {
+                         CR_CdbBid *bid = cdbResponse.cdbBids[0];
+                         responseHandler(bid);
+                       } else {
+                         responseHandler(nil);
+                       }
+                     } else {
+                       [self cacheBidsFromResponse:cdbResponse];
+                     }
+                   }];
+                 });
+               }];
+      }
+      timeoutHandler:^(BOOL handled) {
+        if (!handled) {
+          [self.threadManager dispatchAsyncOnMainQueue:^{
+            responseHandler([self getBid:adUnit]);
+          }];
+        }
+      }];
 }
 
 - (void)fetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits

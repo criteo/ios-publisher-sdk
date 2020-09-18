@@ -74,7 +74,8 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 @property(nonatomic, strong) CR_CacheManager *cacheManager;
 @property(nonatomic, strong) CR_ApiHandler *apiHandlerMock;
 @property(nonatomic, strong) CR_ConfigManager *configManagerMock;
-@property(strong, nonatomic) CR_HeaderBidding *headerBiddingMock;
+@property(nonatomic, strong) CR_HeaderBidding *headerBiddingMock;
+@property(nonatomic, strong) CR_SynchronousThreadManager *threadManager;
 @property(nonatomic, strong) CR_DependencyProvider *dependencyProvider;
 @property(nonatomic, strong) CR_BidManager *bidManager;
 
@@ -88,9 +89,10 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   self.configManagerMock = OCMClassMock([CR_ConfigManager class]);
   self.apiHandlerMock = OCMClassMock([CR_ApiHandler class]);
   self.headerBiddingMock = OCMPartialMock(CR_HeaderBidding.new);
+  self.threadManager = [[CR_SynchronousThreadManager alloc] init];
 
   CR_DependencyProvider *dependencyProvider = [CR_DependencyProvider testing_dependencyProvider];
-  dependencyProvider.threadManager = [[CR_SynchronousThreadManager alloc] init];
+  dependencyProvider.threadManager = self.threadManager;
   dependencyProvider.configManager = self.configManagerMock;
   dependencyProvider.cacheManager = self.cacheManager;
   dependencyProvider.apiHandler = self.apiHandlerMock;
@@ -275,6 +277,40 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   OCMVerify([self.configManagerMock refreshConfig:[OCMArg any]]);
 }
 
+#pragma mark - Live Bidding
+
+- (void)testLiveBid_GivenResponseBeforeTimeBudget_ThenBidFromResponseGiven {
+  CR_CdbBid *liveBid = [self givenApiHandlerRespondBid];
+  self.threadManager.isTimeout = NO;
+
+  // Bid Manager returns bid from cdb call
+  [self.bidManager fetchLiveBidForAdUnit:self.adUnit1
+                      bidResponseHandler:^(CR_CdbBid *bid) {
+                        XCTAssertEqualObjects(bid, liveBid);
+                      }];
+  CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
+
+  // Bid from cdb call has not been cached
+  OCMReject([self.cacheManager setBid:liveBid]);
+  XCTAssertNotEqual(self.cacheManager.bidCache[self.adUnit1], liveBid);
+}
+
+- (void)testLiveBid_GivenResponseAfterTimeBudget_ThenBidFromCacheGiven {
+  CR_CdbBid *liveBid = [self givenApiHandlerRespondBid];
+  self.threadManager.isTimeout = YES;
+
+  // Bid Manager returns bid from cache
+  [self.bidManager fetchLiveBidForAdUnit:self.adUnit1
+                      bidResponseHandler:^(CR_CdbBid *bid) {
+                        XCTAssertEqualObjects(bid, self.bid1);
+                      }];
+  CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
+
+  // Bid from cdb call has been cached
+  OCMVerify([self.cacheManager setBid:liveBid]);
+  XCTAssertEqual(self.cacheManager.bidCache[self.adUnit1], liveBid);
+}
+
 #pragma mark - Header Bidding
 
 - (void)testAddCriteoBidToNonBiddableObjectsDoesNotCrash {
@@ -303,6 +339,26 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   XCTAssertTrue(self.dfpRequest.customTargeting.count == 2);
   XCTAssertNil([self.dfpRequest.customTargeting objectForKey:CR_BidManagerTestsDfpDisplayUrl]);
   XCTAssertNil([self.dfpRequest.customTargeting objectForKey:CR_BidManagerTestsCpm]);
+}
+
+#pragma mark - Private
+
+- (CR_CdbBid *)givenApiHandlerRespondBid {
+  CR_CdbBid *bid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).build;
+  CR_CdbResponse *cdbResponseMock = OCMClassMock(CR_CdbResponse.class);
+  OCMStub([cdbResponseMock cdbBids]).andReturn(@[ bid ]);
+  OCMStub([self.apiHandlerMock callCdb:[OCMArg any]
+                               consent:[OCMArg any]
+                                config:[OCMArg any]
+                            deviceInfo:[OCMArg any]
+                         beforeCdbCall:[OCMArg any]
+                     completionHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_CdbCompletionHandler handler;
+        [invocation getArgument:&handler atIndex:7];
+        handler(nil, cdbResponseMock, nil);
+      });
+  return bid;
 }
 
 @end

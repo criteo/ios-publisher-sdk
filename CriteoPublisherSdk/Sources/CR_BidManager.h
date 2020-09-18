@@ -36,6 +36,8 @@
 #import "CRBidResponse+Internal.h"
 #import "CR_FeedbackStorage.h"
 
+typedef void (^CR_BidResponseHandler)(CR_CdbBid *bid);
+
 @protocol CR_FeedbackDelegate;
 @class CR_HeaderBidding;
 @class CR_ThreadManager;
@@ -73,6 +75,8 @@
 
 - (void)prefetchBidForAdUnit:(CR_CacheAdUnit *)adUnit;
 - (void)prefetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits;
+- (void)fetchLiveBidForAdUnit:(CR_CacheAdUnit *)adUnit
+           bidResponseHandler:(CR_BidResponseHandler)responseHandler;
 
 - (void)addCriteoBidToRequest:(id)adRequest forAdUnit:(CR_CacheAdUnit *)adUnit;
 
