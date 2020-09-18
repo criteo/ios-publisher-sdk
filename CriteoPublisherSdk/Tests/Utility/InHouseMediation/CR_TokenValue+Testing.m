@@ -34,7 +34,7 @@
   CR_CdbBidBuilder *builder = CR_CdbBidBuilder.new.displayUrl(displayUrl);
 
   if (expired) {
-    builder = builder.expiredInsertTime();
+    builder = builder.expired();
   }
 
   CR_CdbBid *cdbBid = builder.build;
