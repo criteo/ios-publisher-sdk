@@ -69,7 +69,7 @@ extern NSString *const CR_GdprConsentStringForTcf1_1Key;
 + (instancetype)gdprTcf2_0WithUserDefaults:(NSUserDefaults *)userDefaults;
 
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithConsentStringKey:(NSString *)constantStringKey
+- (instancetype)initWithConsentStringKey:(NSString *)consentStringKey
                       purposeConsentsKey:(nullable NSString *)purposeConsentsKey
                               appliesKey:(NSString *)appliesKey
                               tcfVersion:(CR_GdprTcfVersion)tcfVersion
