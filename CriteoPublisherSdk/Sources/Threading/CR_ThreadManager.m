@@ -25,9 +25,20 @@
 
 @property(atomic, assign) NSInteger blockInProgressCounter;
 
+@property(nonatomic, readonly) dispatch_queue_t timeoutBarrierQueue;
+
 @end
 
 @implementation CR_ThreadManager
+
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+    _timeoutBarrierQueue =
+        dispatch_queue_create("com.criteo.timeoutBarrierQueue", DISPATCH_QUEUE_CONCURRENT);
+  }
+  return self;
+}
 
 + (NSSet<NSString *> *)keyPathsForValuesAffectingIsIdle {
   return
@@ -47,8 +58,29 @@
   [self dispatchAsyncQueue:dispatch_get_main_queue() block:block];
 }
 - (void)dispatchAsyncOnGlobalQueue:(dispatch_block_t)block {
-  [self dispatchAsyncQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-                     block:block];
+  [self dispatchAsyncQueue:self.globalQueue block:block];
+}
+
+- (void)dispatchAsyncOnGlobalQueueWithTimeout:(NSTimeInterval)timeout
+                             operationHandler:(dispatchWithTimeoutOperationHandler)operationHandler
+                               timeoutHandler:(dispatchWithTimeoutHandler)timeoutHandler {
+  __block BOOL handled = NO;
+  [self dispatchAsyncOnGlobalQueue:^{
+    operationHandler(^(void (^completionHandler)(BOOL)) {
+      dispatch_barrier_async(self.timeoutBarrierQueue, ^{
+        completionHandler(handled);
+        handled = YES;
+      });
+    });
+  }];
+  [self dispatchOnQueue:self.globalQueue
+                  after:timeout
+                  block:^{
+                    dispatch_barrier_async(self.timeoutBarrierQueue, ^{
+                      timeoutHandler(handled);
+                      handled = YES;
+                    });
+                  }];
 }
 
 #pragma mark - Shared with CR_AsyncTaskWatcher
@@ -67,11 +99,33 @@
 
 #pragma mark - Private
 
+- (dispatch_queue_global_t)globalQueue {
+  return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+}
+
 - (void)dispatchAsyncQueue:(dispatch_queue_t)queue block:(dispatch_block_t)block {
   if (block == nil) return;
 
   [self countUp];
   dispatch_async(queue, ^{
+    @try {
+      block();
+    } @catch (NSException *exception) {
+      CLogException(exception);
+    } @finally {
+      [self countDown];
+    }
+  });
+}
+
+- (void)dispatchOnQueue:(dispatch_queue_t)queue
+                  after:(NSTimeInterval)when
+                  block:(dispatch_block_t)block {
+  if (block == nil) return;
+
+  [self countUp];
+  dispatch_time_t afterTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(when * NSEC_PER_SEC));
+  dispatch_after(afterTime, queue, ^{
     @try {
       block();
     } @catch (NSException *exception) {
