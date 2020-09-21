@@ -19,6 +19,9 @@
 
 #import "NSUserDefaults+GDPR.h"
 #import "NSString+GDPR.h"
+
+#define TCF2_PURPOSES_COUNT 10
+
 @implementation NSUserDefaults (GDPR)
 
 - (void)clearGdpr {
@@ -27,6 +30,11 @@
   [self removeObjectForKey:NSString.gdprAppliesUserDefaultsKeyTcf1_1];
   [self removeObjectForKey:NSString.gdprConsentStringUserDefaultsKeyTcf1_1];
   [self removeObjectForKey:NSString.gdprPurposeConsentsStringForTcf2_0];
+  for (int purposeId = 0; purposeId <= TCF2_PURPOSES_COUNT; ++purposeId) {
+    NSString *restrictionsKey =
+        [NSString stringWithFormat:NSString.gdprPublisherRestrictionsKeyFormatForTcf2_0, purposeId];
+    [self removeObjectForKey:restrictionsKey];
+  }
 }
 
 - (void)setGdprTcf1_1DefaultConsentString {
@@ -55,6 +63,13 @@
 
 - (void)setGdprTcf2_0PurposeConsents:(nullable NSObject *)purposeConsents {
   [self setObject:purposeConsents forKey:NSString.gdprPurposeConsentsStringForTcf2_0];
+}
+
+- (void)setGdprTcf2_0PublisherRestrictions:(NSObject *)publisherRestrictions
+                                forPurpose:(NSUInteger)id {
+  NSString *publisherRestrictionsKey =
+      [NSString stringWithFormat:NSString.gdprPublisherRestrictionsKeyFormatForTcf2_0, id];
+  [self setObject:publisherRestrictions forKey:publisherRestrictionsKey];
 }
 
 @end

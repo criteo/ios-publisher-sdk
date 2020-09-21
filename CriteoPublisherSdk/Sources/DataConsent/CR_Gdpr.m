@@ -65,6 +65,10 @@
   return [self.selectedVersion isConsentGivenForPurpose:id];
 }
 
+- (CR_GdprTcfPublisherRestrictionType)publisherRestrictionsForPurpose:(NSUInteger)id {
+  return [self.selectedVersion publisherRestrictionsForPurpose:id];
+}
+
 #pragma mark - Private
 
 - (id<CR_GdprVersion>)selectedVersion {

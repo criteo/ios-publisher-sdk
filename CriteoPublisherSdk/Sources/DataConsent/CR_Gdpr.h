@@ -31,6 +31,18 @@ typedef NS_ENUM(NSInteger, CR_GdprTcfVersion) {
 };
 
 /**
+ Publisher purpose restriction types
+ @see
+ https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20Consent%20string%20and%20vendor%20list%20formats%20v2.md#the-core-string
+ */
+typedef NS_ENUM(NSInteger, CR_GdprTcfPublisherRestrictionType) {
+  CR_GdprTcfPublisherRestrictionTypeNone = -1,
+  CR_GdprTcfPublisherRestrictionTypeNotAllowed = 0,
+  CR_GdprTcfPublisherRestrictionTypeRequireConsent = 1,
+  CR_GdprTcfPublisherRestrictionTypeRequireLegitimateInterest = 2,
+};
+
+/**
  The IAB implementation of  the European General Data Protection Regulation (GDPR).
 
  Specification:
@@ -64,6 +76,14 @@ typedef NS_ENUM(NSInteger, CR_GdprTcfVersion) {
  * @return YES if consent is given for purpose
  */
 - (BOOL)isConsentGivenForPurpose:(NSUInteger)id;
+
+/**
+ * Gives the Criteo publisher restrictions for a given purpose
+ *
+ * @param id Purpose id
+ * @return Publisher Restriction type
+ */
+- (CR_GdprTcfPublisherRestrictionType)publisherRestrictionsForPurpose:(NSUInteger)id;
 
 @end
 

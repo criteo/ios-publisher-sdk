@@ -19,6 +19,8 @@
 
 #import "NSString+GDPR.h"
 
+// Vendor ID is declared at IAB and can be found in the vendor list:
+// https://vendorlist.consensu.org/v2/vendor-list.json
 const NSUInteger NSStringGdprCriteoIdentifierInVendorList = 91;
 
 @implementation NSString (GDPR)
@@ -51,6 +53,10 @@ const NSUInteger NSStringGdprCriteoIdentifierInVendorList = 91;
 
 + (NSString *)gdprPurposeConsentsStringForTcf2_0 {
   return @"IABTCF_PurposeConsents";
+}
+
++ (NSString *)gdprPublisherRestrictionsKeyFormatForTcf2_0 {
+  return @"IABTCF_PublisherRestrictions%d";
 }
 
 #pragma mark - ConsentString
