@@ -38,4 +38,20 @@
   block();
 }
 
+- (void)dispatchAsyncOnGlobalQueueWithTimeout:(NSTimeInterval)timeout
+                             operationHandler:(dispatchWithTimeoutOperationHandler)operationHandler
+                               timeoutHandler:(dispatchWithTimeoutHandler)timeoutHandler {
+  if (self.isTimeout) {
+    operationHandler(^(void (^completionHandler)(BOOL)) {
+      timeoutHandler(NO);
+      completionHandler(YES);
+    });
+  } else {
+    operationHandler(^(void (^completionHandler)(BOOL)) {
+      completionHandler(NO);
+      timeoutHandler(YES);
+    });
+  }
+}
+
 @end
