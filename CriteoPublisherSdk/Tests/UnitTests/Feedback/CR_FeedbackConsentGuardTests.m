@@ -54,9 +54,11 @@
   OCMVerifyAll((id)self.controller);
 }
 
-- (void)testOnCdbCallStarted_GivenPurpose7NoConsent_DoNothing {
+- (void)testOnCdbCallStarted_GivenPurpose7NoConsent_CallDelegate {
   CR_CdbRequest *request = OCMClassMock([CR_CdbRequest class]);
   self.consent.gdprMock.purposeConsents[7] = @NO;
+
+  OCMExpect([self.controller onCdbCallStarted:request]);
 
   [self.guard onCdbCallStarted:request];
 
