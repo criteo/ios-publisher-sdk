@@ -70,11 +70,11 @@
 /**
  * Checks if we are allowed to collect metrics regarding TCF v2 purposes:
  * - Purpose 1 - Store and/or access information on a device
- * - Purpose 7 - Measure ad performance
+ *
  * For more details: https://iabeurope.eu/iab-europe-transparency-consent-framework-policies/
  */
 - (BOOL)hasFeedbackConsent {
-  return [_consent.gdpr isConsentGivenForPurpose:1] && [_consent.gdpr isConsentGivenForPurpose:7];
+  return [_consent.gdpr isConsentGivenForPurpose:1];
 }
 
 - (id<CR_FeedbackDelegate>)controller {
