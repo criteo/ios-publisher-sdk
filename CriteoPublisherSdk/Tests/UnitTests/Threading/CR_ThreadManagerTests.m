@@ -18,6 +18,8 @@
 //
 
 #import <XCTest/XCTest.h>
+
+#import "XCTestCase+Criteo.h"
 #import "CR_ThreadManager.h"
 #import "CR_ThreadManager+Waiter.h"
 
@@ -81,6 +83,63 @@ void CRInternaLog(NSString *format, ...) {
     XCTAssertEqual(self.counter, 14);
   }
 }
+
+#pragma mark - dispatchAsyncOnQueueWithTimeout
+
+- (void)testDispatchAsyncOnQueueWithTimeout_whenInTimeBudget_handledOnOperationHandler {
+  XCTestExpectation *handledOnOperationHandler =
+      [[XCTestExpectation alloc] initWithDescription:@"Operation Handled"];
+  XCTestExpectation *notHandledOnTimeoutHandler =
+      [[XCTestExpectation alloc] initWithDescription:@"Not timeout handled"];
+  [self.manager dispatchAsyncOnGlobalQueueWithTimeout:0.1
+      operationHandler:^void(void (^completionHandler)(dispatchWithTimeoutHandler)) {
+        // do nothing and return immediately
+        completionHandler(^(BOOL handled) {
+          XCTAssertFalse(handled, @"Operation to be handled by operation handler");
+          if (!handled) {
+            [handledOnOperationHandler fulfill];
+          }
+        });
+      }
+      timeoutHandler:^(BOOL handled) {
+        XCTAssertTrue(handled, @"Operation already handled by operation handler");
+        if (handled) {
+          [notHandledOnTimeoutHandler fulfill];
+        }
+      }];
+  [self waitForExpectations:@[ handledOnOperationHandler, notHandledOnTimeoutHandler ]
+                    timeout:2
+               enforceOrder:YES];
+}
+
+- (void)testDispatchAsyncOnQueueWithTimeout_whenTimeout_handledOnTimeoutHandler {
+  XCTestExpectation *notHandledOnOperationHandler =
+      [[XCTestExpectation alloc] initWithDescription:@"Not Operation Handled"];
+  XCTestExpectation *handledOnTimeoutHandler =
+      [[XCTestExpectation alloc] initWithDescription:@"Timeout handled"];
+  [self.manager dispatchAsyncOnGlobalQueueWithTimeout:0.1
+      operationHandler:^void(void (^completionHandler)(dispatchWithTimeoutHandler)) {
+        // Wait longer than timeout
+        [NSThread sleepForTimeInterval:1];
+        completionHandler(^(BOOL handled) {
+          XCTAssertTrue(handled, @"Operation already handled by timeout handler");
+          if (handled) {
+            [notHandledOnOperationHandler fulfill];
+          }
+        });
+      }
+      timeoutHandler:^(BOOL handled) {
+        XCTAssertFalse(handled, @"Operation to be handled by timeout handler");
+        if (!handled) {
+          [handledOnTimeoutHandler fulfill];
+        }
+      }];
+  [self waitForExpectations:@[ handledOnTimeoutHandler, notHandledOnOperationHandler ]
+                    timeout:2
+               enforceOrder:YES];
+}
+
+#pragma mark - Private
 
 - (void)_recDispatchAsyncOnGlobalQueueWithNumberOfDispatches:(NSUInteger)numberOfDispatches
                                                 currentLevel:(NSUInteger)currentLevel

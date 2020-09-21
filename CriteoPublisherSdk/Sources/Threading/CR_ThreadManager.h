@@ -39,6 +39,28 @@ NS_ASSUME_NONNULL_BEGIN
 /** Runs with a context interacting with the CR_ThreadManager instance. */
 - (void)runWithCompletionContext:(void (^)(CR_CompletionContext *))block;
 
+typedef void (^dispatchWithTimeoutHandler)(BOOL handled);
+typedef void (^dispatchWithTimeoutOperationHandler)(
+    void (^completionCallback)(dispatchWithTimeoutHandler));
+
+/**
+ * Dispatch asynchronously an operation block and a timeout block concurrently.
+ *
+ * Whatever the outcome of the operation is, both handlers will be called with a flag indicating if
+ * the operation has already been handled.
+ * - When the Operation block completes, it must call the provided block with a callback argument
+ *   that will be called providing the `handled` flag
+ * - When the timeout is reached, the `timeoutHandler` will be called with the `handled` flag.
+ *
+ * @param timeout Timeout value in seconds
+ * @param operationHandler Block to run on Global Queue, with a block callback argument to retrieve
+ * the handled status
+ * @param timeoutHandler Block to be run on timeout, with the handled flag as argument
+ */
+- (void)dispatchAsyncOnGlobalQueueWithTimeout:(NSTimeInterval)timeout
+                             operationHandler:(dispatchWithTimeoutOperationHandler)operationHandler
+                               timeoutHandler:(dispatchWithTimeoutHandler)timeoutHandler;
+
 @end
 
 /**
