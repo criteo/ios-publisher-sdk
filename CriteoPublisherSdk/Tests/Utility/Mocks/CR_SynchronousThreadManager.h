@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_SynchronousThreadManager : CR_ThreadManager
 
+@property(nonatomic, assign) BOOL isTimeout;
+
 @end
 
 NS_ASSUME_NONNULL_END
