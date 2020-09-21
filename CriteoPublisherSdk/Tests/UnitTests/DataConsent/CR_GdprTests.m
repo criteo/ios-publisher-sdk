@@ -162,6 +162,46 @@
   XCTAssertTrue([self.gdpr isConsentGivenForPurpose:1]);
 }
 
+#pragma mark - Publisher restrictions
+
+- (void)testPublisherRestrictionsSimpleCases {
+#define AssertPublisherRestrictions(tcfVersion, restrictions, id, expected)            \
+  do {                                                                                 \
+    [self.userDefaults clearGdpr];                                                     \
+    [self.userDefaults setGdprTcf##tcfVersion##GdprApplies:@YES];                      \
+    [self.userDefaults setGdprTcf2_0PublisherRestrictions:restrictions forPurpose:id]; \
+    XCTAssertEqual([self.gdpr publisherRestrictionsForPurpose:id], expected);          \
+  } while (0);
+
+  AssertPublisherRestrictions(1_1, nil, 1, CR_GdprTcfPublisherRestrictionTypeNone);
+  AssertPublisherRestrictions(2_0, @"", 1, CR_GdprTcfPublisherRestrictionTypeNone);
+  AssertPublisherRestrictions(2_0, @"too short", 1, CR_GdprTcfPublisherRestrictionTypeNone);
+  AssertPublisherRestrictions(2_0, ([NSString stringWithFormat:@"%091d", 0]), 1,
+                              CR_GdprTcfPublisherRestrictionTypeNotAllowed);
+  AssertPublisherRestrictions(2_0, ([NSString stringWithFormat:@"%091d", 1]), 2,
+                              CR_GdprTcfPublisherRestrictionTypeRequireConsent);
+  AssertPublisherRestrictions(2_0, ([NSString stringWithFormat:@"%091d", 2]), 3,
+                              CR_GdprTcfPublisherRestrictionTypeRequireLegitimateInterest);
+  AssertPublisherRestrictions(2_0, ([NSString stringWithFormat:@"%091d", 3]), 4,
+                              CR_GdprTcfPublisherRestrictionTypeNone);
+  AssertPublisherRestrictions(2_0, ([NSString stringWithFormat:@"%090dbad", 0]), 4,
+                              CR_GdprTcfPublisherRestrictionTypeNone);
+
+#undef AssertPublisherRestrictions
+}
+
+- (void)testPublisherRestrictionsMissingWithConsentStringForTcf1_1 {
+  [self.userDefaults setGdprTcf1_1DefaultConsentString];
+  XCTAssertEqual([self.gdpr publisherRestrictionsForPurpose:1],
+                 CR_GdprTcfPublisherRestrictionTypeNone);
+}
+
+- (void)testPublisherRestrictionsMWithConsentStringForTcf2_0 {
+  [self.userDefaults setGdprTcf2_0DefaultConsentString];
+  XCTAssertEqual([self.gdpr publisherRestrictionsForPurpose:1],
+                 CR_GdprTcfPublisherRestrictionTypeNone);
+}
+
 #pragma mark TCF2/TCF2
 
 - (void)testGDPRApplyWithConsentStringForTcf1_1andTcf2_0 {
