@@ -7,7 +7,9 @@
 
 #import "HomePageTableViewController.h"
 #import "NativeAdView.h"
+#import "CriteoNativeAdView.h"
 #import "MoPub.h"
+#import <CriteoMoPubAdapter/CRNativeAdRenderer.h>
 
 @interface HomePageTableViewController () <MPAdViewDelegate, MPInterstitialAdControllerDelegate, MPNativeAdDelegate>
 
@@ -63,7 +65,11 @@
   mopubSettings.renderingViewClass = [NativeAdView class];
   MPNativeAdRendererConfiguration *mopubRenderer = [MPStaticNativeAdRenderer rendererConfigurationWithRendererSettings:mopubSettings];
 
-  MPNativeAdRequest *adRequest = [MPNativeAdRequest requestWithAdUnitIdentifier:@"8dc4347f92944be29071bed7666ba7cf" rendererConfigurations:@[mopubRenderer]];
+  MPStaticNativeAdRendererSettings *criteoSettings = [[MPStaticNativeAdRendererSettings alloc] init];
+  criteoSettings.renderingViewClass = [CriteoNativeAdView class];
+  MPNativeAdRendererConfiguration *criteoRenderer = [CRNativeAdRenderer rendererConfigurationWithRendererSettings:criteoSettings];
+  
+  MPNativeAdRequest *adRequest = [MPNativeAdRequest requestWithAdUnitIdentifier:@"8dc4347f92944be29071bed7666ba7cf" rendererConfigurations:@[mopubRenderer, criteoRenderer]];
 
   MPNativeAdRequestTargeting *targeting = [MPNativeAdRequestTargeting targeting];
   targeting.desiredAssets = [NSSet setWithObjects:kAdTitleKey, kAdTextKey, kAdCTATextKey, kAdIconImageKey, kAdMainImageKey, kAdStarRatingKey, nil]; //The constants correspond to the 6 elements of MoPub native ads

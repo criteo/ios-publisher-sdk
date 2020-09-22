@@ -19,6 +19,8 @@
 		91B54FF124F7B67900E94932 /* CriteoMoPubAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91B54FF024F7B67900E94932 /* CriteoMoPubAdapter.framework */; };
 		91B54FF224F7B67900E94932 /* CriteoMoPubAdapter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 91B54FF024F7B67900E94932 /* CriteoMoPubAdapter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		91D237B024F79F7D00B44B26 /* NativeAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D237AF24F79F7D00B44B26 /* NativeAdView.m */; };
+		91D5B50F2510B9CF00EAB7DB /* CriteoNativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91D5B50E2510B9CF00EAB7DB /* CriteoNativeAdView.xib */; };
+		91D5B5162510BA1200EAB7DB /* CriteoNativeAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D5B5152510BA1200EAB7DB /* CriteoNativeAdView.m */; };
 		91DE913C2510718000EFAF82 /* NativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91DE913B2510718000EFAF82 /* NativeAdView.xib */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +56,9 @@
 		91B54FF024F7B67900E94932 /* CriteoMoPubAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CriteoMoPubAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		91D237AE24F79F7D00B44B26 /* NativeAdView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NativeAdView.h; sourceTree = "<group>"; };
 		91D237AF24F79F7D00B44B26 /* NativeAdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NativeAdView.m; sourceTree = "<group>"; };
+		91D5B50E2510B9CF00EAB7DB /* CriteoNativeAdView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CriteoNativeAdView.xib; sourceTree = "<group>"; };
+		91D5B5142510BA1200EAB7DB /* CriteoNativeAdView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CriteoNativeAdView.h; sourceTree = "<group>"; };
+		91D5B5152510BA1200EAB7DB /* CriteoNativeAdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CriteoNativeAdView.m; sourceTree = "<group>"; };
 		91DE913B2510718000EFAF82 /* NativeAdView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NativeAdView.xib; sourceTree = "<group>"; };
 		A552A4043F3142BE912DD619 /* libPods-CriteoMoPubAdapterTestApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoMoPubAdapterTestApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -132,6 +137,9 @@
 				91D237AE24F79F7D00B44B26 /* NativeAdView.h */,
 				91D237AF24F79F7D00B44B26 /* NativeAdView.m */,
 				91DE913B2510718000EFAF82 /* NativeAdView.xib */,
+				91D5B5142510BA1200EAB7DB /* CriteoNativeAdView.h */,
+				91D5B5152510BA1200EAB7DB /* CriteoNativeAdView.m */,
+				91D5B50E2510B9CF00EAB7DB /* CriteoNativeAdView.xib */,
 			);
 			path = Native;
 			sourceTree = "<group>";
@@ -209,6 +217,7 @@
 				91DE913C2510718000EFAF82 /* NativeAdView.xib in Resources */,
 				5431C7F923D7231F002F0282 /* LaunchScreen.storyboard in Resources */,
 				5431C7F623D7231F002F0282 /* Assets.xcassets in Resources */,
+				91D5B50F2510B9CF00EAB7DB /* CriteoNativeAdView.xib in Resources */,
 				5431C7F423D7231D002F0282 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -263,6 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				91D237B024F79F7D00B44B26 /* NativeAdView.m in Sources */,
+				91D5B5162510BA1200EAB7DB /* CriteoNativeAdView.m in Sources */,
 				5431C81223D72665002F0282 /* HomePageTableViewController.m in Sources */,
 				5431C7EB23D7231D002F0282 /* AppDelegate.m in Sources */,
 				5431C7FC23D7231F002F0282 /* main.m in Sources */,
