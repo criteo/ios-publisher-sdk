@@ -118,7 +118,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
                if (didConsumeBid) {
                  [self.feedbackDelegate onBidConsumed:bid];
                }
-               if (!self.isInSilenceMode && ((bid == nil) || bid.isRenewable)) {
+               if (bid == nil || bid.isRenewable) {
                  [self prefetchBidForAdUnit:slot];
                }
              }];
@@ -224,7 +224,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 
 - (void)fetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits
          cdbResponseHandler:(CR_CdbResponseHandler)responseHandler {
-  if ([self shouldCancelCdbCall]) {
+  if ([self cannotCallCdb]) {
     if (responseHandler) {
       responseHandler(nil);
     }
@@ -279,12 +279,15 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
   [self.feedbackDelegate onCdbCallResponse:cdbResponse fromRequest:cdbRequest];
 }
 
-- (BOOL)shouldCancelCdbCall {
+- (BOOL)cannotCallCdb {
   if (!config) {
-    CLog(@"Config hasn't been fetched. So no bids will be fetched.");
+    CLog(@"Cannot call CDB: Config hasn't been fetched.");
     return YES;
   } else if ([config killSwitch]) {
-    CLog(@"killSwitch is engaged. No bid will be fetched.");
+    CLog(@"Cannot call CDB: killSwitch is engaged.");
+    return YES;
+  } else if (self.isInSilenceMode) {
+    CLog(@"Cannot call CDB: User level silent Mode.");
     return YES;
   }
   return NO;
