@@ -189,35 +189,31 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
         [self fetchBidsForAdUnits:@[ adUnit ]
                cdbResponseHandler:^(CR_CdbResponse *cdbResponse) {
                  completionHandler(^(BOOL handled) {
-                   [self.threadManager dispatchAsyncOnMainQueue:^{
-                     if (!handled) {
-                       NSAssert(cdbResponse.cdbBids.count <= 1,
-                                @"During a live request, only one bid will be fetched at a time.");
-                       if (cdbResponse.cdbBids.count == 1) {
-                         CR_CdbBid *bid = cdbResponse.cdbBids[0];
-                         responseHandler(bid);
-                       } else {
-                         responseHandler(nil);
-                       }
+                   if (!handled) {
+                     NSAssert(cdbResponse.cdbBids.count <= 1,
+                              @"During a live request, only one bid will be fetched at a time.");
+                     if (cdbResponse.cdbBids.count == 1) {
+                       CR_CdbBid *bid = cdbResponse.cdbBids[0];
+                       responseHandler(bid);
                      } else {
-                       [self cacheBidsFromResponse:cdbResponse];
+                       responseHandler(nil);
                      }
-                   }];
+                   } else {
+                     [self cacheBidsFromResponse:cdbResponse];
+                   }
                  });
                }];
       }
       timeoutHandler:^(BOOL handled) {
         if (!handled) {
-          [self.threadManager dispatchAsyncOnMainQueue:^{
-            CR_CdbBid *bid = [self getBid:adUnit
-                              bidConsumed:^(CR_CdbBid *bid, BOOL didConsumeBid) {
-                                // TODO Check CSM logic with live bidding
-                                if (didConsumeBid) {
-                                  [self.feedbackDelegate onBidConsumed:bid];
-                                }
-                              }];
-            responseHandler(bid);
-          }];
+          CR_CdbBid *bid = [self getBid:adUnit
+                            bidConsumed:^(CR_CdbBid *bid, BOOL didConsumeBid) {
+                              // TODO Check CSM logic with live bidding
+                              if (didConsumeBid) {
+                                [self.feedbackDelegate onBidConsumed:bid];
+                              }
+                            }];
+          responseHandler(bid);
         }
       }];
 }
