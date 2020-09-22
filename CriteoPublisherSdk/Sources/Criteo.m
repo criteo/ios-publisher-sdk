@@ -135,7 +135,7 @@
 }
 
 - (CR_CdbBid *)getBid:(CR_CacheAdUnit *)slot {
-  return [self.bidManager getBid:slot];
+  return [self.bidManager getBidThenFetch:slot];
 }
 
 - (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken

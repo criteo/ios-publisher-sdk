@@ -109,17 +109,28 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
   [cacheManager initSlots:slots];
 }
 
-- (CR_CdbBid *)getBid:(CR_CacheAdUnit *)slot {
+- (CR_CdbBid *)getBidThenFetch:(CR_CacheAdUnit *)slot {
   CR_CdbBid *bid = nil;
   @try {
-    bid = [self unsafeGetBid:slot];
+    bid = [self getBid:slot
+           bidConsumed:^(CR_CdbBid *bid, BOOL didConsumeBid) {
+             [self.threadManager dispatchAsyncOnGlobalQueue:^{
+               if (didConsumeBid) {
+                 [self.feedbackDelegate onBidConsumed:bid];
+               }
+               if (!self.isInSilenceMode && ((bid == nil) || bid.isRenewable)) {
+                 [self prefetchBidForAdUnit:slot];
+               }
+             }];
+           }];
   } @catch (NSException *exception) {
     CLogException(exception);
   }
   return bid;
 }
 
-- (CR_CdbBid *)unsafeGetBid:(CR_CacheAdUnit *)slot {
+- (CR_CdbBid *)getBid:(CR_CacheAdUnit *)slot
+          bidConsumed:(void (^)(CR_CdbBid *bid, BOOL didConsumeBid))bidConsumed {
   CR_CdbBid *bid = [cacheManager getBidForAdUnit:slot];
   CR_CdbBid *result = bid;
   BOOL didConsumeBid = NO;
@@ -139,15 +150,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
     didConsumeBid = YES;
   }
 
-  [self.threadManager dispatchAsyncOnGlobalQueue:^{
-    if (didConsumeBid) {
-      [self.feedbackDelegate onBidConsumed:bid];
-    }
-    if (!self.isInSilenceMode && ((bid == nil) || bid.isRenewable)) {
-      [self prefetchBidForAdUnit:slot];
-    }
-  }];
-
+  bidConsumed(bid, didConsumeBid);
   return result;
 }
 
@@ -206,7 +209,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
       timeoutHandler:^(BOOL handled) {
         if (!handled) {
           [self.threadManager dispatchAsyncOnMainQueue:^{
-            responseHandler([self getBid:adUnit]);
+            responseHandler([self getBidThenFetch:adUnit]);
           }];
         }
       }];
@@ -307,13 +310,13 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
     return;
   }
 
-  CR_CdbBid *fetchedBid = [self getBid:adUnit];
+  CR_CdbBid *fetchedBid = [self getBidThenFetch:adUnit];
   [self.headerBidding enrichRequest:adRequest withBid:fetchedBid adUnit:adUnit];
 }
 
 - (CRBidResponse *)bidResponseForCacheAdUnit:(CR_CacheAdUnit *)cacheAdUnit
                                   adUnitType:(CRAdUnitType)adUnitType {
-  CR_CdbBid *bid = [self getBid:cacheAdUnit];
+  CR_CdbBid *bid = [self getBidThenFetch:cacheAdUnit];
   if ([bid isEmpty]) {
     return [[CRBidResponse alloc] initWithPrice:0.0 bidSuccess:NO bidToken:nil];
   }

@@ -251,7 +251,7 @@
                                         error:nil];
   [self.bidManager prefetchBidForAdUnit:self.adUnit];
 
-  [self.bidManager getBid:self.adUnit];
+  [self.bidManager getBidThenFetch:self.adUnit];
 
   CR_FeedbackMessage *message = [self.feedbackSendingQueue peek:1][0];
   XCTAssertEqualObjects(message, expected);
@@ -278,7 +278,7 @@
                                         error:nil];
   [self.bidManager prefetchBidForAdUnit:self.adUnit];
 
-  [self.bidManager getBid:self.adUnit];
+  [self.bidManager getBidThenFetch:self.adUnit];
 
   CR_FeedbackMessage *message = [self.feedbackSendingQueue peek:1][0];
   XCTAssertEqualObjects(message, expected);
@@ -295,7 +295,7 @@
   [self.bidManager registerWithSlots:@[ self.adUnit ]];  // fullfill the cache with an empty bid
   [self.bidManager prefetchBidForAdUnit:self.adUnit];
 
-  [self.bidManager getBid:self.adUnit];
+  [self.bidManager getBidThenFetch:self.adUnit];
 
   CR_FeedbackMessage *message = self.lastSentMessages[0];
   XCTAssertEqualObjects(message, expected);
@@ -371,7 +371,7 @@
                                         error:nil];
   [self.bidManager prefetchBidForAdUnit:self.adUnit];
 
-  [self.bidManager getBid:self.adUnit];
+  [self.bidManager getBidThenFetch:self.adUnit];
 
   XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
   XCTAssertEqual([self.feedbackSendingQueue size], 1);
@@ -381,7 +381,7 @@
   CR_CdbBid *expiredBid = CR_CdbBidBuilder.new.adUnit(self.adUnit).expired().build;
   self.cacheManager.bidCache[self.adUnit] = expiredBid;
 
-  [self.bidManager getBid:self.adUnit];
+  [self.bidManager getBidThenFetch:self.adUnit];
 
   XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
   XCTAssertEqual([self.feedbackSendingQueue size], 1);
@@ -396,7 +396,7 @@
   [self.bidManager prefetchBidForAdUnit:self.adUnit];
   self.lastSentMessages = nil;
 
-  [self.bidManager getBid:self.adUnit];
+  [self.bidManager getBidThenFetch:self.adUnit];
 
   XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
   XCTAssertEqual([self.feedbackSendingQueue size], 0);
