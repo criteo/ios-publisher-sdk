@@ -280,7 +280,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 #pragma mark - Live Bidding
 
 - (void)testLiveBid_GivenResponseBeforeTimeBudget_ThenBidFromResponseGiven {
-  CR_CdbBid *liveBid = [self givenApiHandlerRespondBid];
+  CR_CdbBid *liveBid = [self givenApiHandlerRespondValidBid];
   self.threadManager.isTimeout = NO;
 
   // Bid Manager returns bid from cdb call
@@ -296,7 +296,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 }
 
 - (void)testLiveBid_GivenResponseAfterTimeBudget_ThenBidFromCacheGiven {
-  CR_CdbBid *liveBid = [self givenApiHandlerRespondBid];
+  CR_CdbBid *liveBid = [self givenApiHandlerRespondValidBid];
   self.threadManager.isTimeout = YES;
 
   // Bid Manager returns bid from cache
@@ -320,6 +320,21 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                       bidResponseHandler:^(CR_CdbBid *bid) {
                         XCTAssertNil(bid);
                       }];
+}
+
+- (void)testLiveBid_GivenSilentBidResponse_ThenNoResponseGiven {
+  CR_CdbBid *silentBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).silenced().build;
+  [self givenApiHandlerRespondBid:silentBid];
+
+  [self.bidManager fetchLiveBidForAdUnit:self.adUnit1
+                      bidResponseHandler:^(CR_CdbBid *bid) {
+                          XCTAssertNil(bid);
+                      }];
+  CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
+
+  // Silent bid from cdb call has been cached
+  OCMVerify([self.cacheManager setBid:silentBid]);
+  XCTAssertEqual(self.cacheManager.bidCache[self.adUnit1], silentBid);
 }
 
 #pragma mark - Header Bidding
@@ -354,8 +369,12 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
 #pragma mark - Private
 
-- (CR_CdbBid *)givenApiHandlerRespondBid {
-  CR_CdbBid *bid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).build;
+- (CR_CdbBid *)givenApiHandlerRespondValidBid {
+  CR_CdbBid *validBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).build;
+  return [self givenApiHandlerRespondBid:validBid];
+}
+
+- (CR_CdbBid *)givenApiHandlerRespondBid:(CR_CdbBid *)bid {
   CR_CdbResponse *cdbResponseMock = OCMClassMock(CR_CdbResponse.class);
   OCMStub([cdbResponseMock cdbBids]).andReturn(@[ bid ]);
   OCMStub([self.apiHandlerMock callCdb:[OCMArg any]
