@@ -225,6 +225,9 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 - (void)fetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits
          cdbResponseHandler:(CR_CdbResponseHandler)responseHandler {
   if ([self shouldCancelCdbCall]) {
+    if (responseHandler) {
+      responseHandler(nil);
+    }
     return;
   }
 
