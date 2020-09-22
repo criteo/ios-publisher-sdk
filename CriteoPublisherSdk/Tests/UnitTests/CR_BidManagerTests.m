@@ -291,7 +291,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
 
   // Bid from cdb call has not been cached
-  OCMReject([self.cacheManager setBid:liveBid]);
+  OCMReject([self.cacheManager setBid:[OCMArg any]]);
   XCTAssertNotEqual(self.cacheManager.bidCache[self.adUnit1], liveBid);
 }
 
