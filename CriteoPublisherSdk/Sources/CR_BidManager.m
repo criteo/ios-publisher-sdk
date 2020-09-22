@@ -197,8 +197,10 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
                        if (bid.isInSilenceMode && !bid.isExpired) {
                          [self cacheBidsFromResponse:cdbResponse];
                          responseHandler(nil);
-                       } else {
+                       } else if (bid.isValid && !bid.isExpired) {
                          responseHandler(bid);
+                       } else {
+                         responseHandler(nil);
                        }
                      } else {
                        responseHandler(nil);
