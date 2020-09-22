@@ -109,15 +109,6 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
   [cacheManager initSlots:slots];
 }
 
-- (NSDictionary *)getBids:(CR_CacheAdUnitArray *)slots {
-  NSMutableDictionary *bids = [[NSMutableDictionary alloc] init];
-  for (CR_CacheAdUnit *slot in slots) {
-    CR_CdbBid *bid = [self getBid:slot];
-    bids[slot] = bid;
-  }
-  return bids;
-}
-
 - (CR_CdbBid *)getBid:(CR_CacheAdUnit *)slot {
   CR_CdbBid *bid = nil;
   @try {

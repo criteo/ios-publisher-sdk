@@ -66,8 +66,6 @@ typedef void (^CR_BidResponseHandler)(CR_CdbBid *bid);
 
 - (void)registerWithSlots:(CR_CacheAdUnitArray *)slots;
 
-- (NSDictionary *)getBids:(CR_CacheAdUnitArray *)slots;
-
 - (CR_CdbBid *)getBid:(CR_CacheAdUnit *)slot;
 
 - (CRBidResponse *)bidResponseForCacheAdUnit:(CR_CacheAdUnit *)cacheAdUnit
