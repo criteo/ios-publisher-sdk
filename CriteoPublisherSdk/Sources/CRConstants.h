@@ -20,7 +20,7 @@
 #ifndef CRConstants_h
 #define CRConstants_h
 
-#define CRITEO_PUBLISHER_SDK_VERSION @"3.10.0"
+#define CRITEO_PUBLISHER_SDK_VERSION @"4.0.0-alpha2"
 
 #define CRITEO_DEFAULT_BID_TTL_IN_SECONDS 15 * 60
 
