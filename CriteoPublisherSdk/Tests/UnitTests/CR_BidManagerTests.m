@@ -130,8 +130,8 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 }
 
 - (void)testGetBidForCachedAdUnits {
-  CR_CdbBid *bid1 = [self.bidManager getBid:self.adUnit1];
-  CR_CdbBid *bid2 = [self.bidManager getBid:self.adUnit2];
+  CR_CdbBid *bid1 = [self.bidManager getBidThenFetch:self.adUnit1];
+  CR_CdbBid *bid2 = [self.bidManager getBidThenFetch:self.adUnit2];
 
   XCTAssertEqualObjects(self.bid1, bid1);
   XCTAssertEqualObjects(self.bid2, bid2);
@@ -140,7 +140,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 }
 
 - (void)testGetBidForUncachedAdUnit {
-  CR_CdbBid *bid = [self.bidManager getBid:self.adUnitUncached];
+  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnitUncached];
 
   CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnitUncached ]);
   XCTAssert(bid.isEmpty);
@@ -149,7 +149,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 - (void)testGetEmptyBid {
   OCMReject([self.cacheManager removeBidForAdUnit:self.adUnitForEmptyBid]);
 
-  CR_CdbBid *bid = [self.bidManager getBid:self.adUnitForEmptyBid];
+  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnitForEmptyBid];
 
   CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnitForEmptyBid ]);
   XCTAssert(bid.isEmpty);
@@ -161,7 +161,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
   CR_OCMockRejectCallCdb(self.apiHandlerMock, @[ self.adUnitUncached ]);
 
-  CR_CdbBid *bid = [self.bidManager getBid:self.adUnitUncached];
+  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnitUncached];
 
   XCTAssert(bid.isEmpty);
 }
@@ -172,7 +172,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
   CR_OCMockRejectCallCdb(self.apiHandlerMock, @[ self.adUnitForEmptyBid ]);
 
-  CR_CdbBid *bid = [self.bidManager getBid:self.adUnitForEmptyBid];
+  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnitForEmptyBid];
 
   XCTAssert(bid.isEmpty);
 }
@@ -180,7 +180,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 - (void)testRegistrationSetEmptyBid {
   [self.bidManager registerWithSlots:@[ self.adUnitUncached ]];
 
-  CR_CdbBid *bid = [self.bidManager getBid:self.adUnitUncached];
+  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnitUncached];
 
   XCTAssert(bid.isEmpty);
 }
@@ -194,8 +194,8 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
   CR_OCMockRejectCallCdb(self.apiHandlerMock, [OCMArg any]);
 
-  CR_CdbBid *bid1 = [self.bidManager getBid:self.adUnit1];
-  CR_CdbBid *bid2 = [self.bidManager getBid:self.adUnit2];
+  CR_CdbBid *bid1 = [self.bidManager getBidThenFetch:self.adUnit1];
+  CR_CdbBid *bid2 = [self.bidManager getBidThenFetch:self.adUnit2];
 
   XCTAssertEqualObjects(self.bid1, bid1);
   XCTAssertEqualObjects(self.bid2, bid2);
@@ -206,7 +206,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   self.cacheManager.bidCache[self.adUnit1] = self.bid1;
   CR_OCMockRejectCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
 
-  CR_CdbBid *bid = [self.bidManager getBid:self.adUnit1];
+  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnit1];
 
   XCTAssert(bid.isEmpty);
 }
@@ -215,7 +215,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).silenced().expired().build;
   self.cacheManager.bidCache[self.adUnit1] = self.bid1;
 
-  CR_CdbBid *bid = [self.bidManager getBid:self.adUnit1];
+  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnit1];
 
   XCTAssert(bid.isEmpty);
   CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
@@ -252,7 +252,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).noBid().build;
   self.cacheManager.bidCache[self.adUnit1] = self.bid1;
 
-  CR_CdbBid *bid = [self.bidManager getBid:self.adUnit1];
+  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnit1];
 
   XCTAssertTrue(bid.isEmpty);
   CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
@@ -262,7 +262,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).expired().build;
   self.cacheManager.bidCache[self.adUnit1] = self.bid1;
 
-  CR_CdbBid *bid = [self.bidManager getBid:self.adUnit1];
+  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnit1];
 
   XCTAssertTrue(bid.isEmpty);
 }
