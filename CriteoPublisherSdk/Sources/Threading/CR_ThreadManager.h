@@ -52,6 +52,23 @@ typedef void (^dispatchWithTimeoutOperationHandler)(
  *   that will be called providing the `handled` flag
  * - When the timeout is reached, the `timeoutHandler` will be called with the `handled` flag.
  *
+ * Example use:
+ * [self.manager dispatchAsyncOnGlobalQueueWithTimeout:5 operationHandler:
+ * ^void(void (^completionHandler)(dispatchWithTimeoutHandler)) {
+ *   // Long running task that is subject to timeout, can be asynchronous
+ *   // On completion you MUST call the handler that will call back with the handled status:
+ *   completionHandler(^(BOOL handled) {
+ *       if (handled) {
+ *         // means timeout reached before completion
+ *       }
+ *   });
+ * }
+ * timeoutHandler:^(BOOL handled) {
+ *   if (!handled) {
+ *     // means timeout reached before completion
+ *   }
+ * }];
+ *
  * @param timeout Timeout value in seconds
  * @param operationHandler Block to run on Global Queue, with a block callback argument to retrieve
  * the handled status
