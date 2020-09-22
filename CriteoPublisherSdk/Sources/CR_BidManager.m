@@ -209,7 +209,14 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
       timeoutHandler:^(BOOL handled) {
         if (!handled) {
           [self.threadManager dispatchAsyncOnMainQueue:^{
-            responseHandler([self getBidThenFetch:adUnit]);
+            CR_CdbBid *bid = [self getBid:adUnit
+                              bidConsumed:^(CR_CdbBid *bid, BOOL didConsumeBid) {
+                                // TODO Check CSM logic with live bidding
+                                if (didConsumeBid) {
+                                  [self.feedbackDelegate onBidConsumed:bid];
+                                }
+                              }];
+            responseHandler(bid);
           }];
         }
       }];
