@@ -130,10 +130,11 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 }
 
 - (void)testGetBidForCachedAdUnits {
-  NSDictionary *bids = [self.bidManager getBids:@[ self.adUnit1, self.adUnit2 ]];
+  CR_CdbBid *bid1 = [self.bidManager getBid:self.adUnit1];
+  CR_CdbBid *bid2 = [self.bidManager getBid:self.adUnit2];
 
-  XCTAssertEqualObjects(self.bid1, bids[self.adUnit1]);
-  XCTAssertEqualObjects(self.bid2, bids[self.adUnit2]);
+  XCTAssertEqualObjects(self.bid1, bid1);
+  XCTAssertEqualObjects(self.bid2, bid2);
   CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
   CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit2 ]);
 }
@@ -193,12 +194,11 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
   CR_OCMockRejectCallCdb(self.apiHandlerMock, [OCMArg any]);
 
-  NSDictionary *bids =
-      [self.bidManager getBids:@[ self.adUnit1, self.adUnit2, self.adUnitUncached ]];
+  CR_CdbBid *bid1 = [self.bidManager getBid:self.adUnit1];
+  CR_CdbBid *bid2 = [self.bidManager getBid:self.adUnit2];
 
-  XCTAssertEqualObjects(self.bid1, bids[self.adUnit1]);
-  XCTAssertEqualObjects(self.bid2, bids[self.adUnit2]);
-  XCTAssertTrue([bids[self.adUnitUncached] isEmpty]);
+  XCTAssertEqualObjects(self.bid1, bid1);
+  XCTAssertEqualObjects(self.bid2, bid2);
 }
 
 - (void)testGetBidForAdUnitInSilenceMode {
