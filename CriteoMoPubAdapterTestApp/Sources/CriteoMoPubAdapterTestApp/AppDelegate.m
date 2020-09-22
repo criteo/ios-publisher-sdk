@@ -18,6 +18,7 @@
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   MPMoPubConfiguration *config = [[MPMoPubConfiguration alloc]
       initWithAdUnitIdForAppInitialization:@"5f6c4592630f4f96bc3106b6ed0cc3f1"];
+  config.loggingLevel = MPBLogLevelDebug;
   [[MoPub sharedInstance] initializeSdkWithConfiguration:config completion:nil];
 
   return YES;
