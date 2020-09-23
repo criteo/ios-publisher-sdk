@@ -371,6 +371,23 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   XCTAssertNotEqual(self.cacheManager.bidCache[self.adUnit1], expiredBid);
 }
 
+- (void)testLiveBid_GivenNoBidResponse_ThenNoResponseGiven {
+  CR_CdbBid *noBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).noBid().build;
+  [self givenApiHandlerRespondBid:noBid];
+
+  // No bid from cdb call has not been cached
+  OCMReject([self.cacheManager setBid:[OCMArg any]]);
+
+  [self.bidManager fetchLiveBidForAdUnit:self.adUnit1
+                      bidResponseHandler:^(CR_CdbBid *bid) {
+                        XCTAssertNil(bid);
+                      }];
+  CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
+
+  // No bid from cdb call has not been cached
+  XCTAssertNotEqual(self.cacheManager.bidCache[self.adUnit1], noBid);
+}
+
 #pragma mark - Header Bidding
 
 - (void)testAddCriteoBidToNonBiddableObjectsDoesNotCrash {
