@@ -111,7 +111,7 @@
   self.cdbResponseWithInvalidBid = [[CR_CdbResponse alloc] init];
   self.cdbResponseWithInvalidBid.cdbBids = @[ self.invalidBid ];
 
-  NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:0];
+  NSDate *date = [NSDate date];
   NSTimeInterval dateInMilliseconds = [date timeIntervalSince1970] * 1000.0;
   self.dateInMillisecondsNumber = [[NSNumber alloc] initWithDouble:dateInMilliseconds];
 
@@ -253,7 +253,7 @@
 
   [self.bidManager getBidThenFetch:self.adUnit];
 
-  CR_FeedbackMessage *message = [self.feedbackSendingQueue peek:1][0];
+  CR_FeedbackMessage *message = self.lastSentMessages[0];
   XCTAssertEqualObjects(message, expected);
 }
 
@@ -280,7 +280,7 @@
 
   [self.bidManager getBidThenFetch:self.adUnit];
 
-  CR_FeedbackMessage *message = [self.feedbackSendingQueue peek:1][0];
+  CR_FeedbackMessage *message = self.lastSentMessages[0];
   XCTAssertEqualObjects(message, expected);
 }
 
@@ -373,8 +373,8 @@
 
   [self.bidManager getBidThenFetch:self.adUnit];
 
-  XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
-  XCTAssertEqual([self.feedbackSendingQueue size], 1);
+  XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 1);
+  XCTAssertEqual([self.lastSentMessages count], 1);
 }
 
 - (void)testReadyToSendOnBidExpired {
@@ -384,7 +384,7 @@
   [self.bidManager getBidThenFetch:self.adUnit];
 
   XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
-  XCTAssertEqual([self.feedbackSendingQueue size], 1);
+  XCTAssertEqual([self.lastSentMessages count], 1);
 }
 
 - (void)testReadyToSendOnBidStateOnEmptyBid {
@@ -400,7 +400,7 @@
 
   XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
   XCTAssertEqual([self.feedbackSendingQueue size], 0);
-  XCTAssertNil(self.lastSentMessages);
+  XCTAssertEqual([self.lastSentMessages count], 1);
 }
 
 #pragma mark - Private
@@ -409,9 +409,9 @@
                                   cdbResponse:(CR_CdbResponse *_Nullable)cdbResponse
                                         error:(NSError *_Nullable)error {
   id beforeCdbCall = [OCMArg invokeBlockWithArgs:cdbRequest, nil];
-  id completion = [OCMArg invokeBlockWithArgs:(cdbRequest ? cdbRequest : [NSNull null]),
-                                              (cdbResponse ? cdbResponse : [NSNull null]),
-                                              (error ? error : [NSNull null]), nil];
+  id completion = [OCMArg invokeBlockWithArgs:((id)cdbRequest ?: [NSNull null]),
+                                              ((id)cdbResponse ?: [NSNull null]),
+                                              ((id)error ?: [NSNull null]), nil];
   OCMStub([self.apiHandlerMock callCdb:[OCMArg any]
                                consent:[OCMArg any]
                                 config:[OCMArg any]
