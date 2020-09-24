@@ -91,6 +91,31 @@
   [self verifyControllerCalled:NO];
 }
 
+#pragma mark - Vendor consent
+
+- (void)testGuard_GivenCriteoVendorNoConsent_DoNothing {
+  self.consent.gdprMock.vendorConsents[91] = @NO;
+
+  [self verifyControllerCalled:NO];
+}
+
+- (void)testGuard_GivenCriteoVendorConsent_CallDelegate {
+  self.consent.gdprMock.vendorConsents[91] = @YES;
+
+  [self verifyControllerCalled:YES];
+}
+
+- (void)testGuard_GivenAllVendorConsent_CallDelegate {
+  // Mock by default give all consents
+  [self verifyControllerCalled:YES];
+}
+
+- (void)testGuard_GivenOtherVendorNoConsent_CallDelegate {
+  self.consent.gdprMock.vendorConsents[19] = @NO;
+
+  [self verifyControllerCalled:YES];
+}
+
 #pragma mark - Private
 
 - (void)verifyControllerCalled:(BOOL)called {

@@ -74,6 +74,7 @@
  * The TCF entries that are considered are the following:
  * IABTCF_PurposeConsents: User consent to purpose
  * IABTCF_PublisherRestrictions{ID}: Publisher restrictions on purpose {ID}
+ * IABTCF_VendorConsents: Consent for vendors
  *
  * For more details: https://iabeurope.eu/iab-europe-transparency-consent-framework-policies/
  */
@@ -85,7 +86,8 @@
   BOOL hasPublisherRestrictions =
       publisherRestriction == CR_GdprTcfPublisherRestrictionTypeNotAllowed ||
       publisherRestriction == CR_GdprTcfPublisherRestrictionTypeRequireLegitimateInterest;
-  return hasUserConsent && !hasPublisherRestrictions;
+  BOOL hasVendorConsent = [gdpr isVendorConsentGiven];
+  return hasUserConsent && !hasPublisherRestrictions && hasVendorConsent;
 }
 
 - (id<CR_FeedbackDelegate>)controller {
