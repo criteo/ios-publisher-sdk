@@ -45,110 +45,73 @@
                                                            consent:self.consent];
 }
 
-- (void)testOnCdbCallStarted_GivenPurpose1NoConsent_DoNothing {
-  CR_CdbRequest *request = OCMClassMock([CR_CdbRequest class]);
+#pragma mark - Purpose consent
+
+- (void)testGuard_GivenPurpose1NoConsent_DoNothing {
   self.consent.gdprMock.purposeConsents[1] = @NO;
 
-  [self.guard onCdbCallStarted:request];
-
-  OCMVerifyAll((id)self.controller);
+  [self verifyControllerCalled:NO];
 }
 
-- (void)testOnCdbCallStarted_GivenPurpose7NoConsent_CallDelegate {
-  CR_CdbRequest *request = OCMClassMock([CR_CdbRequest class]);
+- (void)testGuard_GivenPurpose7NoConsent_CallDelegate {
   self.consent.gdprMock.purposeConsents[7] = @NO;
 
-  OCMExpect([self.controller onCdbCallStarted:request]);
-
-  [self.guard onCdbCallStarted:request];
-
-  OCMVerifyAll((id)self.controller);
+  [self verifyControllerCalled:YES];
 }
 
-- (void)testOnCdbCallStarted_GivenAllPurposesConsent_CallDelegate {
-  CR_CdbRequest *request = OCMClassMock([CR_CdbRequest class]);
-
-  OCMExpect([self.controller onCdbCallStarted:request]);
-
-  [self.guard onCdbCallStarted:request];
-
-  OCMVerifyAll((id)self.controller);
+- (void)testGuard_GivenAllPurposesConsent_CallDelegate {
+  // Mock by default give all consents
+  [self verifyControllerCalled:YES];
 }
 
-- (void)testOnCdbCallResponse_GivenNoConsent_DoNothing {
+#pragma mark - Publisher Restrictions
+
+- (void)testGuard_GivenPublisherNotAllowed_DoNothing {
+  self.consent.gdprMock.publisherRestrictions[1] = [NSString stringWithFormat:@"%91d", 0];
+
+  [self verifyControllerCalled:NO];
+}
+
+- (void)testGuard_GivenPublisherRequireConsentAndHasConsent_CallDelegate {
+  self.consent.gdprMock.publisherRestrictions[1] = [NSString stringWithFormat:@"%91d", 1];
+
+  [self verifyControllerCalled:YES];
+}
+
+- (void)testGuard_GivenPublisherRequireConsentAndNoConsent_DoNothing {
+  self.consent.gdprMock.publisherRestrictions[1] = [NSString stringWithFormat:@"%91d", 1];
+  self.consent.gdprMock.purposeConsents[1] = @NO;
+
+  [self verifyControllerCalled:NO];
+}
+
+- (void)testGuard_GivenPublisherRequireLegitimateInterest_DoNothing {
+  self.consent.gdprMock.publisherRestrictions[1] = [NSString stringWithFormat:@"%91d", 2];
+
+  [self verifyControllerCalled:NO];
+}
+
+#pragma mark - Private
+
+- (void)verifyControllerCalled:(BOOL)called {
   CR_CdbRequest *request = OCMClassMock([CR_CdbRequest class]);
   CR_CdbResponse *response = OCMClassMock([CR_CdbResponse class]);
-  self.consent.gdprMock.purposeConsents[1] = @NO;
-
-  [self.guard onCdbCallResponse:response fromRequest:request];
-
-  OCMVerifyAll((id)self.controller);
-}
-
-- (void)testOnCdbCallResponse_GivenConsent_CallDelegate {
-  CR_CdbRequest *request = OCMClassMock([CR_CdbRequest class]);
-  CR_CdbResponse *response = OCMClassMock([CR_CdbResponse class]);
-
-  OCMExpect([self.controller onCdbCallResponse:response fromRequest:request]);
-
-  [self.guard onCdbCallResponse:response fromRequest:request];
-
-  OCMVerifyAll((id)self.controller);
-}
-
-- (void)testOnCdbCallFailure_GivenNoConsent_DoNothing {
-  CR_CdbRequest *request = OCMClassMock([CR_CdbRequest class]);
   NSError *failure = OCMClassMock([NSError class]);
-  self.consent.gdprMock.purposeConsents[1] = @NO;
-
-  [self.guard onCdbCallFailure:failure fromRequest:request];
-
-  OCMVerifyAll((id)self.controller);
-}
-
-- (void)testOnCdbCallFailure_GivenConsent_CallDelegate {
-  CR_CdbRequest *request = OCMClassMock([CR_CdbRequest class]);
-  NSError *failure = OCMClassMock([NSError class]);
-
-  OCMExpect([self.controller onCdbCallFailure:failure fromRequest:request]);
-
-  [self.guard onCdbCallFailure:failure fromRequest:request];
-
-  OCMVerifyAll((id)self.controller);
-}
-
-- (void)testOnBidConsumed_GivenNoConsent_DoNothing {
   CR_CdbBid *bid = OCMClassMock([CR_CdbBid class]);
-  self.consent.gdprMock.purposeConsents[1] = @NO;
-
+  if (called) {
+    OCMExpect([self.controller onCdbCallStarted:request]);
+    OCMExpect([self.controller onCdbCallResponse:response fromRequest:request]);
+    OCMExpect([self.controller onCdbCallFailure:failure fromRequest:request]);
+    OCMExpect([self.controller onBidConsumed:bid]);
+    OCMExpect([self.controller sendFeedbackBatch]);
+  }
+  [self.guard onCdbCallStarted:request];
+  [self.guard onCdbCallResponse:response fromRequest:request];
+  [self.guard onCdbCallFailure:failure fromRequest:request];
   [self.guard onBidConsumed:bid];
-
-  OCMVerifyAll((id)self.controller);
-}
-
-- (void)testOnBidConsumed_GivenConsent_CallDelegate {
-  CR_CdbBid *bid = OCMClassMock([CR_CdbBid class]);
-
-  OCMExpect([self.controller onBidConsumed:bid]);
-
-  [self.guard onBidConsumed:bid];
-
-  OCMVerifyAll((id)self.controller);
-}
-
-- (void)testSendFeedbackBatch_GivenNoConsent_DoNothing {
-  self.consent.gdprMock.purposeConsents[1] = @NO;
-
   [self.guard sendFeedbackBatch];
 
-  OCMVerifyAll((id)self.controller);
-}
-
-- (void)testSendFeedbackBatch_GivenConsent_CallDelegate {
-  OCMExpect([self.controller sendFeedbackBatch]);
-
-  [self.guard sendFeedbackBatch];
-
+  // Controller mock being strict, any non expected call will fail
   OCMVerifyAll((id)self.controller);
 }
 
