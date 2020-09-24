@@ -70,6 +70,14 @@ extern NSString *const CR_GdprConsentStringForTcf1_1Key;
  */
 - (CR_GdprTcfPublisherRestrictionType)publisherRestrictionsForPurpose:(NSUInteger)id;
 
+/**
+ * Gives the status of vendor consent for Criteo
+ * Note: As this is a TCF 2 only feature, it will be true for TCF 1
+ *
+ * @return YES if consent is given for Criteo vendor
+ */
+- (BOOL)isVendorConsentGiven;
+
 @end
 
 @interface CR_GdprVersionWithKeys : NSObject <CR_GdprVersion>
@@ -81,6 +89,7 @@ extern NSString *const CR_GdprConsentStringForTcf1_1Key;
 - (instancetype)initWithConsentStringKey:(NSString *)consentStringKey
                       purposeConsentsKey:(nullable NSString *)purposeConsentsKey
           publisherRestrictionsKeyFormat:(nullable NSString *)publisherRestrictionsKeyFormat
+                       vendorConsentsKey:(nullable NSString *)vendorConsentsKey
                               appliesKey:(NSString *)appliesKey
                               tcfVersion:(CR_GdprTcfVersion)tcfVersion
                             userDefaults:(NSUserDefaults *)userDefaults NS_DESIGNATED_INITIALIZER;

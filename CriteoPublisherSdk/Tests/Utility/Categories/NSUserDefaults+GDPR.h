@@ -44,9 +44,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Purpose Consents
 
-- (void)setGdprTcf2_0PurposeConsents:(nullable NSObject *)purposeConsents;
+- (void)setGdprTcf2_0PurposeConsents:(nullable NSString *)purposeConsents;
 - (void)setGdprTcf2_0PublisherRestrictions:(nullable NSObject *)publisherRestrictions
                                 forPurpose:(NSUInteger)id;
+- (void)setGdprTcf2_0VendorConsents:(nullable NSString *)vendorConsents;
 
 @end
 
