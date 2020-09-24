@@ -28,6 +28,8 @@ public class CR_GdprMock: CR_Gdpr {
     NSMutableArray(array: Array(repeating: "", count: 10 + 1))  // +1 for zero index
   @objc public var vendorConsents: NSMutableArray =
     NSMutableArray(array: Array(repeating: NSNumber(true), count: 91 + 1))  // +1 for zero index
+  @objc public var vendorLegitimateInterests: NSMutableArray =
+    NSMutableArray(array: Array(repeating: NSNumber(true), count: 91 + 1))  // +1 for zero index
 
   override init(userDefaults: UserDefaults) {
     super.init(userDefaults: userDefaults)
@@ -82,5 +84,9 @@ public class CR_GdprMock: CR_Gdpr {
 
   public override func isVendorConsentGiven() -> Bool {
     (vendorConsents[91] as! NSNumber).boolValue
+  }
+
+  public override func hasVendorLegitimateInterest() -> Bool {
+    (vendorLegitimateInterests[91] as! NSNumber).boolValue
   }
 }

@@ -116,6 +116,31 @@
   [self verifyControllerCalled:YES];
 }
 
+#pragma mark - Vendor legitimate interest
+
+- (void)testGuard_GivenCriteoVendorNoLegitimateInterest_DoNothing {
+  self.consent.gdprMock.vendorLegitimateInterests[91] = @NO;
+
+  [self verifyControllerCalled:NO];
+}
+
+- (void)testGuard_GivenCriteoVendorLegitimateInterest_CallDelegate {
+  self.consent.gdprMock.vendorLegitimateInterests[91] = @YES;
+
+  [self verifyControllerCalled:YES];
+}
+
+- (void)testGuard_GivenAllVendorLegitimateInterest_CallDelegate {
+  // Mock by default give all consents
+  [self verifyControllerCalled:YES];
+}
+
+- (void)testGuard_GivenOtherVendorNoLegitimateInterest_CallDelegate {
+  self.consent.gdprMock.vendorLegitimateInterests[19] = @NO;
+
+  [self verifyControllerCalled:YES];
+}
+
 #pragma mark - Private
 
 - (void)verifyControllerCalled:(BOOL)called {
