@@ -26,6 +26,8 @@ public class CR_GdprMock: CR_Gdpr {
     NSMutableArray(array: Array(repeating: NSNumber(true), count: 10 + 1))  // +1 for zero index
   @objc public var publisherRestrictions: NSMutableArray =
     NSMutableArray(array: Array(repeating: "", count: 10 + 1))  // +1 for zero index
+  @objc public var vendorConsents: NSMutableArray =
+    NSMutableArray(array: Array(repeating: NSNumber(true), count: 91 + 1))  // +1 for zero index
 
   override init(userDefaults: UserDefaults) {
     super.init(userDefaults: userDefaults)
@@ -76,5 +78,9 @@ public class CR_GdprMock: CR_Gdpr {
       return CR_GdprTcfPublisherRestrictionType(rawValue: criteoRestrictionValue) ?? .none
     }
     return .none
+  }
+
+  public override func isVendorConsentGiven() -> Bool {
+    (vendorConsents[91] as! NSNumber).boolValue
   }
 }
