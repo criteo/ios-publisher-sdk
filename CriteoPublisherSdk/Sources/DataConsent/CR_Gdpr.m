@@ -73,6 +73,10 @@
   return [self.selectedVersion isVendorConsentGiven];
 }
 
+- (BOOL)hasVendorLegitimateInterest {
+  return [self.selectedVersion hasVendorLegitimateInterest];
+}
+
 #pragma mark - Private
 
 - (id<CR_GdprVersion>)selectedVersion {

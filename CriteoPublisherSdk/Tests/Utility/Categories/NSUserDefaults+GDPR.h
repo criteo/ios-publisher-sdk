@@ -48,6 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setGdprTcf2_0PublisherRestrictions:(nullable NSObject *)publisherRestrictions
                                 forPurpose:(NSUInteger)id;
 - (void)setGdprTcf2_0VendorConsents:(nullable NSString *)vendorConsents;
+- (void)setGdprTcf2_0VendorLegitimateInterests:(nullable NSString *)legitimateInterests;
 
 @end
 

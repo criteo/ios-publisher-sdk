@@ -63,6 +63,10 @@ const NSUInteger NSStringGdprCriteoIdentifierInVendorList = 91;
   return @"IABTCF_VendorConsents";
 }
 
++ (NSString *)gdprVendorLegitimateInterestsStringForTcf2_0 {
+  return @"IABTCF_VendorLegitimateInterests";
+}
+
 #pragma mark - ConsentString
 
 + (NSString *)gdprConsentStringForTcf1_1 {
