@@ -78,6 +78,13 @@ extern NSString *const CR_GdprConsentStringForTcf1_1Key;
  */
 - (BOOL)isVendorConsentGiven;
 
+/**
+ * Gives the status of vendor legitimate interest for Criteo
+ *
+ * @return YES if legitimate interest for Criteo vendor
+ */
+- (BOOL)hasVendorLegitimateInterest;
+
 @end
 
 @interface CR_GdprVersionWithKeys : NSObject <CR_GdprVersion>
@@ -90,6 +97,7 @@ extern NSString *const CR_GdprConsentStringForTcf1_1Key;
                       purposeConsentsKey:(nullable NSString *)purposeConsentsKey
           publisherRestrictionsKeyFormat:(nullable NSString *)publisherRestrictionsKeyFormat
                        vendorConsentsKey:(nullable NSString *)vendorConsentsKey
+            vendorLegitimateInterestsKey:(nullable NSString *)vendorLegitimateInterestsKey
                               appliesKey:(NSString *)appliesKey
                               tcfVersion:(CR_GdprTcfVersion)tcfVersion
                             userDefaults:(NSUserDefaults *)userDefaults NS_DESIGNATED_INITIALIZER;

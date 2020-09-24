@@ -28,6 +28,7 @@ NSString *const CR_GdprConsentStringForTcf2_0Key = @"IABTCF_TCString";
 NSString *const CR_GdprPurposeConsentsForTcf2_0Key = @"IABTCF_PurposeConsents";
 NSString *const CR_GdprPublisherRestrictionsFormatForTcf2_0Key = @"IABTCF_PublisherRestrictions%d";
 NSString *const CR_GdprVendorConsentsForTcf2_0Key = @"IABTCF_VendorConsents";
+NSString *const CR_GdprLegitimateInterestsForTcf2_0Key = @"IABTCF_VendorLegitimateInterests";
 
 NSString *const CR_GdprSubjectToGdprForTcf1_1Key = @"IABConsent_SubjectToGDPR";
 NSString *const CR_GdprConsentStringForTcf1_1Key = @"IABConsent_ConsentString";
@@ -38,6 +39,7 @@ NSString *const CR_GdprConsentStringForTcf1_1Key = @"IABConsent_ConsentString";
 @property(copy, nonatomic, readonly) NSString *purposeConsentsKey;
 @property(copy, nonatomic, readonly) NSString *publisherRestrictionsKeyFormat;
 @property(copy, nonatomic, readonly) NSString *vendorConsentsKey;
+@property(copy, nonatomic, readonly) NSString *vendorLegitimateInterestsKey;
 @property(copy, nonatomic, readonly) NSString *appliesKey;
 @property(strong, nonatomic, readonly) NSUserDefaults *userDefaults;
 
@@ -54,6 +56,7 @@ NSString *const CR_GdprConsentStringForTcf1_1Key = @"IABConsent_ConsentString";
                                    purposeConsentsKey:nil
                        publisherRestrictionsKeyFormat:nil
                                     vendorConsentsKey:nil
+                         vendorLegitimateInterestsKey:nil
                                            appliesKey:CR_GdprSubjectToGdprForTcf1_1Key
                                            tcfVersion:CR_GdprTcfVersion1_1
                                          userDefaults:userDefaults];
@@ -64,6 +67,7 @@ NSString *const CR_GdprConsentStringForTcf1_1Key = @"IABConsent_ConsentString";
                                    purposeConsentsKey:CR_GdprPurposeConsentsForTcf2_0Key
                        publisherRestrictionsKeyFormat:CR_GdprPublisherRestrictionsFormatForTcf2_0Key
                                     vendorConsentsKey:CR_GdprVendorConsentsForTcf2_0Key
+                         vendorLegitimateInterestsKey:CR_GdprLegitimateInterestsForTcf2_0Key
                                            appliesKey:CR_GdprAppliesForTcf2_0Key
                                            tcfVersion:CR_GdprTcfVersion2_0
                                          userDefaults:userDefaults];
@@ -75,6 +79,7 @@ NSString *const CR_GdprConsentStringForTcf1_1Key = @"IABConsent_ConsentString";
                       purposeConsentsKey:(NSString *)purposeConsentsKey
           publisherRestrictionsKeyFormat:(NSString *)publisherRestrictionsKeyFormat
                        vendorConsentsKey:(NSString *)vendorConsentsKey
+            vendorLegitimateInterestsKey:(NSString *)vendorLegitimateInterestsKey
                               appliesKey:(NSString *)appliesKey
                               tcfVersion:(CR_GdprTcfVersion)tcfVersion
                             userDefaults:(NSUserDefaults *)userDefaults {
@@ -83,6 +88,7 @@ NSString *const CR_GdprConsentStringForTcf1_1Key = @"IABConsent_ConsentString";
     _purposeConsentsKey = [purposeConsentsKey copy];
     _publisherRestrictionsKeyFormat = [publisherRestrictionsKeyFormat copy];
     _vendorConsentsKey = [vendorConsentsKey copy];
+    _vendorLegitimateInterestsKey = [vendorLegitimateInterestsKey copy];
     _appliesKey = [appliesKey copy];
     _userDefaults = userDefaults;
     _tcfVersion = tcfVersion;
@@ -155,6 +161,17 @@ NSString *const CR_GdprConsentStringForTcf1_1Key = @"IABConsent_ConsentString";
   return vendorConsent != nil ? vendorConsent.boolValue : YES;
 }
 
+- (BOOL)hasVendorLegitimateInterest {
+  if (self.vendorLegitimateInterestsKey == nil) {
+    return YES;
+  }
+  NSString *legitimateInterests =
+      [self.userDefaults stringForKey:self.vendorLegitimateInterestsKey];
+  NSNumber *legitimateInterest =
+      [legitimateInterests cr_tcfBinaryStringValueAtIndex:CR_CriteoTcfVendorID];
+  return legitimateInterest != nil ? legitimateInterest.boolValue : YES;
+}
+
 @end
 
 @implementation CR_NoGdpr
@@ -184,6 +201,10 @@ NSString *const CR_GdprConsentStringForTcf1_1Key = @"IABConsent_ConsentString";
 }
 
 - (BOOL)isVendorConsentGiven {
+  return YES;
+}
+
+- (BOOL)hasVendorLegitimateInterest {
   return YES;
 }
 

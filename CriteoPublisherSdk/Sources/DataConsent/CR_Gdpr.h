@@ -92,6 +92,13 @@ typedef NS_ENUM(NSInteger, CR_GdprTcfPublisherRestrictionType) {
  */
 - (BOOL)isVendorConsentGiven;
 
+/**
+ * Gives the status of vendor legitimate interest for Criteo
+ *
+ * @return YES if legitimate interest for Criteo vendor
+ */
+- (BOOL)hasVendorLegitimateInterest;
+
 @end
 
 NS_ASSUME_NONNULL_END

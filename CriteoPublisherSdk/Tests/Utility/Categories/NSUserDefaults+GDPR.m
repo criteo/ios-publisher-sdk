@@ -36,6 +36,7 @@
     [self removeObjectForKey:restrictionsKey];
   }
   [self removeObjectForKey:NSString.gdprVendorConsentsStringForTcf2_0];
+  [self removeObjectForKey:NSString.gdprVendorLegitimateInterestsStringForTcf2_0];
 }
 
 - (void)setGdprTcf1_1DefaultConsentString {
@@ -75,6 +76,10 @@
 
 - (void)setGdprTcf2_0VendorConsents:(nullable NSString *)vendorConsents {
   [self setObject:vendorConsents forKey:NSString.gdprVendorConsentsStringForTcf2_0];
+}
+
+- (void)setGdprTcf2_0VendorLegitimateInterests:(NSString *)legitimateInterests {
+  [self setObject:legitimateInterests forKey:NSString.gdprVendorLegitimateInterestsStringForTcf2_0];
 }
 
 @end

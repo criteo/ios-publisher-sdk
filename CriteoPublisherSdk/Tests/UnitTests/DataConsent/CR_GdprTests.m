@@ -233,6 +233,46 @@
   XCTAssertTrue([self.gdpr isVendorConsentGiven]);
 }
 
+#pragma mark - Vendor legitimate interest
+
+- (void)testVendorLegitimateInterestSimpleCases {
+#define AssertVendorLegitimateInterest(tcfVersion, interests, expected)   \
+  do {                                                                    \
+    [self.userDefaults clearGdpr];                                        \
+    [self.userDefaults setGdprTcf##tcfVersion##GdprApplies:@YES];         \
+    [self.userDefaults setGdprTcf2_0VendorLegitimateInterests:interests]; \
+    XCTAssertEqual([self.gdpr hasVendorLegitimateInterest], expected);    \
+  } while (0);
+
+  AssertVendorLegitimateInterest(1_1, nil, YES);
+  AssertVendorLegitimateInterest(2_0, @"", YES);
+  AssertVendorLegitimateInterest(2_0, @"malformed", YES);
+  AssertVendorLegitimateInterest(
+      2_0,
+      @"---------+---------+---------+---------+---------+---------+---------+---------+---------+X--------+",
+      YES);
+  AssertVendorLegitimateInterest(
+      2_0,
+      @"---------+---------+---------+---------+---------+---------+---------+---------+---------+1--------+",
+      YES);
+  AssertVendorLegitimateInterest(
+      2_0,
+      @"---------+---------+---------+---------+---------+---------+---------+---------+---------+0--------+",
+      NO);
+
+#undef AssertVendorLegitimateInterest
+}
+
+- (void)testVendorLegitimateInterestMissingWithConsentStringForTcf1_1 {
+  [self.userDefaults setGdprTcf1_1DefaultConsentString];
+  XCTAssertTrue([self.gdpr hasVendorLegitimateInterest]);
+}
+
+- (void)testVendorLegitimateInterestMissingWithConsentStringForTcf2_0 {
+  [self.userDefaults setGdprTcf2_0DefaultConsentString];
+  XCTAssertTrue([self.gdpr hasVendorLegitimateInterest]);
+}
+
 #pragma mark TCF2/TCF2
 
 - (void)testGDPRApplyWithConsentStringForTcf1_1andTcf2_0 {
