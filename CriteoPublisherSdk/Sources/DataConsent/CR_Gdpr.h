@@ -85,6 +85,13 @@ typedef NS_ENUM(NSInteger, CR_GdprTcfPublisherRestrictionType) {
  */
 - (CR_GdprTcfPublisherRestrictionType)publisherRestrictionsForPurpose:(NSUInteger)id;
 
+/**
+ * Gives the status of vendor consent for Criteo
+ *
+ * @return YES if consent is given for Criteo vendor
+ */
+- (BOOL)isVendorConsentGiven;
+
 @end
 
 NS_ASSUME_NONNULL_END

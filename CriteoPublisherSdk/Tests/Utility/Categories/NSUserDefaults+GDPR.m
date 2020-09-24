@@ -35,6 +35,7 @@
         [NSString stringWithFormat:NSString.gdprPublisherRestrictionsKeyFormatForTcf2_0, purposeId];
     [self removeObjectForKey:restrictionsKey];
   }
+  [self removeObjectForKey:NSString.gdprVendorConsentsStringForTcf2_0];
 }
 
 - (void)setGdprTcf1_1DefaultConsentString {
@@ -61,7 +62,7 @@
   [self setObject:gdprApplies forKey:NSString.gdprAppliesUserDefaultsKeyTcf2_0];
 }
 
-- (void)setGdprTcf2_0PurposeConsents:(nullable NSObject *)purposeConsents {
+- (void)setGdprTcf2_0PurposeConsents:(nullable NSString *)purposeConsents {
   [self setObject:purposeConsents forKey:NSString.gdprPurposeConsentsStringForTcf2_0];
 }
 
@@ -70,6 +71,10 @@
   NSString *publisherRestrictionsKey =
       [NSString stringWithFormat:NSString.gdprPublisherRestrictionsKeyFormatForTcf2_0, id];
   [self setObject:publisherRestrictions forKey:publisherRestrictionsKey];
+}
+
+- (void)setGdprTcf2_0VendorConsents:(nullable NSString *)vendorConsents {
+  [self setObject:vendorConsents forKey:NSString.gdprVendorConsentsStringForTcf2_0];
 }
 
 @end

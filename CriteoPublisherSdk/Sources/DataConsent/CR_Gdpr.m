@@ -69,6 +69,10 @@
   return [self.selectedVersion publisherRestrictionsForPurpose:id];
 }
 
+- (BOOL)isVendorConsentGiven {
+  return [self.selectedVersion isVendorConsentGiven];
+}
+
 #pragma mark - Private
 
 - (id<CR_GdprVersion>)selectedVersion {

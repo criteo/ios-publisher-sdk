@@ -202,6 +202,37 @@
                  CR_GdprTcfPublisherRestrictionTypeNone);
 }
 
+#pragma mark - Vendor consent
+
+- (void)testVendorConsentSimpleCases {
+#define AssertVendorConsent(tcfVersion, consents, expected)       \
+  do {                                                            \
+    [self.userDefaults clearGdpr];                                \
+    [self.userDefaults setGdprTcf##tcfVersion##GdprApplies:@YES]; \
+    [self.userDefaults setGdprTcf2_0VendorConsents:consents];     \
+    XCTAssertEqual([self.gdpr isVendorConsentGiven], expected);   \
+  } while (0);
+
+  AssertVendorConsent(1_1, nil, YES);
+  AssertVendorConsent(2_0, @"", YES);
+  AssertVendorConsent(2_0, @"malformed", YES);
+  AssertVendorConsent(2_0, ([NSString stringWithFormat:@"%090dX", 0]), YES);
+  AssertVendorConsent(2_0, ([NSString stringWithFormat:@"%091d", 1]), YES);
+  AssertVendorConsent(2_0, ([NSString stringWithFormat:@"%091d", 0]), NO);
+
+#undef AssertVendorConsent
+}
+
+- (void)testVendorConsentMissingWithConsentStringForTcf1_1 {
+  [self.userDefaults setGdprTcf1_1DefaultConsentString];
+  XCTAssertTrue([self.gdpr isVendorConsentGiven]);
+}
+
+- (void)testVendorConsentMissingWithConsentStringForTcf2_0 {
+  [self.userDefaults setGdprTcf2_0DefaultConsentString];
+  XCTAssertTrue([self.gdpr isVendorConsentGiven]);
+}
+
 #pragma mark TCF2/TCF2
 
 - (void)testGDPRApplyWithConsentStringForTcf1_1andTcf2_0 {

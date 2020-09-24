@@ -33,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(copy, nonatomic, class, readonly) NSString *gdprAppliesUserDefaultsKeyTcf2_0;
 @property(copy, nonatomic, class, readonly) NSString *gdprPurposeConsentsStringForTcf2_0;
 @property(copy, nonatomic, class, readonly) NSString *gdprPublisherRestrictionsKeyFormatForTcf2_0;
+@property(copy, nonatomic, class, readonly) NSString *gdprVendorConsentsStringForTcf2_0;
 
 #pragma mark ConsentString
 
