@@ -71,10 +71,21 @@
  * Checks if we are allowed to collect metrics regarding TCF v2 purposes:
  * - Purpose 1 - Store and/or access information on a device
  *
+ * The TCF entries that are considered are the following:
+ * IABTCF_PurposeConsents: User consent to purpose
+ * IABTCF_PublisherRestrictions{ID}: Publisher restrictions on purpose {ID}
+ *
  * For more details: https://iabeurope.eu/iab-europe-transparency-consent-framework-policies/
  */
 - (BOOL)hasFeedbackConsent {
-  return [_consent.gdpr isConsentGivenForPurpose:1];
+  CR_Gdpr *gdpr = _consent.gdpr;
+  BOOL hasUserConsent = [gdpr isConsentGivenForPurpose:1];
+  CR_GdprTcfPublisherRestrictionType publisherRestriction =
+      [gdpr publisherRestrictionsForPurpose:1];
+  BOOL hasPublisherRestrictions =
+      publisherRestriction == CR_GdprTcfPublisherRestrictionTypeNotAllowed ||
+      publisherRestriction == CR_GdprTcfPublisherRestrictionTypeRequireLegitimateInterest;
+  return hasUserConsent && !hasPublisherRestrictions;
 }
 
 - (id<CR_FeedbackDelegate>)controller {

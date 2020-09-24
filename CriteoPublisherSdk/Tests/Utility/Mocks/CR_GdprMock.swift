@@ -24,6 +24,8 @@ public class CR_GdprMock: CR_Gdpr {
   @objc public var appliesValue: NSNumber? = false
   @objc public var purposeConsents: NSMutableArray =
     NSMutableArray(array: Array(repeating: NSNumber(true), count: 10 + 1))  // +1 for zero index
+  @objc public var publisherRestrictions: NSMutableArray =
+    NSMutableArray(array: Array(repeating: "", count: 10 + 1))  // +1 for zero index
 
   override init(userDefaults: UserDefaults) {
     super.init(userDefaults: userDefaults)
@@ -62,5 +64,17 @@ public class CR_GdprMock: CR_Gdpr {
 
   public override func isConsentGiven(forPurpose id: UInt) -> Bool {
     (purposeConsents[Int(id)] as! NSNumber).boolValue
+  }
+
+  public override func publisherRestrictions(forPurpose id: UInt)
+    -> CR_GdprTcfPublisherRestrictionType
+  {
+    if let purposeRestrictions = publisherRestrictions[Int(id)] as? String,
+      // Note: Criteo vendor Id is 91
+      let criteoRestrictionValue = Int(purposeRestrictions.dropFirst(90).prefix(1))
+    {
+      return CR_GdprTcfPublisherRestrictionType(rawValue: criteoRestrictionValue) ?? .none
+    }
+    return .none
   }
 }
