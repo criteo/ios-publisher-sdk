@@ -15,4 +15,7 @@ crto-echo "[Bundle] Updating Gems..."
 bundle update
 crto-echo "[CocoaPods] Updating Pods..."
 bundle exec pod update
+crto-echo "[Includes] Updating included libs..."
+"$SCRIPT_DIRECTORY"/import-cassette.sh
+
 crto-echo "Update complete."
