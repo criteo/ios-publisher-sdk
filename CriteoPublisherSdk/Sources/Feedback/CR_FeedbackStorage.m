@@ -20,13 +20,13 @@
 #import "CR_CacheAdUnit.h"
 #import "CR_FeedbackStorage.h"
 #import "CR_FeedbackFileManager.h"
-#import "CASObjectQueue+ArraySet.h"
-#import "CASBoundedFileObjectQueue.h"
+#import "CR_CASObjectQueue+ArraySet.h"
+#import "CR_CASBoundedFileObjectQueue.h"
 #import "Logging.h"
 
 @interface CR_FeedbackStorage ()
 
-@property(strong, nonatomic, readonly) CASObjectQueue<CR_FeedbackMessage *> *sendingQueue;
+@property(strong, nonatomic, readonly) CR_CASObjectQueue<CR_FeedbackMessage *> *sendingQueue;
 @property(strong, nonatomic, readonly) id<CR_FeedbackFileManaging> fileManaging;
 
 @end
@@ -49,7 +49,7 @@ static NSUInteger const CR_FeedbackStorageSendingQueueMaxSize = 256 * 1024;
 
 - (instancetype)initWithSendingQueueMaxSize:(NSUInteger)sendingQueueMaxSize
                                 fileManager:(id<CR_FeedbackFileManaging>)fileManager {
-  CASObjectQueue<CR_FeedbackMessage *> *queue = nil;
+  CR_CASObjectQueue<CR_FeedbackMessage *> *queue = nil;
   @try {
     queue = [self buildSendingQueueWithMaxSize:sendingQueueMaxSize fileManager:fileManager];
   } @catch (NSException *exception) {
@@ -61,16 +61,16 @@ static NSUInteger const CR_FeedbackStorageSendingQueueMaxSize = 256 * 1024;
   return [self initWithFileManager:fileManager withQueue:queue];
 }
 
-- (CASObjectQueue<CR_FeedbackMessage *> *)
+- (CR_CASObjectQueue<CR_FeedbackMessage *> *)
     buildSendingQueueWithMaxSize:(NSUInteger)sendingQueueMaxSize
                      fileManager:(CR_FeedbackFileManager *)fileManager {
-  return [[CASBoundedFileObjectQueue alloc] initWithAbsolutePath:fileManager.sendingQueueFilePath
-                                                   maxFileLength:sendingQueueMaxSize
-                                                           error:nil];
+  return [[CR_CASBoundedFileObjectQueue alloc] initWithAbsolutePath:fileManager.sendingQueueFilePath
+                                                      maxFileLength:sendingQueueMaxSize
+                                                              error:nil];
 }
 
 - (instancetype)initWithFileManager:(id<CR_FeedbackFileManaging>)fileManaging
-                          withQueue:(CASObjectQueue<CR_FeedbackMessage *> *)queue {
+                          withQueue:(CR_CASObjectQueue<CR_FeedbackMessage *> *)queue {
   if (self = [super init]) {
     _fileManaging = fileManaging;
     _sendingQueue = queue;

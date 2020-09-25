@@ -4,7 +4,6 @@ workspace 'CriteoPublisherSdk'
 
 target 'CriteoPublisherSdk' do
   project 'CriteoPublisherSdk/CriteoPublisherSdk'
-  pod 'Cassette', '~> 1.0-beta'
 end
 
 target 'CriteoPublisherSdkTests' do

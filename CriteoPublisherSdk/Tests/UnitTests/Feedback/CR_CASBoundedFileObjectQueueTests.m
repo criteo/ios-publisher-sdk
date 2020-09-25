@@ -1,5 +1,5 @@
 //
-//  CASBoundedFileObjectQueueTests.m
+//  CR_CASBoundedFileObjectQueueTests.m
 //  CriteoPublisherSdkTests
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -18,15 +18,15 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "CASBoundedFileObjectQueue.h"
+#import "CR_CASBoundedFileObjectQueue.h"
 
-@interface CASBoundedFileObjectQueueTests : XCTestCase
-@property(strong, nonatomic) CASBoundedFileObjectQueue *queue;
+@interface CR_CASBoundedFileObjectQueueTests : XCTestCase
+@property(strong, nonatomic) CR_CASBoundedFileObjectQueue *queue;
 @end
 
-static const NSUInteger CASBoundedFileObjectQueueTestsMaxFileLength = 1024 * 8;
+static const NSUInteger CR_CASBoundedFileObjectQueueTestsMaxFileLength = 1024 * 8;
 
-@implementation CASBoundedFileObjectQueueTests
+@implementation CR_CASBoundedFileObjectQueueTests
 
 + (NSString *)testQueuePath {
   NSString *tempPath = NSTemporaryDirectory();
@@ -45,9 +45,9 @@ static const NSUInteger CASBoundedFileObjectQueueTestsMaxFileLength = 1024 * 8;
 - (void)setUp {
   [super setUp];
   NSError *error = nil;
-  self.queue = [[CASBoundedFileObjectQueue alloc]
+  self.queue = [[CR_CASBoundedFileObjectQueue alloc]
       initWithAbsolutePath:self.class.testQueuePath
-             maxFileLength:CASBoundedFileObjectQueueTestsMaxFileLength
+             maxFileLength:CR_CASBoundedFileObjectQueueTestsMaxFileLength
                      error:&error];
   XCTAssertNil(error);
 }
@@ -61,7 +61,7 @@ static const NSUInteger CASBoundedFileObjectQueueTestsMaxFileLength = 1024 * 8;
   XCTAssertNotNil(self.queue);
 }
 
-- (void)addDummyObjectsToQueue:(CASObjectQueue *)queue size:(NSUInteger)size {
+- (void)addDummyObjectsToQueue:(CR_CASObjectQueue *)queue size:(NSUInteger)size {
   static const NSUInteger dummyObjectSize = 1024;
   void *dummyBytes = malloc(dummyObjectSize);
   NSData *dummyObject = [NSData dataWithBytes:dummyBytes length:dummyObjectSize];
@@ -73,16 +73,16 @@ static const NSUInteger CASBoundedFileObjectQueueTestsMaxFileLength = 1024 * 8;
 - (void)testReachBoundOut {
   NSUInteger initialQueueSize = self.queue.size;
   // Fill queue
-  [self addDummyObjectsToQueue:self.queue size:CASBoundedFileObjectQueueTestsMaxFileLength];
+  [self addDummyObjectsToQueue:self.queue size:CR_CASBoundedFileObjectQueueTestsMaxFileLength];
   XCTAssertLessThan(initialQueueSize, self.queue.size, @"Queue should have grown");
 }
 
 - (void)testInsertOutOfBound {
   // Fill queue
-  [self addDummyObjectsToQueue:self.queue size:CASBoundedFileObjectQueueTestsMaxFileLength];
+  [self addDummyObjectsToQueue:self.queue size:CR_CASBoundedFileObjectQueueTestsMaxFileLength];
   NSUInteger boundedQueueSize = self.queue.size;
   // Add data out of bound
-  [self addDummyObjectsToQueue:self.queue size:CASBoundedFileObjectQueueTestsMaxFileLength];
+  [self addDummyObjectsToQueue:self.queue size:CR_CASBoundedFileObjectQueueTestsMaxFileLength];
   XCTAssertEqual(boundedQueueSize, self.queue.size, @"Queue should not grow anymore");
 }
 

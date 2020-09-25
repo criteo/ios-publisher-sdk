@@ -1,5 +1,5 @@
 //
-//  CASBoundedFileObjectQueue.h
+//  CR_CASObjectQueue+ArraySet.h
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -17,22 +17,25 @@
 // limitations under the License.
 //
 
-#import "CASFileObjectQueue.h"
+#import "CR_CASObjectQueue.h"
+#import "CR_FeedbackMessage.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CASBoundedFileObjectQueue<T : id <NSCoding>> : CASFileObjectQueue <T>
+@interface CR_CASObjectQueue (ArraySet)
 
 /**
- * Initializes an @c CASBoundedFileObjectQueue with a file at the specified path,
- * with a file size boundary, returning nil if there was an error.
- * Note: Intermediate directories will not be created, create containing
- * directory before initializing.
+ *  Adds an element to the end of the queue or assert if the object already exists.
  */
-- (nullable instancetype)initWithAbsolutePath:(NSString *)filePath
-                                maxFileLength:(NSUInteger)maxFileLength
-                                        error:(NSError *__autoreleasing *_Nullable)error
-    NS_DESIGNATED_INITIALIZER;
+- (void)addFeedbackMessage:(CR_FeedbackMessage *)data;
+/**
+ * Return YES if the queue contains the given element.
+ */
+- (BOOL)containsFeedbackMessage:(CR_FeedbackMessage *)data;
+/**
+ * Return all the queued elements as an array.
+ */
+- (NSArray *)allFeedbackMessages;
 
 @end
 

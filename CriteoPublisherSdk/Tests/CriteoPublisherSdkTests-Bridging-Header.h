@@ -2,7 +2,7 @@
 //  Use this file to import your target's public headers that you would like to
 //  expose to Swift.
 //
-#import <Cassette/Cassette.h>
+#import "Cassette.h"
 
 #import "CR_BidRequestSerializer.h"
 #import "CR_CacheAdUnit.h"

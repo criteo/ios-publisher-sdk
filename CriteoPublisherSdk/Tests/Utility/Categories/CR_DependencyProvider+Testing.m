@@ -72,7 +72,7 @@
   CR_FeedbackFileManagingMock *feedbackFileManagingMock =
       [[CR_FeedbackFileManagingMock alloc] init];
   feedbackFileManagingMock.useReadWriteDictionary = YES;
-  CASInMemoryObjectQueue *feedbackSendingQueue = [[CASInMemoryObjectQueue alloc] init];
+  CR_CASInMemoryObjectQueue *feedbackSendingQueue = [[CR_CASInMemoryObjectQueue alloc] init];
   CR_FeedbackStorage *feedbackStorage =
       [[CR_FeedbackStorage alloc] initWithFileManager:feedbackFileManagingMock
                                             withQueue:feedbackSendingQueue];

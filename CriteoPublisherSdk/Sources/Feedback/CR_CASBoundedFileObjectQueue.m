@@ -1,5 +1,5 @@
 //
-//  CASBoundedFileObjectQueue.m
+//  CR_CASBoundedFileObjectQueue.m
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -17,26 +17,26 @@
 // limitations under the License.
 //
 
-#import "CASBoundedFileObjectQueue.h"
-#import "CASQueueFile.h"
+#import "CR_CASBoundedFileObjectQueue.h"
+#import "CR_CASQueueFile.h"
 
 /**
  * Expose the CASFileObjectQueue private queueFile.fileLength property
  * Starts with QueueFileInitialLength = 4096 then grows by *2 as needed
  */
-@interface CASFileObjectQueue (private)
-@property(nonatomic, nonnull, strong, readonly) CASQueueFile *queueFile;
+@interface CR_CASFileObjectQueue (private)
+@property(nonatomic, nonnull, strong, readonly) CR_CASQueueFile *queueFile;
 @end
 
-@interface CASQueueFile (private)
+@interface CR_CASQueueFile (private)
 @property(nonatomic, readwrite) NSUInteger fileLength;
 @end
 
-@interface CASBoundedFileObjectQueue ()
+@interface CR_CASBoundedFileObjectQueue ()
 @property(assign, nonatomic, readonly) NSUInteger maxFileLength;
 @end
 
-@implementation CASBoundedFileObjectQueue
+@implementation CR_CASBoundedFileObjectQueue
 
 - (instancetype)initWithAbsolutePath:(NSString *)filePath
                        maxFileLength:(NSUInteger)maxFileLength

@@ -18,7 +18,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <Cassette/Cassette.h>
+#import "Cassette.h"
 #import "CR_FeedbackFileManager.h"
 
 @class CR_FeedbackMessage;
@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CR_FeedbackStorage : NSObject
 
 - (instancetype)initWithFileManager:(id<CR_FeedbackFileManaging>)fileManaging
-                          withQueue:(CASObjectQueue<CR_FeedbackMessage *> *)queue
+                          withQueue:(CR_CASObjectQueue<CR_FeedbackMessage *> *)queue
     NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithSendingQueueMaxSize:(NSUInteger)sendingQueueMaxSize;

@@ -1,5 +1,5 @@
 //
-//  CASObjectQueue+ArraySet.m
+//  CR_CASObjectQueue+ArraySet.m
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -17,9 +17,9 @@
 // limitations under the License.
 //
 
-#import "CASObjectQueue+ArraySet.h"
+#import "CR_CASObjectQueue+ArraySet.h"
 
-@implementation CASObjectQueue (ArraySet)
+@implementation CR_CASObjectQueue (ArraySet)
 
 - (void)addFeedbackMessage:(CR_FeedbackMessage *)message {
   NSAssert(![self containsFeedbackMessage:message], @"Add to the queue an existing element: %@",

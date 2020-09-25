@@ -27,7 +27,7 @@
 - (instancetype)initWithSendingQueueMaxSize:(NSUInteger)sendingQueueMaxSize
                                 fileManager:(id<CR_FeedbackFileManaging>)fileManager;
 
-- (CASObjectQueue<CR_FeedbackMessage *> *)
+- (CR_CASObjectQueue<CR_FeedbackMessage *> *)
     buildSendingQueueWithMaxSize:(NSUInteger)sendingQueueMaxSize
                      fileManager:(CR_FeedbackFileManager *)fileManage;
 

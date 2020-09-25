@@ -29,7 +29,7 @@
 @interface CR_FeedbackControllerTests : XCTestCase
 
 @property(nonatomic, strong) CR_FeedbackFileManagingMock *feedbackFileManagingMock;
-@property(nonatomic, strong) CASObjectQueue *feedbackSendingQueue;
+@property(nonatomic, strong) CR_CASObjectQueue *feedbackSendingQueue;
 @property(nonatomic, strong) CR_FeedbackStorage *feedbackStorage;
 @property(nonatomic, strong) CR_ApiHandler *apiHandler;
 @property(nonatomic, strong) CR_Config *config;
@@ -55,7 +55,7 @@
 
   self.feedbackFileManagingMock = [[CR_FeedbackFileManagingMock alloc] init];
   self.feedbackFileManagingMock.useReadWriteDictionary = YES;
-  self.feedbackSendingQueue = [[CASInMemoryObjectQueue alloc] init];
+  self.feedbackSendingQueue = [[CR_CASInMemoryObjectQueue alloc] init];
   self.feedbackStorage =
       [[CR_FeedbackStorage alloc] initWithFileManager:self.feedbackFileManagingMock
                                             withQueue:self.feedbackSendingQueue];
