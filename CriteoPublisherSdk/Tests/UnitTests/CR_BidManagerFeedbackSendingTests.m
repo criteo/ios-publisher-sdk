@@ -27,7 +27,7 @@
 
 @property(nonatomic, strong) CR_BidManager *bidManager;
 @property(nonatomic, strong) CR_ApiHandler *apiHandlerMock;
-@property(nonatomic, strong) CASObjectQueue *feedbackSendingQueue;
+@property(nonatomic, strong) CR_CASObjectQueue *feedbackSendingQueue;
 @property(nonatomic, strong) CR_CacheAdUnit *adUnit;
 
 @end
@@ -37,7 +37,7 @@
 - (void)setUp {
   self.adUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"id" width:300 height:200];
   self.apiHandlerMock = OCMClassMock([CR_ApiHandler class]);
-  self.feedbackSendingQueue = [[CASInMemoryObjectQueue alloc] init];
+  self.feedbackSendingQueue = [[CR_CASInMemoryObjectQueue alloc] init];
   CR_FeedbackFileManagingMock *fileManagingMock = [[CR_FeedbackFileManagingMock alloc] init];
   CR_FeedbackStorage *feedbackStorage =
       [[CR_FeedbackStorage alloc] initWithFileManager:fileManagingMock

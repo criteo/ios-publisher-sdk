@@ -1,5 +1,4 @@
 PODS:
-  - Cassette (1.0.0-beta3)
   - Eureka (5.3.0)
   - FunctionalObjC (1.0.2)
   - Google-Mobile-Ads-SDK (7.65.0):
@@ -40,7 +39,6 @@ PODS:
   - SwiftLint (0.40.3)
 
 DEPENDENCIES:
-  - Cassette (~> 1.0-beta)
   - Eureka
   - FunctionalObjC (~> 1.0)
   - Google-Mobile-Ads-SDK
@@ -51,7 +49,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - Cassette
     - Eureka
     - FunctionalObjC
     - Google-Mobile-Ads-SDK
@@ -65,7 +62,6 @@ SPEC REPOS:
     - SwiftLint
 
 SPEC CHECKSUMS:
-  Cassette: bd5900e0b8d67c796ca82272ff5ee388320cfc61
   Eureka: 49239596c9d2eed9ab523990c34de62b6feac9f0
   FunctionalObjC: bd6aaa4b69abea0a5ac0e860a052c1ebebd5311c
   Google-Mobile-Ads-SDK: af735e001ee534d9dd2ce0a87cd8c355b19844b5
@@ -78,6 +74,6 @@ SPEC CHECKSUMS:
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
   SwiftLint: dfd554ff0dff17288ee574814ccdd5cea85d76f7
 
-PODFILE CHECKSUM: f5333aeb67a6187587c049b9debfac6103d60368
+PODFILE CHECKSUM: b21ea8b34a8cb042bab33c0789403dd9edc29852
 
 COCOAPODS: 1.9.3

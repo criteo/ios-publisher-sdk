@@ -47,7 +47,7 @@
 @property(nonatomic, strong) CR_CdbResponse *cdbResponseWithInvalidBid;
 
 @property(nonatomic, strong) CR_FeedbackFileManagingMock *feedbackFileManagingMock;
-@property(nonatomic, strong) CASObjectQueue *feedbackSendingQueue;
+@property(nonatomic, strong) CR_CASObjectQueue *feedbackSendingQueue;
 @property(nonatomic, strong) CR_BidManager *bidManager;
 @property(nonatomic, strong) CR_CacheManager *cacheManager;
 @property(nonatomic, strong) CR_ApiHandler *apiHandlerMock;
@@ -70,7 +70,7 @@
   self.cacheManager = [[CR_CacheManager alloc] init];
   self.feedbackFileManagingMock = [[CR_FeedbackFileManagingMock alloc] init];
   self.feedbackFileManagingMock.useReadWriteDictionary = YES;
-  self.feedbackSendingQueue = [[CASInMemoryObjectQueue alloc] init];
+  self.feedbackSendingQueue = [[CR_CASInMemoryObjectQueue alloc] init];
   CR_FeedbackStorage *feedbackStorage =
       [[CR_FeedbackStorage alloc] initWithFileManager:self.feedbackFileManagingMock
                                             withQueue:self.feedbackSendingQueue];

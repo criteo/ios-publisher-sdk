@@ -23,7 +23,7 @@ import XCTest
 class CR_FeedbackStorageTests: XCTestCase {
 
   var fileManagingMock: CR_FeedbackFileManagingMock = CR_FeedbackFileManagingMock()
-  var queue: CASObjectQueue<CR_FeedbackMessage> = CASInMemoryObjectQueue<CR_FeedbackMessage>()
+  var queue: CR_CASObjectQueue<CR_FeedbackMessage> = CR_CASInMemoryObjectQueue<CR_FeedbackMessage>()
   var feedbackStorage: CR_FeedbackStorage = CR_FeedbackStorage()
   var impressionId1: String = "impressionId"
   var impressionId2: String = "impressionId2"
@@ -33,7 +33,7 @@ class CR_FeedbackStorageTests: XCTestCase {
   override func setUp() {
     super.setUp()
     fileManagingMock = CR_FeedbackFileManagingMock()
-    queue = CASInMemoryObjectQueue<CR_FeedbackMessage>()
+    queue = CR_CASInMemoryObjectQueue<CR_FeedbackMessage>()
     feedbackStorage = CR_FeedbackStorage(fileManager: fileManagingMock, with: queue)
   }
 
@@ -250,7 +250,7 @@ class CR_FeedbackCorruptedStorage: CR_FeedbackStorage {
   var crashedOnce = false
 
   @objc override func buildSendingQueue(withMaxSize: UInt, fileManager: CR_FeedbackFileManager!)
-    -> CASObjectQueue<CR_FeedbackMessage>
+    -> CR_CASObjectQueue<CR_FeedbackMessage>
   {
     if !crashedOnce {
       crashedOnce = true
