@@ -30,32 +30,35 @@ FOUNDATION_EXTERN NSString *const CR_ConfigConfigurationUrl;
 
 @interface CR_Config : NSObject
 
-@property(copy, nonatomic, nullable) NSString *criteoPublisherId;
+#pragma mark - Properties
 
-/**
- ID for differentiate the SDK from other adapters like Publisher tag.
- */
-@property(copy, nonatomic, readonly) NSString *cdbUrl;
-@property(copy, nonatomic, readonly) NSString *path;
-@property(copy, nonatomic, readonly) NSString *csmPath;
-@property(copy, nonatomic, readonly) NSString *sdkVersion;
-@property(copy, nonatomic, readonly) NSString *appId;
-@property(nonatomic) BOOL killSwitch;
+@property(copy, nonatomic, nullable) NSString *criteoPublisherId;
+@property(assign, nonatomic) BOOL killSwitch;
 @property(copy, nonatomic) NSString *adTagUrlMode;
 @property(copy, nonatomic) NSString *viewportWidthMacro;
 @property(copy, nonatomic) NSString *displayURLMacro;
-@property(copy, nonatomic, readonly) NSString *appEventsUrl;
-@property(copy, nonatomic, readonly) NSString *appEventsSenderId;
-@property(copy, nonatomic, readonly) NSString *deviceModel;
-@property(copy, nonatomic, readonly) NSString *osVersion;
-@property(copy, nonatomic, readonly) NSString *deviceOs;
-@property(copy, nonatomic, readonly) NSString *configUrl;
+
+#pragma mark Read only
+
+@property(nonatomic, readonly) NSString *cdbUrl;
+@property(nonatomic, readonly) NSString *path;
+@property(nonatomic, readonly) NSString *csmPath;
+@property(nonatomic, readonly) NSString *sdkVersion;
+@property(nonatomic, readonly) NSString *appId;
+@property(nonatomic, readonly) NSString *appEventsUrl;
+@property(nonatomic, readonly) NSString *appEventsSenderId;
+@property(nonatomic, readonly) NSString *deviceModel;
+@property(nonatomic, readonly) NSString *osVersion;
+@property(nonatomic, readonly) NSString *deviceOs;
+@property(nonatomic, readonly) NSString *configUrl;
 
 /**
  * Return <code>true</code> to indicate if the CSM feature is activated. Else <code>false</code>
  * is returned.
  */
 @property(nonatomic, getter=isCsmEnabled) BOOL csmEnabled;
+
+#pragma mark - Lifecycle
 
 - (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId
                                    cdbUrl:(NSString *)cdbUrl
