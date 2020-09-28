@@ -169,7 +169,7 @@
 
 - (void)testMediaDownloadOnMainQueue {
   CRNativeAdUnit *adUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"123"];
-  [self mockCriteoWithAdUnit:adUnit returnBid:[CR_CdbBid emptyBid]];
+  [self mockCriteoWithAdUnit:adUnit respondBid:[CR_CdbBid emptyBid]];
   CRNativeLoader *loader = [self buildLoaderWithAdUnit:adUnit criteo:self.criteo];
   CR_MediaDownloaderDispatchChecker *mediaDownloader = [CR_MediaDownloaderDispatchChecker new];
   loader.mediaDownloader = mediaDownloader;
@@ -258,7 +258,7 @@
 
 #pragma mark - Private
 
-- (void)mockCriteoWithAdUnit:(CRNativeAdUnit *)adUnit returnBid:(CR_CdbBid *)bid {
+- (void)mockCriteoWithAdUnit:(CRNativeAdUnit *)adUnit respondBid:(CR_CdbBid *)bid {
   CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
   OCMStub([self.criteo getBid:cacheAdUnit responseHandler:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
@@ -288,7 +288,7 @@
                    verify:(void (^)(CRNativeLoader *loader, id<CRNativeLoaderDelegate> delegateMock,
                                     Criteo *criteoMock))verify {
   CRNativeAdUnit *adUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"123"];
-  [self mockCriteoWithAdUnit:adUnit returnBid:bid];
+  [self mockCriteoWithAdUnit:adUnit respondBid:bid];
   id<CRNativeLoaderDelegate> testDelegate =
       delegate ?: OCMStrictProtocolMock(@protocol(CRNativeLoaderDelegate));
   CRNativeLoader *loader = [self buildLoaderWithAdUnit:adUnit criteo:self.criteo];
@@ -332,7 +332,7 @@
 - (CRNativeLoader *)dispatchCheckerForBid:(CR_CdbBid *)bid
                                  delegate:(id<CRNativeLoaderDelegate>)delegate {
   CRNativeAdUnit *adUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"123"];
-  [self mockCriteoWithAdUnit:adUnit returnBid:bid];
+  [self mockCriteoWithAdUnit:adUnit respondBid:bid];
   CRNativeLoader *loader = [self buildLoaderWithAdUnit:adUnit criteo:self.criteo];
   loader.delegate = delegate;
   [loader loadAd];

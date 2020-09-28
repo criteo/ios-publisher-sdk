@@ -111,12 +111,7 @@
   OCMStub([self.displaySizeInjector injectSafeScreenSizeInDisplayUrl:@"test"])
       .andReturn(@"test?safearea");
 
-  OCMExpect([self.criteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
-      .andDo(^(NSInvocation *invocation) {
-        CR_BidResponseHandler handler;
-        [invocation getArgument:&handler atIndex:3];
-        handler([self bidWithDisplayURL:@"test"]);
-      });
+  [self mockCriteoWithAdUnit:self.expectedCacheAdUnit respondBid:[self bidWithDisplayURL:@"test"]];
 
   CRInterstitial *interstitial = [self interstitialWithWebView:mockWebView];
   [interstitial loadAd];
@@ -149,12 +144,8 @@
         [webViewLoadedExpectation fulfill];
       });
 
-  OCMExpect([self.criteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
-      .andDo(^(NSInvocation *invocation) {
-        CR_BidResponseHandler handler;
-        [invocation getArgument:&handler atIndex:3];
-        handler([self bidWithDisplayURL:@"whatDoYouMean"]);
-      });
+  [self mockCriteoWithAdUnit:self.expectedCacheAdUnit
+                  respondBid:[self bidWithDisplayURL:@"whatDoYouMean"]];
 
   CRInterstitial *interstitial = [self interstitialWithWebView:mockWebView];
   [interstitial loadAd];
@@ -229,12 +220,7 @@
   };
   [CR_Timer scheduledTimerWithTimeInterval:2 repeats:NO block:javascriptChecks];
 
-  OCMStub([self.criteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
-      .andDo(^(NSInvocation *invocation) {
-        CR_BidResponseHandler handler;
-        [invocation getArgument:&handler atIndex:3];
-        handler(bid);
-      });
+  [self mockCriteoWithAdUnit:self.expectedCacheAdUnit respondBid:bid];
 
   CRInterstitial *interstitial = [self interstitialWithWebView:realWebView];
   [interstitial loadAd];
@@ -252,12 +238,7 @@
 
   [self prepareMockedDeviceInfo];
 
-  OCMStub([self.criteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
-      .andDo(^(NSInvocation *invocation) {
-        CR_BidResponseHandler handler;
-        [invocation getArgument:&handler atIndex:3];
-        handler([CR_CdbBid emptyBid]);
-      });
+  [self mockCriteoWithAdUnit:self.expectedCacheAdUnit respondBid:nil];
   OCMStub([interstitialVC presentingViewController]).andReturn(nil);
 
   CRInterstitial *interstitial = [self interstitialWithController:interstitialVC];
@@ -415,6 +396,15 @@
   CR_InterstitialViewController *interstitialVC =
       [[CR_InterstitialViewController alloc] initWithWebView:webView view:nil interstitial:nil];
   return [self interstitialWithController:interstitialVC];
+}
+
+- (void)mockCriteoWithAdUnit:(CR_CacheAdUnit *)adUnit respondBid:(CR_CdbBid *)bid {
+  OCMStub([self.criteo getBid:adUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler(bid);
+      });
 }
 
 @end
