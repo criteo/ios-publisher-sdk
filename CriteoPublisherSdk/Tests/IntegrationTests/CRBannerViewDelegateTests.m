@@ -92,12 +92,7 @@
 
 - (void)testBannerDidReceiveAd {
   WKWebView *realWebView = [WKWebView new];
-  OCMStub([self.criteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
-      .andDo(^(NSInvocation *invocation) {
-        CR_BidResponseHandler handler;
-        [invocation getArgument:&handler atIndex:3];
-        handler([self bidWithDisplayURL:@"test"]);
-      });
+  [self mockCriteoWithAdUnit:self.expectedCacheAdUnit respondBid:[self bidWithDisplayURL:@"test"]];
 
   CRBannerView *bannerView = [self bannerViewWithWebView:realWebView];
   bannerView.delegate = self.delegate;
@@ -110,12 +105,7 @@
 - (void)testBannerAdFetchFail {
   self.delegate.expectedError = [NSError cr_errorWithCode:CRErrorCodeNoFill];
 
-  OCMStub([self.criteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
-      .andDo(^(NSInvocation *invocation) {
-        CR_BidResponseHandler handler;
-        [invocation getArgument:&handler atIndex:3];
-        handler([CR_CdbBid emptyBid]);
-      });
+  [self mockCriteoWithAdUnit:self.expectedCacheAdUnit respondBid:nil];
   CRBannerView *bannerView = [self bannerViewWithWebView:nil];
   bannerView.delegate = self.delegate;
   [bannerView loadAd];
@@ -189,12 +179,7 @@
 - (void)testNoDelegateWhenNoHttpResponse {
   WKWebView *realWebView = [WKWebView new];
 
-  OCMStub([self.criteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
-      .andDo(^(NSInvocation *invocation) {
-        CR_BidResponseHandler handler;
-        [invocation getArgument:&handler atIndex:3];
-        handler([self bidWithDisplayURL:@"-"]);
-      });
+  [self mockCriteoWithAdUnit:self.expectedCacheAdUnit respondBid:[self bidWithDisplayURL:@"-"]];
   CRBannerView *bannerView = [self bannerViewWithWebView:realWebView];
   bannerView.delegate = self.delegate;
   [bannerView loadAd];
@@ -292,12 +277,23 @@
   [self cr_waitForExpectations:@[ self.delegate.didReceiveAdExpectation ]];
 }
 
+#pragma mark - Private
+
 - (CRBannerView *)bannerViewWithWebView:(WKWebView *)webView {
   return [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                       criteo:self.criteo
                                      webView:webView
                                       adUnit:self.adUnit
                                    urlOpener:self.urlOpener];
+}
+
+- (void)mockCriteoWithAdUnit:(CR_CacheAdUnit *)adUnit respondBid:(CR_CdbBid *)bid {
+  OCMStub([self.criteo getBid:adUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler(bid);
+      });
 }
 
 @end

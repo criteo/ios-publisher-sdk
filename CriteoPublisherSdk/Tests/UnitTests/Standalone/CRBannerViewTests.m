@@ -74,12 +74,7 @@
 - (void)testBannerSuccess {
   WKWebView *mockWebView = OCMPartialMock([[WKWebView alloc] init]);
   CR_CdbBid *bid = [self cdbBidWithDisplayUrl:TEST_DISPLAY_URL];
-  OCMStub([self.criteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
-      .andDo(^(NSInvocation *invocation) {
-        CR_BidResponseHandler handler;
-        [invocation getArgument:&handler atIndex:3];
-        handler(bid);
-      });
+  [self mockCriteoWithAdUnit:self.expectedCacheAdUnit respondBid:bid];
 
   XCTestExpectation *webViewLoadedExpectation =
       [[XCTestExpectation alloc] initWithDescription:@"webViewLoadedExpectation"];
@@ -113,12 +108,7 @@
   WKWebView *realWebView = [WKWebView new];
 
   CR_CdbBid *bid = [self cdbBidWithDisplayUrl:@"-"];
-  OCMStub([self.criteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
-      .andDo(^(NSInvocation *invocation) {
-        CR_BidResponseHandler handler;
-        [invocation getArgument:&handler atIndex:3];
-        handler(bid);
-      });
+  [self mockCriteoWithAdUnit:self.expectedCacheAdUnit respondBid:bid];
 
   CRBannerView *bannerView = [self bannerViewWithWebView:realWebView];
   realWebView.navigationDelegate = self;
@@ -164,12 +154,7 @@
 
 - (void)testBannerFail {
   WKWebView *realWebView = [WKWebView new];
-  OCMStub([self.criteo getBid:self.expectedCacheAdUnit responseHandler:[OCMArg any]])
-      .andDo(^(NSInvocation *invocation) {
-        CR_BidResponseHandler handler;
-        [invocation getArgument:&handler atIndex:3];
-        handler(nil);
-      });
+  [self mockCriteoWithAdUnit:self.expectedCacheAdUnit respondBid:nil];
 
   CRBannerView *bannerView = [self bannerViewWithWebView:realWebView];
   [bannerView loadAd];
@@ -392,6 +377,15 @@
                                 insertTime:[NSDate date]
                               nativeAssets:nil
                               impressionId:nil];
+}
+
+- (void)mockCriteoWithAdUnit:(CR_CacheAdUnit *)adUnit respondBid:(CR_CdbBid *)bid {
+  OCMStub([self.criteo getBid:adUnit responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_BidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:3];
+        handler(bid);
+      });
 }
 
 @end
