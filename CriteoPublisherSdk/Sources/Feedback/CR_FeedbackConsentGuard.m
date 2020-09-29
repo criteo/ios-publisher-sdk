@@ -20,6 +20,7 @@
 #import "CR_FeedbackConsentGuard.h"
 #import "CR_DataProtectionConsent.h"
 #import "CR_Gdpr.h"
+#import "Logging.h"
 
 @interface CR_FeedbackConsentGuard ()
 
@@ -94,7 +95,12 @@
 }
 
 - (id<CR_FeedbackDelegate>)controller {
-  return self.realController && self.hasFeedbackConsent ? self.realController : nil;
+  @try {
+    return self.realController && self.hasFeedbackConsent ? self.realController : nil;
+  } @catch (NSException *exception) {
+    CLogException(exception);
+    return self.realController;
+  }
 }
 
 @end
