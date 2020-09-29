@@ -109,7 +109,9 @@
   CR_CacheAdUnitArray *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:adUnits];
   [self.registeredAdUnits addObjectsFromArray:cacheAdUnits];
   [self.bidManager registerWithSlots:cacheAdUnits];
-  [self prefetchAll];
+  if (!self.config.liveBiddingEnabled) {
+    [self prefetchAll];
+  }
 }
 
 - (CR_BidManager *)bidManager {
