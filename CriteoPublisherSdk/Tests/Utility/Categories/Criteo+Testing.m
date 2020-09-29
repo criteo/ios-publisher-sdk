@@ -111,8 +111,13 @@ NSString *const PreprodNativeAdUnitId = @"test-PubSdk-Native";
   CR_NetworkWaiterBuilder *builder =
       [[CR_NetworkWaiterBuilder alloc] initWithConfig:self.config
                                         networkCaptor:self.testing_networkCaptor];
-  CR_NetworkWaiter *waiter =
-      builder.withBid.withConfig.withLaunchAppEvent.withFinishedRequestsIncluded.build;
+  CR_NetworkWaiterBuilder *waiterBuilder =
+      builder.withConfig.withLaunchAppEvent.withFinishedRequestsIncluded;
+  if (!self.config.liveBiddingEnabled) {
+    // Bid prefetch is expected
+    waiterBuilder = waiterBuilder.withBid;
+  }
+  CR_NetworkWaiter *waiter = waiterBuilder.build;
   return [waiter wait];
 }
 
