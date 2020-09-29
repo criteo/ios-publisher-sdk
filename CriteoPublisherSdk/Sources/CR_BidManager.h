@@ -71,6 +71,24 @@
 
 @end
 
+@interface CR_BidManager (Bidding)
+
+/**
+ * Get a bid for an Ad Unit.
+ *
+ * Depending on `liveBidding` being enabled through configuration, the bid will be either:
+ * - Fetched asynchronously using the live bidding strategy (time budget / cache fallback)
+ * - Returned synchronously using the cache bidding strategy (prefetch / get from cache)
+ *
+ * @param adUnit The ad unit to request a bid
+ * @param responseHandler The block called once bid has been loaded
+ * Note: responseHandler is potentially not invoked on main queue
+ */
+- (void)getBidForAdUnit:(CR_CacheAdUnit *)adUnit
+     bidResponseHandler:(CR_BidResponseHandler)responseHandler;
+
+@end
+
 @interface CR_BidManager (CacheBidding)
 
 - (void)prefetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits;

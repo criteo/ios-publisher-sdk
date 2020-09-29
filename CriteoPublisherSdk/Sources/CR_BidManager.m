@@ -22,7 +22,6 @@
 #import "CR_FeedbackController.h"
 #import "CR_HeaderBidding.h"
 #import "CR_ThreadManager.h"
-#import "CRConstants.h"
 
 typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 
@@ -109,6 +108,15 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
   [cacheManager initSlots:slots];
 }
 
+- (void)getBidForAdUnit:(CR_CacheAdUnit *)adUnit
+     bidResponseHandler:(CR_BidResponseHandler)responseHandler {
+  if (config.liveBiddingEnabled) {
+    [self fetchLiveBidForAdUnit:adUnit bidResponseHandler:responseHandler];
+  } else {
+    responseHandler([self getBidThenFetch:adUnit]);
+  }
+}
+
 - (CR_CdbBid *)getBidThenFetch:(CR_CacheAdUnit *)slot {
   CR_CdbBid *bid = nil;
   @try {
@@ -178,7 +186,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
            bidResponseHandler:(CR_BidResponseHandler)responseHandler {
   [self fetchLiveBidForAdUnit:adUnit
            bidResponseHandler:responseHandler
-                   timeBudget:CRITEO_DEFAULT_LIVE_BID_TIME_BUDGET_IN_SECONDS];
+                   timeBudget:config.liveBiddingTimeBudget];
 }
 
 - (void)fetchLiveBidForAdUnit:(CR_CacheAdUnit *)adUnit
