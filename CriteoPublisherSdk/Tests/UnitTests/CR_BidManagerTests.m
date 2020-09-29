@@ -24,7 +24,7 @@
 #import <OCMock.h>
 #import "DFPRequestClasses.h"
 #import "NSString+Testing.h"
-#import "CR_BidManager.h"
+#import "CR_BidManager+Testing.h"
 #import "CR_DependencyProvider+Testing.h"
 #import "CR_CdbBidBuilder.h"
 #import "CR_DeviceInfoMock.h"
@@ -51,10 +51,6 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                          deviceInfo:[OCMArg any]        \
                       beforeCdbCall:[OCMArg any]        \
                   completionHandler:[OCMArg any]]);
-
-@interface CR_BidManager (Testing)
-@property(nonatomic) NSTimeInterval cdbTimeToNextCall;
-@end
 
 @interface CR_BidManagerTests : XCTestCase
 

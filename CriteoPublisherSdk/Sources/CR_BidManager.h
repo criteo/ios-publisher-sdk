@@ -43,10 +43,14 @@
 
 @interface CR_BidManager : NSObject
 
+#pragma mark - Properties
+
 @property(nonatomic) id<CR_NetworkManagerDelegate> networkManagerDelegate;
 @property(nonatomic, readonly) CR_Config *config;
 @property(nonatomic, strong) CR_DataProtectionConsent *consent;
 @property(nonatomic, strong) CR_ThreadManager *threadManager;
+
+#pragma mark - Lifecycle
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -65,17 +69,33 @@
 
 - (void)registerWithSlots:(CR_CacheAdUnitArray *)slots;
 
+@end
+
+@interface CR_BidManager (CacheBidding)
+
+- (void)prefetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits;
+
 - (CR_CdbBid *)getBidThenFetch:(CR_CacheAdUnit *)slot;
 
-- (CRBidResponse *)bidResponseForCacheAdUnit:(CR_CacheAdUnit *)cacheAdUnit
-                                  adUnitType:(CRAdUnitType)adUnitType;
+@end
 
-- (void)prefetchBidForAdUnit:(CR_CacheAdUnit *)adUnit;
-- (void)prefetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits;
+@interface CR_BidManager (LiveBidding)
+
 - (void)fetchLiveBidForAdUnit:(CR_CacheAdUnit *)adUnit
            bidResponseHandler:(CR_BidResponseHandler)responseHandler;
 
+@end
+
+@interface CR_BidManager (HeaderBidding)
+
 - (void)addCriteoBidToRequest:(id)adRequest forAdUnit:(CR_CacheAdUnit *)adUnit;
+
+@end
+
+@interface CR_BidManager (InHouse)
+
+- (CRBidResponse *)bidResponseForCacheAdUnit:(CR_CacheAdUnit *)cacheAdUnit
+                                  adUnitType:(CRAdUnitType)adUnitType;
 
 - (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken adUnitType:(CRAdUnitType)adUnitType;
 

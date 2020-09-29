@@ -25,7 +25,7 @@
 #import "CR_DependencyProvider+Testing.h"
 #import "CR_ApiHandler.h"
 #import "CR_CacheManager.h"
-#import "CR_BidManager.h"
+#import "CR_BidManager+Testing.h"
 #import "CR_SynchronousThreadManager.h"
 
 @interface CR_BidManagerFeedbackTests : XCTestCase
