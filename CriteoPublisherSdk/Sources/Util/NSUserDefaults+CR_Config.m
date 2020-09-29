@@ -18,9 +18,12 @@
 //
 
 #import "NSUserDefaults+CR_Config.h"
+#import "CRConstants.h"
 
 NSString *const NSUserDefaultsKillSwitchKey = @"CRITEO_KillSwitch";
 NSString *const NSUserDefaultsCsmEnabledKey = @"CRITEO_CsmEnabled";
+NSString *const NSUserDefaultsLiveBiddingEnabledKey = @"CRITEO_LiveBiddingEnabled";
+NSString *const NSUserDefaultsLiveBiddingTimeBudgetKey = @"CRITEO_LiveBiddingTimeBudget";
 
 @implementation NSUserDefaults (CR_Config)
 
@@ -40,12 +43,37 @@ NSString *const NSUserDefaultsCsmEnabledKey = @"CRITEO_CsmEnabled";
   [self setBool:csmFeatureFlag forKey:NSUserDefaultsCsmEnabledKey];
 }
 
+- (BOOL)cr_valueForLiveBiddingFeatureFlag {
+  return [self boolForKey:NSUserDefaultsLiveBiddingEnabledKey withDefaultValue:YES];
+}
+
+- (void)cr_setValueForLiveBiddingFeatureFlag:(BOOL)liveBiddingFeatureFlag {
+  [self setBool:liveBiddingFeatureFlag forKey:NSUserDefaultsLiveBiddingEnabledKey];
+}
+
+- (NSTimeInterval)cr_valueForLiveBiddingTimeBudget {
+  return [self doubleForKey:NSUserDefaultsLiveBiddingTimeBudgetKey
+           withDefaultValue:CRITEO_DEFAULT_LIVE_BID_TIME_BUDGET_IN_SECONDS];
+}
+
+- (void)cr_setValueForLiveBiddingTimeBudget:(NSTimeInterval)liveBiddingTimeBudget {
+  [self setDouble:liveBiddingTimeBudget forKey:NSUserDefaultsLiveBiddingTimeBudgetKey];
+}
+
 #pragma mark - Private
 
 - (BOOL)boolForKey:(NSString *)key withDefaultValue:(BOOL)defaultValue {
   id value = [self objectForKey:key];
   if (value && [value isKindOfClass:NSNumber.class]) {
     return ((NSNumber *)value).boolValue;
+  }
+  return defaultValue;
+}
+
+- (double)doubleForKey:(NSString *)key withDefaultValue:(double)defaultValue {
+  id value = [self objectForKey:key];
+  if (value && [value isKindOfClass:NSNumber.class]) {
+    return ((NSNumber *)value).doubleValue;
   }
   return defaultValue;
 }

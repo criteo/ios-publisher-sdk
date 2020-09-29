@@ -24,5 +24,7 @@
 
 FOUNDATION_EXPORT NSString* const NSUserDefaultsKillSwitchKey;
 FOUNDATION_EXPORT NSString* const NSUserDefaultsCsmEnabledKey;
+FOUNDATION_EXPORT NSString* const NSUserDefaultsLiveBiddingEnabledKey;
+FOUNDATION_EXPORT NSString* const NSUserDefaultsLiveBiddingTimeBudgetKey;
 
 #endif /* NSUserDefaults_Testing_H */

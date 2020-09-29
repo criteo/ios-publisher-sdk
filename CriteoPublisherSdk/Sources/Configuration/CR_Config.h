@@ -38,6 +38,15 @@ FOUNDATION_EXTERN NSString *const CR_ConfigConfigurationUrl;
 @property(copy, nonatomic) NSString *viewportWidthMacro;
 @property(copy, nonatomic) NSString *displayURLMacro;
 
+#pragma mark CSM
+
+@property(assign, nonatomic, getter=isCsmEnabled) BOOL csmEnabled;
+
+#pragma mark Live Bidding
+
+@property(assign, nonatomic, getter=isLiveBiddingEnabled) BOOL liveBiddingEnabled;
+@property(assign, nonatomic) NSTimeInterval liveBiddingTimeBudget;
+
 #pragma mark Read only
 
 @property(nonatomic, readonly) NSString *cdbUrl;
@@ -51,12 +60,6 @@ FOUNDATION_EXTERN NSString *const CR_ConfigConfigurationUrl;
 @property(nonatomic, readonly) NSString *osVersion;
 @property(nonatomic, readonly) NSString *deviceOs;
 @property(nonatomic, readonly) NSString *configUrl;
-
-/**
- * Return <code>true</code> to indicate if the CSM feature is activated. Else <code>false</code>
- * is returned.
- */
-@property(nonatomic, getter=isCsmEnabled) BOOL csmEnabled;
 
 #pragma mark - Lifecycle
 
