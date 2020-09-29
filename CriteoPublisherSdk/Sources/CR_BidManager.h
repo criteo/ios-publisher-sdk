@@ -93,8 +93,6 @@
 
 - (void)prefetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits;
 
-- (CR_CdbBid *)getBidThenFetch:(CR_CacheAdUnit *)slot;
-
 @end
 
 @interface CR_BidManager (LiveBidding)

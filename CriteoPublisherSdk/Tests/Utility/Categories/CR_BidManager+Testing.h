@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSTimeInterval cdbTimeToNextCall;
 
 - (void)prefetchBidForAdUnit:(CR_CacheAdUnit *)adUnit;
+- (CR_CdbBid *)getBidThenFetch:(CR_CacheAdUnit *)slot;
 
 @end
 
