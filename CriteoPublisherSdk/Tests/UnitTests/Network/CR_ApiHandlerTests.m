@@ -217,7 +217,8 @@
   OCMStub([mockConfig configUrl]).andReturn(@"https://url-for-getting-config");
 
   CR_RemoteConfigRequest *request = [CR_RemoteConfigRequest requestWithConfig:mockConfig
-                                                                    profileId:@42];
+                                                                    profileId:@42
+                                                                     deviceId:@"123-456"];
 
   CR_ApiHandler *apiHandler =
       [[CR_ApiHandler alloc] initWithNetworkManager:mockNetworkManager

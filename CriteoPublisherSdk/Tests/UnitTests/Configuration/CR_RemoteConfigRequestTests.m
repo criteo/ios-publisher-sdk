@@ -33,16 +33,19 @@
   OCMStub(config.sdkVersion).andReturn(@"1.3.3.7");
   OCMStub(config.appId).andReturn(@"myAppId");
   NSNumber *profileId = @42;
+  NSString *deviceId = @"123-456";
 
   CR_RemoteConfigRequest *request = [CR_RemoteConfigRequest requestWithConfig:config
-                                                                    profileId:profileId];
+                                                                    profileId:profileId
+                                                                     deviceId:deviceId];
   NSDictionary *postBody = request.postBody;
 
   NSDictionary *expected = @{
     @"cpId" : @"myCpId",
     @"bundleId" : @"myAppId",
     @"sdkVersion" : @"1.3.3.7",
-    @"rtbProfileId" : profileId
+    @"rtbProfileId" : profileId,
+    @"deviceId" : deviceId
   };
 
   XCTAssertEqualObjects(postBody, expected);

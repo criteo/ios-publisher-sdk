@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithApiHandler:(CR_ApiHandler *)apiHandler
                integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry
-    NS_DESIGNATED_INITIALIZER;
+                        deviceInfo:(CR_DeviceInfo *)deviceInfo NS_DESIGNATED_INITIALIZER;
 - (void)refreshConfig:(CR_Config *)config;
 
 @end
