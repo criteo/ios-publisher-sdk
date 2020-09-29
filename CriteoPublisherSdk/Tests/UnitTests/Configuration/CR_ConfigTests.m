@@ -21,6 +21,7 @@
 #import <XCTest/XCTest.h>
 
 #import "CR_Config.h"
+#import "CRConstants.h"
 #import "NSUserDefaults+Testing.h"
 #import "NSUserDefaults+Criteo.h"
 
@@ -36,6 +37,8 @@
   NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
   [userDefaults removeObjectForKey:NSUserDefaultsKillSwitchKey];
   [userDefaults removeObjectForKey:NSUserDefaultsCsmEnabledKey];
+  [userDefaults removeObjectForKey:NSUserDefaultsLiveBiddingEnabledKey];
+  [userDefaults removeObjectForKey:NSUserDefaultsLiveBiddingTimeBudgetKey];
 
   [super tearDown];
 }
@@ -190,6 +193,156 @@
   XCTAssertFalse(newConfig.csmEnabled);
   XCTAssertTrue([userDefaults cr_containsKey:NSUserDefaultsCsmEnabledKey]);
   XCTAssertFalse([userDefaults boolForKey:NSUserDefaultsCsmEnabledKey]);
+}
+
+#pragma mark - Live Bidding Enabled
+
+- (void)testInit_GivenEmptyUserDefault_LiveBiddingIsEnabledByDefault {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertTrue(config.isLiveBiddingEnabled);
+}
+
+- (void)testInit_GivenUserDefaultWithLiveBiddingEnabled_LiveBiddingIsEnabled {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+  [userDefaults setBool:YES forKey:NSUserDefaultsLiveBiddingEnabledKey];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertTrue(config.isLiveBiddingEnabled);
+}
+
+- (void)testInit_GivenUserDefaultWithLiveBiddingDisabled_LiveBiddingIsDisabled {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+  [userDefaults setBool:NO forKey:NSUserDefaultsLiveBiddingEnabledKey];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertFalse(config.isLiveBiddingEnabled);
+}
+
+- (void)testInit_GivenUserDefaultWithGarbageInLiveBidding_LiveBiddingIsEnabledByDefault {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+  [userDefaults setObject:@"garbage" forKey:NSUserDefaultsLiveBiddingEnabledKey];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertTrue(config.isLiveBiddingEnabled);
+}
+
+- (void)testSetLiveBiddingEnabled_GivenNoUpdate_NothingIsWrittenInUserDefaults {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertTrue(config.isLiveBiddingEnabled);
+  XCTAssertFalse([userDefaults cr_containsKey:NSUserDefaultsLiveBiddingEnabledKey]);
+}
+
+- (void)testSetLiveBiddingEnabled_GivenEnabledFeatureFlag_WriteItInUserDefaults {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+  config.liveBiddingEnabled = YES;
+
+  CR_Config *newConfig = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertTrue(newConfig.isLiveBiddingEnabled);
+  XCTAssertTrue([userDefaults cr_containsKey:NSUserDefaultsLiveBiddingEnabledKey]);
+  XCTAssertTrue([userDefaults boolForKey:NSUserDefaultsLiveBiddingEnabledKey]);
+}
+
+- (void)testSetLiveBiddingEnabled_GivenDisabledFeatureFlag_WriteItInUserDefaults {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+  config.liveBiddingEnabled = NO;
+
+  CR_Config *newConfig = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertFalse(newConfig.liveBiddingEnabled);
+  XCTAssertTrue([userDefaults cr_containsKey:NSUserDefaultsLiveBiddingEnabledKey]);
+  XCTAssertFalse([userDefaults boolForKey:NSUserDefaultsLiveBiddingEnabledKey]);
+}
+
+#pragma mark - Live Bidding Time Budget
+
+- (void)testInit_GivenEmptyUserDefault_LiveBiddingTimeBudgetIsDefaultValue {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertEqual(config.liveBiddingTimeBudget, CRITEO_DEFAULT_LIVE_BID_TIME_BUDGET_IN_SECONDS);
+}
+
+- (void)testInit_GivenUserDefaultWithLiveBiddingTimeBudget_LiveBiddingTimeBudgetIsProvided {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+  NSTimeInterval testTimeBudget = 42;
+  [userDefaults setDouble:testTimeBudget forKey:NSUserDefaultsLiveBiddingTimeBudgetKey];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertEqual(config.liveBiddingTimeBudget, testTimeBudget);
+}
+
+- (void)testInit_GivenUserDefaultWithLiveBiddingBudgetZero_LiveBiddingBudgetIsZero {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+  NSTimeInterval testTimeBudget = 0;
+  [userDefaults setDouble:testTimeBudget forKey:NSUserDefaultsLiveBiddingTimeBudgetKey];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertEqual(config.liveBiddingTimeBudget, testTimeBudget);
+}
+
+- (void)testInit_GivenUserDefaultWithGarbageInLiveBiddingTimeBudget_LiveBiddingTimeBudgetIsDefault {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+  [userDefaults setObject:@"garbage" forKey:NSUserDefaultsLiveBiddingTimeBudgetKey];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertEqual(config.liveBiddingTimeBudget, CRITEO_DEFAULT_LIVE_BID_TIME_BUDGET_IN_SECONDS);
+}
+
+- (void)testSetLiveBiddingTimeBudget_GivenNoUpdate_NothingIsWrittenInUserDefaults {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertEqual(config.liveBiddingTimeBudget, CRITEO_DEFAULT_LIVE_BID_TIME_BUDGET_IN_SECONDS);
+  XCTAssertFalse([userDefaults cr_containsKey:NSUserDefaultsLiveBiddingTimeBudgetKey]);
+}
+
+- (void)testSetLiveBiddingTimeBudget_GivenTimeBudgetSet_WriteItInUserDefaults {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+  NSTimeInterval testTimeBudget = 42;
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+  config.liveBiddingTimeBudget = testTimeBudget;
+
+  CR_Config *newConfig = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertEqual(newConfig.liveBiddingTimeBudget, testTimeBudget);
+  XCTAssertTrue([userDefaults cr_containsKey:NSUserDefaultsLiveBiddingTimeBudgetKey]);
+  XCTAssertEqual([userDefaults doubleForKey:NSUserDefaultsLiveBiddingTimeBudgetKey],
+                 testTimeBudget);
+}
+
+- (void)testSetLiveBiddingTimeBudget_GivenTimeBudgetSetZero_WriteItInUserDefaults {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+  NSTimeInterval testTimeBudget = 0;
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+  config.liveBiddingTimeBudget = testTimeBudget;
+
+  CR_Config *newConfig = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertEqual(newConfig.liveBiddingTimeBudget, testTimeBudget);
+  XCTAssertTrue([userDefaults cr_containsKey:NSUserDefaultsLiveBiddingTimeBudgetKey]);
+  XCTAssertEqual([userDefaults doubleForKey:NSUserDefaultsLiveBiddingTimeBudgetKey],
+                 testTimeBudget);
 }
 
 @end

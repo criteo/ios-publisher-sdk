@@ -21,3 +21,5 @@
 
 NSString* const NSUserDefaultsKillSwitchKey = @"CRITEO_KillSwitch";
 NSString* const NSUserDefaultsCsmEnabledKey = @"CRITEO_CsmEnabled";
+NSString* const NSUserDefaultsLiveBiddingEnabledKey = @"CRITEO_LiveBiddingEnabled";
+NSString* const NSUserDefaultsLiveBiddingTimeBudgetKey = @"CRITEO_LiveBiddingTimeBudget";

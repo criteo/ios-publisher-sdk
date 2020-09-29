@@ -49,6 +49,17 @@
                [configValues[@"csmEnabled"] isKindOfClass:NSNumber.class]) {
              config.csmEnabled = ((NSNumber *)configValues[@"csmEnabled"]).boolValue;
            }
+           if (configValues[@"liveBiddingEnabled"] &&
+               [configValues[@"liveBiddingEnabled"] isKindOfClass:NSNumber.class]) {
+             config.liveBiddingEnabled =
+                 ((NSNumber *)configValues[@"liveBiddingEnabled"]).boolValue;
+           }
+           if (configValues[@"liveBiddingTimeBudgetInMillis"] &&
+               [configValues[@"liveBiddingTimeBudgetInMillis"] isKindOfClass:NSNumber.class]) {
+             double timeBudgetInMillis =
+                 ((NSNumber *)configValues[@"liveBiddingTimeBudgetInMillis"]).doubleValue;
+             config.liveBiddingTimeBudget = timeBudgetInMillis / 1000;
+           }
            if (configValues[@"iOSAdTagUrlMode"] &&
                [configValues[@"iOSAdTagUrlMode"] isKindOfClass:NSString.class]) {
              config.adTagUrlMode = (NSString *)configValues[@"iOSAdTagUrlMode"];

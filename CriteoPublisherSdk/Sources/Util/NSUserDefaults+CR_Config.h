@@ -32,6 +32,14 @@
 
 - (void)cr_setValueForCsmFeatureFlag:(BOOL)csmFeatureFlag;
 
+- (BOOL)cr_valueForLiveBiddingFeatureFlag;
+
+- (void)cr_setValueForLiveBiddingFeatureFlag:(BOOL)liveBiddingFeatureFlag;
+
+- (NSTimeInterval)cr_valueForLiveBiddingTimeBudget;
+
+- (void)cr_setValueForLiveBiddingTimeBudget:(NSTimeInterval)timeBudget;
+
 @end
 
 #endif /* NSUserDefaults_CR_Config_H */

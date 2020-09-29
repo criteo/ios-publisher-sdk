@@ -39,6 +39,8 @@
   CR_IntegrationRegistry *mockIntegrationRegistry;
 }
 
+#pragma mark - Lifecycle
+
 - (void)setUp {
   localConfig = [[CR_Config alloc] initWithCriteoPublisherId:@"1337"];
   mockApiHandler = OCMStrictClassMock(CR_ApiHandler.class);
@@ -57,6 +59,8 @@
   [self.userDefault removeObjectForKey:NSUserDefaultsKillSwitchKey];
   [self.userDefault removeObjectForKey:NSUserDefaultsCsmEnabledKey];
 }
+
+#pragma mark - Kill switch
 
 - (void)testConfigManagerDisableKillSwitch {
   [self prepareApiHandlerToRespondRemoteConfigJson:@"{\"killSwitch\": false }"];
@@ -77,6 +81,8 @@
   XCTAssertEqual(localConfig.killSwitch, YES,
                  @"Kill switch should be activated after config is refreshed from remote API");
 }
+
+#pragma mark - CSM enabled
 
 - (void)testRefreshConfig_CsmFeatureFlagNotInResponse_DoNotUpdateIt {
   [self prepareApiHandlerToRespondRemoteConfigJson:@"{}"];
@@ -104,6 +110,68 @@
 
   XCTAssertFalse(localConfig.isCsmEnabled);
 }
+
+#pragma mark - Live Bidding
+#pragma mark Enabled
+
+- (void)testRefreshConfig_LiveBiddingEnabledNotInResponse_DoNotUpdateIt {
+  [self prepareApiHandlerToRespondRemoteConfigJson:@"{}"];
+  localConfig.liveBiddingEnabled = NO;
+
+  [self.configManager refreshConfig:localConfig];
+
+  XCTAssertFalse(localConfig.liveBiddingEnabled);
+}
+
+- (void)testRefreshConfig_GivenLiveBiddingEnabledTrueInRequest_LiveBiddingIsEnabled {
+  [self prepareApiHandlerToRespondRemoteConfigJson:@"{\"liveBiddingEnabled\": true }"];
+  localConfig.liveBiddingEnabled = NO;
+
+  [self.configManager refreshConfig:localConfig];
+
+  XCTAssertTrue(localConfig.isLiveBiddingEnabled);
+}
+
+- (void)testRefreshConfig_GivenLiveBiddingEnabledFalseInRequest_LiveBiddingIsDisabled {
+  [self prepareApiHandlerToRespondRemoteConfigJson:@"{\"liveBiddingEnabled\": false }"];
+  localConfig.liveBiddingEnabled = YES;
+
+  [self.configManager refreshConfig:localConfig];
+
+  XCTAssertFalse(localConfig.isLiveBiddingEnabled);
+}
+
+#pragma mark Time Budget
+
+- (void)testRefreshConfig_LiveBiddingTimeBudgetNotInResponse_DoNotUpdateIt {
+  [self prepareApiHandlerToRespondRemoteConfigJson:@"{}"];
+  NSTimeInterval testTimeBudget = 123;
+  localConfig.liveBiddingTimeBudget = testTimeBudget;
+
+  [self.configManager refreshConfig:localConfig];
+
+  XCTAssertEqual(localConfig.liveBiddingTimeBudget, testTimeBudget);
+}
+
+- (void)testRefreshConfig_GivenLiveBiddingTimeBudgetInRequest_LiveBiddingTimeBudgetIsSet {
+  [self prepareApiHandlerToRespondRemoteConfigJson:@"{\"liveBiddingTimeBudgetInMillis\": 123000 }"];
+  localConfig.liveBiddingTimeBudget = 0;
+
+  [self.configManager refreshConfig:localConfig];
+
+  XCTAssertEqual(localConfig.liveBiddingTimeBudget, 123);
+}
+
+- (void)testRefreshConfig_GivenLiveBiddingTimeBudgetZeroInRequest_LiveBiddingTimeBudgetIsSet {
+  [self prepareApiHandlerToRespondRemoteConfigJson:@"{\"liveBiddingTimeBudgetInMillis\": 0 }"];
+  localConfig.liveBiddingTimeBudget = 123;
+
+  [self.configManager refreshConfig:localConfig];
+
+  XCTAssertEqual(localConfig.liveBiddingTimeBudget, 0);
+}
+
+#pragma mark - Refresh Config
 
 - (void)testRefreshConfig_GivenIntegrationRegistry_ProfileIdIsUsedInRequest {
   BOOL (^checkRequest)(CR_RemoteConfigRequest *) = ^(CR_RemoteConfigRequest *request) {
