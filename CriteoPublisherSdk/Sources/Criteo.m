@@ -108,6 +108,8 @@
 
   CR_CacheAdUnitArray *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:adUnits];
   [self.registeredAdUnits addObjectsFromArray:cacheAdUnits];
+  [self.appEvents registerForIosEvents];
+  [self.appEvents sendLaunchEvent];
   [self.bidManager registerWithSlots:cacheAdUnits];
   if (!self.config.liveBiddingEnabled) {
     [self prefetchAll];
@@ -145,8 +147,14 @@
   return [self.bidManager tokenValueForBidToken:bidToken adUnitType:adUnitType];
 }
 
+#pragma mark - Properties
+
 - (CR_Config *)config {
   return self.dependencyProvider.config;
+}
+
+- (CR_AppEvents *)appEvents {
+  return self.dependencyProvider.appEvents;
 }
 
 - (CR_ThreadManager *)threadManager {

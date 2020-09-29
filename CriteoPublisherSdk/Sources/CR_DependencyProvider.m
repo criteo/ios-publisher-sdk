@@ -151,7 +151,6 @@
                                                              deviceInfo:self.deviceInfo
                                                                 consent:self.consent
                                                          networkManager:self.networkManager
-                                                              appEvents:self.appEvents
                                                           headerBidding:self.headerBidding
                                                        feedbackDelegate:self.feedbackDelegate
                                                           threadManager:self.threadManager]);
