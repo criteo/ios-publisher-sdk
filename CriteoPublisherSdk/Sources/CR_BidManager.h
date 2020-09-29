@@ -58,15 +58,12 @@
                       cacheManager:(CR_CacheManager *)cacheManager
                         tokenCache:(CR_TokenCache *)tokenCache
                             config:(CR_Config *)config
-                     configManager:(CR_ConfigManager *)configManager
                         deviceInfo:(CR_DeviceInfo *)deviceInfo
                            consent:(CR_DataProtectionConsent *)consent
                     networkManager:(CR_NetworkManager *)networkManager
                      headerBidding:(CR_HeaderBidding *)headerBidding
                   feedbackDelegate:(id<CR_FeedbackDelegate>)feedbackDelegate
                      threadManager:(CR_ThreadManager *)threadManager NS_DESIGNATED_INITIALIZER;
-
-- (void)registerWithSlots:(CR_CacheAdUnitArray *)slots;
 
 @end
 

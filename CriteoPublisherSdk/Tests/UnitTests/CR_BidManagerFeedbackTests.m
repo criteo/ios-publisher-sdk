@@ -292,7 +292,6 @@
   [self configureApiHandlerMockWithCdbRequest:self.cdbRequest
                                   cdbResponse:self.cdbResponse
                                         error:nil];
-  [self.bidManager registerWithSlots:@[ self.adUnit ]];  // fullfill the cache with an empty bid
   [self.bidManager prefetchBidForAdUnit:self.adUnit];
 
   [self.bidManager getBidThenFetch:self.adUnit];
@@ -392,7 +391,6 @@
   [self configureApiHandlerMockWithCdbRequest:self.cdbRequest
                                   cdbResponse:self.cdbResponse
                                         error:nil];
-  [self.bidManager registerWithSlots:@[ self.adUnit ]];  // fullfill the cache with an empty bid
   [self.bidManager prefetchBidForAdUnit:self.adUnit];
   self.lastSentMessages = nil;
 

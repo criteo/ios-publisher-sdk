@@ -39,7 +39,6 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
   CR_CacheManager *cacheManager;
   CR_TokenCache *tokenCache;
   CR_Config *config;
-  CR_ConfigManager *configManager;
   CR_DeviceInfo *deviceInfo;
   CR_NetworkManager *networkManager;
 }
@@ -59,7 +58,6 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
                      cacheManager:nil
                        tokenCache:nil
                            config:nil
-                    configManager:nil
                        deviceInfo:nil
                           consent:nil
                    networkManager:nil
@@ -72,7 +70,6 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
                       cacheManager:(CR_CacheManager *)cacheManager
                         tokenCache:(CR_TokenCache *)tokenCache
                             config:(CR_Config *)config
-                     configManager:(CR_ConfigManager *)configManager
                         deviceInfo:(CR_DeviceInfo *)deviceInfo
                            consent:(CR_DataProtectionConsent *)consent
                     networkManager:(CR_NetworkManager *)networkManager
@@ -84,7 +81,6 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
     self->cacheManager = cacheManager;
     self->tokenCache = tokenCache;
     self->config = config;
-    self->configManager = configManager;
     self->deviceInfo = deviceInfo;
     self->networkManager = networkManager;
     _cdbTimeToNextCall = 0;
@@ -95,10 +91,6 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
   }
 
   return self;
-}
-
-- (void)registerWithSlots:(CR_CacheAdUnitArray *)slots {
-  [self refreshConfig];
 }
 
 - (void)getBidForAdUnit:(CR_CacheAdUnit *)adUnit
@@ -301,12 +293,6 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
   if (cdbResponse.timeToNextCall) {
     self.cdbTimeToNextCall = [[NSDate dateWithTimeIntervalSinceNow:cdbResponse.timeToNextCall]
         timeIntervalSinceReferenceDate];
-  }
-}
-
-- (void)refreshConfig {
-  if (config) {
-    [configManager refreshConfig:config];
   }
 }
 
