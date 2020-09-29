@@ -30,6 +30,7 @@
 @class CR_TokenValue;
 @class CRBidToken;
 @class CR_Config;
+@class CR_ConfigManager;
 @class CR_AppEvents;
 @class CR_BidManager;
 @class CR_ThreadManager;
@@ -42,6 +43,7 @@ typedef void (^CR_BidResponseHandler)(CR_CdbBid *bid);
 @property(strong, nonatomic, readonly) CR_DependencyProvider *dependencyProvider;
 @property(weak, nonatomic) id<CR_NetworkManagerDelegate> networkManagerDelegate;
 @property(strong, nonatomic, readonly) CR_Config *config;
+@property(strong, nonatomic, readonly) CR_ConfigManager *configManager;
 @property(strong, nonatomic, readonly) CR_AppEvents *appEvents;
 @property(strong, nonatomic, readonly) CR_ThreadManager *threadManager;
 

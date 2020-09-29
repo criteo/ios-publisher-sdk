@@ -147,7 +147,6 @@
                                                            cacheManager:self.cacheManager
                                                              tokenCache:self.tokenCache
                                                                  config:self.config
-                                                          configManager:self.configManager
                                                              deviceInfo:self.deviceInfo
                                                                 consent:self.consent
                                                          networkManager:self.networkManager

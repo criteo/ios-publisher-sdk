@@ -256,12 +256,6 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   OCMReject([self.configManagerMock refreshConfig:[OCMArg any]]);
 }
 
-- (void)testSlotRegistrationRefreshConfiguration {
-  [self.bidManager registerWithSlots:@[ self.adUnitUncached ]];
-
-  OCMVerify([self.configManagerMock refreshConfig:[OCMArg any]]);
-}
-
 - (void)testGetBid_GivenLiveBiddingIsEnabled_ThenFetchLiveBid {
   CR_BidResponseHandler responseHandler = ^(CR_CdbBid *bid) {
   };

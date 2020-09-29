@@ -110,7 +110,7 @@
   [self.registeredAdUnits addObjectsFromArray:cacheAdUnits];
   [self.appEvents registerForIosEvents];
   [self.appEvents sendLaunchEvent];
-  [self.bidManager registerWithSlots:cacheAdUnits];
+  [self.configManager refreshConfig:self.config];
   if (!self.config.liveBiddingEnabled) {
     [self prefetchAll];
   }
@@ -151,6 +151,10 @@
 
 - (CR_Config *)config {
   return self.dependencyProvider.config;
+}
+
+- (CR_ConfigManager *)configManager {
+  return self.dependencyProvider.configManager;
 }
 
 - (CR_AppEvents *)appEvents {
