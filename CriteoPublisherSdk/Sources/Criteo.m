@@ -139,12 +139,7 @@
 }
 
 - (void)getBid:(CR_CacheAdUnit *)slot responseHandler:(CR_BidResponseHandler)responseHandler {
-  BOOL liveBidding = YES;  // TODO config integration
-  if (liveBidding) {
-    [self.bidManager fetchLiveBidForAdUnit:slot bidResponseHandler:responseHandler];
-  } else {
-    responseHandler([self getBid:slot]);
-  }
+  [self.bidManager getBidForAdUnit:slot bidResponseHandler:responseHandler];
 }
 
 - (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken

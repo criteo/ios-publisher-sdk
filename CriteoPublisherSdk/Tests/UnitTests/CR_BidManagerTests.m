@@ -273,6 +273,32 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   OCMVerify([self.configManagerMock refreshConfig:[OCMArg any]]);
 }
 
+- (void)testGetBid_GivenLiveBiddingIsEnabled_ThenFetchLiveBid {
+  CR_BidResponseHandler responseHandler = ^(CR_CdbBid *bid) {
+  };
+  self.bidManager = OCMPartialMock(self.bidManager);
+  self.dependencyProvider.config.liveBiddingEnabled = YES;
+
+  OCMExpect([self.bidManager fetchLiveBidForAdUnit:self.adUnit1
+                                bidResponseHandler:responseHandler]);
+  OCMReject([self.bidManager getBidThenFetch:self.adUnit1]);
+
+  [self.bidManager getBidForAdUnit:self.adUnit1 bidResponseHandler:responseHandler];
+}
+
+- (void)testGetBid_GivenLiveBiddingIsDisabled_ThenGetBidThenFetch {
+  CR_BidResponseHandler responseHandler = ^(CR_CdbBid *bid) {
+  };
+  self.bidManager = OCMPartialMock(self.bidManager);
+  self.dependencyProvider.config.liveBiddingEnabled = NO;
+
+  OCMExpect([self.bidManager getBidThenFetch:self.adUnit1]);
+  OCMReject([self.bidManager fetchLiveBidForAdUnit:self.adUnit1
+                                bidResponseHandler:responseHandler]);
+
+  [self.bidManager getBidForAdUnit:self.adUnit1 bidResponseHandler:responseHandler];
+}
+
 #pragma mark - Live Bidding
 
 - (void)testLiveBid_GivenResponseBeforeTimeBudget_ThenBidFromResponseGiven {
