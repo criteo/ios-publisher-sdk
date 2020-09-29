@@ -24,13 +24,16 @@
 @implementation CR_ConfigManager {
   CR_ApiHandler *_apiHandler;
   CR_IntegrationRegistry *_integrationRegistry;
+  CR_DeviceInfo *_deviceInfo;
 }
 
 - (instancetype)initWithApiHandler:(CR_ApiHandler *)apiHandler
-               integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry {
+               integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry
+                        deviceInfo:(CR_DeviceInfo *)deviceInfo {
   if (self = [super init]) {
     _apiHandler = apiHandler;
     _integrationRegistry = integrationRegistry;
+    _deviceInfo = deviceInfo;
   }
 
   return self;
@@ -38,7 +41,9 @@
 
 - (void)refreshConfig:(CR_Config *)config {
   CR_RemoteConfigRequest *request =
-      [CR_RemoteConfigRequest requestWithConfig:config profileId:_integrationRegistry.profileId];
+      [CR_RemoteConfigRequest requestWithConfig:config
+                                      profileId:_integrationRegistry.profileId
+                                       deviceId:_deviceInfo.deviceId];
   [_apiHandler getConfig:request
          ahConfigHandler:^(NSDictionary *configValues) {
            if (configValues[@"killSwitch"] &&

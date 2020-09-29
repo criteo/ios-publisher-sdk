@@ -37,6 +37,7 @@
   CR_Config *localConfig;
   CR_ApiHandler *mockApiHandler;
   CR_IntegrationRegistry *mockIntegrationRegistry;
+  CR_DeviceInfo *mockDeviceInfo;
 }
 
 #pragma mark - Lifecycle
@@ -46,10 +47,13 @@
   mockApiHandler = OCMStrictClassMock(CR_ApiHandler.class);
   mockIntegrationRegistry = OCMStrictClassMock(CR_IntegrationRegistry.class);
   OCMStub([mockIntegrationRegistry profileId]).andReturn(@42);
+  mockDeviceInfo = OCMStrictClassMock(CR_DeviceInfo.class);
+  OCMStub([mockDeviceInfo deviceId]).andReturn(@"123-456");
 
   self.userDefault = [[NSUserDefaults alloc] init];
   self.configManager = [[CR_ConfigManager alloc] initWithApiHandler:mockApiHandler
-                                                integrationRegistry:mockIntegrationRegistry];
+                                                integrationRegistry:mockIntegrationRegistry
+                                                         deviceInfo:mockDeviceInfo];
 }
 
 - (void)tearDown {

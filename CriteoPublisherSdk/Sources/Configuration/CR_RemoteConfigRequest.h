@@ -28,7 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(copy, nonatomic, readonly) NSString *configUrl;
 @property(copy, nonatomic, readonly) NSDictionary *postBody;
 
-+ (instancetype)requestWithConfig:(CR_Config *)config profileId:(NSNumber *)profileId;
++ (instancetype)requestWithConfig:(CR_Config *)config
+                        profileId:(NSNumber *)profileId
+                         deviceId:(NSString *)deviceId;
 
 @end
 

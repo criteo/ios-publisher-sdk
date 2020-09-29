@@ -26,22 +26,27 @@
 @property(copy, nonatomic) NSString *sdkVersion;
 @property(copy, nonatomic) NSString *appId;
 @property(copy, nonatomic) NSNumber *profileId;
+@property(copy, nonatomic) NSString *deviceId;
 
 - (instancetype)initWithCriteoPublisherId:(NSString *)criteoPublisherId
                                sdkVersion:(NSString *)sdkVersion
                                     appId:(NSString *)appId
                                 profileId:(NSNumber *)profileId
+                                 deviceId:(NSString *)deviceId
                                 configUrl:(NSString *)configUrl;
 
 @end
 
 @implementation CR_RemoteConfigRequest
 
-+ (instancetype)requestWithConfig:(CR_Config *)config profileId:(NSNumber *)profileId {
++ (instancetype)requestWithConfig:(CR_Config *)config
+                        profileId:(NSNumber *)profileId
+                         deviceId:(NSString *)deviceId {
   return [CR_RemoteConfigRequest.alloc initWithCriteoPublisherId:config.criteoPublisherId
                                                       sdkVersion:config.sdkVersion
                                                            appId:config.appId
                                                        profileId:profileId
+                                                        deviceId:deviceId
                                                        configUrl:config.configUrl];
 }
 
@@ -49,12 +54,14 @@
                                sdkVersion:(NSString *)sdkVersion
                                     appId:(NSString *)appId
                                 profileId:(NSNumber *)profileId
+                                 deviceId:(NSString *)deviceId
                                 configUrl:(NSString *)configUrl {
   if (self = [super init]) {
     _criteoPublisherId = criteoPublisherId;
     _sdkVersion = sdkVersion;
     _appId = appId;
     _profileId = profileId;
+    _deviceId = deviceId;
     _configUrl = configUrl;
   }
   return self;
@@ -65,7 +72,8 @@
     @"cpId" : self.criteoPublisherId,
     @"bundleId" : self.appId,
     @"sdkVersion" : self.sdkVersion,
-    @"rtbProfileId" : self.profileId
+    @"rtbProfileId" : self.profileId,
+    @"deviceId" : self.deviceId
   };
 }
 
