@@ -134,10 +134,6 @@
                                          adUnitType:adUnit.adUnitType];
 }
 
-- (CR_CdbBid *)getBid:(CR_CacheAdUnit *)slot {
-  return [self.bidManager getBidThenFetch:slot];
-}
-
 - (void)getBid:(CR_CacheAdUnit *)slot responseHandler:(CR_BidResponseHandler)responseHandler {
   [self.bidManager getBidForAdUnit:slot bidResponseHandler:responseHandler];
 }
