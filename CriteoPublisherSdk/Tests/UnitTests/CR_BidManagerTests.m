@@ -20,10 +20,8 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 
-#import <MoPub.h>
 #import <OCMock.h>
 #import "DFPRequestClasses.h"
-#import "NSString+Testing.h"
 #import "CR_BidManager+Testing.h"
 #import "CR_DependencyProvider+Testing.h"
 #import "CR_CdbBidBuilder.h"
@@ -33,7 +31,6 @@
 #import "CriteoPublisherSdkTests-Swift.h"
 
 static NSString *const CR_BidManagerTestsCpm = @"crt_cpm";
-static NSString *const CR_BidManagerTestsDisplayUrl = @"crt_displayUrl";
 static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
 #define CR_OCMockVerifyCallCdb(apiHandlerMock, adUnits) \
@@ -181,7 +178,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   XCTAssert(bid.isEmpty);
 }
 
-- (void)testGetBidWhenBeforeTtnc {  // TTNC -> Time to next call
+- (void)testGetBidWhenBeforeTimeToNextCall {
   self.bidManager = [self.dependencyProvider bidManager];
   self.bidManager.cdbTimeToNextCall =
       [[NSDate dateWithTimeIntervalSinceNow:360] timeIntervalSinceReferenceDate];
@@ -436,8 +433,8 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                           withBid:[OCMArg any]
                                            adUnit:[OCMArg any]]);
   XCTAssertTrue(self.dfpRequest.customTargeting.count == 2);
-  XCTAssertNil([self.dfpRequest.customTargeting objectForKey:CR_BidManagerTestsDfpDisplayUrl]);
-  XCTAssertNil([self.dfpRequest.customTargeting objectForKey:CR_BidManagerTestsCpm]);
+  XCTAssertNil(self.dfpRequest.customTargeting[CR_BidManagerTestsDfpDisplayUrl]);
+  XCTAssertNil(self.dfpRequest.customTargeting[CR_BidManagerTestsCpm]);
 }
 
 #pragma mark - Private
