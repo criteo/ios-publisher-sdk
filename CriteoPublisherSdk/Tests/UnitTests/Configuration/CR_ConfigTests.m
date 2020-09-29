@@ -25,10 +25,11 @@
 #import "NSUserDefaults+Criteo.h"
 
 @interface CR_ConfigTests : XCTestCase
-
 @end
 
 @implementation CR_ConfigTests
+
+#pragma mark - Lifecycle
 
 - (void)tearDown {
   // Apparently, even new initialized user defaults have state.
@@ -39,12 +40,14 @@
   [super tearDown];
 }
 
+#pragma mark - Kill Switch
+
 - (void)testGetConfigValuesFromData {
   // Json response from config endpoint
   NSString *rawJsonCdbResponse = @"{\"killSwitch\":true}";
   NSData *configResponse = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
   NSDictionary *configData = [CR_Config getConfigValuesFromData:configResponse];
-  XCTAssertEqual(YES, ((NSNumber *)[configData objectForKey:@"killSwitch"]).boolValue);
+  XCTAssertEqual(YES, ((NSNumber *)configData[@"killSwitch"]).boolValue);
 }
 
 - (void)testInit_GivenEmptyUserDefault_KillSwitchIsDisabledByDefault {
@@ -82,41 +85,6 @@
   XCTAssertFalse(config.killSwitch);
 }
 
-- (void)testInit_GivenEmptyUserDefault_CsmFeatureIsEnabledByDefault {
-  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
-
-  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
-
-  XCTAssertTrue(config.isCsmEnabled);
-}
-
-- (void)testInit_GivenUserDefaultWithCsmFeatureEnabled_CsmFeatureIsEnabled {
-  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
-  [userDefaults setBool:YES forKey:NSUserDefaultsCsmEnabledKey];
-
-  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
-
-  XCTAssertTrue(config.isCsmEnabled);
-}
-
-- (void)testInit_GivenUserDefaultWithCsmFeatureDisabled_CsmFeatureIsDisabled {
-  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
-  [userDefaults setBool:NO forKey:NSUserDefaultsCsmEnabledKey];
-
-  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
-
-  XCTAssertFalse(config.isCsmEnabled);
-}
-
-- (void)testInit_GivenUserDefaultWithGarbageInCsmFeature_CsmFeatureIsEnabledByDefault {
-  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
-  [userDefaults setObject:@"garbage" forKey:NSUserDefaultsCsmEnabledKey];
-
-  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
-
-  XCTAssertTrue(config.isCsmEnabled);
-}
-
 - (void)testSetKillSwitch_GivenNoUpdate_NothingIsWrittenInUserDefaults {
   NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
 
@@ -150,6 +118,43 @@
   XCTAssertFalse(newConfig.killSwitch);
   XCTAssertTrue([userDefaults cr_containsKey:NSUserDefaultsKillSwitchKey]);
   XCTAssertFalse([userDefaults boolForKey:NSUserDefaultsKillSwitchKey]);
+}
+
+#pragma mark - CSM Enabled
+
+- (void)testInit_GivenEmptyUserDefault_CsmFeatureIsEnabledByDefault {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertTrue(config.isCsmEnabled);
+}
+
+- (void)testInit_GivenUserDefaultWithCsmFeatureEnabled_CsmFeatureIsEnabled {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+  [userDefaults setBool:YES forKey:NSUserDefaultsCsmEnabledKey];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertTrue(config.isCsmEnabled);
+}
+
+- (void)testInit_GivenUserDefaultWithCsmFeatureDisabled_CsmFeatureIsDisabled {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+  [userDefaults setBool:NO forKey:NSUserDefaultsCsmEnabledKey];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertFalse(config.isCsmEnabled);
+}
+
+- (void)testInit_GivenUserDefaultWithGarbageInCsmFeature_CsmFeatureIsEnabledByDefault {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+  [userDefaults setObject:@"garbage" forKey:NSUserDefaultsCsmEnabledKey];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertTrue(config.isCsmEnabled);
 }
 
 - (void)testSetCsmEnabled_GivenNoUpdate_NothingIsWrittenInUserDefaults {
