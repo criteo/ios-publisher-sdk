@@ -170,14 +170,6 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   XCTAssert(bid.isEmpty);
 }
 
-- (void)testRegistrationSetEmptyBid {
-  [self.bidManager registerWithSlots:@[ self.adUnitUncached ]];
-
-  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnitUncached];
-
-  XCTAssert(bid.isEmpty);
-}
-
 - (void)testGetBidWhenBeforeTimeToNextCall {
   self.bidManager = [self.dependencyProvider bidManager];
   self.bidManager.cdbTimeToNextCall =

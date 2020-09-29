@@ -33,12 +33,6 @@
   return self;
 }
 
-- (void)initSlots:(NSArray *)slots {
-  for (CR_CacheAdUnit *slot in slots) {
-    _bidCache[slot] = [CR_CdbBid emptyBid];
-  }
-}
-
 - (CRAdUnitType)adUnitTypeFromBid:(CR_CdbBid *)bid {
   if (bid.nativeAssets) {
     return CRAdUnitTypeNative;

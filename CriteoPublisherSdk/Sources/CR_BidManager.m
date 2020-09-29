@@ -105,7 +105,6 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
   [self refreshConfig];
   [appEvents registerForIosEvents];
   [appEvents sendLaunchEvent];
-  [cacheManager initSlots:slots];
 }
 
 - (void)getBidForAdUnit:(CR_CacheAdUnit *)adUnit
