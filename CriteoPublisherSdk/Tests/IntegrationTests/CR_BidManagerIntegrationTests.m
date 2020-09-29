@@ -23,7 +23,7 @@
 #import "Criteo+Testing.h"
 #import "Criteo+Internal.h"
 #import "CR_AdUnitHelper.h"
-#import "CR_BidManager.h"
+#import "CR_BidManager+Testing.h"
 #import "CR_DependencyProvider.h"
 #import "CR_DeviceInfoMock.h"
 #import "CR_HttpContent+AdUnit.h"
@@ -47,12 +47,6 @@
 @property(nonatomic, strong) CRBannerAdUnit *adUnit1;
 @property(nonatomic, strong) CR_CacheAdUnit *cacheAdUnit1;
 @property(nonatomic, strong) CR_CacheAdUnit *cacheAdUnit2;
-
-@end
-
-@interface CR_BidManager (Testing)
-
-@property(nonatomic, assign, readonly) BOOL isInSilenceMode;
 
 @end
 

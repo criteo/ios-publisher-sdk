@@ -19,7 +19,7 @@
 
 #import <XCTest/XCTest.h>
 #import <OCMock.h>
-#import "CR_BidManager.h"
+#import "CR_BidManager+Testing.h"
 #import "CR_DependencyProvider+Testing.h"
 #import "CriteoPublisherSdkTests-Swift.h"
 

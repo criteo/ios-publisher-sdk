@@ -323,6 +323,7 @@
 		198CD92618033AC3E44B0073 /* CR_FeedbackConsentGuard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_FeedbackConsentGuard.m; sourceTree = "<group>"; };
 		198CDC22999EF696C16309C5 /* CR_CASBoundedFileObjectQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_CASBoundedFileObjectQueue.m; sourceTree = "<group>"; };
 		198CDC91DC407C38A0C16DA1 /* CR_CASBoundedFileObjectQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_CASBoundedFileObjectQueue.h; sourceTree = "<group>"; };
+		198CDE99E856E58F08D64A02 /* CR_BidManager+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CR_BidManager+Testing.h"; sourceTree = "<group>"; };
 		1CDD7544323F61638E0E8B7F /* libPods-CriteoPublisherSdk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoPublisherSdk.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		25022DE4220A3F0300FF8ACE /* CR_NetworkManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_NetworkManagerDelegate.h; sourceTree = "<group>"; };
 		25022DE5220A709000FF8ACE /* Criteo+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Criteo+Internal.h"; sourceTree = "<group>"; };
@@ -1206,6 +1207,7 @@
 		7D523C8923E046D400E79C88 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				198CDE99E856E58F08D64A02 /* CR_BidManager+Testing.h */,
 				7D569467242A3AC20095A0A6 /* CR_DependencyProvider+Testing.h */,
 				7D569468242A3AC20095A0A6 /* CR_DependencyProvider+Testing.m */,
 				7D523C9023E1CEBA00E79C88 /* CR_ThreadManager+Waiter.h */,
