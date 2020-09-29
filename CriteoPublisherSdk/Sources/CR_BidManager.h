@@ -62,7 +62,6 @@
                         deviceInfo:(CR_DeviceInfo *)deviceInfo
                            consent:(CR_DataProtectionConsent *)consent
                     networkManager:(CR_NetworkManager *)networkManager
-                         appEvents:(CR_AppEvents *)appEvents
                      headerBidding:(CR_HeaderBidding *)headerBidding
                   feedbackDelegate:(id<CR_FeedbackDelegate>)feedbackDelegate
                      threadManager:(CR_ThreadManager *)threadManager NS_DESIGNATED_INITIALIZER;

@@ -42,7 +42,6 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
   CR_ConfigManager *configManager;
   CR_DeviceInfo *deviceInfo;
   CR_NetworkManager *networkManager;
-  CR_AppEvents *appEvents;
 }
 
 // Properties
@@ -64,7 +63,6 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
                        deviceInfo:nil
                           consent:nil
                    networkManager:nil
-                        appEvents:nil
                     headerBidding:nil
                  feedbackDelegate:nil
                     threadManager:nil];
@@ -78,7 +76,6 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
                         deviceInfo:(CR_DeviceInfo *)deviceInfo
                            consent:(CR_DataProtectionConsent *)consent
                     networkManager:(CR_NetworkManager *)networkManager
-                         appEvents:(CR_AppEvents *)appEvents
                      headerBidding:(CR_HeaderBidding *)headerBidding
                   feedbackDelegate:(id<CR_FeedbackDelegate>)feedbackDelegate
                      threadManager:(CR_ThreadManager *)threadManager {
@@ -90,7 +87,6 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
     self->configManager = configManager;
     self->deviceInfo = deviceInfo;
     self->networkManager = networkManager;
-    self->appEvents = appEvents;
     _cdbTimeToNextCall = 0;
     _consent = consent;
     _feedbackDelegate = feedbackDelegate;
@@ -103,8 +99,6 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 
 - (void)registerWithSlots:(CR_CacheAdUnitArray *)slots {
   [self refreshConfig];
-  [appEvents registerForIosEvents];
-  [appEvents sendLaunchEvent];
 }
 
 - (void)getBidForAdUnit:(CR_CacheAdUnit *)adUnit
