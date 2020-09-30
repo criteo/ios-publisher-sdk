@@ -1,0 +1,206 @@
+[
+  {
+    "given": "empty TC data",
+    "expected": true,
+    "tcData": {
+      "IABTCF_gdprApplies": true
+    }
+  },
+  {
+    "given": "purpose 1 consent is empty",
+    "expected": true,
+    "tcData": {
+      "IABTCF_gdprApplies": true,
+      "IABTCF_PurposeConsents": ""
+    }
+  },
+  {
+    "given": "purpose 1 consent is 1",
+    "expected": true,
+    "tcData": {
+      "IABTCF_gdprApplies": true,
+      "IABTCF_PurposeConsents": "1000000000"
+    }
+  },
+  {
+    "given": "purpose 1 consent is 0",
+    "expected": false,
+    "tcData": {
+      "IABTCF_gdprApplies": true,
+      "IABTCF_PurposeConsents": "00000000000"
+    }
+  },
+  {
+    "given": "purpose 1 consent is 0 and other consents are given",
+    "expected": false,
+    "tcData": {
+      "IABTCF_gdprApplies": true,
+      "IABTCF_PurposeConsents": "0000000000",
+      "IABTCF_PublisherRestrictions1": "---------+---------+---------+---------+---------+---------+---------+---------+---------+0--------+",
+      "IABTCF_VendorConsents": "---------+---------+---------+---------+---------+---------+---------+---------+---------+1",
+      "IABTCF_VendorLegitimateInterests": "---------+---------+---------+---------+---------+---------+---------+---------+---------+1"
+    }
+  },
+  {
+    "given": "purpose 1 consent is corrupted",
+    "expected": true,
+    "tcData": {
+      "IABTCF_gdprApplies": true,
+      "IABTCF_PurposeConsents": "BADBADNOTGOOD"
+    }
+  },
+  {
+    "given": "publisher restriction on criteo is not allowed",
+    "expected": false,
+    "tcData": {
+      "IABTCF_gdprApplies": true,
+      "IABTCF_PublisherRestrictions1": "---------+---------+---------+---------+---------+---------+---------+---------+---------+0--------+"
+    }
+  },
+  {
+    "given": "publisher restriction on criteo is not allowed and other consents are given",
+    "expected": false,
+    "tcData": {
+      "IABTCF_gdprApplies": true,
+      "IABTCF_PurposeConsents": "1000000000",
+      "IABTCF_PublisherRestrictions1": "---------+---------+---------+---------+---------+---------+---------+---------+---------+0--------+",
+      "IABTCF_VendorConsents": "---------+---------+---------+---------+---------+---------+---------+---------+---------+1",
+      "IABTCF_VendorLegitimateInterests": "---------+---------+---------+---------+---------+---------+---------+---------+---------+1"
+    }
+  },
+  {
+    "given": "publisher restriction on criteo is require consent, and consent is missing",
+    "expected": true,
+    "tcData": {
+      "IABTCF_gdprApplies": true,
+      "IABTCF_PublisherRestrictions1": "---------+---------+---------+---------+---------+---------+---------+---------+---------+1--------+"
+    }
+  },
+  {
+    "given": "publisher restriction on criteo is require consent, and consent is given",
+    "expected": true,
+    "tcData": {
+      "IABTCF_gdprApplies": true,
+      "IABTCF_PublisherRestrictions1": "---------+---------+---------+---------+---------+---------+---------+---------+---------+1--------+",
+      "IABTCF_PurposeConsents": "1000000000"
+    }
+  },
+  {
+    "given": "publisher restriction on criteo is require consent, and consent is not given",
+    "expected": false,
+    "tcData": {
+      "IABTCF_gdprApplies": false,
+      "IABTCF_PublisherRestrictions1": "---------+---------+---------+---------+---------+---------+---------+---------+---------+1--------+",
+      "IABTCF_PurposeConsents": "0000000000"
+    }
+  },
+  {
+    "given": "publisher restriction on criteo is require legitimate interest",
+    "expected": false,
+    "tcData": {
+      "IABTCF_gdprApplies": true,
+      "IABTCF_PublisherRestrictions1": "---------+---------+---------+---------+---------+---------+---------+---------+---------+2 --------+"
+    }
+  },
+  {
+    "given": "publisher restriction on criteo is corrupted",
+    "expected": true,
+    "tcData": {
+      "IABTCF_gdprApplies": true,
+      "IABTCF_PublisherRestrictions1": "---------+---------+---------+---------+---------+---------+---------+---------+---------+🥳"
+    }
+  },
+  {
+    "given": "vendor consent on criteo is empty",
+    "expected": true,
+    "tcData": {
+      "IABTCF_gdprApplies": true,
+      "IABTCF_VendorConsents": ""
+    }
+  },
+  {
+    "given": "vendor consent on criteo is 1",
+    "expected": true,
+    "tcData": {
+      "IABTCF_gdprApplies": true,
+      "IABTCF_VendorConsents": "---------+---------+---------+---------+---------+---------+---------+---------+---------+1"
+    }
+  },
+  {
+    "given": "vendor consent on criteo is 0",
+    "expected": false,
+    "tcData": {
+      "IABTCF_gdprApplies": true,
+      "IABTCF_VendorConsents": "---------+---------+---------+---------+---------+---------+---------+---------+---------+0"
+    }
+  },
+  {
+    "given": "vendor consent on criteo is 0 and other consents are given",
+    "expected": false,
+    "tcData": {
+      "IABTCF_gdprApplies": true,
+      "IABTCF_PurposeConsents": "1000000000",
+      "IABTCF_PublisherRestrictions1": "---------+---------+---------+---------+---------+---------+---------+---------+---------+1--------+",
+      "IABTCF_VendorConsents": "---------+---------+---------+---------+---------+---------+---------+---------+---------+0",
+      "IABTCF_VendorLegitimateInterests": "---------+---------+---------+---------+---------+---------+---------+---------+---------+1"
+    }
+  },
+  {
+    "given": "vendor consent on criteo is corrupted",
+    "expected": true,
+    "tcData": {
+      "IABTCF_gdprApplies": true,
+      "IABTCF_VendorConsents": "---------+---------+---------+---------+---------+---------+---------+---------+---------+🥳"
+    }
+  },
+  {
+    "given": "vendor legitimate interests on criteo is empty",
+    "expected": true,
+    "tcData": {
+      "IABTCF_gdprApplies": true,
+      "IABTCF_VendorLegitimateInterests": ""
+    }
+  },
+  {
+    "given": "vendor legitimate interests on criteo is 1",
+    "expected": true,
+    "tcData": {
+      "IABTCF_gdprApplies": true,
+      "IABTCF_VendorLegitimateInterests": "---------+---------+---------+---------+---------+---------+---------+---------+---------+1"
+    }
+  },
+  {
+    "given": "vendor legitimate interests on criteo is 0 and other consents are given",
+    "expected": false,
+    "tcData": {
+      "IABTCF_gdprApplies": true,
+      "IABTCF_PurposeConsents": "1000000000",
+      "IABTCF_PublisherRestrictions1": "---------+---------+---------+---------+---------+---------+---------+---------+---------+1--------+",
+      "IABTCF_VendorConsents": "---------+---------+---------+---------+---------+---------+---------+---------+---------+1",
+      "IABTCF_VendorLegitimateInterests": "---------+---------+---------+---------+---------+---------+---------+---------+---------+0"
+    }
+  },
+  {
+    "given": "vendor legitimate interest on criteo is 0",
+    "expected": false,
+    "tcData": {
+      "IABTCF_gdprApplies": true,
+      "IABTCF_VendorLegitimateInterests": "---------+---------+---------+---------+---------+---------+---------+---------+---------+0"
+    }
+  },
+  {
+    "given": "vendor legitimate interests on criteo is corrupted",
+    "expected": true,
+    "tcData": {
+      "IABTCF_gdprApplies": true,
+      "IABTCF_VendorLegitimateInterests": "---------+---------+---------+---------+---------+---------+---------+---------+---------+🥳"
+    }
+  },
+  {
+    "given": "template",
+    "expected": true,
+    "tcData": {
+      "IABTCF_gdprApplies": true
+    }
+  }
+]
