@@ -345,7 +345,7 @@
 - (void)testLoadingInterstitialShouldSetInterstitialFlagInTheRequest {
   [self.criteo testing_registerInterstitialAndWaitForHTTPResponses];
   XCTestExpectation *interstitialHttpCallExpectation =
-      [self expectationWithDescription:@"configApiCallExpectation"];
+      [self expectationWithDescription:@"interstitialHttpCallExpectation"];
   self.criteo.testing_networkCaptor.requestListener =
       ^(NSURL *_Nonnull url, CR_HTTPVerb verb, NSDictionary *body) {
         const BOOL isBidURL = [url.absoluteString containsString:self.criteo.config.cdbUrl];
