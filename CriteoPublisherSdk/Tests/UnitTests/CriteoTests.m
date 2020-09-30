@@ -25,6 +25,10 @@
 #import "CR_IntegrationRegistry.h"
 #import "CR_DependencyProvider.h"
 #import "CR_DependencyProvider+Testing.h"
+#import "CR_ThreadManager.h"
+#import "CR_SynchronousThreadManager.h"
+#import "CR_AppEvents.h"
+#import "CR_BidManager.h"
 
 @interface CriteoTests : XCTestCase
 
@@ -35,6 +39,8 @@
 
 @implementation CriteoTests
 
+#pragma mark - Lifecycle
+
 - (void)setUp {
   CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
   self.integrationRegistry = dependencyProvider.integrationRegistry;
@@ -42,12 +48,59 @@
   self.criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProvider];
 }
 
+#pragma mark - Tests
+
 - (void)testGetBidResponseForAdUnit_GivenAnyState_DeclareInHouseIntegration {
   CRAdUnit *adUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"adUnit"];
 
   [self.criteo getBidResponseForAdUnit:adUnit];
 
   OCMVerify([self.integrationRegistry declare:CR_IntegrationInHouse]);
+}
+
+- (void)testRegister_ShouldRegisterAndSendAppEvents {
+  [self registerWithMockedDependencyProvider:^(CR_DependencyProvider *dependencyProviderMock) {
+    CR_AppEvents *appEvents = OCMStrictClassMock(CR_AppEvents.class);
+    OCMStub(dependencyProviderMock.appEvents).andReturn(appEvents);
+    OCMExpect([appEvents registerForIosEvents]);
+    OCMExpect([appEvents sendLaunchEvent]);
+  }];
+}
+
+- (void)testRegister_ShouldSetPublisherId {
+  [self registerWithMockedDependencyProvider:^(CR_DependencyProvider *dependencyProviderMock) {
+    CR_Config *config = OCMStrictClassMock(CR_Config.class);
+    OCMStub(dependencyProviderMock.config).andReturn(config);
+    OCMExpect([config setCriteoPublisherId:@"testPublisherId"];);
+    OCMExpect([config isLiveBiddingEnabled]);
+  }];
+}
+
+- (void)testRegister_ShouldRefreshConfig {
+  [self registerWithMockedDependencyProvider:^(CR_DependencyProvider *dependencyProviderMock) {
+    CR_ConfigManager *configManager = OCMStrictClassMock(CR_ConfigManager.class);
+    OCMStub(dependencyProviderMock.configManager).andReturn(configManager);
+    OCMExpect([configManager refreshConfig:dependencyProviderMock.config]);
+  }];
+}
+
+- (void)testRegister_ShouldPrefetch {
+  [self registerWithMockedDependencyProvider:^(CR_DependencyProvider *dependencyProviderMock) {
+    CR_BidManager *bidManager = OCMStrictClassMock(CR_BidManager.class);
+    OCMStub(dependencyProviderMock.bidManager).andReturn(bidManager);
+    OCMExpect([bidManager prefetchBidsForAdUnits:OCMArg.any]);
+  }];
+}
+
+#pragma mark - Private
+
+- (void)registerWithMockedDependencyProvider:(void (^)(CR_DependencyProvider *))testBlock {
+  CR_DependencyProvider *dependencyProviderMock = OCMClassMock(CR_DependencyProvider.class);
+  CR_ThreadManager *threadManager = CR_SynchronousThreadManager.new;
+  OCMStub(dependencyProviderMock.threadManager).andReturn(threadManager);
+  testBlock(dependencyProviderMock);
+  Criteo *criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProviderMock];
+  [criteo registerCriteoPublisherId:@"testPublisherId" withAdUnits:@[]];
 }
 
 @end
