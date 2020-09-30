@@ -28,10 +28,8 @@
 
 @interface Criteo ()
 
-@property(nonatomic, strong) NSMutableArray<CR_CacheAdUnit *> *registeredAdUnits;
 @property(nonatomic, strong, readonly) CR_BidManager *bidManager;
-@property(nonatomic, assign) bool hasPrefetched;
-@property(nonatomic, assign) bool registered;
+@property(nonatomic, assign, getter=isRegistered) BOOL registered;
 
 @end
 
@@ -78,9 +76,7 @@
 
 - (instancetype)initWithDependencyProvider:(CR_DependencyProvider *)dependencyProvider {
   if (self = [super init]) {
-    _registeredAdUnits = [[NSMutableArray alloc] init];
     _registered = false;
-    _hasPrefetched = false;
     _dependencyProvider = dependencyProvider;
   }
   return self;
@@ -89,7 +85,7 @@
 - (void)registerCriteoPublisherId:(NSString *)criteoPublisherId
                       withAdUnits:(NSArray<CRAdUnit *> *)adUnits {
   @synchronized(self) {
-    if (!self.registered) {
+    if (!self.isRegistered) {
       self.registered = true;
       @try {
         [self.dependencyProvider.threadManager dispatchAsyncOnGlobalQueue:^{
@@ -105,26 +101,17 @@
 - (void)_registerCriteoPublisherId:(NSString *)criteoPublisherId
                        withAdUnits:(NSArray<CRAdUnit *> *)adUnits {
   self.config.criteoPublisherId = criteoPublisherId;
-
-  CR_CacheAdUnitArray *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:adUnits];
-  [self.registeredAdUnits addObjectsFromArray:cacheAdUnits];
   [self.appEvents registerForIosEvents];
   [self.appEvents sendLaunchEvent];
   [self.configManager refreshConfig:self.config];
   if (!self.config.liveBiddingEnabled) {
-    [self prefetchAll];
+    CR_CacheAdUnitArray *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:adUnits];
+    [self.bidManager prefetchBidsForAdUnits:cacheAdUnits];
   }
 }
 
 - (CR_BidManager *)bidManager {
   return self.dependencyProvider.bidManager;
-}
-
-- (void)prefetchAll {
-  if (!self.hasPrefetched) {
-    [self.bidManager prefetchBidsForAdUnits:self.registeredAdUnits];
-    self.hasPrefetched = YES;
-  }
 }
 
 - (void)setBidsForRequest:(id)request withAdUnit:(CRAdUnit *)adUnit {
