@@ -191,6 +191,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
                          [self cacheBidsFromResponse:cdbResponse];
                          responseHandler(nil);
                        } else if (bid.isValid && !bid.isExpired) {
+                         [self.feedbackDelegate onBidConsumed:bid];
                          responseHandler(bid);
                        } else {
                          responseHandler(nil);
@@ -208,7 +209,6 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
         if (!handled) {
           CR_CdbBid *bid = [self getBid:adUnit
                             bidConsumed:^(CR_CdbBid *bid, BOOL didConsumeBid) {
-                              // TODO Check CSM logic with live bidding
                               if (didConsumeBid) {
                                 [self.feedbackDelegate onBidConsumed:bid];
                               }
