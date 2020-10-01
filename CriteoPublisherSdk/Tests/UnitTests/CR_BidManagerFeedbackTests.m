@@ -233,7 +233,7 @@
                                   cdbResponse:self.cdbResponseWithInvalidBid
                                         error:nil];
 
-  [self fetchBidForAdUnit:self.adUnit];
+  [self fetchBidForAdUnit:self.adUnitForInvalidBid];
 
   CR_FeedbackMessage *message = self.lastSentMessages[0];
   XCTAssertEqualObjects(message, expected);
@@ -293,7 +293,41 @@
   XCTAssertEqualObjects(message, expected);
 }
 
-#pragma mark - Ready to send management
+#pragma mark - Feedback Message State (Live bidding)
+
+- (void)testFeedbackMessageStateOnLiveBidConsumed {
+  CR_FeedbackMessage *expected = [self.defaultMessage copy];
+  expected.cdbCallEndTimestamp = self.dateInMillisecondsNumber;
+  expected.elapsedTimestamp = self.dateInMillisecondsNumber;
+  expected.cachedBidUsed = YES;
+  expected.zoneId = self.validBid.zoneId;
+
+  self.cdbResponse.cdbBids = @[ self.validBid ];
+  [self prefetchBidWithMockedResponseForAdUnit:self.adUnit];
+
+  [self fetchLiveBidForAdUnit:self.adUnit];
+
+  CR_FeedbackMessage *message = self.lastSentMessages[0];
+  XCTAssertEqualObjects(message, expected);
+}
+
+- (void)testFeedbackMessageStateOnEmptyLiveBid {
+  CR_FeedbackMessage *expected = [self.defaultMessage copy];
+  expected.cdbCallEndTimestamp = self.dateInMillisecondsNumber;
+  expected.expired = YES;
+
+  self.cdbResponse.cdbBids = @[];
+  [self configureApiHandlerMockWithCdbRequest:self.cdbRequest
+                                  cdbResponse:self.cdbResponse
+                                        error:nil];
+
+  [self fetchLiveBidForAdUnit:self.adUnit];
+
+  CR_FeedbackMessage *message = self.lastSentMessages[0];
+  XCTAssertEqualObjects(message, expected);
+}
+
+#pragma mark - Ready to send management (Cache Bidding)
 
 - (void)testReadyToSendOnValidBidReceived {
   [self configureApiHandlerMockWithCdbRequest:self.cdbRequest
@@ -360,7 +394,7 @@
   [self.bidManager getBidThenFetch:self.adUnit];
 
   XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 1);
-  XCTAssertEqual([self.lastSentMessages count], 1);
+  XCTAssertEqual(self.lastSentMessages.count, 1);
 }
 
 - (void)testReadyToSendOnBidExpired {
@@ -370,7 +404,7 @@
   [self.bidManager getBidThenFetch:self.adUnit];
 
   XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
-  XCTAssertEqual([self.lastSentMessages count], 1);
+  XCTAssertEqual(self.lastSentMessages.count, 1);
 }
 
 - (void)testReadyToSendOnBidStateOnEmptyBid {
@@ -385,7 +419,68 @@
 
   XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
   XCTAssertEqual([self.feedbackSendingQueue size], 0);
-  XCTAssertEqual([self.lastSentMessages count], 1);
+  XCTAssertEqual(self.lastSentMessages.count, 1);
+}
+
+#pragma mark - Ready to send management (Live Bidding)
+
+- (void)testReadyToSendOnLiveBidConsumed {
+  self.cdbResponse.cdbBids = @[ self.validBid ];
+  [self configureApiHandlerMockWithCdbRequest:self.cdbRequest
+                                  cdbResponse:self.cdbResponse
+                                        error:nil];
+
+  [self fetchLiveBidForAdUnit:self.adUnit];
+
+  XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
+  XCTAssertEqual(self.lastSentMessages.count, 1);
+}
+
+- (void)testReadyToSendOnLiveBidNoBidReceived {
+  self.cdbResponse.cdbBids = @[];
+
+  [self configureApiHandlerMockWithCdbRequest:self.cdbRequest
+                                  cdbResponse:self.cdbResponse
+                                        error:nil];
+
+  [self fetchLiveBidForAdUnit:self.adUnit];
+
+  XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
+  XCTAssertEqual(self.lastSentMessages.count, 1);
+}
+
+- (void)testReadyToSendOnLiveBidTimeoutError {
+  NSError *error = [[NSError alloc] initWithDomain:NSCocoaErrorDomain
+                                              code:NSURLErrorTimedOut
+                                          userInfo:nil];
+  [self configureApiHandlerMockWithCdbRequest:self.cdbRequest cdbResponse:nil error:error];
+
+  [self fetchLiveBidForAdUnit:self.adUnit];
+
+  XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
+  XCTAssertEqual(self.lastSentMessages.count, 1);
+}
+
+- (void)testReadyToSendOnLiveBidNetworkError {
+  NSError *error = [[NSError alloc] initWithDomain:NSCocoaErrorDomain
+                                              code:(NSURLErrorTimedOut + 1)
+                                          userInfo:nil];
+  [self configureApiHandlerMockWithCdbRequest:self.cdbRequest cdbResponse:nil error:error];
+
+  [self fetchLiveBidForAdUnit:self.adUnit];
+
+  XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
+  XCTAssertEqual(self.lastSentMessages.count, 1);
+}
+
+- (void)testReadyToSendOnLiveBidInvalidBid {
+  [self configureApiHandlerMockWithCdbRequest:self.cdbRequestForInvalidBid
+                                  cdbResponse:self.cdbResponseWithInvalidBid
+                                        error:nil];
+  [self fetchLiveBidForAdUnit:self.adUnit];
+
+  XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
+  XCTAssertEqual(self.lastSentMessages.count, 1);
 }
 
 #pragma mark - Private
@@ -416,17 +511,20 @@
 }
 
 - (void)fetchBidForAdUnit:(CR_CacheAdUnit *)adUnit {
-  [self fetchBidsForAdUnits:@[ adUnit ]];
-}
-
-- (void)fetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits {
-  [self.bidManager fetchBidsForAdUnits:adUnits
+  [self.bidManager fetchBidsForAdUnits:@[ adUnit ]
                     cdbResponseHandler:^(CR_CdbResponse *response){
                     }];
 }
 
+- (void)fetchLiveBidForAdUnit:(CR_CacheAdUnit *)adUnit {
+  [self.bidManager fetchLiveBidForAdUnit:adUnit
+                      bidResponseHandler:^(CR_CdbBid *bid){
+                      }];
+}
+
 // TODO: improve tests relying on this so that we don't need to call prefetchBid.
-// Make sure that the message is already in a state verified here: testFeedbackMessageStateOnValidBidReceived
+// Make sure that the message is already in a state verified here:
+// testFeedbackMessageStateOnValidBidReceived
 - (void)prefetchBidWithMockedResponseForAdUnit:(CR_CacheAdUnit *)adUnit {
   [self configureApiHandlerMockWithCdbRequest:self.cdbRequest
                                   cdbResponse:self.cdbResponse
