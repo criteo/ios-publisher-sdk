@@ -32,7 +32,6 @@
 #import "CR_ThreadManager+Waiter.h"
 #import "NSURL+Testing.h"
 #import "CR_FeedbackStorage.h"
-#import "XCTestCase+Criteo.h"
 
 @interface CR_FeedbackMessageFunctionalTests : XCTestCase
 
@@ -42,6 +41,8 @@
 @end
 
 @implementation CR_FeedbackMessageFunctionalTests
+
+#pragma mark - Lifecycle
 
 - (void)setUp {
   [super setUp];
@@ -61,7 +62,7 @@
 - (void)tearDown {
   // We wait for the thread manager to be idle. The goal is to "unmock"
   // safely NSDate. We mock class methods of NSDate, and we had ABORT
-  // signals comming for a thread doing unfinished business whereas
+  // signals coming for a thread doing unfinished business whereas
   // the associated test was finished on the main thread. This is an
   // erratic behavior and the stacktrace was always showing OCMockClass
   // API.
@@ -71,6 +72,8 @@
   [self clearFileDisk];
   [super tearDown];
 }
+
+#pragma mark - Macros
 
 #define AssertHttpContentHasOneFeedback(httpContent)                        \
   do {                                                                      \
@@ -98,12 +101,14 @@
     XCTAssertEqual(set.count, uniqueElementCount, @"%@", array); \
   } while (0)
 
+#pragma mark - Tests
+
 - (void)testGivenPrefetchedBids_whenBidConsumed_thenFeedbackMessageSent {
-  CRBannerAdUnit *adUnitForConsumation = [CR_TestAdUnits preprodBanner320x50];
-  NSArray *adUnits = @[ adUnitForConsumation, [CR_TestAdUnits preprodInterstitial] ];
+  CRBannerAdUnit *adUnitForConsumption = [CR_TestAdUnits preprodBanner320x50];
+  NSArray *adUnits = @[ adUnitForConsumption, [CR_TestAdUnits preprodInterstitial] ];
   [self prepareCriteoForGettingBidWithAdUnits:adUnits];
 
-  [self getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:adUnitForConsumation];
+  [self getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:adUnitForConsumption];
 
   CR_HttpContent *content = [self feedbackMessageRequest];
   AssertHttpContentHasOneFeedback(content);
@@ -227,7 +232,7 @@
     return value[@"requestGroupId"];
   }];
   AssertArrayWithUniqueElements(impressionIds, 3);
-  // Two bids was in the same request (and share a commun groupId)
+  // Two bids was in the same request (and share a common groupId)
   AssertArrayWithUniqueElements(requestGroupIds, 2);
 }
 
@@ -331,7 +336,7 @@
       // We have experienced a file named "Cache".
       // We didn't have the permission to remove it.
       // It may be the cache of WebKit or another
-      // framework. We simply skeep it.
+      // framework. We simply skip it.
       return;
     }
 
