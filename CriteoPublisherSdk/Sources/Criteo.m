@@ -104,10 +104,8 @@
   [self.appEvents registerForIosEvents];
   [self.appEvents sendLaunchEvent];
   [self.configManager refreshConfig:self.config];
-  if (!self.config.liveBiddingEnabled) {
-    CR_CacheAdUnitArray *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:adUnits];
-    [self.bidManager prefetchBidsForAdUnits:cacheAdUnits];
-  }
+  CR_CacheAdUnitArray *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:adUnits];
+  [self.bidManager prefetchBidsForAdUnits:cacheAdUnits];
 }
 
 - (CR_BidManager *)bidManager {
