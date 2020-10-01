@@ -21,6 +21,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
+
 @interface CR_BidManager (Testing)
 
 @property(nonatomic, assign, readonly) BOOL isInSilenceMode;
@@ -28,6 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)prefetchBidForAdUnit:(CR_CacheAdUnit *)adUnit;
 - (CR_CdbBid *)getBidThenFetch:(CR_CacheAdUnit *)slot;
+
+- (void)fetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits
+         cdbResponseHandler:(CR_CdbResponseHandler)responseHandler;
 
 @end
 

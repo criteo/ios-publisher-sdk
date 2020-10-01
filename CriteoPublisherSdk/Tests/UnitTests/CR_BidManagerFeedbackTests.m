@@ -135,13 +135,16 @@
   [super tearDown];
 }
 
-#pragma mark - Feedback Message State
+#pragma mark - Feedback Message State (All strategies)
 // Relies on the diagram introduced here: https://go.crto.in/publisher-sdk-csm
+
+// These tests are not depending on live vs cache bidding strategies, as they check states before
+// being ready to send, the logic is the same.
 
 - (void)testFeedbackMessageStateBeforeBidRequest {
   [self invokeBeforeCdbHandlerOnBidRequestWithCdbRequest:self.cdbRequest];
 
-  [self.bidManager prefetchBidForAdUnit:self.adUnit];
+  [self fetchBidForAdUnit:self.adUnit];
 
   CR_FeedbackMessage *message = self.feedbackFileManagingMock.writeFeedbackResults.lastObject;
   XCTAssertEqualObjects(message, self.defaultMessage);
@@ -151,7 +154,7 @@
   [self configureApiHandlerMockWithCdbRequest:self.cdbRequest
                                   cdbResponse:self.cdbResponse
                                         error:nil];
-  [self.bidManager prefetchBidForAdUnit:self.adUnit];
+  [self fetchBidForAdUnit:self.adUnit];
 
   NSArray<CR_FeedbackMessage *> *feedbacks = [self.feedbackFileManagingMock writeFeedbackResults];
   NSString *requestGroupId = feedbacks[0].requestGroupId;
@@ -171,7 +174,7 @@
                                   cdbResponse:self.cdbResponse
                                         error:nil];
 
-  [self.bidManager prefetchBidForAdUnit:self.adUnit];
+  [self fetchBidForAdUnit:self.adUnit];
 
   CR_FeedbackMessage *message = self.feedbackFileManagingMock.writeFeedbackResults.lastObject;
   XCTAssertEqualObjects(message, expected);
@@ -186,7 +189,7 @@
                                   cdbResponse:self.cdbResponse
                                         error:nil];
 
-  [self.bidManager prefetchBidForAdUnit:self.adUnit];
+  [self fetchBidForAdUnit:self.adUnit];
 
   CR_FeedbackMessage *message = self.feedbackFileManagingMock.writeFeedbackResults.lastObject;
   XCTAssertEqualObjects(message, expected);
@@ -201,7 +204,7 @@
                                           userInfo:nil];
   [self configureApiHandlerMockWithCdbRequest:self.cdbRequest cdbResponse:nil error:error];
 
-  [self.bidManager prefetchBidForAdUnit:self.adUnit];
+  [self fetchBidForAdUnit:self.adUnit];
 
   CR_FeedbackMessage *message = self.lastSentMessages[0];
   XCTAssertEqualObjects(message, expected);
@@ -215,7 +218,7 @@
                                           userInfo:nil];
   [self configureApiHandlerMockWithCdbRequest:self.cdbRequest cdbResponse:nil error:error];
 
-  [self.bidManager prefetchBidForAdUnit:self.adUnit];
+  [self fetchBidForAdUnit:self.adUnit];
 
   CR_FeedbackMessage *message = self.lastSentMessages[0];
   XCTAssertEqualObjects(message, expected);
@@ -230,11 +233,13 @@
                                   cdbResponse:self.cdbResponseWithInvalidBid
                                         error:nil];
 
-  [self.bidManager prefetchBidForAdUnit:self.adUnitForInvalidBid];
+  [self fetchBidForAdUnit:self.adUnit];
 
   CR_FeedbackMessage *message = self.lastSentMessages[0];
   XCTAssertEqualObjects(message, expected);
 }
+
+#pragma mark - Feedback Message State (Cache Bidding)
 
 - (void)testFeedbackMessageStateOnBidConsumed {
   CR_FeedbackMessage *expected = [self.defaultMessage copy];
@@ -426,6 +431,16 @@
                             deviceInfo:[OCMArg any]
                          beforeCdbCall:beforeCdbCall
                      completionHandler:[OCMArg any]]);
+}
+
+- (void)fetchBidForAdUnit:(CR_CacheAdUnit *)adUnit {
+  [self fetchBidsForAdUnits:@[ adUnit ]];
+}
+
+- (void)fetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits {
+  [self.bidManager fetchBidsForAdUnits:adUnits
+                    cdbResponseHandler:^(CR_CdbResponse *response){
+                    }];
 }
 
 @end
