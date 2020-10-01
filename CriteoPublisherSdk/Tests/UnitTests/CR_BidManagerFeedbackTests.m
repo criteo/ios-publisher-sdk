@@ -248,13 +248,7 @@
   expected.cachedBidUsed = YES;
   expected.zoneId = self.validBid.zoneId;
 
-  // TODO: improve this test so that we don't need to call
-  // the prefetchBid. Make sure that the message is already in
-  // a state verified here: testFeedbackMessageStateOnValidBidReceived
-  [self configureApiHandlerMockWithCdbRequest:self.cdbRequest
-                                  cdbResponse:self.cdbResponse
-                                        error:nil];
-  [self.bidManager prefetchBidForAdUnit:self.adUnit];
+  [self prefetchBidWithMockedResponseForAdUnit:self.adUnit];
 
   [self.bidManager getBidThenFetch:self.adUnit];
 
@@ -269,19 +263,13 @@
   expected.cachedBidUsed = YES;
   expected.zoneId = @123;
 
-  // TODO: improve this test so that we don't need to call
-  // the prefetchBid. Make sure that the message is already in
-  // a state verified here: testFeedbackMessageStateOnValidBidReceived
   CR_CdbBid *expired = CR_CdbBidBuilder.new.adUnit(self.adUnit)
                            .ttl(-1)
                            .impressionId(self.impressionId)
                            .zoneId(123)
                            .build;
   self.cdbResponse.cdbBids = @[ expired ];
-  [self configureApiHandlerMockWithCdbRequest:self.cdbRequest
-                                  cdbResponse:self.cdbResponse
-                                        error:nil];
-  [self.bidManager prefetchBidForAdUnit:self.adUnit];
+  [self prefetchBidWithMockedResponseForAdUnit:self.adUnit];
 
   [self.bidManager getBidThenFetch:self.adUnit];
 
@@ -367,13 +355,7 @@
 }
 
 - (void)testReadyToSendOnBidConsumed {
-  // TODO: improve this test so that we don't need to call
-  // the prefetchBid. Make sure that the message is already in
-  // a state verified here: testFeedbackMessageStateOnValidBidReceived
-  [self configureApiHandlerMockWithCdbRequest:self.cdbRequest
-                                  cdbResponse:self.cdbResponse
-                                        error:nil];
-  [self.bidManager prefetchBidForAdUnit:self.adUnit];
+  [self prefetchBidWithMockedResponseForAdUnit:self.adUnit];
 
   [self.bidManager getBidThenFetch:self.adUnit];
 
@@ -441,6 +423,15 @@
   [self.bidManager fetchBidsForAdUnits:adUnits
                     cdbResponseHandler:^(CR_CdbResponse *response){
                     }];
+}
+
+// TODO: improve tests relying on this so that we don't need to call prefetchBid.
+// Make sure that the message is already in a state verified here: testFeedbackMessageStateOnValidBidReceived
+- (void)prefetchBidWithMockedResponseForAdUnit:(CR_CacheAdUnit *)adUnit {
+  [self configureApiHandlerMockWithCdbRequest:self.cdbRequest
+                                  cdbResponse:self.cdbResponse
+                                        error:nil];
+  [self.bidManager prefetchBidForAdUnit:adUnit];
 }
 
 @end
