@@ -15,6 +15,9 @@
 Please refer to the [App Developer Portal](https://publisherdocs.criteotilt.com/app/ios/), for
 detailed setup and usage instructions.
 
+## Integration Examples
+Please refer to the [iOS Sample App](https://github.com/criteo/ios-publisher-sdk-examples) repository.
+
 ## Questions & Support
 Please contact your technical support representative for any questions about the SDK.
 
