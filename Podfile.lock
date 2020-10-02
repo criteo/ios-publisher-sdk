@@ -1,7 +1,7 @@
 PODS:
-  - Eureka (5.3.0)
+  - Eureka (5.3.1)
   - FunctionalObjC (1.0.2)
-  - Google-Mobile-Ads-SDK (7.65.0):
+  - Google-Mobile-Ads-SDK (7.66.0):
     - GoogleAppMeasurement (~> 6.0)
     - GoogleUserMessagingPlatform (~> 1.1)
   - GoogleAppMeasurement (6.8.3):
@@ -28,7 +28,7 @@ PODS:
   - "GoogleUtilities/NSData+zlib (6.7.2)"
   - GoogleUtilities/Reachability (6.7.2):
     - GoogleUtilities/Logger
-  - mopub-ios-sdk/Core (5.13.1)
+  - mopub-ios-sdk/Core (5.14.0)
   - nanopb (1.30906.0):
     - nanopb/decode (= 1.30906.0)
     - nanopb/encode (= 1.30906.0)
@@ -62,13 +62,13 @@ SPEC REPOS:
     - SwiftLint
 
 SPEC CHECKSUMS:
-  Eureka: 49239596c9d2eed9ab523990c34de62b6feac9f0
+  Eureka: 859877ab1e85661b6b7e810015d430e937d9cc7d
   FunctionalObjC: bd6aaa4b69abea0a5ac0e860a052c1ebebd5311c
-  Google-Mobile-Ads-SDK: af735e001ee534d9dd2ce0a87cd8c355b19844b5
+  Google-Mobile-Ads-SDK: 7d7074359c040f5add4e0963bf860e14690060d0
   GoogleAppMeasurement: 966e88df9d19c15715137bb2ddaf52373f111436
   GoogleUserMessagingPlatform: c85530d930ba509583aa5a6d50a10aca22cf8502
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
-  mopub-ios-sdk: 18af57aaf79d0ea3d0232b43b2d603ae8ea8e826
+  mopub-ios-sdk: c7d3d8f748b187d94f04c03386a65a782ffc0161
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   OCMock: 75fbeaa46a9b11f8c182bbb1d1f7e9a35ccc9955
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
