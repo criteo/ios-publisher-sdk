@@ -20,8 +20,6 @@
 #import "NSUserDefaults+GDPR.h"
 #import "NSString+GDPR.h"
 
-#define TCF2_PURPOSES_COUNT 10
-
 @implementation NSUserDefaults (GDPR)
 
 - (void)clearGdpr {
@@ -29,14 +27,6 @@
   [self removeObjectForKey:NSString.gdprConsentStringUserDefaultsKeyTcf2_0];
   [self removeObjectForKey:NSString.gdprAppliesUserDefaultsKeyTcf1_1];
   [self removeObjectForKey:NSString.gdprConsentStringUserDefaultsKeyTcf1_1];
-  [self removeObjectForKey:NSString.gdprPurposeConsentsStringForTcf2_0];
-  for (int purposeId = 0; purposeId <= TCF2_PURPOSES_COUNT; ++purposeId) {
-    NSString *restrictionsKey =
-        [NSString stringWithFormat:NSString.gdprPublisherRestrictionsKeyFormatForTcf2_0, purposeId];
-    [self removeObjectForKey:restrictionsKey];
-  }
-  [self removeObjectForKey:NSString.gdprVendorConsentsStringForTcf2_0];
-  [self removeObjectForKey:NSString.gdprVendorLegitimateInterestsStringForTcf2_0];
 }
 
 - (void)setGdprTcf1_1DefaultConsentString {
@@ -61,25 +51,6 @@
 
 - (void)setGdprTcf2_0GdprApplies:(NSObject *)gdprApplies {
   [self setObject:gdprApplies forKey:NSString.gdprAppliesUserDefaultsKeyTcf2_0];
-}
-
-- (void)setGdprTcf2_0PurposeConsents:(nullable NSString *)purposeConsents {
-  [self setObject:purposeConsents forKey:NSString.gdprPurposeConsentsStringForTcf2_0];
-}
-
-- (void)setGdprTcf2_0PublisherRestrictions:(NSObject *)publisherRestrictions
-                                forPurpose:(NSUInteger)id {
-  NSString *publisherRestrictionsKey =
-      [NSString stringWithFormat:NSString.gdprPublisherRestrictionsKeyFormatForTcf2_0, id];
-  [self setObject:publisherRestrictions forKey:publisherRestrictionsKey];
-}
-
-- (void)setGdprTcf2_0VendorConsents:(nullable NSString *)vendorConsents {
-  [self setObject:vendorConsents forKey:NSString.gdprVendorConsentsStringForTcf2_0];
-}
-
-- (void)setGdprTcf2_0VendorLegitimateInterests:(NSString *)legitimateInterests {
-  [self setObject:legitimateInterests forKey:NSString.gdprVendorLegitimateInterestsStringForTcf2_0];
 }
 
 @end

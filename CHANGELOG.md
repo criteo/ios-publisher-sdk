@@ -19,9 +19,6 @@ pod clients, you can:
 
 [gh_releases]: https://github.com/criteo/ios-publisher-sdk/releases
 [use_frameworks]: https://guides.cocoapods.org/syntax/podfile.html#tab_use_frameworks_bang
-
-### Features
-- GDPR: Disable performance metrics when TCF v2 consent is not given for purpose 1
 --------------------------------------------------------------------------------
 ## Version 3.10.0
 
