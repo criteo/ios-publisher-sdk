@@ -24,7 +24,9 @@ platform :ios do
     scan(scheme: "CriteoGoogleAdapter")
     scan(scheme: "CriteoMoPubAdapter")
     multi_scan(
+      workspace: "CriteoPublisherSdk.xcworkspace",
       scheme: "CriteoPublisherSdk",
+      testplan: "CriteoPublisherSdk",
       try_count: 5, parallel_testrun_count: 2,
     )
   end
