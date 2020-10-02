@@ -61,22 +61,6 @@
   return self.selectedVersion.applies;
 }
 
-- (BOOL)isConsentGivenForPurpose:(NSUInteger)id {
-  return [self.selectedVersion isConsentGivenForPurpose:id];
-}
-
-- (CR_GdprTcfPublisherRestrictionType)publisherRestrictionsForPurpose:(NSUInteger)id {
-  return [self.selectedVersion publisherRestrictionsForPurpose:id];
-}
-
-- (BOOL)isVendorConsentGiven {
-  return [self.selectedVersion isVendorConsentGiven];
-}
-
-- (BOOL)hasVendorLegitimateInterest {
-  return [self.selectedVersion hasVendorLegitimateInterest];
-}
-
 #pragma mark - Private
 
 - (id<CR_GdprVersion>)selectedVersion {

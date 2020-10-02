@@ -42,14 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setGdprTcf1_1GdprApplies:(nullable NSObject *)gdprApplies;
 - (void)setGdprTcf2_0GdprApplies:(nullable NSObject *)gdprApplies;
 
-#pragma mark Purpose Consents
-
-- (void)setGdprTcf2_0PurposeConsents:(nullable NSString *)purposeConsents;
-- (void)setGdprTcf2_0PublisherRestrictions:(nullable NSObject *)publisherRestrictions
-                                forPurpose:(NSUInteger)id;
-- (void)setGdprTcf2_0VendorConsents:(nullable NSString *)vendorConsents;
-- (void)setGdprTcf2_0VendorLegitimateInterests:(nullable NSString *)legitimateInterests;
-
 @end
 
 NS_ASSUME_NONNULL_END

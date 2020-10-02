@@ -28,7 +28,6 @@
 @class CR_CdbRequest;
 @class CR_CdbResponse;
 @class CR_CdbBid;
-@class CR_DataProtectionConsent;
 
 /**
  * Update metrics files accordingly to received events.
@@ -109,26 +108,21 @@
 
 - (instancetype)initWithFeedbackStorage:(CR_FeedbackStorage *)feedbackStorage
                              apiHandler:(CR_ApiHandler *)apiHandler
-                                 config:(CR_Config *)config
-                                consent:(CR_DataProtectionConsent *)consent
-    NS_DESIGNATED_INITIALIZER;
+                                 config:(CR_Config *)config NS_DESIGNATED_INITIALIZER;
 
 /**
- * Helper method to create a feedback delegate based on a feedback controller but:
- * - guarded by the CSM feature flag
- * - guarded by the Gdpr given consent
+ * Helper method to create a feedback delegate based on a feedback controller but guarded by the CSM
+ * feature flag.
  *
  * @param feedbackStorage internal storage used to handle living metrics and queued ready-to-send
  * metrics
  * @param apiHandler handler used to send ready-to-send metrics
  * @param config global config to help the API and enabled/disabled this CSM feature
- * @param consent global consent helper to ensure we can collect and send metrics
  * @return feedback delegate
  */
 + (id<CR_FeedbackDelegate>)controllerWithFeedbackStorage:(CR_FeedbackStorage *)feedbackStorage
                                               apiHandler:(CR_ApiHandler *)apiHandler
-                                                  config:(CR_Config *)config
-                                                 consent:(CR_DataProtectionConsent *)consent;
+                                                  config:(CR_Config *)config;
 
 @end
 
