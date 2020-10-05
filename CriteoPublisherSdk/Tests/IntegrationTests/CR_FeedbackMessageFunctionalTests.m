@@ -23,6 +23,10 @@
 
 #import "Criteo+Testing.h"
 #import "Criteo+Internal.h"
+#import "CR_AdUnitHelper.h"
+#import "CR_Config.h"
+#import "CR_FeedbackController.h"
+#import "CR_FeedbackStorage.h"
 #import "CR_DependencyProvider+Testing.h"
 #import "CR_NetworkCaptor.h"
 #import "CR_NetworkManagerSimulator.h"
@@ -31,12 +35,12 @@
 #import "CR_TestAdUnits.h"
 #import "CR_ThreadManager+Waiter.h"
 #import "NSURL+Testing.h"
-#import "CR_FeedbackStorage.h"
 
 @interface CR_FeedbackMessageFunctionalTests : XCTestCase
 
 @property(strong, nonatomic) Criteo *criteo;
 @property(strong, nonatomic) OCMockObject *nsdateMock;
+@property(strong, nonatomic) CR_DependencyProvider *dependencyProvider;
 
 @end
 
@@ -48,14 +52,15 @@
   [super setUp];
   [self clearFileDisk];
 
-  CR_DependencyProvider *dependencyProvider =
+  self.dependencyProvider =
       CR_DependencyProvider.new.withIsolatedUserDefaults.withWireMockConfiguration
           .withListenedNetworkManager
           // We don't want to isolate the tests from the disk
           //.withIsolatedFeedbackStorage
           .withIsolatedNotificationCenter.withIsolatedIntegrationRegistry;
 
-  self.criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProvider];
+  [self givenLiveBiddingEnabled:NO];  // Default legacy case
+  self.criteo = [[Criteo alloc] initWithDependencyProvider:self.dependencyProvider];
   self.nsdateMock = OCMClassMock([NSDate class]);
 }
 
@@ -102,13 +107,14 @@
   } while (0)
 
 #pragma mark - Tests
+#pragma mark Cache bidding
 
 - (void)testGivenPrefetchedBids_whenBidConsumed_thenFeedbackMessageSent {
   CRBannerAdUnit *adUnitForConsumption = [CR_TestAdUnits preprodBanner320x50];
   NSArray *adUnits = @[ adUnitForConsumption, [CR_TestAdUnits preprodInterstitial] ];
   [self prepareCriteoForGettingBidWithAdUnits:adUnits];
 
-  [self getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:adUnitForConsumption];
+  [self getBidAndWaitForFetchAndFeedbackWithAdUnit:adUnitForConsumption];
 
   CR_HttpContent *content = [self feedbackMessageRequest];
   AssertHttpContentHasOneFeedback(content);
@@ -124,7 +130,7 @@
   NSArray *adUnits = @[ adUnitForNoBid, [CR_TestAdUnits preprodInterstitial] ];
   [self prepareCriteoForGettingBidWithAdUnits:adUnits];
 
-  [self getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:adUnitForNoBid];
+  [self getBidAndWaitForFetchAndFeedbackWithAdUnit:adUnitForNoBid];
 
   CR_HttpContent *content = [self feedbackMessageRequest];
   AssertHttpContentHasOneFeedback(content);
@@ -141,7 +147,7 @@
   [self prepareBidRequestWithError:self.noConnectionError];
   [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
 
-  [self getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:adUnit];
+  [self getBidAndWaitForFetchAndFeedbackWithAdUnit:adUnit];
 
   CR_HttpContent *content = [self feedbackMessageRequest];
   AssertHttpContentHasOneFeedback(content);
@@ -158,7 +164,7 @@
   [self prepareBidRequestWithError:self.timeoutError];
   [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
 
-  [self getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:adUnit];
+  [self getBidAndWaitForFetchAndFeedbackWithAdUnit:adUnit];
 
   CR_HttpContent *content = [self feedbackMessageRequest];
   AssertHttpContentHasOneFeedback(content);
@@ -175,7 +181,7 @@
   [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
   [self increaseCurrentDateWithDuration:CR_NetworkManagerSimulator.interstitialTtl];
 
-  [self getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:adUnit];
+  [self getBidAndWaitForFetchAndFeedbackWithAdUnit:adUnit];
 
   CR_HttpContent *content = [self feedbackMessageRequest];
   AssertHttpContentHasOneFeedback(content);
@@ -193,9 +199,9 @@
   [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit1, adUnit2 ]];
   [self prepareFeedbackRequestWithError];
 
-  [self getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:adUnit1];
-  [self getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:adUnit2];
-  [self getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:adUnit1];
+  [self getBidAndWaitForFetchAndFeedbackWithAdUnit:adUnit1];
+  [self getBidAndWaitForFetchAndFeedbackWithAdUnit:adUnit2];
+  [self getBidAndWaitForFetchAndFeedbackWithAdUnit:adUnit1];
 
   NSArray *feedbacks = [self.feedbackStorage popMessagesToSend];
   XCTAssertEqual(feedbacks.count, 3);
@@ -207,9 +213,9 @@
   [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit1, adUnit2 ]];
   [self prepareFeedbackRequestWithError];
 
-  [self getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:adUnit1];
-  [self getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:adUnit2];
-  [self getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:adUnit2];
+  [self getBidAndWaitForFetchAndFeedbackWithAdUnit:adUnit1];
+  [self getBidAndWaitForFetchAndFeedbackWithAdUnit:adUnit2];
+  [self getBidAndWaitForFetchAndFeedbackWithAdUnit:adUnit2];
 
   CR_HttpContent *content = [self feedbackMessageRequest];
   XCTAssertNotNil(content);
@@ -270,10 +276,13 @@
                                             responseHandler:handlerArg]);
 }
 
-- (void)getBidResponseAndWaitForPrefetchAndFeedbackWithAdUnit:(CRAdUnit *)adUnit {
+- (void)getBidAndWaitForFetchAndFeedbackWithAdUnit:(CRAdUnit *)adUnit {
   [self.criteo.testing_networkCaptor clear];
-  [self.criteo getBidResponseForAdUnit:adUnit];
 
+  CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
+  [self.criteo getBid:cacheAdUnit
+      responseHandler:^(CR_CdbBid *bid){
+      }];
   CR_NetworkWaiterBuilder *builder =
       [[CR_NetworkWaiterBuilder alloc] initWithConfig:self.criteo.config
                                         networkCaptor:self.criteo.testing_networkCaptor];
@@ -348,6 +357,10 @@
 - (BOOL)isPermissionError:(NSError *)error {
   return [error.domain isEqualToString:NSCocoaErrorDomain] &&
          error.code == NSFileWriteNoPermissionError;
+}
+
+- (void)givenLiveBiddingEnabled:(BOOL)enabled {
+  self.dependencyProvider.config.liveBiddingEnabled = enabled;
 }
 
 @end
