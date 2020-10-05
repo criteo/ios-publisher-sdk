@@ -42,6 +42,8 @@
 @property(strong, nonatomic) OCMockObject *nsdateMock;
 @property(strong, nonatomic) CR_DependencyProvider *dependencyProvider;
 
+@property(strong, nonatomic, readonly) CR_Config *config;
+
 @end
 
 @implementation CR_FeedbackMessageFunctionalTests
@@ -217,6 +219,11 @@
   [self getBidAndWaitForFetchAndFeedbackWithAdUnit:adUnit2];
   [self getBidAndWaitForFetchAndFeedbackWithAdUnit:adUnit2];
 
+  // In live bidding mode, as metrics are sent in // with bid request, there is an offset,
+  // so let's flush the remaining metrics
+  if (self.config.isLiveBiddingEnabled) {
+    [self sendFeedbacksAndWaitFeedbackSent];
+  }
   CR_HttpContent *content = [self feedbackMessageRequest];
   XCTAssertNotNil(content);
   NSArray *feedbacks = content.requestBody[@"feedbacks"];
@@ -238,11 +245,52 @@
     return value[@"requestGroupId"];
   }];
   AssertArrayWithUniqueElements(impressionIds, 3);
-  // Two bids was in the same request (and share a common groupId)
-  AssertArrayWithUniqueElements(requestGroupIds, 2);
+  if (self.config.isLiveBiddingEnabled) {
+    // Three bids having each its own request
+    AssertArrayWithUniqueElements(requestGroupIds, 3);
+  } else {
+    // Two bids was in the same request (and share a common groupId)
+    AssertArrayWithUniqueElements(requestGroupIds, 2);
+  }
+}
+
+#pragma mark Live bidding
+
+- (void)testGivenPrefetchedBids_whenLiveBidConsumed_thenFeedbackMessageSent {
+  [self givenLiveBiddingEnabled:YES];
+  [self testGivenPrefetchedBids_whenBidConsumed_thenFeedbackMessageSent];
+}
+
+- (void)testGivenNoBidReturned_whenLiveBidConsumed_thenFeedbackMessageSent {
+  [self givenLiveBiddingEnabled:YES];
+  [self testGivenNoBidReturned_whenBidConsumed_thenFeedbackMessageSent];
+}
+
+- (void)testGivenNetworkErrorOnPrefetch_whenGettingLiveBid_thenSendFeedbackMessage {
+  [self givenLiveBiddingEnabled:YES];
+  [self testGivenNetworkErrorOnPrefetch_whenGettingBid_thenSendFeedbackMessage];
+}
+
+- (void)testGivenTimeoutErrorOnPrefetch_whenGettingLiveBid_thenSendFeedbackMessage {
+  [self givenLiveBiddingEnabled:YES];
+  [self testGivenTimeoutErrorOnPrefetch_whenGettingBid_thenSendFeedbackMessage];
+}
+
+- (void)testGivenFeedbackRequestError_whenGettingLiveBids_thenQueueingFeedbackMessage {
+  [self givenLiveBiddingEnabled:YES];
+  [self testGivenFeedbackRequestError_whenGettingBids_thenQueueingFeedbackMessage];
+}
+
+- (void)testGivenFeedbackRequestError_whenGettingLiveBids_thenFeedbackRequest {
+  [self givenLiveBiddingEnabled:YES];
+  [self testGivenFeedbackRequestError_whenGettingBids_thenFeedbackRequest];
 }
 
 #pragma mark - Private
+
+- (CR_Config *)config {
+  return self.dependencyProvider.config;
+}
 
 - (void)prepareCriteoForGettingBidWithAdUnits:(NSArray *)adUnits {
   [self.criteo testing_registerWithAdUnits:adUnits];
@@ -281,7 +329,12 @@
 
   CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
   [self.criteo getBid:cacheAdUnit
-      responseHandler:^(CR_CdbBid *bid){
+      responseHandler:^(CR_CdbBid *bid) {
+        // In live bidding mode, as metrics are sent in // with bid request, there is an offset,
+        // so let's flush the remaining metrics
+        if (self.config.isLiveBiddingEnabled) {
+          [self.dependencyProvider.feedbackDelegate sendFeedbackBatch];
+        }
       }];
   CR_NetworkWaiterBuilder *builder =
       [[CR_NetworkWaiterBuilder alloc] initWithConfig:self.criteo.config
@@ -290,6 +343,17 @@
       builder.withFeedbackMessageSent.withBid.withFinishedRequestsIncluded.build;
   const BOOL result = [waiter wait];
   XCTAssert(result);
+}
+
+- (void)sendFeedbacksAndWaitFeedbackSent {
+  [self.criteo.testing_networkCaptor clear];
+  CR_NetworkWaiterBuilder *builder =
+      [[CR_NetworkWaiterBuilder alloc] initWithConfig:self.criteo.config
+                                        networkCaptor:self.criteo.testing_networkCaptor];
+  CR_NetworkWaiter *waiter = builder.withFeedbackMessageSent.withFinishedRequestsIncluded.build;
+
+  [self.dependencyProvider.feedbackDelegate sendFeedbackBatch];
+  XCTAssert([waiter wait]);
 }
 
 - (void)increaseCurrentDateWithDuration:(NSTimeInterval)duration {
@@ -360,7 +424,7 @@
 }
 
 - (void)givenLiveBiddingEnabled:(BOOL)enabled {
-  self.dependencyProvider.config.liveBiddingEnabled = enabled;
+  self.config.liveBiddingEnabled = enabled;
 }
 
 @end
