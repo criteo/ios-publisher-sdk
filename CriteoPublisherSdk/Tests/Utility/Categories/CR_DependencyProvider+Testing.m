@@ -44,8 +44,8 @@
 }
 
 - (NSString *)wireMockEndPoint:(NSString *)path {
-  static const NSString *wireMockUrl = @"https://localhost:9099";
-  return [wireMockUrl stringByAppendingPathComponent:path];
+  static const NSString *wireMockUrl = @"https://localhost:9099/";
+  return [wireMockUrl stringByAppendingString:path];
 }
 
 - (CR_DependencyProvider *)withWireMockConfiguration {
