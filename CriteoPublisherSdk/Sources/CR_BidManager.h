@@ -32,7 +32,6 @@
 #import "CR_NetworkManager.h"
 #import "CR_NetworkManagerDelegate.h"
 #import "CR_AppEvents.h"
-#import "CR_TokenCache.h"
 #import "CRBid+Internal.h"
 #import "CR_FeedbackStorage.h"
 #import "Criteo+Internal.h"
@@ -56,7 +55,6 @@
 
 - (instancetype)initWithApiHandler:(CR_ApiHandler *)apiHandler
                       cacheManager:(CR_CacheManager *)cacheManager
-                        tokenCache:(CR_TokenCache *)tokenCache
                             config:(CR_Config *)config
                         deviceInfo:(CR_DeviceInfo *)deviceInfo
                            consent:(CR_DataProtectionConsent *)consent
@@ -106,9 +104,7 @@
 
 @interface CR_BidManager (InHouse)
 
-- (CRBid *)bidForCacheAdUnit:(CR_CacheAdUnit *)cacheAdUnit adUnitType:(CRAdUnitType)adUnitType;
-
-- (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken adUnitType:(CRAdUnitType)adUnitType;
+- (CRBid *)bidForAdUnit:(CRAdUnit *)adUnit;
 
 @end
 

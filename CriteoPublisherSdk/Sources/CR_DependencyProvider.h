@@ -29,7 +29,6 @@
 @class CR_IntegrationRegistry;
 @class CR_Config;
 @class CR_ConfigManager;
-@class CR_TokenCache;
 @class CR_CacheManager;
 @class CR_ApiHandler;
 @class CR_NetworkManager;
@@ -50,7 +49,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) CR_NetworkManager *networkManager;
 @property(nonatomic, strong) CR_ApiHandler *apiHandler;
 @property(nonatomic, strong) CR_CacheManager *cacheManager;
-@property(nonatomic, strong) CR_TokenCache *tokenCache;
 @property(nonatomic, strong) CR_IntegrationRegistry *integrationRegistry;
 @property(nonatomic, strong) CR_Config *config;
 @property(nonatomic, strong) CR_ConfigManager *configManager;

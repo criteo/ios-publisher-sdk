@@ -22,6 +22,7 @@
 #import "CR_FeedbackController.h"
 #import "CR_HeaderBidding.h"
 #import "CR_ThreadManager.h"
+#import "CR_AdUnitHelper.h"
 
 typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 
@@ -37,7 +38,6 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 @implementation CR_BidManager {
   CR_ApiHandler *apiHandler;
   CR_CacheManager *cacheManager;
-  CR_TokenCache *tokenCache;
   CR_Config *config;
   CR_DeviceInfo *deviceInfo;
   CR_NetworkManager *networkManager;
@@ -56,7 +56,6 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
   NSAssert(false, @"Do not use this initializer");
   return [self initWithApiHandler:nil
                      cacheManager:nil
-                       tokenCache:nil
                            config:nil
                        deviceInfo:nil
                           consent:nil
@@ -68,7 +67,6 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 
 - (instancetype)initWithApiHandler:(CR_ApiHandler *)apiHandler
                       cacheManager:(CR_CacheManager *)cacheManager
-                        tokenCache:(CR_TokenCache *)tokenCache
                             config:(CR_Config *)config
                         deviceInfo:(CR_DeviceInfo *)deviceInfo
                            consent:(CR_DataProtectionConsent *)consent
@@ -79,7 +77,6 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
   if (self = [super init]) {
     self->apiHandler = apiHandler;
     self->cacheManager = cacheManager;
-    self->tokenCache = tokenCache;
     self->config = config;
     self->deviceInfo = deviceInfo;
     self->networkManager = networkManager;
@@ -149,11 +146,6 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 
 - (BOOL)isInSilenceMode {
   return [[NSDate date] timeIntervalSinceReferenceDate] < self.cdbTimeToNextCall;
-}
-
-- (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken
-                              adUnitType:(CRAdUnitType)adUnitType {
-  return [tokenCache getValueForToken:bidToken adUnitType:adUnitType];
 }
 
 - (void)prefetchBidForAdUnit:(CR_CacheAdUnit *)adUnit {
@@ -317,13 +309,13 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
   [self.headerBidding enrichRequest:adRequest withBid:fetchedBid adUnit:adUnit];
 }
 
-- (CRBid *)bidForCacheAdUnit:(CR_CacheAdUnit *)cacheAdUnit adUnitType:(CRAdUnitType)adUnitType {
+- (CRBid *)bidForAdUnit:(CRAdUnit *)adUnit {
+  CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
   CR_CdbBid *bid = [self getBidThenFetch:cacheAdUnit];
-  if ([bid isEmpty]) {
-    return [[CRBid alloc] initWithPrice:0.0 bidSuccess:NO bidToken:nil];
+  if (!bid || [bid isEmpty]) {
+    return nil;
   }
-  CRBidToken *bidToken = [tokenCache getTokenForBid:bid adUnitType:adUnitType];
-  return [[CRBid alloc] initWithPrice:[bid.cpm doubleValue] bidSuccess:YES bidToken:bidToken];
+  return [[CRBid alloc] initWithCdbBid:bid adUnit:adUnit];
 }
 
 - (void)cacheBidsFromResponse:(CR_CdbResponse *)cdbResponse {

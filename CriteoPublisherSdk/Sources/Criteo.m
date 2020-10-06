@@ -79,8 +79,7 @@
 
 - (CRBid *)getBidForAdUnit:(CRAdUnit *)adUnit {
   [self.integrationRegistry declare:CR_IntegrationInHouse];
-  return [self.bidManager bidForCacheAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit]
-                                 adUnitType:adUnit.adUnitType];
+  return [self.bidManager bidForAdUnit:adUnit];
 }
 
 #pragma mark - Private
@@ -119,11 +118,6 @@
 
 - (void)getBid:(CR_CacheAdUnit *)slot responseHandler:(CR_BidResponseHandler)responseHandler {
   [self.bidManager getBidForAdUnit:slot bidResponseHandler:responseHandler];
-}
-
-- (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken
-                              adUnitType:(CRAdUnitType)adUnitType {
-  return [self.bidManager tokenValueForBidToken:bidToken adUnitType:adUnitType];
 }
 
 #pragma mark Properties

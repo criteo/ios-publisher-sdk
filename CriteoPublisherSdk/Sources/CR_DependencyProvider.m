@@ -24,7 +24,6 @@
 #import "CR_FeedbackStorage.h"
 #import "CR_AppEvents.h"
 #import "CR_ConfigManager.h"
-#import "CR_TokenCache.h"
 #import "CR_CacheManager.h"
 #import "CR_BidManager.h"
 #import "CR_DefaultMediaDownloader.h"
@@ -79,10 +78,6 @@
 
 - (CR_CacheManager *)cacheManager {
   return CR_LAZY(_cacheManager, [[CR_CacheManager alloc] init]);
-}
-
-- (CR_TokenCache *)tokenCache {
-  return CR_LAZY(_tokenCache, [[CR_TokenCache alloc] init]);
 }
 
 - (CR_IntegrationRegistry *)integrationRegistry {
@@ -144,7 +139,6 @@
 - (CR_BidManager *)bidManager {
   return CR_LAZY(_bidManager, [[CR_BidManager alloc] initWithApiHandler:self.apiHandler
                                                            cacheManager:self.cacheManager
-                                                             tokenCache:self.tokenCache
                                                                  config:self.config
                                                              deviceInfo:self.deviceInfo
                                                                 consent:self.consent
