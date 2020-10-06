@@ -211,12 +211,12 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                                             size:CGSizeMake(320, 50)
                                                       adUnitType:CRAdUnitTypeBanner];
 
-  CRBidResponse *bidResponse = [self.bidManager bidResponseForCacheAdUnit:self.adUnitUncached
-                                                               adUnitType:CRAdUnitTypeBanner];
+  CRBid *bid = [self.bidManager bidForCacheAdUnit:self.adUnitUncached
+                                       adUnitType:CRAdUnitTypeBanner];
 
-  XCTAssertEqualWithAccuracy(bidResponse.price, 0.0f, 0.1);
-  XCTAssertNil(bidResponse.bidToken);
-  XCTAssertFalse(bidResponse.bidSuccess);
+  XCTAssertEqualWithAccuracy(bid.price, 0.0f, 0.1);
+  XCTAssertNil(bid.bidToken);
+  XCTAssertFalse(bid.bidSuccess);
 }
 
 - (void)testBidResponseForValidBid {
@@ -226,11 +226,10 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).cpm(@"4.2").build;
   self.cacheManager.bidCache[self.adUnit1] = self.bid1;
 
-  CRBidResponse *bidResponse = [self.bidManager bidResponseForCacheAdUnit:self.adUnit1
-                                                               adUnitType:CRAdUnitTypeBanner];
+  CRBid *bid = [self.bidManager bidForCacheAdUnit:self.adUnit1 adUnitType:CRAdUnitTypeBanner];
 
-  XCTAssertEqualWithAccuracy(bidResponse.price, 4.2, 0.1);
-  XCTAssert(bidResponse.bidSuccess);
+  XCTAssertEqualWithAccuracy(bid.price, 4.2, 0.1);
+  XCTAssert(bid.bidSuccess);
 }
 
 - (void)testGetBidWhenNoBid {

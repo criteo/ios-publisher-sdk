@@ -53,7 +53,7 @@
 - (void)testGetBidResponseForAdUnit_GivenAnyState_DeclareInHouseIntegration {
   CRAdUnit *adUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"adUnit"];
 
-  [self.criteo getBidResponseForAdUnit:adUnit];
+  [self.criteo getBidForAdUnit:adUnit];
 
   OCMVerify([self.integrationRegistry declare:CR_IntegrationInHouse]);
 }

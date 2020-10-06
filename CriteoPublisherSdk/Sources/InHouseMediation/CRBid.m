@@ -1,5 +1,5 @@
 //
-//  CRBidResponse+Internal.h
+//  CRBid.m
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -17,21 +17,19 @@
 // limitations under the License.
 //
 
-#ifndef CRBidResponse_Internal_h
-#define CRBidResponse_Internal_h
+#import "CRBid.h"
 
-#import <CriteoPublisherSdk/CRBidResponse.h>
-
-NS_ASSUME_NONNULL_BEGIN
-
-@interface CRBidResponse ()
+@implementation CRBid
 
 - (instancetype)initWithPrice:(double)price
                    bidSuccess:(BOOL)bidSuccess
-                     bidToken:(nullable CRBidToken*)bidToken;
+                     bidToken:(CRBidToken*)bidToken {
+  if (self = [super init]) {
+    _price = price;
+    _bidSuccess = bidSuccess;
+    _bidToken = bidToken;
+  }
+  return self;
+}
 
 @end
-
-NS_ASSUME_NONNULL_END
-
-#endif /* CRBidResponse_Internal_h */

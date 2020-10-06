@@ -51,8 +51,8 @@ class CriteoAdViewBuilder: AdViewBuilder {
     case .standalone:
       adView.loadAd()
     case .inHouse:
-      let bidResponse = criteo.getBidResponse(for: adUnit)
-      adView.loadAd(with: bidResponse.bidToken)
+      let bid = criteo.getBidFor(adUnit)
+      adView.loadAd(with: bid.bidToken)
     }
     return adView
   }
@@ -65,8 +65,8 @@ class CriteoAdViewBuilder: AdViewBuilder {
     case .standalone:
       adView.loadAd()
     case .inHouse:
-      let bidResponse = criteo.getBidResponse(for: adUnit)
-      adView.loadAd(with: bidResponse.bidToken)
+      let bid = criteo.getBidFor(adUnit)
+      adView.loadAd(with: bid.bidToken)
     }
     return adView
   }

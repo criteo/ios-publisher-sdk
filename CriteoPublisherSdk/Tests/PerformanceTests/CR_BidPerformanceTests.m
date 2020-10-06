@@ -52,7 +52,7 @@
 
   for (NSUInteger i = 0; i < adUnits.count; i++) {
     CRAdUnit *adUnit = adUnits[i];
-    XCTAssertNoThrow([self.criteo getBidResponseForAdUnit:adUnit]);
+    XCTAssertNoThrow([self.criteo getBidForAdUnit:adUnit]);
   }
   [self waitThreadManagerIdle];
 }

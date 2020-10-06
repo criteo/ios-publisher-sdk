@@ -317,16 +317,13 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
   [self.headerBidding enrichRequest:adRequest withBid:fetchedBid adUnit:adUnit];
 }
 
-- (CRBidResponse *)bidResponseForCacheAdUnit:(CR_CacheAdUnit *)cacheAdUnit
-                                  adUnitType:(CRAdUnitType)adUnitType {
+- (CRBid *)bidForCacheAdUnit:(CR_CacheAdUnit *)cacheAdUnit adUnitType:(CRAdUnitType)adUnitType {
   CR_CdbBid *bid = [self getBidThenFetch:cacheAdUnit];
   if ([bid isEmpty]) {
-    return [[CRBidResponse alloc] initWithPrice:0.0 bidSuccess:NO bidToken:nil];
+    return [[CRBid alloc] initWithPrice:0.0 bidSuccess:NO bidToken:nil];
   }
   CRBidToken *bidToken = [tokenCache getTokenForBid:bid adUnitType:adUnitType];
-  return [[CRBidResponse alloc] initWithPrice:[bid.cpm doubleValue]
-                                   bidSuccess:YES
-                                     bidToken:bidToken];
+  return [[CRBid alloc] initWithPrice:[bid.cpm doubleValue] bidSuccess:YES bidToken:bidToken];
 }
 
 - (void)cacheBidsFromResponse:(CR_CdbResponse *)cdbResponse {

@@ -1,6 +1,6 @@
 //
-//  CRBidResponse.m
-//  CriteoPublisherSdk
+//  CRBidTests.m
+//  CriteoPublisherSdkTests
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
 //
@@ -17,19 +17,22 @@
 // limitations under the License.
 //
 
-#import "CRBidResponse.h"
+#import <XCTest/XCTest.h>
+#import "CRBid+Internal.h"
+#import "CRBidToken+Internal.h"
 
-@implementation CRBidResponse
+@interface CRBidTests : XCTestCase
 
-- (instancetype)initWithPrice:(double)price
-                   bidSuccess:(BOOL)bidSuccess
-                     bidToken:(CRBidToken*)bidToken {
-  if (self = [super init]) {
-    _price = price;
-    _bidSuccess = bidSuccess;
-    _bidToken = bidToken;
-  }
-  return self;
+@end
+
+@implementation CRBidTests
+
+- (void)testBidResponseInitialization {
+  CRBidToken *bidToken = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
+  CRBid *testBidResponse = [[CRBid alloc] initWithPrice:5.5 bidSuccess:YES bidToken:bidToken];
+  XCTAssertEqual(5.5, testBidResponse.price);
+  XCTAssertEqual(YES, testBidResponse.bidSuccess);
+  XCTAssertEqual(bidToken, testBidResponse.bidToken);
 }
 
 @end

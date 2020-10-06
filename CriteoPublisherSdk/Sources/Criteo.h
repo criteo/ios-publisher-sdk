@@ -22,7 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CriteoPublisherSdk/CRAdUnit.h>
-#import <CriteoPublisherSdk/CRBidResponse.h>
+#import <CriteoPublisherSdk/CRBid.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param adUnit The adUnit related to request
  * @return Bid Response that can later be used for displaying ads
  */
-- (CRBidResponse *)getBidResponseForAdUnit:(CRAdUnit *)adUnit;
+- (CRBid *)getBidForAdUnit:(CRAdUnit *)adUnit;
 
 @end
 NS_ASSUME_NONNULL_END
