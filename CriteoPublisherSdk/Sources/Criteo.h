@@ -28,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Criteo : NSObject
 
+#pragma mark - Lifecycle
+
 /**
  * Use sharedCriteo singleton accessor, do not init your own instance
  * Note: Initialization is expected through registerCriteoPublisherId:
@@ -41,11 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (nonnull instancetype)sharedCriteo;
 
-/** Set a custom opt-out/opt-in with same behaviour as the CCPA (US Privacy). */
-- (void)setUsPrivacyOptOut:(BOOL)usPrivacyOptOut;
-/** Set the privacy consent string owned by the Mopub SDK. */
-- (void)setMopubConsent:(NSString *)mopubConsent;
-
 /**
  * Initialize Criteo singleton
  * @param criteoPublisherId Publisher Identifier
@@ -53,12 +50,25 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)registerCriteoPublisherId:(NSString *)criteoPublisherId
                       withAdUnits:(NSArray<CRAdUnit *> *)adUnits;
+
+#pragma mark - Consent management
+
+/** Set a custom opt-out/opt-in with same behaviour as the CCPA (US Privacy). */
+- (void)setUsPrivacyOptOut:(BOOL)usPrivacyOptOut;
+
+/** Set the privacy consent string owned by the Mopub SDK. */
+- (void)setMopubConsent:(NSString *)mopubConsent;
+
+#pragma mark - Header bidding
+
 /**
  * Header bidding API, enrich your request with Criteo metadata
  * @param request The request to enrich, supports GAM and MoPub
  * @param adUnit The adUnit related to request
  */
 - (void)setBidsForRequest:(id)request withAdUnit:(CRAdUnit *)adUnit;
+
+#pragma mark - In-House
 
 /**
  * In-House bidding API, provide direct access to a Criteo bid
