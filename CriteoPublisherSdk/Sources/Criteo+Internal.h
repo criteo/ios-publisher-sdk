@@ -51,8 +51,6 @@ typedef void (^CR_BidResponseHandler)(CR_CdbBid *bid);
 
 - (void)getBid:(CR_CacheAdUnit *)slot responseHandler:(CR_BidResponseHandler)responseHandler;
 
-- (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken adUnitType:(CRAdUnitType)adUnitType;
-
 - (instancetype)initWithDependencyProvider:(CR_DependencyProvider *)dependencyProvider;
 + (instancetype)criteo;
 
