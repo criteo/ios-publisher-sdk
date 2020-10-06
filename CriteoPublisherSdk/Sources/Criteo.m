@@ -77,10 +77,10 @@
 
 #pragma mark - In-House
 
-- (CRBidResponse *)getBidResponseForAdUnit:(CRAdUnit *)adUnit {
+- (CRBid *)getBidForAdUnit:(CRAdUnit *)adUnit {
   [self.integrationRegistry declare:CR_IntegrationInHouse];
-  return [self.bidManager bidResponseForCacheAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit]
-                                         adUnitType:adUnit.adUnitType];
+  return [self.bidManager bidForCacheAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit]
+                                 adUnitType:adUnit.adUnitType];
 }
 
 #pragma mark - Private

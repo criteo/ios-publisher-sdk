@@ -180,7 +180,7 @@
 
   [self prepareInHouseTest:adUnit];
 
-  [self.criteo getBidResponseForAdUnit:adUnit];
+  [self.criteo getBidForAdUnit:adUnit];
   [self waitForIdleState];
 
   NSDictionary *request = [self cdbRequest];
@@ -276,7 +276,7 @@
 
 - (void)getBidResponseWithAdUnit:(CRAdUnit *)adUnit {
   [self.criteo.testing_networkCaptor clear];
-  [self.criteo getBidResponseForAdUnit:adUnit];
+  [self.criteo getBidForAdUnit:adUnit];
   [self waitForIdleState];
 }
 

@@ -1,5 +1,5 @@
 //
-//  CRBidResponse.h
+//  CRBid+Internal.h
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -17,20 +17,21 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
+#ifndef CRBid_Internal_h
+#define CRBid_Internal_h
 
-#import <CriteoPublisherSdk/CRBidToken.h>
+#import <CriteoPublisherSdk/CRBid.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CRBidResponse : NSObject
+@interface CRBid ()
 
-@property(nonatomic, readonly) double price;
-@property(nonatomic, readonly) BOOL bidSuccess;
-@property(nonatomic, readonly) CRBidToken *bidToken;
-
-- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithPrice:(double)price
+                   bidSuccess:(BOOL)bidSuccess
+                     bidToken:(nullable CRBidToken*)bidToken;
 
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif /* CRBid_Internal_h */

@@ -33,7 +33,7 @@
 #import "CR_NetworkManagerDelegate.h"
 #import "CR_AppEvents.h"
 #import "CR_TokenCache.h"
-#import "CRBidResponse+Internal.h"
+#import "CRBid+Internal.h"
 #import "CR_FeedbackStorage.h"
 #import "Criteo+Internal.h"
 
@@ -106,8 +106,7 @@
 
 @interface CR_BidManager (InHouse)
 
-- (CRBidResponse *)bidResponseForCacheAdUnit:(CR_CacheAdUnit *)cacheAdUnit
-                                  adUnitType:(CRAdUnitType)adUnitType;
+- (CRBid *)bidForCacheAdUnit:(CR_CacheAdUnit *)cacheAdUnit adUnitType:(CRAdUnitType)adUnitType;
 
 - (CR_TokenValue *)tokenValueForBidToken:(CRBidToken *)bidToken adUnitType:(CRAdUnitType)adUnitType;
 
