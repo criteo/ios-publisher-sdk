@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param adUnit The adUnit related to request
  * @return Bid Response that can later be used for displaying ads
  */
-- (CRBid *)getBidForAdUnit:(CRAdUnit *)adUnit;
+- (CRBid *)getBidForAdUnit:(CRAdUnit *)adUnit NS_SWIFT_NAME(getBid(for:));
 
 @end
 NS_ASSUME_NONNULL_END
