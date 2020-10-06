@@ -18,14 +18,12 @@
 //
 
 #import "CRBannerView.h"
-#import "Criteo.h"
-#import "CR_CdbBid.h"
 #import "Criteo+Internal.h"
 #import "CR_BidManager.h"
-#import "NSError+Criteo.h"
 #import "CR_URLOpening.h"
 #import "CR_IntegrationRegistry.h"
 #import "CR_DependencyProvider.h"
+#import "NSError+Criteo.h"
 
 // TODO check import strategy
 @import WebKit;
@@ -140,24 +138,22 @@
       }];
 }
 
-- (void)loadAdWithBidToken:(CRBidToken *)bidToken {
+- (void)loadAdWithBid:(CRBid *)bid {
   self.isResponseValid = NO;
-  CR_TokenValue *tokenValue = [self.criteo tokenValueForBidToken:bidToken
-                                                      adUnitType:CRAdUnitTypeBanner];
 
-  if (!tokenValue) {
+  if (!bid) {
     [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
     return;
   }
-  if (![tokenValue.adUnit isEqual:self.adUnit]) {
+  if (![bid.adUnit isEqual:self.adUnit]) {
     [self
         safelyNotifyAdLoadFail:CRErrorCodeInvalidParameter
                    description:
-                       @"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRBannerView was initialized with"];
+                       @"Bid passed to loadAdWithBid doesn't have the same ad unit as the CRBannerView was initialized with"];
     return;
   }
 
-  [self loadAdWithDisplayData:tokenValue.displayUrl];
+  [self loadAdWithDisplayData:bid.consume.displayUrl];
 }
 
 - (void)loadAdWithDisplayData:(NSString *)displayData {

@@ -40,11 +40,11 @@ static NSString *creativeUrl2 = @"www.apple.com";
 - (void)test_givenBanner_whenLoadBidToken_thenBannerReceiveAd {
   CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
   [self initCriteoWithAdUnits:@[ banner ]];
-  CRBid *response = [self.criteo getBidForAdUnit:banner];
+  CRBid *bid = [self.criteo getBidForAdUnit:banner];
   CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner
                                                                             criteo:self.criteo];
 
-  [checker.bannerView loadAdWithBidToken:response.bidToken];
+  [checker.bannerView loadAdWithBid:bid];
 
   [self cr_waitForExpectations:@[ checker.bannerViewDidReceiveAdExpectation ]];
 }
@@ -52,11 +52,11 @@ static NSString *creativeUrl2 = @"www.apple.com";
 - (void)test_givenBannerWithBadAdUnitId_whenLoadBidToken_thenBannerFailToReceiveAd {
   CRBannerAdUnit *banner = [CR_TestAdUnits randomBanner320x50];
   [self initCriteoWithAdUnits:@[ banner ]];
-  CRBid *response = [self.criteo getBidForAdUnit:banner];
+  CRBid *bid = [self.criteo getBidForAdUnit:banner];
   CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner
                                                                             criteo:self.criteo];
 
-  [checker.bannerView loadAdWithBidToken:response.bidToken];
+  [checker.bannerView loadAdWithBid:bid];
 
   [self cr_waitForExpectations:@[ checker.bannerViewFailToReceiveAdExpectation ]];
 }
@@ -65,11 +65,11 @@ static NSString *creativeUrl2 = @"www.apple.com";
   CRBannerAdUnit *banner1 = [CR_TestAdUnits preprodBanner320x50];
   CRBannerAdUnit *banner2 = [CR_TestAdUnits randomBanner320x50];
   [self initCriteoWithAdUnits:@[ banner1 ]];
-  CRBid *response = [self.criteo getBidForAdUnit:banner1];
+  CRBid *bid = [self.criteo getBidForAdUnit:banner1];
   CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner2
                                                                             criteo:self.criteo];
 
-  [checker.bannerView loadAdWithBidToken:response.bidToken];
+  [checker.bannerView loadAdWithBid:bid];
 
   [self cr_waitForExpectations:@[ checker.bannerViewFailToReceiveAdExpectation ]];
 }
@@ -82,7 +82,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
                                                                             criteo:self.criteo];
   CRBid *orphanBid = [self.criteo getBidForAdUnit:orphan];
 
-  [checker.bannerView loadAdWithBidToken:orphanBid.bidToken];
+  [checker.bannerView loadAdWithBid:orphanBid];
 
   [self cr_waitForExpectations:@[ checker.bannerViewFailToReceiveAdExpectation ]];
 }
@@ -94,25 +94,25 @@ static NSString *creativeUrl2 = @"www.apple.com";
   CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:adUnit
                                                                             criteo:self.criteo];
   CRBid *orphanBid = [self.criteo getBidForAdUnit:orphan];
-  [checker.bannerView loadAdWithBidToken:orphanBid.bidToken];
+  [checker.bannerView loadAdWithBid:orphanBid];
   [checker resetExpectations];
 
   CRBid *goodBid = [self.criteo getBidForAdUnit:adUnit];
-  [checker.bannerView loadAdWithBidToken:goodBid.bidToken];
+  [checker.bannerView loadAdWithBid:goodBid];
   [self cr_waitForExpectations:@[ checker.bannerViewDidReceiveAdExpectation ]];
 }
 
 - (void)test_givenBanner_whenLoadBidTokenTwice_thenBannerFailToReceiveAd {
   CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
   [self initCriteoWithAdUnits:@[ banner ]];
-  CRBid *response = [self.criteo getBidForAdUnit:banner];
+  CRBid *bid = [self.criteo getBidForAdUnit:banner];
   CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner
                                                                             criteo:self.criteo];
-  [checker.bannerView loadAdWithBidToken:response.bidToken];
+  [checker.bannerView loadAdWithBid:bid];
   [self cr_waitForExpectations:@[ checker.bannerViewDidReceiveAdExpectation ]];
   checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner criteo:self.criteo];
 
-  [checker.bannerView loadAdWithBidToken:response.bidToken];
+  [checker.bannerView loadAdWithBid:bid];
 
   [self cr_waitForExpectations:@[ checker.bannerViewFailToReceiveAdExpectation ]];
 }
@@ -124,15 +124,15 @@ static NSString *creativeUrl2 = @"www.apple.com";
                                                                             criteo:self.criteo];
 
   [checker injectBidWithExpectedCreativeUrl:creativeUrl2];
-  CRBid *response = [self.criteo getBidForAdUnit:banner];
-  [checker.bannerView loadAdWithBidToken:response.bidToken];
+  CRBid *bid = [self.criteo getBidForAdUnit:banner];
+  [checker.bannerView loadAdWithBid:bid];
   [self cr_waitForExpectations:@[ checker.bannerViewDidReceiveAdExpectation ]];
 
   [checker resetExpectations];
 
   [checker injectBidWithExpectedCreativeUrl:creativeUrl2];
-  response = [self.criteo getBidForAdUnit:banner];
-  [checker.bannerView loadAdWithBidToken:response.bidToken];
+  bid = [self.criteo getBidForAdUnit:banner];
+  [checker.bannerView loadAdWithBid:bid];
   [self cr_waitForExpectations:@[ checker.bannerViewDidReceiveAdExpectation ]];
 }
 
@@ -143,16 +143,16 @@ static NSString *creativeUrl2 = @"www.apple.com";
                                                                             criteo:self.criteo];
 
   [checker injectBidWithExpectedCreativeUrl:creativeUrl1];
-  CRBid *response = [self.criteo getBidForAdUnit:banner];
-  [checker.bannerView loadAdWithBidToken:response.bidToken];
+  CRBid *bid = [self.criteo getBidForAdUnit:banner];
+  [checker.bannerView loadAdWithBid:bid];
   [self cr_waitForExpectations:@[ checker.bannerViewDidReceiveAdExpectation ]];
 
   [checker resetExpectations];
   [checker resetBannerView];
 
   [checker injectBidWithExpectedCreativeUrl:creativeUrl2];
-  response = [self.criteo getBidForAdUnit:banner];
-  [checker.bannerView loadAdWithBidToken:response.bidToken];
+  bid = [self.criteo getBidForAdUnit:banner];
+  [checker.bannerView loadAdWithBid:bid];
   [self cr_waitForExpectations:@[ checker.bannerViewDidReceiveAdExpectation ]];
 }
 
@@ -165,7 +165,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
                                                                             criteo:self.criteo];
   CRBid *bid = [self.criteo getBidForAdUnit:adUnit];
 
-  [checker.intertitial loadAdWithBidToken:bid.bidToken];
+  [checker.intertitial loadAdWithBid:bid];
 
   [self cr_waitForExpectations:@[ checker.receiveAdExpectation ]];
 }
@@ -178,7 +178,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
                                                                             criteo:self.criteo];
   CRBid *orphanBid = [self.criteo getBidForAdUnit:orphan];
 
-  [checker.intertitial loadAdWithBidToken:orphanBid.bidToken];
+  [checker.intertitial loadAdWithBid:orphanBid];
 
   [self cr_waitForExpectations:@[ checker.failToReceiveAdExpectation ]];
 }
@@ -190,11 +190,11 @@ static NSString *creativeUrl2 = @"www.apple.com";
   CR_InterstitialChecker *checker = [[CR_InterstitialChecker alloc] initWithAdUnit:adUnit
                                                                             criteo:self.criteo];
   CRBid *orphanBid = [self.criteo getBidForAdUnit:orphan];
-  [checker.intertitial loadAdWithBidToken:orphanBid.bidToken];
+  [checker.intertitial loadAdWithBid:orphanBid];
   [checker resetExpectations];
 
   CRBid *goodBid = [self.criteo getBidForAdUnit:adUnit];
-  [checker.intertitial loadAdWithBidToken:goodBid.bidToken];
+  [checker.intertitial loadAdWithBid:goodBid];
   [self cr_waitForExpectations:@[ checker.receiveAdExpectation ]];
 }
 

@@ -19,18 +19,17 @@
 
 #import <XCTest/XCTest.h>
 #import <OCMock.h>
-#import "CR_BidManager.h"
-#import "Criteo.h"
+
+#import "CriteoPublisherSdk.h"
 #import "Criteo+Internal.h"
-#import "CRBannerView.h"
 #import "CRBannerView+Internal.h"
-#import "MockWKWebView.h"
-#import "CRBidToken+Internal.h"
-#import "CR_URLOpenerMock.h"
-#import "CR_TokenValue+Testing.h"
-#import "XCTestCase+Criteo.h"
+#import "CR_BidManager.h"
 #import "CR_DependencyProvider+Testing.h"
 #import "CR_IntegrationRegistry.h"
+#import "CR_URLOpenerMock.h"
+#import "MockWKWebView.h"
+#import "XCTestCase+Criteo.h"
+#import "CR_NativeAssets+Testing.h"
 
 @import WebKit;
 
@@ -49,6 +48,8 @@
 @end
 
 @implementation CRBannerViewTests
+
+#pragma mark - Lifecycle
 
 - (void)setUp {
   self.expectedCacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
@@ -70,6 +71,8 @@
   // Maybe this come from OCMock not handling properly partial mock ???
   self.criteo = nil;
 }
+
+#pragma mark - Tests
 
 - (void)testBannerSuccess {
   WKWebView *mockWebView = OCMPartialMock([[WKWebView alloc] init]);
@@ -273,9 +276,9 @@
   OCMVerifyAll(mockWebView);
 }
 
-#pragma - In House
+#pragma mark In House
 
-- (void)testLoadingWithTokenSuccess {
+- (void)testLoadingWithBidSuccess {
   WKWebView *mockWebView = OCMPartialMock([WKWebView new]);
   XCTestExpectation *webViewLoadedExpectation =
       [[XCTestExpectation alloc] initWithDescription:@"webViewLoadedExpectation"];
@@ -288,14 +291,11 @@
         [webViewLoadedExpectation fulfill];
       });
 
-  CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
-  CR_TokenValue *expectedTokenValue = [CR_TokenValue tokenValueWithDisplayUrl:TEST_DISPLAY_URL
-                                                                       adUnit:self.adUnit];
-  OCMStub([self.criteo tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner])
-      .andReturn(expectedTokenValue);
+  CR_CdbBid *cdbBid = [self cdbBidWithDisplayUrl:TEST_DISPLAY_URL];
+  CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:self.adUnit];
 
   CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView];
-  [bannerView loadAdWithBidToken:token];
+  [bannerView loadAdWithBid:bid];
 
   [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
   OCMVerifyAll(mockWebView);
@@ -317,15 +317,12 @@
         [webViewLoadedExpectation fulfill];
       });
 
-  CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
   NSString *displayURL = @"whatDoYouMean";
-  CR_TokenValue *expectedTokenValue = [CR_TokenValue tokenValueWithDisplayUrl:displayURL
-                                                                       adUnit:self.adUnit];
-  OCMStub([self.criteo tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner])
-      .andReturn(expectedTokenValue);
+  CR_CdbBid *cdbBid = [self cdbBidWithDisplayUrl:displayURL];
+  CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:self.adUnit];
 
   CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView];
-  [bannerView loadAdWithBidToken:token];
+  [bannerView loadAdWithBid:bid];
 
   [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
   OCMVerifyAll(mockWebView);
@@ -365,6 +362,7 @@
 }
 
 - (CR_CdbBid *)cdbBidWithDisplayUrl:(NSString *)displayURL {
+  CR_NativeAssets *assets = [CR_NativeAssets nativeAssetsFromCdb];
   return [[CR_CdbBid alloc] initWithZoneId:@123
                                placementId:@"placementId"
                                        cpm:@"4.2"
@@ -375,7 +373,7 @@
                                   creative:@"THIS IS USELESS LEGACY"
                                 displayUrl:displayURL
                                 insertTime:[NSDate date]
-                              nativeAssets:nil
+                              nativeAssets:assets
                               impressionId:nil];
 }
 

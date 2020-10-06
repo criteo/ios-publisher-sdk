@@ -26,23 +26,18 @@
 #import "CRNativeAdUnit.h"
 #import "CRNativeAd+Internal.h"
 #import "CRNativeLoader+Internal.h"
+#import "CRBid+Internal.h"
 #import "CR_AdUnitHelper.h"
 #import "CR_BidManager.h"
 #import "CR_CdbBidBuilder.h"
 #import "CR_DependencyProvider+Testing.h"
-#import "CRBidToken+Internal.h"
-#import "CR_TokenValue.h"
 #import "CR_NativeAssets+Testing.h"
 #import "CR_NativeLoaderDispatchChecker.h"
-#import "CR_NetworkCaptor.h"
 #import "CR_MediaDownloaderDispatchChecker.h"
 #import "CR_TestAdUnits.h"
-#import "CR_SynchronousThreadManager.h"
 #import "CR_URLOpenerMock.h"
-#import "CRMediaDownloader.h"
-#import "XCTestCase+Criteo.h"
-#import "CR_NativeAssets+Testing.h"
 #import "CR_IntegrationRegistry.h"
+#import "XCTestCase+Criteo.h"
 
 @interface CR_NativeLoaderTests : XCTestCase
 @property(strong, nonatomic) CRNativeLoader *loader;
@@ -84,7 +79,37 @@
 #pragma mark - Tests
 
 - (void)testReceiveWithValidBid {
+  [self loadNativeWithCdbBid:self.validCdbBid
+                      verify:^(CRNativeLoader *loader, id<CRNativeLoaderDelegate> delegateMock,
+                               Criteo *criteoMock) {
+                        OCMExpect([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
+                        OCMReject([delegateMock nativeLoader:loader
+                                 didFailToReceiveAdWithError:[OCMArg any]]);
+                      }];
+
+  // FIXME We want to expect URL from native assets, but URL instances are mocked
+  OCMVerify(times(3), [self.mediaDownloaderMock downloadImage:[OCMArg any]
+                                            completionHandler:[OCMArg any]]);
+  OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
+}
+
+- (void)testFailureWithNoBid {
+  [self loadNativeWithCdbBid:[CR_CdbBid emptyBid]
+                      verify:^(CRNativeLoader *loader, id<CRNativeLoaderDelegate> delegateMock,
+                               Criteo *criteoMock) {
+                        OCMExpect([delegateMock nativeLoader:loader
+                                 didFailToReceiveAdWithError:[OCMArg any]]);
+                        OCMReject([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
+                      }];
+
+  OCMVerify(never(), [self.mediaDownloaderMock downloadImage:[OCMArg any]
+                                           completionHandler:[OCMArg any]]);
+  OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
+}
+
+- (void)testInHouseReceiveWithValidBid {
   [self loadNativeWithBid:self.validBid
+                 delegate:nil
                    verify:^(CRNativeLoader *loader, id<CRNativeLoaderDelegate> delegateMock,
                             Criteo *criteoMock) {
                      OCMExpect([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
@@ -95,47 +120,17 @@
   // FIXME We want to expect URL from native assets, but URL instances are mocked
   OCMVerify(times(3), [self.mediaDownloaderMock downloadImage:[OCMArg any]
                                             completionHandler:[OCMArg any]]);
-  OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
-}
-
-- (void)testFailureWithNoBid {
-  [self loadNativeWithBid:[CR_CdbBid emptyBid]
-                   verify:^(CRNativeLoader *loader, id<CRNativeLoaderDelegate> delegateMock,
-                            Criteo *criteoMock) {
-                     OCMExpect([delegateMock nativeLoader:loader
-                              didFailToReceiveAdWithError:[OCMArg any]]);
-                     OCMReject([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
-                   }];
-
-  OCMVerify(never(), [self.mediaDownloaderMock downloadImage:[OCMArg any]
-                                           completionHandler:[OCMArg any]]);
-  OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
-}
-
-- (void)testInHouseReceiveWithValidToken {
-  [self loadNativeWithTokenValue:self.validTokenValue
-                        delegate:nil
-                          verify:^(CRNativeLoader *loader, id<CRNativeLoaderDelegate> delegateMock,
-                                   Criteo *criteoMock) {
-                            OCMExpect([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
-                            OCMReject([delegateMock nativeLoader:loader
-                                     didFailToReceiveAdWithError:[OCMArg any]]);
-                          }];
-
-  // FIXME We want to expect URL from native assets, but URL instances are mocked
-  OCMVerify(times(3), [self.mediaDownloaderMock downloadImage:[OCMArg any]
-                                            completionHandler:[OCMArg any]]);
 }
 
 - (void)testInHouseFailureWithInvalidToken {
-  [self loadNativeWithTokenValue:nil
-                        delegate:nil
-                          verify:^(CRNativeLoader *loader, id<CRNativeLoaderDelegate> delegateMock,
-                                   Criteo *criteoMock) {
-                            OCMExpect([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
-                            OCMReject([delegateMock nativeLoader:loader
-                                     didFailToReceiveAdWithError:[OCMArg any]]);
-                          }];
+  [self loadNativeWithBid:nil
+                 delegate:nil
+                   verify:^(CRNativeLoader *loader, id<CRNativeLoaderDelegate> delegateMock,
+                            Criteo *criteoMock) {
+                     OCMExpect([delegateMock nativeLoader:loader didReceiveAd:[OCMArg any]]);
+                     OCMReject([delegateMock nativeLoader:loader
+                              didFailToReceiveAdWithError:[OCMArg any]]);
+                   }];
 
   OCMVerify(never(), [self.mediaDownloaderMock downloadImage:[OCMArg any]
                                            completionHandler:[OCMArg any]]);
@@ -143,7 +138,7 @@
 
 - (void)testReceiveOnMainQueue {
   CR_NativeLoaderDispatchChecker *delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
-  [self dispatchCheckerForBid:self.validBid delegate:delegate];
+  [self dispatchCheckerForBid:self.validCdbBid delegate:delegate];
   [self cr_waitForExpectations:@[ delegate.didReceiveOnMainQueue ]];
 }
 
@@ -268,11 +263,6 @@
       });
 }
 
-- (void)mockCriteoWithBidToken:(CRBidToken *)bidToken returnTokenValue:(CR_TokenValue *)tokenValue {
-  OCMStub([self.criteo tokenValueForBidToken:bidToken adUnitType:CRAdUnitTypeNative])
-      .andReturn(tokenValue);
-}
-
 - (CRNativeLoader *)buildLoaderWithAdUnit:(CRNativeAdUnit *)adUnit criteo:(Criteo *)criteo {
   CR_URLOpenerMock *opener = [[CR_URLOpenerMock alloc] init];
   CRNativeLoader *loader = [[CRNativeLoader alloc] initWithAdUnit:adUnit
@@ -283,10 +273,11 @@
   return loader;
 }
 
-- (void)loadNativeWithBid:(CR_CdbBid *)bid
-                 delegate:(id<CRNativeLoaderDelegate>)delegate
-                   verify:(void (^)(CRNativeLoader *loader, id<CRNativeLoaderDelegate> delegateMock,
-                                    Criteo *criteoMock))verify {
+- (void)loadNativeWithCdbBid:(CR_CdbBid *)bid
+                    delegate:(id<CRNativeLoaderDelegate>)delegate
+                      verify:(void (^)(CRNativeLoader *loader,
+                                       id<CRNativeLoaderDelegate> delegateMock,
+                                       Criteo *criteoMock))verify {
   CRNativeAdUnit *adUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"123"];
   [self mockCriteoWithAdUnit:adUnit respondBid:bid];
   id<CRNativeLoaderDelegate> testDelegate =
@@ -297,36 +288,34 @@
   verify(loader, testDelegate, self.criteo);
 }
 
-- (void)loadNativeWithBid:(CR_CdbBid *)bid
-                   verify:(void (^)(CRNativeLoader *loader, id<CRNativeLoaderDelegate> delegateMock,
-                                    Criteo *criteoMock))verify {
-  [self loadNativeWithBid:bid delegate:nil verify:verify];
+- (void)loadNativeWithCdbBid:(CR_CdbBid *)bid
+                      verify:(void (^)(CRNativeLoader *loader,
+                                       id<CRNativeLoaderDelegate> delegateMock,
+                                       Criteo *criteoMock))verify {
+  [self loadNativeWithCdbBid:bid delegate:nil verify:verify];
 }
 
-- (void)loadNativeWithTokenValue:(CR_TokenValue *)tokenValue
-                        delegate:(id<CRNativeLoaderDelegate>)delegate
-                          verify:(void (^)(CRNativeLoader *loader,
-                                           id<CRNativeLoaderDelegate> delegateMock,
-                                           Criteo *criteoMock))verify {
-  CRBidToken *bidToken = [CRBidToken.alloc initWithUUID:[NSUUID UUID]];
-  [self mockCriteoWithBidToken:bidToken returnTokenValue:tokenValue];
+- (void)loadNativeWithBid:(CRBid *)bid
+                 delegate:(id<CRNativeLoaderDelegate>)delegate
+                   verify:(void (^)(CRNativeLoader *loader, id<CRNativeLoaderDelegate> delegateMock,
+                                    Criteo *criteoMock))verify {
+  CRNativeAdUnit *adUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"123"];
   id<CRNativeLoaderDelegate> testDelegate =
       delegate ?: OCMStrictProtocolMock(@protocol(CRNativeLoaderDelegate));
-  CRNativeLoader *loader = [self buildLoaderWithAdUnit:(CRNativeAdUnit *)tokenValue.adUnit
-                                                criteo:self.criteo];
+  CRNativeLoader *loader = [self buildLoaderWithAdUnit:adUnit criteo:self.criteo];
   loader.delegate = testDelegate;
-  [loader loadAdWithBidToken:bidToken];
+  [loader loadAdWithBid:bid];
   verify(loader, testDelegate, self.criteo);
 }
 
-- (CR_CdbBid *)validBid {
-  return CR_CdbBidBuilder.new.nativeAssets([[CR_NativeAssets alloc] initWithDict:@{}]).build;
+- (CR_CdbBid *)validCdbBid {
+  CR_NativeAssets *assets = [CR_NativeAssets nativeAssetsFromCdb];
+  return CR_CdbBidBuilder.new.nativeAssets(assets).build;
 }
 
-- (CR_TokenValue *)validTokenValue {
+- (CRBid *)validBid {
   CRNativeAdUnit *adUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"123"];
-  CR_TokenValue *tokenValue = [CR_TokenValue.alloc initWithCdbBid:self.validBid adUnit:adUnit];
-  return tokenValue;
+  return [[CRBid alloc] initWithCdbBid:self.validCdbBid adUnit:adUnit];
 }
 
 - (CRNativeLoader *)dispatchCheckerForBid:(CR_CdbBid *)bid
@@ -341,25 +330,25 @@
 
 - (void)testStandaloneDoesNotConsumeBidWhenNotListeningToAds {
   id<CRNativeLoaderDelegate> delegateMock = OCMPartialMock([NSObject new]);
-  [self loadNativeWithBid:self.validBid
-                 delegate:delegateMock
-                   verify:^(CRNativeLoader *loader, id<CRNativeLoaderDelegate> delegateMock,
-                            Criteo *criteoMock) {
-                     OCMReject([criteoMock getBid:[OCMArg any] responseHandler:[OCMArg any]]);
-                   }];
+  [self loadNativeWithCdbBid:self.validCdbBid
+                    delegate:delegateMock
+                      verify:^(CRNativeLoader *loader, id<CRNativeLoaderDelegate> delegateMock,
+                               Criteo *criteoMock) {
+                        OCMReject([criteoMock getBid:[OCMArg any] responseHandler:[OCMArg any]]);
+                      }];
 
   OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
 }
 
 - (void)testInHouseDoesNotConsumeBidWhenNotListeningToAds {
   id<CRNativeLoaderDelegate> delegateMock = OCMPartialMock([NSObject new]);
-  [self loadNativeWithTokenValue:self.validTokenValue
-                        delegate:delegateMock
-                          verify:^(CRNativeLoader *loader, id<CRNativeLoaderDelegate> delegateMock,
-                                   Criteo *criteoMock) {
-                            OCMReject([criteoMock tokenValueForBidToken:[OCMArg any]
-                                                             adUnitType:CRAdUnitTypeNative]);
-                          }];
+  CRBid *bid = OCMPartialMock(self.validBid);
+  [self loadNativeWithBid:bid
+                 delegate:delegateMock
+                   verify:^(CRNativeLoader *loader, id<CRNativeLoaderDelegate> delegateMock,
+                            Criteo *criteoMock) {
+                     OCMReject([bid consume]);
+                   }];
 }
 
 @end

@@ -27,8 +27,6 @@
 #import "Criteo.h"
 
 @class CR_CdbBid;
-@class CR_TokenValue;
-@class CRBidToken;
 @class CR_Config;
 @class CR_ConfigManager;
 @class CR_AppEvents;
