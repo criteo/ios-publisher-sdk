@@ -205,6 +205,11 @@
   [self getBidAndWaitForFetchAndFeedbackWithAdUnit:adUnit2];
   [self getBidAndWaitForFetchAndFeedbackWithAdUnit:adUnit1];
 
+  if (self.config.isLiveBiddingEnabled) {
+    // FIXME: Giving some time for feedbacks to go back asynchronously to queue
+    [NSThread sleepForTimeInterval:.3f];
+  }
+
   NSArray *feedbacks = [self.feedbackStorage popMessagesToSend];
   XCTAssertEqual(feedbacks.count, 3);
 }
@@ -245,7 +250,9 @@
     return value[@"requestGroupId"];
   }];
   AssertArrayWithUniqueElements(impressionIds, 3);
-  if (self.config.isLiveBiddingEnabled) {
+
+  // Live bidding works as cache bidding when time budget is exceeded
+  if (self.config.isLiveBiddingEnabled && !self.isLiveBidTimeBudgetExceeded) {
     // Three bids having each its own request
     AssertArrayWithUniqueElements(requestGroupIds, 3);
   } else {
@@ -254,7 +261,7 @@
   }
 }
 
-#pragma mark Live bidding
+#pragma mark Live bidding within time budget
 
 - (void)testGivenPrefetchedBids_whenLiveBidConsumed_thenFeedbackMessageSent {
   [self givenLiveBiddingEnabled:YES];
@@ -283,6 +290,38 @@
 
 - (void)testGivenFeedbackRequestError_whenGettingLiveBids_thenFeedbackRequest {
   [self givenLiveBiddingEnabled:YES];
+  [self testGivenFeedbackRequestError_whenGettingBids_thenFeedbackRequest];
+}
+
+#pragma mark Live bidding exceeding time budget
+
+- (void)testGivenPrefetchedBids_whenLiveBidTimeBudgetExceeded_thenFeedbackMessageSent {
+  [self givenLiveBidTimeBudgetExceeded];
+  [self testGivenPrefetchedBids_whenBidConsumed_thenFeedbackMessageSent];
+}
+
+- (void)testGivenNoBidReturned_whenLiveBidTimeBudgetExceeded_thenFeedbackMessageSent {
+  [self givenLiveBidTimeBudgetExceeded];
+  [self testGivenNoBidReturned_whenBidConsumed_thenFeedbackMessageSent];
+}
+
+- (void)testGivenNetworkErrorOnPrefetch_whenLiveBidTimeBudgetExceeded_thenSendFeedbackMessage {
+  [self givenLiveBidTimeBudgetExceeded];
+  [self testGivenNetworkErrorOnPrefetch_whenGettingBid_thenSendFeedbackMessage];
+}
+
+- (void)testGivenTimeoutErrorOnPrefetch_whenLiveBidTimeBudgetExceeded_thenSendFeedbackMessage {
+  [self givenLiveBidTimeBudgetExceeded];
+  [self testGivenTimeoutErrorOnPrefetch_whenGettingBid_thenSendFeedbackMessage];
+}
+
+- (void)testGivenFeedbackRequestError_whenLiveBidsTimeBudgetExceeded_thenQueueingFeedbackMessage {
+  [self givenLiveBidTimeBudgetExceeded];
+  [self testGivenFeedbackRequestError_whenGettingBids_thenQueueingFeedbackMessage];
+}
+
+- (void)testGivenFeedbackRequestError_whenLiveBidsTimeBudgetExceeded_thenFeedbackRequest {
+  [self givenLiveBidTimeBudgetExceeded];
   [self testGivenFeedbackRequestError_whenGettingBids_thenFeedbackRequest];
 }
 
@@ -425,6 +464,17 @@
 
 - (void)givenLiveBiddingEnabled:(BOOL)enabled {
   self.config.liveBiddingEnabled = enabled;
+}
+
+- (void)givenLiveBidTimeBudgetExceeded {
+  self.dependencyProvider = [self.dependencyProvider withListenedNetworkManagerWithDelay:0.1f];
+  self.config.liveBiddingEnabled = YES;
+  self.config.liveBiddingTimeBudget = 0;
+  self.criteo = [[Criteo alloc] initWithDependencyProvider:self.dependencyProvider];
+}
+
+- (BOOL)isLiveBidTimeBudgetExceeded {
+  return self.config.liveBiddingEnabled && self.config.liveBiddingTimeBudget == 0;
 }
 
 @end
