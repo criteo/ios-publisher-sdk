@@ -17,19 +17,27 @@
 // limitations under the License.
 //
 
-#import "CRBid.h"
+#import "CRBid+Internal.h"
+#import "CR_CdbBid.h"
 
 @implementation CRBid
 
-- (instancetype)initWithPrice:(double)price
-                   bidSuccess:(BOOL)bidSuccess
-                     bidToken:(CRBidToken*)bidToken {
+- (instancetype)initWithCdbBid:(CR_CdbBid *)cdbBid adUnit:(CRAdUnit *)adUnit {
   if (self = [super init]) {
-    _price = price;
-    _bidSuccess = bidSuccess;
-    _bidToken = bidToken;
+    _adUnit = adUnit;
+    _price = [cdbBid.cpm doubleValue];
+    _cdbBid = cdbBid;
   }
   return self;
+}
+
+- (CR_CdbBid *)consume {
+  CR_CdbBid *bid = nil;
+  @synchronized(self) {
+    bid = self.cdbBid;
+    self.cdbBid = nil;
+  }
+  return bid.isValid && !bid.isExpired ? bid : nil;
 }
 
 @end

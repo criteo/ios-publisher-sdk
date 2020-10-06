@@ -24,11 +24,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class CRAdUnit;
+@class CR_CdbBid;
+@class CR_NativeAssets;
+
 @interface CRBid ()
 
-- (instancetype)initWithPrice:(double)price
-                   bidSuccess:(BOOL)bidSuccess
-                     bidToken:(nullable CRBidToken*)bidToken;
+@property(nonatomic, strong, readonly) CRAdUnit *adUnit;
+@property(nonatomic, strong) CR_CdbBid *_Nullable cdbBid;
+
+- (instancetype)initWithCdbBid:(CR_CdbBid *)cdbBid adUnit:(CRAdUnit *)adUnit;
+
+- (CR_CdbBid *)consume;
 
 @end
 

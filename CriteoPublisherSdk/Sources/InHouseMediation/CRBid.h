@@ -19,15 +19,11 @@
 
 #import <Foundation/Foundation.h>
 
-#import <CriteoPublisherSdk/CRBidToken.h>
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CRBid : NSObject
 
 @property(nonatomic, readonly) double price;
-@property(nonatomic, readonly) BOOL bidSuccess;
-@property(nonatomic, readonly) CRBidToken *bidToken;
 
 - (instancetype)init NS_UNAVAILABLE;
 
