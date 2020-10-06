@@ -34,13 +34,17 @@
       .withIsolatedFeedbackStorage.withIsolatedIntegrationRegistry;
 }
 
-- (CR_DependencyProvider *)withListenedNetworkManager {
-  CR_NetworkManager *networkManager =
-      [[CR_NetworkManagerSimulator alloc] initWithConfig:self.config];
+- (CR_DependencyProvider *)withListenedNetworkManagerWithDelay:(NSTimeInterval)delay {
+  CR_NetworkManager *networkManager = [[CR_NetworkManagerSimulator alloc] initWithConfig:self.config
+                                                                                   delay:delay];
   networkManager = OCMPartialMock(networkManager);
   networkManager = [[CR_NetworkCaptor alloc] initWithNetworkManager:networkManager];
   self.networkManager = networkManager;
   return self;
+}
+
+- (CR_DependencyProvider *)withListenedNetworkManager {
+  return [self withListenedNetworkManagerWithDelay:0];
 }
 
 - (NSString *)wireMockEndPoint:(NSString *)path {

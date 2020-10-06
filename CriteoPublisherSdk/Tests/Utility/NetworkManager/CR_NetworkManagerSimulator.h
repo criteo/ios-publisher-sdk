@@ -37,7 +37,8 @@ extern const NSTimeInterval CR_NetworkManagerSimulatorInterstitialDefaultTtl;
                            session:(NSURLSession *)session
                      threadManager:(CR_ThreadManager *)threadManager NS_UNAVAILABLE;
 
-- (instancetype)initWithConfig:(CR_Config *)config NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithConfig:(CR_Config *)config
+                         delay:(NSTimeInterval)delay NS_DESIGNATED_INITIALIZER;
 
 @end
 

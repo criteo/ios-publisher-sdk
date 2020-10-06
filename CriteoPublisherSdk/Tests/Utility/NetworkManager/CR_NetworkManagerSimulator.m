@@ -20,11 +20,8 @@
 #import "CR_ApiQueryKeys.h"
 #import "CR_Config.h"
 #import "CR_NetworkManagerSimulator.h"
-#import "CR_NetworkCaptor.h"
-#import "CR_DeviceInfo+Testing.h"
 #import "CR_ThreadManager.h"
 #import "Criteo+Testing.h"
-#import "MockWKWebView.h"
 #import "NSURL+Testing.h"
 #import "CR_ViewCheckingHelper.h"
 
@@ -44,16 +41,21 @@ NSString *const CR_NetworkSessionEmptyBid =
 @interface CR_NetworkManagerSimulator ()
 
 @property(nonatomic, strong, readonly) CR_Config *config;
+@property(nonatomic, assign, readonly) NSTimeInterval delay;
 
 @end
 
 @implementation CR_NetworkManagerSimulator
 
+#pragma mark - Properties
+
 + (NSTimeInterval)interstitialTtl {
   return 3600;
 }
 
-- (instancetype)initWithConfig:(CR_Config *)config {
+#pragma mark - Lifecycle
+
+- (instancetype)initWithConfig:(CR_Config *)config delay:(NSTimeInterval)delay {
   // FIXME EE-1228 This is a different implementation and network manager should be a protocol. This
   // would
   //  allow to not mess up constructor like this.
@@ -64,12 +66,16 @@ NSString *const CR_NetworkSessionEmptyBid =
 
   if (self) {
     _config = config;
+    _delay = delay;
   }
   return self;
 }
 
+#pragma mark - Network Manager overrides
+
 - (void)getFromUrl:(NSURL *)url responseHandler:(CR_NMResponse)responseHandler {
   if (!responseHandler) return;
+  if (self.delay) [NSThread sleepForTimeInterval:self.delay];
 
   if ([url.scheme isEqualToString:@"file"]) {
     [super getFromUrl:url responseHandler:responseHandler];
@@ -105,6 +111,7 @@ NSString *const CR_NetworkSessionEmptyBid =
            postBody:(NSDictionary *)postBody
     responseHandler:(CR_NMResponse)responseHandler {
   if (!responseHandler) return;
+  if (self.delay) [NSThread sleepForTimeInterval:self.delay];
 
   if ([url testing_isBidUrlWithConfig:self.config]) {
     NSError *error = NULL;
