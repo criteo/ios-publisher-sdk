@@ -36,6 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)testing_dependencyProvider;
 
+- (CR_DependencyProvider *)withListenedNetworkManagerWithDelay:(NSTimeInterval)delay;
+
 @end
 
 NS_ASSUME_NONNULL_END
