@@ -40,11 +40,13 @@ typedef void (^CR_BidResponseHandler)(CR_CdbBid *bid);
 
 @interface Criteo ()
 
+@property(strong, nonatomic, readonly) CR_AppEvents *appEvents;
+@property(strong, nonatomic, readonly) CR_BidManager *bidManager;
 @property(strong, nonatomic, readonly) CR_DependencyProvider *dependencyProvider;
-@property(weak, nonatomic) id<CR_NetworkManagerDelegate> networkManagerDelegate;
 @property(strong, nonatomic, readonly) CR_Config *config;
 @property(strong, nonatomic, readonly) CR_ConfigManager *configManager;
-@property(strong, nonatomic, readonly) CR_AppEvents *appEvents;
+@property(weak, nonatomic) id<CR_NetworkManagerDelegate> networkManagerDelegate;
+@property(assign, nonatomic, getter=isRegistered) BOOL registered;
 @property(strong, nonatomic, readonly) CR_ThreadManager *threadManager;
 
 - (void)getBid:(CR_CacheAdUnit *)slot responseHandler:(CR_BidResponseHandler)responseHandler;

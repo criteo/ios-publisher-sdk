@@ -26,32 +26,9 @@
 #import "CR_DependencyProvider.h"
 #import "CR_IntegrationRegistry.h"
 
-@interface Criteo ()
-
-@property(nonatomic, strong, readonly) CR_BidManager *bidManager;
-@property(nonatomic, assign, getter=isRegistered) BOOL registered;
-
-@end
-
 @implementation Criteo
 
-- (void)setUsPrivacyOptOut:(BOOL)usPrivacyOptOut {
-  const CR_CcpaCriteoState state =
-      usPrivacyOptOut ? CR_CcpaCriteoStateOptOut : CR_CcpaCriteoStateOptIn;
-  self.bidManager.consent.usPrivacyCriteoState = state;
-}
-
-- (void)setMopubConsent:(NSString *)mopubConsent {
-  self.bidManager.consent.mopubConsent = mopubConsent;
-}
-
-- (id<CR_NetworkManagerDelegate>)networkManagerDelegate {
-  return self.bidManager.networkManagerDelegate;
-}
-
-- (void)setNetworkManagerDelegate:(id<CR_NetworkManagerDelegate>)networkManagerDelegate {
-  self.bidManager.networkManagerDelegate = networkManagerDelegate;
-}
+#pragma mark - Lifecycle
 
 + (instancetype)sharedCriteo {
   static Criteo *sharedInstance = nil;
@@ -61,25 +38,6 @@
   });
 
   return sharedInstance;
-}
-
-+ (instancetype)criteo {
-  Criteo *criteo = nil;
-  @try {
-    CR_DependencyProvider *dependencyProvider = [[CR_DependencyProvider alloc] init];
-    criteo = [[self alloc] initWithDependencyProvider:dependencyProvider];
-  } @catch (NSException *exception) {
-    CLogException(exception);
-  }
-  return criteo;
-}
-
-- (instancetype)initWithDependencyProvider:(CR_DependencyProvider *)dependencyProvider {
-  if (self = [super init]) {
-    _registered = false;
-    _dependencyProvider = dependencyProvider;
-  }
-  return self;
 }
 
 - (void)registerCriteoPublisherId:(NSString *)criteoPublisherId
@@ -98,6 +56,55 @@
   }
 }
 
+#pragma mark - Consent Management
+
+- (void)setUsPrivacyOptOut:(BOOL)usPrivacyOptOut {
+  const CR_CcpaCriteoState state =
+      usPrivacyOptOut ? CR_CcpaCriteoStateOptOut : CR_CcpaCriteoStateOptIn;
+  self.bidManager.consent.usPrivacyCriteoState = state;
+}
+
+- (void)setMopubConsent:(NSString *)mopubConsent {
+  self.bidManager.consent.mopubConsent = mopubConsent;
+}
+
+#pragma mark - Header bidding
+
+- (void)setBidsForRequest:(id)request withAdUnit:(CRAdUnit *)adUnit {
+  [self.bidManager addCriteoBidToRequest:request
+                               forAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit]];
+}
+
+#pragma mark - In-House
+
+- (CRBidResponse *)getBidResponseForAdUnit:(CRAdUnit *)adUnit {
+  [self.integrationRegistry declare:CR_IntegrationInHouse];
+  return [self.bidManager bidResponseForCacheAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit]
+                                         adUnitType:adUnit.adUnitType];
+}
+
+#pragma mark - Private
+#pragma mark Lifecycle
+
+- (instancetype)initWithDependencyProvider:(CR_DependencyProvider *)dependencyProvider {
+  if (self = [super init]) {
+    _registered = false;
+    _dependencyProvider = dependencyProvider;
+  }
+  return self;
+}
+
++ (instancetype)criteo {
+  Criteo *criteo = nil;
+  @try {
+    CR_DependencyProvider *dependencyProvider = [[CR_DependencyProvider alloc] init];
+    criteo = [[self alloc] initWithDependencyProvider:dependencyProvider];
+  } @catch (NSException *exception) {
+    CLogException(exception);
+  }
+  return criteo;
+}
+
 - (void)_registerCriteoPublisherId:(NSString *)criteoPublisherId
                        withAdUnits:(NSArray<CRAdUnit *> *)adUnits {
   self.config.criteoPublisherId = criteoPublisherId;
@@ -108,20 +115,7 @@
   [self.bidManager prefetchBidsForAdUnits:cacheAdUnits];
 }
 
-- (CR_BidManager *)bidManager {
-  return self.dependencyProvider.bidManager;
-}
-
-- (void)setBidsForRequest:(id)request withAdUnit:(CRAdUnit *)adUnit {
-  [self.bidManager addCriteoBidToRequest:request
-                               forAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit]];
-}
-
-- (CRBidResponse *)getBidResponseForAdUnit:(CRAdUnit *)adUnit {
-  [self.integrationRegistry declare:CR_IntegrationInHouse];
-  return [self.bidManager bidResponseForCacheAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit]
-                                         adUnitType:adUnit.adUnitType];
-}
+#pragma mark Generic
 
 - (void)getBid:(CR_CacheAdUnit *)slot responseHandler:(CR_BidResponseHandler)responseHandler {
   [self.bidManager getBidForAdUnit:slot bidResponseHandler:responseHandler];
@@ -132,7 +126,15 @@
   return [self.bidManager tokenValueForBidToken:bidToken adUnitType:adUnitType];
 }
 
-#pragma mark - Properties
+#pragma mark Properties
+
+- (CR_AppEvents *)appEvents {
+  return self.dependencyProvider.appEvents;
+}
+
+- (CR_BidManager *)bidManager {
+  return self.dependencyProvider.bidManager;
+}
 
 - (CR_Config *)config {
   return self.dependencyProvider.config;
@@ -142,16 +144,20 @@
   return self.dependencyProvider.configManager;
 }
 
-- (CR_AppEvents *)appEvents {
-  return self.dependencyProvider.appEvents;
+- (CR_IntegrationRegistry *)integrationRegistry {
+  return self.dependencyProvider.integrationRegistry;
+}
+
+- (id<CR_NetworkManagerDelegate>)networkManagerDelegate {
+  return self.bidManager.networkManagerDelegate;
+}
+
+- (void)setNetworkManagerDelegate:(id<CR_NetworkManagerDelegate>)networkManagerDelegate {
+  self.bidManager.networkManagerDelegate = networkManagerDelegate;
 }
 
 - (CR_ThreadManager *)threadManager {
   return self.dependencyProvider.threadManager;
-}
-
-- (CR_IntegrationRegistry *)integrationRegistry {
-  return self.dependencyProvider.integrationRegistry;
 }
 
 @end
