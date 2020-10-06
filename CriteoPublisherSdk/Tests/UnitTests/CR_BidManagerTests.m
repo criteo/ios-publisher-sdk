@@ -216,7 +216,6 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
   XCTAssertEqualWithAccuracy(bid.price, 0.0f, 0.1);
   XCTAssertNil(bid.bidToken);
-  XCTAssertFalse(bid.bidSuccess);
 }
 
 - (void)testBidResponseForValidBid {
@@ -229,7 +228,6 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   CRBid *bid = [self.bidManager bidForCacheAdUnit:self.adUnit1 adUnitType:CRAdUnitTypeBanner];
 
   XCTAssertEqualWithAccuracy(bid.price, 4.2, 0.1);
-  XCTAssert(bid.bidSuccess);
 }
 
 - (void)testGetBidWhenNoBid {
