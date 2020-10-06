@@ -30,13 +30,12 @@
 #import "CR_DefaultMediaDownloader.h"
 #import "CR_SafeMediaDownloader.h"
 #import "CR_ThreadManager.h"
-#import "CRBidToken.h"
-#import "CR_TokenValue.h"
 #import "CRMediaContent+Internal.h"
 #import "CR_URLOpening.h"
 #import "CR_DependencyProvider.h"
 #import "CR_NetworkManager.h"
 #import "CR_IntegrationRegistry.h"
+#import "CRBid+Internal.h"
 
 @implementation CRNativeLoader
 
@@ -72,9 +71,9 @@
   }
 }
 
-- (void)loadAdWithBidToken:(CRBidToken *)bidToken {
+- (void)loadAdWithBid:(CRBid *)bid {
   @try {
-    [self unsafeLoadAdWithBidToken:bidToken];
+    [self unsafeLoadAdWithBid:bid];
   } @catch (NSException *exception) {
     CLogException(exception);
   }
@@ -146,14 +145,12 @@
       }];
 }
 
-- (void)unsafeLoadAdWithBidToken:(CRBidToken *)bidToken {
+- (void)unsafeLoadAdWithBid:(CRBid *)bid {
   if (!self.canConsumeBid) {
     return;
   }
 
-  CR_TokenValue *tokenValue = [self.criteo tokenValueForBidToken:bidToken
-                                                      adUnitType:CRAdUnitTypeNative];
-  [self handleNativeAssets:tokenValue.nativeAssets];
+  [self handleNativeAssets:bid.consume.nativeAssets];
 }
 
 - (void)handleNativeAssets:(CR_NativeAssets *)nativeAssets {

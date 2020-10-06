@@ -18,14 +18,13 @@
 //
 
 #import "Criteo+Internal.h"
+#import "CRBid+Internal.h"
 #import "CRInterstitial.h"
 #import "CRInterstitial+Internal.h"
 #import "CR_Config.h"
 #import "CR_CdbBid.h"
 #import "NSError+Criteo.h"
-#import "CR_TokenValue.h"
 #import "CR_InterstitialViewController.h"
-#import "NSURL+Criteo.h"
 #import "CR_DeviceInfo.h"
 #import "CR_URLOpening.h"
 #import "CR_DependencyProvider.h"
@@ -151,27 +150,25 @@
   });
 }
 
-- (void)loadAdWithBidToken:(CRBidToken *)bidToken {
+- (void)loadAdWithBid:(CRBid *)bid {
   if (![self checkSafeToLoad]) {
     return;
   }
-  CR_TokenValue *tokenValue = [self.criteo tokenValueForBidToken:bidToken
-                                                      adUnitType:CRAdUnitTypeInterstitial];
-  if (!tokenValue) {
+  if (!bid) {
     [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
     self.isAdLoading = NO;
     return;
   }
-  if (![tokenValue.adUnit isEqual:self.adUnit]) {
+  if (![bid.adUnit isEqual:self.adUnit]) {
     [self
         safelyNotifyAdLoadFail:CRErrorCodeInvalidParameter
                    description:
-                       @"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRInterstitial was initialized with"];
+                       @"Bid passed to loadAdWithBid doesn't have the same ad unit as the CRInterstitial was initialized with"];
     self.isAdLoading = NO;
     return;
   }
 
-  [self loadAdWithDisplayData:tokenValue.displayUrl];
+  [self loadAdWithDisplayData:bid.consume.displayUrl];
 }
 
 - (void)loadAdWithDisplayData:(NSString *)displayData {

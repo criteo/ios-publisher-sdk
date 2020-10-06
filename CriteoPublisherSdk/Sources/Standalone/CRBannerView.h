@@ -20,8 +20,8 @@
 #import <UIKit/UIKit.h>
 
 #import <CriteoPublisherSdk/CRBannerViewDelegate.h>
-#import <CriteoPublisherSdk/CRBidToken.h>
 #import <CriteoPublisherSdk/CRBannerAdUnit.h>
+#import <CriteoPublisherSdk/CRBid.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithAdUnit:(CRBannerAdUnit *)adUnit;
 
 - (void)loadAd;
-- (void)loadAdWithBidToken:(CRBidToken *)bidToken;
+- (void)loadAdWithBid:(CRBid *)bid;
 - (void)loadAdWithDisplayData:(NSString *)displayData;
 
 @end

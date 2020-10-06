@@ -23,17 +23,13 @@
 #import "Criteo.h"
 #import "CRBannerView+Internal.h"
 #import "Criteo+Internal.h"
+#import "CRBid+Internal.h"
 #import "CR_CdbBid.h"
 #import "NSError+Criteo.h"
-#import "CR_TokenValue.h"
-#import "CRBidToken+Internal.h"
-#import "CR_Config.h"
 #import "CRInterstitialAdUnit.h"
 #import "CRBannerViewDelegateMock.h"
 #import "CR_URLOpenerMock.h"
 #import "XCTestCase+Criteo.h"
-#import "NSURL+Criteo.h"
-#import "CR_TokenValue+Testing.h"
 #import "CR_DependencyProvider.h"
 #import "CR_DependencyProvider+Testing.h"
 
@@ -189,90 +185,69 @@
 
 #pragma mark inhouseSpecificTests
 
-- (void)testBannerLoadFailWhenTokenValueIsNil {
+- (void)testBannerLoadFailWhenBidIsNil {
   WKWebView *mockWebView = [WKWebView new];
   CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView];
-  CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
-  OCMStub([self.criteo tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner]).andReturn(nil);
+  CRBid *bid = nil;
   id<CRBannerViewDelegate> mockBannerViewDelegate =
       OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
   bannerView.delegate = mockBannerViewDelegate;
   OCMStub([mockBannerViewDelegate banner:bannerView didFailToReceiveAdWithError:[OCMArg any]]);
-  [bannerView loadAdWithBidToken:token];
+  [bannerView loadAdWithBid:bid];
 
   self.delegate.expectedError = [NSError cr_errorWithCode:CRErrorCodeNoFill];
   bannerView.delegate = self.delegate;
 
-  [bannerView loadAdWithBidToken:token];
+  [bannerView loadAdWithBid:bid];
 
   [self cr_waitForExpectations:@[ self.delegate.didFailToReceiveAdWithErrorExpectation ]];
 }
 
-- (void)testBannerLoadFailWhenTokenValueDoesntMatchAdUnitId {
+- (void)testBannerLoadFailWhenBidDoesntMatchAdUnitId {
   WKWebView *mockWebView = [WKWebView new];
 
   CRBannerAdUnit *wrongAdUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"Yo"
                                                                     size:CGSizeMake(200, 200)];
-
-  CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
-  CR_TokenValue *expectedTokenValue = [CR_TokenValue tokenValueWithDisplayUrl:@"test"
-                                                                       adUnit:wrongAdUnit];
-
-  OCMStub([self.criteo tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner])
-      .andReturn(expectedTokenValue);
-
+  CR_CdbBid *cdbBid = nil;
+  CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:wrongAdUnit];
   self.delegate.expectedError = [NSError
       cr_errorWithCode:CRErrorCodeInvalidParameter
            description:
-               @"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRBannerView was initialized with"];
+               @"Bid passed to loadAdWithBid doesn't have the same ad unit as the CRBannerView was initialized with"];
 
   CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView];
   bannerView.delegate = self.delegate;
-  [bannerView loadAdWithBidToken:token];
+  [bannerView loadAdWithBid:bid];
 
   [self cr_waitForExpectations:@[ self.delegate.didFailToReceiveAdWithErrorExpectation ]];
 }
 
-- (void)testBannerLoadFailWhenTokenValueDoesntMatchAdUnitType {
+- (void)testBannerLoadFailWhenBidDoesntMatchAdUnitType {
   WKWebView *mockWebView = [WKWebView new];
 
   CRInterstitialAdUnit *wrongAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"Yo"];
-  CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView];
-  CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
-  CR_TokenValue *expectedTokenValue = [CR_TokenValue tokenValueWithDisplayUrl:@"test"
-                                                                       adUnit:wrongAdUnit];
-  OCMStub([self.criteo tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner])
-      .andReturn(expectedTokenValue);
-  id<CRBannerViewDelegate> mockBannerViewDelegate =
-      OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
-  bannerView.delegate = mockBannerViewDelegate;
-  OCMStub([mockBannerViewDelegate banner:bannerView didFailToReceiveAdWithError:[OCMArg any]]);
-  [bannerView loadAdWithBidToken:token];
-
+  CR_CdbBid *cdbBid = nil;
+  CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:wrongAdUnit];
   self.delegate.expectedError = [NSError
       cr_errorWithCode:CRErrorCodeInvalidParameter
            description:
-               @"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRBannerView was initialized with"];
-  bannerView.delegate = self.delegate;
+               @"Bid passed to loadAdWithBid doesn't have the same ad unit as the CRBannerView was initialized with"];
 
-  [bannerView loadAdWithBidToken:token];
+  CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView];
+  bannerView.delegate = self.delegate;
+  [bannerView loadAdWithBid:bid];
 
   [self cr_waitForExpectations:@[ self.delegate.didFailToReceiveAdWithErrorExpectation ]];
 }
 
-- (void)testBannerDidLoadForValidTokenValue {
+- (void)testBannerDidLoadForValidBid {
   WKWebView *mockWebView = [WKWebView new];
-
-  CRBidToken *token = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
-  CR_TokenValue *expectedTokenValue = [CR_TokenValue tokenValueWithDisplayUrl:@"test"
-                                                                       adUnit:self.adUnit];
-
-  OCMStub([self.criteo tokenValueForBidToken:token adUnitType:CRAdUnitTypeBanner])
-      .andReturn(expectedTokenValue);
+  CR_CdbBid *cdbBid = [self bidWithDisplayURL:@"test"];
+  CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:self.adUnit];
 
   CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView];
   bannerView.delegate = self.delegate;
-  [bannerView loadAdWithBidToken:token];
+  [bannerView loadAdWithBid:bid];
 
   [self cr_waitForExpectations:@[ self.delegate.didReceiveAdExpectation ]];
 }

@@ -22,18 +22,16 @@
 #import "CRInterstitial.h"
 #import "Criteo.h"
 #import "Criteo+Internal.h"
+#import "CRBid+Internal.h"
 #import "CRInterstitial+Internal.h"
 #import "CR_CdbBid.h"
 #import "NSError+Criteo.h"
 #import "CR_DeviceInfo.h"
-#import "CRBidToken+Internal.h"
-#import "CR_TokenValue.h"
 #import "CR_Config.h"
 #import "CRBannerAdUnit.h"
 #import "CR_InterstitialViewController.h"
 #import "CR_Timer.h"
 #import "NSURL+Criteo.h"
-#import "CR_TokenValue+Testing.h"
 #import "CR_URLOpenerMock.h"
 #import "XCTestCase+Criteo.h"
 #import "CR_DependencyProvider.h"
@@ -43,7 +41,7 @@
 @interface CRInterstitialDelegateTests : XCTestCase {
   CR_CacheAdUnit *_cacheAdUnit;
   CRInterstitialAdUnit *_adUnit;
-  CR_CdbBid *bid;
+  CR_CdbBid *_cdbBid;
   WKNavigationResponse *validNavigationResponse;
   WKNavigationResponse *invalidNavigationResponse;
 }
@@ -51,84 +49,17 @@
 
 @implementation CRInterstitialDelegateTests
 
+#pragma mark - Lifecycle
+
 - (void)setUp {
   _cacheAdUnit = nil;
   _adUnit = nil;
-  bid = nil;
+  _cdbBid = nil;
   validNavigationResponse = nil;
   invalidNavigationResponse = nil;
 }
 
-- (CR_CdbBid *)bidWithDisplayURL:(NSString *)displayURL {
-  if (!bid) {
-    bid = [[CR_CdbBid alloc] initWithZoneId:@123
-                                placementId:@"placementId"
-                                        cpm:@"4.2"
-                                   currency:@"₹😀"
-                                      width:@47.0f
-                                     height:[NSNumber numberWithFloat:57.0f]
-                                        ttl:26
-                                   creative:@"THIS IS USELESS LEGACY"
-                                 displayUrl:displayURL
-                                 insertTime:[NSDate date]
-                               nativeAssets:nil
-                               impressionId:nil];
-  }
-  return bid;
-}
-
-- (CR_CacheAdUnit *)expectedCacheAdUnit {
-  if (!_cacheAdUnit) {
-    _cacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
-                                                       size:CGSizeMake(320.0, 480.0)
-                                                 adUnitType:CRAdUnitTypeInterstitial];
-  }
-  return _cacheAdUnit;
-}
-
-- (CRInterstitialAdUnit *)adUnit {
-  if (!_adUnit) {
-    _adUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"123"];
-  }
-  return _adUnit;
-}
-
-- (WKNavigationResponse *)validNavigationResponse {
-  if (!validNavigationResponse) {
-    validNavigationResponse = OCMStrictClassMock([WKNavigationResponse class]);
-    NSHTTPURLResponse *response = OCMStrictClassMock([NSHTTPURLResponse class]);
-    OCMStub(response.statusCode).andReturn(200);
-    OCMStub(validNavigationResponse.response).andReturn(response);
-  }
-  return validNavigationResponse;
-}
-
-- (WKNavigationResponse *)invalidNavigationResponse {
-  if (!invalidNavigationResponse) {
-    invalidNavigationResponse = OCMStrictClassMock([WKNavigationResponse class]);
-    NSHTTPURLResponse *response = OCMStrictClassMock([NSHTTPURLResponse class]);
-    OCMStub(response.statusCode).andReturn(404);
-    OCMStub(invalidNavigationResponse.response).andReturn(response);
-  }
-  return invalidNavigationResponse;
-}
-
-- (NSString *)htmlString {
-  return [NSString
-      stringWithFormat:
-          @"<!doctype html>"
-           "<html>"
-           "<head>"
-           "<meta charset=\"utf-8\">"
-           "<style>body{margin:0;padding:0}</style>"
-           "<meta name=\"viewport\" content=\"width=%ld, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\" >"
-           "</head>"
-           "<body>"
-           "<script src=\"%@\"></script>"
-           "</body>"
-           "</html>",
-          (long)[UIScreen mainScreen].bounds.size.width, @"test?safearea"];
-}
+#pragma mark - Tests
 
 - (void)testInterstitialDidReceiveAd {
   CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
@@ -757,7 +688,7 @@
   OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
 }
 
-- (void)testInterstitialLoadFailWhenTokenValueIsNil {
+- (void)testInterstitialLoadFailWhenBidIsNil {
   Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
   CRInterstitialAdUnit *adUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"Yup"];
   CRInterstitial *interstitial =
@@ -766,9 +697,6 @@
                                   isAdLoaded:NO
                                       adUnit:adUnit
                                    urlOpener:[[CR_URLOpenerMock alloc] init]];
-  CRBidToken *bidToken = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
-  OCMStub([mockCriteo tokenValueForBidToken:bidToken adUnitType:CRAdUnitTypeInterstitial])
-      .andReturn(nil);
 
   id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
   NSError *expectedError = [NSError cr_errorWithCode:CRErrorCodeNoFill];
@@ -778,11 +706,12 @@
   OCMReject([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
   OCMReject([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:[OCMArg any]]);
-  [interstitial loadAdWithBidToken:bidToken];
+  CRBid *bid = nil;
+  [interstitial loadAdWithBid:bid];
   OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
 }
 
-- (void)testInterstitialLoadFailWhenTokenValueDoesntMatchAdUnitId {
+- (void)testInterstitialLoadFailWhenBidDoesntMatchAdUnitId {
   Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
   CRInterstitialAdUnit *adUnit1 = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"Yup"];
   CRInterstitialAdUnit *adUnit2 = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"Yo"];
@@ -792,28 +721,27 @@
                                   isAdLoaded:NO
                                       adUnit:adUnit1
                                    urlOpener:[[CR_URLOpenerMock alloc] init]];
-  CRBidToken *bidToken = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
-  CR_TokenValue *expectedTokenValue = [CR_TokenValue tokenValueWithDisplayUrl:@"test"
-                                                                       adUnit:adUnit2];
-  OCMStub([mockCriteo tokenValueForBidToken:bidToken adUnitType:CRAdUnitTypeInterstitial])
-      .andReturn(expectedTokenValue);
+
+  CR_CdbBid *cdbBid = [self bidWithDisplayURL:@"test"];
+  CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:adUnit2];
 
   id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
   NSError *expectedError = [NSError
       cr_errorWithCode:CRErrorCodeInvalidParameter
            description:
-               @"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRInterstitial was initialized with"];
-  interstitial.delegate = mockInterstitialDelegate;
+               @"Bid passed to loadAdWithBid doesn't have the same ad unit as the CRInterstitial was initialized with"];
   OCMExpect([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:expectedError]);
   OCMReject([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
   OCMReject([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:[OCMArg any]]);
-  [interstitial loadAdWithBidToken:bidToken];
+
+  interstitial.delegate = mockInterstitialDelegate;
+  [interstitial loadAdWithBid:bid];
   OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
 }
 
-- (void)testInterstitialLoadFailWhenTokenValueDoesntMatchAdUnitType {
+- (void)testInterstitialLoadFailWhenBidDoesntMatchAdUnitType {
   Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
   CRInterstitialAdUnit *adUnit1 = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"Yo"];
   CRBannerAdUnit *adUnit2 = [[CRBannerAdUnit alloc] initWithAdUnitId:@"Yo"
@@ -824,28 +752,27 @@
                                   isAdLoaded:NO
                                       adUnit:adUnit1
                                    urlOpener:[[CR_URLOpenerMock alloc] init]];
-  CRBidToken *bidToken = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
-  CR_TokenValue *expectedTokenValue = [CR_TokenValue tokenValueWithDisplayUrl:@"test"
-                                                                       adUnit:adUnit2];
-  OCMStub([mockCriteo tokenValueForBidToken:bidToken adUnitType:CRAdUnitTypeInterstitial])
-      .andReturn(expectedTokenValue);
+
+  CR_CdbBid *cdbBid = [self bidWithDisplayURL:@"test"];
+  CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:adUnit2];
 
   id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
   NSError *expectedError = [NSError
       cr_errorWithCode:CRErrorCodeInvalidParameter
            description:
-               @"Token passed to loadAdWithBidToken doesn't have the same ad unit as the CRInterstitial was initialized with"];
-  interstitial.delegate = mockInterstitialDelegate;
+               @"Bid passed to loadAdWithBid doesn't have the same ad unit as the CRInterstitial was initialized with"];
   OCMExpect([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:expectedError]);
   OCMReject([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
   OCMReject([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:[OCMArg any]]);
-  [interstitial loadAdWithBidToken:bidToken];
+
+  interstitial.delegate = mockInterstitialDelegate;
+  [interstitial loadAdWithBid:bid];
   OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
 }
 
-- (void)testInterstitialDidLoadForValidTokenValue {
+- (void)testInterstitialDidLoadForValidBid {
   CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
 
   Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
@@ -872,11 +799,8 @@
                                       adUnit:adUnit1
                                    urlOpener:[[CR_URLOpenerMock alloc] init]];
 
-  CRBidToken *bidToken = [[CRBidToken alloc] initWithUUID:[NSUUID UUID]];
-  CR_TokenValue *expectedTokenValue = [CR_TokenValue tokenValueWithDisplayUrl:@"test"
-                                                                       adUnit:adUnit2];
-  OCMStub([mockCriteo tokenValueForBidToken:bidToken adUnitType:CRAdUnitTypeInterstitial])
-      .andReturn(expectedTokenValue);
+  CR_CdbBid *cdbBid = [self bidWithDisplayURL:@"test"];
+  CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:adUnit2];
 
   id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
   interstitial.delegate = mockInterstitialDelegate;
@@ -899,7 +823,7 @@
         [interstitial webView:mockWebView didFinishNavigation:nil];
       });
 
-  [interstitial loadAdWithBidToken:bidToken];
+  [interstitial loadAdWithBid:bid];
   OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
 }
 
@@ -978,6 +902,77 @@
         [invocation getArgument:&handler atIndex:3];
         handler(bid_);
       });
+}
+
+- (CR_CdbBid *)bidWithDisplayURL:(NSString *)displayURL {
+  if (!_cdbBid) {
+    _cdbBid = [[CR_CdbBid alloc] initWithZoneId:@123
+                                    placementId:@"placementId"
+                                            cpm:@"4.2"
+                                       currency:@"₹😀"
+                                          width:@47.0f
+                                         height:@57.0f
+                                            ttl:26
+                                       creative:@"THIS IS USELESS LEGACY"
+                                     displayUrl:displayURL
+                                     insertTime:[NSDate date]
+                                   nativeAssets:nil
+                                   impressionId:nil];
+  }
+  return _cdbBid;
+}
+
+- (CR_CacheAdUnit *)expectedCacheAdUnit {
+  if (!_cacheAdUnit) {
+    _cacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"123"
+                                                       size:CGSizeMake(320.0, 480.0)
+                                                 adUnitType:CRAdUnitTypeInterstitial];
+  }
+  return _cacheAdUnit;
+}
+
+- (CRInterstitialAdUnit *)adUnit {
+  if (!_adUnit) {
+    _adUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"123"];
+  }
+  return _adUnit;
+}
+
+- (WKNavigationResponse *)validNavigationResponse {
+  if (!validNavigationResponse) {
+    validNavigationResponse = OCMStrictClassMock([WKNavigationResponse class]);
+    NSHTTPURLResponse *response = OCMStrictClassMock([NSHTTPURLResponse class]);
+    OCMStub(response.statusCode).andReturn(200);
+    OCMStub(validNavigationResponse.response).andReturn(response);
+  }
+  return validNavigationResponse;
+}
+
+- (WKNavigationResponse *)invalidNavigationResponse {
+  if (!invalidNavigationResponse) {
+    invalidNavigationResponse = OCMStrictClassMock([WKNavigationResponse class]);
+    NSHTTPURLResponse *response = OCMStrictClassMock([NSHTTPURLResponse class]);
+    OCMStub(response.statusCode).andReturn(404);
+    OCMStub(invalidNavigationResponse.response).andReturn(response);
+  }
+  return invalidNavigationResponse;
+}
+
+- (NSString *)htmlString {
+  return [NSString
+      stringWithFormat:
+          @"<!doctype html>"
+           "<html>"
+           "<head>"
+           "<meta charset=\"utf-8\">"
+           "<style>body{margin:0;padding:0}</style>"
+           "<meta name=\"viewport\" content=\"width=%ld, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\" >"
+           "</head>"
+           "<body>"
+           "<script src=\"%@\"></script>"
+           "</body>"
+           "</html>",
+          (long)[UIScreen mainScreen].bounds.size.width, @"test?safearea"];
 }
 
 @end

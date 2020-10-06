@@ -21,7 +21,7 @@
 
 @class CRNativeAdUnit;
 @class CRNativeAd;
-@class CRBidToken;
+@class CRBid;
 @protocol CRNativeLoaderDelegate;
 @protocol CRMediaDownloader;
 
@@ -49,14 +49,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Load the native ad for In-House integration.
  *
- * If the token represent a valid bid, you'll be notified with the native assets via the
+ * If the bid is valid, you'll be notified with the native assets via the
  * nativeLoader:didReceiveAd: method of the delegate.
  *
  * Do nothing if the delegate is nil or if it doesn't implement nativeLoader:didReceiveAd:.
  *
- * @param bidToken token to get an Ad from
+ * @param bid to get an Ad from
  */
-- (void)loadAdWithBidToken:(CRBidToken *_Nullable)bidToken;
+- (void)loadAdWithBid:(CRBid *_Nullable)bid;
 
 @end
 
