@@ -17,12 +17,13 @@
 // limitations under the License.
 //
 
+#import "CRBid+Internal.h"
+#import "CR_AdUnitHelper.h"
 #import "CR_BidManager.h"
-#import "Logging.h"
 #import "CR_FeedbackController.h"
 #import "CR_HeaderBidding.h"
 #import "CR_ThreadManager.h"
-#import "CR_AdUnitHelper.h"
+#import "Logging.h"
 
 typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 
@@ -285,6 +286,22 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
   if (cdbResponse.timeToNextCall) {
     self.cdbTimeToNextCall = [[NSDate dateWithTimeIntervalSinceNow:cdbResponse.timeToNextCall]
         timeIntervalSinceReferenceDate];
+  }
+}
+
+- (void)enrichAdObject:(id)object withBid:(CRBid *)bid {
+  @try {
+    [self enrichUnsafelyAdObject:object withBid:bid];
+  } @catch (NSException *exception) {
+    CLogException(exception);
+  }
+}
+
+- (void)enrichUnsafelyAdObject:(id)object withBid:(CRBid *)bid {
+  CR_CdbBid *cdbBid = [bid consume];
+  if (cdbBid) {
+    CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:bid.adUnit];
+    [self.headerBidding enrichRequest:object withBid:cdbBid adUnit:cacheAdUnit];
   }
 }
 
