@@ -68,14 +68,27 @@
   self.bidManager.consent.mopubConsent = mopubConsent;
 }
 
-#pragma mark - Header bidding
+#pragma mark - Bidding
+
+- (void)loadBidForAdUnit:(CRAdUnit *)adUnit responseHandler:(CRBidResponseHandler)responseHandler {
+  CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
+  [self.bidManager getBidForAdUnit:cacheAdUnit
+                bidResponseHandler:^(CR_CdbBid *cdbBid) {
+                  [self.threadManager dispatchAsyncOnMainQueue:^{
+                    CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:adUnit];
+                    responseHandler(bid);
+                  }];
+                }];
+}
+
+#pragma mark Header bidding
 
 - (void)setBidsForRequest:(id)request withAdUnit:(CRAdUnit *)adUnit {
   [self.bidManager addCriteoBidToRequest:request
                                forAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit]];
 }
 
-#pragma mark - In-House
+#pragma mark In-House
 
 - (CRBid *)getBidForAdUnit:(CRAdUnit *)adUnit {
   [self.integrationRegistry declare:CR_IntegrationInHouse];
