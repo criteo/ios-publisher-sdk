@@ -81,12 +81,12 @@
                 }];
 }
 
-#pragma mark Header bidding
 
 - (void)setBidsForRequest:(id)request withAdUnit:(CRAdUnit *)adUnit {
   [self.bidManager addCriteoBidToRequest:request
                                forAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit]];
 }
+#pragma mark App bidding
 
 - (void)enrichAdObject:(id)object withBid:(CRBid *)bid {
   [self.bidManager enrichAdObject:object withBid:bid];
