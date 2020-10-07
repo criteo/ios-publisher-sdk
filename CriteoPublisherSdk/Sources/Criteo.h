@@ -24,6 +24,9 @@
 #import <CriteoPublisherSdk/CRAdUnit.h>
 #import <CriteoPublisherSdk/CRBid.h>
 
+/** Bid response handler, bid can be nil on purpose */
+typedef void (^CRBidResponseHandler)(CRBid *_Nullable bid);
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Criteo : NSObject
@@ -59,7 +62,17 @@ NS_ASSUME_NONNULL_BEGIN
 /** Set the privacy consent string owned by the Mopub SDK. */
 - (void)setMopubConsent:(NSString *)mopubConsent;
 
-#pragma mark - Header bidding
+#pragma mark - Bidding
+
+/**
+ * Request asynchronously a bid from Criteo
+ * @param adUnit The ad unit to request
+ * @param responseHandler the handler called on response. Responded bid can be nil.
+ * Note: responseHandler is invoked on main queue
+ */
+- (void)loadBidForAdUnit:(CRAdUnit *)adUnit responseHandler:(CRBidResponseHandler)responseHandler;
+
+#pragma mark Header bidding
 
 /**
  * Header bidding API, enrich your request with Criteo metadata
@@ -68,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)setBidsForRequest:(id)request withAdUnit:(CRAdUnit *)adUnit;
 
-#pragma mark - In-House
+#pragma mark In-House
 
 /**
  * In-House bidding API, provide direct access to a Criteo bid
