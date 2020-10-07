@@ -22,6 +22,7 @@
 #import "GoogleDFPLogger.h"
 
 @interface GoogleDFPTableViewController ()
+@property(strong, nonatomic) Criteo *criteo;
 @property(strong, nonatomic) LogManager *logManager;
 @property(strong, nonatomic) GoogleDFPLogger *logger;
 
@@ -38,6 +39,8 @@
 
 @implementation GoogleDFPTableViewController
 
+#pragma mark - Lifecycle
+
 - (void)removeBannerView:(UIView *)bannerView {
   if (bannerView) {
     [bannerView removeFromSuperview];
@@ -46,11 +49,12 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  self.criteo = [Criteo sharedCriteo];
   self.logManager = [LogManager sharedInstance];
   self.logger = [[GoogleDFPLogger alloc] initWithInterstitialDelegate:self];
 }
 
-#pragma mark - actions
+#pragma mark - Actions
 
 - (IBAction)banner_320x50Click:(id)sender {
   [self removeBannerView:self.dfpBannerView_320x50];
@@ -58,10 +62,12 @@
   self.dfpBannerView_320x50.delegate = self.logger;
   self.dfpBannerView_320x50.adUnitID = self.homePageVC.googleBannerAdUnit_320x50.adUnitId;
   self.dfpBannerView_320x50.rootViewController = self;
-  DFPRequest *request = [DFPRequest request];
-  Criteo *criteo = [Criteo sharedCriteo];
-  [criteo setBidsForRequest:request withAdUnit:self.homePageVC.googleBannerAdUnit_320x50];
-  [self.dfpBannerView_320x50 loadRequest:request];
+  [self.criteo loadBidForAdUnit:self.homePageVC.googleBannerAdUnit_320x50
+                responseHandler:^(CRBid *bid) {
+                  DFPRequest *request = [DFPRequest request];
+                  [self.criteo enrichAdObject:request withBid:bid];
+                  [self.dfpBannerView_320x50 loadRequest:request];
+                }];
   self.banner_320x50RedView.backgroundColor = [UIColor redColor];
   [self.banner_320x50RedView addSubview:self.dfpBannerView_320x50];
 }
@@ -71,10 +77,12 @@
   self.dfpBannerView_300x250.delegate = self.logger;
   self.dfpBannerView_300x250.adUnitID = self.homePageVC.googleBannerAdUnit_300x250.adUnitId;
   self.dfpBannerView_300x250.rootViewController = self;
-  DFPRequest *request = [DFPRequest request];
-  Criteo *criteo = [Criteo sharedCriteo];
-  [criteo setBidsForRequest:request withAdUnit:self.homePageVC.googleBannerAdUnit_300x250];
-  [self.dfpBannerView_300x250 loadRequest:request];
+  [self.criteo loadBidForAdUnit:self.homePageVC.googleBannerAdUnit_300x250
+                responseHandler:^(CRBid *bid) {
+                  DFPRequest *request = [DFPRequest request];
+                  [self.criteo enrichAdObject:request withBid:bid];
+                  [self.dfpBannerView_300x250 loadRequest:request];
+                }];
   self.banner_300x250RedView.backgroundColor = [UIColor redColor];
   [self.banner_300x250RedView addSubview:self.dfpBannerView_300x250];
 }
@@ -85,26 +93,31 @@
   self.dfpNativestyle_Fluid.adSizeDelegate = self.logger;
   self.dfpNativestyle_Fluid.rootViewController = self;
   self.dfpNativestyle_Fluid.adUnitID = self.homePageVC.googleNativeAdUnit_Fluid.adUnitId;
-  DFPRequest *request = [DFPRequest request];
-  [Criteo.sharedCriteo setBidsForRequest:request
-                              withAdUnit:self.homePageVC.googleNativeAdUnit_Fluid];
+  [self.criteo loadBidForAdUnit:self.homePageVC.googleNativeAdUnit_Fluid
+                responseHandler:^(CRBid *bid) {
+                  DFPRequest *request = [DFPRequest request];
+                  [self.criteo enrichAdObject:request withBid:bid];
+                  [self.dfpNativestyle_Fluid loadRequest:request];
+                }];
   self.dfpNativestyle_Fluid.frame = CGRectMake(0, 0, self.native_fluidRedView.frame.size.width, 0);
-  [self.dfpNativestyle_Fluid loadRequest:request];
   self.native_fluidRedView.backgroundColor = [UIColor redColor];
   [self.native_fluidRedView addSubview:self.dfpNativestyle_Fluid];
 }
 - (IBAction)interstitialClick:(id)sender {
   [self.interstitalSpinner startAnimating];
   [self.logManager logEvent:@"Interstitial requested" detail:@""];
+  self.dfpInterstitial = [[DFPInterstitial alloc] initWithAdUnitID:GOOGLEINTERSTITIALADUNITID];
+  self.dfpInterstitial.delegate = self.logger;
   Criteo *criteo = [Criteo sharedCriteo];
-  DFPRequest *request = [DFPRequest request];
   CRInterstitialAdUnit *adUnit = super.interstitialVideoSwitch.on
                                      ? self.homePageVC.criteoInterstitialVideoAdUnit
                                      : self.homePageVC.googleInterstitialAdUnit;
-  [criteo setBidsForRequest:request withAdUnit:adUnit];
-  self.dfpInterstitial = [[DFPInterstitial alloc] initWithAdUnitID:GOOGLEINTERSTITIALADUNITID];
-  self.dfpInterstitial.delegate = self.logger;
-  [self.dfpInterstitial loadRequest:request];
+  [criteo loadBidForAdUnit:adUnit
+           responseHandler:^(CRBid *bid) {
+             DFPRequest *request = [DFPRequest request];
+             [criteo enrichAdObject:request withBid:bid];
+             [self.dfpInterstitial loadRequest:request];
+           }];
 }
 - (IBAction)clearButton:(id)sender {
   [self interstitialUpdated:NO];

@@ -98,8 +98,6 @@
 
 @interface CR_BidManager (HeaderBidding)
 
-- (void)addCriteoBidToRequest:(id)adRequest forAdUnit:(CR_CacheAdUnit *)adUnit;
-
 - (void)enrichAdObject:(id)object withBid:(CRBid *)bid;
 
 @end

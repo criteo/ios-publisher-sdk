@@ -305,27 +305,6 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
   }
 }
 
-- (void)addCriteoBidToRequest:(id)adRequest forAdUnit:(CR_CacheAdUnit *)adUnit {
-  @try {
-    [self unsafeAddCriteoBidToRequest:adRequest forAdUnit:adUnit];
-  } @catch (NSException *exception) {
-    CLogException(exception);
-  }
-}
-
-- (void)unsafeAddCriteoBidToRequest:(id)adRequest forAdUnit:(CR_CacheAdUnit *)adUnit {
-  if (!config) {
-    CLog(@"Config hasn't been fetched. So no bids will be fetched.");
-    return;
-  } else if ([config killSwitch]) {
-    CLog(@"killSwitch is engaged. No bid will be fetched.");
-    return;
-  }
-
-  CR_CdbBid *fetchedBid = [self getBidThenFetch:adUnit];
-  [self.headerBidding enrichRequest:adRequest withBid:fetchedBid adUnit:adUnit];
-}
-
 - (CRBid *)bidForAdUnit:(CRAdUnit *)adUnit {
   CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
   CR_CdbBid *bid = [self getBidThenFetch:cacheAdUnit];

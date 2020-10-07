@@ -48,22 +48,22 @@
   self.request = [[DFPRequest alloc] init];
 }
 
-- (void)test_givenInterstitialWithBadAdUnitId_whenSetBids_thenRequestKeywordsDoNotChange {
+- (void)test_givenInterstitialWithBadAdUnitId_whenEnrichAdObject_thenRequestKeywordsDoNotChange {
   CRInterstitialAdUnit *interstitial = [CR_TestAdUnits randomInterstitial];
   [self initCriteoWithAdUnits:@[ interstitial ]];
   DFPRequest *interstitialDfpRequest = [[DFPRequest alloc] init];
 
-  [self.criteo setBidsForRequest:interstitialDfpRequest withAdUnit:interstitial];
+  [self enrichAdObject:(id)interstitialDfpRequest forAdUnit:interstitial];
 
   XCTAssertNil(interstitialDfpRequest.customTargeting);
 }
 
-- (void)test_givenInterstitialWithGoodAdUnitId_whenSetBids_thenRequestKeywordsUpdated {
+- (void)test_givenInterstitialWithGoodAdUnitId_whenEnrichAdObject_thenRequestKeywordsUpdated {
   CRInterstitialAdUnit *interstitial = [CR_TestAdUnits demoInterstitial];
   [self initCriteoWithAdUnits:@[ interstitial ]];
   DFPRequest *interstitialDfpRequest = [[DFPRequest alloc] init];
 
-  [self.criteo setBidsForRequest:interstitialDfpRequest withAdUnit:interstitial];
+  [self enrichAdObject:(id)interstitialDfpRequest forAdUnit:interstitial];
 
   CR_AssertDfpCustomTargetingContainsCriteoBid(interstitialDfpRequest.customTargeting);
 }
@@ -76,7 +76,7 @@
       getBidForAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:interstitialAdUnit]];
   DFPRequest *interstitialDfpRequest = [[DFPRequest alloc] init];
 
-  [self.criteo setBidsForRequest:interstitialDfpRequest withAdUnit:interstitialAdUnit];
+  [self enrichAdObject:(id)interstitialDfpRequest forAdUnit:interstitialAdUnit];
   NSString *encodedUrl = interstitialDfpRequest.customTargeting[CR_TargetingKey_crtDfpDisplayUrl];
   NSString *decodedUrl = [NSString cr_decodeDfpCompatibleString:encodedUrl];
 
@@ -97,7 +97,7 @@
   CR_DfpCreativeViewChecker *dfpViewChecker =
       [[CR_DfpCreativeViewChecker alloc] initWithInterstitial:dfpInterstitial];
 
-  [self.criteo setBidsForRequest:dfpRequest withAdUnit:interstitialAdUnit];
+  [self enrichAdObject:(id)dfpRequest forAdUnit:interstitialAdUnit];
   [dfpInterstitial loadRequest:dfpRequest];
 
   BOOL renderedProperly = [dfpViewChecker waitAdCreativeRendered];
@@ -114,7 +114,7 @@
   CR_DfpCreativeViewChecker *dfpViewChecker =
       [[CR_DfpCreativeViewChecker alloc] initWithInterstitial:dfpInterstitial];
 
-  [self.criteo setBidsForRequest:dfpRequest withAdUnit:interstitialAdUnitRandom];
+  [self enrichAdObject:(id)dfpRequest forAdUnit:interstitialAdUnitRandom];
   [dfpInterstitial loadRequest:dfpRequest];
 
   BOOL renderedProperly = [dfpViewChecker waitAdCreativeRendered];
@@ -128,14 +128,15 @@
     [self recordFailureOnBidRequestCrtSizeString:_crtSize atLine:__LINE__]; \
   } while (0);
 
-- (void)test_givenAdUnit_whenSetBidsForRequest_thenRequestKeywordsContainsCrtSize {
+- (void)test_givenAdUnit_whenEnrichAdObjectForRequest_thenRequestKeywordsContainsCrtSize {
   [self initCriteoWithAdUnits:@[ self.preprodAdUnit ]];
   self.deviceInfo.mock_screenSize = (CGSize){320.f, 320.f};
 
   CRAssertCrtSizeOnSetBidRequest(@"320x480");
 }
 
-- (void)test_givenAdUnitInLandscape_whenSetBidsForRequest_thenRequestKeywordsContainsCrtSize {
+- (void)
+    test_givenAdUnitInLandscape_whenEnrichAdObjectForRequest_thenRequestKeywordsContainsCrtSize {
   [self initCriteoWithAdUnits:@[ self.preprodAdUnit ]];
   self.deviceInfo.mock_screenSize = (CGSize){320.f, 320.f};
   self.deviceInfo.mock_isInPortrait = NO;
@@ -143,7 +144,7 @@
   CRAssertCrtSizeOnSetBidRequest(@"480x320");
 }
 
-- (void)test_givenAdUnitOnPad_whenSetBidsForRequest_thenRequestKeywordsContainsCrtSize {
+- (void)test_givenAdUnitOnPad_whenEnrichAdObjectForRequest_thenRequestKeywordsContainsCrtSize {
   [self initCriteoWithAdUnits:@[ self.preprodAdUnit ]];
   self.deviceInfo.mock_screenSize = (CGSize){842.f, 1024.f};
   self.deviceInfo.mock_isPhone = NO;
@@ -151,7 +152,8 @@
   CRAssertCrtSizeOnSetBidRequest(@"768x1024");
 }
 
-- (void)test_givenAdUnitOnPadInLandscape_whenSetBidsForRequest_thenRequestKeywordsContainsCrtSize {
+- (void)
+    test_givenAdUnitOnPadInLandscape_whenEnrichAdObjectForRequest_thenRequestKeywordsContainsCrtSize {
   [self initCriteoWithAdUnits:@[ self.preprodAdUnit ]];
   self.deviceInfo.mock_screenSize = (CGSize){2048.f, 768.f};
   self.deviceInfo.mock_isPhone = NO;
@@ -160,7 +162,7 @@
   CRAssertCrtSizeOnSetBidRequest(@"1024x768");
 }
 
-- (void)test_givenAdUnitOnSmallPad_whenSetBidsForRequest_thenRequestKeywordsContainsCrtSize {
+- (void)test_givenAdUnitOnSmallPad_whenEnrichAdObjectForRequest_thenRequestKeywordsContainsCrtSize {
   [self initCriteoWithAdUnits:@[ self.preprodAdUnit ]];
   self.deviceInfo.mock_screenSize = (CGSize){1024.f, 512.f};
   self.deviceInfo.mock_isPhone = NO;
@@ -176,7 +178,7 @@
 
 - (void)recordFailureOnBidRequestCrtSizeString:(NSString *)crtSizeString
                                         atLine:(NSUInteger)lineNumber {
-  [self.criteo setBidsForRequest:self.request withAdUnit:self.preprodAdUnit];
+  [self enrichAdObject:(id)self.request forAdUnit:self.preprodAdUnit];
 
   NSString *actualCrtSize = self.request.customTargeting[@"crt_size"];
   if (![crtSizeString isEqualToString:actualCrtSize]) {

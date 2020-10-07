@@ -23,13 +23,13 @@
 #import "CR_IntegrationsTestBase.h"
 #import "CR_TestAdUnits.h"
 #import "Criteo+Internal.h"
-#import "Criteo+Testing.h"
 #import "CR_DependencyProvider.h"
 #import "CR_AdUnitHelper.h"
 #import <MoPub.h>
 #import "CR_MopubCreativeViewChecker.h"
 #import "NSString+Testing.h"
 #import "CR_CacheManager.h"
+#import "XCTestCase+Criteo.h"
 
 static NSString *const kCpmKey = @"crt_cpm";
 static NSString *const kDictionaryDisplayUrlKey = @"crt_displayUrl";
@@ -43,18 +43,18 @@ static NSString *initialMopubKeywords = @"key1:value1,key2:value2";
 
 @implementation CR_MopubBannerFunctionalTests
 
-- (void)test_givenBannerWithBadAdUnitId_whenSetBids_thenRequestKeywordsDoNotChange {
+- (void)test_givenBannerWithBadAdUnitId_whenEnrichAdObject_thenRequestKeywordsDoNotChange {
   CRBannerAdUnit *banner = [CR_TestAdUnits randomBanner320x50];
   [self initCriteoWithAdUnits:@[ banner ]];
   MPAdView *adView = [[MPAdView alloc] init];
   adView.keywords = initialMopubKeywords;
 
-  [self.criteo setBidsForRequest:adView withAdUnit:banner];
+  [self enrichAdObject:adView forAdUnit:banner];
 
   XCTAssertEqualObjects(initialMopubKeywords, adView.keywords);
 }
 
-- (void)test_givenBannerWithGoodAdUnitId_whenSetBids_thenRequestKeywordsUpdated {
+- (void)test_givenBannerWithGoodAdUnitId_whenEnrichAdObject_thenRequestKeywordsUpdated {
   CRBannerAdUnit *banner = [CR_TestAdUnits demoBanner320x50];
   [self initCriteoWithAdUnits:@[ banner ]];
   MPAdView *adView = [[MPAdView alloc] init];
@@ -70,7 +70,7 @@ static NSString *initialMopubKeywords = @"key1:value1,key2:value2";
     @"key2" : @"value2"
   };
 
-  [self.criteo setBidsForRequest:adView withAdUnit:banner];
+  [self enrichAdObject:adView forAdUnit:banner];
 
   NSDictionary *keywords = [adView.keywords testing_moPubKeywordDictionary];
   XCTAssertEqualObjects(keywords, expected);
@@ -83,7 +83,7 @@ static NSString *initialMopubKeywords = @"key1:value1,key2:value2";
 
   MPAdView *mpAdView = [[MPAdView alloc] initWithAdUnitId:CR_TestAdUnits.mopubBanner50AdUnitId];
   mpAdView.maxAdSize = kMPPresetMaxAdSize50Height;
-  [self.criteo setBidsForRequest:mpAdView withAdUnit:bannerAdUnit];
+  [self enrichAdObject:mpAdView forAdUnit:bannerAdUnit];
 
   CR_MopubCreativeViewChecker *viewChecker =
       [[CR_MopubCreativeViewChecker alloc] initWithBanner:mpAdView];

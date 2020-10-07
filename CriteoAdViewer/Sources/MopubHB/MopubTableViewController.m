@@ -22,6 +22,7 @@
 #import "MopubLogger.h"
 
 @interface MopubTableViewController ()
+@property(strong, nonatomic) Criteo *criteo;
 @property(strong, nonatomic) LogManager *logManager;
 @property(strong, nonatomic) MopubLogger *logger;
 
@@ -35,12 +36,17 @@
 
 @implementation MopubTableViewController
 
+#pragma mark - Lifecycle
+
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self registerMoPub];
+  self.criteo = [Criteo sharedCriteo];
   self.logManager = [LogManager sharedInstance];
   self.logger = [[MopubLogger alloc] initWithInterstitialDelegate:self];
 }
+
+#pragma mark - Controller
 
 - (void)registerMoPub {
   MPMoPubConfiguration *sdkConfig = [[MPMoPubConfiguration alloc]
@@ -59,40 +65,44 @@
   [self removeBannerView:self.adView_320x50];
   self.adView_320x50 = [[MPAdView alloc] initWithAdUnitId:MOPUBBANNERADUNITID_320X50];
   self.adView_320x50.keywords = @"key1:value1,key2:value2";
-  Criteo *criteo = [Criteo sharedCriteo];
-  [criteo setBidsForRequest:self.adView_320x50 withAdUnit:self.homePageVC.moPubBannerAdUnit_320x50];
-
   self.adView_320x50.delegate = self.logger;
   self.adView_320x50.frame = CGRectMake(0, 0, 320, 50);
   [self.adView_320x50RedView addSubview:self.adView_320x50];
   self.adView_320x50RedView.backgroundColor = [UIColor redColor];
-  [self.adView_320x50 loadAd];
+  [self.criteo loadBidForAdUnit:self.homePageVC.moPubBannerAdUnit_320x50
+                responseHandler:^(CRBid *bid) {
+                  [self.criteo enrichAdObject:self.adView_320x50 withBid:bid];
+                  [self.adView_320x50 loadAd];
+                }];
 }
 - (IBAction)banner300x250ButtonClick:(id)sender {
   [self removeBannerView:self.adView_300x250];
   self.adView_300x250 = [[MPAdView alloc] initWithAdUnitId:MOPUBBANNERADUNITID_300X250];
   self.adView_300x250.keywords = @"key1:value1,key2:value2";
-  Criteo *criteo = [Criteo sharedCriteo];
-  [criteo setBidsForRequest:self.adView_300x250
-                 withAdUnit:self.homePageVC.moPubBannerAdUnit_300x250];
   self.adView_300x250.delegate = self.logger;
   self.adView_300x250.frame = CGRectMake(0, 0, 300, 250);
   [self.adView_300x250RedView addSubview:self.adView_300x250];
   self.adView_300x250RedView.backgroundColor = [UIColor redColor];
-  [self.adView_300x250 loadAd];
+  [self.criteo loadBidForAdUnit:self.homePageVC.moPubBannerAdUnit_300x250
+                responseHandler:^(CRBid *bid) {
+                  [self.criteo enrichAdObject:self.adView_300x250 withBid:bid];
+                  [self.adView_300x250 loadAd];
+                }];
 }
 
 - (IBAction)interstitialButtonClick:(id)sender {
   [super onLoadInterstitial];
   self.interstitial =
       [MPInterstitialAdController interstitialAdControllerForAdUnitId:MOPUBINTERSTITIALADUNITID];
-  Criteo *criteo = [Criteo sharedCriteo];
   CRInterstitialAdUnit *adUnit = super.interstitialVideoSwitch.on
                                      ? self.homePageVC.criteoInterstitialVideoAdUnit
                                      : self.homePageVC.moPubInterstitialAdUnit;
-  [criteo setBidsForRequest:self.interstitial withAdUnit:adUnit];
   self.interstitial.delegate = self.logger;
-  [self.interstitial loadAd];
+  [self.criteo loadBidForAdUnit:adUnit
+                responseHandler:^(CRBid *bid) {
+                  [self.criteo enrichAdObject:self.interstitial withBid:bid];
+                  [self.interstitial loadAd];
+                }];
 }
 - (IBAction)clearButton:(id)sender {
   [super interstitialUpdated:NO];
