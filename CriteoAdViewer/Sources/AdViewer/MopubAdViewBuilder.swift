@@ -56,24 +56,37 @@ class MopubAdViewBuilder: AdViewBuilder {
     adView.maxAdSize = mopubSize(size: size)
     adView.frame = CGRect(origin: CGPoint(), size: mopubSize(size: size))
     adView.keywords = keywords
-    criteo.setBidsForRequest(adView, with: adUnit)
     adView.delegate = self.logger
-    adView.loadAd()
+    load(adView, adUnit: adUnit, criteo: criteo)
     return adView
   }
 
   private func buildInterstitial(adUnit: CRAdUnit, criteo: Criteo) -> MPInterstitialAdController {
     let adView = MPInterstitialAdController(forAdUnitId: adUnit.adUnitId)!
     adView.keywords = keywords
-    criteo.setBidsForRequest(adView, with: adUnit)
     adView.delegate = self.logger
-    adView.loadAd()
+    load(adView, adUnit: adUnit, criteo: criteo)
     return adView
   }
 }
 
-extension MPInterstitialAdController: InterstitialView {
+private func load(_ ad: MPLoadableAd, adUnit: CRAdUnit, criteo: Criteo) {
+  criteo.loadBid(for: adUnit) { maybeBid in
+    if let bid = maybeBid {
+      criteo.enrichAdObject(ad, with: bid)
+      ad.loadAd()
+    }
+  }
+}
+
+protocol MPLoadableAd {
+  func loadAd()
+}
+
+extension MPInterstitialAdController: InterstitialView, MPLoadableAd {
   func present(viewController: UIViewController) {
     self.show(from: viewController)
   }
 }
+
+extension MPAdView: MPLoadableAd {}

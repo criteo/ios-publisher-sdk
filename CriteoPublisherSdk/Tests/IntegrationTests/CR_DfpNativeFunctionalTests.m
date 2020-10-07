@@ -33,22 +33,22 @@
 
 @implementation CR_DfpNativeFunctionalTests
 
-- (void)test_givenNativeWithBadAdUnitId_whenSetBids_thenRequestKeywordsDoNotChange {
+- (void)test_givenNativeWithBadAdUnitId_whenEnrichAdObject_thenRequestKeywordsDoNotChange {
   CRNativeAdUnit *native = [CR_TestAdUnits randomNative];
   [self initCriteoWithAdUnits:@[ native ]];
   DFPRequest *dfpRequest = [[DFPRequest alloc] init];
 
-  [self.criteo setBidsForRequest:dfpRequest withAdUnit:native];
+  [self enrichAdObject:(id)dfpRequest forAdUnit:native];
 
   XCTAssertNil(dfpRequest.customTargeting);
 }
 
-- (void)test_givenNativeWithGoodAdUnitId_whenSetBids_thenRequestKeywordsUpdated {
+- (void)test_givenNativeWithGoodAdUnitId_whenEnrichAdObject_thenRequestKeywordsUpdated {
   CRNativeAdUnit *native = [CR_TestAdUnits preprodNative];
   [self initCriteoWithAdUnits:@[ native ]];
   DFPRequest *dfpRequest = [[DFPRequest alloc] init];
 
-  [self.criteo setBidsForRequest:dfpRequest withAdUnit:native];
+  [self enrichAdObject:(id)dfpRequest forAdUnit:native];
 
   CR_NativeAssets *assets = [CR_NativeAssets nativeAssetsFromCdb];
   CR_NativeProduct *product = assets.products[0];
@@ -96,7 +96,7 @@
       [[CR_DfpCreativeViewChecker alloc] initWithBannerWithSize:kGADAdSizeFluid
                                                    withAdUnitId:CR_TestAdUnits.dfpNativeId];
 
-  [self.criteo setBidsForRequest:bannerDfpRequest withAdUnit:bannerAdUnit];
+  [self enrichAdObject:(id)bannerDfpRequest forAdUnit:bannerAdUnit];
   [dfpViewChecker.dfpBannerView loadRequest:bannerDfpRequest];
 
   BOOL renderedProperly = [dfpViewChecker waitAdCreativeRendered];

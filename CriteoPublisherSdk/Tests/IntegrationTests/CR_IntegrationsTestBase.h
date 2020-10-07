@@ -32,4 +32,6 @@
 
 - (void)waitForIdleState;
 
+- (void)enrichAdObject:(id)object forAdUnit:(CRAdUnit *)adUnit;
+
 @end

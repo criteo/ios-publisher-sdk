@@ -21,13 +21,21 @@
 #import "Criteo+Testing.h"
 #import "Criteo+Internal.h"
 #import "CR_ThreadManager+Waiter.h"
+#import "XCTestCase+Criteo.h"
 
 @implementation CR_IntegrationsTestBase
+
+#pragma mark - Lifecycle
 
 - (void)setUp {
   [super setUp];
 
   self.criteo = nil;
+}
+
+- (void)tearDown {
+  [self waitForIdleState];
+  [super tearDown];
 }
 
 - (void)initCriteoWithAdUnits:(NSArray<CRAdUnit *> *)adUnits {
@@ -39,9 +47,14 @@
   [self.criteo.threadManager waiter_waitIdle];
 }
 
-- (void)tearDown {
+#pragma mark - App Bidding helper
+
+- (void)enrichAdObject:(id)object forAdUnit:(CRAdUnit *)adUnit {
+  [self.criteo loadBidForAdUnit:adUnit
+                responseHandler:^(CRBid *bid) {
+                  [self.criteo enrichAdObject:object withBid:bid];
+                }];
   [self waitForIdleState];
-  [super tearDown];
 }
 
 @end

@@ -389,31 +389,19 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 #pragma mark - Header Bidding
 
 - (void)testAddCriteoBidToNonBiddableObjectsDoesNotCrash {
-  [self.bidManager addCriteoBidToRequest:[NSDictionary new] forAdUnit:self.adUnit1];
-  [self.bidManager addCriteoBidToRequest:[NSSet new] forAdUnit:self.adUnit1];
-  [self.bidManager addCriteoBidToRequest:@"1234abcd" forAdUnit:self.adUnit1];
-  [self.bidManager addCriteoBidToRequest:(NSMutableDictionary *)nil forAdUnit:self.adUnit1];
+  CRBid *bid = [self validBid];
+  [self.bidManager enrichAdObject:[NSDictionary new] withBid:bid];
+  [self.bidManager enrichAdObject:[NSSet new] withBid:bid];
+  [self.bidManager enrichAdObject:@"1234abcd" withBid:bid];
+  [self.bidManager enrichAdObject:(NSMutableDictionary *)nil withBid:bid];
 }
 
 - (void)testAddCriteoBidToRequestCallHeaderBidding {
-  [self.bidManager addCriteoBidToRequest:self.dfpRequest forAdUnit:self.adUnit1];
+  [self.bidManager enrichAdObject:self.dfpRequest withBid:self.validBid];
 
   OCMVerify([self.headerBiddingMock enrichRequest:self.dfpRequest
                                           withBid:self.bid1
                                            adUnit:self.adUnit1]);
-}
-
-- (void)testAddCriteoBidToRequestWhenKillSwitchIsEngagedShouldNotEnrichRequest {
-  self.dependencyProvider.config.killSwitch = YES;
-
-  [self.bidManager addCriteoBidToRequest:self.dfpRequest forAdUnit:self.adUnit1];
-
-  OCMReject([self.headerBiddingMock enrichRequest:[OCMArg any]
-                                          withBid:[OCMArg any]
-                                           adUnit:[OCMArg any]]);
-  XCTAssertTrue(self.dfpRequest.customTargeting.count == 2);
-  XCTAssertNil(self.dfpRequest.customTargeting[CR_BidManagerTestsDfpDisplayUrl]);
-  XCTAssertNil(self.dfpRequest.customTargeting[CR_BidManagerTestsCpm]);
 }
 
 #pragma mark - Private
@@ -438,6 +426,12 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
         handler(nil, cdbResponseMock, nil);
       });
   return bid;
+}
+
+- (CRBid *)validBid {
+  CRAdUnit *adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:self.adUnit1.adUnitId
+                                                         size:self.adUnit1.size];
+  return [[CRBid alloc] initWithCdbBid:self.bid1 adUnit:adUnit];
 }
 
 @end

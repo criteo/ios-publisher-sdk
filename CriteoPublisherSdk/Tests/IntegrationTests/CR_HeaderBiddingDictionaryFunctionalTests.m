@@ -42,7 +42,7 @@ static NSString *const kSizeKey = @"crt_size";
 
   [self initCriteoWithAdUnits:@[ adUnit ]];
 
-  [self.criteo setBidsForRequest:request withAdUnit:adUnit];
+  [self enrichAdObject:request forAdUnit:adUnit];
 
   XCTAssertEqualObjects(request, expected);
 }
