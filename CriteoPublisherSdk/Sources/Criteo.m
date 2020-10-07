@@ -88,6 +88,10 @@
                                forAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit]];
 }
 
+- (void)enrichAdObject:(id)object withBid:(CRBid *)bid {
+  [self.bidManager enrichAdObject:object withBid:bid];
+}
+
 #pragma mark In-House
 
 - (CRBid *)getBidForAdUnit:(CRAdUnit *)adUnit {

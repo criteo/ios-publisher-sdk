@@ -100,6 +100,8 @@
 
 - (void)addCriteoBidToRequest:(id)adRequest forAdUnit:(CR_CacheAdUnit *)adUnit;
 
+- (void)enrichAdObject:(id)object withBid:(CRBid *)bid;
+
 @end
 
 @interface CR_BidManager (InHouse)

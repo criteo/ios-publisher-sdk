@@ -81,6 +81,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)setBidsForRequest:(id)request withAdUnit:(CRAdUnit *)adUnit;
 
+/**
+ * Header bidding API, enrich your ad object with Criteo metadata
+ * @param object The object to enrich, supports GAM and MoPub
+ * @param bid The bid obtained from Criteo
+ */
+- (void)enrichAdObject:(id)object withBid:(CRBid *)bid;
+
 #pragma mark In-House
 
 /**
