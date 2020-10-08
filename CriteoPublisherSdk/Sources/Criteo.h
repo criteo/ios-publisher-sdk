@@ -81,15 +81,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)enrichAdObject:(id)object withBid:(CRBid *)bid;
 
-#pragma mark In-House
-
-/**
- * In-House bidding API, provide direct access to a Criteo bid
- * @param adUnit The adUnit related to request
- * @return Bid Response that can later be used for displaying ads
- */
-- (CRBid *)getBidForAdUnit:(CRAdUnit *)adUnit NS_SWIFT_NAME(getBid(for:));
-
 @end
 NS_ASSUME_NONNULL_END
 

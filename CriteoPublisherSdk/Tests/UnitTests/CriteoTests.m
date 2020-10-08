@@ -50,14 +50,6 @@
 
 #pragma mark - Tests
 
-- (void)testGetBidResponseForAdUnit_GivenAnyState_DeclareInHouseIntegration {
-  CRAdUnit *adUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"adUnit"];
-
-  [self.criteo getBidForAdUnit:adUnit];
-
-  OCMVerify([self.integrationRegistry declare:CR_IntegrationInHouse]);
-}
-
 - (void)testRegister_ShouldRegisterAndSendAppEvents {
   [self registerWithMockedDependencyProvider:^(CR_DependencyProvider *dependencyProviderMock) {
     CR_AppEvents *appEvents = OCMStrictClassMock(CR_AppEvents.class);
