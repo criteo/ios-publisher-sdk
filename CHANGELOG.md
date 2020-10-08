@@ -8,6 +8,9 @@
     This new method is intended for App Bidding and In-House SDK usage.
   - **App Bidding**: `[Criteo enrichAdObject:withBid:]` replaces `[Criteo setBidsForRequest:withAdUnit:]`:
     A bid is obtained using the aforementioned `loadBidForAdUnit:` method.
+  - **In House**: `CRBannerView`, `CRInterstitial` and `CRNativeLoader` gets a ` loadAdWithBid:` that
+    replaces former `loadAdWithBidToken:` methods. A bid is obtained using the aforementioned
+    `loadBidForAdUnit:` method.
 - **CocoaPods**: Pod is now source provided rather than binary. Few potential changes required on
 pod clients, you can:
   - Either add [`use_frameworks!`][use_frameworks] to your Podfile so CocoaPods produce frameworks
