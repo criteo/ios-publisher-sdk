@@ -205,27 +205,6 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
 }
 
-- (void)testBidForUncachedAdUnit {
-  CRAdUnit *adUnitUncached = [[CRBannerAdUnit alloc] initWithAdUnitId:@"123"
-                                                                 size:CGSizeMake(320, 50)];
-  CRBid *bid = [self.bidManager bidForAdUnit:adUnitUncached];
-  XCTAssertNil(bid);
-}
-
-- (void)testBidForValidAdUnit {
-  NSString *adUnitId = @"123";
-  CGSize size = CGSizeMake(320, 50);
-  CRBannerAdUnit *adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:adUnitId size:size];
-  self.adUnit1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:adUnitId
-                                                     size:size
-                                               adUnitType:CRAdUnitTypeBanner];
-  self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).cpm(@"4.2").build;
-  self.cacheManager.bidCache[self.adUnit1] = self.bid1;
-
-  CRBid *bid = [self.bidManager bidForAdUnit:adUnit];
-  XCTAssertEqualWithAccuracy(bid.price, 4.2, 0.1);
-}
-
 - (void)testGetBidWhenNoBid {
   self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).noBid().build;
   self.cacheManager.bidCache[self.adUnit1] = self.bid1;

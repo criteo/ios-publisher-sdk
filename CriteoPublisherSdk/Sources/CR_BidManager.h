@@ -102,10 +102,4 @@
 
 @end
 
-@interface CR_BidManager (InHouse)
-
-- (CRBid *)bidForAdUnit:(CRAdUnit *)adUnit;
-
-@end
-
 #endif /* BidManager_h */
