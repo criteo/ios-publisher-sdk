@@ -154,11 +154,13 @@
   if (![self checkSafeToLoad]) {
     return;
   }
+
   if (!bid) {
     [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
     self.isAdLoading = NO;
     return;
   }
+
   if (![bid.adUnit isEqual:self.adUnit]) {
     [self
         safelyNotifyAdLoadFail:CRErrorCodeInvalidParameter
@@ -168,7 +170,14 @@
     return;
   }
 
-  [self loadAdWithDisplayData:bid.consume.displayUrl];
+  CR_CdbBid *cdbBid = bid.consume;
+  if (!cdbBid) {
+    [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
+    self.isAdLoading = NO;
+    return;
+  }
+
+  [self loadAdWithDisplayData:cdbBid.displayUrl];
 }
 
 - (void)loadAdWithDisplayData:(NSString *)displayData {
