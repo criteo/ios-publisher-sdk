@@ -257,7 +257,7 @@
   CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
   OCMStub([self.criteo getBid:cacheAdUnit responseHandler:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
-        CR_BidResponseHandler handler;
+        CR_CdbBidResponseHandler handler;
         [invocation getArgument:&handler atIndex:3];
         handler(bid);
       });

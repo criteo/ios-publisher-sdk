@@ -898,7 +898,7 @@
         respondBid:(CR_CdbBid *)bid_ {
   OCMStub([criteoMock getBid:adUnit responseHandler:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
-        CR_BidResponseHandler handler;
+        CR_CdbBidResponseHandler handler;
         [invocation getArgument:&handler atIndex:3];
         handler(bid_);
       });
