@@ -145,6 +145,7 @@
     [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
     return;
   }
+
   if (![bid.adUnit isEqual:self.adUnit]) {
     [self
         safelyNotifyAdLoadFail:CRErrorCodeInvalidParameter
@@ -153,7 +154,13 @@
     return;
   }
 
-  [self loadAdWithDisplayData:bid.consume.displayUrl];
+  CR_CdbBid *cdbBid = bid.consume;
+  if (!cdbBid) {
+    [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
+    return;
+  }
+
+  [self loadAdWithDisplayData:cdbBid.displayUrl];
 }
 
 - (void)loadAdWithDisplayData:(NSString *)displayData {
