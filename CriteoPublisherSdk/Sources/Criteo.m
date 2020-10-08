@@ -116,7 +116,7 @@
 
 #pragma mark Generic
 
-- (void)getBid:(CR_CacheAdUnit *)slot responseHandler:(CR_BidResponseHandler)responseHandler {
+- (void)getBid:(CR_CacheAdUnit *)slot responseHandler:(CR_CdbBidResponseHandler)responseHandler {
   [self.bidManager getBidForAdUnit:slot bidResponseHandler:responseHandler];
 }
 

@@ -91,7 +91,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 }
 
 - (void)getBidForAdUnit:(CR_CacheAdUnit *)adUnit
-     bidResponseHandler:(CR_BidResponseHandler)responseHandler {
+     bidResponseHandler:(CR_CdbBidResponseHandler)responseHandler {
   if (config.liveBiddingEnabled) {
     [self fetchLiveBidForAdUnit:adUnit bidResponseHandler:responseHandler];
   } else {
@@ -160,14 +160,14 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 }
 
 - (void)fetchLiveBidForAdUnit:(CR_CacheAdUnit *)adUnit
-           bidResponseHandler:(CR_BidResponseHandler)responseHandler {
+           bidResponseHandler:(CR_CdbBidResponseHandler)responseHandler {
   [self fetchLiveBidForAdUnit:adUnit
            bidResponseHandler:responseHandler
                    timeBudget:config.liveBiddingTimeBudget];
 }
 
 - (void)fetchLiveBidForAdUnit:(CR_CacheAdUnit *)adUnit
-           bidResponseHandler:(CR_BidResponseHandler)responseHandler
+           bidResponseHandler:(CR_CdbBidResponseHandler)responseHandler
                    timeBudget:(NSTimeInterval)timeBudget {
   [self.threadManager dispatchAsyncOnGlobalQueueWithTimeout:timeBudget
       operationHandler:^void(void (^completionHandler)(dispatchWithTimeoutHandler)) {

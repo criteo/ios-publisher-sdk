@@ -250,7 +250,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 }
 
 - (void)testGetBid_GivenLiveBiddingIsEnabled_ThenFetchLiveBid {
-  CR_BidResponseHandler responseHandler = ^(CR_CdbBid *bid) {
+  CR_CdbBidResponseHandler responseHandler = ^(CR_CdbBid *bid) {
   };
   self.bidManager = OCMPartialMock(self.bidManager);
   self.dependencyProvider.config.liveBiddingEnabled = YES;
@@ -263,7 +263,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 }
 
 - (void)testGetBid_GivenLiveBiddingIsDisabled_ThenGetBidThenFetch {
-  CR_BidResponseHandler responseHandler = ^(CR_CdbBid *bid) {
+  CR_CdbBidResponseHandler responseHandler = ^(CR_CdbBid *bid) {
   };
   self.bidManager = OCMPartialMock(self.bidManager);
   self.dependencyProvider.config.liveBiddingEnabled = NO;
