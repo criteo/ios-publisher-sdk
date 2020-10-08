@@ -305,15 +305,6 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
   }
 }
 
-- (CRBid *)bidForAdUnit:(CRAdUnit *)adUnit {
-  CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
-  CR_CdbBid *bid = [self getBidThenFetch:cacheAdUnit];
-  if (!bid || [bid isEmpty]) {
-    return nil;
-  }
-  return [[CRBid alloc] initWithCdbBid:bid adUnit:adUnit];
-}
-
 - (void)cacheBidsFromResponse:(CR_CdbResponse *)cdbResponse {
   for (CR_CdbBid *bid in cdbResponse.cdbBids) {
     [cacheManager setBid:bid];
