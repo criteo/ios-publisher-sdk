@@ -87,13 +87,6 @@
   [self.bidManager enrichAdObject:object withBid:bid];
 }
 
-#pragma mark In-House
-
-- (CRBid *)getBidForAdUnit:(CRAdUnit *)adUnit {
-  [self.integrationRegistry declare:CR_IntegrationInHouse];
-  return [self.bidManager bidForAdUnit:adUnit];
-}
-
 #pragma mark - Private
 #pragma mark Lifecycle
 
