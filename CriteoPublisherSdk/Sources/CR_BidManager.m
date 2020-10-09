@@ -91,10 +91,10 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
   return self;
 }
 
-- (void)getBidForAdUnit:(CR_CacheAdUnit *)adUnit
-     bidResponseHandler:(CR_CdbBidResponseHandler)responseHandler {
+- (void)loadCdbBidForAdUnit:(CR_CacheAdUnit *)adUnit
+            responseHandler:(CR_CdbBidResponseHandler)responseHandler {
   if (config.liveBiddingEnabled) {
-    [self fetchLiveBidForAdUnit:adUnit bidResponseHandler:responseHandler];
+    [self fetchLiveBidForAdUnit:adUnit responseHandler:responseHandler];
   } else {
     responseHandler([self getBidThenFetch:adUnit]);
   }
@@ -161,7 +161,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 }
 
 - (void)fetchLiveBidForAdUnit:(CR_CacheAdUnit *)adUnit
-           bidResponseHandler:(CR_CdbBidResponseHandler)responseHandler {
+              responseHandler:(CR_CdbBidResponseHandler)responseHandler {
   [self fetchLiveBidForAdUnit:adUnit
            bidResponseHandler:responseHandler
                    timeBudget:config.liveBiddingTimeBudget];

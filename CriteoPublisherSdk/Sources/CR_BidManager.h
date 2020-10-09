@@ -78,8 +78,8 @@
  * @param responseHandler The block called once bid has been loaded
  * Note: responseHandler is potentially not invoked on main queue
  */
-- (void)getBidForAdUnit:(CR_CacheAdUnit *)adUnit
-     bidResponseHandler:(CR_CdbBidResponseHandler)responseHandler;
+- (void)loadCdbBidForAdUnit:(CR_CacheAdUnit *)adUnit
+            responseHandler:(CR_CdbBidResponseHandler)responseHandler;
 
 @end
 
@@ -92,7 +92,7 @@
 @interface CR_BidManager (LiveBidding)
 
 - (void)fetchLiveBidForAdUnit:(CR_CacheAdUnit *)adUnit
-           bidResponseHandler:(CR_CdbBidResponseHandler)responseHandler;
+              responseHandler:(CR_CdbBidResponseHandler)responseHandler;
 
 @end
 

@@ -234,11 +234,10 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   self.bidManager = OCMPartialMock(self.bidManager);
   self.dependencyProvider.config.liveBiddingEnabled = YES;
 
-  OCMExpect([self.bidManager fetchLiveBidForAdUnit:self.adUnit1
-                                bidResponseHandler:responseHandler]);
+  OCMExpect([self.bidManager fetchLiveBidForAdUnit:self.adUnit1 responseHandler:responseHandler]);
   OCMReject([self.bidManager getBidThenFetch:self.adUnit1]);
 
-  [self.bidManager getBidForAdUnit:self.adUnit1 bidResponseHandler:responseHandler];
+  [self.bidManager loadCdbBidForAdUnit:self.adUnit1 responseHandler:responseHandler];
 }
 
 - (void)testGetBid_GivenLiveBiddingIsDisabled_ThenGetBidThenFetch {
@@ -248,10 +247,9 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   self.dependencyProvider.config.liveBiddingEnabled = NO;
 
   OCMExpect([self.bidManager getBidThenFetch:self.adUnit1]);
-  OCMReject([self.bidManager fetchLiveBidForAdUnit:self.adUnit1
-                                bidResponseHandler:responseHandler]);
+  OCMReject([self.bidManager fetchLiveBidForAdUnit:self.adUnit1 responseHandler:responseHandler]);
 
-  [self.bidManager getBidForAdUnit:self.adUnit1 bidResponseHandler:responseHandler];
+  [self.bidManager loadCdbBidForAdUnit:self.adUnit1 responseHandler:responseHandler];
 }
 
 #pragma mark - Live Bidding
@@ -262,9 +260,9 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
   // Bid Manager returns bid from cdb call
   [self.bidManager fetchLiveBidForAdUnit:self.adUnit1
-                      bidResponseHandler:^(CR_CdbBid *bid) {
-                        XCTAssertEqualObjects(bid, liveBid);
-                      }];
+                         responseHandler:^(CR_CdbBid *bid) {
+                           XCTAssertEqualObjects(bid, liveBid);
+                         }];
   CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
 
   // Bid from cdb call has not been cached
@@ -278,9 +276,9 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
   // Bid Manager returns bid from cache
   [self.bidManager fetchLiveBidForAdUnit:self.adUnit1
-                      bidResponseHandler:^(CR_CdbBid *bid) {
-                        XCTAssertEqualObjects(bid, self.bid1);
-                      }];
+                         responseHandler:^(CR_CdbBid *bid) {
+                           XCTAssertEqualObjects(bid, self.bid1);
+                         }];
   CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
 
   // Bid from cdb call has been cached
@@ -294,19 +292,19 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
   CR_OCMockRejectCallCdb(self.apiHandlerMock, [OCMArg any]);
   [self.bidManager fetchLiveBidForAdUnit:self.adUnit1
-                      bidResponseHandler:^(CR_CdbBid *bid) {
-                        XCTAssertNil(bid);
-                      }];
+                         responseHandler:^(CR_CdbBid *bid) {
+                           XCTAssertNil(bid);
+                         }];
 }
 
-- (void)testLiveBid_GivenSilentBidResponse_ThenNoResponseGiven {
+- (void)testLiveBid_GivenSilentBid_ThenNoResponseGiven {
   CR_CdbBid *silentBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).silenced().build;
   [self givenApiHandlerRespondBid:silentBid];
 
   [self.bidManager fetchLiveBidForAdUnit:self.adUnit1
-                      bidResponseHandler:^(CR_CdbBid *bid) {
-                        XCTAssertNil(bid);
-                      }];
+                         responseHandler:^(CR_CdbBid *bid) {
+                           XCTAssertNil(bid);
+                         }];
   CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
 
   // Silent bid from cdb call has been cached
@@ -314,7 +312,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   XCTAssertEqual(self.cacheManager.bidCache[self.adUnit1], silentBid);
 }
 
-- (void)testLiveBid_GivenInvalidBidResponse_ThenNoResponseGiven {
+- (void)testLiveBid_GivenInvalidBid_ThenNoResponseGiven {
   CR_CdbBid *invalidBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).displayUrl(nil).build;
   [self givenApiHandlerRespondBid:invalidBid];
 
@@ -322,16 +320,16 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   OCMReject([self.cacheManager setBid:[OCMArg any]]);
 
   [self.bidManager fetchLiveBidForAdUnit:self.adUnit1
-                      bidResponseHandler:^(CR_CdbBid *bid) {
-                        XCTAssertNil(bid);
-                      }];
+                         responseHandler:^(CR_CdbBid *bid) {
+                           XCTAssertNil(bid);
+                         }];
   CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
 
   // Invalid bid from cdb call has not been cached
   XCTAssertNotEqual(self.cacheManager.bidCache[self.adUnit1], invalidBid);
 }
 
-- (void)testLiveBid_GivenExpiredBidResponse_ThenNoResponseGiven {
+- (void)testLiveBid_GivenExpiredBid_ThenNoResponseGiven {
   CR_CdbBid *expiredBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).expired().build;
   [self givenApiHandlerRespondBid:expiredBid];
 
@@ -339,16 +337,16 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   OCMReject([self.cacheManager setBid:[OCMArg any]]);
 
   [self.bidManager fetchLiveBidForAdUnit:self.adUnit1
-                      bidResponseHandler:^(CR_CdbBid *bid) {
-                        XCTAssertNil(bid);
-                      }];
+                         responseHandler:^(CR_CdbBid *bid) {
+                           XCTAssertNil(bid);
+                         }];
   CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
 
   // Expired bid from cdb call has not been cached
   XCTAssertNotEqual(self.cacheManager.bidCache[self.adUnit1], expiredBid);
 }
 
-- (void)testLiveBid_GivenNoBidResponse_ThenNoResponseGiven {
+- (void)testLiveBid_GivenNoBid_ThenNoResponseGiven {
   CR_CdbBid *noBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).noBid().build;
   [self givenApiHandlerRespondBid:noBid];
 
@@ -356,9 +354,9 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   OCMReject([self.cacheManager setBid:[OCMArg any]]);
 
   [self.bidManager fetchLiveBidForAdUnit:self.adUnit1
-                      bidResponseHandler:^(CR_CdbBid *bid) {
-                        XCTAssertNil(bid);
-                      }];
+                         responseHandler:^(CR_CdbBid *bid) {
+                           XCTAssertNil(bid);
+                         }];
   CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
 
   // No bid from cdb call has not been cached

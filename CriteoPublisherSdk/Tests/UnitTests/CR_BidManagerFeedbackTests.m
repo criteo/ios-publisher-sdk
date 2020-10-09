@@ -518,8 +518,8 @@
 
 - (void)fetchLiveBidForAdUnit:(CR_CacheAdUnit *)adUnit {
   [self.bidManager fetchLiveBidForAdUnit:adUnit
-                      bidResponseHandler:^(CR_CdbBid *bid){
-                      }];
+                         responseHandler:^(CR_CdbBid *bid){
+                         }];
 }
 
 // TODO: improve tests relying on this so that we don't need to call prefetchBid.
