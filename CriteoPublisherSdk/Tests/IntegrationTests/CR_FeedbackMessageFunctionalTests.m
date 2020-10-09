@@ -59,7 +59,8 @@
           .withListenedNetworkManager
           // We don't want to isolate the tests from the disk
           //.withIsolatedFeedbackStorage
-          .withIsolatedNotificationCenter.withIsolatedIntegrationRegistry;
+          .withIsolatedNotificationCenter.withIsolatedIntegrationRegistry
+          .withShortLiveBidTimeBudget;
 
   [self givenLiveBiddingEnabled:NO];  // Default legacy case
   self.criteo = [[Criteo alloc] initWithDependencyProvider:self.dependencyProvider];

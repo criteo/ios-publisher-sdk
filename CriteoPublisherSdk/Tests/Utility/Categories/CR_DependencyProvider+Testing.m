@@ -31,7 +31,7 @@
 + (instancetype)testing_dependencyProvider {
   return CR_DependencyProvider.new.withIsolatedUserDefaults.withIsolatedDeviceInfo
       .withWireMockConfiguration.withListenedNetworkManager.withIsolatedNotificationCenter
-      .withIsolatedFeedbackStorage.withIsolatedIntegrationRegistry;
+      .withIsolatedFeedbackStorage.withIsolatedIntegrationRegistry.withShortLiveBidTimeBudget;
 }
 
 - (CR_DependencyProvider *)withListenedNetworkManagerWithDelay:(NSTimeInterval)delay {
