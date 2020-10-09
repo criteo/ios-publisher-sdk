@@ -96,4 +96,12 @@
   return self;
 }
 
+// The time budget is taken in consideration in ThreadManager idle state, for the timeOut blocks,
+// even if they aren't doing anything, and we cannot cancel them.
+// So reducing the budget can make tests faster
+- (CR_DependencyProvider *)withShortLiveBidTimeBudget {
+  self.config.liveBiddingTimeBudget = 0.3f;
+  return self;
+}
+
 @end
