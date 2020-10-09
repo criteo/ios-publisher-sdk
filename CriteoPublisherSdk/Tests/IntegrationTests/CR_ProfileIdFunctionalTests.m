@@ -95,6 +95,7 @@
   [self prepareCriteoAndGetBid];
 
   [self resetCriteo];
+  [self.dependencyProvider.integrationRegistry declare:CR_IntegrationInHouse];
   [self prepareCriteoForGettingBid];
 
   NSDictionary *request = [self configRequest];
@@ -176,25 +177,37 @@
 
 #pragma mark - InHouse
 
-- (void)prepareInHouseTest:(CRAdUnit *)adUnit {
-  [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
-  [self enrichAdObject:NSMutableDictionary.new forAdUnit:adUnit];
+- (void)testInHouseBanner_GivenAnyPreviousIntegration_UseInHouseProfileId {
+  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
+  CRBid *bid = [self prepareCriteoAndGetBidWithAdUnit:adUnit];
 
-  [self resetCriteo];
-  [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
-  [self.criteo.testing_networkCaptor clear];
+  CRBannerView *bannerView = [[CRBannerView alloc] initWithAdUnit:adUnit criteo:self.criteo];
+  [bannerView loadAdWithBid:bid];  // declares integration
+
+  // Get another bid to request with declared integration
+  [self expectIntegrationType:CR_IntegrationInHouse whenGettingBidForAdUnit:adUnit];
 }
 
-- (void)testInHouse_GivenAnyPreviousIntegration_UseInHouseProfileId {
-  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
+- (void)testInHouseInterstitial_GivenAnyPreviousIntegration_UseInHouseProfileId {
+  CRInterstitialAdUnit *adUnit = [CR_TestAdUnits preprodInterstitial];
+  CRBid *bid = [self prepareCriteoAndGetBidWithAdUnit:adUnit];
 
-  [self prepareInHouseTest:adUnit];
+  CRInterstitial *interstitial = [[CRInterstitial alloc] initWithAdUnit:adUnit criteo:self.criteo];
+  [interstitial loadAdWithBid:bid];  // declares integration
 
-  [self.criteo getBidForAdUnit:adUnit];
-  [self waitForIdleState];
+  // Get another bid to request with declared integration
+  [self expectIntegrationType:CR_IntegrationInHouse whenGettingBidForAdUnit:adUnit];
+}
 
-  NSDictionary *request = [self cdbRequest];
-  XCTAssertEqualObjects(request[@"profileId"], @(CR_IntegrationInHouse));
+- (void)testInHouseNative_GivenAnyPreviousIntegration_UseInHouseProfileId {
+  CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
+  CRBid *bid = [self prepareCriteoAndGetBidWithAdUnit:adUnit];
+
+  CRNativeLoader *nativeLoader = [[CRNativeLoader alloc] initWithAdUnit:adUnit criteo:self.criteo];
+  [nativeLoader loadAdWithBid:bid];  // declares integration
+
+  // Get another bid to request with declared integration
+  [self expectIntegrationType:CR_IntegrationInHouse whenGettingBidForAdUnit:adUnit];
 }
 
 #pragma mark - AppBidding
@@ -207,10 +220,7 @@
 
   // Get another bid to request with declared integration
   [self.criteo.testing_networkCaptor clear];
-  [self enrichAdObject:adObject forAdUnit:adUnit];
-
-  NSDictionary *request = [self cdbRequest];
-  XCTAssertEqualObjects(request[@"profileId"], @(expectedType));
+  [self expectIntegrationType:expectedType whenGettingBidForAdUnit:adUnit];
 }
 
 - (void)testCustomAppBidding_GivenAnyPreviousIntegration_UseCustomAppBiddingProfileId {
@@ -274,9 +284,9 @@
   return adUnit;
 }
 
-- (void)prepareCriteoAndGetBidWithAdUnit:(CRAdUnit *)adUnit {
+- (CRBid *)prepareCriteoAndGetBidWithAdUnit:(CRAdUnit *)adUnit {
   [self prepareCriteoForGettingBidWithAdUnits:@[ adUnit ]];
-  [self getBidWithAdUnit:adUnit];
+  return [self getBidWithAdUnit:adUnit];
 }
 
 - (CRBannerAdUnit *)prepareCriteoAndGetBid {
@@ -334,6 +344,15 @@
                   [self.criteo enrichAdObject:adObject withBid:bid];
                 }];
   [self waitForIdleState];
+}
+
+- (void)expectIntegrationType:(CR_IntegrationType)expectedType
+      whenGettingBidForAdUnit:(CRAdUnit *)adUnit {
+  [self.criteo.testing_networkCaptor clear];
+  [self getBidWithAdUnit:adUnit];
+
+  NSDictionary *request = [self cdbRequest];
+  XCTAssertEqualObjects(request[@"profileId"], @(expectedType));
 }
 
 @end
