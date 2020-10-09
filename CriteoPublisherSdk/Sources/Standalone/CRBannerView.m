@@ -128,14 +128,14 @@
                                                                     size:self.frame.size
                                                               adUnitType:CRAdUnitTypeBanner];
 
-  [self.criteo getBid:cacheAdUnit
-      responseHandler:^(CR_CdbBid *bid) {
-        if (!bid || bid.isEmpty) {
-          [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
-        } else {
-          [self loadAdWithDisplayData:bid.displayUrl];
-        }
-      }];
+  [self.criteo loadCdbBidForAdUnit:cacheAdUnit
+                   responseHandler:^(CR_CdbBid *bid) {
+                     if (!bid || bid.isEmpty) {
+                       [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
+                     } else {
+                       [self loadAdWithDisplayData:bid.displayUrl];
+                     }
+                   }];
 }
 
 - (void)loadAdWithBid:(CRBid *)bid {

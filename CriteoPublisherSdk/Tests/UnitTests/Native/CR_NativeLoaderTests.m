@@ -255,7 +255,7 @@
 
 - (void)mockCriteoWithAdUnit:(CRNativeAdUnit *)adUnit respondBid:(CR_CdbBid *)bid {
   CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
-  OCMStub([self.criteo getBid:cacheAdUnit responseHandler:[OCMArg any]])
+  OCMStub([self.criteo loadCdbBidForAdUnit:cacheAdUnit responseHandler:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         CR_CdbBidResponseHandler handler;
         [invocation getArgument:&handler atIndex:3];
@@ -334,7 +334,8 @@
                     delegate:delegateMock
                       verify:^(CRNativeLoader *loader, id<CRNativeLoaderDelegate> delegateMock,
                                Criteo *criteoMock) {
-                        OCMReject([criteoMock getBid:[OCMArg any] responseHandler:[OCMArg any]]);
+                        OCMReject([criteoMock loadCdbBidForAdUnit:[OCMArg any]
+                                                  responseHandler:[OCMArg any]]);
                       }];
 
   OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);

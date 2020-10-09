@@ -368,14 +368,14 @@
   [self.criteo.testing_networkCaptor clear];
 
   CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
-  [self.criteo getBid:cacheAdUnit
-      responseHandler:^(CR_CdbBid *bid) {
-        // In live bidding mode, as metrics are sent in // with bid request, there is an offset,
-        // so let's flush the remaining metrics
-        if (self.config.isLiveBiddingEnabled) {
-          [self.dependencyProvider.feedbackDelegate sendFeedbackBatch];
-        }
-      }];
+  [self.criteo loadCdbBidForAdUnit:cacheAdUnit
+                   responseHandler:^(CR_CdbBid *bid) {
+                     // In live bidding mode, as metrics are sent in // with bid request, there is
+                     // an offset, so let's flush the remaining metrics
+                     if (self.config.isLiveBiddingEnabled) {
+                       [self.dependencyProvider.feedbackDelegate sendFeedbackBatch];
+                     }
+                   }];
   CR_NetworkWaiterBuilder *builder =
       [[CR_NetworkWaiterBuilder alloc] initWithConfig:self.criteo.config
                                         networkCaptor:self.criteo.testing_networkCaptor];

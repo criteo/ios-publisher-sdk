@@ -47,7 +47,8 @@ typedef void (^CR_CdbBidResponseHandler)(CR_CdbBid *bid);
 @property(assign, nonatomic, getter=isRegistered) BOOL registered;
 @property(strong, nonatomic, readonly) CR_ThreadManager *threadManager;
 
-- (void)getBid:(CR_CacheAdUnit *)slot responseHandler:(CR_CdbBidResponseHandler)responseHandler;
+- (void)loadCdbBidForAdUnit:(CR_CacheAdUnit *)slot
+            responseHandler:(CR_CdbBidResponseHandler)responseHandler;
 
 - (instancetype)initWithDependencyProvider:(CR_DependencyProvider *)dependencyProvider;
 + (instancetype)criteo;

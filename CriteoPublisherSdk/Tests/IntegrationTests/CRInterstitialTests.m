@@ -225,7 +225,8 @@
   CRInterstitial *interstitial = [self interstitialWithWebView:realWebView];
   [interstitial loadAd];
 
-  OCMVerify([self.criteo getBid:[self expectedCacheAdUnit] responseHandler:OCMArg.any]);
+  OCMVerify([self.criteo loadCdbBidForAdUnit:[self expectedCacheAdUnit]
+                             responseHandler:OCMArg.any]);
 
   [self cr_waitForExpectations:@[ marginExpectation, paddingExpectation, viewportExpectation ]];
 }
@@ -244,7 +245,8 @@
   CRInterstitial *interstitial = [self interstitialWithController:interstitialVC];
   [interstitial loadAd];
 
-  OCMVerify([self.criteo getBid:[self expectedCacheAdUnit] responseHandler:[OCMArg any]]);
+  OCMVerify([self.criteo loadCdbBidForAdUnit:[self expectedCacheAdUnit]
+                             responseHandler:[OCMArg any]]);
   OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
 }
 
@@ -399,7 +401,7 @@
 }
 
 - (void)mockCriteoWithAdUnit:(CR_CacheAdUnit *)adUnit respondBid:(CR_CdbBid *)bid {
-  OCMStub([self.criteo getBid:adUnit responseHandler:[OCMArg any]])
+  OCMStub([self.criteo loadCdbBidForAdUnit:adUnit responseHandler:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         CR_CdbBidResponseHandler handler;
         [invocation getArgument:&handler atIndex:3];
