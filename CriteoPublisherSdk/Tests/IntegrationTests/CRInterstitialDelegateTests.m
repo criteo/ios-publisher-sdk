@@ -690,6 +690,7 @@
 
 - (void)testInterstitialLoadFailWhenBidIsNil {
   Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+  OCMExpect(mockCriteo.dependencyProvider);
   CRInterstitialAdUnit *adUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"Yup"];
   CRInterstitial *interstitial =
       [[CRInterstitial alloc] initWithCriteo:mockCriteo
@@ -713,6 +714,7 @@
 
 - (void)testInterstitialLoadFailWhenBidDoesntMatchAdUnitId {
   Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+  OCMExpect(mockCriteo.dependencyProvider);
   CRInterstitialAdUnit *adUnit1 = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"Yup"];
   CRInterstitialAdUnit *adUnit2 = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"Yo"];
   CRInterstitial *interstitial =
@@ -743,6 +745,7 @@
 
 - (void)testInterstitialLoadFailWhenBidDoesntMatchAdUnitType {
   Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+  OCMExpect(mockCriteo.dependencyProvider);
   CRInterstitialAdUnit *adUnit1 = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"Yo"];
   CRBannerAdUnit *adUnit2 = [[CRBannerAdUnit alloc] initWithAdUnitId:@"Yo"
                                                                 size:CGSizeMake(200, 200)];

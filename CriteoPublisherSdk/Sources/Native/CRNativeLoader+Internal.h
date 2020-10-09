@@ -34,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit
                         criteo:(Criteo *)criteo
                      urlOpener:(id<CR_URLOpening>)urlOpener NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit criteo:(Criteo *)criteo;
 
 - (void)handleImpressionOnNativeAd:(CRNativeAd *)nativeAd;
 - (void)handleClickOnNativeAd:(CRNativeAd *)nativeAd;

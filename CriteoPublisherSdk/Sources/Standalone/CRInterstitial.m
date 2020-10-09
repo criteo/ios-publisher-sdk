@@ -151,6 +151,8 @@
 }
 
 - (void)loadAdWithBid:(CRBid *)bid {
+  [self.integrationRegistry declare:CR_IntegrationInHouse];
+
   if (![self checkSafeToLoad]) {
     return;
   }
