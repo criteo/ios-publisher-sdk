@@ -263,7 +263,7 @@
 }
 
 - (void)mockCriteoWithAdUnit:(CR_CacheAdUnit *)adUnit respondBid:(CR_CdbBid *)bid {
-  OCMStub([self.criteo getBid:adUnit responseHandler:[OCMArg any]])
+  OCMStub([self.criteo loadCdbBidForAdUnit:adUnit responseHandler:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         CR_CdbBidResponseHandler handler;
         [invocation getArgument:&handler atIndex:3];

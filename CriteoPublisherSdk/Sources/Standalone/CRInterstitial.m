@@ -106,15 +106,15 @@
   CR_CacheAdUnit *cacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:self.adUnit.adUnitId
                                                                     size:self.deviceInfo.screenSize
                                                               adUnitType:CRAdUnitTypeInterstitial];
-  [self.criteo getBid:cacheAdUnit
-      responseHandler:^(CR_CdbBid *bid) {
-        if (!bid || bid.isEmpty) {
-          self.isAdLoading = NO;
-          [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
-        } else {
-          [self loadAdWithDisplayData:bid.displayUrl];
-        }
-      }];
+  [self.criteo loadCdbBidForAdUnit:cacheAdUnit
+                   responseHandler:^(CR_CdbBid *bid) {
+                     if (!bid || bid.isEmpty) {
+                       self.isAdLoading = NO;
+                       [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
+                     } else {
+                       [self loadAdWithDisplayData:bid.displayUrl];
+                     }
+                   }];
 }
 
 - (void)safelyLoadWebViewWithDisplayURL:(NSString *)displayURL {

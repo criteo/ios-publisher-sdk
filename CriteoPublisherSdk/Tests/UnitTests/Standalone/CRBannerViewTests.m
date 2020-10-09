@@ -95,7 +95,8 @@
 
   [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
   OCMVerifyAll(mockWebView);
-  OCMVerify([self.criteo getBid:[self expectedCacheAdUnit] responseHandler:[OCMArg any]]);
+  OCMVerify([self.criteo loadCdbBidForAdUnit:[self expectedCacheAdUnit]
+                             responseHandler:[OCMArg any]]);
   OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
 }
 
@@ -162,7 +163,8 @@
   CRBannerView *bannerView = [self bannerViewWithWebView:realWebView];
   [bannerView loadAd];
 
-  OCMVerify([self.criteo getBid:[self expectedCacheAdUnit] responseHandler:[OCMArg any]]);
+  OCMVerify([self.criteo loadCdbBidForAdUnit:[self expectedCacheAdUnit]
+                             responseHandler:[OCMArg any]]);
   OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
 }
 
@@ -378,7 +380,7 @@
 }
 
 - (void)mockCriteoWithAdUnit:(CR_CacheAdUnit *)adUnit respondBid:(CR_CdbBid *)bid {
-  OCMStub([self.criteo getBid:adUnit responseHandler:[OCMArg any]])
+  OCMStub([self.criteo loadCdbBidForAdUnit:adUnit responseHandler:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         CR_CdbBidResponseHandler handler;
         [invocation getArgument:&handler atIndex:3];
