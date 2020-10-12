@@ -68,7 +68,6 @@ static NSString *creativeUrl2 = @"www.apple.com";
   [self cr_waitForExpectations:@[ viewChecker.adCreativeRenderedExpectation ]];
 }
 
-/* TODO: These can't work with live bidding as injectBidWithExpectedCreativeUrl manipulates cache
 - (void)test_givenTwoAdRenderings_whenReuseSameBannerView_thenTwoAdsPresented {
   CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
   [self initCriteoWithAdUnits:@[ banner ]];
@@ -103,5 +102,5 @@ static NSString *creativeUrl2 = @"www.apple.com";
   [viewChecker.bannerView loadAd];
   [self cr_waitForExpectations:@[ viewChecker.adCreativeRenderedExpectation ]];
 }
-*/
+
 @end

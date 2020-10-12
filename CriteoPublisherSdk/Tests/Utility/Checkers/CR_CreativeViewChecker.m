@@ -17,23 +17,23 @@
 // limitations under the License.
 //
 
-#import "CR_CreativeViewChecker.h"
-#import "Criteo.h"
-#import "Criteo+Internal.h"
-#import "CRBannerView+Internal.h"
-#import "UIView+Testing.h"
-#import "CR_Timer.h"
 #import <XCTest/XCTest.h>
 #import <WebKit/WebKit.h>
-#import "CR_ViewCheckingHelper.h"
-#import "CR_CacheAdUnit.h"
+#import <OCMock.h>
+
+#import "CR_CreativeViewChecker.h"
 #import "CR_AdUnitHelper.h"
-#import "CR_CdbBidBuilder.h"
-#import "Criteo+Testing.h"
+#import "CR_ApiHandler.h"
+#import "CR_CacheManager.h"
 #import "CR_DependencyProvider.h"
 #import "CR_URLOpenerMock.h"
+#import "CR_ViewCheckingHelper.h"
+#import "Criteo+Internal.h"
+#import "CRBannerView+Internal.h"
 #import "WkWebView+Testing.h"
-#import "CR_CacheManager.h"
+#import "UIView+Testing.h"
+#import "CR_CdbBidBuilder.h"
+#import "OCPartialMockObject.h"
 
 @implementation CR_CreativeViewChecker
 
@@ -51,10 +51,27 @@
 
 - (void)injectBidWithExpectedCreativeUrl:(NSString *)creativeUrl {
   self.expectedCreativeUrl = creativeUrl;
+  CR_DependencyProvider *dependencyProvider = self.criteo.dependencyProvider;
+
+  // Inject bid in cache for cache bidding strategy
   CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:self.adUnit];
   CR_CdbBid *bid =
       CR_CdbBidBuilder.new.adUnit(cacheAdUnit).cpm(@"15.00").displayUrl(creativeUrl).build;
-  self.criteo.dependencyProvider.cacheManager.bidCache[cacheAdUnit] = bid;
+  dependencyProvider.cacheManager.bidCache[cacheAdUnit] = bid;
+
+  // Inject bid in apiHandler response for live bidding strategy
+  CR_ApiHandler *apiHandler = dependencyProvider.apiHandler;
+  if (apiHandler.isProxy) {
+    // Reset the mock if this is not the first time this is called
+    OCPartialMockObject *mock = (id)apiHandler;
+    apiHandler = (CR_ApiHandler *)mock.realObject;
+    [mock stopMocking];
+  }
+  apiHandler = OCMPartialMock(apiHandler);
+  CR_CdbResponse *response = OCMClassMock([CR_CdbResponse class]);
+  OCMStub(response.cdbBids).andReturn(@[ bid ]);
+  OCMStub([apiHandler cdbResponseWithData:[OCMArg any]]).andReturn(response);
+  dependencyProvider.apiHandler = apiHandler;
 }
 
 - (void)dealloc {
