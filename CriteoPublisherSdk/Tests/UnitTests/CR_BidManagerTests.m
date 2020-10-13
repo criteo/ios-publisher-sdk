@@ -270,36 +270,93 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
 #pragma mark Live Bidding
 
+- (void)expectBidConsumed:(CR_CdbBid *)bid {
+  if (bid) {
+    OCMExpect([self.feedbackDelegateMock onBidConsumed:bid]);
+  } else {
+    OCMReject([self.feedbackDelegateMock onBidConsumed:[OCMArg any]]);
+  }
+}
+
+- (void)expectBidCached:(CR_CdbBid *)bid {
+  if (bid) {
+    OCMExpect([self.cacheManager setBid:bid]);
+    OCMExpect([self.feedbackDelegateMock onBidCached:bid]);
+  } else {
+    OCMReject([self.cacheManager setBid:[OCMArg any]]);
+    OCMReject([self.feedbackDelegateMock onBidCached:[OCMArg any]]);
+  }
+}
+
+- (void)fetchLiveBidForAdUnit:(CR_CacheAdUnit *)adUnit andExpectBid:(CR_CdbBid *)expectedBid {
+  [self.bidManager fetchLiveBidForAdUnit:adUnit
+                         responseHandler:^(CR_CdbBid *bid) {
+                           if (expectedBid) {
+                             XCTAssertEqualObjects(bid, expectedBid);
+                           } else {
+                             XCTAssertNil(bid);
+                           }
+                         }];
+  CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ adUnit ]);
+}
+
 - (void)testLiveBid_GivenResponseBeforeTimeBudget_ThenBidFromResponseGiven {
-  CR_CdbBid *liveBid = [self givenApiHandlerRespondValidBid];
+  CR_CdbBid *liveBid = [self givenApiHandlerRespondValidImmediateBid];
+  [self givenApiHandlerRespondBid:liveBid];
   self.synchronousThreadManager.isTimeout = NO;
 
-  // Bid Manager returns bid from cdb call
-  [self.bidManager fetchLiveBidForAdUnit:self.adUnit1
-                         responseHandler:^(CR_CdbBid *bid) {
-                           XCTAssertEqualObjects(bid, liveBid);
-                         }];
-  CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
+  [self expectBidConsumed:liveBid];
+  [self expectBidCached:nil];
 
-  // Bid from cdb call has not been cached
-  OCMReject([self.cacheManager setBid:[OCMArg any]]);
+  [self fetchLiveBidForAdUnit:self.adUnit1 andExpectBid:liveBid];
+
   XCTAssertNotEqual(self.cacheManager.bidCache[self.adUnit1], liveBid);
+
+  OCMVerifyAll(self.cacheManager);
+  OCMVerifyAll(self.feedbackDelegateMock);
 }
 
 - (void)testLiveBid_GivenResponseAfterTimeBudget_ThenBidFromCacheGiven {
+  CR_CdbBid *liveBid = [self givenApiHandlerRespondValidImmediateBid];
+  [self givenTimeBudgetExceeded];
+
+  [self expectBidCached:liveBid];
+  [self expectBidConsumed:self.bid1];
+
+  [self fetchLiveBidForAdUnit:self.adUnit1 andExpectBid:self.bid1];
+
+  OCMVerifyAll(self.cacheManager);
+  OCMVerifyAll(self.feedbackDelegateMock);
+}
+
+- (void)testLiveBid_GivenResponseAfterTimeBudgetAndNoBidInCache_ThenNoBidGiven {
   CR_CdbBid *liveBid = [self givenApiHandlerRespondValidBid];
-  self.synchronousThreadManager.isTimeout = YES;
+  [self givenTimeBudgetExceeded];
 
-  // Bid Manager returns bid from cache
-  [self.bidManager fetchLiveBidForAdUnit:self.adUnit1
-                         responseHandler:^(CR_CdbBid *bid) {
-                           XCTAssertEqualObjects(bid, self.bid1);
-                         }];
-  CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
+  [self expectBidCached:liveBid];
+  [self expectBidConsumed:nil];
 
-  // Bid from cdb call has been cached
-  OCMVerify([self.cacheManager setBid:liveBid]);
-  XCTAssertEqual(self.cacheManager.bidCache[self.adUnit1], liveBid);
+  [self fetchLiveBidForAdUnit:self.adUnitForEmptyBid andExpectBid:nil];
+
+  OCMVerifyAll(self.cacheManager);
+  OCMVerifyAll(self.feedbackDelegateMock);
+}
+
+- (void)testLiveBid_GivenResponseAfterTimeBudgetAndExpiredBidInCache_ThenNoBidGiven {
+  self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).expired().build;
+  self.cacheManager.bidCache[self.adUnit1] = self.bid1;
+
+  CR_CdbBid *liveBid = [self givenApiHandlerRespondValidBid];
+  [self givenApiHandlerRespondBid:liveBid];
+  [self givenTimeBudgetExceeded];
+
+  [self expectBidCached:liveBid];
+  [self expectBidConsumed:self.bid1];
+
+  [self fetchLiveBidForAdUnit:self.adUnit1 andExpectBid:nil];
+
+  OCMVerifyAll(self.cacheManager);
+  OCMVerifyAll(self.feedbackDelegateMock);
 }
 
 - (void)testLiveBid_GivenSilentMode_ThenCdbNotCalled_AndNoResponseGiven {
@@ -366,17 +423,33 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   CR_CdbBid *noBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).noBid().build;
   [self givenApiHandlerRespondBid:noBid];
 
-  // No bid from cdb call has not been cached
-  OCMReject([self.cacheManager setBid:[OCMArg any]]);
+  [self expectBidCached:nil];
+  [self expectBidConsumed:nil];
 
-  [self.bidManager fetchLiveBidForAdUnit:self.adUnit1
-                         responseHandler:^(CR_CdbBid *bid) {
-                           XCTAssertNil(bid);
-                         }];
-  CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
+  [self fetchLiveBidForAdUnit:self.adUnit1 andExpectBid:nil];
 
   // No bid from cdb call has not been cached
   XCTAssertNotEqual(self.cacheManager.bidCache[self.adUnit1], noBid);
+
+  OCMVerifyAll(self.cacheManager);
+  OCMVerifyAll(self.feedbackDelegateMock);
+}
+
+- (void)testLiveBid_GivenNoBidAfterTimeBudget_ThenNoResponseGiven {
+  CR_CdbBid *noBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).noBid().build;
+  [self givenApiHandlerRespondBid:noBid];
+  [self givenTimeBudgetExceeded];
+
+  [self expectBidCached:noBid];
+  [self expectBidConsumed:self.bid1];
+
+  [self fetchLiveBidForAdUnit:self.adUnit1 andExpectBid:self.bid1];
+
+  // No bid from cdb call has not been cached
+  XCTAssertNotEqual(self.cacheManager.bidCache[self.adUnit1], noBid);
+
+  OCMVerifyAll(self.cacheManager);
+  OCMVerifyAll(self.feedbackDelegateMock);
 }
 
 - (void)testLiveBid_GivenConcurrentCalls_ThenBidsFromResponsesGivenWithOrder {
@@ -423,13 +496,21 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
 #pragma mark - Private
 
+- (void)givenTimeBudgetExceeded {
+  self.synchronousThreadManager.isTimeout = YES;
+}
+
 - (CR_CdbBid *)givenApiHandlerRespondValidBidWithDelay:(NSTimeInterval)delay {
   CR_CdbBid *validBid = [self validCdbBidForAdUnit:self.adUnit1];
   return [self givenApiHandlerRespondBid:validBid withDelay:delay];
 }
 
 - (CR_CdbBid *)givenApiHandlerRespondValidBid {
-  return [self givenApiHandlerRespondValidBidWithDelay:0];
+  return [self givenApiHandlerRespondBid:[self validCdbBidForAdUnit:self.adUnit1] withDelay:0];
+}
+- (CR_CdbBid *)givenApiHandlerRespondValidImmediateBid {
+  return [self givenApiHandlerRespondBid:[self validImmediateCdbBidForAdUnit:self.adUnit1]
+                               withDelay:0];
 }
 
 - (CR_CdbBid *)givenApiHandlerRespondBid:(CR_CdbBid *)bid withDelay:(NSTimeInterval)delay {
@@ -469,6 +550,10 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
 - (CR_CdbBid *)validCdbBidForAdUnit:(CR_CacheAdUnit *)adUnit {
   return CR_CdbBidBuilder.new.adUnit(adUnit).build;
+}
+
+- (CR_CdbBid *)validImmediateCdbBidForAdUnit:(CR_CacheAdUnit *)adUnit {
+  return CR_CdbBidBuilder.new.adUnit(adUnit).immediate().build;
 }
 
 - (CRBid *)validBid {
