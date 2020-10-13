@@ -26,6 +26,7 @@
 #import "CR_DependencyProvider+Testing.h"
 #import "CR_CdbBidBuilder.h"
 #import "CR_DeviceInfoMock.h"
+#import "CR_FeedbackController.h"
 #import "CR_HeaderBidding.h"
 #import "CR_SynchronousThreadManager.h"
 #import "CriteoPublisherSdkTests-Swift.h"
@@ -73,6 +74,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 @property(nonatomic, strong) CR_SynchronousThreadManager *synchronousThreadManager;
 @property(nonatomic, strong) CR_DependencyProvider *dependencyProvider;
 @property(nonatomic, strong) CR_BidManager *bidManager;
+@property(nonatomic, strong) id<CR_FeedbackDelegate> feedbackDelegateMock;
 
 @end
 
@@ -88,6 +90,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   self.headerBiddingMock = OCMPartialMock(CR_HeaderBidding.new);
   self.synchronousThreadManager = [[CR_SynchronousThreadManager alloc] init];
   self.threadManager = self.synchronousThreadManager;
+  self.feedbackDelegateMock = OCMProtocolMock(@protocol(CR_FeedbackDelegate));
 
   [self setupDependencies];
 
@@ -121,6 +124,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   dependencyProvider.apiHandler = self.apiHandlerMock;
   dependencyProvider.deviceInfo = self.deviceInfoMock;
   dependencyProvider.headerBidding = self.headerBiddingMock;
+  dependencyProvider.feedbackDelegate = self.feedbackDelegateMock;
 
   self.dependencyProvider = dependencyProvider;
   self.bidManager = [dependencyProvider bidManager];
