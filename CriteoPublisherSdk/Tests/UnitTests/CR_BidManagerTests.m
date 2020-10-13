@@ -30,6 +30,7 @@
 #import "CR_SynchronousThreadManager.h"
 #import "CriteoPublisherSdkTests-Swift.h"
 #import "CRBannerAdUnit.h"
+#import "XCTestCase+Criteo.h"
 
 static NSString *const CR_BidManagerTestsCpm = @"crt_cpm";
 static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
@@ -374,6 +375,28 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   XCTAssertNotEqual(self.cacheManager.bidCache[self.adUnit1], noBid);
 }
 
+- (void)testLiveBid_GivenConcurrentCalls_ThenBidsFromResponsesGivenWithOrder {
+  // Enable asynchronous queueing
+  self.threadManager = [[CR_ThreadManager alloc] init];
+  [self setupDependencies];
+  // Increase default test time budget
+  self.dependencyProvider.config.liveBiddingTimeBudget = 3;
+
+  // Request a slow bid with 1s
+  XCTestExpectation *slowBidExpectation = [self bidExpectationWithDelay:1];
+
+  // Reset dependencies to setup a new response mock
+  self.apiHandlerMock = OCMClassMock([CR_ApiHandler class]);
+  [self setupDependencies];
+  // Increase default test time budget
+  self.dependencyProvider.config.liveBiddingTimeBudget = 3;
+
+  // Request a fast bid with 0.1s
+  XCTestExpectation *fastBidExpectation = [self bidExpectationWithDelay:.1];
+
+  [self cr_waitShortlyForExpectationsWithOrder:@[ fastBidExpectation, slowBidExpectation ]];
+}
+
 #pragma mark - Header Bidding
 
 - (void)testAddCriteoBidToNonBiddableObjectsDoesNotCrash {
@@ -423,6 +446,19 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
 - (CR_CdbBid *)givenApiHandlerRespondBid:(CR_CdbBid *)bid {
   return [self givenApiHandlerRespondBid:bid withDelay:0];
+}
+
+- (XCTestExpectation *)bidExpectationWithDelay:(NSTimeInterval)delay {
+  NSString *description = [NSString stringWithFormat:@"Bid expected after %2fs", delay];
+  XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:description];
+  CR_CdbBid *expectedBid = [self givenApiHandlerRespondValidBidWithDelay:delay];
+  [self.bidManager fetchLiveBidForAdUnit:self.adUnit1
+                         responseHandler:^(CR_CdbBid *bid) {
+                           [expectation fulfill];
+                           XCTAssertEqualObjects(bid, expectedBid);
+                         }];
+  CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
+  return expectation;
 }
 
 - (CRBid *)validBid {
