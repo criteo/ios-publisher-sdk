@@ -32,6 +32,10 @@ NSTimeInterval XCTestCaseCriteoShortTimeout = 3.f;
   [self waitForExpectations:expectations timeout:XCTestCaseCriteoShortTimeout];
 }
 
+- (void)cr_waitShortlyForExpectationsWithOrder:(NSArray<XCTestExpectation *> *)expectations {
+  [self waitForExpectations:expectations timeout:XCTestCaseCriteoShortTimeout enforceOrder:YES];
+}
+
 - (void)cr_recordFailureWithDescription:(NSString *)description
                                  inFile:(NSString *)filePath
                                  atLine:(NSUInteger)lineNumber
