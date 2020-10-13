@@ -76,6 +76,8 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
 @implementation CR_BidManagerTests
 
+#pragma mark - Lifecycle
+
 - (void)setUp {
   self.deviceInfoMock = [[CR_DeviceInfoMock alloc] init];
   self.cacheManager = OCMPartialMock([[CR_CacheManager alloc] init]);
@@ -120,6 +122,9 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 - (void)tearDown {
   [self.dependencyProvider.feedbackStorage popMessagesToSend];
 }
+
+#pragma mark - Tests
+#pragma mark Cache Bidding
 
 - (void)testGetBidForCachedAdUnits {
   CR_CdbBid *bid1 = [self.bidManager getBidThenFetch:self.adUnit1];
@@ -252,7 +257,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   [self.bidManager loadCdbBidForAdUnit:self.adUnit1 responseHandler:responseHandler];
 }
 
-#pragma mark - Live Bidding
+#pragma mark Live Bidding
 
 - (void)testLiveBid_GivenResponseBeforeTimeBudget_ThenBidFromResponseGiven {
   CR_CdbBid *liveBid = [self givenApiHandlerRespondValidBid];
