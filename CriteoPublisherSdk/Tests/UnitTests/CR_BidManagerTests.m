@@ -68,7 +68,8 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 @property(nonatomic, strong) CR_ApiHandler *apiHandlerMock;
 @property(nonatomic, strong) CR_ConfigManager *configManagerMock;
 @property(nonatomic, strong) CR_HeaderBidding *headerBiddingMock;
-@property(nonatomic, strong) CR_SynchronousThreadManager *threadManager;
+@property(nonatomic, strong) CR_ThreadManager *threadManager;
+@property(nonatomic, strong) CR_SynchronousThreadManager *synchronousThreadManager;
 @property(nonatomic, strong) CR_DependencyProvider *dependencyProvider;
 @property(nonatomic, strong) CR_BidManager *bidManager;
 
@@ -84,18 +85,10 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   self.configManagerMock = OCMClassMock([CR_ConfigManager class]);
   self.apiHandlerMock = OCMClassMock([CR_ApiHandler class]);
   self.headerBiddingMock = OCMPartialMock(CR_HeaderBidding.new);
-  self.threadManager = [[CR_SynchronousThreadManager alloc] init];
+  self.synchronousThreadManager = [[CR_SynchronousThreadManager alloc] init];
+  self.threadManager = self.synchronousThreadManager;
 
-  CR_DependencyProvider *dependencyProvider = [CR_DependencyProvider testing_dependencyProvider];
-  dependencyProvider.threadManager = self.threadManager;
-  dependencyProvider.configManager = self.configManagerMock;
-  dependencyProvider.cacheManager = self.cacheManager;
-  dependencyProvider.apiHandler = self.apiHandlerMock;
-  dependencyProvider.deviceInfo = self.deviceInfoMock;
-  dependencyProvider.headerBidding = self.headerBiddingMock;
-
-  self.dependencyProvider = dependencyProvider;
-  self.bidManager = [dependencyProvider bidManager];
+  [self setupDependencies];
 
   self.adUnit1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adUnit1" width:300 height:250];
   self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).build;
@@ -117,6 +110,19 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   self.dfpRequest.customTargeting = @{@"key_1" : @"object 1", @"key_2" : @"object_2"};
 
   [self.dependencyProvider.feedbackStorage popMessagesToSend];
+}
+
+- (void)setupDependencies {
+  CR_DependencyProvider *dependencyProvider = [CR_DependencyProvider testing_dependencyProvider];
+  dependencyProvider.threadManager = self.threadManager;
+  dependencyProvider.configManager = self.configManagerMock;
+  dependencyProvider.cacheManager = self.cacheManager;
+  dependencyProvider.apiHandler = self.apiHandlerMock;
+  dependencyProvider.deviceInfo = self.deviceInfoMock;
+  dependencyProvider.headerBidding = self.headerBiddingMock;
+
+  self.dependencyProvider = dependencyProvider;
+  self.bidManager = [dependencyProvider bidManager];
 }
 
 - (void)tearDown {
@@ -261,7 +267,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
 - (void)testLiveBid_GivenResponseBeforeTimeBudget_ThenBidFromResponseGiven {
   CR_CdbBid *liveBid = [self givenApiHandlerRespondValidBid];
-  self.threadManager.isTimeout = NO;
+  self.synchronousThreadManager.isTimeout = NO;
 
   // Bid Manager returns bid from cdb call
   [self.bidManager fetchLiveBidForAdUnit:self.adUnit1
@@ -277,7 +283,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
 - (void)testLiveBid_GivenResponseAfterTimeBudget_ThenBidFromCacheGiven {
   CR_CdbBid *liveBid = [self givenApiHandlerRespondValidBid];
-  self.threadManager.isTimeout = YES;
+  self.synchronousThreadManager.isTimeout = YES;
 
   // Bid Manager returns bid from cache
   [self.bidManager fetchLiveBidForAdUnit:self.adUnit1
@@ -388,12 +394,16 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
 #pragma mark - Private
 
-- (CR_CdbBid *)givenApiHandlerRespondValidBid {
+- (CR_CdbBid *)givenApiHandlerRespondValidBidWithDelay:(NSTimeInterval)delay {
   CR_CdbBid *validBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).build;
-  return [self givenApiHandlerRespondBid:validBid];
+  return [self givenApiHandlerRespondBid:validBid withDelay:delay];
 }
 
-- (CR_CdbBid *)givenApiHandlerRespondBid:(CR_CdbBid *)bid {
+- (CR_CdbBid *)givenApiHandlerRespondValidBid {
+  return [self givenApiHandlerRespondValidBidWithDelay:0];
+}
+
+- (CR_CdbBid *)givenApiHandlerRespondBid:(CR_CdbBid *)bid withDelay:(NSTimeInterval)delay {
   CR_CdbResponse *cdbResponseMock = OCMClassMock(CR_CdbResponse.class);
   OCMStub([cdbResponseMock cdbBids]).andReturn(@[ bid ]);
   OCMStub([self.apiHandlerMock callCdb:[OCMArg any]
@@ -403,11 +413,16 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                          beforeCdbCall:[OCMArg any]
                      completionHandler:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
+        [NSThread sleepForTimeInterval:delay];
         CR_CdbCompletionHandler handler;
         [invocation getArgument:&handler atIndex:7];
         handler(nil, cdbResponseMock, nil);
       });
   return bid;
+}
+
+- (CR_CdbBid *)givenApiHandlerRespondBid:(CR_CdbBid *)bid {
+  return [self givenApiHandlerRespondBid:bid withDelay:0];
 }
 
 - (CRBid *)validBid {
