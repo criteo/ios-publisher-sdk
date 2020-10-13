@@ -412,17 +412,19 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 }
 
 - (void)testAddCriteoBidToRequestCallHeaderBidding {
-  [self.bidManager enrichAdObject:self.dfpRequest withBid:self.validBid];
+  CRBid *validBid = self.validBid;
+  CR_CdbBid *cdbBid = validBid.cdbBid;
+  [self.bidManager enrichAdObject:self.dfpRequest withBid:validBid];
 
   OCMVerify([self.headerBiddingMock enrichRequest:self.dfpRequest
-                                          withBid:self.bid1
+                                          withBid:cdbBid
                                            adUnit:self.adUnit1]);
 }
 
 #pragma mark - Private
 
 - (CR_CdbBid *)givenApiHandlerRespondValidBidWithDelay:(NSTimeInterval)delay {
-  CR_CdbBid *validBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).build;
+  CR_CdbBid *validBid = [self validCdbBidForAdUnit:self.adUnit1];
   return [self givenApiHandlerRespondBid:validBid withDelay:delay];
 }
 
@@ -465,10 +467,15 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   return expectation;
 }
 
+- (CR_CdbBid *)validCdbBidForAdUnit:(CR_CacheAdUnit *)adUnit {
+  return CR_CdbBidBuilder.new.adUnit(adUnit).build;
+}
+
 - (CRBid *)validBid {
   CRAdUnit *adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:self.adUnit1.adUnitId
                                                          size:self.adUnit1.size];
-  return [[CRBid alloc] initWithCdbBid:self.bid1 adUnit:adUnit];
+  CR_CdbBid *cdbBid = [self validCdbBidForAdUnit:self.adUnit1];
+  return [[CRBid alloc] initWithCdbBid:cdbBid adUnit:adUnit];
 }
 
 @end
