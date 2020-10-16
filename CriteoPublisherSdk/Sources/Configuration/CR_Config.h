@@ -42,6 +42,10 @@ FOUNDATION_EXTERN NSString *const CR_ConfigConfigurationUrl;
 
 @property(assign, nonatomic, getter=isCsmEnabled) BOOL csmEnabled;
 
+#pragma mark Prefetch
+
+@property(assign, nonatomic, getter=isPrefetchOnInitEnabled) BOOL prefetchOnInitEnabled;
+
 #pragma mark Live Bidding
 
 @property(assign, nonatomic, getter=isLiveBiddingEnabled) BOOL liveBiddingEnabled;

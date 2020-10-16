@@ -54,6 +54,11 @@
                [configValues[@"csmEnabled"] isKindOfClass:NSNumber.class]) {
              config.csmEnabled = ((NSNumber *)configValues[@"csmEnabled"]).boolValue;
            }
+           if (configValues[@"prefetchOnInitEnabled"] &&
+               [configValues[@"prefetchOnInitEnabled"] isKindOfClass:NSNumber.class]) {
+             config.prefetchOnInitEnabled =
+                 ((NSNumber *)configValues[@"prefetchOnInitEnabled"]).boolValue;
+           }
            if (configValues[@"liveBiddingEnabled"] &&
                [configValues[@"liveBiddingEnabled"] isKindOfClass:NSNumber.class]) {
              config.liveBiddingEnabled =

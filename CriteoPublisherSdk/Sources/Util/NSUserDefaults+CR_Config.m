@@ -22,6 +22,7 @@
 
 NSString *const NSUserDefaultsKillSwitchKey = @"CRITEO_KillSwitch";
 NSString *const NSUserDefaultsCsmEnabledKey = @"CRITEO_CsmEnabled";
+NSString *const NSUserDefaultsPrefetchOnInitEnabledKey = @"CRITEO_PrefetchOnInitEnabled";
 NSString *const NSUserDefaultsLiveBiddingEnabledKey = @"CRITEO_LiveBiddingEnabled";
 NSString *const NSUserDefaultsLiveBiddingTimeBudgetKey = @"CRITEO_LiveBiddingTimeBudget";
 
@@ -41,6 +42,14 @@ NSString *const NSUserDefaultsLiveBiddingTimeBudgetKey = @"CRITEO_LiveBiddingTim
 
 - (void)cr_setValueForCsmFeatureFlag:(BOOL)csmFeatureFlag {
   [self setBool:csmFeatureFlag forKey:NSUserDefaultsCsmEnabledKey];
+}
+
+- (BOOL)cr_valueForPrefetchOnInitFeatureFlag {
+  return [self boolForKey:NSUserDefaultsPrefetchOnInitEnabledKey withDefaultValue:YES];
+}
+
+- (void)cr_setValueForPrefetchOnInitFeatureFlag:(BOOL)prefetchOnInitFeatureFlag {
+  [self setBool:prefetchOnInitFeatureFlag forKey:NSUserDefaultsPrefetchOnInitEnabledKey];
 }
 
 - (BOOL)cr_valueForLiveBiddingFeatureFlag {
