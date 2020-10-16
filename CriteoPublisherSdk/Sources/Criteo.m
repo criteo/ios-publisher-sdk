@@ -116,7 +116,10 @@
   [self.appEvents sendLaunchEvent];
   [self.configManager refreshConfig:self.config];
   CR_CacheAdUnitArray *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:adUnits];
-  [self.bidManager prefetchBidsForAdUnits:cacheAdUnits];
+
+  if (self.config.isPrefetchOnInitEnabled) {
+    [self.bidManager prefetchBidsForAdUnits:cacheAdUnits];
+  }
 }
 
 #pragma mark Generic
