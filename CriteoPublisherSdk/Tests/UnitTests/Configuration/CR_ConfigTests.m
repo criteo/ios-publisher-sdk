@@ -37,6 +37,7 @@
   NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
   [userDefaults removeObjectForKey:NSUserDefaultsKillSwitchKey];
   [userDefaults removeObjectForKey:NSUserDefaultsCsmEnabledKey];
+  [userDefaults removeObjectForKey:NSUserDefaultsPrefetchOnInitEnabledKey];
   [userDefaults removeObjectForKey:NSUserDefaultsLiveBiddingEnabledKey];
   [userDefaults removeObjectForKey:NSUserDefaultsLiveBiddingTimeBudgetKey];
 

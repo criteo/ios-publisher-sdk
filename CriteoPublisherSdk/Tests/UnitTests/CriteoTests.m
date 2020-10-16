@@ -65,6 +65,7 @@
     OCMStub(dependencyProviderMock.config).andReturn(config);
     OCMExpect([config setCriteoPublisherId:@"testPublisherId"];);
     OCMExpect([config isLiveBiddingEnabled]);
+    OCMExpect([config isPrefetchOnInitEnabled]);
   }];
 }
 
@@ -76,11 +77,29 @@
   }];
 }
 
-- (void)testRegister_ShouldPrefetch {
+#pragma mark Prefetch
+
+- (void)testRegister_GivenPrefetchEnabled_ShouldPrefetch {
   [self registerWithMockedDependencyProvider:^(CR_DependencyProvider *dependencyProviderMock) {
+    CR_Config *config = OCMClassMock(CR_Config.class);
+    OCMStub(config.isPrefetchOnInitEnabled).andReturn(YES);
+    OCMStub(dependencyProviderMock.config).andReturn(config);
+
     CR_BidManager *bidManager = OCMStrictClassMock(CR_BidManager.class);
     OCMStub(dependencyProviderMock.bidManager).andReturn(bidManager);
     OCMExpect([bidManager prefetchBidsForAdUnits:OCMArg.any]);
+  }];
+}
+
+- (void)testRegister_GivenPrefetchDisabled_ShouldNotPrefetch {
+  [self registerWithMockedDependencyProvider:^(CR_DependencyProvider *dependencyProviderMock) {
+    CR_Config *config = OCMClassMock(CR_Config.class);
+    OCMStub(config.isPrefetchOnInitEnabled).andReturn(NO);
+    OCMStub(dependencyProviderMock.config).andReturn(config);
+
+    CR_BidManager *bidManager = OCMStrictClassMock(CR_BidManager.class);
+    OCMStub(dependencyProviderMock.bidManager).andReturn(bidManager);
+    OCMReject([bidManager prefetchBidsForAdUnits:OCMArg.any]);
   }];
 }
 
