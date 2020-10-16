@@ -44,7 +44,7 @@ NSString *const NSUserDefaultsLiveBiddingTimeBudgetKey = @"CRITEO_LiveBiddingTim
 }
 
 - (BOOL)cr_valueForLiveBiddingFeatureFlag {
-  return [self boolForKey:NSUserDefaultsLiveBiddingEnabledKey withDefaultValue:YES];
+  return [self boolForKey:NSUserDefaultsLiveBiddingEnabledKey withDefaultValue:NO];
 }
 
 - (void)cr_setValueForLiveBiddingFeatureFlag:(BOOL)liveBiddingFeatureFlag {

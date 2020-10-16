@@ -197,12 +197,12 @@
 
 #pragma mark - Live Bidding Enabled
 
-- (void)testInit_GivenEmptyUserDefault_LiveBiddingIsEnabledByDefault {
+- (void)testInit_GivenEmptyUserDefault_LiveBiddingIsDisabledByDefault {
   NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
 
   CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
 
-  XCTAssertTrue(config.isLiveBiddingEnabled);
+  XCTAssertFalse(config.isLiveBiddingEnabled);
 }
 
 - (void)testInit_GivenUserDefaultWithLiveBiddingEnabled_LiveBiddingIsEnabled {
@@ -223,13 +223,13 @@
   XCTAssertFalse(config.isLiveBiddingEnabled);
 }
 
-- (void)testInit_GivenUserDefaultWithGarbageInLiveBidding_LiveBiddingIsEnabledByDefault {
+- (void)testInit_GivenUserDefaultWithGarbageInLiveBidding_LiveBiddingIsDisabledByDefault {
   NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
   [userDefaults setObject:@"garbage" forKey:NSUserDefaultsLiveBiddingEnabledKey];
 
   CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
 
-  XCTAssertTrue(config.isLiveBiddingEnabled);
+  XCTAssertFalse(config.isLiveBiddingEnabled);
 }
 
 - (void)testSetLiveBiddingEnabled_GivenNoUpdate_NothingIsWrittenInUserDefaults {
@@ -237,7 +237,7 @@
 
   CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
 
-  XCTAssertTrue(config.isLiveBiddingEnabled);
+  XCTAssertFalse(config.isLiveBiddingEnabled);
   XCTAssertFalse([userDefaults cr_containsKey:NSUserDefaultsLiveBiddingEnabledKey]);
 }
 
