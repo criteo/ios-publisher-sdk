@@ -195,6 +195,78 @@
   XCTAssertFalse([userDefaults boolForKey:NSUserDefaultsCsmEnabledKey]);
 }
 
+#pragma mark - Prefetch on init Enabled
+
+- (void)testInit_GivenEmptyUserDefault_PrefetchOnInitIsEnabledByDefault {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertTrue(config.isPrefetchOnInitEnabled);
+}
+
+- (void)testInit_GivenUserDefaultWithPrefetchOnInitEnabled_PrefetchOnInitIsEnabled {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+  [userDefaults setBool:YES forKey:NSUserDefaultsPrefetchOnInitEnabledKey];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertTrue(config.isPrefetchOnInitEnabled);
+}
+
+- (void)testInit_GivenUserDefaultWithPrefetchOnInitDisabled_PrefetchOnInitIsDisabled {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+  [userDefaults setBool:NO forKey:NSUserDefaultsPrefetchOnInitEnabledKey];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertFalse(config.isPrefetchOnInitEnabled);
+}
+
+- (void)testInit_GivenUserDefaultWithGarbageInPrefetchOnInit_PrefetchOnInitIsEnabledByDefault {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+  [userDefaults setObject:@"garbage" forKey:NSUserDefaultsPrefetchOnInitEnabledKey];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertTrue(config.isPrefetchOnInitEnabled);
+}
+
+- (void)testSetPrefetchOnInitEnabled_GivenNoUpdate_NothingIsWrittenInUserDefaults {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertTrue(config.isPrefetchOnInitEnabled);
+  XCTAssertFalse([userDefaults cr_containsKey:NSUserDefaultsPrefetchOnInitEnabledKey]);
+}
+
+- (void)testSetPrefetchOnInitEnabled_GivenEnabledFeatureFlag_WriteItInUserDefaults {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+  config.prefetchOnInitEnabled = YES;
+
+  CR_Config *newConfig = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertTrue(newConfig.isPrefetchOnInitEnabled);
+  XCTAssertTrue([userDefaults cr_containsKey:NSUserDefaultsPrefetchOnInitEnabledKey]);
+  XCTAssertTrue([userDefaults boolForKey:NSUserDefaultsPrefetchOnInitEnabledKey]);
+}
+
+- (void)testSetPrefetchOnInitEnabled_GivenDisabledFeatureFlag_WriteItInUserDefaults {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+  config.prefetchOnInitEnabled = NO;
+
+  CR_Config *newConfig = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertFalse(newConfig.prefetchOnInitEnabled);
+  XCTAssertTrue([userDefaults cr_containsKey:NSUserDefaultsPrefetchOnInitEnabledKey]);
+  XCTAssertFalse([userDefaults boolForKey:NSUserDefaultsPrefetchOnInitEnabledKey]);
+}
+
 #pragma mark - Live Bidding Enabled
 
 - (void)testInit_GivenEmptyUserDefault_LiveBiddingIsEnabledByDefault {

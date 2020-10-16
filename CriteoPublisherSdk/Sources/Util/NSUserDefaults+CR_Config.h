@@ -32,6 +32,10 @@
 
 - (void)cr_setValueForCsmFeatureFlag:(BOOL)csmFeatureFlag;
 
+- (BOOL)cr_valueForPrefetchOnInitFeatureFlag;
+
+- (void)cr_setValueForPrefetchOnInitFeatureFlag:(BOOL)prefetchOnInitFeatureFlag;
+
 - (BOOL)cr_valueForLiveBiddingFeatureFlag;
 
 - (void)cr_setValueForLiveBiddingFeatureFlag:(BOOL)liveBiddingFeatureFlag;

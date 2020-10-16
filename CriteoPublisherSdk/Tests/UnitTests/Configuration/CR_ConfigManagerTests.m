@@ -115,6 +115,35 @@
   XCTAssertFalse(localConfig.isCsmEnabled);
 }
 
+#pragma mark Prefetch on init Enabled
+
+- (void)testRefreshConfig_PrefetchOnInitEnabledNotInResponse_DoNotUpdateIt {
+  [self prepareApiHandlerToRespondRemoteConfigJson:@"{}"];
+  localConfig.prefetchOnInitEnabled = NO;
+
+  [self.configManager refreshConfig:localConfig];
+
+  XCTAssertFalse(localConfig.prefetchOnInitEnabled);
+}
+
+- (void)testRefreshConfig_GivenPrefetchOnInitEnabledTrueInRequest_PrefetchOnInitIsEnabled {
+  [self prepareApiHandlerToRespondRemoteConfigJson:@"{\"prefetchOnInitEnabled\": true }"];
+  localConfig.prefetchOnInitEnabled = NO;
+
+  [self.configManager refreshConfig:localConfig];
+
+  XCTAssertTrue(localConfig.isPrefetchOnInitEnabled);
+}
+
+- (void)testRefreshConfig_GivenPrefetchOnInitEnabledFalseInRequest_PrefetchOnInitIsDisabled {
+  [self prepareApiHandlerToRespondRemoteConfigJson:@"{\"prefetchOnInitEnabled\": false }"];
+  localConfig.prefetchOnInitEnabled = YES;
+
+  [self.configManager refreshConfig:localConfig];
+
+  XCTAssertFalse(localConfig.isPrefetchOnInitEnabled);
+}
+
 #pragma mark - Live Bidding
 #pragma mark Enabled
 
