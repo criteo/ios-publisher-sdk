@@ -28,17 +28,17 @@
 
 - (void)cr_setValueForKillSwitch:(BOOL)killSwitch;
 
-- (BOOL)cr_valueForCsmFeatureFlag;
+- (BOOL)cr_valueForCsmEnabled;
 
-- (void)cr_setValueForCsmFeatureFlag:(BOOL)csmFeatureFlag;
+- (void)cr_setValueForCsmEnabled:(BOOL)csmEnabled;
 
-- (BOOL)cr_valueForPrefetchOnInitFeatureFlag;
+- (BOOL)cr_valueForPrefetchOnInitEnabled;
 
-- (void)cr_setValueForPrefetchOnInitFeatureFlag:(BOOL)prefetchOnInitFeatureFlag;
+- (void)cr_setValueForPrefetchOnInitEnabled:(BOOL)prefetchOnInitEnabled;
 
-- (BOOL)cr_valueForLiveBiddingFeatureFlag;
+- (BOOL)cr_valueForLiveBiddingEnabled;
 
-- (void)cr_setValueForLiveBiddingFeatureFlag:(BOOL)liveBiddingFeatureFlag;
+- (void)cr_setValueForLiveBiddingEnabled:(BOOL)liveBiddingEnabled;
 
 - (NSTimeInterval)cr_valueForLiveBiddingTimeBudget;
 

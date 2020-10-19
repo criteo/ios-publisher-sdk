@@ -36,28 +36,28 @@ NSString *const NSUserDefaultsLiveBiddingTimeBudgetKey = @"CRITEO_LiveBiddingTim
   [self setBool:killSwitch forKey:NSUserDefaultsKillSwitchKey];
 }
 
-- (BOOL)cr_valueForCsmFeatureFlag {
+- (BOOL)cr_valueForCsmEnabled {
   return [self boolForKey:NSUserDefaultsCsmEnabledKey withDefaultValue:YES];
 }
 
-- (void)cr_setValueForCsmFeatureFlag:(BOOL)csmFeatureFlag {
-  [self setBool:csmFeatureFlag forKey:NSUserDefaultsCsmEnabledKey];
+- (void)cr_setValueForCsmEnabled:(BOOL)csmEnabled {
+  [self setBool:csmEnabled forKey:NSUserDefaultsCsmEnabledKey];
 }
 
-- (BOOL)cr_valueForPrefetchOnInitFeatureFlag {
+- (BOOL)cr_valueForPrefetchOnInitEnabled {
   return [self boolForKey:NSUserDefaultsPrefetchOnInitEnabledKey withDefaultValue:YES];
 }
 
-- (void)cr_setValueForPrefetchOnInitFeatureFlag:(BOOL)prefetchOnInitFeatureFlag {
-  [self setBool:prefetchOnInitFeatureFlag forKey:NSUserDefaultsPrefetchOnInitEnabledKey];
+- (void)cr_setValueForPrefetchOnInitEnabled:(BOOL)prefetchOnInitEnabled {
+  [self setBool:prefetchOnInitEnabled forKey:NSUserDefaultsPrefetchOnInitEnabledKey];
 }
 
-- (BOOL)cr_valueForLiveBiddingFeatureFlag {
+- (BOOL)cr_valueForLiveBiddingEnabled {
   return [self boolForKey:NSUserDefaultsLiveBiddingEnabledKey withDefaultValue:NO];
 }
 
-- (void)cr_setValueForLiveBiddingFeatureFlag:(BOOL)liveBiddingFeatureFlag {
-  [self setBool:liveBiddingFeatureFlag forKey:NSUserDefaultsLiveBiddingEnabledKey];
+- (void)cr_setValueForLiveBiddingEnabled:(BOOL)liveBiddingEnabled {
+  [self setBool:liveBiddingEnabled forKey:NSUserDefaultsLiveBiddingEnabledKey];
 }
 
 - (NSTimeInterval)cr_valueForLiveBiddingTimeBudget {
