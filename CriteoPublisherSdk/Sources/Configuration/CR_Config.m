@@ -60,9 +60,9 @@ NSString *const CR_ConfigConfigurationUrl = @"https://bidder.criteo.com/config/a
     _viewportWidthMacro = @"%%width%%";
     _displayURLMacro = @"%%displayUrl%%";
     _configUrl = [configUrl copy];
-    _csmEnabled = [userDefaults cr_valueForCsmFeatureFlag];
-    _prefetchOnInitEnabled = [userDefaults cr_valueForPrefetchOnInitFeatureFlag];
-    _liveBiddingEnabled = [userDefaults cr_valueForLiveBiddingFeatureFlag];
+    _csmEnabled = [userDefaults cr_valueForCsmEnabled];
+    _prefetchOnInitEnabled = [userDefaults cr_valueForPrefetchOnInitEnabled];
+    _liveBiddingEnabled = [userDefaults cr_valueForLiveBiddingEnabled];
     _liveBiddingTimeBudget = [userDefaults cr_valueForLiveBiddingTimeBudget];
     _userDefaults = userDefaults;
   }
@@ -96,17 +96,17 @@ NSString *const CR_ConfigConfigurationUrl = @"https://bidder.criteo.com/config/a
 
 - (void)setCsmEnabled:(BOOL)csmEnabled {
   _csmEnabled = csmEnabled;
-  [self.userDefaults cr_setValueForCsmFeatureFlag:csmEnabled];
+  [self.userDefaults cr_setValueForCsmEnabled:csmEnabled];
 }
 
 - (void)setPrefetchOnInitEnabled:(BOOL)prefetchOnInitEnabled {
   _prefetchOnInitEnabled = prefetchOnInitEnabled;
-  [self.userDefaults cr_setValueForPrefetchOnInitFeatureFlag:prefetchOnInitEnabled];
+  [self.userDefaults cr_setValueForPrefetchOnInitEnabled:prefetchOnInitEnabled];
 }
 
 - (void)setLiveBiddingEnabled:(BOOL)liveBiddingEnabled {
   _liveBiddingEnabled = liveBiddingEnabled;
-  [self.userDefaults cr_setValueForLiveBiddingFeatureFlag:liveBiddingEnabled];
+  [self.userDefaults cr_setValueForLiveBiddingEnabled:liveBiddingEnabled];
 }
 
 - (void)setLiveBiddingTimeBudget:(NSTimeInterval)liveBiddingTimeBudget {

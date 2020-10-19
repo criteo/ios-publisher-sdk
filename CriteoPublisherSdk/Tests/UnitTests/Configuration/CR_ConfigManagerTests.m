@@ -88,7 +88,7 @@
 
 #pragma mark - CSM enabled
 
-- (void)testRefreshConfig_CsmFeatureFlagNotInResponse_DoNotUpdateIt {
+- (void)testRefreshConfig_CsmEnabledNotInResponse_DoNotUpdateIt {
   [self prepareApiHandlerToRespondRemoteConfigJson:@"{}"];
   localConfig.csmEnabled = NO;
 
@@ -97,7 +97,7 @@
   XCTAssertFalse(localConfig.csmEnabled);
 }
 
-- (void)testRefreshConfig_GivenCsmFeatureFlagSetToTrueInRequest_CsmIsEnabled {
+- (void)testRefreshConfig_GivenCsmEnabledSetToTrueInRequest_CsmIsEnabled {
   [self prepareApiHandlerToRespondRemoteConfigJson:@"{\"csmEnabled\": true }"];
   localConfig.csmEnabled = NO;
 
@@ -106,7 +106,7 @@
   XCTAssertTrue(localConfig.isCsmEnabled);
 }
 
-- (void)testRefreshConfig_GivenCsmFeatureFlagSetToFalseInRequest_CsmIsDisabled {
+- (void)testRefreshConfig_GivenCsmEnabledSetToFalseInRequest_CsmIsDisabled {
   [self prepareApiHandlerToRespondRemoteConfigJson:@"{\"csmEnabled\": false }"];
   localConfig.csmEnabled = YES;
 

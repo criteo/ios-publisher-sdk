@@ -170,7 +170,7 @@
   XCTAssertFalse([userDefaults cr_containsKey:NSUserDefaultsCsmEnabledKey]);
 }
 
-- (void)testSetCsmEnabled_GivenEnabledFeatureFlag_WriteItInUserDefaults {
+- (void)testSetCsmEnabled_GivenEnabledFeature_WriteItInUserDefaults {
   NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
 
   CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
@@ -183,7 +183,7 @@
   XCTAssertTrue([userDefaults boolForKey:NSUserDefaultsCsmEnabledKey]);
 }
 
-- (void)testSetCsmEnabled_GivenDisabledFeatureFlag_WriteItInUserDefaults {
+- (void)testSetCsmEnabled_GivenDisabledFeature_WriteItInUserDefaults {
   NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
 
   CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
@@ -242,7 +242,7 @@
   XCTAssertFalse([userDefaults cr_containsKey:NSUserDefaultsPrefetchOnInitEnabledKey]);
 }
 
-- (void)testSetPrefetchOnInitEnabled_GivenEnabledFeatureFlag_WriteItInUserDefaults {
+- (void)testSetPrefetchOnInitEnabled_GivenEnabledFeature_WriteItInUserDefaults {
   NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
 
   CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
@@ -255,7 +255,7 @@
   XCTAssertTrue([userDefaults boolForKey:NSUserDefaultsPrefetchOnInitEnabledKey]);
 }
 
-- (void)testSetPrefetchOnInitEnabled_GivenDisabledFeatureFlag_WriteItInUserDefaults {
+- (void)testSetPrefetchOnInitEnabled_GivenDisabledFeature_WriteItInUserDefaults {
   NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
 
   CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
@@ -314,7 +314,7 @@
   XCTAssertFalse([userDefaults cr_containsKey:NSUserDefaultsLiveBiddingEnabledKey]);
 }
 
-- (void)testSetLiveBiddingEnabled_GivenEnabledFeatureFlag_WriteItInUserDefaults {
+- (void)testSetLiveBiddingEnabled_GivenEnabledFeature_WriteItInUserDefaults {
   NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
 
   CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
@@ -327,7 +327,7 @@
   XCTAssertTrue([userDefaults boolForKey:NSUserDefaultsLiveBiddingEnabledKey]);
 }
 
-- (void)testSetLiveBiddingEnabled_GivenDisabledFeatureFlag_WriteItInUserDefaults {
+- (void)testSetLiveBiddingEnabled_GivenDisabledFeature_WriteItInUserDefaults {
   NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
 
   CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
