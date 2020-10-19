@@ -98,6 +98,9 @@ static NSUInteger const CR_FeedbackStorageSendingQueueMaxSize = 256 * 1024;
 
 - (void)updateMessageWithImpressionId:(NSString *)impressionId
                                    by:(void (^)(CR_FeedbackMessage *message))updateFunction {
+  if (impressionId == nil) {
+    return;
+  }
   @synchronized(self) {
     CR_FeedbackMessage *feedback = [self readOrCreateFeedbackMessageByFilename:impressionId];
     updateFunction(feedback);

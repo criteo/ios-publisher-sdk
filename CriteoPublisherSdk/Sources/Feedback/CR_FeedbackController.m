@@ -85,8 +85,7 @@
   for (CR_CdbBid *bid in response.cdbBids) {
     if (bid.impressionId) {
       if (bid.isValid) {
-        [self.feedbackStorage setCdbEndAndCacheBidUsedIdForImpressionId:bid.impressionId
-                                                                 zoneId:bid.zoneId];
+        [self.feedbackStorage setCdbEndForImpressionId:bid.impressionId zoneId:bid.zoneId];
       } else {
         [self.feedbackStorage setExpiredForImpressionId:bid.impressionId];
       }
@@ -101,6 +100,12 @@
     } else {
       [self.feedbackStorage setExpiredForImpressionId:impressionId];
     }
+  }
+}
+
+- (void)onBidCached:(CR_CdbBid *)bid {
+  if (bid.impressionId && bid.isValid) {
+    [self.feedbackStorage setCacheBidUsedForImpressionId:bid.impressionId];
   }
 }
 

@@ -76,6 +76,13 @@
 - (void)onCdbCallFailure:(NSError *)failure fromRequest:(CR_CdbRequest *)request;
 
 /**
+ * On bid cached, the metric feedback associated to the bid is marked as `cachedBidUsed`
+ *
+ * @param bid bid that was cached
+ */
+- (void)onBidCached:(CR_CdbBid *)bid;
+
+/**
  * On bid consumption, the metric feedback associated to the bid is updated.
  *
  * If the bid has not expired, then the bid managed to go from CDB to the user. The metric marks

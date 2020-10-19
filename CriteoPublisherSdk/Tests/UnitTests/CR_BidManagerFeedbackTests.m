@@ -167,7 +167,6 @@
 - (void)testFeedbackMessageStateOnValidBidReceived {
   CR_FeedbackMessage *expected = [self.defaultMessage copy];
   expected.cdbCallEndTimestamp = self.dateInMillisecondsNumber;
-  expected.cachedBidUsed = YES;
   expected.zoneId = self.validBid.zoneId;
 
   [self configureApiHandlerMockWithCdbRequest:self.cdbRequest

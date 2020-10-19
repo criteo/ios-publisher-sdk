@@ -44,6 +44,9 @@
 
 @property(strong, nonatomic, readonly) CR_Config *config;
 
+@property(readonly) BOOL isLiveBiddingEnabled;
+@property(readonly) BOOL isBiddingFromCache;
+
 @end
 
 @implementation CR_FeedbackMessageFunctionalTests
@@ -96,11 +99,6 @@
     XCTAssertEqualObjects(feedback[@"slots"][0][@"cachedBidUsed"], @(cachedBidUsed), @"%@", \
                           feedback);                                                        \
     XCTAssertNotNil(feedback[@"slots"][0][@"impressionId"], @"%@", feedback);               \
-    if (cachedBidUsed) {                                                                    \
-      XCTAssertNotNil(feedback[@"slots"][0][@"zoneId"], @"%@", feedback);                   \
-    } else {                                                                                \
-      XCTAssertNil(feedback[@"slots"][0][@"zoneId"], @"%@", feedback);                      \
-    }                                                                                       \
   } while (0)
 
 #define AssertArrayWithUniqueElements(array, uniqueElementCount) \
@@ -112,7 +110,7 @@
 #pragma mark - Tests
 #pragma mark Cache bidding
 
-- (void)testGivenPrefetchedBids_whenBidConsumed_thenFeedbackMessageSent {
+- (void)testGivenFetchedBids_whenBidConsumed_thenFeedbackMessageSent {
   CRBannerAdUnit *adUnitForConsumption = [CR_TestAdUnits preprodBanner320x50];
   NSArray *adUnits = @[ adUnitForConsumption, [CR_TestAdUnits preprodInterstitial] ];
   [self prepareCriteoForGettingBidWithAdUnits:adUnits];
@@ -125,7 +123,7 @@
   XCTAssertEqualObjects(feedback[@"cdbCallStartElapsed"], @0);
   XCTAssertNotNil(feedback[@"cdbCallEndElapsed"]);
   XCTAssertNotNil(feedback[@"elapsed"]);
-  AssertFeedbackHasOneSlotWithCachedBidUsed(feedback, YES);
+  AssertFeedbackHasOneSlotWithCachedBidUsed(feedback, self.isBiddingFromCache);
 }
 
 - (void)testGivenNoBidReturned_whenBidConsumed_thenFeedbackMessageSent {
@@ -206,7 +204,7 @@
   [self getBidAndWaitForFetchAndFeedbackWithAdUnit:adUnit2];
   [self getBidAndWaitForFetchAndFeedbackWithAdUnit:adUnit1];
 
-  if (self.config.isLiveBiddingEnabled) {
+  if (self.isLiveBiddingEnabled) {
     // FIXME: Giving some time for feedbacks to go back asynchronously to queue
     [NSThread sleepForTimeInterval:.3f];
   }
@@ -227,7 +225,7 @@
 
   // In live bidding mode, as metrics are sent in // with bid request, there is an offset,
   // so let's flush the remaining metrics
-  if (self.config.isLiveBiddingEnabled) {
+  if (self.isLiveBiddingEnabled) {
     [self sendFeedbacksAndWaitFeedbackSent];
   }
   CR_HttpContent *content = [self feedbackMessageRequest];
@@ -242,7 +240,7 @@
                     (unsigned long)index, feedback);
     XCTAssertNotNil(feedback[@"elapsed"], @"index: %ld feedback: %@", (unsigned long)index,
                     feedback);
-    AssertFeedbackHasOneSlotWithCachedBidUsed(feedback, YES);
+    AssertFeedbackHasOneSlotWithCachedBidUsed(feedback, self.isBiddingFromCache);
   }
   NSArray *impressionIds = [feedbacks fbl_flatMap:^id _Nullable(NSDictionary *value) {
     return value[@"slots"][0][@"impressionId"];
@@ -253,7 +251,7 @@
   AssertArrayWithUniqueElements(impressionIds, 3);
 
   // Live bidding works as cache bidding when time budget is exceeded
-  if (self.config.isLiveBiddingEnabled && !self.isLiveBidTimeBudgetExceeded) {
+  if (!self.isBiddingFromCache) {
     // Three bids having each its own request
     AssertArrayWithUniqueElements(requestGroupIds, 3);
   } else {
@@ -266,7 +264,7 @@
 
 - (void)testGivenPrefetchedBids_whenLiveBidConsumed_thenFeedbackMessageSent {
   [self givenLiveBiddingEnabled:YES];
-  [self testGivenPrefetchedBids_whenBidConsumed_thenFeedbackMessageSent];
+  [self testGivenFetchedBids_whenBidConsumed_thenFeedbackMessageSent];
 }
 
 - (void)testGivenNoBidReturned_whenLiveBidConsumed_thenFeedbackMessageSent {
@@ -298,7 +296,7 @@
 
 - (void)testGivenPrefetchedBids_whenLiveBidTimeBudgetExceeded_thenFeedbackMessageSent {
   [self givenLiveBidTimeBudgetExceeded];
-  [self testGivenPrefetchedBids_whenBidConsumed_thenFeedbackMessageSent];
+  [self testGivenFetchedBids_whenBidConsumed_thenFeedbackMessageSent];
 }
 
 - (void)testGivenNoBidReturned_whenLiveBidTimeBudgetExceeded_thenFeedbackMessageSent {
@@ -372,7 +370,7 @@
                    responseHandler:^(CR_CdbBid *bid) {
                      // In live bidding mode, as metrics are sent in // with bid request, there is
                      // an offset, so let's flush the remaining metrics
-                     if (self.config.isLiveBiddingEnabled) {
+                     if (self.isLiveBiddingEnabled) {
                        [self.dependencyProvider.feedbackDelegate sendFeedbackBatch];
                      }
                    }];
@@ -467,6 +465,10 @@
   self.config.liveBiddingEnabled = enabled;
 }
 
+- (BOOL)isLiveBiddingEnabled {
+  return self.config.isLiveBiddingEnabled;
+}
+
 - (void)givenLiveBidTimeBudgetExceeded {
   self.dependencyProvider = [self.dependencyProvider withListenedNetworkManagerWithDelay:0.1f];
   self.config.liveBiddingEnabled = YES;
@@ -476,6 +478,13 @@
 
 - (BOOL)isLiveBidTimeBudgetExceeded {
   return self.config.liveBiddingEnabled && self.config.liveBiddingTimeBudget == 0;
+}
+
+// Bids are consumed from cache:
+// - when in cache bidding mode
+// - when in live bidding mode and when time budget is exceeded
+- (BOOL)isBiddingFromCache {
+  return !self.isLiveBiddingEnabled || self.isLiveBidTimeBudgetExceeded;
 }
 
 @end

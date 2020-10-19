@@ -27,7 +27,9 @@
                          profileId:(NSNumber *)profileId
                     requestGroupId:(NSString *)requestGroupId;
 
-- (void)setCdbEndAndCacheBidUsedIdForImpressionId:(NSString *)impressionId zoneId:(NSNumber *)id1;
+- (void)setCdbEndForImpressionId:(NSString *)impressionId zoneId:(NSNumber *)zoneId;
+
+- (void)setCacheBidUsedForImpressionId:(NSString *)impressionId;
 
 - (void)setCdbEndAndExpiredForImpressionId:(NSString *)impressionId;
 
