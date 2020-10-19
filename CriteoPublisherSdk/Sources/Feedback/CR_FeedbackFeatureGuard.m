@@ -62,6 +62,10 @@
   [self.controller onCdbCallFailure:failure fromRequest:request];
 }
 
+- (void)onBidCached:(CR_CdbBid *)bid {
+  [self.controller onBidCached:bid];
+}
+
 - (void)onBidConsumed:(CR_CdbBid *)consumedBid {
   [self.controller onBidConsumed:consumedBid];
 }

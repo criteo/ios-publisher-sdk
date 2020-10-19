@@ -150,7 +150,6 @@
 
   CR_FeedbackMessage *expectedValid = [[CR_FeedbackMessage alloc] init];
   expectedValid.cdbCallEndTimestamp = @1337000;
-  expectedValid.cachedBidUsed = YES;
   expectedValid.zoneId = @1337;
 
   CR_FeedbackMessage *expectedInvalid = [[CR_FeedbackMessage alloc] init];

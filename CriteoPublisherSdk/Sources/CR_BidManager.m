@@ -308,6 +308,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 - (void)cacheBidsFromResponse:(CR_CdbResponse *)cdbResponse {
   for (CR_CdbBid *bid in cdbResponse.cdbBids) {
     [cacheManager setBid:bid];
+    [self.feedbackDelegate onBidCached:bid];
   }
 }
 
