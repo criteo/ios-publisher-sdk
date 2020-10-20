@@ -162,8 +162,12 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 
 - (void)fetchLiveBidForAdUnit:(CR_CacheAdUnit *)adUnit
               responseHandler:(CR_CdbBidResponseHandler)responseHandler {
+  // Don't let empty bid surface outside
+  void (^emptyAsNilResponseHandler)(CR_CdbBid *) = ^(CR_CdbBid *bid) {
+    responseHandler(bid.isEmpty ? nil : bid);
+  };
   [self fetchLiveBidForAdUnit:adUnit
-           bidResponseHandler:responseHandler
+           bidResponseHandler:emptyAsNilResponseHandler
                    timeBudget:config.liveBiddingTimeBudget];
 }
 
