@@ -178,6 +178,11 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 - (void)fetchLiveBidForAdUnit:(CR_CacheAdUnit *)adUnit
            bidResponseHandler:(CR_CdbBidResponseHandler)responseHandler
                    timeBudget:(NSTimeInterval)timeBudget {
+  if ([self isSlotSilent:adUnit]) {
+    responseHandler(nil);
+    return;
+  }
+
   [self.threadManager dispatchAsyncOnGlobalQueueWithTimeout:timeBudget
       operationHandler:^void(void (^completionHandler)(dispatchWithTimeoutHandler)) {
         [self fetchBidsForAdUnits:@[ adUnit ]
@@ -200,7 +205,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
                      } else {
                        responseHandler(nil);
                      }
-                   } else {
+                   } else if (![self isSlotSilent:adUnit]) {
                      [self cacheBidsFromResponse:cdbResponse];
                    }
                  });
@@ -322,6 +327,27 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 
 - (CR_Config *)config {
   return self->config;
+}
+
+- (BOOL)isSlotSilent:(CR_CacheAdUnit *)adUnit {
+  BOOL silenced = NO;
+  CR_CdbBid *bid = [cacheManager getBidForAdUnit:adUnit];
+  if (bid.isInSilenceMode) {
+    if (!bid.isExpired) {
+      silenced = YES;
+    } else {
+      [self unsilenceSlotForAdUnit:adUnit];
+    }
+  }
+  return silenced;
+}
+
+- (void)unsilenceSlotForAdUnit:(CR_CacheAdUnit *)adUnit {
+  CR_CdbBid *bid = [cacheManager getBidForAdUnit:adUnit];
+  [cacheManager removeBidForAdUnit:adUnit];
+  [self.threadManager dispatchAsyncOnGlobalQueue:^{
+    [self.feedbackDelegate onBidConsumed:bid];
+  }];
 }
 
 @end
