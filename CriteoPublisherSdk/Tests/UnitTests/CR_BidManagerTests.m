@@ -165,7 +165,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
 - (void)testGetBidUncachedAdUnitInSilentMode {
   self.bidManager = [self.dependencyProvider bidManager];
-  self.bidManager.cdbTimeToNextCall = INFINITY;  // in silent mode
+  [self givenUserSilenced];
 
   CR_OCMockRejectCallCdb(self.apiHandlerMock, @[ self.adUnitUncached ]);
 
@@ -176,7 +176,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
 
 - (void)testGetEmptyBidForAdUnitInSilentMode {
   self.bidManager = [self.dependencyProvider bidManager];
-  self.bidManager.cdbTimeToNextCall = INFINITY;  // in silent mode
+  [self givenUserSilenced];
 
   CR_OCMockRejectCallCdb(self.apiHandlerMock, @[ self.adUnitForEmptyBid ]);
 
@@ -268,7 +268,7 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   [self.bidManager loadCdbBidForAdUnit:self.adUnit1 responseHandler:responseHandler];
 }
 
-#pragma mark Live Bidding
+#pragma mark - Live Bidding
 
 - (void)expectBidConsumed:(CR_CdbBid *)bid {
   if (bid) {
@@ -286,6 +286,13 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
     OCMReject([self.cacheManager setBid:[OCMArg any]]);
     OCMReject([self.feedbackDelegateMock onBidCached:[OCMArg any]]);
   }
+}
+
+- (void)fetchLiveBidForAdUnit:(CR_CacheAdUnit *)adUnit {
+  [self.bidManager fetchLiveBidForAdUnit:adUnit
+                         responseHandler:^(CR_CdbBid *bid){
+                         }];
+  CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ adUnit ]);
 }
 
 - (void)fetchLiveBidForAdUnit:(CR_CacheAdUnit *)adUnit andExpectBid:(CR_CdbBid *)expectedBid {
@@ -359,16 +366,177 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   OCMVerifyAll(self.feedbackDelegateMock);
 }
 
+#pragma mark Silent user
+
 - (void)testLiveBid_GivenSilentMode_ThenCdbNotCalled_AndNoResponseGiven {
-  self.bidManager = [self.dependencyProvider bidManager];
-  self.bidManager.cdbTimeToNextCall = INFINITY;  // in silent mode
+  [self givenUserSilenced];
+
+  [self expectBidCached:nil];
+  [self expectBidConsumed:nil];
+
+  CR_OCMockRejectCallCdb(self.apiHandlerMock, [OCMArg any]);
+  [self.bidManager fetchLiveBidForAdUnit:self.adUnitForEmptyBid
+                         responseHandler:^(CR_CdbBid *bid) {
+                           XCTAssertNil(bid);
+                         }];
+
+  OCMVerifyAll(self.cacheManager);
+  OCMVerifyAll(self.feedbackDelegateMock);
+}
+
+- (void)testLiveBid_GivenSilentModeAndValidBidInCache_ThenCdbNotCalled_AndResponseGiven {
+  [self givenUserSilenced];
+
+  [self expectBidCached:nil];
+  [self expectBidConsumed:self.bid1];
+
+  CR_OCMockRejectCallCdb(self.apiHandlerMock, [OCMArg any]);
+  [self.bidManager fetchLiveBidForAdUnit:self.adUnit1
+                         responseHandler:^(CR_CdbBid *bid) {
+                           XCTAssertEqualObjects(bid, self.bid1);
+                         }];
+
+  OCMVerifyAll(self.cacheManager);
+  OCMVerifyAll(self.feedbackDelegateMock);
+}
+
+- (void)testLiveBid_GivenSilentModeAndExpiredBidInCache_ThenCdbNotCalled_AndNoResponseGiven {
+  [self givenUserSilenced];
+  CR_CdbBid *expiredBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).expired().build;
+  self.bid1 = expiredBid;
+  self.cacheManager.bidCache[self.adUnit1] = self.bid1;
+
+  [self expectBidCached:nil];
+  [self expectBidConsumed:expiredBid];
 
   CR_OCMockRejectCallCdb(self.apiHandlerMock, [OCMArg any]);
   [self.bidManager fetchLiveBidForAdUnit:self.adUnit1
                          responseHandler:^(CR_CdbBid *bid) {
                            XCTAssertNil(bid);
                          }];
+
+  OCMVerifyAll(self.cacheManager);
+  OCMVerifyAll(self.feedbackDelegateMock);
 }
+
+- (void)testLiveBid_GivenSilentModeAndNoBidInCache_ThenCdbNotCalled_AndNoResponseGiven {
+  [self givenUserSilenced];
+  CR_CdbBid *noBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).noBid().build;
+  self.bid1 = noBid;
+  self.cacheManager.bidCache[self.adUnit1] = self.bid1;
+
+  [self expectBidCached:nil];
+  [self expectBidConsumed:noBid];
+
+  CR_OCMockRejectCallCdb(self.apiHandlerMock, [OCMArg any]);
+  [self.bidManager fetchLiveBidForAdUnit:self.adUnit1
+                         responseHandler:^(CR_CdbBid *bid) {
+                           XCTAssertNil(bid);
+                         }];
+
+  OCMVerifyAll(self.cacheManager);
+  OCMVerifyAll(self.feedbackDelegateMock);
+}
+
+- (void)testLiveBid_GivenSilentModeAndEmptyCache_ThenCdbNotCalled_AndNoResponseGiven {
+  [self givenUserSilenced];
+
+  [self expectBidCached:nil];
+  [self expectBidConsumed:nil];
+
+  CR_OCMockRejectCallCdb(self.apiHandlerMock, [OCMArg any]);
+  [self.bidManager fetchLiveBidForAdUnit:self.adUnitForEmptyBid
+                         responseHandler:^(CR_CdbBid *bid) {
+                           XCTAssertNil(bid);
+                         }];
+
+  OCMVerifyAll(self.cacheManager);
+  OCMVerifyAll(self.feedbackDelegateMock);
+}
+
+- (void)testLiveBid_GivenSilentModeAndSilentBidInCache_ThenCdbNotCalled_AndNoResponseGiven {
+  [self givenUserSilenced];
+  CR_CdbBid *silentBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).silenced().build;
+  self.bid1 = silentBid;
+  self.cacheManager.bidCache[self.adUnit1] = self.bid1;
+
+  [self expectBidCached:nil];
+  [self expectBidConsumed:nil];
+
+  CR_OCMockRejectCallCdb(self.apiHandlerMock, [OCMArg any]);
+  [self.bidManager fetchLiveBidForAdUnit:self.adUnitForEmptyBid
+                         responseHandler:^(CR_CdbBid *bid) {
+                           XCTAssertNil(bid);
+                         }];
+
+  XCTAssertEqual(self.cacheManager.bidCache[self.adUnit1], silentBid);
+
+  OCMVerifyAll(self.cacheManager);
+  OCMVerifyAll(self.feedbackDelegateMock);
+}
+
+- (void)testLiveBid_GivenExpiredSilentMode_ThenCdbCalled_AndResponseGiven {
+  // Expired user silent, 1s before now
+  self.bidManager.cdbTimeToNextCall =
+      [[NSDate dateWithTimeIntervalSinceNow:-1] timeIntervalSinceReferenceDate];
+
+  [self expectBidCached:nil];
+  [self expectBidConsumed:nil];
+
+  [self fetchLiveBidForAdUnit:self.adUnitForEmptyBid andExpectBid:self.bid1];
+
+  OCMVerifyAll(self.cacheManager);
+  OCMVerifyAll(self.feedbackDelegateMock);
+}
+
+- (void)givenApiHandlerRespondWithUserSilence {
+  CR_CdbResponse *cdbResponseMock = OCMClassMock(CR_CdbResponse.class);
+  OCMStub(cdbResponseMock.timeToNextCall).andReturn(123);
+  [self givenApiHandlerRespond:cdbResponseMock
+         doingBeforeResponding:^{
+         }];
+}
+
+- (void)testLiveBid_GivenSilentUserResponse_ThenUserSilenceUpdated {
+  [self givenApiHandlerRespondWithUserSilence];
+
+  [self fetchLiveBidForAdUnit:self.adUnit1];
+
+  XCTAssertTrue(self.bidManager.isInSilenceMode);
+}
+
+- (void)testLiveBid_GivenSilentUserResponseAfterTimeBudget_ThenUserSilenceUpdated {
+  [self givenApiHandlerRespondWithUserSilence];
+  [self givenTimeBudgetExceeded];
+
+  [self fetchLiveBidForAdUnit:self.adUnit1];
+
+  XCTAssertTrue(self.bidManager.isInSilenceMode);
+}
+
+- (void)testLiveBid_GivenNotSilentUserResponse_ThenUserSilenceNotUpdated {
+  [self givenApiHandlerRespondBid:[self validCdbBidForAdUnit:self.adUnit1]
+            doingBeforeResponding:^{
+              [self givenUserSilenced];
+            }];
+
+  [self fetchLiveBidForAdUnit:self.adUnit1];
+
+  XCTAssertTrue(self.bidManager.isInSilenceMode);
+}
+
+- (void)testLiveBid_GivenNotSilentUserResponseAfterTimeBudget_ThenUserSilenceNotUpdated {
+  [self givenApiHandlerRespondBid:[self validCdbBidForAdUnit:self.adUnit1]
+            doingBeforeResponding:^{
+              [self givenUserSilenced];
+            }];
+
+  [self fetchLiveBidForAdUnit:self.adUnit1];
+
+  XCTAssertTrue(self.bidManager.isInSilenceMode);
+}
+
+#pragma mark Silent slot
 
 - (void)testLiveBid_GivenSilentBidInCache_ThenCdbNotCalledAndNoResponseGiven {
   CR_CdbBid *silentBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).silenced().build;
@@ -379,11 +547,11 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   [self expectBidCached:nil];
   [self expectBidConsumed:nil];
 
+  CR_OCMockRejectCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
   [self.bidManager fetchLiveBidForAdUnit:self.adUnit1
                          responseHandler:^(CR_CdbBid *bid) {
                            XCTAssertNil(bid);
                          }];
-  CR_OCMockRejectCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
 
   // Silent bid from cdb call has been cached
   XCTAssertEqual(self.cacheManager.bidCache[self.adUnit1], silentBid);
@@ -492,6 +660,8 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   OCMVerifyAll(self.cacheManager);
   OCMVerifyAll(self.feedbackDelegateMock);
 }
+
+#pragma mark Invalid response
 
 - (void)testLiveBid_GivenInvalidBid_ThenNoResponseGiven {
   CR_CdbBid *invalidBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).displayUrl(nil).build;
@@ -608,6 +778,10 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   self.synchronousThreadManager.isTimeout = YES;
 }
 
+- (void)givenUserSilenced {
+  self.bidManager.cdbTimeToNextCall = INFINITY;
+}
+
 - (CR_CdbBid *)givenApiHandlerRespondValidBidWithDelay:(NSTimeInterval)delay {
   CR_CdbBid *validBid = [self validCdbBidForAdUnit:self.adUnit1];
   return [self givenApiHandlerRespondBid:validBid withDelay:delay];
@@ -621,10 +795,8 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
                                withDelay:0];
 }
 
-- (CR_CdbBid *)givenApiHandlerRespondBid:(CR_CdbBid *)bid
-                   doingBeforeResponding:(void (^)(void))block {
-  CR_CdbResponse *cdbResponseMock = OCMClassMock(CR_CdbResponse.class);
-  OCMStub([cdbResponseMock cdbBids]).andReturn(@[ bid ]);
+- (void)givenApiHandlerRespond:(CR_CdbResponse *)cdbResponse
+         doingBeforeResponding:(void (^)(void))block {
   OCMStub([self.apiHandlerMock callCdb:[OCMArg any]
                                consent:[OCMArg any]
                                 config:[OCMArg any]
@@ -635,8 +807,15 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
         block();
         CR_CdbCompletionHandler handler;
         [invocation getArgument:&handler atIndex:7];
-        handler(nil, cdbResponseMock, nil);
+        handler(nil, cdbResponse, nil);
       });
+}
+
+- (CR_CdbBid *)givenApiHandlerRespondBid:(CR_CdbBid *)bid
+                   doingBeforeResponding:(void (^)(void))block {
+  CR_CdbResponse *cdbResponseMock = OCMClassMock(CR_CdbResponse.class);
+  OCMStub([cdbResponseMock cdbBids]).andReturn(@[ bid ]);
+  [self givenApiHandlerRespond:cdbResponseMock doingBeforeResponding:block];
   return bid;
 }
 
