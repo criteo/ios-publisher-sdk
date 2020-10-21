@@ -178,6 +178,10 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 - (void)fetchLiveBidForAdUnit:(CR_CacheAdUnit *)adUnit
            bidResponseHandler:(CR_CdbBidResponseHandler)responseHandler
                    timeBudget:(NSTimeInterval)timeBudget {
+  if ([self cannotCallCdb]) {
+    responseHandler([self consumeBidFromCacheForAdUnit:adUnit]);
+    return;
+  }
   if ([self isSlotSilent:adUnit]) {
     responseHandler(nil);
     return;
@@ -213,15 +217,18 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
       }
       timeoutHandler:^(BOOL handled) {
         if (!handled) {
-          CR_CdbBid *bid = [self getBid:adUnit
-                            bidConsumed:^(CR_CdbBid *bid, BOOL didConsumeBid) {
-                              if (didConsumeBid) {
-                                [self.feedbackDelegate onBidConsumed:bid];
-                              }
-                            }];
-          responseHandler(bid);
+          responseHandler([self consumeBidFromCacheForAdUnit:adUnit]);
         }
       }];
+}
+
+- (CR_CdbBid *)consumeBidFromCacheForAdUnit:(CR_CacheAdUnit *)adUnit {
+  return [self getBid:adUnit
+          bidConsumed:^(CR_CdbBid *bid, BOOL didConsumeBid) {
+            if (didConsumeBid) {
+              [self.feedbackDelegate onBidConsumed:bid];
+            }
+          }];
 }
 
 - (void)fetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits
