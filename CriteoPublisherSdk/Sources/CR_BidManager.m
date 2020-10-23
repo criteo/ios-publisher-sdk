@@ -199,16 +199,14 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
                        CR_CdbBid *bid = cdbResponse.cdbBids[0];
                        if (bid.isInSilenceMode && !bid.isExpired) {
                          [self cacheBidsFromResponse:cdbResponse];
-                         responseHandler(nil);
+                         return responseHandler(nil);
                        } else if (bid.isValid && !bid.isExpired) {
                          [self.feedbackDelegate onBidConsumed:bid];
-                         responseHandler(bid);
-                       } else {
-                         responseHandler(nil);
+                         return responseHandler(bid);
                        }
-                     } else {
-                       responseHandler(nil);
                      }
+                     // fallback on cache otherwise
+                     return responseHandler([self consumeBidFromCacheForAdUnit:adUnit]);
                    } else if (![self isSlotSilent:adUnit]) {
                      [self cacheBidsFromResponse:cdbResponse];
                    }

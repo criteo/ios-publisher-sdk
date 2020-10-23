@@ -336,11 +336,48 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   OCMVerifyAll(self.feedbackDelegateMock);
 }
 
+- (void)testLiveBid_GivenResponseError_ThenBidFromCacheGiven {
+  [self givenApiHandlerRespondError];
+
+  [self expectBidCached:nil];
+  [self expectBidConsumed:self.bid1];
+
+  [self fetchLiveBidForAdUnit:self.adUnit1 andExpectBid:self.bid1];
+
+  OCMVerifyAll(self.cacheManager);
+  OCMVerifyAll(self.feedbackDelegateMock);
+}
+
 - (void)testLiveBid_GivenResponseAfterTimeBudgetAndNoBidInCache_ThenNoBidGiven {
   CR_CdbBid *liveBid = [self givenApiHandlerRespondValidBid];
   [self givenTimeBudgetExceeded];
 
   [self expectBidCached:liveBid];
+  [self expectBidConsumed:nil];
+
+  [self fetchLiveBidForAdUnit:self.adUnitForEmptyBid andExpectBid:nil];
+
+  OCMVerifyAll(self.cacheManager);
+  OCMVerifyAll(self.feedbackDelegateMock);
+}
+
+- (void)testLiveBid_GivenResponseErrorAfterTimeBudgetAndNoBidInCache_ThenNoBidGiven {
+  [self givenApiHandlerRespondError];
+  [self givenTimeBudgetExceeded];
+
+  [self expectBidCached:nil];
+  [self expectBidConsumed:nil];
+
+  [self fetchLiveBidForAdUnit:self.adUnitForEmptyBid andExpectBid:nil];
+
+  OCMVerifyAll(self.cacheManager);
+  OCMVerifyAll(self.feedbackDelegateMock);
+}
+
+- (void)testLiveBid_GivenResponseErrorAndNoBidInCache_ThenNoBidGiven {
+  [self givenApiHandlerRespondError];
+
+  [self expectBidCached:nil];
   [self expectBidConsumed:nil];
 
   [self fetchLiveBidForAdUnit:self.adUnitForEmptyBid andExpectBid:nil];
@@ -358,6 +395,37 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   [self givenTimeBudgetExceeded];
 
   [self expectBidCached:liveBid];
+  [self expectBidConsumed:self.bid1];
+
+  [self fetchLiveBidForAdUnit:self.adUnit1 andExpectBid:nil];
+
+  OCMVerifyAll(self.cacheManager);
+  OCMVerifyAll(self.feedbackDelegateMock);
+}
+
+- (void)testLiveBid_GivenResponseErrorAndExpiredBidInCache_ThenNoBidGiven {
+  self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).expired().build;
+  self.cacheManager.bidCache[self.adUnit1] = self.bid1;
+
+  [self givenApiHandlerRespondError];
+
+  [self expectBidCached:nil];
+  [self expectBidConsumed:self.bid1];
+
+  [self fetchLiveBidForAdUnit:self.adUnit1 andExpectBid:nil];
+
+  OCMVerifyAll(self.cacheManager);
+  OCMVerifyAll(self.feedbackDelegateMock);
+}
+
+- (void)testLiveBid_GivenResponseErrorAfterTimeBudgetAndExpiredBidInCache_ThenNoBidGiven {
+  self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).expired().build;
+  self.cacheManager.bidCache[self.adUnit1] = self.bid1;
+
+  [self givenApiHandlerRespondError];
+  [self givenTimeBudgetExceeded];
+
+  [self expectBidCached:nil];
   [self expectBidConsumed:self.bid1];
 
   [self fetchLiveBidForAdUnit:self.adUnit1 andExpectBid:nil];
@@ -484,6 +552,21 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   [self expectBidConsumed:nil];
 
   [self fetchLiveBidForAdUnit:self.adUnitForEmptyBid andExpectBid:self.bid1];
+
+  OCMVerifyAll(self.cacheManager);
+  OCMVerifyAll(self.feedbackDelegateMock);
+}
+
+- (void)testLiveBid_GivenResponseErrorAndSilentModeAndValidBidInCache_ThenResponseGiven {
+  [self givenApiHandlerRespondError:NSError.new
+              doingBeforeResponding:^{
+                [self givenUserSilenced];
+              }];
+
+  [self expectBidCached:nil];
+  [self expectBidConsumed:self.bid1];
+
+  [self fetchLiveBidForAdUnit:self.adUnit1 andExpectBid:self.bid1];
 
   OCMVerifyAll(self.cacheManager);
   OCMVerifyAll(self.feedbackDelegateMock);
@@ -667,34 +750,32 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   CR_CdbBid *invalidBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).displayUrl(nil).build;
   [self givenApiHandlerRespondBid:invalidBid];
 
-  // Invalid bid from cdb call has not been cached
-  OCMReject([self.cacheManager setBid:[OCMArg any]]);
+  [self expectBidCached:nil];
+  [self expectBidConsumed:self.bid1];
 
-  [self.bidManager fetchLiveBidForAdUnit:self.adUnit1
-                         responseHandler:^(CR_CdbBid *bid) {
-                           XCTAssertNil(bid);
-                         }];
-  CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
+  [self fetchLiveBidForAdUnit:self.adUnit1 andExpectBid:self.bid1];
 
   // Invalid bid from cdb call has not been cached
   XCTAssertNotEqual(self.cacheManager.bidCache[self.adUnit1], invalidBid);
+
+  OCMVerifyAll(self.cacheManager);
+  OCMVerifyAll(self.feedbackDelegateMock);
 }
 
 - (void)testLiveBid_GivenExpiredBid_ThenNoResponseGiven {
   CR_CdbBid *expiredBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).expired().build;
   [self givenApiHandlerRespondBid:expiredBid];
 
-  // Expired bid from cdb call has not been cached
-  OCMReject([self.cacheManager setBid:[OCMArg any]]);
+  [self expectBidCached:nil];
+  [self expectBidConsumed:self.bid1];
 
-  [self.bidManager fetchLiveBidForAdUnit:self.adUnit1
-                         responseHandler:^(CR_CdbBid *bid) {
-                           XCTAssertNil(bid);
-                         }];
-  CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
+  [self fetchLiveBidForAdUnit:self.adUnit1 andExpectBid:self.bid1];
 
   // Expired bid from cdb call has not been cached
   XCTAssertNotEqual(self.cacheManager.bidCache[self.adUnit1], expiredBid);
+
+  OCMVerifyAll(self.cacheManager);
+  OCMVerifyAll(self.feedbackDelegateMock);
 }
 
 - (void)testLiveBid_GivenNoBid_ThenNoResponseGiven {
@@ -702,9 +783,9 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
   [self givenApiHandlerRespondBid:noBid];
 
   [self expectBidCached:nil];
-  [self expectBidConsumed:nil];
+  [self expectBidConsumed:self.bid1];
 
-  [self fetchLiveBidForAdUnit:self.adUnit1 andExpectBid:nil];
+  [self fetchLiveBidForAdUnit:self.adUnit1 andExpectBid:self.bid1];
 
   // No bid from cdb call has not been cached
   XCTAssertNotEqual(self.cacheManager.bidCache[self.adUnit1], noBid);
@@ -809,6 +890,27 @@ static NSString *const CR_BidManagerTestsDfpDisplayUrl = @"crt_displayurl";
         [invocation getArgument:&handler atIndex:7];
         handler(nil, cdbResponse, nil);
       });
+}
+
+- (void)givenApiHandlerRespondError:(NSError *)error doingBeforeResponding:(void (^)(void))block {
+  OCMStub([self.apiHandlerMock callCdb:[OCMArg any]
+                               consent:[OCMArg any]
+                                config:[OCMArg any]
+                            deviceInfo:[OCMArg any]
+                         beforeCdbCall:[OCMArg any]
+                     completionHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        block();
+        CR_CdbCompletionHandler handler;
+        [invocation getArgument:&handler atIndex:7];
+        handler(nil, nil, error);
+      });
+}
+
+- (void)givenApiHandlerRespondError {
+  [self givenApiHandlerRespondError:NSError.new
+              doingBeforeResponding:^{
+              }];
 }
 
 - (CR_CdbBid *)givenApiHandlerRespondBid:(CR_CdbBid *)bid
