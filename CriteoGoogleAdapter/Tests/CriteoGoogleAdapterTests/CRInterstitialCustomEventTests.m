@@ -192,7 +192,7 @@
       [NSError errorWithDomain:kGADErrorDomain
                           code:kGADErrorNetworkError
                       userInfo:@{NSLocalizedDescriptionKey : CriteoError.description}];
-  [customEvent interstitial:[CRInterstitial new] didFailToReceiveAdContentWithError:expectedError];
+  [customEvent interstitial:[CRInterstitial new] didFailToReceiveAdWithError:expectedError];
   OCMVerifyAll(mockGADInterstitialDelegate);
 }
 
