@@ -362,11 +362,9 @@
   id<CRInterstitialDelegate> mockInterstitialDelegate =
       OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
   interstitial.delegate = mockInterstitialDelegate;
-  OCMReject([mockInterstitialDelegate interstitial:interstitial
-                       didFailToReceiveAdWithError:[OCMArg any]]);
   OCMReject([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
   OCMExpect([mockInterstitialDelegate interstitial:interstitial
-                didFailToReceiveAdContentWithError:[OCMArg any]]);
+                       didFailToReceiveAdWithError:[OCMArg any]]);
 
   XCTestExpectation *interstitialWebViewNavigationFailExpectation = [self
       expectationWithDescription:@"didFailToReceiveAdContentWithError delegate method called"];
@@ -385,14 +383,12 @@
   id<CRInterstitialDelegate> mockInterstitialDelegate =
       OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
   interstitial.delegate = mockInterstitialDelegate;
-  OCMReject([mockInterstitialDelegate interstitial:interstitial
-                       didFailToReceiveAdWithError:[OCMArg any]]);
   OCMReject([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
   OCMExpect([mockInterstitialDelegate interstitial:interstitial
-                didFailToReceiveAdContentWithError:[OCMArg any]]);
+                       didFailToReceiveAdWithError:[OCMArg any]]);
 
   OCMStub([mockInterstitialDelegate interstitial:interstitial
-              didFailToReceiveAdContentWithError:[OCMArg any]]);
+                     didFailToReceiveAdWithError:[OCMArg any]]);
 
   XCTestExpectation *interstitialWebViewLoadExpectation = [self
       expectationWithDescription:@"didFailToReceiveAdContentWithError delegate method called"];
@@ -403,7 +399,7 @@
                                block:^(NSTimer *_Nonnull timer) {
                                  [interstitialWebViewLoadExpectation fulfill];
                                  OCMVerify([mockInterstitialDelegate interstitial:interstitial
-                                               didFailToReceiveAdContentWithError:[OCMArg any]]);
+                                                      didFailToReceiveAdWithError:[OCMArg any]]);
                                }];
   [self cr_waitShortlyForExpectations:@[ interstitialWebViewLoadExpectation ]];
 }
@@ -423,11 +419,9 @@
   id<CRInterstitialDelegate> mockInterstitialDelegate =
       OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
   interstitial.delegate = mockInterstitialDelegate;
-  OCMReject([mockInterstitialDelegate interstitial:interstitial
-                       didFailToReceiveAdWithError:[OCMArg any]]);
   OCMReject([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
   OCMReject([mockInterstitialDelegate interstitial:interstitial
-                didFailToReceiveAdContentWithError:[OCMArg any]]);
+                       didFailToReceiveAdWithError:[OCMArg any]]);
 
   XCTestExpectation *interstitialHTTPErrorExpectation =
       [self expectationWithDescription:@"no delegate method called"];
@@ -461,11 +455,9 @@
   id<CRInterstitialDelegate> mockInterstitialDelegate =
       OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
   interstitial.delegate = mockInterstitialDelegate;
-  OCMReject([mockInterstitialDelegate interstitial:interstitial
-                       didFailToReceiveAdWithError:[OCMArg any]]);
   OCMReject([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
   OCMReject([mockInterstitialDelegate interstitial:interstitial
-                didFailToReceiveAdContentWithError:[OCMArg any]]);
+                       didFailToReceiveAdWithError:[OCMArg any]]);
 
   XCTestExpectation *interstitialHTTPErrorExpectation =
       [self expectationWithDescription:@"interstitial delegate methods not called"];
@@ -803,8 +795,6 @@
   OCMExpect([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
   OCMReject([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:[OCMArg any]]);
-  OCMReject([mockInterstitialDelegate interstitial:interstitial
-                didFailToReceiveAdContentWithError:[OCMArg any]]);
 
   OCMStub([mockWebView loadHTMLString:[self htmlString]
                               baseURL:[NSURL URLWithString:@"https://criteo.com"]])
@@ -857,12 +847,10 @@
         respondBid:[self bidWithDisplayURL:@"test"]];
   id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
   interstitial.delegate = mockInterstitialDelegate;
-  OCMReject([mockInterstitialDelegate interstitial:interstitial
-                       didFailToReceiveAdWithError:[OCMArg any]]);
 
   OCMReject([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
-  OCMExpect([mockInterstitialDelegate interstitial:interstitial
-                didFailToReceiveAdContentWithError:[OCMArg any]]);
+  OCMReject([mockInterstitialDelegate interstitial:interstitial
+                       didFailToReceiveAdWithError:[OCMArg any]]);
   NSError *expectedError = [NSError cr_errorWithCode:CRErrorCodeNetworkError
                                          description:@"Ad request failed due to network error"];
   OCMStub([mockInterstitialDelegate interstitial:interstitial

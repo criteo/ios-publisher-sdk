@@ -112,20 +112,4 @@
   }
 }
 
-- (void)interstitial:(CRInterstitial *)interstitial
-    didFailToReceiveAdContentWithError:(NSError *)error {
-  // Signals that there was an error when Criteo was attempting to fetch the ad content
-  if ([self.delegate respondsToSelector:@selector(customEventInterstitial:didFailAd:)]) {
-    [self.delegate
-        customEventInterstitial:self
-                      didFailAd:
-                          [NSError
-                              errorWithDomain:kGADErrorDomain
-                                         code:kGADErrorNetworkError
-                                     userInfo:[NSDictionary
-                                                  dictionaryWithObject:error.description
-                                                                forKey:NSLocalizedDescriptionKey]]];
-  }
-}
-
 @end

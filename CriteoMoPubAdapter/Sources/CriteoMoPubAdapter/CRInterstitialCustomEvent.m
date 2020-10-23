@@ -136,19 +136,6 @@
   }
 }
 
-- (void)interstitial:(CRInterstitial *)interstitial
-    didFailToReceiveAdContentWithError:(NSError *)error {
-  // Signals that there was an error when Criteo was attempting to fetch the ad content
-  if ([self.delegate respondsToSelector:@selector(fullscreenAdAdapter:didFailToLoadAdWithError:)]) {
-    NSString *failure =
-        [NSString stringWithFormat:@"Criteo Interstitial failed to load ad content with error : %@",
-                                   error.localizedDescription];
-    NSError *finalError = [NSError errorWithCode:MOPUBErrorAdapterFailedToLoadAd
-                            localizedDescription:failure];
-    [self.delegate fullscreenAdAdapter:self didFailToLoadAdWithError:finalError];
-  }
-}
-
 #pragma mark - MoPub delegate to track clicks
 
 - (void)interstitialWillLeaveApplication:(CRInterstitial *)interstitial {

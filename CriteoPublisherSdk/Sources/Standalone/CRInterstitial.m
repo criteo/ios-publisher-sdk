@@ -196,7 +196,7 @@
     self.isAdLoaded = YES;
     [self dispatchDidReceiveAdDelegate];
   } else {
-    [self safelyNotifyInterstitialCannotPresent:CRErrorCodeNetworkError];
+    [self safelyNotifyAdLoadFail:CRErrorCodeNetworkError];
   }
 }
 
@@ -281,7 +281,7 @@
     didFailNavigation:(WKNavigation *)navigation
             withError:(NSError *)error {
   self.isAdLoading = NO;
-  [self safelyNotifyInterstitialCannotPresent:CRErrorCodeNetworkError];
+  [self safelyNotifyAdLoadFail:CRErrorCodeNetworkError];
 }
 
 // Delegate errors that occur while the web view is loading content.
@@ -289,7 +289,7 @@
     didFailProvisionalNavigation:(WKNavigation *)navigation
                        withError:(NSError *)error {
   self.isAdLoading = NO;
-  [self safelyNotifyInterstitialCannotPresent:CRErrorCodeNetworkError];
+  [self safelyNotifyAdLoadFail:CRErrorCodeNetworkError];
 }
 
 // Delegate HTTP errors
@@ -319,16 +319,6 @@
                                    : [NSError cr_errorWithCode:errorCode];
 
       [self.delegate interstitial:self didFailToReceiveAdWithError:error];
-    }
-  });
-}
-
-- (void)safelyNotifyInterstitialCannotPresent:(CRErrorCode)errorCode {
-  dispatch_async(dispatch_get_main_queue(), ^{
-    if ([self.delegate respondsToSelector:@selector(interstitial:
-                                              didFailToReceiveAdContentWithError:)]) {
-      [self.delegate interstitial:self
-          didFailToReceiveAdContentWithError:[NSError cr_errorWithCode:errorCode]];
     }
   });
 }
