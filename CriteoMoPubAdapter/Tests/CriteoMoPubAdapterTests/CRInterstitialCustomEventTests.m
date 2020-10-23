@@ -108,7 +108,6 @@ static void *DelegateAssociationKey;
 - (void)testCorrectDataFromMoPub {
   OCMStub([mockInterstitial loadAd]).andDo(^(NSInvocation *invocation) {
     [self->event interstitialDidReceiveAd:self->mockInterstitial];
-    [self->event interstitialIsReadyToPresent:self->mockInterstitial];
   });
 
   OCMExpect([mockDelegate fullscreenAdAdapterDidLoadAd:event]);
@@ -136,25 +135,6 @@ static void *DelegateAssociationKey;
   NSError *criteoError = [NSError errorWithCode:MOPUBErrorUnknown];
   NSString *description =
       [NSString stringWithFormat:@"Criteo Interstitial failed to load with error : %@",
-                                 criteoError.localizedDescription];
-  NSError *expectedError = [NSError errorWithCode:MOPUBErrorAdapterFailedToLoadAd
-                             localizedDescription:description];
-
-  OCMExpect([mockDelegate fullscreenAdAdapter:event didFailToLoadAdWithError:expectedError]);
-  [event requestAdWithAdapterInfo:info];
-  OCMVerifyAll(mockDelegate);
-}
-
-- (void)testAdReceivedButFailedToLoadContent {
-  OCMStub([mockInterstitial loadAd]).andDo(^(NSInvocation *invocation) {
-    [self->event interstitialDidReceiveAd:self->mockInterstitial];
-    [self->event interstitial:self->mockInterstitial
-        didFailToReceiveAdContentWithError:[NSError errorWithCode:MOPUBErrorUnknown]];
-  });
-
-  NSError *criteoError = [NSError errorWithCode:MOPUBErrorUnknown];
-  NSString *description =
-      [NSString stringWithFormat:@"Criteo Interstitial failed to load ad content with error : %@",
                                  criteoError.localizedDescription];
   NSError *expectedError = [NSError errorWithCode:MOPUBErrorAdapterFailedToLoadAd
                              localizedDescription:description];

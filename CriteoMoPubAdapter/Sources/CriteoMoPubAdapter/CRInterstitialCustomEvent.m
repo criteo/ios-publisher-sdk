@@ -96,8 +96,9 @@
 
 // These callbacks are called on the main thread from the Criteo SDK
 - (void)interstitialDidReceiveAd:(CRInterstitial *)interstitial {
-  // Signals that Criteo is willing to display an ad
-  // Intentionally left blank
+  if ([self.delegate respondsToSelector:@selector(fullscreenAdAdapterDidLoadAd:)]) {
+    [self.delegate fullscreenAdAdapterDidLoadAd:self];
+  }
 }
 
 - (void)interstitial:(CRInterstitial *)interstitial didFailToReceiveAdWithError:(NSError *)error {
@@ -132,12 +133,6 @@
 - (void)interstitialDidDisappear:(CRInterstitial *)interstitial {
   if ([self.delegate respondsToSelector:(@selector(fullscreenAdAdapterAdDidDisappear:))]) {
     [self.delegate fullscreenAdAdapterAdDidDisappear:self];
-  }
-}
-
-- (void)interstitialIsReadyToPresent:(CRInterstitial *)interstitial {
-  if ([self.delegate respondsToSelector:@selector(fullscreenAdAdapterDidLoadAd:)]) {
-    [self.delegate fullscreenAdAdapterDidLoadAd:self];
   }
 }
 

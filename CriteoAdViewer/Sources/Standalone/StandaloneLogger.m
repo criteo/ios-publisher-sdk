@@ -99,13 +99,6 @@
   [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial];
 }
 
-- (void)interstitialIsReadyToPresent:(CRInterstitial *)interstitial {
-  [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial];
-  if ([self.interstitialDelegate respondsToSelector:@selector(interstitialUpdated:)]) {
-    [self.interstitialDelegate interstitialUpdated:YES];
-  }
-}
-
 - (void)interstitial:(CRInterstitial *)interstitial
     didFailToReceiveAdContentWithError:(NSError *)error {
   [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial error:error];

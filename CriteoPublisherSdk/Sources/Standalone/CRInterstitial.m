@@ -187,7 +187,6 @@
     return [self safelyNotifyAdLoadFail:CRErrorCodeInternalError description:@"No display URL"];
 
   [self.viewController initWebViewIfNeeded];
-  [self dispatchDidReceiveAdDelegate];
   [self safelyLoadWebViewWithDisplayURL:displayData];
 }
 
@@ -195,7 +194,7 @@
   self.isAdLoading = NO;
   if (self.isResponseValid) {
     self.isAdLoaded = YES;
-    [self safelyNotifyInterstitialCanPresent];
+    [self dispatchDidReceiveAdDelegate];
   } else {
     [self safelyNotifyInterstitialCannotPresent:CRErrorCodeNetworkError];
   }
@@ -320,14 +319,6 @@
                                    : [NSError cr_errorWithCode:errorCode];
 
       [self.delegate interstitial:self didFailToReceiveAdWithError:error];
-    }
-  });
-}
-
-- (void)safelyNotifyInterstitialCanPresent {
-  dispatch_async(dispatch_get_main_queue(), ^{
-    if ([self.delegate respondsToSelector:@selector(interstitialIsReadyToPresent:)]) {
-      [self.delegate interstitialIsReadyToPresent:self];
     }
   });
 }
