@@ -97,7 +97,6 @@
   id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
   interstitial.delegate = mockInterstitialDelegate;
   OCMExpect([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
-  OCMExpect([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
   XCTestExpectation *webViewLoadedExpectation =
       [[XCTestExpectation alloc] initWithDescription:@"webViewLoadedExpectation"];
   OCMStub([mockWebView loadHTMLString:[self htmlString]
@@ -216,12 +215,10 @@
   interstitial.delegate = mockInterstitialDelegate;
 
   OCMExpect([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
-  OCMExpect([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
   OCMExpect([mockInterstitialDelegate interstitialWillAppear:interstitial]);
   OCMExpect([mockInterstitialDelegate interstitialDidAppear:interstitial]);
 
   OCMStub([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
-  OCMStub([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
   OCMStub([mockInterstitialDelegate interstitialWillAppear:interstitial]);
   OCMStub([mockInterstitialDelegate interstitialDidAppear:interstitial]);
 
@@ -431,7 +428,6 @@
   OCMReject([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
   OCMReject([mockInterstitialDelegate interstitial:interstitial
                 didFailToReceiveAdContentWithError:[OCMArg any]]);
-  OCMReject([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
 
   XCTestExpectation *interstitialHTTPErrorExpectation =
       [self expectationWithDescription:@"no delegate method called"];
@@ -468,7 +464,6 @@
   OCMReject([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:[OCMArg any]]);
   OCMReject([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
-  OCMReject([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
   OCMReject([mockInterstitialDelegate interstitial:interstitial
                 didFailToReceiveAdContentWithError:[OCMArg any]]);
 
@@ -505,7 +500,7 @@
   interstitial.delegate = mockInterstitialDelegate;
   OCMStub([mockInterstitialDelegate interstitial:interstitial
                      didFailToReceiveAdWithError:[OCMArg any]]);
-  OCMReject([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
+  OCMReject([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
   OCMReject([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:[OCMArg any]]);
   UIViewController *nilViewController = nil;
@@ -543,7 +538,7 @@
                      didFailToReceiveAdWithError:[OCMArg any]]);
 
   OCMStub([mockInterstitialVC presentingViewController]).andReturn([UIViewController new]);
-  OCMReject([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
+  OCMReject([mockInterstitialDelegate interstitialDidReceiveAd:interstitial];);
   OCMReject([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:[OCMArg any]]);
 
@@ -612,8 +607,7 @@
 
   id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
   interstitial.delegate = mockInterstitialDelegate;
-  OCMExpect([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
-  OCMReject([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
+  OCMReject([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
   OCMReject([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:[OCMArg any]]);
 
@@ -648,14 +642,13 @@
   NSError *expectedError = [NSError cr_errorWithCode:CRErrorCodeInvalidRequest
                                          description:@"An Ad is already being loaded."];
   interstitial.delegate = mockInterstitialDelegate;
-  OCMExpect([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
 
   [interstitial loadAd];
   XCTAssertTrue([interstitial isAdLoading]);
   OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
   OCMExpect([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:expectedError]);
-  OCMReject([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
+  OCMReject([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
   OCMReject([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:[OCMArg any]]);
   [interstitial loadAd];
@@ -681,7 +674,7 @@
                      didFailToReceiveAdWithError:expectedError]);
 
   OCMStub([mockInterstitialVC presentingViewController]).andReturn([UIViewController new]);
-  OCMReject([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
+  OCMReject([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
   OCMReject([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:[OCMArg any]]);
   [interstitial loadAd];
@@ -704,7 +697,7 @@
   interstitial.delegate = mockInterstitialDelegate;
   OCMExpect([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:expectedError]);
-  OCMReject([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
+  OCMReject([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
   OCMReject([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:[OCMArg any]]);
   CRBid *bid = nil;
@@ -734,7 +727,7 @@
                @"Bid passed to loadAdWithBid doesn't have the same ad unit as the CRInterstitial was initialized with"];
   OCMExpect([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:expectedError]);
-  OCMReject([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
+  OCMReject([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
   OCMReject([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:[OCMArg any]]);
 
@@ -766,7 +759,7 @@
                @"Bid passed to loadAdWithBid doesn't have the same ad unit as the CRInterstitial was initialized with"];
   OCMExpect([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:expectedError]);
-  OCMReject([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
+  OCMReject([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
   OCMReject([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:[OCMArg any]]);
 
@@ -808,7 +801,6 @@
   id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
   interstitial.delegate = mockInterstitialDelegate;
   OCMExpect([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
-  OCMExpect([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
   OCMReject([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:[OCMArg any]]);
   OCMReject([mockInterstitialDelegate interstitial:interstitial
@@ -865,11 +857,10 @@
         respondBid:[self bidWithDisplayURL:@"test"]];
   id mockInterstitialDelegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
   interstitial.delegate = mockInterstitialDelegate;
-  OCMExpect([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
   OCMReject([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:[OCMArg any]]);
 
-  OCMReject([mockInterstitialDelegate interstitialIsReadyToPresent:interstitial]);
+  OCMReject([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
   OCMExpect([mockInterstitialDelegate interstitial:interstitial
                 didFailToReceiveAdContentWithError:[OCMArg any]]);
   NSError *expectedError = [NSError cr_errorWithCode:CRErrorCodeNetworkError

@@ -60,8 +60,15 @@
 #pragma mark CRInterstitialDelegate Implementation
 // These callbacks are called on the main thread from the Criteo SDK
 - (void)interstitialDidReceiveAd:(CRInterstitial *)interstitial {
-  // Signals that Criteo is willing to display an ad
-  // Intentionally left blank
+  if ([self.delegate respondsToSelector:@selector(customEventInterstitialDidReceiveAd:)]) {
+    [self.delegate customEventInterstitialDidReceiveAd:self];
+  }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+  else if ([self.delegate respondsToSelector:@selector(customEventInterstitial:didReceiveAd:)]) {
+    [self.delegate customEventInterstitial:self didReceiveAd:interstitial];
+  }
+#pragma clang diagnostic pop
 }
 
 - (void)interstitial:(CRInterstitial *)interstitial didFailToReceiveAdWithError:(NSError *)error {
@@ -103,18 +110,6 @@
   if ([self.delegate respondsToSelector:@selector(customEventInterstitialWillLeaveApplication:)]) {
     [self.delegate customEventInterstitialWillLeaveApplication:self];
   }
-}
-
-- (void)interstitialIsReadyToPresent:(CRInterstitial *)interstitial {
-  if ([self.delegate respondsToSelector:@selector(customEventInterstitialDidReceiveAd:)]) {
-    [self.delegate customEventInterstitialDidReceiveAd:self];
-  }
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-  else if ([self.delegate respondsToSelector:@selector(customEventInterstitial:didReceiveAd:)]) {
-    [self.delegate customEventInterstitial:self didReceiveAd:interstitial];
-  }
-#pragma clang diagnostic pop
 }
 
 - (void)interstitial:(CRInterstitial *)interstitial

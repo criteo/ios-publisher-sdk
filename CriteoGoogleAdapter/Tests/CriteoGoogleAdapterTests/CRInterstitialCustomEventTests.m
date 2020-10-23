@@ -100,17 +100,6 @@
 
 #pragma mark CRInterstitial Delegate tests
 
-- (void)testDidReceiveAdDelegate {
-  CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
-  id mockGADInterstitialDelegate =
-      OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
-  OCMReject([mockGADInterstitialDelegate customEventInterstitialDidReceiveAd:customEvent]);
-
-  customEvent.delegate = mockGADInterstitialDelegate;
-  [customEvent interstitialDidReceiveAd:[CRInterstitial new]];
-  OCMVerifyAll(mockGADInterstitialDelegate);
-}
-
 - (void)testDidFailToReceiveAdDelegate {
   CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
   id mockGADInterstitialDelegate =
@@ -176,14 +165,14 @@
   OCMVerifyAll(mockGADInterstitialDelegate);
 }
 
-- (void)testInterstitialIsReadyToPresentDelegate {
+- (void)testInterstitialDidReceiveAdDelegate {
   CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
   id mockGADInterstitialDelegate =
       OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
   OCMExpect([mockGADInterstitialDelegate customEventInterstitialDidReceiveAd:customEvent]);
 
   customEvent.delegate = mockGADInterstitialDelegate;
-  [customEvent interstitialIsReadyToPresent:[CRInterstitial new]];
+  [customEvent interstitialDidReceiveAd:[CRInterstitial new]];
   OCMVerifyAll(mockGADInterstitialDelegate);
 }
 
