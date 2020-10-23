@@ -17,16 +17,15 @@
 // limitations under the License.
 
 #import <XCTest/XCTest.h>
-#import "CRInterstitialCustomEvent.h"
 #import <OCMock.h>
-
-#import <CriteoPublisherSdk/CriteoPublisherSdk.h>
+#import "CRInterstitialCustomEvent.h"
 
 @interface CRInterstitialCustomEventTests : XCTestCase
 
 @end
 
-// Private property (duplicates code in CRIntrstitialCustomEvent.m so that we can use it in testing)
+// Private property (duplicates code in CRInterstitialCustomEvent.m so that we can use it in
+// testing)
 @interface CRInterstitialCustomEvent ()
 
 @property(nonatomic, strong) CRInterstitial *interstitial;
@@ -119,13 +118,11 @@
   NSError *CriteoError =
       [NSError errorWithDomain:@"test domain"
                           code:0
-                      userInfo:[NSDictionary dictionaryWithObject:@"test description"
-                                                           forKey:NSLocalizedDescriptionKey]];
+                      userInfo:@{NSLocalizedDescriptionKey : @"test description"}];
   NSError *expectedError =
       [NSError errorWithDomain:kGADErrorDomain
                           code:kGADErrorNoFill
-                      userInfo:[NSDictionary dictionaryWithObject:CriteoError.description
-                                                           forKey:NSLocalizedDescriptionKey]];
+                      userInfo:@{NSLocalizedDescriptionKey : CriteoError.description}];
   OCMExpect([mockGADInterstitialDelegate customEventInterstitial:customEvent
                                                        didFailAd:expectedError]);
 
@@ -201,13 +198,11 @@
   NSError *CriteoError =
       [NSError errorWithDomain:@"test domain"
                           code:0
-                      userInfo:[NSDictionary dictionaryWithObject:@"test description"
-                                                           forKey:NSLocalizedDescriptionKey]];
+                      userInfo:@{NSLocalizedDescriptionKey : @"test description"}];
   NSError *expectedError =
       [NSError errorWithDomain:kGADErrorDomain
                           code:kGADErrorNetworkError
-                      userInfo:[NSDictionary dictionaryWithObject:CriteoError.description
-                                                           forKey:NSLocalizedDescriptionKey]];
+                      userInfo:@{NSLocalizedDescriptionKey : CriteoError.description}];
   [customEvent interstitial:[CRInterstitial new] didFailToReceiveAdContentWithError:expectedError];
   OCMVerifyAll(mockGADInterstitialDelegate);
 }

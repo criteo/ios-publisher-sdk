@@ -17,9 +17,8 @@
 // limitations under the License.
 
 #import <XCTest/XCTest.h>
-#import "CRInterstitialCustomEvent.h"
 #import <OCMock.h>
-#import <CriteoPublisherSdk/CriteoPublisherSdk.h>
+#import "CRInterstitialCustomEvent.h"
 
 @interface CRInterstitialCustomEvent ()
 
