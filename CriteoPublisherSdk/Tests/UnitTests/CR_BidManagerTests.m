@@ -574,7 +574,7 @@
                   bidConsumed:nil
                  bidResponded:nil];
 
-  // Silent bid from cdb call has been cached
+  // Silent bid not consumed from cache
   XCTAssertEqual(self.cacheManager.bidCache[self.adUnit1], silentBid);
 }
 
@@ -653,21 +653,11 @@
   XCTAssertNotEqual(self.cacheManager.bidCache[self.adUnit1], invalidBid);
 }
 
-- (void)testLiveBid_GivenExpiredBid_ThenNoResponseGiven {
-  CR_CdbBid *expiredBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).expired().build;
-  [self givenApiHandlerRespondBid:expiredBid];
-
-  [self fetchLiveBidAndExpectBidCached:nil bidConsumedAndResponded:self.bid1];
-
-  // Expired bid from cdb call has not been cached
-  XCTAssertNotEqual(self.cacheManager.bidCache[self.adUnit1], expiredBid);
-}
-
 - (void)testLiveBid_GivenNoBid_ThenNoResponseGiven {
   CR_CdbBid *noBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).noBid().build;
   [self givenApiHandlerRespondBid:noBid];
 
-  [self fetchLiveBidAndExpectBidCached:nil bidConsumedAndResponded:self.bid1];
+  [self fetchLiveBidAndExpectBidCached:nil bidConsumedAndResponded:noBid];
 
   // No bid from cdb call has not been cached
   XCTAssertNotEqual(self.cacheManager.bidCache[self.adUnit1], noBid);

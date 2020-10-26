@@ -197,10 +197,10 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
                               @"During a live request, only one bid will be fetched at a time.");
                      if (cdbResponse.cdbBids.count == 1) {
                        CR_CdbBid *bid = cdbResponse.cdbBids[0];
-                       if (bid.isInSilenceMode && !bid.isExpired) {
+                       if (bid.isInSilenceMode) {
                          [self cacheBidsFromResponse:cdbResponse];
                          return responseHandler(nil);
-                       } else if (bid.isValid && !bid.isExpired) {
+                       } else if (bid.isValid) {
                          [self.feedbackDelegate onBidConsumed:bid];
                          return responseHandler(bid);
                        }
