@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CRNativeAd ()
 
-@property(weak, nonatomic, readonly) CRNativeLoader *loader;
+@property(strong, nonatomic, readonly) CRNativeLoader *loader;
 @property(strong, nonatomic, readonly) CR_NativeAssets *assets;
 @property(strong, nonatomic, readonly) CR_NativeProduct *product;
 /**

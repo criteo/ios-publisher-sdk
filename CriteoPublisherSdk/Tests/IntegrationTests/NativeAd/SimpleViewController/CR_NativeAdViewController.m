@@ -19,7 +19,6 @@
 
 #import "CR_NativeAdViewController.h"
 #import "Criteo.h"
-#import "CRNativeLoader.h"
 #import "CRNativeLoader+Internal.h"
 #import "CRNativeAdUnit.h"
 #import "CRNativeAd.h"
@@ -27,7 +26,7 @@
 #import "CR_SafeAreaView.h"
 #import "CR_URLOpenerMock.h"
 
-@interface CR_NativeAdViewController () <CRNativeLoaderDelegate>
+@interface CR_NativeAdViewController ()
 
 @property(strong, nonatomic, nullable) CR_SafeAreaView *safeView API_AVAILABLE(ios(11.0));
 
