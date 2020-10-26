@@ -1,5 +1,5 @@
 //
-//  CR_NativeImageTests.m
+//  CRNativeLoaderTests.m
 //  CriteoPublisherSdkTests
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -39,7 +39,7 @@
 #import "CR_IntegrationRegistry.h"
 #import "XCTestCase+Criteo.h"
 
-@interface CR_NativeLoaderTests : XCTestCase
+@interface CRNativeLoaderTests : XCTestCase
 @property(strong, nonatomic) CRNativeLoader *loader;
 @property(strong, nonatomic) CRNativeAd *nativeAd;
 @property(strong, nonatomic) CR_NativeLoaderDispatchChecker *delegate;
@@ -51,7 +51,7 @@
 
 @end
 
-@implementation CR_NativeLoaderTests
+@implementation CRNativeLoaderTests
 
 - (void)setUp {
   self.delegate = [[CR_NativeLoaderDispatchChecker alloc] init];
