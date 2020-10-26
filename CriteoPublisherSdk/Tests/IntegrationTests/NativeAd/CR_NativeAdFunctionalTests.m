@@ -23,9 +23,9 @@
 #import "CR_NativeAdViewController.h"
 #import "CR_CustomNativeAdView.h"
 #import "CR_TestAdUnits.h"
-#import "CRNativeLoader.h"
+#import "CRNativeLoader+Internal.h"
 #import "Criteo+Testing.h"
-#import "NSURL+Criteo.h"
+#import "CR_URLOpenerMock.h"
 #import "UIWindow+Testing.h"
 #import "XCTestCase+Criteo.h"
 #import "CR_NativeAdTableViewCell.h"
@@ -252,6 +252,21 @@
   [self cr_waitForExpectations:@[ exp ]];
 }
 
+- (void)testGivenNativeAdLoaderNotRetained_whenClickOnAd_thenClickDetected {
+  CRNativeAdUnit *adUnit = [CR_TestAdUnits preprodNative];
+  [self initCriteoWithAdUnits:@[ adUnit ]];
+  CR_NativeAdViewController *ctrl =
+      [CR_NativeAdViewController nativeAdViewControllerWithCriteo:self.criteo];
+  self.window = [UIWindow cr_keyWindowWithViewController:ctrl];
+
+  [self loadNativeUnretainedForAdUnit:adUnit inViewController:ctrl];
+  XCTestExpectation *exp = [self expectationForClickDetectionOnViewController:ctrl];
+
+  [ctrl.adView sendActionsForControlEvents:UIControlEventTouchUpInside];
+
+  [self cr_waitForExpectations:@[ exp ]];
+}
+
 #pragma mark - Private
 
 - (XCTestExpectation *)expectationForImpressionPixelsSend {
@@ -332,6 +347,21 @@
                                                                object:ctrl
                                                         expectedValue:@1];
   [ctrl.adLoader loadAd];
+  [self cr_waitForExpectations:@[ exp ]];
+}
+
+- (void)loadNativeUnretainedForAdUnit:(CRNativeAdUnit *)adUnit
+                     inViewController:(CR_NativeAdViewController *)ctrl {
+  CRNativeLoader *loader = [[CRNativeLoader alloc] initWithAdUnit:adUnit
+                                                           criteo:self.criteo
+                                                        urlOpener:CR_URLOpenerMock.new];
+  loader.delegate = ctrl;
+
+  NSString *keyPath = NSStringFromSelector(@selector(adLoadedCount));
+  XCTestExpectation *exp = [[XCTKVOExpectation alloc] initWithKeyPath:keyPath
+                                                               object:ctrl
+                                                        expectedValue:@1];
+  [loader loadAd];
   [self cr_waitForExpectations:@[ exp ]];
 }
 

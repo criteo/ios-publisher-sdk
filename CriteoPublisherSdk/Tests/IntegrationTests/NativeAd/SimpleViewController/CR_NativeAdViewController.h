@@ -18,16 +18,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CRNativeLoader.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class Criteo;
 @class CRNativeAdUnit;
-@class CRNativeLoader;
 @class CR_SafeAreaView;
 @class CR_CustomNativeAdView;
 
-@interface CR_NativeAdViewController : UIViewController
+@interface CR_NativeAdViewController : UIViewController <CRNativeLoaderDelegate>
 
 + (instancetype)nativeAdViewControllerWithCriteo:(Criteo *)criteo;
 
