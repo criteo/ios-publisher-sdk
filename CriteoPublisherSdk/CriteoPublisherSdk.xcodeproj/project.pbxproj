@@ -58,7 +58,7 @@
 		46813BEE2472E39000CD8E59 /* CRMediaDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 46813BEC2472E39000CD8E59 /* CRMediaDownloader.h */; };
 		46813BF32472EA5D00CD8E59 /* CR_DefaultMediaDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 46813BF12472EA5D00CD8E59 /* CR_DefaultMediaDownloader.m */; };
 		469301CA24740289006F8D82 /* CR_ImpressionDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 469301C824740289006F8D82 /* CR_ImpressionDetector.m */; };
-		46AD5CF5245B003D00199315 /* CR_NativeLoaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46AD5CF4245B003D00199315 /* CR_NativeLoaderTests.m */; };
+		46AD5CF5245B003D00199315 /* CRNativeLoaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46AD5CF4245B003D00199315 /* CRNativeLoaderTests.m */; };
 		46B6115724C9DBD4002896F8 /* CRConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 46E8A70324B74D69007103B9 /* CRConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		46B9780E243782A50061FC24 /* CR_UniqueIdGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 46240E0C2434BB4F001425AB /* CR_UniqueIdGenerator.m */; };
 		46BC3960246EDA5200F0B2F1 /* CRNativeAdViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46BC395F246EDA5200F0B2F1 /* CRNativeAdViewTests.m */; };
@@ -359,7 +359,7 @@
 		46813BF12472EA5D00CD8E59 /* CR_DefaultMediaDownloader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_DefaultMediaDownloader.m; sourceTree = "<group>"; };
 		469301C724740289006F8D82 /* CR_ImpressionDetector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_ImpressionDetector.h; sourceTree = "<group>"; };
 		469301C824740289006F8D82 /* CR_ImpressionDetector.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_ImpressionDetector.m; sourceTree = "<group>"; };
-		46AD5CF4245B003D00199315 /* CR_NativeLoaderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_NativeLoaderTests.m; sourceTree = "<group>"; };
+		46AD5CF4245B003D00199315 /* CRNativeLoaderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNativeLoaderTests.m; sourceTree = "<group>"; };
 		46BC395F246EDA5200F0B2F1 /* CRNativeAdViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdViewTests.m; sourceTree = "<group>"; };
 		46C87E6B24405B2A0022978C /* CR_DefaultFileManipulatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_DefaultFileManipulatorTests.swift; sourceTree = "<group>"; };
 		46E8A70324B74D69007103B9 /* CRConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRConstants.h; sourceTree = "<group>"; };
@@ -1047,7 +1047,7 @@
 				7D3E41FA23915B6600BAF673 /* CR_NativePrivacyTests.m */,
 				7D3E41FB23915B6600BAF673 /* CR_NativeProductTests.m */,
 				7D3E41FC23915B6600BAF673 /* CR_NativeImageTests.m */,
-				46AD5CF4245B003D00199315 /* CR_NativeLoaderTests.m */,
+				46AD5CF4245B003D00199315 /* CRNativeLoaderTests.m */,
 				7D3E41FD23915B6600BAF673 /* CR_NativeAssetsTests.m */,
 				7D3E41FE23915B6600BAF673 /* CR_NativeAdvertiserTests.m */,
 				4638C000249B7EF6007A8878 /* CR_SafeMediaDownloaderTests.m */,
@@ -1836,7 +1836,7 @@
 				54680B7623969D5C00DB5A37 /* CR_IntegrationsTestBase.m in Sources */,
 				7D60F459242CE8F4008F6260 /* CR_BidRequestSerializerTests.m in Sources */,
 				462DCAA7246316B700B43A51 /* XCTestCase+Criteo.m in Sources */,
-				46AD5CF5245B003D00199315 /* CR_NativeLoaderTests.m in Sources */,
+				46AD5CF5245B003D00199315 /* CRNativeLoaderTests.m in Sources */,
 				54C24BCD2404156A00DD9839 /* CR_FeedbackFileManagerTests.swift in Sources */,
 				467D34CA243E060A00852B4D /* CR_CASBoundedFileObjectQueueTests.m in Sources */,
 				7D344F6B23D9A5F70029E653 /* CR_BidManagerIntegrationTests.m in Sources */,
