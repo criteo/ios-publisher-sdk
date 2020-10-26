@@ -11,6 +11,11 @@
   - **In House**: `CRBannerView`, `CRInterstitial` and `CRNativeLoader` gets a ` loadAdWithBid:` that
     replaces former `loadAdWithBidToken:` methods. A bid is obtained using the aforementioned
     `loadBidForAdUnit:` method.
+  - **`CRInterstitialDelegate`**:
+    - `interstitialIsReadyToPresent:` moved to `interstitialDidReceiveAd:`.
+      This method is now called when an interstitial ad is ready to be displayed.
+    - `didFailToReceiveAdContentWithError:` merged into `didFailToReceiveAdWithError:`.
+      This method is now called when an error occurs while requesting an interstitiall ad.
 - **CocoaPods**: Pod is now source provided rather than binary. Few potential changes required on
 pod clients, you can:
   - Either add [`use_frameworks!`][use_frameworks] to your Podfile so CocoaPods produce frameworks
@@ -27,6 +32,7 @@ pod clients, you can:
 
 [gh_releases]: https://github.com/criteo/ios-publisher-sdk/releases
 [use_frameworks]: https://guides.cocoapods.org/syntax/podfile.html#tab_use_frameworks_bang
+
 --------------------------------------------------------------------------------
 ## Version 3.10.0
 
