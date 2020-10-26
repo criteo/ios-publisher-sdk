@@ -42,7 +42,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
 
   [viewChecker.bannerView loadAd];
 
-  [self cr_waitForExpectations:@[ viewChecker.bannerViewFailToReceiveAdExpectation ]];
+  [self cr_waitForExpectations:@[ viewChecker.failToReceiveAdExpectation ]];
 }
 
 - (void)test_givenBannerWithGoodAdUnitId_whenLoadAd_thenDelegateInvoked {
@@ -53,7 +53,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
 
   [viewChecker.bannerView loadAd];
 
-  [self cr_waitForExpectations:@[ viewChecker.bannerViewDidReceiveAdExpectation ]];
+  [self cr_waitForExpectations:@[ viewChecker.didReceiveAdExpectation ]];
 }
 
 // Note this test relies on WireMock, for more information see wiremock/wiremock.md

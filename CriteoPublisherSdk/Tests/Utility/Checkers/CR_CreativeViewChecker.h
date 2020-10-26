@@ -18,22 +18,25 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CRBannerView.h"
-#import "Criteo.h"
 #import <XCTest/XCTest.h>
 
-@interface CR_CreativeViewChecker : NSObject <CRBannerViewDelegate>
+#import "Criteo.h"
+#import "CRBannerView.h"
+#import "CRInterstitial.h"
+
+@interface CR_CreativeViewChecker : NSObject <CRBannerViewDelegate, CRInterstitialDelegate>
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithAdUnit:(CRBannerAdUnit *)adUnit criteo:(Criteo *)criteo;
+- (instancetype)initWithAdUnit:(CRAdUnit *)adUnit criteo:(Criteo *)criteo;
 
 @property(strong, nonatomic, readonly) UIWindow *uiWindow;
-@property(strong, nonatomic, readonly) XCTestExpectation *bannerViewFailToReceiveAdExpectation;
-@property(strong, nonatomic, readonly) XCTestExpectation *bannerViewDidReceiveAdExpectation;
+@property(strong, nonatomic, readonly) XCTestExpectation *failToReceiveAdExpectation;
+@property(strong, nonatomic, readonly) XCTestExpectation *didReceiveAdExpectation;
 @property(strong, nonatomic, readonly) XCTestExpectation *adCreativeRenderedExpectation;
 @property(strong, nonatomic, readonly) CRBannerView *bannerView;
-@property(strong, nonatomic, readonly) CRBannerAdUnit *adUnit;
+@property(strong, nonatomic, readonly) CRInterstitial *interstitial;
+@property(strong, nonatomic, readonly) CRAdUnit *adUnit;
 @property(weak, nonatomic, readonly) Criteo *criteo;
 @property(copy, nonatomic) NSString *expectedCreativeUrl;
 

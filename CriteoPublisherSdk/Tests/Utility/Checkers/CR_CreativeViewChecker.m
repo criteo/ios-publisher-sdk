@@ -26,6 +26,8 @@
 #import "CR_ApiHandler.h"
 #import "CR_CacheManager.h"
 #import "CR_DependencyProvider.h"
+#import "CRInterstitial+Internal.h"
+#import "CR_InterstitialViewController.h"
 #import "CR_URLOpenerMock.h"
 #import "CR_ViewCheckingHelper.h"
 #import "Criteo+Internal.h"
@@ -37,13 +39,19 @@
 
 @implementation CR_CreativeViewChecker
 
-- (instancetype)initWithAdUnit:(CRBannerAdUnit *)adUnitParam criteo:(Criteo *)criteoParam {
+- (instancetype)initWithAdUnit:(CRAdUnit *)adUnit criteo:(Criteo *)criteo {
   if (self = [super init]) {
     [self resetExpectations];
     _uiWindow = [self createUIWindow];
-    _adUnit = adUnitParam;
-    _criteo = criteoParam;
-    [self resetBannerView];
+    _adUnit = adUnit;
+    _criteo = criteo;
+    if (self.isBannerAdUnit) {
+      [self resetBannerView];
+    } else {
+      _interstitial = [[CRInterstitial alloc] initWithAdUnit:(CRInterstitialAdUnit *)adUnit
+                                                      criteo:criteo];
+      _interstitial.delegate = self;
+    }
     _expectedCreativeUrl = [CR_ViewCheckingHelper preprodCreativeImageUrl];
   }
   return self;
@@ -82,7 +90,7 @@
 
 - (void)banner:(CRBannerView *)bannerView didFailToReceiveAdWithError:(NSError *)error {
   NSLog(@"%@", error.localizedDescription);
-  [self.bannerViewFailToReceiveAdExpectation fulfill];
+  [self.failToReceiveAdExpectation fulfill];
 }
 
 - (void)bannerWillLeaveApplication:(CRBannerView *)bannerView {
@@ -90,38 +98,57 @@
 }
 
 - (void)bannerDidReceiveAd:(CRBannerView *)bannerView {
-  [self.bannerViewDidReceiveAdExpectation fulfill];
+  [self.didReceiveAdExpectation fulfill];
   [self checkViewAndFulfillExpectation];
 }
 
+#pragma mark - CRInterstitialDelegate
+
+- (void)interstitialDidReceiveAd:(CRInterstitial *)interstitial {
+  [self.didReceiveAdExpectation fulfill];
+  [self checkViewAndFulfillExpectation:self.interstitial.viewController.webView];
+}
+
+- (void)interstitial:(CRInterstitial *)interstitial didFailToReceiveAdWithError:(NSError *)error {
+  NSLog(@"%@", error.localizedDescription);
+  [self.failToReceiveAdExpectation fulfill];
+  [self checkViewAndFulfillExpectation:self.interstitial.viewController.webView];
+}
+
+#pragma mark - Private
+
+- (BOOL)isBannerAdUnit {
+  return [_adUnit isKindOfClass:CRBannerAdUnit.class];
+}
+
 - (void)resetExpectations {
-  _bannerViewDidReceiveAdExpectation =
+  _didReceiveAdExpectation =
       [[XCTestExpectation alloc] initWithDescription:@"Expect that CRBannerView will get a bid"];
-  _bannerViewFailToReceiveAdExpectation = [[XCTestExpectation alloc]
+  _failToReceiveAdExpectation = [[XCTestExpectation alloc]
       initWithDescription:@"Expect that CRBannerView will fail to get a bid"];
   _adCreativeRenderedExpectation =
       [[XCTestExpectation alloc] initWithDescription:@"Expect that Criteo creative appears."];
 }
 
 - (void)resetBannerView {
+  NSAssert(self.isBannerAdUnit, @"This can be called only when testing banners");
   [_bannerView removeFromSuperview];
   // NOTE: bannerView was created with frame (0; 50; w; h) because with (0; 0; ...) banner is
   // displayed wrong.
   // TODO: Find a way to render banner with (0;0; ...).
+  CRBannerAdUnit *adUnit = (CRBannerAdUnit *)self.adUnit;
+  CGSize size = adUnit.size;
   _bannerView = [[CRBannerView alloc]
-      initWithFrame:CGRectMake(.0, 50.0, self.adUnit.size.width, self.adUnit.size.height)
+      initWithFrame:CGRectMake(.0, 50.0, size.width, size.height)
              criteo:self.criteo
-            webView:[[WKWebView alloc] initWithFrame:CGRectMake(.0, .0, self.adUnit.size.width,
-                                                                self.adUnit.size.height)]
-             adUnit:self.adUnit
+            webView:[[WKWebView alloc] initWithFrame:CGRectMake(.0, .0, size.width, size.height)]
+             adUnit:adUnit
           urlOpener:[[CR_URLOpenerMock alloc] init]];
 
   _bannerView.delegate = self;
   _bannerView.backgroundColor = UIColor.orangeColor;
   [_uiWindow.rootViewController.view addSubview:_bannerView];
 }
-
-#pragma mark - Private methods
 
 - (UIWindow *)createUIWindow {
   UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 50, 320, 480)];
@@ -131,9 +158,8 @@
   return window;
 }
 
-- (void)checkViewAndFulfillExpectation {
+- (void)checkViewAndFulfillExpectation:(WKWebView *)webview {
   __weak typeof(self) weakSelf = self;
-  WKWebView *webview = [self.uiWindow testing_findFirstWKWebView];
   [webview testing_evaluateJavaScript:
                @"(function() { return document.getElementsByTagName('html')[0].outerHTML; })();"
       validationHandler:^BOOL(NSString *htmlContent, NSError *error) {
@@ -149,6 +175,11 @@
         }
         weakSelf.uiWindow.hidden = YES;
       }];
+}
+
+- (void)checkViewAndFulfillExpectation {
+  WKWebView *webview = [self.uiWindow testing_findFirstWKWebView];
+  [self checkViewAndFulfillExpectation:webview];
 }
 
 @end
