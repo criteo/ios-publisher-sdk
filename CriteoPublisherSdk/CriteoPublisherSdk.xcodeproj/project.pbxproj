@@ -160,7 +160,6 @@
 		7D321B072472E9B0006CBC4E /* CR_HeaderBiddingDictionaryFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D321B062472E9B0006CBC4E /* CR_HeaderBiddingDictionaryFunctionalTests.m */; };
 		7D321B1A2474513C006CBC4E /* UIWindow+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D321B192474513C006CBC4E /* UIWindow+Testing.m */; };
 		7D344F6B23D9A5F70029E653 /* CR_BidManagerIntegrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D344F6A23D9A5F70029E653 /* CR_BidManagerIntegrationTests.m */; };
-		7D3D6AA424519F3D00B91ADC /* CR_InterstitialChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3D6AA324519F3D00B91ADC /* CR_InterstitialChecker.m */; };
 		7D3E422223915B6600BAF673 /* NSObject+CriteoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41F223915B6600BAF673 /* NSObject+CriteoTests.m */; };
 		7D3E422323915B6600BAF673 /* CR_ConfigManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41F423915B6600BAF673 /* CR_ConfigManagerTests.m */; };
 		7D3E422423915B6600BAF673 /* CR_ConfigTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E41F523915B6600BAF673 /* CR_ConfigTests.m */; };
@@ -490,8 +489,6 @@
 		7D321B182474513C006CBC4E /* UIWindow+Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIWindow+Testing.h"; sourceTree = "<group>"; };
 		7D321B192474513C006CBC4E /* UIWindow+Testing.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+Testing.m"; sourceTree = "<group>"; };
 		7D344F6A23D9A5F70029E653 /* CR_BidManagerIntegrationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_BidManagerIntegrationTests.m; sourceTree = "<group>"; };
-		7D3D6AA224519F3D00B91ADC /* CR_InterstitialChecker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_InterstitialChecker.h; sourceTree = "<group>"; };
-		7D3D6AA324519F3D00B91ADC /* CR_InterstitialChecker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_InterstitialChecker.m; sourceTree = "<group>"; };
 		7D3E41D42387EE8000BAF673 /* NSUserDefaults+Criteo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Criteo.h"; sourceTree = "<group>"; };
 		7D3E41D52387EE8000BAF673 /* NSUserDefaults+Criteo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+Criteo.m"; sourceTree = "<group>"; };
 		7D3E41E4238BDD9700BAF673 /* CR_DependencyProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_DependencyProvider.h; sourceTree = "<group>"; };
@@ -931,8 +928,6 @@
 				5E06534D114E0989D12A1E6B /* CR_CreativeViewChecker.m */,
 				5E06575364D5BB84CA6CE107 /* CR_ViewCheckingHelper.h */,
 				5E0659E91B2AF96B5DF83DA3 /* CR_ViewCheckingHelper.m */,
-				7D3D6AA224519F3D00B91ADC /* CR_InterstitialChecker.h */,
-				7D3D6AA324519F3D00B91ADC /* CR_InterstitialChecker.m */,
 				7D9CFF75247BFDFC0005DAE8 /* CR_NativeLoaderDispatchChecker.h */,
 				7D9CFF76247BFDFC0005DAE8 /* CR_NativeLoaderDispatchChecker.m */,
 				7D9CFF79247BFFD40005DAE8 /* CR_MediaDownloaderDispatchChecker.h */,
@@ -1855,7 +1850,6 @@
 				7D3E422423915B6600BAF673 /* CR_ConfigTests.m in Sources */,
 				7DA2F5C423A0EAC000B35524 /* CR_DataConsentFunctionalTests.m in Sources */,
 				7D3E423323915B6600BAF673 /* CRBannerViewTests.m in Sources */,
-				7D3D6AA424519F3D00B91ADC /* CR_InterstitialChecker.m in Sources */,
 				46D707D524A245630043D66F /* CR_MopubBannerFunctionalTests.m in Sources */,
 				7D9CFF77247BFDFC0005DAE8 /* CR_NativeLoaderDispatchChecker.m in Sources */,
 				7D47C458246AEC75009E7FE5 /* CR_HeaderBiddingTests.m in Sources */,
