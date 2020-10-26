@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_InterstitialChecker : NSObject
 
-@property(strong, nonatomic, readonly) CRInterstitial *intertitial;
+@property(strong, nonatomic, readonly) CRInterstitial *interstitial;
 
 @property(strong, nonatomic, readonly) XCTestExpectation *receiveAdExpectation;
 @property(strong, nonatomic, readonly) XCTestExpectation *failToReceiveAdExpectation;
