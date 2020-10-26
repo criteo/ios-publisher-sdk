@@ -190,7 +190,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
                                                                             criteo:self.criteo];
   [self.criteo loadBidForAdUnit:adUnit
                 responseHandler:^(CRBid *bid) {
-                  [checker.intertitial loadAdWithBid:bid];
+                  [checker.interstitial loadAdWithBid:bid];
                 }];
 
   [self cr_waitForExpectations:@[ checker.receiveAdExpectation ]];
@@ -205,7 +205,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
 
   [self.criteo loadBidForAdUnit:orphan
                 responseHandler:^(CRBid *orphanBid) {
-                  [checker.intertitial loadAdWithBid:orphanBid];
+                  [checker.interstitial loadAdWithBid:orphanBid];
                 }];
 
   [self cr_waitForExpectations:@[ checker.failToReceiveAdExpectation ]];
@@ -219,7 +219,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
                                                                             criteo:self.criteo];
   [self.criteo loadBidForAdUnit:orphan
                 responseHandler:^(CRBid *orphanBid) {
-                  [checker.intertitial loadAdWithBid:orphanBid];
+                  [checker.interstitial loadAdWithBid:orphanBid];
                 }];
 
   [self cr_waitForExpectations:@[ checker.failToReceiveAdExpectation ]];
@@ -227,7 +227,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
 
   [self.criteo loadBidForAdUnit:adUnit
                 responseHandler:^(CRBid *goodBid) {
-                  [checker.intertitial loadAdWithBid:goodBid];
+                  [checker.interstitial loadAdWithBid:goodBid];
                 }];
 
   [self cr_waitForExpectations:@[ checker.receiveAdExpectation ]];

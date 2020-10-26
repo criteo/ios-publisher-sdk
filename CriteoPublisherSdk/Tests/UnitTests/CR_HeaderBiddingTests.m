@@ -54,11 +54,11 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 
 #define CR_AssertInterstitialCrtSize(_crtSize, _type, _orientation, _size) \
   do {                                                                     \
-    [self recordFailureForIntertitialCrtSize:_crtSize                      \
-                              withDeviceType:_type                         \
-                                 orientation:_orientation                  \
-                                  screenSize:_size                         \
-                                      atLine:__LINE__];                    \
+    [self recordFailureForInterstitialCrtSize:_crtSize                     \
+                               withDeviceType:_type                        \
+                                  orientation:_orientation                 \
+                                   screenSize:_size                        \
+                                       atLine:__LINE__];                   \
   } while (0);
 
 #define CR_AssertEqualDfpString(notDfpStr, dfpStr) \
@@ -455,7 +455,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 
 #pragma mark DFP
 
-- (void)testIntertitialSizeOniPhoneInLandscape {
+- (void)testInterstitialSizeOniPhoneInLandscape {
   // Size of recent devices
   // https://developer.apple.com/library/archive/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/Displays/Displays.html
 
@@ -498,11 +498,11 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 
 #pragma mark - Private
 
-- (void)recordFailureForIntertitialCrtSize:(NSString *)crtSize
-                            withDeviceType:(CR_DeviceType)deviceType
-                               orientation:(CR_DeviceOrientation)orientation
-                                screenSize:(CGSize)screenSize
-                                    atLine:(NSUInteger)lineNumber {
+- (void)recordFailureForInterstitialCrtSize:(NSString *)crtSize
+                             withDeviceType:(CR_DeviceType)deviceType
+                                orientation:(CR_DeviceOrientation)orientation
+                                 screenSize:(CGSize)screenSize
+                                     atLine:(NSUInteger)lineNumber {
   // Clean up because this method can be reused in the same test
   [self tearDown];
   [self setUp];

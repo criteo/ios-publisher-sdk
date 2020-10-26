@@ -44,8 +44,8 @@
         initWithDescription:@"CRInterstitialDelegate.didFailToReceiveAdWithError called"];
     _criteo = criteo;
     _adUnit = adUnit;
-    _intertitial = [[CRInterstitial alloc] initWithAdUnit:adUnit criteo:criteo];
-    _intertitial.delegate = self;
+    _interstitial = [[CRInterstitial alloc] initWithAdUnit:adUnit criteo:criteo];
+    _interstitial.delegate = self;
   }
   return self;
 }
