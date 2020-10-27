@@ -826,6 +826,31 @@
 			path = Feedback;
 			sourceTree = "<group>";
 		};
+		46E3EE1B254867E900F01C88 /* Public */ = {
+			isa = PBXGroup;
+			children = (
+				E1F2738C21BB1B1400A2FBFA /* Criteo.h */,
+				25BD5B592220D16D004DE311 /* CriteoPublisherSdk.h */,
+				5397C08A22A0885700BC72FE /* CRAdUnit.h */,
+				5397C08F22A0885900BC72FE /* CRBannerAdUnit.h */,
+				650915F32255622E001D6673 /* CRBannerView.h */,
+				543F6F9C22838EDF00A5DBE2 /* CRBannerViewDelegate.h */,
+				53CA0F7922AAE1D10098F96C /* CRBid.h */,
+				46E8A70324B74D69007103B9 /* CRConstants.h */,
+				654858A5226538D500DC471A /* CRInterstitial.h */,
+				5397C08B22A0885800BC72FE /* CRInterstitialAdUnit.h */,
+				6549B552228389930078F068 /* CRInterstitialDelegate.h */,
+				C07ABFCB3CD0F740F0A7FB05 /* CRMediaContent.h */,
+				46813BEC2472E39000CD8E59 /* CRMediaDownloader.h */,
+				C07AB3CE717BDF28B66871B2 /* CRMediaView.h */,
+				7D03F0FA23F18ECF00CB5D8B /* CRNativeAd.h */,
+				DF367C84232971810044807B /* CRNativeAdUnit.h */,
+				46507F7E246C2F6900B1DA78 /* CRNativeAdView.h */,
+				4668FEEF2459BD1000D207AE /* CRNativeLoader.h */,
+			);
+			path = Public;
+			sourceTree = "<group>";
+		};
 		542B05F523FD97380086A942 /* Feedback */ = {
 			isa = PBXGroup;
 			children = (
@@ -866,16 +891,6 @@
 				543F6F7A22820C1A00A5DBE2 /* main.m */,
 			);
 			path = iTestHostApp;
-			sourceTree = "<group>";
-		};
-		545A39F522A880BD00648957 /* InHouseMediation */ = {
-			isa = PBXGroup;
-			children = (
-				53CA0F7922AAE1D10098F96C /* CRBid.h */,
-				53CA0F7A22AAE1D10098F96C /* CRBid.m */,
-				53374B7C22AED93A007084FB /* CRBid+Internal.h */,
-			);
-			path = InHouseMediation;
 			sourceTree = "<group>";
 		};
 		54E0C221238BCE11004F9353 /* IntegrationTests */ = {
@@ -939,16 +954,12 @@
 		650915F222555C21001D6673 /* Standalone */ = {
 			isa = PBXGroup;
 			children = (
-				650915F32255622E001D6673 /* CRBannerView.h */,
 				650915FC225562F1001D6673 /* CRBannerView+Internal.h */,
 				650915F42255622E001D6673 /* CRBannerView.m */,
-				654858A5226538D500DC471A /* CRInterstitial.h */,
 				654858A6226538D500DC471A /* CRInterstitial.m */,
 				654858AD22653CB800DC471A /* CRInterstitial+Internal.h */,
 				65E3A56F2270CB7A004156E9 /* CR_InterstitialViewController.h */,
 				65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */,
-				543F6F9C22838EDF00A5DBE2 /* CRBannerViewDelegate.h */,
-				6549B552228389930078F068 /* CRInterstitialDelegate.h */,
 			);
 			path = Standalone;
 			sourceTree = "<group>";
@@ -1306,19 +1317,13 @@
 				DF367C92232AE6220044807B /* CR_NativeProduct.m */,
 				4660614124754E8100690E27 /* CR_SafeMediaDownloader.h */,
 				4660614224754E8100690E27 /* CR_SafeMediaDownloader.m */,
-				C07ABFCB3CD0F740F0A7FB05 /* CRMediaContent.h */,
 				C07ABD4814092221709B77BA /* CRMediaContent.m */,
 				C07AB31126BE08B645463204 /* CRMediaContent+Internal.h */,
-				46813BEC2472E39000CD8E59 /* CRMediaDownloader.h */,
-				C07AB3CE717BDF28B66871B2 /* CRMediaView.h */,
 				C07AB093A865F67283614A5D /* CRMediaView.m */,
 				C07AB967F5DA5C6504960784 /* CRMediaView+Internal.h */,
-				7D03F0FA23F18ECF00CB5D8B /* CRNativeAd.h */,
 				7D03F0FB23F18ECF00CB5D8B /* CRNativeAd.m */,
 				7DADDB6023F5636900DD82E7 /* CRNativeAd+Internal.h */,
-				46507F7E246C2F6900B1DA78 /* CRNativeAdView.h */,
 				46507F7D246C2F6900B1DA78 /* CRNativeAdView.m */,
-				4668FEEF2459BD1000D207AE /* CRNativeLoader.h */,
 				4668FEF12459BD1000D207AE /* CRNativeLoader.m */,
 				7D03F10323F193F700CB5D8B /* CRNativeLoader+Internal.h */,
 			);
@@ -1360,9 +1365,8 @@
 		E1F2736621B5F08D00A2FBFA /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				25BD5B592220D16D004DE311 /* CriteoPublisherSdk.h */,
+				46E3EE1B254867E900F01C88 /* Public */,
 				25BD5B5A2220D16D004DE311 /* Info.plist */,
-				E1F2738C21BB1B1400A2FBFA /* Criteo.h */,
 				E1F2738A21BB12C300A2FBFA /* Criteo.m */,
 				25022DE5220A709000FF8ACE /* Criteo+Internal.h */,
 				5496875C22A5A96D007D2578 /* CR_AdUnitHelper.h */,
@@ -1387,22 +1391,18 @@
 				5E0656EA9D2A919E7646C70B /* CR_TargetingKeys.m */,
 				46240E0B2434BB4F001425AB /* CR_UniqueIdGenerator.h */,
 				46240E0C2434BB4F001425AB /* CR_UniqueIdGenerator.m */,
-				5397C08A22A0885700BC72FE /* CRAdUnit.h */,
 				5397C08C22A0885800BC72FE /* CRAdUnit.m */,
 				5397C0B622A18F7B00BC72FE /* CRAdUnit+Internal.h */,
-				5397C08F22A0885900BC72FE /* CRBannerAdUnit.h */,
 				5397C09022A0885900BC72FE /* CRBannerAdUnit.m */,
-				46E8A70324B74D69007103B9 /* CRConstants.h */,
-				5397C08B22A0885800BC72FE /* CRInterstitialAdUnit.h */,
+				53CA0F7A22AAE1D10098F96C /* CRBid.m */,
+				53374B7C22AED93A007084FB /* CRBid+Internal.h */,
 				5397C08E22A0885900BC72FE /* CRInterstitialAdUnit.m */,
-				DF367C84232971810044807B /* CRNativeAdUnit.h */,
 				DF367C85232971810044807B /* CRNativeAdUnit.m */,
 				E12A7F6C220A1D20002B4548 /* AppEvents */,
 				4672E1A9251CDDF0009F39EF /* Cassette */,
 				258821D622000D3B00398E9F /* Configuration */,
 				542B05F523FD97380086A942 /* Feedback */,
 				7D93A61523FC3286007E8B30 /* DataConsent */,
-				545A39F522A880BD00648957 /* InHouseMediation */,
 				DF367CDA23304BE50044807B /* Native */,
 				25B6505E22091F1D008416D3 /* Network */,
 				650915F222555C21001D6673 /* Standalone */,

@@ -27,7 +27,7 @@ Pod::Spec.new do |spec|
 
   spec.subspec "Sdk" do |sdk|
     sdk.source_files         = "CriteoPublisherSdk/Sources/**/*.{h,m}"
-    sdk.private_header_files = "**/{CR_,CAS}*.h", "**/*+{Private,Internal}.h"
+    sdk.public_header_files  = "CriteoPublisherSdk/Sources/Public/*.h"
     sdk.weak_frameworks      = "WebKit"
   end
 
