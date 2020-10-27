@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithCdbBid:(CR_CdbBid *)cdbBid adUnit:(CRAdUnit *)adUnit;
 
-- (CR_CdbBid *)consume;
+- (CR_CdbBid *_Nullable)consume;
 
 @end
 
