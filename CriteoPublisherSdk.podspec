@@ -29,7 +29,6 @@ Pod::Spec.new do |spec|
     sdk.source_files         = "CriteoPublisherSdk/Sources/**/*.{h,m}"
     sdk.private_header_files = "**/{CR_,CAS}*.h", "**/*+{Private,Internal}.h"
     sdk.weak_frameworks      = "WebKit"
-    sdk.dependency             "Cassette", "~> 1.0-beta"
   end
 
   spec.subspec "GoogleAdapter" do |adapter|
