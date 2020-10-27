@@ -32,6 +32,8 @@
 		4642C9C624CAD93E0080AC4F /* CR_IntegrationRegistry.h in Headers */ = {isa = PBXBuildFile; fileRef = 4642C9C424CAD93E0080AC4F /* CR_IntegrationRegistry.h */; };
 		4642C9C724CAD93E0080AC4F /* CR_IntegrationRegistry.m in Sources */ = {isa = PBXBuildFile; fileRef = 4642C9C524CAD93E0080AC4F /* CR_IntegrationRegistry.m */; };
 		4646EF192514CEF2009E4D16 /* CriteoPublisherSdk-Standalone.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 4646EF182514CEF2009E4D16 /* CriteoPublisherSdk-Standalone.xctestplan */; };
+		464D6FB925480925004502C4 /* SKAdNetworkInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464D6FB825480925004502C4 /* SKAdNetworkInfo.swift */; };
+		464D6FC1254812E5004502C4 /* SKAdNetworkInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464D6FC0254812E5004502C4 /* SKAdNetworkInfoTests.swift */; };
 		46507F80246C2F6900B1DA78 /* CRNativeAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 46507F7D246C2F6900B1DA78 /* CRNativeAdView.m */; };
 		46507F82246C2F6900B1DA78 /* CRNativeAdView.h in Headers */ = {isa = PBXBuildFile; fileRef = 46507F7E246C2F6900B1DA78 /* CRNativeAdView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		465D3CF92434D3D500BD36AC /* CR_UniqueIdGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46240E132434BB91001425AB /* CR_UniqueIdGeneratorTests.swift */; };
@@ -75,6 +77,8 @@
 		46D707D724A2456E0043D66F /* CR_StandaloneBannerFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 548AFCAC23B1113C003C9C29 /* CR_StandaloneBannerFunctionalTests.m */; };
 		46D707D824A245DB0043D66F /* NSString+GDPR.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB899DA2400126800948230 /* NSString+GDPR.m */; };
 		46D707DC24A284A00043D66F /* CR_NativeAdTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D321B1124743637006CBC4E /* CR_NativeAdTableViewCell.xib */; };
+		46F05ACE254881000009DCA6 /* skanValid.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 46F05AC9254880880009DCA6 /* skanValid.bundle */; };
+		46F05AD62548868A0009DCA6 /* skanInvalid.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 46F05AD5254883AC0009DCA6 /* skanInvalid.bundle */; };
 		5397C0AF22A0AA3D00BC72FE /* CRAdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5397C08A22A0885700BC72FE /* CRAdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5397C0B022A0AA5600BC72FE /* CRAdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5397C08C22A0885800BC72FE /* CRAdUnit.m */; };
 		5397C0B122A0AA6600BC72FE /* CR_CacheAdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5397C0AC22A0A66E00BC72FE /* CR_CacheAdUnit.m */; };
@@ -329,6 +333,8 @@
 		4642C9C424CAD93E0080AC4F /* CR_IntegrationRegistry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_IntegrationRegistry.h; sourceTree = "<group>"; };
 		4642C9C524CAD93E0080AC4F /* CR_IntegrationRegistry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_IntegrationRegistry.m; sourceTree = "<group>"; };
 		4646EF182514CEF2009E4D16 /* CriteoPublisherSdk-Standalone.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "CriteoPublisherSdk-Standalone.xctestplan"; sourceTree = "<group>"; };
+		464D6FB825480925004502C4 /* SKAdNetworkInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKAdNetworkInfo.swift; sourceTree = "<group>"; };
+		464D6FC0254812E5004502C4 /* SKAdNetworkInfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKAdNetworkInfoTests.swift; sourceTree = "<group>"; };
 		46507F7D246C2F6900B1DA78 /* CRNativeAdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdView.m; sourceTree = "<group>"; };
 		46507F7E246C2F6900B1DA78 /* CRNativeAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNativeAdView.h; sourceTree = "<group>"; };
 		465E9167246C406700227D29 /* CR_AdChoice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_AdChoice.h; sourceTree = "<group>"; };
@@ -362,6 +368,8 @@
 		46BC395F246EDA5200F0B2F1 /* CRNativeAdViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdViewTests.m; sourceTree = "<group>"; };
 		46C87E6B24405B2A0022978C /* CR_DefaultFileManipulatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_DefaultFileManipulatorTests.swift; sourceTree = "<group>"; };
 		46E8A70324B74D69007103B9 /* CRConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRConstants.h; sourceTree = "<group>"; };
+		46F05AC9254880880009DCA6 /* skanValid.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = skanValid.bundle; sourceTree = "<group>"; };
+		46F05AD5254883AC0009DCA6 /* skanInvalid.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = skanInvalid.bundle; sourceTree = "<group>"; };
 		5043681951EA02A3EDCE59C0 /* Pods-CriteoPublisherSdkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoPublisherSdkTests.release.xcconfig"; path = "Target Support Files/Pods-CriteoPublisherSdkTests/Pods-CriteoPublisherSdkTests.release.xcconfig"; sourceTree = "<group>"; };
 		53374B7C22AED93A007084FB /* CRBid+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CRBid+Internal.h"; sourceTree = "<group>"; };
 		5397C08A22A0885700BC72FE /* CRAdUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRAdUnit.h; sourceTree = "<group>"; };
@@ -755,6 +763,7 @@
 		258821D622000D3B00398E9F /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
+				464D6FB825480925004502C4 /* SKAdNetworkInfo.swift */,
 				E104B6B621E92D4B004D86C4 /* CR_Config.h */,
 				E12A7F5921FA6FA4002B4548 /* CR_Config.m */,
 				258821D021FD3FB600398E9F /* CR_ConfigManager.h */,
@@ -1052,6 +1061,9 @@
 		7D3E41F323915B6600BAF673 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
+				464D6FC0254812E5004502C4 /* SKAdNetworkInfoTests.swift */,
+				46F05AD5254883AC0009DCA6 /* skanInvalid.bundle */,
+				46F05AC9254880880009DCA6 /* skanValid.bundle */,
 				7D3E41F423915B6600BAF673 /* CR_ConfigManagerTests.m */,
 				7D3E41F523915B6600BAF673 /* CR_ConfigTests.m */,
 				7D3E41F623915B6600BAF673 /* CR_DeviceInfoTests.m */,
@@ -1579,6 +1591,7 @@
 				TargetAttributes = {
 					25BD5B562220D16D004DE311 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1210;
 					};
 					543F6F6822820C1800A5DBE2 = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -1624,7 +1637,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				543F6F7822820C1A00A5DBE2 /* LaunchScreen.storyboard in Resources */,
+				46F05ACE254881000009DCA6 /* skanValid.bundle in Resources */,
 				543F6F7522820C1A00A5DBE2 /* Assets.xcassets in Resources */,
+				46F05AD62548868A0009DCA6 /* skanInvalid.bundle in Resources */,
 				543F6F7322820C1800A5DBE2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1805,6 +1820,7 @@
 				4672E1EB251CDE03009F39EF /* CR_CASFileObjectQueue.m in Sources */,
 				53BDFDC822EB9F7C0051EB40 /* CR_BidManagerHelper.m in Sources */,
 				DF367CA5232B20F90044807B /* CR_NativeAdvertiser.m in Sources */,
+				464D6FB925480925004502C4 /* SKAdNetworkInfo.swift in Sources */,
 				547BC945230650BB00FB8599 /* CR_BidFetchTracker.m in Sources */,
 				DF3E3D4123233936009E8CB5 /* NSArray+Criteo.m in Sources */,
 				53BDFDBE22EA763E0051EB40 /* NSObject+Criteo.m in Sources */,
@@ -1968,6 +1984,7 @@
 				C07ABE4119C225312438484B /* CR_DefaultMediaDownloaderTests.m in Sources */,
 				C07ABAA1393B946F538A802C /* CR_ImageCacheTests.m in Sources */,
 				C07AB22678B6CBC62B23F559 /* UIImage+Testing.m in Sources */,
+				464D6FC1254812E5004502C4 /* SKAdNetworkInfoTests.swift in Sources */,
 				C07AB9F7F2A6BB33242A47D5 /* CR_DisplaySizeInjectorTests.m in Sources */,
 				C07ABD165AFA5B3044B8AAD3 /* CR_RemoteConfigRequestTests.m in Sources */,
 				C07AB98B6BF9878FBBD190FF /* CriteoTests.m in Sources */,
@@ -2009,6 +2026,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8702B3BA4117B77A890D5F06 /* Pods-CriteoPublisherSdk.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -2025,6 +2043,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.sdk.publisher;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -2033,6 +2053,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E593B589465B7029941A63DF /* Pods-CriteoPublisherSdk.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -2049,6 +2070,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.sdk.publisher;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
