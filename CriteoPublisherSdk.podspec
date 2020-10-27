@@ -14,7 +14,7 @@ Pod::Spec.new do |spec|
   spec.author            = { "Criteo" => "opensource@criteo.com" }
 
   spec.platform              = :ios
-  spec.ios.deployment_target = "8.0"
+  spec.ios.deployment_target = "9.0"
   spec.static_framework      = true # Required by Google Sdk
 
   spec.source            = {
