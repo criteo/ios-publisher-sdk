@@ -17,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E665419EA3974D10C2D7ED9 /* Pods-CriteoMoPubAdapterTestApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapterTestApp.debug.xcconfig"; path = "Target Support Files/Pods-CriteoMoPubAdapterTestApp/Pods-CriteoMoPubAdapterTestApp.debug.xcconfig"; sourceTree = "<group>"; };
+		3CBA45D99CDFA03B32092940 /* Pods-CriteoMoPubAdapterTestApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapterTestApp.release.xcconfig"; path = "Target Support Files/Pods-CriteoMoPubAdapterTestApp/Pods-CriteoMoPubAdapterTestApp.release.xcconfig"; sourceTree = "<group>"; };
 		5431C7E623D7231D002F0282 /* CriteoMoPubAdapterTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CriteoMoPubAdapterTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5431C7E923D7231D002F0282 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5431C7EA23D7231D002F0282 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -27,9 +29,7 @@
 		5431C7FB23D7231F002F0282 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5431C81023D72665002F0282 /* HomePageTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomePageTableViewController.h; sourceTree = "<group>"; };
 		5431C81123D72665002F0282 /* HomePageTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomePageTableViewController.m; sourceTree = "<group>"; };
-		86BDED0EE091D330B8F2E5FF /* Pods-CriteoMoPubAdapterTestApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapterTestApp.release.xcconfig"; path = "../../Pods/Target Support Files/Pods-CriteoMoPubAdapterTestApp/Pods-CriteoMoPubAdapterTestApp.release.xcconfig"; sourceTree = "<group>"; };
 		A552A4043F3142BE912DD619 /* libPods-CriteoMoPubAdapterTestApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoMoPubAdapterTestApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BCC7CF4160838D508C9AF5F5 /* Pods-CriteoMoPubAdapterTestApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapterTestApp.debug.xcconfig"; path = "../../Pods/Target Support Files/Pods-CriteoMoPubAdapterTestApp/Pods-CriteoMoPubAdapterTestApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,8 +49,8 @@
 			children = (
 				5431C7E823D7231D002F0282 /* CriteoMoPubAdapterTestApp */,
 				5431C7E723D7231D002F0282 /* Products */,
-				F957205D4A5DA3F6B8E853AF /* Pods */,
 				5D5BC082B6696EE89EFE6D4A /* Frameworks */,
+				E15E856C0DB509F3C5F1B5D1 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -95,13 +95,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F957205D4A5DA3F6B8E853AF /* Pods */ = {
+		E15E856C0DB509F3C5F1B5D1 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				BCC7CF4160838D508C9AF5F5 /* Pods-CriteoMoPubAdapterTestApp.debug.xcconfig */,
-				86BDED0EE091D330B8F2E5FF /* Pods-CriteoMoPubAdapterTestApp.release.xcconfig */,
+				0E665419EA3974D10C2D7ED9 /* Pods-CriteoMoPubAdapterTestApp.debug.xcconfig */,
+				3CBA45D99CDFA03B32092940 /* Pods-CriteoMoPubAdapterTestApp.release.xcconfig */,
 			);
-			path = Pods;
+			name = Pods;
+			path = ../Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -360,7 +361,7 @@
 		};
 		5431C80B23D7231F002F0282 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCC7CF4160838D508C9AF5F5 /* Pods-CriteoMoPubAdapterTestApp.debug.xcconfig */;
+			baseConfigurationReference = 0E665419EA3974D10C2D7ED9 /* Pods-CriteoMoPubAdapterTestApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -382,7 +383,7 @@
 		};
 		5431C80C23D7231F002F0282 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 86BDED0EE091D330B8F2E5FF /* Pods-CriteoMoPubAdapterTestApp.release.xcconfig */;
+			baseConfigurationReference = 3CBA45D99CDFA03B32092940 /* Pods-CriteoMoPubAdapterTestApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
