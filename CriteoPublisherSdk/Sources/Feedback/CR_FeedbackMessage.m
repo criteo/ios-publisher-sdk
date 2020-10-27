@@ -85,7 +85,7 @@
 
 - (BOOL)isEqualToFeedbackMessage:(CR_FeedbackMessage *)other {
   BOOL proIdEq =
-      (!self.profileId && !other.profileId) ||
+      (self.profileId == nil && other.profileId == nil) ||
       (self.profileId && other.profileId && [self.profileId isEqualToNumber:other.profileId]);
 
   BOOL impIdEq = (!self.impressionId && !other.impressionId) ||
@@ -96,7 +96,7 @@
                  (self.requestGroupId && other.requestGroupId &&
                   [self.requestGroupId isEqualToString:other.requestGroupId]);
 
-  BOOL zoneIdEq = (!self.zoneId && !other.zoneId) ||
+  BOOL zoneIdEq = (self.zoneId == nil && other.zoneId == nil) ||
                   (self.zoneId && other.zoneId && [self.zoneId isEqualToNumber:other.zoneId]);
 
   BOOL cdbStEq = (self.cdbCallStartTimestamp == nil && other.cdbCallStartTimestamp == nil) ||
