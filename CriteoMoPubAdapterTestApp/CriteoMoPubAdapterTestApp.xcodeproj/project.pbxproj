@@ -132,7 +132,7 @@
 		5431C7DE23D7231D002F0282 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1210;
 				ORGANIZATIONNAME = Criteo;
 				TargetAttributes = {
 					5431C7E523D7231D002F0282 = {
