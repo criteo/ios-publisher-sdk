@@ -35,9 +35,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1DCEFA360467E4609048B381 /* Pods-CriteoGoogleAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapter.debug.xcconfig"; path = "../../Pods/Target Support Files/Pods-CriteoGoogleAdapter/Pods-CriteoGoogleAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		070A3881D330CC1D58923631 /* Pods-CriteoGoogleAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapter.release.xcconfig"; path = "Target Support Files/Pods-CriteoGoogleAdapter/Pods-CriteoGoogleAdapter.release.xcconfig"; sourceTree = "<group>"; };
+		08A4B8154184ED488B3A6FF9 /* Pods-CriteoGoogleAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapter.debug.xcconfig"; path = "Target Support Files/Pods-CriteoGoogleAdapter/Pods-CriteoGoogleAdapter.debug.xcconfig"; sourceTree = "<group>"; };
+		17D99DE9CD54BBC14D6A4D45 /* Pods-CriteoGoogleAdapterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapterTests.debug.xcconfig"; path = "Target Support Files/Pods-CriteoGoogleAdapterTests/Pods-CriteoGoogleAdapterTests.debug.xcconfig"; sourceTree = "<group>"; };
 		26D9C65D4FFAA50128EE5DB4 /* libPods-CriteoGoogleAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoGoogleAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		282330E581BEC0B05B9B0D3D /* Pods-CriteoGoogleAdapterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapterTests.debug.xcconfig"; path = "../../Pods/Target Support Files/Pods-CriteoGoogleAdapterTests/Pods-CriteoGoogleAdapterTests.debug.xcconfig"; sourceTree = "<group>"; };
 		54865DA022FA1BA1001F9A67 /* CRInterstitialCustomEventTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialCustomEventTests.m; sourceTree = "<group>"; };
 		54FC7DA022F4136100202164 /* CriteoGoogleAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CriteoGoogleAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		54FC7DA422F4136100202164 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -45,17 +46,16 @@
 		54FC7DB022F4136100202164 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54FC7DBA22F4147100202164 /* CRInterstitialCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRInterstitialCustomEvent.h; sourceTree = "<group>"; };
 		54FC7DBB22F4147100202164 /* CRInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialCustomEvent.m; sourceTree = "<group>"; };
-		95644F837BB2E093B4851A33 /* Pods-CriteoGoogleAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapter.release.xcconfig"; path = "../../Pods/Target Support Files/Pods-CriteoGoogleAdapter/Pods-CriteoGoogleAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		BF43AF45DE0BEECB9A9247A6 /* libPods-CriteoGoogleAdapterTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoGoogleAdapterTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C07AB1B8BF317626BD709C00 /* CR_AdMobIntegrationRegistryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_AdMobIntegrationRegistryTests.m; sourceTree = "<group>"; };
 		CF6AE25D24CEB22F00E00CDA /* CriteoPublisherSdk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CriteoPublisherSdk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D6D6F0BAD5AE72930DD2A529 /* Pods-CriteoGoogleAdapterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapterTests.release.xcconfig"; path = "Target Support Files/Pods-CriteoGoogleAdapterTests/Pods-CriteoGoogleAdapterTests.release.xcconfig"; sourceTree = "<group>"; };
 		DF4356A7230485FA0051AC45 /* CRBannerCustomEventTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRBannerCustomEventTests.m; sourceTree = "<group>"; };
 		DFC3F49923035A9100318644 /* CRBannerCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRBannerCustomEvent.m; sourceTree = "<group>"; };
 		DFC3F49A23035A9100318644 /* CRBannerCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRBannerCustomEvent.h; sourceTree = "<group>"; };
 		DFC3F49D23035AF800318644 /* CRGoogleMediationParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRGoogleMediationParameters.h; sourceTree = "<group>"; };
 		DFC3F49F23035AF800318644 /* CRGoogleMediationParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRGoogleMediationParameters.m; sourceTree = "<group>"; };
 		DFC3F4AD230370F700318644 /* CRGoogleMediationParametersTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRGoogleMediationParametersTests.m; sourceTree = "<group>"; };
-		FFE280808F2B96A9AAE0643D /* Pods-CriteoGoogleAdapterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapterTests.release.xcconfig"; path = "../../Pods/Target Support Files/Pods-CriteoGoogleAdapterTests/Pods-CriteoGoogleAdapterTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +81,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		069EF1B3B63570F8C22E99A9 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				08A4B8154184ED488B3A6FF9 /* Pods-CriteoGoogleAdapter.debug.xcconfig */,
+				070A3881D330CC1D58923631 /* Pods-CriteoGoogleAdapter.release.xcconfig */,
+				17D99DE9CD54BBC14D6A4D45 /* Pods-CriteoGoogleAdapterTests.debug.xcconfig */,
+				D6D6F0BAD5AE72930DD2A529 /* Pods-CriteoGoogleAdapterTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../Pods;
+			sourceTree = "<group>";
+		};
 		3CF2926D760C675680C3BA20 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -97,8 +109,8 @@
 				54FC7DA222F4136100202164 /* CriteoGoogleAdapter */,
 				54FC7DAD22F4136100202164 /* CriteoGoogleAdapterTests */,
 				54FC7DA122F4136100202164 /* Products */,
-				60DB79F49722C886D2BA3E9E /* Pods */,
 				3CF2926D760C675680C3BA20 /* Frameworks */,
+				069EF1B3B63570F8C22E99A9 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -137,17 +149,6 @@
 			);
 			name = CriteoGoogleAdapterTests;
 			path = Tests/CriteoGoogleAdapterTests;
-			sourceTree = "<group>";
-		};
-		60DB79F49722C886D2BA3E9E /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				1DCEFA360467E4609048B381 /* Pods-CriteoGoogleAdapter.debug.xcconfig */,
-				95644F837BB2E093B4851A33 /* Pods-CriteoGoogleAdapter.release.xcconfig */,
-				282330E581BEC0B05B9B0D3D /* Pods-CriteoGoogleAdapterTests.debug.xcconfig */,
-				FFE280808F2B96A9AAE0643D /* Pods-CriteoGoogleAdapterTests.release.xcconfig */,
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -503,7 +504,7 @@
 		};
 		54FC7DB522F4136100202164 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1DCEFA360467E4609048B381 /* Pods-CriteoGoogleAdapter.debug.xcconfig */;
+			baseConfigurationReference = 08A4B8154184ED488B3A6FF9 /* Pods-CriteoGoogleAdapter.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -535,7 +536,7 @@
 		};
 		54FC7DB622F4136100202164 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 95644F837BB2E093B4851A33 /* Pods-CriteoGoogleAdapter.release.xcconfig */;
+			baseConfigurationReference = 070A3881D330CC1D58923631 /* Pods-CriteoGoogleAdapter.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -567,7 +568,7 @@
 		};
 		54FC7DB822F4136100202164 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 282330E581BEC0B05B9B0D3D /* Pods-CriteoGoogleAdapterTests.debug.xcconfig */;
+			baseConfigurationReference = 17D99DE9CD54BBC14D6A4D45 /* Pods-CriteoGoogleAdapterTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S655EV5659;
@@ -590,7 +591,7 @@
 		};
 		54FC7DB922F4136100202164 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FFE280808F2B96A9AAE0643D /* Pods-CriteoGoogleAdapterTests.release.xcconfig */;
+			baseConfigurationReference = D6D6F0BAD5AE72930DD2A529 /* Pods-CriteoGoogleAdapterTests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S655EV5659;
