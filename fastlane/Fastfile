@@ -152,7 +152,12 @@ platform :ios do
 
   desc %(Release version to CocoaPods)
   lane :release_cocoapods do
-    pod_push
+    # Allow warnings to push from cocoapods 1.9.3 (that raise warnings)
+    # while waiting for 1.10 (that does not raise warnings) to be fixed:
+    # https://github.com/CocoaPods/CocoaPods/issues/10106
+    pod_push(
+      allow_warnings: true,
+    )
   end
 
   def last_changelog
