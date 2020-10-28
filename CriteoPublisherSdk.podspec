@@ -15,6 +15,7 @@ Pod::Spec.new do |spec|
 
   spec.platform              = :ios
   spec.ios.deployment_target = "9.0"
+  spec.swift_version         = "5.0"
   spec.static_framework      = true # Required by Google Sdk
 
   spec.source            = {
@@ -26,7 +27,7 @@ Pod::Spec.new do |spec|
   spec.default_subspecs  = "Sdk"
 
   spec.subspec "Sdk" do |sdk|
-    sdk.source_files         = "CriteoPublisherSdk/Sources/**/*.{h,m}"
+    sdk.source_files         = "CriteoPublisherSdk/Sources/**/*.{h,m,swift}"
     sdk.public_header_files  = "CriteoPublisherSdk/Sources/Public/*.h"
     sdk.weak_frameworks      = "WebKit"
   end
