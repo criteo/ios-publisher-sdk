@@ -4,9 +4,7 @@ export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-export CRITEO_WATCH_ARCHS='armv7k arm64_32'
-export CRITEO_DEVICE_ARCHS='armv7 armv7s arm64'
-export CRITEO_ARCHS="$CRITEO_DEVICE_ARCHS $CRITEO_WATCH_ARCHS"
+export CRITEO_ARCHS='armv7 armv7s arm64'
 export CRITEO_SIM_ARCHS='i386 x86_64'
 
 # Note: writes to STDERR to prevent breaking xcpretty
