@@ -18,6 +18,7 @@
 //
 
 #import "Criteo.h"
+#import <CriteoPublisherSdk/CriteoPublisherSdk-Swift.h>
 #import "Criteo+Internal.h"
 #import "CR_AdUnitHelper.h"
 #import "CR_BidManager.h"
@@ -94,6 +95,7 @@
   if (self = [super init]) {
     _registered = false;
     _dependencyProvider = dependencyProvider;
+    [self validateIntegration];
   }
   return self;
 }
