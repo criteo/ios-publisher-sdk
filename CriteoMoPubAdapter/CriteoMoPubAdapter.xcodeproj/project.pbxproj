@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		463D093D2548DA5A00086944 /* CriteoMoPubAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463D093C2548DA5A00086944 /* CriteoMoPubAdapterTests.swift */; };
 		466AEED024C6D7E10034081E /* CRBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 466AEEC724C6D7E10034081E /* CRBannerCustomEvent.m */; };
 		466AEED124C6D7E10034081E /* CRCustomEventHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 466AEEC824C6D7E10034081E /* CRCustomEventHelper.m */; };
 		466AEED224C6D7E10034081E /* CRInterstitialCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 466AEEC924C6D7E10034081E /* CRInterstitialCustomEvent.h */; };
@@ -40,6 +41,7 @@
 /* Begin PBXFileReference section */
 		0253F4B52575EDF020062259 /* Pods-CriteoMoPubAdapter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapter.release.xcconfig"; path = "Target Support Files/Pods-CriteoMoPubAdapter/Pods-CriteoMoPubAdapter.release.xcconfig"; sourceTree = "<group>"; };
 		0EF7AB71643034C8F4564771 /* Pods-CriteoMoPubAdapterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoMoPubAdapterTests.debug.xcconfig"; path = "Target Support Files/Pods-CriteoMoPubAdapterTests/Pods-CriteoMoPubAdapterTests.debug.xcconfig"; sourceTree = "<group>"; };
+		463D093C2548DA5A00086944 /* CriteoMoPubAdapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CriteoMoPubAdapterTests.swift; sourceTree = "<group>"; };
 		466AEEC724C6D7E10034081E /* CRBannerCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRBannerCustomEvent.m; sourceTree = "<group>"; };
 		466AEEC824C6D7E10034081E /* CRCustomEventHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRCustomEventHelper.m; sourceTree = "<group>"; };
 		466AEEC924C6D7E10034081E /* CRInterstitialCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRInterstitialCustomEvent.h; sourceTree = "<group>"; };
@@ -107,11 +109,12 @@
 		466AEED924C6D82F0034081E /* CriteoMoPubAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
+				466AEEDE24C6D8300034081E /* Info.plist */,
+				463D093C2548DA5A00086944 /* CriteoMoPubAdapterTests.swift */,
 				466AEEDA24C6D82F0034081E /* CRCriteoAdapterConfigurationTests.m */,
 				466AEEDB24C6D82F0034081E /* CRInterstitialCustomEventTests.m */,
 				466AEEDC24C6D82F0034081E /* CRBannerCustomEventTests.m */,
 				466AEEDD24C6D8300034081E /* CRCustomEventHelperTests.m */,
-				466AEEDE24C6D8300034081E /* Info.plist */,
 				C07ABD835088D792F704713F /* CR_MoPubIntegrationRegistryTests.m */,
 			);
 			name = CriteoMoPubAdapterTests;
@@ -228,6 +231,7 @@
 				TargetAttributes = {
 					538ADE1022FCA1030047A8A5 = {
 						CreatedOnToolsVersion = 10.2.1;
+						LastSwiftMigration = 1210;
 					};
 					54FC7D7722F403F100202164 = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -357,6 +361,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				466AEEE124C6D8300034081E /* CRBannerCustomEventTests.m in Sources */,
+				463D093D2548DA5A00086944 /* CriteoMoPubAdapterTests.swift in Sources */,
 				466AEEE024C6D8300034081E /* CRInterstitialCustomEventTests.m in Sources */,
 				466AEEE224C6D8300034081E /* CRCustomEventHelperTests.m in Sources */,
 				466AEEDF24C6D8300034081E /* CRCriteoAdapterConfigurationTests.m in Sources */,
@@ -390,6 +395,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0EF7AB71643034C8F4564771 /* Pods-CriteoMoPubAdapterTests.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S655EV5659;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -411,6 +417,8 @@
 				MACH_O_TYPE = mh_bundle;
 				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.CriteoMoPubAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -419,6 +427,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 52F9B76D4C418C34D1B49608 /* Pods-CriteoMoPubAdapterTests.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S655EV5659;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -440,6 +449,7 @@
 				MACH_O_TYPE = mh_bundle;
 				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.CriteoMoPubAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
