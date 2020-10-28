@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		174087F82C298114175BCBB5 /* libPods-CriteoGoogleAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 26D9C65D4FFAA50128EE5DB4 /* libPods-CriteoGoogleAdapter.a */; };
+		463D09452548DAB400086944 /* CriteoGoogleAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463D09442548DAB400086944 /* CriteoGoogleAdapterTests.swift */; };
 		467CC31B24F818FD000021D1 /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF6AE25D24CEB22F00E00CDA /* CriteoPublisherSdk.framework */; };
 		5474B966230F0E3600CBD47E /* CRInterstitialCustomEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 54865DA022FA1BA1001F9A67 /* CRInterstitialCustomEventTests.m */; };
 		54FC7DBC22F4147100202164 /* CRInterstitialCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 54FC7DBA22F4147100202164 /* CRInterstitialCustomEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -39,6 +40,7 @@
 		08A4B8154184ED488B3A6FF9 /* Pods-CriteoGoogleAdapter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapter.debug.xcconfig"; path = "Target Support Files/Pods-CriteoGoogleAdapter/Pods-CriteoGoogleAdapter.debug.xcconfig"; sourceTree = "<group>"; };
 		17D99DE9CD54BBC14D6A4D45 /* Pods-CriteoGoogleAdapterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapterTests.debug.xcconfig"; path = "Target Support Files/Pods-CriteoGoogleAdapterTests/Pods-CriteoGoogleAdapterTests.debug.xcconfig"; sourceTree = "<group>"; };
 		26D9C65D4FFAA50128EE5DB4 /* libPods-CriteoGoogleAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoGoogleAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		463D09442548DAB400086944 /* CriteoGoogleAdapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CriteoGoogleAdapterTests.swift; sourceTree = "<group>"; };
 		54865DA022FA1BA1001F9A67 /* CRInterstitialCustomEventTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialCustomEventTests.m; sourceTree = "<group>"; };
 		54FC7DA022F4136100202164 /* CriteoGoogleAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CriteoGoogleAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		54FC7DA422F4136100202164 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -141,9 +143,10 @@
 		54FC7DAD22F4136100202164 /* CriteoGoogleAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
+				54FC7DB022F4136100202164 /* Info.plist */,
+				463D09442548DAB400086944 /* CriteoGoogleAdapterTests.swift */,
 				DFC3F4AD230370F700318644 /* CRGoogleMediationParametersTests.m */,
 				DF4356A7230485FA0051AC45 /* CRBannerCustomEventTests.m */,
-				54FC7DB022F4136100202164 /* Info.plist */,
 				54865DA022FA1BA1001F9A67 /* CRInterstitialCustomEventTests.m */,
 				C07AB1B8BF317626BD709C00 /* CR_AdMobIntegrationRegistryTests.m */,
 			);
@@ -229,6 +232,7 @@
 					};
 					54FC7DA822F4136100202164 = {
 						CreatedOnToolsVersion = 10.2.1;
+						LastSwiftMigration = 1210;
 					};
 				};
 			};
@@ -366,6 +370,7 @@
 			files = (
 				5474B966230F0E3600CBD47E /* CRInterstitialCustomEventTests.m in Sources */,
 				DF4356A8230485FA0051AC45 /* CRBannerCustomEventTests.m in Sources */,
+				463D09452548DAB400086944 /* CriteoGoogleAdapterTests.swift in Sources */,
 				DFC3F4AE230370F700318644 /* CRGoogleMediationParametersTests.m in Sources */,
 				C07ABB57E4BA18C3A8A35B47 /* CR_AdMobIntegrationRegistryTests.m in Sources */,
 			);
@@ -570,6 +575,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 17D99DE9CD54BBC14D6A4D45 /* Pods-CriteoGoogleAdapterTests.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S655EV5659;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -585,6 +591,8 @@
 				MACH_O_TYPE = mh_bundle;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Criteo.CriteoGoogleAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -593,6 +601,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D6D6F0BAD5AE72930DD2A529 /* Pods-CriteoGoogleAdapterTests.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S655EV5659;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -608,6 +617,7 @@
 				MACH_O_TYPE = mh_bundle;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Criteo.CriteoGoogleAdapterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
