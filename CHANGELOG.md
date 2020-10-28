@@ -25,6 +25,8 @@ pod clients, you can:
     - to `#import <CriteoPublisherSdk/CriteoPublisherSdk.h>` _(Standard CocoaPods imports)_
   - Alternatively, binary frameworks are now provided through [GitHub releases][gh_releases]
 - **iOS 9** is now the minimum supported version of iOS _(bumped from iOS 8)_
+- **Swift** we are including Swift code into the SDK, which means that if your project is Obj-C only,
+  you now must have at least one `.swift` (even empty) file for Xcode to link against swift runtime.
 - **Mediation Adapters**: These have been merged in this repository. For CocoaPods pods are now 
   declared as _subspecs_, meaning you have to edit your `Podfile`:
   - Google: From `CriteoGoogleMediationAdapters` to `CriteoPublisherSdk/GoogleAdapter`
