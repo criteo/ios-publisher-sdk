@@ -29,6 +29,7 @@
 		462DCAA42463055100B43A51 /* CR_CreativeViewChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E06534D114E0989D12A1E6B /* CR_CreativeViewChecker.m */; };
 		462DCAA7246316B700B43A51 /* XCTestCase+Criteo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB4E90A239532BA008DE5E3 /* XCTestCase+Criteo.m */; };
 		4638C001249B8054007A8878 /* CR_SafeMediaDownloaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4638C000249B7EF6007A8878 /* CR_SafeMediaDownloaderTests.m */; };
+		463D094B254953A900086944 /* Criteo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463D094A254953A900086944 /* Criteo.swift */; };
 		4642C9C624CAD93E0080AC4F /* CR_IntegrationRegistry.h in Headers */ = {isa = PBXBuildFile; fileRef = 4642C9C424CAD93E0080AC4F /* CR_IntegrationRegistry.h */; };
 		4642C9C724CAD93E0080AC4F /* CR_IntegrationRegistry.m in Sources */ = {isa = PBXBuildFile; fileRef = 4642C9C524CAD93E0080AC4F /* CR_IntegrationRegistry.m */; };
 		4646EF192514CEF2009E4D16 /* CriteoPublisherSdk-Standalone.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 4646EF182514CEF2009E4D16 /* CriteoPublisherSdk-Standalone.xctestplan */; };
@@ -330,6 +331,7 @@
 		46240E0C2434BB4F001425AB /* CR_UniqueIdGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_UniqueIdGenerator.m; sourceTree = "<group>"; };
 		46240E132434BB91001425AB /* CR_UniqueIdGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_UniqueIdGeneratorTests.swift; sourceTree = "<group>"; };
 		4638C000249B7EF6007A8878 /* CR_SafeMediaDownloaderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_SafeMediaDownloaderTests.m; sourceTree = "<group>"; };
+		463D094A254953A900086944 /* Criteo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Criteo.swift; sourceTree = "<group>"; };
 		4642C9C424CAD93E0080AC4F /* CR_IntegrationRegistry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_IntegrationRegistry.h; sourceTree = "<group>"; };
 		4642C9C524CAD93E0080AC4F /* CR_IntegrationRegistry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_IntegrationRegistry.m; sourceTree = "<group>"; };
 		4646EF182514CEF2009E4D16 /* CriteoPublisherSdk-Standalone.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "CriteoPublisherSdk-Standalone.xctestplan"; sourceTree = "<group>"; };
@@ -1392,6 +1394,7 @@
 				46E3EE1B254867E900F01C88 /* Public */,
 				25BD5B5A2220D16D004DE311 /* Info.plist */,
 				E1F2738A21BB12C300A2FBFA /* Criteo.m */,
+				463D094A254953A900086944 /* Criteo.swift */,
 				25022DE5220A709000FF8ACE /* Criteo+Internal.h */,
 				5496875C22A5A96D007D2578 /* CR_AdUnitHelper.h */,
 				5496875D22A5A96D007D2578 /* CR_AdUnitHelper.m */,
@@ -1770,6 +1773,7 @@
 				7D3E427023915E7900BAF673 /* NSUserDefaults+Criteo.m in Sources */,
 				4672E1E2251CDE02009F39EF /* CR_CASError.m in Sources */,
 				5496876022A5C774007D2578 /* CR_AdUnitHelper.m in Sources */,
+				463D094B254953A900086944 /* Criteo.swift in Sources */,
 				25BD5B692220D1D9004DE311 /* Criteo.m in Sources */,
 				25BD5B622220D1A8004DE311 /* CR_BidManager.m in Sources */,
 				5470B17123A3BC6600C2B003 /* CR_TargetingKeys.m in Sources */,
