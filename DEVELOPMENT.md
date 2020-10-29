@@ -51,6 +51,21 @@ The tests in this project are organised according to the following conventions:
 that will push the spec to CocoaPods
 7. Profit 🚀🥳
 
+## Testing with Sdk from CocoaPods
+In `CriteoAdViewer`, there is a workspace and Podfile, which:
+- Are intended only to test Sdk from CocoaPods
+- Are not used by top level workspace
+- Doesn't need to be actively maintained as CI does not use them
+
+### Usage
+- Edit `CriteoAdViewer/Podfile` if needed
+- Run `pod install` from this `CriteoAdViewer` folder, keep an eye on the version installed in logs
+- From Xcode delete `CriteoPublisherSdk.framework` from `Frameworks`
+
+**Note**: When running `pod install` in this folder, CocoaPods will alter the
+          project, please do not merge your changes as it could interfere with
+          the main workspace.
+
 [github-release]: http://github.com/criteo/ios-publisher-sdk/releases
 [ga-release-github]: https://github.com/criteo/ios-publisher-sdk/actions?query=workflow%3A%22Test+%26+Release+on+GitHub%22
 [ga-release-cocoapods]: https://github.com/criteo/ios-publisher-sdk/actions?query=workflow%3A%22Release+on+CocoaPods%22
