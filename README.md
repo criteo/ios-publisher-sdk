@@ -1,4 +1,4 @@
-[![CI](https://github.com/criteo/ios-publisher-sdk/workflows/CI/badge.svg)]()
+[![Test](https://github.com/criteo/ios-publisher-sdk/workflows/Test/badge.svg)]()
 [![CocoaPods](https://img.shields.io/cocoapods/v/CriteoPublisherSdk.svg)]()
 [![License](https://img.shields.io/github/license/criteo/ios-publisher-sdk.svg)]()
 [![iOS9](https://img.shields.io/badge/iOS-9.0%2B-lightgrey.svg)]()
