@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		198CDAFB73A16BE6C19EE005 /* import-cassette.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = "import-cassette.sh"; path = "../scripts/import-cassette.sh"; sourceTree = "<group>"; };
 		466AEEED24C6EB2F0034081E /* Gemfile */ = {isa = PBXFileReference; lastKnownFileType = text; name = Gemfile; path = ../Gemfile; sourceTree = "<group>"; };
 		466AEEEE24C6EB2F0034081E /* CriteoPublisherSdk.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; name = CriteoPublisherSdk.podspec; path = ../CriteoPublisherSdk.podspec; sourceTree = "<group>"; };
 		466AEEEF24C6EB2F0034081E /* tools */ = {isa = PBXFileReference; lastKnownFileType = folder; name = tools; path = ../tools; sourceTree = "<group>"; };
@@ -38,7 +37,6 @@
 				466AEEF424C6EB300034081E /* scripts */,
 				466AEEEF24C6EB2F0034081E /* tools */,
 				466AEEF124C6EB300034081E /* wiremock */,
-				198CDAFB73A16BE6C19EE005 /* import-cassette.sh */,
 			);
 			sourceTree = "<group>";
 		};
