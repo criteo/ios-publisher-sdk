@@ -1,0 +1,17 @@
+name: Setup CocoaPods
+description: Setup Bundle and CocoaPods using cache
+
+runs:
+  using: "composite"
+  steps:
+    - name: Cocoapods cache
+      uses: actions/cache@v2
+      with:
+        path: Pods
+        key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-pods-
+
+    - name: Cocoapods install
+      run: |
+        bundle exec fastlane run cocoapods
