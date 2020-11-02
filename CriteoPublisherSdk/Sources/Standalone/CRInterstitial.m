@@ -163,15 +163,6 @@
     return;
   }
 
-  if (![bid.adUnit isEqual:self.adUnit]) {
-    [self
-        safelyNotifyAdLoadFail:CRErrorCodeInvalidParameter
-                   description:
-                       @"Bid passed to loadAdWithBid doesn't have the same ad unit as the CRInterstitial was initialized with"];
-    self.isAdLoading = NO;
-    return;
-  }
-
   CR_CdbBid *cdbBid = bid.consume;
   if (!cdbBid) {
     [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];

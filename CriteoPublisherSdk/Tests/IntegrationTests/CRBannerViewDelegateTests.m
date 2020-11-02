@@ -203,43 +203,6 @@
   [self cr_waitForExpectations:@[ self.delegate.didFailToReceiveAdWithErrorExpectation ]];
 }
 
-- (void)testBannerLoadFailWhenBidDoesntMatchAdUnitId {
-  WKWebView *mockWebView = [WKWebView new];
-
-  CRBannerAdUnit *wrongAdUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"Yo"
-                                                                    size:CGSizeMake(200, 200)];
-  CR_CdbBid *cdbBid = nil;
-  CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:wrongAdUnit];
-  self.delegate.expectedError = [NSError
-      cr_errorWithCode:CRErrorCodeInvalidParameter
-           description:
-               @"Bid passed to loadAdWithBid doesn't have the same ad unit as the CRBannerView was initialized with"];
-
-  CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView];
-  bannerView.delegate = self.delegate;
-  [bannerView loadAdWithBid:bid];
-
-  [self cr_waitForExpectations:@[ self.delegate.didFailToReceiveAdWithErrorExpectation ]];
-}
-
-- (void)testBannerLoadFailWhenBidDoesntMatchAdUnitType {
-  WKWebView *mockWebView = [WKWebView new];
-
-  CRInterstitialAdUnit *wrongAdUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"Yo"];
-  CR_CdbBid *cdbBid = nil;
-  CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:wrongAdUnit];
-  self.delegate.expectedError = [NSError
-      cr_errorWithCode:CRErrorCodeInvalidParameter
-           description:
-               @"Bid passed to loadAdWithBid doesn't have the same ad unit as the CRBannerView was initialized with"];
-
-  CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView];
-  bannerView.delegate = self.delegate;
-  [bannerView loadAdWithBid:bid];
-
-  [self cr_waitForExpectations:@[ self.delegate.didFailToReceiveAdWithErrorExpectation ]];
-}
-
 - (void)testBannerDidLoadForValidBid {
   WKWebView *mockWebView = [WKWebView new];
   CR_CdbBid *cdbBid = [self bidWithDisplayURL:@"test"];

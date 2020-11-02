@@ -64,56 +64,6 @@ static NSString *creativeUrl2 = @"www.apple.com";
   [self cr_waitForExpectations:@[ checker.failToReceiveAdExpectation ]];
 }
 
-- (void)test_givenBadBanner_whenLoadValidBid_thenBannerFailToReceiveAd {
-  CRBannerAdUnit *banner1 = [CR_TestAdUnits preprodBanner320x50];
-  CRBannerAdUnit *banner2 = [CR_TestAdUnits randomBanner320x50];
-  [self initCriteoWithAdUnits:@[ banner1 ]];
-  CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner2
-                                                                            criteo:self.criteo];
-
-  [self.criteo loadBidForAdUnit:banner1
-                responseHandler:^(CRBid *bid) {
-                  [checker.bannerView loadAdWithBid:bid];
-                }];
-
-  [self cr_waitForExpectations:@[ checker.failToReceiveAdExpectation ]];
-}
-
-- (void)test_givenBanner_whenLoadWrongBid_thenBannerFailToReceiveAd {
-  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
-  CRBannerAdUnit *orphan = [CR_TestAdUnits demoBanner320x50];
-  [self initCriteoWithAdUnits:@[ adUnit, orphan ]];
-  CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:adUnit
-                                                                            criteo:self.criteo];
-
-  [self.criteo loadBidForAdUnit:orphan
-                responseHandler:^(CRBid *orphanBid) {
-                  [checker.bannerView loadAdWithBid:orphanBid];
-                }];
-
-  [self cr_waitForExpectations:@[ checker.failToReceiveAdExpectation ]];
-}
-
-- (void)test_givenBannerLoadWrongBid_whenLoadGoodBid_thenBannerReceiveAd {
-  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
-  CRBannerAdUnit *orphan = [CR_TestAdUnits demoBanner320x50];
-  [self initCriteoWithAdUnits:@[ adUnit, orphan ]];
-  CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:adUnit
-                                                                            criteo:self.criteo];
-  [self.criteo loadBidForAdUnit:orphan
-                responseHandler:^(CRBid *orphanBid) {
-                  [checker.bannerView loadAdWithBid:orphanBid];
-                }];
-  [self cr_waitForExpectations:@[ checker.failToReceiveAdExpectation ]];
-  [checker resetExpectations];
-
-  [self.criteo loadBidForAdUnit:adUnit
-                responseHandler:^(CRBid *goodBid) {
-                  [checker.bannerView loadAdWithBid:goodBid];
-                }];
-  [self cr_waitForExpectations:@[ checker.didReceiveAdExpectation ]];
-}
-
 - (void)test_givenBanner_whenLoadBidTwice_thenBannerFailToReceiveAd {
   CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
   [self initCriteoWithAdUnits:@[ banner ]];

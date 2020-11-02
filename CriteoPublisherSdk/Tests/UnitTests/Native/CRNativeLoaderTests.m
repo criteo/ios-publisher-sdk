@@ -174,6 +174,19 @@
   [self cr_waitForExpectations:@[ mediaDownloader.didDownloadImageOnMainQueue ]];
 }
 
+- (void)testLoadAdWithBid {
+  CRNativeAdUnit *adUnit = [[CRNativeAdUnit alloc] initWithAdUnitId:@"123"];
+  id<CRNativeLoaderDelegate> delegate = OCMStrictProtocolMock(@protocol(CRNativeLoaderDelegate));
+  CRNativeLoader *loader = [self buildLoaderWithAdUnit:adUnit criteo:self.criteo];
+  loader.delegate = delegate;
+
+  CR_CdbBid *cdbBid = CR_CdbBidBuilder.new.build;
+  CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:adUnit];
+  [loader loadAdWithBid:bid];
+  OCMExpect([delegate nativeLoader:loader didReceiveAd:[OCMArg any]]);
+  OCMReject([delegate nativeLoader:loader didFailToReceiveAdWithError:[OCMArg any]]);
+}
+
 #pragma mark - Internal
 #pragma mark handleImpressionOnNativeAd
 

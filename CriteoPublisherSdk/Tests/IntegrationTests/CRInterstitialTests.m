@@ -39,6 +39,7 @@
 #import "CR_DependencyProvider+Testing.h"
 #import "CR_DisplaySizeInjector.h"
 #import "CR_IntegrationRegistry.h"
+#import "CR_CdbBidBuilder.h"
 
 @interface CRInterstitialTests : XCTestCase
 
@@ -89,6 +90,39 @@
 
   CRInterstitial *interstitial = [self interstitialWithWebView:mockWebView];
   [interstitial loadAdWithDisplayData:@"test"];
+
+  [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
+  OCMVerifyAll(mockWebView);
+}
+
+- (void)testInterstitialLoadBidSuccess {
+  WKWebView *mockWebView = OCMPartialMock([WKWebView new]);
+  XCTestExpectation *webViewLoadedExpectation =
+      [[XCTestExpectation alloc] initWithDescription:@"webViewLoadedExpectation"];
+  OCMExpect([mockWebView loadHTMLString:[OCMArg checkWithBlock:^BOOL(NSString *html) {
+                           return [html containsString:@"<script src=\"test?safearea\"></script>"];
+                         }]
+                                baseURL:[NSURL URLWithString:@"https://criteo.com"]])
+      .andDo(^(NSInvocation *args) {
+        [webViewLoadedExpectation fulfill];
+      });
+
+  [self prepareMockedDeviceInfo];
+
+  OCMStub([self.displaySizeInjector injectSafeScreenSizeInDisplayUrl:[OCMArg any]])
+      .andReturn(@"test?safearea");
+
+  CR_InterstitialViewController *controller =
+      [[CR_InterstitialViewController alloc] initWithWebView:mockWebView view:nil interstitial:nil];
+  CRInterstitial *interstitial = [[CRInterstitial alloc] initWithCriteo:self.criteo
+                                                         viewController:controller
+                                                             isAdLoaded:NO
+                                                                 adUnit:nil
+                                                              urlOpener:self.urlOpener];
+
+  CR_CdbBid *cdbBid = CR_CdbBidBuilder.new.build;
+  CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:self.adUnit];
+  [interstitial loadAdWithBid:bid];
 
   [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
   OCMVerifyAll(mockWebView);

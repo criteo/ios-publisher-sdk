@@ -31,8 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly) BOOL isAdLoaded;
 @property(nullable, nonatomic, weak) id<CRInterstitialDelegate> delegate;
 
-- (instancetype)init NS_UNAVAILABLE;
-
 - (instancetype)initWithAdUnit:(CRInterstitialAdUnit *)adUnit;
 
 - (void)loadAd;

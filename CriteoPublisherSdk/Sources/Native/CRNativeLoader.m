@@ -41,6 +41,10 @@
 
 #pragma mark - Life cycle
 
+- (instancetype)init {
+  return [self initWithAdUnit:nil criteo:[Criteo sharedCriteo]];
+}
+
 - (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit {
   return [self initWithAdUnit:adUnit criteo:[Criteo sharedCriteo]];
 }

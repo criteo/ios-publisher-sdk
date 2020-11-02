@@ -296,7 +296,13 @@
   CR_CdbBid *cdbBid = [self cdbBidWithDisplayUrl:TEST_DISPLAY_URL];
   CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:self.adUnit];
 
-  CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView];
+  CRBannerView *bannerView =
+      [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
+                                   criteo:self.criteo
+                                  webView:mockWebView
+                               addWebView:NO
+                                   adUnit:nil
+                                urlOpener:self.urlOpener];
   [bannerView loadAdWithBid:bid];
 
   [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
