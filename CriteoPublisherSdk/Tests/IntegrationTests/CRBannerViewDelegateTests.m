@@ -183,6 +183,18 @@
   [self cr_waitShortlyForExpectations:@[ self.delegate.didReceiveAdExpectation ]];
 }
 
+- (void)testInterstitialFailWithMissingAdUnit {
+  CRBannerView *bannerView = [[CRBannerView alloc] initWithAdUnit:nil criteo:nil];
+  id<CRBannerViewDelegate> delegate = OCMStrictProtocolMock(@protocol(CRBannerViewDelegate));
+  bannerView.delegate = delegate;
+  OCMExpect([delegate banner:bannerView
+      didFailToReceiveAdWithError:[OCMArg checkWithBlock:^BOOL(NSError *error) {
+        return error.code == CRErrorCodeInvalidParameter;
+      }]]);
+  [bannerView loadAd];
+  OCMVerifyAllWithDelay(delegate, 1);
+}
+
 #pragma mark inhouseSpecificTests
 
 - (void)testBannerLoadFailWhenBidIsNil {

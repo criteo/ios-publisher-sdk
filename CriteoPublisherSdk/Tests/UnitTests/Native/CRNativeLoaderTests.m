@@ -38,6 +38,7 @@
 #import "CR_URLOpenerMock.h"
 #import "CR_IntegrationRegistry.h"
 #import "XCTestCase+Criteo.h"
+#import "NSError+Criteo.h"
 
 @interface CRNativeLoaderTests : XCTestCase
 @property(strong, nonatomic) CRNativeLoader *loader;
@@ -185,6 +186,18 @@
   [loader loadAdWithBid:bid];
   OCMExpect([delegate nativeLoader:loader didReceiveAd:[OCMArg any]]);
   OCMReject([delegate nativeLoader:loader didFailToReceiveAdWithError:[OCMArg any]]);
+}
+
+- (void)testLoadAdFailWithMissingAdUnit {
+  CRNativeLoader *loader = [[CRNativeLoader alloc] init];
+  id<CRNativeLoaderDelegate> delegate = OCMStrictProtocolMock(@protocol(CRNativeLoaderDelegate));
+  loader.delegate = delegate;
+  OCMExpect([delegate nativeLoader:loader
+       didFailToReceiveAdWithError:[OCMArg checkWithBlock:^BOOL(NSError *error) {
+         return error.code == CRErrorCodeInvalidParameter;
+       }]]);
+  [loader loadAd];
+  OCMVerifyAllWithDelay(delegate, 1);
 }
 
 #pragma mark - Internal

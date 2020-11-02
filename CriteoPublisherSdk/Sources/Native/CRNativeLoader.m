@@ -142,6 +142,12 @@
     return;
   }
 
+  if (!self.adUnit) {
+    NSError *error = [NSError cr_errorWithCode:CRErrorCodeInvalidParameter
+                                   description:@"Missing adUnit, make sure to use initWithAdUnit:"];
+    [self notifyFailToReceiveAdWithError:error];
+    return;
+  }
   CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:self.adUnit];
   [self.criteo loadCdbBidForAdUnit:cacheAdUnit
                    responseHandler:^(CR_CdbBid *bid) {

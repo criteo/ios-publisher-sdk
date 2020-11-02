@@ -103,6 +103,12 @@
   if (![self checkSafeToLoad]) {
     return;
   }
+
+  if (!self.adUnit) {
+    [self safelyNotifyAdLoadFail:CRErrorCodeInvalidParameter
+                     description:@"Missing adUnit, make sure to use initWithAdUnit:"];
+    return;
+  }
   CR_CacheAdUnit *cacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:self.adUnit.adUnitId
                                                                     size:self.deviceInfo.screenSize
                                                               adUnitType:CRAdUnitTypeInterstitial];

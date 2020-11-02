@@ -511,6 +511,23 @@
   [self cr_waitForExpectations:@[ rootVCNilExpectation ]];
 }
 
+- (void)testInterstitialFailWithMissingAdUnit {
+  CRInterstitial *interstitial =
+      [[CRInterstitial alloc] initWithCriteo:nil
+                              viewController:nil
+                                  isAdLoaded:NO
+                                      adUnit:nil
+                                   urlOpener:[[CR_URLOpenerMock alloc] init]];
+  id<CRInterstitialDelegate> delegate = OCMStrictProtocolMock(@protocol(CRInterstitialDelegate));
+  interstitial.delegate = delegate;
+  OCMExpect([delegate interstitial:interstitial
+       didFailToReceiveAdWithError:[OCMArg checkWithBlock:^BOOL(NSError *error) {
+         return error.code == CRErrorCodeInvalidParameter;
+       }]]);
+  [interstitial loadAd];
+  OCMVerifyAllWithDelay(delegate, 1);
+}
+
 - (void)testInterstitialFailWhenAdIsBeingPresented {
   CR_InterstitialViewController *mockInterstitialVC =
       OCMStrictClassMock([CR_InterstitialViewController class]);

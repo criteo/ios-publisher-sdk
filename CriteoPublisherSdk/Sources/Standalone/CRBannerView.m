@@ -124,10 +124,15 @@
   [self.integrationRegistry declare:CR_IntegrationStandalone];
 
   self.isResponseValid = NO;
-  CR_CacheAdUnit *cacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:_adUnit.adUnitId
+
+  if (!self.adUnit) {
+    [self safelyNotifyAdLoadFail:CRErrorCodeInvalidParameter
+                     description:@"Missing adUnit, make sure to use initWithAdUnit:"];
+    return;
+  }
+  CR_CacheAdUnit *cacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:self.adUnit.adUnitId
                                                                     size:self.frame.size
                                                               adUnitType:CRAdUnitTypeBanner];
-
   [self.criteo loadCdbBidForAdUnit:cacheAdUnit
                    responseHandler:^(CR_CdbBid *bid) {
                      if (!bid || bid.isEmpty) {
