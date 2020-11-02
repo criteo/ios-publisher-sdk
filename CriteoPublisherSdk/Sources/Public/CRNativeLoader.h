@@ -35,8 +35,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, weak) id<CRNativeLoaderDelegate> delegate;
 @property(nonatomic, strong) id<CRMediaDownloader> mediaDownloader;
 
-- (instancetype)init NS_UNAVAILABLE;
-
 - (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit;
 
 /**

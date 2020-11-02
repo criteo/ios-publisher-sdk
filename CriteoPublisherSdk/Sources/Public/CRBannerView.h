@@ -28,9 +28,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CRBannerView : UIView
 @property(nullable, nonatomic, weak) id<CRBannerViewDelegate> delegate;
 
-- (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
-
 - (instancetype)initWithAdUnit:(CRBannerAdUnit *)adUnit;
 
 - (void)loadAd;
