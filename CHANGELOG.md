@@ -1,5 +1,12 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
+## Version Next
+
+### Features
+- **In-House**: `CRBannerView`, `CRInterstitial`, `CRNativeLoader` can now be initialized without
+  specifying an ad unit, as it is already provided in the bid loaded through `loadAdWithBid:`
+
+--------------------------------------------------------------------------------
 ## Version 4.0.0
 
 ### Breaking changes
