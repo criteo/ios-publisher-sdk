@@ -17,6 +17,7 @@
 // limitations under the License.
 //
 
+#import <StoreKit/StoreKit.h>
 #import "AppDelegate.h"
 
 @interface AppDelegate ()
@@ -27,7 +28,9 @@
 
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  // Override point for customization after application launch.
+  if (@available(iOS 14, *)) {
+    [SKAdNetwork registerAppForAdNetworkAttribution];
+  }
 
   return YES;
 }
