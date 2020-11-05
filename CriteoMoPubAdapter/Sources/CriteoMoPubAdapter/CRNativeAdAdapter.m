@@ -24,6 +24,9 @@
 
 @property(strong, nonatomic, readonly) CRNativeAd *nativeAd;
 
+@property(strong, nonatomic) CRMediaView *mainMediaView;
+@property(strong, nonatomic) CRMediaView *iconMediaView;
+
 @end
 
 @implementation CRNativeAdAdapter
@@ -47,6 +50,22 @@
   //
   // The Criteo SDK opens it itself. So we return nil.
   return nil;
+}
+
+- (UIView *)mainMediaView {
+  if (_mainMediaView == nil) {
+    _mainMediaView = [[CRMediaView alloc] init];
+    _mainMediaView.mediaContent = self.nativeAd.productMedia;
+  }
+  return _mainMediaView;
+}
+
+- (UIView *)iconMediaView {
+  if (_iconMediaView == nil) {
+    _iconMediaView = [[CRMediaView alloc] init];
+    _iconMediaView.mediaContent = self.nativeAd.advertiserLogoMedia;
+  }
+  return _iconMediaView;
 }
 
 #pragma mark - Private

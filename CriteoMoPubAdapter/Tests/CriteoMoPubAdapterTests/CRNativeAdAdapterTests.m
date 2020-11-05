@@ -61,6 +61,16 @@
   XCTAssertEqualObjects(props, expected);
 }
 
+- (void)testMainMediaView {
+  CRNativeAdAdapter *adapter = [[CRNativeAdAdapter alloc] initWithNativeAd:[self nativeAdMock]];
+  XCTAssert([[adapter mainMediaView] isKindOfClass:[CRMediaView class]]);
+}
+
+- (void)testIconMediaView {
+  CRNativeAdAdapter *adapter = [[CRNativeAdAdapter alloc] initWithNativeAd:[self nativeAdMock]];
+  XCTAssert([[adapter iconMediaView] isKindOfClass:[CRMediaView class]]);
+}
+
 - (CRNativeAd *)nativeAdMock {
   CRMediaContent *product = OCMClassMock(CRMediaContent.class);
   OCMStub([product url]).andReturn(PRODUCT_URL);
