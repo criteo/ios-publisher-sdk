@@ -28,10 +28,12 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 @property(nonatomic, assign, readonly) BOOL isInSilenceMode;
 @property(nonatomic) NSTimeInterval cdbTimeToNextCall;
 
-- (void)prefetchBidForAdUnit:(CR_CacheAdUnit *)adUnit;
-- (CR_CdbBid *)getBidThenFetch:(CR_CacheAdUnit *)slot;
+- (void)prefetchBidForAdUnit:(CR_CacheAdUnit *)adUnit context:(CRContextData *)contextData;
+
+- (CR_CdbBid *)getBidThenFetch:(CR_CacheAdUnit *)slot context:(CRContextData *)contextData;
 
 - (void)fetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits
+                    context:(CRContextData *)contextData
          cdbResponseHandler:(CR_CdbResponseHandler)responseHandler;
 
 @end
