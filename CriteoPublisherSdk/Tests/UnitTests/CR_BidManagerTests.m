@@ -38,6 +38,7 @@
                             consent:[OCMArg any]        \
                              config:[OCMArg any]        \
                          deviceInfo:[OCMArg any]        \
+                            context:[OCMArg any]        \
                       beforeCdbCall:[OCMArg any]        \
                   completionHandler:[OCMArg any]]);
 
@@ -46,6 +47,7 @@
                             consent:[OCMArg any]        \
                              config:[OCMArg any]        \
                          deviceInfo:[OCMArg any]        \
+                            context:[OCMArg any]        \
                       beforeCdbCall:[OCMArg any]        \
                   completionHandler:[OCMArg any]]);
 
@@ -745,12 +747,13 @@
                                consent:[OCMArg any]
                                 config:[OCMArg any]
                             deviceInfo:[OCMArg any]
+                               context:[OCMArg any]
                          beforeCdbCall:[OCMArg any]
                      completionHandler:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         block();
         CR_CdbCompletionHandler handler;
-        [invocation getArgument:&handler atIndex:7];
+        [invocation getArgument:&handler atIndex:8];
         handler(nil, cdbResponse, nil);
       });
 }
@@ -760,12 +763,13 @@
                                consent:[OCMArg any]
                                 config:[OCMArg any]
                             deviceInfo:[OCMArg any]
+                               context:[OCMArg any]
                          beforeCdbCall:[OCMArg any]
                      completionHandler:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         block();
         CR_CdbCompletionHandler handler;
-        [invocation getArgument:&handler atIndex:7];
+        [invocation getArgument:&handler atIndex:8];
         handler(nil, nil, error);
       });
 }

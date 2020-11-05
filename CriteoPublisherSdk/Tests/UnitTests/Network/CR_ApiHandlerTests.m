@@ -22,6 +22,7 @@
 
 #import <OCMock.h>
 
+#import "CRContextData.h"
 #import "CR_ApiQueryKeys.h"
 #import "CR_BidManager.h"
 #import "CR_DataProtectionConsentMock.h"
@@ -57,6 +58,7 @@
 @property(nonatomic, strong) CR_Config *configMock;
 @property(nonatomic, strong) CR_ThreadManager *threadManager;
 @property(nonatomic, strong) CR_IntegrationRegistry *integrationRegistry;
+@property(nonatomic, strong) CRContextData *contextData;
 
 // overridden properties
 @property(strong, nonatomic, readonly, nullable) NSDictionary *cdbPayload;
@@ -74,6 +76,7 @@
   self.threadManager = [[CR_ThreadManager alloc] init];
   self.integrationRegistry = OCMClassMock(CR_IntegrationRegistry.class);
   OCMStub([self.integrationRegistry profileId]).andReturn(@42);
+  self.contextData = OCMStrictClassMock([CRContextData class]);
 
   self.apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:self.networkManagerMock
                                                   bidFetchTracker:[CR_BidFetchTracker new]
@@ -90,6 +93,7 @@
                 consent:self.consentMock
                  config:self.configMock
              deviceInfo:self.deviceInfoMock
+                context:self.contextData
           beforeCdbCall:nil
       completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
         XCTAssertNil(nil);
@@ -125,6 +129,7 @@
                    consent:self.consentMock
                     config:self.configMock
                 deviceInfo:self.deviceInfoMock
+                   context:self.contextData
              beforeCdbCall:^(CR_CdbRequest *cdbRequest) {
                XCTAssertNotNil(cdbRequest);
                XCTAssertEqual(cdbRequest.adUnits.count, 1);
@@ -170,6 +175,7 @@
                 consent:self.consentMock
                  config:self.configMock
              deviceInfo:self.deviceInfoMock
+                context:self.contextData
           beforeCdbCall:nil
       completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
         XCTAssertNotNil(cdbResponse.cdbBids);
@@ -256,6 +262,7 @@
                 consent:nil
                  config:nil
              deviceInfo:nil
+                context:nil
           beforeCdbCall:nil
       completionHandler:nil];
 }
@@ -282,6 +289,7 @@
                 consent:nil
                  config:nil
              deviceInfo:nil
+                context:nil
           beforeCdbCall:nil
       completionHandler:nil];
   OCMVerifyAllWithDelay(mockBidFetchTracker, 1);
@@ -311,6 +319,7 @@
                 consent:nil
                  config:nil
              deviceInfo:nil
+                context:nil
           beforeCdbCall:nil
       completionHandler:nil];
   OCMVerifyAllWithDelay(mockBidFetchTracker, 1);
@@ -338,6 +347,7 @@
                 consent:nil
                  config:nil
              deviceInfo:nil
+                context:nil
           beforeCdbCall:nil
       completionHandler:nil];
   OCMVerifyAllWithDelay(mockBidFetchTracker, 1);
@@ -352,6 +362,7 @@
                   consent:self.consentMock
                    config:self.configMock
                deviceInfo:self.deviceInfoMock
+                  context:self.contextData
             beforeCdbCall:nil
         completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error){
         }];
@@ -665,6 +676,7 @@
                 consent:nil
                  config:nil
              deviceInfo:nil
+                context:nil
           beforeCdbCall:nil
       completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
         XCTAssertNil(cdbResponse);
@@ -731,6 +743,7 @@
                 consent:self.consentMock
                  config:self.configMock
              deviceInfo:self.deviceInfoMock
+                context:self.contextData
           beforeCdbCall:nil
       completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
         if (completionHandler) {

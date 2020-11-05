@@ -36,6 +36,7 @@
 @class CR_ThreadManager;
 @class CR_RemoteConfigRequest;
 @class CR_IntegrationRegistry;
+@class CRContextData;
 
 typedef void (^CR_CdbCompletionHandler)(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse,
                                         NSError *error);
@@ -63,6 +64,7 @@ typedef void (^CR_CsmCompletionHandler)(NSError *error);
               consent:(CR_DataProtectionConsent *)consent
                config:(CR_Config *)config
            deviceInfo:(CR_DeviceInfo *)deviceInfo
+              context:(__unused CRContextData *)contextData
         beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
     completionHandler:(CR_CdbCompletionHandler)completionHandler;
 

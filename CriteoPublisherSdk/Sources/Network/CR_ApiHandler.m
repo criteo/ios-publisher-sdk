@@ -1,3 +1,4 @@
+#import <_types.h>
 //
 //  CR_ApiHandler.m
 //  CriteoPublisherSdk
@@ -85,6 +86,7 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
               consent:(CR_DataProtectionConsent *)consent
                config:(CR_Config *)config
            deviceInfo:(CR_DeviceInfo *)deviceInfo
+              context:(__unused CRContextData *)contextData  // TODO EE-1324
         beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
     completionHandler:(CR_CdbCompletionHandler)completionHandler {
   [self.threadManager dispatchAsyncOnGlobalQueue:^{
