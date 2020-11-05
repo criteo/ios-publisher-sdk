@@ -495,6 +495,7 @@
                                consent:[OCMArg any]
                                 config:[OCMArg any]
                             deviceInfo:[OCMArg any]
+                               context:[OCMArg any]
                          beforeCdbCall:beforeCdbCall
                      completionHandler:completion]);
 }
@@ -505,6 +506,7 @@
                                consent:[OCMArg any]
                                 config:[OCMArg any]
                             deviceInfo:[OCMArg any]
+                               context:[OCMArg any]
                          beforeCdbCall:beforeCdbCall
                      completionHandler:[OCMArg any]]);
 }

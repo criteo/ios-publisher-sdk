@@ -244,6 +244,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
         consent:self.consent
         config:self->config
         deviceInfo:self->deviceInfo
+        context:nil  // TODO
         beforeCdbCall:^(CR_CdbRequest *cdbRequest) {
           [self beforeCdbCall:cdbRequest];
         }
