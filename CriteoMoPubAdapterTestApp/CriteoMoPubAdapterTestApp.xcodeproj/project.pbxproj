@@ -22,6 +22,7 @@
 		91D5B50F2510B9CF00EAB7DB /* CriteoNativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91D5B50E2510B9CF00EAB7DB /* CriteoNativeAdView.xib */; };
 		91D5B5162510BA1200EAB7DB /* CriteoNativeAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D5B5152510BA1200EAB7DB /* CriteoNativeAdView.m */; };
 		91DE913C2510718000EFAF82 /* NativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91DE913B2510718000EFAF82 /* NativeAdView.xib */; };
+		91E8AACE2553F650001AFBE7 /* CriteoMoPubAdapterTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E8AACD2553F650001AFBE7 /* CriteoMoPubAdapterTestApp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -60,6 +61,7 @@
 		91D5B5142510BA1200EAB7DB /* CriteoNativeAdView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CriteoNativeAdView.h; sourceTree = "<group>"; };
 		91D5B5152510BA1200EAB7DB /* CriteoNativeAdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CriteoNativeAdView.m; sourceTree = "<group>"; };
 		91DE913B2510718000EFAF82 /* NativeAdView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NativeAdView.xib; sourceTree = "<group>"; };
+		91E8AACD2553F650001AFBE7 /* CriteoMoPubAdapterTestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CriteoMoPubAdapterTestApp.swift; sourceTree = "<group>"; };
 		A552A4043F3142BE912DD619 /* libPods-CriteoMoPubAdapterTestApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoMoPubAdapterTestApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -107,6 +109,7 @@
 				5431C7F723D7231F002F0282 /* LaunchScreen.storyboard */,
 				5431C7FB23D7231F002F0282 /* main.m */,
 				5431C7F223D7231D002F0282 /* Main.storyboard */,
+				91E8AACD2553F650001AFBE7 /* CriteoMoPubAdapterTestApp.swift */,
 			);
 			name = CriteoMoPubAdapterTestApp;
 			path = Sources/CriteoMoPubAdapterTestApp;
@@ -188,6 +191,7 @@
 				TargetAttributes = {
 					5431C7E523D7231D002F0282 = {
 						CreatedOnToolsVersion = 11.2.1;
+						LastSwiftMigration = 1210;
 					};
 				};
 			};
@@ -274,6 +278,7 @@
 				91D237B024F79F7D00B44B26 /* NativeAdView.m in Sources */,
 				91D5B5162510BA1200EAB7DB /* CriteoNativeAdView.m in Sources */,
 				5431C81223D72665002F0282 /* HomePageTableViewController.m in Sources */,
+				91E8AACE2553F650001AFBE7 /* CriteoMoPubAdapterTestApp.swift in Sources */,
 				5431C7EB23D7231D002F0282 /* AppDelegate.m in Sources */,
 				5431C7FC23D7231F002F0282 /* main.m in Sources */,
 			);
@@ -418,6 +423,7 @@
 			baseConfigurationReference = 0E665419EA3974D10C2D7ED9 /* Pods-CriteoMoPubAdapterTestApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HS6BDUKANM;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -431,6 +437,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.CriteoMoPubAdapterTestApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -440,6 +448,7 @@
 			baseConfigurationReference = 3CBA45D99CDFA03B32092940 /* Pods-CriteoMoPubAdapterTestApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HS6BDUKANM;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -453,6 +462,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.CriteoMoPubAdapterTestApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
