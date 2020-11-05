@@ -78,6 +78,7 @@
 - (void)loadBidForAdUnit:(CRAdUnit *)adUnit responseHandler:(CRBidResponseHandler)responseHandler {
   CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
   [self.bidManager loadCdbBidForAdUnit:cacheAdUnit
+                               context:nil /* TODO */
                        responseHandler:^(CR_CdbBid *cdbBid) {
                          [self.threadManager dispatchAsyncOnMainQueue:^{
                            CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:adUnit];
@@ -124,7 +125,7 @@
   CR_CacheAdUnitArray *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:adUnits];
 
   if (self.config.isPrefetchOnInitEnabled) {
-    [self.bidManager prefetchBidsForAdUnits:cacheAdUnits];
+    [self.bidManager prefetchBidsForAdUnits:cacheAdUnits context:nil /* TODO */];
   }
 }
 
@@ -132,7 +133,9 @@
 
 - (void)loadCdbBidForAdUnit:(CR_CacheAdUnit *)slot
             responseHandler:(CR_CdbBidResponseHandler)responseHandler {
-  [self.bidManager loadCdbBidForAdUnit:slot responseHandler:responseHandler];
+  [self.bidManager loadCdbBidForAdUnit:slot
+                               context:nil /* TODO */
+                       responseHandler:responseHandler];
 }
 
 #pragma mark Properties

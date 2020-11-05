@@ -87,7 +87,7 @@
 
     CR_BidManager *bidManager = OCMStrictClassMock(CR_BidManager.class);
     OCMStub(dependencyProviderMock.bidManager).andReturn(bidManager);
-    OCMExpect([bidManager prefetchBidsForAdUnits:OCMArg.any]);
+    OCMExpect([bidManager prefetchBidsForAdUnits:OCMArg.any context:OCMArg.any]);
   }];
 }
 
@@ -99,7 +99,7 @@
 
     CR_BidManager *bidManager = OCMStrictClassMock(CR_BidManager.class);
     OCMStub(dependencyProviderMock.bidManager).andReturn(bidManager);
-    OCMReject([bidManager prefetchBidsForAdUnits:OCMArg.any]);
+    OCMReject([bidManager prefetchBidsForAdUnits:OCMArg.any context:OCMArg.any]);
   }];
 }
 

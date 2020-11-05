@@ -27,6 +27,7 @@
 #import "CR_CacheManager.h"
 #import "CR_BidManager+Testing.h"
 #import "CR_SynchronousThreadManager.h"
+#import "CRContextData.h"
 
 @interface CR_BidManagerFeedbackTests : XCTestCase
 
@@ -55,6 +56,7 @@
 
 @property(nonatomic, strong) NSNumber *dateInMillisecondsNumber;
 @property(nonatomic, strong) OCMockObject *nsdateMock;
+@property(nonatomic, strong) CRContextData *contextData;
 
 @end
 
@@ -123,6 +125,8 @@
   self.defaultMessage.requestGroupId = self.cdbRequest.requestGroupId;
   self.defaultMessage.impressionId = self.impressionId;
   self.defaultMessage.cdbCallStartTimestamp = self.dateInMillisecondsNumber;
+
+  self.contextData = CRContextData.new;
 }
 
 - (void)captureSentMessages:(NSArray<CR_FeedbackMessage *> *)messages {
@@ -249,7 +253,7 @@
 
   [self prefetchBidWithMockedResponseForAdUnit:self.adUnit];
 
-  [self.bidManager getBidThenFetch:self.adUnit];
+  [self.bidManager getBidThenFetch:self.adUnit context:self.contextData];
 
   CR_FeedbackMessage *message = self.lastSentMessages[0];
   XCTAssertEqualObjects(message, expected);
@@ -270,7 +274,7 @@
   self.cdbResponse.cdbBids = @[ expired ];
   [self prefetchBidWithMockedResponseForAdUnit:self.adUnit];
 
-  [self.bidManager getBidThenFetch:self.adUnit];
+  [self.bidManager getBidThenFetch:self.adUnit context:self.contextData];
 
   CR_FeedbackMessage *message = self.lastSentMessages[0];
   XCTAssertEqualObjects(message, expected);
@@ -284,9 +288,9 @@
   [self configureApiHandlerMockWithCdbRequest:self.cdbRequest
                                   cdbResponse:self.cdbResponse
                                         error:nil];
-  [self.bidManager prefetchBidForAdUnit:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit context:self.contextData];
 
-  [self.bidManager getBidThenFetch:self.adUnit];
+  [self.bidManager getBidThenFetch:self.adUnit context:self.contextData];
 
   CR_FeedbackMessage *message = self.lastSentMessages[0];
   XCTAssertEqualObjects(message, expected);
@@ -333,7 +337,7 @@
                                   cdbResponse:self.cdbResponse
                                         error:nil];
 
-  [self.bidManager prefetchBidForAdUnit:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit context:self.contextData];
 
   XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 1);
   XCTAssertEqual([self.feedbackSendingQueue size], 0);
@@ -346,7 +350,7 @@
                                   cdbResponse:self.cdbResponse
                                         error:nil];
 
-  [self.bidManager prefetchBidForAdUnit:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit context:self.contextData];
 
   XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
   XCTAssertEqual(self.lastSentMessages.count, 1);
@@ -358,7 +362,7 @@
                                           userInfo:nil];
   [self configureApiHandlerMockWithCdbRequest:self.cdbRequest cdbResponse:nil error:error];
 
-  [self.bidManager prefetchBidForAdUnit:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit context:self.contextData];
 
   XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
   XCTAssertEqual(self.lastSentMessages.count, 1);
@@ -370,7 +374,7 @@
                                           userInfo:nil];
   [self configureApiHandlerMockWithCdbRequest:self.cdbRequest cdbResponse:nil error:error];
 
-  [self.bidManager prefetchBidForAdUnit:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit context:self.contextData];
 
   XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
   XCTAssertEqual(self.lastSentMessages.count, 1);
@@ -381,7 +385,7 @@
                                   cdbResponse:self.cdbResponseWithInvalidBid
                                         error:nil];
 
-  [self.bidManager prefetchBidForAdUnit:self.adUnitForInvalidBid];
+  [self.bidManager prefetchBidForAdUnit:self.adUnitForInvalidBid context:self.contextData];
 
   XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
   XCTAssertEqual(self.lastSentMessages.count, 1);
@@ -390,7 +394,7 @@
 - (void)testReadyToSendOnBidConsumed {
   [self prefetchBidWithMockedResponseForAdUnit:self.adUnit];
 
-  [self.bidManager getBidThenFetch:self.adUnit];
+  [self.bidManager getBidThenFetch:self.adUnit context:self.contextData];
 
   XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 1);
   XCTAssertEqual(self.lastSentMessages.count, 1);
@@ -400,7 +404,7 @@
   CR_CdbBid *expiredBid = CR_CdbBidBuilder.new.adUnit(self.adUnit).expired().build;
   self.cacheManager.bidCache[self.adUnit] = expiredBid;
 
-  [self.bidManager getBidThenFetch:self.adUnit];
+  [self.bidManager getBidThenFetch:self.adUnit context:self.contextData];
 
   XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
   XCTAssertEqual(self.lastSentMessages.count, 1);
@@ -411,10 +415,10 @@
   [self configureApiHandlerMockWithCdbRequest:self.cdbRequest
                                   cdbResponse:self.cdbResponse
                                         error:nil];
-  [self.bidManager prefetchBidForAdUnit:self.adUnit];
+  [self.bidManager prefetchBidForAdUnit:self.adUnit context:self.contextData];
   self.lastSentMessages = nil;
 
-  [self.bidManager getBidThenFetch:self.adUnit];
+  [self.bidManager getBidThenFetch:self.adUnit context:self.contextData];
 
   XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
   XCTAssertEqual([self.feedbackSendingQueue size], 0);
@@ -513,12 +517,14 @@
 
 - (void)fetchBidForAdUnit:(CR_CacheAdUnit *)adUnit {
   [self.bidManager fetchBidsForAdUnits:@[ adUnit ]
+                               context:self.contextData
                     cdbResponseHandler:^(CR_CdbResponse *response){
                     }];
 }
 
 - (void)fetchLiveBidForAdUnit:(CR_CacheAdUnit *)adUnit {
   [self.bidManager fetchLiveBidForAdUnit:adUnit
+                                 context:self.contextData
                          responseHandler:^(CR_CdbBid *bid){
                          }];
 }
@@ -530,7 +536,7 @@
   [self configureApiHandlerMockWithCdbRequest:self.cdbRequest
                                   cdbResponse:self.cdbResponse
                                         error:nil];
-  [self.bidManager prefetchBidForAdUnit:adUnit];
+  [self.bidManager prefetchBidForAdUnit:adUnit context:self.contextData];
 }
 
 @end

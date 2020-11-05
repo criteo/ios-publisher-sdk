@@ -92,15 +92,16 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 }
 
 - (void)loadCdbBidForAdUnit:(CR_CacheAdUnit *)adUnit
+                    context:(CRContextData *)contextData
             responseHandler:(CR_CdbBidResponseHandler)responseHandler {
   if (config.liveBiddingEnabled) {
-    [self fetchLiveBidForAdUnit:adUnit responseHandler:responseHandler];
+    [self fetchLiveBidForAdUnit:adUnit context:contextData responseHandler:responseHandler];
   } else {
-    responseHandler([self getBidThenFetch:adUnit]);
+    responseHandler([self getBidThenFetch:adUnit context:contextData]);
   }
 }
 
-- (CR_CdbBid *)getBidThenFetch:(CR_CacheAdUnit *)slot {
+- (CR_CdbBid *)getBidThenFetch:(CR_CacheAdUnit *)slot context:(CRContextData *)contextData {
   CR_CdbBid *bid = nil;
   @try {
     bid = [self getBid:slot
@@ -110,7 +111,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
                  [self.feedbackDelegate onBidConsumed:bid];
                }
                if (bid == nil || bid.isRenewable) {
-                 [self prefetchBidForAdUnit:slot];
+                 [self prefetchBidForAdUnit:slot context:contextData];
                }
              }];
            }];
@@ -149,18 +150,20 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
   return [[NSDate date] timeIntervalSinceReferenceDate] < self.cdbTimeToNextCall;
 }
 
-- (void)prefetchBidForAdUnit:(CR_CacheAdUnit *)adUnit {
-  [self prefetchBidsForAdUnits:@[ adUnit ]];
+- (void)prefetchBidForAdUnit:(CR_CacheAdUnit *)adUnit context:(CRContextData *)contextData {
+  [self prefetchBidsForAdUnits:@[ adUnit ] context:contextData];
 }
 
-- (void)prefetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits {
+- (void)prefetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits context:(CRContextData *)contextData {
   [self fetchBidsForAdUnits:adUnits
+                    context:contextData
          cdbResponseHandler:^(CR_CdbResponse *cdbResponse) {
            [self cacheBidsFromResponse:cdbResponse];
          }];
 }
 
 - (void)fetchLiveBidForAdUnit:(CR_CacheAdUnit *)adUnit
+                      context:(CRContextData *)contextData
               responseHandler:(CR_CdbBidResponseHandler)responseHandler {
   @try {
     // Don't let empty bid surface outside
@@ -168,6 +171,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
       responseHandler(bid.isEmpty ? nil : bid);
     };
     [self fetchLiveBidForAdUnit:adUnit
+                        context:contextData
              bidResponseHandler:emptyAsNilResponseHandler
                      timeBudget:config.liveBiddingTimeBudget];
   } @catch (NSException *exception) {
@@ -176,6 +180,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 }
 
 - (void)fetchLiveBidForAdUnit:(CR_CacheAdUnit *)adUnit
+                      context:(CRContextData *)contextData
            bidResponseHandler:(CR_CdbBidResponseHandler)responseHandler
                    timeBudget:(NSTimeInterval)timeBudget {
   if ([self cannotCallCdb]) {
@@ -190,6 +195,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
   [self.threadManager dispatchAsyncOnGlobalQueueWithTimeout:timeBudget
       operationHandler:^void(void (^completionHandler)(dispatchWithTimeoutHandler)) {
         [self fetchBidsForAdUnits:@[ adUnit ]
+                          context:contextData
                cdbResponseHandler:^(CR_CdbResponse *cdbResponse) {
                  completionHandler(^(BOOL handled) {
                    if (!handled) {
@@ -230,6 +236,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 }
 
 - (void)fetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits
+                    context:(CRContextData *)contextData
          cdbResponseHandler:(CR_CdbResponseHandler)responseHandler {
   if ([self cannotCallCdb]) {
     if (responseHandler) {
@@ -244,7 +251,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
         consent:self.consent
         config:self->config
         deviceInfo:self->deviceInfo
-        context:nil  // TODO
+        context:contextData
         beforeCdbCall:^(CR_CdbRequest *cdbRequest) {
           [self beforeCdbCall:cdbRequest];
         }
