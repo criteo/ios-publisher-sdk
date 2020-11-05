@@ -125,7 +125,7 @@
   CR_CacheAdUnitArray *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:adUnits];
 
   if (self.config.isPrefetchOnInitEnabled) {
-    [self.bidManager prefetchBidsForAdUnits:cacheAdUnits context:nil /* TODO */];
+    [self.bidManager prefetchBidsForAdUnits:cacheAdUnits context:CRContextData.new];
   }
 }
 
