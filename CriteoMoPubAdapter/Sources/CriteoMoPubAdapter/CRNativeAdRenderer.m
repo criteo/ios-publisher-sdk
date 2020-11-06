@@ -24,7 +24,7 @@
 @interface CRNativeAdRenderer () <MPNativeAdRendererImageHandlerDelegate>
 
 @property(nonatomic, strong) CRNativeAdAdapter *adapter;
-@property(nonatomic, strong) UIView<MPNativeAdRendering> *adView;
+@property(nonatomic, strong) CRNativeAdView<MPNativeAdRendering> *adView;
 @property(nonatomic, strong) Class renderingViewClass;
 @property(nonatomic) BOOL adViewInViewHierarchy;
 @property(nonatomic) MPNativeAdRendererImageHandler *rendererImageHandler;
@@ -54,7 +54,7 @@
   return config;
 }
 
-- (UIView *)retrieveViewWithAdapter:(id<MPNativeAdAdapter>)adapter
+- (UIView *)retrieveViewWithAdapter:(CRNativeAdAdapter<MPNativeAdAdapter> *)adapter
                               error:(NSError **)error {
   if (!adapter || ![adapter isKindOfClass:[CRNativeAdAdapter class]]) {
     if (error) {
@@ -66,12 +66,14 @@
   self.adapter = adapter;
 
   if ([self.renderingViewClass respondsToSelector:@selector(nibForAd)]) {
-    self.adView = (UIView<MPNativeAdRendering> *)[[[self.renderingViewClass nibForAd]
+    self.adView = (CRNativeAdView<MPNativeAdRendering> *)[[[self.renderingViewClass nibForAd]
         instantiateWithOwner:nil
                      options:nil] firstObject];
   } else {
     self.adView = [[self.renderingViewClass alloc] init];
   }
+
+  self.adView.nativeAd = [adapter nativeAd];
 
   self.adView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
 

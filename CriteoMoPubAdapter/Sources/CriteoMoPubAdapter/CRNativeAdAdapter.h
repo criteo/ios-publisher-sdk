@@ -31,6 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CRNativeAdAdapter : NSObject <MPNativeAdAdapter>
 
+@property(strong, nonatomic, readonly) CRNativeAd *nativeAd;
+
 - (instancetype)initWithNativeAd:(CRNativeAd *)nativeAd;
 
 @end
