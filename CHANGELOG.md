@@ -1,6 +1,6 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
-## Version Next
+## Version 4.0.1
 
 ### Features
 - **In-House**: `CRBannerView`, `CRInterstitial`, `CRNativeLoader` can now be initialized without
