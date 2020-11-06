@@ -40,7 +40,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
   CR_CreativeViewChecker *viewChecker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner
                                                                                 criteo:self.criteo];
 
-  [viewChecker.bannerView loadAd];
+  [viewChecker.bannerView loadAdWithContext:self.contextData];
 
   [self cr_waitForExpectations:@[ viewChecker.failToReceiveAdExpectation ]];
 }
@@ -51,7 +51,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
   CR_CreativeViewChecker *viewChecker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner
                                                                                 criteo:self.criteo];
 
-  [viewChecker.bannerView loadAd];
+  [viewChecker.bannerView loadAdWithContext:self.contextData];
 
   [self cr_waitForExpectations:@[ viewChecker.didReceiveAdExpectation ]];
 }
@@ -63,7 +63,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
   CR_CreativeViewChecker *viewChecker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner
                                                                                 criteo:self.criteo];
 
-  [viewChecker.bannerView loadAd];
+  [viewChecker.bannerView loadAdWithContext:self.contextData];
 
   [self cr_waitForExpectations:@[ viewChecker.adCreativeRenderedExpectation ]];
 }
@@ -75,13 +75,13 @@ static NSString *creativeUrl2 = @"www.apple.com";
                                                                                 criteo:self.criteo];
 
   [viewChecker injectBidWithExpectedCreativeUrl:creativeUrl1];
-  [viewChecker.bannerView loadAd];
+  [viewChecker.bannerView loadAdWithContext:self.contextData];
   [self cr_waitForExpectations:@[ viewChecker.adCreativeRenderedExpectation ]];
 
   [viewChecker resetExpectations];
 
   [viewChecker injectBidWithExpectedCreativeUrl:creativeUrl2];
-  [viewChecker.bannerView loadAd];
+  [viewChecker.bannerView loadAdWithContext:self.contextData];
   [self cr_waitForExpectations:@[ viewChecker.adCreativeRenderedExpectation ]];
 }
 
@@ -92,15 +92,19 @@ static NSString *creativeUrl2 = @"www.apple.com";
                                                                                 criteo:self.criteo];
 
   [viewChecker injectBidWithExpectedCreativeUrl:creativeUrl1];
-  [viewChecker.bannerView loadAd];
+  [viewChecker.bannerView loadAdWithContext:self.contextData];
   [self cr_waitForExpectations:@[ viewChecker.adCreativeRenderedExpectation ]];
 
   [viewChecker resetExpectations];
   [viewChecker resetBannerView];
 
   [viewChecker injectBidWithExpectedCreativeUrl:creativeUrl2];
-  [viewChecker.bannerView loadAd];
+  [viewChecker.bannerView loadAdWithContext:self.contextData];
   [self cr_waitForExpectations:@[ viewChecker.adCreativeRenderedExpectation ]];
+}
+
+- (CRContextData *)contextData {
+  return CRContextData.new;
 }
 
 @end

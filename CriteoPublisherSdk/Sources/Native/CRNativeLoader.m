@@ -36,6 +36,7 @@
 #import "CR_NetworkManager.h"
 #import "CR_IntegrationRegistry.h"
 #import "CRBid+Internal.h"
+#import "CRContextData.h"
 
 @implementation CRNativeLoader
 
@@ -68,8 +69,12 @@
 #pragma mark - Public
 
 - (void)loadAd {
+  [self loadAdWithContext:CRContextData.new];
+}
+
+- (void)loadAdWithContext:(CRContextData *)contextData {
   @try {
-    [self unsafeLoadAd];
+    [self unsafeLoadAdWithContext:contextData];
   } @catch (NSException *exception) {
     CLogException(exception);
   }
@@ -135,7 +140,7 @@
   return self.canNotifyDidReceiveAd;
 }
 
-- (void)unsafeLoadAd {
+- (void)unsafeLoadAdWithContext:(CRContextData *)contextData {
   [self.integrationRegistry declare:CR_IntegrationStandalone];
 
   if (!self.canConsumeBid) {
@@ -150,6 +155,7 @@
   }
   CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:self.adUnit];
   [self.criteo loadCdbBidForAdUnit:cacheAdUnit
+                           context:contextData
                    responseHandler:^(CR_CdbBid *bid) {
                      [self handleNativeAssets:bid.nativeAssets];
                    }];

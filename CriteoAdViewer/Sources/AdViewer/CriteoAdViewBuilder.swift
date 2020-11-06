@@ -51,7 +51,7 @@ class CriteoAdViewBuilder: AdViewBuilder {
     adView.delegate = logger
     switch adType {
     case .standalone:
-      adView.loadAd()
+      adView.loadAd(withContext: contextData)
     case .inHouse:
       criteo.loadBid(for: adUnit, context: contextData){ maybeBid in
         if let bid = maybeBid {
@@ -68,7 +68,7 @@ class CriteoAdViewBuilder: AdViewBuilder {
     adView.delegate = logger
     switch adType {
     case .standalone:
-      adView.loadAd()
+      adView.loadAd(withContext: contextData)
     case .inHouse:
       criteo.loadBid(for: adUnit, context: contextData){ maybeBid in
         if let bid = maybeBid {

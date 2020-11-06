@@ -32,6 +32,7 @@
 #import "XCTestCase+Criteo.h"
 #import "CR_DependencyProvider.h"
 #import "CR_DependencyProvider+Testing.h"
+#import "CRContextData.h"
 
 @interface CRBannerViewDelegateTests : XCTestCase {
   WKNavigationResponse *validNavigationResponse;
@@ -39,6 +40,7 @@
 
 @property(nonatomic, strong) CR_CacheAdUnit *expectedCacheAdUnit;
 @property(nonatomic, strong) CRBannerAdUnit *adUnit;
+@property(nonatomic, strong) CRContextData *contextData;
 @property(strong, nonatomic) CR_URLOpenerMock *urlOpener;
 @property(strong, nonatomic) Criteo *criteo;
 @property(strong, nonatomic) CRBannerViewDelegateMock *delegate;
@@ -52,6 +54,7 @@
                                                                  size:CGSizeMake(47.0f, 57.0f)
                                                            adUnitType:CRAdUnitTypeBanner];
   self.adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"123" size:CGSizeMake(47.0f, 57.0f)];
+  self.contextData = CRContextData.new;
 
   self.urlOpener = [[CR_URLOpenerMock alloc] init];
 
@@ -92,7 +95,7 @@
 
   CRBannerView *bannerView = [self bannerViewWithWebView:realWebView];
   bannerView.delegate = self.delegate;
-  [bannerView loadAd];
+  [bannerView loadAdWithContext:self.contextData];
 
   [self cr_waitShortlyForExpectations:@[ self.delegate.didReceiveAdExpectation ]];
 }
@@ -104,7 +107,7 @@
   [self mockCriteoWithAdUnit:self.expectedCacheAdUnit respondBid:nil];
   CRBannerView *bannerView = [self bannerViewWithWebView:nil];
   bannerView.delegate = self.delegate;
-  [bannerView loadAd];
+  [bannerView loadAdWithContext:self.contextData];
 
   [self cr_waitShortlyForExpectations:@[ self.delegate.didFailToReceiveAdWithErrorExpectation ]];
 }
@@ -178,7 +181,7 @@
   [self mockCriteoWithAdUnit:self.expectedCacheAdUnit respondBid:[self bidWithDisplayURL:@"-"]];
   CRBannerView *bannerView = [self bannerViewWithWebView:realWebView];
   bannerView.delegate = self.delegate;
-  [bannerView loadAd];
+  [bannerView loadAdWithContext:self.contextData];
 
   [self cr_waitShortlyForExpectations:@[ self.delegate.didReceiveAdExpectation ]];
 }
@@ -191,7 +194,7 @@
       didFailToReceiveAdWithError:[OCMArg checkWithBlock:^BOOL(NSError *error) {
         return error.code == CRErrorCodeInvalidParameter;
       }]]);
-  [bannerView loadAd];
+  [bannerView loadAdWithContext:self.contextData];
   OCMVerifyAllWithDelay(delegate, 1);
 }
 
@@ -238,10 +241,12 @@
 }
 
 - (void)mockCriteoWithAdUnit:(CR_CacheAdUnit *)adUnit respondBid:(CR_CdbBid *)bid {
-  OCMStub([self.criteo loadCdbBidForAdUnit:adUnit responseHandler:[OCMArg any]])
+  OCMStub([self.criteo loadCdbBidForAdUnit:adUnit
+                                   context:self.contextData
+                           responseHandler:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         CR_CdbBidResponseHandler handler;
-        [invocation getArgument:&handler atIndex:3];
+        [invocation getArgument:&handler atIndex:4];
         handler(bid);
       });
 }

@@ -47,7 +47,7 @@
   CRNativeAdUnit *adUnit = [self.delegate adUnitForViewController:self];
   CRNativeLoader *nativeLoader = [[CRNativeLoader alloc] initWithAdUnit:adUnit];
   nativeLoader.delegate = self;
-  [nativeLoader loadAd];
+  [nativeLoader loadAdWithContext:CRContextData.new];
 }
 
 #pragma mark - Properties
