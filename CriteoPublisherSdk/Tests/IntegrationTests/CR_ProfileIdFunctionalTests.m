@@ -148,7 +148,7 @@
   [self prepareUsedSdkWithInHouse:adUnit];
 
   CRBannerView *bannerView = [[CRBannerView alloc] initWithAdUnit:adUnit criteo:self.criteo];
-  [bannerView loadAd];
+  [bannerView loadAdWithContext:self.contextData];
 
   [self validateStandaloneTest];
 }
@@ -158,7 +158,7 @@
   [self prepareUsedSdkWithInHouse:adUnit];
 
   CRInterstitial *interstitial = [[CRInterstitial alloc] initWithAdUnit:adUnit criteo:self.criteo];
-  [interstitial loadAd];
+  [interstitial loadAdWithContext:self.contextData];
 
   [self validateStandaloneTest];
 }
@@ -172,7 +172,7 @@
                                       criteo:self.criteo
                                    urlOpener:[[CR_URLOpenerMock alloc] init]];
   nativeLoader.delegate = OCMProtocolMock(@protocol(CRNativeLoaderDelegate));
-  [nativeLoader loadAd];
+  [nativeLoader loadAdWithContext:self.contextData];
 
   [self validateStandaloneTest];
 }
@@ -301,7 +301,7 @@
   [self.criteo.testing_networkCaptor clear];
   __block CRBid *bid;
   [self.criteo loadBidForAdUnit:adUnit
-                        context:CRContextData.new
+                        context:self.contextData
                 responseHandler:^(CRBid *bid_) {
                   bid = bid_;
                 }];
@@ -357,6 +357,10 @@
 
   NSDictionary *request = [self cdbRequest];
   XCTAssertEqualObjects(request[@"profileId"], @(expectedType));
+}
+
+- (CRContextData *)contextData {
+  return CRContextData.new;
 }
 
 @end

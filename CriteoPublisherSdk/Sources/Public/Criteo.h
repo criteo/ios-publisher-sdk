@@ -23,8 +23,7 @@
 #import <Foundation/Foundation.h>
 #import <CriteoPublisherSdk/CRAdUnit.h>
 #import <CriteoPublisherSdk/CRBid.h>
-
-@class CRContextData;
+#import <CriteoPublisherSdk/CRContextData.h>
 
 /** Bid response handler, bid can be nil on purpose */
 typedef void (^CRBidResponseHandler)(CRBid *_Nullable bid);

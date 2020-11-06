@@ -40,11 +40,13 @@
 #import "CR_DisplaySizeInjector.h"
 #import "CR_IntegrationRegistry.h"
 #import "CR_CdbBidBuilder.h"
+#import "CRContextData.h"
 
 @interface CRInterstitialTests : XCTestCase
 
 @property(nonatomic, strong) CR_CacheAdUnit *expectedCacheAdUnit;
 @property(nonatomic, strong) CRInterstitialAdUnit *adUnit;
+@property(nonatomic, strong) CRContextData *contextData;
 @property(nonatomic, strong) Criteo *criteo;
 @property(nonatomic, strong) CR_URLOpenerMock *urlOpener;
 @property(nonatomic, strong) CR_DisplaySizeInjector *displaySizeInjector;
@@ -59,6 +61,7 @@
                                                                  size:CGSizeMake(320.0, 480.0)
                                                            adUnitType:CRAdUnitTypeInterstitial];
   self.adUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"123"];
+  self.contextData = CRContextData.new;
 
   self.urlOpener = CR_URLOpenerMock.new;
 
@@ -148,7 +151,7 @@
   [self mockCriteoWithAdUnit:self.expectedCacheAdUnit respondBid:[self bidWithDisplayURL:@"test"]];
 
   CRInterstitial *interstitial = [self interstitialWithWebView:mockWebView];
-  [interstitial loadAd];
+  [interstitial loadAdWithContext:self.contextData];
 
   [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
   OCMVerifyAll(mockWebView);
@@ -182,7 +185,7 @@
                   respondBid:[self bidWithDisplayURL:@"whatDoYouMean"]];
 
   CRInterstitial *interstitial = [self interstitialWithWebView:mockWebView];
-  [interstitial loadAd];
+  [interstitial loadAdWithContext:self.contextData];
 
   [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
   OCMVerifyAll(mockWebView);
@@ -257,9 +260,10 @@
   [self mockCriteoWithAdUnit:self.expectedCacheAdUnit respondBid:bid];
 
   CRInterstitial *interstitial = [self interstitialWithWebView:realWebView];
-  [interstitial loadAd];
+  [interstitial loadAdWithContext:self.contextData];
 
   OCMVerify([self.criteo loadCdbBidForAdUnit:[self expectedCacheAdUnit]
+                                     context:self.contextData
                              responseHandler:OCMArg.any]);
 
   [self cr_waitForExpectations:@[ marginExpectation, paddingExpectation, viewportExpectation ]];
@@ -277,9 +281,10 @@
   OCMStub([interstitialVC presentingViewController]).andReturn(nil);
 
   CRInterstitial *interstitial = [self interstitialWithController:interstitialVC];
-  [interstitial loadAd];
+  [interstitial loadAdWithContext:self.contextData];
 
   OCMVerify([self.criteo loadCdbBidForAdUnit:[self expectedCacheAdUnit]
+                                     context:self.contextData
                              responseHandler:[OCMArg any]]);
   OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
 }
@@ -394,7 +399,7 @@
   MockWKWebView *mockWebView = [[MockWKWebView alloc] init];
 
   CRInterstitial *interstitial = [self interstitialWithWebView:mockWebView];
-  [interstitial loadAd];
+  [interstitial loadAdWithContext:self.contextData];
 
   [self cr_waitForExpectations:@[ interstitialHttpCallExpectation ]];
 }
@@ -435,10 +440,12 @@
 }
 
 - (void)mockCriteoWithAdUnit:(CR_CacheAdUnit *)adUnit respondBid:(CR_CdbBid *)bid {
-  OCMStub([self.criteo loadCdbBidForAdUnit:adUnit responseHandler:[OCMArg any]])
+  OCMStub([self.criteo loadCdbBidForAdUnit:adUnit
+                                   context:self.contextData
+                           responseHandler:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         CR_CdbBidResponseHandler handler;
-        [invocation getArgument:&handler atIndex:3];
+        [invocation getArgument:&handler atIndex:4];
         handler(bid);
       });
 }

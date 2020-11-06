@@ -37,6 +37,7 @@
 #import "CR_DependencyProvider.h"
 #import "CR_DependencyProvider+Testing.h"
 #import "CR_DisplaySizeInjector.h"
+#import "CRContextData.h"
 
 @interface CRInterstitialDelegateTests : XCTestCase {
   CR_CacheAdUnit *_cacheAdUnit;
@@ -44,6 +45,7 @@
   CR_CdbBid *_cdbBid;
   WKNavigationResponse *validNavigationResponse;
   WKNavigationResponse *invalidNavigationResponse;
+  CRContextData *_contextData;
 }
 @end
 
@@ -57,6 +59,7 @@
   _cdbBid = nil;
   validNavigationResponse = nil;
   invalidNavigationResponse = nil;
+  _contextData = CRContextData.new;
 }
 
 #pragma mark - Tests
@@ -115,7 +118,7 @@
         [interstitial webView:mockWebView didFinishNavigation:nil];
       });
 
-  [interstitial loadAd];
+  [interstitial loadAdWithContext:self.contextData];
 
   [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
   XCTAssertTrue(interstitial.isAdLoaded);
@@ -148,7 +151,7 @@
 
   XCTestExpectation *interstitialAdFetchFailExpectation =
       [self expectationWithDescription:@"interstitialDidFail delegate method called"];
-  [interstitial loadAd];
+  [interstitial loadAdWithContext:self.contextData];
   [CR_Timer
       scheduledTimerWithTimeInterval:2
                              repeats:NO
@@ -261,7 +264,7 @@
   XCTestExpectation *interstitialPresentationExpectation = [self
       expectationWithDescription:
           @"InterstitialWillAppear and InterstitialDidAppear delegate methods called in order"];
-  [interstitial loadAd];
+  [interstitial loadAdWithContext:self.contextData];
   [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
 
   if (interstitial.isAdLoaded) {
@@ -524,7 +527,7 @@
        didFailToReceiveAdWithError:[OCMArg checkWithBlock:^BOOL(NSError *error) {
          return error.code == CRErrorCodeInvalidParameter;
        }]]);
-  [interstitial loadAd];
+  [interstitial loadAdWithContext:self.contextData];
   OCMVerifyAllWithDelay(delegate, 1);
 }
 
@@ -620,7 +623,7 @@
   OCMReject([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:[OCMArg any]]);
 
-  [interstitial loadAd];
+  [interstitial loadAdWithContext:self.contextData];
   OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
 }
 
@@ -652,7 +655,7 @@
                                          description:@"An Ad is already being loaded."];
   interstitial.delegate = mockInterstitialDelegate;
 
-  [interstitial loadAd];
+  [interstitial loadAdWithContext:self.contextData];
   XCTAssertTrue([interstitial isAdLoading]);
   OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
   OCMExpect([mockInterstitialDelegate interstitial:interstitial
@@ -660,7 +663,7 @@
   OCMReject([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
   OCMReject([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:[OCMArg any]]);
-  [interstitial loadAd];
+  [interstitial loadAdWithContext:self.contextData];
   OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
 }
 
@@ -686,7 +689,7 @@
   OCMReject([mockInterstitialDelegate interstitialDidReceiveAd:interstitial]);
   OCMReject([mockInterstitialDelegate interstitial:interstitial
                        didFailToReceiveAdWithError:[OCMArg any]]);
-  [interstitial loadAd];
+  [interstitial loadAdWithContext:self.contextData];
   OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
 }
 
@@ -822,7 +825,7 @@
         [interstitial webView:mockWebView didFinishNavigation:nil];
       });
 
-  [interstitial loadAd];
+  [interstitial loadAdWithContext:self.contextData];
   XCTAssertFalse(interstitial.isAdLoaded);
   OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
 }
@@ -832,10 +835,12 @@
 - (void)mockCriteo:(Criteo *)criteoMock
         withAdUnit:(CR_CacheAdUnit *)adUnit
         respondBid:(CR_CdbBid *)bid_ {
-  OCMStub([criteoMock loadCdbBidForAdUnit:adUnit responseHandler:[OCMArg any]])
+  OCMStub([criteoMock loadCdbBidForAdUnit:adUnit
+                                  context:self.contextData
+                          responseHandler:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         CR_CdbBidResponseHandler handler;
-        [invocation getArgument:&handler atIndex:3];
+        [invocation getArgument:&handler atIndex:4];
         handler(bid_);
       });
 }
@@ -909,6 +914,10 @@
            "</body>"
            "</html>",
           (long)[UIScreen mainScreen].bounds.size.width, @"test?safearea"];
+}
+
+- (CRContextData *)contextData {
+  return _contextData;
 }
 
 @end

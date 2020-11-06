@@ -139,10 +139,9 @@
 #pragma mark Generic
 
 - (void)loadCdbBidForAdUnit:(CR_CacheAdUnit *)slot
+                    context:(CRContextData *)contextData
             responseHandler:(CR_CdbBidResponseHandler)responseHandler {
-  [self.bidManager loadCdbBidForAdUnit:slot
-                               context:nil /* TODO */
-                       responseHandler:responseHandler];
+  [self.bidManager loadCdbBidForAdUnit:slot context:contextData responseHandler:responseHandler];
 }
 
 #pragma mark Properties

@@ -24,6 +24,7 @@
 #import "CR_IntegrationRegistry.h"
 #import "CR_DependencyProvider.h"
 #import "NSError+Criteo.h"
+#import "CRContextData.h"
 
 // TODO check import strategy
 @import WebKit;
@@ -121,6 +122,10 @@
 }
 
 - (void)loadAd {
+  [self loadAdWithContext:CRContextData.new];
+}
+
+- (void)loadAdWithContext:(CRContextData *)contextData {
   [self.integrationRegistry declare:CR_IntegrationStandalone];
 
   self.isResponseValid = NO;
@@ -134,6 +139,7 @@
                                                                     size:self.frame.size
                                                               adUnitType:CRAdUnitTypeBanner];
   [self.criteo loadCdbBidForAdUnit:cacheAdUnit
+                           context:contextData
                    responseHandler:^(CR_CdbBid *bid) {
                      if (!bid || bid.isEmpty) {
                        [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];

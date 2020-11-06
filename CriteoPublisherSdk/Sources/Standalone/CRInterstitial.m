@@ -98,6 +98,10 @@
 }
 
 - (void)loadAd {
+  [self loadAdWithContext:CRContextData.new];
+}
+
+- (void)loadAdWithContext:(CRContextData *)contextData {
   [self.integrationRegistry declare:CR_IntegrationStandalone];
 
   if (![self checkSafeToLoad]) {
@@ -113,6 +117,7 @@
                                                                     size:self.deviceInfo.screenSize
                                                               adUnitType:CRAdUnitTypeInterstitial];
   [self.criteo loadCdbBidForAdUnit:cacheAdUnit
+                           context:contextData
                    responseHandler:^(CR_CdbBid *bid) {
                      if (!bid || bid.isEmpty) {
                        self.isAdLoading = NO;

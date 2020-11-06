@@ -23,6 +23,7 @@ class AdvancedNativeView: UIView {
   public weak var delegate: CRNativeLoaderDelegate?
   private var loader: CRNativeLoader!
   private var adView: CRVNativeAdView!
+  private let contextData =  CRContextData()
 
   convenience init(adUnit: CRNativeAdUnit, criteo: Criteo) {
     self.init(frame: CGRect(origin: CGPoint(), size: CGSize()))
@@ -41,7 +42,7 @@ class AdvancedNativeView: UIView {
   }
 
   public func loadAd() {
-    loader.loadAd()
+      loader.loadAd(withContext: contextData)
   }
 }
 
