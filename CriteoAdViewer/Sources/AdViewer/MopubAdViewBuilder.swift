@@ -20,12 +20,14 @@
 class MopubAdViewBuilder: AdViewBuilder {
   private let logger: MopubLogger
   private let keywords = "key1:value1,key2:value2"
+  private let contextData: CRContextData
 
   init(
     controller: AdViewController,
     adUnitIdForAppInitialization: String
   ) {
     self.logger = MopubLogger(interstitialDelegate: controller)
+    self.contextData = CRContextData() /* TODO */
 
     // SDK Initialization
     let config = MPMoPubConfiguration(adUnitIdForAppInitialization: adUnitIdForAppInitialization)
@@ -68,15 +70,15 @@ class MopubAdViewBuilder: AdViewBuilder {
     load(adView, adUnit: adUnit, criteo: criteo)
     return adView
   }
-}
 
-private func load(_ ad: MPLoadableAd, adUnit: CRAdUnit, criteo: Criteo) {
-    criteo.loadBid(for: adUnit, context: nil){ maybeBid in
+  private func load(_ ad: MPLoadableAd, adUnit: CRAdUnit, criteo: Criteo) {
+    criteo.loadBid(for: adUnit, context: contextData){ maybeBid in
       if let bid = maybeBid {
         criteo.enrichAdObject(ad, with: bid)
         ad.loadAd()
       }
     }
+  }
 }
 
 protocol MPLoadableAd {
