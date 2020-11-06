@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="r6y-pU-u64">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="r6y-pU-u64">
     <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -14,7 +15,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="zd9-zp-0Tu">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <sections>
                             <tableViewSection id="7Wu-wS-nke">
@@ -26,7 +27,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sDa-Tg-zT3">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sDa-Tg-zT3">
                                                     <rect key="frame" x="154" y="7" width="106" height="30"/>
                                                     <state key="normal" title="Banner 320x50"/>
                                                     <connections>
@@ -47,7 +48,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fr6-ta-SvY">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fr6-ta-SvY">
                                                     <rect key="frame" x="149.66666666666666" y="7" width="114.99999999999997" height="30"/>
                                                     <state key="normal" title="Banner 300x250"/>
                                                     <connections>
@@ -68,14 +69,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UN7-w3-R7u">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UN7-w3-R7u">
                                                     <rect key="frame" x="154.66666666666666" y="7" width="104.99999999999997" height="30"/>
                                                     <state key="normal" title="Load interstitial"/>
                                                     <connections>
                                                         <action selector="interstitialButtonClick:" destination="xG5-T5-Jgx" eventType="touchUpInside" id="wNe-bX-U8j"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RHQ-hb-cIy">
+                                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RHQ-hb-cIy">
                                                     <rect key="frame" x="343" y="7" width="51" height="30"/>
                                                     <state key="normal" title="Show it"/>
                                                     <connections>
@@ -186,7 +187,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="hf0-GJ-Gzq">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <sections>
                             <tableViewSection id="3Qn-MM-LTU">
@@ -198,7 +199,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3YG-UA-qBb">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3YG-UA-qBb">
                                                     <rect key="frame" x="154" y="7" width="106" height="30"/>
                                                     <state key="normal" title="Banner 320x50"/>
                                                     <connections>
@@ -219,14 +220,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mWa-5t-U4k">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mWa-5t-U4k">
                                                     <rect key="frame" x="154.66666666666666" y="7" width="104.99999999999997" height="30"/>
                                                     <state key="normal" title="Load interstitial"/>
                                                     <connections>
                                                         <action selector="loadInterstitialClick:" destination="vwa-jI-9wo" eventType="touchUpInside" id="Z3q-T4-79Z"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7P0-rG-Cip">
+                                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7P0-rG-Cip">
                                                     <rect key="frame" x="343" y="7" width="51" height="30"/>
                                                     <state key="normal" title="Show it"/>
                                                     <connections>
@@ -359,7 +360,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="35y-2g-JK1">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <sections>
                             <tableViewSection id="KdO-Oc-9Oc">
@@ -371,7 +372,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gdl-K1-irT">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gdl-K1-irT">
                                                     <rect key="frame" x="154" y="7" width="106" height="30"/>
                                                     <state key="normal" title="Banner 320x50"/>
                                                     <connections>
@@ -392,7 +393,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GjD-sy-dJx">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GjD-sy-dJx">
                                                     <rect key="frame" x="149.66666666666666" y="7" width="114.99999999999997" height="30"/>
                                                     <state key="normal" title="Banner 300x250"/>
                                                     <connections>
@@ -413,7 +414,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wx2-Av-mML">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wx2-Av-mML">
                                                     <rect key="frame" x="157" y="7" width="100" height="30"/>
                                                     <state key="normal" title="Native Ad Fuid"/>
                                                     <connections>
@@ -434,7 +435,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u4X-jI-oFj">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u4X-jI-oFj">
                                                     <rect key="frame" x="154.66666666666666" y="7" width="104.99999999999997" height="30"/>
                                                     <state key="normal" title="Load interstitial"/>
                                                     <connections>
@@ -444,7 +445,7 @@
                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="LFY-cq-O1X">
                                                     <rect key="frame" x="264.66666666666669" y="3.6666666666666679" width="37" height="37"/>
                                                 </activityIndicatorView>
-                                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SeT-0z-zkL">
+                                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SeT-0z-zkL">
                                                     <rect key="frame" x="343" y="7" width="51" height="30"/>
                                                     <state key="normal" title="Show it"/>
                                                     <connections>
@@ -579,7 +580,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jhu-0z-Htr">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jhu-0z-Htr">
                                 <rect key="frame" x="106.66666666666669" y="54" width="201" height="30"/>
                                 <state key="normal" title="Load Native Ad in Standalone"/>
                                 <connections>
@@ -594,7 +595,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="jhu-0z-Htr" firstAttribute="centerX" secondItem="U2f-oF-aJ7" secondAttribute="centerX" id="Bw6-II-8vx"/>
                             <constraint firstItem="tcf-Zp-Kpj" firstAttribute="top" secondItem="jhu-0z-Htr" secondAttribute="bottom" constant="25" id="Syg-gQ-2fN"/>
@@ -612,10 +613,10 @@
             </objects>
             <point key="canvasLocation" x="2633" y="208"/>
         </scene>
-        <!--Ad Viewer-->
+        <!--Legacy Ad Viewer-->
         <scene sceneID="ZAg-ph-h5G">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fuT-WZ-8Nj" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fuT-WZ-8Nj" userLabel="Legacy Ad Viewer" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Ad Viewer" image="eye.fill" catalog="system" id="A2K-8w-8Rv"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="AVM-bv-976">
@@ -638,7 +639,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="AK2-hG-H3W">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                         <sections>
                             <tableViewSection id="66l-XE-UPU">
                                 <cells>
@@ -649,7 +650,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dNK-8J-k7p">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dNK-8J-k7p">
                                                     <rect key="frame" x="155.66666666666666" y="7" width="102.99999999999997" height="30"/>
                                                     <state key="normal" title="Register Criteo"/>
                                                     <connections>
@@ -813,7 +814,7 @@ Mopub Consent is updated only in the Criteo SDK and cannot be retrieved from it.
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oni-Gn-AJ9">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oni-Gn-AJ9">
                                                     <rect key="frame" x="111" y="7" width="192" height="30"/>
                                                     <state key="normal" title="Google DFP Header Bidding"/>
                                                     <connections>
@@ -834,7 +835,7 @@ Mopub Consent is updated only in the Criteo SDK and cannot be retrieved from it.
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GKp-tj-Bo7">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GKp-tj-Bo7">
                                                     <rect key="frame" x="127.66666666666669" y="7" width="159" height="30"/>
                                                     <state key="normal" title="MoPub Header Bidding"/>
                                                     <connections>
@@ -855,7 +856,7 @@ Mopub Consent is updated only in the Criteo SDK and cannot be retrieved from it.
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Ht-36-HbL">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Ht-36-HbL">
                                                     <rect key="frame" x="168" y="7" width="78" height="30"/>
                                                     <state key="normal" title="Standalone"/>
                                                     <connections>
@@ -876,8 +877,8 @@ Mopub Consent is updated only in the Criteo SDK and cannot be retrieved from it.
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lov-Jq-uAd">
-                                                    <rect key="frame" x="95" y="7" width="224" height="30"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lov-Jq-uAd">
+                                                    <rect key="frame" x="95.666666666666686" y="7" width="223" height="30"/>
                                                     <state key="normal" title="Native Ad - In House/Standalone"/>
                                                     <connections>
                                                         <segue destination="jd7-SY-rlk" kind="show" id="MtQ-FX-Wgi"/>
@@ -920,7 +921,6 @@ Mopub Consent is updated only in the Criteo SDK and cannot be retrieved from it.
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="fuT-WZ-8Nj" kind="relationship" relationship="viewControllers" id="U2L-Wc-XhK"/>
                         <segue destination="dqQ-Bb-xXD" kind="relationship" relationship="viewControllers" id="gdH-Yd-8yP"/>
                         <segue destination="8EF-H0-0mh" kind="relationship" relationship="viewControllers" id="ucZ-WJ-HIQ"/>
                     </connections>
@@ -932,7 +932,7 @@ Mopub Consent is updated only in the Criteo SDK and cannot be retrieved from it.
         <!--Logs-->
         <scene sceneID="xo7-aC-sJr">
             <objects>
-                <tableViewController id="VEK-4h-uAk" customClass="LogTableViewController" customModule="AdViewer" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="VEK-4h-uAk" customClass="LogTableViewController" customModule="CriteoAdViewer" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="ZnJ-ZB-HFo">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -946,7 +946,7 @@ Mopub Consent is updated only in the Criteo SDK and cannot be retrieved from it.
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FBS-o1-sea">
-                                            <rect key="frame" x="20.000000000000004" y="8.9999999999999982" width="33.333333333333336" height="20.333333333333332"/>
+                                            <rect key="frame" x="20" y="8.9999999999999982" width="33" height="20.333333333333332"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -997,7 +997,7 @@ Mopub Consent is updated only in the Criteo SDK and cannot be retrieved from it.
         <!--Log Detail-->
         <scene sceneID="7zy-vn-1xE">
             <objects>
-                <viewController id="vKd-Jz-8ni" customClass="LogEntryViewController" customModule="AdViewer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="vKd-Jz-8ni" customClass="LogEntryViewController" customModule="CriteoAdViewer" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="u9c-mI-NiV"/>
                         <viewControllerLayoutGuide type="bottom" id="Uou-5F-Ob1"/>
@@ -1011,12 +1011,12 @@ Mopub Consent is updated only in the Criteo SDK and cannot be retrieved from it.
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" title="Log Detail" id="6GQ-W6-28F"/>
                     <connections>
@@ -1030,7 +1030,7 @@ Mopub Consent is updated only in the Criteo SDK and cannot be retrieved from it.
         <!--Ad Viewer View Controller-->
         <scene sceneID="RfK-Fh-UHI">
             <objects>
-                <viewController id="AUP-2B-ZXP" customClass="AdViewerViewController" customModule="AdViewer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="AUP-2B-ZXP" customClass="AdViewerViewController" customModule="CriteoAdViewer" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="q19-bS-TL6"/>
                         <viewControllerLayoutGuide type="bottom" id="Xoj-EE-13v"/>
@@ -1047,11 +1047,11 @@ Mopub Consent is updated only in the Criteo SDK and cannot be retrieved from it.
             </objects>
             <point key="canvasLocation" x="41" y="-707"/>
         </scene>
-        <!--New Viewer-->
+        <!--Ad Viewer-->
         <scene sceneID="VND-zm-c8l">
             <objects>
                 <navigationController id="dqQ-Bb-xXD" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="New Viewer" image="eye" catalog="system" id="ww3-lD-OuX"/>
+                    <tabBarItem key="tabBarItem" title="Ad Viewer" image="eye" catalog="system" id="ww3-lD-OuX"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ZzN-z2-Rjg">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
@@ -1070,5 +1070,23 @@ Mopub Consent is updated only in the Criteo SDK and cannot be retrieved from it.
         <image name="eye" catalog="system" width="128" height="81"/>
         <image name="eye.fill" catalog="system" width="128" height="78"/>
         <image name="line.horizontal.3" catalog="system" width="128" height="64"/>
+        <systemColor name="groupTableViewBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="groupTableViewBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="groupTableViewBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="groupTableViewBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
