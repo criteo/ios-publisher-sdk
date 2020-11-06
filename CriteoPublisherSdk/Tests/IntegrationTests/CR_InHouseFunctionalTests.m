@@ -24,6 +24,7 @@
 #import "CR_IntegrationsTestBase.h"
 #import "CR_CreativeViewChecker.h"
 #import "CR_TestAdUnits.h"
+#import "CRContextData.h"
 
 static NSString *creativeUrl1 = @"www.criteo.com";
 static NSString *creativeUrl2 = @"www.apple.com";
@@ -43,6 +44,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
                                                                             criteo:self.criteo];
 
   [self.criteo loadBidForAdUnit:banner
+                        context:CRContextData.new
                 responseHandler:^(CRBid *bid) {
                   [checker.bannerView loadAdWithBid:bid];
                 }];
@@ -57,6 +59,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
                                                                             criteo:self.criteo];
 
   [self.criteo loadBidForAdUnit:banner
+                        context:CRContextData.new
                 responseHandler:^(CRBid *bid) {
                   [checker.bannerView loadAdWithBid:bid];
                 }];
@@ -71,6 +74,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
                                                                             criteo:self.criteo];
   __block CRBid *bidToReuse = nil;
   [self.criteo loadBidForAdUnit:banner
+                        context:CRContextData.new
                 responseHandler:^(CRBid *bid) {
                   [checker.bannerView loadAdWithBid:bid];
                   bidToReuse = bid;
@@ -91,6 +95,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
 
   [checker injectBidWithExpectedCreativeUrl:creativeUrl2];
   [self.criteo loadBidForAdUnit:banner
+                        context:CRContextData.new
                 responseHandler:^(CRBid *bid) {
                   [checker.bannerView loadAdWithBid:bid];
                 }];
@@ -100,6 +105,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
 
   [checker injectBidWithExpectedCreativeUrl:creativeUrl2];
   [self.criteo loadBidForAdUnit:banner
+                        context:CRContextData.new
                 responseHandler:^(CRBid *bid) {
                   [checker.bannerView loadAdWithBid:bid];
                 }];
@@ -114,6 +120,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
 
   [checker injectBidWithExpectedCreativeUrl:creativeUrl1];
   [self.criteo loadBidForAdUnit:banner
+                        context:CRContextData.new
                 responseHandler:^(CRBid *bid) {
                   [checker.bannerView loadAdWithBid:bid];
                 }];
@@ -124,6 +131,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
 
   [checker injectBidWithExpectedCreativeUrl:creativeUrl2];
   [self.criteo loadBidForAdUnit:banner
+                        context:CRContextData.new
                 responseHandler:^(CRBid *bid) {
                   [checker.bannerView loadAdWithBid:bid];
                 }];
@@ -138,6 +146,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
   CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:adUnit
                                                                             criteo:self.criteo];
   [self.criteo loadBidForAdUnit:adUnit
+                        context:CRContextData.new
                 responseHandler:^(CRBid *bid) {
                   [checker.interstitial loadAdWithBid:bid];
                 }];
@@ -153,6 +162,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
                                                                             criteo:self.criteo];
 
   [self.criteo loadBidForAdUnit:orphan
+                        context:CRContextData.new
                 responseHandler:^(CRBid *orphanBid) {
                   [checker.interstitial loadAdWithBid:orphanBid];
                 }];
@@ -167,6 +177,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
   CR_CreativeViewChecker *checker = [[CR_CreativeViewChecker alloc] initWithAdUnit:adUnit
                                                                             criteo:self.criteo];
   [self.criteo loadBidForAdUnit:orphan
+                        context:CRContextData.new
                 responseHandler:^(CRBid *orphanBid) {
                   [checker.interstitial loadAdWithBid:orphanBid];
                 }];
@@ -175,6 +186,7 @@ static NSString *creativeUrl2 = @"www.apple.com";
   [checker resetExpectations];
 
   [self.criteo loadBidForAdUnit:adUnit
+                        context:CRContextData.new
                 responseHandler:^(CRBid *goodBid) {
                   [checker.interstitial loadAdWithBid:goodBid];
                 }];

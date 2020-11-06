@@ -103,6 +103,19 @@
   }];
 }
 
+- (void)testLoadBidForAdUnit_GivenNoContext_UseEmptyOne {
+  Criteo *criteo = OCMPartialMock(self.criteo);
+  CRAdUnit *adUnit = OCMClassMock(CRAdUnit.class);
+
+  [criteo loadBidForAdUnit:adUnit
+           responseHandler:^(CRBid *bid){
+           }];
+
+  OCMVerify([criteo loadBidForAdUnit:adUnit
+                             context:[OCMArg isEqual:CRContextData.new]
+                     responseHandler:OCMArg.any]);
+}
+
 #pragma mark - Private
 
 - (void)registerWithMockedDependencyProvider:(void (^)(CR_DependencyProvider *))testBlock {

@@ -24,6 +24,8 @@
 #import <CriteoPublisherSdk/CRAdUnit.h>
 #import <CriteoPublisherSdk/CRBid.h>
 
+@class CRContextData;
+
 /** Bid response handler, bid can be nil on purpose */
 typedef void (^CRBidResponseHandler)(CRBid *_Nullable bid);
 
@@ -71,6 +73,17 @@ NS_ASSUME_NONNULL_BEGIN
  * Note: responseHandler is invoked on main queue
  */
 - (void)loadBidForAdUnit:(CRAdUnit *)adUnit responseHandler:(CRBidResponseHandler)responseHandler;
+
+/**
+ * Request asynchronously a bid from Criteo
+ * @param adUnit The ad unit to request
+ * @param contextData The context of the request
+ * @param responseHandler the handler called on response. Responded bid can be nil.
+ * Note: responseHandler is invoked on main queue
+ */
+- (void)loadBidForAdUnit:(CRAdUnit *)adUnit
+                 context:(CRContextData *)contextData
+         responseHandler:(CRBidResponseHandler)responseHandler;
 
 #pragma mark App bidding
 

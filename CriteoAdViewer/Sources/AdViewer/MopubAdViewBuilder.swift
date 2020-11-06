@@ -71,12 +71,12 @@ class MopubAdViewBuilder: AdViewBuilder {
 }
 
 private func load(_ ad: MPLoadableAd, adUnit: CRAdUnit, criteo: Criteo) {
-  criteo.loadBid(for: adUnit) { maybeBid in
-    if let bid = maybeBid {
-      criteo.enrichAdObject(ad, with: bid)
-      ad.loadAd()
+    criteo.loadBid(for: adUnit, context: nil){ maybeBid in
+      if let bid = maybeBid {
+        criteo.enrichAdObject(ad, with: bid)
+        ad.loadAd()
+      }
     }
-  }
 }
 
 protocol MPLoadableAd {
