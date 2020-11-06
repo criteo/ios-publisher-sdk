@@ -27,7 +27,7 @@ class GoogleAdViewBuilder: AdViewBuilder {
   init(controller: AdViewController) {
     self.controller = controller
     self.logger = GoogleDFPLogger(interstitialDelegate: controller)
-    self.contextData = CRContextData() /* TODO */
+    self.contextData = defaultContextData()
   }
 
   func build(config: AdConfig, criteo: Criteo) -> AdView {

@@ -27,7 +27,7 @@ class MopubAdViewBuilder: AdViewBuilder {
     adUnitIdForAppInitialization: String
   ) {
     self.logger = MopubLogger(interstitialDelegate: controller)
-    self.contextData = CRContextData() /* TODO */
+    self.contextData = defaultContextData()
 
     // SDK Initialization
     let config = MPMoPubConfiguration(adUnitIdForAppInitialization: adUnitIdForAppInitialization)

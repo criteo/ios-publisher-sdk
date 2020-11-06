@@ -21,8 +21,16 @@
 
 @implementation IntegrationBaseTableViewController
 
++ (CRContextData *)defaultContextData {
+  return [CRContextData contextDataWithDictionary:@{
+    CRContextDataContentUrl : @"http://foo.bar",
+    @"data.custom" : @42
+  }];
+}
+
 - (void)viewDidLoad {
   [super viewDidLoad];
+  self.contextData = IntegrationBaseTableViewController.defaultContextData;
   [self interstitialUpdated:NO];
 }
 

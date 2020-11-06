@@ -25,7 +25,6 @@
 @property(strong, nonatomic) Criteo *criteo;
 @property(strong, nonatomic) LogManager *logManager;
 @property(strong, nonatomic) MopubLogger *logger;
-@property(strong, nonatomic) CRContextData *contextData;
 
 @property(nonatomic, strong) MPAdView *adView_320x50;
 @property(nonatomic, strong) MPAdView *adView_300x250;
@@ -45,7 +44,6 @@
   self.criteo = [Criteo sharedCriteo];
   self.logManager = [LogManager sharedInstance];
   self.logger = [[MopubLogger alloc] initWithInterstitialDelegate:self];
-  self.contextData = CRContextData.new;  // TODO
 }
 
 #pragma mark - Controller

@@ -25,7 +25,6 @@
 @property(strong, nonatomic) Criteo *criteo;
 @property(strong, nonatomic) LogManager *logManager;
 @property(strong, nonatomic) GoogleDFPLogger *logger;
-@property(strong, nonatomic) CRContextData *contextData;
 
 @property(weak, nonatomic) IBOutlet UIView *banner_320x50RedView;
 @property(weak, nonatomic) IBOutlet UIView *banner_300x250RedView;
@@ -53,7 +52,6 @@
   self.criteo = [Criteo sharedCriteo];
   self.logManager = [LogManager sharedInstance];
   self.logger = [[GoogleDFPLogger alloc] initWithInterstitialDelegate:self];
-  self.contextData = CRContextData.new;  // TODO
 }
 
 #pragma mark - Actions

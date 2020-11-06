@@ -22,6 +22,7 @@
 #import "CRVNativeAdView.h"
 #import "LogManager.h"
 #import "StandaloneLogger.h"
+#import "IntegrationBaseTableViewController.h"
 
 @interface CRVNativeAdViewController () <CRNativeLoaderDelegate>
 
@@ -47,7 +48,7 @@
   CRNativeAdUnit *adUnit = [self.delegate adUnitForViewController:self];
   CRNativeLoader *nativeLoader = [[CRNativeLoader alloc] initWithAdUnit:adUnit];
   nativeLoader.delegate = self;
-  [nativeLoader loadAdWithContext:CRContextData.new];
+  [nativeLoader loadAdWithContext:IntegrationBaseTableViewController.defaultContextData];
 }
 
 #pragma mark - Properties
