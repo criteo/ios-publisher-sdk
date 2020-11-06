@@ -28,10 +28,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CRNativeLoader ()
 
 @property(nonatomic, strong, readonly) Criteo *criteo;
-@property(nonatomic, strong, readonly) CRNativeAdUnit *adUnit;
+@property(nonatomic, strong, readonly, nullable) CRNativeAdUnit *adUnit;
 @property(nonatomic, strong, readonly) id<CR_URLOpening> urlOpener;
 
-- (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit
+- (instancetype)initWithAdUnit:(CRNativeAdUnit *_Nullable)adUnit
                         criteo:(Criteo *)criteo
                      urlOpener:(id<CR_URLOpening>)urlOpener;
 - (instancetype)initWithAdUnit:(CRNativeAdUnit *_Nullable)adUnit criteo:(Criteo *)criteo;
