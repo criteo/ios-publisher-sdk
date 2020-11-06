@@ -33,6 +33,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, strong) HomePageTableViewController *homePageVC;
 
+@property(strong, nonatomic) CRContextData *contextData;
+
++ (CRContextData *)defaultContextData;
+
 - (void)onLoadInterstitial;
 
 @end

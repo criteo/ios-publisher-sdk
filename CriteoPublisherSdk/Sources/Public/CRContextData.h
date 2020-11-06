@@ -21,7 +21,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ * @brief A single URL of the content, for buy-side contextualization or review.
+ *
+ * @remark Type: String, like <em>https://www.criteo.com</em>
+ */
+FOUNDATION_EXPORT NSString *const CRContextDataContentUrl;
+
 @interface CRContextData : NSObject
+
++ (CRContextData *)contextDataWithDictionary:(NSDictionary<NSString *, id> *)dictionary;
+
+- (instancetype)initWithDictionary:(NSDictionary<NSString *, id> *)dictionary;
 
 @end
 

@@ -30,7 +30,7 @@ class CriteoAdViewBuilder: AdViewBuilder {
     logger = StandaloneLogger()
     logger.interstitialDelegate = controller
     adType = type
-    contextData = CRContextData() /* TODO */
+    contextData = defaultContextData()
   }
 
   func build(config: AdConfig, criteo: Criteo) -> AdView {

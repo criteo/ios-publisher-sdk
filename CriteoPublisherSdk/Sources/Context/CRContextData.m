@@ -19,6 +19,29 @@
 
 #import "CRContextData.h"
 
+NSString *const CRContextDataContentUrl = @"content.url";
+
+@interface CRContextData ()
+
+@property(strong, nonatomic, readonly) NSDictionary<NSString *, id> *data;
+
+@end
+
 @implementation CRContextData
+
++ (CRContextData *)contextDataWithDictionary:(NSDictionary<NSString *, id> *)dictionary {
+  return [[CRContextData alloc] initWithDictionary:dictionary];
+}
+
+- (instancetype)init {
+  return [self initWithDictionary:@{}];
+}
+
+- (instancetype)initWithDictionary:(NSDictionary<NSString *, id> *)dictionary {
+  if (self = [super init]) {
+    _data = dictionary;
+  }
+  return self;
+}
 
 @end
