@@ -21,7 +21,6 @@
 #import <OCMock.h>
 #import "Criteo.h"
 #import "Criteo+Internal.h"
-#import "CRInterstitialAdUnit.h"
 #import "CR_IntegrationRegistry.h"
 #import "CR_DependencyProvider.h"
 #import "CR_DependencyProvider+Testing.h"
@@ -106,14 +105,14 @@
 - (void)testLoadBidForAdUnit_GivenNoContext_UseEmptyOne {
   Criteo *criteo = OCMPartialMock(self.criteo);
   CRAdUnit *adUnit = OCMClassMock(CRAdUnit.class);
+  id contextDataMock = OCMClassMock(CRContextData.class);
+  OCMStub([contextDataMock new]).andReturn(contextDataMock);
 
   [criteo loadBidForAdUnit:adUnit
            responseHandler:^(CRBid *bid){
            }];
 
-  OCMVerify([criteo loadBidForAdUnit:adUnit
-                             context:[OCMArg isEqual:CRContextData.new]
-                     responseHandler:OCMArg.any]);
+  OCMVerify([criteo loadBidForAdUnit:adUnit context:contextDataMock responseHandler:OCMArg.any]);
 }
 
 #pragma mark - Private

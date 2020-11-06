@@ -25,6 +25,7 @@
 @property(strong, nonatomic) Criteo *criteo;
 @property(strong, nonatomic) LogManager *logManager;
 @property(strong, nonatomic) GoogleDFPLogger *logger;
+@property(strong, nonatomic) CRContextData *contextData;
 
 @property(weak, nonatomic) IBOutlet UIView *banner_320x50RedView;
 @property(weak, nonatomic) IBOutlet UIView *banner_300x250RedView;
@@ -52,6 +53,7 @@
   self.criteo = [Criteo sharedCriteo];
   self.logManager = [LogManager sharedInstance];
   self.logger = [[GoogleDFPLogger alloc] initWithInterstitialDelegate:self];
+  self.contextData = CRContextData.new;  // TODO
 }
 
 #pragma mark - Actions
@@ -63,7 +65,7 @@
   self.dfpBannerView_320x50.adUnitID = self.homePageVC.googleBannerAdUnit_320x50.adUnitId;
   self.dfpBannerView_320x50.rootViewController = self;
   [self.criteo loadBidForAdUnit:self.homePageVC.googleBannerAdUnit_320x50
-                        context:nil /* TODO */
+                        context:self.contextData
                 responseHandler:^(CRBid *bid) {
                   DFPRequest *request = [DFPRequest request];
                   [self.criteo enrichAdObject:request withBid:bid];
@@ -79,7 +81,7 @@
   self.dfpBannerView_300x250.adUnitID = self.homePageVC.googleBannerAdUnit_300x250.adUnitId;
   self.dfpBannerView_300x250.rootViewController = self;
   [self.criteo loadBidForAdUnit:self.homePageVC.googleBannerAdUnit_300x250
-                        context:nil /* TODO */
+                        context:self.contextData
                 responseHandler:^(CRBid *bid) {
                   DFPRequest *request = [DFPRequest request];
                   [self.criteo enrichAdObject:request withBid:bid];
@@ -96,7 +98,7 @@
   self.dfpNativestyle_Fluid.rootViewController = self;
   self.dfpNativestyle_Fluid.adUnitID = self.homePageVC.googleNativeAdUnit_Fluid.adUnitId;
   [self.criteo loadBidForAdUnit:self.homePageVC.googleNativeAdUnit_Fluid
-                        context:nil
+                        context:self.contextData
                 responseHandler:^(CRBid *bid) {
                   DFPRequest *request = [DFPRequest request];
                   [self.criteo enrichAdObject:request withBid:bid];
@@ -116,7 +118,7 @@
                                      ? self.homePageVC.criteoInterstitialVideoAdUnit
                                      : self.homePageVC.googleInterstitialAdUnit;
   [criteo loadBidForAdUnit:adUnit
-                   context:nil /* TODO */
+                   context:self.contextData
            responseHandler:^(CRBid *bid) {
              DFPRequest *request = [DFPRequest request];
              [criteo enrichAdObject:request withBid:bid];

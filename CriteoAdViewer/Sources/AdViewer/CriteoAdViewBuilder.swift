@@ -24,11 +24,13 @@ enum CriteoAdType {
 class CriteoAdViewBuilder: AdViewBuilder {
   private let logger: StandaloneLogger
   private let adType: CriteoAdType
+  private let contextData: CRContextData
 
   init(controller: AdViewController, type: CriteoAdType) {
     logger = StandaloneLogger()
     logger.interstitialDelegate = controller
     adType = type
+    contextData = CRContextData() /* TODO */
   }
 
   func build(config: AdConfig, criteo: Criteo) -> AdView {
@@ -51,11 +53,11 @@ class CriteoAdViewBuilder: AdViewBuilder {
     case .standalone:
       adView.loadAd()
     case .inHouse:
-        criteo.loadBid(for: adUnit, context: nil){ maybeBid in
-          if let bid = maybeBid {
-            adView.loadAd(with: bid)
-          }
+      criteo.loadBid(for: adUnit, context: contextData){ maybeBid in
+        if let bid = maybeBid {
+          adView.loadAd(with: bid)
         }
+      }
     }
     return adView
   }
@@ -68,11 +70,11 @@ class CriteoAdViewBuilder: AdViewBuilder {
     case .standalone:
       adView.loadAd()
     case .inHouse:
-        criteo.loadBid(for: adUnit, context: nil){ maybeBid in
-          if let bid = maybeBid {
-            adView.loadAd(with: bid)
-          }
+      criteo.loadBid(for: adUnit, context: contextData){ maybeBid in
+        if let bid = maybeBid {
+          adView.loadAd(with: bid)
         }
+      }
     }
     return adView
   }
