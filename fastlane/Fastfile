@@ -112,7 +112,7 @@ platform :ios do
     )
     file_replace("CriteoPublisherSdk.podspec",
                  /(spec.version.*)".*"/, "\\1\"#{version}\"")
-    file_replace("CriteoPublisherSdk/Sources/CRConstants.h",
+    file_replace("CriteoPublisherSdk/Sources/Public/CRConstants.h",
                  /(SDK_VERSION.*)".*"/, "\\1\"#{version}\"")
   end
 
