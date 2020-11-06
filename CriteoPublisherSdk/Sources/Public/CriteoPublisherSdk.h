@@ -26,6 +26,7 @@
 #import <CriteoPublisherSdk/CRBannerViewDelegate.h>
 #import <CriteoPublisherSdk/CRBid.h>
 #import <CriteoPublisherSdk/CRConstants.h>
+#import <CriteoPublisherSdk/CRContextData.h>
 #import <CriteoPublisherSdk/CRInterstitial.h>
 #import <CriteoPublisherSdk/CRInterstitialAdUnit.h>
 #import <CriteoPublisherSdk/CRInterstitialDelegate.h>
