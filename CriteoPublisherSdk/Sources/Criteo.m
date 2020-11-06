@@ -30,6 +30,7 @@
 #import "Logging.h"
 #import "CR_DependencyProvider.h"
 #import "CR_IntegrationRegistry.h"
+#import "CRContextData.h"
 
 @implementation Criteo
 
@@ -76,9 +77,15 @@
 #pragma mark - Bidding
 
 - (void)loadBidForAdUnit:(CRAdUnit *)adUnit responseHandler:(CRBidResponseHandler)responseHandler {
+  [self loadBidForAdUnit:adUnit context:CRContextData.new responseHandler:responseHandler];
+}
+
+- (void)loadBidForAdUnit:(CRAdUnit *)adUnit
+                 context:(CRContextData *)contextData
+         responseHandler:(CRBidResponseHandler)responseHandler {
   CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
   [self.bidManager loadCdbBidForAdUnit:cacheAdUnit
-                               context:nil /* TODO */
+                               context:contextData
                        responseHandler:^(CR_CdbBid *cdbBid) {
                          [self.threadManager dispatchAsyncOnMainQueue:^{
                            CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:adUnit];

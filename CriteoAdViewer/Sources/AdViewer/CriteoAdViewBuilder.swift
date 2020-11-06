@@ -51,11 +51,11 @@ class CriteoAdViewBuilder: AdViewBuilder {
     case .standalone:
       adView.loadAd()
     case .inHouse:
-      criteo.loadBid(for: adUnit) { maybeBid in
-        if let bid = maybeBid {
-          adView.loadAd(with: bid)
+        criteo.loadBid(for: adUnit, context: nil){ maybeBid in
+          if let bid = maybeBid {
+            adView.loadAd(with: bid)
+          }
         }
-      }
     }
     return adView
   }
@@ -68,11 +68,11 @@ class CriteoAdViewBuilder: AdViewBuilder {
     case .standalone:
       adView.loadAd()
     case .inHouse:
-      criteo.loadBid(for: adUnit) { maybeBid in
-        if let bid = maybeBid {
-          adView.loadAd(with: bid)
+        criteo.loadBid(for: adUnit, context: nil){ maybeBid in
+          if let bid = maybeBid {
+            adView.loadAd(with: bid)
+          }
         }
-      }
     }
     return adView
   }

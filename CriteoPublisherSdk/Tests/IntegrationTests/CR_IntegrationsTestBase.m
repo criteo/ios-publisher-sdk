@@ -22,6 +22,7 @@
 #import "Criteo+Internal.h"
 #import "CR_ThreadManager+Waiter.h"
 #import "XCTestCase+Criteo.h"
+#import "CRContextData.h"
 
 @implementation CR_IntegrationsTestBase
 
@@ -51,6 +52,7 @@
 
 - (void)enrichAdObject:(id)object forAdUnit:(CRAdUnit *)adUnit {
   [self.criteo loadBidForAdUnit:adUnit
+                        context:CRContextData.new
                 responseHandler:^(CRBid *bid) {
                   [self.criteo enrichAdObject:object withBid:bid];
                 }];

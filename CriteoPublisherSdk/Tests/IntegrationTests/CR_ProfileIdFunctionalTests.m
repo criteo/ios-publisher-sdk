@@ -38,6 +38,7 @@
 #import "DFPRequestClasses.h"
 #import "MPAdView.h"
 #import "MPInterstitialAdController.h"
+#import "CRContextData.h"
 
 @interface CR_ProfileIdFunctionalTests : XCTestCase
 
@@ -300,6 +301,7 @@
   [self.criteo.testing_networkCaptor clear];
   __block CRBid *bid;
   [self.criteo loadBidForAdUnit:adUnit
+                        context:CRContextData.new
                 responseHandler:^(CRBid *bid_) {
                   bid = bid_;
                 }];
@@ -341,6 +343,7 @@
 
 - (void)enrichAdObject:(id)adObject forAdUnit:(CRAdUnit *)adUnit {
   [self.criteo loadBidForAdUnit:adUnit
+                        context:CRContextData.new
                 responseHandler:^(CRBid *bid) {
                   [self.criteo enrichAdObject:adObject withBid:bid];
                 }];

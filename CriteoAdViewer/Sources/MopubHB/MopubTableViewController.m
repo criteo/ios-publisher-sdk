@@ -70,6 +70,7 @@
   [self.adView_320x50RedView addSubview:self.adView_320x50];
   self.adView_320x50RedView.backgroundColor = [UIColor redColor];
   [self.criteo loadBidForAdUnit:self.homePageVC.moPubBannerAdUnit_320x50
+                        context:nil /* TODO */
                 responseHandler:^(CRBid *bid) {
                   [self.criteo enrichAdObject:self.adView_320x50 withBid:bid];
                   [self.adView_320x50 loadAd];
@@ -84,6 +85,7 @@
   [self.adView_300x250RedView addSubview:self.adView_300x250];
   self.adView_300x250RedView.backgroundColor = [UIColor redColor];
   [self.criteo loadBidForAdUnit:self.homePageVC.moPubBannerAdUnit_300x250
+                        context:nil /* TODO */
                 responseHandler:^(CRBid *bid) {
                   [self.criteo enrichAdObject:self.adView_300x250 withBid:bid];
                   [self.adView_300x250 loadAd];
@@ -99,6 +101,7 @@
                                      : self.homePageVC.moPubInterstitialAdUnit;
   self.interstitial.delegate = self.logger;
   [self.criteo loadBidForAdUnit:adUnit
+                        context:nil /* TODO */
                 responseHandler:^(CRBid *bid) {
                   [self.criteo enrichAdObject:self.interstitial withBid:bid];
                   [self.interstitial loadAd];
