@@ -1,0 +1,10 @@
+{
+  "request" : {
+    "url" : "/standard-url",
+    "method" : "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": "Hello {{hostname}}!"
+  }
+}
