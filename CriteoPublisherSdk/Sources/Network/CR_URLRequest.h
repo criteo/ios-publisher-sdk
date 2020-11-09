@@ -1,5 +1,5 @@
 //
-//  CRConstants.h
+//  CR_URLRequest.h
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -17,13 +17,17 @@
 // limitations under the License.
 //
 
-#ifndef CRConstants_h
-#define CRConstants_h
+#import <UIKit/UIKit.h>
 
-#define CRITEO_PUBLISHER_SDK_VERSION @"4.0.1"
+@class CR_DeviceInfo;
 
-#define CRITEO_DEFAULT_REQUEST_TIMEOUT_IN_SECONDS 60
-#define CRITEO_DEFAULT_BID_TTL_IN_SECONDS 15 * 60
-#define CRITEO_DEFAULT_LIVE_BID_TIME_BUDGET_IN_SECONDS 8.0f
+NS_ASSUME_NONNULL_BEGIN
 
-#endif /* CRConstants_h */
+@interface CR_URLRequest : NSMutableURLRequest
+
+- (instancetype)initWithURL:(NSURL *)url deviceInfo:(CR_DeviceInfo *)deviceInfo;
++ (instancetype)requestWithURL:(NSURL *)url deviceInfo:(CR_DeviceInfo *)deviceInfo;
+
+@end
+
+NS_ASSUME_NONNULL_END

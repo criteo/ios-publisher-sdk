@@ -20,6 +20,7 @@
 #import "CR_NetworkManager.h"
 #import "Logging.h"
 #import "CR_ThreadManager.h"
+#import "CR_URLRequest.h"
 
 @interface CR_NetworkManager ()
 
@@ -77,10 +78,7 @@
 
 - (void)getFromUrl:(NSURL *)url responseHandler:(nullable CR_NMResponse)responseHandler {
   [deviceInfo waitForUserAgent:^{
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    if (self->deviceInfo.userAgent) {
-      [request setValue:self->deviceInfo.userAgent forHTTPHeaderField:@"User-Agent"];
-    }
+    CR_URLRequest *request = [CR_URLRequest requestWithURL:url deviceInfo:self->deviceInfo];
 
     [self.threadManager runWithCompletionContext:^(CR_CompletionContext *context) {
       void (^completionHandler)(NSData *, NSURLResponse *, NSError *) =
@@ -120,13 +118,8 @@
 - (void)postToUrl:(NSURL *)url
            postBody:(NSDictionary *)postBody
     responseHandler:(nullable CR_NMResponse)responseHandler {
-  NSMutableURLRequest *postRequest = [NSMutableURLRequest requestWithURL:url];
-  [postRequest setTimeoutInterval:30];
+  CR_URLRequest *postRequest = [CR_URLRequest requestWithURL:url deviceInfo:deviceInfo];
   [postRequest setHTTPMethod:@"POST"];
-
-  if (deviceInfo.userAgent) {
-    [postRequest setValue:deviceInfo.userAgent forHTTPHeaderField:@"User-Agent"];
-  }
 
   NSError *jsonError;
   NSData *jsonData = [NSJSONSerialization dataWithJSONObject:postBody
