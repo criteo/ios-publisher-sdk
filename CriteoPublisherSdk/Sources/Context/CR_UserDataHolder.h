@@ -1,5 +1,5 @@
 //
-//  CRUserData.m
+//  CR_UserDataHolder.h
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -17,30 +17,15 @@
 // limitations under the License.
 //
 
+#import <Foundation/Foundation.h>
 #import "CRUserData.h"
-#import "CRUserData+Internal.h"
 
-@interface CRUserData ()
+NS_ASSUME_NONNULL_BEGIN
 
-@property(strong, nonatomic, readonly) NSDictionary<NSString *, id> *data;
+@interface CR_UserDataHolder : NSObject
 
-@end
-
-@implementation CRUserData
-
-+ (CRUserData *)userDataWithDictionary:(NSDictionary<NSString *, id> *)dictionary {
-  return [[CRUserData alloc] initWithDictionary:dictionary];
-}
-
-- (instancetype)init {
-  return [self initWithDictionary:@{}];
-}
-
-- (instancetype)initWithDictionary:(NSDictionary<NSString *, id> *)dictionary {
-  if (self = [super init]) {
-    _data = dictionary;
-  }
-  return self;
-}
+@property(strong, atomic) CRUserData *userData;
 
 @end
+
+NS_ASSUME_NONNULL_END

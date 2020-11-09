@@ -30,7 +30,7 @@
 #import "Logging.h"
 #import "CR_DependencyProvider.h"
 #import "CR_IntegrationRegistry.h"
-#import "CRContextData.h"
+#import "CR_UserDataHolder.h"
 
 @implementation Criteo
 
@@ -72,6 +72,12 @@
 
 - (void)setMopubConsent:(NSString *)mopubConsent {
   self.bidManager.consent.mopubConsent = mopubConsent;
+}
+
+#pragma mark - User data
+
+- (void)setUserData:(CRUserData *)userData {
+  self.dependencyProvider.userDataHolder.userData = userData;
 }
 
 #pragma mark - Bidding
