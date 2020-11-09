@@ -30,6 +30,7 @@
 #import "CR_ImageCache.h"
 #import "CR_DisplaySizeInjector.h"
 #import "CR_IntegrationRegistry.h"
+#import "CR_UserDataHolder.h"
 
 #define CR_LAZY(object, assignment)  \
   ({                                 \
@@ -159,6 +160,10 @@
                    NSUInteger sizeLimit = 1024 * 1024 * 32;  // 32Mo
                    [[CR_ImageCache alloc] initWithSizeLimit:sizeLimit];
                  }));
+}
+
+- (CR_UserDataHolder *)userDataHolder {
+  return CR_LAZY(_userDataHolder, CR_UserDataHolder.new);
 }
 
 @end

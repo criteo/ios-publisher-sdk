@@ -28,11 +28,14 @@
 #import "CR_SynchronousThreadManager.h"
 #import "CR_AppEvents.h"
 #import "CR_BidManager.h"
+#import "CR_UserDataHolder.h"
+#import "CRUserData+Internal.h"
 
 @interface CriteoTests : XCTestCase
 
 @property(strong, nonatomic) Criteo *criteo;
 @property(strong, nonatomic) CR_IntegrationRegistry *integrationRegistry;
+@property(strong, nonatomic) CR_UserDataHolder *userDataHolder;
 
 @end
 
@@ -43,6 +46,7 @@
 - (void)setUp {
   CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
   self.integrationRegistry = dependencyProvider.integrationRegistry;
+  self.userDataHolder = dependencyProvider.userDataHolder;
 
   self.criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProvider];
 }
@@ -115,6 +119,24 @@
   OCMVerify([criteo loadBidForAdUnit:adUnit
                          withContext:contextDataMock
                      responseHandler:OCMArg.any]);
+}
+
+#pragma mark - User data
+
+- (void)testSetUserData_GivenNoData_UserDataHolderContainsEmpty {
+  // no setUserData
+
+  NSDictionary<NSString *, id> *rawUserData = self.userDataHolder.userData.data;
+
+  XCTAssertEqualObjects(rawUserData, @{});
+}
+
+- (void)testSetUserData_GivenSomeData_UserDataHolderContainsIt {
+  [self.criteo setUserData:[CRUserData userDataWithDictionary:@{@"foo" : @"bar"}]];
+
+  NSDictionary<NSString *, id> *rawUserData = self.userDataHolder.userData.data;
+
+  XCTAssertEqualObjects(rawUserData, @{@"foo" : @"bar"});
 }
 
 #pragma mark - Private

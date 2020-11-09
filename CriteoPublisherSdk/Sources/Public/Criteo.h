@@ -24,6 +24,7 @@
 #import <CriteoPublisherSdk/CRAdUnit.h>
 #import <CriteoPublisherSdk/CRBid.h>
 #import <CriteoPublisherSdk/CRContextData.h>
+#import <CriteoPublisherSdk/CRUserData.h>
 
 /** Bid response handler, bid can be nil on purpose */
 typedef void (^CRBidResponseHandler)(CRBid *_Nullable bid);
@@ -62,6 +63,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Set the privacy consent string owned by the Mopub SDK. */
 - (void)setMopubConsent:(NSString *)mopubConsent;
+
+#pragma mark - User data
+
+/** Set data on the current user which will be used to bid based on context. */
+- (void)setUserData:(CRUserData *)userData;
 
 #pragma mark - Bidding
 
