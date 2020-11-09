@@ -1,0 +1,14 @@
+{
+  "priority": 10,
+  "request" : {
+    "urlPattern" : "/redirect/.*",
+    "method" : "GET"
+  },
+  "response": {
+    "status": 302,
+    "body": "Redirecting to {{regexExtract request.path '/redirect/([0-9]*)/(.*)' 'parts'}}{{parts.1}}",
+    "headers": {
+      "Location": "https://localhost:9099/redirect/{{regexExtract request.path '/redirect/([0-9]*)/(.*)' 'parts'}}{{parts.1}}"
+    }
+  }
+}
