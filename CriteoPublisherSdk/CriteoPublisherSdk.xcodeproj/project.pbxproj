@@ -259,6 +259,7 @@
 		90D0C9A36EF9136F4CC9E877 /* libPods-CriteoPublisherSdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CDD7544323F61638E0E8B7F /* libPods-CriteoPublisherSdk.a */; };
 		B1BD859C4CDDB6DB1B906C62 /* libPods-CriteoPublisherSdkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92039F91AE1122C08CF8EC36 /* libPods-CriteoPublisherSdkTests.a */; };
 		C07AB0222733EAA918843728 /* CR_NativeAssets+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABBC696D95F756547DA86 /* CR_NativeAssets+Testing.m */; };
+		C07AB0603D0707B887DB5BE5 /* CRUserData.h in Headers */ = {isa = PBXBuildFile; fileRef = C07ABAC36CEE99CB15EA2B70 /* CRUserData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C07AB0B23BDBEA53346DD6CC /* CR_FeedbackController.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABC983FB1DA60294D238A /* CR_FeedbackController.m */; };
 		C07AB1021EE9DC0423DB6A20 /* CR_DisplaySizeInjector.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB2F6780ADB490DBA61E9 /* CR_DisplaySizeInjector.m */; };
 		C07AB11AEFF7DFF4A4638A4F /* CR_RemoteConfigRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABE5447E776FA3F981ED0 /* CR_RemoteConfigRequest.m */; };
@@ -276,6 +277,7 @@
 		C07AB96240CAD13D1FC39753 /* CR_ImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = C07ABDA25C65E3BBAAF68A79 /* CR_ImageCache.h */; };
 		C07AB98B6BF9878FBBD190FF /* CriteoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABBFC2256322A8A934EF7 /* CriteoTests.m */; };
 		C07AB9ED69EB74DA88306686 /* CR_FeedbackFeatureGuard.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB7277BC095D4A7DF86E2 /* CR_FeedbackFeatureGuard.m */; };
+		C07AB9F79CF1495A3E493B8B /* CRUserData.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB9F9A3CAB239567053D2 /* CRUserData.m */; };
 		C07AB9F7F2A6BB33242A47D5 /* CR_DisplaySizeInjectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB4BAE67CF9EC778F3E5C /* CR_DisplaySizeInjectorTests.m */; };
 		C07ABA8551FB785329186C71 /* CRContextData.h in Headers */ = {isa = PBXBuildFile; fileRef = C07AB56E2212981A78CBDD86 /* CRContextData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C07ABA93B122BDB3E135E36C /* CR_IntegrationRegistryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB56CA043C8013EC0F611 /* CR_IntegrationRegistryTests.m */; };
@@ -654,9 +656,11 @@
 		C07AB7277BC095D4A7DF86E2 /* CR_FeedbackFeatureGuard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_FeedbackFeatureGuard.m; sourceTree = "<group>"; };
 		C07AB7ACB684AE677947D589 /* CR_ImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_ImageCache.m; sourceTree = "<group>"; };
 		C07AB967F5DA5C6504960784 /* CRMediaView+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CRMediaView+Internal.h"; sourceTree = "<group>"; };
+		C07AB9F9A3CAB239567053D2 /* CRUserData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRUserData.m; sourceTree = "<group>"; };
 		C07ABA8D45D123659567CEF2 /* NSUserDefaults+CR_Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+CR_Config.h"; sourceTree = "<group>"; };
 		C07ABA9489244F9DF952B8E3 /* UIImage+Testing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Testing.m"; sourceTree = "<group>"; };
 		C07ABAA353CAB377FB1F6E02 /* UIImage+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Testing.h"; sourceTree = "<group>"; };
+		C07ABAC36CEE99CB15EA2B70 /* CRUserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRUserData.h; sourceTree = "<group>"; };
 		C07ABB795931B320B23B930A /* CRContextData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRContextData.m; sourceTree = "<group>"; };
 		C07ABB7F084CBEDAC1960E3C /* CR_DefaultMediaDownloaderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_DefaultMediaDownloaderTests.m; sourceTree = "<group>"; };
 		C07ABBA46FCA43B62B82A2A0 /* CR_FeedbackControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_FeedbackControllerTests.m; sourceTree = "<group>"; };
@@ -877,6 +881,7 @@
 				DF367C84232971810044807B /* CRNativeAdUnit.h */,
 				46507F7E246C2F6900B1DA78 /* CRNativeAdView.h */,
 				4668FEEF2459BD1000D207AE /* CRNativeLoader.h */,
+				C07ABAC36CEE99CB15EA2B70 /* CRUserData.h */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -1344,6 +1349,7 @@
 			isa = PBXGroup;
 			children = (
 				C07ABB795931B320B23B930A /* CRContextData.m */,
+				C07AB9F9A3CAB239567053D2 /* CRUserData.m */,
 			);
 			path = Context;
 			sourceTree = "<group>";
@@ -1551,6 +1557,7 @@
 				C07ABADD3A4C59D7ACCC39CB /* CR_DisplaySizeInjector.h in Headers */,
 				C07AB2D5B72491EB58DD4114 /* CR_RemoteConfigRequest.h in Headers */,
 				C07ABA8551FB785329186C71 /* CRContextData.h in Headers */,
+				C07AB0603D0707B887DB5BE5 /* CRUserData.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1882,6 +1889,7 @@
 				C07AB1021EE9DC0423DB6A20 /* CR_DisplaySizeInjector.m in Sources */,
 				4672E1DF251CDE02009F39EF /* CR_CASQueueFile.m in Sources */,
 				C07AB5076241BAE89085C9A8 /* CRContextData.m in Sources */,
+				C07AB9F79CF1495A3E493B8B /* CRUserData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
