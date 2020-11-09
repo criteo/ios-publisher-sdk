@@ -5,7 +5,7 @@
 format_objc() {
   file="${1}"
   if [ -f "$file" ]; then
-    clang-format -i "$file"
+    ./tools/clang-format/clang-format -i "$file"
   fi
 }
 
