@@ -46,7 +46,7 @@ class GoogleAdViewBuilder: AdViewBuilder {
   private func loadAdView(
     criteo: Criteo, adUnit: CRAdUnit, load: @escaping (_ request: GADRequest?) -> Void
   ) {
-    criteo.loadBid(for: adUnit, context: contextData){ maybeBid in
+    criteo.loadBid(for: adUnit, withContext: contextData){ maybeBid in
       let request: GADRequest? = maybeBid.map { bid in
         let request = DFPRequest()
         criteo.enrichAdObject(request, with: bid)

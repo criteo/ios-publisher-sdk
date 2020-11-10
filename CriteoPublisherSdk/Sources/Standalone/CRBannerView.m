@@ -139,7 +139,7 @@
                                                                     size:self.frame.size
                                                               adUnitType:CRAdUnitTypeBanner];
   [self.criteo loadCdbBidForAdUnit:cacheAdUnit
-                           context:contextData
+                       withContext:contextData
                    responseHandler:^(CR_CdbBid *bid) {
                      if (!bid || bid.isEmpty) {
                        [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];

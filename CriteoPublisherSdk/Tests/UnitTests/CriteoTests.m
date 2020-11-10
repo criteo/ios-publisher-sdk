@@ -86,7 +86,7 @@
 
     CR_BidManager *bidManager = OCMStrictClassMock(CR_BidManager.class);
     OCMStub(dependencyProviderMock.bidManager).andReturn(bidManager);
-    OCMExpect([bidManager prefetchBidsForAdUnits:OCMArg.any context:OCMArg.any]);
+    OCMExpect([bidManager prefetchBidsForAdUnits:OCMArg.any withContext:OCMArg.any]);
   }];
 }
 
@@ -98,7 +98,7 @@
 
     CR_BidManager *bidManager = OCMStrictClassMock(CR_BidManager.class);
     OCMStub(dependencyProviderMock.bidManager).andReturn(bidManager);
-    OCMReject([bidManager prefetchBidsForAdUnits:OCMArg.any context:OCMArg.any]);
+    OCMReject([bidManager prefetchBidsForAdUnits:OCMArg.any withContext:OCMArg.any]);
   }];
 }
 
@@ -112,7 +112,9 @@
            responseHandler:^(CRBid *bid){
            }];
 
-  OCMVerify([criteo loadBidForAdUnit:adUnit context:contextDataMock responseHandler:OCMArg.any]);
+  OCMVerify([criteo loadBidForAdUnit:adUnit
+                         withContext:contextDataMock
+                     responseHandler:OCMArg.any]);
 }
 
 #pragma mark - Private

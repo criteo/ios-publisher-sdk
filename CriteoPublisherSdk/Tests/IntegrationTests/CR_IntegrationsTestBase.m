@@ -52,7 +52,7 @@
 
 - (void)enrichAdObject:(id)object forAdUnit:(CRAdUnit *)adUnit {
   [self.criteo loadBidForAdUnit:adUnit
-                        context:CRContextData.new
+                    withContext:CRContextData.new
                 responseHandler:^(CRBid *bid) {
                   [self.criteo enrichAdObject:object withBid:bid];
                 }];

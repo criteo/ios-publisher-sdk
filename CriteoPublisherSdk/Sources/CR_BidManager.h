@@ -81,21 +81,22 @@
  * Note: responseHandler is potentially not invoked on main queue
  */
 - (void)loadCdbBidForAdUnit:(CR_CacheAdUnit *)adUnit
-                    context:(CRContextData *)contextData
+                withContext:(CRContextData *)contextData
             responseHandler:(CR_CdbBidResponseHandler)responseHandler;
 
 @end
 
 @interface CR_BidManager (CacheBidding)
 
-- (void)prefetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits context:(CRContextData *)contextData;
+- (void)prefetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits
+                   withContext:(CRContextData *)contextData;
 
 @end
 
 @interface CR_BidManager (LiveBidding)
 
 - (void)fetchLiveBidForAdUnit:(CR_CacheAdUnit *)adUnit
-                      context:(CRContextData *)contextData
+                  withContext:(CRContextData *)contextData
               responseHandler:(CR_CdbBidResponseHandler)responseHandler;
 
 @end

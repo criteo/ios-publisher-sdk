@@ -263,7 +263,7 @@
   [interstitial loadAdWithContext:self.contextData];
 
   OCMVerify([self.criteo loadCdbBidForAdUnit:[self expectedCacheAdUnit]
-                                     context:self.contextData
+                                 withContext:self.contextData
                              responseHandler:OCMArg.any]);
 
   [self cr_waitForExpectations:@[ marginExpectation, paddingExpectation, viewportExpectation ]];
@@ -284,7 +284,7 @@
   [interstitial loadAdWithContext:self.contextData];
 
   OCMVerify([self.criteo loadCdbBidForAdUnit:[self expectedCacheAdUnit]
-                                     context:self.contextData
+                                 withContext:self.contextData
                              responseHandler:[OCMArg any]]);
   OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
 }
@@ -441,7 +441,7 @@
 
 - (void)mockCriteoWithAdUnit:(CR_CacheAdUnit *)adUnit respondBid:(CR_CdbBid *)bid {
   OCMStub([self.criteo loadCdbBidForAdUnit:adUnit
-                                   context:self.contextData
+                               withContext:self.contextData
                            responseHandler:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         CR_CdbBidResponseHandler handler;

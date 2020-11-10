@@ -155,7 +155,7 @@
   }
   CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:self.adUnit];
   [self.criteo loadCdbBidForAdUnit:cacheAdUnit
-                           context:contextData
+                       withContext:contextData
                    responseHandler:^(CR_CdbBid *bid) {
                      [self handleNativeAssets:bid.nativeAssets];
                    }];

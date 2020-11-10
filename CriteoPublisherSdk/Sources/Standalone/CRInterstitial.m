@@ -117,7 +117,7 @@
                                                                     size:self.deviceInfo.screenSize
                                                               adUnitType:CRAdUnitTypeInterstitial];
   [self.criteo loadCdbBidForAdUnit:cacheAdUnit
-                           context:contextData
+                       withContext:contextData
                    responseHandler:^(CR_CdbBid *bid) {
                      if (!bid || bid.isEmpty) {
                        self.isAdLoading = NO;

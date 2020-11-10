@@ -142,8 +142,8 @@
 #pragma mark Cache Bidding
 
 - (void)testGetBidForCachedAdUnits {
-  CR_CdbBid *bid1 = [self.bidManager getBidThenFetch:self.adUnit1 context:self.contextData];
-  CR_CdbBid *bid2 = [self.bidManager getBidThenFetch:self.adUnit2 context:self.contextData];
+  CR_CdbBid *bid1 = [self.bidManager getBidThenFetch:self.adUnit1 withContext:self.contextData];
+  CR_CdbBid *bid2 = [self.bidManager getBidThenFetch:self.adUnit2 withContext:self.contextData];
 
   XCTAssertEqualObjects(self.bid1, bid1);
   XCTAssertEqualObjects(self.bid2, bid2);
@@ -152,7 +152,8 @@
 }
 
 - (void)testGetBidForUncachedAdUnit {
-  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnitUncached context:self.contextData];
+  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnitUncached
+                                        withContext:self.contextData];
 
   CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnitUncached ]);
   XCTAssert(bid.isEmpty);
@@ -162,7 +163,7 @@
   OCMReject([self.cacheManager removeBidForAdUnit:self.adUnitForEmptyBid]);
 
   CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnitForEmptyBid
-                                            context:self.contextData];
+                                        withContext:self.contextData];
 
   CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnitForEmptyBid ]);
   XCTAssert(bid.isEmpty);
@@ -174,7 +175,8 @@
 
   CR_OCMockRejectCallCdb(self.apiHandlerMock, @[ self.adUnitUncached ]);
 
-  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnitUncached context:self.contextData];
+  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnitUncached
+                                        withContext:self.contextData];
 
   XCTAssert(bid.isEmpty);
 }
@@ -186,7 +188,7 @@
   CR_OCMockRejectCallCdb(self.apiHandlerMock, @[ self.adUnitForEmptyBid ]);
 
   CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnitForEmptyBid
-                                            context:self.contextData];
+                                        withContext:self.contextData];
 
   XCTAssert(bid.isEmpty);
 }
@@ -200,8 +202,8 @@
 
   CR_OCMockRejectCallCdb(self.apiHandlerMock, [OCMArg any]);
 
-  CR_CdbBid *bid1 = [self.bidManager getBidThenFetch:self.adUnit1 context:self.contextData];
-  CR_CdbBid *bid2 = [self.bidManager getBidThenFetch:self.adUnit2 context:self.contextData];
+  CR_CdbBid *bid1 = [self.bidManager getBidThenFetch:self.adUnit1 withContext:self.contextData];
+  CR_CdbBid *bid2 = [self.bidManager getBidThenFetch:self.adUnit2 withContext:self.contextData];
 
   XCTAssertEqualObjects(self.bid1, bid1);
   XCTAssertEqualObjects(self.bid2, bid2);
@@ -212,7 +214,7 @@
   self.cacheManager.bidCache[self.adUnit1] = self.bid1;
   CR_OCMockRejectCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
 
-  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnit1 context:self.contextData];
+  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnit1 withContext:self.contextData];
 
   XCTAssert(bid.isEmpty);
 }
@@ -221,7 +223,7 @@
   self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).silenced().expired().build;
   self.cacheManager.bidCache[self.adUnit1] = self.bid1;
 
-  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnit1 context:self.contextData];
+  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnit1 withContext:self.contextData];
 
   XCTAssert(bid.isEmpty);
   CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
@@ -231,7 +233,7 @@
   self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).noBid().build;
   self.cacheManager.bidCache[self.adUnit1] = self.bid1;
 
-  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnit1 context:self.contextData];
+  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnit1 withContext:self.contextData];
 
   XCTAssertTrue(bid.isEmpty);
   CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
@@ -241,7 +243,7 @@
   self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).expired().build;
   self.cacheManager.bidCache[self.adUnit1] = self.bid1;
 
-  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnit1 context:self.contextData];
+  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnit1 withContext:self.contextData];
 
   XCTAssertTrue(bid.isEmpty);
 }
@@ -257,12 +259,12 @@
   self.dependencyProvider.config.liveBiddingEnabled = YES;
 
   OCMExpect([self.bidManager fetchLiveBidForAdUnit:self.adUnit1
-                                           context:self.contextData
+                                       withContext:self.contextData
                                    responseHandler:responseHandler]);
-  OCMReject([self.bidManager getBidThenFetch:self.adUnit1 context:self.contextData]);
+  OCMReject([self.bidManager getBidThenFetch:self.adUnit1 withContext:self.contextData]);
 
   [self.bidManager loadCdbBidForAdUnit:self.adUnit1
-                               context:self.contextData
+                           withContext:self.contextData
                        responseHandler:responseHandler];
 }
 
@@ -272,13 +274,13 @@
   self.bidManager = OCMPartialMock(self.bidManager);
   self.dependencyProvider.config.liveBiddingEnabled = NO;
 
-  OCMExpect([self.bidManager getBidThenFetch:self.adUnit1 context:self.contextData]);
+  OCMExpect([self.bidManager getBidThenFetch:self.adUnit1 withContext:self.contextData]);
   OCMReject([self.bidManager fetchLiveBidForAdUnit:self.adUnit1
-                                           context:self.contextData
+                                       withContext:self.contextData
                                    responseHandler:responseHandler]);
 
   [self.bidManager loadCdbBidForAdUnit:self.adUnit1
-                               context:self.contextData
+                           withContext:self.contextData
                        responseHandler:responseHandler];
 }
 
@@ -315,7 +317,7 @@
     CR_OCMockRejectCallCdb(self.apiHandlerMock, [OCMArg any]);
   }
   [self.bidManager fetchLiveBidForAdUnit:adUnit
-                                 context:self.contextData
+                             withContext:self.contextData
                          responseHandler:^(CR_CdbBid *bid) {
                            if (bidResponded) {
                              XCTAssertEqualObjects(bid, bidResponded);
@@ -817,7 +819,7 @@
 
 - (void)fetchLiveBidForAdUnit:(CR_CacheAdUnit *)adUnit {
   [self.bidManager fetchLiveBidForAdUnit:adUnit
-                                 context:self.contextData
+                             withContext:self.contextData
                          responseHandler:^(CR_CdbBid *bid){
                          }];
   CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ adUnit ]);
@@ -828,7 +830,7 @@
   XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:description];
   CR_CdbBid *expectedBid = [self givenApiHandlerRespondValidBidWithDelay:delay];
   [self.bidManager fetchLiveBidForAdUnit:self.adUnit1
-                                 context:self.contextData
+                             withContext:self.contextData
                          responseHandler:^(CR_CdbBid *bid) {
                            [expectation fulfill];
                            XCTAssertEqualObjects(bid, expectedBid);

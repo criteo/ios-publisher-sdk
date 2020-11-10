@@ -836,7 +836,7 @@
         withAdUnit:(CR_CacheAdUnit *)adUnit
         respondBid:(CR_CdbBid *)bid_ {
   OCMStub([criteoMock loadCdbBidForAdUnit:adUnit
-                                  context:self.contextData
+                              withContext:self.contextData
                           responseHandler:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         CR_CdbBidResponseHandler handler;

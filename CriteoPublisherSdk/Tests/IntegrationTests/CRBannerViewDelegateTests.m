@@ -242,7 +242,7 @@
 
 - (void)mockCriteoWithAdUnit:(CR_CacheAdUnit *)adUnit respondBid:(CR_CdbBid *)bid {
   OCMStub([self.criteo loadCdbBidForAdUnit:adUnit
-                                   context:self.contextData
+                               withContext:self.contextData
                            responseHandler:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         CR_CdbBidResponseHandler handler;

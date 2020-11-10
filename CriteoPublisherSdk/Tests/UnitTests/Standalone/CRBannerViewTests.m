@@ -98,7 +98,7 @@
   [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
   OCMVerifyAll(mockWebView);
   OCMVerify([self.criteo loadCdbBidForAdUnit:[self expectedCacheAdUnit]
-                                     context:self.contextData
+                                 withContext:self.contextData
                              responseHandler:[OCMArg any]]);
   OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
 }
@@ -167,7 +167,7 @@
   [bannerView loadAdWithContext:self.contextData];
 
   OCMVerify([self.criteo loadCdbBidForAdUnit:[self expectedCacheAdUnit]
-                                     context:self.contextData
+                                 withContext:self.contextData
                              responseHandler:[OCMArg any]]);
   OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
 }
@@ -391,7 +391,7 @@
 
 - (void)mockCriteoWithAdUnit:(CR_CacheAdUnit *)adUnit respondBid:(CR_CdbBid *)bid {
   OCMStub([self.criteo loadCdbBidForAdUnit:adUnit
-                                   context:self.contextData
+                               withContext:self.contextData
                            responseHandler:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         CR_CdbBidResponseHandler handler;
