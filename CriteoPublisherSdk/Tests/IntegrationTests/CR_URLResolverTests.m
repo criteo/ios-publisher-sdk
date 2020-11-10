@@ -28,6 +28,8 @@
 // Note: These tests are depending on WireMock
 @implementation CR_URLResolverTests
 
+#pragma mark - Resolution
+
 - (void)testResolutionToStandardUrl {
   [self resolveURL:@"https://localhost:9099/standard-url"
         thenVerify:^(CR_URLResolution *resolution) {
@@ -62,12 +64,30 @@
         }];
 }
 
-- (void)testResolutionWithInfiniteRedirections {
+- (void)testResolutionErrorWithInfiniteRedirects {
   [self resolveURL:@"https://localhost:9099/redirect/infinite"
         thenVerify:^(CR_URLResolution *resolution) {
           XCTAssertEqual(resolution.type, CR_URLResolutionError);
           XCTAssertNil(resolution.URL);
         }];
+}
+
+#pragma mark - App Store
+
+- (BOOL)isAppStoreHost:(NSString *)host {
+  NSString *urlString =
+      [NSString stringWithFormat:@"itms-apps://%@/us/app/apple-developer/id640199958", host];
+  NSURL *url = [NSURL URLWithString:urlString];
+  return [CR_URLResolver isAppStoreURL:url];
+}
+
+- (void)testIsAppStoreURL {
+  XCTAssertTrue([self isAppStoreHost:@"apps.apple.com"]);
+  XCTAssertTrue([self isAppStoreHost:@"itunes.apple.com"]);
+  XCTAssertTrue([self isAppStoreHost:@"books.apple.com"]);
+  XCTAssertTrue([self isAppStoreHost:@"music.apple.com"]);
+  XCTAssertFalse([self isAppStoreHost:@"apps.apple.fr"]);
+  XCTAssertFalse([self isAppStoreHost:@"example.com"]);
 }
 
 - (void)resolveURL:(NSString *)url thenVerify:(CR_URLResolutionHandler)resolutionVerify {
