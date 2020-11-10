@@ -20,6 +20,7 @@
 #import "CRUserData.h"
 #import "CRUserData+Internal.h"
 
+NSString *const CRUserDataHashedEmail = @"data.hashedEmail";
 NSString *const CRUserDataDevUserId = @"data.devUserId";
 
 @interface CRUserData ()
