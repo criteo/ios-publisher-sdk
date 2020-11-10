@@ -20,6 +20,8 @@
 #import "CRUserData.h"
 #import "CRUserData+Internal.h"
 
+NSString *const CRUserDataDevUserId = @"data.devUserId";
+
 @interface CRUserData ()
 
 @property(strong, nonatomic, readonly) NSDictionary<NSString *, id> *data;

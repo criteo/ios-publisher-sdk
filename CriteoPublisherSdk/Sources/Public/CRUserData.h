@@ -21,6 +21,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ * @brief A developer's own persistent unique user identifier. In case the publisher support it.
+ *
+ * @remark Type: String, example: "abcd12399"
+ */
+FOUNDATION_EXPORT NSString *const CRUserDataDevUserId;
+
 @interface CRUserData : NSObject
 
 + (CRUserData *)userDataWithDictionary:(NSDictionary<NSString *, id> *)dictionary;
