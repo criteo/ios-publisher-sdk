@@ -1,5 +1,5 @@
 //
-//  CRUserData.h
+//  CREmailHasher.h
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -18,12 +18,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CriteoPublisherSdk/CREmailHasher.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface CREmailHasher : NSObject
+
 /**
- * @brief Hashed email of the user
+ * @brief Helper function to hash emails for `CRUserDataHashedEmail`
  *
  * @discussion
  * The hashing should be the users’ email address:
@@ -34,36 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
  * - Hashed with MD5 & output as ASCII text
  * - Hashed with SHA256 and output as ASCII text
  * @/textblock
- *
- * Example:
- * @textblock
- * - Type: String
- * - Original Email: john.doe@gmail.com
- * - MD5: e13743a7f1db7f4246badd6fd6ff54ff
- * - SHA256 of MD5: 000e3171a5110c35c69d060112bd0ba55d9631c7c2ec93f1840e4570095b263a
- * @/textblock
- *
- * @code
- * CRUserData *userData = [CRUserData userDataWithDictionary:@{
- *   CRUserDataHashedEmail: [CREmailHasher hash:@"john.doe@gmail.com"]
- * }];
- * @endcode
- * @remark You can use CREmailHasher class to hash an email accordingly to the described format
  */
-FOUNDATION_EXPORT NSString *const CRUserDataHashedEmail;
-
-/**
- * @brief A developer's own persistent unique user identifier. In case the publisher support it.
- *
- * @remark Type: String, example: "abcd12399"
- */
-FOUNDATION_EXPORT NSString *const CRUserDataDevUserId;
-
-@interface CRUserData : NSObject
-
-+ (CRUserData *)userDataWithDictionary:(NSDictionary<NSString *, id> *)dictionary;
-
-- (instancetype)initWithDictionary:(NSDictionary<NSString *, id> *)dictionary;
++ (NSString *)hash:(NSString *)email;
 
 @end
 
