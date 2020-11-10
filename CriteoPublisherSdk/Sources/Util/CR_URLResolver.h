@@ -44,6 +44,8 @@ typedef void (^CR_URLResolutionHandler)(CR_URLResolution *resolution);
          deviceInfo:(CR_DeviceInfo *)deviceInfo
          resolution:(CR_URLResolutionHandler)resolution;
 
++ (BOOL)isAppStoreURL:(NSURL *)URL;
+
 @end
 
 NS_ASSUME_NONNULL_END

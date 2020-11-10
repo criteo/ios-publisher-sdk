@@ -37,6 +37,13 @@
 
 #pragma mark - Lifecycle
 
+static NSArray *appStorePrefixes;
+
++ (void)initialize {
+  [super initialize];
+  appStorePrefixes = @[ @"apps.", @"itunes.", @"books.", @"music." ];
+}
+
 - (instancetype)init {
   self = [super init];
   if (self) {
@@ -64,6 +71,21 @@
   CR_URLRequest *request = [CR_URLRequest requestWithURL:url deviceInfo:deviceInfo];
   NSURLSessionDataTask *task = [self.urlSession dataTaskWithRequest:request];
   [task resume];
+}
+
++ (BOOL)isAppStoreURL:(NSURL *)url {
+  NSString *host = url.host;
+  if (![host hasSuffix:@".apple.com"]) {
+    return NO;
+  }
+
+  for (NSString *prefix in appStorePrefixes) {
+    if ([host hasPrefix:prefix]) {
+      return YES;
+    }
+  }
+
+  return NO;
 }
 
 #pragma mark - NSURLSessionDataDelegate
