@@ -30,7 +30,7 @@
 
 @interface CR_URLResolver () <NSURLSessionDataDelegate>
 @property(nonatomic, strong, readonly) NSURLSession *urlSession;
-@property(nonatomic, copy) CR_URLResolutionHandler resolution;
+@property(nonatomic, copy) CR_URLResolutionHandler resolutionHandler;
 @end
 
 @implementation CR_URLResolver
@@ -59,15 +59,15 @@ static NSArray *appStorePrefixes;
 
 + (void)resolveURL:(NSURL *)url
         deviceInfo:(CR_DeviceInfo *)deviceInfo
-        resolution:(CR_URLResolutionHandler)resolution {
+        resolution:(CR_URLResolutionHandler)resolutionHandler {
   CR_URLResolver *resolver = [[CR_URLResolver alloc] init];
-  [resolver resolverURL:url deviceInfo:deviceInfo resolution:resolution];
+  [resolver resolverURL:url deviceInfo:deviceInfo resolution:resolutionHandler];
 }
 
 - (void)resolverURL:(NSURL *)url
          deviceInfo:(CR_DeviceInfo *)deviceInfo
-         resolution:(CR_URLResolutionHandler)resolution {
-  self.resolution = resolution;
+         resolution:(CR_URLResolutionHandler)resolutionHandler {
+  self.resolutionHandler = resolutionHandler;
   CR_URLRequest *request = [CR_URLRequest requestWithURL:url deviceInfo:deviceInfo];
   NSURLSessionDataTask *task = [self.urlSession dataTaskWithRequest:request];
   [task resume];
@@ -102,12 +102,12 @@ static NSArray *appStorePrefixes;
                     task:(NSURLSessionTask *)task
     didCompleteWithError:(nullable NSError *)error {
   if (error != nil) {
-    self.resolution([CR_URLResolution resolutionError:error]);
+    self.resolutionHandler([CR_URLResolution resolutionError:error]);
     return;
   }
   CR_URLResolution *resolution = [CR_URLResolution resolutionWithType:CR_URLResolutionStandardUrl];
   resolution.URL = task.currentRequest.URL;
-  self.resolution(resolution);
+  self.resolutionHandler(resolution);
 }
 
 #pragma mark - Redirection
