@@ -62,6 +62,14 @@
         }];
 }
 
+- (void)testResolutionWithInfiniteRedirections {
+  [self resolveURL:@"https://localhost:9099/redirect/infinite"
+        thenVerify:^(CR_URLResolution *resolution) {
+          XCTAssertEqual(resolution.type, CR_URLResolutionError);
+          XCTAssertNil(resolution.URL);
+        }];
+}
+
 - (void)resolveURL:(NSString *)url thenVerify:(CR_URLResolutionHandler)resolutionVerify {
   XCTestExpectation *resolutionExpectation = [[XCTestExpectation alloc] init];
   [CR_URLResolver resolveURL:[[NSURL alloc] initWithString:url]

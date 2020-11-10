@@ -1,0 +1,13 @@
+{
+  "priority": 1,
+  "request" : {
+    "url" : "/redirect/infinite",
+    "method" : "GET"
+  },
+  "response": {
+    "status": 302,
+    "headers": {
+      "Location": "https://localhost:9099/redirect/infinite"
+    }
+  }
+}
