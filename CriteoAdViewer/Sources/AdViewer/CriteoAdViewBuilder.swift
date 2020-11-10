@@ -53,7 +53,7 @@ class CriteoAdViewBuilder: AdViewBuilder {
     case .standalone:
       adView.loadAd(withContext: contextData)
     case .inHouse:
-      criteo.loadBid(for: adUnit, context: contextData){ maybeBid in
+      criteo.loadBid(for: adUnit, withContext: contextData){ maybeBid in
         if let bid = maybeBid {
           adView.loadAd(with: bid)
         }
@@ -70,7 +70,7 @@ class CriteoAdViewBuilder: AdViewBuilder {
     case .standalone:
       adView.loadAd(withContext: contextData)
     case .inHouse:
-      criteo.loadBid(for: adUnit, context: contextData){ maybeBid in
+      criteo.loadBid(for: adUnit, withContext: contextData){ maybeBid in
         if let bid = maybeBid {
           adView.loadAd(with: bid)
         }

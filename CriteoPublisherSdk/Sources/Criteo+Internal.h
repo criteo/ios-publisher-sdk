@@ -48,7 +48,7 @@ typedef void (^CR_CdbBidResponseHandler)(CR_CdbBid *bid);
 @property(strong, nonatomic, readonly) CR_ThreadManager *threadManager;
 
 - (void)loadCdbBidForAdUnit:(CR_CacheAdUnit *)slot
-                    context:(CRContextData *)contextData
+                withContext:(CRContextData *)contextData
             responseHandler:(CR_CdbBidResponseHandler)responseHandler;
 
 - (instancetype)initWithDependencyProvider:(CR_DependencyProvider *)dependencyProvider;

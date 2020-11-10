@@ -134,7 +134,7 @@
 
 - (void)fetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits {
   [self.bidManager fetchBidsForAdUnits:adUnits
-                               context:CRContextData.new
+                           withContext:CRContextData.new
                     cdbResponseHandler:^(CR_CdbResponse *response){
                     }];
 }

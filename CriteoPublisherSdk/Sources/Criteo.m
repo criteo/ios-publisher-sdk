@@ -77,15 +77,15 @@
 #pragma mark - Bidding
 
 - (void)loadBidForAdUnit:(CRAdUnit *)adUnit responseHandler:(CRBidResponseHandler)responseHandler {
-  [self loadBidForAdUnit:adUnit context:CRContextData.new responseHandler:responseHandler];
+  [self loadBidForAdUnit:adUnit withContext:CRContextData.new responseHandler:responseHandler];
 }
 
 - (void)loadBidForAdUnit:(CRAdUnit *)adUnit
-                 context:(CRContextData *)contextData
+             withContext:(CRContextData *)contextData
          responseHandler:(CRBidResponseHandler)responseHandler {
   CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
   [self.bidManager loadCdbBidForAdUnit:cacheAdUnit
-                               context:contextData
+                           withContext:contextData
                        responseHandler:^(CR_CdbBid *cdbBid) {
                          [self.threadManager dispatchAsyncOnMainQueue:^{
                            CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:adUnit];
@@ -132,16 +132,18 @@
   CR_CacheAdUnitArray *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:adUnits];
 
   if (self.config.isPrefetchOnInitEnabled) {
-    [self.bidManager prefetchBidsForAdUnits:cacheAdUnits context:CRContextData.new];
+    [self.bidManager prefetchBidsForAdUnits:cacheAdUnits withContext:CRContextData.new];
   }
 }
 
 #pragma mark Generic
 
 - (void)loadCdbBidForAdUnit:(CR_CacheAdUnit *)slot
-                    context:(CRContextData *)contextData
+                withContext:(CRContextData *)contextData
             responseHandler:(CR_CdbBidResponseHandler)responseHandler {
-  [self.bidManager loadCdbBidForAdUnit:slot context:contextData responseHandler:responseHandler];
+  [self.bidManager loadCdbBidForAdUnit:slot
+                           withContext:contextData
+                       responseHandler:responseHandler];
 }
 
 #pragma mark Properties
