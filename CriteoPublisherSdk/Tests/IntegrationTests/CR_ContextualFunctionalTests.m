@@ -18,6 +18,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <OCMock/OCMock.h>
 #import "Criteo+Testing.h"
 #import "CR_IntegrationsTestBase.h"
 #import "CR_HttpContent.h"
@@ -27,13 +28,26 @@
 #import "CRNativeLoader+Internal.h"
 #import "CR_NetworkCaptor.h"
 #import "Criteo+Internal.h"
+#import "Criteo+Testing.h"
+#import "CR_DependencyProvider.h"
+#import "CR_InternalContextProvider.h"
 
 typedef void (^CR_ContextualTestedIntegration)(CRContextData *contextData);
 
 @interface CR_ContextualFunctionalTests : CR_IntegrationsTestBase <CRNativeLoaderDelegate>
+
+@property(nonatomic, strong) CR_InternalContextProvider *internalContextProvider;
+
 @end
 
 @implementation CR_ContextualFunctionalTests
+
+- (void)setUp {
+  [self initCriteoWithAdUnits:@[ CR_TestAdUnits.randomBanner320x50 ]];
+  self.internalContextProvider =
+      OCMPartialMock(self.criteo.dependencyProvider.internalContextProvider);
+  self.criteo.dependencyProvider.internalContextProvider = self.internalContextProvider;
+}
 
 - (void)testPublisherExt_GivenContext_PutItInRequest {
   for (CR_ContextualTestedIntegration testedIntegration in self.testedIntegrations) {
@@ -55,14 +69,63 @@ typedef void (^CR_ContextualTestedIntegration)(CRContextData *contextData);
     @"data" : @{@"foo" : @"bar", @"baz" : @42}
   };
 
-  [self initCriteoWithAdUnits:@[ CR_TestAdUnits.randomBanner320x50 ]];
-
   // bid with context
   testedIntegration(contextData);
   [self waitForIdleState];
 
   NSDictionary *requestBody = self.criteo.testing_lastBidHttpContent.requestBody;
   XCTAssertEqualObjects(requestBody[@"publisher"][@"ext"], expected);
+}
+
+- (void)testUserExt_GivenContextAndInternalContext_PutItInRequest {
+  for (CR_ContextualTestedIntegration testedIntegration in self.testedIntegrations) {
+    [self.criteo.testing_networkCaptor clear];
+    [self testUserExt_GivenContextAndInternalContext_PutItInRequest:testedIntegration];
+  }
+}
+
+- (void)testUserExt_GivenContextAndInternalContext_PutItInRequest:
+    (CR_ContextualTestedIntegration)testedIntegration {
+  CRUserData *userData = [CRUserData userDataWithDictionary:@{
+    CRUserDataHashedEmail : [CREmailHasher hash:@"john.doe@gmail.com"],
+    CRUserDataDevUserId : @"abc123",
+    @"data.foo" : @[ @"bar", @"baz" ],
+    @"device.make" : @"ignored"
+  }];
+
+  OCMStub([self.internalContextProvider fetchDeviceMake]).andReturn(@"Apple");
+  OCMStub([self.internalContextProvider fetchDeviceModel]).andReturn(@"iPhone X");
+  OCMStub([self.internalContextProvider fetchDeviceOrientation]).andReturn(@"Portrait");
+  OCMStub([self.internalContextProvider fetchDeviceWidth]).andReturn(@2048);
+  OCMStub([self.internalContextProvider fetchDeviceHeight]).andReturn(@2732);
+  OCMStub([self.internalContextProvider fetchDeviceConnectionType])
+      .andReturn(CR_DeviceConnectionTypeCellular3G);
+  OCMStub([self.internalContextProvider fetchUserCountry]).andReturn(@"FR");
+  OCMStub([self.internalContextProvider fetchUserLanguages]).andReturn((@[ @"en", @"he" ]));
+  OCMStub([self.internalContextProvider fetchSessionDuration]).andReturn(@45);
+
+  NSDictionary *expected = @{
+    @"device" :
+        @{@"make" : @"Apple", @"model" : @"iPhone X", @"contype" : @5, @"w" : @2048, @"h" : @2732},
+    @"data" : @{
+      @"orientation" : @"Portrait",
+      @"inputLanguage" : @[ @"en", @"he" ],
+      @"sessionDuration" : @45L,
+      @"hashedEmail" : @"000e3171a5110c35c69d060112bd0ba55d9631c7c2ec93f1840e4570095b263a",
+      @"devUserId" : @"abc123",
+      @"foo" : @[ @"bar", @"baz" ]
+    },
+    @"user" : @{@"geo" : @{@"country" : @"FR"}}
+  };
+
+  [self.criteo setUserData:userData];
+
+  // bid with context
+  testedIntegration(CRContextData.new);
+  [self waitForIdleState];
+
+  NSDictionary *requestBody = self.criteo.testing_lastBidHttpContent.requestBody;
+  XCTAssertEqualObjects(requestBody[@"user"][@"ext"], expected);
 }
 
 - (NSArray<CR_ContextualTestedIntegration> *)testedIntegrations {

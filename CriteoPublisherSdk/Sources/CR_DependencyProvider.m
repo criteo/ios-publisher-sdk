@@ -75,7 +75,9 @@
                  [[CR_ApiHandler alloc] initWithNetworkManager:self.networkManager
                                                bidFetchTracker:self.bidFetchTracker
                                                  threadManager:self.threadManager
-                                           integrationRegistry:self.integrationRegistry]);
+                                           integrationRegistry:self.integrationRegistry
+                                                userDataHolder:self.userDataHolder
+                                       internalContextProvider:self.internalContextProvider]);
 }
 
 - (CR_CacheManager *)cacheManager {

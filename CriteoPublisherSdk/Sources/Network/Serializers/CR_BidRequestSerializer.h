@@ -27,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 @class CR_DeviceInfo;
 @class CR_GdprSerializer;
 @class CRContextData;
+@class CR_UserDataHolder;
+@class CR_InternalContextProvider;
 
 // This class is semantically incoherent with CR_CdbRequest.
 // TODO: Refine the design and the naming of CR_CdbRequest & CR_BidRequestSerializer.
@@ -34,6 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithGdprSerializer:(CR_GdprSerializer *)gdprSerializer
+                        userDataHolder:(CR_UserDataHolder *)userDataHolder
+               internalContextProvider:(CR_InternalContextProvider *)internalContextProvider
     NS_DESIGNATED_INITIALIZER;
 
 - (NSURL *)urlWithConfig:(CR_Config *)config;
