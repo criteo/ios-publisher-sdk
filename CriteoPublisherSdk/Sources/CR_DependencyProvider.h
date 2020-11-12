@@ -37,6 +37,7 @@
 @class CR_ImageCache;
 @class CR_DisplaySizeInjector;
 @class CR_UserDataHolder;
+@class CR_InternalContextProvider;
 @protocol CRMediaDownloader;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -64,6 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) CR_ImageCache *imageCache;
 @property(nonatomic, strong) CR_DisplaySizeInjector *displaySizeInjector;
 @property(nonatomic, strong) CR_UserDataHolder *userDataHolder;
+@property(nonatomic, strong) CR_InternalContextProvider *internalContextProvider;
 
 @end
 

@@ -31,6 +31,7 @@
 #import "CR_DisplaySizeInjector.h"
 #import "CR_IntegrationRegistry.h"
 #import "CR_UserDataHolder.h"
+#import "CR_InternalContextProvider.h"
 
 #define CR_LAZY(object, assignment)  \
   ({                                 \
@@ -164,6 +165,10 @@
 
 - (CR_UserDataHolder *)userDataHolder {
   return CR_LAZY(_userDataHolder, CR_UserDataHolder.new);
+}
+
+- (CR_InternalContextProvider *)internalContextProvider {
+  return CR_LAZY(_internalContextProvider, CR_InternalContextProvider.new);
 }
 
 @end
