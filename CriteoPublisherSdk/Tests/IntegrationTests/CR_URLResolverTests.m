@@ -91,14 +91,21 @@
 }
 
 - (void)resolveURL:(NSString *)url thenVerify:(CR_URLResolutionHandler)resolutionVerify {
-  XCTestExpectation *resolutionExpectation = [[XCTestExpectation alloc] init];
+  __block NSUInteger callCount = 0;
+  XCTestExpectation *resolvedExpectation = [[XCTestExpectation alloc] init];
+  XCTestExpectation *resolvedOnceExpectation = [[XCTestExpectation alloc] init];
+  resolvedOnceExpectation.inverted = YES;
   [CR_URLResolver resolveURL:[[NSURL alloc] initWithString:url]
                   deviceInfo:[[CR_DeviceInfoMock alloc] init]
                   resolution:^(CR_URLResolution *resolution) {
                     resolutionVerify(resolution);
-                    [resolutionExpectation fulfill];
+                    [resolvedExpectation fulfill];
+                    callCount++;
+                    if (callCount > 1) {
+                      [resolvedOnceExpectation fulfill];
+                    }
                   }];
-  [self cr_waitForExpectations:@[ resolutionExpectation ]];
+  [self cr_waitShortlyForExpectations:@[ resolvedExpectation, resolvedOnceExpectation ]];
 }
 
 @end
