@@ -90,6 +90,26 @@
   XCTAssertFalse([self isAppStoreHost:@"example.com"]);
 }
 
+static NSString *kValidAppStoreUrl = @"https://apps.apple.com/us/app/apple-developer/id640199958";
+
+- (void)testResolutionToAppStoreURL {
+  [self resolveURL:kValidAppStoreUrl
+        thenVerify:^(CR_URLResolution *resolution) {
+          XCTAssertEqual(resolution.type, CR_URLResolutionAppStoreUrl);
+          XCTAssertEqualObjects(resolution.URL.absoluteString, kValidAppStoreUrl);
+        }];
+}
+
+- (void)testResolutionToAppStoreURLWithRedirects {
+  [self resolveURL:@"https://localhost:9099/redirect/3/2/1/appstore-url"
+        thenVerify:^(CR_URLResolution *resolution) {
+          XCTAssertEqual(resolution.type, CR_URLResolutionAppStoreUrl);
+          XCTAssertEqualObjects(resolution.URL.absoluteString, kValidAppStoreUrl);
+        }];
+}
+
+#pragma mark - Private
+
 - (void)resolveURL:(NSString *)url thenVerify:(CR_URLResolutionHandler)resolutionVerify {
   __block NSUInteger callCount = 0;
   XCTestExpectation *resolvedExpectation = [[XCTestExpectation alloc] init];

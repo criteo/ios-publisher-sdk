@@ -73,9 +73,22 @@ static NSArray *appStorePrefixes;
          deviceInfo:(CR_DeviceInfo *)deviceInfo
          resolution:(CR_URLResolutionHandler)resolutionHandler {
   self.resolutionHandler = resolutionHandler;
+  if ([self tryResolveAppStoreURL:url]) {
+    return;
+  }
+
   CR_URLRequest *request = [CR_URLRequest requestWithURL:url deviceInfo:deviceInfo];
   NSURLSessionDataTask *task = [self.urlSession dataTaskWithRequest:request];
   [task resume];
+}
+
+- (BOOL)tryResolveAppStoreURL:(NSURL *)url {
+  if ([CR_URLResolver isAppStoreURL:url]) {
+    CR_URLResolution *resolution = [CR_URLResolution resolutionWithType:CR_URLResolutionAppStoreUrl
+                                                                    URL:url];
+    [self resolveWithResolution:resolution];
+  }
+  return self.resolved;
 }
 
 + (BOOL)isAppStoreURL:(NSURL *)url {
@@ -128,8 +141,7 @@ static NSArray *appStorePrefixes;
 #pragma mark - Redirection
 
 - (BOOL)shouldRedirectTo:(NSURLRequest *)request {
-  // FIXME: Detect app store URLs
-  return YES;
+  return ![self tryResolveAppStoreURL:request.URL];
 }
 
 @end

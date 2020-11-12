@@ -1,0 +1,13 @@
+{
+  "priority": 1,
+  "request" : {
+    "url" : "/redirect/appstore-url",
+    "method" : "GET"
+  },
+  "response": {
+    "status": 302,
+    "headers": {
+      "Location": "https://apps.apple.com/us/app/apple-developer/id640199958"
+    }
+  }
+}
