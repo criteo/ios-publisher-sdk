@@ -1,6 +1,6 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
-## Version Next
+## Version 4.0.2
 
 ### Fixes
 - **Google Adapter**: Depend on Google SDK minor versions > 7.49
