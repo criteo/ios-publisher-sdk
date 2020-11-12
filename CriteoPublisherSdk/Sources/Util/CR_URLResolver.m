@@ -24,13 +24,18 @@
 
 @interface CR_URLResolution ()
 @property(nonatomic, strong) NSURL *URL;
-+ (instancetype)resolutionWithType:(CR_URLResolutionType)type;
++ (instancetype)resolutionWithType:(CR_URLResolutionType)type URL:(NSURL *)URL;
 + (instancetype)resolutionError:(NSError *)error;
 @end
 
 @interface CR_URLResolver () <NSURLSessionDataDelegate>
 @property(nonatomic, strong, readonly) NSURLSession *urlSession;
+
+/** Ensure resolution handler is only called once, as resolution can occur on several events. */
+@property(nonatomic, assign) BOOL resolved;
+- (void)resolveWithResolution:(CR_URLResolution *)resolution;
 @property(nonatomic, copy) CR_URLResolutionHandler resolutionHandler;
+
 @end
 
 @implementation CR_URLResolver
@@ -88,6 +93,14 @@ static NSArray *appStorePrefixes;
   return NO;
 }
 
+- (void)resolveWithResolution:(CR_URLResolution *)resolution {
+  if (self.resolved) {
+    return;
+  }
+  self.resolved = YES;
+  self.resolutionHandler(resolution);
+}
+
 #pragma mark - NSURLSessionDataDelegate
 
 - (void)URLSession:(NSURLSession *)session
@@ -102,12 +115,14 @@ static NSArray *appStorePrefixes;
                     task:(NSURLSessionTask *)task
     didCompleteWithError:(nullable NSError *)error {
   if (error != nil) {
-    self.resolutionHandler([CR_URLResolution resolutionError:error]);
+    CR_URLResolution *resolution = [CR_URLResolution resolutionError:error];
+    [self resolveWithResolution:resolution];
     return;
   }
-  CR_URLResolution *resolution = [CR_URLResolution resolutionWithType:CR_URLResolutionStandardUrl];
-  resolution.URL = task.currentRequest.URL;
-  self.resolutionHandler(resolution);
+
+  CR_URLResolution *resolution = [CR_URLResolution resolutionWithType:CR_URLResolutionStandardUrl
+                                                                  URL:task.currentRequest.URL];
+  [self resolveWithResolution:resolution];
 }
 
 #pragma mark - Redirection
@@ -121,20 +136,21 @@ static NSArray *appStorePrefixes;
 
 @implementation CR_URLResolution
 
-- (instancetype)initWithType:(CR_URLResolutionType)type {
+- (instancetype)initWithType:(CR_URLResolutionType)type URL:(NSURL *)URL {
   if (self = [super init]) {
     _type = type;
+    _URL = URL;
   }
   return self;
 }
 
-+ (instancetype)resolutionWithType:(CR_URLResolutionType)type {
-  return [[self alloc] initWithType:type];
++ (instancetype)resolutionWithType:(CR_URLResolutionType)type URL:(NSURL *)URL {
+  return [[self alloc] initWithType:type URL:URL];
 }
 
 + (CR_URLResolution *)resolutionError:(NSError *)error {
   CLog(@"URL Resolution error %@", error.description);
-  return [self resolutionWithType:CR_URLResolutionError];
+  return [self resolutionWithType:CR_URLResolutionError URL:nil];
 }
 
 @end
