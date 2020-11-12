@@ -24,6 +24,7 @@
 typedef NS_ENUM(NSInteger, CR_URLResolutionType) {
   CR_URLResolutionError,
   CR_URLResolutionStandardUrl,
+  CR_URLResolutionAppStoreUrl,
 };
 
 NS_ASSUME_NONNULL_BEGIN
