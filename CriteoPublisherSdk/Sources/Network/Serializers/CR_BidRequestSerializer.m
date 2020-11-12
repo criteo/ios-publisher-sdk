@@ -26,10 +26,15 @@
 #import "CR_GdprSerializer.h"
 #import "CR_IntegrationRegistry.h"
 #import "CRContextData+Internal.h"
+#import "CR_UserDataHolder.h"
+#import "CRUserData+Internal.h"
+#import "CR_InternalContextProvider.h"
 
 @interface CR_BidRequestSerializer ()
 
 @property(strong, nonatomic, readonly) CR_GdprSerializer *gdprSerializer;
+@property(strong, nonatomic, readonly) CR_UserDataHolder *userDataHolder;
+@property(strong, nonatomic, readonly) CR_InternalContextProvider *internalContextProvider;
 
 @end
 
@@ -37,9 +42,13 @@
 
 #pragma mark - Life cycle
 
-- (instancetype)initWithGdprSerializer:(CR_GdprSerializer *)gdprSerializer {
+- (instancetype)initWithGdprSerializer:(CR_GdprSerializer *)gdprSerializer
+                        userDataHolder:(CR_UserDataHolder *)userDataHolder
+               internalContextProvider:(CR_InternalContextProvider *)internalContextProvider {
   if (self = [super init]) {
     _gdprSerializer = gdprSerializer;
+    _userDataHolder = userDataHolder;
+    _internalContextProvider = internalContextProvider;
   }
   return self;
 }
@@ -94,6 +103,10 @@
   if (consent.mopubConsent.length > 0) {
     userDict[CR_ApiQueryKeys.mopubConsent] = consent.mopubConsent;
   }
+
+  userDict[CR_ApiQueryKeys.ext] = [CR_BidRequestSerializer mergeToNestedStructure:@[
+    [self.internalContextProvider fetchInternalUserContext], self.userDataHolder.userData.data
+  ]];
 
   return userDict;
 }

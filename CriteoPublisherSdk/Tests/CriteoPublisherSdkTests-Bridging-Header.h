@@ -9,6 +9,7 @@
 #import "CR_CdbRequest.h"
 #import "CR_Config.h"
 #import "CR_IntegrationRegistry.h"
+#import "CR_InternalContextProvider.h"
 #import "CR_DeviceInfoMock.h"
 #import "CR_FeedbackMessage.h"
 #import "CR_DataProtectionConsent.h"
@@ -24,4 +25,5 @@
 #import "CR_FeedbacksSerializer.h"
 #import "CR_Config.h"
 #import "CR_UniqueIdGenerator.h"
+#import "CR_UserDataHolder.h"
 #import "CR_InMemoryUserDefaults.h"

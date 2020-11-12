@@ -23,6 +23,8 @@
 #import "CR_CdbRequest.h"
 #import "CR_GdprSerializer.h"
 #import "CR_IntegrationRegistry.h"
+#import "CR_UserDataHolder.h"
+#import "CR_InternalContextProvider.h"
 
 @interface CR_BidRequestSerializer (Testing)
 
@@ -41,7 +43,11 @@
 
 - (void)setUp {
   CR_GdprSerializer *serializer = [[CR_GdprSerializer alloc] init];
-  _serializer = [[CR_BidRequestSerializer alloc] initWithGdprSerializer:serializer];
+  CR_UserDataHolder *userDataHolder = CR_UserDataHolder.new;
+  CR_InternalContextProvider *internalContextProvider = CR_InternalContextProvider.new;
+  _serializer = [[CR_BidRequestSerializer alloc] initWithGdprSerializer:serializer
+                                                         userDataHolder:userDataHolder
+                                                internalContextProvider:internalContextProvider];
 }
 
 #pragma mark - Tests to be refactored

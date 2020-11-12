@@ -48,7 +48,9 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 - (instancetype)initWithNetworkManager:(CR_NetworkManager *)networkManager
                        bidFetchTracker:(CR_BidFetchTracker *)bidFetchTracker
                          threadManager:(CR_ThreadManager *)threadManager
-                   integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry {
+                   integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry
+                        userDataHolder:(CR_UserDataHolder *)userDataHolder
+               internalContextProvider:(CR_InternalContextProvider *)internalContextProvider {
   if (self = [super init]) {
     _networkManager = networkManager;
     _bidFetchTracker = bidFetchTracker;
@@ -56,7 +58,9 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
     _gdprSerializer = [[CR_GdprSerializer alloc] init];
     _integrationRegistry = integrationRegistry;
     _bidRequestSerializer =
-        [[CR_BidRequestSerializer alloc] initWithGdprSerializer:_gdprSerializer];
+        [[CR_BidRequestSerializer alloc] initWithGdprSerializer:_gdprSerializer
+                                                 userDataHolder:userDataHolder
+                                        internalContextProvider:internalContextProvider];
     _feedbackSerializer = [[CR_FeedbacksSerializer alloc] init];
   }
   return self;

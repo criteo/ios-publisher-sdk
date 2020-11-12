@@ -24,6 +24,8 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
   var serializer: CR_BidRequestSerializer!
   var gdprSerializer: CR_GdprSerializerMock!
   var request: CR_CdbRequest!
+  var userDataHolder = CR_UserDataHolder()
+  var internalContextProvider = CR_InternalContextProviderMock()
 
   var config: CR_Config = CR_Config()
   var consent: CR_DataProtectionConsentMock = CR_DataProtectionConsentMock()
@@ -36,7 +38,10 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
 
   override func setUp() {
     gdprSerializer = CR_GdprSerializerMock()
-    serializer = CR_BidRequestSerializer(gdprSerializer: gdprSerializer)
+    serializer = CR_BidRequestSerializer(
+        gdprSerializer: gdprSerializer,
+        userDataHolder: userDataHolder,
+        internalContextProvider:internalContextProvider)
     request = CR_CdbRequest(
       profileId: testProfileId,
       adUnits: [
@@ -93,13 +98,14 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
     let body = generateBody()
 
     let user: [String: AnyHashable] = body[NSString.userKey]! as! [String: AnyHashable]
-    XCTAssertEqual(user.count, 6)
+    XCTAssertEqual(user.count, 7)
     XCTAssertEqual(user[NSString.userAgentKey], deviceInfo.userAgent)
     XCTAssertEqual(user[NSString.deviceIdKey], deviceInfo.deviceId)
     XCTAssertEqual(user[NSString.deviceOsKey], config.deviceOs)
     XCTAssertEqual(user[NSString.deviceModelKey], config.deviceModel)
     XCTAssertEqual(user[NSString.deviceIdTypeKey], NSString.deviceIdTypeValue)
     XCTAssertEqual(user[NSString.uspIabKey], consent.usPrivacyIabConsentString!)
+    XCTAssertEqual(user["ext"], [:] as [String: AnyHashable])
   }
 
   func testBodyWithUsPrivacyConsentString() {
@@ -174,4 +180,10 @@ class CR_GdprSerializerMock: CR_GdprSerializer {
   open override func dictionary(for gdpr: CR_Gdpr) -> [String: NSObject]? {
     return dictionaryValue
   }
+}
+
+class CR_InternalContextProviderMock: CR_InternalContextProvider {
+    open override func fetchInternalUserContext() -> [String : Any] {
+        [:]
+    }
 }

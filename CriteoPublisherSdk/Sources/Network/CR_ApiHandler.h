@@ -31,6 +31,8 @@
 #import "CR_DeviceInfo.h"
 #import "CR_BidFetchTracker.h"
 #import "CR_FeedbackMessage.h"
+#import "CR_UserDataHolder.h"
+#import "CR_InternalContextProvider.h"
 
 @class CR_FeedbackStorage;
 @class CR_ThreadManager;
@@ -54,6 +56,8 @@ typedef void (^CR_CsmCompletionHandler)(NSError *error);
                        bidFetchTracker:(CR_BidFetchTracker *)bidFetchTracker
                          threadManager:(CR_ThreadManager *)threadManager
                    integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry
+                        userDataHolder:(CR_UserDataHolder *)userDataHolder
+               internalContextProvider:(CR_InternalContextProvider *)internalContextProvider
     NS_DESIGNATED_INITIALIZER;
 
 /**
