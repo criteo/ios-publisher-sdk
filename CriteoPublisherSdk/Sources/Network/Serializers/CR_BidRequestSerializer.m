@@ -25,6 +25,7 @@
 #import "CR_DeviceInfo.h"
 #import "CR_GdprSerializer.h"
 #import "CR_IntegrationRegistry.h"
+#import "CRContextData+Internal.h"
 
 @interface CR_BidRequestSerializer ()
 
@@ -54,12 +55,13 @@
 - (NSDictionary *)bodyWithCdbRequest:(CR_CdbRequest *)cdbRequest
                              consent:(CR_DataProtectionConsent *)consent
                               config:(CR_Config *)config
-                          deviceInfo:(CR_DeviceInfo *)deviceInfo {
+                          deviceInfo:(CR_DeviceInfo *)deviceInfo
+                             context:(CRContextData *)contextData {
   NSMutableDictionary *postBody = [NSMutableDictionary new];
   postBody[CR_ApiQueryKeys.sdkVersion] = config.sdkVersion;
   postBody[CR_ApiQueryKeys.profileId] = cdbRequest.profileId;
   postBody[CR_ApiQueryKeys.id] = cdbRequest.requestGroupId;
-  postBody[CR_ApiQueryKeys.publisher] = [self publisherWithConfig:config];
+  postBody[CR_ApiQueryKeys.publisher] = [self publisherWithConfig:config context:contextData];
   postBody[CR_ApiQueryKeys.gdpr] = [self.gdprSerializer dictionaryForGdpr:consent.gdpr];
   postBody[CR_ApiQueryKeys.bidSlots] = [self slotsWithCdbRequest:cdbRequest];
   postBody[CR_ApiQueryKeys.user] = [self userWithConsent:consent
@@ -96,10 +98,12 @@
   return userDict;
 }
 
-- (NSDictionary *)publisherWithConfig:(CR_Config *)config {
+- (NSDictionary *)publisherWithConfig:(CR_Config *)config context:(CRContextData *)contextData {
   NSMutableDictionary *publisher = [NSMutableDictionary new];
   publisher[CR_ApiQueryKeys.bundleId] = config.appId;
   publisher[CR_ApiQueryKeys.cpId] = config.criteoPublisherId;
+  publisher[CR_ApiQueryKeys.ext] =
+      [CR_BidRequestSerializer mergeToNestedStructure:@[ contextData.data ]];
   return publisher;
 }
 

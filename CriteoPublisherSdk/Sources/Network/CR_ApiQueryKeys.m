@@ -75,6 +75,9 @@
 + (NSString *)eventType {
   return @"eventType";
 }
++ (NSString *)ext {
+  return @"ext";
+}
 + (NSString *)feedbackElapsed {
   return @"elapsed";
 }

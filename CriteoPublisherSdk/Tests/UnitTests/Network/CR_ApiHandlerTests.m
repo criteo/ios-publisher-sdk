@@ -76,7 +76,7 @@
   self.threadManager = [[CR_ThreadManager alloc] init];
   self.integrationRegistry = OCMClassMock(CR_IntegrationRegistry.class);
   OCMStub([self.integrationRegistry profileId]).andReturn(@42);
-  self.contextData = OCMStrictClassMock([CRContextData class]);
+  self.contextData = CRContextData.new;
 
   self.apiHandler = [[CR_ApiHandler alloc] initWithNetworkManager:self.networkManagerMock
                                                   bidFetchTracker:[CR_BidFetchTracker new]
@@ -289,7 +289,7 @@
                 consent:nil
                  config:nil
              deviceInfo:nil
-                context:nil
+                context:self.contextData
           beforeCdbCall:nil
       completionHandler:nil];
   OCMVerifyAllWithDelay(mockBidFetchTracker, 1);
@@ -319,7 +319,7 @@
                 consent:nil
                  config:nil
              deviceInfo:nil
-                context:nil
+                context:self.contextData
           beforeCdbCall:nil
       completionHandler:nil];
   OCMVerifyAllWithDelay(mockBidFetchTracker, 1);
@@ -347,7 +347,7 @@
                 consent:nil
                  config:nil
              deviceInfo:nil
-                context:nil
+                context:self.contextData
           beforeCdbCall:nil
       completionHandler:nil];
   OCMVerifyAllWithDelay(mockBidFetchTracker, 1);
@@ -429,6 +429,7 @@
   NSDictionary *expected = @{
     CR_ApiQueryKeys.cpId : self.configMock.criteoPublisherId,
     CR_ApiQueryKeys.bundleId : self.configMock.appId,
+    CR_ApiQueryKeys.ext : @{}
   };
 
   [self callCdb];
@@ -676,7 +677,7 @@
                 consent:nil
                  config:nil
              deviceInfo:nil
-                context:nil
+                context:self.contextData
           beforeCdbCall:nil
       completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
         XCTAssertNil(cdbResponse);

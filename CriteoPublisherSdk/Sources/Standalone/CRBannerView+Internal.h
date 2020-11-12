@@ -21,6 +21,8 @@
 #define CRBannerView_Internal_h
 @import WebKit;
 
+#import "CRBannerView.h"
+
 @protocol CR_URLOpening;
 
 @interface CRBannerView (Internal)

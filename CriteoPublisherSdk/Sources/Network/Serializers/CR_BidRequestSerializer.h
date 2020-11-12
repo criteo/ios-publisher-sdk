@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class CR_DataProtectionConsent;
 @class CR_DeviceInfo;
 @class CR_GdprSerializer;
+@class CRContextData;
 
 // This class is semantically incoherent with CR_CdbRequest.
 // TODO: Refine the design and the naming of CR_CdbRequest & CR_BidRequestSerializer.
@@ -36,10 +37,12 @@ NS_ASSUME_NONNULL_BEGIN
     NS_DESIGNATED_INITIALIZER;
 
 - (NSURL *)urlWithConfig:(CR_Config *)config;
+
 - (NSDictionary *)bodyWithCdbRequest:(CR_CdbRequest *)cdbRequest
                              consent:(CR_DataProtectionConsent *)consent
                               config:(CR_Config *)config
-                          deviceInfo:(CR_DeviceInfo *)deviceInfo;
+                          deviceInfo:(CR_DeviceInfo *)deviceInfo
+                             context:(CRContextData *)contextData;
 
 #pragma mark - Private but unit-tested (To be refactored)
 
