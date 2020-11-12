@@ -28,6 +28,7 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
   var config: CR_Config = CR_Config()
   var consent: CR_DataProtectionConsentMock = CR_DataProtectionConsentMock()
   var deviceInfo: CR_DeviceInfoMock = CR_DeviceInfoMock()
+  var context = CRContextData()
 
   let userDefaults = CR_InMemoryUserDefaults()
   let testIntegrationType = CR_IntegrationType.gamAppBidding
@@ -77,7 +78,8 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
     let expected = [
       NSString.bundleIdKey: config.appId,
       NSString.cpIdKey: config.criteoPublisherId!,
-    ]
+      "ext": [:] as [String: AnyHashable]
+    ] as [String: AnyHashable]
 
     let body = generateBody()
 
@@ -136,12 +138,32 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
     XCTAssertEqual(user[NSString.mopubConsent]!, "Privacy consent for mopub")
   }
 
+  func testBodyWithContext() {
+    context = CRContextData(dictionary:[
+      "a.a": "foo",
+      "b": "bar",
+    ])
+
+    let expected = [
+      "a": [
+        "a": "foo",
+      ],
+      "b": "bar",
+    ] as [String: AnyHashable]
+
+    let body = generateBody()
+
+    let publisher = body["publisher"]! as! [String: AnyHashable]
+    XCTAssertEqual(publisher["ext"], expected)
+  }
+
   private func generateBody() -> [String: AnyHashable] {
     return serializer.body(
-      with: request,
-      consent: consent,
-      config: config,
-      deviceInfo: deviceInfo) as! [String: AnyHashable]
+        with: request,
+        consent: consent,
+        config: config,
+        deviceInfo: deviceInfo,
+        context: context) as! [String: AnyHashable]
   }
 }
 

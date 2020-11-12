@@ -39,6 +39,7 @@
 @property(class, nonatomic, readonly) NSString *deviceIdValue;
 @property(class, nonatomic, readonly) NSString *deviceOs;
 @property(class, nonatomic, readonly) NSString *eventType;
+@property(class, nonatomic, readonly) NSString *ext;
 @property(class, nonatomic, readonly) NSString *feedbackElapsed;
 @property(class, nonatomic, readonly) NSString *feedbacks;
 @property(class, nonatomic, readonly) NSString *gdpr;
