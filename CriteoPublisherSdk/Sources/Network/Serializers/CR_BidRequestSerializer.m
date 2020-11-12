@@ -123,4 +123,62 @@
   return slots;
 }
 
++ (NSDictionary<NSString *, id> *)mergeToNestedStructure:
+    (NSArray<NSDictionary<NSString *, id> *> *)flattenDictionaries {
+  NSMutableDictionary<NSString *, id> *nestedStructure = NSMutableDictionary.new;
+
+  // Use an array instead of a set to use the ref equality instead of the object equality
+  NSMutableArray<NSMutableDictionary<NSString *, id> *> *subNodes = NSMutableArray.new;
+
+  for (NSDictionary<NSString *, id> *flattenDictionary in flattenDictionaries) {
+    for (NSString *path in flattenDictionary) {
+      NSArray<NSString *> *pathParts = [path componentsSeparatedByString:@"."];
+      if ([CR_BidRequestSerializer isPathPartsNoValid:pathParts]) {
+        continue;
+      }
+
+      NSMutableDictionary<NSString *, id> *node = nestedStructure;
+
+      // Go or create nested structure until last path part
+      for (NSUInteger i = 0; i < pathParts.count - 1; ++i) {
+        NSString *pathPart = pathParts[i];
+
+        id nestedValue = node[pathPart];
+        if (nestedValue != nil) {
+          if ([subNodes containsObject:nestedValue]) {
+            // It's a sub node, go deeper
+            node = nestedValue;
+          } else {
+            // It's a leaf, abort
+            break;
+          }
+        } else {
+          // Create a new node and go deeper
+          NSMutableDictionary<NSString *, id> *newNode = NSMutableDictionary.new;
+          [subNodes addObject:newNode];
+          node[pathPart] = newNode;
+          node = newNode;
+        }
+      }
+
+      NSString *lastPathPart = pathParts[pathParts.count - 1];
+      if (node[lastPathPart] == nil) {
+        // If value is already there, abort, else save it
+        node[lastPathPart] = flattenDictionary[path];
+      }
+    }
+  }
+
+  return nestedStructure;
+}
+
++ (BOOL)isPathPartsNoValid:(NSArray<NSString *> *)pathParts {
+  for (NSString *pathPart in pathParts) {
+    if (pathPart.length == 0) {
+      return YES;
+    }
+  }
+  return NO;
+}
+
 @end
