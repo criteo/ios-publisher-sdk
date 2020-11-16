@@ -39,9 +39,9 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
   override func setUp() {
     gdprSerializer = CR_GdprSerializerMock()
     serializer = CR_BidRequestSerializer(
-        gdprSerializer: gdprSerializer,
-        userDataHolder: userDataHolder,
-        internalContextProvider:internalContextProvider)
+      gdprSerializer: gdprSerializer,
+      userDataHolder: userDataHolder,
+      internalContextProvider: internalContextProvider)
     request = CR_CdbRequest(
       profileId: testProfileId,
       adUnits: [
@@ -80,11 +80,12 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
   }
 
   func testBodyWithPublisher() {
-    let expected = [
-      NSString.bundleIdKey: config.appId,
-      NSString.cpIdKey: config.criteoPublisherId!,
-      "ext": [:] as [String: AnyHashable]
-    ] as [String: AnyHashable]
+    let expected =
+      [
+        NSString.bundleIdKey: config.appId,
+        NSString.cpIdKey: config.criteoPublisherId!,
+        "ext": [:] as [String: AnyHashable],
+      ] as [String: AnyHashable]
 
     let body = generateBody()
 
@@ -145,17 +146,18 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
   }
 
   func testBodyWithContext() {
-    context = CRContextData(dictionary:[
+    context = CRContextData(dictionary: [
       "a.a": "foo",
       "b": "bar",
     ])
 
-    let expected = [
-      "a": [
-        "a": "foo",
-      ],
-      "b": "bar",
-    ] as [String: AnyHashable]
+    let expected =
+      [
+        "a": [
+          "a": "foo"
+        ],
+        "b": "bar",
+      ] as [String: AnyHashable]
 
     let body = generateBody()
 
@@ -165,11 +167,11 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
 
   private func generateBody() -> [String: AnyHashable] {
     return serializer.body(
-        with: request,
-        consent: consent,
-        config: config,
-        deviceInfo: deviceInfo,
-        context: context) as! [String: AnyHashable]
+      with: request,
+      consent: consent,
+      config: config,
+      deviceInfo: deviceInfo,
+      context: context) as! [String: AnyHashable]
   }
 }
 
@@ -183,7 +185,7 @@ class CR_GdprSerializerMock: CR_GdprSerializer {
 }
 
 class CR_InternalContextProviderMock: CR_InternalContextProvider {
-    open override func fetchInternalUserContext() -> [String : Any] {
-        [:]
-    }
+  open override func fetchInternalUserContext() -> [String: Any] {
+    [:]
+  }
 }
