@@ -17,8 +17,6 @@
 // limitations under the License.
 //
 
-@import Foundation;
-
 @class CRNativeAdUnit;
 @class CRNativeAd;
 @class CRBid;

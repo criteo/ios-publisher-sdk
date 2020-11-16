@@ -19,8 +19,8 @@
 
 #ifndef CRInterstitial_Internal_h
 #define CRInterstitial_Internal_h
-@import WebKit;
 
+#import <WebKit/WebKit.h>
 #import "CRInterstitial.h"
 
 @class Criteo;

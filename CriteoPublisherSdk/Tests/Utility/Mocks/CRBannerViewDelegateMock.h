@@ -17,8 +17,8 @@
 // limitations under the License.
 //
 
-@import Foundation;
-@import XCTest;
+#import <XCTest/XCTest.h>
+
 #import "CRBannerViewDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN

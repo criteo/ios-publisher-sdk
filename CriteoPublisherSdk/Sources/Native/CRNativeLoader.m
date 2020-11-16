@@ -23,7 +23,6 @@
 #import "CRNativeAd+Internal.h"
 #import "CR_AdUnitHelper.h"
 #import "CR_CdbBid.h"
-#import "CR_NativeAssets.h"
 #import "NSError+Criteo.h"
 #import "NSURL+Criteo.h"
 #import "Logging.h"
@@ -36,7 +35,6 @@
 #import "CR_NetworkManager.h"
 #import "CR_IntegrationRegistry.h"
 #import "CRBid+Internal.h"
-#import "CRContextData.h"
 
 @implementation CRNativeLoader
 

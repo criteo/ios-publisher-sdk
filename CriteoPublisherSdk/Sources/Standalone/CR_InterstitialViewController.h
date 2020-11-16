@@ -17,8 +17,7 @@
 // limitations under the License.
 //
 
-@import UIKit;
-@import WebKit;
+#import <WebKit/WebKit.h>
 
 @class CRInterstitial;
 
