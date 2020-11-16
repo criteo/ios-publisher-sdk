@@ -30,7 +30,7 @@
 #import "CR_SafeMediaDownloader.h"
 #import "CR_ThreadManager.h"
 #import "CRMediaContent+Internal.h"
-#import "CR_URLOpening.h"
+#import "CR_URLOpener.h"
 #import "CR_DependencyProvider.h"
 #import "CR_NetworkManager.h"
 #import "CR_IntegrationRegistry.h"

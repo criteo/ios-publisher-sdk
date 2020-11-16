@@ -17,7 +17,7 @@
 // limitations under the License.
 //
 
-#import "CR_URLOpening.h"
+#import "CR_URLOpener.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

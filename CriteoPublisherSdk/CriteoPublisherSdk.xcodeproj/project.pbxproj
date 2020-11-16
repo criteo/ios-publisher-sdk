@@ -253,8 +253,8 @@
 		7DE7064E242B5252007F4A72 /* NSUserDefaults+GDPR.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE7064D242B5252007F4A72 /* NSUserDefaults+GDPR.m */; };
 		7DE88E0D248800A400F15D74 /* CR_SafeAreaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE88E0C248800A400F15D74 /* CR_SafeAreaView.m */; };
 		7DE88E10248925C700F15D74 /* CR_ImpressionDetectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DE88E0F248925C700F15D74 /* CR_ImpressionDetectionTests.m */; };
-		7DFB2B0F247E5C67007CDFF3 /* CR_URLOpening.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFB2B0E247E5C67007CDFF3 /* CR_URLOpening.h */; };
-		7DFB2B11247E75E5007CDFF3 /* CR_URLOpening.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFB2B10247E75E5007CDFF3 /* CR_URLOpening.m */; };
+		7DFB2B0F247E5C67007CDFF3 /* CR_URLOpener.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DFB2B0E247E5C67007CDFF3 /* CR_URLOpener.h */; };
+		7DFB2B11247E75E5007CDFF3 /* CR_URLOpener.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFB2B10247E75E5007CDFF3 /* CR_URLOpener.m */; };
 		7DFB2B14247E9302007CDFF3 /* CR_URLOpenerMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFB2B13247E9302007CDFF3 /* CR_URLOpenerMock.m */; };
 		90D0C9A36EF9136F4CC9E877 /* libPods-CriteoPublisherSdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CDD7544323F61638E0E8B7F /* libPods-CriteoPublisherSdk.a */; };
 		B1BD859C4CDDB6DB1B906C62 /* libPods-CriteoPublisherSdkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92039F91AE1122C08CF8EC36 /* libPods-CriteoPublisherSdkTests.a */; };
@@ -644,8 +644,8 @@
 		7DE88E0B248800A400F15D74 /* CR_SafeAreaView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_SafeAreaView.h; sourceTree = "<group>"; };
 		7DE88E0C248800A400F15D74 /* CR_SafeAreaView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_SafeAreaView.m; sourceTree = "<group>"; };
 		7DE88E0F248925C700F15D74 /* CR_ImpressionDetectionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_ImpressionDetectionTests.m; sourceTree = "<group>"; };
-		7DFB2B0E247E5C67007CDFF3 /* CR_URLOpening.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_URLOpening.h; sourceTree = "<group>"; };
-		7DFB2B10247E75E5007CDFF3 /* CR_URLOpening.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_URLOpening.m; sourceTree = "<group>"; };
+		7DFB2B0E247E5C67007CDFF3 /* CR_URLOpener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_URLOpener.h; sourceTree = "<group>"; };
+		7DFB2B10247E75E5007CDFF3 /* CR_URLOpener.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_URLOpener.m; sourceTree = "<group>"; };
 		7DFB2B12247E9302007CDFF3 /* CR_URLOpenerMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_URLOpenerMock.h; sourceTree = "<group>"; };
 		7DFB2B13247E9302007CDFF3 /* CR_URLOpenerMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_URLOpenerMock.m; sourceTree = "<group>"; };
 		82E54E419D05E3CF7FA80F60 /* Pods-CriteoPublisherSdkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoPublisherSdkTests.debug.xcconfig"; path = "Target Support Files/Pods-CriteoPublisherSdkTests/Pods-CriteoPublisherSdkTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -776,8 +776,8 @@
 			isa = PBXGroup;
 			children = (
 				7D51ABFB23B0EDD900540094 /* CR_Assert.h */,
-				7DFB2B0E247E5C67007CDFF3 /* CR_URLOpening.h */,
-				7DFB2B10247E75E5007CDFF3 /* CR_URLOpening.m */,
+				7DFB2B0E247E5C67007CDFF3 /* CR_URLOpener.h */,
+				7DFB2B10247E75E5007CDFF3 /* CR_URLOpener.m */,
 				460C0FAB25542BC90016988D /* CR_URLResolver.h */,
 				460C0FAC25542BC90016988D /* CR_URLResolver.m */,
 				25B650582206AB40008416D3 /* Logging.h */,
@@ -1579,7 +1579,7 @@
 				46507F82246C2F6900B1DA78 /* CRNativeAdView.h in Headers */,
 				4672E1EA251CDE03009F39EF /* CR_CASQueueFileElement.h in Headers */,
 				46813BEE2472E39000CD8E59 /* CRMediaDownloader.h in Headers */,
-				7DFB2B0F247E5C67007CDFF3 /* CR_URLOpening.h in Headers */,
+				7DFB2B0F247E5C67007CDFF3 /* CR_URLOpener.h in Headers */,
 				4672E1E9251CDE03009F39EF /* CR_CASError.h in Headers */,
 				53CA0F9622AB0ABD0098F96C /* CRBid.h in Headers */,
 				7D58583023E1F1EC0039AC56 /* CR_ThreadManager.h in Headers */,
@@ -1850,7 +1850,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DF367CAD232B310D0044807B /* CR_NativePrivacy.m in Sources */,
-				7DFB2B11247E75E5007CDFF3 /* CR_URLOpening.m in Sources */,
+				7DFB2B11247E75E5007CDFF3 /* CR_URLOpener.m in Sources */,
 				DF367CC3232DC53A0044807B /* NSDictionary+Criteo.m in Sources */,
 				5472877D2411043700B62235 /* CR_DefaultFileManipulator.m in Sources */,
 				25BD5B5F2220D183004DE311 /* CR_AppEvents.m in Sources */,

@@ -1,6 +1,6 @@
 //
-//  CR_URLOpenerMock.m
-//  CriteoPublisherSdkTests
+//  CR_URLOpener.h
+//  CriteoPublisherSdk
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
 //
@@ -17,21 +17,20 @@
 // limitations under the License.
 //
 
-#import "CR_URLOpenerMock.h"
+#import <UIKit/UIKit.h>
 
-@implementation CR_URLOpenerMock
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)init {
-  self = [super init];
-  if (self) {
-    _successInCompletion = YES;
-  }
-  return self;
-}
+typedef void (^CR_URLOpeningCompletion)(BOOL success);
 
-- (void)openExternalURL:(NSURL *)url withCompletion:(CR_URLOpeningCompletion)completion {
-  self.openExternalURLCount += 1;
-  completion(self.successInCompletion);
-}
+@protocol CR_URLOpening <NSObject>
+
+- (void)openExternalURL:(NSURL *)url withCompletion:(CR_URLOpeningCompletion)completion;
 
 @end
+
+@interface CR_URLOpener : NSObject <CR_URLOpening>
+
+@end
+
+NS_ASSUME_NONNULL_END

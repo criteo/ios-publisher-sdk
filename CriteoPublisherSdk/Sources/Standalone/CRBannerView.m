@@ -20,7 +20,7 @@
 #import "CRBannerView+Internal.h"
 #import "Criteo+Internal.h"
 #import "CR_BidManager.h"
-#import "CR_URLOpening.h"
+#import "CR_URLOpener.h"
 #import "CR_IntegrationRegistry.h"
 #import "CR_DependencyProvider.h"
 #import "NSError+Criteo.h"
@@ -202,10 +202,13 @@
       if ([self.delegate respondsToSelector:@selector(bannerWasClicked:)]) {
         [self.delegate bannerWasClicked:self];
       }
-      if ([self.delegate respondsToSelector:@selector(bannerWillLeaveApplication:)]) {
-        [self.delegate bannerWillLeaveApplication:self];
-      }
-      [self.urlOpener openExternalURL:navigationAction.request.URL];
+      [self.urlOpener openExternalURL:navigationAction.request.URL
+                       withCompletion:^(BOOL success) {
+                         if (success && [self.delegate respondsToSelector:@selector
+                                                       (bannerWillLeaveApplication:)]) {
+                           [self.delegate bannerWillLeaveApplication:self];
+                         }
+                       }];
     });
     if (decisionHandler) {
       decisionHandler(WKNavigationActionPolicyCancel);

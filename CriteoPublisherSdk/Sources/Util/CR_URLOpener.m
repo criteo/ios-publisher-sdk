@@ -1,5 +1,5 @@
 //
-//  CR_URLOpenning.h
+//  CR_URLOpener.m
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -17,24 +17,19 @@
 // limitations under the License.
 //
 
-#import <UIKit/UIKit.h>
+#import "CR_URLOpener.h"
 
-NS_ASSUME_NONNULL_BEGIN
+@implementation CR_URLOpener
 
-typedef void (^CR_URLOpeningCompletion)(BOOL success);
-
-@protocol CR_URLOpening <NSObject>
-
-- (void)openExternalURL:(NSURL *)url;
-- (void)openExternalURL:(NSURL *)url withCompletion:(nullable CR_URLOpeningCompletion)completion;
-- (void)openExternalURL:(NSURL *)url
-            withOptions:(NSDictionary<UIApplicationOpenExternalURLOptionsKey, id> *)options
-             completion:(nullable CR_URLOpeningCompletion)completion;
-
-@end
-
-@interface CR_URLOpener : NSObject <CR_URLOpening>
+- (void)openExternalURL:(NSURL *)url withCompletion:(CR_URLOpeningCompletion)completion {
+  if (@available(iOS 10, *)) {
+    [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:completion];
+  } else if (completion) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    completion([[UIApplication sharedApplication] openURL:url]);
+#pragma clang diagnostic pop
+  }
+}
 
 @end
-
-NS_ASSUME_NONNULL_END
