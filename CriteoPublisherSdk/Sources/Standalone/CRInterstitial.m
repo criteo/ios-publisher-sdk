@@ -26,7 +26,7 @@
 #import "NSError+Criteo.h"
 #import "CR_InterstitialViewController.h"
 #import "CR_DeviceInfo.h"
-#import "CR_URLOpening.h"
+#import "CR_URLOpener.h"
 #import "CR_DependencyProvider.h"
 #import "CR_DisplaySizeInjector.h"
 #import "CR_IntegrationRegistry.h"
@@ -260,10 +260,13 @@
       if ([self.delegate respondsToSelector:@selector(interstitialWasClicked:)]) {
         [self.delegate interstitialWasClicked:self];
       }
-      if ([self.delegate respondsToSelector:@selector(interstitialWillLeaveApplication:)]) {
-        [self.delegate interstitialWillLeaveApplication:self];
-      }
-      [self.urlOpener openExternalURL:navigationAction.request.URL];
+      [self.urlOpener openExternalURL:navigationAction.request.URL
+                       withCompletion:^(BOOL success) {
+                         if (success && [self.delegate respondsToSelector:@selector
+                                                       (interstitialWillLeaveApplication:)]) {
+                           [self.delegate interstitialWillLeaveApplication:self];
+                         }
+                       }];
       [self.viewController dismissViewController];
     });
     if (decisionHandler) {
