@@ -31,7 +31,7 @@
 #import "XCTestCase+Criteo.h"
 #import "CR_NativeAssets+Testing.h"
 
-@import WebKit;
+#import <WebKit/WebKit.h>
 
 #define TEST_DISPLAY_URL \
   @"https://rdi.eu.criteo.com/delivery/rtb/demo/ajs?zoneid=1417086&width=300&height=250&ibva=0"

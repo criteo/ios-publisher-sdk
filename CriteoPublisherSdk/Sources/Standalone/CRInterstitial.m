@@ -31,8 +31,6 @@
 #import "CR_DisplaySizeInjector.h"
 #import "CR_IntegrationRegistry.h"
 
-@import WebKit;
-
 @interface CRInterstitial () <WKNavigationDelegate, WKUIDelegate>
 
 @property(strong, nonatomic) id<CR_URLOpening> urlOpener;

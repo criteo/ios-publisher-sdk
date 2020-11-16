@@ -17,17 +17,13 @@
 // limitations under the License.
 //
 
-#import "CRBannerView.h"
+#import "CRBannerView+Internal.h"
 #import "Criteo+Internal.h"
 #import "CR_BidManager.h"
 #import "CR_URLOpening.h"
 #import "CR_IntegrationRegistry.h"
 #import "CR_DependencyProvider.h"
 #import "NSError+Criteo.h"
-#import "CRContextData.h"
-
-// TODO check import strategy
-@import WebKit;
 
 @interface CRBannerView () <WKNavigationDelegate, WKUIDelegate>
 @property(nonatomic) BOOL isResponseValid;
