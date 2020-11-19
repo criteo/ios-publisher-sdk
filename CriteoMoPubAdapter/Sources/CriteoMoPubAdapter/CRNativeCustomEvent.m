@@ -25,15 +25,16 @@
 #endif
 
 #import "CRCustomEventHelper.h"
-#import "CRNativeAdAdapter.h"
 #import "CRNativeCustomEvent.h"
+#import "CRNativeAdDelegateHandler.h"
 
-@interface CRNativeCustomEvent () <CRNativeLoaderDelegate>
+@interface CRNativeCustomEvent ()
 
 @property(strong, nonatomic, readonly) Criteo *criteo;
 @property(strong, nonatomic, readonly) MoPub *mopub;
 
 @property(strong, nonatomic) CRNativeLoader *loader;
+@property(strong, nonatomic) CRNativeAdDelegateHandler *delegateHandler;
 
 @end
 
@@ -44,6 +45,7 @@
   if (self) {
     _criteo = [Criteo sharedCriteo];
     _mopub = [MoPub sharedInstance];
+    _delegateHandler = [[CRNativeAdDelegateHandler alloc] initWithCustomEvent:self];
   }
   return self;
 }
@@ -80,39 +82,13 @@
   [self.criteo registerCriteoPublisherId:publisherId withAdUnits:@[ adUnit ]];
 
   self.loader = [[CRNativeLoader alloc] initWithAdUnit:adUnit];
-  self.loader.delegate = self;
+  self.loader.delegate = self.delegateHandler;
   [self.loader loadAd];
 }
 
 - (void)updateMopubConsent {
   NSString *consentStatusStr = [NSString stringFromConsentStatus:self.mopub.currentConsentStatus];
   [self.criteo setMopubConsent:consentStatusStr];
-}
-
-#pragma mark CRNativeLoaderDelegate
-
-- (void)nativeLoader:(CRNativeLoader *)loader didReceiveAd:(CRNativeAd *)ad {
-  CRNativeAdAdapter *adapter = [[CRNativeAdAdapter alloc] initWithNativeAd:ad];
-  MPNativeAd *nativeAd = [[MPNativeAd alloc] initWithAdAdapter:adapter];
-  [self.delegate nativeCustomEvent:self didLoadAd:nativeAd];
-}
-
-- (void)nativeLoader:(CRNativeLoader *)loader didFailToReceiveAdWithError:(NSError *)error {
-  NSString *errorDescription =
-      [NSString stringWithFormat:@"Criteo Native Ad failed to load with error: %@",
-                                 error.localizedDescription];
-  NSError *mopubError = [NSError errorWithCode:MOPUBErrorAdapterFailedToLoadAd
-                          localizedDescription:errorDescription];
-  [self.delegate nativeCustomEvent:self didFailToLoadAdWithError:mopubError];
-}
-
-- (void)nativeLoaderDidDetectImpression:(CRNativeLoader *)loader {
-}
-
-- (void)nativeLoaderDidDetectClick:(CRNativeLoader *)loader {
-}
-
-- (void)nativeLoaderWillLeaveApplicationForNativeAd:(CRNativeLoader *)loader {
 }
 
 @end

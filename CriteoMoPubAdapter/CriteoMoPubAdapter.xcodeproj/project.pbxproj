@@ -30,6 +30,8 @@
 		9114195D24F4E17100B52E42 /* CRNativeCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 9114195B24F4E17100B52E42 /* CRNativeCustomEvent.m */; };
 		9114196324F4E68D00B52E42 /* CRNativeAdAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 9114196124F4E68D00B52E42 /* CRNativeAdAdapter.h */; };
 		9114196424F4E68D00B52E42 /* CRNativeAdAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9114196224F4E68D00B52E42 /* CRNativeAdAdapter.m */; };
+		91A052F3255D2CA40041BB3A /* CRNativeAdDelegateHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91A052F1255D2CA40041BB3A /* CRNativeAdDelegateHandler.h */; };
+		91A052F4255D2CA40041BB3A /* CRNativeAdDelegateHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 91A052F2255D2CA40041BB3A /* CRNativeAdDelegateHandler.m */; };
 		91D237A924F7784E00B44B26 /* CRNativeAdAdapterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D237A724F777AF00B44B26 /* CRNativeAdAdapterTests.m */; };
 		C07ABFAD40F1E3FF91FE3BC3 /* CR_MoPubIntegrationRegistryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABD835088D792F704713F /* CR_MoPubIntegrationRegistryTests.m */; };
 		F6952EC254DDD2B2099A3099 /* libPods-CriteoMoPubAdapterTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 723A18C84F38211EF6A89DA5 /* libPods-CriteoMoPubAdapterTests.a */; };
@@ -77,6 +79,8 @@
 		9114196124F4E68D00B52E42 /* CRNativeAdAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRNativeAdAdapter.h; sourceTree = "<group>"; };
 		9114196224F4E68D00B52E42 /* CRNativeAdAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdAdapter.m; sourceTree = "<group>"; };
 		9114196524F4E77400B52E42 /* CRNativeCustomEventTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRNativeCustomEventTests.m; sourceTree = "<group>"; };
+		91A052F1255D2CA40041BB3A /* CRNativeAdDelegateHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRNativeAdDelegateHandler.h; sourceTree = "<group>"; };
+		91A052F2255D2CA40041BB3A /* CRNativeAdDelegateHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdDelegateHandler.m; sourceTree = "<group>"; };
 		91D237A724F777AF00B44B26 /* CRNativeAdAdapterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdAdapterTests.m; sourceTree = "<group>"; };
 		C07ABD835088D792F704713F /* CR_MoPubIntegrationRegistryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_MoPubIntegrationRegistryTests.m; sourceTree = "<group>"; };
 		E36D96B9F6BA73F79BB4D7F0 /* libPods-CriteoMoPubAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoMoPubAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -122,6 +126,8 @@
 				9114196224F4E68D00B52E42 /* CRNativeAdAdapter.m */,
 				9104F74C2519EAB200C3BC25 /* CRNativeAdRenderer.h */,
 				9104F74B2519EAB200C3BC25 /* CRNativeAdRenderer.m */,
+				91A052F1255D2CA40041BB3A /* CRNativeAdDelegateHandler.h */,
+				91A052F2255D2CA40041BB3A /* CRNativeAdDelegateHandler.m */,
 				466AEECF24C6D7E10034081E /* Info.plist */,
 			);
 			name = CriteoMoPubAdapter;
@@ -198,6 +204,7 @@
 				9114195C24F4E17100B52E42 /* CRNativeCustomEvent.h in Headers */,
 				9104F74E2519EAB200C3BC25 /* CRNativeAdRenderer.h in Headers */,
 				466AEED224C6D7E10034081E /* CRInterstitialCustomEvent.h in Headers */,
+				91A052F3255D2CA40041BB3A /* CRNativeAdDelegateHandler.h in Headers */,
 				9114196324F4E68D00B52E42 /* CRNativeAdAdapter.h in Headers */,
 				466AEED624C6D7E10034081E /* CRCustomEventHelper.h in Headers */,
 				466AEED424C6D7E10034081E /* CRBannerCustomEvent.h in Headers */,
@@ -404,6 +411,7 @@
 			files = (
 				9114196424F4E68D00B52E42 /* CRNativeAdAdapter.m in Sources */,
 				466AEED524C6D7E10034081E /* CRInterstitialCustomEvent.m in Sources */,
+				91A052F4255D2CA40041BB3A /* CRNativeAdDelegateHandler.m in Sources */,
 				9114195D24F4E17100B52E42 /* CRNativeCustomEvent.m in Sources */,
 				466AEED124C6D7E10034081E /* CRCustomEventHelper.m in Sources */,
 				466AEED024C6D7E10034081E /* CRBannerCustomEvent.m in Sources */,
