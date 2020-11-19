@@ -56,12 +56,15 @@
 }
 
 - (void)nativeLoaderDidDetectImpression:(CRNativeLoader *)loader {
+  [self.adapter nativeAdWillLogImpression];
 }
 
 - (void)nativeLoaderDidDetectClick:(CRNativeLoader *)loader {
+  [self.adapter nativeAdDidClick];
 }
 
 - (void)nativeLoaderWillLeaveApplicationForNativeAd:(CRNativeLoader *)loader {
+  [self.adapter nativeAdWillLeaveApplication];
 }
 
 @end

@@ -82,4 +82,22 @@
   return props;
 }
 
+- (void)nativeAdWillLogImpression {
+  if ([self.delegate respondsToSelector:@selector(nativeAdWillLogImpression:)]) {
+    [self.delegate nativeAdWillLogImpression:self];
+  }
+}
+
+- (void)nativeAdDidClick {
+  if ([self.delegate respondsToSelector:@selector(nativeAdDidClick:)]) {
+    [self.delegate nativeAdDidClick:self];
+  }
+}
+
+- (void)nativeAdWillLeaveApplication {
+  if ([self.delegate respondsToSelector:@selector(nativeAdWillLeaveApplicationFromAdapter:)]) {
+    [self.delegate nativeAdWillLeaveApplicationFromAdapter:self];
+  }
+}
+
 @end
