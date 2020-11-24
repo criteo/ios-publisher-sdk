@@ -28,6 +28,7 @@
 #import "CRNativeLoader+Internal.h"
 #import "CRMediaDownloader.h"
 #import "CR_NativeAssets+Testing.h"
+#import "CR_SKAdNetworkParameters.h"
 
 @interface CRNativeAdViewTests : XCTestCase
 
@@ -169,7 +170,10 @@
 
 - (CRNativeAd *)buildNativeAdWithLoader:(CRNativeLoader *)loader {
   CR_NativeAssets *assets = [CR_NativeAssets nativeAssetsFromCdb];
-  CRNativeAd *nativeAd = [[CRNativeAd alloc] initWithLoader:loader assets:assets];
+  CR_SKAdNetworkParameters *parameters = [[CR_SKAdNetworkParameters alloc] init];
+  CRNativeAd *nativeAd = [[CRNativeAd alloc] initWithLoader:loader
+                                                     assets:assets
+                                      skAdNetworkParameters:parameters];
   return nativeAd;
 }
 

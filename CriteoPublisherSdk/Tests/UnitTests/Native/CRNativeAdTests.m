@@ -24,6 +24,7 @@
 #import "CRMediaDownloader.h"
 #import "CRMediaContent+Internal.h"
 #import "CR_NativeAssets+Testing.h"
+#import "CR_SKAdNetworkParameters.h"
 
 @interface CRNativeAdTests : XCTestCase
 @end
@@ -36,7 +37,10 @@
   OCMStub(loader.mediaDownloader).andReturn(mediaDownloader);
 
   CR_NativeAssets *assets = [CR_NativeAssets nativeAssetsFromCdb];
-  CRNativeAd *ad = [[CRNativeAd alloc] initWithLoader:loader assets:assets];
+  CR_SKAdNetworkParameters *parameters = [[CR_SKAdNetworkParameters alloc] init];
+  CRNativeAd *ad = [[CRNativeAd alloc] initWithLoader:loader
+                                               assets:assets
+                                skAdNetworkParameters:parameters];
   // Product
   CR_NativeProduct *product = assets.products[0];
   XCTAssertEqual(ad.title, product.title);

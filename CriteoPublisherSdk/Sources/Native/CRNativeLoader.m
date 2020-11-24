@@ -102,7 +102,7 @@
 
   NSURL *url = [NSURL cr_URLWithStringOrNil:nativeAd.product.clickUrl];
   [self.urlOpener openExternalURL:url
-        withSKAdNetworkParameters:nil  // TODO
+        withSKAdNetworkParameters:nativeAd.skAdNetworkParameters
                          fromView:view
                        completion:^(BOOL success) {
                          if (success) {
@@ -157,7 +157,7 @@
   [self.criteo loadCdbBidForAdUnit:cacheAdUnit
                        withContext:contextData
                    responseHandler:^(CR_CdbBid *bid) {
-                     [self handleNativeAssets:bid.nativeAssets];
+                     [self loadAdWithCdbBid:bid];
                    }];
 }
 
@@ -168,15 +168,19 @@
     return;
   }
 
-  [self handleNativeAssets:bid.consume.nativeAssets];
+  CR_CdbBid *cdbBid = bid.consume;
+  [self loadAdWithCdbBid:cdbBid];
 }
 
-- (void)handleNativeAssets:(CR_NativeAssets *)nativeAssets {
+- (void)loadAdWithCdbBid:(CR_CdbBid *)bid {
+  CR_NativeAssets *nativeAssets = bid.nativeAssets;
   if (!nativeAssets) {
     NSError *error = [NSError cr_errorWithCode:CRErrorCodeNoFill];
     [self notifyFailToReceiveAdWithError:error];
   } else {
-    CRNativeAd *ad = [[CRNativeAd alloc] initWithLoader:self assets:nativeAssets];
+    CRNativeAd *ad = [[CRNativeAd alloc] initWithLoader:self
+                                                 assets:nativeAssets
+                                  skAdNetworkParameters:bid.skAdNetworkParameters];
     [self preloadImageUrl:ad.productMedia.url];
     [self preloadImageUrl:ad.advertiserLogoMedia.url];
     [self preloadImageUrl:[NSURL cr_URLWithStringOrNil:nativeAssets.privacy.optoutImageUrl]];
