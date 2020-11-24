@@ -22,6 +22,7 @@
 @class CRNativeLoader;
 @class CR_NativeAssets;
 @class CR_NativeProduct;
+@class CR_SKAdNetworkParameters;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -30,12 +31,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property(strong, nonatomic, readonly) CRNativeLoader *loader;
 @property(strong, nonatomic, readonly) CR_NativeAssets *assets;
 @property(strong, nonatomic, readonly) CR_NativeProduct *product;
+@property(strong, nonatomic, readonly) CR_SKAdNetworkParameters *skAdNetworkParameters;
+
 /**
  * True when the SDK has detect that the Advanced Native has been well displayed.
  */
 @property(assign, nonatomic, readonly) BOOL isImpressed;
 
-- (instancetype)initWithLoader:(CRNativeLoader *)loader assets:(CR_NativeAssets *)assets;
+- (instancetype)initWithLoader:(CRNativeLoader *)loader
+                        assets:(CR_NativeAssets *)assets
+         skAdNetworkParameters:(CR_SKAdNetworkParameters *)skAdNetworkParameters;
 
 - (instancetype)initWithNativeAssets:(CR_NativeAssets *)assets;
 

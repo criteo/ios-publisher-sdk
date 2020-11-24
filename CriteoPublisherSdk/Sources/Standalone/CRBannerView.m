@@ -31,6 +31,7 @@
 @property(nonatomic, strong) WKWebView *webView;
 @property(nonatomic, readonly) CRBannerAdUnit *adUnit;
 @property(nonatomic, readonly) id<CR_URLOpening> urlOpener;
+@property(nonatomic, strong) CR_SKAdNetworkParameters *skAdNetworkParameters;
 
 @end
 
@@ -140,7 +141,7 @@
                      if (!bid || bid.isEmpty) {
                        [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
                      } else {
-                       [self loadAdWithDisplayData:bid.displayUrl];
+                       [self loadAdWithCdbBid:bid];
                      }
                    }];
 }
@@ -160,7 +161,12 @@
     return;
   }
 
-  [self loadAdWithDisplayData:cdbBid.displayUrl];
+  [self loadAdWithCdbBid:cdbBid];
+}
+
+- (void)loadAdWithCdbBid:(CR_CdbBid *)bid {
+  self.skAdNetworkParameters = bid.skAdNetworkParameters;
+  [self loadAdWithDisplayData:bid.displayUrl];
 }
 
 - (void)loadAdWithDisplayData:(NSString *)displayData {
@@ -203,7 +209,7 @@
         [self.delegate bannerWasClicked:self];
       }
       [self.urlOpener openExternalURL:navigationAction.request.URL
-            withSKAdNetworkParameters:nil  // TODO
+            withSKAdNetworkParameters:self.skAdNetworkParameters
                              fromView:self
                            completion:^(BOOL success) {
                              if (success && [self.delegate respondsToSelector:@selector

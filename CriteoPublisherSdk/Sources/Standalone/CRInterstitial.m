@@ -34,6 +34,7 @@
 @interface CRInterstitial () <WKNavigationDelegate, WKUIDelegate>
 
 @property(strong, nonatomic) id<CR_URLOpening> urlOpener;
+@property(nonatomic, strong) CR_SKAdNetworkParameters *skAdNetworkParameters;
 
 @end
 
@@ -121,7 +122,7 @@
                        self.isAdLoading = NO;
                        [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
                      } else {
-                       [self loadAdWithDisplayData:bid.displayUrl];
+                       [self loadAdWithCdbBid:bid];
                      }
                    }];
 }
@@ -179,7 +180,12 @@
     return;
   }
 
-  [self loadAdWithDisplayData:cdbBid.displayUrl];
+  [self loadAdWithCdbBid:cdbBid];
+}
+
+- (void)loadAdWithCdbBid:(CR_CdbBid *)bid {
+  self.skAdNetworkParameters = bid.skAdNetworkParameters;
+  [self loadAdWithDisplayData:bid.displayUrl];
 }
 
 - (void)loadAdWithDisplayData:(NSString *)displayData {
@@ -263,7 +269,7 @@
         [self.delegate interstitialWasClicked:self];
       }
       [self.urlOpener openExternalURL:navigationAction.request.URL
-            withSKAdNetworkParameters:nil  // TODO
+            withSKAdNetworkParameters:self.skAdNetworkParameters
                    fromViewController:self.rootViewController
                            completion:^(BOOL success) {
                              if (success && [self.delegate respondsToSelector:@selector

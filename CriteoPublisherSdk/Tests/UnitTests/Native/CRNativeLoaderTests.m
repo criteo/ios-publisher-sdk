@@ -77,7 +77,10 @@
   self.loader.delegate = self.delegate;
 
   CR_NativeAssets *assets = [CR_NativeAssets nativeAssetsFromCdb];
-  self.nativeAd = [[CRNativeAd alloc] initWithLoader:self.loader assets:assets];
+  CR_SKAdNetworkParameters *parameters = [[CR_SKAdNetworkParameters alloc] init];
+  self.nativeAd = [[CRNativeAd alloc] initWithLoader:self.loader
+                                              assets:assets
+                               skAdNetworkParameters:parameters];
 }
 
 #pragma mark - Tests
