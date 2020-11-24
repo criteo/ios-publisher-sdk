@@ -17,7 +17,20 @@
 // limitations under the License.
 //
 
+#import <StoreKit/StoreKit.h>
+
+#import "Criteo+Internal.h"
+#import "CR_DependencyProvider.h"
 #import "CR_URLOpener.h"
+#import "CR_URLResolver.h"
+#import "CR_SKAdNetworkParameters.h"
+#import "Logging.h"
+#import "UIView+Criteo.h"
+
+@interface CR_URLOpener () <SKStoreProductViewControllerDelegate>
+@property(nonatomic, readonly) CR_DeviceInfo *deviceInfo;
+@property(nonatomic, strong) SKStoreProductViewController *storeKitController;
+@end
 
 @implementation CR_URLOpener
 
@@ -30,6 +43,78 @@
     completion([[UIApplication sharedApplication] openURL:url]);
 #pragma clang diagnostic pop
   }
+}
+
+- (void)openExternalURL:(NSURL *)URL
+    withSKAdNetworkParameters:(CR_SKAdNetworkParameters *_Nullable)parameters
+           fromViewController:(UIViewController *)controller
+                   completion:(CR_URLOpeningCompletion)completion {
+  if (@available(iOS 14, *)) {
+    NSDictionary *loadProductParameters = parameters.toLoadProductParameters;
+    if (loadProductParameters != nil && self.storeKitController == nil) {
+      CR_URLResolver *resolver = [[CR_URLResolver alloc] init];
+      [resolver resolverURL:URL
+                 deviceInfo:self.deviceInfo
+                 resolution:^(CR_URLResolution *resolution) {
+                   switch (resolution.type) {
+                     case CR_URLResolutionStandardUrl:
+                       [self openExternalURL:resolution.URL withCompletion:completion];
+                       break;
+                     case CR_URLResolutionAppStoreUrl:
+                       [self presentStoreKitControllerWithProductParameters:loadProductParameters
+                                                         fromViewController:controller
+                                                             withCompletion:completion];
+                       break;
+                     default:
+                       CLog(@"Cannot open URL");
+                       break;
+                   }
+                 }];
+    } else {
+      [self openExternalURL:URL withCompletion:completion];
+    }
+  } else {
+    [self openExternalURL:URL withCompletion:completion];
+  }
+}
+
+- (void)openExternalURL:(NSURL *)url
+    withSKAdNetworkParameters:(CR_SKAdNetworkParameters *)parameters
+                     fromView:(UIView *)view
+                   completion:(CR_URLOpeningCompletion)completion {
+  [self openExternalURL:url
+      withSKAdNetworkParameters:parameters
+             fromViewController:[view cr_parentViewController]
+                     completion:completion];
+}
+
+#pragma mark - Private
+
+- (CR_DeviceInfo *)deviceInfo {
+  return Criteo.sharedCriteo.dependencyProvider.deviceInfo;
+}
+
+- (void)presentStoreKitControllerWithProductParameters:(NSDictionary *)parameters
+                                    fromViewController:(UIViewController *)controller
+                                        withCompletion:(CR_URLOpeningCompletion)completion {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    self.storeKitController = [[SKStoreProductViewController alloc] init];
+    self.storeKitController.modalPresentationStyle = UIModalPresentationFullScreen;
+    self.storeKitController.delegate = self;
+    [self.storeKitController loadProductWithParameters:parameters completionBlock:nil];
+    [controller presentViewController:self.storeKitController
+                             animated:YES
+                           completion:^{
+                             NSLog(@"Loaded product with parameters: %@", parameters);
+                             completion(YES);
+                           }];
+  });
+}
+
+#pragma mark SKStoreProductViewControllerDelegate
+
+- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
+  self.storeKitController = nil;
 }
 
 @end

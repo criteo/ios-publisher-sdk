@@ -34,4 +34,18 @@
   completion(self.successInCompletion);
 }
 
+- (void)openExternalURL:(NSURL *)url
+    withSKAdNetworkParameters:(CR_SKAdNetworkParameters *)parameters
+           fromViewController:(UIViewController *)controller
+                   completion:(CR_URLOpeningCompletion)completion {
+  [self openExternalURL:url withCompletion:completion];
+}
+
+- (void)openExternalURL:(NSURL *)url
+    withSKAdNetworkParameters:(CR_SKAdNetworkParameters *)parameters
+                     fromView:(UIView *)view
+                   completion:(CR_URLOpeningCompletion)completion {
+  [self openExternalURL:url withCompletion:completion];
+}
+
 @end
