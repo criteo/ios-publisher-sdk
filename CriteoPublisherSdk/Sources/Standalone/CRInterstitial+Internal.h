@@ -36,6 +36,7 @@
 @property(nonatomic, strong) Criteo *criteo;
 @property(nonatomic, strong) CR_InterstitialViewController *viewController;
 @property(nonatomic, readonly) CRInterstitialAdUnit *adUnit;
+@property(nonatomic, strong) UIViewController *rootViewController;
 
 - (instancetype)initWithCriteo:(Criteo *)criteo
                 viewController:(CR_InterstitialViewController *)viewController

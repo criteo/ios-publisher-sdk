@@ -109,7 +109,7 @@
 #pragma mark - Events
 
 - (void)adClicked:(id)control {
-  [self.loader handleClickOnNativeAd:self.nativeAd];
+  [self.loader handleClickOnNativeAd:self.nativeAd fromView:self];
 }
 
 #pragma mark Impression Detection

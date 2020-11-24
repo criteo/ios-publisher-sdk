@@ -245,13 +245,13 @@
 #pragma mark handleClickOnNativeAd
 
 - (void)testHandleClickOnNativeAdCallsDelegateForClick {
-  [self.loader handleClickOnNativeAd:self.nativeAd];
+  [self.loader handleClickOnNativeAd:self.nativeAd fromView:nil];
 
   [self cr_waitForExpectations:@[ self.delegate.didDetectClick ]];
 }
 
 - (void)testHandleClickOnNativeAdCallsDelegateForOpenExternal {
-  [self.loader handleClickOnNativeAd:self.nativeAd];
+  [self.loader handleClickOnNativeAd:self.nativeAd fromView:nil];
 
   [self cr_waitForExpectations:@[ self.delegate.willLeaveApplicationForNativeAd ]];
 }
@@ -260,7 +260,7 @@
   self.urlOpener.successInCompletion = NO;
   self.delegate.willLeaveApplicationForNativeAd.inverted = YES;
 
-  [self.loader handleClickOnNativeAd:self.nativeAd];
+  [self.loader handleClickOnNativeAd:self.nativeAd fromView:nil];
 
   [self cr_waitShortlyForExpectations:@[ self.delegate.willLeaveApplicationForNativeAd ]];
 }

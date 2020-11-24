@@ -20,6 +20,7 @@
 #import "CRNativeLoader.h"
 #import "Criteo.h"
 
+@class UIView;
 @class CR_ThreadManager;
 @protocol CR_URLOpening;
 
@@ -37,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithAdUnit:(CRNativeAdUnit *_Nullable)adUnit criteo:(Criteo *)criteo;
 
 - (void)handleImpressionOnNativeAd:(CRNativeAd *)nativeAd;
-- (void)handleClickOnNativeAd:(CRNativeAd *)nativeAd;
+- (void)handleClickOnNativeAd:(CRNativeAd *)nativeAd fromView:(UIView *_Nullable)view;
 - (void)handleClickOnAdChoiceOfNativeAd:(CRNativeAd *)nativeAd;
 
 - (void)notifyDidDetectImpression;

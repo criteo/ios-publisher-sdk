@@ -203,12 +203,14 @@
         [self.delegate bannerWasClicked:self];
       }
       [self.urlOpener openExternalURL:navigationAction.request.URL
-                       withCompletion:^(BOOL success) {
-                         if (success && [self.delegate respondsToSelector:@selector
-                                                       (bannerWillLeaveApplication:)]) {
-                           [self.delegate bannerWillLeaveApplication:self];
-                         }
-                       }];
+            withSKAdNetworkParameters:nil  // TODO
+                             fromView:self
+                           completion:^(BOOL success) {
+                             if (success && [self.delegate respondsToSelector:@selector
+                                                           (bannerWillLeaveApplication:)]) {
+                               [self.delegate bannerWillLeaveApplication:self];
+                             }
+                           }];
     });
     if (decisionHandler) {
       decisionHandler(WKNavigationActionPolicyCancel);

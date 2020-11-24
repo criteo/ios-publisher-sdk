@@ -96,7 +96,7 @@
 
   [adView sendActionsForControlEvents:UIControlEventTouchUpInside];
 
-  OCMVerify(times(1), [loaderMock handleClickOnNativeAd:ad]);
+  OCMVerify(times(1), [loaderMock handleClickOnNativeAd:ad fromView:[OCMArg any]]);
 }
 
 #pragma mark Impression

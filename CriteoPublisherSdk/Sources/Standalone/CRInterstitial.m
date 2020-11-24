@@ -218,8 +218,10 @@
       [self.delegate interstitialWillAppear:self];
     }
   });
+
+  self.rootViewController = rootViewController;
   self.viewController.modalPresentationStyle = UIModalPresentationFullScreen;
-  [rootViewController
+  [self.rootViewController
       presentViewController:self.viewController
                    animated:YES
                  completion:^{
@@ -261,12 +263,14 @@
         [self.delegate interstitialWasClicked:self];
       }
       [self.urlOpener openExternalURL:navigationAction.request.URL
-                       withCompletion:^(BOOL success) {
-                         if (success && [self.delegate respondsToSelector:@selector
-                                                       (interstitialWillLeaveApplication:)]) {
-                           [self.delegate interstitialWillLeaveApplication:self];
-                         }
-                       }];
+            withSKAdNetworkParameters:nil  // TODO
+                   fromViewController:self.rootViewController
+                           completion:^(BOOL success) {
+                             if (success && [self.delegate respondsToSelector:@selector
+                                                           (interstitialWillLeaveApplication:)]) {
+                               [self.delegate interstitialWillLeaveApplication:self];
+                             }
+                           }];
       [self.viewController dismissViewController];
     });
     if (decisionHandler) {
