@@ -21,11 +21,21 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class CR_SKAdNetworkParameters;
+
 typedef void (^CR_URLOpeningCompletion)(BOOL success);
 
 @protocol CR_URLOpening <NSObject>
 
 - (void)openExternalURL:(NSURL *)url withCompletion:(CR_URLOpeningCompletion)completion;
+- (void)openExternalURL:(NSURL *)url
+    withSKAdNetworkParameters:(CR_SKAdNetworkParameters *_Nullable)parameters
+           fromViewController:(UIViewController *)controller
+                   completion:(CR_URLOpeningCompletion)completion;
+- (void)openExternalURL:(NSURL *)url
+    withSKAdNetworkParameters:(CR_SKAdNetworkParameters *_Nullable)parameters
+                     fromView:(UIView *)view
+                   completion:(CR_URLOpeningCompletion)completion;
 
 @end
 

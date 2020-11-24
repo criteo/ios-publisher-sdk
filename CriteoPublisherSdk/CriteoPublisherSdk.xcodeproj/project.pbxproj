@@ -31,6 +31,7 @@
 		460C0FB6255458900016988D /* CR_URLResolverTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 460C0FB5255458900016988D /* CR_URLResolverTests.m */; };
 		462DCAA42463055100B43A51 /* CR_CreativeViewChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E06534D114E0989D12A1E6B /* CR_CreativeViewChecker.m */; };
 		462DCAA7246316B700B43A51 /* XCTestCase+Criteo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB4E90A239532BA008DE5E3 /* XCTestCase+Criteo.m */; };
+		46328886256EB4AE001494FA /* CR_URLOpenerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46328885256EB4AE001494FA /* CR_URLOpenerTests.m */; };
 		463791BB256D006F00DC65B4 /* CR_SKAdNetworkParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 463791B9256D006F00DC65B4 /* CR_SKAdNetworkParameters.h */; };
 		463791BC256D006F00DC65B4 /* CR_SkAdNetworkParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 463791BA256D006F00DC65B4 /* CR_SkAdNetworkParameters.m */; };
 		463791E8256D19DD00DC65B4 /* CR_SKAdNetworkParametersTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 463791E7256D19C800DC65B4 /* CR_SKAdNetworkParametersTests.m */; };
@@ -359,6 +360,7 @@
 		46240E0B2434BB4F001425AB /* CR_UniqueIdGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_UniqueIdGenerator.h; sourceTree = "<group>"; };
 		46240E0C2434BB4F001425AB /* CR_UniqueIdGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_UniqueIdGenerator.m; sourceTree = "<group>"; };
 		46240E132434BB91001425AB /* CR_UniqueIdGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_UniqueIdGeneratorTests.swift; sourceTree = "<group>"; };
+		46328885256EB4AE001494FA /* CR_URLOpenerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_URLOpenerTests.m; sourceTree = "<group>"; };
 		463791B9256D006F00DC65B4 /* CR_SKAdNetworkParameters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_SKAdNetworkParameters.h; sourceTree = "<group>"; };
 		463791BA256D006F00DC65B4 /* CR_SkAdNetworkParameters.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_SkAdNetworkParameters.m; sourceTree = "<group>"; };
 		463791E7256D19C800DC65B4 /* CR_SKAdNetworkParametersTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_SKAdNetworkParametersTests.m; sourceTree = "<group>"; };
@@ -1182,6 +1184,7 @@
 		7D3E41FF23915B6600BAF673 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				46328885256EB4AE001494FA /* CR_URLOpenerTests.m */,
 				7D3E420023915B6600BAF673 /* LoggingTests.m */,
 				7D3E420123915B6600BAF673 /* NSArray+CriteoTests.m */,
 				7D3E420323915B6600BAF673 /* NSDictionary+CriteoTests.m */,
@@ -2023,6 +2026,7 @@
 				7D321B072472E9B0006CBC4E /* CR_HeaderBiddingDictionaryFunctionalTests.m in Sources */,
 				463791FF256D38A800DC65B4 /* UIView+CriteoTests.m in Sources */,
 				54680B7623969D5C00DB5A37 /* CR_IntegrationsTestBase.m in Sources */,
+				46328886256EB4AE001494FA /* CR_URLOpenerTests.m in Sources */,
 				7D60F459242CE8F4008F6260 /* CR_BidRequestSerializerTests.m in Sources */,
 				462DCAA7246316B700B43A51 /* XCTestCase+Criteo.m in Sources */,
 				46AD5CF5245B003D00199315 /* CRNativeLoaderTests.m in Sources */,
