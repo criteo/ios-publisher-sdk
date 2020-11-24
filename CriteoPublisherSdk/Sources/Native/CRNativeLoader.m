@@ -97,16 +97,18 @@
   [self notifyDidDetectImpression];
 }
 
-- (void)handleClickOnNativeAd:(CRNativeAd *)nativeAd {
+- (void)handleClickOnNativeAd:(CRNativeAd *)nativeAd fromView:(UIView *)view {
   [self notifyDidDetectClick];
 
   NSURL *url = [NSURL cr_URLWithStringOrNil:nativeAd.product.clickUrl];
   [self.urlOpener openExternalURL:url
-                   withCompletion:^(BOOL success) {
-                     if (success) {
-                       [self notifyWillLeaveApplicationForNativeAd];
-                     }
-                   }];
+        withSKAdNetworkParameters:nil  // TODO
+                         fromView:view
+                       completion:^(BOOL success) {
+                         if (success) {
+                           [self notifyWillLeaveApplicationForNativeAd];
+                         }
+                       }];
 }
 
 - (void)handleClickOnAdChoiceOfNativeAd:(CRNativeAd *)nativeAd {
