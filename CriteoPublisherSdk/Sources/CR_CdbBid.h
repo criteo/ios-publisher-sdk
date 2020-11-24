@@ -22,6 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CR_NativeAssets.h"
+#import "CR_SKAdNetworkParameters.h"
 
 @interface CR_CdbBid : NSObject <NSCopying>
 
@@ -37,6 +38,7 @@
 @property(readonly, nonatomic) NSString *impressionId;
 @property(readonly, nonatomic) NSDate *insertTime;
 @property(readonly, copy, nonatomic) CR_NativeAssets *nativeAssets;
+@property(readonly, copy, nonatomic) CR_SKAdNetworkParameters *skAdNetworkParameters;
 @property(readonly) BOOL isValid;
 @property(nonatomic, assign, readonly) BOOL isInSilenceMode;
 
