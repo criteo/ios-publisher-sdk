@@ -7,7 +7,7 @@ Make sure to install bundler and then run `./scripts/setup.sh` that will install
 Then use bundler to run fastlane actions such as `bundle exec fastlane test`.
 
 ## General practices
-Follow the Robert Martin suggestion about [Clean Code](https://gist.github.com/wojteklu/73c6914cc446146b8b533c0988cf8d29).
+We recommend following [Clean Code](https://gist.github.com/wojteklu/73c6914cc446146b8b533c0988cf8d29) principles.
 
 ## Coding Style
 To ensure code style consistency, it must respect the following:
