@@ -25,11 +25,17 @@
 
 #pragma mark - Lifecycle
 
-/* TODO EE-1255
+// TODO EE-1255: Final CDB schema + tests
 - (instancetype)initWithDict:(NSDictionary *)dict {
-  return [self initWithNetworkId:...]
+  return [self initWithNetworkId:dict[@"network"]
+                         version:dict[@"version"]
+                      campaignId:@([dict[@"campaign"] intValue])
+                    iTunesItemId:@([dict[@"itunes_item"] intValue])
+                           nonce:[[NSUUID alloc] initWithUUIDString:dict[@"nonce"]]
+                       timestamp:@([dict[@"timestamp"] longLongValue])
+                     sourceAppId:@([dict[@"source_app"] intValue])
+                       signature:dict[@"signature"]];
 }
-*/
 
 - (instancetype)initWithNetworkId:(NSString *)networkId
                           version:(NSString *)version
