@@ -48,4 +48,12 @@
   }
 }
 
+- (UIViewController *)cr_topController {
+  UIViewController *topController = self.rootViewController;
+  while (topController.presentedViewController) {
+    topController = topController.presentedViewController;
+  }
+  return topController;
+}
+
 @end
