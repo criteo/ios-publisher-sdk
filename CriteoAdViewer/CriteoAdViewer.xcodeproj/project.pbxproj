@@ -19,12 +19,10 @@
 		198CDDAB5CB799E07E1DC055 /* AdFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198CD1615965A5E039286CB4 /* AdFormat.swift */; };
 		1BA1F5FDF6FEA87C9F2FAC25 /* libPods-CriteoAdViewer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 57CFA2BE9A79C9EB66122CD1 /* libPods-CriteoAdViewer.a */; };
 		404AC94B219650FF008C6267 /* GoogleDFPTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 404AC94A219650FF008C6267 /* GoogleDFPTableViewController.m */; };
-		4077EBA9218BC48300C41E68 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBA8218BC48300C41E68 /* AppDelegate.m */; };
 		4077EBAC218BC48300C41E68 /* HomePageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBAB218BC48300C41E68 /* HomePageTableViewController.m */; };
 		4077EBAF218BC48300C41E68 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4077EBAD218BC48300C41E68 /* Main.storyboard */; };
 		4077EBB1218BC48300C41E68 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4077EBB0218BC48300C41E68 /* Assets.xcassets */; };
 		4077EBB4218BC48300C41E68 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4077EBB2218BC48300C41E68 /* LaunchScreen.storyboard */; };
-		4077EBB7218BC48300C41E68 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBB6218BC48300C41E68 /* main.m */; };
 		4077EBCC218BC48400C41E68 /* AdViewerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4077EBCB218BC48400C41E68 /* AdViewerUITests.m */; };
 		46151AB2240EC74100D514BE /* LogEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46151AB1240EC74100D514BE /* LogEntryViewController.swift */; };
 		46151AB5240FB8A500D514BE /* RequestLogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 46151AB4240FB8A500D514BE /* RequestLogEntry.m */; };
@@ -32,6 +30,7 @@
 		462A60662417A6C100E36D33 /* GoogleDFPLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 462A60652417A6C100E36D33 /* GoogleDFPLogger.m */; };
 		462A60732417DB5000E36D33 /* AdViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462A60722417DB5000E36D33 /* AdViewerViewController.swift */; };
 		462A60762417E56900E36D33 /* AdViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462A60752417E56900E36D33 /* AdViewBuilder.swift */; };
+		46505306256FE544007D9CE7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46505305256FE544007D9CE7 /* AppDelegate.swift */; };
 		467A28E924168A1B00CEF5C7 /* EventLogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 467A28E824168A1B00CEF5C7 /* EventLogEntry.m */; };
 		4687264E240E9D7E0090489E /* LogTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4687264D240E9D7E0090489E /* LogTableViewController.swift */; };
 		46872655240EA31B0090489E /* LogManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 46872654240EA31B0090489E /* LogManager.m */; };
@@ -88,15 +87,12 @@
 		404AC949219650FF008C6267 /* GoogleDFPTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleDFPTableViewController.h; sourceTree = "<group>"; };
 		404AC94A219650FF008C6267 /* GoogleDFPTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoogleDFPTableViewController.m; sourceTree = "<group>"; };
 		4077EBA4218BC48300C41E68 /* CriteoAdViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CriteoAdViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		4077EBA7218BC48300C41E68 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		4077EBA8218BC48300C41E68 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		4077EBAA218BC48300C41E68 /* HomePageTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomePageTableViewController.h; sourceTree = "<group>"; };
 		4077EBAB218BC48300C41E68 /* HomePageTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomePageTableViewController.m; sourceTree = "<group>"; };
 		4077EBAE218BC48300C41E68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4077EBB0218BC48300C41E68 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4077EBB3218BC48300C41E68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4077EBB5218BC48300C41E68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4077EBB6218BC48300C41E68 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4077EBC7218BC48400C41E68 /* CriteoAdViewerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CriteoAdViewerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4077EBCB218BC48400C41E68 /* AdViewerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdViewerUITests.m; sourceTree = "<group>"; };
 		4077EBCD218BC48400C41E68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -110,6 +106,7 @@
 		462A60652417A6C100E36D33 /* GoogleDFPLogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoogleDFPLogger.m; sourceTree = "<group>"; };
 		462A60722417DB5000E36D33 /* AdViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdViewerViewController.swift; sourceTree = "<group>"; };
 		462A60752417E56900E36D33 /* AdViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdViewBuilder.swift; sourceTree = "<group>"; };
+		46505305256FE544007D9CE7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4677506524F8062E00375263 /* CriteoAdViewerUITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CriteoAdViewerUITests.xctestplan; sourceTree = "<group>"; };
 		467A28E724168A1B00CEF5C7 /* EventLogEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventLogEntry.h; sourceTree = "<group>"; };
 		467A28E824168A1B00CEF5C7 /* EventLogEntry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventLogEntry.m; sourceTree = "<group>"; };
@@ -207,13 +204,11 @@
 				4077EBD9218CB5C000C41E68 /* Splash */,
 				4077EBDA218CB5E700C41E68 /* HomePage */,
 				4687264B240E9A690090489E /* Logs */,
-				4077EBA7218BC48300C41E68 /* AppDelegate.h */,
-				4077EBA8218BC48300C41E68 /* AppDelegate.m */,
+				4687264C240E9D7E0090489E /* AdViewer-Bridging-Header.h */,
+				46505305256FE544007D9CE7 /* AppDelegate.swift */,
 				4077EBB0218BC48300C41E68 /* Assets.xcassets */,
 				4077EBAD218BC48300C41E68 /* Main.storyboard */,
 				4077EBB5218BC48300C41E68 /* Info.plist */,
-				4077EBB6218BC48300C41E68 /* main.m */,
-				4687264C240E9D7E0090489E /* AdViewer-Bridging-Header.h */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -535,9 +530,7 @@
 				46151AB8240FC10F00D514BE /* ResponseLogEntry.m in Sources */,
 				46151AB5240FB8A500D514BE /* RequestLogEntry.m in Sources */,
 				7D03F10923F194D800CB5D8B /* CRVNativeAdViewController.m in Sources */,
-				4077EBB7218BC48300C41E68 /* main.m in Sources */,
 				54B579152369CE5C004DF616 /* IntegrationBaseTableViewController.m in Sources */,
-				4077EBA9218BC48300C41E68 /* AppDelegate.m in Sources */,
 				404AC94B219650FF008C6267 /* GoogleDFPTableViewController.m in Sources */,
 				462A60662417A6C100E36D33 /* GoogleDFPLogger.m in Sources */,
 				462A60762417E56900E36D33 /* AdViewBuilder.swift in Sources */,
@@ -545,6 +538,7 @@
 				54B578F223682A9B004DF616 /* StandaloneTableViewController.m in Sources */,
 				198CD039922C1F7B3CDF8314 /* MopubLogger.m in Sources */,
 				462A60732417DB5000E36D33 /* AdViewerViewController.swift in Sources */,
+				46505306256FE544007D9CE7 /* AppDelegate.swift in Sources */,
 				198CD402321085699A33FEF8 /* StandaloneLogger.m in Sources */,
 				198CDA414DD3208D6D93F1EC /* AdConfig.swift in Sources */,
 				198CD052283377223FCC725E /* GoogleAdViewBuilder.swift in Sources */,
