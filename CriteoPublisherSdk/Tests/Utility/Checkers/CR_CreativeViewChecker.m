@@ -37,6 +37,8 @@
 #import "CR_CdbBidBuilder.h"
 #import "OCPartialMockObject.h"
 
+static NSString *appStoreDisplay = @"https://localhost:9099/display/app-store";
+
 @implementation CR_CreativeViewChecker
 
 - (instancetype)initWithAdUnit:(CRAdUnit *)adUnit criteo:(Criteo *)criteo {
@@ -57,7 +59,8 @@
   return self;
 }
 
-- (void)injectBidWithExpectedCreativeUrl:(NSString *)creativeUrl {
+- (void)injectBidWithExpectedCreativeUrl:(NSString *)creativeUrl
+               withSkAdNetworkParameters:(BOOL)withSkAdNetworkParameters {
   self.expectedCreativeUrl = creativeUrl;
   CR_DependencyProvider *dependencyProvider = self.criteo.dependencyProvider;
 
@@ -65,6 +68,16 @@
   CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:self.adUnit];
   CR_CdbBid *bid =
       CR_CdbBidBuilder.new.adUnit(cacheAdUnit).cpm(@"15.00").displayUrl(creativeUrl).build;
+  if (withSkAdNetworkParameters) {
+    bid.skAdNetworkParameters = [[CR_SKAdNetworkParameters alloc] initWithNetworkId:@"networkId"
+                                                                            version:@"2.0"
+                                                                         campaignId:@1
+                                                                       iTunesItemId:@2
+                                                                              nonce:[NSUUID UUID]
+                                                                          timestamp:@3
+                                                                        sourceAppId:@4
+                                                                          signature:@"signature"];
+  }
   dependencyProvider.cacheManager.bidCache[cacheAdUnit] = bid;
 
   // Inject bid in apiHandler response for live bidding strategy
@@ -80,6 +93,14 @@
   OCMStub(response.cdbBids).andReturn(@[ bid ]);
   OCMStub([apiHandler cdbResponseWithData:[OCMArg any]]).andReturn(response);
   dependencyProvider.apiHandler = apiHandler;
+}
+
+- (void)injectBidWithExpectedCreativeUrl:(NSString *)creativeUrl {
+  [self injectBidWithExpectedCreativeUrl:creativeUrl withSkAdNetworkParameters:NO];
+}
+
+- (void)injectBidWithAppStoreClickUrl {
+  [self injectBidWithExpectedCreativeUrl:appStoreDisplay withSkAdNetworkParameters:YES];
 }
 
 - (void)dealloc {
@@ -143,7 +164,7 @@
              criteo:self.criteo
             webView:[[WKWebView alloc] initWithFrame:CGRectMake(.0, .0, size.width, size.height)]
              adUnit:adUnit
-          urlOpener:[[CR_URLOpenerMock alloc] init]];
+          urlOpener:[[CR_URLOpener alloc] init]];
 
   _bannerView.delegate = self;
   _bannerView.backgroundColor = UIColor.orangeColor;
@@ -180,6 +201,29 @@
 - (void)checkViewAndFulfillExpectation {
   WKWebView *webview = [self.uiWindow testing_findFirstWKWebView];
   [self checkViewAndFulfillExpectation:webview];
+}
+
+- (void)clickUrl:(WKWebView *)webview {
+  [self.uiWindow makeKeyAndVisible];
+
+  [webview testing_evaluateJavaScript:@"(function() {\n"
+                                       "  var elements = document.getElementsByTagName('a');\n"
+                                       "  if (elements.length != 1) {\n"
+                                       "    return false;\n"
+                                       "  }\n"
+                                       "  elements[0].click();\n"
+                                       "  return true;\n"
+                                       "})();"
+                    validationHandler:^BOOL(NSString *htmlContent, NSError *error) {
+                      return YES;
+                    }
+                    completionHandler:^(BOOL success){
+                    }];
+}
+
+- (void)clickUrl {
+  WKWebView *webview = [self.uiWindow testing_findFirstWKWebView];
+  [self clickUrl:webview];
 }
 
 @end

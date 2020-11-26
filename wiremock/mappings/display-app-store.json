@@ -1,0 +1,10 @@
+{
+  "request" : {
+    "url" : "/display/app-store",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "(function(){\nvar s = \"\";\ns += \"<\"+\"a href=\\\"https://localhost:9099/redirect/3/2/1/appstore-url\\\">\\n\";\ns += \"  <\"+\"img width='320' height='50' src=\\\"https://publisherdirect.criteo.com/publishertag/preprodtest/creative_cas.png\\\"/>\\n\";\ns += \"<\"+\"/a>\\n\";\ns += \"\\n\";\ndocument.write(s);})();"
+  }
+}

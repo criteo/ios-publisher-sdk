@@ -46,4 +46,7 @@
 
 - (void)injectBidWithExpectedCreativeUrl:(NSString *)creativeUrl;
 
+- (void)injectBidWithAppStoreClickUrl;
+- (void)clickUrl;
+
 @end
