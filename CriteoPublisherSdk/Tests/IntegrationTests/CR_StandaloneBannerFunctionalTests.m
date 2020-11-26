@@ -21,7 +21,9 @@
 #import "CR_IntegrationsTestBase.h"
 #import "CR_TestAdUnits.h"
 #import "CRBannerView.h"
+#import "UIWindow+Testing.h"
 #import "XCTestCase+Criteo.h"
+#import "XCTestExpectation+Criteo.h"
 #import "CR_CreativeViewChecker.h"
 
 static NSString *creativeUrl1 = @"www.criteo.com";
@@ -101,6 +103,27 @@ static NSString *creativeUrl2 = @"www.apple.com";
   [viewChecker injectBidWithExpectedCreativeUrl:creativeUrl2];
   [viewChecker.bannerView loadAdWithContext:self.contextData];
   [self cr_waitForExpectations:@[ viewChecker.adCreativeRenderedExpectation ]];
+}
+
+// Note this test relies on WireMock, for more information see wiremock/wiremock.md
+- (void)test_givenBannerWithAppStoreClickUrl_whenClickUrl_thenOpenStoreKitController {
+  CRBannerAdUnit *banner = [CR_TestAdUnits preprodBanner320x50];
+  [self initCriteoWithAdUnits:@[ banner ]];
+  CR_CreativeViewChecker *viewChecker = [[CR_CreativeViewChecker alloc] initWithAdUnit:banner
+                                                                                criteo:self.criteo];
+
+  [viewChecker injectBidWithAppStoreClickUrl];
+  [viewChecker.bannerView loadAdWithContext:self.contextData];
+
+  [self cr_waitForExpectations:@[ viewChecker.adCreativeRenderedExpectation ]];
+
+  [viewChecker clickUrl];
+
+  XCTestExpectation *storeExpectation = [XCTestExpectation expectationWithPollingBlock:^BOOL {
+    UIViewController *topController = viewChecker.uiWindow.cr_topController;
+    return [NSStringFromClass(topController.class) isEqualToString:@"SKStoreProductViewController"];
+  }];
+  [self cr_waitForExpectations:@[ storeExpectation ]];
 }
 
 - (CRContextData *)contextData {

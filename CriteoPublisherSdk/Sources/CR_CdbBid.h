@@ -38,7 +38,8 @@
 @property(readonly, nonatomic) NSString *impressionId;
 @property(readonly, nonatomic) NSDate *insertTime;
 @property(readonly, copy, nonatomic) CR_NativeAssets *nativeAssets;
-@property(readonly, copy, nonatomic) CR_SKAdNetworkParameters *skAdNetworkParameters;
+// TODO EE-1254 make this readonly, set from init
+@property(copy, nonatomic) CR_SKAdNetworkParameters *skAdNetworkParameters;
 @property(readonly) BOOL isValid;
 @property(nonatomic, assign, readonly) BOOL isInSilenceMode;
 
