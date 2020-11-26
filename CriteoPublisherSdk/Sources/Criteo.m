@@ -31,6 +31,7 @@
 #import "CR_DependencyProvider.h"
 #import "CR_IntegrationRegistry.h"
 #import "CR_UserDataHolder.h"
+#import "CR_URLOpener.h"
 
 @implementation Criteo
 
@@ -184,6 +185,18 @@
 
 - (CR_ThreadManager *)threadManager {
   return self.dependencyProvider.threadManager;
+}
+
+#pragma mark - Intended for manual tests
+
++ (void)loadProductWithParameters:(NSDictionary *)parameters
+               fromViewController:(UIViewController *)controller {
+  CR_URLOpener *opener = [[CR_URLOpener alloc] init];
+  [opener openExternalURL:[NSURL URLWithString:@"https://apps.apple.com"]
+      withSKAdNetworkParameters:[[CR_SKAdNetworkParameters alloc] initWithDict:parameters]
+             fromViewController:controller
+                     completion:^(BOOL success){
+                     }];
 }
 
 @end
