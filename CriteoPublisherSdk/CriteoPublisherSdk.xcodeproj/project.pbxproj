@@ -45,6 +45,7 @@
 		4646EF192514CEF2009E4D16 /* CriteoPublisherSdk-Standalone.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 4646EF182514CEF2009E4D16 /* CriteoPublisherSdk-Standalone.xctestplan */; };
 		464D6FB925480925004502C4 /* SKAdNetworkInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464D6FB825480925004502C4 /* SKAdNetworkInfo.swift */; };
 		464D6FC1254812E5004502C4 /* SKAdNetworkInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464D6FC0254812E5004502C4 /* SKAdNetworkInfoTests.swift */; };
+		465052E6256FB4F3007D9CE7 /* XCTestExpectation+Criteo.m in Sources */ = {isa = PBXBuildFile; fileRef = 465052E5256FB4F3007D9CE7 /* XCTestExpectation+Criteo.m */; };
 		46507F80246C2F6900B1DA78 /* CRNativeAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 46507F7D246C2F6900B1DA78 /* CRNativeAdView.m */; };
 		46507F82246C2F6900B1DA78 /* CRNativeAdView.h in Headers */ = {isa = PBXBuildFile; fileRef = 46507F7E246C2F6900B1DA78 /* CRNativeAdView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		465D3CF92434D3D500BD36AC /* CR_UniqueIdGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46240E132434BB91001425AB /* CR_UniqueIdGeneratorTests.swift */; };
@@ -374,6 +375,8 @@
 		4646EF182514CEF2009E4D16 /* CriteoPublisherSdk-Standalone.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "CriteoPublisherSdk-Standalone.xctestplan"; sourceTree = "<group>"; };
 		464D6FB825480925004502C4 /* SKAdNetworkInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKAdNetworkInfo.swift; sourceTree = "<group>"; };
 		464D6FC0254812E5004502C4 /* SKAdNetworkInfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKAdNetworkInfoTests.swift; sourceTree = "<group>"; };
+		465052E4256FB4F3007D9CE7 /* XCTestExpectation+Criteo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XCTestExpectation+Criteo.h"; sourceTree = "<group>"; };
+		465052E5256FB4F3007D9CE7 /* XCTestExpectation+Criteo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "XCTestExpectation+Criteo.m"; sourceTree = "<group>"; };
 		46507F7D246C2F6900B1DA78 /* CRNativeAdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdView.m; sourceTree = "<group>"; };
 		46507F7E246C2F6900B1DA78 /* CRNativeAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNativeAdView.h; sourceTree = "<group>"; };
 		465E9167246C406700227D29 /* CR_AdChoice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_AdChoice.h; sourceTree = "<group>"; };
@@ -1285,6 +1288,8 @@
 				7D523C9123E1CEBA00E79C88 /* CR_ThreadManager+Waiter.m */,
 				5E065FB707B9213686B66F5F /* Criteo+Testing.h */,
 				5E0653DCED07A1A1895CB076 /* Criteo+Testing.m */,
+				465052E4256FB4F3007D9CE7 /* XCTestExpectation+Criteo.h */,
+				465052E5256FB4F3007D9CE7 /* XCTestExpectation+Criteo.m */,
 				7DB899D92400126800948230 /* NSString+GDPR.h */,
 				7DB899DA2400126800948230 /* NSString+GDPR.m */,
 				7D0441CD2428EBA600D36C65 /* NSString+APIKeys.h */,
@@ -2075,6 +2080,7 @@
 				465D3CF92434D3D500BD36AC /* CR_UniqueIdGeneratorTests.swift in Sources */,
 				7DB4E9132397AB6B008DE5E3 /* CR_RegistrationFunctionalTests.m in Sources */,
 				7D0FD304242E0CCC007154E0 /* CR_BidRequestSerializerSwiftTests.swift in Sources */,
+				465052E6256FB4F3007D9CE7 /* XCTestExpectation+Criteo.m in Sources */,
 				7D3E423F23915B6600BAF673 /* CR_CdbResponseTests.m in Sources */,
 				7D3E423023915B6600BAF673 /* NSDictionary+CriteoTests.m in Sources */,
 				54FE074323FEED2C0035A026 /* CR_FeedbackMessageTests.swift in Sources */,
