@@ -44,9 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Lifecycle
 
-/* TODO EE-1255
 - (instancetype)initWithDict:(NSDictionary *)dict;
-*/
 - (instancetype)initWithNetworkId:(NSString *)networkId
                           version:(NSString *)version
                        campaignId:(NSNumber *)campaignId
