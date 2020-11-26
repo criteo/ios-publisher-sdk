@@ -39,4 +39,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     userDefaults.removeObject(forKey: "IABConsent_ConsentString")
     userDefaults.removeObject(forKey: "IABConsent_ParsedVendorConsents")
   }
+
+  func application(
+    _ application: UIApplication,
+    open url: URL,
+    options: [UIApplication.OpenURLOptionsKey: Any] = [:]
+  ) -> Bool {
+    guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true),
+      let action = components.host,
+      let queryItems = components.queryItems
+    else {
+      print("Invalid URL")
+      return false
+    }
+    let parameters = Dictionary(uniqueKeysWithValues: queryItems.map({ ($0.name, $0.value) }))
+    switch action {
+    case "loadProduct":
+      Criteo.loadProduct(
+        withParameters: parameters as [AnyHashable: Any], from: window?.rootViewController)
+    default: print("Invalid Action")
+    }
+    return false
+  }
 }
