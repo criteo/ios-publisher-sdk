@@ -19,14 +19,26 @@
 
 #import "CR_InternalContextProvider.h"
 
+#import <sys/utsname.h>
+
 @implementation CR_InternalContextProvider
 
+
 - (nullable NSString *)fetchDeviceMake {
-  return nil;  // TODO EE-1315
+  return @"Apple";
 }
 
 - (nullable NSString *)fetchDeviceModel {
-  return nil;  // TODO EE-1315
+  static NSString *model = nil;
+  static dispatch_once_t once;
+
+  dispatch_once(&once, ^{
+    struct utsname name;
+    if (uname(&name) == 0) {
+      model = [NSString stringWithUTF8String:name.machine];
+    }
+  });
+  return model;
 }
 
 - (CR_DeviceConnectionType)fetchDeviceConnectionType {
