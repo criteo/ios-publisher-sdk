@@ -74,6 +74,8 @@
 		46813BEE2472E39000CD8E59 /* CRMediaDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 46813BEC2472E39000CD8E59 /* CRMediaDownloader.h */; };
 		46813BF32472EA5D00CD8E59 /* CR_DefaultMediaDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 46813BF12472EA5D00CD8E59 /* CR_DefaultMediaDownloader.m */; };
 		469301CA24740289006F8D82 /* CR_ImpressionDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 469301C824740289006F8D82 /* CR_ImpressionDetector.m */; };
+		4697FF5125711A960060D11D /* CR_Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 4697FF4F25711A960060D11D /* CR_Reachability.h */; };
+		4697FF5225711A960060D11D /* CR_Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 4697FF5025711A960060D11D /* CR_Reachability.m */; };
 		46AD5CF5245B003D00199315 /* CRNativeLoaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46AD5CF4245B003D00199315 /* CRNativeLoaderTests.m */; };
 		46B6115724C9DBD4002896F8 /* CRConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 46E8A70324B74D69007103B9 /* CRConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		46B9780E243782A50061FC24 /* CR_UniqueIdGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 46240E0C2434BB4F001425AB /* CR_UniqueIdGenerator.m */; };
@@ -408,6 +410,8 @@
 		46813BF12472EA5D00CD8E59 /* CR_DefaultMediaDownloader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_DefaultMediaDownloader.m; sourceTree = "<group>"; };
 		469301C724740289006F8D82 /* CR_ImpressionDetector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_ImpressionDetector.h; sourceTree = "<group>"; };
 		469301C824740289006F8D82 /* CR_ImpressionDetector.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_ImpressionDetector.m; sourceTree = "<group>"; };
+		4697FF4F25711A960060D11D /* CR_Reachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_Reachability.h; sourceTree = "<group>"; };
+		4697FF5025711A960060D11D /* CR_Reachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_Reachability.m; sourceTree = "<group>"; };
 		46AD5CF4245B003D00199315 /* CRNativeLoaderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNativeLoaderTests.m; sourceTree = "<group>"; };
 		46BC395F246EDA5200F0B2F1 /* CRNativeAdViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdViewTests.m; sourceTree = "<group>"; };
 		46C87E6B24405B2A0022978C /* CR_DefaultFileManipulatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_DefaultFileManipulatorTests.swift; sourceTree = "<group>"; };
@@ -858,6 +862,8 @@
 				E1F2738221B9B01200A2FBFA /* CR_NetworkManager.h */,
 				E1F2738321B9B58900A2FBFA /* CR_NetworkManager.m */,
 				25022DE4220A3F0300FF8ACE /* CR_NetworkManagerDelegate.h */,
+				4697FF4F25711A960060D11D /* CR_Reachability.h */,
+				4697FF5025711A960060D11D /* CR_Reachability.m */,
 				4671BEB625599E2B0097D249 /* CR_URLRequest.h */,
 				4671BEB725599E2B0097D249 /* CR_URLRequest.m */,
 			);
@@ -1583,6 +1589,7 @@
 				53BDFDC622EB9F7C0051EB40 /* CR_BidManagerHelper.h in Headers */,
 				543442FC2285F4A600805343 /* CRBannerViewDelegate.h in Headers */,
 				25BD5B682220D1D2004DE311 /* Criteo.h in Headers */,
+				4697FF5125711A960060D11D /* CR_Reachability.h in Headers */,
 				4672E1E5251CDE02009F39EF /* Cassette.h in Headers */,
 				5397C0B522A0AA8500BC72FE /* CRInterstitialAdUnit.h in Headers */,
 				7DDEF65E242CE06300BC129F /* CR_GdprSerializer.h in Headers */,
@@ -1951,6 +1958,7 @@
 				25BD5B662220D1C6004DE311 /* CR_ConfigManager.m in Sources */,
 				65E3A5742270CB7A004156E9 /* CR_InterstitialViewController.m in Sources */,
 				DF367CE5233087740044807B /* NSURL+Criteo.m in Sources */,
+				4697FF5225711A960060D11D /* CR_Reachability.m in Sources */,
 				7DDEF660242CE06300BC129F /* CR_GdprSerializer.m in Sources */,
 				4671BEB925599E2B0097D249 /* CR_URLRequest.m in Sources */,
 				53CA0F8122AAE3C20098F96C /* CRBid.m in Sources */,
