@@ -20,9 +20,31 @@
 #import "CR_InternalContextProvider.h"
 
 #import <sys/utsname.h>
+#import <CoreTelephony/CTTelephonyNetworkInfo.h>
+
+#import "CR_Reachability.h"
+
+@interface CR_InternalContextProvider ()
+@property(nonatomic, strong) CR_Reachability *reachability;
+@end
 
 @implementation CR_InternalContextProvider
 
+#pragma mark - Lifecycle
+
+- (instancetype)init {
+  if (self = [super init]) {
+    self.reachability = [CR_Reachability reachabilityForInternetConnection];
+    [self.reachability startNotifier];
+  }
+  return self;
+}
+
+- (void)dealloc {
+  [self.reachability stopNotifier];
+}
+
+#pragma mark - Public methods
 
 - (nullable NSString *)fetchDeviceMake {
   return @"Apple";
@@ -42,7 +64,43 @@
 }
 
 - (CR_DeviceConnectionType)fetchDeviceConnectionType {
-  return CR_DeviceConnectionTypeUnknown;  // TODO EE-1315
+  CRNetworkStatus status = [self.reachability currentReachabilityStatus];
+
+  if (status == NotReachable) {
+    return CR_DeviceConnectionTypeUnknown;
+  } else if (status == ReachableViaWiFi) {
+    return CR_DeviceConnectionTypeWifi;
+  } else if (status == ReachableViaWWAN) {
+    static CTTelephonyNetworkInfo *networkInfo = nil;
+    if (networkInfo == nil) {
+      networkInfo = [[CTTelephonyNetworkInfo alloc] init];
+    }
+    NSString *accessTechnology = networkInfo.currentRadioAccessTechnology;
+    if ([accessTechnology isEqualToString:CTRadioAccessTechnologyGPRS] ||
+        [accessTechnology isEqualToString:CTRadioAccessTechnologyEdge] ||
+        [accessTechnology isEqualToString:CTRadioAccessTechnologyCDMA1x] ||
+        [accessTechnology isEqualToString:CTRadioAccessTechnologyeHRPD]) {
+      return CR_DeviceConnectionTypeCellular2G;
+    } else if ([accessTechnology isEqualToString:CTRadioAccessTechnologyWCDMA] ||
+               [accessTechnology isEqualToString:CTRadioAccessTechnologyHSDPA] ||
+               [accessTechnology isEqualToString:CTRadioAccessTechnologyHSUPA] ||
+               [accessTechnology isEqualToString:CTRadioAccessTechnologyCDMAEVDORev0] ||
+               [accessTechnology isEqualToString:CTRadioAccessTechnologyCDMAEVDORevA] ||
+               [accessTechnology isEqualToString:CTRadioAccessTechnologyCDMAEVDORevB]) {
+      return CR_DeviceConnectionTypeCellular3G;
+    } else if ([accessTechnology isEqualToString:CTRadioAccessTechnologyLTE]) {
+      return CR_DeviceConnectionTypeCellular4G;
+    }
+    if (@available(iOS 14, *)) {
+      if ([accessTechnology isEqualToString:CTRadioAccessTechnologyNRNSA] ||
+          [accessTechnology isEqualToString:CTRadioAccessTechnologyNR]) {
+        return CR_DeviceConnectionTypeCellular5G;
+      }
+    }
+
+    return CR_DeviceConnectionTypeCellularUnknown;
+  }
+  return CR_DeviceConnectionTypeUnknown;
 }
 
 - (nullable NSString *)fetchUserCountry {
