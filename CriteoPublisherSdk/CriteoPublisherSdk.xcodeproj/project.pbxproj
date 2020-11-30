@@ -80,6 +80,8 @@
 		46B6115724C9DBD4002896F8 /* CRConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 46E8A70324B74D69007103B9 /* CRConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		46B9780E243782A50061FC24 /* CR_UniqueIdGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 46240E0C2434BB4F001425AB /* CR_UniqueIdGenerator.m */; };
 		46BC3960246EDA5200F0B2F1 /* CRNativeAdViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46BC395F246EDA5200F0B2F1 /* CRNativeAdViewTests.m */; };
+		46C403D2257542BA00E5179C /* CR_Session.h in Headers */ = {isa = PBXBuildFile; fileRef = 46C403D0257542BA00E5179C /* CR_Session.h */; };
+		46C403D3257542BA00E5179C /* CR_Session.m in Sources */ = {isa = PBXBuildFile; fileRef = 46C403D1257542BA00E5179C /* CR_Session.m */; };
 		46C49B722472D7E3000B0D04 /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25BD5B572220D16D004DE311 /* CriteoPublisherSdk.framework */; };
 		46C87E6C24405B2A0022978C /* CR_DefaultFileManipulatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C87E6B24405B2A0022978C /* CR_DefaultFileManipulatorTests.swift */; };
 		46D5C3C3245AD3B200818D37 /* CRNativeLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 4668FEEF2459BD1000D207AE /* CRNativeLoader.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -414,6 +416,8 @@
 		4697FF5025711A960060D11D /* CR_Reachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_Reachability.m; sourceTree = "<group>"; };
 		46AD5CF4245B003D00199315 /* CRNativeLoaderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNativeLoaderTests.m; sourceTree = "<group>"; };
 		46BC395F246EDA5200F0B2F1 /* CRNativeAdViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdViewTests.m; sourceTree = "<group>"; };
+		46C403D0257542BA00E5179C /* CR_Session.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_Session.h; sourceTree = "<group>"; };
+		46C403D1257542BA00E5179C /* CR_Session.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_Session.m; sourceTree = "<group>"; };
 		46C87E6B24405B2A0022978C /* CR_DefaultFileManipulatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_DefaultFileManipulatorTests.swift; sourceTree = "<group>"; };
 		46E8A70324B74D69007103B9 /* CRConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRConstants.h; sourceTree = "<group>"; };
 		46F05AC9254880880009DCA6 /* skanValid.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = skanValid.bundle; sourceTree = "<group>"; };
@@ -1422,6 +1426,8 @@
 			children = (
 				C07AB6B9B8574FF066090C64 /* CR_InternalContextProvider.h */,
 				C07AB8E611CB1C503E117386 /* CR_InternalContextProvider.m */,
+				46C403D0257542BA00E5179C /* CR_Session.h */,
+				46C403D1257542BA00E5179C /* CR_Session.m */,
 				C07ABA1B386190CDE12F3853 /* CR_UserDataHolder.h */,
 				C07AB975B941355236DA96C7 /* CR_UserDataHolder.m */,
 				C07ABE9C517574E8D3DBE4EC /* CRContextData+Internal.h */,
@@ -1610,6 +1616,7 @@
 				7D00672F243CD6F900E5D50D /* CR_CASObjectQueue+ArraySet.h in Headers */,
 				DF367C8A232974210044807B /* CRNativeAdUnit.h in Headers */,
 				7D4B4A8B24191E8E00E1E241 /* CR_ApiQueryKeys.h in Headers */,
+				46C403D2257542BA00E5179C /* CR_Session.h in Headers */,
 				25BD5B5B2220D16D004DE311 /* CriteoPublisherSdk.h in Headers */,
 				7D51ABFE23B0EDD900540094 /* CR_Assert.h in Headers */,
 				5472877E2411043900B62235 /* CR_FeedbackFileManager.h in Headers */,
@@ -1905,6 +1912,7 @@
 				DF367CC3232DC53A0044807B /* NSDictionary+Criteo.m in Sources */,
 				5472877D2411043700B62235 /* CR_DefaultFileManipulator.m in Sources */,
 				25BD5B5F2220D183004DE311 /* CR_AppEvents.m in Sources */,
+				46C403D3257542BA00E5179C /* CR_Session.m in Sources */,
 				DF367CBB232B397F0044807B /* CR_NativeAssets.m in Sources */,
 				7D3E427023915E7900BAF673 /* NSUserDefaults+Criteo.m in Sources */,
 				4672E1E2251CDE02009F39EF /* CR_CASError.m in Sources */,
