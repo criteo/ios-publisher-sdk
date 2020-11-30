@@ -1420,15 +1420,15 @@
 		C07AB38F2A2F69B44E029B87 /* Context */ = {
 			isa = PBXGroup;
 			children = (
-				C07ABB795931B320B23B930A /* CRContextData.m */,
-				C07AB9F9A3CAB239567053D2 /* CRUserData.m */,
-				C07AB975B941355236DA96C7 /* CR_UserDataHolder.m */,
-				C07ABA1B386190CDE12F3853 /* CR_UserDataHolder.h */,
-				C07AB14CF52484595D6E0E51 /* CRUserData+Internal.h */,
-				C07AB3B9F75EC14160C99E91 /* CREmailHasher.m */,
-				C07ABE9C517574E8D3DBE4EC /* CRContextData+Internal.h */,
-				C07AB8E611CB1C503E117386 /* CR_InternalContextProvider.m */,
 				C07AB6B9B8574FF066090C64 /* CR_InternalContextProvider.h */,
+				C07AB8E611CB1C503E117386 /* CR_InternalContextProvider.m */,
+				C07ABA1B386190CDE12F3853 /* CR_UserDataHolder.h */,
+				C07AB975B941355236DA96C7 /* CR_UserDataHolder.m */,
+				C07ABE9C517574E8D3DBE4EC /* CRContextData+Internal.h */,
+				C07ABB795931B320B23B930A /* CRContextData.m */,
+				C07AB3B9F75EC14160C99E91 /* CREmailHasher.m */,
+				C07AB14CF52484595D6E0E51 /* CRUserData+Internal.h */,
+				C07AB9F9A3CAB239567053D2 /* CRUserData.m */,
 			);
 			path = Context;
 			sourceTree = "<group>";
@@ -1550,6 +1550,7 @@
 				E12A7F6C220A1D20002B4548 /* AppEvents */,
 				4672E1A9251CDDF0009F39EF /* Cassette */,
 				258821D622000D3B00398E9F /* Configuration */,
+				C07AB38F2A2F69B44E029B87 /* Context */,
 				542B05F523FD97380086A942 /* Feedback */,
 				7D93A61523FC3286007E8B30 /* DataConsent */,
 				DF367CDA23304BE50044807B /* Native */,
@@ -1558,7 +1559,6 @@
 				650915F222555C21001D6673 /* Standalone */,
 				7D58582C23E1F1BD0039AC56 /* Threading */,
 				255151C222027C6000F76E3F /* Util */,
-				C07AB38F2A2F69B44E029B87 /* Context */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
