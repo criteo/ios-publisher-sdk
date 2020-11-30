@@ -19,6 +19,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class CR_Session;
+
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, CR_DeviceConnectionType) {
@@ -33,6 +35,9 @@ typedef NS_ENUM(NSInteger, CR_DeviceConnectionType) {
 };
 
 @interface CR_InternalContextProvider : NSObject
+
+- (instancetype)init NS_UNAVAILABLE;
+- (id)initWithSession:(CR_Session *)session;
 
 /**
  * Device make (e.g., "Apple")

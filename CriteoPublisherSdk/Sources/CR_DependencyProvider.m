@@ -32,6 +32,7 @@
 #import "CR_IntegrationRegistry.h"
 #import "CR_UserDataHolder.h"
 #import "CR_InternalContextProvider.h"
+#import "CR_Session.h"
 
 #define CR_LAZY(object, assignment)  \
   ({                                 \
@@ -169,8 +170,13 @@
   return CR_LAZY(_userDataHolder, CR_UserDataHolder.new);
 }
 
+- (CR_Session *)session {
+  return CR_LAZY(_session, CR_Session.new);
+}
+
 - (CR_InternalContextProvider *)internalContextProvider {
-  return CR_LAZY(_internalContextProvider, CR_InternalContextProvider.new);
+  return CR_LAZY(_internalContextProvider,
+                 [[CR_InternalContextProvider alloc] initWithSession:self.session]);
 }
 
 @end
