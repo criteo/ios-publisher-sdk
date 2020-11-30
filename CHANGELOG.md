@@ -1,6 +1,6 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
-## Version Next
+## Version 4.0.3
 
 ### Fixes
 - **Xcode**: Update Xcode to 12.2 (and macOS to 11.0)
