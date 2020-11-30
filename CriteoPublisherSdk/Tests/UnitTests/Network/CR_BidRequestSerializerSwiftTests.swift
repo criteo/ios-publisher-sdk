@@ -25,7 +25,8 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
   var gdprSerializer: CR_GdprSerializerMock!
   var request: CR_CdbRequest!
   var userDataHolder = CR_UserDataHolder()
-  var internalContextProvider = CR_InternalContextProviderMock()
+  var session = CR_Session()
+  lazy var internalContextProvider = CR_InternalContextProviderMock(session: session)
 
   var config: CR_Config = CR_Config()
   var consent: CR_DataProtectionConsentMock = CR_DataProtectionConsentMock()

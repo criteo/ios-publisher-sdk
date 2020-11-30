@@ -23,19 +23,22 @@
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 
 #import "CR_Reachability.h"
+#import "CR_Session.h"
 
 @interface CR_InternalContextProvider ()
 @property(nonatomic, strong) CR_Reachability *reachability;
+@property(nonatomic, strong) CR_Session *session;
 @end
 
 @implementation CR_InternalContextProvider
 
 #pragma mark - Lifecycle
 
-- (instancetype)init {
+- (id)initWithSession:(CR_Session *)session {
   if (self = [super init]) {
     self.reachability = [CR_Reachability reachabilityForInternetConnection];
     [self.reachability startNotifier];
+    self.session = session;
   }
   return self;
 }

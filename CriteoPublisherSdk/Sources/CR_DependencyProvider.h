@@ -38,6 +38,7 @@
 @class CR_DisplaySizeInjector;
 @class CR_UserDataHolder;
 @class CR_InternalContextProvider;
+@class CR_Session;
 @protocol CRMediaDownloader;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -66,6 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) CR_DisplaySizeInjector *displaySizeInjector;
 @property(nonatomic, strong) CR_UserDataHolder *userDataHolder;
 @property(nonatomic, strong) CR_InternalContextProvider *internalContextProvider;
+@property(nonatomic, strong) CR_Session *session;
 
 @end
 

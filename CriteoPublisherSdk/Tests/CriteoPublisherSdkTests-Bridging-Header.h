@@ -25,5 +25,6 @@
 #import "CR_FeedbacksSerializer.h"
 #import "CR_Config.h"
 #import "CR_UniqueIdGenerator.h"
+#import "CR_Session.h"
 #import "CR_UserDataHolder.h"
 #import "CR_InMemoryUserDefaults.h"
