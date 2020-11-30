@@ -39,12 +39,14 @@
 #import "CR_IntegrationRegistry.h"
 #import "XCTestCase+Criteo.h"
 #import "NSError+Criteo.h"
+#import "CRContextData.h"
 
 @interface CRNativeLoaderTests : XCTestCase
 @property(strong, nonatomic) CRNativeLoader *loader;
 @property(strong, nonatomic) CRNativeAd *nativeAd;
 @property(strong, nonatomic) CR_NativeLoaderDispatchChecker *delegate;
 @property(strong, nonatomic) OCMockObject<CRMediaDownloader> *mediaDownloaderMock;
+@property(strong, nonatomic) CRContextData *contextData;
 @property(strong, nonatomic) CR_URLOpenerMock *urlOpener;
 @property(strong, nonatomic) Criteo *criteo;
 @property(strong, nonatomic) CR_NetworkManager *networkManagerMock;
@@ -59,6 +61,7 @@
   self.urlOpener = [[CR_URLOpenerMock alloc] init];
   self.networkManagerMock = OCMClassMock([CR_NetworkManager class]);
   self.mediaDownloaderMock = OCMProtocolMock(@protocol(CRMediaDownloader));
+  self.contextData = CRContextData.new;
 
   CR_DependencyProvider *provider = [CR_DependencyProvider testing_dependencyProvider];
   provider.networkManager = self.networkManagerMock;
@@ -74,7 +77,10 @@
   self.loader.delegate = self.delegate;
 
   CR_NativeAssets *assets = [CR_NativeAssets nativeAssetsFromCdb];
-  self.nativeAd = [[CRNativeAd alloc] initWithLoader:self.loader assets:assets];
+  CR_SKAdNetworkParameters *parameters = [[CR_SKAdNetworkParameters alloc] init];
+  self.nativeAd = [[CRNativeAd alloc] initWithLoader:self.loader
+                                              assets:assets
+                               skAdNetworkParameters:parameters];
 }
 
 #pragma mark - Tests
@@ -196,7 +202,7 @@
        didFailToReceiveAdWithError:[OCMArg checkWithBlock:^BOOL(NSError *error) {
          return error.code == CRErrorCodeInvalidParameter;
        }]]);
-  [loader loadAd];
+  [loader loadAdWithContext:self.contextData];
   OCMVerifyAllWithDelay(delegate, 1);
 }
 
@@ -242,13 +248,13 @@
 #pragma mark handleClickOnNativeAd
 
 - (void)testHandleClickOnNativeAdCallsDelegateForClick {
-  [self.loader handleClickOnNativeAd:self.nativeAd];
+  [self.loader handleClickOnNativeAd:self.nativeAd fromView:nil];
 
   [self cr_waitForExpectations:@[ self.delegate.didDetectClick ]];
 }
 
 - (void)testHandleClickOnNativeAdCallsDelegateForOpenExternal {
-  [self.loader handleClickOnNativeAd:self.nativeAd];
+  [self.loader handleClickOnNativeAd:self.nativeAd fromView:nil];
 
   [self cr_waitForExpectations:@[ self.delegate.willLeaveApplicationForNativeAd ]];
 }
@@ -257,7 +263,7 @@
   self.urlOpener.successInCompletion = NO;
   self.delegate.willLeaveApplicationForNativeAd.inverted = YES;
 
-  [self.loader handleClickOnNativeAd:self.nativeAd];
+  [self.loader handleClickOnNativeAd:self.nativeAd fromView:nil];
 
   [self cr_waitShortlyForExpectations:@[ self.delegate.willLeaveApplicationForNativeAd ]];
 }
@@ -281,10 +287,12 @@
 
 - (void)mockCriteoWithAdUnit:(CRNativeAdUnit *)adUnit respondBid:(CR_CdbBid *)bid {
   CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
-  OCMStub([self.criteo loadCdbBidForAdUnit:cacheAdUnit responseHandler:[OCMArg any]])
+  OCMStub([self.criteo loadCdbBidForAdUnit:cacheAdUnit
+                               withContext:self.contextData
+                           responseHandler:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         CR_CdbBidResponseHandler handler;
-        [invocation getArgument:&handler atIndex:3];
+        [invocation getArgument:&handler atIndex:4];
         handler(bid);
       });
 }
@@ -310,7 +318,7 @@
       delegate ?: OCMStrictProtocolMock(@protocol(CRNativeLoaderDelegate));
   CRNativeLoader *loader = [self buildLoaderWithAdUnit:adUnit criteo:self.criteo];
   loader.delegate = testDelegate;
-  [loader loadAd];
+  [loader loadAdWithContext:self.contextData];
   verify(loader, testDelegate, self.criteo);
 }
 
@@ -350,7 +358,7 @@
   [self mockCriteoWithAdUnit:adUnit respondBid:bid];
   CRNativeLoader *loader = [self buildLoaderWithAdUnit:adUnit criteo:self.criteo];
   loader.delegate = delegate;
-  [loader loadAd];
+  [loader loadAdWithContext:self.contextData];
   return loader;
 }
 
@@ -361,6 +369,7 @@
                       verify:^(CRNativeLoader *loader, id<CRNativeLoaderDelegate> delegateMock,
                                Criteo *criteoMock) {
                         OCMReject([criteoMock loadCdbBidForAdUnit:[OCMArg any]
+                                                      withContext:[OCMArg any]
                                                   responseHandler:[OCMArg any]]);
                       }];
 

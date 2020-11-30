@@ -28,7 +28,9 @@
 @synthesize productMedia = _productMedia;
 @synthesize advertiserLogoMedia = _advertiserLogoMedia;
 
-- (instancetype)initWithLoader:(CRNativeLoader *)loader assets:(CR_NativeAssets *)assets {
+- (instancetype)initWithLoader:(CRNativeLoader *)loader
+                        assets:(CR_NativeAssets *)assets
+         skAdNetworkParameters:(CR_SKAdNetworkParameters *)skAdNetworkParameters {
   if (self = [self initWithNativeAssets:assets]) {
     _loader = loader;
   }

@@ -41,3 +41,10 @@ struct AdConfig {
     }
   }
 }
+
+func defaultContextData() -> CRContextData {
+  CRContextData(dictionary: [
+    CRContextDataContentUrl: "http://foo.bar",
+    "data.dummy": 42,
+  ])
+}

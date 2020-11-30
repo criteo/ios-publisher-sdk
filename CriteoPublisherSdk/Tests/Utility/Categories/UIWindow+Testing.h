@@ -49,6 +49,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)cr_removeFromScreen;
 
+/** Returns the top presented view controller */
+- (UIViewController *)cr_topController;
+
 @end
 
 NS_ASSUME_NONNULL_END

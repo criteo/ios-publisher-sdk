@@ -30,6 +30,8 @@
 #import "CR_ImageCache.h"
 #import "CR_DisplaySizeInjector.h"
 #import "CR_IntegrationRegistry.h"
+#import "CR_UserDataHolder.h"
+#import "CR_InternalContextProvider.h"
 
 #define CR_LAZY(object, assignment)  \
   ({                                 \
@@ -73,7 +75,9 @@
                  [[CR_ApiHandler alloc] initWithNetworkManager:self.networkManager
                                                bidFetchTracker:self.bidFetchTracker
                                                  threadManager:self.threadManager
-                                           integrationRegistry:self.integrationRegistry]);
+                                           integrationRegistry:self.integrationRegistry
+                                                userDataHolder:self.userDataHolder
+                                       internalContextProvider:self.internalContextProvider]);
 }
 
 - (CR_CacheManager *)cacheManager {
@@ -159,6 +163,14 @@
                    NSUInteger sizeLimit = 1024 * 1024 * 32;  // 32Mo
                    [[CR_ImageCache alloc] initWithSizeLimit:sizeLimit];
                  }));
+}
+
+- (CR_UserDataHolder *)userDataHolder {
+  return CR_LAZY(_userDataHolder, CR_UserDataHolder.new);
+}
+
+- (CR_InternalContextProvider *)internalContextProvider {
+  return CR_LAZY(_internalContextProvider, CR_InternalContextProvider.new);
 }
 
 @end

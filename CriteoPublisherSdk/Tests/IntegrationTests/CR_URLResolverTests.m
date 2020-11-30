@@ -28,6 +28,8 @@
 // Note: These tests are depending on WireMock
 @implementation CR_URLResolverTests
 
+#pragma mark - Resolution
+
 - (void)testResolutionToStandardUrl {
   [self resolveURL:@"https://localhost:9099/standard-url"
         thenVerify:^(CR_URLResolution *resolution) {
@@ -62,7 +64,7 @@
         }];
 }
 
-- (void)testResolutionWithInfiniteRedirections {
+- (void)testResolutionErrorWithInfiniteRedirects {
   [self resolveURL:@"https://localhost:9099/redirect/infinite"
         thenVerify:^(CR_URLResolution *resolution) {
           XCTAssertEqual(resolution.type, CR_URLResolutionError);
@@ -70,15 +72,60 @@
         }];
 }
 
+#pragma mark - App Store
+
+- (BOOL)isAppStoreHost:(NSString *)host {
+  NSString *urlString =
+      [NSString stringWithFormat:@"itms-apps://%@/us/app/apple-developer/id640199958", host];
+  NSURL *url = [NSURL URLWithString:urlString];
+  return [CR_URLResolver isAppStoreURL:url];
+}
+
+- (void)testIsAppStoreURL {
+  XCTAssertTrue([self isAppStoreHost:@"apps.apple.com"]);
+  XCTAssertTrue([self isAppStoreHost:@"itunes.apple.com"]);
+  XCTAssertTrue([self isAppStoreHost:@"books.apple.com"]);
+  XCTAssertTrue([self isAppStoreHost:@"music.apple.com"]);
+  XCTAssertFalse([self isAppStoreHost:@"apps.apple.fr"]);
+  XCTAssertFalse([self isAppStoreHost:@"example.com"]);
+}
+
+static NSString *kValidAppStoreUrl = @"https://apps.apple.com/us/app/apple-developer/id640199958";
+
+- (void)testResolutionToAppStoreURL {
+  [self resolveURL:kValidAppStoreUrl
+        thenVerify:^(CR_URLResolution *resolution) {
+          XCTAssertEqual(resolution.type, CR_URLResolutionAppStoreUrl);
+          XCTAssertEqualObjects(resolution.URL.absoluteString, kValidAppStoreUrl);
+        }];
+}
+
+- (void)testResolutionToAppStoreURLWithRedirects {
+  [self resolveURL:@"https://localhost:9099/redirect/3/2/1/appstore-url"
+        thenVerify:^(CR_URLResolution *resolution) {
+          XCTAssertEqual(resolution.type, CR_URLResolutionAppStoreUrl);
+          XCTAssertEqualObjects(resolution.URL.absoluteString, kValidAppStoreUrl);
+        }];
+}
+
+#pragma mark - Private
+
 - (void)resolveURL:(NSString *)url thenVerify:(CR_URLResolutionHandler)resolutionVerify {
-  XCTestExpectation *resolutionExpectation = [[XCTestExpectation alloc] init];
+  __block NSUInteger callCount = 0;
+  XCTestExpectation *resolvedExpectation = [[XCTestExpectation alloc] init];
+  XCTestExpectation *resolvedOnceExpectation = [[XCTestExpectation alloc] init];
+  resolvedOnceExpectation.inverted = YES;
   [CR_URLResolver resolveURL:[[NSURL alloc] initWithString:url]
                   deviceInfo:[[CR_DeviceInfoMock alloc] init]
                   resolution:^(CR_URLResolution *resolution) {
                     resolutionVerify(resolution);
-                    [resolutionExpectation fulfill];
+                    [resolvedExpectation fulfill];
+                    callCount++;
+                    if (callCount > 1) {
+                      [resolvedOnceExpectation fulfill];
+                    }
                   }];
-  [self cr_waitForExpectations:@[ resolutionExpectation ]];
+  [self cr_waitShortlyForExpectations:@[ resolvedExpectation, resolvedOnceExpectation ]];
 }
 
 @end

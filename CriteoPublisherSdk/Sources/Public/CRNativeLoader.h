@@ -17,11 +17,10 @@
 // limitations under the License.
 //
 
-@import Foundation;
-
 @class CRNativeAdUnit;
 @class CRNativeAd;
 @class CRBid;
+@class CRContextData;
 @protocol CRNativeLoaderDelegate;
 @protocol CRMediaDownloader;
 
@@ -43,6 +42,15 @@ NS_ASSUME_NONNULL_BEGIN
  * Do nothing if the delegate is nil or if it doesn't implement nativeLoader:didReceiveAd:.
  */
 - (void)loadAd;
+
+/**
+ * Load the native ad for standalone integration.
+ *
+ * Do nothing if the delegate is nil or if it doesn't implement nativeLoader:didReceiveAd:.
+ *
+ * @param contextData Context of the Ad to load
+ */
+- (void)loadAdWithContext:(CRContextData *)contextData;
 
 /**
  * Load the native ad for In-House integration.

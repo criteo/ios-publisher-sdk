@@ -26,16 +26,15 @@
 #import "NSError+Criteo.h"
 #import "CR_InterstitialViewController.h"
 #import "CR_DeviceInfo.h"
-#import "CR_URLOpening.h"
+#import "CR_URLOpener.h"
 #import "CR_DependencyProvider.h"
 #import "CR_DisplaySizeInjector.h"
 #import "CR_IntegrationRegistry.h"
 
-@import WebKit;
-
 @interface CRInterstitial () <WKNavigationDelegate, WKUIDelegate>
 
 @property(strong, nonatomic) id<CR_URLOpening> urlOpener;
+@property(nonatomic, strong) CR_SKAdNetworkParameters *skAdNetworkParameters;
 
 @end
 
@@ -98,6 +97,10 @@
 }
 
 - (void)loadAd {
+  [self loadAdWithContext:CRContextData.new];
+}
+
+- (void)loadAdWithContext:(CRContextData *)contextData {
   [self.integrationRegistry declare:CR_IntegrationStandalone];
 
   if (![self checkSafeToLoad]) {
@@ -113,12 +116,13 @@
                                                                     size:self.deviceInfo.screenSize
                                                               adUnitType:CRAdUnitTypeInterstitial];
   [self.criteo loadCdbBidForAdUnit:cacheAdUnit
+                       withContext:contextData
                    responseHandler:^(CR_CdbBid *bid) {
                      if (!bid || bid.isEmpty) {
                        self.isAdLoading = NO;
                        [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
                      } else {
-                       [self loadAdWithDisplayData:bid.displayUrl];
+                       [self loadAdWithCdbBid:bid];
                      }
                    }];
 }
@@ -176,7 +180,12 @@
     return;
   }
 
-  [self loadAdWithDisplayData:cdbBid.displayUrl];
+  [self loadAdWithCdbBid:cdbBid];
+}
+
+- (void)loadAdWithCdbBid:(CR_CdbBid *)bid {
+  self.skAdNetworkParameters = bid.skAdNetworkParameters;
+  [self loadAdWithDisplayData:bid.displayUrl];
 }
 
 - (void)loadAdWithDisplayData:(NSString *)displayData {
@@ -215,8 +224,10 @@
       [self.delegate interstitialWillAppear:self];
     }
   });
+
+  self.rootViewController = rootViewController;
   self.viewController.modalPresentationStyle = UIModalPresentationFullScreen;
-  [rootViewController
+  [self.rootViewController
       presentViewController:self.viewController
                    animated:YES
                  completion:^{
@@ -257,10 +268,15 @@
       if ([self.delegate respondsToSelector:@selector(interstitialWasClicked:)]) {
         [self.delegate interstitialWasClicked:self];
       }
-      if ([self.delegate respondsToSelector:@selector(interstitialWillLeaveApplication:)]) {
-        [self.delegate interstitialWillLeaveApplication:self];
-      }
-      [self.urlOpener openExternalURL:navigationAction.request.URL];
+      [self.urlOpener openExternalURL:navigationAction.request.URL
+            withSKAdNetworkParameters:self.skAdNetworkParameters
+                   fromViewController:self.rootViewController
+                           completion:^(BOOL success) {
+                             if (success && [self.delegate respondsToSelector:@selector
+                                                           (interstitialWillLeaveApplication:)]) {
+                               [self.delegate interstitialWillLeaveApplication:self];
+                             }
+                           }];
       [self.viewController dismissViewController];
     });
     if (decisionHandler) {

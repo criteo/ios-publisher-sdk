@@ -31,6 +31,9 @@
 
 + (instancetype)criteo;
 
++ (void)loadProductWithParameters:(NSDictionary *)parameters
+               fromViewController:(UIViewController *)controller;
+
 @end
 
 @interface CRInterstitial ()

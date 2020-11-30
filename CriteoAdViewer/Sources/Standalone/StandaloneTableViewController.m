@@ -49,7 +49,7 @@
     self.cr_banner_320x50View.delegate = self.logger;
   }
 
-  [self.cr_banner_320x50View loadAd];
+  [self.cr_banner_320x50View loadAdWithContext:self.contextData];
   [self.banner_320x50View addSubview:self.cr_banner_320x50View];
 }
 
@@ -70,7 +70,7 @@
     self.cr_interstitialView.delegate = self.logger;
   }
 
-  [self.cr_interstitialView loadAd];
+  [self.cr_interstitialView loadAdWithContext:self.contextData];
 }
 
 - (IBAction)showInterstitialClick:(id)sender {

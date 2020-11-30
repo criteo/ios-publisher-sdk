@@ -38,6 +38,7 @@
 #import "DFPRequestClasses.h"
 #import "MPAdView.h"
 #import "MPInterstitialAdController.h"
+#import "CRContextData.h"
 
 @interface CR_ProfileIdFunctionalTests : XCTestCase
 
@@ -147,7 +148,7 @@
   [self prepareUsedSdkWithInHouse:adUnit];
 
   CRBannerView *bannerView = [[CRBannerView alloc] initWithAdUnit:adUnit criteo:self.criteo];
-  [bannerView loadAd];
+  [bannerView loadAdWithContext:self.contextData];
 
   [self validateStandaloneTest];
 }
@@ -157,7 +158,7 @@
   [self prepareUsedSdkWithInHouse:adUnit];
 
   CRInterstitial *interstitial = [[CRInterstitial alloc] initWithAdUnit:adUnit criteo:self.criteo];
-  [interstitial loadAd];
+  [interstitial loadAdWithContext:self.contextData];
 
   [self validateStandaloneTest];
 }
@@ -171,7 +172,7 @@
                                       criteo:self.criteo
                                    urlOpener:[[CR_URLOpenerMock alloc] init]];
   nativeLoader.delegate = OCMProtocolMock(@protocol(CRNativeLoaderDelegate));
-  [nativeLoader loadAd];
+  [nativeLoader loadAdWithContext:self.contextData];
 
   [self validateStandaloneTest];
 }
@@ -300,6 +301,7 @@
   [self.criteo.testing_networkCaptor clear];
   __block CRBid *bid;
   [self.criteo loadBidForAdUnit:adUnit
+                    withContext:self.contextData
                 responseHandler:^(CRBid *bid_) {
                   bid = bid_;
                 }];
@@ -341,6 +343,7 @@
 
 - (void)enrichAdObject:(id)adObject forAdUnit:(CRAdUnit *)adUnit {
   [self.criteo loadBidForAdUnit:adUnit
+                    withContext:CRContextData.new
                 responseHandler:^(CRBid *bid) {
                   [self.criteo enrichAdObject:adObject withBid:bid];
                 }];
@@ -354,6 +357,10 @@
 
   NSDictionary *request = [self cdbRequest];
   XCTAssertEqualObjects(request[@"profileId"], @(expectedType));
+}
+
+- (CRContextData *)contextData {
+  return CRContextData.new;
 }
 
 @end

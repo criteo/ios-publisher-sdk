@@ -31,7 +31,7 @@
 #import "XCTestCase+Criteo.h"
 #import "CR_NativeAssets+Testing.h"
 
-@import WebKit;
+#import <WebKit/WebKit.h>
 
 #define TEST_DISPLAY_URL \
   @"https://rdi.eu.criteo.com/delivery/rtb/demo/ajs?zoneid=1417086&width=300&height=250&ibva=0"
@@ -41,6 +41,7 @@
 @property(nonatomic, copy) void (^webViewDidLoadBlock)(void);
 @property(nonatomic, strong) CR_CacheAdUnit *expectedCacheAdUnit;
 @property(nonatomic, strong) CRBannerAdUnit *adUnit;
+@property(nonatomic, strong) CRContextData *contextData;
 @property(strong, nonatomic) CR_URLOpenerMock *urlOpener;
 @property(strong, nonatomic) Criteo *criteo;
 @property(strong, nonatomic) CR_IntegrationRegistry *integrationRegistry;
@@ -56,6 +57,7 @@
                                                                  size:CGSizeMake(47.0, 57.0)
                                                            adUnitType:CRAdUnitTypeBanner];
   self.adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"123" size:CGSizeMake(47.0, 57.0)];
+  self.contextData = CRContextData.new;
   self.urlOpener = [[CR_URLOpenerMock alloc] init];
 
   self.integrationRegistry = OCMClassMock([CR_IntegrationRegistry class]);
@@ -91,11 +93,12 @@
       });
 
   CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView];
-  [bannerView loadAd];
+  [bannerView loadAdWithContext:self.contextData];
 
   [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
   OCMVerifyAll(mockWebView);
   OCMVerify([self.criteo loadCdbBidForAdUnit:[self expectedCacheAdUnit]
+                                 withContext:self.contextData
                              responseHandler:[OCMArg any]]);
   OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
 }
@@ -116,7 +119,7 @@
 
   CRBannerView *bannerView = [self bannerViewWithWebView:realWebView];
   realWebView.navigationDelegate = self;
-  [bannerView loadAd];
+  [bannerView loadAdWithContext:self.contextData];
 
   XCTestExpectation __block *marginExpectation =
       [self expectationWithDescription:@"WebView body has 0px margin"];
@@ -161,9 +164,10 @@
   [self mockCriteoWithAdUnit:self.expectedCacheAdUnit respondBid:nil];
 
   CRBannerView *bannerView = [self bannerViewWithWebView:realWebView];
-  [bannerView loadAd];
+  [bannerView loadAdWithContext:self.contextData];
 
   OCMVerify([self.criteo loadCdbBidForAdUnit:[self expectedCacheAdUnit]
+                                 withContext:self.contextData
                              responseHandler:[OCMArg any]]);
   OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
 }
@@ -386,10 +390,12 @@
 }
 
 - (void)mockCriteoWithAdUnit:(CR_CacheAdUnit *)adUnit respondBid:(CR_CdbBid *)bid {
-  OCMStub([self.criteo loadCdbBidForAdUnit:adUnit responseHandler:[OCMArg any]])
+  OCMStub([self.criteo loadCdbBidForAdUnit:adUnit
+                               withContext:self.contextData
+                           responseHandler:[OCMArg any]])
       .andDo(^(NSInvocation *invocation) {
         CR_CdbBidResponseHandler handler;
-        [invocation getArgument:&handler atIndex:3];
+        [invocation getArgument:&handler atIndex:4];
         handler(bid);
       });
 }

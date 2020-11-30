@@ -22,10 +22,12 @@ import GoogleMobileAds
 class GoogleAdViewBuilder: AdViewBuilder {
   private let controller: AdViewController
   private let logger: GoogleDFPLogger
+  private let contextData: CRContextData
 
   init(controller: AdViewController) {
     self.controller = controller
     self.logger = GoogleDFPLogger(interstitialDelegate: controller)
+    self.contextData = defaultContextData()
   }
 
   func build(config: AdConfig, criteo: Criteo) -> AdView {
@@ -44,7 +46,7 @@ class GoogleAdViewBuilder: AdViewBuilder {
   private func loadAdView(
     criteo: Criteo, adUnit: CRAdUnit, load: @escaping (_ request: GADRequest?) -> Void
   ) {
-    criteo.loadBid(for: adUnit) { maybeBid in
+    criteo.loadBid(for: adUnit, withContext: contextData) { maybeBid in
       let request: GADRequest? = maybeBid.map { bid in
         let request = DFPRequest()
         criteo.enrichAdObject(request, with: bid)

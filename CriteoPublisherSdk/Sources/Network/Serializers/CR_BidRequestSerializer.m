@@ -25,10 +25,17 @@
 #import "CR_DeviceInfo.h"
 #import "CR_GdprSerializer.h"
 #import "CR_IntegrationRegistry.h"
+#import "CRContextData+Internal.h"
+#import "CR_UserDataHolder.h"
+#import "CRUserData+Internal.h"
+#import "CR_InternalContextProvider.h"
+#import "Logging.h"
 
 @interface CR_BidRequestSerializer ()
 
 @property(strong, nonatomic, readonly) CR_GdprSerializer *gdprSerializer;
+@property(strong, nonatomic, readonly) CR_UserDataHolder *userDataHolder;
+@property(strong, nonatomic, readonly) CR_InternalContextProvider *internalContextProvider;
 
 @end
 
@@ -36,9 +43,13 @@
 
 #pragma mark - Life cycle
 
-- (instancetype)initWithGdprSerializer:(CR_GdprSerializer *)gdprSerializer {
+- (instancetype)initWithGdprSerializer:(CR_GdprSerializer *)gdprSerializer
+                        userDataHolder:(CR_UserDataHolder *)userDataHolder
+               internalContextProvider:(CR_InternalContextProvider *)internalContextProvider {
   if (self = [super init]) {
     _gdprSerializer = gdprSerializer;
+    _userDataHolder = userDataHolder;
+    _internalContextProvider = internalContextProvider;
   }
   return self;
 }
@@ -54,12 +65,13 @@
 - (NSDictionary *)bodyWithCdbRequest:(CR_CdbRequest *)cdbRequest
                              consent:(CR_DataProtectionConsent *)consent
                               config:(CR_Config *)config
-                          deviceInfo:(CR_DeviceInfo *)deviceInfo {
+                          deviceInfo:(CR_DeviceInfo *)deviceInfo
+                             context:(CRContextData *)contextData {
   NSMutableDictionary *postBody = [NSMutableDictionary new];
   postBody[CR_ApiQueryKeys.sdkVersion] = config.sdkVersion;
   postBody[CR_ApiQueryKeys.profileId] = cdbRequest.profileId;
   postBody[CR_ApiQueryKeys.id] = cdbRequest.requestGroupId;
-  postBody[CR_ApiQueryKeys.publisher] = [self publisherWithConfig:config];
+  postBody[CR_ApiQueryKeys.publisher] = [self publisherWithConfig:config context:contextData];
   postBody[CR_ApiQueryKeys.gdpr] = [self.gdprSerializer dictionaryForGdpr:consent.gdpr];
   postBody[CR_ApiQueryKeys.bidSlots] = [self slotsWithCdbRequest:cdbRequest];
   postBody[CR_ApiQueryKeys.user] = [self userWithConsent:consent
@@ -93,13 +105,19 @@
     userDict[CR_ApiQueryKeys.mopubConsent] = consent.mopubConsent;
   }
 
+  userDict[CR_ApiQueryKeys.ext] = [CR_BidRequestSerializer mergeToNestedStructure:@[
+    [self.internalContextProvider fetchInternalUserContext], self.userDataHolder.userData.data
+  ]];
+
   return userDict;
 }
 
-- (NSDictionary *)publisherWithConfig:(CR_Config *)config {
+- (NSDictionary *)publisherWithConfig:(CR_Config *)config context:(CRContextData *)contextData {
   NSMutableDictionary *publisher = [NSMutableDictionary new];
   publisher[CR_ApiQueryKeys.bundleId] = config.appId;
   publisher[CR_ApiQueryKeys.cpId] = config.criteoPublisherId;
+  publisher[CR_ApiQueryKeys.ext] =
+      [CR_BidRequestSerializer mergeToNestedStructure:@[ contextData.data ]];
   return publisher;
 }
 
@@ -121,6 +139,69 @@
     [slots addObject:slotDict];
   }
   return slots;
+}
+
++ (NSDictionary<NSString *, id> *)mergeToNestedStructure:
+    (NSArray<NSDictionary<NSString *, id> *> *)flattenDictionaries {
+  @try {
+    NSMutableDictionary<NSString *, id> *nestedStructure = NSMutableDictionary.new;
+
+    // Use an array instead of a set to use the ref equality instead of the object equality
+    NSMutableArray<NSMutableDictionary<NSString *, id> *> *subNodes = NSMutableArray.new;
+
+    for (NSDictionary<NSString *, id> *flattenDictionary in flattenDictionaries) {
+      for (NSString *path in flattenDictionary) {
+        NSArray<NSString *> *pathParts = [path componentsSeparatedByString:@"."];
+        if ([CR_BidRequestSerializer isPathPartsNoValid:pathParts]) {
+          continue;
+        }
+
+        NSMutableDictionary<NSString *, id> *node = nestedStructure;
+
+        // Go or create nested structure until last path part
+        for (NSUInteger i = 0; i < pathParts.count - 1; ++i) {
+          NSString *pathPart = pathParts[i];
+
+          id nestedValue = node[pathPart];
+          if (nestedValue != nil) {
+            if ([subNodes containsObject:nestedValue]) {
+              // It's a sub node, go deeper
+              node = nestedValue;
+            } else {
+              // It's a leaf, abort
+              break;
+            }
+          } else {
+            // Create a new node and go deeper
+            NSMutableDictionary<NSString *, id> *newNode = NSMutableDictionary.new;
+            [subNodes addObject:newNode];
+            node[pathPart] = newNode;
+            node = newNode;
+          }
+        }
+
+        NSString *lastPathPart = pathParts[pathParts.count - 1];
+        if (node[lastPathPart] == nil) {
+          // If value is already there, abort, else save it
+          node[lastPathPart] = flattenDictionary[path];
+        }
+      }
+    }
+
+    return nestedStructure;
+  } @catch (NSException *exception) {
+    CLogException(exception);
+    return @{};
+  }
+}
+
++ (BOOL)isPathPartsNoValid:(NSArray<NSString *> *)pathParts {
+  for (NSString *pathPart in pathParts) {
+    if (pathPart.length == 0) {
+      return YES;
+    }
+  }
+  return NO;
 }
 
 @end

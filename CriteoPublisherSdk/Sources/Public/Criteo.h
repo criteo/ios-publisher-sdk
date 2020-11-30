@@ -23,6 +23,8 @@
 #import <Foundation/Foundation.h>
 #import <CriteoPublisherSdk/CRAdUnit.h>
 #import <CriteoPublisherSdk/CRBid.h>
+#import <CriteoPublisherSdk/CRContextData.h>
+#import <CriteoPublisherSdk/CRUserData.h>
 
 /** Bid response handler, bid can be nil on purpose */
 typedef void (^CRBidResponseHandler)(CRBid *_Nullable bid);
@@ -62,6 +64,11 @@ NS_ASSUME_NONNULL_BEGIN
 /** Set the privacy consent string owned by the Mopub SDK. */
 - (void)setMopubConsent:(NSString *)mopubConsent;
 
+#pragma mark - User data
+
+/** Set data on the current user which will be used to bid based on context. */
+- (void)setUserData:(CRUserData *)userData;
+
 #pragma mark - Bidding
 
 /**
@@ -71,6 +78,17 @@ NS_ASSUME_NONNULL_BEGIN
  * Note: responseHandler is invoked on main queue
  */
 - (void)loadBidForAdUnit:(CRAdUnit *)adUnit responseHandler:(CRBidResponseHandler)responseHandler;
+
+/**
+ * Request asynchronously a bid from Criteo
+ * @param adUnit The ad unit to request
+ * @param contextData The context of the request
+ * @param responseHandler the handler called on response. Responded bid can be nil.
+ * Note: responseHandler is invoked on main queue
+ */
+- (void)loadBidForAdUnit:(CRAdUnit *)adUnit
+             withContext:(CRContextData *)contextData
+         responseHandler:(CRBidResponseHandler)responseHandler;
 
 #pragma mark App bidding
 

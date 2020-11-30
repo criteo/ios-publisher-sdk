@@ -23,6 +23,7 @@
 
 #import "Criteo+Testing.h"
 #import "Criteo+Internal.h"
+#import "CRContextData.h"
 #import "CR_AdUnitHelper.h"
 #import "CR_Config.h"
 #import "CR_FeedbackController.h"
@@ -367,6 +368,7 @@
 
   CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
   [self.criteo loadCdbBidForAdUnit:cacheAdUnit
+                       withContext:CRContextData.new
                    responseHandler:^(CR_CdbBid *bid) {
                      // In live bidding mode, as metrics are sent in // with bid request, there is
                      // an offset, so let's flush the remaining metrics

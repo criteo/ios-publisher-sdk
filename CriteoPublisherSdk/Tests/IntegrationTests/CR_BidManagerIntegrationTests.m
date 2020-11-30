@@ -35,6 +35,7 @@
 #import "NSURL+Testing.h"
 #import "CRConstants.h"
 #import "CR_CdbBidBuilder.h"
+#import "CRContextData.h"
 
 @interface CR_BidManagerIntegrationTests : XCTestCase
 
@@ -47,6 +48,7 @@
 @property(nonatomic, strong) CRBannerAdUnit *adUnit1;
 @property(nonatomic, strong) CR_CacheAdUnit *cacheAdUnit1;
 @property(nonatomic, strong) CR_CacheAdUnit *cacheAdUnit2;
+@property(nonatomic, strong) CRContextData *contextData;
 
 @end
 
@@ -63,6 +65,7 @@
   self.adUnit1 = [CR_TestAdUnits preprodBanner320x50];
   self.cacheAdUnit1 = [CR_AdUnitHelper cacheAdUnitForAdUnit:[CR_TestAdUnits preprodBanner320x50]];
   self.cacheAdUnit2 = [CR_AdUnitHelper cacheAdUnitForAdUnit:[CR_TestAdUnits preprodInterstitial]];
+  self.contextData = CRContextData.new;
 }
 
 - (void)tearDown {
@@ -72,11 +75,12 @@
 
 // Prefetch should populate cache with given ad units
 - (void)test_given2AdUnits_whenPrefetchBid_thenGet2Bids {
-  [self.bidManager prefetchBidsForAdUnits:@[ self.cacheAdUnit1, self.cacheAdUnit2 ]];
+  [self.bidManager prefetchBidsForAdUnits:@[ self.cacheAdUnit1, self.cacheAdUnit2 ]
+                              withContext:self.contextData];
 
   [self _waitNetworkCallForBids:@[ self.cacheAdUnit1, self.cacheAdUnit2 ]];
-  XCTAssertNotNil([self.bidManager getBidThenFetch:self.cacheAdUnit1]);
-  XCTAssertNotNil([self.bidManager getBidThenFetch:self.cacheAdUnit2]);
+  XCTAssertNotNil([self.bidManager getBidThenFetch:self.cacheAdUnit1 withContext:self.contextData]);
+  XCTAssertNotNil([self.bidManager getBidThenFetch:self.cacheAdUnit2 withContext:self.contextData]);
 }
 
 // Initializing criteo object should call prefetch
@@ -84,7 +88,7 @@
   [self.criteo testing_registerWithAdUnits:@[ self.adUnit1 ]];
 
   [self.criteo testing_waitForRegisterHTTPResponses];
-  XCTAssertNotNil([self.bidManager getBidThenFetch:self.cacheAdUnit1]);
+  XCTAssertNotNil([self.bidManager getBidThenFetch:self.cacheAdUnit1 withContext:self.contextData]);
 }
 
 // Getting bid should not populate cache if CDB call is pending
@@ -103,10 +107,10 @@
   self.dependencyProvider.config = self.config;
   self.dependencyProvider.deviceInfo = [[CR_DeviceInfoMock alloc] init];
   self.bidManager = [self.dependencyProvider bidManager];
-  [self.bidManager prefetchBidForAdUnit:self.cacheAdUnit1];
+  [self.bidManager prefetchBidForAdUnit:self.cacheAdUnit1 withContext:self.contextData];
   [self.dependencyProvider.threadManager waiter_waitIdle];
 
-  [self.bidManager getBidThenFetch:self.cacheAdUnit1];
+  [self.bidManager getBidThenFetch:self.cacheAdUnit1 withContext:self.contextData];
   [self.dependencyProvider.threadManager waiter_waitIdle];
 
   XCTAssertEqual(networkManager.numberOfPostCall, 1);
@@ -116,7 +120,8 @@
   CR_CdbBid *immediateBid = CR_CdbBidBuilder.new.adUnit(self.cacheAdUnit1).immediate().build;
   [self givenMockedCdbResponseBid:immediateBid];
   [self whenPrefetchingBid];
-  CR_CdbBid *cachedBid = [self.bidManager getBidThenFetch:self.cacheAdUnit1];
+  CR_CdbBid *cachedBid = [self.bidManager getBidThenFetch:self.cacheAdUnit1
+                                              withContext:self.contextData];
   XCTAssertEqual(cachedBid.ttl, CRITEO_DEFAULT_BID_TTL_IN_SECONDS);
 
   [self checkAnotherPrefetchProvideBid];
@@ -231,7 +236,7 @@
 }
 
 - (void)whenPrefetchingAnotherBid {
-  [self.bidManager prefetchBidForAdUnit:self.cacheAdUnit1];
+  [self.bidManager prefetchBidForAdUnit:self.cacheAdUnit1 withContext:self.contextData];
   [self.dependencyProvider.threadManager waiter_waitIdle];
 }
 
@@ -250,12 +255,14 @@
 #pragma mark Cache validation
 
 - (void)shouldProvideEmptyBid {
-  CR_CdbBid *cachedBid = [self.bidManager getBidThenFetch:self.cacheAdUnit1];
+  CR_CdbBid *cachedBid = [self.bidManager getBidThenFetch:self.cacheAdUnit1
+                                              withContext:self.contextData];
   XCTAssertEqualObjects(cachedBid, CR_CdbBid.emptyBid);
 }
 
 - (void)shouldProvideBid {
-  CR_CdbBid *cachedBid = [self.bidManager getBidThenFetch:self.cacheAdUnit1];
+  CR_CdbBid *cachedBid = [self.bidManager getBidThenFetch:self.cacheAdUnit1
+                                              withContext:self.contextData];
   XCTAssertNotEqualObjects(cachedBid, CR_CdbBid.emptyBid);
 }
 

@@ -31,11 +31,14 @@
 #import "CR_DeviceInfo.h"
 #import "CR_BidFetchTracker.h"
 #import "CR_FeedbackMessage.h"
+#import "CR_UserDataHolder.h"
+#import "CR_InternalContextProvider.h"
 
 @class CR_FeedbackStorage;
 @class CR_ThreadManager;
 @class CR_RemoteConfigRequest;
 @class CR_IntegrationRegistry;
+@class CRContextData;
 
 typedef void (^CR_CdbCompletionHandler)(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse,
                                         NSError *error);
@@ -53,6 +56,8 @@ typedef void (^CR_CsmCompletionHandler)(NSError *error);
                        bidFetchTracker:(CR_BidFetchTracker *)bidFetchTracker
                          threadManager:(CR_ThreadManager *)threadManager
                    integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry
+                        userDataHolder:(CR_UserDataHolder *)userDataHolder
+               internalContextProvider:(CR_InternalContextProvider *)internalContextProvider
     NS_DESIGNATED_INITIALIZER;
 
 /**
@@ -63,6 +68,7 @@ typedef void (^CR_CsmCompletionHandler)(NSError *error);
               consent:(CR_DataProtectionConsent *)consent
                config:(CR_Config *)config
            deviceInfo:(CR_DeviceInfo *)deviceInfo
+              context:(__unused CRContextData *)contextData
         beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
     completionHandler:(CR_CdbCompletionHandler)completionHandler;
 

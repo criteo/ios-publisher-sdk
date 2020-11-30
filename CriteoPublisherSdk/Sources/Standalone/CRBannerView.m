@@ -17,16 +17,13 @@
 // limitations under the License.
 //
 
-#import "CRBannerView.h"
+#import "CRBannerView+Internal.h"
 #import "Criteo+Internal.h"
 #import "CR_BidManager.h"
-#import "CR_URLOpening.h"
+#import "CR_URLOpener.h"
 #import "CR_IntegrationRegistry.h"
 #import "CR_DependencyProvider.h"
 #import "NSError+Criteo.h"
-
-// TODO check import strategy
-@import WebKit;
 
 @interface CRBannerView () <WKNavigationDelegate, WKUIDelegate>
 @property(nonatomic) BOOL isResponseValid;
@@ -34,6 +31,7 @@
 @property(nonatomic, strong) WKWebView *webView;
 @property(nonatomic, readonly) CRBannerAdUnit *adUnit;
 @property(nonatomic, readonly) id<CR_URLOpening> urlOpener;
+@property(nonatomic, strong) CR_SKAdNetworkParameters *skAdNetworkParameters;
 
 @end
 
@@ -121,6 +119,10 @@
 }
 
 - (void)loadAd {
+  [self loadAdWithContext:CRContextData.new];
+}
+
+- (void)loadAdWithContext:(CRContextData *)contextData {
   [self.integrationRegistry declare:CR_IntegrationStandalone];
 
   self.isResponseValid = NO;
@@ -134,11 +136,12 @@
                                                                     size:self.frame.size
                                                               adUnitType:CRAdUnitTypeBanner];
   [self.criteo loadCdbBidForAdUnit:cacheAdUnit
+                       withContext:contextData
                    responseHandler:^(CR_CdbBid *bid) {
                      if (!bid || bid.isEmpty) {
                        [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
                      } else {
-                       [self loadAdWithDisplayData:bid.displayUrl];
+                       [self loadAdWithCdbBid:bid];
                      }
                    }];
 }
@@ -158,7 +161,12 @@
     return;
   }
 
-  [self loadAdWithDisplayData:cdbBid.displayUrl];
+  [self loadAdWithCdbBid:cdbBid];
+}
+
+- (void)loadAdWithCdbBid:(CR_CdbBid *)bid {
+  self.skAdNetworkParameters = bid.skAdNetworkParameters;
+  [self loadAdWithDisplayData:bid.displayUrl];
 }
 
 - (void)loadAdWithDisplayData:(NSString *)displayData {
@@ -200,10 +208,15 @@
       if ([self.delegate respondsToSelector:@selector(bannerWasClicked:)]) {
         [self.delegate bannerWasClicked:self];
       }
-      if ([self.delegate respondsToSelector:@selector(bannerWillLeaveApplication:)]) {
-        [self.delegate bannerWillLeaveApplication:self];
-      }
-      [self.urlOpener openExternalURL:navigationAction.request.URL];
+      [self.urlOpener openExternalURL:navigationAction.request.URL
+            withSKAdNetworkParameters:self.skAdNetworkParameters
+                             fromView:self
+                           completion:^(BOOL success) {
+                             if (success && [self.delegate respondsToSelector:@selector
+                                                           (bannerWillLeaveApplication:)]) {
+                               [self.delegate bannerWillLeaveApplication:self];
+                             }
+                           }];
     });
     if (decisionHandler) {
       decisionHandler(WKNavigationActionPolicyCancel);

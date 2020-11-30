@@ -19,8 +19,11 @@
 
 #ifndef CRBannerView_Internal_h
 #define CRBannerView_Internal_h
-@import WebKit;
 
+#import <WebKit/WebKit.h>
+#import "CRBannerView.h"
+
+@class Criteo;
 @protocol CR_URLOpening;
 
 @interface CRBannerView (Internal)

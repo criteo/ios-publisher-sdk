@@ -1,5 +1,5 @@
 //
-//  CR_URLOpenning.h
+//  CRContextData.m
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -17,24 +17,31 @@
 // limitations under the License.
 //
 
-#import <UIKit/UIKit.h>
+#import "CRContextData.h"
 
-NS_ASSUME_NONNULL_BEGIN
+NSString *const CRContextDataContentUrl = @"content.url";
 
-typedef void (^CR_URLOpeningCompletion)(BOOL success);
+@interface CRContextData ()
 
-@protocol CR_URLOpening <NSObject>
-
-- (void)openExternalURL:(NSURL *)url;
-- (void)openExternalURL:(NSURL *)url withCompletion:(nullable CR_URLOpeningCompletion)completion;
-- (void)openExternalURL:(NSURL *)url
-            withOptions:(NSDictionary<UIApplicationOpenExternalURLOptionsKey, id> *)options
-             completion:(nullable CR_URLOpeningCompletion)completion;
+@property(strong, nonatomic, readonly) NSDictionary<NSString *, id> *data;
 
 @end
 
-@interface CR_URLOpener : NSObject <CR_URLOpening>
+@implementation CRContextData
+
++ (CRContextData *)contextDataWithDictionary:(NSDictionary<NSString *, id> *)dictionary {
+  return [[CRContextData alloc] initWithDictionary:dictionary];
+}
+
+- (instancetype)init {
+  return [self initWithDictionary:@{}];
+}
+
+- (instancetype)initWithDictionary:(NSDictionary<NSString *, id> *)dictionary {
+  if (self = [super init]) {
+    _data = dictionary;
+  }
+  return self;
+}
 
 @end
-
-NS_ASSUME_NONNULL_END

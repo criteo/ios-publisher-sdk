@@ -1,6 +1,6 @@
 //
-//  main.m
-//  CriteoAdViewer
+//  CRUserData+Internal.h
+//  CriteoPublisherSdk
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
 //
@@ -17,11 +17,11 @@
 // limitations under the License.
 //
 
-#import <UIKit/UIKit.h>
-#import "AppDelegate.h"
+#import <Foundation/Foundation.h>
+#import "CRUserData.h"
 
-int main(int argc, char* argv[]) {
-  @autoreleasepool {
-    return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
-  }
-}
+@interface CRUserData (Internal)
+
+@property(strong, nonatomic, readonly) NSDictionary<NSString *, id> *data;
+
+@end

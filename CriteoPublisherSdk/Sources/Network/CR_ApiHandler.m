@@ -1,3 +1,4 @@
+#import <_types.h>
 //
 //  CR_ApiHandler.m
 //  CriteoPublisherSdk
@@ -47,7 +48,9 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 - (instancetype)initWithNetworkManager:(CR_NetworkManager *)networkManager
                        bidFetchTracker:(CR_BidFetchTracker *)bidFetchTracker
                          threadManager:(CR_ThreadManager *)threadManager
-                   integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry {
+                   integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry
+                        userDataHolder:(CR_UserDataHolder *)userDataHolder
+               internalContextProvider:(CR_InternalContextProvider *)internalContextProvider {
   if (self = [super init]) {
     _networkManager = networkManager;
     _bidFetchTracker = bidFetchTracker;
@@ -55,7 +58,9 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
     _gdprSerializer = [[CR_GdprSerializer alloc] init];
     _integrationRegistry = integrationRegistry;
     _bidRequestSerializer =
-        [[CR_BidRequestSerializer alloc] initWithGdprSerializer:_gdprSerializer];
+        [[CR_BidRequestSerializer alloc] initWithGdprSerializer:_gdprSerializer
+                                                 userDataHolder:userDataHolder
+                                        internalContextProvider:internalContextProvider];
     _feedbackSerializer = [[CR_FeedbacksSerializer alloc] init];
   }
   return self;
@@ -85,6 +90,7 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
               consent:(CR_DataProtectionConsent *)consent
                config:(CR_Config *)config
            deviceInfo:(CR_DeviceInfo *)deviceInfo
+              context:(CRContextData *)contextData
         beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
     completionHandler:(CR_CdbCompletionHandler)completionHandler {
   [self.threadManager dispatchAsyncOnGlobalQueue:^{
@@ -93,6 +99,7 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
                     consent:consent
                      config:config
                  deviceInfo:deviceInfo
+                    context:contextData
               beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
           completionHandler:completionHandler];
     } @catch (NSException *exception) {
@@ -106,6 +113,7 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
               consent:(CR_DataProtectionConsent *)consent
                config:(CR_Config *)config
            deviceInfo:(CR_DeviceInfo *)deviceInfo
+              context:(CRContextData *)contextData
         beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
     completionHandler:(CR_CdbCompletionHandler)completionHandler {
   CR_CacheAdUnitArray *requestAdUnits = [self filterRequestAdUnitsAndSetProgressFlags:adUnits];
@@ -128,7 +136,8 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
     NSDictionary *body = [self.bidRequestSerializer bodyWithCdbRequest:cdbRequest
                                                                consent:consent
                                                                 config:config
-                                                            deviceInfo:deviceInfo];
+                                                            deviceInfo:deviceInfo
+                                                               context:contextData];
     CLogInfo(@"[INFO][API_] CdbPostCall.start");
     [self.networkManager postToUrl:url
                           postBody:body

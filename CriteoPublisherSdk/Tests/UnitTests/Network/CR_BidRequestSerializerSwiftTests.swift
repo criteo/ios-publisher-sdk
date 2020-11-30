@@ -24,10 +24,13 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
   var serializer: CR_BidRequestSerializer!
   var gdprSerializer: CR_GdprSerializerMock!
   var request: CR_CdbRequest!
+  var userDataHolder = CR_UserDataHolder()
+  var internalContextProvider = CR_InternalContextProviderMock()
 
   var config: CR_Config = CR_Config()
   var consent: CR_DataProtectionConsentMock = CR_DataProtectionConsentMock()
   var deviceInfo: CR_DeviceInfoMock = CR_DeviceInfoMock()
+  var context = CRContextData()
 
   let userDefaults = CR_InMemoryUserDefaults()
   let testIntegrationType = CR_IntegrationType.gamAppBidding
@@ -35,7 +38,10 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
 
   override func setUp() {
     gdprSerializer = CR_GdprSerializerMock()
-    serializer = CR_BidRequestSerializer(gdprSerializer: gdprSerializer)
+    serializer = CR_BidRequestSerializer(
+      gdprSerializer: gdprSerializer,
+      userDataHolder: userDataHolder,
+      internalContextProvider: internalContextProvider)
     request = CR_CdbRequest(
       profileId: testProfileId,
       adUnits: [
@@ -74,10 +80,12 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
   }
 
   func testBodyWithPublisher() {
-    let expected = [
-      NSString.bundleIdKey: config.appId,
-      NSString.cpIdKey: config.criteoPublisherId!,
-    ]
+    let expected =
+      [
+        NSString.bundleIdKey: config.appId,
+        NSString.cpIdKey: config.criteoPublisherId!,
+        "ext": [:] as [String: AnyHashable],
+      ] as [String: AnyHashable]
 
     let body = generateBody()
 
@@ -91,13 +99,14 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
     let body = generateBody()
 
     let user: [String: AnyHashable] = body[NSString.userKey]! as! [String: AnyHashable]
-    XCTAssertEqual(user.count, 6)
+    XCTAssertEqual(user.count, 7)
     XCTAssertEqual(user[NSString.userAgentKey], deviceInfo.userAgent)
     XCTAssertEqual(user[NSString.deviceIdKey], deviceInfo.deviceId)
     XCTAssertEqual(user[NSString.deviceOsKey], config.deviceOs)
     XCTAssertEqual(user[NSString.deviceModelKey], config.deviceModel)
     XCTAssertEqual(user[NSString.deviceIdTypeKey], NSString.deviceIdTypeValue)
     XCTAssertEqual(user[NSString.uspIabKey], consent.usPrivacyIabConsentString!)
+    XCTAssertEqual(user["ext"], [:] as [String: AnyHashable])
   }
 
   func testBodyWithUsPrivacyConsentString() {
@@ -136,12 +145,33 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
     XCTAssertEqual(user[NSString.mopubConsent]!, "Privacy consent for mopub")
   }
 
+  func testBodyWithContext() {
+    context = CRContextData(dictionary: [
+      "a.a": "foo",
+      "b": "bar",
+    ])
+
+    let expected =
+      [
+        "a": [
+          "a": "foo"
+        ],
+        "b": "bar",
+      ] as [String: AnyHashable]
+
+    let body = generateBody()
+
+    let publisher = body["publisher"]! as! [String: AnyHashable]
+    XCTAssertEqual(publisher["ext"], expected)
+  }
+
   private func generateBody() -> [String: AnyHashable] {
     return serializer.body(
       with: request,
       consent: consent,
       config: config,
-      deviceInfo: deviceInfo) as! [String: AnyHashable]
+      deviceInfo: deviceInfo,
+      context: context) as! [String: AnyHashable]
   }
 }
 
@@ -151,5 +181,11 @@ class CR_GdprSerializerMock: CR_GdprSerializer {
 
   open override func dictionary(for gdpr: CR_Gdpr) -> [String: NSObject]? {
     return dictionaryValue
+  }
+}
+
+class CR_InternalContextProviderMock: CR_InternalContextProvider {
+  open override func fetchInternalUserContext() -> [String: Any] {
+    [:]
   }
 }

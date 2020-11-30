@@ -34,6 +34,7 @@
 #import "CR_NetworkCaptor.h"
 #import "NSURL+Testing.h"
 #import "UIImage+Testing.h"
+#import "CRContextData.h"
 
 @interface CR_NativeAdFunctionalTests : CR_IntegrationsTestBase
 
@@ -56,7 +57,7 @@
   NSString *keyPath = NSStringFromSelector(@selector(adLoadedCount));
   XCTestExpectation *exp = [[XCTKVOExpectation alloc] initWithKeyPath:keyPath object:ctrl];
   ctrl.adUnit = adUnit;
-  [ctrl.adLoader loadAd];
+  [ctrl.adLoader loadAdWithContext:self.contextData];
 
   [self cr_waitForExpectations:@[ exp ]];
 }
@@ -73,7 +74,7 @@
       [[XCTKVOExpectation alloc] initWithKeyPath:NSStringFromSelector(@selector(lastFilledAdCell))
                                           object:ctrl];
   ctrl.adUnit = adUnit;
-  [ctrl.adLoader loadAd];
+  [ctrl.adLoader loadAdWithContext:self.contextData];
 
   [self cr_waitForExpectations:@[ exp ]];
   [self waitForIdleState];
@@ -346,7 +347,7 @@
   XCTestExpectation *exp = [[XCTKVOExpectation alloc] initWithKeyPath:keyPath
                                                                object:ctrl
                                                         expectedValue:@1];
-  [ctrl.adLoader loadAd];
+  [ctrl.adLoader loadAdWithContext:self.contextData];
   [self cr_waitForExpectations:@[ exp ]];
 }
 
@@ -361,7 +362,7 @@
   XCTestExpectation *exp = [[XCTKVOExpectation alloc] initWithKeyPath:keyPath
                                                                object:ctrl
                                                         expectedValue:@1];
-  [loader loadAd];
+  [loader loadAdWithContext:self.contextData];
   [self cr_waitForExpectations:@[ exp ]];
 }
 
@@ -390,8 +391,12 @@
   XCTestExpectation *exp = [[XCTKVOExpectation alloc] initWithKeyPath:keyPath
                                                                object:ctrl
                                                         expectedValue:@(nextLoadCount)];
-  [ctrl.adLoader loadAd];
+  [ctrl.adLoader loadAdWithContext:self.contextData];
   [self cr_waitForExpectations:@[ exp ]];
+}
+
+- (CRContextData *)contextData {
+  return CRContextData.new;
 }
 
 @end

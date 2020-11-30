@@ -29,20 +29,23 @@
   return self;
 }
 
-- (void)openExternalURL:(NSURL *)url {
-  self.openExternalURLCount += 1;
-}
-
-- (void)openExternalURL:(NSURL *)url withCompletion:(nullable CR_URLOpeningCompletion)completion {
+- (void)openExternalURL:(NSURL *)url withCompletion:(CR_URLOpeningCompletion)completion {
   self.openExternalURLCount += 1;
   completion(self.successInCompletion);
 }
 
 - (void)openExternalURL:(NSURL *)url
-            withOptions:(NSDictionary<UIApplicationOpenExternalURLOptionsKey, id> *)options
-             completion:(nullable CR_URLOpeningCompletion)completion {
-  self.openExternalURLCount += 1;
-  completion(self.successInCompletion);
+    withSKAdNetworkParameters:(CR_SKAdNetworkParameters *)parameters
+           fromViewController:(UIViewController *)controller
+                   completion:(CR_URLOpeningCompletion)completion {
+  [self openExternalURL:url withCompletion:completion];
+}
+
+- (void)openExternalURL:(NSURL *)url
+    withSKAdNetworkParameters:(CR_SKAdNetworkParameters *)parameters
+                     fromView:(UIView *)view
+                   completion:(CR_URLOpeningCompletion)completion {
+  [self openExternalURL:url withCompletion:completion];
 }
 
 @end

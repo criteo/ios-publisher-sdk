@@ -30,6 +30,8 @@
 #import "Logging.h"
 #import "CR_DependencyProvider.h"
 #import "CR_IntegrationRegistry.h"
+#import "CR_UserDataHolder.h"
+#import "CR_URLOpener.h"
 
 @implementation Criteo
 
@@ -73,11 +75,24 @@
   self.bidManager.consent.mopubConsent = mopubConsent;
 }
 
+#pragma mark - User data
+
+- (void)setUserData:(CRUserData *)userData {
+  self.dependencyProvider.userDataHolder.userData = userData;
+}
+
 #pragma mark - Bidding
 
 - (void)loadBidForAdUnit:(CRAdUnit *)adUnit responseHandler:(CRBidResponseHandler)responseHandler {
+  [self loadBidForAdUnit:adUnit withContext:CRContextData.new responseHandler:responseHandler];
+}
+
+- (void)loadBidForAdUnit:(CRAdUnit *)adUnit
+             withContext:(CRContextData *)contextData
+         responseHandler:(CRBidResponseHandler)responseHandler {
   CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
   [self.bidManager loadCdbBidForAdUnit:cacheAdUnit
+                           withContext:contextData
                        responseHandler:^(CR_CdbBid *cdbBid) {
                          [self.threadManager dispatchAsyncOnMainQueue:^{
                            CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:adUnit];
@@ -124,15 +139,18 @@
   CR_CacheAdUnitArray *cacheAdUnits = [CR_AdUnitHelper cacheAdUnitsForAdUnits:adUnits];
 
   if (self.config.isPrefetchOnInitEnabled) {
-    [self.bidManager prefetchBidsForAdUnits:cacheAdUnits];
+    [self.bidManager prefetchBidsForAdUnits:cacheAdUnits withContext:CRContextData.new];
   }
 }
 
 #pragma mark Generic
 
 - (void)loadCdbBidForAdUnit:(CR_CacheAdUnit *)slot
+                withContext:(CRContextData *)contextData
             responseHandler:(CR_CdbBidResponseHandler)responseHandler {
-  [self.bidManager loadCdbBidForAdUnit:slot responseHandler:responseHandler];
+  [self.bidManager loadCdbBidForAdUnit:slot
+                           withContext:contextData
+                       responseHandler:responseHandler];
 }
 
 #pragma mark Properties
@@ -167,6 +185,18 @@
 
 - (CR_ThreadManager *)threadManager {
   return self.dependencyProvider.threadManager;
+}
+
+#pragma mark - Intended for manual tests
+
++ (void)loadProductWithParameters:(NSDictionary *)parameters
+               fromViewController:(UIViewController *)controller {
+  CR_URLOpener *opener = [[CR_URLOpener alloc] init];
+  [opener openExternalURL:[NSURL URLWithString:@"https://apps.apple.com"]
+      withSKAdNetworkParameters:[[CR_SKAdNetworkParameters alloc] initWithDict:parameters]
+             fromViewController:controller
+                     completion:^(BOOL success){
+                     }];
 }
 
 @end

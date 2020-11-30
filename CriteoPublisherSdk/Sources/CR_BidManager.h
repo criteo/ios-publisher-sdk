@@ -35,6 +35,7 @@
 #import "CRBid+Internal.h"
 #import "CR_FeedbackStorage.h"
 #import "Criteo+Internal.h"
+#import "CRContextData.h"
 
 @protocol CR_FeedbackDelegate;
 @class CR_HeaderBidding;
@@ -75,23 +76,27 @@
  * - Returned synchronously using the cache bidding strategy (prefetch / get from cache)
  *
  * @param adUnit The ad unit to request a bid
+ * @param contextData The context for this bid
  * @param responseHandler The block called once bid has been loaded
  * Note: responseHandler is potentially not invoked on main queue
  */
 - (void)loadCdbBidForAdUnit:(CR_CacheAdUnit *)adUnit
+                withContext:(CRContextData *)contextData
             responseHandler:(CR_CdbBidResponseHandler)responseHandler;
 
 @end
 
 @interface CR_BidManager (CacheBidding)
 
-- (void)prefetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits;
+- (void)prefetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits
+                   withContext:(CRContextData *)contextData;
 
 @end
 
 @interface CR_BidManager (LiveBidding)
 
 - (void)fetchLiveBidForAdUnit:(CR_CacheAdUnit *)adUnit
+                  withContext:(CRContextData *)contextData
               responseHandler:(CR_CdbBidResponseHandler)responseHandler;
 
 @end

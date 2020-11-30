@@ -23,6 +23,15 @@
 #import "CR_CdbRequest.h"
 #import "CR_GdprSerializer.h"
 #import "CR_IntegrationRegistry.h"
+#import "CR_UserDataHolder.h"
+#import "CR_InternalContextProvider.h"
+
+@interface CR_BidRequestSerializer (Testing)
+
++ (NSDictionary<NSString *, id> *)mergeToNestedStructure:
+    (NSArray<NSDictionary<NSString *, id> *> *)flattenDictionaries;
+
+@end
 
 @interface CR_BidRequestSerializerTests : XCTestCase
 
@@ -34,7 +43,11 @@
 
 - (void)setUp {
   CR_GdprSerializer *serializer = [[CR_GdprSerializer alloc] init];
-  _serializer = [[CR_BidRequestSerializer alloc] initWithGdprSerializer:serializer];
+  CR_UserDataHolder *userDataHolder = CR_UserDataHolder.new;
+  CR_InternalContextProvider *internalContextProvider = CR_InternalContextProvider.new;
+  _serializer = [[CR_BidRequestSerializer alloc] initWithGdprSerializer:serializer
+                                                         userDataHolder:userDataHolder
+                                                internalContextProvider:internalContextProvider];
 }
 
 #pragma mark - Tests to be refactored
@@ -78,6 +91,51 @@
   XCTAssertTrue([nonNativeSlots[0][@"placementId"] isEqualToString:nonNativeAdUnit.adUnitId]);
   XCTAssertTrue([nonNativeSlots[0][@"sizes"] isEqual:@[ nonNativeAdUnit.cdbSize ]]);
   XCTAssertNil(nonNativeSlots[0][@"isNative"]);
+}
+
+- (void)testMergeToNestedStructure_GivenNoMap_ReturnEmpty {
+  NSDictionary<NSString *, id> *dictionary = [CR_BidRequestSerializer mergeToNestedStructure:@[]];
+
+  XCTAssertEqualObjects(dictionary, @{});
+}
+
+- (void)testMergeToNestedMap_GivenMultipleMapsWithOverride_ReturnMergedAndNestedMap {
+  NSDictionary<NSString *, id> *map1 = @{@"" : @"skipped", @"a.a.a" : @1337, @"a.c.b" : @"..."};
+
+  NSDictionary<NSString *, id> *map2 = @{
+    @"a.a.a" : @"skipped",
+    @"a.b" : @"foo",
+    @"a.c.a" : @[ @"foo", @"bar" ],
+    @"a.c.e" : @{@"valueMap" : @{@"a" : @"map as value"}},
+    @"a.a" : @"skipped",
+    @"a.a.a.a" : @"skipped"
+  };
+
+  NSDictionary<NSString *, id> *map3 = @{
+    @"a" : @"skipped",
+    @".a" : @"skipped",
+    @"a.c.c." : @"skipped",
+    @"a..c.d" : @"skipped",
+    @"a.c.e" : @{@"valueMap" : @{@"a" : @"map as value"}},
+    @"a.c.e.valueMap.b" : @"skipped"
+  };
+
+  NSDictionary<NSString *, id> *expectedMap = @{
+    @"a" : @{
+      @"a" : @{@"a" : @1337},
+      @"c" : @{
+        @"b" : @"...",
+        @"a" : @[ @"foo", @"bar" ],
+        @"e" : @{@"valueMap" : @{@"a" : @"map as value"}}
+      },
+      @"b" : @"foo"
+    }
+  };
+
+  NSDictionary<NSString *, id> *dictionary =
+      [CR_BidRequestSerializer mergeToNestedStructure:@[ map1, map2, map3 ]];
+
+  XCTAssertEqualObjects(dictionary, expectedMap);
 }
 
 @end

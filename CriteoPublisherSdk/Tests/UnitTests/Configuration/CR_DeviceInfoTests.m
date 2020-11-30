@@ -22,9 +22,8 @@
 
 #import "CR_DeviceInfo+Testing.h"
 #import "CR_ThreadManager.h"
+#import "WKWebView+Testing.h"
 #import "XCTestCase+Criteo.h"
-
-@import WebKit;
 
 @interface CR_DeviceInfoTests : XCTestCase
 @end

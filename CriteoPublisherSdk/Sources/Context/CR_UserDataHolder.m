@@ -1,6 +1,6 @@
 //
-//  AppDelegate.h
-//  CriteoAdViewer
+//  CR_UserDataHolder.m
+//  CriteoPublisherSdk
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
 //
@@ -17,10 +17,15 @@
 // limitations under the License.
 //
 
-#import <UIKit/UIKit.h>
+#import "CR_UserDataHolder.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@implementation CR_UserDataHolder
 
-@property(strong, nonatomic) UIWindow *window;
+- (instancetype)init {
+  if (self = [super init]) {
+    _userData = CRUserData.new;
+  }
+  return self;
+}
 
 @end

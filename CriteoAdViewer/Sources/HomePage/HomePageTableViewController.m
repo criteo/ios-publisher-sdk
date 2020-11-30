@@ -100,6 +100,11 @@ NSString *const HomePageTableViewControllerUsPrivacyIabConsentStringKey = @"IABU
   criteo.networkManagerDelegate = self.logManager;
   UIButton *button = (UIButton *)sender;
   [button setEnabled:NO];
+
+  [criteo setUserData:[CRUserData userDataWithDictionary:@{
+            CRUserDataHashedEmail : [CREmailHasher hash:@"john.doe@gmail.com"],
+            CRUserDataDevUserId : @"devUserId"
+          }]];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

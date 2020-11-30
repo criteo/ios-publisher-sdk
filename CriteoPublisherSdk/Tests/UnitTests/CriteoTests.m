@@ -21,7 +21,6 @@
 #import <OCMock.h>
 #import "Criteo.h"
 #import "Criteo+Internal.h"
-#import "CRInterstitialAdUnit.h"
 #import "CR_IntegrationRegistry.h"
 #import "CR_DependencyProvider.h"
 #import "CR_DependencyProvider+Testing.h"
@@ -29,11 +28,14 @@
 #import "CR_SynchronousThreadManager.h"
 #import "CR_AppEvents.h"
 #import "CR_BidManager.h"
+#import "CR_UserDataHolder.h"
+#import "CRUserData+Internal.h"
 
 @interface CriteoTests : XCTestCase
 
 @property(strong, nonatomic) Criteo *criteo;
 @property(strong, nonatomic) CR_IntegrationRegistry *integrationRegistry;
+@property(strong, nonatomic) CR_UserDataHolder *userDataHolder;
 
 @end
 
@@ -44,6 +46,7 @@
 - (void)setUp {
   CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
   self.integrationRegistry = dependencyProvider.integrationRegistry;
+  self.userDataHolder = dependencyProvider.userDataHolder;
 
   self.criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProvider];
 }
@@ -87,7 +90,7 @@
 
     CR_BidManager *bidManager = OCMStrictClassMock(CR_BidManager.class);
     OCMStub(dependencyProviderMock.bidManager).andReturn(bidManager);
-    OCMExpect([bidManager prefetchBidsForAdUnits:OCMArg.any]);
+    OCMExpect([bidManager prefetchBidsForAdUnits:OCMArg.any withContext:OCMArg.any]);
   }];
 }
 
@@ -99,8 +102,41 @@
 
     CR_BidManager *bidManager = OCMStrictClassMock(CR_BidManager.class);
     OCMStub(dependencyProviderMock.bidManager).andReturn(bidManager);
-    OCMReject([bidManager prefetchBidsForAdUnits:OCMArg.any]);
+    OCMReject([bidManager prefetchBidsForAdUnits:OCMArg.any withContext:OCMArg.any]);
   }];
+}
+
+- (void)testLoadBidForAdUnit_GivenNoContext_UseEmptyOne {
+  Criteo *criteo = OCMPartialMock(self.criteo);
+  CRAdUnit *adUnit = OCMClassMock(CRAdUnit.class);
+  id contextDataMock = OCMClassMock(CRContextData.class);
+  OCMStub([contextDataMock new]).andReturn(contextDataMock);
+
+  [criteo loadBidForAdUnit:adUnit
+           responseHandler:^(CRBid *bid){
+           }];
+
+  OCMVerify([criteo loadBidForAdUnit:adUnit
+                         withContext:contextDataMock
+                     responseHandler:OCMArg.any]);
+}
+
+#pragma mark - User data
+
+- (void)testSetUserData_GivenNoData_UserDataHolderContainsEmpty {
+  // no setUserData
+
+  NSDictionary<NSString *, id> *rawUserData = self.userDataHolder.userData.data;
+
+  XCTAssertEqualObjects(rawUserData, @{});
+}
+
+- (void)testSetUserData_GivenSomeData_UserDataHolderContainsIt {
+  [self.criteo setUserData:[CRUserData userDataWithDictionary:@{@"foo" : @"bar"}]];
+
+  NSDictionary<NSString *, id> *rawUserData = self.userDataHolder.userData.data;
+
+  XCTAssertEqualObjects(rawUserData, @{@"foo" : @"bar"});
 }
 
 #pragma mark - Private
