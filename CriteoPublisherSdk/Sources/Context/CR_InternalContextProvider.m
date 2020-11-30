@@ -136,7 +136,7 @@
 }
 
 - (nullable NSNumber *)fetchSessionDuration {
-  return nil;  // TODO EE-1315
+  return @((long)self.session.duration);
 }
 
 - (NSDictionary<NSString *, id> *)fetchInternalUserContext {
