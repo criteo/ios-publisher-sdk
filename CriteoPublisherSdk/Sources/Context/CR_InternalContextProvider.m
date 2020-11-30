@@ -104,11 +104,11 @@
 }
 
 - (nullable NSString *)fetchUserCountry {
-  return nil;  // TODO EE-1315
+  return [self getPreferredLanguagesComponentForLocaleKey:@"kCFLocaleCountryCodeKey"].firstObject;
 }
 
 - (nullable NSArray<NSString *> *)fetchUserLanguages {
-  return nil;  // TODO EE-1315
+  return [self getPreferredLanguagesComponentForLocaleKey:@"kCFLocaleLanguageCodeKey"];
 }
 
 - (nullable NSNumber *)fetchDeviceWidth {
@@ -154,12 +154,27 @@
   return dictionary;
 }
 
+#pragma mark - Private
+
 - (void)setNonNullObject:(id)object
                   forKey:(NSString *)key
             inDictionary:(NSMutableDictionary<NSString *, id> *)dictionary {
   if (object != nil) {
     dictionary[key] = object;
   }
+}
+
+- (NSMutableArray<NSString *> *)getPreferredLanguagesComponentForLocaleKey:(NSString *)localeKey {
+  NSArray<NSString *> *locales = [NSLocale preferredLanguages];
+  NSMutableArray<NSString *> *components = [NSMutableArray arrayWithCapacity:locales.count];
+  [locales enumerateObjectsUsingBlock:^(NSString *locale, NSUInteger idx, BOOL *stop) {
+    NSDictionary *localeDic = [NSLocale componentsFromLocaleIdentifier:locale];
+    NSString *localeComponent = localeDic[localeKey];
+    if (localeComponent) {
+      [components addObject:localeComponent];
+    }
+  }];
+  return components;
 }
 
 @end
