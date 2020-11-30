@@ -112,15 +112,24 @@
 }
 
 - (nullable NSNumber *)fetchDeviceWidth {
-  return nil;  // TODO EE-1315
+  return @(self.screenSize.width);
 }
 
 - (nullable NSNumber *)fetchDeviceHeight {
-  return nil;  // TODO EE-1315
+  return @(self.screenSize.height);
 }
 
 - (nullable NSString *)fetchDeviceOrientation {
-  return nil;  // TODO EE-1315
+  switch ([UIDevice currentDevice].orientation) {
+    case UIDeviceOrientationPortrait:
+    case UIDeviceOrientationPortraitUpsideDown:
+      return @"Portrait";
+    case UIDeviceOrientationLandscapeLeft:
+    case UIDeviceOrientationLandscapeRight:
+      return @"Landscape";
+    default:
+      return nil;
+  }
 }
 
 - (nullable NSNumber *)fetchSessionDuration {
@@ -175,6 +184,10 @@
     }
   }];
   return components;
+}
+
+- (CGSize)screenSize {
+  return [UIScreen mainScreen].bounds.size;
 }
 
 @end
