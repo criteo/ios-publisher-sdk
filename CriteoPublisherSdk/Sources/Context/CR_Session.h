@@ -25,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, readonly) NSTimeInterval duration;
 
+- (id)initWithStartDate:(NSDate *)date;
+
 @end
 
 NS_ASSUME_NONNULL_END
