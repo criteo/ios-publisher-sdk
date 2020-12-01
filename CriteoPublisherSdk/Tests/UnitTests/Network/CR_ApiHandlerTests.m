@@ -430,13 +430,14 @@
     CR_ApiQueryKeys.deviceOs : self.configMock.deviceOs,
     CR_ApiQueryKeys.deviceModel : self.configMock.deviceModel,
     CR_ApiQueryKeys.userAgent : self.deviceInfoMock.userAgent,
-    CR_ApiQueryKeys.uspIab : CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString,
-    CR_ApiQueryKeys.ext : @{}
+    CR_ApiQueryKeys.uspIab : CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString
   };
 
   [self callCdb];
 
-  XCTAssertEqualObjects(self.cdbPayload[CR_ApiQueryKeys.user], expected);
+  NSMutableDictionary *userInfo = [self.cdbPayload[CR_ApiQueryKeys.user] mutableCopy];
+  userInfo[@"ext"] = nil;  // contextual data is checked in other tests
+  XCTAssertEqualObjects(userInfo, expected);
 }
 
 - (void)testCdbCallWithNoDataAndNoError {
