@@ -20,6 +20,7 @@
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
 #import "CR_InternalContextProvider.h"
+#import "CR_Session.h"
 
 @interface CR_InternalContextProviderTests : XCTestCase
 
@@ -29,9 +30,14 @@
 
 @implementation CR_InternalContextProviderTests
 
+const NSTimeInterval testSessionDuration = 10;
+
 - (void)setUp {
   [super setUp];
-  self.internalContextProvider = OCMPartialMock(CR_InternalContextProvider.new);
+  CR_Session *session = [[CR_Session alloc]
+      initWithStartDate:[NSDate dateWithTimeIntervalSinceNow:-testSessionDuration]];
+  self.internalContextProvider =
+      OCMPartialMock([[CR_InternalContextProvider alloc] initWithSession:session]);
 }
 
 - (void)testFetchInternalUserContext_GivenMockedData_PutThemInRightField {
@@ -82,6 +88,26 @@
   NSDictionary<NSString *, id> *expected = @{};
 
   XCTAssertEqualObjects(internalUserContext, expected);
+}
+
+- (void)testFetchInternalUserContext_GivenRealData_PutProperInformation {
+  NSDictionary<NSString *, id> *internalUserContext =
+      [self.internalContextProvider fetchInternalUserContext];
+
+  XCTAssertEqualObjects(internalUserContext[@"device.make"], @"Apple");
+  XCTAssertGreaterThan(((NSString *)internalUserContext[@"device.model"]).length, 0);
+  XCTAssertEqualObjects(internalUserContext[@"device.contype"], @(CR_DeviceConnectionTypeWifi));
+  XCTAssertGreaterThan(((NSNumber *)internalUserContext[@"device.h"]).integerValue, 0);
+  XCTAssertGreaterThan(((NSNumber *)internalUserContext[@"device.w"]).integerValue, 0);
+  XCTAssertEqualObjects(internalUserContext[@"data.orientation"], @"Portrait");
+
+  // Note the locale depends on the simulator setting, which is set by the test plan on CI
+  XCTAssertEqualObjects(((NSArray *)internalUserContext[@"data.inputLanguage"]).firstObject, @"fr");
+  XCTAssertEqualObjects(internalUserContext[@"user.geo.country"], @"FR");
+
+  XCTAssertGreaterThanOrEqual(
+      ((NSNumber *)internalUserContext[@"data.sessionDuration"]).longLongValue,
+      testSessionDuration);
 }
 
 @end

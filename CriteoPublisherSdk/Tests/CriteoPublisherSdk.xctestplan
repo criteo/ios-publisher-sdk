@@ -10,6 +10,7 @@
   ],
   "defaultOptions" : {
     "codeCoverage" : false,
+    "language" : "fr-FR",
     "targetForVariableExpansion" : {
       "containerPath" : "container:CriteoPublisherSdk.xcodeproj",
       "identifier" : "25BD5B562220D16D004DE311",
