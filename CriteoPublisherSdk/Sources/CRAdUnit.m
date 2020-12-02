@@ -50,4 +50,12 @@
   return _adUnitType == adUnit->_adUnitType && [_adUnitId isEqualToString:adUnit->_adUnitId];
 }
 
+- (NSString *)description {
+  NSMutableString *description =
+      [NSMutableString stringWithFormat:@"<%@: ", NSStringFromClass([self class])];
+  [description appendFormat:@"self.adUnitId=%@", self.adUnitId];
+  [description appendString:@">"];
+  return description;
+}
+
 @end
