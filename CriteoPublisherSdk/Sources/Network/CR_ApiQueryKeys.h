@@ -42,7 +42,7 @@
 @property(class, nonatomic, readonly) NSString *ext;
 @property(class, nonatomic, readonly) NSString *feedbackElapsed;
 @property(class, nonatomic, readonly) NSString *feedbacks;
-@property(class, nonatomic, readonly) NSString *gdpr;
+@property(class, nonatomic, readonly) NSString *gdprConsent;
 @property(class, nonatomic, readonly) NSString *gdprString;
 @property(class, nonatomic, readonly) NSString *gdprApplies;
 @property(class, nonatomic, readonly) NSString *gdprConsentData;

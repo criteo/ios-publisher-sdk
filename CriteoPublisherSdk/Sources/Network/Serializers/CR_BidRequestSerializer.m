@@ -72,7 +72,7 @@
   postBody[CR_ApiQueryKeys.profileId] = cdbRequest.profileId;
   postBody[CR_ApiQueryKeys.id] = cdbRequest.requestGroupId;
   postBody[CR_ApiQueryKeys.publisher] = [self publisherWithConfig:config context:contextData];
-  postBody[CR_ApiQueryKeys.gdpr] = [self.gdprSerializer dictionaryForGdpr:consent.gdpr];
+  postBody[CR_ApiQueryKeys.gdprConsent] = [self.gdprSerializer dictionaryForGdpr:consent.gdpr];
   postBody[CR_ApiQueryKeys.bidSlots] = [self slotsWithCdbRequest:cdbRequest];
   postBody[CR_ApiQueryKeys.user] = [self userWithConsent:consent
                                                   config:config
