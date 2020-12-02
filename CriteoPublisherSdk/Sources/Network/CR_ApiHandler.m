@@ -261,21 +261,9 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
   paramDict[CR_ApiQueryKeys.eventType] = event;
   paramDict[CR_ApiQueryKeys.appId] = config.appId;
   paramDict[CR_ApiQueryKeys.limitedAdTracking] = consent.isAdTrackingEnabled ? @"0" : @"1";
-  paramDict[CR_ApiQueryKeys.gdpr] = [[self base64EncodedJsonForGdpr:consent.gdpr] cr_urlEncode];
+  paramDict[CR_ApiQueryKeys.gdprString] = consent.gdpr.consentString;
   NSString *params = [NSString cr_urlQueryParamsWithDictionary:paramDict];
   return params;
-}
-
-- (NSString *)base64EncodedJsonForGdpr:(CR_Gdpr *)gdpr {
-  NSDictionary *jsonObject = [self.gdprSerializer dictionaryForGdpr:gdpr];
-  if (jsonObject == nil) {
-    return nil;
-  }
-  NSError *error = nil;
-  NSData *data = [NSJSONSerialization dataWithJSONObject:jsonObject options:0 error:&error];
-  NSAssert(error == nil, @"Impossible to serialized GDPR: %@ - %@", jsonObject, error);
-  NSString *encoded = [data base64EncodedStringWithOptions:0];
-  return encoded;
 }
 
 @end

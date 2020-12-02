@@ -634,22 +634,14 @@
 }
 
 - (void)testSendAppEventUrlWithGdpr {
-  // GDPR -> JSON -> Base64 -> URL encoding
-  // {"consentData":"ssds","gdprApplies":true,"version":1}
-  // encoded by https://www.base64encode.org/ (for being neutral) gives:
-  // eyJjb25zZW50RGF0YSI6InNzZHMiLCJnZHByQXBwbGllcyI6dHJ1ZSwidmVyc2lvbiI6MX0=
-  // encoded by https://www.urlencoder.org/ gives:
-  NSString *expectedGdprJsonBase64 =
-      @"eyJjb25zZW50RGF0YSI6InNzZHMiLCJnZHByQXBwbGllcyI6dHJ1ZSwidmVyc2lvbiI6MX0%3D";
   [self.consentMock.gdprMock configureWithTcfVersion:CR_GdprTcfVersion1_1];
-  self.consentMock.gdprMock.consentStringValue =
-      @"ssds";  // To have escaped chars from base64 to URL encoding.
+  self.consentMock.gdprMock.consentStringValue = @"ssds";
 
   [self callSendAppEventWithCompletionHandler:nil];
 
   NSString *gdprEncodedString =
-      self.appEventUrlString.cr_urlQueryParamsDictionary[NSString.gdprConsentKey];
-  XCTAssertEqualObjects(gdprEncodedString, expectedGdprJsonBase64);
+      self.appEventUrlString.cr_urlQueryParamsDictionary[NSString.gdprStringKey];
+  XCTAssertEqualObjects(gdprEncodedString, @"ssds");
 }
 
 - (void)testCompletionInvokedWhenCDBFailsWithError {

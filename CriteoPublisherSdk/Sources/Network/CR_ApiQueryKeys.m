@@ -84,8 +84,11 @@
 + (NSString *)feedbacks {
   return @"feedbacks";
 }
-+ (NSString *)gdpr {
++ (NSString *)gdprConsent {
   return @"gdprConsent";
+}
++ (NSString *)gdprString {
+  return @"gdprString";
 }
 + (NSString *)gdprApplies {
   return @"gdprApplies";
