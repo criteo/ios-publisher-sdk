@@ -86,6 +86,7 @@
 		46C403E0257682D200E5179C /* CR_Logging.m in Sources */ = {isa = PBXBuildFile; fileRef = 46C403DE257682D200E5179C /* CR_Logging.m */; };
 		46C403EA2577BADD00E5179C /* CR_LogMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 46C403E82577BADD00E5179C /* CR_LogMessage.h */; };
 		46C403EB2577BADD00E5179C /* CR_LogMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 46C403E92577BADD00E5179C /* CR_LogMessage.m */; };
+		46C403F42578F3EC00E5179C /* CR_LoggingFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46C403F32578F3EC00E5179C /* CR_LoggingFunctionalTests.m */; };
 		46C49B722472D7E3000B0D04 /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25BD5B572220D16D004DE311 /* CriteoPublisherSdk.framework */; };
 		46C87E6C24405B2A0022978C /* CR_DefaultFileManipulatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C87E6B24405B2A0022978C /* CR_DefaultFileManipulatorTests.swift */; };
 		46D5C3C3245AD3B200818D37 /* CRNativeLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 4668FEEF2459BD1000D207AE /* CRNativeLoader.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -426,6 +427,7 @@
 		46C403DE257682D200E5179C /* CR_Logging.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_Logging.m; sourceTree = "<group>"; };
 		46C403E82577BADD00E5179C /* CR_LogMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_LogMessage.h; sourceTree = "<group>"; };
 		46C403E92577BADD00E5179C /* CR_LogMessage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_LogMessage.m; sourceTree = "<group>"; };
+		46C403F32578F3EC00E5179C /* CR_LoggingFunctionalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_LoggingFunctionalTests.m; sourceTree = "<group>"; };
 		46C87E6B24405B2A0022978C /* CR_DefaultFileManipulatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_DefaultFileManipulatorTests.swift; sourceTree = "<group>"; };
 		46E8A70324B74D69007103B9 /* CRConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRConstants.h; sourceTree = "<group>"; };
 		46F05AC9254880880009DCA6 /* skanValid.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = skanValid.bundle; sourceTree = "<group>"; };
@@ -1034,6 +1036,7 @@
 				7D321B0D2474355A006CBC4E /* NativeAd */,
 				7D73EF5E23C39A030086CBDC /* CR_AppEventsIntegrationTests.m */,
 				7D344F6A23D9A5F70029E653 /* CR_BidManagerIntegrationTests.m */,
+				C07ABD1A8ED09D409E36EBA1 /* CR_ContextualFunctionalTests.m */,
 				7DA2F5C323A0EAC000B35524 /* CR_DataConsentFunctionalTests.m */,
 				54680B692395222B00DB5A37 /* CR_DfpBannerFunctionalTests.m */,
 				5E065AD8DCA877B2A1928681 /* CR_DfpInterstitialFunctionalTests.m */,
@@ -1044,6 +1047,7 @@
 				7D85E8D223D8891A00AFF91B /* CR_InHouseFunctionalTests.m */,
 				54680B7723969D7E00DB5A37 /* CR_IntegrationsTestBase.h */,
 				54680B7523969D5C00DB5A37 /* CR_IntegrationsTestBase.m */,
+				46C403F32578F3EC00E5179C /* CR_LoggingFunctionalTests.m */,
 				54680B7823969E7300DB5A37 /* CR_MopubBannerFunctionalTests.m */,
 				5E06573035072D184799FC19 /* CR_MopubInterstitialFunctionalTests.m */,
 				465FE09E24D068BE00CAF6F9 /* CR_ProfileIdFunctionalTests.m */,
@@ -1055,7 +1059,6 @@
 				7DB4E90F2395374F008DE5E3 /* CRInterstitialTests.m */,
 				54ED19F222717E13009AA0B2 /* CRInterstitialViewControllerTests.m */,
 				5E065022DFE1021D3CF2B444 /* NativeAssetsFromCdb.json */,
-				C07ABD1A8ED09D409E36EBA1 /* CR_ContextualFunctionalTests.m */,
 			);
 			path = IntegrationTests;
 			sourceTree = "<group>";
@@ -2057,6 +2060,7 @@
 				7D47C458246AEC75009E7FE5 /* CR_HeaderBiddingTests.m in Sources */,
 				7D523C9223E1CEBA00E79C88 /* CR_ThreadManager+Waiter.m in Sources */,
 				7D3E424223915B6600BAF673 /* CRNativeAdUnitTests.m in Sources */,
+				46C403F42578F3EC00E5179C /* CR_LoggingFunctionalTests.m in Sources */,
 				7D3E423723915B6600BAF673 /* CR_BidFetchTrackerTests.m in Sources */,
 				7D54813B244F643C005FB742 /* CR_InMemoryUserDefaults.m in Sources */,
 				7D3E422523915B6600BAF673 /* CR_DeviceInfoTests.m in Sources */,

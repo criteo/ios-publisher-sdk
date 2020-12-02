@@ -27,7 +27,7 @@
 #import "CR_AdUnitHelper.h"
 #import "CR_BidManager.h"
 #import "CR_ThreadManager.h"
-#import "Logging.h"
+#import "CR_Logging.h"
 #import "CR_DependencyProvider.h"
 #import "CR_IntegrationRegistry.h"
 #import "CR_UserDataHolder.h"
@@ -42,6 +42,7 @@
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     sharedInstance = [self criteo];
+    CRLogInfo(@"Initialization", @"Singleton was initialized");
   });
 
   return sharedInstance;
@@ -55,10 +56,18 @@
       @try {
         [self.dependencyProvider.threadManager dispatchAsyncOnGlobalQueue:^{
           [self _registerCriteoPublisherId:criteoPublisherId withAdUnits:adUnits];
+          CRLogInfo(@"Registration",
+                    @"Criteo SDK version %@ is registered with Publisher ID %@ and %d ad units: %@",
+                    CRITEO_PUBLISHER_SDK_VERSION, criteoPublisherId, adUnits.count, adUnits);
         }];
       } @catch (NSException *exception) {
-        CLogException(exception);
+        CRLogException(
+            @"Registration", exception,
+            @"Criteo SDK version %@ failed registering Publisher ID %@ and %d ad units: %@",
+            CRITEO_PUBLISHER_SDK_VERSION, criteoPublisherId, adUnits.count, adUnits);
       }
+    } else {
+      CRLogWarn(@"Registration", @"You can only call register method once");
     }
   }
 }
@@ -125,7 +134,7 @@
     CR_DependencyProvider *dependencyProvider = [[CR_DependencyProvider alloc] init];
     criteo = [[self alloc] initWithDependencyProvider:dependencyProvider];
   } @catch (NSException *exception) {
-    CLogException(exception);
+    CRLogException(@"Initialization", exception, @"Singleton initialization failed");
   }
   return criteo;
 }

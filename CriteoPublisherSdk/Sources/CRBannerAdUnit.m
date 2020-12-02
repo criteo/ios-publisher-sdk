@@ -49,4 +49,13 @@
   return CGSizeEqualToSize(_size, adUnit->_size) && [self isEqualToAdUnit:adUnit];
 }
 
+- (NSString *)description {
+  NSMutableString *description =
+      [NSMutableString stringWithFormat:@"<%@: ", NSStringFromClass([self class])];
+  [description appendFormat:@"self.adUnitId=%@", self.adUnitId];
+  [description appendFormat:@", self.size=%@", NSStringFromCGSize(self.size)];
+  [description appendString:@">"];
+  return description;
+}
+
 @end
