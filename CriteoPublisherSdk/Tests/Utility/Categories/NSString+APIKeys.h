@@ -47,6 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark GDPR
 
 @property(copy, nonatomic, class, readonly) NSString *gdprConsentKey;
+@property(copy, nonatomic, class, readonly) NSString *gdprStringKey;
 @property(copy, nonatomic, class, readonly) NSString *gdprVersionKey;
 @property(copy, nonatomic, class, readonly) NSString *gdprConsentDataKey;
 @property(copy, nonatomic, class, readonly) NSString *gdprAppliesKey;
