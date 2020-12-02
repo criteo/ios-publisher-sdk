@@ -805,8 +805,6 @@
 				7DFB2B10247E75E5007CDFF3 /* CR_URLOpener.m */,
 				460C0FAB25542BC90016988D /* CR_URLResolver.h */,
 				460C0FAC25542BC90016988D /* CR_URLResolver.m */,
-				25B650582206AB40008416D3 /* Logging.h */,
-				25B650592206AB40008416D3 /* Logging.m */,
 				DF3E3D3E23233809009E8CB5 /* NSArray+Criteo.h */,
 				DF3E3D3923232C80009E8CB5 /* NSArray+Criteo.m */,
 				DF367CBE232DC53A0044807B /* NSDictionary+Criteo.h */,
@@ -910,6 +908,15 @@
 				4672E1DE251CDE02009F39EF /* CR_CASQueueFileElement.m */,
 			);
 			path = Cassette;
+			sourceTree = "<group>";
+		};
+		46C403E72576831B00E5179C /* Logging */ = {
+			isa = PBXGroup;
+			children = (
+				25B650582206AB40008416D3 /* Logging.h */,
+				25B650592206AB40008416D3 /* Logging.m */,
+			);
+			path = Logging;
 			sourceTree = "<group>";
 		};
 		46C87E6A244053930022978C /* Feedback */ = {
@@ -1559,6 +1566,7 @@
 				C07AB38F2A2F69B44E029B87 /* Context */,
 				542B05F523FD97380086A942 /* Feedback */,
 				7D93A61523FC3286007E8B30 /* DataConsent */,
+				46C403E72576831B00E5179C /* Logging */,
 				DF367CDA23304BE50044807B /* Native */,
 				25B6505E22091F1D008416D3 /* Network */,
 				463791F2256D1A0400DC65B4 /* SKAdNetwork */,
