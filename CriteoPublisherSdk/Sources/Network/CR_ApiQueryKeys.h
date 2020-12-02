@@ -42,8 +42,17 @@
 @property(class, nonatomic, readonly) NSString *ext;
 @property(class, nonatomic, readonly) NSString *feedbackElapsed;
 @property(class, nonatomic, readonly) NSString *feedbacks;
+
+/** @property gdprConsent
+ *  @brief gdprConsent property is used for the bid request
+ */
 @property(class, nonatomic, readonly) NSString *gdprConsent;
+
+/** @property gdprString
+ *  @brief gdprString property is used for the app event request (gum)
+ */
 @property(class, nonatomic, readonly) NSString *gdprString;
+
 @property(class, nonatomic, readonly) NSString *gdprApplies;
 @property(class, nonatomic, readonly) NSString *gdprConsentData;
 @property(class, nonatomic, readonly) NSString *gdprVersion;
