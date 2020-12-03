@@ -30,6 +30,7 @@
 #import "CR_DependencyProvider.h"
 #import "CR_DisplaySizeInjector.h"
 #import "CR_IntegrationRegistry.h"
+#import "CR_Logging.h"
 
 @interface CRInterstitial () <WKNavigationDelegate, WKUIDelegate>
 
@@ -45,6 +46,7 @@
                     isAdLoaded:(BOOL)isAdLoaded
                         adUnit:(CRInterstitialAdUnit *)adUnit
                      urlOpener:(id<CR_URLOpening>)urlOpener {
+  CRLogInfo(@"Interstitial", @"Initializing with Ad Unit:%@", adUnit);
   if (self = [super init]) {
     _criteo = criteo;
     viewController.webView.navigationDelegate = self;
@@ -101,6 +103,7 @@
 }
 
 - (void)loadAdWithContext:(CRContextData *)contextData {
+  CRLogInfo(@"Interstitial", @"Loading ad for Ad Unit:%@", self.adUnit);
   [self.integrationRegistry declare:CR_IntegrationStandalone];
 
   if (![self checkSafeToLoad]) {
@@ -153,6 +156,7 @@
 }
 
 - (void)dispatchDidReceiveAdDelegate {
+  CRLogInfo(@"Interstitial", @"Received ad for Ad Unit:%@", self.adUnit);
   dispatch_async(dispatch_get_main_queue(), ^{
     if ([self.delegate respondsToSelector:@selector(interstitialDidReceiveAd:)]) {
       [self.delegate interstitialDidReceiveAd:self];
@@ -326,14 +330,14 @@
 }
 
 - (void)safelyNotifyAdLoadFail:(CRErrorCode)errorCode description:(NSString *)description {
-  dispatch_async(dispatch_get_main_queue(), ^{
-    if ([self.delegate respondsToSelector:@selector(interstitial:didFailToReceiveAdWithError:)]) {
-      NSError *error = description ? [NSError cr_errorWithCode:errorCode description:description]
-                                   : [NSError cr_errorWithCode:errorCode];
-
+  NSError *error = description ? [NSError cr_errorWithCode:errorCode description:description]
+                               : [NSError cr_errorWithCode:errorCode];
+  CRLogInfo(@"Interstitial", @"Failed loading ad for Ad Unit: %@, error: %@", self.adUnit, error);
+  if ([self.delegate respondsToSelector:@selector(interstitial:didFailToReceiveAdWithError:)]) {
+    dispatch_async(dispatch_get_main_queue(), ^{
       [self.delegate interstitial:self didFailToReceiveAdWithError:error];
-    }
-  });
+    });
+  }
 }
 
 - (CR_DeviceInfo *)deviceInfo {

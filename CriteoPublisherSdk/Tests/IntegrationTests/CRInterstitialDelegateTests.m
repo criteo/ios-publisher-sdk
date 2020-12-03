@@ -38,6 +38,7 @@
 #import "CR_DependencyProvider+Testing.h"
 #import "CR_DisplaySizeInjector.h"
 #import "CRContextData.h"
+#import "CR_Logging.h"
 
 @interface CRInterstitialDelegateTests : XCTestCase {
   CR_CacheAdUnit *_cacheAdUnit;
@@ -46,6 +47,7 @@
   WKNavigationResponse *validNavigationResponse;
   WKNavigationResponse *invalidNavigationResponse;
   CRContextData *_contextData;
+  id loggingMock;
 }
 @end
 
@@ -60,6 +62,7 @@
   validNavigationResponse = nil;
   invalidNavigationResponse = nil;
   _contextData = CRContextData.new;
+  loggingMock = OCMClassMock(CR_Logging.class);
 }
 
 #pragma mark - Tests
@@ -123,6 +126,8 @@
   [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
   XCTAssertTrue(interstitial.isAdLoaded);
   OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
+
+  OCMVerify([loggingMock logMessage:[self checkMessageContainsString:@"Received"]]);
 }
 
 - (void)testInterstitialAdFetchFail {
@@ -918,6 +923,14 @@
 
 - (CRContextData *)contextData {
   return _contextData;
+}
+
+- (id)checkMessageContainsString:(NSString *)string {
+  return [OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+    return [logMessage.tag isEqualToString:@"Interstitial"] &&
+           [logMessage.message containsString:string] &&
+           [logMessage.message containsString:self.adUnit.description];
+  }];
 }
 
 @end

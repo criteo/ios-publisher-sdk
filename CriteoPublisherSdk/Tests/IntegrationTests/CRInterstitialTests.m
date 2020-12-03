@@ -41,6 +41,7 @@
 #import "CR_IntegrationRegistry.h"
 #import "CR_CdbBidBuilder.h"
 #import "CRContextData.h"
+#import "CR_Logging.h"
 
 @interface CRInterstitialTests : XCTestCase
 
@@ -51,7 +52,7 @@
 @property(nonatomic, strong) CR_URLOpenerMock *urlOpener;
 @property(nonatomic, strong) CR_DisplaySizeInjector *displaySizeInjector;
 @property(nonatomic, strong) CR_IntegrationRegistry *integrationRegistry;
-
+@property(nonatomic, strong) id loggingMock;
 @end
 
 @implementation CRInterstitialTests
@@ -72,6 +73,7 @@
   self.integrationRegistry = dependencyProvider.integrationRegistry;
 
   self.criteo = OCMPartialMock([Criteo.alloc initWithDependencyProvider:dependencyProvider]);
+  self.loggingMock = OCMClassMock(CR_Logging.class);
 }
 
 - (void)testInterstitialLoadWithDataSuccess {
@@ -151,7 +153,10 @@
   [self mockCriteoWithAdUnit:self.expectedCacheAdUnit respondBid:[self bidWithDisplayURL:@"test"]];
 
   CRInterstitial *interstitial = [self interstitialWithWebView:mockWebView];
+  OCMVerify([self.loggingMock logMessage:[self checkMessageContainsString:@"Initializing"]]);
+
   [interstitial loadAdWithContext:self.contextData];
+  OCMVerify([self.loggingMock logMessage:[self checkMessageContainsString:@"Loading"]]);
 
   [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
   OCMVerifyAll(mockWebView);
@@ -287,6 +292,7 @@
                                  withContext:self.contextData
                              responseHandler:[OCMArg any]]);
   OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
+  OCMVerify([self.loggingMock logMessage:[self checkMessageContainsString:@"Failed"]]);
 }
 
 // TODO: UITests for "click" on a "real" webview with a real link
@@ -448,6 +454,14 @@
         [invocation getArgument:&handler atIndex:4];
         handler(bid);
       });
+}
+
+- (id)checkMessageContainsString:(NSString *)string {
+  return [OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+    return [logMessage.tag isEqualToString:@"Interstitial"] &&
+           [logMessage.message containsString:string] &&
+           [logMessage.message containsString:self.adUnit.description];
+  }];
 }
 
 @end
