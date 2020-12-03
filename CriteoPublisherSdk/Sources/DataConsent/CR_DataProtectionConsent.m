@@ -22,6 +22,7 @@
 #import "CR_Ccpa.h"
 #import "CR_DataProtectionConsent.h"
 #import "CR_Gdpr.h"
+#import "CR_Logging.h"
 
 NSString *const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String";
 
@@ -49,6 +50,9 @@ NSString *const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String"
     _userDefaults = userDefaults;
     _ccpa = [[CR_Ccpa alloc] initWithUserDefaults:userDefaults];
     _gdpr = [[CR_Gdpr alloc] initWithUserDefaults:userDefaults];
+    if (_gdpr.tcfVersion != CR_GdprTcfVersionUnknown) {
+      CRLogInfo(@"Consent", @"Initialized with TCF: %@", _gdpr);
+    }
     _isAdTrackingEnabled = [[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled];
   }
   return self;
@@ -60,6 +64,7 @@ NSString *const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String"
 
 - (void)setUsPrivacyCriteoState:(CR_CcpaCriteoState)usPrivacyCriteoState {
   self.ccpa.criteoState = usPrivacyCriteoState;
+  CRLogInfo(@"Consent", @"CCPA setUsPrivacyCriteoState: %d", usPrivacyCriteoState);
 }
 
 - (CR_CcpaCriteoState)usPrivacyCriteoState {
@@ -75,6 +80,7 @@ NSString *const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String"
 
 - (void)setMopubConsent:(NSString *)mopubConsent {
   [self.userDefaults setObject:mopubConsent forKey:CR_DataProtectionConsentMopubConsentKey];
+  CRLogInfo(@"Consent", @"MoPub consent set: %@", mopubConsent);
 }
 
 - (NSString *)mopubConsent {
