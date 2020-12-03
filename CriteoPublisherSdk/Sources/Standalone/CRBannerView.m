@@ -23,6 +23,7 @@
 #import "CR_URLOpener.h"
 #import "CR_IntegrationRegistry.h"
 #import "CR_DependencyProvider.h"
+#import "CR_Logging.h"
 #import "NSError+Criteo.h"
 
 @interface CRBannerView () <WKNavigationDelegate, WKUIDelegate>
@@ -73,6 +74,7 @@
                    addWebView:(BOOL)addWebView
                        adUnit:(CRBannerAdUnit *)adUnit
                     urlOpener:(id<CR_URLOpening>)opener {
+  CRLogInfo(@"BannerView", @"Initializing with Ad Unit:%@", adUnit);
   if (self = [super initWithFrame:rect]) {
     _criteo = criteo;
     _webView = webView;
@@ -111,6 +113,7 @@
 }
 
 - (void)dispatchDidReceiveAdDelegate {
+  CRLogInfo(@"BannerView", @"Received ad for Ad Unit:%@", self.adUnit);
   dispatch_async(dispatch_get_main_queue(), ^{
     if ([self.delegate respondsToSelector:@selector(bannerDidReceiveAd:)]) {
       [self.delegate bannerDidReceiveAd:self];
@@ -123,6 +126,7 @@
 }
 
 - (void)loadAdWithContext:(CRContextData *)contextData {
+  CRLogInfo(@"BannerView", @"Loading ad for Ad Unit:%@", self.adUnit);
   [self.integrationRegistry declare:CR_IntegrationStandalone];
 
   self.isResponseValid = NO;
@@ -260,14 +264,14 @@
 }
 
 - (void)safelyNotifyAdLoadFail:(CRErrorCode)errorCode description:(NSString *)description {
-  dispatch_async(dispatch_get_main_queue(), ^{
-    if ([self.delegate respondsToSelector:@selector(banner:didFailToReceiveAdWithError:)]) {
-      NSError *error = description ? [NSError cr_errorWithCode:errorCode description:description]
-                                   : [NSError cr_errorWithCode:errorCode];
-
+  NSError *error = description ? [NSError cr_errorWithCode:errorCode description:description]
+                               : [NSError cr_errorWithCode:errorCode];
+  CRLogInfo(@"BannerView", @"Failed loading ad for Ad Unit: %@, error: %@", self.adUnit, error);
+  if ([self.delegate respondsToSelector:@selector(banner:didFailToReceiveAdWithError:)]) {
+    dispatch_async(dispatch_get_main_queue(), ^{
       [self.delegate banner:self didFailToReceiveAdWithError:error];
-    }
-  });
+    });
+  }
 }
 
 - (CR_IntegrationRegistry *)integrationRegistry {
