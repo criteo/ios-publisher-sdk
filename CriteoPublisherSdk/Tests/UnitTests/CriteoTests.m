@@ -31,6 +31,7 @@
 #import "CR_UserDataHolder.h"
 #import "CRUserData+Internal.h"
 #import "CR_CdbBidBuilder.h"
+#import "CR_Logging.h"
 #import "CRBannerAdUnit.h"
 #import "XCTestCase+Criteo.h"
 #import "CR_AdUnitHelper.h"
@@ -40,7 +41,7 @@
 @property(strong, nonatomic) Criteo *criteo;
 @property(strong, nonatomic) CR_IntegrationRegistry *integrationRegistry;
 @property(strong, nonatomic) CR_UserDataHolder *userDataHolder;
-
+@property(strong, nonatomic) id loggingMock;
 @end
 
 @implementation CriteoTests
@@ -51,6 +52,7 @@
   CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
   self.integrationRegistry = dependencyProvider.integrationRegistry;
   self.userDataHolder = dependencyProvider.userDataHolder;
+  self.loggingMock = OCMClassMock(CR_Logging.class);
 
   self.criteo = OCMPartialMock([[Criteo alloc] initWithDependencyProvider:dependencyProvider]);
 }
@@ -124,6 +126,12 @@
                   }
                 }];
   [self cr_waitShortlyForExpectations:@[ expectation ]];
+
+  OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+                                return [logMessage.tag isEqualToString:@"Bidding"] &&
+                                       [logMessage.message containsString:@"Loaded bid"] &&
+                                       [logMessage.message containsString:@"(null)"];
+                              }]]);
 }
 
 - (void)testLoadBidForAdUnit_GivenBid_ReturnBid {
@@ -134,13 +142,21 @@
   [self mockBidManagerWithAdUnit:cacheAdUnit respondBid:cdbBid];
 
   XCTestExpectation *expectation = XCTestExpectation.new;
+  __block CRBid *bid;
   [self.criteo loadBidForAdUnit:adUnit
-                responseHandler:^(CRBid *bid) {
+                responseHandler:^(CRBid *bid_) {
+                  bid = bid_;
                   if (bid.price == 42) {
                     [expectation fulfill];
                   }
                 }];
   [self cr_waitShortlyForExpectations:@[ expectation ]];
+
+  OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+                                return [logMessage.tag isEqualToString:@"Bidding"] &&
+                                       [logMessage.message containsString:@"Loaded bid"] &&
+                                       [logMessage.message containsString:bid.description];
+                              }]]);
 }
 
 - (void)testLoadBidForAdUnit_GivenNoContext_UseEmptyOne {

@@ -40,4 +40,13 @@
   return bid.isValid && !bid.isExpired ? bid : nil;
 }
 
+- (NSString *)description {
+  NSMutableString *description =
+      [NSMutableString stringWithFormat:@"<%@: ", NSStringFromClass([self class])];
+  [description appendFormat:@"self.adUnit=%@", self.adUnit];
+  [description appendFormat:@", self.price=%lf", self.price];
+  [description appendString:@">"];
+  return description;
+}
+
 @end
