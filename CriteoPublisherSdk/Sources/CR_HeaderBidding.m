@@ -139,7 +139,8 @@
           [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *)targeting];
       customTargeting[CR_TargetingKey_crtCpm] = bid.cpm;
       if (adUnit.adUnitType == CRAdUnitTypeNative) {
-        // bid will contain atleast one product, a privacy section and atleast one impression pixel
+        // bid will contain at least one product, a privacy section and at least one impression
+        // pixel
         CR_NativeAssets *nativeAssets = bid.nativeAssets;
         if (nativeAssets.products.count > 0) {
           CR_NativeProduct *product = nativeAssets.products[0];
