@@ -1,5 +1,12 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
+## Version 4.x.x
+
+### Fixes
+- **In House**: `[Criteo loadBidForAdUnit:responseHandler:]` now calls `responseHandler` with nil as
+  bid when a bid was not available, or when an error occurred, instead of a zero priced bid. 
+
+--------------------------------------------------------------------------------
 ## Version 4.0.3
 
 ### Fixes
