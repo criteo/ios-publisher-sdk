@@ -106,6 +106,7 @@
                          [self.threadManager dispatchAsyncOnMainQueue:^{
                            CRBid *bid =
                                cdbBid ? [[CRBid alloc] initWithCdbBid:cdbBid adUnit:adUnit] : nil;
+                           CRLogInfo(@"Bidding", @"Loaded bid: %@", bid);
                            responseHandler(bid);
                          }];
                        }];
