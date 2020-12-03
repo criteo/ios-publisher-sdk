@@ -30,6 +30,10 @@
 #import "CR_BidManager.h"
 #import "CR_UserDataHolder.h"
 #import "CRUserData+Internal.h"
+#import "CR_CdbBidBuilder.h"
+#import "CRBannerAdUnit.h"
+#import "XCTestCase+Criteo.h"
+#import "CR_AdUnitHelper.h"
 
 @interface CriteoTests : XCTestCase
 
@@ -48,7 +52,7 @@
   self.integrationRegistry = dependencyProvider.integrationRegistry;
   self.userDataHolder = dependencyProvider.userDataHolder;
 
-  self.criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProvider];
+  self.criteo = OCMPartialMock([[Criteo alloc] initWithDependencyProvider:dependencyProvider]);
 }
 
 #pragma mark - Tests
@@ -106,19 +110,51 @@
   }];
 }
 
+- (void)testLoadBidForAdUnit_GivenNoBid_ReturnNil {
+  CRBannerAdUnit *adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"adUnit"
+                                                               size:CGSizeMake(320, 50)];
+  CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
+  [self mockBidManagerWithAdUnit:cacheAdUnit respondBid:nil];
+
+  XCTestExpectation *expectation = XCTestExpectation.new;
+  [self.criteo loadBidForAdUnit:adUnit
+                responseHandler:^(CRBid *bid) {
+                  if (!bid) {
+                    [expectation fulfill];
+                  }
+                }];
+  [self cr_waitShortlyForExpectations:@[ expectation ]];
+}
+
+- (void)testLoadBidForAdUnit_GivenBid_ReturnBid {
+  CRBannerAdUnit *adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"adUnit"
+                                                               size:CGSizeMake(320, 50)];
+  CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
+  CR_CdbBid *cdbBid = CR_CdbBidBuilder.new.adUnit(cacheAdUnit).cpm(@"42").build;
+  [self mockBidManagerWithAdUnit:cacheAdUnit respondBid:cdbBid];
+
+  XCTestExpectation *expectation = XCTestExpectation.new;
+  [self.criteo loadBidForAdUnit:adUnit
+                responseHandler:^(CRBid *bid) {
+                  if (bid.price == 42) {
+                    [expectation fulfill];
+                  }
+                }];
+  [self cr_waitShortlyForExpectations:@[ expectation ]];
+}
+
 - (void)testLoadBidForAdUnit_GivenNoContext_UseEmptyOne {
-  Criteo *criteo = OCMPartialMock(self.criteo);
   CRAdUnit *adUnit = OCMClassMock(CRAdUnit.class);
   id contextDataMock = OCMClassMock(CRContextData.class);
   OCMStub([contextDataMock new]).andReturn(contextDataMock);
 
-  [criteo loadBidForAdUnit:adUnit
-           responseHandler:^(CRBid *bid){
-           }];
+  [self.criteo loadBidForAdUnit:adUnit
+                responseHandler:^(CRBid *bid){
+                }];
 
-  OCMVerify([criteo loadBidForAdUnit:adUnit
-                         withContext:contextDataMock
-                     responseHandler:OCMArg.any]);
+  OCMVerify([self.criteo loadBidForAdUnit:adUnit
+                              withContext:contextDataMock
+                          responseHandler:OCMArg.any]);
 }
 
 #pragma mark - User data
@@ -148,6 +184,19 @@
   testBlock(dependencyProviderMock);
   Criteo *criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProviderMock];
   [criteo registerCriteoPublisherId:@"testPublisherId" withAdUnits:@[]];
+}
+
+- (void)mockBidManagerWithAdUnit:(CR_CacheAdUnit *)adUnit respondBid:(CR_CdbBid *)bid {
+  CR_BidManager *bidManager = OCMStrictClassMock(CR_BidManager.class);
+  OCMStub(self.criteo.bidManager).andReturn(bidManager);
+  OCMStub([bidManager loadCdbBidForAdUnit:adUnit
+                              withContext:[OCMArg any]
+                          responseHandler:[OCMArg any]])
+      .andDo(^(NSInvocation *invocation) {
+        CR_CdbBidResponseHandler handler;
+        [invocation getArgument:&handler atIndex:4];
+        handler(bid);
+      });
 }
 
 @end

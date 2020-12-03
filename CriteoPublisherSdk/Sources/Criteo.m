@@ -104,7 +104,8 @@
                            withContext:contextData
                        responseHandler:^(CR_CdbBid *cdbBid) {
                          [self.threadManager dispatchAsyncOnMainQueue:^{
-                           CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:adUnit];
+                           CRBid *bid =
+                               cdbBid ? [[CRBid alloc] initWithCdbBid:cdbBid adUnit:adUnit] : nil;
                            responseHandler(bid);
                          }];
                        }];
