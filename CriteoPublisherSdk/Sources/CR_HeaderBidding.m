@@ -28,6 +28,7 @@
 #import "NSString+CriteoUrl.h"
 #import "CR_DisplaySizeInjector.h"
 #import "CR_IntegrationRegistry.h"
+#import "CR_Logging.h"
 
 @interface CR_HeaderBidding ()
 
@@ -63,6 +64,7 @@
   }
 
   if ([bid isEmpty]) {
+    CRLogInfo(@"AppBidding", @"No bid found while enriching request for Ad Unit: %@", adUnit);
     return;
   }
 
@@ -72,6 +74,9 @@
     [self addCriteoBidToMopubRequest:adRequest withBid:bid adUnit:adUnit];
   } else if ([self isCustomRequest:adRequest]) {
     [self addCriteoBidToDictionary:adRequest withBid:bid adUnit:adUnit];
+  } else {
+    CRLogError(@"AppBidding", @"Cannot enrich unsupported ad request: %@, for Ad Unit: %@",
+               adRequest, adUnit);
   }
 }
 
@@ -116,6 +121,8 @@
   dictionary[CR_TargetingKey_crtDisplayUrl] = bid.displayUrl;
   dictionary[CR_TargetingKey_crtCpm] = bid.cpm;
   dictionary[CR_TargetingKey_crtSize] = [self stringSizeForBannerWithAdUnit:adUnit];
+  CRLogInfo(@"AppBidding", @"Enriching Custom request for Ad Unit: %@, set bid as: %@", adUnit,
+            dictionary);
 }
 
 - (void)addCriteoBidToDfpRequest:(id)adRequest
@@ -210,6 +217,8 @@
       }
       NSDictionary *updatedDictionary = [NSDictionary dictionaryWithDictionary:customTargeting];
       [adRequest performSelector:dfpSetCustomTargeting withObject:updatedDictionary];
+      CRLogInfo(@"AppBidding", @"Enriching DFP request for Ad Unit: %@, set bid as: %@", adUnit,
+                updatedDictionary);
 #pragma clang diagnostic pop
     }
   }
@@ -257,6 +266,8 @@
         [keywords appendString:sizeStr];
       }
       [adRequest setValue:keywords forKey:@"keywords"];
+      CRLogInfo(@"AppBidding", @"Enriching MoPub request for Ad Unit: %@, set bid as: %@", adUnit,
+                keywords);
 #pragma clang diagnostic pop
     }
   }

@@ -27,6 +27,7 @@
 #import "CR_CdbBidBuilder.h"
 #import "CR_CdbBid.h"
 #import "CR_HeaderBidding.h"
+#import "CR_Logging.h"
 #import "CR_DeviceInfoMock.h"
 #import "NSString+Testing.h"
 #import "NSString+CriteoUrl.h"
@@ -112,6 +113,8 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 @property(nonatomic, strong) NSMutableDictionary *mutableJsonDict;
 @property(nonatomic, strong) DFPRequest *dfpRequest;
 
+@property(nonatomic, strong) id loggingMock;
+
 @end
 
 @implementation CR_HeaderBiddingTests
@@ -142,6 +145,8 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   self.dfpRequest.customTargeting = @{@"key_1" : @"object 1", @"key_2" : @"object_2"};
 
   self.mutableJsonDict = [self loadSlotDictionary];
+
+  self.loggingMock = OCMClassMock(CR_Logging.class);
 }
 
 #pragma mark - Empty Bid
@@ -150,6 +155,10 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 
   [self.headerBidding enrichRequest:dictionary withBid:[CR_CdbBid emptyBid] adUnit:self.adUnit1];
+  OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+                                return [logMessage.tag isEqualToString:@"AppBidding"] &&
+                                       [logMessage.message containsString:@"No bid found"];
+                              }]]);
 
   XCTAssertEqual(dictionary.count, 0);
   OCMVerify([self.integrationRegistry declare:CR_IntegrationCustomAppBidding]);
@@ -159,6 +168,10 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   GADRequest *request = [[GADRequest alloc] init];
 
   [self.headerBidding enrichRequest:request withBid:[CR_CdbBid emptyBid] adUnit:self.adUnit1];
+  OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+                                return [logMessage.tag isEqualToString:@"AppBidding"] &&
+                                       [logMessage.message containsString:@"No bid found"];
+                              }]]);
 
   XCTAssertEqual(request.customTargeting.count, 0);
   OCMVerify([self.integrationRegistry declare:CR_IntegrationGamAppBidding]);
@@ -169,6 +182,10 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   request.keywords = @"k:v";
 
   [self.headerBidding enrichRequest:request withBid:[CR_CdbBid emptyBid] adUnit:self.adUnit1];
+  OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+                                return [logMessage.tag isEqualToString:@"AppBidding"] &&
+                                       [logMessage.message containsString:@"No bid found"];
+                              }]]);
 
   XCTAssertEqual(request.keywords.length, 3);
   OCMVerify([self.integrationRegistry declare:CR_IntegrationMopubAppBidding]);
@@ -185,9 +202,27 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   };
 
   [self.headerBidding enrichRequest:dictionary withBid:self.bid1 adUnit:self.adUnit1];
+  OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+                                return [logMessage.tag isEqualToString:@"AppBidding"] &&
+                                       [logMessage.message containsString:@"Custom"] &&
+                                       [logMessage.message containsString:expected.description];
+                              }]]);
 
   XCTAssertEqualObjects(dictionary, expected);
   OCMVerify([self.integrationRegistry declare:CR_IntegrationCustomAppBidding]);
+}
+
+#pragma mark - Unsupported
+
+- (void)testUnsupportedAdRequest {
+  NSArray *array = [[NSArray alloc] init];
+
+  [self.headerBidding enrichRequest:array withBid:self.bid1 adUnit:self.adUnit1];
+  OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+                                return logMessage.severity == CR_LogSeverityError &&
+                                       [logMessage.tag isEqualToString:@"AppBidding"] &&
+                                       [logMessage.message containsString:@"unsupported"];
+                              }]]);
 }
 
 #pragma mark - Google Ad
@@ -252,6 +287,14 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   self.device.mock_screenSize = (CGSize){300, 250};
 
   [self.headerBidding enrichRequest:request withBid:self.bid1 adUnit:self.adUnit1];
+  OCMVerify([self.loggingMock
+      logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+        return [logMessage.tag isEqualToString:@"AppBidding"] &&
+               [logMessage.message containsString:@"DFP"] &&
+               [logMessage.message containsString:@"\"crt_cpm\" = \"2.0\""] &&
+               [logMessage.message containsString:@"\"crt_displayurl\" = \"aHR0cHM6"] &&
+               [logMessage.message containsString:@"\"crt_size\" = 300x250"];
+      }]]);
 
   NSDictionary *targeting = request.customTargeting;
   NSString *expectedDfpDisplayUrl = [NSString cr_dfpCompatibleString:self.bid1.displayUrl];
@@ -396,6 +439,14 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   };
 
   [self.headerBidding enrichRequest:request withBid:self.bid1 adUnit:self.adUnit1];
+  OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+                                return [logMessage.tag isEqualToString:@"AppBidding"] &&
+                                       [logMessage.message containsString:@"MoPub"] &&
+                                       [logMessage.message containsString:@"crt_cpm:2.0"] &&
+                                       [logMessage.message
+                                           containsString:@"crt_displayUrl:https://publi"] &&
+                                       [logMessage.message containsString:@"crt_size:300x250"];
+                              }]]);
 
   NSDictionary *keywords = [request.keywords testing_moPubKeywordDictionary];
   XCTAssertEqualObjects(keywords, expected);
