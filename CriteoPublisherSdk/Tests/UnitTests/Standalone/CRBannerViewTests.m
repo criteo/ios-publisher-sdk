@@ -26,6 +26,7 @@
 #import "CR_BidManager.h"
 #import "CR_DependencyProvider+Testing.h"
 #import "CR_IntegrationRegistry.h"
+#import "CR_Logging.h"
 #import "CR_URLOpenerMock.h"
 #import "MockWKWebView.h"
 #import "XCTestCase+Criteo.h"
@@ -45,7 +46,7 @@
 @property(strong, nonatomic) CR_URLOpenerMock *urlOpener;
 @property(strong, nonatomic) Criteo *criteo;
 @property(strong, nonatomic) CR_IntegrationRegistry *integrationRegistry;
-
+@property(nonatomic, strong) id loggingMock;
 @end
 
 @implementation CRBannerViewTests
@@ -66,6 +67,7 @@
   dependencyProvider.integrationRegistry = self.integrationRegistry;
 
   self.criteo = OCMPartialMock([Criteo.alloc initWithDependencyProvider:dependencyProvider]);
+  self.loggingMock = OCMClassMock(CR_Logging.class);
 }
 
 - (void)tearDown {
@@ -93,7 +95,11 @@
       });
 
   CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView];
+  OCMVerify([self.loggingMock logMessage:[self checkMessageContainsString:@"Initializing"]]);
+
   [bannerView loadAdWithContext:self.contextData];
+  OCMVerify([self.loggingMock logMessage:[self checkMessageContainsString:@"Loading"]]);
+  OCMVerify([self.loggingMock logMessage:[self checkMessageContainsString:@"Received"]]);
 
   [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
   OCMVerifyAll(mockWebView);
@@ -165,6 +171,11 @@
 
   CRBannerView *bannerView = [self bannerViewWithWebView:realWebView];
   [bannerView loadAdWithContext:self.contextData];
+  OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+                                return [logMessage.tag isEqualToString:@"BannerView"] &&
+                                       [logMessage.message containsString:@"Failed"] &&
+                                       [logMessage.message containsString:self.adUnit.description];
+                              }]]);
 
   OCMVerify([self.criteo loadCdbBidForAdUnit:[self expectedCacheAdUnit]
                                  withContext:self.contextData
@@ -398,6 +409,14 @@
         [invocation getArgument:&handler atIndex:4];
         handler(bid);
       });
+}
+
+- (id)checkMessageContainsString:(NSString *)string {
+  return [OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+    return [logMessage.tag isEqualToString:@"BannerView"] &&
+           [logMessage.message containsString:string] &&
+           [logMessage.message containsString:self.adUnit.description];
+  }];
 }
 
 @end
