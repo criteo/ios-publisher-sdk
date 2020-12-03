@@ -254,6 +254,7 @@
 
 - (void)testGetBid_GivenLiveBiddingIsEnabled_ThenFetchLiveBid {
   CR_CdbBidResponseHandler responseHandler = ^(CR_CdbBid *bid) {
+    XCTAssertNil(bid);
   };
   self.bidManager = OCMPartialMock(self.bidManager);
   self.dependencyProvider.config.liveBiddingEnabled = YES;
@@ -270,6 +271,7 @@
 
 - (void)testGetBid_GivenLiveBiddingIsDisabled_ThenGetBidThenFetch {
   CR_CdbBidResponseHandler responseHandler = ^(CR_CdbBid *bid) {
+    XCTAssertNil(bid);
   };
   self.bidManager = OCMPartialMock(self.bidManager);
   self.dependencyProvider.config.liveBiddingEnabled = NO;
@@ -322,7 +324,7 @@
                            if (bidResponded) {
                              XCTAssertEqualObjects(bid, bidResponded);
                            } else {
-                             XCTAssertNil(bid);
+                             XCTAssertTrue(!bid || bid.isEmpty);
                            }
                          }];
   if (cdbCalled) {

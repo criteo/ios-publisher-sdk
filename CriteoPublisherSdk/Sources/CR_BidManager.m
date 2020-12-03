@@ -94,10 +94,16 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 - (void)loadCdbBidForAdUnit:(CR_CacheAdUnit *)adUnit
                 withContext:(CRContextData *)contextData
             responseHandler:(CR_CdbBidResponseHandler)responseHandler {
+  // Don't let empty bid surface outside
+  void (^emptyAsNilResponseHandler)(CR_CdbBid *) = ^(CR_CdbBid *bid) {
+    responseHandler(bid.isEmpty ? nil : bid);
+  };
   if (config.liveBiddingEnabled) {
-    [self fetchLiveBidForAdUnit:adUnit withContext:contextData responseHandler:responseHandler];
+    [self fetchLiveBidForAdUnit:adUnit
+                    withContext:contextData
+                responseHandler:emptyAsNilResponseHandler];
   } else {
-    responseHandler([self getBidThenFetch:adUnit withContext:contextData]);
+    emptyAsNilResponseHandler([self getBidThenFetch:adUnit withContext:contextData]);
   }
 }
 
@@ -167,13 +173,9 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
                   withContext:(CRContextData *)contextData
               responseHandler:(CR_CdbBidResponseHandler)responseHandler {
   @try {
-    // Don't let empty bid surface outside
-    void (^emptyAsNilResponseHandler)(CR_CdbBid *) = ^(CR_CdbBid *bid) {
-      responseHandler(bid.isEmpty ? nil : bid);
-    };
     [self fetchLiveBidForAdUnit:adUnit
                     withContext:contextData
-             bidResponseHandler:emptyAsNilResponseHandler
+             bidResponseHandler:responseHandler
                      timeBudget:config.liveBiddingTimeBudget];
   } @catch (NSException *exception) {
     CLogException(exception);
