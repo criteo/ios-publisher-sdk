@@ -25,12 +25,14 @@
 #import "CR_DependencyProvider+Testing.h"
 #import "CR_Logging.h"
 #import "CR_SynchronousThreadManager.h"
+#import "CR_DataProtectionConsent.h"
 
 @interface CR_LoggingFunctionalTests : XCTestCase
 @property(nonatomic, strong) id loggingMock;
 @property(strong, nonatomic) Criteo *criteo;
 @property(nonatomic, copy) NSString *publisherId;
 @property(nonatomic, strong) NSArray<CRAdUnit *> *adUnits;
+@property(nonatomic, strong) NSUserDefaults *userDefaults;
 @end
 
 @implementation CR_LoggingFunctionalTests
@@ -40,6 +42,7 @@
 - (void)setUp {
   CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
   dependencyProvider.threadManager = CR_SynchronousThreadManager.new;
+  self.userDefaults = dependencyProvider.userDefaults;
 
   self.loggingMock = OCMClassMock(CR_Logging.class);
   self.criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProvider];
@@ -72,6 +75,48 @@
                                 return [logMessage.tag isEqualToString:@"Registration"] &&
                                        logMessage.severity == CR_LogSeverityWarning &&
                                        [logMessage.message containsString:@"once"];
+                              }]]);
+}
+
+#pragma mark Consent
+
+- (void)testCriteoSetUsPrivacyOptOut_ShouldBeLogged {
+  [self.criteo setUsPrivacyOptOut:YES];
+  OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+                                return [logMessage.tag isEqualToString:@"Consent"] &&
+                                       [logMessage.message containsString:@"CCPA"];
+                              }]]);
+}
+
+- (void)testCriteoSetMoPubConsent_ShouldBeLogged {
+  NSString *mopubConsent = @"MoPubConsent";
+  [self.criteo setMopubConsent:mopubConsent];
+  OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+                                return [logMessage.tag isEqualToString:@"Consent"] &&
+                                       [logMessage.message containsString:@"MoPub"] &&
+                                       [logMessage.message containsString:mopubConsent];
+                              }]]);
+}
+
+- (void)testConsentInit_WhenNoTCFData_ShouldNotBeLogged {
+  OCMReject([self.loggingMock logMessage:[OCMArg any]]);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-value"
+  [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
+#pragma clang diagnostic pop
+}
+
+- (void)testConsentInit_WhenTCFData_ShouldBeLogged {
+  NSString *consentString = @"TestConsentString";
+  [self.userDefaults setObject:@YES forKey:@"IABConsent_SubjectToGDPR"];
+  [self.userDefaults setObject:consentString forKey:@"IABConsent_ConsentString"];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-value"
+  [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
+#pragma clang diagnostic pop
+  OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+                                return [logMessage.tag isEqualToString:@"Consent"] &&
+                                       [logMessage.message containsString:consentString];
                               }]]);
 }
 
