@@ -340,6 +340,11 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 
 - (void)cacheBidsFromResponse:(CR_CdbResponse *)cdbResponse {
   for (CR_CdbBid *bid in cdbResponse.cdbBids) {
+    if (bid.isInSilenceMode) {
+      CRLogInfo(@"SilentMode",
+                @"Silent mode enabled for slot %@, no requests will be sent for %.0f seconds",
+                bid.placementId, bid.ttl);
+    }
     [cacheManager setBid:bid];
     [self.feedbackDelegate onBidCached:bid];
   }
