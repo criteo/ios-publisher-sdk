@@ -22,6 +22,7 @@
 #import "CR_BidManager.h"
 #import "CR_FeedbackController.h"
 #import "CR_HeaderBidding.h"
+#import "CR_Logging.h"
 #import "CR_ThreadManager.h"
 #import "Logging.h"
 
@@ -312,9 +313,12 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 }
 
 - (void)updateTimeToNextCallIfProvided:(CR_CdbResponse *)cdbResponse {
-  if (cdbResponse.timeToNextCall) {
-    self.cdbTimeToNextCall = [[NSDate dateWithTimeIntervalSinceNow:cdbResponse.timeToNextCall]
-        timeIntervalSinceReferenceDate];
+  NSUInteger timeToNextCall = cdbResponse.timeToNextCall;
+  if (timeToNextCall) {
+    CRLogInfo(@"SilentMode", @"Silent mode enabled, no requests will be sent for %d seconds",
+              timeToNextCall);
+    self.cdbTimeToNextCall =
+        [[NSDate dateWithTimeIntervalSinceNow:timeToNextCall] timeIntervalSinceReferenceDate];
   }
 }
 

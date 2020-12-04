@@ -27,6 +27,7 @@
 #import "CR_DependencyProvider.h"
 #import "CR_DeviceInfoMock.h"
 #import "CR_HttpContent+AdUnit.h"
+#import "CR_Logging.h"
 #import "CR_NetworkCaptor.h"
 #import "CR_NetworkWaiter.h"
 #import "CR_NetworkManagerMock.h"
@@ -44,6 +45,7 @@
 @property(nonatomic, strong) CR_NetworkCaptor *networkCaptor;
 @property(nonatomic, strong) CR_BidManager *bidManager;
 @property(nonatomic, strong) CR_Config *config;
+@property(nonatomic, strong) id loggingMock;
 
 @property(nonatomic, strong) CRBannerAdUnit *adUnit1;
 @property(nonatomic, strong) CR_CacheAdUnit *cacheAdUnit1;
@@ -66,6 +68,7 @@
   self.cacheAdUnit1 = [CR_AdUnitHelper cacheAdUnitForAdUnit:[CR_TestAdUnits preprodBanner320x50]];
   self.cacheAdUnit2 = [CR_AdUnitHelper cacheAdUnitForAdUnit:[CR_TestAdUnits preprodInterstitial]];
   self.contextData = CRContextData.new;
+  self.loggingMock = OCMClassMock(CR_Logging.class);
 }
 
 - (void)tearDown {
@@ -189,6 +192,11 @@
   [self whenPrefetchingBid];
   [self shouldProvideEmptyBid];
   XCTAssertTrue(self.bidManager.isInSilenceMode);
+  OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+                                return [logMessage.tag isEqualToString:@"SilentMode"] &&
+                                       [logMessage.message containsString:@"Silent mode enabled"] &&
+                                       [logMessage.message containsString:@"30"];
+                              }]]);
 
   [self givenUnmockedCdbResponse];
   // Simulating Bid Manager timeToNextCall elapsed, i.e. not silenced anymore
