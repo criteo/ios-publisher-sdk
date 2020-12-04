@@ -28,6 +28,7 @@
 #import "CR_DeviceInfoMock.h"
 #import "CR_FeedbackController.h"
 #import "CR_HeaderBidding.h"
+#import "CR_Logging.h"
 #import "CR_SynchronousThreadManager.h"
 #import "CriteoPublisherSdkTests-Swift.h"
 #import "CRBannerAdUnit.h"
@@ -72,6 +73,7 @@
 @property(nonatomic, strong) CR_ApiHandler *apiHandlerMock;
 @property(nonatomic, strong) CR_ConfigManager *configManagerMock;
 @property(nonatomic, strong) CR_HeaderBidding *headerBiddingMock;
+@property(nonatomic, strong) id loggingMock;
 @property(nonatomic, strong) CR_ThreadManager *threadManager;
 @property(nonatomic, strong) CR_SynchronousThreadManager *synchronousThreadManager;
 @property(nonatomic, strong) CR_DependencyProvider *dependencyProvider;
@@ -93,6 +95,7 @@
   self.synchronousThreadManager = [[CR_SynchronousThreadManager alloc] init];
   self.threadManager = self.synchronousThreadManager;
   self.feedbackDelegateMock = OCMProtocolMock(@protocol(CR_FeedbackDelegate));
+  self.loggingMock = OCMClassMock(CR_Logging.class);
 
   [self setupDependencies];
 
@@ -618,6 +621,13 @@
   [self givenApiHandlerRespondBid:silentBid];
 
   [self fetchLiveBidAndExpectBidCached:silentBid bidConsumed:nil bidResponded:nil];
+  OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+                                return [logMessage.tag isEqualToString:@"SilentMode"] &&
+                                       [logMessage.message
+                                           containsString:@"Silent mode enabled for slot"] &&
+                                       [logMessage.message containsString:self.adUnit1.adUnitId] &&
+                                       [logMessage.message containsString:@"300"];
+                              }]]);
 }
 
 - (void)testLiveBid_GivenSilentBidPutInCache_ThenBidFromResponseGiven {
