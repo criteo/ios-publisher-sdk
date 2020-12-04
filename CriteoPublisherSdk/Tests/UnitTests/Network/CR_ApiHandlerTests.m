@@ -157,6 +157,7 @@
 
   OCMStub([mockNetworkManager postToUrl:[OCMArg isKindOfClass:[NSURL class]]
                                postBody:[OCMArg isKindOfClass:[NSDictionary class]]
+                             logWithTag:[OCMArg any]
                         responseHandler:([OCMArg invokeBlockWithArgs:responseData, error, nil])]);
   CR_CacheAdUnit *testAdUnit_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid_1"
                                                                     width:300
@@ -274,6 +275,7 @@
   OCMExpect([mockNetworkManager
             postToUrl:[OCMArg isKindOfClass:[NSURL class]]
              postBody:[OCMArg isKindOfClass:[NSDictionary class]]
+           logWithTag:[OCMArg any]
       responseHandler:([OCMArg invokeBlockWithArgs:[NSNull null], [NSNull null], nil])]);
 
   CR_ApiHandler *apiHandler = [self buildApiHandler];
@@ -303,6 +305,7 @@
   NSError *error = [NSError errorWithDomain:@"testDomain" code:1 userInfo:nil];
   OCMStub([mockNetworkManager postToUrl:[OCMArg isKindOfClass:[NSURL class]]
                                postBody:[OCMArg isKindOfClass:[NSDictionary class]]
+                             logWithTag:[OCMArg any]
                         responseHandler:([OCMArg invokeBlockWithArgs:responseData, error, nil])]);
 
   CR_ApiHandler *apiHandler = [self buildApiHandler];
@@ -330,6 +333,7 @@
   OCMStub([mockNetworkManager
             postToUrl:[OCMArg isKindOfClass:[NSURL class]]
              postBody:[OCMArg isKindOfClass:[NSDictionary class]]
+           logWithTag:[OCMArg any]
       responseHandler:([OCMArg invokeBlockWithArgs:[NSNull null], [NSNull null], nil])]);
 
   CR_ApiHandler *apiHandler = [self buildApiHandler];
