@@ -26,6 +26,7 @@
 #import "CR_SKAdNetworkParameters.h"
 #import "Logging.h"
 #import "UIView+Criteo.h"
+#import "CR_Logging.h"
 
 @interface CR_URLOpener () <SKStoreProductViewControllerDelegate>
 @property(nonatomic, readonly) CR_DeviceInfo *deviceInfo;
@@ -102,12 +103,13 @@
     self.storeKitController.modalPresentationStyle = UIModalPresentationFullScreen;
     self.storeKitController.delegate = self;
     [self.storeKitController loadProductWithParameters:parameters completionBlock:nil];
-    [controller presentViewController:self.storeKitController
-                             animated:YES
-                           completion:^{
-                             NSLog(@"Loaded product with parameters: %@", parameters);
-                             completion(YES);
-                           }];
+    [controller
+        presentViewController:self.storeKitController
+                     animated:YES
+                   completion:^{
+                     CRLogInfo(@"SKAdNetwork", @"Loaded product with parameters: %@", parameters);
+                     completion(YES);
+                   }];
   });
 }
 
