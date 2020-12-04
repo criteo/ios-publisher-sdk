@@ -29,7 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(copy, nonatomic, nullable) NSArray<CR_CdbBid *> *cdbBids;
 @property(assign, nonatomic) NSUInteger timeToNextCall;
-@property(copy, nonatomic) NSDate *responseTime;
 
 /**
  * Helper function to convert NSData returned from a network call
