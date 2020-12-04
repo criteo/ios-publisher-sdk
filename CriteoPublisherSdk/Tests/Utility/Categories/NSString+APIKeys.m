@@ -81,8 +81,8 @@
   return @"gdprConsent";
 }
 
-+ (NSString *)gdprStringKey {
-  return @"gdprString";
++ (NSString *)gdprConsentKeyForGum {
+  return @"gdpr_consent";
 }
 
 + (NSString *)gdprAppliesKey {

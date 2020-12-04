@@ -641,7 +641,7 @@
   [self callSendAppEventWithCompletionHandler:nil];
 
   NSString *gdprEncodedString =
-      self.appEventUrlString.cr_urlQueryParamsDictionary[NSString.gdprStringKey];
+      self.appEventUrlString.cr_urlQueryParamsDictionary[NSString.gdprConsentKeyForGum];
   XCTAssertEqualObjects(gdprEncodedString, @"ssds");
 }
 
