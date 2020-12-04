@@ -34,6 +34,7 @@
 #import "CR_DependencyProvider.h"
 #import "CR_NetworkManager.h"
 #import "CR_IntegrationRegistry.h"
+#import "CR_Logging.h"
 #import "CRBid+Internal.h"
 
 @implementation CRNativeLoader
@@ -55,6 +56,7 @@
 - (instancetype)initWithAdUnit:(CRNativeAdUnit *)adUnit
                         criteo:(Criteo *)criteo
                      urlOpener:(id<CR_URLOpening>)urlOpener {
+  CRLogInfo(@"NativeLoader", @"Initializing with Ad Unit:%@", adUnit);
   if (self = [super init]) {
     _adUnit = adUnit;
     _criteo = criteo;
@@ -71,6 +73,7 @@
 }
 
 - (void)loadAdWithContext:(CRContextData *)contextData {
+  CRLogInfo(@"NativeLoader", @"Loading ad for Ad Unit:%@", self.adUnit);
   @try {
     [self unsafeLoadAdWithContext:contextData];
   } @catch (NSException *exception) {
@@ -205,6 +208,7 @@
 #pragma mark - Delegate call
 
 - (void)notifyFailToReceiveAdWithError:(NSError *)error {
+  CRLogInfo(@"NativeLoader", @"Failed loading ad for Ad Unit: %@, error: %@", self.adUnit, error);
   dispatch_async(dispatch_get_main_queue(), ^{
     if ([self.delegate respondsToSelector:@selector(nativeLoader:didFailToReceiveAdWithError:)]) {
       [self.delegate nativeLoader:self didFailToReceiveAdWithError:error];
@@ -219,6 +223,7 @@
 }
 
 - (void)notifyDidReceiveAd:(CRNativeAd *)ad {
+  CRLogInfo(@"NativeLoader", @"Received ad for Ad Unit:%@", self.adUnit);
   [self.threadManager dispatchAsyncOnMainQueue:^{
     if (self.canNotifyDidReceiveAd) {
       [self.delegate nativeLoader:self didReceiveAd:ad];
@@ -227,6 +232,7 @@
 }
 
 - (void)notifyDidDetectImpression {
+  CRLogInfo(@"NativeLoader", @"Impression detected for Ad Unit:%@", self.adUnit);
   [self.threadManager dispatchAsyncOnMainQueue:^{
     if ([self.delegate respondsToSelector:@selector(nativeLoaderDidDetectImpression:)]) {
       [self.delegate nativeLoaderDidDetectImpression:self];

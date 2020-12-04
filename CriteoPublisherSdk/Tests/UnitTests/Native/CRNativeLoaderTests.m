@@ -40,6 +40,7 @@
 #import "XCTestCase+Criteo.h"
 #import "NSError+Criteo.h"
 #import "CRContextData.h"
+#import "CR_Logging.h"
 
 @interface CRNativeLoaderTests : XCTestCase
 @property(strong, nonatomic) CRNativeLoader *loader;
@@ -52,6 +53,7 @@
 @property(strong, nonatomic) CR_NetworkManager *networkManagerMock;
 @property(strong, nonatomic) CR_IntegrationRegistry *integrationRegistry;
 @property(nonatomic, strong) CRNativeAdUnit *adUnit;
+@property(nonatomic, strong) id loggingMock;
 @end
 
 @implementation CRNativeLoaderTests
@@ -82,6 +84,7 @@
   self.nativeAd = [[CRNativeAd alloc] initWithLoader:self.loader
                                               assets:assets
                                skAdNetworkParameters:parameters];
+  self.loggingMock = OCMClassMock(CR_Logging.class);
 }
 
 #pragma mark - Tests
@@ -94,11 +97,14 @@
                         OCMReject([delegateMock nativeLoader:loader
                                  didFailToReceiveAdWithError:[OCMArg any]]);
                       }];
+  OCMVerify([self.loggingMock logMessage:[self checkMessageContainsString:@"Initializing"]]);
 
   // FIXME We want to expect URL from native assets, but URL instances are mocked
   OCMVerify(times(3), [self.mediaDownloaderMock downloadImage:[OCMArg any]
                                             completionHandler:[OCMArg any]]);
   OCMVerify([self.integrationRegistry declare:CR_IntegrationStandalone]);
+  OCMVerify([self.loggingMock logMessage:[self checkMessageContainsString:@"Loading"]]);
+  OCMVerify([self.loggingMock logMessage:[self checkMessageContainsString:@"Received"]]);
 }
 
 - (void)testFailureWithNoBid {
@@ -142,6 +148,7 @@
 
   OCMVerify(never(), [self.mediaDownloaderMock downloadImage:[OCMArg any]
                                            completionHandler:[OCMArg any]]);
+  OCMVerify([self.loggingMock logMessage:[self checkMessageContainsString:@"Failed"]]);
 }
 
 - (void)testReceiveOnMainQueue {
@@ -161,6 +168,7 @@
   CRNativeLoader *loader = [self dispatchCheckerForBid:[CR_CdbBid emptyBid] delegate:delegate];
   [loader notifyDidDetectImpression];
   [self cr_waitForExpectations:@[ delegate.didDetectImpression ]];
+  OCMVerify([self.loggingMock logMessage:[self checkMessageContainsString:@"Impression"]]);
 }
 
 - (void)testDidDetectClickOnMainQueue {
@@ -380,6 +388,16 @@
                             Criteo *criteoMock) {
                      OCMReject([bid consume]);
                    }];
+}
+
+#pragma mark - Private
+
+- (id)checkMessageContainsString:(NSString *)string {
+  return [OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+    return [logMessage.tag isEqualToString:@"NativeLoader"] &&
+           [logMessage.message containsString:string] &&
+           [logMessage.message containsString:self.adUnit.description];
+  }];
 }
 
 @end
