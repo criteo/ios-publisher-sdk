@@ -18,7 +18,7 @@
 //
 
 #import "CR_NetworkManager.h"
-#import "Logging.h"
+#import "CR_Logging.h"
 #import "CR_ThreadManager.h"
 #import "CR_URLRequest.h"
 
@@ -103,7 +103,7 @@
                   }
                 }
               } @catch (NSException *exception) {
-                CLogException(exception);
+                CRLogException(@"Network", exception, @"Failed at GET request");
               }
             }];
           };
@@ -117,6 +117,7 @@
 
 - (void)postToUrl:(NSURL *)url
            postBody:(NSDictionary *)postBody
+         logWithTag:(NSString *_Nullable)logTag
     responseHandler:(nullable CR_NMResponse)responseHandler {
   CR_URLRequest *postRequest = [CR_URLRequest requestWithURL:url deviceInfo:deviceInfo];
   [postRequest setHTTPMethod:@"POST"];
@@ -128,6 +129,10 @@
 
   [postRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
   [postRequest setHTTPBody:jsonData];
+  if (logTag) {
+    CRLogInfo(logTag, @"⬆️ Request: %@",
+              [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
+  }
 
   [self.threadManager runWithCompletionContext:^(CR_CompletionContext *context) {
     void (^completionHandler)(NSData *, NSURLResponse *, NSError *) =
@@ -139,7 +144,9 @@
                 return;
               }
               if (error) {
-                // Add logging or metrics code here
+                if (logTag) {
+                  CRLogInfo(logTag, @"⬇️ Error: %@", error);
+                }
                 responseHandler(nil, error);
               }
               if (response) {
@@ -148,21 +155,34 @@
                 if (httpResponse.statusCode == 204) {
                   responseHandler(nil, error);
                 } else if (httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299) {
+                  if (logTag) {
+                    CRLogInfo(logTag, @"⬆️ Response: %@",
+                              [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+                  }
                   responseHandler(data, error);
                 } else {
                   // Add logging or metrics code here
                 }
               }
             } @catch (NSException *exception) {
-              CLogException(exception);
+              CRLogException(@"Network", exception, @"Failed at POST request");
             }
           }];
         };
+
     NSURLSessionDataTask *task = [self->session dataTaskWithRequest:postRequest
                                                   completionHandler:completionHandler];
     [task resume];
     [self signalSentRequest:postRequest];
   }];
+
+  return;
+}
+
+- (void)postToUrl:(NSURL *)url
+           postBody:(NSDictionary *)postBody
+    responseHandler:(nullable CR_NMResponse)responseHandler {
+  [self postToUrl:url postBody:postBody logWithTag:nil responseHandler:responseHandler];
 }
 
 @end

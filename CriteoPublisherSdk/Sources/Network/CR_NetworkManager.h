@@ -42,7 +42,18 @@ typedef void (^CR_NMResponse)(NSData *_Nullable data, NSError *_Nullable error);
 
 - (void)getFromUrl:(NSURL *)url responseHandler:(nullable CR_NMResponse)responseHandler;
 
-// Assumes all POST calls are made via JSON
+/**
+ * Send POST request with JSON body
+ * @param url Request URL
+ * @param postBody Dictionary that will be posted as JSON
+ * @param logTag If not nil, logs request / response payloads
+ * @param responseHandler Response handler
+ */
+- (void)postToUrl:(NSURL *)url
+           postBody:(NSDictionary *)postBody
+         logWithTag:(NSString *_Nullable)logTag
+    responseHandler:(nullable CR_NMResponse)responseHandler;
+
 - (void)postToUrl:(NSURL *)url
            postBody:(NSDictionary *)postBody
     responseHandler:(nullable CR_NMResponse)responseHandler;

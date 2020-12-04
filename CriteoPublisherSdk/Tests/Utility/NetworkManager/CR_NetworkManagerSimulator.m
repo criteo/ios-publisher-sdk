@@ -109,6 +109,7 @@ NSString *const CR_NetworkSessionEmptyBid =
 
 - (void)postToUrl:(NSURL *)url
            postBody:(NSDictionary *)postBody
+         logWithTag:(NSString *_Nullable)logTag
     responseHandler:(CR_NMResponse)responseHandler {
   if (!responseHandler) return;
   if (self.delay) [NSThread sleepForTimeInterval:self.delay];

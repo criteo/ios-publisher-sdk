@@ -25,6 +25,7 @@
 #import "CR_CdbBid.h"
 #import "CR_Config.h"
 #import "Logging.h"
+#import "CR_Logging.h"
 #import "CR_NetworkManager.h"
 #import "XCTestCase+Criteo.h"
 #import "CR_ThreadManager.h"
@@ -34,6 +35,7 @@
 @property(nonatomic, strong) CR_Config *config;
 @property(nonatomic, strong) CR_NetworkManager *networkManager;
 @property(nonatomic, strong) NSURLSession *session;
+@property(nonatomic, strong) id loggingMock;
 
 @end
 
@@ -47,6 +49,7 @@
       [[CR_NetworkManager alloc] initWithDeviceInfo:mockDeviceInfo
                                             session:self.session
                                       threadManager:[[CR_ThreadManager alloc] init]];
+  self.loggingMock = OCMClassMock(CR_Logging.class);
 }
 
 - (void)testPostWithResponse204ShouldExecuteHandlerOnce {
@@ -132,8 +135,10 @@
       [self stubNetworkManagerDelegateForNetworkManager:networkManager];
 
   networkManager.delegate = delegateMock;
+  NSString *logTag = @"TestTag";
   [networkManager postToUrl:url
                    postBody:postBody
+                 logWithTag:logTag
             responseHandler:^(NSData *data, NSError *error) {
               if (error == nil) {
                 XCTAssertNotNil(data);
@@ -154,6 +159,14 @@
             }];
 
   [self waitForExpectations:@[ expectation ] timeout:250];
+  OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+                                return [logMessage.tag isEqualToString:logTag] &&
+                                       [logMessage.message containsString:@"Request"];
+                              }]]);
+  OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+                                return [logMessage.tag isEqualToString:logTag] &&
+                                       [logMessage.message containsString:@"Response"];
+                              }]]);
 }
 
 #pragma mark - Private methods
