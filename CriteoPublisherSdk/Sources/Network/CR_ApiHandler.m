@@ -30,6 +30,7 @@
 #import "CR_FeedbacksSerializer.h"
 #import "CR_RemoteConfigRequest.h"
 #import "CR_IntegrationRegistry.h"
+#import "CR_Logging.h"
 
 static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 
@@ -103,7 +104,7 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
               beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
           completionHandler:completionHandler];
     } @catch (NSException *exception) {
-      CLogException(exception);
+      CRLogException(@"BidRequest", exception, @"Failed requesting bid");
     }
   }];
 }
@@ -138,18 +139,16 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
                                                                 config:config
                                                             deviceInfo:deviceInfo
                                                                context:contextData];
-    CLogInfo(@"[INFO][API_] CdbPostCall.start");
     [self.networkManager postToUrl:url
                           postBody:body
+                        logWithTag:@"BidRequest"
                    responseHandler:^(NSData *data, NSError *error) {
-                     CLogInfo(@"[INFO][API_] CdbPostCall.finished");
                      if (error == nil) {
                        if (completionHandler) {
                          CR_CdbResponse *cdbResponse = [self cdbResponseWithData:data];
                          completionHandler(cdbRequest, cdbResponse, error);
                        }
                      } else {
-                       CLog(@"Error on post to CDB : %@", error);
                        if (completionHandler) {
                          completionHandler(cdbRequest, nil, error);
                        }
