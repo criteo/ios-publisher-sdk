@@ -198,6 +198,12 @@
   return self.dependencyProvider.threadManager;
 }
 
+#pragma mark - Debug
+
++ (void)setVerboseLogsEnabled:(BOOL)enabled {
+  [CR_Logging setConsoleMinimumLogSeverity:enabled ? CR_LogSeverityInfo : CR_LogSeverityWarning];
+}
+
 #pragma mark - Intended for manual tests
 
 + (void)loadProductWithParameters:(NSDictionary *)parameters

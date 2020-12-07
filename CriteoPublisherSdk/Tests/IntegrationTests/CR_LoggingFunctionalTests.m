@@ -100,6 +100,14 @@
 
 #pragma mark Criteo
 
+- (void)testVerboseLogsEnabled {
+  XCTAssertEqual([CR_Logging consoleMinimumLogSeverity], CR_LogSeverityWarning);
+  [Criteo setVerboseLogsEnabled:YES];
+  XCTAssertEqual([CR_Logging consoleMinimumLogSeverity], CR_LogSeverityInfo);
+  [Criteo setVerboseLogsEnabled:NO];
+  XCTAssertEqual([CR_Logging consoleMinimumLogSeverity], CR_LogSeverityWarning);
+}
+
 - (void)testCriteoRegister_ShouldBeLogged {
   [self.criteo registerCriteoPublisherId:self.publisherId withAdUnits:self.adUnits];
   OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
