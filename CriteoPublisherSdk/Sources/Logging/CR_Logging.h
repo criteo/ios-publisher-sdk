@@ -35,7 +35,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CR_Logging : NSObject
 
 + (void)logMessage:(CR_LogMessage *)logMessage;
++ (void)setConsoleMinimumLogSeverity:(CR_LogSeverity)severity;
 
+@end
+
+@interface CR_Logging (Testing)
++ (void)logMessageToConsole:(CR_LogMessage *)logMessage;
++ (void)setConsoleMinimumLogSeverityToDefault;
++ (CR_LogSeverity)consoleMinimumLogSeverity;
 @end
 
 NS_ASSUME_NONNULL_END
