@@ -46,7 +46,7 @@
     - `interstitialIsReadyToPresent:` moved to `interstitialDidReceiveAd:`.
       This method is now called when an interstitial ad is ready to be displayed.
     - `didFailToReceiveAdContentWithError:` merged into `didFailToReceiveAdWithError:`.
-      This method is now called when an error occurs while requesting an interstitiall ad.
+      This method is now called when an error occurs while requesting an interstitial ad.
 - **CocoaPods**: Pod is now source provided rather than binary. Few potential changes required on
 pod clients, you can:
   - Either add [`use_frameworks!`][use_frameworks] to your Podfile so CocoaPods produce frameworks
