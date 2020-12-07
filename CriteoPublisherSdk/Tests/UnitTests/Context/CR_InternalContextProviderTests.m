@@ -103,7 +103,7 @@ const NSTimeInterval testSessionDuration = 10;
 
   // Note the locale depends on the simulator setting, which is set by the test plan on CI
   XCTAssertEqualObjects(((NSArray *)internalUserContext[@"data.inputLanguage"]).firstObject, @"fr");
-  XCTAssertEqualObjects(internalUserContext[@"user.geo.country"], @"FR");
+  XCTAssertEqualObjects(internalUserContext[@"user.geo.country"], @"CA");
 
   XCTAssertGreaterThanOrEqual(
       ((NSNumber *)internalUserContext[@"data.sessionDuration"]).longLongValue,
