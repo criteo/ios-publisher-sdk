@@ -51,7 +51,7 @@
 /** @property gdprString
  *  @brief gdprString property is used for the app event request (gum)
  */
-@property(class, nonatomic, readonly) NSString *gdprString;
+@property(class, nonatomic, readonly) NSString *gdprConsentForGum;
 
 @property(class, nonatomic, readonly) NSString *gdprApplies;
 @property(class, nonatomic, readonly) NSString *gdprConsentData;
