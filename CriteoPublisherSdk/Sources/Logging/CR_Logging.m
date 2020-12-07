@@ -21,7 +21,30 @@
 
 @implementation CR_Logging
 
+static const CR_LogSeverity crConsoleMinimumLogSeverityDefault = CR_LogSeverityWarning;
+static CR_LogSeverity crConsoleMinimumLogSeverity = crConsoleMinimumLogSeverityDefault;
+
 + (void)logMessage:(CR_LogMessage *)logMessage {
+  if (logMessage.severity <= crConsoleMinimumLogSeverity) {
+    [self logMessageToConsole:logMessage];
+  }
+}
+
++ (void)setConsoleMinimumLogSeverity:(CR_LogSeverity)severity {
+  crConsoleMinimumLogSeverity = severity;
+}
+
++ (void)setConsoleMinimumLogSeverityToDefault {
+  [self setConsoleMinimumLogSeverity:crConsoleMinimumLogSeverityDefault];
+}
+
++ (CR_LogSeverity)consoleMinimumLogSeverity {
+  return crConsoleMinimumLogSeverity;
+}
+
+#pragma mark - Private
+
++ (void)logMessageToConsole:(CR_LogMessage *)logMessage {
   NSString *filename = logMessage.file.lastPathComponent;
   if (logMessage.exception) {
     NSLog(@"[CriteoSdk][%@][%@] (%@:%lu) [%@] %@"

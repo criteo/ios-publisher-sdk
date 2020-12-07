@@ -54,7 +54,50 @@
   ];
 }
 
+- (void)tearDown {
+  // Reset to default as it is a global value
+  [CR_Logging setConsoleMinimumLogSeverityToDefault];
+}
+
 #pragma mark - Tests
+
+#pragma mark Console minimum level
+
+- (void)testConsoleMinimumLogSeverityDefaultToWarn {
+  CR_LogSeverity defaultSeverity = CR_LogSeverityWarning;
+  OCMReject([self.loggingMock
+      logMessageToConsole:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+        return logMessage.severity > defaultSeverity;
+      }]]);
+  CRLogError(@"Test", @"Test");
+  CRLogWarn(@"Test", @"Test");
+  CRLogInfo(@"Test", @"Test");
+  CRLogDebug(@"Test", @"Test");
+  OCMVerify(times(2),
+            [self.loggingMock
+                logMessageToConsole:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+                  return logMessage.severity <= defaultSeverity;
+                }]]);
+}
+
+- (void)testConsoleMinimumLogSeverityWhenSet {
+  CR_LogSeverity severitySet = CR_LogSeverityDebug;
+  [CR_Logging setConsoleMinimumLogSeverity:severitySet];
+  OCMReject([self.loggingMock
+      logMessageToConsole:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+        return logMessage.severity > severitySet;
+      }]]);
+  CRLogError(@"Test", @"Test");
+  CRLogWarn(@"Test", @"Test");
+  CRLogInfo(@"Test", @"Test");
+  CRLogDebug(@"Test", @"Test");
+  OCMVerify(times(4),
+            [self.loggingMock
+                logMessageToConsole:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+                  return logMessage.severity <= severitySet;
+                }]]);
+}
+
 #pragma mark Criteo
 
 - (void)testCriteoRegister_ShouldBeLogged {
