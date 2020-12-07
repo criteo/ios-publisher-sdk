@@ -30,6 +30,10 @@ end
 
 target 'CriteoGoogleAdapter' do
   project 'CriteoGoogleAdapter/CriteoGoogleAdapter'
+  # As declared in podspec, iOS 9 is supported
+  # This is a workaround to address a CocoaPods v1.10 regression:
+  # https://github.com/CocoaPods/CocoaPods/issues/10106
+  platform :ios, '10.0'
 
   pod 'Google-Mobile-Ads-SDK'
 end
