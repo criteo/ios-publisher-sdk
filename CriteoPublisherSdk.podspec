@@ -26,6 +26,10 @@ Pod::Spec.new do |spec|
   spec.requires_arc      = true
   spec.default_subspecs  = "Sdk"
 
+  # Xcode 12 workaround: https://github.com/CocoaPods/CocoaPods/issues/10065
+  spec.pod_target_xcconfig   = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64 arm64e armv7 armv7s', 'EXCLUDED_ARCHS[sdk=iphoneos*]' => 'i386 x86_64' }
+  spec.user_target_xcconfig  = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64 arm64e armv7 armv7s', 'EXCLUDED_ARCHS[sdk=iphoneos*]' => 'i386 x86_64' }
+
   spec.subspec "Sdk" do |sdk|
     sdk.source_files         = "CriteoPublisherSdk/Sources/**/*.{h,m,swift}"
     sdk.public_header_files  = "CriteoPublisherSdk/Sources/Public/*.h"
@@ -36,9 +40,6 @@ Pod::Spec.new do |spec|
     adapter.source_files     = "CriteoGoogleAdapter/Sources/**/*.{h,m}"
     adapter.dependency         "CriteoPublisherSdk/Sdk"
     adapter.dependency         "Google-Mobile-Ads-SDK", "~> 7.49"
-    # Xcode 12 workaround: https://github.com/CocoaPods/CocoaPods/issues/10065
-    adapter.pod_target_xcconfig  = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
-    adapter.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
   end
 
   spec.subspec "MoPubAdapter" do |adapter|
