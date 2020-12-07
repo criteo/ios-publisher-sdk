@@ -10,6 +10,11 @@
   ],
   "defaultOptions" : {
     "codeCoverage" : false,
+    "commandLineArgumentEntries" : [
+      {
+        "argument" : "-CriteoPublisherSdkVerboseLogs"
+      }
+    ],
     "language" : "fr-CA",
     "targetForVariableExpansion" : {
       "containerPath" : "container:CriteoPublisherSdk.xcodeproj",

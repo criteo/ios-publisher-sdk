@@ -37,6 +37,14 @@
 
 #pragma mark - Lifecycle
 
++ (void)initialize {
+  [super initialize];
+
+  if ([[[NSProcessInfo processInfo] arguments] containsObject:@"-CriteoPublisherSdkVerboseLogs"]) {
+    [self setVerboseLogsEnabled:YES];
+  }
+}
+
 + (instancetype)sharedCriteo {
   static Criteo *sharedInstance = nil;
   static dispatch_once_t onceToken;

@@ -5,6 +5,7 @@
 ### Features
 - **Verbose logs**: You can now enable logs to diagnose Criteo Publisher SDK integration:
   - **API**: By calling `[Criteo setVerboseLogsEnabled:YES]`
+  - **Launch Argument**: By adding `-CriteoPublisherSdkVerboseLogs` to launch arguments
 
 ### Fixes
 - **In House**: `[Criteo loadBidForAdUnit:responseHandler:]` now calls `responseHandler` with nil as
