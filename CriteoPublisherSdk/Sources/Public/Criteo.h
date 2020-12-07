@@ -99,6 +99,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)enrichAdObject:(id)object withBid:(CRBid *)bid;
 
+#pragma mark - Debug
+
++ (void)setVerboseLogsEnabled:(BOOL)enabled;
+
 @end
 NS_ASSUME_NONNULL_END
 

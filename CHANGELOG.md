@@ -2,6 +2,10 @@
 --------------------------------------------------------------------------------
 ## Version 4.x.x
 
+### Features
+- **Verbose logs**: You can now enable logs to diagnose Criteo Publisher SDK integration:
+  - **API**: By calling `[Criteo setVerboseLogsEnabled:YES]`
+
 ### Fixes
 - **In House**: `[Criteo loadBidForAdUnit:responseHandler:]` now calls `responseHandler` with nil as
   bid when a bid was not available, or when an error occurred, instead of a zero priced bid. 
