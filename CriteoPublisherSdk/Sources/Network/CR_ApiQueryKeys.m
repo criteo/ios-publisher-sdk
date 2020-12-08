@@ -132,6 +132,15 @@
 + (NSString *)sdkVersion {
   return @"sdkVersion";
 }
++ (NSString *)skAdNetwork {
+  return @"skAdNetwork";
+}
++ (NSString *)skAdNetworkVersion {
+  return @"version";
+}
++ (NSString *)skAdNetworkIds {
+  return @"skAdNetworkIds";
+}
 + (NSString *)uspIab {
   return @"uspIab";
 }

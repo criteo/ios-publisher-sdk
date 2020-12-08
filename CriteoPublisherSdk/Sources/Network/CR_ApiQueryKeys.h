@@ -42,6 +42,9 @@
 @property(class, nonatomic, readonly) NSString *ext;
 @property(class, nonatomic, readonly) NSString *feedbackElapsed;
 @property(class, nonatomic, readonly) NSString *feedbacks;
+@property(class, nonatomic, readonly) NSString *skAdNetwork;
+@property(class, nonatomic, readonly) NSString *skAdNetworkVersion;
+@property(class, nonatomic, readonly) NSString *skAdNetworkIds;
 
 /** @property gdprConsent
  *  @brief gdprConsent property is used for the bid request
