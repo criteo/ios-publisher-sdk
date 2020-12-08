@@ -21,7 +21,7 @@
 
 @implementation UIView (Criteo)
 
-- (UIViewController *)cr_parentViewController {
+- (UIViewController *_Nullable)cr_parentViewController {
   UIResponder *responder = self;
   while (responder != nil) {
     if ([responder isKindOfClass:UIViewController.class]) {
