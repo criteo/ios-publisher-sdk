@@ -100,7 +100,7 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
     let body = generateBody()
 
     let user: [String: AnyHashable] = body[NSString.userKey]! as! [String: AnyHashable]
-    XCTAssertEqual(user.count, 7)
+    XCTAssertEqual(user.count, 8)
     XCTAssertEqual(user[NSString.userAgentKey], deviceInfo.userAgent)
     XCTAssertEqual(user[NSString.deviceIdKey], deviceInfo.deviceId)
     XCTAssertEqual(user[NSString.deviceOsKey], config.deviceOs)
@@ -108,6 +108,12 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
     XCTAssertEqual(user[NSString.deviceIdTypeKey], NSString.deviceIdTypeValue)
     XCTAssertEqual(user[NSString.uspIabKey], consent.usPrivacyIabConsentString!)
     XCTAssertEqual(user["ext"], [:] as [String: AnyHashable])
+    XCTAssertEqual(
+      user["skAdNetwork"],
+      [
+        "version": "2.0",
+        "skAdNetworkIds": ["hs6bdukanm.skadnetwork"],
+      ] as [String: AnyHashable])
   }
 
   func testBodyWithUsPrivacyConsentString() {

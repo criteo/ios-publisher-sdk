@@ -17,6 +17,12 @@
 // limitations under the License.
 //
 
+#if __has_include("CriteoPublisherSdk-Swift.h")
+#import "CriteoPublisherSdk-Swift.h"
+#else
+#import <CriteoPublisherSdk/CriteoPublisherSdk-Swift.h>
+#endif
+
 #import "CR_ApiQueryKeys.h"
 #import "CR_BidRequestSerializer.h"
 #import "CR_CdbRequest.h"
@@ -108,6 +114,14 @@
   userDict[CR_ApiQueryKeys.ext] = [CR_BidRequestSerializer mergeToNestedStructure:@[
     [self.internalContextProvider fetchInternalUserContext], self.userDataHolder.userData.data
   ]];
+
+  NSArray<NSString *> *skAdNetworkIds = [CRSKAdNetworkInfo skAdNetworkIds];
+  if (skAdNetworkIds.count > 0) {
+    userDict[CR_ApiQueryKeys.skAdNetwork] = @{
+      CR_ApiQueryKeys.skAdNetworkVersion : @"2.0",
+      CR_ApiQueryKeys.skAdNetworkIds : skAdNetworkIds
+    };
+  }
 
   return userDict;
 }

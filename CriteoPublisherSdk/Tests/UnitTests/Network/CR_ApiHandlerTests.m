@@ -434,7 +434,11 @@
     CR_ApiQueryKeys.deviceOs : self.configMock.deviceOs,
     CR_ApiQueryKeys.deviceModel : self.configMock.deviceModel,
     CR_ApiQueryKeys.userAgent : self.deviceInfoMock.userAgent,
-    CR_ApiQueryKeys.uspIab : CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString
+    CR_ApiQueryKeys.uspIab : CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString,
+    CR_ApiQueryKeys.skAdNetwork : @{
+      CR_ApiQueryKeys.skAdNetworkVersion : @"2.0",
+      CR_ApiQueryKeys.skAdNetworkIds : @[ @"hs6bdukanm.skadnetwork" ]
+    }
   };
 
   [self callCdb];
