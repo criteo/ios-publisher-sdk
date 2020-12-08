@@ -40,6 +40,15 @@
 + (void)initialize {
   [super initialize];
 
+  if (!CRSKAdNetworkInfo.hasCriteoId) {
+    CRLogWarn(
+        @"SKAdNetwork",
+        @"SKAdNetwork Criteo ID \"%@\" is missing in application Info.plist.\n"
+         "Your application won't be eligible to App Install campaigns.\n"
+         "For more details, please go to https://publisherdocs.criteotilt.com/app/ios/ios14/#skadnetwork",
+        CRSKAdNetworkInfo.CriteoId);
+  }
+
   if ([[[NSProcessInfo processInfo] arguments] containsObject:@"-CriteoPublisherSdkVerboseLogs"]) {
     [self setVerboseLogsEnabled:YES];
   }
@@ -133,7 +142,6 @@
   if (self = [super init]) {
     _registered = false;
     _dependencyProvider = dependencyProvider;
-    [self validateIntegration];
   }
   return self;
 }

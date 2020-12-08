@@ -25,13 +25,11 @@ struct SKAdNetworkInfo {
 
   init(bundle: Bundle = Bundle.main) {
     adNetworkIds = SKAdNetworkInfo.getAdNetworkIds(from: bundle)
-    hasCriteoId = adNetworkIds.contains(SKAdNetworkInfo.CriteoId)
+    hasCriteoId = adNetworkIds.contains(CRSKAdNetworkInfo.CriteoId)
   }
 }
 
 extension SKAdNetworkInfo {
-  static let CriteoId = "hs6bdukanm.skadnetwork"
-
   struct Keys {
     static let items = "SKAdNetworkItems"
     static let identifier = "SKAdNetworkIdentifier"
@@ -40,5 +38,19 @@ extension SKAdNetworkInfo {
   static func getAdNetworkIds(from bundle: Bundle) -> [String] {
     (bundle.object(forInfoDictionaryKey: Keys.items) as? [[String: String]])?
       .compactMap { item in item[Keys.identifier] } ?? []
+  }
+}
+
+let skanInfo = SKAdNetworkInfo()
+
+@objc extension CRSKAdNetworkInfo {
+  public static let CriteoId = "hs6bdukanm.skadnetwork"
+
+  public class func hasCriteoId() -> Bool {
+    skanInfo.hasCriteoId
+  }
+
+  public class func skAdNetworkIds() -> [String] {
+    skanInfo.adNetworkIds
   }
 }

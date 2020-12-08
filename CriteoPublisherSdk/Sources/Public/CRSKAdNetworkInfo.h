@@ -1,5 +1,5 @@
 //
-//  Criteo.swift
+//  CRSKAdNetworkInfo.h
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -17,20 +17,11 @@
 // limitations under the License.
 //
 
-import Foundation
+#import <Foundation/Foundation.h>
 
-@objc extension Criteo {
-  public func validateIntegration() {
-    let skanInfo = SKAdNetworkInfo()
-    if !skanInfo.hasCriteoId {
-      print(
-        """
-        *** WARNING ***
-        SKAdNetwork Criteo ID "\(SKAdNetworkInfo.CriteoId)" is missing in application Info.plist.
-        Your application won't be eligible to App Install campaigns.
-        For more details, please go to https://publisherdocs.criteotilt.com/app/ios/ios14/#skadnetwork
-        """
-      )
-    }
-  }
-}
+NS_ASSUME_NONNULL_BEGIN
+
+@interface CRSKAdNetworkInfo : NSObject
+@end
+
+NS_ASSUME_NONNULL_END
