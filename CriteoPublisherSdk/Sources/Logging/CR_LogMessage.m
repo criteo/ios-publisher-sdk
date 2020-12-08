@@ -84,7 +84,7 @@
   [description appendFormat:@"self.tag=%@", self.tag];
   [description appendFormat:@", self.severity=%@", self.severityLabel];
   [description appendFormat:@", self.file=%@", self.file];
-  [description appendFormat:@", self.line=%lu", self.line];
+  [description appendFormat:@", self.line=%lu", (unsigned long)self.line];
   [description appendFormat:@", self.function=%@", self.function];
   [description appendFormat:@", self.timestamp=%@", self.timestamp];
   [description appendFormat:@", self.exception=%@", self.exception];

@@ -49,12 +49,12 @@ static CR_LogSeverity crConsoleMinimumLogSeverity = crConsoleMinimumLogSeverityD
   if (logMessage.exception) {
     NSLog(@"[CriteoSdk][%@][%@] (%@:%lu) [%@] %@"
            "\n--- Exception: %@\n--- Stack: %@\n--- User info: %@",
-          logMessage.severityLabel, logMessage.tag, filename, logMessage.line,
+          logMessage.severityLabel, logMessage.tag, filename, (unsigned long)logMessage.line,
           logMessage.exception.name, logMessage.message, logMessage.exception,
           logMessage.exception.callStackSymbols, logMessage.exception.userInfo);
   } else {
     NSLog(@"[CriteoSdk][%@][%@] (%@:%lu) %@", logMessage.severityLabel, logMessage.tag, filename,
-          logMessage.line, logMessage.message);
+          (unsigned long)logMessage.line, logMessage.message);
   }
 }
 
