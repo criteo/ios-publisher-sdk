@@ -24,6 +24,7 @@
 #import <CriteoPublisherSdk/CRAdUnit.h>
 #import <CriteoPublisherSdk/CRBid.h>
 #import <CriteoPublisherSdk/CRContextData.h>
+#import <CriteoPublisherSdk/CRSKAdNetworkInfo.h>
 #import <CriteoPublisherSdk/CRUserData.h>
 
 /** Bid response handler, bid can be nil on purpose */
