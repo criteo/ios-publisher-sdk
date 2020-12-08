@@ -1,8 +1,9 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
-## Version 4.x.x
+## Version 4.1.0
 
 ### Features
+- Add API to collect different levels of signals which will be used to bid based on context
 - **Verbose logs**: You can now enable logs to diagnose Criteo Publisher SDK integration:
   - **API**: By calling `[Criteo setVerboseLogsEnabled:YES]`
   - **Launch Argument**: By adding `-CriteoPublisherSdkVerboseLogs` to launch arguments
