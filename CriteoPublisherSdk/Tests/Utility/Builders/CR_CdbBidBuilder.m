@@ -59,6 +59,7 @@ NSString *CR_CdbBidBuilderImpressionIdValueDefault = @"thisIsImpId";
     PROPERTY_INJECTION(nativeAssets, CR_NativeAssets * _Nullable, nil);
     PROPERTY_INJECTION(impressionId, NSString * _Nullable,
                        CR_CdbBidBuilderImpressionIdValueDefault);
+    PROPERTY_INJECTION(skAdNetworkParameters, CR_SKAdNetworkParameters * _Nullable, nil);
 
     __weak typeof(self) weakSelf = self;
     _adUnit = ^CR_CdbBidBuilder *(CR_CacheAdUnit *value) {
