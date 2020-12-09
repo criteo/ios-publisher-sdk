@@ -53,6 +53,16 @@
             {
                 "url": "https://cat.sv.us.criteo.com/delivery2/lgn.php?"
             }]
+        },
+        "skAdNetwork" : {
+            "version" : "version",
+            "network" : "network",
+            "campaign" : "1",
+            "itunesItem" : "2",
+            "nonce" : "ef50fece-faf4-4a5c-91b4-37e90b71a829",
+            "sourceApp" : "3",
+            "timestamp" : "4",
+            "signature" : "signature"
         }
     },
     {

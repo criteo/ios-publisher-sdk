@@ -43,18 +43,20 @@
                                                               width:300
                                                              height:250];
   CR_CdbBid *testBid_1 = [[CR_CdbBid alloc]
-      initWithZoneId:nil
-         placementId:@"adunitid"
-                 cpm:@"1.1200000047683716"
-            currency:@"EUR"
-               width:@(300)
-              height:@(250)
-                 ttl:600
-            creative:nil
-          displayUrl:@"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js"
-          insertTime:[NSDate date]
-        nativeAssets:nil
-        impressionId:nil];
+             initWithZoneId:nil
+                placementId:@"adunitid"
+                        cpm:@"1.1200000047683716"
+                   currency:@"EUR"
+                      width:@(300)
+                     height:@(250)
+                        ttl:600
+                   creative:nil
+                 displayUrl:
+                     @"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js"
+                 insertTime:[NSDate date]
+               nativeAssets:nil
+               impressionId:nil
+      skAdNetworkParameters:nil];
 
   OCMStub([dependencyProvider.displaySizeInjector
               injectSafeScreenSizeInDisplayUrl:testBid_1.displayUrl])

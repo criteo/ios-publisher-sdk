@@ -428,7 +428,8 @@
                                 displayUrl:displayURL
                                 insertTime:[NSDate date]
                               nativeAssets:nil
-                              impressionId:nil];
+                              impressionId:nil
+                     skAdNetworkParameters:nil];
 }
 
 - (CRInterstitial *)interstitialWithController:(CR_InterstitialViewController *)controller {

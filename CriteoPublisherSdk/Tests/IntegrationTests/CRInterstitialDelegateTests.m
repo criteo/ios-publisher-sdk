@@ -863,7 +863,8 @@
                                      displayUrl:displayURL
                                      insertTime:[NSDate date]
                                    nativeAssets:nil
-                                   impressionId:nil];
+                                   impressionId:nil
+                          skAdNetworkParameters:nil];
   }
   return _cdbBid;
 }

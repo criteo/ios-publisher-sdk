@@ -69,7 +69,8 @@
                     displayUrl:(NSString *)displayUrl
                     insertTime:(NSDate *)insertTime  // TODO: Move this to a state object
                   nativeAssets:(CR_NativeAssets *)nativeAssets
-                  impressionId:(NSString *)impressionId;
+                  impressionId:(NSString *)impressionId
+         skAdNetworkParameters:(CR_SKAdNetworkParameters *)skAdNetworkParameters;
 
 - (instancetype)init NS_UNAVAILABLE;
 
