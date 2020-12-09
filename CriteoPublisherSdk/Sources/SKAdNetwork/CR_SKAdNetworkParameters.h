@@ -21,7 +21,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CR_SKAdNetworkParameters : NSObject <NSCopying, NSCopying>
+@interface CR_SKAdNetworkParameters : NSObject <NSCopying>
 
 #pragma mark - Properties
 
