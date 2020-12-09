@@ -66,18 +66,20 @@ static NSString *appStoreDisplay = @"https://localhost:9099/display/app-store";
 
   // Inject bid in cache for cache bidding strategy
   CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:self.adUnit];
-  CR_CdbBid *bid =
-      CR_CdbBidBuilder.new.adUnit(cacheAdUnit).cpm(@"15.00").displayUrl(creativeUrl).build;
+  CR_CdbBidBuilder *bidBuilder =
+      CR_CdbBidBuilder.new.adUnit(cacheAdUnit).cpm(@"15.00").displayUrl(creativeUrl);
   if (withSkAdNetworkParameters) {
-    bid.skAdNetworkParameters = [[CR_SKAdNetworkParameters alloc] initWithNetworkId:@"networkId"
-                                                                            version:@"2.0"
-                                                                         campaignId:@1
-                                                                       iTunesItemId:@2
-                                                                              nonce:[NSUUID UUID]
-                                                                          timestamp:@3
-                                                                        sourceAppId:@4
-                                                                          signature:@"signature"];
+    bidBuilder = bidBuilder.skAdNetworkParameters([[CR_SKAdNetworkParameters alloc]
+        initWithNetworkId:@"networkId"
+                  version:@"2.0"
+               campaignId:@1
+             iTunesItemId:@2
+                    nonce:[NSUUID UUID]
+                timestamp:@3
+              sourceAppId:@4
+                signature:@"signature"]);
   }
+  CR_CdbBid *bid = bidBuilder.build;
   dependencyProvider.cacheManager.bidCache[cacheAdUnit] = bid;
 
   // Inject bid in apiHandler response for live bidding strategy

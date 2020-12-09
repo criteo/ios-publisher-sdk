@@ -22,6 +22,7 @@
 @class CR_CdbBid;
 @class CR_CacheAdUnit;
 @class CR_NativeAssets;
+@class CR_SKAdNetworkParameters;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -43,6 +44,7 @@ PROPERTY_DECLARATION(displayUrl, NSString *_Nullable, copy);
 PROPERTY_DECLARATION(insertTime, NSDate *_Nullable, copy);
 PROPERTY_DECLARATION(nativeAssets, CR_NativeAssets *_Nullable, strong);
 PROPERTY_DECLARATION(impressionId, NSString *_Nullable, copy);
+PROPERTY_DECLARATION(skAdNetworkParameters, CR_SKAdNetworkParameters *_Nullable, copy);
 
 /** Shortcut for placementId, width and height of the ad unit. */
 @property(nonatomic, readonly, copy) CR_CdbBidBuilder * (^adUnit)(CR_CacheAdUnit *);
