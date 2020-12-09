@@ -20,21 +20,22 @@
 #import "CR_SKAdNetworkParameters.h"
 
 #import <StoreKit/StoreKit.h>
+#import "CR_Logging.h"
+#import "NSString+Criteo.h"
 
 @implementation CR_SKAdNetworkParameters
 
 #pragma mark - Lifecycle
 
-// TODO EE-1255: Final CDB schema + tests
 - (instancetype)initWithDict:(NSDictionary *)dict {
-  return [self initWithNetworkId:dict[@"network"]
-                         version:dict[@"version"]
+  return [self initWithNetworkId:[NSString cr_nonEmptyStringWithStringOrNil:dict[@"network"]]
+                         version:[NSString cr_nonEmptyStringWithStringOrNil:dict[@"version"]]
                       campaignId:@([dict[@"campaign"] intValue])
-                    iTunesItemId:@([dict[@"itunes_item"] intValue])
+                    iTunesItemId:@([dict[@"itunesItem"] intValue])
                            nonce:[[NSUUID alloc] initWithUUIDString:dict[@"nonce"]]
                        timestamp:@([dict[@"timestamp"] longLongValue])
-                     sourceAppId:@([dict[@"source_app"] intValue])
-                       signature:dict[@"signature"]];
+                     sourceAppId:@([dict[@"sourceApp"] intValue])
+                       signature:[NSString cr_nonEmptyStringWithStringOrNil:dict[@"signature"]]];
 }
 
 - (instancetype)initWithNetworkId:(NSString *)networkId
@@ -45,6 +46,13 @@
                         timestamp:(NSNumber *)timestamp
                       sourceAppId:(NSNumber *)sourceAppId
                         signature:(NSString *)signature {
+  if (networkId == nil || version == nil || campaignId == nil || campaignId.intValue == 0 ||
+      iTunesItemId == nil || iTunesItemId.intValue == 0 || nonce == nil || timestamp == nil ||
+      timestamp.intValue == 0 || sourceAppId == nil || sourceAppId.intValue == 0 ||
+      signature == nil) {
+    CRLogError(@"SKAdNetwork", @"Unsupported payload format");
+    return nil;
+  }
   self = [super init];
   if (self) {
     self.networkId = networkId;

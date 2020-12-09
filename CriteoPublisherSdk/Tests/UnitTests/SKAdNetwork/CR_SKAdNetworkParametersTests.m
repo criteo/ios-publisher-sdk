@@ -21,11 +21,91 @@
 
 #import <StoreKit/StoreKit.h>
 #import "CR_SKAdNetworkParameters.h"
+#import "NSDictionary+Criteo.h"
 
 @interface CR_SKAdNetworkParametersTests : XCTestCase
 @end
 
 @implementation CR_SKAdNetworkParametersTests
+
+#pragma mark - Init
+
+- (void)testInitWithDict_GivenExpectedTypes_ReturnParameters {
+  NSString *networkId = @"networkId";
+  NSString *version = @"2.0";
+  NSUUID *nonce = [NSUUID UUID];
+  NSNumber *campaignId = @(42);
+  NSNumber *iTunesItemId = @(12345678);
+  NSNumber *timestamp = @(123457890);
+  NSNumber *sourceAppId = @(87654321);
+  NSString *signature = @"signature";
+  CR_SKAdNetworkParameters *parameters = [[CR_SKAdNetworkParameters alloc] initWithDict:@{
+    @"version" : version,
+    @"network" : networkId,
+    @"campaign" : campaignId.stringValue,
+    @"itunesItem" : iTunesItemId.stringValue,
+    @"nonce" : nonce.UUIDString,
+    @"sourceApp" : sourceAppId.stringValue,
+    @"timestamp" : timestamp.stringValue,
+    @"signature" : signature
+  }];
+  XCTAssertEqualObjects(parameters.version, version);
+  XCTAssertEqualObjects(parameters.networkId, networkId);
+  XCTAssertEqualObjects(parameters.campaignId, campaignId);
+  XCTAssertEqualObjects(parameters.iTunesItemId, iTunesItemId);
+  XCTAssertEqualObjects(parameters.nonce, nonce);
+  XCTAssertEqualObjects(parameters.sourceAppId, sourceAppId);
+  XCTAssertEqualObjects(parameters.timestamp, timestamp);
+  XCTAssertEqualObjects(parameters.signature, signature);
+}
+
+- (void)testInitWithDict_GivenAlternateValidTypes_ReturnParameters {
+  // JSON numbers should be as valid as strings
+  NSString *networkId = @"networkId";
+  NSString *version = @"2.0";
+  NSUUID *nonce = [NSUUID UUID];
+  NSNumber *campaignId = @(42);
+  NSNumber *iTunesItemId = @(12345678);
+  NSNumber *timestamp = @(123457890);
+  NSNumber *sourceAppId = @(87654321);
+  NSString *signature = @"signature";
+  CR_SKAdNetworkParameters *parameters = [[CR_SKAdNetworkParameters alloc] initWithDict:@{
+    @"version" : version,
+    @"network" : networkId,
+    @"campaign" : campaignId,
+    @"itunesItem" : iTunesItemId,
+    @"nonce" : nonce.UUIDString,
+    @"sourceApp" : sourceAppId,
+    @"timestamp" : timestamp,
+    @"signature" : signature
+  }];
+  XCTAssertEqualObjects(parameters.version, version);
+  XCTAssertEqualObjects(parameters.networkId, networkId);
+  XCTAssertEqualObjects(parameters.campaignId, campaignId);
+  XCTAssertEqualObjects(parameters.iTunesItemId, iTunesItemId);
+  XCTAssertEqualObjects(parameters.nonce, nonce);
+  XCTAssertEqualObjects(parameters.sourceAppId, sourceAppId);
+  XCTAssertEqualObjects(parameters.timestamp, timestamp);
+  XCTAssertEqualObjects(parameters.signature, signature);
+}
+
+- (void)testInitWithDict_GivenNil_ReturnNil {
+  NSDictionary *dict = nil;
+  XCTAssertNil([[CR_SKAdNetworkParameters alloc] initWithDict:dict]);
+}
+
+- (void)testInitWithDict_GivenWrongTypes_ReturnNil {
+  XCTAssertNil([[CR_SKAdNetworkParameters alloc] initWithDict:@{@"version" : @1}]);
+  XCTAssertNil([[CR_SKAdNetworkParameters alloc] initWithDict:@{@"network" : @2}]);
+  XCTAssertNil([[CR_SKAdNetworkParameters alloc] initWithDict:@{@"campaign" : @"not an id"}]);
+  XCTAssertNil([[CR_SKAdNetworkParameters alloc] initWithDict:@{@"itunesItem" : @"not an id"}]);
+  XCTAssertNil(
+      [[CR_SKAdNetworkParameters alloc] initWithDict:@{@"nonce" : @"this-is-not-an-uuid"}]);
+  XCTAssertNil([[CR_SKAdNetworkParameters alloc] initWithDict:@{@"sourceApp" : @"not an id"}]);
+  XCTAssertNil(
+      [[CR_SKAdNetworkParameters alloc] initWithDict:@{@"timestamp" : @"this is not a timestamp"}]);
+  XCTAssertNil([[CR_SKAdNetworkParameters alloc] initWithDict:@{@"signature" : @2}]);
+}
 
 #pragma mark - Load Product Parameters
 
