@@ -145,8 +145,7 @@
                 if (data) {
                   CLog(@"CDB returned : %@", [[NSString alloc] initWithData:data
                                                                    encoding:NSUTF8StringEncoding]);
-                  NSArray *cdbBids = [CR_CdbBid getCdbResponsesForData:data
-                                                            receivedAt:[NSDate date]];
+                  NSArray *cdbBids = [CR_CdbBid cdbBidsWithData:data receivedAt:[NSDate date]];
                   XCTAssertNotNil(cdbBids);
                   XCTAssertNotEqual(0, cdbBids.count);
                 }

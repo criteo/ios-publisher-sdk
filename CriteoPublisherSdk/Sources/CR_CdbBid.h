@@ -56,11 +56,7 @@
 
 + (instancetype)emptyBid;
 
-/*
- * Helper function to convert NSData returned from a network call
- * to an Array of CDB-Bids
- */
-+ (NSArray *)getCdbResponsesForData:(NSData *)data receivedAt:(NSDate *)receivedAt;
++ (NSArray *)cdbBidsWithData:(NSData *)data receivedAt:(NSDate *)receivedAt;
 
 - (instancetype)initWithZoneId:(NSNumber *)zoneId
                    placementId:(NSString *)placementId

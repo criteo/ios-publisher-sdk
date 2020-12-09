@@ -72,7 +72,7 @@
   XCTAssertNotNil(self.nativeJDict);
   XCTAssertNotNil(self.bannerJDict);
 
-  NSArray<CR_CdbBid *> *bids = [CR_CdbBid getCdbResponsesForData:self.jsonData receivedAt:self.now];
+  NSArray<CR_CdbBid *> *bids = [CR_CdbBid cdbBidsWithData:self.jsonData receivedAt:self.now];
   XCTAssertEqual(bids.count, 3);
   self.nativeBid1 = bids[0];
   XCTAssertNotNil(self.nativeBid1);
@@ -258,7 +258,7 @@
   XCTAssertEqualObjects(self.bannerBid, bid3Copy);
 }
 
-- (void)testCdbResponsesForData {
+- (void)testCdbBidsWithData {
   // Bid Objects
   NSDate *testDate = [NSDate date];
   CR_CdbBid *testBid_1 = [[CR_CdbBid alloc]
@@ -331,7 +331,7 @@
 
   NSData *cdbApiResponse = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
 
-  NSArray *testBids = [CR_CdbBid getCdbResponsesForData:cdbApiResponse receivedAt:testDate];
+  NSArray *testBids = [CR_CdbBid cdbBidsWithData:cdbApiResponse receivedAt:testDate];
   XCTAssertNotNil(testBids);
   XCTAssertEqual(4, [testBids count]);
   XCTAssertTrue([testBid_1 isEqual:testBids[0]]);
@@ -343,7 +343,7 @@
   XCTAssertFalse([testBid_4 isEqual:testBids[3]]);
 }
 
-- (void)testCdbResponsesForDataWhenCpmIsAString {
+- (void)testCdbBidsWithDataWhenCpmIsAString {
   // Bid Objects
   NSDate *testDate = [NSDate date];
   CR_CdbBid *testBid_1 = [[CR_CdbBid alloc]
@@ -415,7 +415,7 @@
     {\"placementId\": \"adunitid_4\",\"zoneId\": 497747,\"currency\":\"EUR\", \"ttl\":600, \"width\": 300,\"height\": 250,\"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"}]}";
   NSData *cdbApiResponse = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
 
-  NSArray *testBids = [CR_CdbBid getCdbResponsesForData:cdbApiResponse receivedAt:testDate];
+  NSArray *testBids = [CR_CdbBid cdbBidsWithData:cdbApiResponse receivedAt:testDate];
   XCTAssertNotNil(testBids);
   XCTAssertEqual(4, [testBids count]);
   XCTAssertTrue([testBid_1 isEqual:testBids[0]]);
@@ -486,7 +486,7 @@
       @"dfpCompatibleDisplayUrl property is not a properly encoded version of displayUrl");
 }
 
-- (void)testCdbResponsesForDataForBidCachingCases {
+- (void)testCdbBidsWithDataForBidCachingCases {
   // Bid Objects
   NSDate *testDate = [NSDate date];
   // case when no bid : cpm = 0 and ttl = 0
@@ -555,7 +555,7 @@
 
   NSData *cdbApiResponse = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
 
-  NSArray *testBids = [CR_CdbBid getCdbResponsesForData:cdbApiResponse receivedAt:testDate];
+  NSArray *testBids = [CR_CdbBid cdbBidsWithData:cdbApiResponse receivedAt:testDate];
   XCTAssertNotNil(testBids);
   XCTAssertEqual(4, [testBids count]);
   XCTAssertTrue([testBid_1 isEqual:testBids[0]]);
