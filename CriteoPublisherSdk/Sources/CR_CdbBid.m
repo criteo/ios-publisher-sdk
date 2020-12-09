@@ -44,7 +44,8 @@ static CR_CdbBid *emptyBid;
                                       displayUrl:nil
                                       insertTime:nil
                                     nativeAssets:nil
-                                    impressionId:nil];
+                                    impressionId:nil
+                           skAdNetworkParameters:nil];
   }
 }
 
@@ -63,7 +64,8 @@ static CR_CdbBid *emptyBid;
                     displayUrl:(NSString *)displayUrl
                     insertTime:(NSDate *)insertTime
                   nativeAssets:(CR_NativeAssets *)nativeAssets
-                  impressionId:(NSString *)impressionId {
+                  impressionId:(NSString *)impressionId
+         skAdNetworkParameters:(CR_SKAdNetworkParameters *)skAdNetworkParameters {
   if (self = [super init]) {
     _zoneId = zoneId;
     _placementId = placementId;
@@ -77,6 +79,7 @@ static CR_CdbBid *emptyBid;
     _insertTime = insertTime;
     _nativeAssets = [nativeAssets copy];
     _impressionId = impressionId;
+    _skAdNetworkParameters = [skAdNetworkParameters copy];
   }
   return self;
 }
@@ -100,6 +103,9 @@ static CR_CdbBid *emptyBid;
     NSDictionary *assetsDict = slot[@"native"];
     CR_NativeAssets *nativeAssets =
         assetsDict ? [[CR_NativeAssets alloc] initWithDict:assetsDict] : nil;
+    NSDictionary *skAdNetworkDict = slot[@"skAdNetwork"];
+    CR_SKAdNetworkParameters *skAdNetworkParameters =
+        skAdNetworkDict ? [[CR_SKAdNetworkParameters alloc] initWithDict:skAdNetworkDict] : nil;
     self = [[CR_CdbBid alloc] initWithZoneId:zoneId
                                  placementId:placementId
                                          cpm:cpm
@@ -111,7 +117,8 @@ static CR_CdbBid *emptyBid;
                                   displayUrl:displayUrl
                                   insertTime:receivedAt
                                 nativeAssets:nativeAssets
-                                impressionId:impId];
+                                impressionId:impId
+                       skAdNetworkParameters:skAdNetworkParameters];
   }
   return self;
 }
@@ -185,7 +192,8 @@ static CR_CdbBid *emptyBid;
                                            displayUrl:self.displayUrl
                                            insertTime:self.insertTime
                                          nativeAssets:self.nativeAssets
-                                         impressionId:self.impressionId];
+                                         impressionId:self.impressionId
+                                skAdNetworkParameters:nil];
   return copy;
 }
 

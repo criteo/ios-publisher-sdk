@@ -184,6 +184,17 @@
                         @"https://cat.sv.us.criteo.com/delivery/lgn.php?");
   XCTAssertEqualObjects(nativeBid.nativeAssets.impressionPixels[1],
                         @"https://cat.sv.us.criteo.com/delivery2/lgn.php?");
+
+  XCTAssertEqualObjects(nativeBid.skAdNetworkParameters.version, @"version");
+  XCTAssertEqualObjects(nativeBid.skAdNetworkParameters.networkId, @"network");
+  XCTAssertEqualObjects(nativeBid.skAdNetworkParameters.campaignId, @1);
+  XCTAssertEqualObjects(nativeBid.skAdNetworkParameters.iTunesItemId, @2);
+  XCTAssertEqualObjects(
+      nativeBid.skAdNetworkParameters.nonce,
+      [[NSUUID alloc] initWithUUIDString:@"ef50fece-faf4-4a5c-91b4-37e90b71a829"]);
+  XCTAssertEqualObjects(nativeBid.skAdNetworkParameters.sourceAppId, @3);
+  XCTAssertEqualObjects(nativeBid.skAdNetworkParameters.timestamp, @4);
+  XCTAssertEqualObjects(nativeBid.skAdNetworkParameters.signature, @"signature");
 }
 
 - (void)testEmptyInitialization {
@@ -262,64 +273,68 @@
   // Bid Objects
   NSDate *testDate = [NSDate date];
   CR_CdbBid *testBid_1 = [[CR_CdbBid alloc]
-      initWithZoneId:@(497747)
-         placementId:@"adunitid_1"
-                 cpm:@"1.12"
-            currency:@"EUR"
-               width:@(300)
-              height:@(250)
-                 ttl:600
-            creative:nil
-          displayUrl:
-              @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
-          insertTime:testDate
-        nativeAssets:nil
-        impressionId:nil];
+             initWithZoneId:@(497747)
+                placementId:@"adunitid_1"
+                        cpm:@"1.12"
+                   currency:@"EUR"
+                      width:@(300)
+                     height:@(250)
+                        ttl:600
+                   creative:nil
+                 displayUrl:
+                     @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
+                 insertTime:testDate
+               nativeAssets:nil
+               impressionId:nil
+      skAdNetworkParameters:nil];
 
   CR_CdbBid *testBid_2 = [[CR_CdbBid alloc]
-      initWithZoneId:@(1234567)
-         placementId:@"adunitid_2"
-                 cpm:@"5.12"
-            currency:@"EUR"
-               width:@(300)
-              height:@(250)
-                 ttl:600
-            creative:nil
-          displayUrl:
-              @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
-          insertTime:testDate
-        nativeAssets:nil
-        impressionId:nil];
+             initWithZoneId:@(1234567)
+                placementId:@"adunitid_2"
+                        cpm:@"5.12"
+                   currency:@"EUR"
+                      width:@(300)
+                     height:@(250)
+                        ttl:600
+                   creative:nil
+                 displayUrl:
+                     @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
+                 insertTime:testDate
+               nativeAssets:nil
+               impressionId:nil
+      skAdNetworkParameters:nil];
 
   CR_CdbBid *testBid_3 = [[CR_CdbBid alloc]
-      initWithZoneId:@(1234567)
-         placementId:@"adunitid_3"
-                 cpm:@"5.12"
-            currency:@"EUR"
-               width:@(300)
-              height:@(250)
-                 ttl:600
-            creative:nil
-          displayUrl:
-              @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
-          insertTime:testDate
-        nativeAssets:nil
-        impressionId:nil];
+             initWithZoneId:@(1234567)
+                placementId:@"adunitid_3"
+                        cpm:@"5.12"
+                   currency:@"EUR"
+                      width:@(300)
+                     height:@(250)
+                        ttl:600
+                   creative:nil
+                 displayUrl:
+                     @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
+                 insertTime:testDate
+               nativeAssets:nil
+               impressionId:nil
+      skAdNetworkParameters:nil];
 
   CR_CdbBid *testBid_4 = [[CR_CdbBid alloc]
-      initWithZoneId:@(1234567)
-         placementId:@"adunitid_4"
-                 cpm:nil
-            currency:@"EUR"
-               width:@(300)
-              height:@(250)
-                 ttl:600
-            creative:nil
-          displayUrl:
-              @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
-          insertTime:testDate
-        nativeAssets:nil
-        impressionId:nil];
+             initWithZoneId:@(1234567)
+                placementId:@"adunitid_4"
+                        cpm:nil
+                   currency:@"EUR"
+                      width:@(300)
+                     height:@(250)
+                        ttl:600
+                   creative:nil
+                 displayUrl:
+                     @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
+                 insertTime:testDate
+               nativeAssets:nil
+               impressionId:nil
+      skAdNetworkParameters:nil];
 
   // Json response from CDB
   // The cpm is a number
@@ -347,64 +362,68 @@
   // Bid Objects
   NSDate *testDate = [NSDate date];
   CR_CdbBid *testBid_1 = [[CR_CdbBid alloc]
-      initWithZoneId:@(497747)
-         placementId:@"adunitid_1"
-                 cpm:@"1.12"
-            currency:@"EUR"
-               width:@(300)
-              height:@(250)
-                 ttl:600
-            creative:nil
-          displayUrl:
-              @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
-          insertTime:testDate
-        nativeAssets:nil
-        impressionId:nil];
+             initWithZoneId:@(497747)
+                placementId:@"adunitid_1"
+                        cpm:@"1.12"
+                   currency:@"EUR"
+                      width:@(300)
+                     height:@(250)
+                        ttl:600
+                   creative:nil
+                 displayUrl:
+                     @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
+                 insertTime:testDate
+               nativeAssets:nil
+               impressionId:nil
+      skAdNetworkParameters:nil];
 
   CR_CdbBid *testBid_2 = [[CR_CdbBid alloc]
-      initWithZoneId:@(1234567)
-         placementId:@"adunitid_2"
-                 cpm:@"5.12"
-            currency:@"EUR"
-               width:@(300)
-              height:@(250)
-                 ttl:600
-            creative:nil
-          displayUrl:
-              @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
-          insertTime:testDate
-        nativeAssets:nil
-        impressionId:nil];
+             initWithZoneId:@(1234567)
+                placementId:@"adunitid_2"
+                        cpm:@"5.12"
+                   currency:@"EUR"
+                      width:@(300)
+                     height:@(250)
+                        ttl:600
+                   creative:nil
+                 displayUrl:
+                     @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
+                 insertTime:testDate
+               nativeAssets:nil
+               impressionId:nil
+      skAdNetworkParameters:nil];
 
   CR_CdbBid *testBid_3 = [[CR_CdbBid alloc]
-      initWithZoneId:@(1234567)
-         placementId:@"adunitid_3"
-                 cpm:@"5.12"
-            currency:@"EUR"
-               width:@(300)
-              height:@(250)
-                 ttl:600
-            creative:nil
-          displayUrl:
-              @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
-          insertTime:testDate
-        nativeAssets:nil
-        impressionId:nil];
+             initWithZoneId:@(1234567)
+                placementId:@"adunitid_3"
+                        cpm:@"5.12"
+                   currency:@"EUR"
+                      width:@(300)
+                     height:@(250)
+                        ttl:600
+                   creative:nil
+                 displayUrl:
+                     @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
+                 insertTime:testDate
+               nativeAssets:nil
+               impressionId:nil
+      skAdNetworkParameters:nil];
 
   CR_CdbBid *testBid_4 = [[CR_CdbBid alloc]
-      initWithZoneId:@(1234567)
-         placementId:@"adunitid_4"
-                 cpm:nil
-            currency:@"EUR"
-               width:@(300)
-              height:@(250)
-                 ttl:600
-            creative:nil
-          displayUrl:
-              @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
-          insertTime:testDate
-        nativeAssets:nil
-        impressionId:nil];
+             initWithZoneId:@(1234567)
+                placementId:@"adunitid_4"
+                        cpm:nil
+                   currency:@"EUR"
+                      width:@(300)
+                     height:@(250)
+                        ttl:600
+                   creative:nil
+                 displayUrl:
+                     @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
+                 insertTime:testDate
+               nativeAssets:nil
+               impressionId:nil
+      skAdNetworkParameters:nil];
 
   // Json response from CDB
   // The CPM is a string
@@ -439,7 +458,8 @@
                                 displayUrl:@"https://someUrl.com"
                                 insertTime:[NSDate dateWithTimeIntervalSinceNow:diff]
                               nativeAssets:nil
-                              impressionId:nil];
+                              impressionId:nil
+                     skAdNetworkParameters:nil];
 }
 
 - (void)testBidIsExpired {
@@ -501,7 +521,8 @@
                                                 displayUrl:@""
                                                 insertTime:testDate
                                               nativeAssets:nil
-                                              impressionId:nil];
+                                              impressionId:nil
+                                     skAdNetworkParameters:nil];
 
   // case when silent mode : cpm = 0 and ttl > 0
   CR_CdbBid *testBid_2 = [[CR_CdbBid alloc] initWithZoneId:@(497747)
@@ -515,7 +536,8 @@
                                                 displayUrl:@""
                                                 insertTime:testDate
                                               nativeAssets:nil
-                                              impressionId:nil];
+                                              impressionId:nil
+                                     skAdNetworkParameters:nil];
 
   // case when bid : cpm > 0 and ttl = 0, but ttl set to 900
   CR_CdbBid *testBid_3 = [[CR_CdbBid alloc] initWithZoneId:@(497747)
@@ -529,7 +551,8 @@
                                                 displayUrl:@""
                                                 insertTime:testDate
                                               nativeAssets:nil
-                                              impressionId:nil];
+                                              impressionId:nil
+                                     skAdNetworkParameters:nil];
 
   // case when bid caching : cpm > 0 and ttl > 0
   CR_CdbBid *testBid_4 = [[CR_CdbBid alloc] initWithZoneId:@(497747)
@@ -543,7 +566,8 @@
                                                 displayUrl:@""
                                                 insertTime:testDate
                                               nativeAssets:nil
-                                              impressionId:nil];
+                                              impressionId:nil
+                                     skAdNetworkParameters:nil];
 
   // Json response from CDB
   // The cpm is a number

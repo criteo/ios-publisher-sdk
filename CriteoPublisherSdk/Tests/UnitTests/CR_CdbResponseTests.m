@@ -38,33 +38,35 @@
 - (void)testParsingWithNoTimeToNextCall {
   NSDate *testDate = [NSDate date];
   CR_CdbBid *testBid_1 = [[CR_CdbBid alloc]
-      initWithZoneId:@(497747)
-         placementId:@"adunitid_1"
-                 cpm:@"1.12"
-            currency:@"EUR"
-               width:@(300)
-              height:@(250)
-                 ttl:600
-            creative:nil
-          displayUrl:
-              @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
-          insertTime:testDate
-        nativeAssets:nil
-        impressionId:nil];
+             initWithZoneId:@(497747)
+                placementId:@"adunitid_1"
+                        cpm:@"1.12"
+                   currency:@"EUR"
+                      width:@(300)
+                     height:@(250)
+                        ttl:600
+                   creative:nil
+                 displayUrl:
+                     @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
+                 insertTime:testDate
+               nativeAssets:nil
+               impressionId:nil
+      skAdNetworkParameters:nil];
   CR_CdbBid *testBid_2 = [[CR_CdbBid alloc]
-      initWithZoneId:@(1234567)
-         placementId:@"adunitid_2"
-                 cpm:@"5.12"
-            currency:@"EUR"
-               width:@(300)
-              height:@(250)
-                 ttl:600
-            creative:nil
-          displayUrl:
-              @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
-          insertTime:testDate
-        nativeAssets:nil
-        impressionId:nil];
+             initWithZoneId:@(1234567)
+                placementId:@"adunitid_2"
+                        cpm:@"5.12"
+                   currency:@"EUR"
+                      width:@(300)
+                     height:@(250)
+                        ttl:600
+                   creative:nil
+                 displayUrl:
+                     @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
+                 insertTime:testDate
+               nativeAssets:nil
+               impressionId:nil
+      skAdNetworkParameters:nil];
 
   // Json response from CDB
   NSString *rawJsonCdbResponse =
@@ -85,34 +87,36 @@
 - (void)testParsingWithTimeToNextCall {
   NSDate *testDate = [NSDate date];
   CR_CdbBid *testBid_1 = [[CR_CdbBid alloc]
-      initWithZoneId:@(497747)
-         placementId:@"adunitid_1"
-                 cpm:@"1.12"
-            currency:@"EUR"
-               width:@(300)
-              height:@(250)
-                 ttl:600
-            creative:nil
-          displayUrl:
-              @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
-          insertTime:testDate
-        nativeAssets:nil
-        impressionId:nil];
+             initWithZoneId:@(497747)
+                placementId:@"adunitid_1"
+                        cpm:@"1.12"
+                   currency:@"EUR"
+                      width:@(300)
+                     height:@(250)
+                        ttl:600
+                   creative:nil
+                 displayUrl:
+                     @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
+                 insertTime:testDate
+               nativeAssets:nil
+               impressionId:nil
+      skAdNetworkParameters:nil];
 
   CR_CdbBid *testBid_2 = [[CR_CdbBid alloc]
-      initWithZoneId:@(1234567)
-         placementId:@"adunitid_2"
-                 cpm:@"5.12"
-            currency:@"EUR"
-               width:@(300)
-              height:@(250)
-                 ttl:600
-            creative:nil
-          displayUrl:
-              @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
-          insertTime:testDate
-        nativeAssets:nil
-        impressionId:nil];
+             initWithZoneId:@(1234567)
+                placementId:@"adunitid_2"
+                        cpm:@"5.12"
+                   currency:@"EUR"
+                      width:@(300)
+                     height:@(250)
+                        ttl:600
+                   creative:nil
+                 displayUrl:
+                     @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
+                 insertTime:testDate
+               nativeAssets:nil
+               impressionId:nil
+      skAdNetworkParameters:nil];
 
   // Json response from CDB
   NSString *rawJsonCdbResponse =
@@ -161,19 +165,20 @@
 - (void)testParsingWithNullTimeToNextCall {
   NSDate *testDate = [NSDate date];
   CR_CdbBid *testBid_1 = [[CR_CdbBid alloc]
-      initWithZoneId:@(497747)
-         placementId:@"adunitid_1"
-                 cpm:@"1.12"
-            currency:@"EUR"
-               width:@(300)
-              height:@(250)
-                 ttl:600
-            creative:nil
-          displayUrl:
-              @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
-          insertTime:testDate
-        nativeAssets:nil
-        impressionId:nil];
+             initWithZoneId:@(497747)
+                placementId:@"adunitid_1"
+                        cpm:@"1.12"
+                   currency:@"EUR"
+                      width:@(300)
+                     height:@(250)
+                        ttl:600
+                   creative:nil
+                 displayUrl:
+                     @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
+                 insertTime:testDate
+               nativeAssets:nil
+               impressionId:nil
+      skAdNetworkParameters:nil];
 
   // Json response from CDB
   NSString *rawJsonCdbResponse =
@@ -192,19 +197,20 @@
 - (void)testParsingWithStringTimeToNextCall {
   NSDate *testDate = [NSDate date];
   CR_CdbBid *testBid_1 = [[CR_CdbBid alloc]
-      initWithZoneId:@(497747)
-         placementId:@"adunitid_1"
-                 cpm:@"1.12"
-            currency:@"EUR"
-               width:@(300)
-              height:@(250)
-                 ttl:600
-            creative:nil
-          displayUrl:
-              @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
-          insertTime:testDate
-        nativeAssets:nil
-        impressionId:nil];
+             initWithZoneId:@(497747)
+                placementId:@"adunitid_1"
+                        cpm:@"1.12"
+                   currency:@"EUR"
+                      width:@(300)
+                     height:@(250)
+                        ttl:600
+                   creative:nil
+                 displayUrl:
+                     @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
+                 insertTime:testDate
+               nativeAssets:nil
+               impressionId:nil
+      skAdNetworkParameters:nil];
 
   // Json response from CDB
   NSString *rawJsonCdbResponse =

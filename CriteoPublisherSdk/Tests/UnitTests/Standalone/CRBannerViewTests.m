@@ -397,7 +397,8 @@
                                 displayUrl:displayURL
                                 insertTime:[NSDate date]
                               nativeAssets:assets
-                              impressionId:nil];
+                              impressionId:nil
+                     skAdNetworkParameters:nil];
 }
 
 - (void)mockCriteoWithAdUnit:(CR_CacheAdUnit *)adUnit respondBid:(CR_CdbBid *)bid {

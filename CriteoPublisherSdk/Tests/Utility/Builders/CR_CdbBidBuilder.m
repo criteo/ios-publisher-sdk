@@ -102,7 +102,8 @@ NSString *CR_CdbBidBuilderImpressionIdValueDefault = @"thisIsImpId";
                                           displayUrl:self.displayUrlValue
                                           insertTime:self.insertTimeValue
                                         nativeAssets:self.nativeAssetsValue
-                                        impressionId:self.impressionIdValue];
+                                        impressionId:self.impressionIdValue
+                               skAdNetworkParameters:self.skAdNetworkParametersValue];
   return bid;
 }
 
