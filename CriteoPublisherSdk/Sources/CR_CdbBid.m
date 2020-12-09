@@ -156,7 +156,7 @@ static CR_CdbBid *emptyBid;
   return result;
 }
 
-+ (NSArray *)getCdbResponsesForData:(NSData *)data receivedAt:(NSDate *)receivedAt {
++ (NSArray *)cdbBidsWithData:(NSData *)data receivedAt:(NSDate *)receivedAt {
   NSMutableArray *responses = nil;
   NSError *e = nil;
   NSDictionary *slots = [NSJSONSerialization JSONObjectWithData:data

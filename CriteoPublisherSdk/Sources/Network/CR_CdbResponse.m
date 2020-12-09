@@ -37,7 +37,7 @@
   }
 
   CR_CdbResponse *cdbResponse = [[CR_CdbResponse alloc] init];
-  cdbResponse.cdbBids = [CR_CdbBid getCdbResponsesForData:data receivedAt:receivedAt];
+  cdbResponse.cdbBids = [CR_CdbBid cdbBidsWithData:data receivedAt:receivedAt];
   cdbResponse.timeToNextCall = 0;
 
   NSError *e = nil;
