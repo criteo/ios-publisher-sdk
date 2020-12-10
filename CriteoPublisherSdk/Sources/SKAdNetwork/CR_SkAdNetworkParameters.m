@@ -48,8 +48,7 @@
                         signature:(NSString *)signature {
   if (networkId == nil || version == nil || campaignId == nil || campaignId.intValue == 0 ||
       iTunesItemId == nil || iTunesItemId.intValue == 0 || nonce == nil || timestamp == nil ||
-      timestamp.intValue == 0 || sourceAppId == nil || sourceAppId.intValue == 0 ||
-      signature == nil) {
+      timestamp.intValue == 0 || sourceAppId == nil || signature == nil) {
     CRLogError(@"SKAdNetwork", @"Unsupported payload format");
     return nil;
   }
