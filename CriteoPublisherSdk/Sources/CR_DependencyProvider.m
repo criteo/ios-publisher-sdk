@@ -171,7 +171,7 @@
 }
 
 - (CR_Session *)session {
-  return CR_LAZY(_session, CR_Session.new);
+  return CR_LAZY(_session, [[CR_Session alloc] initWithStartDate:[NSDate date]]);
 }
 
 - (CR_InternalContextProvider *)internalContextProvider {

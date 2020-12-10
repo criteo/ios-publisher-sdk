@@ -32,10 +32,6 @@
   return self;
 }
 
-- (id)init:(NSDate *)date {
-  return [self initWithStartDate:[NSDate date]];
-}
-
 - (NSTimeInterval)duration {
   return -self.startDate.timeIntervalSinceNow;
 }
