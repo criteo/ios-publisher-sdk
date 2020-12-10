@@ -99,6 +99,13 @@ typedef NS_ENUM(NSInteger, CR_DeviceConnectionType) {
 - (nullable NSNumber *)fetchDeviceHeight;
 
 /**
+ * The ratio of physical pixels to device independent pixels.
+ *
+ * @remark OpenRTB field: `device.pxratio`
+ */
+- (nullable NSNumber *)fetchDevicePixelRatio;
+
+/**
  * Screen orientation ("Portrait" or "Landscape")
  *
  * @remark Custom field: `data.orientation`

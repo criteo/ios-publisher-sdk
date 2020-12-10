@@ -46,6 +46,7 @@ const NSTimeInterval testSessionDuration = 10;
   OCMStub([self.internalContextProvider fetchDeviceOrientation]).andReturn(@"deviceOrientation");
   OCMStub([self.internalContextProvider fetchDeviceWidth]).andReturn(@1337);
   OCMStub([self.internalContextProvider fetchDeviceHeight]).andReturn(@22);
+  OCMStub([self.internalContextProvider fetchDevicePixelRatio]).andReturn(@42.42);
   OCMStub([self.internalContextProvider fetchDeviceConnectionType])
       .andReturn(CR_DeviceConnectionTypeWifi);
   OCMStub([self.internalContextProvider fetchUserCountry]).andReturn(@"userCountry");
@@ -63,6 +64,7 @@ const NSTimeInterval testSessionDuration = 10;
     @"data.inputLanguage" : @[ @"en", @"he" ],
     @"device.w" : @1337,
     @"device.h" : @22,
+    @"device.pxratio" : @42.42,
     @"data.orientation" : @"deviceOrientation",
     @"data.sessionDuration" : @10000L
   };
@@ -76,6 +78,7 @@ const NSTimeInterval testSessionDuration = 10;
   OCMStub([self.internalContextProvider fetchDeviceOrientation]).andReturn(nil);
   OCMStub([self.internalContextProvider fetchDeviceWidth]).andReturn(nil);
   OCMStub([self.internalContextProvider fetchDeviceHeight]).andReturn(nil);
+  OCMStub([self.internalContextProvider fetchDevicePixelRatio]).andReturn(nil);
   OCMStub([self.internalContextProvider fetchDeviceConnectionType])
       .andReturn(CR_DeviceConnectionTypeUnknown);
   OCMStub([self.internalContextProvider fetchUserCountry]).andReturn(nil);
