@@ -98,6 +98,7 @@ typedef void (^CR_ContextualTestedIntegration)(CRContextData *contextData);
   OCMStub([self.internalContextProvider fetchDeviceOrientation]).andReturn(@"Portrait");
   OCMStub([self.internalContextProvider fetchDeviceWidth]).andReturn(@2048);
   OCMStub([self.internalContextProvider fetchDeviceHeight]).andReturn(@2732);
+  OCMStub([self.internalContextProvider fetchDevicePixelRatio]).andReturn(@42.42);
   OCMStub([self.internalContextProvider fetchDeviceConnectionType])
       .andReturn(CR_DeviceConnectionTypeCellular3G);
   OCMStub([self.internalContextProvider fetchUserCountry]).andReturn(@"FR");
@@ -105,8 +106,14 @@ typedef void (^CR_ContextualTestedIntegration)(CRContextData *contextData);
   OCMStub([self.internalContextProvider fetchSessionDuration]).andReturn(@45);
 
   NSDictionary *expected = @{
-    @"device" :
-        @{@"make" : @"Apple", @"model" : @"iPhone X", @"contype" : @5, @"w" : @2048, @"h" : @2732},
+    @"device" : @{
+      @"make" : @"Apple",
+      @"model" : @"iPhone X",
+      @"contype" : @5,
+      @"w" : @2048,
+      @"h" : @2732,
+      @"pxratio" : @42.42
+    },
     @"data" : @{
       @"orientation" : @"Portrait",
       @"inputLanguage" : @[ @"en", @"he" ],

@@ -115,11 +115,15 @@
 }
 
 - (nullable NSNumber *)fetchDeviceWidth {
-  return @(self.screenSize.width);
+  return @(self.screenSize.width * self.screenScale);
 }
 
 - (nullable NSNumber *)fetchDeviceHeight {
-  return @(self.screenSize.height);
+  return @(self.screenSize.height * self.screenScale);
+}
+
+- (nullable NSNumber *)fetchDevicePixelRatio {
+  return @(self.screenScale);
 }
 
 - (nullable NSString *)fetchDeviceOrientation {
@@ -151,6 +155,9 @@
             inDictionary:dictionary];
   [self setNonNullObject:[self fetchDeviceWidth] forKey:@"device.w" inDictionary:dictionary];
   [self setNonNullObject:[self fetchDeviceHeight] forKey:@"device.h" inDictionary:dictionary];
+  [self setNonNullObject:[self fetchDevicePixelRatio]
+                  forKey:@"device.pxratio"
+            inDictionary:dictionary];
   [self setNonNullObject:[self fetchDeviceOrientation]
                   forKey:@"data.orientation"
             inDictionary:dictionary];
@@ -191,6 +198,10 @@
 
 - (CGSize)screenSize {
   return [UIScreen mainScreen].bounds.size;
+}
+
+- (CGFloat)screenScale {
+  return [UIScreen mainScreen].scale;
 }
 
 @end
