@@ -78,6 +78,34 @@
   }];
 }
 
+- (void)testRegister_GivenNilPublisherId_LogError {
+  CR_DependencyProvider *dependencyProviderMock = OCMClassMock(CR_DependencyProvider.class);
+  Criteo *criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProviderMock];
+  NSString *nilPublisherId = nil;
+  [criteo registerCriteoPublisherId:nilPublisherId withAdUnits:@[]];
+
+  OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+                                return logMessage.severity == CR_LogSeverityError &&
+                                       [logMessage.tag isEqualToString:@"Registration"] &&
+                                       [logMessage.message containsString:@"Invalid"] &&
+                                       [logMessage.message containsString:@"\"(null)\""];
+                              }]]);
+}
+
+- (void)testRegister_GivenEmptyPublisherId_LogError {
+  CR_DependencyProvider *dependencyProviderMock = OCMClassMock(CR_DependencyProvider.class);
+  Criteo *criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProviderMock];
+  NSString *emptyPublisherId = @"";
+  [criteo registerCriteoPublisherId:emptyPublisherId withAdUnits:@[]];
+
+  OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+                                return logMessage.severity == CR_LogSeverityError &&
+                                       [logMessage.tag isEqualToString:@"Registration"] &&
+                                       [logMessage.message containsString:@"Invalid"] &&
+                                       [logMessage.message containsString:@"\"\""];
+                              }]]);
+}
+
 - (void)testRegister_ShouldRefreshConfig {
   [self registerWithMockedDependencyProvider:^(CR_DependencyProvider *dependencyProviderMock) {
     CR_ConfigManager *configManager = OCMStrictClassMock(CR_ConfigManager.class);
