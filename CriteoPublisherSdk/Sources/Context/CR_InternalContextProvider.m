@@ -37,14 +37,9 @@
 - (id)initWithSession:(CR_Session *)session {
   if (self = [super init]) {
     self.reachability = [CR_Reachability reachabilityForInternetConnection];
-    [self.reachability startNotifier];
     self.session = session;
   }
   return self;
-}
-
-- (void)dealloc {
-  [self.reachability stopNotifier];
 }
 
 #pragma mark - Public methods
