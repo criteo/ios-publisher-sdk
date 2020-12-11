@@ -67,6 +67,9 @@
 
 - (void)registerCriteoPublisherId:(NSString *)criteoPublisherId
                       withAdUnits:(NSArray<CRAdUnit *> *)adUnits {
+  if (criteoPublisherId == nil || criteoPublisherId.length == 0) {
+    CRLogError(@"Registration", @"Invalid Criteo publisher ID: \"%@\"", criteoPublisherId);
+  }
   @synchronized(self) {
     if (!self.isRegistered) {
       self.registered = true;
