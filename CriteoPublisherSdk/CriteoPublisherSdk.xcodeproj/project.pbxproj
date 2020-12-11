@@ -103,6 +103,7 @@
 		46D707DC24A284A00043D66F /* CR_NativeAdTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D321B1124743637006CBC4E /* CR_NativeAdTableViewCell.xib */; };
 		46F05ACE254881000009DCA6 /* skanValid.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 46F05AC9254880880009DCA6 /* skanValid.bundle */; };
 		46F05AD62548868A0009DCA6 /* skanInvalid.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 46F05AD5254883AC0009DCA6 /* skanInvalid.bundle */; };
+		46FF8F972583B1A6000CFCB5 /* CR_URLRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46FF8F962583B1A6000CFCB5 /* CR_URLRequestTests.m */; };
 		5397C0AF22A0AA3D00BC72FE /* CRAdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5397C08A22A0885700BC72FE /* CRAdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5397C0B022A0AA5600BC72FE /* CRAdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5397C08C22A0885800BC72FE /* CRAdUnit.m */; };
 		5397C0B122A0AA6600BC72FE /* CR_CacheAdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 5397C0AC22A0A66E00BC72FE /* CR_CacheAdUnit.m */; };
@@ -434,6 +435,7 @@
 		46E8A70324B74D69007103B9 /* CRConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRConstants.h; sourceTree = "<group>"; };
 		46F05AC9254880880009DCA6 /* skanValid.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = skanValid.bundle; sourceTree = "<group>"; };
 		46F05AD5254883AC0009DCA6 /* skanInvalid.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = skanInvalid.bundle; sourceTree = "<group>"; };
+		46FF8F962583B1A6000CFCB5 /* CR_URLRequestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_URLRequestTests.m; sourceTree = "<group>"; };
 		5043681951EA02A3EDCE59C0 /* Pods-CriteoPublisherSdkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoPublisherSdkTests.release.xcconfig"; path = "Target Support Files/Pods-CriteoPublisherSdkTests/Pods-CriteoPublisherSdkTests.release.xcconfig"; sourceTree = "<group>"; };
 		53374B7C22AED93A007084FB /* CRBid+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CRBid+Internal.h"; sourceTree = "<group>"; };
 		5397C08A22A0885700BC72FE /* CRAdUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRAdUnit.h; sourceTree = "<group>"; };
@@ -1245,13 +1247,14 @@
 		7D3E420A23915B6600BAF673 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				7D3E420B23915B6600BAF673 /* CR_NetworkManagerTests.m */,
-				7D3E420C23915B6600BAF673 /* CR_BidFetchTrackerTests.m */,
 				7D3E420D23915B6600BAF673 /* CR_ApiHandlerTests.m */,
+				7D3E420C23915B6600BAF673 /* CR_BidFetchTrackerTests.m */,
+				7D0FD303242E0CCC007154E0 /* CR_BidRequestSerializerSwiftTests.swift */,
 				7D60F458242CE8F4008F6260 /* CR_BidRequestSerializerTests.m */,
 				542FCFB7242D0E12000D9DA9 /* CR_FeedbackSerializerTests.swift */,
 				7D0FD300242DEF40007154E0 /* CR_GdprSerializerTests.swift */,
-				7D0FD303242E0CCC007154E0 /* CR_BidRequestSerializerSwiftTests.swift */,
+				7D3E420B23915B6600BAF673 /* CR_NetworkManagerTests.m */,
+				46FF8F962583B1A6000CFCB5 /* CR_URLRequestTests.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -2098,6 +2101,7 @@
 				54FE074323FEED2C0035A026 /* CR_FeedbackMessageTests.swift in Sources */,
 				7D523C7D23DB32C600E79C88 /* CR_HttpContent+AdUnit.m in Sources */,
 				7D3E423623915B6600BAF673 /* CR_NetworkManagerTests.m in Sources */,
+				46FF8F972583B1A6000CFCB5 /* CR_URLRequestTests.m in Sources */,
 				46D707D224A245450043D66F /* CR_NativeAdTableViewController.m in Sources */,
 				7D3E423A23915B6600BAF673 /* CRBannerAdUnitTests.m in Sources */,
 				7D0441CF2428EBA600D36C65 /* NSString+APIKeys.m in Sources */,
