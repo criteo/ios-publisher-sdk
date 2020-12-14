@@ -21,7 +21,7 @@
 
 #import "CR_Config.h"
 #import "CRConstants.h"
-#import "Logging.h"
+#import "CR_Logging.h"
 #import "NSUserDefaults+CR_Config.h"
 
 // Production
@@ -120,7 +120,7 @@ NSString *const CR_ConfigConfigurationUrl = @"https://bidder.criteo.com/config/a
                                                                       options:0
                                                                         error:&e];
   if (!configValues) {
-    CLog(@"Error parsing config values: %@", e);
+    CRLogWarn(@"Config", @"Failed parsing config values: %@", e);
   }
   return configValues;
 }

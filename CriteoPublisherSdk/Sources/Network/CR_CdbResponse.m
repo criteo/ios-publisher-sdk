@@ -18,7 +18,7 @@
 //
 
 #import "CR_CdbResponse.h"
-#import "Logging.h"
+#import "CR_Logging.h"
 
 @implementation CR_CdbResponse
 
@@ -43,7 +43,7 @@
   NSError *e = nil;
   NSDictionary *timeToNextCall = [NSJSONSerialization JSONObjectWithData:data options:0 error:&e];
   if (e) {
-    CLog(@"Error parsing JSON to timeToNextCall of CdbResponse: %@", e);
+    CRLogWarn(@"Bidding", @"Error parsing timeToNextCall of CdbResponse: %@", e);
   } else if (timeToNextCall[@"timeToNextCall"] &&
              [timeToNextCall[@"timeToNextCall"] isKindOfClass:[NSNumber class]]) {
     cdbResponse.timeToNextCall = [timeToNextCall[@"timeToNextCall"] unsignedIntegerValue];

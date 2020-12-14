@@ -35,7 +35,7 @@
 #import "CR_UserDataHolder.h"
 #import "CRUserData+Internal.h"
 #import "CR_InternalContextProvider.h"
-#import "Logging.h"
+#import "CR_Logging.h"
 
 @interface CR_BidRequestSerializer ()
 
@@ -204,7 +204,7 @@
 
     return nestedStructure;
   } @catch (NSException *exception) {
-    CLogException(exception);
+    CRLogException(@"Bidding", exception, @"Failed merging structures");
     return @{};
   }
 }

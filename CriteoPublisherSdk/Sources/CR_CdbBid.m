@@ -18,7 +18,7 @@
 //
 
 #import "CR_CdbBid.h"
-#import "Logging.h"
+#import "CR_Logging.h"
 #import "NSObject+Criteo.h"
 #import "NSString+Criteo.h"
 #import "CRConstants.h"
@@ -170,7 +170,7 @@ static CR_CdbBid *emptyBid;
                                                         options:NSJSONReadingMutableContainers
                                                           error:&e];
   if (!slots) {
-    CLog(@"Error parsing JSON to CdbResponse: %@", e);
+    CRLogWarn(@"Bidding", @"Error parsing Cdb response: %@", e);
   } else {
     responses = [[NSMutableArray alloc] init];
     for (NSDictionary *slot in slots[@"slots"]) {

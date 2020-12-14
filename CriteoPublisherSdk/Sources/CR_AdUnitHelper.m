@@ -21,7 +21,7 @@
 #import "CRBannerAdUnit.h"
 #import "CRAdUnit+Internal.h"
 #import "CR_DeviceInfo.h"
-#import "Logging.h"
+#import "CR_Logging.h"
 #import "Criteo.h"
 #import "Criteo+Internal.h"
 #import "CR_DependencyProvider.h"
@@ -53,7 +53,7 @@ static const CGSize nativeSize = {2.0, 2.0};
                                                  size:nativeSize
                                            adUnitType:CRAdUnitTypeNative];
     default:
-      CLog(@"cacheAdUnitsFromAdUnits got an unexpected AdUnitType: %d", [adUnit adUnitType]);
+      CRLogWarn(@"AdUnit", @"Unexpected AdUnitType %@", adUnit);
       return nil;
   }
 }

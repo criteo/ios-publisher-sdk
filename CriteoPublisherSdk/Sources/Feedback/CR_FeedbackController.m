@@ -23,7 +23,7 @@
 #import "CR_CdbResponse.h"
 #import "CR_UniqueIdGenerator.h"
 #import "CR_ApiHandler.h"
-#import "Logging.h"
+#import "CR_Logging.h"
 #import "CR_FeedbackFeatureGuard.h"
 #import "CR_IntegrationRegistry.h"
 
@@ -132,16 +132,15 @@
 
 - (void)sendFeedbacks:(NSArray<CR_FeedbackMessage *> *)messages profileId:(NSNumber *)profileId {
   NSArray<CR_FeedbackMessage *> *messagesToRollback = messages;
-  [self.apiHandler
-      sendFeedbackMessages:messagesToRollback
-                    config:self.config
-                 profileId:profileId
-         completionHandler:^(NSError *error) {
-           if (error) {
-             CLog(@"CSM sending was failed with error: %@", error.localizedDescription);
-             [self.feedbackStorage pushMessagesToSend:messagesToRollback];
-           }
-         }];
+  [self.apiHandler sendFeedbackMessages:messagesToRollback
+                                 config:self.config
+                              profileId:profileId
+                      completionHandler:^(NSError *error) {
+                        if (error) {
+                          CRLogWarn(@"Metrics", @"Failed sending: %@", error.localizedDescription);
+                          [self.feedbackStorage pushMessagesToSend:messagesToRollback];
+                        }
+                      }];
 }
 
 @end

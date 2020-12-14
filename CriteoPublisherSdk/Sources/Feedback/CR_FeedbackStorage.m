@@ -22,7 +22,7 @@
 #import "CR_FeedbackFileManager.h"
 #import "CR_CASObjectQueue+ArraySet.h"
 #import "CR_CASBoundedFileObjectQueue.h"
-#import "Logging.h"
+#import "CR_Logging.h"
 
 @interface CR_FeedbackStorage ()
 
@@ -53,7 +53,7 @@ static NSUInteger const CR_FeedbackStorageSendingQueueMaxSize = 256 * 1024;
   @try {
     queue = [self buildSendingQueueWithMaxSize:sendingQueueMaxSize fileManager:fileManager];
   } @catch (NSException *exception) {
-    CLog(@"%@", exception);
+    CRLogException(@"Metrics", exception, @"Failed initializing metrics queue");
     // Try to recover by deleting potentially corrupted file
     [fileManager removeSendingQueueFile];
     queue = [self buildSendingQueueWithMaxSize:sendingQueueMaxSize fileManager:fileManager];
@@ -137,7 +137,7 @@ static NSUInteger const CR_FeedbackStorageSendingQueueMaxSize = 256 * 1024;
       [self.sendingQueue addFeedbackMessage:feedback];
     }
   } @catch (NSException *exception) {
-    CLogException(exception);
+    CRLogException(@"Metrics", exception, @"Failed moving metric to sending queue");
   } @finally {
     [self.fileManaging removeFileForFilename:filename];
   }

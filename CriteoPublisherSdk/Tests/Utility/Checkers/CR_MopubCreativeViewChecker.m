@@ -19,7 +19,6 @@
 
 #import "CR_MopubCreativeViewChecker.h"
 #import "UIView+Testing.h"
-#import "Logging.h"
 #import "CR_ViewCheckingHelper.h"
 #import "WKWebView+Testing.h"
 
@@ -80,7 +79,7 @@
   }
   [moPub initializeSdkWithConfiguration:sdkConfig
                              completion:^{
-                               CLog(@"Mopub SDK initialization complete");
+                               NSLog(@"Mopub SDK initialization complete");
                                dispatch_async(dispatch_get_main_queue(), ^{
                                  [someMopubAd loadAd];
                                });
@@ -113,7 +112,7 @@
 }
 
 - (void)adView:(MPAdView *)view didFailToLoadAdWithError:(NSError *)error {
-  CLog(@"MOPUB ERROR: adView:didFailToLoadAdWithError: delegate invoked");
+  NSLog(@"MOPUB ERROR: adView:didFailToLoadAdWithError: delegate invoked");
 }
 
 #pragma mark - MPInterstitialAdControllerDelegate methods
@@ -124,7 +123,7 @@
 }
 
 - (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial {
-  CLog(@"MOPUB ERROR: interstitialDidFailToLoadAd: delegate invoked");
+  NSLog(@"MOPUB ERROR: interstitialDidFailToLoadAd: delegate invoked");
 }
 
 - (void)interstitialDidAppear:(MPInterstitialAdController *)interstitial {

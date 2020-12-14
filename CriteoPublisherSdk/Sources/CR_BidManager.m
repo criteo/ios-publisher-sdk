@@ -24,7 +24,7 @@
 #import "CR_HeaderBidding.h"
 #import "CR_Logging.h"
 #import "CR_ThreadManager.h"
-#import "Logging.h"
+#import "CR_Logging.h"
 
 typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 
@@ -123,7 +123,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
              }];
            }];
   } @catch (NSException *exception) {
-    CLogException(exception);
+    CRLogException(@"Bidding", exception, @"Failed getting bid for adUnit: %@", slot);
   }
   return bid;
 }
@@ -179,7 +179,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
              bidResponseHandler:responseHandler
                      timeBudget:config.liveBiddingTimeBudget];
   } @catch (NSException *exception) {
-    CLogException(exception);
+    CRLogException(@"Bidding", exception, @"Failed fetching bid for adUnit: %@", adUnit);
   }
 }
 
@@ -249,7 +249,6 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
     return;
   }
 
-  CLogInfo(@"Fetching bids for ad units: %@", adUnits);
   [deviceInfo waitForUserAgent:^{
     [self->apiHandler callCdb:adUnits
         consent:self.consent
@@ -273,6 +272,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
             }
           }
         }];
+    CRLogDebug(@"Bidding", @"Fetching bids for ad units: %@", adUnits);
   }];
 
   [self.feedbackDelegate sendFeedbackBatch];
@@ -300,13 +300,13 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 
 - (BOOL)cannotCallCdb {
   if (!config) {
-    CLog(@"Cannot call CDB: Config hasn't been fetched.");
+    CRLogDebug(@"Bidding", @"Cannot call CDB: Config hasn't been fetched.");
     return YES;
   } else if ([config killSwitch]) {
-    CLog(@"Cannot call CDB: killSwitch is engaged.");
+    CRLogDebug(@"Bidding", @"Cannot call CDB: killSwitch is engaged.");
     return YES;
   } else if (self.isInSilenceMode) {
-    CLog(@"Cannot call CDB: User level silent Mode.");
+    CRLogDebug(@"Bidding", @"Cannot call CDB: User level silent Mode.");
     return YES;
   }
   return NO;
@@ -326,7 +326,8 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
   @try {
     [self enrichUnsafelyAdObject:object withBid:bid];
   } @catch (NSException *exception) {
-    CLogException(exception);
+    CRLogException(@"AppBidding", exception, @"Failed enriching ad object: %@ with bid: %@", object,
+                   bid);
   }
 }
 

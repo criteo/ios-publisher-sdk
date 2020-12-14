@@ -22,7 +22,7 @@
 #import <UIKit/UIKit.h>
 #import "CR_DeviceInfo.h"
 #import "CR_ThreadManager.h"
-#import "Logging.h"
+#import "CR_Logging.h"
 
 @interface CR_DeviceInfo ()
 
@@ -95,7 +95,8 @@
             [self.threadManager dispatchAsyncOnGlobalQueue:^{
               @synchronized(self) {
                 self.webView = nil;
-                CLog(@"-----> navigatorUserAgent = %@, error = %@", navigatorUserAgent, error);
+                CRLogDebug(@"UserAgent", @"Got navigatorUserAgent = %@, error = %@",
+                           navigatorUserAgent, error);
                 if (!error && [navigatorUserAgent isKindOfClass:NSString.class]) {
                   self.userAgent = navigatorUserAgent;
                 }

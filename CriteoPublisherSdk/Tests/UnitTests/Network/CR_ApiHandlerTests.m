@@ -31,7 +31,6 @@
 #import "CR_NetworkManagerMock.h"
 #import "CR_ThreadManager.h"
 #import "CR_ThreadManager+Waiter.h"
-#import "Logging.h"
 #import "NSString+APIKeys.h"
 #import "NSString+GDPR.h"
 #import "NSString+CriteoUrl.h"
@@ -99,7 +98,7 @@
       completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
         XCTAssertNil(nil);
         XCTAssertNotNil(cdbResponse.cdbBids);
-        CLog(@"Data length is %ld", [cdbResponse.cdbBids count]);
+        NSLog(@"Data length is %lu", (unsigned long)[cdbResponse.cdbBids count]);
         XCTAssertEqual(1, [cdbResponse.cdbBids count]);
         CR_CdbBid *receivedBid = cdbResponse.cdbBids[0];
         XCTAssertEqualObjects(testBid_1.placementId, receivedBid.placementId);
@@ -178,7 +177,7 @@
           beforeCdbCall:nil
       completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
         XCTAssertNotNil(cdbResponse.cdbBids);
-        CLog(@"Data length is %ld", [cdbResponse.cdbBids count]);
+        NSLog(@"Data length is %lu", (unsigned long)[cdbResponse.cdbBids count]);
         XCTAssertEqual(2, [cdbResponse.cdbBids count]);
 
         CR_CdbBid *receivedBid1 = cdbResponse.cdbBids[0];
@@ -230,7 +229,7 @@
 
   [apiHandler getConfig:request
         ahConfigHandler:^(NSDictionary *configValues) {
-          CLog(@"Data length is %ld", [configValues count]);
+          NSLog(@"Data length is %lu", (unsigned long)[configValues count]);
           XCTAssertNotNil(configValues);
           [expectation fulfill];
         }];

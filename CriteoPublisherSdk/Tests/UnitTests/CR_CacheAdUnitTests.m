@@ -21,7 +21,7 @@
 #import <XCTest/XCTest.h>
 
 #import "CR_CacheAdUnit.h"
-#import "Logging.h"
+#import "CR_Logging.h"
 
 @interface CR_CacheAdUnitTests : XCTestCase
 
@@ -38,7 +38,7 @@
                                                          adUnitType:CRAdUnitTypeBanner];
 
   XCTAssertEqual(first.hash, second.hash);
-  CLog(@"first.hash = %tu , second.hash = %tu", first.hash, second.hash);
+  NSLog(@"first.hash = %tu , second.hash = %tu", first.hash, second.hash);
 }
 
 - (void)testAdUnitHash_2 {
@@ -51,7 +51,7 @@
                                                              height:150];
 
   XCTAssertEqual(first.hash, second.hash);
-  CLog(@"first.hash = %tu , second.hash = %tu", first.hash, second.hash);
+  NSLog(@"first.hash = %tu , second.hash = %tu", first.hash, second.hash);
 }
 
 - (void)testAdUnitHashNotEqual {
@@ -67,8 +67,8 @@
 
   XCTAssertNotEqual(first.hash, second.hash);
   XCTAssertNotEqual(first.hash, third.hash);
-  CLog(@"first.hash = %tu , second.hash = %tu, third.hash = %tu", first.hash, second.hash,
-       third.hash);
+  NSLog(@"first.hash = %tu , second.hash = %tu, third.hash = %tu", first.hash, second.hash,
+        third.hash);
 }
 
 - (void)testAdUnitHashNotEqual_2 {
@@ -81,7 +81,7 @@
                                                          adUnitType:CRAdUnitTypeBanner];
 
   XCTAssertNotEqual(first.hash, second.hash);
-  CLog(@"first.hash = %tu , second.hash = %tu", first.hash, second.hash);
+  NSLog(@"first.hash = %tu , second.hash = %tu", first.hash, second.hash);
 }
 
 - (void)testAdUnitIsEqual {
