@@ -84,7 +84,9 @@
             CRITEO_PUBLISHER_SDK_VERSION, criteoPublisherId, adUnits.count, adUnits);
       }
     } else {
-      CRLogWarn(@"Registration", @"You can only call register method once");
+      CRLogInfo(
+          @"Registration",
+          @"You should only call register method once. Please ignore this if you're using a mediation adapter.");
     }
   }
 }
