@@ -18,7 +18,7 @@
 //
 
 #import "CR_URLResolver.h"
-#import "Logging.h"
+#import "CR_Logging.h"
 #import "CR_DeviceInfo.h"
 #import "CR_URLRequest.h"
 
@@ -161,7 +161,7 @@ static NSArray *appStorePrefixes;
 }
 
 + (CR_URLResolution *)resolutionError:(NSError *)error {
-  CLog(@"URL Resolution error %@", error.description);
+  CRLogWarn(@"URLResolution", @"Failed resolving with error %@", error.description);
   return [self resolutionWithType:CR_URLResolutionError URL:nil];
 }
 

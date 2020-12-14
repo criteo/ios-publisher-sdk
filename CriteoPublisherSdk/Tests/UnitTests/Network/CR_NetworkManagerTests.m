@@ -24,7 +24,6 @@
 #import "CR_CacheAdUnit.h"
 #import "CR_CdbBid.h"
 #import "CR_Config.h"
-#import "Logging.h"
 #import "CR_Logging.h"
 #import "CR_NetworkManager.h"
 #import "XCTestCase+Criteo.h"
@@ -143,14 +142,14 @@
               if (error == nil) {
                 XCTAssertNotNil(data);
                 if (data) {
-                  CLog(@"CDB returned : %@", [[NSString alloc] initWithData:data
-                                                                   encoding:NSUTF8StringEncoding]);
+                  NSLog(@"CDB returned : %@", [[NSString alloc] initWithData:data
+                                                                    encoding:NSUTF8StringEncoding]);
                   NSArray *cdbBids = [CR_CdbBid cdbBidsWithData:data receivedAt:[NSDate date]];
                   XCTAssertNotNil(cdbBids);
                   XCTAssertNotEqual(0, cdbBids.count);
                 }
               } else {
-                CLog(@"%@", error);
+                NSLog(@"%@", error);
               }
               [self verifyNetworkManagerDelegate:delegateMock
                               withNetworkManager:networkManager

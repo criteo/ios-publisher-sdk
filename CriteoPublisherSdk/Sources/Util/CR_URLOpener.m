@@ -24,7 +24,7 @@
 #import "CR_URLOpener.h"
 #import "CR_URLResolver.h"
 #import "CR_SKAdNetworkParameters.h"
-#import "Logging.h"
+#import "CR_Logging.h"
 #import "UIView+Criteo.h"
 #import "CR_Logging.h"
 
@@ -67,7 +67,7 @@
                                                              withCompletion:completion];
                        break;
                      default:
-                       CLog(@"Cannot open URL");
+                       CRLogWarn(@"URLOpen", @"Cannot open URL: %@", URL);
                        break;
                    }
                  }];

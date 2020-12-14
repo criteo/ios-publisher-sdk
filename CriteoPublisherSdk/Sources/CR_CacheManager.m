@@ -18,7 +18,7 @@
 //
 
 #import "CR_CacheManager.h"
-#import "Logging.h"
+#import "CR_Logging.h"
 #import "CR_DeviceInfo.h"
 #import "Criteo.h"
 #import "Criteo+Internal.h"
@@ -48,7 +48,7 @@
     return nil;
   }
   if (!bid.isValid) {
-    CLog(@"Cache update failed because bid is not valid. bid:  %@", bid);
+    CRLogDebug(@"Cache", @"Updating failed because bid is not valid. Bid: %@", bid);
     return nil;
   }
   CR_CacheAdUnit *adUnit = [[CR_CacheAdUnit alloc]
@@ -56,11 +56,11 @@
                   size:CGSizeMake(bid.width.floatValue, bid.height.floatValue)
             adUnitType:[self adUnitTypeFromBid:bid]];
   if (!adUnit.isValid) {
-    CLog(@"Cache update failed because adUnit was not valid. bid:  %@", bid);
+    CRLogDebug(@"Cache", @"Updating failed because adUnit was not valid. Bid: %@", bid);
     return nil;
   }
   @synchronized(_bidCache) {
-    CLogInfo(@"[INFO][CACH] setBid: %@", adUnit);
+    CRLogDebug(@"Cache", @"Caching bid: %@ for adUnid: %@", bid, adUnit);
     _bidCache[adUnit] = bid;
   }
   return adUnit;
@@ -68,12 +68,12 @@
 
 - (CR_CdbBid *)getBidForAdUnit:(CR_CacheAdUnit *)adUnit {
   CR_CdbBid *bid = _bidCache[adUnit];
-  CLogInfo(@"[INFO][CACH] getBidForAdUnit: %@, isNil: %d", adUnit, bid == nil);
+  CRLogDebug(@"Cache", @"Got bid: %@ for adUnit", bid, adUnit);
   return bid;
 }
 
 - (void)removeBidForAdUnit:(CR_CacheAdUnit *)adUnit {
-  CLogInfo(@"[INFO][CACH] removeBidForAdUnit: %@", adUnit);
+  CRLogDebug(@"Cache", @"Removing bid for adUnit: %@", adUnit);
   _bidCache[adUnit] = nil;
 }
 

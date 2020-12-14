@@ -25,7 +25,7 @@
 #import "CR_CdbBid.h"
 #import "NSError+Criteo.h"
 #import "NSURL+Criteo.h"
-#import "Logging.h"
+#import "CR_Logging.h"
 #import "CR_DefaultMediaDownloader.h"
 #import "CR_SafeMediaDownloader.h"
 #import "CR_ThreadManager.h"
@@ -77,7 +77,7 @@
   @try {
     [self unsafeLoadAdWithContext:contextData];
   } @catch (NSException *exception) {
-    CLogException(exception);
+    CRLogException(@"NativeLoader", exception, @"Failed loading native ad");
   }
 }
 
@@ -85,7 +85,7 @@
   @try {
     [self unsafeLoadAdWithBid:bid];
   } @catch (NSException *exception) {
-    CLogException(exception);
+    CRLogException(@"NativeLoader", exception, @"Failed loading native ad");
   }
 }
 

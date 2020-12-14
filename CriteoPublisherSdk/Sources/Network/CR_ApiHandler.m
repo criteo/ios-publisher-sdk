@@ -24,7 +24,7 @@
 #import "CR_BidRequestSerializer.h"
 #import "CR_Gdpr.h"
 #import "CR_GdprSerializer.h"
-#import "Logging.h"
+#import "CR_Logging.h"
 #import "CR_ThreadManager.h"
 #import "NSString+CriteoUrl.h"
 #import "CR_FeedbacksSerializer.h"
@@ -77,7 +77,8 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
         [requestAdUnits addObject:adUnit];
       }
     } else {
-      CLog(
+      CRLogWarn(
+          @"Bidding",
           @"AdUnit is missing one of the following required values adUnitId = %@, width = %f, height = %f",
           adUnit.adUnitId, adUnit.size.width, adUnit.size.height);
     }
@@ -168,22 +169,23 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
     ahConfigHandler:(AHConfigResponse)ahConfigHandler {
   NSURL *url = [NSURL URLWithString:request.configUrl];
 
-  CLogInfo(@"[INFO][API_] ConfigGetCall.start");
-  [self.networkManager postToUrl:url
-                        postBody:request.postBody
-                 responseHandler:^(NSData *data, NSError *error) {
-                   CLogInfo(@"[INFO][API_] ConfigGetCall.finished");
-                   if (error == nil) {
-                     if (data && ahConfigHandler) {
-                       NSDictionary *configValues = [CR_Config getConfigValuesFromData:data];
-                       ahConfigHandler(configValues);
-                     } else {
-                       CLog(@"Error on get from Config: response from Config was nil");
-                     }
-                   } else {
-                     CLog(@"Error on get from Config : %@", error);
-                   }
-                 }];
+  CRLogDebug(@"Config", @"Getting remote config");
+  [self.networkManager
+            postToUrl:url
+             postBody:request.postBody
+      responseHandler:^(NSData *data, NSError *error) {
+        CRLogDebug(@"Config", @"Received config");
+        if (error == nil) {
+          if (data && ahConfigHandler) {
+            NSDictionary *configValues = [CR_Config getConfigValuesFromData:data];
+            ahConfigHandler(configValues);
+          } else {
+            CRLogWarn(@"Config", @"Error on get from Config: response from Config was nil");
+          }
+        } else {
+          CRLogWarn(@"Config", @"Error on get from Config : %@", error);
+        }
+      }];
 }
 
 - (void)sendAppEvent:(NSString *)event
@@ -198,11 +200,11 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
   NSString *urlString = [NSString
       stringWithFormat:@"%@/%@?%@", [config appEventsUrl], [config appEventsSenderId], query];
   NSURL *url = [NSURL URLWithString:urlString];
-  CLogInfo(@"[INFO][API_] AppEventGetCall.start");
+  CRLogDebug(@"AppEvent", @"[INFO][API_] AppEventGetCall.start");
   [self.networkManager
            getFromUrl:url
       responseHandler:^(NSData *data, NSError *error) {
-        CLogInfo(@"[INFO][API_] AppEventGetCall.finished");
+        CRLogDebug(@"AppEvent", @"[INFO][API_] AppEventGetCall.finished");
         if (error == nil) {
           if (data && ahEventHandler) {
             NSError *e = nil;
@@ -211,17 +213,19 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
                                                 options:NSJSONReadingMutableContainers
                                                   error:&e];
             if (!response) {
-              CLog(@"Error parsing app event JSON to AppEvents. Error was: %@", e);
+              CRLogWarn(@"AppEvent", @"Error parsing app event JSON to AppEvents. Error was: %@",
+                        e);
             } else {
               ahEventHandler(response, [NSDate date]);
             }
           } else {
-            CLog(
+            CRLogWarn(
+                @"AppEvent",
                 @"Error on get from app events end point; either value is nil: (response: %@) or (ahEventHandler: %p)",
                 data, ahEventHandler);
           }
         } else {
-          CLog(@"Error on get from app events end point. Error was: %@", error);
+          CRLogWarn(@"AppEvent", @"Error on get from app events end point. Error was: %@", error);
         }
       }];
 }

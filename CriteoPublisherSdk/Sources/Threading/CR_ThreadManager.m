@@ -19,7 +19,7 @@
 
 #include <libkern/OSAtomic.h>
 #import "CR_ThreadManager.h"
-#import "Logging.h"
+#import "CR_Logging.h"
 
 @interface CR_ThreadManager ()
 
@@ -111,7 +111,7 @@
     @try {
       block();
     } @catch (NSException *exception) {
-      CLogException(exception);
+      CRLogException(@"Threading", exception, @"Failed dispatching block");
     } @finally {
       [self countDown];
     }
@@ -129,7 +129,7 @@
     @try {
       block();
     } @catch (NSException *exception) {
-      CLogException(exception);
+      CRLogException(@"Threading", exception, @"Failed dispatching block after delay");
     } @finally {
       [self countDown];
     }
@@ -175,7 +175,7 @@ typedef NS_ENUM(NSInteger, CR_CompletionContextState) {
       block();
     }
   } @catch (NSException *exception) {
-    CLogException(exception);
+    CRLogException(@"Threading", exception, @"Failed executing block");
   } @finally {
     self.state = CR_CompletionContextStateFinished;
     [self.threadManager countDown];

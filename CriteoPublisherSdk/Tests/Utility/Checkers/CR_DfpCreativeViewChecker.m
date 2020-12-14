@@ -21,7 +21,6 @@
 #import "CR_DfpCreativeViewChecker.h"
 #import "UIView+Testing.h"
 #import "WKWebView+Testing.h"
-#import "Logging.h"
 #import "CR_Timer.h"
 #import "CR_ViewCheckingHelper.h"
 #import "Criteo+Testing.h"
@@ -92,8 +91,8 @@
 }
 
 - (void)adView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(GADRequestError *)error {
-  CLog(@"[ERROR] CR_DfpBannerViewChecker.GADBannerViewDelegate (didFailToReceiveAdWithError) %@",
-       error.description);
+  NSLog(@"[ERROR] CR_DfpBannerViewChecker.GADBannerViewDelegate (didFailToReceiveAdWithError) %@",
+        error.description);
 }
 
 #pragma mark - GADInterstitialDelegate methods
@@ -111,8 +110,8 @@
 }
 
 - (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error {
-  CLog(@"[ERROR] CR_DfpBannerViewChecker.GADInterstitialDelegate (didFailToReceiveAdWithError) %@",
-       error.description);
+  NSLog(@"[ERROR] CR_DfpBannerViewChecker.GADInterstitialDelegate (didFailToReceiveAdWithError) %@",
+        error.description);
 }
 
 #pragma mark - Private methods

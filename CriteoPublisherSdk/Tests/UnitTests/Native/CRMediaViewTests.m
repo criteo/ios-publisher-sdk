@@ -165,7 +165,7 @@
   OCMExpect([mediaContent.mediaDownloader downloadImage:url completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *args) {
         CRImageDownloaderHandler completionHandler = [args getArgumentAtIndexAsObject:3];
-        completionHandler(nil, [[NSError alloc] init]);
+        completionHandler(nil, [NSError errorWithDomain:NSCocoaErrorDomain code:1 userInfo:nil]);
       });
 }
 

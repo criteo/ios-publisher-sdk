@@ -23,7 +23,7 @@
 #import "CRMediaContent.h"
 #import "CRMediaContent+Internal.h"
 #import "CRMediaDownloader.h"
-#import "Logging.h"
+#import "CR_Logging.h"
 
 @implementation CRMediaView
 
@@ -58,15 +58,17 @@
   }
 
   __weak typeof(self) weakSelf = self;
-  [mediaContent.mediaDownloader downloadImage:url
-                            completionHandler:^(UIImage *image, NSError *error) {
-                              if (image != nil) {
-                                weakSelf.imageView.image = image;
-                                weakSelf.imageUrl = url;
-                              } else if (error != nil) {
-                                CLog(@"Error when fetching image %@ for media view", url, error);
-                              }
-                            }];
+  [mediaContent.mediaDownloader
+          downloadImage:url
+      completionHandler:^(UIImage *image, NSError *error) {
+        if (image != nil) {
+          weakSelf.imageView.image = image;
+          weakSelf.imageUrl = url;
+        } else if (error != nil) {
+          CRLogWarn(@"Media", @"Error when fetching image at url: %@ for media view. Error: %@",
+                    url, error);
+        }
+      }];
 
   _mediaContent = mediaContent;
 }
