@@ -29,7 +29,6 @@
 #import "CR_NetworkWaiter.h"
 #import "CR_NetworkWaiterBuilder.h"
 #import "CR_TestAdUnits.h"
-#import "CR_Assert.h"
 #import "CR_Config.h"
 
 // This publisherId B-056946 exists in production.
@@ -129,8 +128,8 @@ NSString *const PreprodNativeAdUnitId = @"test-PubSdk-Native";
 - (void)testing_registerAndWaitForHTTPResponseWithAdUnits:(NSArray<CRAdUnit *> *)adUnits {
   [self testing_registerWithAdUnits:adUnits];
   BOOL finished = [self testing_waitForRegisterHTTPResponses];
-  CR_Assert(finished, @"Failed to received all the requests for the register: %@",
-            self.testing_networkCaptor);
+  NSAssert(finished, @"Failed to received all the requests for the register: %@",
+           self.testing_networkCaptor);
 }
 
 @end
