@@ -124,7 +124,7 @@
   [self.criteo registerCriteoPublisherId:self.publisherId withAdUnits:self.adUnits];
   OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
                                 return [logMessage.tag isEqualToString:@"Registration"] &&
-                                       logMessage.severity == CR_LogSeverityWarning &&
+                                       logMessage.severity == CR_LogSeverityInfo &&
                                        [logMessage.message containsString:@"once"];
                               }]]);
 }
