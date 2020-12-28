@@ -27,8 +27,6 @@ extern NSString *const kCRCustomEventHelperAdUnitId;
 
 + (BOOL)checkValidInfo:(NSDictionary *)info;
 
-+ (BOOL)checkValidInfo:(NSDictionary *)eventInfo withError:(NSError **)error;
-
 @end
 
 NS_ASSUME_NONNULL_END
