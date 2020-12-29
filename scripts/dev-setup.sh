@@ -9,10 +9,6 @@ set -Eeuo pipefail
 # https://stackoverflow.com/questions/52455652/xcode-10-seems-to-break-com-apple-commcenter-coretelephony-xpc
 xcrun simctl spawn booted log config --mode "level:off"  --subsystem com.apple.CoreTelephony
 
-# Install Azure CLI with Homebrew for releasing
-# https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-macos?view=azure-cli-latest
-brew install azure-cli
-
 # Enable parallel builds on Xcode
 num_cpu=$(sysctl -n hw.ncpu)
 defaults write com.apple.dt.xcodebuild PBXNumberOfParallelBuildSubtasks "$num_cpu"
@@ -21,5 +17,5 @@ defaults write com.apple.dt.Xcode PBXNumberOfParallelBuildSubtasks "$num_cpu"
 defaults write com.apple.dt.Xcode IDEBuildOperationMaxNumberOfConcurrentCompileTasks "$num_cpu"
 
 # Code format
-brew install clang-format swift-format swiflint
+brew install clang-format swift-format swiftlint
 cp tools/code-format-git-hook.sh .git/hooks/pre-commit
