@@ -29,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(copy, nonatomic) NSArray<CR_CdbBid *> *cdbBids;
 @property(assign, nonatomic) NSUInteger timeToNextCall;
+/** `consentGiven` is nil if not provided in response, use boolValue otherwise */
+@property(strong, nonatomic) NSNumber *consentGiven;
 
 /**
  * Helper function to convert NSData returned from a network call

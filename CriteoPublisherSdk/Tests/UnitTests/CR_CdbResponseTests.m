@@ -91,6 +91,7 @@
   XCTAssertNotNil(cdbResponse.cdbBids);
   XCTAssertEqual(2, cdbResponse.cdbBids.count);
   XCTAssertEqual(0, cdbResponse.timeToNextCall);
+  XCTAssertFalse(cdbResponse.consentGiven);
   XCTAssertEqualObjects(self.testBid1, cdbResponse.cdbBids[0]);
   XCTAssertNotEqualObjects(self.testBid2, cdbResponse.cdbBids[1]);
 }
@@ -108,6 +109,7 @@
   XCTAssertNotNil(cdbResponse.cdbBids);
   XCTAssertEqual(2, cdbResponse.cdbBids.count);
   XCTAssertEqual(360, cdbResponse.timeToNextCall);
+  XCTAssertFalse(cdbResponse.consentGiven);
   XCTAssertEqualObjects(self.testBid1, cdbResponse.cdbBids[0]);
   XCTAssertNotEqualObjects(self.testBid2, cdbResponse.cdbBids[1]);
 }
@@ -123,6 +125,7 @@
   XCTAssertNotNil(cdbResponse.cdbBids);
   XCTAssertEqual(0, cdbResponse.cdbBids.count);
   XCTAssertEqual(600, cdbResponse.timeToNextCall);
+  XCTAssertFalse(cdbResponse.consentGiven);
 }
 
 - (void)testParsingWithNullTimeToNextCall {
@@ -137,6 +140,7 @@
   XCTAssertNotNil(cdbResponse.cdbBids);
   XCTAssertEqual(1, cdbResponse.cdbBids.count);
   XCTAssertEqual(0, cdbResponse.timeToNextCall);
+  XCTAssertFalse(cdbResponse.consentGiven);
   XCTAssertEqualObjects(self.testBid1, cdbResponse.cdbBids[0]);
 }
 
@@ -152,6 +156,91 @@
   XCTAssertNotNil(cdbResponse.cdbBids);
   XCTAssertEqual(1, cdbResponse.cdbBids.count);
   XCTAssertEqual(0, cdbResponse.timeToNextCall);
+  XCTAssertFalse(cdbResponse.consentGiven);
+  XCTAssertEqualObjects(self.testBid1, cdbResponse.cdbBids[0]);
+}
+
+#pragma mark ConsentGiven
+
+- (void)testParsingWithConsentGivenTrue {
+  // Json response from CDB
+  NSString *rawJsonCdbResponse =
+      @"{\"slots\":[{\"placementId\": \"adunitid_1\",\"zoneId\": 497747,\"cpm\":1.12,\"currency\":\"EUR\", \"ttl\":600, \"width\": 300,\"height\": 250,\"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"},\
+    {\"placementId\": \"adunitid_2\",\"zoneId\": 1234567,\"cpm\":5.12,\"currency\":\"EUR\",\"width\": 300,\"height\": 250,\"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />\"}], \"consentGiven\": true}";
+  NSData *cdbApiResponse = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
+
+  CR_CdbResponse *cdbResponse = [CR_CdbResponse responseWithData:cdbApiResponse
+                                                      receivedAt:self.testDate];
+  XCTAssertNotNil(cdbResponse);
+  XCTAssertNotNil(cdbResponse.cdbBids);
+  XCTAssertEqual(2, cdbResponse.cdbBids.count);
+  XCTAssertEqual(0, cdbResponse.timeToNextCall);
+  XCTAssertNotNil(cdbResponse.consentGiven);
+  XCTAssertTrue(cdbResponse.consentGiven.boolValue);
+  XCTAssertEqualObjects(self.testBid1, cdbResponse.cdbBids[0]);
+  XCTAssertNotEqualObjects(self.testBid2, cdbResponse.cdbBids[1]);
+}
+
+- (void)testParsingWithOnlyConsentGiven {
+  // Json response from CDB
+  NSString *rawJsonCdbResponse = @"{\"slots\":[], \"consentGiven\": true}";
+  NSData *cdbApiResponse = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
+
+  CR_CdbResponse *cdbResponse = [CR_CdbResponse responseWithData:cdbApiResponse
+                                                      receivedAt:self.testDate];
+  XCTAssertNotNil(cdbResponse);
+  XCTAssertNotNil(cdbResponse.cdbBids);
+  XCTAssertEqual(0, cdbResponse.cdbBids.count);
+  XCTAssertEqual(0, cdbResponse.timeToNextCall);
+  XCTAssertNotNil(cdbResponse.consentGiven);
+  XCTAssertTrue(cdbResponse.consentGiven.boolValue);
+}
+
+- (void)testParsingWithConsentGivenNull {
+  // Json response from CDB
+  NSString *rawJsonCdbResponse =
+      @"{\"slots\":[{\"placementId\": \"adunitid_1\",\"zoneId\": 497747,\"cpm\":1.12,\"currency\":\"EUR\", \"ttl\":600, \"width\": 300,\"height\": 250,\"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"}], \"consentGiven\":null}";
+  NSData *cdbApiResponse = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
+
+  CR_CdbResponse *cdbResponse = [CR_CdbResponse responseWithData:cdbApiResponse
+                                                      receivedAt:self.testDate];
+  XCTAssertNotNil(cdbResponse);
+  XCTAssertNotNil(cdbResponse.cdbBids);
+  XCTAssertEqual(1, cdbResponse.cdbBids.count);
+  XCTAssertEqual(0, cdbResponse.timeToNextCall);
+  XCTAssertNil(cdbResponse.consentGiven);
+  XCTAssertEqualObjects(self.testBid1, cdbResponse.cdbBids[0]);
+}
+
+- (void)testParsingWithConsentGivenString {
+  // Json response from CDB
+  NSString *rawJsonCdbResponse =
+      @"{\"slots\":[{\"placementId\": \"adunitid_1\",\"zoneId\": 497747,\"cpm\":1.12,\"currency\":\"EUR\", \"ttl\":600, \"width\": 300,\"height\": 250,\"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"}], \"consentGiven\":\"555\"}";
+  NSData *cdbApiResponse = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
+
+  CR_CdbResponse *cdbResponse = [CR_CdbResponse responseWithData:cdbApiResponse
+                                                      receivedAt:self.testDate];
+  XCTAssertNotNil(cdbResponse);
+  XCTAssertNotNil(cdbResponse.cdbBids);
+  XCTAssertEqual(1, cdbResponse.cdbBids.count);
+  XCTAssertEqual(0, cdbResponse.timeToNextCall);
+  XCTAssertFalse(cdbResponse.consentGiven.boolValue);
+  XCTAssertEqualObjects(self.testBid1, cdbResponse.cdbBids[0]);
+}
+
+- (void)testParsingWithNoConsentGiven {
+  // Json response from CDB
+  NSString *rawJsonCdbResponse =
+      @"{\"slots\":[{\"placementId\": \"adunitid_1\",\"zoneId\": 497747,\"cpm\":1.12,\"currency\":\"EUR\", \"ttl\":600, \"width\": 300,\"height\": 250,\"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"}]}";
+  NSData *cdbApiResponse = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
+
+  CR_CdbResponse *cdbResponse = [CR_CdbResponse responseWithData:cdbApiResponse
+                                                      receivedAt:self.testDate];
+  XCTAssertNotNil(cdbResponse);
+  XCTAssertNotNil(cdbResponse.cdbBids);
+  XCTAssertEqual(1, cdbResponse.cdbBids.count);
+  XCTAssertEqual(0, cdbResponse.timeToNextCall);
+  XCTAssertNil(cdbResponse.consentGiven);
   XCTAssertEqualObjects(self.testBid1, cdbResponse.cdbBids[0]);
 }
 
