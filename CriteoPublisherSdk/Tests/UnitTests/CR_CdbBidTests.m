@@ -19,11 +19,11 @@
 
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
-#import "NSDictionary+Criteo.h"
+
 #import "CR_CacheAdUnit.h"
-#import "CR_CdbBid.h"
 #import "CR_CdbBidBuilder.h"
-#import "CR_NativeAssets.h"
+#import "CR_CdbResponse.h"
+#import "NSDictionary+Criteo.h"
 #import "NSString+CriteoUrl.h"
 
 @interface CR_CdbBidTests : XCTestCase
@@ -72,7 +72,8 @@
   XCTAssertNotNil(self.nativeJDict);
   XCTAssertNotNil(self.bannerJDict);
 
-  NSArray<CR_CdbBid *> *bids = [CR_CdbBid cdbBidsWithData:self.jsonData receivedAt:self.now];
+  NSArray<CR_CdbBid *> *bids =
+      [CR_CdbResponse responseWithData:self.jsonData receivedAt:self.now].cdbBids;
   XCTAssertEqual(bids.count, 3);
   self.nativeBid1 = bids[0];
   XCTAssertNotNil(self.nativeBid1);
@@ -346,7 +347,7 @@
 
   NSData *cdbApiResponse = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
 
-  NSArray *testBids = [CR_CdbBid cdbBidsWithData:cdbApiResponse receivedAt:testDate];
+  NSArray *testBids = [CR_CdbResponse responseWithData:cdbApiResponse receivedAt:testDate].cdbBids;
   XCTAssertNotNil(testBids);
   XCTAssertEqual(4, [testBids count]);
   XCTAssertTrue([testBid_1 isEqual:testBids[0]]);
@@ -434,7 +435,7 @@
     {\"placementId\": \"adunitid_4\",\"zoneId\": 497747,\"currency\":\"EUR\", \"ttl\":600, \"width\": 300,\"height\": 250,\"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"}]}";
   NSData *cdbApiResponse = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
 
-  NSArray *testBids = [CR_CdbBid cdbBidsWithData:cdbApiResponse receivedAt:testDate];
+  NSArray *testBids = [CR_CdbResponse responseWithData:cdbApiResponse receivedAt:testDate].cdbBids;
   XCTAssertNotNil(testBids);
   XCTAssertEqual(4, [testBids count]);
   XCTAssertTrue([testBid_1 isEqual:testBids[0]]);
@@ -579,7 +580,7 @@
 
   NSData *cdbApiResponse = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
 
-  NSArray *testBids = [CR_CdbBid cdbBidsWithData:cdbApiResponse receivedAt:testDate];
+  NSArray *testBids = [CR_CdbResponse responseWithData:cdbApiResponse receivedAt:testDate].cdbBids;
   XCTAssertNotNil(testBids);
   XCTAssertEqual(4, [testBids count]);
   XCTAssertTrue([testBid_1 isEqual:testBids[0]]);
