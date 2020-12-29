@@ -54,6 +54,11 @@
     cdbResponse.timeToNextCall = [timeToNextCall unsignedIntegerValue];
   }
 
+  id consentGiven = json[@"consentGiven"];
+  if (consentGiven && [consentGiven isKindOfClass:[NSNumber class]]) {
+    cdbResponse.consentGiven = consentGiven;
+  }
+
   return cdbResponse;
 }
 
