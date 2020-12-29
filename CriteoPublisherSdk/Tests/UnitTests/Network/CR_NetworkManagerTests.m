@@ -22,7 +22,7 @@
 #import <XCTest/XCTest.h>
 
 #import "CR_CacheAdUnit.h"
-#import "CR_CdbBid.h"
+#import "CR_CdbResponse.h"
 #import "CR_Config.h"
 #import "CR_Logging.h"
 #import "CR_NetworkManager.h"
@@ -144,7 +144,8 @@
                 if (data) {
                   NSLog(@"CDB returned : %@", [[NSString alloc] initWithData:data
                                                                     encoding:NSUTF8StringEncoding]);
-                  NSArray *cdbBids = [CR_CdbBid cdbBidsWithData:data receivedAt:[NSDate date]];
+                  NSArray *cdbBids =
+                      [CR_CdbResponse responseWithData:data receivedAt:[NSDate date]].cdbBids;
                   XCTAssertNotNil(cdbBids);
                   XCTAssertNotEqual(0, cdbBids.count);
                 }

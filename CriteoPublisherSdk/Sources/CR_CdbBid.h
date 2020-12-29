@@ -55,7 +55,7 @@
 
 + (instancetype)emptyBid;
 
-+ (NSArray *)cdbBidsWithData:(NSData *)data receivedAt:(NSDate *)receivedAt;
++ (NSArray<CR_CdbBid *> *)cdbBidsWithSlots:(NSArray *)slots receivedAt:(NSDate *)receivedAt;
 
 - (instancetype)initWithZoneId:(NSNumber *)zoneId
                    placementId:(NSString *)placementId

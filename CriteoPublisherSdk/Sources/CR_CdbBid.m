@@ -163,21 +163,12 @@ static CR_CdbBid *emptyBid;
   return result;
 }
 
-+ (NSArray *)cdbBidsWithData:(NSData *)data receivedAt:(NSDate *)receivedAt {
-  NSMutableArray *responses = nil;
-  NSError *e = nil;
-  NSDictionary *slots = [NSJSONSerialization JSONObjectWithData:data
-                                                        options:NSJSONReadingMutableContainers
-                                                          error:&e];
-  if (!slots) {
-    CRLogWarn(@"Bidding", @"Error parsing Cdb response: %@", e);
-  } else {
-    responses = [[NSMutableArray alloc] init];
-    for (NSDictionary *slot in slots[@"slots"]) {
-      [responses addObject:[[CR_CdbBid alloc] initWithDict:slot receivedAt:receivedAt]];
-    }
++ (NSArray<CR_CdbBid *> *)cdbBidsWithSlots:(NSArray *)slots receivedAt:(NSDate *)receivedAt {
+  NSMutableArray<CR_CdbBid *> *bids = [[NSMutableArray alloc] init];
+  for (NSDictionary *slot in slots) {
+    [bids addObject:[[CR_CdbBid alloc] initWithDict:slot receivedAt:receivedAt]];
   }
-  return responses;
+  return bids;
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {

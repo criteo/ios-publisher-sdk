@@ -24,7 +24,7 @@
 
 - (instancetype)init {
   if (self = [super init]) {
-    _cdbBids = nil;
+    _cdbBids = [NSArray array];
     _timeToNextCall = 0;
   }
   return self;
@@ -36,18 +36,24 @@
     return nil;
   }
 
-  CR_CdbResponse *cdbResponse = [[CR_CdbResponse alloc] init];
-  cdbResponse.cdbBids = [CR_CdbBid cdbBidsWithData:data receivedAt:receivedAt];
-  cdbResponse.timeToNextCall = 0;
-
-  NSError *e = nil;
-  NSDictionary *timeToNextCall = [NSJSONSerialization JSONObjectWithData:data options:0 error:&e];
-  if (e) {
-    CRLogWarn(@"Bidding", @"Error parsing timeToNextCall of CdbResponse: %@", e);
-  } else if (timeToNextCall[@"timeToNextCall"] &&
-             [timeToNextCall[@"timeToNextCall"] isKindOfClass:[NSNumber class]]) {
-    cdbResponse.timeToNextCall = [timeToNextCall[@"timeToNextCall"] unsignedIntegerValue];
+  NSError *error = nil;
+  NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+  if (error) {
+    CRLogWarn(@"Bidding", @"Error parsing CdbResponse: %@", error);
+    return nil;
   }
+
+  CR_CdbResponse *cdbResponse = [[CR_CdbResponse alloc] init];
+  id slots = json[@"slots"];
+  if (slots && [slots isKindOfClass:[NSArray class]]) {
+    cdbResponse.cdbBids = [CR_CdbBid cdbBidsWithSlots:slots receivedAt:receivedAt];
+  }
+
+  id timeToNextCall = json[@"timeToNextCall"];
+  if (timeToNextCall && [timeToNextCall isKindOfClass:[NSNumber class]]) {
+    cdbResponse.timeToNextCall = [timeToNextCall unsignedIntegerValue];
+  }
+
   return cdbResponse;
 }
 
