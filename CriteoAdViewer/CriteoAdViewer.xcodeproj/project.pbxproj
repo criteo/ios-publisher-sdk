@@ -386,7 +386,7 @@
 		4077EB9C218BC48300C41E68 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1220;
+				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = Criteo;
 				TargetAttributes = {
 					4077EBA3218BC48300C41E68 = {

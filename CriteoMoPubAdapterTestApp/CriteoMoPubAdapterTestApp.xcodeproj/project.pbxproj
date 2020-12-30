@@ -133,7 +133,7 @@
 		5431C7DE23D7231D002F0282 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1220;
+				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = Criteo;
 				TargetAttributes = {
 					5431C7E523D7231D002F0282 = {
@@ -363,6 +363,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0E665419EA3974D10C2D7ED9 /* Pods-CriteoMoPubAdapterTestApp.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HS6BDUKANM;
@@ -385,6 +386,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3CBA45D99CDFA03B32092940 /* Pods-CriteoMoPubAdapterTestApp.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HS6BDUKANM;
