@@ -24,8 +24,10 @@
 #import "CR_DataProtectionConsent.h"
 #import "CR_Gdpr.h"
 #import "CR_Logging.h"
+#import "NSUserDefaults+Criteo.h"
 
 NSString *const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String";
+NSString *const CR_DataProtectionConsentGivenKey = @"CRITEO_ConsentGiven";
 
 @interface CR_DataProtectionConsent ()
 
@@ -33,6 +35,7 @@ NSString *const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String"
 
 @property(nonatomic, strong, readonly) NSUserDefaults *userDefaults;
 @property(nonatomic, strong, readonly) CR_Ccpa *ccpa;
+@property(nonatomic, assign) BOOL userDefaultForConsentGiven;
 
 @end
 
@@ -55,6 +58,7 @@ NSString *const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String"
       CRLogInfo(@"Consent", @"Initialized with TCF: %@", _gdpr);
     }
     _isAdTrackingEnabled = [[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled];
+    _consentGiven = self.userDefaultForConsentGiven;
   }
   return self;
 }
@@ -98,6 +102,21 @@ NSString *const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String"
 - (BOOL)_isMopubConsentDeclined {
   NSString *uppercases = [self.mopubConsent uppercaseString];
   return [self.class.mopubConsentDeclinedStrings containsObject:uppercases];
+}
+
+#pragma mark Consent given
+
+- (void)setConsentGiven:(BOOL)consentGiven {
+  _consentGiven = consentGiven;
+  self.userDefaultForConsentGiven = consentGiven;
+}
+
+- (BOOL)userDefaultForConsentGiven {
+  return [self.userDefaults boolForKey:CR_DataProtectionConsentGivenKey withDefaultValue:NO];
+}
+
+- (void)setUserDefaultForConsentGiven:(BOOL)consentGiven {
+  [self.userDefaults setBool:consentGiven forKey:CR_DataProtectionConsentGivenKey];
 }
 
 @end

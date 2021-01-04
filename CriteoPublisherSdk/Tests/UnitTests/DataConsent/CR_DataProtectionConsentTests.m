@@ -19,10 +19,12 @@
 
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
+#import <OCMock.h>
 
 #import "XCTestCase+Criteo.h"
 #import "CR_DataProtectionConsent.h"
 #import "CR_DataProtectionConsentMock.h"
+#import "CR_InMemoryUserDefaults.h"
 
 NSString *const CR_DataProtectionConsentTestsApprovedVendorString =
     @"0000000000000010000000000000000000000100000000000000000000000000000000000000000000000000001";
@@ -57,18 +59,12 @@ NSString *const CR_DataProtectionConsentTestsMalformed90CharsVendorString =
 @implementation CR_DataProtectionConsentTests
 
 - (void)setUp {
+  self.userDefaults = OCMPartialMock([[CR_InMemoryUserDefaults alloc] init]);
   self.defaultGdprApplies = YES;
+  [self.userDefaults setObject:@(self.defaultGdprApplies) forKey:@"IABConsent_SubjectToGDPR"];
+
   self.defaultConsentString = CR_DataProtectionConsentMockDefaultConsentString;
-
-  NSNumber *defaultGdprAppliesNumber = [NSNumber numberWithBool:self.defaultGdprApplies];
-
-  self.userDefaults = [[NSUserDefaults alloc] init];
-  [self.userDefaults setObject:defaultGdprAppliesNumber forKey:@"IABConsent_SubjectToGDPR"];
   [self.userDefaults setObject:self.defaultConsentString forKey:@"IABConsent_ConsentString"];
-  [self.userDefaults removeObjectForKey:@"IABConsent_ParsedVendorConsents"];
-  [self.userDefaults removeObjectForKey:CR_CcpaCriteoStateKey];
-  [self.userDefaults removeObjectForKey:CR_CcpaIabConsentStringKey];
-  [self.userDefaults removeObjectForKey:CR_DataProtectionConsentMopubConsentKey];
 
   self.consent1 = [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
   self.consent2 = [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
@@ -128,6 +124,34 @@ NSString *const CR_DataProtectionConsentTestsMalformed90CharsVendorString =
   self.consent1.mopubConsent = consentValue;
 
   XCTAssertEqual(self.consent2.mopubConsent, consentValue);
+}
+
+#pragma mark - Consent Given
+
+- (void)testConsentGivenInitialDefaultValue {
+  CR_DataProtectionConsent *consent =
+      [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
+
+  XCTAssertFalse(consent.isConsentGiven);
+}
+
+- (void)testConsentGivenInitialValue {
+  [self.userDefaults setBool:YES forKey:CR_DataProtectionConsentGivenKey];
+
+  CR_DataProtectionConsent *consent =
+      [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
+
+  XCTAssertTrue(consent.isConsentGiven);
+}
+
+- (void)testConsentGivenWhenSet {
+  CR_DataProtectionConsent *consent =
+      [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
+
+  consent.consentGiven = YES;
+
+  OCMVerify([self.userDefaults setBool:YES forKey:CR_DataProtectionConsentGivenKey]);
+  XCTAssertTrue(consent.isConsentGiven);
 }
 
 #pragma mark - ShouldSendAppEvent
