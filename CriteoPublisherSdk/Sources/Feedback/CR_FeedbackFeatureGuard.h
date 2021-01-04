@@ -24,13 +24,15 @@
 #import "CR_FeedbackController.h"
 
 @class CR_Config;
+@class CR_DataProtectionConsent;
 
 @interface CR_FeedbackFeatureGuard : NSObject <CR_FeedbackDelegate>
 
 - (instancetype)init NS_UNAVAILABLE;
 
 - (instancetype)initWithController:(id<CR_FeedbackDelegate>)controller
-                            config:(CR_Config *)config NS_DESIGNATED_INITIALIZER;
+                            config:(CR_Config *)config
+                           consent:(CR_DataProtectionConsent *)consent NS_DESIGNATED_INITIALIZER;
 
 @end
 

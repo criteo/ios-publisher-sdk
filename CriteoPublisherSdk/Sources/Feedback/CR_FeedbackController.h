@@ -28,6 +28,7 @@
 @class CR_CdbRequest;
 @class CR_CdbResponse;
 @class CR_CdbBid;
+@class CR_DataProtectionConsent;
 
 /**
  * Update metrics files accordingly to received events.
@@ -125,11 +126,13 @@
  * metrics
  * @param apiHandler handler used to send ready-to-send metrics
  * @param config global config to help the API and enabled/disabled this CSM feature
+ * @param consent data protection consent to determine if we're allowed to use CSM feature
  * @return feedback delegate
  */
 + (id<CR_FeedbackDelegate>)controllerWithFeedbackStorage:(CR_FeedbackStorage *)feedbackStorage
                                               apiHandler:(CR_ApiHandler *)apiHandler
-                                                  config:(CR_Config *)config;
+                                                  config:(CR_Config *)config
+                                                 consent:(CR_DataProtectionConsent *)consent;
 
 @end
 

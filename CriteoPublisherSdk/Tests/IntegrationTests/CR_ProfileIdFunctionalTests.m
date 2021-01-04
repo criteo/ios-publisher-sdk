@@ -55,7 +55,7 @@
   self.dependencyProvider =
       CR_DependencyProvider.new.withIsolatedUserDefaults.withWireMockConfiguration
           .withListenedNetworkManager.withIsolatedFeedbackStorage.withIsolatedNotificationCenter
-          .withShortLiveBidTimeBudget;
+          .withShortLiveBidTimeBudget.withConsentGiven;
 
   [self resetCriteo];
 }

@@ -19,15 +19,19 @@
 
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
+
 #import "CR_FeedbackFeatureGuard.h"
 #import "CR_CdbRequest.h"
 #import "CR_CdbResponse.h"
 #import "CR_Config.h"
+#import "CR_DataProtectionConsent.h"
+#import "CR_InMemoryUserDefaults.h"
 
 @interface CR_FeedbackFeatureGuardTests : XCTestCase
 
 @property(nonatomic, strong) CR_FeedbackController *controller;
 @property(nonatomic, strong) CR_Config *config;
+@property(nonatomic, strong) CR_DataProtectionConsent *consent;
 
 @end
 
@@ -37,8 +41,17 @@
   [super setUp];
 
   self.controller = OCMStrictClassMock([CR_FeedbackController class]);
-  self.config = [[CR_Config alloc] init];
+
+  NSUserDefaults *userDefaults = [[CR_InMemoryUserDefaults alloc] init];
+  self.config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+  self.consent = [[CR_DataProtectionConsent alloc] initWithUserDefaults:userDefaults];
+
+  // Enable CSM by default
+  self.config.csmEnabled = YES;
+  self.consent.consentGiven = YES;
 }
+
+#pragma mark - CSM Enabled
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-variable"
@@ -175,8 +188,149 @@
   OCMVerifyAll((id)self.controller);
 }
 
+#pragma mark - Given Consent
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-variable"
+#pragma ide diagnostic ignored "UnusedValue"
+- (void)testDealloc_GivenFreedFeatureGuardAndConsentChange_DoNotThrow {
+  CR_FeedbackFeatureGuard *featureGuard = [self createFeatureGuard];
+  featureGuard = nil;
+
+  self.consent.consentGiven = YES;
+}
+#pragma clang diagnostic pop
+
+- (void)testOnCdbCallStarted_GivenNoConsent_DoNothing {
+  CR_CdbRequest *request = OCMClassMock([CR_CdbRequest class]);
+  self.consent.consentGiven = NO;
+
+  CR_FeedbackFeatureGuard *featureGuard = [self createFeatureGuard];
+  [featureGuard onCdbCallStarted:request];
+
+  OCMVerifyAll((id)self.controller);
+}
+
+- (void)testOnCdbCallStarted_GivenConsent_CallDelegate {
+  CR_CdbRequest *request = OCMClassMock([CR_CdbRequest class]);
+  self.consent.consentGiven = YES;
+
+  OCMExpect([self.controller onCdbCallStarted:request]);
+
+  CR_FeedbackFeatureGuard *featureGuard = [self createFeatureGuard];
+  [featureGuard onCdbCallStarted:request];
+
+  OCMVerifyAll((id)self.controller);
+}
+
+- (void)testOnCdbCallStarted_GivenConsentThenDisabled_DoNothing {
+  CR_CdbRequest *request = OCMClassMock([CR_CdbRequest class]);
+
+  self.consent.consentGiven = YES;
+  CR_FeedbackFeatureGuard *featureGuard = [self createFeatureGuard];
+  self.consent.consentGiven = NO;
+
+  [featureGuard onCdbCallStarted:request];
+
+  OCMVerifyAll((id)self.controller);
+}
+
+- (void)testOnCdbCallResponse_GivenNoConsent_DoNothing {
+  CR_CdbRequest *request = OCMClassMock([CR_CdbRequest class]);
+  CR_CdbResponse *response = OCMClassMock([CR_CdbResponse class]);
+  self.consent.consentGiven = NO;
+
+  CR_FeedbackFeatureGuard *featureGuard = [self createFeatureGuard];
+  [featureGuard onCdbCallResponse:response fromRequest:request];
+
+  OCMVerifyAll((id)self.controller);
+}
+
+- (void)testOnCdbCallResponse_GivenConsent_CallDelegate {
+  CR_CdbRequest *request = OCMClassMock([CR_CdbRequest class]);
+  CR_CdbResponse *response = OCMClassMock([CR_CdbResponse class]);
+  self.consent.consentGiven = YES;
+
+  OCMExpect([self.controller onCdbCallResponse:response fromRequest:request]);
+
+  CR_FeedbackFeatureGuard *featureGuard = [self createFeatureGuard];
+  [featureGuard onCdbCallResponse:response fromRequest:request];
+
+  OCMVerifyAll((id)self.controller);
+}
+
+- (void)testOnCdbCallFailure_GivenNoConsent_DoNothing {
+  CR_CdbRequest *request = OCMClassMock([CR_CdbRequest class]);
+  NSError *failure = OCMClassMock([NSError class]);
+  self.consent.consentGiven = NO;
+
+  CR_FeedbackFeatureGuard *featureGuard = [self createFeatureGuard];
+  [featureGuard onCdbCallFailure:failure fromRequest:request];
+
+  OCMVerifyAll((id)self.controller);
+}
+
+- (void)testOnCdbCallFailure_GivenConsent_CallDelegate {
+  CR_CdbRequest *request = OCMClassMock([CR_CdbRequest class]);
+  NSError *failure = OCMClassMock([NSError class]);
+  self.consent.consentGiven = YES;
+
+  OCMExpect([self.controller onCdbCallFailure:failure fromRequest:request]);
+
+  CR_FeedbackFeatureGuard *featureGuard = [self createFeatureGuard];
+  [featureGuard onCdbCallFailure:failure fromRequest:request];
+
+  OCMVerifyAll((id)self.controller);
+}
+
+- (void)testOnBidConsumed_GivenNoConsent_DoNothing {
+  CR_CdbBid *bid = OCMClassMock([CR_CdbBid class]);
+  self.consent.consentGiven = NO;
+
+  CR_FeedbackFeatureGuard *featureGuard = [self createFeatureGuard];
+  [featureGuard onBidConsumed:bid];
+
+  OCMVerifyAll((id)self.controller);
+}
+
+- (void)testOnBidConsumed_GivenConsent_CallDelegate {
+  CR_CdbBid *bid = OCMClassMock([CR_CdbBid class]);
+  self.consent.consentGiven = YES;
+
+  OCMExpect([self.controller onBidConsumed:bid]);
+
+  CR_FeedbackFeatureGuard *featureGuard = [self createFeatureGuard];
+  [featureGuard onBidConsumed:bid];
+
+  OCMVerifyAll((id)self.controller);
+}
+
+- (void)testSendFeedbackBatch_GivenNoConsent_DoNothing {
+  self.consent.consentGiven = NO;
+
+  CR_FeedbackFeatureGuard *featureGuard = [self createFeatureGuard];
+  [featureGuard sendFeedbackBatch];
+
+  OCMVerifyAll((id)self.controller);
+}
+
+- (void)testSendFeedbackBatch_GivenConsent_CallDelegate {
+  self.consent.consentGiven = YES;
+
+  OCMExpect([self.controller sendFeedbackBatch]);
+
+  CR_FeedbackFeatureGuard *featureGuard = [self createFeatureGuard];
+  [featureGuard sendFeedbackBatch];
+
+  OCMVerifyAll((id)self.controller);
+}
+
+#pragma mark - Private
+
 - (CR_FeedbackFeatureGuard *)createFeatureGuard {
-  return [[CR_FeedbackFeatureGuard alloc] initWithController:self.controller config:self.config];
+  return [[CR_FeedbackFeatureGuard alloc] initWithController:self.controller
+                                                      config:self.config
+                                                     consent:self.consent];
 }
 
 @end
