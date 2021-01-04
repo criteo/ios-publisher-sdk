@@ -18,6 +18,7 @@
 //
 
 #import "NSUserDefaults+CR_Config.h"
+#import "NSUserDefaults+Criteo.h"
 #import "CRConstants.h"
 
 NSString *const NSUserDefaultsKillSwitchKey = @"CRITEO_KillSwitch";
@@ -67,24 +68,6 @@ NSString *const NSUserDefaultsLiveBiddingTimeBudgetKey = @"CRITEO_LiveBiddingTim
 
 - (void)cr_setValueForLiveBiddingTimeBudget:(NSTimeInterval)liveBiddingTimeBudget {
   [self setDouble:liveBiddingTimeBudget forKey:NSUserDefaultsLiveBiddingTimeBudgetKey];
-}
-
-#pragma mark - Private
-
-- (BOOL)boolForKey:(NSString *)key withDefaultValue:(BOOL)defaultValue {
-  id value = [self objectForKey:key];
-  if (value && [value isKindOfClass:NSNumber.class]) {
-    return ((NSNumber *)value).boolValue;
-  }
-  return defaultValue;
-}
-
-- (double)doubleForKey:(NSString *)key withDefaultValue:(double)defaultValue {
-  id value = [self objectForKey:key];
-  if (value && [value isKindOfClass:NSNumber.class]) {
-    return ((NSNumber *)value).doubleValue;
-  }
-  return defaultValue;
 }
 
 @end

@@ -25,6 +25,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)cr_containsKey:(NSString *)key;
 
+- (BOOL)boolForKey:(NSString *)key withDefaultValue:(BOOL)defaultValue;
+
+- (double)doubleForKey:(NSString *)key withDefaultValue:(double)defaultValue;
+
 @end
 
 NS_ASSUME_NONNULL_END
