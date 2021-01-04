@@ -25,4 +25,20 @@
   return ([self objectForKey:key] != nil);
 }
 
+- (BOOL)boolForKey:(NSString *)key withDefaultValue:(BOOL)defaultValue {
+  id value = [self objectForKey:key];
+  if (value && [value isKindOfClass:NSNumber.class]) {
+    return ((NSNumber *)value).boolValue;
+  }
+  return defaultValue;
+}
+
+- (double)doubleForKey:(NSString *)key withDefaultValue:(double)defaultValue {
+  id value = [self objectForKey:key];
+  if (value && [value isKindOfClass:NSNumber.class]) {
+    return ((NSNumber *)value).doubleValue;
+  }
+  return defaultValue;
+}
+
 @end
