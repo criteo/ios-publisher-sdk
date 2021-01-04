@@ -288,6 +288,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 
 - (void)handleResponse:(CR_CdbResponse *)cdbResponse cdbRequest:(CR_CdbRequest *)cdbRequest {
   [self updateTimeToNextCallIfProvided:cdbResponse];
+  [self updateConsentGiven:cdbResponse.consentGiven];
 
   for (CR_CdbBid *bid in cdbResponse.cdbBids) {
     if (bid.isImmediate) {
@@ -319,6 +320,12 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
               timeToNextCall);
     self.cdbTimeToNextCall =
         [[NSDate dateWithTimeIntervalSinceNow:timeToNextCall] timeIntervalSinceReferenceDate];
+  }
+}
+
+- (void)updateConsentGiven:(NSNumber *)consentGiven {
+  if (consentGiven) {
+    self.consent.consentGiven = consentGiven.boolValue;
   }
 }
 

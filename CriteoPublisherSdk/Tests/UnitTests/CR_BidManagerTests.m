@@ -71,6 +71,7 @@
 @property(nonatomic, strong) CR_DeviceInfo *deviceInfoMock;
 @property(nonatomic, strong) CR_CacheManager *cacheManager;
 @property(nonatomic, strong) CR_ApiHandler *apiHandlerMock;
+@property(nonatomic, readonly) CR_DataProtectionConsent *consent;
 @property(nonatomic, strong) CR_ConfigManager *configManagerMock;
 @property(nonatomic, strong) CR_HeaderBidding *headerBiddingMock;
 @property(nonatomic, strong) id loggingMock;
@@ -585,6 +586,62 @@
   XCTAssertTrue(self.bidManager.isInSilenceMode);
 }
 
+#pragma mark Consent Given
+
+- (void)givenApiHandlerRespondWithConsentGiven:(NSNumber *)consentGiven {
+  CR_CdbResponse *cdbResponseMock = OCMClassMock(CR_CdbResponse.class);
+  OCMStub(cdbResponseMock.consentGiven).andReturn(consentGiven);
+  [self givenApiHandlerRespond:cdbResponseMock
+         doingBeforeResponding:^{
+         }];
+}
+
+- (void)testLiveBid_GivenConsentGivenResponse_ThenConsentGivenUpdated {
+  self.consent.consentGiven = NO;
+  [self givenApiHandlerRespondWithConsentGiven:@YES];
+
+  [self fetchLiveBidForAdUnit:self.adUnit1];
+
+  XCTAssertTrue(self.consent.isConsentGiven);
+}
+
+- (void)testLiveBid_GivenNoConsentGivenResponse_ThenConsentGivenUpdated {
+  self.consent.consentGiven = YES;
+  [self givenApiHandlerRespondWithConsentGiven:@NO];
+
+  [self fetchLiveBidForAdUnit:self.adUnit1];
+
+  XCTAssertFalse(self.consent.isConsentGiven);
+}
+
+- (void)testLiveBid_GivenConsentAndNotInResponse_ThenConsentGivenNotUpdated {
+  self.consent.consentGiven = YES;
+  [self givenApiHandlerRespondWithConsentGiven:nil];
+
+  [self fetchLiveBidForAdUnit:self.adUnit1];
+
+  XCTAssertTrue(self.consent.isConsentGiven);
+}
+
+- (void)testLiveBid_GivenNoConsentAndNotInResponse_ThenConsentGivenNotUpdated {
+  self.consent.consentGiven = NO;
+  [self givenApiHandlerRespondWithConsentGiven:nil];
+
+  [self fetchLiveBidForAdUnit:self.adUnit1];
+
+  XCTAssertFalse(self.consent.isConsentGiven);
+}
+
+- (void)testLiveBid_GivenConsentGivenResponseAfterTimeBudget_ThenConsentGivenUpdated {
+  self.consent.consentGiven = NO;
+  [self givenApiHandlerRespondWithConsentGiven:@YES];
+  [self givenTimeBudgetExceeded];
+
+  [self fetchLiveBidForAdUnit:self.adUnit1];
+
+  XCTAssertTrue(self.consent.isConsentGiven);
+}
+
 #pragma mark Silent slot
 
 - (void)testLiveBid_GivenSilentBidInCache_ThenCdbNotCalledAndNoResponseGiven {
@@ -864,6 +921,10 @@
                                                          size:self.adUnit1.size];
   CR_CdbBid *cdbBid = [self validCdbBidForAdUnit:self.adUnit1];
   return [[CRBid alloc] initWithCdbBid:cdbBid adUnit:adUnit];
+}
+
+- (CR_DataProtectionConsent *)consent {
+  return self.dependencyProvider.consent;
 }
 
 @end
