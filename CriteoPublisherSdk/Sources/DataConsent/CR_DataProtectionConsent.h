@@ -25,6 +25,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 FOUNDATION_EXTERN NSString *const CR_DataProtectionConsentMopubConsentKey;
+FOUNDATION_EXTERN NSString *const CR_DataProtectionConsentGivenKey;
 
 /**
  Aggregate logics regarding the privacy of the user.
@@ -65,6 +66,16 @@ FOUNDATION_EXTERN NSString *const CR_DataProtectionConsentMopubConsentKey;
 
 @property(nonatomic, copy, readonly, nullable) NSString *usPrivacyIabConsentString;
 @property(nonatomic, assign) CR_CcpaCriteoState usPrivacyCriteoState;
+
+#pragma mark - Criteo
+
+/**
+ * Provides if backend assume we have consent from provided data above, Gdpr and others
+ * Information is persisted in userDefaults
+ */
+@property(nonatomic, assign, getter=isConsentGiven) BOOL consentGiven;
+
+#pragma mark - Lifecycle
 
 - (instancetype)init;
 - (instancetype)initWithUserDefaults:(NSUserDefaults *)userDefaults NS_DESIGNATED_INITIALIZER;
