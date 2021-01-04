@@ -52,6 +52,10 @@ NSString *const CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString = @
   return self.isAdTrackingEnabled_mock;
 }
 
+- (NSNumber *)trackingAuthorizationStatus {
+  return self.trackingAuthorizationStatus_mock;
+}
+
 - (NSString *)usPrivacyIabConsentString {
   return self.usPrivacyIabConsentString_mock;
 }
