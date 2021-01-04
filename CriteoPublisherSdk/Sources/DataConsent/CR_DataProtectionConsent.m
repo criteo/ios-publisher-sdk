@@ -18,6 +18,7 @@
 //
 
 #import <AdSupport/ASIdentifierManager.h>
+#import <AppTrackingTransparency/AppTrackingTransparency.h>
 
 #import "CR_Ccpa.h"
 #import "CR_DataProtectionConsent.h"
@@ -56,6 +57,13 @@ NSString *const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String"
     _isAdTrackingEnabled = [[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled];
   }
   return self;
+}
+
+- (NSNumber *)trackingAuthorizationStatus {
+  if (@available(iOS 14.0, *)) {
+    return @(ATTrackingManager.trackingAuthorizationStatus);
+  }
+  return nil;
 }
 
 - (NSString *)usPrivacyIabConsentString {

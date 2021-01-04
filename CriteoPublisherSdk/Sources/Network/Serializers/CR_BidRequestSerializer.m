@@ -97,6 +97,8 @@
   userDict[CR_ApiQueryKeys.deviceId] = deviceInfo.deviceId;
   userDict[CR_ApiQueryKeys.userAgent] = deviceInfo.userAgent;
   userDict[CR_ApiQueryKeys.deviceIdType] = CR_ApiQueryKeys.deviceIdValue;
+  userDict[CR_ApiQueryKeys.trackingAuthorizationStatus] =
+      consent.trackingAuthorizationStatus.stringValue;
 
   if (consent.usPrivacyIabConsentString.length > 0) {
     userDict[CR_ApiQueryKeys.uspIab] = consent.usPrivacyIabConsentString;

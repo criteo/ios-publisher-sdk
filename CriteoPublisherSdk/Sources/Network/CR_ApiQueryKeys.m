@@ -111,6 +111,9 @@
 + (NSString *)limitedAdTracking {
   return @"limitedAdTracking";
 }
++ (NSString *)trackingAuthorizationStatus {
+  return @"trackingAuthorizationStatus";
+}
 + (NSString *)mopubConsent {
   return @"mopubConsent";
 }

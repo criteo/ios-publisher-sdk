@@ -41,6 +41,13 @@ FOUNDATION_EXTERN NSString *const CR_DataProtectionConsentMopubConsentKey;
 @property(readonly, nonatomic) BOOL isAdTrackingEnabled;
 
 /**
+ * Nullable ATTrackingManagerAuthorizationStatus
+ *
+ * Device before iOS 14 returns nil
+ */
+@property(readonly, nonatomic, nullable) NSNumber *trackingAuthorizationStatus;
+
+/**
  Store dedicated consent for mopub.
  Spec: https://go.crto.in/publisher-sdk-gdpr-mopub-cmp
  CDB: https://go.crto.in/publisher-sdk-cdb-mopub-consent

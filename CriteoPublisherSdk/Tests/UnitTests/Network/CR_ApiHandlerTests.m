@@ -427,6 +427,8 @@
 }
 
 - (void)testCdbCallContainsUserInfo {
+  self.consentMock.trackingAuthorizationStatus_mock = nil;
+
   NSDictionary *expected = @{
     CR_ApiQueryKeys.deviceIdType : CR_ApiQueryKeys.deviceIdValue,
     CR_ApiQueryKeys.deviceId : self.deviceInfoMock.deviceId,
@@ -438,6 +440,30 @@
       CR_ApiQueryKeys.skAdNetworkVersion : @"2.0",
       CR_ApiQueryKeys.skAdNetworkIds : @[ @"hs6bdukanm.skadnetwork" ]
     }
+  };
+
+  [self callCdb];
+
+  NSMutableDictionary *userInfo = [self.cdbPayload[CR_ApiQueryKeys.user] mutableCopy];
+  userInfo[@"ext"] = nil;  // contextual data is checked in other tests
+  XCTAssertEqualObjects(userInfo, expected);
+}
+
+- (void)testCdbCallContainsUserInfoWithAuthorizationStatus {
+  self.consentMock.trackingAuthorizationStatus_mock = @3;
+
+  NSDictionary *expected = @{
+    CR_ApiQueryKeys.deviceIdType : CR_ApiQueryKeys.deviceIdValue,
+    CR_ApiQueryKeys.deviceId : self.deviceInfoMock.deviceId,
+    CR_ApiQueryKeys.deviceOs : self.configMock.deviceOs,
+    CR_ApiQueryKeys.deviceModel : self.configMock.deviceModel,
+    CR_ApiQueryKeys.userAgent : self.deviceInfoMock.userAgent,
+    CR_ApiQueryKeys.uspIab : CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString,
+    CR_ApiQueryKeys.skAdNetwork : @{
+      CR_ApiQueryKeys.skAdNetworkVersion : @"2.0",
+      CR_ApiQueryKeys.skAdNetworkIds : @[ @"hs6bdukanm.skadnetwork" ]
+    },
+    CR_ApiQueryKeys.trackingAuthorizationStatus : @"3"
   };
 
   [self callCdb];
@@ -629,11 +655,29 @@
 }
 
 - (void)testSendAppEventUrlWithoutGdpr {
+  self.consentMock.trackingAuthorizationStatus_mock = nil;
+
   NSDictionary *expected = @{
     CR_ApiQueryKeys.idfa : self.deviceInfoMock.deviceId,
     CR_ApiQueryKeys.appId : self.configMock.appId,
     CR_ApiQueryKeys.eventType : @"Launch",
     CR_ApiQueryKeys.limitedAdTracking : @"0"
+  };
+
+  [self callSendAppEventWithCompletionHandler:nil];
+
+  XCTAssertEqualObjects(self.appEventUrlString.cr_urlQueryParamsDictionary, expected);
+}
+
+- (void)testSendAppEventUrlWithTrackingAuthorizationStatus {
+  self.consentMock.trackingAuthorizationStatus_mock = @2;
+
+  NSDictionary *expected = @{
+    CR_ApiQueryKeys.idfa : self.deviceInfoMock.deviceId,
+    CR_ApiQueryKeys.appId : self.configMock.appId,
+    CR_ApiQueryKeys.eventType : @"Launch",
+    CR_ApiQueryKeys.limitedAdTracking : @"0",
+    CR_ApiQueryKeys.trackingAuthorizationStatus : @"2"
   };
 
   [self callSendAppEventWithCompletionHandler:nil];

@@ -31,6 +31,7 @@ extern NSString *const CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentStr
 @property(strong, nonatomic) CR_GdprMock *gdprMock;
 
 @property(nonatomic, assign) BOOL isAdTrackingEnabled_mock;
+@property(strong, nonatomic, nullable) NSNumber *trackingAuthorizationStatus_mock;
 @property(nonatomic, copy, nullable) NSString *usPrivacyIabConsentString_mock;
 
 @end
