@@ -31,7 +31,8 @@
 + (instancetype)testing_dependencyProvider {
   return CR_DependencyProvider.new.withIsolatedUserDefaults.withIsolatedDeviceInfo
       .withWireMockConfiguration.withListenedNetworkManager.withIsolatedNotificationCenter
-      .withIsolatedFeedbackStorage.withIsolatedIntegrationRegistry.withShortLiveBidTimeBudget;
+      .withIsolatedFeedbackStorage.withIsolatedIntegrationRegistry.withShortLiveBidTimeBudget
+      .withConsentGiven;
 }
 
 - (CR_DependencyProvider *)withListenedNetworkManagerWithDelay:(NSTimeInterval)delay {
@@ -101,6 +102,11 @@
 // So reducing the budget can make tests faster
 - (CR_DependencyProvider *)withShortLiveBidTimeBudget {
   self.config.liveBiddingTimeBudget = 0.3f;
+  return self;
+}
+
+- (CR_DependencyProvider *)withConsentGiven {
+  self.consent.consentGiven = YES;
   return self;
 }
 

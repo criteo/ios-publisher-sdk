@@ -33,6 +33,7 @@
 @property(nonatomic, strong) CR_FeedbackStorage *feedbackStorage;
 @property(nonatomic, strong) CR_ApiHandler *apiHandler;
 @property(nonatomic, strong) CR_Config *config;
+@property(nonatomic, strong) CR_DataProtectionConsent *consent;
 
 @property(nonatomic, strong) NSMutableArray<NSDate *> *mockedDates;
 @property(nonatomic, strong) OCMockObject *nsDate;
@@ -61,11 +62,16 @@
 
   self.apiHandler = OCMClassMock([CR_ApiHandler class]);
   self.config = [[CR_Config alloc] init];
+  self.consent = [[CR_DataProtectionConsent alloc] init];
 
   [self setUpMockedIntegrationRegistry];
   [self setUpMockedUniqueIdGenerator];
   [self setUpMockedClock];
   [self setUpFeedbackController];
+
+  // Enable CSM by default
+  [self givenCsmEnabled:YES];
+  [self givenConsent:YES];
 }
 
 - (void)tearDown {
@@ -75,7 +81,20 @@
 }
 
 - (void)testOnCdbCallStarted_GivenDeactivatedCsm_DoNothing {
-  [self prepareDisabledCsm];
+  [self givenCsmEnabled:NO];
+  [self prepareStrictMockedFeedbackStorage];
+
+  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
+                                                 requestGroupId:@"requestId"
+                                                  impressionIds:@[ @"id" ]];
+
+  [self.feedbackController onCdbCallStarted:request];
+
+  [self assertNoInteractionOnFeedbackStorage];
+}
+
+- (void)testOnCdbCallStarted_GivenConsentNotGiven_DoNothing {
+  [self givenConsent:NO];
   [self prepareStrictMockedFeedbackStorage];
 
   CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
@@ -88,8 +107,6 @@
 }
 
 - (void)testOnCdbCallStarted_GivenMultipleSlot_UpdateAllStartTimeAndRequestIdOfMetricsById {
-  [self prepareEnabledCsm];
-
   CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
                                                  requestGroupId:@"myRequestId"
                                                   impressionIds:@[ @"id1", @"id2" ]];
@@ -118,7 +135,21 @@
 }
 
 - (void)testOnCdbCallResponse_GivenDeactivatedCsm_DoNothing {
-  [self prepareDisabledCsm];
+  [self givenCsmEnabled:NO];
+  [self prepareStrictMockedFeedbackStorage];
+
+  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
+                                                 requestGroupId:@"requestId"
+                                                  impressionIds:@[ @"id" ]];
+  CR_CdbResponse *response = [[CR_CdbResponse alloc] init];
+
+  [self.feedbackController onCdbCallResponse:response fromRequest:request];
+
+  [self assertNoInteractionOnFeedbackStorage];
+}
+
+- (void)testOnCdbCallResponse_GivenConsentNotGiven_DoNothing {
+  [self givenConsent:NO];
   [self prepareStrictMockedFeedbackStorage];
 
   CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
@@ -132,8 +163,6 @@
 }
 
 - (void)testOnCdbCallResponse_GivenNoBidAndInvalidBidAndValidBid_UpdateThemByIdAccordingly {
-  [self prepareEnabledCsm];
-
   CR_CdbRequest *request =
       [self prepareCdbRequestWithProfileId:@42
                             requestGroupId:@"requestId"
@@ -166,7 +195,21 @@
 }
 
 - (void)testOnCdbCallFailure_GivenDeactivatedCsm_DoNothing {
-  [self prepareDisabledCsm];
+  [self givenCsmEnabled:NO];
+  [self prepareStrictMockedFeedbackStorage];
+
+  CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
+                                                 requestGroupId:@"requestId"
+                                                  impressionIds:@[ @"id" ]];
+  NSError *error = [[NSError alloc] init];
+
+  [self.feedbackController onCdbCallFailure:error fromRequest:request];
+
+  [self assertNoInteractionOnFeedbackStorage];
+}
+
+- (void)testOnCdbCallFailure_GivenConsentNotGiven_DoNothing {
+  [self givenConsent:NO];
   [self prepareStrictMockedFeedbackStorage];
 
   CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
@@ -180,8 +223,6 @@
 }
 
 - (void)testOnCdbCallFailure_GivenTimeoutError_UpdateAllForTimeout {
-  [self prepareEnabledCsm];
-
   CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
                                                  requestGroupId:@"requestId"
                                                   impressionIds:@[ @"id1", @"id2" ]];
@@ -205,8 +246,6 @@
 }
 
 - (void)testOnCdbCallFailure_GivenNotATimeoutError_UpdateAllForNetworkError {
-  [self prepareEnabledCsm];
-
   CR_CdbRequest *request = [self prepareCdbRequestWithProfileId:@42
                                                  requestGroupId:@"requestId"
                                                   impressionIds:@[ @"id1", @"id2" ]];
@@ -228,7 +267,18 @@
 }
 
 - (void)testOnBidConsumed_GivenDeactivatedCsm_DoNothing {
-  [self prepareDisabledCsm];
+  [self givenCsmEnabled:NO];
+  [self prepareStrictMockedFeedbackStorage];
+
+  CR_CdbBid *bid = CR_CdbBidBuilder.new.impressionId(@"id").build;
+
+  [self.feedbackController onBidConsumed:bid];
+
+  [self assertNoInteractionOnFeedbackStorage];
+}
+
+- (void)testOnBidConsumed_GivenConsentNotGiven_DoNothing {
+  [self givenConsent:NO];
   [self prepareStrictMockedFeedbackStorage];
 
   CR_CdbBid *bid = CR_CdbBidBuilder.new.impressionId(@"id").build;
@@ -239,8 +289,6 @@
 }
 
 - (void)testOnBidConsumed_GivenNotExpiredBid_SetElapsedTime {
-  [self prepareEnabledCsm];
-
   CR_CdbBid *bid = CR_CdbBidBuilder.new.impressionId(@"id").build;
 
   [self prepareMockedClock:42];
@@ -255,8 +303,6 @@
 }
 
 - (void)testOnBidConsumed_GivenExpiredBid_SetExpiredFlag {
-  [self prepareEnabledCsm];
-
   CR_CdbBid *bid = CR_CdbBidBuilder.new.impressionId(@"id").ttl(-1).build;
 
   CR_FeedbackMessage *expected = [[CR_FeedbackMessage alloc] init];
@@ -269,7 +315,16 @@
 }
 
 - (void)testSendFeedbackBatch_GivenDeactivatedCsm_DoNothing {
-  [self prepareDisabledCsm];
+  [self givenCsmEnabled:NO];
+  [self prepareStrictMockedFeedbackStorage];
+
+  [self.feedbackController sendFeedbackBatch];
+
+  [self assertNoInteractionOnFeedbackStorage];
+}
+
+- (void)testSendFeedbackBatch_GivenNoConsent_DoNothing {
+  [self givenConsent:NO];
   [self prepareStrictMockedFeedbackStorage];
 
   [self.feedbackController sendFeedbackBatch];
@@ -283,7 +338,8 @@
   self.feedbackController =
       [CR_FeedbackController controllerWithFeedbackStorage:self.feedbackStorage
                                                 apiHandler:self.apiHandler
-                                                    config:self.config];
+                                                    config:self.config
+                                                   consent:self.consent];
 }
 
 - (void)setUpMockedIntegrationRegistry {
@@ -340,12 +396,12 @@
   [self.mockedGeneratedIds addObject:generatedId];
 }
 
-- (void)prepareEnabledCsm {
-  self.config.csmEnabled = YES;
+- (void)givenCsmEnabled:(BOOL)enabled {
+  self.config.csmEnabled = enabled;
 }
 
-- (void)prepareDisabledCsm {
-  self.config.csmEnabled = NO;
+- (void)givenConsent:(BOOL)consent {
+  self.consent.consentGiven = consent;
 }
 
 - (void)prepareStrictMockedFeedbackStorage {

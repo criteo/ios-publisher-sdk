@@ -55,14 +55,15 @@
 
 + (id<CR_FeedbackDelegate>)controllerWithFeedbackStorage:(CR_FeedbackStorage *)feedbackStorage
                                               apiHandler:(CR_ApiHandler *)apiHandler
-                                                  config:(CR_Config *)config {
+                                                  config:(CR_Config *)config
+                                                 consent:(CR_DataProtectionConsent *)consent {
   CR_FeedbackController *controller =
       [[CR_FeedbackController alloc] initWithFeedbackStorage:feedbackStorage
                                                   apiHandler:apiHandler
                                                       config:config];
 
   CR_FeedbackFeatureGuard *featureGuard =
-      [[CR_FeedbackFeatureGuard alloc] initWithController:controller config:config];
+      [[CR_FeedbackFeatureGuard alloc] initWithController:controller config:config consent:consent];
 
   return featureGuard;
 }

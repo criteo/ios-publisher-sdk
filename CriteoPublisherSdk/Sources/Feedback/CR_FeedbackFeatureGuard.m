@@ -18,12 +18,15 @@
 //
 
 #import "CR_FeedbackFeatureGuard.h"
+
 #import "CR_Config.h"
+#import "CR_DataProtectionConsent.h"
 
 @interface CR_FeedbackFeatureGuard ()
 
 @property(nonatomic, strong, readonly) id<CR_FeedbackDelegate> realController;
 @property(nonatomic, strong, readonly) CR_Config *config;
+@property(nonatomic, strong, readonly) CR_DataProtectionConsent *consent;
 
 @property(atomic, strong) id<CR_FeedbackDelegate> controller;
 
@@ -33,12 +36,16 @@
 
 #pragma mark - Lifecyle
 
-- (instancetype)initWithController:(id<CR_FeedbackDelegate>)controller config:(CR_Config *)config {
+- (instancetype)initWithController:(id<CR_FeedbackDelegate>)controller
+                            config:(CR_Config *)config
+                           consent:(CR_DataProtectionConsent *)consent {
   if (self = [super init]) {
     _realController = controller;
     _config = config;
+    _consent = consent;
 
     [config addObserver:self forKeyPath:@"csmEnabled" options:0 context:nil];
+    [consent addObserver:self forKeyPath:@"consentGiven" options:0 context:nil];
     [self updateController];
   }
   return self;
@@ -46,6 +53,7 @@
 
 - (void)dealloc {
   [self.config removeObserver:self forKeyPath:@"csmEnabled"];
+  [self.consent removeObserver:self forKeyPath:@"consentGiven"];
 }
 
 #pragma mark - CR_FeedbackDelegate
@@ -80,7 +88,7 @@
                       ofObject:(id)object
                         change:(NSDictionary *)change
                        context:(void *)context {
-  if ([keyPath isEqual:@"csmEnabled"]) {
+  if ([keyPath isEqual:@"csmEnabled"] || [keyPath isEqual:@"consentGiven"]) {
     [self updateController];
   } else {
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
@@ -88,7 +96,7 @@
 }
 
 - (void)updateController {
-  if (self.config.isCsmEnabled) {
+  if (self.config.isCsmEnabled && self.consent.isConsentGiven) {
     self.controller = self.realController;
   } else {
     self.controller = nil;
