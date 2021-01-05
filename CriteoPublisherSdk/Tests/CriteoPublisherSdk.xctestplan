@@ -25,7 +25,9 @@
   "testTargets" : [
     {
       "skippedTests" : [
-        "CRInterstitialTests\/testWithRendering"
+        "CRInterstitialTests\/testWithRendering",
+        "CR_DfpInterstitialFunctionalTests\/test_givenValidInterstitial_whenLoadingDfpInterstitial_thenDfpViewContainsCreative",
+        "CR_StandaloneBannerFunctionalTests\/test_givenBannerWithAppStoreClickUrl_whenClickUrl_thenOpenStoreKitController"
       ],
       "target" : {
         "containerPath" : "container:CriteoPublisherSdk.xcodeproj",
