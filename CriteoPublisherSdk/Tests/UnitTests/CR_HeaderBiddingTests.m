@@ -146,7 +146,11 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 
   self.mutableJsonDict = [self loadSlotDictionary];
 
-  self.loggingMock = OCMClassMock(CR_Logging.class);
+  self.loggingMock = OCMPartialMock(CR_Logging.sharedInstance);
+}
+
+- (void)tearDown {
+  [self.loggingMock stopMocking];
 }
 
 #pragma mark - Empty Bid

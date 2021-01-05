@@ -222,7 +222,7 @@
 #pragma mark - Debug
 
 + (void)setVerboseLogsEnabled:(BOOL)enabled {
-  [CR_Logging setConsoleMinimumLogSeverity:enabled ? CR_LogSeverityInfo : CR_LogSeverityWarning];
+  [CR_Logging setConsoleSeverityThreshold:enabled ? CR_LogSeverityInfo : CR_LogSeverityWarning];
 }
 
 #pragma mark - Intended for manual tests

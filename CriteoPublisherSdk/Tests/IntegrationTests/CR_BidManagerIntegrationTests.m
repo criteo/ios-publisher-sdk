@@ -68,10 +68,11 @@
   self.cacheAdUnit1 = [CR_AdUnitHelper cacheAdUnitForAdUnit:[CR_TestAdUnits preprodBanner320x50]];
   self.cacheAdUnit2 = [CR_AdUnitHelper cacheAdUnitForAdUnit:[CR_TestAdUnits preprodInterstitial]];
   self.contextData = CRContextData.new;
-  self.loggingMock = OCMClassMock(CR_Logging.class);
+  self.loggingMock = OCMPartialMock(CR_Logging.sharedInstance);
 }
 
 - (void)tearDown {
+  [self.loggingMock stopMocking];
   [self.criteo.dependencyProvider.threadManager waiter_waitIdle];
   [super tearDown];
 }

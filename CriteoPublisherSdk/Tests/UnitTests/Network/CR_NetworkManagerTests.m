@@ -48,7 +48,11 @@
       [[CR_NetworkManager alloc] initWithDeviceInfo:mockDeviceInfo
                                             session:self.session
                                       threadManager:[[CR_ThreadManager alloc] init]];
-  self.loggingMock = OCMClassMock(CR_Logging.class);
+  self.loggingMock = OCMPartialMock(CR_Logging.sharedInstance);
+}
+
+- (void)tearDown {
+  [self.loggingMock stopMocking];
 }
 
 - (void)testPostWithResponse204ShouldExecuteHandlerOnce {

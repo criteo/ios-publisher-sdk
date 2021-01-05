@@ -96,7 +96,7 @@
   self.synchronousThreadManager = [[CR_SynchronousThreadManager alloc] init];
   self.threadManager = self.synchronousThreadManager;
   self.feedbackDelegateMock = OCMProtocolMock(@protocol(CR_FeedbackDelegate));
-  self.loggingMock = OCMClassMock(CR_Logging.class);
+  self.loggingMock = OCMPartialMock(CR_Logging.sharedInstance);
 
   [self setupDependencies];
 
@@ -139,6 +139,7 @@
 }
 
 - (void)tearDown {
+  [self.loggingMock stopMocking];
   [self.dependencyProvider.feedbackStorage popMessagesToSend];
 }
 
