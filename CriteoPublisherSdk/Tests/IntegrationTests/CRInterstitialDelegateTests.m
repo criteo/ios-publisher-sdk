@@ -47,7 +47,7 @@
   WKNavigationResponse *validNavigationResponse;
   WKNavigationResponse *invalidNavigationResponse;
   CRContextData *_contextData;
-  id loggingMock;
+  id _loggingMock;
 }
 @end
 
@@ -62,7 +62,11 @@
   validNavigationResponse = nil;
   invalidNavigationResponse = nil;
   _contextData = CRContextData.new;
-  loggingMock = OCMClassMock(CR_Logging.class);
+  _loggingMock = OCMPartialMock(CR_Logging.sharedInstance);
+}
+
+- (void)tearDown {
+  [_loggingMock stopMocking];
 }
 
 #pragma mark - Tests
@@ -127,7 +131,7 @@
   XCTAssertTrue(interstitial.isAdLoaded);
   OCMVerifyAllWithDelay(mockInterstitialDelegate, 1);
 
-  OCMVerify([loggingMock logMessage:[self checkMessageContainsString:@"Received"]]);
+  OCMVerify([_loggingMock logMessage:[self checkMessageContainsString:@"Received"]]);
 }
 
 - (void)testInterstitialAdFetchFail {

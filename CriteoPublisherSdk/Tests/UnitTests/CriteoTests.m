@@ -52,9 +52,13 @@
   CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
   self.integrationRegistry = dependencyProvider.integrationRegistry;
   self.userDataHolder = dependencyProvider.userDataHolder;
-  self.loggingMock = OCMClassMock(CR_Logging.class);
+  self.loggingMock = OCMPartialMock(CR_Logging.sharedInstance);
 
   self.criteo = OCMPartialMock([[Criteo alloc] initWithDependencyProvider:dependencyProvider]);
+}
+
+- (void)tearDown {
+  [self.loggingMock stopMocking];
 }
 
 #pragma mark - Tests

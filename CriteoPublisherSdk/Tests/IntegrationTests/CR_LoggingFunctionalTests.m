@@ -29,6 +29,7 @@
 
 @interface CR_LoggingFunctionalTests : XCTestCase
 @property(nonatomic, strong) id loggingMock;
+@property(nonatomic, strong) CR_ConsoleLogHandler *consoleLogHandlerMock;
 @property(strong, nonatomic) Criteo *criteo;
 @property(nonatomic, copy) NSString *publisherId;
 @property(nonatomic, strong) NSArray<CRAdUnit *> *adUnits;
@@ -44,7 +45,9 @@
   dependencyProvider.threadManager = CR_SynchronousThreadManager.new;
   self.userDefaults = dependencyProvider.userDefaults;
 
-  self.loggingMock = OCMClassMock(CR_Logging.class);
+  self.loggingMock = OCMPartialMock(CR_Logging.sharedInstance);
+  self.consoleLogHandlerMock = OCMPartialMock([[CR_ConsoleLogHandler alloc] init]);
+  [CR_Logging setSharedLogHandler:self.consoleLogHandlerMock];
   self.criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProvider];
   self.publisherId = @"testPublisherId";
   self.adUnits = @[
@@ -55,8 +58,7 @@
 }
 
 - (void)tearDown {
-  // Reset to default as it is a global value
-  [CR_Logging setConsoleMinimumLogSeverityToDefault];
+  [self.loggingMock stopMocking];
 }
 
 #pragma mark - Tests
@@ -64,17 +66,21 @@
 #pragma mark Console minimum level
 
 - (void)testConsoleMinimumLogSeverityDefaultToWarn {
+  [Criteo setVerboseLogsEnabled:NO];
   CR_LogSeverity defaultSeverity = CR_LogSeverityWarning;
-  OCMReject([self.loggingMock
+  XCTAssertEqual(self.consoleLogHandlerMock.severityThreshold, defaultSeverity);
+  OCMReject([self.consoleLogHandlerMock
       logMessageToConsole:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
         return logMessage.severity > defaultSeverity;
       }]]);
+
   CRLogError(@"Test", @"Test");
   CRLogWarn(@"Test", @"Test");
   CRLogInfo(@"Test", @"Test");
   CRLogDebug(@"Test", @"Test");
+
   OCMVerify(times(2),
-            [self.loggingMock
+            [self.consoleLogHandlerMock
                 logMessageToConsole:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
                   return logMessage.severity <= defaultSeverity;
                 }]]);
@@ -82,8 +88,8 @@
 
 - (void)testConsoleMinimumLogSeverityWhenSet {
   CR_LogSeverity severitySet = CR_LogSeverityDebug;
-  [CR_Logging setConsoleMinimumLogSeverity:severitySet];
-  OCMReject([self.loggingMock
+  self.consoleLogHandlerMock.severityThreshold = severitySet;
+  OCMReject([self.consoleLogHandlerMock
       logMessageToConsole:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
         return logMessage.severity > severitySet;
       }]]);
@@ -92,7 +98,7 @@
   CRLogInfo(@"Test", @"Test");
   CRLogDebug(@"Test", @"Test");
   OCMVerify(times(4),
-            [self.loggingMock
+            [self.consoleLogHandlerMock
                 logMessageToConsole:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
                   return logMessage.severity <= severitySet;
                 }]]);
@@ -101,11 +107,11 @@
 #pragma mark Criteo
 
 - (void)testVerboseLogsEnabled {
-  XCTAssertEqual([CR_Logging consoleMinimumLogSeverity], CR_LogSeverityWarning);
+  XCTAssertEqual([CR_Logging consoleLogSeverityThreshold], CR_LogSeverityWarning);
   [Criteo setVerboseLogsEnabled:YES];
-  XCTAssertEqual([CR_Logging consoleMinimumLogSeverity], CR_LogSeverityInfo);
+  XCTAssertEqual([CR_Logging consoleLogSeverityThreshold], CR_LogSeverityInfo);
   [Criteo setVerboseLogsEnabled:NO];
-  XCTAssertEqual([CR_Logging consoleMinimumLogSeverity], CR_LogSeverityWarning);
+  XCTAssertEqual([CR_Logging consoleLogSeverityThreshold], CR_LogSeverityWarning);
 }
 
 - (void)testCriteoRegister_ShouldBeLogged {
