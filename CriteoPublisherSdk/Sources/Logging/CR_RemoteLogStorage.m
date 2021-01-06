@@ -18,16 +18,67 @@
 //
 
 #import "CR_RemoteLogStorage.h"
+
+#import "CR_CASBoundedFileObjectQueue.h"
+#import "CR_DefaultFileManipulator.h"
 #import "CR_RemoteLogRecord.h"
+
+@interface CR_RemoteLogStorage ()
+@property(strong, nonatomic, readonly) CR_CASObjectQueue<CR_RemoteLogRecord *> *logQueue;
+@end
+
+// Maximum size (in bytes) of stored log records
+static NSUInteger const CR_RemoteLogStorageLogQueueMaxSize = 256 * 1024;
 
 @implementation CR_RemoteLogStorage
 
-- (void)pushRemoteLogRecord:(CR_RemoteLogRecord *)remoteLogRecord {
-  // TODO EE-1348
+#pragma mark - Lifecycle
+
+- (instancetype)init {
+  return [self initWithLogQueueMaxFileLength:CR_RemoteLogStorageLogQueueMaxSize
+                             fileManipulator:[[CR_DefaultFileManipulator alloc] init]];
+}
+
+- (instancetype)initWithLogQueueMaxFileLength:(NSUInteger)maxFileLength
+                              fileManipulator:(id<CR_FileManipulating>)fileManipulator {
+  self = [super init];
+  if (self) {
+    NSString *logQueuePath = [fileManipulator.libraryPath stringByAppendingPathComponent:@"logs"];
+    @try {
+      _logQueue = [self queueWithAbsolutePath:logQueuePath maxFileLength:maxFileLength];
+    } @catch (NSException *exception) {
+      // Try to recover by deleting potentially corrupted file
+      [fileManipulator removeItemAtPath:logQueuePath error:nil];
+      _logQueue = [self queueWithAbsolutePath:logQueuePath maxFileLength:maxFileLength];
+    }
+  }
+  return self;
+}
+
+#pragma mark - Public
+
+- (void)pushRemoteLogRecord:(CR_RemoteLogRecord *)record {
+  @synchronized(self) {
+    [self.logQueue add:record];
+  }
 }
 
 - (NSArray<CR_RemoteLogRecord *> *)popRemoteLogRecords {
-  return @[];  // TODO EE-1348
+  @synchronized(self) {
+    NSUInteger size = [self.logQueue size];
+    NSArray<CR_RemoteLogRecord *> *records = [self.logQueue peek:size];
+    [self.logQueue pop:size];
+    return records;
+  }
+}
+
+#pragma mark - Private
+
+- (CR_CASObjectQueue<CR_RemoteLogRecord *> *)queueWithAbsolutePath:(NSString *)path
+                                                     maxFileLength:(NSUInteger)length {
+  return [[CR_CASBoundedFileObjectQueue alloc] initWithAbsolutePath:path
+                                                      maxFileLength:length
+                                                              error:nil];
 }
 
 @end
