@@ -1154,8 +1154,7 @@
 		7D3E41F123915B6600BAF673 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
-				7D3E421823915B6600BAF673 /* DFPRequestClasses.h */,
-				7D3E420523915B6600BAF673 /* SampleBid.json */,
+				C07ABBFC2256322A8A934EF7 /* CriteoTests.m */,
 				7D3E422123915B6600BAF673 /* CR_AdUnitHelperTests.m */,
 				7D3E421223915B6600BAF673 /* CR_BidManagerHelperTests.m */,
 				54BF56B0242F5677006ACC65 /* CR_BidManagerFeedbackSendingTests.m */,
@@ -1165,14 +1164,18 @@
 				7D3E421423915B6600BAF673 /* CR_CacheManagerTests.m */,
 				7D3E420923915B6600BAF673 /* CR_CdbBidTests.m */,
 				7D3E421623915B6600BAF673 /* CR_CdbResponseTests.m */,
+				C07AB4BAE67CF9EC778F3E5C /* CR_DisplaySizeInjectorTests.m */,
 				7D47C457246AEC75009E7FE5 /* CR_HeaderBiddingTests.m */,
 				7D3E422023915B6600BAF673 /* CRAdUnitTests.m */,
 				7D3E421023915B6600BAF673 /* CRBannerAdUnitTests.m */,
 				7D3E421723915B6600BAF673 /* CRInterstitialAdUnitTests.m */,
 				7D3E421A23915B6600BAF673 /* CRNativeAdUnitTests.m */,
+				7D3E421823915B6600BAF673 /* DFPRequestClasses.h */,
 				7D3E41F223915B6600BAF673 /* NSObject+CriteoTests.m */,
+				7D3E420523915B6600BAF673 /* SampleBid.json */,
 				7D3E420E23915B6600BAF673 /* AppEvents */,
 				7D3E41F323915B6600BAF673 /* Configuration */,
+				C07AB453C94D3281C37F5D6F /* Context */,
 				7D93A61623FC3346007E8B30 /* DataConsent */,
 				46C87E6A244053930022978C /* Feedback */,
 				7D3E421B23915B6600BAF673 /* InHouseMediation */,
@@ -1182,9 +1185,6 @@
 				7D3E420623915B6600BAF673 /* Standalone */,
 				7D58583323E2D5AD0039AC56 /* Threading */,
 				7D3E41FF23915B6600BAF673 /* Util */,
-				C07AB4BAE67CF9EC778F3E5C /* CR_DisplaySizeInjectorTests.m */,
-				C07ABBFC2256322A8A934EF7 /* CriteoTests.m */,
-				C07AB453C94D3281C37F5D6F /* Context */,
 				C07AB0F74CBE74DC33F6ED1C /* CR_RemoteLogRecordTests.m */,
 			);
 			path = UnitTests;
