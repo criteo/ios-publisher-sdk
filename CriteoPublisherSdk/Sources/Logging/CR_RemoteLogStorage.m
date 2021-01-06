@@ -63,9 +63,8 @@ static NSUInteger const CR_RemoteLogStorageLogQueueMaxSize = 256 * 1024;
   }
 }
 
-- (NSArray<CR_RemoteLogRecord *> *)popRemoteLogRecords {
+- (NSArray<CR_RemoteLogRecord *> *)popRemoteLogRecords:(NSUInteger)size {
   @synchronized(self) {
-    NSUInteger size = [self.logQueue size];
     NSArray<CR_RemoteLogRecord *> *records = [self.logQueue peek:size];
     [self.logQueue pop:size];
     return records;
