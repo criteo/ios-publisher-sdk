@@ -77,6 +77,7 @@
 		469301CA24740289006F8D82 /* CR_ImpressionDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 469301C824740289006F8D82 /* CR_ImpressionDetector.m */; };
 		4697FF5125711A960060D11D /* CR_Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 4697FF4F25711A960060D11D /* CR_Reachability.h */; };
 		4697FF5225711A960060D11D /* CR_Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 4697FF5025711A960060D11D /* CR_Reachability.m */; };
+		46A667D725AD951500522C6D /* CR_RemoteLogStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A667D625AD951500522C6D /* CR_RemoteLogStorageTests.swift */; };
 		46AD5CF5245B003D00199315 /* CRNativeLoaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46AD5CF4245B003D00199315 /* CRNativeLoaderTests.m */; };
 		46B6115724C9DBD4002896F8 /* CRConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 46E8A70324B74D69007103B9 /* CRConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		46B9780E243782A50061FC24 /* CR_UniqueIdGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 46240E0C2434BB4F001425AB /* CR_UniqueIdGenerator.m */; };
@@ -428,6 +429,8 @@
 		469301C824740289006F8D82 /* CR_ImpressionDetector.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_ImpressionDetector.m; sourceTree = "<group>"; };
 		4697FF4F25711A960060D11D /* CR_Reachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_Reachability.h; sourceTree = "<group>"; };
 		4697FF5025711A960060D11D /* CR_Reachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_Reachability.m; sourceTree = "<group>"; };
+		46A667D625AD951500522C6D /* CR_RemoteLogStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_RemoteLogStorageTests.swift; sourceTree = "<group>"; };
+		46A667DB25AD9C2700522C6D /* CR_RemoteLogStorage+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CR_RemoteLogStorage+Internal.h"; sourceTree = "<group>"; };
 		46AD5CF4245B003D00199315 /* CRNativeLoaderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNativeLoaderTests.m; sourceTree = "<group>"; };
 		46BC395F246EDA5200F0B2F1 /* CRNativeAdViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRNativeAdViewTests.m; sourceTree = "<group>"; };
 		46C403D0257542BA00E5179C /* CR_Session.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_Session.h; sourceTree = "<group>"; };
@@ -947,10 +950,11 @@
 				461A876B2589008000BB527B /* CR_LogHandler.m */,
 				46C403E82577BADD00E5179C /* CR_LogMessage.h */,
 				46C403E92577BADD00E5179C /* CR_LogMessage.m */,
-				C07AB8BF2845E5F7C18F9BBC /* CR_RemoteLogRecord.m */,
 				C07AB97FE6D2C0F49B55316F /* CR_RemoteLogRecord.h */,
-				C07AB7A519A1FD39F66F50D2 /* CR_RemoteLogStorage.m */,
+				C07AB8BF2845E5F7C18F9BBC /* CR_RemoteLogRecord.m */,
 				C07ABBECE75DACD69AC68FCE /* CR_RemoteLogStorage.h */,
+				46A667DB25AD9C2700522C6D /* CR_RemoteLogStorage+Internal.h */,
+				C07AB7A519A1FD39F66F50D2 /* CR_RemoteLogStorage.m */,
 				C07ABF175ED6F5228D1AE701 /* CR_RemoteLogHandler.m */,
 				C07ABBFA0D3F1865C7CC8F1D /* CR_RemoteLogHandler.h */,
 			);
@@ -978,6 +982,7 @@
 				46D4642825A5B5AC0036A280 /* CR_LogHandlerTests.m */,
 				C07ABFAEC89073B82C1CB591 /* CR_LoggingTests.m */,
 				C07AB53E83BAA3D26C8661A8 /* CR_RemoteLogHandlerTests.m */,
+				46A667D625AD951500522C6D /* CR_RemoteLogStorageTests.swift */,
 			);
 			path = Logging;
 			sourceTree = "<group>";
@@ -2166,6 +2171,7 @@
 				7D3E423523915B6600BAF673 /* CR_CdbBidTests.m in Sources */,
 				7D569469242A3AC20095A0A6 /* CR_DependencyProvider+Testing.m in Sources */,
 				7D73EF5F23C39A030086CBDC /* CR_AppEventsIntegrationTests.m in Sources */,
+				46A667D725AD951500522C6D /* CR_RemoteLogStorageTests.swift in Sources */,
 				5E06522A02F2F6A13136E48D /* CR_HttpTests.m in Sources */,
 				5E065D27D22F2032CA976719 /* CR_DfpInterstitialFunctionalTests.m in Sources */,
 				5E0656E334784BCDB32052A4 /* CR_DfpNativeFunctionalTests.m in Sources */,
