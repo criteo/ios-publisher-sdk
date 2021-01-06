@@ -19,14 +19,27 @@
 
 #import <Foundation/Foundation.h>
 
-@class CR_RemoteLogRecord;
+#import "CR_RemoteLogStorage.h"
+
+#import "CR_CASObjectQueue.h"
+#import "CR_RemoteLogRecord.h"
+
+@protocol CR_FileManipulating;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CR_RemoteLogStorage : NSObject
+@interface CR_RemoteLogStorage ()
 
-- (void)pushRemoteLogRecord:(CR_RemoteLogRecord *)record;
-- (NSArray<CR_RemoteLogRecord *> *)popRemoteLogRecords;
+@property(strong, nonatomic, readonly) CR_CASObjectQueue<CR_RemoteLogRecord *> *logQueue;
+
+- (instancetype)initWithLogQueue:(CR_CASObjectQueue<CR_RemoteLogRecord *> *)logQueue
+    NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)initWithLogQueueMaxFileLength:(NSUInteger)maxFileLength
+                              fileManipulator:(id<CR_FileManipulating>)fileManipulator;
+
+- (CR_CASObjectQueue<CR_RemoteLogRecord *> *)buildQueueWithAbsolutePath:(NSString *)path
+                                                          maxFileLength:(NSUInteger)length;
 
 @end
 
