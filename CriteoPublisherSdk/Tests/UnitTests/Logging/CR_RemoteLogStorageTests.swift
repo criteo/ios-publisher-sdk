@@ -46,7 +46,7 @@ class CR_RemoteLogStorageTests: XCTestCase {
     let record = createLogRecord()
     remoteLogStorage.push(record)
 
-    let records = remoteLogStorage.popRemoteLogRecords()
+    let records = remoteLogStorage.popRemoteLogRecords(42)
 
     XCTAssertEqual(records.count, 1)
     XCTAssertEqual(remoteLogStorage.logQueue.size(), 0)

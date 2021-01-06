@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CR_RemoteLogStorage : NSObject
 
 - (void)pushRemoteLogRecord:(CR_RemoteLogRecord *)record;
-- (NSArray<CR_RemoteLogRecord *> *)popRemoteLogRecords;
+- (NSArray<CR_RemoteLogRecord *> *)popRemoteLogRecords:(NSUInteger)size;
 
 @end
 
