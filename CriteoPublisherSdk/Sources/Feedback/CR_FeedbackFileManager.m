@@ -45,13 +45,7 @@ static NSUInteger const CR_FeedbackFileManagerActiveMetricsMaxFileSize = 256 * 1
     _fileManipulating = fileManipulating;
     _activeMetricsMaxFileSize = activeMetricsMaxFileSize;
 
-    NSArray<NSURL *> *directoryUrls = [fileManipulating URLsForDirectory:NSLibraryDirectory
-                                                               inDomains:NSUserDomainMask];
-    if (directoryUrls.count == 0) {
-      return nil;
-    }
-
-    NSString *rootDirectoryPath = [directoryUrls[0] path];
+    NSString *rootDirectoryPath = _fileManipulating.libraryPath;
     NSString *metricsRootPath =
         [rootDirectoryPath stringByAppendingPathComponent:@"criteo_metrics"];
     _activeMetricsPath = [metricsRootPath stringByAppendingPathComponent:@"active"];

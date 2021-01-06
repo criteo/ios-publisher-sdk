@@ -31,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray<NSURL *> *)URLsForDirectory:(NSSearchPathDirectory)directory
                              inDomains:(NSSearchPathDomainMask)domainMask;
+@property(nonatomic, readonly) NSString *libraryPath;
 
 - (BOOL)fileExistsAtPath:(NSString *)path isDirectory:(nullable BOOL *)isDirectory;
 
