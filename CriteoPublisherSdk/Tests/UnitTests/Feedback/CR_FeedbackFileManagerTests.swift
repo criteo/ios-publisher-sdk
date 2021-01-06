@@ -149,6 +149,10 @@ class CR_DefaultFileManipulatingMock: NSObject, CR_FileManipulating {
     return rootPaths
   }
 
+  var libraryPath: String? {
+    rootPaths.first?.path
+  }
+
   func fileExists(atPath path: String, isDirectory: UnsafeMutablePointer<ObjCBool>?) -> Bool {
     self.fileExistsCallCount += 1
     return self.fileExistsResponse

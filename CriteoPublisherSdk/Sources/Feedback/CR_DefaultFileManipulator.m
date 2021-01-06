@@ -36,6 +36,10 @@
   return [[NSFileManager defaultManager] URLsForDirectory:directory inDomains:domainMask];
 }
 
+- (NSString *)libraryPath {
+  return [self URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask].firstObject.path;
+}
+
 - (nullable NSArray<NSString *> *)contentsOfDirectoryAtPath:(NSString *)path
                                                       error:(NSError **)error {
   return [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:error];
