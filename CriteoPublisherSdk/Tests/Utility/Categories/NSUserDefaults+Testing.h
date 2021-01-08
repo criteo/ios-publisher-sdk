@@ -27,5 +27,6 @@ FOUNDATION_EXPORT NSString* const NSUserDefaultsCsmEnabledKey;
 FOUNDATION_EXPORT NSString* const NSUserDefaultsPrefetchOnInitEnabledKey;
 FOUNDATION_EXPORT NSString* const NSUserDefaultsLiveBiddingEnabledKey;
 FOUNDATION_EXPORT NSString* const NSUserDefaultsLiveBiddingTimeBudgetKey;
+FOUNDATION_EXPORT NSString* const NSUserDefaultsRemoteLogLevelKey;
 
 #endif /* NSUserDefaults_Testing_H */

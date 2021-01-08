@@ -204,6 +204,61 @@
   XCTAssertEqual(localConfig.liveBiddingTimeBudget, 0);
 }
 
+#pragma mark Remote Log Level
+
+- (void)testRefreshConfig_RemoteLogLevelNotInResponse_DoNotUpdateIt {
+  [self prepareApiHandlerToRespondRemoteConfigJson:@"{}"];
+  localConfig.remoteLogLevel = CR_LogSeverityInfo;
+
+  [self.configManager refreshConfig:localConfig];
+
+  XCTAssertEqual(localConfig.remoteLogLevel, CR_LogSeverityInfo);
+}
+
+- (void)testRefreshConfig_GivenDebugRemoteLogLevelInRequest_RemoteLogLevelIsSet {
+  localConfig.remoteLogLevel = CR_LogSeverityError;
+  [self testRefreshConfig_GivenRemoteLogLevel:@"Debug" setSeverity:CR_LogSeverityDebug];
+}
+
+- (void)testRefreshConfig_GivenInfoRemoteLogLevelInRequest_RemoteLogLevelIsSet {
+  localConfig.remoteLogLevel = CR_LogSeverityError;
+  [self testRefreshConfig_GivenRemoteLogLevel:@"Info" setSeverity:CR_LogSeverityInfo];
+}
+
+- (void)testRefreshConfig_GivenWarningRemoteLogLevelInRequest_RemoteLogLevelIsSet {
+  localConfig.remoteLogLevel = CR_LogSeverityError;
+  [self testRefreshConfig_GivenRemoteLogLevel:@"Warning" setSeverity:CR_LogSeverityWarning];
+}
+
+- (void)testRefreshConfig_GivenErrorRemoteLogLevelInRequest_RemoteLogLevelIsSet {
+  localConfig.remoteLogLevel = CR_LogSeverityInfo;
+  [self testRefreshConfig_GivenRemoteLogLevel:@"Error" setSeverity:CR_LogSeverityError];
+}
+
+- (void)testRefreshConfig_GivenNoneRemoteLogLevelInRequest_RemoteLogLevelIsSet {
+  localConfig.remoteLogLevel = CR_LogSeverityError;
+  [self testRefreshConfig_GivenRemoteLogLevel:@"None" setSeverity:CR_LogSeverityNone];
+}
+
+- (void)testRefreshConfig_GivenRemoteLogLevel:(NSString *)remoteLogLevel
+                                  setSeverity:(CR_LogSeverity)severity {
+  NSString *json = [NSString stringWithFormat:@"{\"remoteLogLevel\": \"%@\" }", remoteLogLevel];
+  [self prepareApiHandlerToRespondRemoteConfigJson:json];
+
+  [self.configManager refreshConfig:localConfig];
+
+  XCTAssertEqual(localConfig.remoteLogLevel, severity);
+}
+
+- (void)testRefreshConfig_GivenUnknownRemoteLogLevelInRequest_RemoteLogLevelIsNotSet {
+  [self prepareApiHandlerToRespondRemoteConfigJson:@"{\"remoteLogLevel\": \"unknown\" }"];
+  localConfig.remoteLogLevel = CR_LogSeverityError;
+
+  [self.configManager refreshConfig:localConfig];
+
+  XCTAssertEqual(localConfig.remoteLogLevel, CR_LogSeverityError);
+}
+
 #pragma mark - Refresh Config
 
 - (void)testRefreshConfig_GivenIntegrationRegistry_ProfileIdIsUsedInRequest {

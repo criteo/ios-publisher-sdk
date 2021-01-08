@@ -26,6 +26,7 @@ NSString *const NSUserDefaultsCsmEnabledKey = @"CRITEO_CsmEnabled";
 NSString *const NSUserDefaultsPrefetchOnInitEnabledKey = @"CRITEO_PrefetchOnInitEnabled";
 NSString *const NSUserDefaultsLiveBiddingEnabledKey = @"CRITEO_LiveBiddingEnabled";
 NSString *const NSUserDefaultsLiveBiddingTimeBudgetKey = @"CRITEO_LiveBiddingTimeBudget";
+NSString *const NSUserDefaultsRemoteLogLevelKey = @"CRITEO_RemoteLogLevel";
 
 @implementation NSUserDefaults (CR_Config)
 
@@ -68,6 +69,15 @@ NSString *const NSUserDefaultsLiveBiddingTimeBudgetKey = @"CRITEO_LiveBiddingTim
 
 - (void)cr_setValueForLiveBiddingTimeBudget:(NSTimeInterval)liveBiddingTimeBudget {
   [self setDouble:liveBiddingTimeBudget forKey:NSUserDefaultsLiveBiddingTimeBudgetKey];
+}
+
+- (CR_LogSeverity)cr_valueForRemoteLogLevel {
+  return (CR_LogSeverity)[self intForKey:NSUserDefaultsRemoteLogLevelKey
+                        withDefaultValue:CR_LogSeverityWarning];
+}
+
+- (void)cr_setValueForRemoteLogLevel:(CR_LogSeverity)logLevel {
+  [self setInteger:logLevel forKey:NSUserDefaultsRemoteLogLevelKey];
 }
 
 @end

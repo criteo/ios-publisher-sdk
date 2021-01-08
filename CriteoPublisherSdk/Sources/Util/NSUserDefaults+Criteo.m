@@ -41,4 +41,12 @@
   return defaultValue;
 }
 
+- (int)intForKey:(NSString *)key withDefaultValue:(int)defaultValue {
+  id value = [self objectForKey:key];
+  if (value && [value isKindOfClass:NSNumber.class]) {
+    return ((NSNumber *)value).intValue;
+  }
+  return defaultValue;
+}
+
 @end
