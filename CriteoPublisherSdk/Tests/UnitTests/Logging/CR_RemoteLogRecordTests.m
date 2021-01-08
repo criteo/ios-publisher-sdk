@@ -26,13 +26,18 @@
 @implementation CR_RemoteLogRecordTests
 
 - (void)testEncoding {
-  CR_RemoteLogRecord *remoteLogRecord = [[CR_RemoteLogRecord alloc] initWithTag:@"myTag"
-                                                                       severity:CR_LogSeverityDebug
-                                                                        message:@"myMessage"
-                                                                  exceptionType:@"myExceptionType"];
+  CR_RemoteLogRecord *remoteLogRecord =
+      [[CR_RemoteLogRecord alloc] initWithVersion:@"1.2.3"
+                                         bundleId:@"myBundleId"
+                                              tag:@"myTag"
+                                         severity:CR_LogSeverityDebug
+                                          message:@"myMessage"
+                                    exceptionType:@"myExceptionType"];
 
   CR_RemoteLogRecord *unarchivedRecord = [self archiveAndUnarchiveRemoteLogRecord:remoteLogRecord];
 
+  XCTAssertEqualObjects(unarchivedRecord.version, remoteLogRecord.version);
+  XCTAssertEqualObjects(unarchivedRecord.bundleId, remoteLogRecord.bundleId);
   XCTAssertEqualObjects(unarchivedRecord.tag, remoteLogRecord.tag);
   XCTAssertEqual(unarchivedRecord.severity, remoteLogRecord.severity);
   XCTAssertEqualObjects(unarchivedRecord.message, remoteLogRecord.message);

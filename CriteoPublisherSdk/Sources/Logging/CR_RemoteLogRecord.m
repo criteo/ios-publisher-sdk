@@ -21,12 +21,16 @@
 
 @implementation CR_RemoteLogRecord
 
-- (instancetype)initWithTag:(NSString *)tag
-                   severity:(CR_LogSeverity)severity
-                    message:(NSString *)message
-              exceptionType:(NSString *_Nullable)exceptionType {
+- (instancetype)initWithVersion:(NSString *)version
+                       bundleId:(NSString *)bundleId
+                            tag:(NSString *)tag
+                       severity:(CR_LogSeverity)severity
+                        message:(NSString *)message
+                  exceptionType:(NSString *_Nullable)exceptionType {
   self = [super init];
   if (self) {
+    _version = version;
+    _bundleId = bundleId;
     _tag = tag;
     _severity = severity;
     _message = message;
@@ -39,6 +43,8 @@
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super init];
   if (self) {
+    _version = [coder decodeObjectOfClass:NSString.class forKey:@"_version"];
+    _bundleId = [coder decodeObjectOfClass:NSString.class forKey:@"_bundleId"];
     _tag = [coder decodeObjectOfClass:NSString.class forKey:@"_tag"];
     _severity = (CR_LogSeverity)[coder decodeIntForKey:@"_severity"];
     _message = [coder decodeObjectOfClass:NSString.class forKey:@"_message"];
@@ -49,6 +55,8 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeObject:self.version forKey:@"_version"];
+  [coder encodeObject:self.bundleId forKey:@"_bundleId"];
   [coder encodeObject:self.tag forKey:@"_tag"];
   [coder encodeInt:(int)self.severity forKey:@"_severity"];
   [coder encodeObject:self.message forKey:@"_message"];
