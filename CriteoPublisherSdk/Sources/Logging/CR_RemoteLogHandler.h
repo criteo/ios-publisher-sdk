@@ -24,6 +24,7 @@
 @class CR_Config;
 @class CR_DeviceInfo;
 @class CR_IntegrationRegistry;
+@class CR_Session;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -32,7 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithRemoteLogStorage:(CR_RemoteLogStorage *)remoteLogStorage
                                   config:(CR_Config *)config
                               deviceInfo:(CR_DeviceInfo *)deviceInfo
-                     integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry;
+                     integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry
+                                 session:(CR_Session *)session;
 
 @end
 
