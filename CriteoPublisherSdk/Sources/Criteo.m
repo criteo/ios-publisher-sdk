@@ -37,8 +37,8 @@
 
 #pragma mark - Lifecycle
 
-+ (void)initialize {
-  [super initialize];
++ (void)initializeCriteoSingleton {
+  CRLogInfo(@"Initialization", @"Singleton was initialized");
 
   if (!CRSKAdNetworkInfo.hasCriteoId) {
     CRLogWarn(
@@ -54,15 +54,33 @@
   }
 }
 
+static Criteo *sharedInstance = nil;
+static dispatch_once_t onceToken;
+
 + (instancetype)sharedCriteo {
-  static Criteo *sharedInstance = nil;
-  static dispatch_once_t onceToken;
+  // The initialization step of the SDK involves logger which need the sharedCriteo.
+  // To handle the circular dependency, the pure instantiation is separated from the initialization.
+  __block BOOL wasInstantiated = NO;
+
   dispatch_once(&onceToken, ^{
-    sharedInstance = [self criteo];
-    CRLogInfo(@"Initialization", @"Singleton was initialized");
+    @try {
+      sharedInstance = [[self alloc] initWithDependencyProvider:CR_DependencyProvider.new];
+      wasInstantiated = YES;
+    } @catch (NSException *exception) {
+      NSLog(@"Criteo Singleton initialization failed: %@", exception);
+    }
   });
 
+  if (wasInstantiated) {
+    [self initializeCriteoSingleton];
+  }
+
   return sharedInstance;
+}
+
++ (void)resetSharedCriteo {
+  sharedInstance = nil;
+  onceToken = 0;
 }
 
 - (void)registerCriteoPublisherId:(NSString *)criteoPublisherId
@@ -149,17 +167,6 @@
     _dependencyProvider = dependencyProvider;
   }
   return self;
-}
-
-+ (instancetype)criteo {
-  Criteo *criteo = nil;
-  @try {
-    CR_DependencyProvider *dependencyProvider = [[CR_DependencyProvider alloc] init];
-    criteo = [[self alloc] initWithDependencyProvider:dependencyProvider];
-  } @catch (NSException *exception) {
-    CRLogException(@"Initialization", exception, @"Singleton initialization failed");
-  }
-  return criteo;
 }
 
 - (void)_registerCriteoPublisherId:(NSString *)criteoPublisherId

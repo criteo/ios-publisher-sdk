@@ -213,7 +213,8 @@ class AdViewerViewController: FormViewController {
   }
 
   private func buildCriteo(publisherId: String, adUnits: [CRAdUnit]) -> Criteo {
-    let criteo = Criteo()!
+    Criteo.resetSharedCriteo()
+    let criteo = Criteo.shared()
     criteo.networkManagerDelegate = LogManager.sharedInstance()
     criteo.registerPublisherId(publisherId, with: adUnits)
     return criteo

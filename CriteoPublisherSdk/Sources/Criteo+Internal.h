@@ -47,12 +47,13 @@ typedef void (^CR_CdbBidResponseHandler)(CR_CdbBid *bid);
 @property(assign, nonatomic, getter=isRegistered) BOOL registered;
 @property(strong, nonatomic, readonly) CR_ThreadManager *threadManager;
 
++ (void)resetSharedCriteo;
+
 - (void)loadCdbBidForAdUnit:(CR_CacheAdUnit *)slot
                 withContext:(CRContextData *)contextData
             responseHandler:(CR_CdbBidResponseHandler)responseHandler;
 
 - (instancetype)initWithDependencyProvider:(CR_DependencyProvider *)dependencyProvider;
-+ (instancetype)criteo;
 
 @end
 

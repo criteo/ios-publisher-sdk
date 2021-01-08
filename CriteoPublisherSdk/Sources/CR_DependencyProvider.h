@@ -39,6 +39,8 @@
 @class CR_UserDataHolder;
 @class CR_InternalContextProvider;
 @class CR_Session;
+@class CR_Logging;
+@class CR_ConsoleLogHandler;
 @protocol CRMediaDownloader;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -68,6 +70,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) CR_UserDataHolder *userDataHolder;
 @property(nonatomic, strong) CR_InternalContextProvider *internalContextProvider;
 @property(nonatomic, strong) CR_Session *session;
+@property(nonatomic, strong) CR_Logging *logging;
+@property(nonatomic, strong) CR_ConsoleLogHandler *consoleLogHandler;
 
 @end
 

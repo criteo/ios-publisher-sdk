@@ -18,6 +18,9 @@
 //
 
 #import "CR_Logging.h"
+#import "Criteo.h"
+#import "Criteo+Internal.h"
+#import "CR_DependencyProvider.h"
 
 @interface CR_Logging ()
 @property(atomic, strong) id<CR_LogHandler> logHandler;
@@ -34,27 +37,18 @@
   return self;
 }
 
-- (instancetype)init {
-  return [self initWithLogHandler:[[CR_ConsoleLogHandler alloc] init]];
-}
-
 #pragma mark - Singleton
 
 + (instancetype)sharedInstance {
-  static CR_Logging *sharedInstance = nil;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    sharedInstance = [[self alloc] init];
-  });
-  return sharedInstance;
+  return self.sharedCriteo.dependencyProvider.logging;
+}
+
++ (Criteo *)sharedCriteo {
+  return Criteo.sharedCriteo;
 }
 
 + (void)logMessage:(CR_LogMessage *)message {
   [self.sharedInstance logMessage:message];
-}
-
-+ (void)setSharedLogHandler:(id<CR_LogHandler>)handler {
-  [self.sharedInstance setLogHandler:handler];
 }
 
 + (id<CR_LogHandler>)sharedLogHandler {
