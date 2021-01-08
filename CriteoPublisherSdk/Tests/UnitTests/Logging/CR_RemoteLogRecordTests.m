@@ -30,6 +30,7 @@
       [[CR_RemoteLogRecord alloc] initWithVersion:@"1.2.3"
                                          bundleId:@"myBundleId"
                                          deviceId:@"myDeviceId"
+                                        profileId:@42
                                               tag:@"myTag"
                                          severity:CR_LogSeverityDebug
                                           message:@"myMessage"
@@ -40,6 +41,7 @@
   XCTAssertEqualObjects(unarchivedRecord.version, remoteLogRecord.version);
   XCTAssertEqualObjects(unarchivedRecord.bundleId, remoteLogRecord.bundleId);
   XCTAssertEqualObjects(unarchivedRecord.deviceId, remoteLogRecord.deviceId);
+  XCTAssertEqualObjects(unarchivedRecord.profileId, remoteLogRecord.profileId);
   XCTAssertEqualObjects(unarchivedRecord.tag, remoteLogRecord.tag);
   XCTAssertEqual(unarchivedRecord.severity, remoteLogRecord.severity);
   XCTAssertEqualObjects(unarchivedRecord.message, remoteLogRecord.message);

@@ -25,6 +25,7 @@
 #import "CR_RemoteLogRecord.h"
 #import "CR_Config.h"
 #import "CR_DeviceInfo.h"
+#import "CR_IntegrationRegistry.h"
 
 @interface CR_RemoteLogHandler ()
 - (CR_RemoteLogRecord *_Nullable)remoteLogRecordFromLogMessage:(CR_LogMessage *)logMessage;
@@ -32,6 +33,7 @@
 
 @interface CR_RemoteLogHandlerTest : XCTestCase
 
+@property(nonatomic, strong) CR_IntegrationRegistry *integrationRegistry;
 @property(nonatomic, strong) CR_DeviceInfo *deviceInfo;
 @property(nonatomic, strong) CR_Config *config;
 @property(nonatomic, strong) CR_RemoteLogStorage *storage;
@@ -47,9 +49,11 @@
   self.storage = OCMClassMock(CR_RemoteLogStorage.class);
   self.config = OCMClassMock(CR_Config.class);
   self.deviceInfo = OCMClassMock(CR_DeviceInfo.class);
+  self.integrationRegistry = OCMClassMock(CR_IntegrationRegistry.class);
   self.handler = [[CR_RemoteLogHandler alloc] initWithRemoteLogStorage:self.storage
                                                                 config:self.config
-                                                            deviceInfo:self.deviceInfo];
+                                                            deviceInfo:self.deviceInfo
+                                                   integrationRegistry:self.integrationRegistry];
 }
 
 #pragma mark RemoteLogRecord handling
@@ -106,6 +110,7 @@
   OCMStub([self.config sdkVersion]).andReturn(@"1.2.3");
   OCMStub([self.config appId]).andReturn(@"myBundleId");
   OCMStub([self.deviceInfo deviceId]).andReturn(@"myDeviceId");
+  OCMStub([self.integrationRegistry profileId]).andReturn(@42);
 
   NSDateComponents *components = [[NSDateComponents alloc] init];
   [components setDay:22];
@@ -139,6 +144,7 @@
   XCTAssertEqualObjects(record.version, @"1.2.3");
   XCTAssertEqualObjects(record.bundleId, @"myBundleId");
   XCTAssertEqualObjects(record.deviceId, @"myDeviceId");
+  XCTAssertEqualObjects(record.profileId, @42);
   XCTAssertEqualObjects(record.tag, @"myTag");
   XCTAssertEqual(record.severity, CR_LogSeverityError);
   XCTAssertEqualObjects(record.message, @"myMessage\n"
@@ -154,6 +160,7 @@
   OCMStub([self.config sdkVersion]).andReturn(@"1.2.3");
   OCMStub([self.config appId]).andReturn(@"myBundleId");
   OCMStub([self.deviceInfo deviceId]).andReturn(@"myDeviceId");
+  OCMStub([self.integrationRegistry profileId]).andReturn(@42);
 
   NSDateComponents *components = [[NSDateComponents alloc] init];
   [components setDay:22];
@@ -183,6 +190,7 @@
   XCTAssertEqualObjects(record.version, @"1.2.3");
   XCTAssertEqualObjects(record.bundleId, @"myBundleId");
   XCTAssertEqualObjects(record.deviceId, @"myDeviceId");
+  XCTAssertEqualObjects(record.profileId, @42);
   XCTAssertEqualObjects(record.tag, @"myTag");
   XCTAssertEqual(record.severity, CR_LogSeverityWarning);
   XCTAssertEqualObjects(record.message, @"myMessage,myFile:42,2042-06-22T13:37:28.000Z");
