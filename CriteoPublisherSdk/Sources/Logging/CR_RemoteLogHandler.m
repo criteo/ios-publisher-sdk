@@ -57,7 +57,9 @@
 - (void)logMessage:(CR_LogMessage *)message {
   // TODO EE-1374 check consent
 
-  // TODO check log level
+  if (message.severity > self.config.remoteLogLevel) {
+    return;
+  }
 
   CR_RemoteLogRecord *remoteLogRecord = [self remoteLogRecordFromLogMessage:message];
   if (remoteLogRecord != nil) {
