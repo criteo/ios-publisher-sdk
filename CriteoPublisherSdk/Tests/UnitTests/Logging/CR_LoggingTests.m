@@ -22,6 +22,7 @@
 #import "CR_Logging.h"
 #import "CR_DependencyProvider+Testing.h"
 #import "Criteo+Internal.h"
+#import "CR_RemoteLogHandler.h"
 
 @interface CR_LoggingTests : XCTestCase
 @property(nonatomic, strong) CR_DependencyProvider *dependencyProvider;
@@ -45,46 +46,53 @@
   CR_ConsoleLogHandler *consoleLogHandler = OCMClassMock(CR_ConsoleLogHandler.class);
   self.dependencyProvider.consoleLogHandler = consoleLogHandler;
 
+  CR_RemoteLogHandler *remoteLogHandler = OCMClassMock(CR_RemoteLogHandler.class);
+  self.dependencyProvider.remoteLogHandler = remoteLogHandler;
+
   [Criteo resetSharedCriteo];
 
   CRLogInfo(@"tag", @"message");
 
+  OCMVerify(times(1), [consoleLogHandler logMessage:[self checkLogWithMessage:@"message"]]);
   OCMVerify(times(1),
-            [consoleLogHandler logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
-                                 return [logMessage.message isEqualToString:@"message"];
-                               }]]);
+            [consoleLogHandler logMessage:[self checkLogWithMessage:@"Singleton was initialized"]]);
+
+  OCMVerify(times(1), [remoteLogHandler logMessage:[self checkLogWithMessage:@"message"]]);
   OCMVerify(times(1),
-            [consoleLogHandler logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
-                                 return [logMessage.message
-                                     isEqualToString:@"Singleton was initialized"];
-                               }]]);
+            [remoteLogHandler logMessage:[self checkLogWithMessage:@"Singleton was initialized"]]);
 }
 
 - (void)testLoggingWithSdkInitialized {
   CR_ConsoleLogHandler *consoleLogHandler = OCMClassMock(CR_ConsoleLogHandler.class);
   self.dependencyProvider.consoleLogHandler = consoleLogHandler;
 
-  OCMExpect([consoleLogHandler logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
-                                 return [logMessage.message
-                                     isEqualToString:@"Singleton was initialized"];
-                               }]]);
+  CR_RemoteLogHandler *remoteLogHandler = OCMClassMock(CR_RemoteLogHandler.class);
+  self.dependencyProvider.remoteLogHandler = remoteLogHandler;
+
+  OCMExpect([consoleLogHandler logMessage:[self checkLogWithMessage:@"Singleton was initialized"]]);
+  OCMExpect([remoteLogHandler logMessage:[self checkLogWithMessage:@"Singleton was initialized"]]);
 
   [Criteo sharedCriteo];
 
   OCMVerifyAll(consoleLogHandler);
+  OCMVerifyAll(remoteLogHandler);
 
-  OCMReject([consoleLogHandler logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
-                                 return [logMessage.message
-                                     isEqualToString:@"Singleton was initialized"];
-                               }]]);
+  OCMReject([consoleLogHandler logMessage:[self checkLogWithMessage:@"Singleton was initialized"]]);
+  OCMExpect([consoleLogHandler logMessage:[self checkLogWithMessage:@"message"]]);
 
-  OCMExpect([consoleLogHandler logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
-                                 return [logMessage.message isEqualToString:@"message"];
-                               }]]);
+  OCMReject([remoteLogHandler logMessage:[self checkLogWithMessage:@"Singleton was initialized"]]);
+  OCMExpect([remoteLogHandler logMessage:[self checkLogWithMessage:@"message"]]);
 
   CRLogInfo(@"tag", @"message");
 
   OCMVerifyAll(consoleLogHandler);
+  OCMVerifyAll(remoteLogHandler);
+}
+
+- (id)checkLogWithMessage:(NSString *)message {
+  return [OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+    return [logMessage.message isEqualToString:message];
+  }];
 }
 
 @end

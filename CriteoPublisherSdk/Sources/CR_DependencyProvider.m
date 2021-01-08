@@ -34,6 +34,7 @@
 #import "CR_InternalContextProvider.h"
 #import "CR_Session.h"
 #import "CR_Logging.h"
+#import "CR_RemoteLogHandler.h"
 
 #define CR_LAZY(object, assignment)  \
   ({                                 \
@@ -182,11 +183,20 @@
 }
 
 - (CR_Logging *)logging {
-  return CR_LAZY(_logging, [[CR_Logging alloc] initWithLogHandler:self.consoleLogHandler]);
+  return CR_LAZY(_logging, ({
+                   [[CR_Logging alloc]
+                       initWithLogHandler:[[CR_MultiplexLogHandler alloc] initWithLogHandlers:@[
+                         self.consoleLogHandler, self.remoteLogHandler
+                       ]]];
+                 }));
 }
 
 - (CR_ConsoleLogHandler *)consoleLogHandler {
   return CR_LAZY(_consoleLogHandler, CR_ConsoleLogHandler.new);
+}
+
+- (CR_RemoteLogHandler *)remoteLogHandler {
+  return CR_LAZY(_remoteLogHandler, CR_RemoteLogHandler.new);
 }
 
 @end
