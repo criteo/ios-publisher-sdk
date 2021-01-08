@@ -18,6 +18,7 @@
 //
 
 #import "CR_Session.h"
+#import "CR_UniqueIdGenerator.h"
 
 @interface CR_Session ()
 @property(nonatomic, copy) NSDate *startDate;
@@ -27,7 +28,8 @@
 
 - (id)initWithStartDate:(NSDate *)date {
   if (self = [super init]) {
-    self.startDate = date;
+    _startDate = date;
+    _sessionId = CR_UniqueIdGenerator.generateId;
   }
   return self;
 }

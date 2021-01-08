@@ -23,6 +23,7 @@
 #import "CR_Config.h"
 #import "CR_DeviceInfo.h"
 #import "CR_IntegrationRegistry.h"
+#import "CR_Session.h"
 
 @interface CR_RemoteLogHandler ()
 
@@ -30,6 +31,7 @@
 @property(nonatomic, readonly) CR_Config *config;
 @property(nonatomic, readonly) CR_DeviceInfo *deviceInfo;
 @property(nonatomic, readonly) CR_IntegrationRegistry *integrationRegistry;
+@property(nonatomic, readonly) CR_Session *session;
 
 @end
 
@@ -38,13 +40,15 @@
 - (instancetype)initWithRemoteLogStorage:(CR_RemoteLogStorage *)remoteLogStorage
                                   config:(CR_Config *)config
                               deviceInfo:(CR_DeviceInfo *)deviceInfo
-                     integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry {
+                     integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry
+                                 session:(CR_Session *)session {
   self = [super init];
   if (self) {
     _remoteLogStorage = remoteLogStorage;
     _config = config;
     _deviceInfo = deviceInfo;
     _integrationRegistry = integrationRegistry;
+    _session = session;
   }
 
   return self;
@@ -70,6 +74,7 @@
   return [[CR_RemoteLogRecord alloc] initWithVersion:self.config.sdkVersion
                                             bundleId:self.config.appId
                                             deviceId:self.deviceInfo.deviceId
+                                           sessionId:self.session.sessionId
                                            profileId:self.integrationRegistry.profileId
                                                  tag:logMessage.tag
                                             severity:logMessage.severity

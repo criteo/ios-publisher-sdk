@@ -201,7 +201,8 @@
                  [[CR_RemoteLogHandler alloc] initWithRemoteLogStorage:CR_RemoteLogStorage.new
                                                                 config:self.config
                                                             deviceInfo:self.deviceInfo
-                                                   integrationRegistry:self.integrationRegistry]);
+                                                   integrationRegistry:self.integrationRegistry
+                                                               session:self.session]);
 }
 
 @end
