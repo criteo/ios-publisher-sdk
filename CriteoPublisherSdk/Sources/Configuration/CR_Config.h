@@ -21,6 +21,7 @@
 #define CR_Config_h
 
 #import <Foundation/Foundation.h>
+#import "CR_LogMessage.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -50,6 +51,10 @@ FOUNDATION_EXTERN NSString *const CR_ConfigConfigurationUrl;
 
 @property(assign, nonatomic, getter=isLiveBiddingEnabled) BOOL liveBiddingEnabled;
 @property(assign, nonatomic) NSTimeInterval liveBiddingTimeBudget;
+
+#pragma mark Logging
+
+@property(assign, nonatomic) CR_LogSeverity remoteLogLevel;
 
 #pragma mark Read only
 

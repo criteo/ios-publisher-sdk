@@ -64,6 +64,7 @@ NSString *const CR_ConfigConfigurationUrl = @"https://bidder.criteo.com/config/a
     _prefetchOnInitEnabled = [userDefaults cr_valueForPrefetchOnInitEnabled];
     _liveBiddingEnabled = [userDefaults cr_valueForLiveBiddingEnabled];
     _liveBiddingTimeBudget = [userDefaults cr_valueForLiveBiddingTimeBudget];
+    _remoteLogLevel = CR_LogSeverityWarning;  // TODO
     _userDefaults = userDefaults;
   }
   return self;

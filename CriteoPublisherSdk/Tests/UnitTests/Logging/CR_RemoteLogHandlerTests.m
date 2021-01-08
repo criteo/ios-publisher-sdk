@@ -65,33 +65,55 @@
 - (void)testHandling_GivenNullRecord_DoNothing {
   self.handler = OCMPartialMock(self.handler);
   OCMStub([self.handler remoteLogRecordFromLogMessage:OCMOCK_ANY]).andReturn(nil);
+  OCMStub([self.config remoteLogLevel]).andReturn(CR_LogSeverityDebug);
 
-  [self.handler logMessage:[CR_LogMessage messageWithTag:@"tag"
-                                                severity:CR_LogSeverityError
-                                                    file:"myFile"
-                                                    line:42
-                                                function:"foobar"
-                                               exception:nil
-                                                  format:@"message"]];
+  [self.handler logMessage:[self validLogMessage:CR_LogSeverityError]];
 
   OCMVerify(never(), [self.storage pushRemoteLogRecord:OCMOCK_ANY]);
 }
 
 - (void)testHandling_GivenValidRecord_PushItInStorage {
-  CR_RemoteLogRecord *remoteLogRecord = OCMClassMock(CR_RemoteLogRecord.class);
+  CR_RemoteLogRecord *remoteLogRecordDebug = OCMClassMock(CR_RemoteLogRecord.class);
+  CR_RemoteLogRecord *remoteLogRecordInfo = OCMClassMock(CR_RemoteLogRecord.class);
+  CR_RemoteLogRecord *remoteLogRecordWarning = OCMClassMock(CR_RemoteLogRecord.class);
+  CR_RemoteLogRecord *remoteLogRecordError = OCMClassMock(CR_RemoteLogRecord.class);
+
+  CR_LogMessage *logMessageDebug = [self validLogMessage:CR_LogSeverityDebug];
+  CR_LogMessage *logMessageInfo = [self validLogMessage:CR_LogSeverityInfo];
+  CR_LogMessage *logMessageWarning = [self validLogMessage:CR_LogSeverityWarning];
+  CR_LogMessage *logMessageError = [self validLogMessage:CR_LogSeverityError];
 
   self.handler = OCMPartialMock(self.handler);
-  OCMStub([self.handler remoteLogRecordFromLogMessage:OCMOCK_ANY]).andReturn(remoteLogRecord);
+  OCMStub([self.handler remoteLogRecordFromLogMessage:logMessageDebug])
+      .andReturn(remoteLogRecordDebug);
+  OCMStub([self.handler remoteLogRecordFromLogMessage:logMessageInfo])
+      .andReturn(remoteLogRecordInfo);
+  OCMStub([self.handler remoteLogRecordFromLogMessage:logMessageWarning])
+      .andReturn(remoteLogRecordWarning);
+  OCMStub([self.handler remoteLogRecordFromLogMessage:logMessageError])
+      .andReturn(remoteLogRecordError);
 
-  [self.handler logMessage:[CR_LogMessage messageWithTag:@"tag"
-                                                severity:CR_LogSeverityError
-                                                    file:"myFile"
-                                                    line:42
-                                                function:"foobar"
-                                               exception:nil
-                                                  format:@"message"]];
+  OCMStub([self.config remoteLogLevel]).andReturn(CR_LogSeverityInfo);
 
-  OCMVerify([self.storage pushRemoteLogRecord:remoteLogRecord]);
+  [self.handler logMessage:logMessageDebug];
+  [self.handler logMessage:logMessageInfo];
+  [self.handler logMessage:logMessageWarning];
+  [self.handler logMessage:logMessageError];
+
+  OCMVerify(never(), [self.storage pushRemoteLogRecord:remoteLogRecordDebug]);
+  OCMVerify(times(1), [self.storage pushRemoteLogRecord:remoteLogRecordInfo]);
+  OCMVerify(times(1), [self.storage pushRemoteLogRecord:remoteLogRecordWarning]);
+  OCMVerify(times(1), [self.storage pushRemoteLogRecord:remoteLogRecordError]);
+}
+
+- (CR_LogMessage *)validLogMessage:(CR_LogSeverity)severity {
+  return [CR_LogMessage messageWithTag:@"tag"
+                              severity:severity
+                                  file:"myFile"
+                                  line:42
+                              function:"foobar"
+                             exception:nil
+                                format:@"message"];
 }
 
 #pragma mark RemoteLogRecord from LogMessage
