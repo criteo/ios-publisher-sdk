@@ -20,13 +20,15 @@
 #import <Foundation/Foundation.h>
 #import "CR_LogHandler.h"
 
+@class CR_Config;
 @class CR_RemoteLogStorage;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_RemoteLogHandler : NSObject <CR_LogHandler>
 
-- (instancetype)initWithRemoteLogStorage:(CR_RemoteLogStorage *)remoteLogStorage;
+- (instancetype)initWithRemoteLogStorage:(CR_RemoteLogStorage *)remoteLogStorage
+                                  config:(CR_Config *)config;
 
 @end
 

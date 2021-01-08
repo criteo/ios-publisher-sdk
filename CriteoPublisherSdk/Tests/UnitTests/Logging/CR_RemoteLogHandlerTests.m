@@ -23,6 +23,7 @@
 #import "CR_RemoteLogHandler.h"
 #import "CR_RemoteLogStorage.h"
 #import "CR_RemoteLogRecord.h"
+#import "CR_Config.h"
 
 @interface CR_RemoteLogHandler ()
 - (CR_RemoteLogRecord *_Nullable)remoteLogRecordFromLogMessage:(CR_LogMessage *)logMessage;
@@ -30,6 +31,7 @@
 
 @interface CR_RemoteLogHandlerTest : XCTestCase
 
+@property(nonatomic, strong) CR_Config *config;
 @property(nonatomic, strong) CR_RemoteLogStorage *storage;
 @property(nonatomic, strong) CR_RemoteLogHandler *handler;
 
@@ -41,7 +43,9 @@
   [super setUp];
 
   self.storage = OCMClassMock(CR_RemoteLogStorage.class);
-  self.handler = [[CR_RemoteLogHandler alloc] initWithRemoteLogStorage:self.storage];
+  self.config = OCMClassMock(CR_Config.class);
+  self.handler = [[CR_RemoteLogHandler alloc] initWithRemoteLogStorage:self.storage
+                                                                config:self.config];
 }
 
 #pragma mark RemoteLogRecord handling
@@ -95,6 +99,9 @@
 }
 
 - (void)testMapping_GivenLogWithBothMessageAndException_ReturnRecord {
+  OCMStub([self.config sdkVersion]).andReturn(@"1.2.3");
+  OCMStub([self.config appId]).andReturn(@"myBundleId");
+
   NSDateComponents *components = [[NSDateComponents alloc] init];
   [components setDay:22];
   [components setMonth:6];
@@ -124,6 +131,8 @@
 
   CR_RemoteLogRecord *record = [self.handler remoteLogRecordFromLogMessage:logMessage];
 
+  XCTAssertEqualObjects(record.version, @"1.2.3");
+  XCTAssertEqualObjects(record.bundleId, @"myBundleId");
   XCTAssertEqualObjects(record.tag, @"myTag");
   XCTAssertEqual(record.severity, CR_LogSeverityError);
   XCTAssertEqualObjects(record.message, @"myMessage\n"
@@ -136,6 +145,9 @@
 }
 
 - (void)testMapping_GivenLogWithOnlyMessage_ReturnRecordWithoutException {
+  OCMStub([self.config sdkVersion]).andReturn(@"1.2.3");
+  OCMStub([self.config appId]).andReturn(@"myBundleId");
+
   NSDateComponents *components = [[NSDateComponents alloc] init];
   [components setDay:22];
   [components setMonth:6];
@@ -161,6 +173,8 @@
 
   CR_RemoteLogRecord *record = [self.handler remoteLogRecordFromLogMessage:logMessage];
 
+  XCTAssertEqualObjects(record.version, @"1.2.3");
+  XCTAssertEqualObjects(record.bundleId, @"myBundleId");
   XCTAssertEqualObjects(record.tag, @"myTag");
   XCTAssertEqual(record.severity, CR_LogSeverityWarning);
   XCTAssertEqualObjects(record.message, @"myMessage,myFile:42,2042-06-22T13:37:28.000Z");

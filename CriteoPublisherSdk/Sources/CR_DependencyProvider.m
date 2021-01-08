@@ -198,7 +198,8 @@
 
 - (CR_RemoteLogHandler *)remoteLogHandler {
   return CR_LAZY(_remoteLogHandler,
-                 [[CR_RemoteLogHandler alloc] initWithRemoteLogStorage:CR_RemoteLogStorage.new]);
+                 [[CR_RemoteLogHandler alloc] initWithRemoteLogStorage:CR_RemoteLogStorage.new
+                                                                config:self.config]);
 }
 
 @end

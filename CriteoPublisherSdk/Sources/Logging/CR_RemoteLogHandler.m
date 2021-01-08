@@ -20,19 +20,23 @@
 #import "CR_RemoteLogHandler.h"
 #import "CR_RemoteLogStorage.h"
 #import "CR_RemoteLogRecord.h"
+#import "CR_Config.h"
 
 @interface CR_RemoteLogHandler ()
 
 @property(nonatomic, readonly) CR_RemoteLogStorage *remoteLogStorage;
+@property(nonatomic, readonly) CR_Config *config;
 
 @end
 
 @implementation CR_RemoteLogHandler
 
-- (instancetype)initWithRemoteLogStorage:(CR_RemoteLogStorage *)remoteLogStorage {
+- (instancetype)initWithRemoteLogStorage:(CR_RemoteLogStorage *)remoteLogStorage
+                                  config:(CR_Config *)config {
   self = [super init];
   if (self) {
     _remoteLogStorage = remoteLogStorage;
+    _config = config;
   }
 
   return self;
@@ -55,10 +59,12 @@
     return nil;
   }
 
-  return [[CR_RemoteLogRecord alloc] initWithTag:logMessage.tag
-                                        severity:logMessage.severity
-                                         message:message
-                                   exceptionType:logMessage.exception.name];
+  return [[CR_RemoteLogRecord alloc] initWithVersion:self.config.sdkVersion
+                                            bundleId:self.config.appId
+                                                 tag:logMessage.tag
+                                            severity:logMessage.severity
+                                             message:message
+                                       exceptionType:logMessage.exception.name];
 }
 
 - (NSString *_Nullable)messageBodyFromLogMessage:(CR_LogMessage *)logMessage {

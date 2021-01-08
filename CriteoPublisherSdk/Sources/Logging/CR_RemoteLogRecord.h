@@ -24,16 +24,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_RemoteLogRecord : NSObject <NSSecureCoding>
 
-// TODO add: version, bundleId, deviceId, sessionId, profileId
+// TODO add: deviceId, sessionId, profileId
+@property(nonatomic, readonly, copy) NSString *version;
+@property(nonatomic, readonly, copy) NSString *bundleId;
 @property(nonatomic, readonly, copy) NSString *tag;
 @property(nonatomic, readonly, assign) CR_LogSeverity severity;
 @property(nonatomic, readonly, copy) NSString *message;
 @property(nonatomic, readonly, copy, nullable) NSString *exceptionType;
 
-- (instancetype)initWithTag:(NSString *)tag
-                   severity:(CR_LogSeverity)severity
-                    message:(NSString *)message
-              exceptionType:(NSString *_Nullable)exceptionType;
+- (instancetype)initWithVersion:(NSString *)version
+                       bundleId:(NSString *)bundleId
+                            tag:(NSString *)tag
+                       severity:(CR_LogSeverity)severity
+                        message:(NSString *)message
+                  exceptionType:(NSString *_Nullable)exceptionType;
 
 @end
 
