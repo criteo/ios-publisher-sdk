@@ -29,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (double)doubleForKey:(NSString *)key withDefaultValue:(double)defaultValue;
 
+- (int)intForKey:(NSString *)key withDefaultValue:(int)defaultValue;
+
 @end
 
 NS_ASSUME_NONNULL_END

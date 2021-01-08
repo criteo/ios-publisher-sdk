@@ -82,6 +82,21 @@
                [configValues[@"iOSWidthMacro"] isKindOfClass:NSString.class]) {
              config.viewportWidthMacro = (NSString *)configValues[@"iOSWidthMacro"];
            }
+           if (configValues[@"remoteLogLevel"] &&
+               [configValues[@"remoteLogLevel"] isKindOfClass:NSString.class]) {
+             NSString *remoteLogLevel = (NSString *)configValues[@"remoteLogLevel"];
+             if ([remoteLogLevel isEqualToString:@"Debug"]) {
+               config.remoteLogLevel = CR_LogSeverityDebug;
+             } else if ([remoteLogLevel isEqualToString:@"Info"]) {
+               config.remoteLogLevel = CR_LogSeverityInfo;
+             } else if ([remoteLogLevel isEqualToString:@"Warning"]) {
+               config.remoteLogLevel = CR_LogSeverityWarning;
+             } else if ([remoteLogLevel isEqualToString:@"Error"]) {
+               config.remoteLogLevel = CR_LogSeverityError;
+             } else if ([remoteLogLevel isEqualToString:@"None"]) {
+               config.remoteLogLevel = CR_LogSeverityNone;
+             }
+           }
          }];
 }
 

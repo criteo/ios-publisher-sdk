@@ -28,8 +28,11 @@
                       exception:EXCEPTION               \
                          format:ARGS]
 
-// Note: Values are following syslog protocol: https://www.rfc-editor.org/info/rfc5424
+// Note: Values are following syslog protocol: https://www.rfc-editor.org/info/rfc5424, extended
+// with None
 typedef NS_ENUM(NSInteger, CR_LogSeverity) {
+  /// Logging is deactivated
+  CR_LogSeverityNone = -1,
   /// Error: error conditions
   CR_LogSeverityError = 3,
   /// Warning: warning conditions

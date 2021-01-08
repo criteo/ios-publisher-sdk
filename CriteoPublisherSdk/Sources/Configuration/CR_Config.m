@@ -64,7 +64,7 @@ NSString *const CR_ConfigConfigurationUrl = @"https://bidder.criteo.com/config/a
     _prefetchOnInitEnabled = [userDefaults cr_valueForPrefetchOnInitEnabled];
     _liveBiddingEnabled = [userDefaults cr_valueForLiveBiddingEnabled];
     _liveBiddingTimeBudget = [userDefaults cr_valueForLiveBiddingTimeBudget];
-    _remoteLogLevel = CR_LogSeverityWarning;  // TODO
+    _remoteLogLevel = [userDefaults cr_valueForRemoteLogLevel];
     _userDefaults = userDefaults;
   }
   return self;
@@ -113,6 +113,11 @@ NSString *const CR_ConfigConfigurationUrl = @"https://bidder.criteo.com/config/a
 - (void)setLiveBiddingTimeBudget:(NSTimeInterval)liveBiddingTimeBudget {
   _liveBiddingTimeBudget = liveBiddingTimeBudget;
   [self.userDefaults cr_setValueForLiveBiddingTimeBudget:liveBiddingTimeBudget];
+}
+
+- (void)setRemoteLogLevel:(CR_LogSeverity)remoteLogLevel {
+  _remoteLogLevel = remoteLogLevel;
+  [self.userDefaults cr_setValueForRemoteLogLevel:remoteLogLevel];
 }
 
 + (NSDictionary *)getConfigValuesFromData:(NSData *)data {

@@ -40,6 +40,7 @@
   [userDefaults removeObjectForKey:NSUserDefaultsPrefetchOnInitEnabledKey];
   [userDefaults removeObjectForKey:NSUserDefaultsLiveBiddingEnabledKey];
   [userDefaults removeObjectForKey:NSUserDefaultsLiveBiddingTimeBudgetKey];
+  [userDefaults removeObjectForKey:NSUserDefaultsRemoteLogLevelKey];
 
   [super tearDown];
 }
@@ -416,6 +417,56 @@
   XCTAssertTrue([userDefaults cr_containsKey:NSUserDefaultsLiveBiddingTimeBudgetKey]);
   XCTAssertEqual([userDefaults doubleForKey:NSUserDefaultsLiveBiddingTimeBudgetKey],
                  testTimeBudget);
+}
+
+#pragma mark - Remote Log Level
+
+- (void)testInit_GivenEmptyUserDefault_RemoteLogLevelIsDefaultValue {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertEqual(config.remoteLogLevel, CR_LogSeverityWarning);
+}
+
+- (void)testInit_GivenUserDefaultWithRemoteLogLevel_RemoteLogLevelIsProvided {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+  [userDefaults setInteger:CR_LogSeverityDebug forKey:NSUserDefaultsRemoteLogLevelKey];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertEqual(config.remoteLogLevel, CR_LogSeverityDebug);
+}
+
+- (void)testInit_GivenUserDefaultWithGarbageInRemoteLogLevel_RemoteLogLevelIsDefault {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+  [userDefaults setObject:@"garbage" forKey:NSUserDefaultsRemoteLogLevelKey];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertEqual(config.remoteLogLevel, CR_LogSeverityWarning);
+}
+
+- (void)testSetRemoteLogLevel_GivenNoUpdate_NothingIsWrittenInUserDefaults {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertEqual(config.remoteLogLevel, CR_LogSeverityWarning);
+  XCTAssertFalse([userDefaults cr_containsKey:NSUserDefaultsRemoteLogLevelKey]);
+}
+
+- (void)testSetRemoteLogLevel_GivenLogLevelSet_WriteItInUserDefaults {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+  config.remoteLogLevel = CR_LogSeverityInfo;
+
+  CR_Config *newConfig = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertEqual(newConfig.remoteLogLevel, CR_LogSeverityInfo);
+  XCTAssertTrue([userDefaults cr_containsKey:NSUserDefaultsRemoteLogLevelKey]);
+  XCTAssertEqual([userDefaults integerForKey:NSUserDefaultsRemoteLogLevelKey], CR_LogSeverityInfo);
 }
 
 @end
