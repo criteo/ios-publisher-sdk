@@ -54,6 +54,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly, copy, nullable) NSException *exception;
 @property(nonatomic, readonly, copy) NSString *message;
 
+- (instancetype)initWithTag:(NSString *)tag
+                   severity:(CR_LogSeverity)severity
+                       file:(NSString *)file
+                       line:(NSUInteger)line
+                   function:(NSString *)function
+                  timestamp:(NSDate *)timestamp
+                  exception:(NSException *_Nullable)exception
+                    message:(NSString *)message;
+
 + (instancetype)messageWithTag:(NSString *)tag
                       severity:(CR_LogSeverity)severity
                           file:(const char *)file
