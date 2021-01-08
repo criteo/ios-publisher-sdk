@@ -327,6 +327,7 @@
 		C07ABEC7592E4D7732580700 /* image.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C07AB641C0857180176F2280 /* image.jpeg */; };
 		C07ABEDECA4A63ABA2E8ADCC /* CR_RemoteLogStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB7A519A1FD39F66F50D2 /* CR_RemoteLogStorage.m */; };
 		C07ABF0597CEB2DD36AE7B51 /* CR_FeedbackControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABBA46FCA43B62B82A2A0 /* CR_FeedbackControllerTests.m */; };
+		C07ABF991A19EF937114D960 /* CR_RemoteLogHandlerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB53E83BAA3D26C8661A8 /* CR_RemoteLogHandlerTests.m */; };
 		CFA4C0E324487ED4003FC46B /* CR_FeedbackController.h in Headers */ = {isa = PBXBuildFile; fileRef = C07AB510AF4AF6C47D87E0F3 /* CR_FeedbackController.h */; };
 		DF367C8A232974210044807B /* CRNativeAdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = DF367C84232971810044807B /* CRNativeAdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DF367C8B2329743C0044807B /* CRNativeAdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = DF367C85232971810044807B /* CRNativeAdUnit.m */; };
@@ -708,6 +709,7 @@
 		C07AB43F423975484F5AE84A /* CREmailHasherTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CREmailHasherTests.m; sourceTree = "<group>"; };
 		C07AB4BAE67CF9EC778F3E5C /* CR_DisplaySizeInjectorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CR_DisplaySizeInjectorTests.m; path = Display/CR_DisplaySizeInjectorTests.m; sourceTree = "<group>"; };
 		C07AB510AF4AF6C47D87E0F3 /* CR_FeedbackController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_FeedbackController.h; sourceTree = "<group>"; };
+		C07AB53E83BAA3D26C8661A8 /* CR_RemoteLogHandlerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_RemoteLogHandlerTests.m; sourceTree = "<group>"; };
 		C07AB56CA043C8013EC0F611 /* CR_IntegrationRegistryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_IntegrationRegistryTests.m; sourceTree = "<group>"; };
 		C07AB56E2212981A78CBDD86 /* CRContextData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRContextData.h; sourceTree = "<group>"; };
 		C07AB63817F4AC10B390B880 /* CR_RemoteConfigRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_RemoteConfigRequestTests.m; sourceTree = "<group>"; };
@@ -975,6 +977,7 @@
 			children = (
 				46D4642825A5B5AC0036A280 /* CR_LogHandlerTests.m */,
 				C07ABFAEC89073B82C1CB591 /* CR_LoggingTests.m */,
+				C07AB53E83BAA3D26C8661A8 /* CR_RemoteLogHandlerTests.m */,
 			);
 			path = Logging;
 			sourceTree = "<group>";
@@ -2187,6 +2190,7 @@
 				C07ABD1661BCAFAD66713D81 /* CR_InternalContextProviderTests.m in Sources */,
 				C07AB6D02AA13693FEFF215F /* CR_RemoteLogRecordTests.m in Sources */,
 				C07ABBFF4B38DB0DBA99CC5F /* CR_LoggingTests.m in Sources */,
+				C07ABF991A19EF937114D960 /* CR_RemoteLogHandlerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

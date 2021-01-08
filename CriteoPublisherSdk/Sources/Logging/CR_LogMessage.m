@@ -26,6 +26,7 @@
                        file:(NSString *)file
                        line:(NSUInteger)line
                    function:(NSString *)function
+                  timestamp:(NSDate *)timestamp
                   exception:(NSException *_Nullable)exception
                     message:(NSString *)message {
   self = [super init];
@@ -35,7 +36,7 @@
     _file = file;
     _line = line;
     _function = function;
-    _timestamp = [NSDate date];
+    _timestamp = timestamp;
     _exception = exception;
     _message = message;
   }
@@ -59,6 +60,7 @@
                               file:[NSString stringWithUTF8String:file]
                               line:(NSUInteger)line
                           function:[NSString stringWithUTF8String:function]
+                         timestamp:[NSDate date]
                          exception:exception
                            message:message];
 }

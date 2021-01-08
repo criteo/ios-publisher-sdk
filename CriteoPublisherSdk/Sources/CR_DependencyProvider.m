@@ -35,6 +35,7 @@
 #import "CR_Session.h"
 #import "CR_Logging.h"
 #import "CR_RemoteLogHandler.h"
+#import "CR_RemoteLogStorage.h"
 
 #define CR_LAZY(object, assignment)  \
   ({                                 \
@@ -196,7 +197,8 @@
 }
 
 - (CR_RemoteLogHandler *)remoteLogHandler {
-  return CR_LAZY(_remoteLogHandler, CR_RemoteLogHandler.new);
+  return CR_LAZY(_remoteLogHandler,
+                 [[CR_RemoteLogHandler alloc] initWithRemoteLogStorage:CR_RemoteLogStorage.new]);
 }
 
 @end
