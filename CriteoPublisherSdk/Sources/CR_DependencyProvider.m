@@ -200,7 +200,8 @@
   return CR_LAZY(_remoteLogHandler,
                  [[CR_RemoteLogHandler alloc] initWithRemoteLogStorage:CR_RemoteLogStorage.new
                                                                 config:self.config
-                                                            deviceInfo:self.deviceInfo]);
+                                                            deviceInfo:self.deviceInfo
+                                                   integrationRegistry:self.integrationRegistry]);
 }
 
 @end

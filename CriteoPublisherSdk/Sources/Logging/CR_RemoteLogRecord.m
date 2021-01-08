@@ -24,6 +24,7 @@
 - (instancetype)initWithVersion:(NSString *)version
                        bundleId:(NSString *)bundleId
                        deviceId:(NSString *)deviceId
+                      profileId:(NSNumber *)profileId
                             tag:(NSString *)tag
                        severity:(CR_LogSeverity)severity
                         message:(NSString *)message
@@ -33,6 +34,7 @@
     _version = version;
     _bundleId = bundleId;
     _deviceId = deviceId;
+    _profileId = profileId;
     _tag = tag;
     _severity = severity;
     _message = message;
@@ -48,6 +50,7 @@
     _version = [coder decodeObjectOfClass:NSString.class forKey:@"_version"];
     _bundleId = [coder decodeObjectOfClass:NSString.class forKey:@"_bundleId"];
     _deviceId = [coder decodeObjectOfClass:NSString.class forKey:@"_deviceId"];
+    _profileId = [coder decodeObjectOfClass:NSNumber.class forKey:@"_profileId"];
     _tag = [coder decodeObjectOfClass:NSString.class forKey:@"_tag"];
     _severity = (CR_LogSeverity)[coder decodeIntForKey:@"_severity"];
     _message = [coder decodeObjectOfClass:NSString.class forKey:@"_message"];
@@ -61,6 +64,7 @@
   [coder encodeObject:self.version forKey:@"_version"];
   [coder encodeObject:self.bundleId forKey:@"_bundleId"];
   [coder encodeObject:self.deviceId forKey:@"_deviceId"];
+  [coder encodeObject:self.profileId forKey:@"_profileId"];
   [coder encodeObject:self.tag forKey:@"_tag"];
   [coder encodeInt:(int)self.severity forKey:@"_severity"];
   [coder encodeObject:self.message forKey:@"_message"];
