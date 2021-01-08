@@ -29,7 +29,7 @@
 
 @property(nonatomic) id<NetworkManagerDelegate> networkManagerDelegate;
 
-+ (instancetype)criteo;
++ (void)resetSharedCriteo;
 
 + (void)loadProductWithParameters:(NSDictionary *)parameters
                fromViewController:(UIViewController *)controller;

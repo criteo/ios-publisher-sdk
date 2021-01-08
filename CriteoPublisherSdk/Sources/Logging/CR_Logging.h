@@ -35,9 +35,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CR_Logging : NSObject <CR_LogHandler>
 
+- (instancetype)initWithLogHandler:(id<CR_LogHandler>)handler;
+
 + (void)logMessage:(CR_LogMessage *)message;
 + (instancetype)sharedInstance;
-+ (void)setSharedLogHandler:(id<CR_LogHandler>)handler;
 
 + (CR_LogSeverity)consoleLogSeverityThreshold;
 + (void)setConsoleSeverityThreshold:(CR_LogSeverity)severity;

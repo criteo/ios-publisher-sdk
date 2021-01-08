@@ -27,6 +27,10 @@
 #import "CR_SynchronousThreadManager.h"
 #import "CR_DataProtectionConsent.h"
 
+@interface CR_Logging (Testing)
++ (Criteo *)sharedCriteo;
+@end
+
 @interface CR_LoggingFunctionalTests : XCTestCase
 @property(nonatomic, strong) id loggingMock;
 @property(nonatomic, strong) CR_ConsoleLogHandler *consoleLogHandlerMock;
@@ -41,14 +45,19 @@
 #pragma mark - Lifecycle
 
 - (void)setUp {
+  self.consoleLogHandlerMock = OCMPartialMock([[CR_ConsoleLogHandler alloc] init]);
+
   CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
   dependencyProvider.threadManager = CR_SynchronousThreadManager.new;
+  dependencyProvider.consoleLogHandler = self.consoleLogHandlerMock;
   self.userDefaults = dependencyProvider.userDefaults;
 
-  self.loggingMock = OCMPartialMock(CR_Logging.sharedInstance);
-  self.consoleLogHandlerMock = OCMPartialMock([[CR_ConsoleLogHandler alloc] init]);
-  [CR_Logging setSharedLogHandler:self.consoleLogHandlerMock];
   self.criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProvider];
+
+  self.loggingMock = OCMPartialMock(dependencyProvider.logging);
+  OCMStub([self.loggingMock sharedCriteo]).andReturn(self.criteo);
+  dependencyProvider.logging = self.loggingMock;
+
   self.publisherId = @"testPublisherId";
   self.adUnits = @[
     [[CRBannerAdUnit alloc] initWithAdUnitId:@"adUnitId1" size:CGSizeMake(42, 21)],

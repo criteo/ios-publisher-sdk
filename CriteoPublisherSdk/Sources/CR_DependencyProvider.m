@@ -33,6 +33,7 @@
 #import "CR_UserDataHolder.h"
 #import "CR_InternalContextProvider.h"
 #import "CR_Session.h"
+#import "CR_Logging.h"
 
 #define CR_LAZY(object, assignment)  \
   ({                                 \
@@ -178,6 +179,14 @@
 - (CR_InternalContextProvider *)internalContextProvider {
   return CR_LAZY(_internalContextProvider,
                  [[CR_InternalContextProvider alloc] initWithSession:self.session]);
+}
+
+- (CR_Logging *)logging {
+  return CR_LAZY(_logging, [[CR_Logging alloc] initWithLogHandler:self.consoleLogHandler]);
+}
+
+- (CR_ConsoleLogHandler *)consoleLogHandler {
+  return CR_LAZY(_consoleLogHandler, CR_ConsoleLogHandler.new);
 }
 
 @end
