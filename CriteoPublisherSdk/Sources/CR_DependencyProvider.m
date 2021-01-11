@@ -202,7 +202,8 @@
                                                                 config:self.config
                                                             deviceInfo:self.deviceInfo
                                                    integrationRegistry:self.integrationRegistry
-                                                               session:self.session]);
+                                                               session:self.session
+                                                               consent:self.consent]);
 }
 
 @end

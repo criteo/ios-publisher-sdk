@@ -25,6 +25,7 @@
 @class CR_DeviceInfo;
 @class CR_IntegrationRegistry;
 @class CR_Session;
+@class CR_DataProtectionConsent;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -34,7 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
                                   config:(CR_Config *)config
                               deviceInfo:(CR_DeviceInfo *)deviceInfo
                      integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry
-                                 session:(CR_Session *)session;
+                                 session:(CR_Session *)session
+                                 consent:(CR_DataProtectionConsent *)consent;
 
 @end
 

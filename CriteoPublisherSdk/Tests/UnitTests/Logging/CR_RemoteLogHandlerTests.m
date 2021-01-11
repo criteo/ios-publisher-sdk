@@ -27,6 +27,8 @@
 #import "CR_DeviceInfo.h"
 #import "CR_IntegrationRegistry.h"
 #import "CR_Session.h"
+#import "CR_DataProtectionConsent.h"
+#import "CR_InMemoryUserDefaults.h"
 
 @interface CR_RemoteLogHandler ()
 - (CR_RemoteLogRecord *_Nullable)remoteLogRecordFromLogMessage:(CR_LogMessage *)logMessage;
@@ -34,6 +36,7 @@
 
 @interface CR_RemoteLogHandlerTest : XCTestCase
 
+@property(nonatomic, strong) CR_DataProtectionConsent *consent;
 @property(nonatomic, strong) CR_Session *session;
 @property(nonatomic, strong) CR_IntegrationRegistry *integrationRegistry;
 @property(nonatomic, strong) CR_DeviceInfo *deviceInfo;
@@ -48,16 +51,38 @@
 - (void)setUp {
   [super setUp];
 
+  NSUserDefaults *userDefaults = [[CR_InMemoryUserDefaults alloc] init];
+
   self.storage = OCMClassMock(CR_RemoteLogStorage.class);
   self.config = OCMClassMock(CR_Config.class);
   self.deviceInfo = OCMClassMock(CR_DeviceInfo.class);
   self.integrationRegistry = OCMClassMock(CR_IntegrationRegistry.class);
   self.session = OCMClassMock(CR_Session.class);
+  self.consent = [[CR_DataProtectionConsent alloc] initWithUserDefaults:userDefaults];
   self.handler = [[CR_RemoteLogHandler alloc] initWithRemoteLogStorage:self.storage
                                                                 config:self.config
                                                             deviceInfo:self.deviceInfo
                                                    integrationRegistry:self.integrationRegistry
-                                                               session:self.session];
+                                                               session:self.session
+                                                               consent:self.consent];
+
+  self.consent.consentGiven = YES;
+}
+
+#pragma mark Consent
+
+- (void)testConsent_GivenNoConsent_DoNothing {
+  CR_LogMessage *logMessage = [self validLogMessage:CR_LogSeverityError];
+
+  self.handler = OCMPartialMock(self.handler);
+
+  OCMStub([self.config remoteLogLevel]).andReturn(CR_LogSeverityInfo);
+  self.consent.consentGiven = NO;
+
+  [self.handler logMessage:logMessage];
+
+  OCMVerify(never(), [self.handler remoteLogRecordFromLogMessage:OCMOCK_ANY]);
+  OCMVerify(never(), [self.storage pushRemoteLogRecord:OCMOCK_ANY]);
 }
 
 #pragma mark RemoteLogRecord handling

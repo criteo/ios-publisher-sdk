@@ -24,6 +24,7 @@
 #import "CR_DeviceInfo.h"
 #import "CR_IntegrationRegistry.h"
 #import "CR_Session.h"
+#import "CR_DataProtectionConsent.h"
 
 @interface CR_RemoteLogHandler ()
 
@@ -32,6 +33,7 @@
 @property(nonatomic, readonly) CR_DeviceInfo *deviceInfo;
 @property(nonatomic, readonly) CR_IntegrationRegistry *integrationRegistry;
 @property(nonatomic, readonly) CR_Session *session;
+@property(nonatomic, readonly) CR_DataProtectionConsent *consent;
 
 @end
 
@@ -41,7 +43,8 @@
                                   config:(CR_Config *)config
                               deviceInfo:(CR_DeviceInfo *)deviceInfo
                      integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry
-                                 session:(CR_Session *)session {
+                                 session:(CR_Session *)session
+                                 consent:(CR_DataProtectionConsent *)consent {
   self = [super init];
   if (self) {
     _remoteLogStorage = remoteLogStorage;
@@ -49,13 +52,16 @@
     _deviceInfo = deviceInfo;
     _integrationRegistry = integrationRegistry;
     _session = session;
+    _consent = consent;
   }
 
   return self;
 }
 
 - (void)logMessage:(CR_LogMessage *)message {
-  // TODO EE-1374 check consent
+  if (!self.consent.isConsentGiven) {
+    return;
+  }
 
   if (message.severity > self.config.remoteLogLevel) {
     return;
