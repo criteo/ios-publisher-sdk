@@ -39,8 +39,6 @@ FOUNDATION_EXTERN NSString *const CR_DataProtectionConsentGivenKey;
  */
 @property(strong, nonatomic, readonly) CR_Gdpr *gdpr;
 
-@property(readonly, nonatomic) BOOL isAdTrackingEnabled;
-
 /**
  * Nullable ATTrackingManagerAuthorizationStatus
  *

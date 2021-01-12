@@ -263,7 +263,6 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
   paramDict[CR_ApiQueryKeys.idfa] = deviceInfo.deviceId;
   paramDict[CR_ApiQueryKeys.eventType] = event;
   paramDict[CR_ApiQueryKeys.appId] = config.appId;
-  paramDict[CR_ApiQueryKeys.limitedAdTracking] = consent.isAdTrackingEnabled ? @"0" : @"1";
   paramDict[CR_ApiQueryKeys.trackingAuthorizationStatus] =
       consent.trackingAuthorizationStatus.stringValue;
   paramDict[CR_ApiQueryKeys.gdprConsentForGum] = consent.gdpr.consentString;

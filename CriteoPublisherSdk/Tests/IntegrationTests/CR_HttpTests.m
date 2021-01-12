@@ -125,11 +125,10 @@
 - (void)testEventApiCallDuringInitialization {
   XCTestExpectation *expectation = [self expectationWithDescription:@"eventApiCallExpectation"];
 
-  ASIdentifierManager *idfaManager = [ASIdentifierManager sharedManager];
-  NSString *limitedAdTrackingValue = idfaManager.advertisingTrackingEnabled ? @"0" : @"1";
 #if TARGET_OS_SIMULATOR
   NSString *idfaValue = CR_SIMULATOR_IDFA;
 #else
+  ASIdentifierManager *idfaManager = [ASIdentifierManager sharedManager];
   NSString *idfaValue = [idfaManager.advertisingIdentifier UUIDString];
 #endif
   NSString *appIdValue = [NSBundle mainBundle].bundleIdentifier;
@@ -140,9 +139,6 @@
         if ([url.absoluteString
                 containsString:weakSelf.criteo.dependencyProvider.config.appEventsUrl] &&
             [self query:url.query hasParamKey:CR_ApiQueryKeys.idfa withValue:idfaValue] &&
-            [self query:url.query
-                hasParamKey:CR_ApiQueryKeys.limitedAdTracking
-                  withValue:limitedAdTrackingValue] &&
             [self query:url.query hasParamKey:CR_ApiQueryKeys.appId withValue:appIdValue] &&
             [self query:url.query hasParamKey:CR_ApiQueryKeys.eventType withValue:@"Launch"]) {
           [expectation fulfill];

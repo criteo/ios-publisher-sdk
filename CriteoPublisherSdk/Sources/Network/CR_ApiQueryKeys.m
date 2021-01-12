@@ -108,9 +108,6 @@
 + (NSString *)isTimeout {
   return @"isTimeout";
 }
-+ (NSString *)limitedAdTracking {
-  return @"limitedAdTracking";
-}
 + (NSString *)trackingAuthorizationStatus {
   return @"trackingAuthorizationStatus";
 }
