@@ -276,6 +276,7 @@
 		90D0C9A36EF9136F4CC9E877 /* libPods-CriteoPublisherSdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CDD7544323F61638E0E8B7F /* libPods-CriteoPublisherSdk.a */; };
 		B1BD859C4CDDB6DB1B906C62 /* libPods-CriteoPublisherSdkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92039F91AE1122C08CF8EC36 /* libPods-CriteoPublisherSdkTests.a */; };
 		C07AB0222733EAA918843728 /* CR_NativeAssets+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABBC696D95F756547DA86 /* CR_NativeAssets+Testing.m */; };
+		C07AB058AEB4030B2EBD4D15 /* CR_RemoteLogRecordSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = C07AB0DC260182010824A534 /* CR_RemoteLogRecordSerializer.h */; };
 		C07AB0603D0707B887DB5BE5 /* CRUserData.h in Headers */ = {isa = PBXBuildFile; fileRef = C07ABAC36CEE99CB15EA2B70 /* CRUserData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C07AB0B23BDBEA53346DD6CC /* CR_FeedbackController.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABC983FB1DA60294D238A /* CR_FeedbackController.m */; };
 		C07AB1021EE9DC0423DB6A20 /* CR_DisplaySizeInjector.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB2F6780ADB490DBA61E9 /* CR_DisplaySizeInjector.m */; };
@@ -293,7 +294,9 @@
 		C07AB5492FE17D797F4C1306 /* CRMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB093A865F67283614A5D /* CRMediaView.m */; };
 		C07AB6C51EDDDE87A80D2666 /* CRMediaContent.h in Headers */ = {isa = PBXBuildFile; fileRef = C07ABFCB3CD0F740F0A7FB05 /* CRMediaContent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C07AB6D02AA13693FEFF215F /* CR_RemoteLogRecordTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB0F74CBE74DC33F6ED1C /* CR_RemoteLogRecordTests.m */; };
+		C07AB6FA717E3EC12BCCC450 /* CR_RemoteLogRecordSerializerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB914A6B5C786162CE66D /* CR_RemoteLogRecordSerializerTests.m */; };
 		C07AB6FAFCA3CA34578C1C5A /* CR_InternalContextProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB8E611CB1C503E117386 /* CR_InternalContextProvider.m */; };
+		C07AB722CEB2B9263B6400D2 /* CR_RemoteLogRecordSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABF29228376C94127261F /* CR_RemoteLogRecordSerializer.m */; };
 		C07AB779584EBF6DBACED48F /* NSUserDefaults+CR_Config.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB1709D918AD4DA7A4384 /* NSUserDefaults+CR_Config.m */; };
 		C07AB80BC9B93DC2ADC387F0 /* CR_RemoteLogStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = C07ABBECE75DACD69AC68FCE /* CR_RemoteLogStorage.h */; };
 		C07AB825779A15495508A590 /* CR_UserDataHolder.h in Headers */ = {isa = PBXBuildFile; fileRef = C07ABA1B386190CDE12F3853 /* CR_UserDataHolder.h */; };
@@ -699,6 +702,7 @@
 		8702B3BA4117B77A890D5F06 /* Pods-CriteoPublisherSdk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoPublisherSdk.debug.xcconfig"; path = "Target Support Files/Pods-CriteoPublisherSdk/Pods-CriteoPublisherSdk.debug.xcconfig"; sourceTree = "<group>"; };
 		92039F91AE1122C08CF8EC36 /* libPods-CriteoPublisherSdkTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoPublisherSdkTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C07AB093A865F67283614A5D /* CRMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRMediaView.m; sourceTree = "<group>"; };
+		C07AB0DC260182010824A534 /* CR_RemoteLogRecordSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CR_RemoteLogRecordSerializer.h; path = Sources/Logging/CR_RemoteLogRecordSerializer.h; sourceTree = "<group>"; };
 		C07AB0F74CBE74DC33F6ED1C /* CR_RemoteLogRecordTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CR_RemoteLogRecordTests.m; path = Logging/CR_RemoteLogRecordTests.m; sourceTree = "<group>"; };
 		C07AB14CF52484595D6E0E51 /* CRUserData+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CRUserData+Internal.h"; sourceTree = "<group>"; };
 		C07AB1709D918AD4DA7A4384 /* NSUserDefaults+CR_Config.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+CR_Config.m"; sourceTree = "<group>"; };
@@ -723,6 +727,7 @@
 		C07AB7ACB684AE677947D589 /* CR_ImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_ImageCache.m; sourceTree = "<group>"; };
 		C07AB8BF2845E5F7C18F9BBC /* CR_RemoteLogRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_RemoteLogRecord.m; sourceTree = "<group>"; };
 		C07AB8E611CB1C503E117386 /* CR_InternalContextProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_InternalContextProvider.m; sourceTree = "<group>"; };
+		C07AB914A6B5C786162CE66D /* CR_RemoteLogRecordSerializerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_RemoteLogRecordSerializerTests.m; sourceTree = "<group>"; };
 		C07AB967F5DA5C6504960784 /* CRMediaView+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CRMediaView+Internal.h"; sourceTree = "<group>"; };
 		C07AB975B941355236DA96C7 /* CR_UserDataHolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_UserDataHolder.m; sourceTree = "<group>"; };
 		C07AB97FE6D2C0F49B55316F /* CR_RemoteLogRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_RemoteLogRecord.h; sourceTree = "<group>"; };
@@ -754,6 +759,7 @@
 		C07ABE9C517574E8D3DBE4EC /* CRContextData+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CRContextData+Internal.h"; sourceTree = "<group>"; };
 		C07ABEC0FA1873D8B0882250 /* CR_FeedbackFeatureGuardTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_FeedbackFeatureGuardTests.m; sourceTree = "<group>"; };
 		C07ABF175ED6F5228D1AE701 /* CR_RemoteLogHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_RemoteLogHandler.m; sourceTree = "<group>"; };
+		C07ABF29228376C94127261F /* CR_RemoteLogRecordSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CR_RemoteLogRecordSerializer.m; path = Sources/Logging/CR_RemoteLogRecordSerializer.m; sourceTree = "<group>"; };
 		C07ABFAEC89073B82C1CB591 /* CR_LoggingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_LoggingTests.m; sourceTree = "<group>"; };
 		C07ABFCB3CD0F740F0A7FB05 /* CRMediaContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRMediaContent.h; sourceTree = "<group>"; };
 		DF367C84232971810044807B /* CRNativeAdUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNativeAdUnit.h; sourceTree = "<group>"; };
@@ -983,6 +989,7 @@
 				C07ABFAEC89073B82C1CB591 /* CR_LoggingTests.m */,
 				C07AB53E83BAA3D26C8661A8 /* CR_RemoteLogHandlerTests.m */,
 				46A667D625AD951500522C6D /* CR_RemoteLogStorageTests.swift */,
+				C07AB914A6B5C786162CE66D /* CR_RemoteLogRecordSerializerTests.m */,
 			);
 			path = Logging;
 			sourceTree = "<group>";
@@ -1567,6 +1574,8 @@
 				E1F2736521B5F08D00A2FBFA /* Products */,
 				58922C790615A11D1E6D635B /* Frameworks */,
 				4733D5730B48AD6DBA854BCC /* Pods */,
+				C07AB0DC260182010824A534 /* CR_RemoteLogRecordSerializer.h */,
+				C07ABF29228376C94127261F /* CR_RemoteLogRecordSerializer.m */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1729,6 +1738,7 @@
 				C07AB9BD9115E79936C90A99 /* CR_RemoteLogRecord.h in Headers */,
 				C07AB80BC9B93DC2ADC387F0 /* CR_RemoteLogStorage.h in Headers */,
 				C07AB1A2C4531B3CCED456EB /* CR_RemoteLogHandler.h in Headers */,
+				C07AB058AEB4030B2EBD4D15 /* CR_RemoteLogRecordSerializer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2037,6 +2047,7 @@
 				C07ABC27F834AD2EEADE400F /* CR_RemoteLogRecord.m in Sources */,
 				C07ABEDECA4A63ABA2E8ADCC /* CR_RemoteLogStorage.m in Sources */,
 				C07AB1F348E5C6DB752A783C /* CR_RemoteLogHandler.m in Sources */,
+				C07AB722CEB2B9263B6400D2 /* CR_RemoteLogRecordSerializer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2197,6 +2208,7 @@
 				C07AB6D02AA13693FEFF215F /* CR_RemoteLogRecordTests.m in Sources */,
 				C07ABBFF4B38DB0DBA99CC5F /* CR_LoggingTests.m in Sources */,
 				C07ABF991A19EF937114D960 /* CR_RemoteLogHandlerTests.m in Sources */,
+				C07AB6FA717E3EC12BCCC450 /* CR_RemoteLogRecordSerializerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
