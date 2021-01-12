@@ -17,7 +17,6 @@
 // limitations under the License.
 //
 
-#import <AdSupport/ASIdentifierManager.h>
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
 
 #import "CR_Ccpa.h"
@@ -57,7 +56,6 @@ NSString *const CR_DataProtectionConsentGivenKey = @"CRITEO_ConsentGiven";
     if (_gdpr.tcfVersion != CR_GdprTcfVersionUnknown) {
       CRLogInfo(@"Consent", @"Initialized with TCF: %@", _gdpr);
     }
-    _isAdTrackingEnabled = [[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled];
     _consentGiven = self.userDefaultForConsentGiven;
   }
   return self;

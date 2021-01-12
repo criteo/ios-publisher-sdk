@@ -660,8 +660,7 @@
   NSDictionary *expected = @{
     CR_ApiQueryKeys.idfa : self.deviceInfoMock.deviceId,
     CR_ApiQueryKeys.appId : self.configMock.appId,
-    CR_ApiQueryKeys.eventType : @"Launch",
-    CR_ApiQueryKeys.limitedAdTracking : @"0"
+    CR_ApiQueryKeys.eventType : @"Launch"
   };
 
   [self callSendAppEventWithCompletionHandler:nil];
@@ -676,7 +675,6 @@
     CR_ApiQueryKeys.idfa : self.deviceInfoMock.deviceId,
     CR_ApiQueryKeys.appId : self.configMock.appId,
     CR_ApiQueryKeys.eventType : @"Launch",
-    CR_ApiQueryKeys.limitedAdTracking : @"0",
     CR_ApiQueryKeys.trackingAuthorizationStatus : @"2"
   };
 

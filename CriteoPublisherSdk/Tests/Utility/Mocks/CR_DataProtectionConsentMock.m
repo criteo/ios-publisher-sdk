@@ -39,17 +39,12 @@ NSString *const CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString = @
     _gdprMock = [[CR_GdprMock alloc] init];
     self.usPrivacyIabConsentString_mock =
         CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString;
-    self.isAdTrackingEnabled_mock = YES;
   }
   return self;
 }
 
 - (CR_Gdpr *)gdpr {
   return self.gdprMock;
-}
-
-- (BOOL)isAdTrackingEnabled {
-  return self.isAdTrackingEnabled_mock;
 }
 
 - (NSNumber *)trackingAuthorizationStatus {
