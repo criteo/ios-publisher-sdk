@@ -26,6 +26,7 @@
 @class CR_IntegrationRegistry;
 @class CR_Session;
 @class CR_DataProtectionConsent;
+@class CR_ApiHandler;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -36,7 +37,10 @@ NS_ASSUME_NONNULL_BEGIN
                               deviceInfo:(CR_DeviceInfo *)deviceInfo
                      integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry
                                  session:(CR_Session *)session
-                                 consent:(CR_DataProtectionConsent *)consent;
+                                 consent:(CR_DataProtectionConsent *)consent
+                              apiHandler:(CR_ApiHandler *)apiHandler;
+
+- (void)sendRemoteLogBatch;
 
 @end
 
