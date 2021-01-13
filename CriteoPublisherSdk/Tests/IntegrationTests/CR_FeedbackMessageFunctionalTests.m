@@ -359,7 +359,7 @@
   }];
   id handlerArg = [OCMArg invokeBlockWithArgs:[NSNull null], error, nil];
   OCMStub([self.criteo.testing_networkManagerMock postToUrl:urlArg
-                                                   postBody:[OCMArg any]
+                                                       body:[OCMArg any]
                                             responseHandler:handlerArg]);
 }
 

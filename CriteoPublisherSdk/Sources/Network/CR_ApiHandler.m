@@ -141,7 +141,7 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
                                                             deviceInfo:deviceInfo
                                                                context:contextData];
     [self.networkManager postToUrl:url
-                          postBody:body
+                              body:body
                         logWithTag:@"BidRequest"
                    responseHandler:^(NSData *data, NSError *error) {
                      if (error == nil) {
@@ -172,7 +172,7 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
   CRLogDebug(@"Config", @"Getting remote config");
   [self.networkManager
             postToUrl:url
-             postBody:request.postBody
+                 body:request.postBody
       responseHandler:^(NSData *data, NSError *error) {
         CRLogDebug(@"Config", @"Received config");
         if (error == nil) {
@@ -245,7 +245,7 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
                                                             config:config
                                                          profileId:profileId];
   [self.networkManager postToUrl:url
-                        postBody:postBody
+                            body:postBody
                  responseHandler:^(NSData *data, NSError *error) {
                    if (completionHandler) {
                      completionHandler(error);

@@ -116,14 +116,14 @@
 }
 
 - (void)postToUrl:(NSURL *)url
-           postBody:(NSDictionary *)postBody
+               body:(NSDictionary *)body
          logWithTag:(NSString *_Nullable)logTag
     responseHandler:(nullable CR_NMResponse)responseHandler {
   CR_URLRequest *postRequest = [CR_URLRequest requestWithURL:url deviceInfo:deviceInfo];
   [postRequest setHTTPMethod:@"POST"];
 
   NSError *jsonError;
-  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:postBody
+  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:body
                                                      options:NSJSONWritingPrettyPrinted
                                                        error:&jsonError];
 
@@ -180,9 +180,9 @@
 }
 
 - (void)postToUrl:(NSURL *)url
-           postBody:(NSDictionary *)postBody
+               body:(NSDictionary *)body
     responseHandler:(nullable CR_NMResponse)responseHandler {
-  [self postToUrl:url postBody:postBody logWithTag:nil responseHandler:responseHandler];
+  [self postToUrl:url body:body logWithTag:nil responseHandler:responseHandler];
 }
 
 @end

@@ -110,30 +110,30 @@
 }
 
 - (void)postToUrl:(NSURL *)url
-           postBody:(NSDictionary *)postBody
+               body:(NSDictionary *)body
          logWithTag:(NSString *_Nullable)logTag
-    responseHandler:(CR_NMResponse)responseHandler {
+    responseHandler:(nullable CR_NMResponse)responseHandler {
   // Synchronized for avoiding multi-thread issue with the httpPostCount.
   @synchronized(self) {
     if (self.requestListener != nil) {
-      self.requestListener(url, POST, postBody);
+      self.requestListener(url, POST, body);
     }
     self.httpRequestCount++;
     const unsigned count = self.httpRequestCount;
     CR_HttpContent *requestContent = [[CR_HttpContent alloc] initWithUrl:url
                                                                     verb:POST
-                                                             requestBody:postBody
+                                                             requestBody:body
                                                             responseBody:nil
                                                                    error:nil
                                                                  counter:count];
     [self.internalPendingRequests addObject:requestContent];
     [self.networkManager postToUrl:url
-                          postBody:postBody
+                              body:body
                    responseHandler:^(NSData *data, NSError *error) {
                      @synchronized(self) {
                        CR_HttpContent *content = [[CR_HttpContent alloc] initWithUrl:url
                                                                                 verb:POST
-                                                                         requestBody:postBody
+                                                                         requestBody:body
                                                                         responseBody:data
                                                                                error:error
                                                                              counter:count];
