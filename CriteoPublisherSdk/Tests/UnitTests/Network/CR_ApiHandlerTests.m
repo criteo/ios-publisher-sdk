@@ -155,7 +155,7 @@
   id error = [NSNull null];
 
   OCMStub([mockNetworkManager postToUrl:[OCMArg isKindOfClass:[NSURL class]]
-                               postBody:[OCMArg isKindOfClass:[NSDictionary class]]
+                                   body:[OCMArg isKindOfClass:[NSDictionary class]]
                              logWithTag:[OCMArg any]
                         responseHandler:([OCMArg invokeBlockWithArgs:responseData, error, nil])]);
   CR_CacheAdUnit *testAdUnit_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid_1"
@@ -212,7 +212,7 @@
   id error = [NSNull null];
 
   OCMStub([mockNetworkManager postToUrl:OCMOCK_ANY
-                               postBody:OCMOCK_ANY
+                                   body:OCMOCK_ANY
                         responseHandler:([OCMArg invokeBlockWithArgs:responseData, error, nil])]);
 
   CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
@@ -247,7 +247,7 @@
   id mockNetworkManager = OCMStrictClassMock([CR_NetworkManager class]);
   self.networkManager = mockNetworkManager;
   OCMReject([mockNetworkManager postToUrl:[OCMArg any]
-                                 postBody:[OCMArg any]
+                                     body:[OCMArg any]
                           responseHandler:([OCMArg any])]);
 
   CR_ApiHandler *apiHandler = [self buildApiHandler];
@@ -273,7 +273,7 @@
   self.networkManager = mockNetworkManager;
   OCMExpect([mockNetworkManager
             postToUrl:[OCMArg isKindOfClass:[NSURL class]]
-             postBody:[OCMArg isKindOfClass:[NSDictionary class]]
+                 body:[OCMArg isKindOfClass:[NSDictionary class]]
            logWithTag:[OCMArg any]
       responseHandler:([OCMArg invokeBlockWithArgs:[NSNull null], [NSNull null], nil])]);
 
@@ -303,7 +303,7 @@
   NSData *responseData = [@"testSlot" dataUsingEncoding:NSUTF8StringEncoding];
   NSError *error = [NSError errorWithDomain:@"testDomain" code:1 userInfo:nil];
   OCMStub([mockNetworkManager postToUrl:[OCMArg isKindOfClass:[NSURL class]]
-                               postBody:[OCMArg isKindOfClass:[NSDictionary class]]
+                                   body:[OCMArg isKindOfClass:[NSDictionary class]]
                              logWithTag:[OCMArg any]
                         responseHandler:([OCMArg invokeBlockWithArgs:responseData, error, nil])]);
 
@@ -331,7 +331,7 @@
   self.networkManager = mockNetworkManager;
   OCMStub([mockNetworkManager
             postToUrl:[OCMArg isKindOfClass:[NSURL class]]
-             postBody:[OCMArg isKindOfClass:[NSDictionary class]]
+                 body:[OCMArg isKindOfClass:[NSDictionary class]]
            logWithTag:[OCMArg any]
       responseHandler:([OCMArg invokeBlockWithArgs:[NSNull null], [NSNull null], nil])]);
 

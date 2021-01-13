@@ -61,7 +61,7 @@
       [self expectationWithDescription:@"Expect that responseHandler was executed"];
 
   [self.networkManager postToUrl:[NSURL URLWithString:self.config.cdbUrl]
-                        postBody:@{@"any key" : @"any value"}
+                            body:@{@"any key" : @"any value"}
                  responseHandler:^(NSData *data, NSError *error) {
                    [expectation fulfill];
                  }];
@@ -81,7 +81,7 @@
 - (void)testPostWithoutResponseHandlerDoesNotCrash {
   [self stubSessionDataTaskResponseWithStatusCode204];
   XCTAssertNoThrow([self.networkManager postToUrl:[NSURL URLWithString:self.config.cdbUrl]
-                                         postBody:@{}
+                                             body:@{}
                                   responseHandler:nil]);
 }
 
@@ -140,7 +140,7 @@
   networkManager.delegate = delegateMock;
   NSString *logTag = @"TestTag";
   [networkManager postToUrl:url
-                   postBody:postBody
+                       body:postBody
                  logWithTag:logTag
             responseHandler:^(NSData *data, NSError *error) {
               if (error == nil) {
