@@ -154,7 +154,8 @@
                                                          networkManager:self.networkManager
                                                           headerBidding:self.headerBidding
                                                        feedbackDelegate:self.feedbackDelegate
-                                                          threadManager:self.threadManager]);
+                                                          threadManager:self.threadManager
+                                                       remoteLogHandler:self.remoteLogHandler]);
 }
 
 - (id)mediaDownloader {

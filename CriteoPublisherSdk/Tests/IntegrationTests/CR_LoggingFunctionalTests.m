@@ -26,6 +26,9 @@
 #import "CR_Logging.h"
 #import "CR_SynchronousThreadManager.h"
 #import "CR_DataProtectionConsent.h"
+#import "CR_ApiHandler.h"
+#import "CR_TestAdUnits.h"
+#import "CR_ThreadManager+Waiter.h"
 
 @interface CR_Logging (Testing)
 + (Criteo *)sharedCriteo;
@@ -38,6 +41,7 @@
 @property(nonatomic, copy) NSString *publisherId;
 @property(nonatomic, strong) NSArray<CRAdUnit *> *adUnits;
 @property(nonatomic, strong) NSUserDefaults *userDefaults;
+@property(nonatomic, strong) CR_ApiHandler *apiHandler;
 @end
 
 @implementation CR_LoggingFunctionalTests
@@ -51,6 +55,9 @@
   dependencyProvider.threadManager = CR_SynchronousThreadManager.new;
   dependencyProvider.consoleLogHandler = self.consoleLogHandlerMock;
   self.userDefaults = dependencyProvider.userDefaults;
+
+  self.apiHandler = OCMPartialMock(dependencyProvider.apiHandler);
+  dependencyProvider.apiHandler = self.apiHandler;
 
   self.criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProvider];
 
@@ -184,6 +191,21 @@
                                 return [logMessage.tag isEqualToString:@"Consent"] &&
                                        [logMessage.message containsString:consentString];
                               }]]);
+}
+
+#pragma mark RemoteLog
+
+- (void)testRemoteLog_GivenLogAndBid_ThenRemoteLogsAreSent {
+  CRLogError(@"tag", @"message");
+
+  [self.criteo loadBidForAdUnit:CR_TestAdUnits.randomBanner320x50
+                responseHandler:^(CRBid *bid){
+                    // ignored
+                }];
+
+  [self.criteo.threadManager waiter_waitIdle];
+
+  OCMVerify([self.apiHandler sendLogs:OCMOCK_ANY config:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
 }
 
 @end

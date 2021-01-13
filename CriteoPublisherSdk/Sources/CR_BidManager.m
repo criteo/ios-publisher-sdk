@@ -25,6 +25,7 @@
 #import "CR_Logging.h"
 #import "CR_ThreadManager.h"
 #import "CR_Logging.h"
+#import "CR_RemoteLogHandler.h"
 
 typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 
@@ -33,6 +34,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 @property(nonatomic, assign, readonly) BOOL isInSilenceMode;
 @property(nonatomic, strong, readonly) CR_HeaderBidding *headerBidding;
 @property(nonatomic, strong, readonly) id<CR_FeedbackDelegate> feedbackDelegate;
+@property(nonatomic, strong, readonly) CR_RemoteLogHandler *remoteLogHandler;
 @property(nonatomic) NSTimeInterval cdbTimeToNextCall;
 
 @end
@@ -64,7 +66,8 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
                    networkManager:nil
                     headerBidding:nil
                  feedbackDelegate:nil
-                    threadManager:nil];
+                    threadManager:nil
+                 remoteLogHandler:nil];
 }
 
 - (instancetype)initWithApiHandler:(CR_ApiHandler *)apiHandler
@@ -75,7 +78,8 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
                     networkManager:(CR_NetworkManager *)networkManager
                      headerBidding:(CR_HeaderBidding *)headerBidding
                   feedbackDelegate:(id<CR_FeedbackDelegate>)feedbackDelegate
-                     threadManager:(CR_ThreadManager *)threadManager {
+                     threadManager:(CR_ThreadManager *)threadManager
+                  remoteLogHandler:(CR_RemoteLogHandler *)remoteLogHandler {
   if (self = [super init]) {
     self->apiHandler = apiHandler;
     self->cacheManager = cacheManager;
@@ -87,6 +91,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
     _feedbackDelegate = feedbackDelegate;
     _threadManager = threadManager;
     _headerBidding = headerBidding;
+    _remoteLogHandler = remoteLogHandler;
   }
 
   return self;
@@ -276,6 +281,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
   }];
 
   [self.feedbackDelegate sendFeedbackBatch];
+  [self.remoteLogHandler sendRemoteLogBatch];
 }
 
 - (void)beforeCdbCall:(CR_CdbRequest *)cdbRequest {
