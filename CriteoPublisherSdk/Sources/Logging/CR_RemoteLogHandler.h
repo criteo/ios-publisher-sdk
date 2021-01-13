@@ -27,6 +27,7 @@
 @class CR_Session;
 @class CR_DataProtectionConsent;
 @class CR_ApiHandler;
+@class CR_ThreadManager;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -38,7 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
                      integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry
                                  session:(CR_Session *)session
                                  consent:(CR_DataProtectionConsent *)consent
-                              apiHandler:(CR_ApiHandler *)apiHandler;
+                              apiHandler:(CR_ApiHandler *)apiHandler
+                           threadManager:(CR_ThreadManager *)threadManager;
 
 - (void)sendRemoteLogBatch;
 
