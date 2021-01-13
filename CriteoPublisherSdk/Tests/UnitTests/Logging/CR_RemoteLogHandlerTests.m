@@ -30,6 +30,7 @@
 #import "CR_DataProtectionConsent.h"
 #import "CR_InMemoryUserDefaults.h"
 #import "CR_ApiHandler.h"
+#import "CR_SynchronousThreadManager.h"
 
 @interface CR_RemoteLogHandler ()
 - (CR_RemoteLogRecord *_Nullable)remoteLogRecordFromLogMessage:(CR_LogMessage *)logMessage;
@@ -62,13 +63,15 @@
   self.session = OCMClassMock(CR_Session.class);
   self.consent = [[CR_DataProtectionConsent alloc] initWithUserDefaults:userDefaults];
   self.apiHandler = OCMClassMock(CR_ApiHandler.class);
-  self.handler = [[CR_RemoteLogHandler alloc] initWithRemoteLogStorage:self.storage
-                                                                config:self.config
-                                                            deviceInfo:self.deviceInfo
-                                                   integrationRegistry:self.integrationRegistry
-                                                               session:self.session
-                                                               consent:self.consent
-                                                            apiHandler:self.apiHandler];
+  self.handler =
+      [[CR_RemoteLogHandler alloc] initWithRemoteLogStorage:self.storage
+                                                     config:self.config
+                                                 deviceInfo:self.deviceInfo
+                                        integrationRegistry:self.integrationRegistry
+                                                    session:self.session
+                                                    consent:self.consent
+                                                 apiHandler:self.apiHandler
+                                              threadManager:CR_SynchronousThreadManager.new];
 
   self.consent.consentGiven = YES;
 }

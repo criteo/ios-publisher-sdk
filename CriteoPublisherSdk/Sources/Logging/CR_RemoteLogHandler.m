@@ -26,6 +26,7 @@
 #import "CR_Session.h"
 #import "CR_DataProtectionConsent.h"
 #import "CR_ApiHandler.h"
+#import "CR_ThreadManager.h"
 
 // The batch size of logs sent, at most, in each remote logs request.
 static NSUInteger const CR_RemoteLogHandlerLogBatchSize = 200;
@@ -39,6 +40,7 @@ static NSUInteger const CR_RemoteLogHandlerLogBatchSize = 200;
 @property(nonatomic, readonly) CR_Session *session;
 @property(nonatomic, readonly) CR_DataProtectionConsent *consent;
 @property(nonatomic, readonly) CR_ApiHandler *apiHandler;
+@property(nonatomic, readonly) CR_ThreadManager *threadManager;
 
 @end
 
@@ -50,7 +52,8 @@ static NSUInteger const CR_RemoteLogHandlerLogBatchSize = 200;
                      integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry
                                  session:(CR_Session *)session
                                  consent:(CR_DataProtectionConsent *)consent
-                              apiHandler:(CR_ApiHandler *)apiHandler {
+                              apiHandler:(CR_ApiHandler *)apiHandler
+                           threadManager:(CR_ThreadManager *)threadManager {
   self = [super init];
   if (self) {
     _remoteLogStorage = remoteLogStorage;
@@ -60,6 +63,7 @@ static NSUInteger const CR_RemoteLogHandlerLogBatchSize = 200;
     _session = session;
     _consent = consent;
     _apiHandler = apiHandler;
+    _threadManager = threadManager;
   }
 
   return self;
@@ -82,7 +86,9 @@ static NSUInteger const CR_RemoteLogHandlerLogBatchSize = 200;
 
   CR_RemoteLogRecord *remoteLogRecord = [self remoteLogRecordFromLogMessage:message];
   if (remoteLogRecord != nil) {
-    [self.remoteLogStorage pushRemoteLogRecord:remoteLogRecord];
+    [self.threadManager dispatchAsyncOnGlobalQueue:^{
+      [self.remoteLogStorage pushRemoteLogRecord:remoteLogRecord];
+    }];
   }
 }
 
@@ -141,17 +147,19 @@ static NSUInteger const CR_RemoteLogHandlerLogBatchSize = 200;
 #pragma mark Sending
 
 - (void)sendRemoteLogBatch {
-  NSArray<CR_RemoteLogRecord *> *records =
-      [self.remoteLogStorage popRemoteLogRecords:CR_RemoteLogHandlerLogBatchSize];
-  [self.apiHandler sendLogs:records
-                     config:self.config
-          completionHandler:^(NSError *error) {
-            if (error) {
-              for (CR_RemoteLogRecord *record in records) {
-                [self.remoteLogStorage pushRemoteLogRecord:record];
+  [self.threadManager dispatchAsyncOnGlobalQueue:^{
+    NSArray<CR_RemoteLogRecord *> *records =
+        [self.remoteLogStorage popRemoteLogRecords:CR_RemoteLogHandlerLogBatchSize];
+    [self.apiHandler sendLogs:records
+                       config:self.config
+            completionHandler:^(NSError *error) {
+              if (error) {
+                for (CR_RemoteLogRecord *record in records) {
+                  [self.remoteLogStorage pushRemoteLogRecord:record];
+                }
               }
-            }
-          }];
+            }];
+  }];
 }
 
 @end

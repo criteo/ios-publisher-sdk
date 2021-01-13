@@ -205,7 +205,8 @@
                                                    integrationRegistry:self.integrationRegistry
                                                                session:self.session
                                                                consent:self.consent
-                                                            apiHandler:self.apiHandler]);
+                                                            apiHandler:self.apiHandler
+                                                         threadManager:self.threadManager]);
 }
 
 @end
