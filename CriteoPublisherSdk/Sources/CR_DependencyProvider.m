@@ -203,7 +203,8 @@
                                                             deviceInfo:self.deviceInfo
                                                    integrationRegistry:self.integrationRegistry
                                                                session:self.session
-                                                               consent:self.consent]);
+                                                               consent:self.consent
+                                                            apiHandler:self.apiHandler]);
 }
 
 @end

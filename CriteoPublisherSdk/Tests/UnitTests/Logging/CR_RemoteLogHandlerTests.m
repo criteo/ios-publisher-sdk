@@ -29,6 +29,7 @@
 #import "CR_Session.h"
 #import "CR_DataProtectionConsent.h"
 #import "CR_InMemoryUserDefaults.h"
+#import "CR_ApiHandler.h"
 
 @interface CR_RemoteLogHandler ()
 - (CR_RemoteLogRecord *_Nullable)remoteLogRecordFromLogMessage:(CR_LogMessage *)logMessage;
@@ -36,6 +37,7 @@
 
 @interface CR_RemoteLogHandlerTest : XCTestCase
 
+@property(nonatomic, strong) CR_ApiHandler *apiHandler;
 @property(nonatomic, strong) CR_DataProtectionConsent *consent;
 @property(nonatomic, strong) CR_Session *session;
 @property(nonatomic, strong) CR_IntegrationRegistry *integrationRegistry;
@@ -59,12 +61,14 @@
   self.integrationRegistry = OCMClassMock(CR_IntegrationRegistry.class);
   self.session = OCMClassMock(CR_Session.class);
   self.consent = [[CR_DataProtectionConsent alloc] initWithUserDefaults:userDefaults];
+  self.apiHandler = OCMClassMock(CR_ApiHandler.class);
   self.handler = [[CR_RemoteLogHandler alloc] initWithRemoteLogStorage:self.storage
                                                                 config:self.config
                                                             deviceInfo:self.deviceInfo
                                                    integrationRegistry:self.integrationRegistry
                                                                session:self.session
-                                                               consent:self.consent];
+                                                               consent:self.consent
+                                                            apiHandler:self.apiHandler];
 
   self.consent.consentGiven = YES;
 }
@@ -250,6 +254,38 @@
   XCTAssertEqual(record.severity, CR_LogSeverityWarning);
   XCTAssertEqualObjects(record.message, @"myMessage,myFile:42,2042-06-22T13:37:28.000Z");
   XCTAssertNil(record.exceptionType);
+}
+
+#pragma mark Sending
+
+- (void)testSending_GivenNoError_SendBatchOfLog {
+  NSArray *records = @[ OCMClassMock(CR_RemoteLogRecord.class) ];
+
+  OCMStub([[(id)self.storage ignoringNonObjectArgs] popRemoteLogRecords:0]).andReturn(records);
+  OCMStub([self.apiHandler sendLogs:OCMOCK_ANY
+                             config:OCMOCK_ANY
+                  completionHandler:([OCMArg invokeBlockWithArgs:[NSNull null], nil])]);
+
+  [self.handler sendRemoteLogBatch];
+
+  OCMVerify([self.apiHandler sendLogs:records config:self.config completionHandler:OCMOCK_ANY]);
+  OCMVerify(never(), [self.storage pushRemoteLogRecord:OCMOCK_ANY]);
+}
+
+- (void)testSending_GivenError_PushBackAllRecords {
+  id record1 = OCMClassMock(CR_RemoteLogRecord.class);
+  id record2 = OCMClassMock(CR_RemoteLogRecord.class);
+  NSArray *records = @[ record1, record2 ];
+
+  OCMStub([[(id)self.storage ignoringNonObjectArgs] popRemoteLogRecords:0]).andReturn(records);
+  OCMStub([self.apiHandler sendLogs:OCMOCK_ANY
+                             config:OCMOCK_ANY
+                  completionHandler:([OCMArg invokeBlockWithArgs:NSError.new, nil])]);
+
+  [self.handler sendRemoteLogBatch];
+
+  OCMVerify([self.storage pushRemoteLogRecord:record1]);
+  OCMVerify([self.storage pushRemoteLogRecord:record2]);
 }
 
 @end

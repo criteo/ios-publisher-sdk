@@ -25,6 +25,10 @@
 #import "CR_IntegrationRegistry.h"
 #import "CR_Session.h"
 #import "CR_DataProtectionConsent.h"
+#import "CR_ApiHandler.h"
+
+// The batch size of logs sent, at most, in each remote logs request.
+static NSUInteger const CR_RemoteLogHandlerLogBatchSize = 200;
 
 @interface CR_RemoteLogHandler ()
 
@@ -34,6 +38,7 @@
 @property(nonatomic, readonly) CR_IntegrationRegistry *integrationRegistry;
 @property(nonatomic, readonly) CR_Session *session;
 @property(nonatomic, readonly) CR_DataProtectionConsent *consent;
+@property(nonatomic, readonly) CR_ApiHandler *apiHandler;
 
 @end
 
@@ -44,7 +49,8 @@
                               deviceInfo:(CR_DeviceInfo *)deviceInfo
                      integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry
                                  session:(CR_Session *)session
-                                 consent:(CR_DataProtectionConsent *)consent {
+                                 consent:(CR_DataProtectionConsent *)consent
+                              apiHandler:(CR_ApiHandler *)apiHandler {
   self = [super init];
   if (self) {
     _remoteLogStorage = remoteLogStorage;
@@ -53,9 +59,16 @@
     _integrationRegistry = integrationRegistry;
     _session = session;
     _consent = consent;
+    _apiHandler = apiHandler;
   }
 
   return self;
+}
+
+#pragma mark LogHandler
+
+- (CR_ConsoleLogHandler *)consoleLogHandler {
+  return nil;
 }
 
 - (void)logMessage:(CR_LogMessage *)message {
@@ -72,6 +85,8 @@
     [self.remoteLogStorage pushRemoteLogRecord:remoteLogRecord];
   }
 }
+
+#pragma mark Formatting
 
 - (CR_RemoteLogRecord *_Nullable)remoteLogRecordFromLogMessage:(CR_LogMessage *)logMessage {
   NSString *message = [self messageBodyFromLogMessage:logMessage];
@@ -123,8 +138,20 @@
   return formatter;
 }
 
-- (CR_ConsoleLogHandler *)consoleLogHandler {
-  return nil;
+#pragma mark Sending
+
+- (void)sendRemoteLogBatch {
+  NSArray<CR_RemoteLogRecord *> *records =
+      [self.remoteLogStorage popRemoteLogRecords:CR_RemoteLogHandlerLogBatchSize];
+  [self.apiHandler sendLogs:records
+                     config:self.config
+          completionHandler:^(NSError *error) {
+            if (error) {
+              for (CR_RemoteLogRecord *record in records) {
+                [self.remoteLogStorage pushRemoteLogRecord:record];
+              }
+            }
+          }];
 }
 
 @end
