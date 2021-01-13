@@ -116,7 +116,7 @@
 }
 
 - (void)postToUrl:(NSURL *)url
-               body:(NSDictionary *)body
+               body:(id)body
          logWithTag:(NSString *_Nullable)logTag
     responseHandler:(nullable CR_NMResponse)responseHandler {
   CR_URLRequest *postRequest = [CR_URLRequest requestWithURL:url deviceInfo:deviceInfo];
@@ -180,7 +180,7 @@
 }
 
 - (void)postToUrl:(NSURL *)url
-               body:(NSDictionary *)body
+               body:(id)body
     responseHandler:(nullable CR_NMResponse)responseHandler {
   [self postToUrl:url body:body logWithTag:nil responseHandler:responseHandler];
 }

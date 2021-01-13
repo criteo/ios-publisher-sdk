@@ -108,7 +108,7 @@ NSString *const CR_NetworkSessionEmptyBid =
 }
 
 - (void)postToUrl:(NSURL *)url
-               body:(NSDictionary *)body
+               body:(id)body
          logWithTag:(NSString *_Nullable)logTag
     responseHandler:(nullable CR_NMResponse)responseHandler {
   if (!responseHandler) return;
