@@ -40,6 +40,7 @@
 @protocol CR_FeedbackDelegate;
 @class CR_HeaderBidding;
 @class CR_ThreadManager;
+@class CR_RemoteLogHandler;
 
 @interface CR_BidManager : NSObject
 
@@ -62,7 +63,8 @@
                     networkManager:(CR_NetworkManager *)networkManager
                      headerBidding:(CR_HeaderBidding *)headerBidding
                   feedbackDelegate:(id<CR_FeedbackDelegate>)feedbackDelegate
-                     threadManager:(CR_ThreadManager *)threadManager NS_DESIGNATED_INITIALIZER;
+                     threadManager:(CR_ThreadManager *)threadManager
+                  remoteLogHandler:(CR_RemoteLogHandler *)remoteLogHandler;
 
 @end
 
