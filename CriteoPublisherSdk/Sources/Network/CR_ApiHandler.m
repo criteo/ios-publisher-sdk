@@ -31,6 +31,7 @@
 #import "CR_RemoteConfigRequest.h"
 #import "CR_IntegrationRegistry.h"
 #import "CR_Logging.h"
+#import "CR_RemoteLogRecordSerializer.h"
 
 static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 
@@ -40,6 +41,7 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 @property(strong, nonatomic, readonly) CR_BidRequestSerializer *bidRequestSerializer;
 @property(strong, nonatomic, readonly) CR_GdprSerializer *gdprSerializer;
 @property(strong, nonatomic, readonly) CR_FeedbacksSerializer *feedbackSerializer;
+@property(strong, nonatomic, readonly) CR_RemoteLogRecordSerializer *logSerializer;
 @property(strong, nonatomic, readonly) CR_IntegrationRegistry *integrationRegistry;
 
 @end
@@ -63,6 +65,7 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
                                                  userDataHolder:userDataHolder
                                         internalContextProvider:internalContextProvider];
     _feedbackSerializer = [[CR_FeedbacksSerializer alloc] init];
+    _logSerializer = [[CR_RemoteLogRecordSerializer alloc] init];
   }
   return self;
 }
@@ -246,6 +249,26 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
                                                          profileId:profileId];
   [self.networkManager postToUrl:url
                             body:postBody
+                 responseHandler:^(NSData *data, NSError *error) {
+                   if (completionHandler) {
+                     completionHandler(error);
+                   }
+                 }];
+}
+
+- (void)sendLogs:(NSArray<CR_RemoteLogRecord *> *)records
+               config:(CR_Config *)config
+    completionHandler:(CR_LogsCompletionHandler)completionHandler {
+  if (records.count == 0) {
+    return;
+  }
+
+  NSString *urlString = [config.cdbUrl stringByAppendingPathComponent:config.logsPath];
+  NSURL *url = [NSURL URLWithString:urlString];
+
+  NSArray *body = [self.logSerializer serializeRecords:records];
+  [self.networkManager postToUrl:url
+                            body:body
                  responseHandler:^(NSData *data, NSError *error) {
                    if (completionHandler) {
                      completionHandler(error);

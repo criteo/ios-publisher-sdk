@@ -61,6 +61,7 @@ FOUNDATION_EXTERN NSString *const CR_ConfigConfigurationUrl;
 @property(nonatomic, readonly) NSString *cdbUrl;
 @property(nonatomic, readonly) NSString *path;
 @property(nonatomic, readonly) NSString *csmPath;
+@property(nonatomic, readonly) NSString *logsPath;
 @property(nonatomic, readonly) NSString *sdkVersion;
 @property(nonatomic, readonly) NSString *appId;
 @property(nonatomic, readonly) NSString *appEventsUrl;

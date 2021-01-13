@@ -47,6 +47,7 @@ NSString *const CR_ConfigConfigurationUrl = @"https://bidder.criteo.com/config/a
     _cdbUrl = [cdbUrl copy];
     _path = @"inapp/v2";
     _csmPath = @"csm";
+    _logsPath = @"inapp/logs";
     _sdkVersion = CRITEO_PUBLISHER_SDK_VERSION;
     _appId = [[NSBundle mainBundle] bundleIdentifier];
     _killSwitch = [userDefaults cr_valueForKillSwitch];
