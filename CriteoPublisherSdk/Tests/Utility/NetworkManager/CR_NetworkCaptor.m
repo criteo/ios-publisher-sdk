@@ -110,7 +110,7 @@
 }
 
 - (void)postToUrl:(NSURL *)url
-               body:(NSDictionary *)body
+               body:(id)body
          logWithTag:(NSString *_Nullable)logTag
     responseHandler:(nullable CR_NMResponse)responseHandler {
   // Synchronized for avoiding multi-thread issue with the httpPostCount.
