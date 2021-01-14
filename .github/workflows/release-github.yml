@@ -12,7 +12,7 @@ env:
 jobs:
   test-and-release:
     # Clone of main test workflow
-    runs-on: macos-11.0
+    runs-on: macos-latest
 
     steps:
       - name: Checkout
