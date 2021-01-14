@@ -37,6 +37,7 @@
 @class CR_FeedbackStorage;
 @class CR_ThreadManager;
 @class CR_RemoteConfigRequest;
+@class CR_RemoteLogRecord;
 @class CR_IntegrationRegistry;
 @class CRContextData;
 
@@ -46,6 +47,7 @@ typedef void (^CR_BeforeCdbCall)(CR_CdbRequest *cdbRequest);
 typedef void (^AHConfigResponse)(NSDictionary *configValues);
 typedef void (^AHAppEventsResponse)(NSDictionary *appEventValues, NSDate *receivedAt);
 typedef void (^CR_CsmCompletionHandler)(NSError *error);
+typedef void (^CR_LogsCompletionHandler)(NSError *error);
 
 @interface CR_ApiHandler : NSObject
 @property(strong, nonatomic) CR_NetworkManager *networkManager;
@@ -102,6 +104,13 @@ typedef void (^CR_CsmCompletionHandler)(NSError *error);
                       config:(CR_Config *)config
                    profileId:(NSNumber *)profileId
            completionHandler:(CR_CsmCompletionHandler)completionHandler;
+
+/**
+ * Send Logs to CDB logs endpoint
+ */
+- (void)sendLogs:(NSArray<CR_RemoteLogRecord *> *)records
+               config:(CR_Config *)config
+    completionHandler:(CR_CsmCompletionHandler)completionHandler;
 
 /**
  * Exposed for testing only

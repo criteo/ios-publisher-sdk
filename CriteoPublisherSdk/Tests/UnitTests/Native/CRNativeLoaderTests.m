@@ -84,7 +84,11 @@
   self.nativeAd = [[CRNativeAd alloc] initWithLoader:self.loader
                                               assets:assets
                                skAdNetworkParameters:parameters];
-  self.loggingMock = OCMClassMock(CR_Logging.class);
+  self.loggingMock = OCMPartialMock(CR_Logging.sharedInstance);
+}
+
+- (void)tearDown {
+  [self.loggingMock stopMocking];
 }
 
 #pragma mark - Tests

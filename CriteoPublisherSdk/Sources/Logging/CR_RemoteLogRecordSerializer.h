@@ -1,8 +1,8 @@
 //
-//  NSUserDefaults+Criteo.h
+//  CR_RemoteLogRecordSerializer.h
 //  CriteoPublisherSdk
 //
-//  Copyright © 2018-2020 Criteo. All rights reserved.
+//  Copyright © 2018-2021 Criteo. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,18 +18,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CR_RemoteLogRecord.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSUserDefaults (Criteo)
+@interface CR_RemoteLogRecordSerializer : NSObject
 
-- (BOOL)cr_containsKey:(NSString *)key;
-
-- (BOOL)boolForKey:(NSString *)key withDefaultValue:(BOOL)defaultValue;
-
-- (double)doubleForKey:(NSString *)key withDefaultValue:(double)defaultValue;
-
-- (int)intForKey:(NSString *)key withDefaultValue:(int)defaultValue;
+- (NSArray<NSDictionary<NSString *, NSObject *> *> *)serializeRecords:
+    (NSArray<CR_RemoteLogRecord *> *)records;
 
 @end
 

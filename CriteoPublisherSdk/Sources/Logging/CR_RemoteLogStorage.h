@@ -1,8 +1,8 @@
 //
-//  NSUserDefaults+Criteo.h
+//  CR_RemoteLogStorage.h
 //  CriteoPublisherSdk
 //
-//  Copyright © 2018-2020 Criteo. All rights reserved.
+//  Copyright © 2018-2021 Criteo. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,17 +19,14 @@
 
 #import <Foundation/Foundation.h>
 
+@class CR_RemoteLogRecord;
+
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSUserDefaults (Criteo)
+@interface CR_RemoteLogStorage : NSObject
 
-- (BOOL)cr_containsKey:(NSString *)key;
-
-- (BOOL)boolForKey:(NSString *)key withDefaultValue:(BOOL)defaultValue;
-
-- (double)doubleForKey:(NSString *)key withDefaultValue:(double)defaultValue;
-
-- (int)intForKey:(NSString *)key withDefaultValue:(int)defaultValue;
+- (void)pushRemoteLogRecord:(CR_RemoteLogRecord *)record;
+- (NSArray<CR_RemoteLogRecord *> *)popRemoteLogRecords:(NSUInteger)size;
 
 @end
 

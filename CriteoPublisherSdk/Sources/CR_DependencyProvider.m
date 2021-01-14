@@ -33,6 +33,9 @@
 #import "CR_UserDataHolder.h"
 #import "CR_InternalContextProvider.h"
 #import "CR_Session.h"
+#import "CR_Logging.h"
+#import "CR_RemoteLogHandler.h"
+#import "CR_RemoteLogStorage.h"
 
 #define CR_LAZY(object, assignment)  \
   ({                                 \
@@ -151,7 +154,8 @@
                                                          networkManager:self.networkManager
                                                           headerBidding:self.headerBidding
                                                        feedbackDelegate:self.feedbackDelegate
-                                                          threadManager:self.threadManager]);
+                                                          threadManager:self.threadManager
+                                                       remoteLogHandler:self.remoteLogHandler]);
 }
 
 - (id)mediaDownloader {
@@ -178,6 +182,31 @@
 - (CR_InternalContextProvider *)internalContextProvider {
   return CR_LAZY(_internalContextProvider,
                  [[CR_InternalContextProvider alloc] initWithSession:self.session]);
+}
+
+- (CR_Logging *)logging {
+  return CR_LAZY(_logging, ({
+                   [[CR_Logging alloc]
+                       initWithLogHandler:[[CR_MultiplexLogHandler alloc] initWithLogHandlers:@[
+                         self.consoleLogHandler, self.remoteLogHandler
+                       ]]];
+                 }));
+}
+
+- (CR_ConsoleLogHandler *)consoleLogHandler {
+  return CR_LAZY(_consoleLogHandler, CR_ConsoleLogHandler.new);
+}
+
+- (CR_RemoteLogHandler *)remoteLogHandler {
+  return CR_LAZY(_remoteLogHandler,
+                 [[CR_RemoteLogHandler alloc] initWithRemoteLogStorage:CR_RemoteLogStorage.new
+                                                                config:self.config
+                                                            deviceInfo:self.deviceInfo
+                                                   integrationRegistry:self.integrationRegistry
+                                                               session:self.session
+                                                               consent:self.consent
+                                                            apiHandler:self.apiHandler
+                                                         threadManager:self.threadManager]);
 }
 
 @end

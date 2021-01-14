@@ -18,44 +18,63 @@
 //
 
 #import "CR_Logging.h"
+#import "Criteo.h"
+#import "Criteo+Internal.h"
+#import "CR_DependencyProvider.h"
+
+@interface CR_Logging ()
+@property(atomic, strong) id<CR_LogHandler> logHandler;
+@end
 
 @implementation CR_Logging
 
-static const CR_LogSeverity crConsoleMinimumLogSeverityDefault = CR_LogSeverityWarning;
-static CR_LogSeverity crConsoleMinimumLogSeverity = crConsoleMinimumLogSeverityDefault;
+#pragma mark - Lifecycle
 
-+ (void)logMessage:(CR_LogMessage *)logMessage {
-  if (logMessage.severity <= crConsoleMinimumLogSeverity) {
-    [self logMessageToConsole:logMessage];
+- (instancetype)initWithLogHandler:(id<CR_LogHandler>)handler {
+  if (self = [super init]) {
+    self.logHandler = handler;
   }
+  return self;
 }
 
-+ (void)setConsoleMinimumLogSeverity:(CR_LogSeverity)severity {
-  crConsoleMinimumLogSeverity = severity;
+#pragma mark - Singleton
+
++ (instancetype)sharedInstance {
+  return self.sharedCriteo.dependencyProvider.logging;
 }
 
-+ (void)setConsoleMinimumLogSeverityToDefault {
-  [self setConsoleMinimumLogSeverity:crConsoleMinimumLogSeverityDefault];
++ (Criteo *)sharedCriteo {
+  return Criteo.sharedCriteo;
 }
 
-+ (CR_LogSeverity)consoleMinimumLogSeverity {
-  return crConsoleMinimumLogSeverity;
++ (void)logMessage:(CR_LogMessage *)message {
+  [self.sharedInstance logMessage:message];
 }
 
-#pragma mark - Private
++ (id<CR_LogHandler>)sharedLogHandler {
+  return ((CR_Logging *)self.sharedInstance).logHandler;
+}
 
-+ (void)logMessageToConsole:(CR_LogMessage *)logMessage {
-  NSString *filename = logMessage.file.lastPathComponent;
-  if (logMessage.exception) {
-    NSLog(@"[CriteoSdk][%@][%@] (%@:%lu) [%@] %@"
-           "\n--- Exception: %@\n--- Stack: %@\n--- User info: %@",
-          logMessage.severityLabel, logMessage.tag, filename, (unsigned long)logMessage.line,
-          logMessage.exception.name, logMessage.message, logMessage.exception,
-          logMessage.exception.callStackSymbols, logMessage.exception.userInfo);
-  } else {
-    NSLog(@"[CriteoSdk][%@][%@] (%@:%lu) %@", logMessage.severityLabel, logMessage.tag, filename,
-          (unsigned long)logMessage.line, logMessage.message);
-  }
++ (CR_ConsoleLogHandler *)consoleLogHandler {
+  return self.sharedLogHandler.consoleLogHandler;
+}
+
++ (void)setConsoleSeverityThreshold:(CR_LogSeverity)severity {
+  self.consoleLogHandler.severityThreshold = severity;
+}
+
++ (CR_LogSeverity)consoleLogSeverityThreshold {
+  return self.consoleLogHandler.severityThreshold;
+}
+
+#pragma mark - LogHandler
+
+- (void)logMessage:(CR_LogMessage *)message {
+  [self.logHandler logMessage:message];
+}
+
+- (CR_ConsoleLogHandler *)consoleLogHandler {
+  return self.logHandler.consoleLogHandler;
 }
 
 @end

@@ -21,6 +21,7 @@
 #define NSUserDefaults_CR_Config_H
 
 #import <Foundation/Foundation.h>
+#import "CR_LogMessage.h"
 
 @interface NSUserDefaults (CR_Config)
 
@@ -43,6 +44,10 @@
 - (NSTimeInterval)cr_valueForLiveBiddingTimeBudget;
 
 - (void)cr_setValueForLiveBiddingTimeBudget:(NSTimeInterval)timeBudget;
+
+- (CR_LogSeverity)cr_valueForRemoteLogLevel;
+
+- (void)cr_setValueForRemoteLogLevel:(CR_LogSeverity)logLevel;
 
 @end
 

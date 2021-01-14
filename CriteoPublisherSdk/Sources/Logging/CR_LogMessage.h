@@ -28,8 +28,11 @@
                       exception:EXCEPTION               \
                          format:ARGS]
 
-// Note: Values are following syslog protocol: https://www.rfc-editor.org/info/rfc5424
+// Note: Values are following syslog protocol: https://www.rfc-editor.org/info/rfc5424, extended
+// with None
 typedef NS_ENUM(NSInteger, CR_LogSeverity) {
+  /// Logging is deactivated
+  CR_LogSeverityNone = -1,
   /// Error: error conditions
   CR_LogSeverityError = 3,
   /// Warning: warning conditions
@@ -53,6 +56,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly, copy) NSDate *timestamp;
 @property(nonatomic, readonly, copy, nullable) NSException *exception;
 @property(nonatomic, readonly, copy) NSString *message;
+
+- (instancetype)initWithTag:(NSString *)tag
+                   severity:(CR_LogSeverity)severity
+                       file:(NSString *)file
+                       line:(NSUInteger)line
+                   function:(NSString *)function
+                  timestamp:(NSDate *)timestamp
+                  exception:(NSException *_Nullable)exception
+                    message:(NSString *)message;
 
 + (instancetype)messageWithTag:(NSString *)tag
                       severity:(CR_LogSeverity)severity

@@ -155,7 +155,7 @@
   id error = [NSNull null];
 
   OCMStub([mockNetworkManager postToUrl:[OCMArg isKindOfClass:[NSURL class]]
-                               postBody:[OCMArg isKindOfClass:[NSDictionary class]]
+                                   body:[OCMArg isKindOfClass:[NSDictionary class]]
                              logWithTag:[OCMArg any]
                         responseHandler:([OCMArg invokeBlockWithArgs:responseData, error, nil])]);
   CR_CacheAdUnit *testAdUnit_1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adunitid_1"
@@ -212,7 +212,7 @@
   id error = [NSNull null];
 
   OCMStub([mockNetworkManager postToUrl:OCMOCK_ANY
-                               postBody:OCMOCK_ANY
+                                   body:OCMOCK_ANY
                         responseHandler:([OCMArg invokeBlockWithArgs:responseData, error, nil])]);
 
   CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
@@ -247,7 +247,7 @@
   id mockNetworkManager = OCMStrictClassMock([CR_NetworkManager class]);
   self.networkManager = mockNetworkManager;
   OCMReject([mockNetworkManager postToUrl:[OCMArg any]
-                                 postBody:[OCMArg any]
+                                     body:[OCMArg any]
                           responseHandler:([OCMArg any])]);
 
   CR_ApiHandler *apiHandler = [self buildApiHandler];
@@ -273,7 +273,7 @@
   self.networkManager = mockNetworkManager;
   OCMExpect([mockNetworkManager
             postToUrl:[OCMArg isKindOfClass:[NSURL class]]
-             postBody:[OCMArg isKindOfClass:[NSDictionary class]]
+                 body:[OCMArg isKindOfClass:[NSDictionary class]]
            logWithTag:[OCMArg any]
       responseHandler:([OCMArg invokeBlockWithArgs:[NSNull null], [NSNull null], nil])]);
 
@@ -303,7 +303,7 @@
   NSData *responseData = [@"testSlot" dataUsingEncoding:NSUTF8StringEncoding];
   NSError *error = [NSError errorWithDomain:@"testDomain" code:1 userInfo:nil];
   OCMStub([mockNetworkManager postToUrl:[OCMArg isKindOfClass:[NSURL class]]
-                               postBody:[OCMArg isKindOfClass:[NSDictionary class]]
+                                   body:[OCMArg isKindOfClass:[NSDictionary class]]
                              logWithTag:[OCMArg any]
                         responseHandler:([OCMArg invokeBlockWithArgs:responseData, error, nil])]);
 
@@ -331,7 +331,7 @@
   self.networkManager = mockNetworkManager;
   OCMStub([mockNetworkManager
             postToUrl:[OCMArg isKindOfClass:[NSURL class]]
-             postBody:[OCMArg isKindOfClass:[NSDictionary class]]
+                 body:[OCMArg isKindOfClass:[NSDictionary class]]
            logWithTag:[OCMArg any]
       responseHandler:([OCMArg invokeBlockWithArgs:[NSNull null], [NSNull null], nil])]);
 
@@ -717,6 +717,20 @@
   [self cr_waitForExpectations:@[ expectation ]];
 }
 
+#pragma mark - Logs
+
+- (void)testSendLogs_GivenLog_Send {
+  [self callSendLogs:@[ self.logRecord, self.logRecord ]
+          expectingSend:YES
+      completionHandler:^(NSError *error) {
+        XCTAssertNil(error);
+      }];
+}
+
+- (void)testSendLogs_GivenEmptyArray_DoNotSend {
+  [self callSendLogs:@[] expectingSend:NO completionHandler:NULL];
+}
+
 #pragma mark - Private methods
 
 - (NSString *)appEventUrlString {
@@ -762,6 +776,34 @@
   [self cr_waitShortlyForExpectations:@[ expectation ]];
 }
 
+- (void)callSendLogs:(NSArray<CR_RemoteLogRecord *> *)logs
+        expectingSend:(BOOL)sendExpected
+    completionHandler:(CR_LogsCompletionHandler)completionHandler {
+  XCTestExpectation *sendExpectation = [[XCTestExpectation alloc] init];
+  sendExpectation.inverted = !sendExpected;
+  [self.apiHandler sendLogs:logs
+                     config:self.configMock
+          completionHandler:^(NSError *error) {
+            if (completionHandler != nil) {
+              completionHandler(error);
+            }
+            [sendExpectation fulfill];
+          }];
+  [self cr_waitShortlyForExpectations:@[ sendExpectation ]];
+}
+
+- (CR_RemoteLogRecord *)logRecord {
+  return [[CR_RemoteLogRecord alloc] initWithVersion:@"1"
+                                            bundleId:@"bundle"
+                                            deviceId:@"12345"
+                                           sessionId:@"67890"
+                                           profileId:@42
+                                                 tag:@"tag"
+                                            severity:CR_LogSeverityWarning
+                                             message:@"message"
+                                       exceptionType:nil];
+}
+
 - (void)callCdb {
   [self callCdbWithCompletionHandler:nil];
 }
@@ -790,6 +832,7 @@
   OCMStub([mockConfig sdkVersion]).andReturn(@"1.0");
   OCMStub([mockConfig cdbUrl]).andReturn(@"https://dummyCdb.com");
   OCMStub([mockConfig path]).andReturn(@"inApp");
+  OCMStub([mockConfig logsPath]).andReturn(@"logs");
   OCMStub([mockConfig appId]).andReturn(@"com.criteo.sdk.publisher");
   OCMStub([mockConfig deviceModel]).andReturn(@"iPhone");
   OCMStub([mockConfig osVersion]).andReturn(@"12.1");

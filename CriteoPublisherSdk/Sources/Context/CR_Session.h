@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CR_Session : NSObject
 
 @property(nonatomic, readonly) NSTimeInterval duration;
+@property(nonatomic, readonly) NSString *sessionId;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithStartDate:(NSDate *)date;

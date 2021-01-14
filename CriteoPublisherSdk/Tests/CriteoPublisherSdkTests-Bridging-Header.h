@@ -28,3 +28,4 @@
 #import "CR_Session.h"
 #import "CR_UserDataHolder.h"
 #import "CR_InMemoryUserDefaults.h"
+#import "CR_RemoteLogStorage+Internal.h"

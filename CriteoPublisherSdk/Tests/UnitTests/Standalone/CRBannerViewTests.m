@@ -67,13 +67,14 @@
   dependencyProvider.integrationRegistry = self.integrationRegistry;
 
   self.criteo = OCMPartialMock([Criteo.alloc initWithDependencyProvider:dependencyProvider]);
-  self.loggingMock = OCMClassMock(CR_Logging.class);
+  self.loggingMock = OCMPartialMock(CR_Logging.sharedInstance);
 }
 
 - (void)tearDown {
   // Not sure why this is needed but without this testWithRendering is failing.
   // Maybe this come from OCMock not handling properly partial mock ???
   self.criteo = nil;
+  [self.loggingMock stopMocking];
 }
 
 #pragma mark - Tests

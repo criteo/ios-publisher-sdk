@@ -19,6 +19,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "CR_LogHandler.h"
 #import "CR_LogMessage.h"
 
 #define CRLog(severity, tag, args...) [CR_Logging logMessage:CRLogMessage(tag, severity, nil, args)]
@@ -32,17 +33,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CR_Logging : NSObject
+@interface CR_Logging : NSObject <CR_LogHandler>
 
-+ (void)logMessage:(CR_LogMessage *)logMessage;
-+ (void)setConsoleMinimumLogSeverity:(CR_LogSeverity)severity;
+- (instancetype)initWithLogHandler:(id<CR_LogHandler>)handler;
 
-@end
++ (void)logMessage:(CR_LogMessage *)message;
++ (instancetype)sharedInstance;
 
-@interface CR_Logging (Testing)
-+ (void)logMessageToConsole:(CR_LogMessage *)logMessage;
-+ (void)setConsoleMinimumLogSeverityToDefault;
-+ (CR_LogSeverity)consoleMinimumLogSeverity;
++ (CR_LogSeverity)consoleLogSeverityThreshold;
++ (void)setConsoleSeverityThreshold:(CR_LogSeverity)severity;
+
 @end
 
 NS_ASSUME_NONNULL_END

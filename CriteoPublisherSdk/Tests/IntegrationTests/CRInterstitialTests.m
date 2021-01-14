@@ -73,7 +73,11 @@
   self.integrationRegistry = dependencyProvider.integrationRegistry;
 
   self.criteo = OCMPartialMock([Criteo.alloc initWithDependencyProvider:dependencyProvider]);
-  self.loggingMock = OCMClassMock(CR_Logging.class);
+  self.loggingMock = OCMPartialMock(CR_Logging.sharedInstance);
+}
+
+- (void)tearDown {
+  [self.loggingMock stopMocking];
 }
 
 - (void)testInterstitialLoadWithDataSuccess {

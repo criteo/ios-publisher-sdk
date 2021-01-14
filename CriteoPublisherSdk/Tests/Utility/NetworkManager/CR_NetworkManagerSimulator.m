@@ -108,15 +108,15 @@ NSString *const CR_NetworkSessionEmptyBid =
 }
 
 - (void)postToUrl:(NSURL *)url
-           postBody:(NSDictionary *)postBody
+               body:(id)body
          logWithTag:(NSString *_Nullable)logTag
-    responseHandler:(CR_NMResponse)responseHandler {
+    responseHandler:(nullable CR_NMResponse)responseHandler {
   if (!responseHandler) return;
   if (self.delay) [NSThread sleepForTimeInterval:self.delay];
 
   if ([url testing_isBidUrlWithConfig:self.config]) {
     NSError *error = NULL;
-    NSData *response = [self handleBidRequestWithUrl:url postBody:postBody error:&error];
+    NSData *response = [self handleBidRequestWithUrl:url postBody:body error:&error];
     responseHandler(response, error);
     return;
   }
@@ -133,7 +133,7 @@ NSString *const CR_NetworkSessionEmptyBid =
     return;
   }
 
-  NSAssert(NO, @"Unknown URL in POST: %@\nBody: %@", url, postBody);
+  NSAssert(NO, @"Unknown URL in POST: %@\nBody: %@", url, body);
 }
 
 #pragma mark - Private

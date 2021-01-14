@@ -26,13 +26,22 @@
 #import "CR_Logging.h"
 #import "CR_SynchronousThreadManager.h"
 #import "CR_DataProtectionConsent.h"
+#import "CR_ApiHandler.h"
+#import "CR_TestAdUnits.h"
+#import "CR_ThreadManager+Waiter.h"
+
+@interface CR_Logging (Testing)
++ (Criteo *)sharedCriteo;
+@end
 
 @interface CR_LoggingFunctionalTests : XCTestCase
 @property(nonatomic, strong) id loggingMock;
+@property(nonatomic, strong) CR_ConsoleLogHandler *consoleLogHandlerMock;
 @property(strong, nonatomic) Criteo *criteo;
 @property(nonatomic, copy) NSString *publisherId;
 @property(nonatomic, strong) NSArray<CRAdUnit *> *adUnits;
 @property(nonatomic, strong) NSUserDefaults *userDefaults;
+@property(nonatomic, strong) CR_ApiHandler *apiHandler;
 @end
 
 @implementation CR_LoggingFunctionalTests
@@ -40,12 +49,22 @@
 #pragma mark - Lifecycle
 
 - (void)setUp {
+  self.consoleLogHandlerMock = OCMPartialMock([[CR_ConsoleLogHandler alloc] init]);
+
   CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
   dependencyProvider.threadManager = CR_SynchronousThreadManager.new;
+  dependencyProvider.consoleLogHandler = self.consoleLogHandlerMock;
   self.userDefaults = dependencyProvider.userDefaults;
 
-  self.loggingMock = OCMClassMock(CR_Logging.class);
+  self.apiHandler = OCMPartialMock(dependencyProvider.apiHandler);
+  dependencyProvider.apiHandler = self.apiHandler;
+
   self.criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProvider];
+
+  self.loggingMock = OCMPartialMock(dependencyProvider.logging);
+  OCMStub([self.loggingMock sharedCriteo]).andReturn(self.criteo);
+  dependencyProvider.logging = self.loggingMock;
+
   self.publisherId = @"testPublisherId";
   self.adUnits = @[
     [[CRBannerAdUnit alloc] initWithAdUnitId:@"adUnitId1" size:CGSizeMake(42, 21)],
@@ -55,8 +74,7 @@
 }
 
 - (void)tearDown {
-  // Reset to default as it is a global value
-  [CR_Logging setConsoleMinimumLogSeverityToDefault];
+  [self.loggingMock stopMocking];
 }
 
 #pragma mark - Tests
@@ -64,17 +82,21 @@
 #pragma mark Console minimum level
 
 - (void)testConsoleMinimumLogSeverityDefaultToWarn {
+  [Criteo setVerboseLogsEnabled:NO];
   CR_LogSeverity defaultSeverity = CR_LogSeverityWarning;
-  OCMReject([self.loggingMock
+  XCTAssertEqual(self.consoleLogHandlerMock.severityThreshold, defaultSeverity);
+  OCMReject([self.consoleLogHandlerMock
       logMessageToConsole:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
         return logMessage.severity > defaultSeverity;
       }]]);
+
   CRLogError(@"Test", @"Test");
   CRLogWarn(@"Test", @"Test");
   CRLogInfo(@"Test", @"Test");
   CRLogDebug(@"Test", @"Test");
+
   OCMVerify(times(2),
-            [self.loggingMock
+            [self.consoleLogHandlerMock
                 logMessageToConsole:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
                   return logMessage.severity <= defaultSeverity;
                 }]]);
@@ -82,8 +104,8 @@
 
 - (void)testConsoleMinimumLogSeverityWhenSet {
   CR_LogSeverity severitySet = CR_LogSeverityDebug;
-  [CR_Logging setConsoleMinimumLogSeverity:severitySet];
-  OCMReject([self.loggingMock
+  self.consoleLogHandlerMock.severityThreshold = severitySet;
+  OCMReject([self.consoleLogHandlerMock
       logMessageToConsole:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
         return logMessage.severity > severitySet;
       }]]);
@@ -92,7 +114,7 @@
   CRLogInfo(@"Test", @"Test");
   CRLogDebug(@"Test", @"Test");
   OCMVerify(times(4),
-            [self.loggingMock
+            [self.consoleLogHandlerMock
                 logMessageToConsole:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
                   return logMessage.severity <= severitySet;
                 }]]);
@@ -101,11 +123,11 @@
 #pragma mark Criteo
 
 - (void)testVerboseLogsEnabled {
-  XCTAssertEqual([CR_Logging consoleMinimumLogSeverity], CR_LogSeverityWarning);
+  XCTAssertEqual([CR_Logging consoleLogSeverityThreshold], CR_LogSeverityWarning);
   [Criteo setVerboseLogsEnabled:YES];
-  XCTAssertEqual([CR_Logging consoleMinimumLogSeverity], CR_LogSeverityInfo);
+  XCTAssertEqual([CR_Logging consoleLogSeverityThreshold], CR_LogSeverityInfo);
   [Criteo setVerboseLogsEnabled:NO];
-  XCTAssertEqual([CR_Logging consoleMinimumLogSeverity], CR_LogSeverityWarning);
+  XCTAssertEqual([CR_Logging consoleLogSeverityThreshold], CR_LogSeverityWarning);
 }
 
 - (void)testCriteoRegister_ShouldBeLogged {
@@ -169,6 +191,21 @@
                                 return [logMessage.tag isEqualToString:@"Consent"] &&
                                        [logMessage.message containsString:consentString];
                               }]]);
+}
+
+#pragma mark RemoteLog
+
+- (void)testRemoteLog_GivenLogAndBid_ThenRemoteLogsAreSent {
+  CRLogError(@"tag", @"message");
+
+  [self.criteo loadBidForAdUnit:CR_TestAdUnits.randomBanner320x50
+                responseHandler:^(CRBid *bid){
+                    // ignored
+                }];
+
+  [self.criteo.threadManager waiter_waitIdle];
+
+  OCMVerify([self.apiHandler sendLogs:OCMOCK_ANY config:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
 }
 
 @end
