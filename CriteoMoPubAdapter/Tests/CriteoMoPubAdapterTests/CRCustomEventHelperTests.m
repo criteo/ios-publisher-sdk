@@ -60,72 +60,38 @@
 
 - (void)testMissingCpIdKey {
   NSDictionary *info = @{@"adUnitId" : @"an adUnitId"};
-  NSError *error = nil;
-  BOOL isValid = [CRCustomEventHelper checkValidInfo:info withError:&error];
+  BOOL isValid = [CRCustomEventHelper checkValidInfo:info];
 
-  NSString *expectedDesc =
-      [self errorDescriptionContainingStrings:@[ @"The Criteo 'cpId' key is missing or invalid." ]];
   XCTAssertFalse(isValid);
-  XCTAssertEqualObjects(error.localizedDescription, expectedDesc);
 }
 
 - (void)testMissingAdUnitId {
   NSDictionary *info = @{@"cpId" : @"Publisher Id"};
-  NSError *error = nil;
-  BOOL isValid = [CRCustomEventHelper checkValidInfo:info withError:&error];
+  BOOL isValid = [CRCustomEventHelper checkValidInfo:info];
 
-  NSString *expectedDesc = [self
-      errorDescriptionContainingStrings:@[ @"The Criteo 'adUnitId' key is missing or invalid." ]];
   XCTAssertFalse(isValid);
-  XCTAssertEqualObjects(error.localizedDescription, expectedDesc);
 }
 
 - (void)testValidInfoStringWithError {
   NSDictionary *info =
       @{@"cpId" : @"Publisher Id", @"some Key" : @"some value", @"adUnitId" : @"an adUnitId"};
-  NSError *error = nil;
 
-  BOOL isValid = [CRCustomEventHelper checkValidInfo:info withError:&error];
+  BOOL isValid = [CRCustomEventHelper checkValidInfo:info];
 
   XCTAssertTrue(isValid);
-  XCTAssertNil(error);
 }
 
 #pragma mark - Utils
 
 - (void)recordFailureForAllKeyMissingOrInvalidWithInfo:(NSDictionary *)info
                                                 atLine:(NSUInteger)lineNumber {
-  NSError *error = nil;
-  BOOL isValid = [CRCustomEventHelper checkValidInfo:info withError:&error];
+  BOOL isValid = [CRCustomEventHelper checkValidInfo:info];
 
   if (isValid) {
     NSString *file = [[NSString alloc] initWithCString:__FILE__ encoding:NSUTF8StringEncoding];
     NSString *desc = [NSString stringWithFormat:@"Given info should be invalid: %@", info];
     [self recordFailureWithDescription:desc inFile:file atLine:lineNumber expected:YES];
   }
-
-  NSString *errDesc = [self errorDescriptionForAllKeysMissingOrInvalid];
-  if ((error == nil) || ![error.localizedDescription isEqualToString:errDesc]) {
-    NSString *file = [[NSString alloc] initWithCString:__FILE__ encoding:NSUTF8StringEncoding];
-    NSString *desc = [NSString stringWithFormat:@"Passed error description %@ is not equal to %@",
-                                                error.localizedDescription, errDesc];
-    [self recordFailureWithDescription:desc inFile:file atLine:lineNumber expected:YES];
-  }
-}
-
-- (NSString *)errorDescriptionForAllKeysMissingOrInvalid {
-  return [self errorDescriptionContainingStrings:@[
-    @"The Criteo 'cpId' key is missing or invalid.",
-    @"The Criteo 'adUnitId' key is missing or invalid."
-  ]];
-}
-
-- (NSString *)errorDescriptionContainingStrings:(NSArray<NSString *> *)strings {
-  NSString *joined = [strings componentsJoinedByString:@" "];
-  NSString *description =
-      [joined stringByAppendingString:
-                  @" No ad request sent. Ensure this key is valid on the MoPub dashboard."];
-  return description;
 }
 
 @end

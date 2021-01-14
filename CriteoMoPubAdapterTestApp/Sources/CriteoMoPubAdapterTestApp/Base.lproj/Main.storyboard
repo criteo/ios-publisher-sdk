@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="qxS-gm-9rR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="qxS-gm-9rR">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -27,7 +28,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Placeholder for future configurations" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d26-bq-KVx">
                                                     <rect key="frame" x="20" y="13" width="251.5" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" systemColor="placeholderTextColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" systemColor="placeholderTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -48,15 +49,15 @@
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lgb-bm-Ibc">
-                                                    <rect key="frame" x="20" y="7" width="113" height="30"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lgb-bm-Ibc">
+                                                    <rect key="frame" x="20" y="7" width="112" height="30"/>
                                                     <state key="normal" title="Load and render"/>
                                                     <connections>
                                                         <action selector="loadBannerClicked:" destination="qxS-gm-9rR" eventType="touchUpInside" id="NDd-T4-qbg"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nDq-ec-Aaa">
-                                                    <rect key="frame" x="163" y="7" width="107" height="30"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nDq-ec-Aaa">
+                                                    <rect key="frame" x="162" y="7" width="107" height="30"/>
                                                     <state key="normal" title="Remove banner"/>
                                                     <connections>
                                                         <action selector="removeBannerClicked:" destination="qxS-gm-9rR" eventType="touchUpInside" id="Nqp-fS-OiS"/>
@@ -81,7 +82,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Banner should appear here" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nYa-eg-DBk">
                                                     <rect key="frame" x="20" y="16" width="185" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" systemColor="placeholderTextColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" systemColor="placeholderTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -102,14 +103,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AfX-BC-ufi">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AfX-BC-ufi">
                                                     <rect key="frame" x="20" y="7" width="105" height="30"/>
                                                     <state key="normal" title="Load interstitial"/>
                                                     <connections>
                                                         <action selector="loadInterstitialClicked:" destination="qxS-gm-9rR" eventType="touchUpInside" id="15m-9F-yse"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ceF-F8-Bxp">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ceF-F8-Bxp">
                                                     <rect key="frame" x="155" y="7" width="53" height="30"/>
                                                     <state key="normal" title="Present"/>
                                                     <connections>
@@ -127,6 +128,48 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Native" id="S7x-XS-x2I">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="VL9-3Q-svz">
+                                        <rect key="frame" x="20" y="404" width="374" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="VL9-3Q-svz" id="fYG-Yb-sGx">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="faq-li-nzU">
+                                                    <rect key="frame" x="20" y="7" width="112" height="30"/>
+                                                    <state key="normal" title="Load and render"/>
+                                                    <connections>
+                                                        <action selector="loadNativeClicked:" destination="qxS-gm-9rR" eventType="touchUpInside" id="hPw-SX-ePF"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tgl-hH-lBn">
+                                                    <rect key="frame" x="162" y="7" width="100" height="30"/>
+                                                    <state key="normal" title="Remove native"/>
+                                                    <connections>
+                                                        <action selector="removeNativeClicked:" destination="qxS-gm-9rR" eventType="touchUpInside" id="3Cx-iH-nJA"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="faq-li-nzU" firstAttribute="centerY" secondItem="fYG-Yb-sGx" secondAttribute="centerY" id="DuO-p8-0UZ"/>
+                                                <constraint firstItem="tgl-hH-lBn" firstAttribute="centerY" secondItem="fYG-Yb-sGx" secondAttribute="centerY" id="LHt-cp-Bwb"/>
+                                                <constraint firstItem="tgl-hH-lBn" firstAttribute="leading" secondItem="faq-li-nzU" secondAttribute="trailing" constant="30" id="OrW-o3-Chw"/>
+                                                <constraint firstItem="faq-li-nzU" firstAttribute="leading" secondItem="fYG-Yb-sGx" secondAttribute="leading" constant="20" id="rfG-Mw-OfI"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="180" id="KoI-tR-gOX">
+                                        <rect key="frame" x="20" y="447.5" width="374" height="180"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="KoI-tR-gOX" id="s73-FE-hYb">
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="180"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="qxS-gm-9rR" id="leB-bu-jAF"/>
@@ -135,6 +178,7 @@
                     </tableView>
                     <connections>
                         <outlet property="bannerView" destination="WsC-P6-j2N" id="9T1-VC-VTU"/>
+                        <outlet property="nativeViewContainer" destination="s73-FE-hYb" id="Vhj-J0-FzU"/>
                         <outlet property="presentInterstitialButton" destination="ceF-F8-Bxp" id="f4y-jv-ala"/>
                     </connections>
                 </tableViewController>
@@ -143,4 +187,9 @@
             <point key="canvasLocation" x="308.69565217391306" y="148.66071428571428"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="placeholderTextColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>

@@ -1,5 +1,5 @@
 //
-//  CRCustomEventHelper.m
+//  CRNativeAdRenderer.h
 //  CriteoMoPubAdapter
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -15,25 +15,25 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+//
 
-#import "CRCustomEventHelper.h"
-#import "MPNativeAdError.h"
+#if __has_include(<MoPub/MoPub.h>)
+#import <MoPub/MoPub.h>
+#elif __has_include(<MoPubSDKFramework/MoPub.h>)
+#import <MoPubSDKFramework/MoPub.h>
+#else
+#import "MoPub.h"
+#endif
 
-NSString *const kCRCustomEventHelperCpId = @"cpId";
-NSString *const kCRCustomEventHelperAdUnitId = @"adUnitId";
+NS_ASSUME_NONNULL_BEGIN
 
-@implementation CRCustomEventHelper
+@interface CRNativeAdRenderer : NSObject <MPNativeAdRenderer>
 
-+ (BOOL)checkValidInfo:(NSDictionary *)eventInfo {
-  NSArray<NSString *> *expectedKeys = @[ kCRCustomEventHelperCpId, kCRCustomEventHelperAdUnitId ];
-  BOOL isValid = YES;
-  for (NSString *key in expectedKeys) {
-    NSString *value = eventInfo[key];
-    if (![value isKindOfClass:NSString.class] || (value.length == 0)) {
-      isValid = NO;
-    }
-  }
-  return isValid;
-}
+@property(nonatomic, readonly) MPNativeViewSizeHandler viewSizeHandler;
+
++ (MPNativeAdRendererConfiguration *)rendererConfigurationWithRendererSettings:
+    (id<MPNativeAdRendererSettings>)rendererSettings;
 
 @end
+
+NS_ASSUME_NONNULL_END

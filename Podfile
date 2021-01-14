@@ -49,7 +49,7 @@ target 'CriteoMoPubAdapter' do
   project 'CriteoMoPubAdapter/CriteoMoPubAdapter'
   platform :ios, '10.0' # iOS 10 required by MoPub
 
-  pod 'mopub-ios-sdk/Core'
+  pod 'mopub-ios-sdk'
 end
 
 target 'CriteoMoPubAdapterTests' do
@@ -63,7 +63,7 @@ target 'CriteoMoPubAdapterTestApp' do
   project 'CriteoMoPubAdapterTestApp/CriteoMoPubAdapterTestApp'
   platform :ios, '10.0' # iOS 10 required by MoPub
 
-  pod 'mopub-ios-sdk/Core'
+  pod 'mopub-ios-sdk'
 end
 
 # Development tools

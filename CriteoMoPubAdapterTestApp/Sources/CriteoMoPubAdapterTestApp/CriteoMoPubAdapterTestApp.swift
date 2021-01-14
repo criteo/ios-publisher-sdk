@@ -1,6 +1,6 @@
 //
-//  CRCustomEventHelper.h
-//  CriteoMoPubAdapter
+//  CriteoMoPubAdapterTestApp.swift
+//  CriteoMoPubAdapterTestApp
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
 //
@@ -15,18 +15,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+//
 
-#import <Foundation/Foundation.h>
+import Foundation
 
-NS_ASSUME_NONNULL_BEGIN
-
-extern NSString *const kCRCustomEventHelperCpId;
-extern NSString *const kCRCustomEventHelperAdUnitId;
-
-@interface CRCustomEventHelper : NSObject
-
-+ (BOOL)checkValidInfo:(NSDictionary *)info;
-
-@end
-
-NS_ASSUME_NONNULL_END
+// NOTE: this file is required by Xcode to link swift runtime

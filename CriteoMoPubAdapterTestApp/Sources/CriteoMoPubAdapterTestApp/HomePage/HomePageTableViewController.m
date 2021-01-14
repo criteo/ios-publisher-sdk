@@ -6,15 +6,21 @@
 //
 
 #import "HomePageTableViewController.h"
+#import "NativeAdView.h"
+#import "CriteoNativeAdView.h"
 #import "MoPub.h"
+#import <CriteoMoPubAdapter/CRNativeAdRenderer.h>
 
-@interface HomePageTableViewController () <MPAdViewDelegate, MPInterstitialAdControllerDelegate>
+@interface HomePageTableViewController () <MPAdViewDelegate, MPInterstitialAdControllerDelegate, MPNativeAdDelegate>
 
 @property(weak, nonatomic) IBOutlet UIView *bannerView;
 @property(weak, nonatomic) IBOutlet UIButton *presentInterstitialButton;
+@property(weak, nonatomic) IBOutlet UIView *nativeViewContainer;
 
 @property(nonatomic) MPAdView *mpAdView;
 @property(nonatomic) MPInterstitialAdController *interstitial;
+@property(nonatomic) MPNativeAd *nativeAd;
+@property(nonatomic) UIView *nativeView;
 
 @end
 
@@ -52,6 +58,39 @@
     self.presentInterstitialButton.enabled = NO;
     [self.interstitial showFromViewController:self];
   }
+}
+
+- (IBAction)loadNativeClicked:(id)sender {
+  MPStaticNativeAdRendererSettings *mopubSettings = [[MPStaticNativeAdRendererSettings alloc] init];
+  mopubSettings.renderingViewClass = [NativeAdView class];
+  MPNativeAdRendererConfiguration *mopubRenderer = [MPStaticNativeAdRenderer rendererConfigurationWithRendererSettings:mopubSettings];
+
+  MPStaticNativeAdRendererSettings *criteoSettings = [[MPStaticNativeAdRendererSettings alloc] init];
+  criteoSettings.renderingViewClass = [CriteoNativeAdView class];
+  MPNativeAdRendererConfiguration *criteoRenderer = [CRNativeAdRenderer rendererConfigurationWithRendererSettings:criteoSettings];
+  
+  MPNativeAdRequest *adRequest = [MPNativeAdRequest requestWithAdUnitIdentifier:@"8dc4347f92944be29071bed7666ba7cf" rendererConfigurations:@[mopubRenderer, criteoRenderer]];
+
+  MPNativeAdRequestTargeting *targeting = [MPNativeAdRequestTargeting targeting];
+  targeting.desiredAssets = [NSSet setWithObjects:kAdTitleKey, kAdTextKey, kAdCTATextKey, kAdIconImageKey, kAdMainImageKey, kAdStarRatingKey, nil]; //The constants correspond to the 6 elements of MoPub native ads
+  adRequest.targeting = targeting;
+  
+  [adRequest startWithCompletionHandler:^(MPNativeAdRequest *request, MPNativeAd *response, NSError *error) {
+      if (error) {
+          // Handle error.
+      } else {
+          self.nativeAd = response;
+          self.nativeAd.delegate = self;
+          [self removeNativeClicked:nil];
+          self.nativeView = [response retrieveAdViewWithError:nil];
+          self.nativeView.frame = self.nativeViewContainer.bounds;
+          [self.nativeViewContainer addSubview:self.nativeView];
+      }
+  }];
+}
+
+- (IBAction)removeNativeClicked:(id)sender {
+  [self.nativeView removeFromSuperview];
 }
 
 #pragma mark - MPAdViewDelegate

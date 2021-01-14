@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="NativeAdView">
+            <rect key="frame" x="0.0" y="0.0" width="386" height="172"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jGu-2E-16h">
+                    <rect key="frame" x="10" y="10" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="6IW-9u-xzn"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="LoI-q6-FGX"/>
+                        <constraint firstAttribute="width" constant="50" id="v99-Db-aSM"/>
+                        <constraint firstAttribute="height" constant="50" id="yjB-bl-UKX"/>
+                    </constraints>
+                </imageView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mZu-yc-NBJ">
+                    <rect key="frame" x="361" y="5" width="20" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="ca0-DK-qUo"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="20" id="oBX-4s-Mgn"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="20" id="wCf-hf-gaz"/>
+                        <constraint firstAttribute="width" constant="20" id="zVq-Rk-w1m"/>
+                    </constraints>
+                </imageView>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="cAe-89-Gb1">
+                    <rect key="frame" x="70" y="10" width="306" height="152"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="srd-dk-eK4">
+                            <rect key="frame" x="0.0" y="0.0" width="306" height="24"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Main Text" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sSd-V4-ieg">
+                            <rect key="frame" x="0.0" y="34" width="306" height="28"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ItX-EL-VYy">
+                            <rect key="frame" x="0.0" y="72" width="306" height="80"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="80" id="HbC-BO-PR5"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <constraints>
+                <constraint firstItem="jGu-2E-16h" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="10" id="1Xt-yo-ZKb"/>
+                <constraint firstItem="cAe-89-Gb1" firstAttribute="leading" secondItem="jGu-2E-16h" secondAttribute="trailing" constant="10" id="3Ia-wA-a7x"/>
+                <constraint firstItem="jGu-2E-16h" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="3bl-Mf-mGM"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="cAe-89-Gb1" secondAttribute="trailing" constant="10" id="FNU-p2-xNW"/>
+                <constraint firstItem="cAe-89-Gb1" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="Py4-Vg-Str"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="mZu-yc-NBJ" secondAttribute="trailing" constant="5" id="VaP-Sy-IC4"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="cAe-89-Gb1" secondAttribute="bottom" constant="10" id="ZBi-Sb-qvJ"/>
+                <constraint firstItem="mZu-yc-NBJ" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="5" id="ba6-x5-3qh"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="iconImageView" destination="jGu-2E-16h" id="A00-Nb-pQR"/>
+                <outlet property="mainImageView" destination="ItX-EL-VYy" id="wqi-Mc-8E9"/>
+                <outlet property="mainTextLabel" destination="sSd-V4-ieg" id="iG7-LN-8z5"/>
+                <outlet property="privacyInformationIconImageView" destination="mZu-yc-NBJ" id="MKx-K7-sdt"/>
+                <outlet property="titleLabel" destination="srd-dk-eK4" id="qBu-og-qYO"/>
+            </connections>
+            <point key="canvasLocation" x="115.2" y="-136.73163418290855"/>
+        </view>
+    </objects>
+</document>
