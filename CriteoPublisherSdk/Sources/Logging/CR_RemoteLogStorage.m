@@ -21,7 +21,6 @@
 
 #import "CR_CASBoundedFileObjectQueue.h"
 #import "CR_DefaultFileManipulator.h"
-#import "CriteoPublisherSdkTests-Bridging-Header.h"
 
 // Maximum size (in bytes) of stored log records
 static NSUInteger const CR_RemoteLogStorageLogQueueMaxFileLength = 256 * 1024;
