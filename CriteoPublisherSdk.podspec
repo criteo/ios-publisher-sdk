@@ -46,7 +46,7 @@ Pod::Spec.new do |spec|
     adapter.source_files     = "CriteoMoPubAdapter/Sources/**/*.{h,m}"
     adapter.exclude_files    = "CriteoMoPubAdapter/Sources/CriteoMoPubAdapterTestApp"
     adapter.dependency         "CriteoPublisherSdk/Sdk"
-    adapter.dependency         "mopub-ios-sdk/Core", "~> 5.13"
+    adapter.dependency         "mopub-ios-sdk", "~> 5.13"
     adapter.ios.deployment_target = "10.0"
   end
 
