@@ -29,6 +29,7 @@ platform :ios do
       testplan: "CriteoPublisherSdk",
       try_count: 5, parallel_testrun_count: 2,
     )
+    pod_lib_lint
   end
 
   desc %(Check code format)
