@@ -17,6 +17,7 @@
 // limitations under the License.
 //
 
+import AppTrackingTransparency
 import UIKit
 
 @UIApplicationMain
@@ -28,6 +29,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     if #available(iOS 14, *) {
+      ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
+        print("Tracking Authorization: \(status.rawValue)")
+      })
       SKAdNetwork.registerAppForAdNetworkAttribution()
     }
     return true
