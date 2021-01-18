@@ -117,6 +117,7 @@ static NSUInteger const CR_RemoteLogHandlerLogBatchSize = 200;
   }
 
   NSString *formattedDate = [self.dateFormatter stringFromDate:logMessage.timestamp];
+  NSString *filename = logMessage.file.lastPathComponent;
 
   // A script to read the logs is sensible to the format: date should always be at the end of the
   // message, separated with a ","
@@ -125,9 +126,9 @@ static NSUInteger const CR_RemoteLogHandlerLogBatchSize = 200;
         stringWithFormat:@"%@\n--- Exception: %@\n--- Stack: %@\n--- User info: %@,%@:%lu,%@",
                          logMessage.message, logMessage.exception,
                          logMessage.exception.callStackSymbols, logMessage.exception.userInfo,
-                         logMessage.file, (unsigned long)logMessage.line, formattedDate];
+                         filename, (unsigned long)logMessage.line, formattedDate];
   } else {
-    return [NSString stringWithFormat:@"%@,%@:%lu,%@", logMessage.message, logMessage.file,
+    return [NSString stringWithFormat:@"%@,%@:%lu,%@", logMessage.message, filename,
                                       (unsigned long)logMessage.line, formattedDate];
   }
 }
