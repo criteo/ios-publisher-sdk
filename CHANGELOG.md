@@ -5,6 +5,9 @@
 ### Features
 - Add remote logging support.
 
+### MoPub Adapter
+- Add *Advanced native ads* support.
+
 --------------------------------------------------------------------------------
 ## Version 4.1.0
 
