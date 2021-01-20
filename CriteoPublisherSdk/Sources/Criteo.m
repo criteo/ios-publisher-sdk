@@ -37,7 +37,7 @@
 
 #pragma mark - Lifecycle
 
-+ (void)initializeCriteoSingleton {
+- (void)setup {
   CRLogInfo(@"Initialization", @"Singleton was initialized");
 
   if (!CRSKAdNetworkInfo.hasCriteoId) {
@@ -50,8 +50,11 @@
   }
 
   if ([[[NSProcessInfo processInfo] arguments] containsObject:@"-CriteoPublisherSdkVerboseLogs"]) {
-    [self setVerboseLogsEnabled:YES];
+    [self.class setVerboseLogsEnabled:YES];
   }
+
+  CR_Gdpr *gdpr = self.dependencyProvider.consent.gdpr;
+  CRLogInfo(@"Consent", @"Initialized with TCF: %@", gdpr);
 }
 
 static Criteo *sharedInstance = nil;
@@ -72,7 +75,7 @@ static dispatch_once_t onceToken;
   });
 
   if (wasInstantiated) {
-    [self initializeCriteoSingleton];
+    [sharedInstance setup];
   }
 
   return sharedInstance;

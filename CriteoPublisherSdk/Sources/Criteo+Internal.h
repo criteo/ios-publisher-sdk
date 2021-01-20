@@ -54,6 +54,7 @@ typedef void (^CR_CdbBidResponseHandler)(CR_CdbBid *bid);
             responseHandler:(CR_CdbBidResponseHandler)responseHandler;
 
 - (instancetype)initWithDependencyProvider:(CR_DependencyProvider *)dependencyProvider;
+- (void)setup;
 
 @end
 

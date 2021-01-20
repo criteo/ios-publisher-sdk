@@ -171,22 +171,13 @@
                               }]]);
 }
 
-- (void)testConsentInit_WhenNoTCFData_ShouldNotBeLogged {
-  OCMReject([self.loggingMock logMessage:[OCMArg any]]);
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-value"
-  [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
-#pragma clang diagnostic pop
-}
-
-- (void)testConsentInit_WhenTCFData_ShouldBeLogged {
+- (void)testInit_WhenTCFData_ShouldBeLogged {
   NSString *consentString = @"TestConsentString";
   [self.userDefaults setObject:@YES forKey:@"IABConsent_SubjectToGDPR"];
   [self.userDefaults setObject:consentString forKey:@"IABConsent_ConsentString"];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-value"
-  [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
-#pragma clang diagnostic pop
+
+  [self.criteo setup];
+
   OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
                                 return [logMessage.tag isEqualToString:@"Consent"] &&
                                        [logMessage.message containsString:consentString];
