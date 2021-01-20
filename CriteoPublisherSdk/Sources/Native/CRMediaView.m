@@ -31,6 +31,7 @@
   self = [super initWithCoder:coder];
   if (self) {
     self.userInteractionEnabled = NO;
+    self.backgroundColor = [UIColor clearColor];
   }
   return self;
 }
@@ -39,6 +40,7 @@
   self = [super initWithFrame:frame];
   if (self) {
     self.userInteractionEnabled = NO;
+    self.backgroundColor = [UIColor clearColor];
   }
   return self;
 }
