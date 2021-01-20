@@ -120,7 +120,7 @@
                           adUnit:(CR_CacheAdUnit *)adUnit {
   dictionary[CR_TargetingKey_crtDisplayUrl] = bid.displayUrl;
   dictionary[CR_TargetingKey_crtCpm] = bid.cpm;
-  dictionary[CR_TargetingKey_crtSize] = [self stringSizeForBannerWithAdUnit:adUnit];
+  dictionary[CR_TargetingKey_crtSize] = [self stringFromSize:adUnit.size];
   CRLogInfo(@"AppBidding", @"Enriching Custom request for Ad Unit: %@, set bid as: %@", adUnit,
             dictionary);
 }
