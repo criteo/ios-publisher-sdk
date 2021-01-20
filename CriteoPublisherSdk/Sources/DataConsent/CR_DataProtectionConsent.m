@@ -53,9 +53,6 @@ NSString *const CR_DataProtectionConsentGivenKey = @"CRITEO_ConsentGiven";
     _userDefaults = userDefaults;
     _ccpa = [[CR_Ccpa alloc] initWithUserDefaults:userDefaults];
     _gdpr = [[CR_Gdpr alloc] initWithUserDefaults:userDefaults];
-    if (_gdpr.tcfVersion != CR_GdprTcfVersionUnknown) {
-      CRLogInfo(@"Consent", @"Initialized with TCF: %@", _gdpr);
-    }
     _consentGiven = self.userDefaultForConsentGiven;
   }
   return self;

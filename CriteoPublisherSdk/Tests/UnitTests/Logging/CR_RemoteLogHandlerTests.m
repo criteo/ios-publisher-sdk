@@ -31,6 +31,7 @@
 #import "CR_InMemoryUserDefaults.h"
 #import "CR_ApiHandler.h"
 #import "CR_SynchronousThreadManager.h"
+#import "NSUserDefaults+GDPR.h"
 
 @interface CR_RemoteLogHandler ()
 - (CR_RemoteLogRecord *_Nullable)remoteLogRecordFromLogMessage:(CR_LogMessage *)logMessage;
@@ -46,6 +47,7 @@
 @property(nonatomic, strong) CR_Config *config;
 @property(nonatomic, strong) CR_RemoteLogStorage *storage;
 @property(nonatomic, strong) CR_RemoteLogHandler *handler;
+@property(nonatomic, strong) NSUserDefaults *userDefaults;
 
 @end
 
@@ -54,14 +56,14 @@
 - (void)setUp {
   [super setUp];
 
-  NSUserDefaults *userDefaults = [[CR_InMemoryUserDefaults alloc] init];
+  self.userDefaults = [[CR_InMemoryUserDefaults alloc] init];
 
   self.storage = OCMClassMock(CR_RemoteLogStorage.class);
   self.config = OCMClassMock(CR_Config.class);
   self.deviceInfo = OCMClassMock(CR_DeviceInfo.class);
   self.integrationRegistry = OCMClassMock(CR_IntegrationRegistry.class);
   self.session = OCMClassMock(CR_Session.class);
-  self.consent = [[CR_DataProtectionConsent alloc] initWithUserDefaults:userDefaults];
+  self.consent = [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
   self.apiHandler = OCMClassMock(CR_ApiHandler.class);
   self.handler =
       [[CR_RemoteLogHandler alloc] initWithRemoteLogStorage:self.storage
@@ -74,6 +76,14 @@
                                               threadManager:CR_SynchronousThreadManager.new];
 
   self.consent.consentGiven = YES;
+}
+
+#pragma mark Init
+
+// Bug #198
+- (void)testInitWithTcf2ConsentString {
+  [self.userDefaults setGdprTcf2_0DefaultConsentString];
+  XCTAssertNoThrow([[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults]);
 }
 
 #pragma mark Consent
