@@ -216,6 +216,20 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   OCMVerify([self.integrationRegistry declare:CR_IntegrationCustomAppBidding]);
 }
 
+- (void)testMutableDictionaryWithInterstitial {
+  NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+  NSDictionary *expected = @{
+    kDictionaryDisplayUrlKey : self.bid1.displayUrl,
+    kCpmKey : self.bid1.cpm,
+    kSizeKey : @"1x2"
+  };
+
+  [self.headerBidding enrichRequest:dictionary withBid:self.bid1 adUnit:self.interstitialAdUnit];
+
+  XCTAssertEqualObjects(dictionary, expected);
+  OCMVerify([self.integrationRegistry declare:CR_IntegrationCustomAppBidding]);
+}
+
 #pragma mark - Unsupported
 
 - (void)testUnsupportedAdRequest {
