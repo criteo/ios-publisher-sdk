@@ -1,6 +1,6 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
-## Version Next
+## Version 4.2.1
 
 ### Fixes
 - Startup crash: 4.2.0 was removed from GitHub and CocoaPods
