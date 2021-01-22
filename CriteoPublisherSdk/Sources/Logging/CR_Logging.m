@@ -22,6 +22,9 @@
 #import "Criteo+Internal.h"
 #import "CR_DependencyProvider.h"
 
+static NSString *const crLogRecursionDepthKey = @"crLogRecursionDepth";
+static NSUInteger const crLogRecursionDepthMax = 3;
+
 @interface CR_Logging ()
 @property(atomic, strong) id<CR_LogHandler> logHandler;
 @end
@@ -70,7 +73,19 @@
 #pragma mark - LogHandler
 
 - (void)logMessage:(CR_LogMessage *)message {
-  [self.logHandler logMessage:message];
+  NSMutableDictionary *threadDictionary = NSThread.currentThread.threadDictionary;
+  NSInteger depth = [threadDictionary[crLogRecursionDepthKey] intValue];
+  if (depth >= crLogRecursionDepthMax) {
+    return;
+  }
+  threadDictionary[crLogRecursionDepthKey] = @(depth + 1);
+  @try {
+    [self.logHandler logMessage:message];
+  } @catch (NSException *exception) {
+    NSLog(@"Cannot log: %@, %@", exception, [exception userInfo]);
+  } @finally {
+    threadDictionary[crLogRecursionDepthKey] = @(depth);
+  }
 }
 
 - (CR_ConsoleLogHandler *)consoleLogHandler {
