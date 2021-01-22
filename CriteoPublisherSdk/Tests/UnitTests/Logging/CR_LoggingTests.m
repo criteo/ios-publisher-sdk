@@ -28,6 +28,11 @@
 @property(nonatomic, strong) CR_DependencyProvider *dependencyProvider;
 @end
 
+@interface CR_RecursiveLogHandler : NSObject <CR_LogHandler>
+@property(nonatomic, assign) NSInteger logCount;
+@property(nonatomic, strong) CR_Logging *logger;
+@end
+
 @implementation CR_LoggingTests
 
 - (void)setUp {
@@ -89,10 +94,34 @@
   OCMVerifyAll(remoteLogHandler);
 }
 
+- (void)testLoggingRecursive {
+  CR_RecursiveLogHandler *recursiveHandler = [[CR_RecursiveLogHandler alloc] init];
+  CR_Logging *logger = [[CR_Logging alloc] initWithLogHandler:recursiveHandler];
+  recursiveHandler.logger = logger;
+  CR_LogMessage *message = CRLogMessage(@"tag", CR_LogSeverityInfo, nil, @"∞");
+
+  [logger logMessage:message];
+
+  XCTAssertEqual(recursiveHandler.logCount, 3);
+}
+
 - (id)checkLogWithMessage:(NSString *)message {
   return [OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
     return [logMessage.message isEqualToString:message];
   }];
+}
+
+@end
+
+@implementation CR_RecursiveLogHandler
+
+- (void)logMessage:(CR_LogMessage *)message {
+  self.logCount = self.logCount + 1;
+  [self.logger logMessage:message];
+}
+
+- (CR_ConsoleLogHandler *)consoleLogHandler {
+  return nil;
 }
 
 @end
