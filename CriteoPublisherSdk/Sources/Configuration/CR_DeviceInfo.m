@@ -94,7 +94,6 @@
           [context executeBlock:^{
             [self.threadManager dispatchAsyncOnGlobalQueue:^{
               @synchronized(self) {
-                self.webView = nil;
                 CRLogDebug(@"UserAgent", @"Got navigatorUserAgent = %@, error = %@",
                            navigatorUserAgent, error);
                 if (!error && [navigatorUserAgent isKindOfClass:NSString.class]) {
@@ -115,7 +114,12 @@
       if (!self.webView) {
         self.webView = [[WKWebView alloc] initWithFrame:CGRectZero];
       }
-      [self.webView evaluateJavaScript:@"navigator.userAgent" completionHandler:completionHandler];
+      [self.webView
+          evaluateJavaScript:@"navigator.userAgent"
+           completionHandler:^(id _Nullable navigatorUserAgent, NSError *_Nullable error) {
+             self.webView = nil;
+             completionHandler(navigatorUserAgent, error);
+           }];
     }];
   }];
 }

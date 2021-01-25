@@ -3,7 +3,8 @@
 ## Version 4.2.1
 
 ### Fixes
-- Startup crash: 4.2.0 was removed from GitHub and CocoaPods
+- #198: Startup crash: 4.2.0 was removed from GitHub and CocoaPods
+- #202: Crash with WebView deallocated on background thread
 
 --------------------------------------------------------------------------------
 ## Version 4.2.0
