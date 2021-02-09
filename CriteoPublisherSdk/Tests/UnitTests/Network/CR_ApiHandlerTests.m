@@ -220,6 +220,8 @@
   OCMStub([mockConfig sdkVersion]).andReturn(@"1.0");
   OCMStub([mockConfig appId]).andReturn(@"com.criteo.sdk.publisher");
   OCMStub([mockConfig configUrl]).andReturn(@"https://url-for-getting-config");
+  OCMStub([mockConfig deviceModel]).andReturn(@"deviceModel");
+  OCMStub([mockConfig deviceOs]).andReturn(@"deviceOs");
 
   CR_RemoteConfigRequest *request = [CR_RemoteConfigRequest requestWithConfig:mockConfig
                                                                     profileId:@42
