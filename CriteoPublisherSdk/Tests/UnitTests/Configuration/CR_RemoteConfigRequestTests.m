@@ -32,6 +32,8 @@
   OCMStub(config.criteoPublisherId).andReturn(@"myCpId");
   OCMStub(config.sdkVersion).andReturn(@"1.3.3.7");
   OCMStub(config.appId).andReturn(@"myAppId");
+  OCMStub(config.deviceModel).andReturn(@"myDeviceModel");
+  OCMStub(config.deviceOs).andReturn(@"myDeviceOs");
   NSNumber *profileId = @42;
   NSString *deviceId = @"123-456";
 
@@ -45,7 +47,9 @@
     @"bundleId" : @"myAppId",
     @"sdkVersion" : @"1.3.3.7",
     @"rtbProfileId" : profileId,
-    @"deviceId" : deviceId
+    @"deviceId" : deviceId,
+    @"deviceModel" : @"myDeviceModel",
+    @"deviceOs" : @"myDeviceOs"
   };
 
   XCTAssertEqualObjects(postBody, expected);

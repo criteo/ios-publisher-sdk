@@ -26,12 +26,16 @@
 @property(copy, nonatomic) NSString *sdkVersion;
 @property(copy, nonatomic) NSString *appId;
 @property(copy, nonatomic) NSNumber *profileId;
+@property(copy, nonatomic) NSString *deviceModel;
+@property(copy, nonatomic) NSString *deviceOs;
 @property(copy, nonatomic) NSString *deviceId;
 
 - (instancetype)initWithCriteoPublisherId:(NSString *)criteoPublisherId
                                sdkVersion:(NSString *)sdkVersion
                                     appId:(NSString *)appId
                                 profileId:(NSNumber *)profileId
+                              deviceModel:(NSString *)deviceModel
+                                 deviceOs:(NSString *)deviceOs
                                  deviceId:(NSString *)deviceId
                                 configUrl:(NSString *)configUrl;
 
@@ -46,6 +50,8 @@
                                                       sdkVersion:config.sdkVersion
                                                            appId:config.appId
                                                        profileId:profileId
+                                                     deviceModel:config.deviceModel
+                                                        deviceOs:config.deviceOs
                                                         deviceId:deviceId
                                                        configUrl:config.configUrl];
 }
@@ -54,6 +60,8 @@
                                sdkVersion:(NSString *)sdkVersion
                                     appId:(NSString *)appId
                                 profileId:(NSNumber *)profileId
+                              deviceModel:(NSString *)deviceModel
+                                 deviceOs:(NSString *)deviceOs
                                  deviceId:(NSString *)deviceId
                                 configUrl:(NSString *)configUrl {
   if (self = [super init]) {
@@ -61,6 +69,8 @@
     _sdkVersion = sdkVersion;
     _appId = appId;
     _profileId = profileId;
+    _deviceModel = deviceModel;
+    _deviceOs = deviceOs;
     _deviceId = deviceId;
     _configUrl = configUrl;
   }
@@ -73,6 +83,8 @@
     @"bundleId" : self.appId,
     @"sdkVersion" : self.sdkVersion,
     @"rtbProfileId" : self.profileId,
+    @"deviceModel" : self.deviceModel,
+    @"deviceOs" : self.deviceOs,
     @"deviceId" : self.deviceId
   };
 }
