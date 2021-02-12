@@ -31,5 +31,5 @@ enum AdView {
 typealias AdViewController = UIViewController & InterstitialUpdateDelegate
 
 protocol AdViewBuilder {
-  func build(config: AdConfig, criteo: Criteo) -> AdView
+  func build(config: AdConfig, criteo: Criteo, completion: @escaping (AdView) -> Void)
 }

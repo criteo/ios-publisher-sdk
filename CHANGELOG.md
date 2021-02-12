@@ -1,5 +1,12 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
+## Version 4.x.x
+
+### Features
+- Google Ads SDK v8 support
+- MoPub SDK v5.16 support
+
+--------------------------------------------------------------------------------
 ## Version 4.2.1
 
 ### Fixes

@@ -25,7 +25,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GoogleDFPLogger
-    : NSObject <GADBannerViewDelegate, GADInterstitialDelegate, GADAdSizeDelegate>
+    : NSObject <GADBannerViewDelegate, GADFullScreenContentDelegate, GADAdSizeDelegate>
 
 #pragma mark - Lifecycle
 

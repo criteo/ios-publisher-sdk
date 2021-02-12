@@ -225,26 +225,28 @@ class AdViewerViewController: FormViewController {
       let config = adConfig,
       let criteo = criteo
     {
-      let adView = network.adViewBuilder.build(config: config, criteo: criteo)
-      switch adView {
-      case .banner(let bannerView):
-        if self.display == .newView {
-          let viewControler = AdTableViewController()
-          viewControler.adView = bannerView
-          self.navigationController?.pushViewController(viewControler, animated: true)
-        } else if let adsSection = self.form.sectionBy(tag: Tags.ads.rawValue) {
-          let adRow = AdViewRow<UIView>(bannerView.description) { (_) in
-          }.cellSetup { (cell, _) in
-            cell.view = bannerView
+      network.adViewBuilder.build(config: config, criteo: criteo) { adView in
+        switch adView {
+        case .banner(let bannerView):
+          if self.display == .newView {
+            let viewControler = AdTableViewController()
+            viewControler.adView = bannerView
+            self.navigationController?.pushViewController(viewControler, animated: true)
+          } else if let adsSection = self.form.sectionBy(tag: Tags.ads.rawValue) {
+            let adRow = AdViewRow<UIView>(bannerView.description) { (_) in
+            }.cellSetup { (cell, _) in
+              cell.view = bannerView
+            }
+            // Note: this is a workaround to missing insert method,
+            //       to display new ad top first position
+            let rows = adsSection.allRows
+            adsSection.replaceSubrange(0..<rows.count, with: [adRow] + rows)
           }
-          // Note: this is a workaround to missing insert method,
-          //       to display new ad top first position
-          let rows = adsSection.allRows
-          adsSection.replaceSubrange(0..<rows.count, with: [adRow] + rows)
-        }
 
-      case .interstitial(let interstitialView):
-        self.interstitialView = interstitialView
+        case .interstitial(let interstitialView):
+          self.interstitialView = interstitialView
+          interstitialView.present(viewController: self)
+        }
       }
     }
   }
