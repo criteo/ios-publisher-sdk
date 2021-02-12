@@ -30,25 +30,26 @@ class GoogleAdViewBuilder: AdViewBuilder {
     self.contextData = defaultContextData()
   }
 
-  func build(config: AdConfig, criteo: Criteo) -> AdView {
+  func build(config: AdConfig, criteo: Criteo, completion: @escaping (AdView) -> Void) {
     switch config.adFormat {
     case .sized(.banner, let size):
-      return .banner(buildBanner(config: config, size: googleAdSize(size: size), criteo: criteo))
+      completion(
+        .banner(buildBanner(config: config, size: googleAdSize(size: size), criteo: criteo)))
     case .flexible(.native):
-      return .banner(buildBanner(config: config, size: kGADAdSizeFluid, criteo: criteo))
+      completion(.banner(buildBanner(config: config, size: kGADAdSizeFluid, criteo: criteo)))
     case .flexible(.interstitial):
-      return .interstitial(buildInterstitial(config: config, criteo: criteo))
+      buildInterstitial(config: config, criteo: criteo, completion: completion)
     case _:
       fatalError("Unsupported")
     }
   }
 
   private func loadAdView(
-    criteo: Criteo, adUnit: CRAdUnit, load: @escaping (_ request: GADRequest?) -> Void
+    criteo: Criteo, adUnit: CRAdUnit, load: @escaping (_ request: GAMRequest?) -> Void
   ) {
     criteo.loadBid(for: adUnit, withContext: contextData) { maybeBid in
-      let request: GADRequest? = maybeBid.map { bid in
-        let request = DFPRequest()
+      let request: GAMRequest? = maybeBid.map { bid in
+        let request = GAMRequest()
         criteo.enrichAdObject(request, with: bid)
         return request
       }
@@ -63,9 +64,9 @@ class GoogleAdViewBuilder: AdViewBuilder {
     }
   }
 
-  private func buildBanner(config: AdConfig, size: GADAdSize, criteo: Criteo) -> DFPBannerView {
+  private func buildBanner(config: AdConfig, size: GADAdSize, criteo: Criteo) -> GAMBannerView {
     let adUnit = config.adUnit
-    let adView = DFPBannerView(adSize: size)
+    let adView = GAMBannerView(adSize: size)
     adView.delegate = self.logger
     adView.adSizeDelegate = self.logger
     adView.adUnitID = adUnit.adUnitId
@@ -74,16 +75,27 @@ class GoogleAdViewBuilder: AdViewBuilder {
     return adView
   }
 
-  private func buildInterstitial(config: AdConfig, criteo: Criteo) -> DFPInterstitial {
+  private func buildInterstitial(
+    config: AdConfig, criteo: Criteo, completion: @escaping (AdView) -> Void
+  ) {
     let adUnit = config.adUnit
-    let interstitial = DFPInterstitial(adUnitID: adUnit.adUnitId)
-    interstitial.delegate = self.logger
-    loadAdView(criteo: criteo, adUnit: adUnit, load: interstitial.load)
-    return interstitial
+
+    loadAdView(criteo: criteo, adUnit: adUnit) { request in
+      GAMInterstitialAd.load(withAdManagerAdUnitID: adUnit.adUnitId, request: request) {
+        maybeAd, maybeError in
+        if let error = maybeError {
+          print("Failed to load interstitial ad with error: \(error.localizedDescription)")
+        }
+        if let ad = maybeAd {
+          ad.fullScreenContentDelegate = self.logger
+          completion(.interstitial(ad))
+        }
+      }
+    }
   }
 }
 
-extension DFPInterstitial: InterstitialView {
+extension GAMInterstitialAd: InterstitialView {
   func present(viewController: UIViewController) {
     self.present(fromRootViewController: viewController)
   }

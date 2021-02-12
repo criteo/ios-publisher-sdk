@@ -33,14 +33,14 @@ class CriteoAdViewBuilder: AdViewBuilder {
     contextData = defaultContextData()
   }
 
-  func build(config: AdConfig, criteo: Criteo) -> AdView {
+  func build(config: AdConfig, criteo: Criteo, completion: @escaping (AdView) -> Void) {
     switch (config.adFormat, config.adUnit) {
     case (.sized(.banner, _), let adUnit as CRBannerAdUnit):
-      return .banner(buildBanner(adUnit, criteo))
+      completion(.banner(buildBanner(adUnit, criteo)))
     case (.flexible(.interstitial), let adUnit as CRInterstitialAdUnit):
-      return .interstitial(buildInterstitial(adUnit, criteo))
+      completion(.interstitial(buildInterstitial(adUnit, criteo)))
     case (.flexible(.native), let adUnit as CRNativeAdUnit):
-      return .banner(buildNative(adUnit, criteo))
+      completion(.banner(buildNative(adUnit, criteo)))
     case _:
       fatalError("Unsupported")
     }
@@ -86,7 +86,7 @@ class CriteoAdViewBuilder: AdViewBuilder {
     case .standalone:
       adView.loadAd()
     case .inHouse:
-      //InHouse is not supported on Native > Act as Standalone
+      // InHouse is not supported on Native > Act as Standalone
       adView.loadAd()
     }
     return adView

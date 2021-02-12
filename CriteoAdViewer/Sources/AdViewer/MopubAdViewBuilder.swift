@@ -34,18 +34,18 @@ class MopubAdViewBuilder: AdViewBuilder {
     MoPub.sharedInstance().initializeSdk(with: config)
   }
 
-  func build(config: AdConfig, criteo: Criteo) -> AdView {
+  func build(config: AdConfig, criteo: Criteo, completion: (AdView) -> Void) {
     switch config.adFormat {
     case .sized(.banner, let size):
-      return .banner(buildBanner(adUnit: config.adUnit, size: size, criteo: criteo))
+      completion(.banner(buildBanner(adUnit: config.adUnit, size: size, criteo: criteo)))
     case .flexible(.interstitial):
-      return .interstitial(buildInterstitial(adUnit: config.adUnit, criteo: criteo))
+      completion(.interstitial(buildInterstitial(adUnit: config.adUnit, criteo: criteo)))
     case _:
       fatalError("Unsupported")
     }
   }
 
-  //TODO handle height properly
+  // TODO handle height properly
   private func mopubSize(size: AdSize) -> CGSize {
     switch size {
     case ._320x50: return CGSize(width: 320, height: 50)

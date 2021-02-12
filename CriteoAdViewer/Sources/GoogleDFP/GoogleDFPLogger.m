@@ -42,60 +42,41 @@
 
 #pragma mark - GADBannerViewDelegate
 
-- (void)adViewDidReceiveAd:(GADBannerView *)bannerView {
+- (void)bannerViewDidRecordImpression:(GADBannerView *)bannerView {
   [self.logManager logEvent:NSStringFromSelector(_cmd) info:bannerView];
 }
 
-- (void)adView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(GADRequestError *)error {
+- (void)bannerViewDidReceiveAd:(GADBannerView *)bannerView {
+  [self.logManager logEvent:NSStringFromSelector(_cmd) info:bannerView];
+}
+
+- (void)bannerView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(NSError *)error {
   [self.logManager logEvent:NSStringFromSelector(_cmd) info:bannerView error:error];
 }
 
-- (void)adViewWillPresentScreen:(GADBannerView *)bannerView {
+- (void)bannerViewWillPresentScreen:(GADBannerView *)bannerView {
   [self.logManager logEvent:NSStringFromSelector(_cmd) info:bannerView];
 }
 
-- (void)adViewWillDismissScreen:(GADBannerView *)bannerView {
+- (void)bannerViewWillDismissScreen:(GADBannerView *)bannerView {
   [self.logManager logEvent:NSStringFromSelector(_cmd) info:bannerView];
 }
 
-- (void)adViewDidDismissScreen:(GADBannerView *)bannerView {
-  [self.logManager logEvent:NSStringFromSelector(_cmd) info:bannerView];
-}
+#pragma mark - GADFullScreenContentDelegate
 
-- (void)adViewWillLeaveApplication:(GADBannerView *)bannerView {
-  [self.logManager logEvent:NSStringFromSelector(_cmd) info:bannerView];
-}
-
-#pragma mark - GADInterstitialDelegate
-
-- (void)interstitialDidReceiveAd:(GADInterstitial *)ad {
+- (void)adDidRecordImpression:(id)ad {
   [self.logManager logEvent:NSStringFromSelector(_cmd) info:ad];
-  [self.interstitialDelegate interstitialUpdated:YES];
 }
 
-- (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(NSError *)error {
+- (void)ad:(id)ad didFailToPresentFullScreenContentWithError:(NSError *)error {
   [self.logManager logEvent:NSStringFromSelector(_cmd) info:ad error:error];
-  [self.interstitialDelegate interstitialUpdated:NO];
 }
 
-- (void)interstitialWillLeaveApplication:(GADInterstitial *)ad {
+- (void)adDidPresentFullScreenContent:(id)ad {
   [self.logManager logEvent:NSStringFromSelector(_cmd) info:ad];
 }
 
-- (void)interstitialWillPresentScreen:(GADInterstitial *)ad {
-  [self.logManager logEvent:NSStringFromSelector(_cmd) info:ad];
-}
-
-- (void)interstitialDidFailToPresentScreen:(GADInterstitial *)ad {
-  [self.logManager logEvent:NSStringFromSelector(_cmd) info:ad];
-}
-
-- (void)interstitialWillDismissScreen:(GADInterstitial *)ad {
-  [self.logManager logEvent:NSStringFromSelector(_cmd) info:ad];
-  [self.interstitialDelegate interstitialUpdated:NO];
-}
-
-- (void)interstitialDidDismissScreen:(GADInterstitial *)ad {
+- (void)adDidDismissFullScreenContent:(id)ad {
   [self.logManager logEvent:NSStringFromSelector(_cmd) info:ad];
 }
 
