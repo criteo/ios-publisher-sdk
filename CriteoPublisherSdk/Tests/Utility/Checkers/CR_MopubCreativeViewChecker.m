@@ -122,7 +122,8 @@
   [interstitial showFromViewController:_uiWindow.rootViewController];
 }
 
-- (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial {
+- (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial
+                          withError:(NSError *)error {
   NSLog(@"MOPUB ERROR: interstitialDidFailToLoadAd: delegate invoked");
 }
 

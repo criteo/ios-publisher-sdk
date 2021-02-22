@@ -82,6 +82,7 @@ static NSString *initialMopubKeywords = @"key1:value1,key2:value2";
   [self initCriteoWithAdUnits:@[ bannerAdUnit ]];
 
   MPAdView *mpAdView = [[MPAdView alloc] initWithAdUnitId:CR_TestAdUnits.mopubBanner50AdUnitId];
+  mpAdView.frame = CGRectMake(0, 0, bannerAdUnit.size.width, bannerAdUnit.size.height);
   mpAdView.maxAdSize = kMPPresetMaxAdSize50Height;
   [self enrichAdObject:mpAdView forAdUnit:bannerAdUnit];
 
