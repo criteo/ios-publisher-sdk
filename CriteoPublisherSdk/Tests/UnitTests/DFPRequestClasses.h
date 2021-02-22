@@ -29,7 +29,7 @@
 @property(readwrite, copy, nonatomic, nullable) NSDictionary *customTargeting;
 @end
 
-@interface DFPRequest : GADRequest
+@interface GAMRequest : GADRequest
 @end
 
 #endif /* DFPRequestClasses_h */

@@ -50,25 +50,35 @@
 
 - (instancetype)initWithBannerWithSize:(GADAdSize)size withAdUnitId:(NSString *)adUnitId {
   if ([self initWithAdUnitId:adUnitId]) {
-    _dfpBannerView = [self createDfpBannerWithSize:size withAdUnitId:adUnitId];
-    _dfpBannerView.delegate = self;
-    _dfpBannerView.rootViewController = _uiWindow.rootViewController;
-    [self.uiWindow.rootViewController.view addSubview:_dfpBannerView];
+    _bannerView = [self createBannerWithSize:size withAdUnitId:adUnitId];
+    _bannerView.delegate = self;
+    _bannerView.rootViewController = _uiWindow.rootViewController;
+    [self.uiWindow.rootViewController.view addSubview:_bannerView];
   }
   return self;
 }
 
-- (instancetype)initWithInterstitial:(DFPInterstitial *)dfpInterstitial {
-  if ([self initWithAdUnitId:dfpInterstitial.adUnitID]) {
-    _dfpInterstitial = dfpInterstitial;
-    _dfpInterstitial.delegate = self;
+- (instancetype)initWithInterstitialAdUnitId:(NSString *)adUnitId request:(GADRequest *)request {
+  if ([self initWithAdUnitId:adUnitId]) {
+    [GADInterstitialAd
+         loadWithAdUnitID:adUnitId
+                  request:request
+        completionHandler:^(GADInterstitialAd *ad, NSError *error) {
+          if (error) {
+            NSLog(@"Failed to load interstitial ad with error: %@", [error localizedDescription]);
+            return;
+          }
+          self->_interstitial = ad;
+          ad.fullScreenContentDelegate = self;
+          [ad presentFromRootViewController:self.uiWindow.rootViewController];
+        }];
   }
   return self;
 }
 
 - (void)dealloc {
-  _dfpBannerView.delegate = nil;
-  _dfpInterstitial.delegate = nil;
+  _bannerView.delegate = nil;
+  _interstitial.fullScreenContentDelegate = nil;
 }
 
 #pragma mark - Public
@@ -86,32 +96,23 @@
 
 #pragma mark - GADBannerViewDelegate methods
 
-- (void)adViewDidReceiveAd:(GADBannerView *)bannerView {
+- (void)bannerViewDidReceiveAd:(GADBannerView *)bannerView {
   [self checkViewAndFulfillExpectation];
 }
 
-- (void)adView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(GADRequestError *)error {
+- (void)bannerView:(GAMBannerView *)bannerView didFailToReceiveAdWithError:(NSError *)error {
   NSLog(@"[ERROR] CR_DfpBannerViewChecker.GADBannerViewDelegate (didFailToReceiveAdWithError) %@",
         error.description);
 }
 
 #pragma mark - GADInterstitialDelegate methods
 
-- (void)interstitialDidReceiveAd:(GADInterstitial *)ad {
-  [ad presentFromRootViewController:self.uiWindow.rootViewController];
-}
-
-- (void)interstitialWillPresentScreen:(GADInterstitial *)ad {
+- (void)adDidPresentFullScreenContent:(nonnull id<GADFullScreenPresentingAd>)ad {
   [CR_Timer scheduledTimerWithTimeInterval:1
                                    repeats:NO
                                      block:^(NSTimer *_Nonnull timer) {
                                        [self checkViewAndFulfillExpectation];
                                      }];
-}
-
-- (void)interstitial:(GADInterstitial *)ad didFailToReceiveAdWithError:(GADRequestError *)error {
-  NSLog(@"[ERROR] CR_DfpBannerViewChecker.GADInterstitialDelegate (didFailToReceiveAdWithError) %@",
-        error.description);
 }
 
 #pragma mark - Private methods
@@ -142,11 +143,11 @@
   return window;
 }
 
-- (DFPBannerView *)createDfpBannerWithSize:(GADAdSize)size withAdUnitId:(NSString *)adUnitId {
-  DFPBannerView *dfpBannerView = [[DFPBannerView alloc] initWithAdSize:size];
-  dfpBannerView.adUnitID = adUnitId;
-  dfpBannerView.backgroundColor = [UIColor orangeColor];
-  return dfpBannerView;
+- (GAMBannerView *)createBannerWithSize:(GADAdSize)size withAdUnitId:(NSString *)adUnitId {
+  GAMBannerView *bannerView = [[GAMBannerView alloc] initWithAdSize:size];
+  bannerView.adUnitID = adUnitId;
+  bannerView.backgroundColor = [UIColor orangeColor];
+  return bannerView;
 }
 
 @end

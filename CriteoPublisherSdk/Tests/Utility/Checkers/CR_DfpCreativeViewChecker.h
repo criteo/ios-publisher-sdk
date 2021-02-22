@@ -22,16 +22,17 @@
 
 @import GoogleMobileAds;
 
-@interface CR_DfpCreativeViewChecker : NSObject <GADBannerViewDelegate, GADInterstitialDelegate>
+@interface CR_DfpCreativeViewChecker
+    : NSObject <GADBannerViewDelegate, GADFullScreenContentDelegate>
 
 @property(strong, nonatomic, readonly) XCTestExpectation *adCreativeRenderedExpectation;
 @property(weak, nonatomic, readonly) UIWindow *uiWindow;
-@property(strong, nonatomic, readonly) DFPBannerView *dfpBannerView;
-@property(strong, nonatomic, readonly) DFPInterstitial *dfpInterstitial;
+@property(strong, nonatomic, readonly) GADBannerView *bannerView;
+@property(strong, nonatomic, readonly) GADInterstitialAd *interstitial;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithBannerWithSize:(GADAdSize)size withAdUnitId:(NSString *)adUnitId;
-- (instancetype)initWithInterstitial:(DFPInterstitial *)dfpInterstitial;
+- (instancetype)initWithInterstitialAdUnitId:(NSString *)adUnitId request:(GADRequest *)request;
 - (BOOL)waitAdCreativeRendered;
 - (BOOL)waitAdCreativeRenderedWithTimeout:(NSTimeInterval)timeout;
 

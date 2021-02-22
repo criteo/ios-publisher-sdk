@@ -239,7 +239,7 @@
 
   [self prepareUsedSdkWithInHouse:adUnit];
   [self expectAppBiddingIntegrationType:CR_IntegrationGamAppBidding
-                 afterEnrichingAdObject:DFPRequest.new
+                 afterEnrichingAdObject:GAMRequest.new
                               forAdUnit:adUnit];
 }
 

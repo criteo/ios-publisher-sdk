@@ -37,7 +37,7 @@
 @interface CR_DfpInterstitialFunctionalTests : CR_IntegrationsTestBase
 
 @property(strong, nonatomic) CRInterstitialAdUnit *preprodAdUnit;
-@property(strong, nonatomic) DFPRequest *request;
+@property(strong, nonatomic) GAMRequest *request;
 
 @end
 
@@ -45,27 +45,25 @@
 
 - (void)setUp {
   self.preprodAdUnit = [CR_TestAdUnits preprodInterstitial];
-  self.request = [[DFPRequest alloc] init];
+  self.request = [[GAMRequest alloc] init];
 }
 
 - (void)test_givenInterstitialWithBadAdUnitId_whenEnrichAdObject_thenRequestKeywordsDoNotChange {
   CRInterstitialAdUnit *interstitial = [CR_TestAdUnits randomInterstitial];
   [self initCriteoWithAdUnits:@[ interstitial ]];
-  DFPRequest *interstitialDfpRequest = [[DFPRequest alloc] init];
 
-  [self enrichAdObject:(id)interstitialDfpRequest forAdUnit:interstitial];
+  [self enrichAdObject:self.request forAdUnit:interstitial];
 
-  XCTAssertNil(interstitialDfpRequest.customTargeting);
+  XCTAssertNil(self.request.customTargeting);
 }
 
 - (void)test_givenInterstitialWithGoodAdUnitId_whenEnrichAdObject_thenRequestKeywordsUpdated {
   CRInterstitialAdUnit *interstitial = [CR_TestAdUnits demoInterstitial];
   [self initCriteoWithAdUnits:@[ interstitial ]];
-  DFPRequest *interstitialDfpRequest = [[DFPRequest alloc] init];
 
-  [self enrichAdObject:(id)interstitialDfpRequest forAdUnit:interstitial];
+  [self enrichAdObject:self.request forAdUnit:interstitial];
 
-  CR_AssertDfpCustomTargetingContainsCriteoBid(interstitialDfpRequest.customTargeting);
+  CR_AssertDfpCustomTargetingContainsCriteoBid(self.request.customTargeting);
 }
 
 - (void)test_givenDfpRequest_whenSetBid_thenDisplayUrlEncodedProperly {
@@ -74,10 +72,9 @@
   CR_DependencyProvider *dependencyProvider = self.criteo.dependencyProvider;
   CR_CdbBid *bid = [dependencyProvider.cacheManager
       getBidForAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:interstitialAdUnit]];
-  DFPRequest *interstitialDfpRequest = [[DFPRequest alloc] init];
 
-  [self enrichAdObject:(id)interstitialDfpRequest forAdUnit:interstitialAdUnit];
-  NSString *encodedUrl = interstitialDfpRequest.customTargeting[CR_TargetingKey_crtDfpDisplayUrl];
+  [self enrichAdObject:self.request forAdUnit:interstitialAdUnit];
+  NSString *encodedUrl = self.request.customTargeting[CR_TargetingKey_crtDfpDisplayUrl];
   NSString *decodedUrl = [NSString cr_decodeDfpCompatibleString:encodedUrl];
 
   CGSize screenSize = dependencyProvider.deviceInfo.screenSize;
@@ -91,14 +88,11 @@
 - (void)test_givenValidInterstitial_whenLoadingDfpInterstitial_thenDfpViewContainsCreative {
   CRInterstitialAdUnit *interstitialAdUnit = [CR_TestAdUnits preprodInterstitial];
   [self initCriteoWithAdUnits:@[ interstitialAdUnit ]];
-  DFPRequest *dfpRequest = [[DFPRequest alloc] init];
-  DFPInterstitial *dfpInterstitial =
-      [[DFPInterstitial alloc] initWithAdUnitID:CR_TestAdUnits.dfpInterstitialAdUnitId];
-  CR_DfpCreativeViewChecker *dfpViewChecker =
-      [[CR_DfpCreativeViewChecker alloc] initWithInterstitial:dfpInterstitial];
 
-  [self enrichAdObject:(id)dfpRequest forAdUnit:interstitialAdUnit];
-  [dfpInterstitial loadRequest:dfpRequest];
+  [self enrichAdObject:self.request forAdUnit:interstitialAdUnit];
+  CR_DfpCreativeViewChecker *dfpViewChecker = [[CR_DfpCreativeViewChecker alloc]
+      initWithInterstitialAdUnitId:CR_TestAdUnits.dfpInterstitialAdUnitId
+                           request:self.request];
 
   BOOL renderedProperly = [dfpViewChecker waitAdCreativeRendered];
   XCTAssertTrue(renderedProperly);
@@ -108,14 +102,11 @@
   CRInterstitialAdUnit *interstitialAdUnitRandom = [CR_TestAdUnits randomInterstitial];
   CRInterstitialAdUnit *interstitialAdUnit = [CR_TestAdUnits preprodInterstitial];
   [self initCriteoWithAdUnits:@[ interstitialAdUnit ]];
-  DFPRequest *dfpRequest = [[DFPRequest alloc] init];
-  DFPInterstitial *dfpInterstitial =
-      [[DFPInterstitial alloc] initWithAdUnitID:CR_TestAdUnits.dfpInterstitialAdUnitId];
-  CR_DfpCreativeViewChecker *dfpViewChecker =
-      [[CR_DfpCreativeViewChecker alloc] initWithInterstitial:dfpInterstitial];
 
-  [self enrichAdObject:(id)dfpRequest forAdUnit:interstitialAdUnitRandom];
-  [dfpInterstitial loadRequest:dfpRequest];
+  [self enrichAdObject:self.request forAdUnit:interstitialAdUnitRandom];
+  CR_DfpCreativeViewChecker *dfpViewChecker = [[CR_DfpCreativeViewChecker alloc]
+      initWithInterstitialAdUnitId:CR_TestAdUnits.dfpInterstitialAdUnitId
+                           request:self.request];
 
   BOOL renderedProperly = [dfpViewChecker waitAdCreativeRendered];
   XCTAssertFalse(renderedProperly);
