@@ -78,10 +78,10 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 @implementation MyGADRequest
 @end
 
-@interface MyDFPRequest : DFPRequest
+@interface MyGAMRequest : GAMRequest
 @end
 
-@implementation MyDFPRequest
+@implementation MyGAMRequest
 @end
 
 @interface MyMPAdView : MPAdView
@@ -111,7 +111,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 @property(nonatomic, strong) CR_CdbBid *bid2;
 
 @property(nonatomic, strong) NSMutableDictionary *mutableJsonDict;
-@property(nonatomic, strong) DFPRequest *dfpRequest;
+@property(nonatomic, strong) GAMRequest *request;
 
 @property(nonatomic, strong) id loggingMock;
 
@@ -141,8 +141,8 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
                                                               size:CGSizeMake(1, 2)
                                                         adUnitType:CRAdUnitTypeInterstitial];
 
-  self.dfpRequest = [[DFPRequest alloc] init];
-  self.dfpRequest.customTargeting = @{@"key_1" : @"object 1", @"key_2" : @"object_2"};
+  self.request = [[GAMRequest alloc] init];
+  self.request.customTargeting = @{@"key_1" : @"object 1", @"key_2" : @"object_2"};
 
   self.mutableJsonDict = [self loadSlotDictionary];
 
@@ -168,7 +168,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   OCMVerify([self.integrationRegistry declare:CR_IntegrationCustomAppBidding]);
 }
 
-- (void)testEmptyBidWithDfpRequest {
+- (void)testEmptyBidWithGadRequest {
   GADRequest *request = [[GADRequest alloc] init];
 
   [self.headerBidding enrichRequest:request withBid:[CR_CdbBid emptyBid] adUnit:self.adUnit1];
@@ -261,16 +261,16 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   XCTAssertTrue(isDfpRequest);
 }
 
-- (void)testIsDFPRequest_GivenDFPRequest_ReturnTrue {
-  id request = DFPRequest.new;
+- (void)testIsDFPRequest_GivenGAMRequest_ReturnTrue {
+  id request = GAMRequest.new;
 
   BOOL isDfpRequest = [self.headerBidding isDfpRequest:request];
 
   XCTAssertTrue(isDfpRequest);
 }
 
-- (void)testIsDFPRequest_GivenSubClassOfDFPRequest_ReturnTrue {
-  id request = MyDFPRequest.new;
+- (void)testIsDFPRequest_GivenSubClassOfGAMRequest_ReturnTrue {
+  id request = MyGAMRequest.new;
 
   BOOL isDfpRequest = [self.headerBidding isDfpRequest:request];
 
@@ -300,8 +300,8 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   OCMVerify([self.integrationRegistry declare:CR_IntegrationGamAppBidding]);
 }
 
-- (void)testDfpRequest {
-  DFPRequest *request = [[DFPRequest alloc] init];
+- (void)testGamRequest {
+  GAMRequest *request = [[GAMRequest alloc] init];
   self.device.mock_screenSize = (CGSize){300, 250};
 
   [self.headerBidding enrichRequest:request withBid:self.bid1 adUnit:self.adUnit1];
@@ -324,7 +324,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 }
 
 - (void)testDfpRequestWithInterstitialHasItsDisplayUrlInjected {
-  DFPRequest *request = [[DFPRequest alloc] init];
+  GAMRequest *request = [[GAMRequest alloc] init];
   self.device.mock_screenSize = (CGSize){42, 1337};
 
   OCMStub([self.displaySizeInjector injectFullScreenSizeInDisplayUrl:self.bid1.displayUrl])
@@ -347,14 +347,14 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   CR_CdbBid *nativeBid = [[CR_CdbBid alloc] initWithDict:self.mutableJsonDict
                                               receivedAt:[NSDate date]];
 
-  [self.headerBidding enrichRequest:self.dfpRequest withBid:nativeBid adUnit:adUnit];
+  [self.headerBidding enrichRequest:self.request withBid:nativeBid adUnit:adUnit];
 
   CR_NativeAssets *nativeAssets = nativeBid.nativeAssets;
-  NSDictionary *dfpTargeting = self.dfpRequest.customTargeting;
+  NSDictionary *dfpTargeting = self.request.customTargeting;
   XCTAssertTrue(dfpTargeting.count > 2);
   XCTAssertNil(dfpTargeting[kDfpDisplayUrlKey]);
   XCTAssertEqual(nativeBid.cpm, dfpTargeting[kCpmKey]);
-  [self checkMandatoryNativeAssets:self.dfpRequest nativeBid:nativeBid];
+  [self checkMandatoryNativeAssets:self.request nativeBid:nativeBid];
   CR_AssertEqualDfpString(nativeAssets.advertiser.description, dfpTargeting[@"crtn_advname"]);
   CR_AssertEqualDfpString(nativeAssets.advertiser.domain, dfpTargeting[@"crtn_advdomain"]);
   CR_AssertEqualDfpString(nativeAssets.advertiser.logoImage.url, dfpTargeting[@"crtn_advlogourl"]);
@@ -375,9 +375,9 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   CR_CdbBid *nativeBid = [[CR_CdbBid alloc] initWithDict:self.mutableJsonDict
                                               receivedAt:[NSDate date]];
 
-  [self.headerBidding enrichRequest:self.dfpRequest withBid:nativeBid adUnit:adUnit];
+  [self.headerBidding enrichRequest:self.request withBid:nativeBid adUnit:adUnit];
 
-  NSDictionary *dfpTargeting = self.dfpRequest.customTargeting;
+  NSDictionary *dfpTargeting = self.request.customTargeting;
   XCTAssertGreaterThan(dfpTargeting.count, 2);
   XCTAssertNil(dfpTargeting[kDfpDisplayUrlKey]);
   XCTAssertNil(dfpTargeting[@"crtn_advname"]);
@@ -386,7 +386,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   XCTAssertNil(dfpTargeting[@"crtn_advurl"]);
   XCTAssertNil(dfpTargeting[@"crtn_prtext"]);
   XCTAssertEqual(nativeBid.cpm, dfpTargeting[kCpmKey]);
-  [self checkMandatoryNativeAssets:self.dfpRequest nativeBid:nativeBid];
+  [self checkMandatoryNativeAssets:self.request nativeBid:nativeBid];
 }
 
 #pragma mark - Mopub
@@ -583,9 +583,9 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   self.device.mock_isInPortrait = orientation == CR_DeviceOrientationPortrait;
   self.device.mock_screenSize = screenSize;
 
-  [self.headerBidding enrichRequest:self.dfpRequest withBid:bid adUnit:adUnit];
+  [self.headerBidding enrichRequest:self.request withBid:bid adUnit:adUnit];
 
-  NSDictionary *target = self.dfpRequest.customTargeting;
+  NSDictionary *target = self.request.customTargeting;
   if (![crtSize isEqual:target[kSizeKey]]) {
     NSString *desc =
         [[NSString alloc] initWithFormat:@"The customTargeting doesn't contain \"%@ \": %@:%@",
@@ -595,10 +595,10 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   }
 }
 
-- (void)checkMandatoryNativeAssets:(DFPRequest *)dfpBidRequest nativeBid:(CR_CdbBid *)nativeBid {
+- (void)checkMandatoryNativeAssets:(GAMRequest *)request nativeBid:(CR_CdbBid *)nativeBid {
   CR_NativeAssets *nativeAssets = nativeBid.nativeAssets;
   CR_NativeProduct *firstProduct = nativeAssets.products[0];
-  NSDictionary *dfpTargeting = dfpBidRequest.customTargeting;
+  NSDictionary *dfpTargeting = request.customTargeting;
   XCTAssert(nativeBid.nativeAssets.products.count > 0);
   CR_AssertEqualDfpString(firstProduct.title, dfpTargeting[@"crtn_title"]);
   CR_AssertEqualDfpString(firstProduct.description, dfpTargeting[@"crtn_desc"]);

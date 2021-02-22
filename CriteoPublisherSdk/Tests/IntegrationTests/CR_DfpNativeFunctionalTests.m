@@ -36,26 +36,26 @@
 - (void)test_givenNativeWithBadAdUnitId_whenEnrichAdObject_thenRequestKeywordsDoNotChange {
   CRNativeAdUnit *native = [CR_TestAdUnits randomNative];
   [self initCriteoWithAdUnits:@[ native ]];
-  DFPRequest *dfpRequest = [[DFPRequest alloc] init];
+  GAMRequest *request = [[GAMRequest alloc] init];
 
-  [self enrichAdObject:(id)dfpRequest forAdUnit:native];
+  [self enrichAdObject:(id)request forAdUnit:native];
 
-  XCTAssertNil(dfpRequest.customTargeting);
+  XCTAssertNil(request.customTargeting);
 }
 
 - (void)test_givenNativeWithGoodAdUnitId_whenEnrichAdObject_thenRequestKeywordsUpdated {
   CRNativeAdUnit *native = [CR_TestAdUnits preprodNative];
   [self initCriteoWithAdUnits:@[ native ]];
-  DFPRequest *dfpRequest = [[DFPRequest alloc] init];
+  GAMRequest *request = [[GAMRequest alloc] init];
 
-  [self enrichAdObject:(id)dfpRequest forAdUnit:native];
+  [self enrichAdObject:(id)request forAdUnit:native];
 
   CR_NativeAssets *assets = [CR_NativeAssets nativeAssetsFromCdb];
   CR_NativeProduct *product = assets.products[0];
   CR_NativeAdvertiser *advertiser = assets.advertiser;
   CR_NativePrivacy *privacy = assets.privacy;
 
-  NSDictionary *targeting = dfpRequest.customTargeting;
+  NSDictionary *targeting = request.customTargeting;
 
   XCTAssertNotNil(targeting[CR_TargetingKey_crtCpm]);
   XCTAssertNil(targeting[CR_TargetingKey_crtDfpDisplayUrl]);
@@ -90,14 +90,14 @@
 - (void)test_givenValidNative_whenLoadingNative_thenDfpViewContainsNativeCreative {
   CRNativeAdUnit *bannerAdUnit = [CR_TestAdUnits preprodNative];
   [self initCriteoWithAdUnits:@[ bannerAdUnit ]];
-  DFPRequest *bannerDfpRequest = [[DFPRequest alloc] init];
+  GAMRequest *bannerDfpRequest = [[GAMRequest alloc] init];
 
   CR_DfpCreativeViewChecker *dfpViewChecker =
       [[CR_DfpCreativeViewChecker alloc] initWithBannerWithSize:kGADAdSizeFluid
                                                    withAdUnitId:CR_TestAdUnits.dfpNativeId];
 
   [self enrichAdObject:(id)bannerDfpRequest forAdUnit:bannerAdUnit];
-  [dfpViewChecker.dfpBannerView loadRequest:bannerDfpRequest];
+  [dfpViewChecker.bannerView loadRequest:bannerDfpRequest];
 
   BOOL renderedProperly = [dfpViewChecker waitAdCreativeRendered];
   XCTAssertTrue(renderedProperly);

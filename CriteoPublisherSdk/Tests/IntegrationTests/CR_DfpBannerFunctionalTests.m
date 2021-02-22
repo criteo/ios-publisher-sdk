@@ -37,28 +37,32 @@
 
 @interface CR_DfpBannerFunctionalTests : CR_IntegrationsTestBase
 
+@property(strong, nonatomic) GAMRequest *request;
+
 @end
 
 @implementation CR_DfpBannerFunctionalTests
 
+- (void)setUp {
+  self.request = [[GAMRequest alloc] init];
+}
+
 - (void)test_givenBannerWithBadAdUnitId_whenEnrichAdObject_thenRequestKeywordsDoNotChange {
   CRBannerAdUnit *banner = [CR_TestAdUnits randomBanner320x50];
   [self initCriteoWithAdUnits:@[ banner ]];
-  DFPRequest *bannerDfpRequest = [[DFPRequest alloc] init];
 
-  [self enrichAdObject:(id)bannerDfpRequest forAdUnit:banner];
+  [self enrichAdObject:self.request forAdUnit:banner];
 
-  XCTAssertNil(bannerDfpRequest.customTargeting);
+  XCTAssertNil(self.request.customTargeting);
 }
 
 - (void)test_givenBannerWithGoodAdUnitId_whenEnrichAdObject_thenRequestKeywordsUpdated {
   CRBannerAdUnit *banner = [CR_TestAdUnits demoBanner320x50];
   [self initCriteoWithAdUnits:@[ banner ]];
-  DFPRequest *bannerDfpRequest = [[DFPRequest alloc] init];
 
-  [self enrichAdObject:(id)bannerDfpRequest forAdUnit:banner];
+  [self enrichAdObject:self.request forAdUnit:banner];
 
-  CR_AssertDfpCustomTargetingContainsCriteoBid(bannerDfpRequest.customTargeting);
+  CR_AssertDfpCustomTargetingContainsCriteoBid(self.request.customTargeting);
   NSLog(@"%@", self.criteo.testing_networkCaptor.allRequests);
 }
 
@@ -68,11 +72,10 @@
   CR_DependencyProvider *dependencyProvider = self.criteo.dependencyProvider;
   CR_CdbBid *bid = [dependencyProvider.cacheManager
       getBidForAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:banner]];
-  DFPRequest *bannerDfpRequest = [[DFPRequest alloc] init];
 
-  [self enrichAdObject:(id)bannerDfpRequest forAdUnit:banner];
+  [self enrichAdObject:self.request forAdUnit:banner];
 
-  NSString *encodedUrl = bannerDfpRequest.customTargeting[CR_TargetingKey_crtDfpDisplayUrl];
+  NSString *encodedUrl = self.request.customTargeting[CR_TargetingKey_crtDfpDisplayUrl];
   NSString *decodedUrl = [NSString cr_decodeDfpCompatibleString:encodedUrl];
 
   XCTAssertEqualObjects(bid.displayUrl, decodedUrl);
@@ -82,14 +85,13 @@
 - (void)test_givenValidBanner_whenLoadingDfpBanner_thenDfpViewContainsCreative {
   CRBannerAdUnit *bannerAdUnit = [CR_TestAdUnits preprodBanner320x50];
   [self initCriteoWithAdUnits:@[ bannerAdUnit ]];
-  DFPRequest *bannerDfpRequest = [[DFPRequest alloc] init];
   CR_DfpCreativeViewChecker *dfpViewChecker =
       [[CR_DfpCreativeViewChecker alloc] initWithBannerWithSize:kGADAdSizeBanner
                                                    withAdUnitId:CR_TestAdUnits.dfpBanner50AdUnitId];
 
-  [self enrichAdObject:(id)bannerDfpRequest forAdUnit:bannerAdUnit];
+  [self enrichAdObject:self.request forAdUnit:bannerAdUnit];
 
-  [dfpViewChecker.dfpBannerView loadRequest:bannerDfpRequest];
+  [dfpViewChecker.bannerView loadRequest:self.request];
 
   BOOL renderedProperly = [dfpViewChecker waitAdCreativeRendered];
   XCTAssert(renderedProperly);
@@ -100,13 +102,12 @@
   CRBannerAdUnit *bannerAdUnit = [CR_TestAdUnits preprodBanner320x50];
   CRBannerAdUnit *bannerAdUnitRandom = [CR_TestAdUnits randomBanner320x50];
   [self initCriteoWithAdUnits:@[ bannerAdUnit ]];
-  DFPRequest *bannerDfpRequest = [[DFPRequest alloc] init];
   CR_DfpCreativeViewChecker *dfpViewChecker =
       [[CR_DfpCreativeViewChecker alloc] initWithBannerWithSize:kGADAdSizeBanner
                                                    withAdUnitId:CR_TestAdUnits.dfpBanner50AdUnitId];
 
-  [self enrichAdObject:(id)bannerDfpRequest forAdUnit:bannerAdUnitRandom];
-  [dfpViewChecker.dfpBannerView loadRequest:bannerDfpRequest];
+  [self enrichAdObject:self.request forAdUnit:bannerAdUnitRandom];
+  [dfpViewChecker.bannerView loadRequest:self.request];
 
   BOOL renderedProperly = [dfpViewChecker waitAdCreativeRendered];
   XCTAssertFalse(renderedProperly);
@@ -115,11 +116,10 @@
 - (void)test_givenBannerAdUnit_whenEnrichAdObjectForRequest_thenRequestKeywordsContainsCrtSize {
   CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
   [self initCriteoWithAdUnits:@[ adUnit ]];
-  DFPRequest *request = [[DFPRequest alloc] init];
 
-  [self enrichAdObject:(id)request forAdUnit:adUnit];
+  [self enrichAdObject:self.request forAdUnit:adUnit];
 
-  XCTAssertEqualObjects(request.customTargeting[@"crt_size"], @"320x50");
+  XCTAssertEqualObjects(self.request.customTargeting[@"crt_size"], @"320x50");
 }
 
 @end

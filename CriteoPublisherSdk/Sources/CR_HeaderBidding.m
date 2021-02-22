@@ -99,7 +99,8 @@
 }
 
 - (BOOL)isDfpRequest:(id)request {
-  return [self is:request kindOfClassByName:@"DFPRequest"] ||
+  return [self is:request kindOfClassByName:@"GAMRequest"] ||
+         [self is:request kindOfClassByName:@"DFPRequest"] ||
          [self is:request kindOfClassByName:@"DFPNRequest"] ||
          [self is:request kindOfClassByName:@"DFPORequest"] ||
          [self is:request kindOfClassByName:@"GADRequest"] ||

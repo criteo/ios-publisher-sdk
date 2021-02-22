@@ -66,7 +66,7 @@
 
 @property(nonatomic, strong) CRContextData *contextData;
 
-@property(nonatomic, strong) DFPRequest *dfpRequest;
+@property(nonatomic, strong) GAMRequest *request;
 
 @property(nonatomic, strong) CR_DeviceInfo *deviceInfoMock;
 @property(nonatomic, strong) CR_CacheManager *cacheManager;
@@ -116,8 +116,8 @@
   self.cacheManager.bidCache[self.adUnit2] = self.bid2;
   self.cacheManager.bidCache[self.adUnitForEmptyBid] = [CR_CdbBid emptyBid];
 
-  self.dfpRequest = [[DFPRequest alloc] init];
-  self.dfpRequest.customTargeting = @{@"key_1" : @"object 1", @"key_2" : @"object_2"};
+  self.request = [[GAMRequest alloc] init];
+  self.request.customTargeting = @{@"key_1" : @"object 1", @"key_2" : @"object_2"};
 
   self.contextData = CRContextData.new;
 
@@ -799,11 +799,9 @@
 - (void)testAddCriteoBidToRequestCallHeaderBidding {
   CRBid *validBid = self.validBid;
   CR_CdbBid *cdbBid = validBid.cdbBid;
-  [self.bidManager enrichAdObject:self.dfpRequest withBid:validBid];
+  [self.bidManager enrichAdObject:self.request withBid:validBid];
 
-  OCMVerify([self.headerBiddingMock enrichRequest:self.dfpRequest
-                                          withBid:cdbBid
-                                           adUnit:self.adUnit1]);
+  OCMVerify([self.headerBiddingMock enrichRequest:self.request withBid:cdbBid adUnit:self.adUnit1]);
 }
 
 #pragma mark - Private
