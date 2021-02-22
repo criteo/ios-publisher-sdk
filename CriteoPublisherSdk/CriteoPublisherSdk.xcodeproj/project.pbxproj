@@ -702,7 +702,7 @@
 		8702B3BA4117B77A890D5F06 /* Pods-CriteoPublisherSdk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoPublisherSdk.debug.xcconfig"; path = "Target Support Files/Pods-CriteoPublisherSdk/Pods-CriteoPublisherSdk.debug.xcconfig"; sourceTree = "<group>"; };
 		92039F91AE1122C08CF8EC36 /* libPods-CriteoPublisherSdkTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoPublisherSdkTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C07AB093A865F67283614A5D /* CRMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRMediaView.m; sourceTree = "<group>"; };
-		C07AB0DC260182010824A534 /* CR_RemoteLogRecordSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CR_RemoteLogRecordSerializer.h; path = Sources/Logging/CR_RemoteLogRecordSerializer.h; sourceTree = "<group>"; };
+		C07AB0DC260182010824A534 /* CR_RemoteLogRecordSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_RemoteLogRecordSerializer.h; sourceTree = "<group>"; };
 		C07AB0F74CBE74DC33F6ED1C /* CR_RemoteLogRecordTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CR_RemoteLogRecordTests.m; path = Logging/CR_RemoteLogRecordTests.m; sourceTree = "<group>"; };
 		C07AB14CF52484595D6E0E51 /* CRUserData+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CRUserData+Internal.h"; sourceTree = "<group>"; };
 		C07AB1709D918AD4DA7A4384 /* NSUserDefaults+CR_Config.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+CR_Config.m"; sourceTree = "<group>"; };
@@ -759,7 +759,7 @@
 		C07ABE9C517574E8D3DBE4EC /* CRContextData+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CRContextData+Internal.h"; sourceTree = "<group>"; };
 		C07ABEC0FA1873D8B0882250 /* CR_FeedbackFeatureGuardTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_FeedbackFeatureGuardTests.m; sourceTree = "<group>"; };
 		C07ABF175ED6F5228D1AE701 /* CR_RemoteLogHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_RemoteLogHandler.m; sourceTree = "<group>"; };
-		C07ABF29228376C94127261F /* CR_RemoteLogRecordSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CR_RemoteLogRecordSerializer.m; path = Sources/Logging/CR_RemoteLogRecordSerializer.m; sourceTree = "<group>"; };
+		C07ABF29228376C94127261F /* CR_RemoteLogRecordSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_RemoteLogRecordSerializer.m; sourceTree = "<group>"; };
 		C07ABFAEC89073B82C1CB591 /* CR_LoggingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_LoggingTests.m; sourceTree = "<group>"; };
 		C07ABFCB3CD0F740F0A7FB05 /* CRMediaContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRMediaContent.h; sourceTree = "<group>"; };
 		DF367C84232971810044807B /* CRNativeAdUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNativeAdUnit.h; sourceTree = "<group>"; };
@@ -958,6 +958,8 @@
 				46C403E92577BADD00E5179C /* CR_LogMessage.m */,
 				C07AB97FE6D2C0F49B55316F /* CR_RemoteLogRecord.h */,
 				C07AB8BF2845E5F7C18F9BBC /* CR_RemoteLogRecord.m */,
+				C07AB0DC260182010824A534 /* CR_RemoteLogRecordSerializer.h */,
+				C07ABF29228376C94127261F /* CR_RemoteLogRecordSerializer.m */,
 				C07ABBECE75DACD69AC68FCE /* CR_RemoteLogStorage.h */,
 				46A667DB25AD9C2700522C6D /* CR_RemoteLogStorage+Internal.h */,
 				C07AB7A519A1FD39F66F50D2 /* CR_RemoteLogStorage.m */,
@@ -1574,8 +1576,6 @@
 				E1F2736521B5F08D00A2FBFA /* Products */,
 				58922C790615A11D1E6D635B /* Frameworks */,
 				4733D5730B48AD6DBA854BCC /* Pods */,
-				C07AB0DC260182010824A534 /* CR_RemoteLogRecordSerializer.h */,
-				C07ABF29228376C94127261F /* CR_RemoteLogRecordSerializer.m */,
 			);
 			sourceTree = "<group>";
 		};
