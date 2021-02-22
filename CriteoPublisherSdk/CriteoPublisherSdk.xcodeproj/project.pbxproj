@@ -408,6 +408,7 @@
 		46678011257FD4E200D14B51 /* CRSKAdNetworkInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRSKAdNetworkInfo.h; sourceTree = "<group>"; };
 		4668FEEF2459BD1000D207AE /* CRNativeLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRNativeLoader.h; sourceTree = "<group>"; };
 		4668FEF12459BD1000D207AE /* CRNativeLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRNativeLoader.m; sourceTree = "<group>"; };
+		466AA0E325E3FB61000673BB /* CriteoPublisherSdk-Google.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = "CriteoPublisherSdk-Google.xctestplan"; path = "/Users/v.guerci/Code/pub-sdk-ios/ios-publisher-sdk/CriteoPublisherSdk/Tests/CriteoPublisherSdk-Google.xctestplan"; sourceTree = "<absolute>"; };
 		4671BEB625599E2B0097D249 /* CR_URLRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_URLRequest.h; sourceTree = "<group>"; };
 		4671BEB725599E2B0097D249 /* CR_URLRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_URLRequest.m; sourceTree = "<group>"; };
 		4672E1D1251CDE02009F39EF /* CR_CASQueueFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_CASQueueFile.m; sourceTree = "<group>"; };
@@ -1647,6 +1648,7 @@
 			children = (
 				4607BD0D24AF4F8300F18AF5 /* CriteoPublisherSdk.xctestplan */,
 				4646EF182514CEF2009E4D16 /* CriteoPublisherSdk-Standalone.xctestplan */,
+				466AA0E325E3FB61000673BB /* CriteoPublisherSdk-Google.xctestplan */,
 				54FE074123FEED2B0035A026 /* CriteoPublisherSdkTests-Bridging-Header.h */,
 				7D3E41EF23915A8B00BAF673 /* CriteoPublisherSdkTests-Info.plist */,
 				7DCFBF752445F2BE009657F7 /* PerformanceTests */,
