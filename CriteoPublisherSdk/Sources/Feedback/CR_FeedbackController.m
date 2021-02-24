@@ -138,7 +138,7 @@
                               profileId:profileId
                       completionHandler:^(NSError *error) {
                         if (error) {
-                          CRLogWarn(@"Metrics", @"Failed sending: %@", error.localizedDescription);
+                          CRLogInfo(@"Metrics", @"Failed sending: %@", error);
                           [self.feedbackStorage pushMessagesToSend:messagesToRollback];
                         }
                       }];

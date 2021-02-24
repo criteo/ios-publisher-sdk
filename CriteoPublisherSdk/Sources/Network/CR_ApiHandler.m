@@ -179,14 +179,15 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
       responseHandler:^(NSData *data, NSError *error) {
         CRLogDebug(@"Config", @"Received config");
         if (error == nil) {
-          if (data && ahConfigHandler) {
+          if (data.length && ahConfigHandler) {
             NSDictionary *configValues = [CR_Config getConfigValuesFromData:data];
             ahConfigHandler(configValues);
           } else {
-            CRLogWarn(@"Config", @"Error on get from Config: response from Config was nil");
+            CRLogInfo(@"Config",
+                      @"Error on get from Config: response from Config was nil or empty");
           }
         } else {
-          CRLogWarn(@"Config", @"Error on get from Config : %@", error);
+          CRLogInfo(@"Config", @"Error on get from Config : %@", error);
         }
       }];
 }
@@ -209,7 +210,7 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
       responseHandler:^(NSData *data, NSError *error) {
         CRLogDebug(@"AppEvent", @"[INFO][API_] AppEventGetCall.finished");
         if (error == nil) {
-          if (data && ahEventHandler) {
+          if (data.length && ahEventHandler) {
             NSError *e = nil;
             NSDictionary *response =
                 [NSJSONSerialization JSONObjectWithData:data
@@ -222,13 +223,13 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
               ahEventHandler(response, [NSDate date]);
             }
           } else {
-            CRLogWarn(
+            CRLogInfo(
                 @"AppEvent",
-                @"Error on get from app events end point; either value is nil: (response: %@) or (ahEventHandler: %p)",
+                @"Error on get from app events end point; either value is nil or empty: (response: %@) or (ahEventHandler: %p)",
                 data, ahEventHandler);
           }
         } else {
-          CRLogWarn(@"AppEvent", @"Error on get from app events end point. Error was: %@", error);
+          CRLogInfo(@"AppEvent", @"Error on get from app events end point. Error was: %@", error);
         }
       }];
 }

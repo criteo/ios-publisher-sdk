@@ -41,7 +41,7 @@
   CRLogInfo(@"Initialization", @"Singleton was initialized");
 
   if (!CRSKAdNetworkInfo.hasCriteoId) {
-    CRLogWarn(
+    CRLogInfo(
         @"SKAdNetwork",
         @"SKAdNetwork Criteo ID \"%@\" is missing in application Info.plist.\n"
          "Your application won't be eligible to App Install campaigns.\n"
