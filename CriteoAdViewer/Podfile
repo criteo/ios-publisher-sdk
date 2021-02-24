@@ -5,7 +5,7 @@ workspace 'CriteoAdViewer'
 target 'CriteoAdViewer' do
   project 'CriteoAdViewer'
 
-  pod 'CriteoPublisherSdk', '~> 4.0.0-rc1'
+  pod 'CriteoPublisherSdk', '~> 4.3.0-rc1'
   # pod 'CriteoPublisherSdk', :git => 'https://github.com/criteo/ios-publisher-sdk.git' #, :branch => ''
   pod 'mopub-ios-sdk/Core'
   pod 'Google-Mobile-Ads-SDK'
