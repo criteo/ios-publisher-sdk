@@ -1,6 +1,6 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
-## Version 4.x.x
+## Version 4.3.0
 
 ### Features
 - Google Ads SDK v8 support
