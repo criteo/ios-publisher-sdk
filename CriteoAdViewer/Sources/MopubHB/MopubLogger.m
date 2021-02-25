@@ -72,10 +72,6 @@
   [self.interstitialDelegate interstitialUpdated:YES];
 }
 
-- (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial {
-  [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial];
-}
-
 - (void)interstitialDidFailToLoadAd:(MPInterstitialAdController *)interstitial
                           withError:(NSError *)error {
   [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial error:error];
@@ -90,12 +86,12 @@
   [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial];
 }
 
-- (void)interstitialWillDisappear:(MPInterstitialAdController *)interstitial {
+- (void)interstitialWillDismiss:(MPInterstitialAdController *)interstitial {
   [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial];
   [self.interstitialDelegate interstitialUpdated:NO];
 }
 
-- (void)interstitialDidDisappear:(MPInterstitialAdController *)interstitial {
+- (void)interstitialDidDismiss:(MPInterstitialAdController *)interstitial {
   [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial];
 }
 
