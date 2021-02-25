@@ -75,8 +75,8 @@
       return @"ℹ️INFO";
     case CR_LogSeverityDebug:
       return @"🐛DEBUG";
-    default:
-      return nil;
+    case CR_LogSeverityNone:
+      return @"🤦‍♂️NONE";
   }
 }
 

@@ -330,7 +330,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 }
 
 - (void)updateConsentGiven:(NSNumber *)consentGiven {
-  if (consentGiven) {
+  if (consentGiven != nil) {
     self.consent.consentGiven = consentGiven.boolValue;
   }
 }
