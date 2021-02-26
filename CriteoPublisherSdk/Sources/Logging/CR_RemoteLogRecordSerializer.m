@@ -17,7 +17,12 @@
 // limitations under the License.
 //
 
+#import <UIKit/UIKit.h>
 #import "CR_RemoteLogRecordSerializer.h"
+
+@interface CR_RemoteLogRecordSerializer ()
+@property(strong, nonatomic) NSString *deviceOs;
+@end
 
 @implementation CR_RemoteLogRecordSerializer
 
@@ -37,6 +42,7 @@
   context[@"version"] = record.version;
   context[@"bundleId"] = record.bundleId;
   context[@"deviceId"] = record.deviceId;
+  context[@"deviceOs"] = self.deviceOs;
   context[@"sessionId"] = record.sessionId;
   context[@"profileId"] = record.profileId;
   context[@"tag"] = record.tag;
@@ -63,6 +69,14 @@
     case CR_LogSeverityNone:
       return @"None";
   }
+}
+
+- (NSString *)deviceOs {
+  if (!_deviceOs) {
+    NSString *systemVersion = [UIDevice currentDevice].systemVersion;
+    _deviceOs = [@"iOS" stringByAppendingString:systemVersion];
+  }
+  return _deviceOs;
 }
 
 @end
