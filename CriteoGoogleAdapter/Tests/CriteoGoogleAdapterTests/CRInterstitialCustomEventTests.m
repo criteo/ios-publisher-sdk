@@ -60,8 +60,8 @@
       OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
   OCMExpect([mockGADInterstitialDelegate
       customEventInterstitial:customEvent
-                    didFailAd:[NSError errorWithDomain:kGADErrorDomain
-                                                  code:kGADErrorInvalidArgument
+                    didFailAd:[NSError errorWithDomain:GADErrorDomain
+                                                  code:GADErrorInvalidArgument
                                               userInfo:nil]]);
   NSString *invalidServerParameter = @"{\"cpIDD\":\"testCpId\"}";
   customEvent.delegate = mockGADInterstitialDelegate;
@@ -109,8 +109,8 @@
                           code:0
                       userInfo:@{NSLocalizedDescriptionKey : @"test description"}];
   NSError *expectedError =
-      [NSError errorWithDomain:kGADErrorDomain
-                          code:kGADErrorNoFill
+      [NSError errorWithDomain:GADErrorDomain
+                          code:GADErrorNoFill
                       userInfo:@{NSLocalizedDescriptionKey : CriteoError.description}];
   OCMExpect([mockGADInterstitialDelegate customEventInterstitial:customEvent
                                                        didFailAd:expectedError]);
@@ -189,8 +189,8 @@
                           code:0
                       userInfo:@{NSLocalizedDescriptionKey : @"test description"}];
   NSError *expectedError =
-      [NSError errorWithDomain:kGADErrorDomain
-                          code:kGADErrorNetworkError
+      [NSError errorWithDomain:GADErrorDomain
+                          code:GADErrorNetworkError
                       userInfo:@{NSLocalizedDescriptionKey : CriteoError.description}];
   [customEvent interstitial:[CRInterstitial new] didFailToReceiveAdWithError:expectedError];
   OCMVerifyAll(mockGADInterstitialDelegate);
