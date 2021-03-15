@@ -39,7 +39,7 @@ Pod::Spec.new do |spec|
   spec.subspec "GoogleAdapter" do |adapter|
     adapter.source_files     = "CriteoGoogleAdapter/Sources/**/*.{h,m}"
     adapter.dependency         "CriteoPublisherSdk/Sdk"
-    adapter.dependency         "Google-Mobile-Ads-SDK", "~> 7.49"
+    adapter.dependency         "Google-Mobile-Ads-SDK", ">= 7.49", "<9"
   end
 
   spec.subspec "MoPubAdapter" do |adapter|
