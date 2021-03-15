@@ -63,7 +63,7 @@
   CRGoogleMediationParameters *gmp = [CRGoogleMediationParameters parametersFromJSONString:nil
                                                                                      error:&error];
   XCTAssertNil(gmp);
-  XCTAssertEqual(error.code, kGADErrorInvalidArgument);
+  XCTAssertEqual(error.code, GADErrorInvalidArgument);
 }
 
 // Blank cpid
@@ -73,7 +73,7 @@
       parametersFromJSONString:@"{\"cpId\":\"\", \"adUnitId\": \"/140800857/Endeavour_320x50\"}"
                          error:&error];
   XCTAssertNil(gmp);
-  XCTAssertEqual(error.code, kGADErrorInvalidArgument);
+  XCTAssertEqual(error.code, GADErrorInvalidArgument);
 }
 
 // Nil cpid
@@ -84,7 +84,7 @@
           @"{\"cpidx\":\"B-056946\", \"adUnitId\": \"/140800857/Endeavour_320x50\"}"
                          error:&error];
   XCTAssertNil(gmp);
-  XCTAssertEqual(error.code, kGADErrorInvalidArgument);
+  XCTAssertEqual(error.code, GADErrorInvalidArgument);
 }
 
 // Non-string cpId
@@ -94,7 +94,7 @@
       parametersFromJSONString:@"{\"cpId\":1, \"adUnitID\": \"/140800857/Endeavour_320x50\"}"
                          error:&error];
   XCTAssertNil(gmp);
-  XCTAssertEqual(error.code, kGADErrorInvalidArgument);
+  XCTAssertEqual(error.code, GADErrorInvalidArgument);
 }
 
 // Blank ad unit id
@@ -104,7 +104,7 @@
       parametersFromJSONString:@"{\"cpId\":\"B-056946\", \"adUnitId\": \"\"}"
                          error:&error];
   XCTAssertNil(gmp);
-  XCTAssertEqual(error.code, kGADErrorInvalidArgument);
+  XCTAssertEqual(error.code, GADErrorInvalidArgument);
 }
 
 // Nil ad unit id
@@ -115,7 +115,7 @@
           @"{\"cpId\":\"B-056946\", \"adUnitIDx\": \"/140800857/Endeavour_320x50\"}"
                          error:&error];
   XCTAssertNil(gmp);
-  XCTAssertEqual(error.code, kGADErrorInvalidArgument);
+  XCTAssertEqual(error.code, GADErrorInvalidArgument);
 }
 
 // Non-string ad unit id
@@ -125,7 +125,7 @@
       parametersFromJSONString:@"{\"cpId\":\"B-056946\", \"adUnitID\": 2}"
                          error:&error];
   XCTAssertNil(gmp);
-  XCTAssertEqual(error.code, kGADErrorInvalidArgument);
+  XCTAssertEqual(error.code, GADErrorInvalidArgument);
 }
 
 // Pass nil as an error on failure case
@@ -143,7 +143,7 @@
   CRGoogleMediationParameters *gmp =
       [CRGoogleMediationParameters parametersFromJSONString:@"ASFQ$RT @#VSDVC " error:&error];
   XCTAssertNil(gmp);
-  XCTAssertEqual(error.code, kGADErrorInvalidArgument);
+  XCTAssertEqual(error.code, GADErrorInvalidArgument);
 }
 
 @end

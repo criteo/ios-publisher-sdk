@@ -93,8 +93,8 @@
   id mockGADBannerDelegate = OCMStrictProtocolMock(@protocol(GADCustomEventBannerDelegate));
   OCMExpect([mockGADBannerDelegate
       customEventBanner:customEvent
-              didFailAd:[NSError errorWithDomain:kGADErrorDomain
-                                            code:kGADErrorInvalidArgument
+              didFailAd:[NSError errorWithDomain:GADErrorDomain
+                                            code:GADErrorInvalidArgument
                                         userInfo:nil]]);
   NSString *invalid = @"{\"cpIDD\":\"testCpId\"}";
   customEvent.delegate = mockGADBannerDelegate;
@@ -124,8 +124,8 @@
                       userInfo:[NSDictionary dictionaryWithObject:@"test description"
                                                            forKey:NSLocalizedDescriptionKey]];
   NSError *expectedError =
-      [NSError errorWithDomain:kGADErrorDomain
-                          code:kGADErrorNoFill
+      [NSError errorWithDomain:GADErrorDomain
+                          code:GADErrorNoFill
                       userInfo:[NSDictionary dictionaryWithObject:criteoError.description
                                                            forKey:NSLocalizedDescriptionKey]];
   OCMExpect([mockGADBannerDelegate customEventBanner:customEvent didFailAd:expectedError]);

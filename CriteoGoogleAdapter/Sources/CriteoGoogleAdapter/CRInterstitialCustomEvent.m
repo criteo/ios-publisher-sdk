@@ -77,8 +77,8 @@
         customEventInterstitial:self
                       didFailAd:
                           [NSError
-                              errorWithDomain:kGADErrorDomain
-                                         code:kGADErrorNoFill
+                              errorWithDomain:GADErrorDomain
+                                         code:GADErrorNoFill
                                      userInfo:[NSDictionary
                                                   dictionaryWithObject:error.description
                                                                 forKey:NSLocalizedDescriptionKey]]];
