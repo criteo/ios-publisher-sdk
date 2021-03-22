@@ -89,7 +89,7 @@
     } else if ([accessTechnology isEqualToString:CTRadioAccessTechnologyLTE]) {
       return CR_DeviceConnectionTypeCellular4G;
     }
-    if (@available(iOS 14, *)) {
+    if (@available(iOS 14.1, *)) {
       if ([accessTechnology isEqualToString:CTRadioAccessTechnologyNRNSA] ||
           [accessTechnology isEqualToString:CTRadioAccessTechnologyNR]) {
         return CR_DeviceConnectionTypeCellular5G;
