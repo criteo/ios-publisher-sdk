@@ -23,13 +23,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NativeAdView : UIView <MPNativeAdRendering>
 
-@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
-@property (strong, nonatomic) IBOutlet UILabel *mainTextLabel;
-@property (strong, nonatomic) IBOutlet UILabel *callToActionLabel;
-@property (strong, nonatomic) IBOutlet UILabel *sponsoredByLabel;
-@property (strong, nonatomic) IBOutlet UIImageView *iconImageView;
-@property (strong, nonatomic) IBOutlet UIImageView *mainImageView;
-@property (strong, nonatomic) IBOutlet UIImageView *privacyInformationIconImageView;
+@property(strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property(strong, nonatomic) IBOutlet UILabel *mainTextLabel;
+@property(strong, nonatomic) IBOutlet UILabel *callToActionLabel;
+@property(strong, nonatomic) IBOutlet UILabel *sponsoredByLabel;
+@property(strong, nonatomic) IBOutlet UIImageView *iconImageView;
+@property(strong, nonatomic) IBOutlet UIImageView *mainImageView;
+@property(strong, nonatomic) IBOutlet UIImageView *privacyInformationIconImageView;
 
 @end
 

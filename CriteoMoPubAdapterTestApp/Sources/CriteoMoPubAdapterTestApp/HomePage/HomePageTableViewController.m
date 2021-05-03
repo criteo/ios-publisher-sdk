@@ -11,7 +11,9 @@
 #import "MoPub.h"
 #import <CriteoMoPubAdapter/CRNativeAdRenderer.h>
 
-@interface HomePageTableViewController () <MPAdViewDelegate, MPInterstitialAdControllerDelegate, MPNativeAdDelegate>
+@interface HomePageTableViewController () <MPAdViewDelegate,
+                                           MPInterstitialAdControllerDelegate,
+                                           MPNativeAdDelegate>
 
 @property(weak, nonatomic) IBOutlet UIView *bannerView;
 @property(weak, nonatomic) IBOutlet UIButton *presentInterstitialButton;
@@ -63,29 +65,38 @@
 - (IBAction)loadNativeClicked:(id)sender {
   MPStaticNativeAdRendererSettings *mopubSettings = [[MPStaticNativeAdRendererSettings alloc] init];
   mopubSettings.renderingViewClass = [NativeAdView class];
-  MPNativeAdRendererConfiguration *mopubRenderer = [MPStaticNativeAdRenderer rendererConfigurationWithRendererSettings:mopubSettings];
+  MPNativeAdRendererConfiguration *mopubRenderer =
+      [MPStaticNativeAdRenderer rendererConfigurationWithRendererSettings:mopubSettings];
 
-  MPStaticNativeAdRendererSettings *criteoSettings = [[MPStaticNativeAdRendererSettings alloc] init];
+  MPStaticNativeAdRendererSettings *criteoSettings =
+      [[MPStaticNativeAdRendererSettings alloc] init];
   criteoSettings.renderingViewClass = [CriteoNativeAdView class];
-  MPNativeAdRendererConfiguration *criteoRenderer = [CRNativeAdRenderer rendererConfigurationWithRendererSettings:criteoSettings];
-  
-  MPNativeAdRequest *adRequest = [MPNativeAdRequest requestWithAdUnitIdentifier:@"8dc4347f92944be29071bed7666ba7cf" rendererConfigurations:@[mopubRenderer, criteoRenderer]];
+  MPNativeAdRendererConfiguration *criteoRenderer =
+      [CRNativeAdRenderer rendererConfigurationWithRendererSettings:criteoSettings];
+
+  MPNativeAdRequest *adRequest =
+      [MPNativeAdRequest requestWithAdUnitIdentifier:@"8dc4347f92944be29071bed7666ba7cf"
+                              rendererConfigurations:@[ mopubRenderer, criteoRenderer ]];
 
   MPNativeAdRequestTargeting *targeting = [MPNativeAdRequestTargeting targeting];
-  targeting.desiredAssets = [NSSet setWithObjects:kAdTitleKey, kAdTextKey, kAdCTATextKey, kAdIconImageKey, kAdMainImageKey, kAdStarRatingKey, nil]; //The constants correspond to the 6 elements of MoPub native ads
+  targeting.desiredAssets =
+      [NSSet setWithObjects:kAdTitleKey, kAdTextKey, kAdCTATextKey, kAdIconImageKey,
+                            kAdMainImageKey, kAdStarRatingKey,
+                            nil];  // The constants correspond to the 6 elements of MoPub native ads
   adRequest.targeting = targeting;
-  
-  [adRequest startWithCompletionHandler:^(MPNativeAdRequest *request, MPNativeAd *response, NSError *error) {
-      if (error) {
-          // Handle error.
-      } else {
-          self.nativeAd = response;
-          self.nativeAd.delegate = self;
-          [self removeNativeClicked:nil];
-          self.nativeView = [response retrieveAdViewWithError:nil];
-          self.nativeView.frame = self.nativeViewContainer.bounds;
-          [self.nativeViewContainer addSubview:self.nativeView];
-      }
+
+  [adRequest startWithCompletionHandler:^(MPNativeAdRequest *request, MPNativeAd *response,
+                                          NSError *error) {
+    if (error) {
+      // Handle error.
+    } else {
+      self.nativeAd = response;
+      self.nativeAd.delegate = self;
+      [self removeNativeClicked:nil];
+      self.nativeView = [response retrieveAdViewWithError:nil];
+      self.nativeView.frame = self.nativeViewContainer.bounds;
+      [self.nativeViewContainer addSubview:self.nativeView];
+    }
   }];
 }
 
