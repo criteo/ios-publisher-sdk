@@ -1,5 +1,11 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
+## Version Next
+
+### Fixes
+- **Google Adapter**: Fix #214 by restricting Google-Mobile-Ads-SDK to v8
+
+--------------------------------------------------------------------------------
 ## Version 4.3.2
 
 ### Fixes
