@@ -21,9 +21,9 @@
 
 #define NIB_NAME @"NativeAdView"
 
-@interface NativeAdView()
+@interface NativeAdView ()
 
-@property (nonatomic, strong) UIView *contentView;
+@property(nonatomic, strong) UIView *contentView;
 
 @end
 
@@ -38,39 +38,32 @@
   return [UINib nibWithNibName:NIB_NAME bundle:nil];
 }
 
-- (UILabel *)nativeMainTextLabel
-{
-    return self.mainTextLabel;
+- (UILabel *)nativeMainTextLabel {
+  return self.mainTextLabel;
 }
 
-- (UILabel *)nativeTitleTextLabel
-{
-    return self.titleLabel;
+- (UILabel *)nativeTitleTextLabel {
+  return self.titleLabel;
 }
 
-- (UILabel *)nativeCallToActionTextLabel
-{
-    return self.callToActionLabel;
+- (UILabel *)nativeCallToActionTextLabel {
+  return self.callToActionLabel;
 }
 
-- (UILabel *)nativeSponsoredByCompanyTextLabel
-{
-    return self.sponsoredByLabel;
+- (UILabel *)nativeSponsoredByCompanyTextLabel {
+  return self.sponsoredByLabel;
 }
 
-- (UIImageView *)nativeIconImageView
-{
-    return self.iconImageView;
+- (UIImageView *)nativeIconImageView {
+  return self.iconImageView;
 }
 
-- (UIImageView *)nativeMainImageView
-{
-    return self.mainImageView;
+- (UIImageView *)nativeMainImageView {
+  return self.mainImageView;
 }
 
-- (UIImageView *)nativePrivacyInformationIconImageView
-{
-    return self.privacyInformationIconImageView;
+- (UIImageView *)nativePrivacyInformationIconImageView {
+  return self.privacyInformationIconImageView;
 }
 
 + (NSString *)localizedSponsoredByTextWithSponsorName:(NSString *)sponsorName {
