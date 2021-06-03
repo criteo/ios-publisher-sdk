@@ -36,6 +36,7 @@
 @property(readonly, nonatomic) NSString *creative;
 @property(readonly, nonatomic) NSString *displayUrl;
 @property(readonly, nonatomic) NSString *impressionId;
+@property(readonly) BOOL isVideo;
 @property(readonly, nonatomic) NSDate *insertTime;
 @property(readonly, copy, nonatomic) CR_NativeAssets *nativeAssets;
 @property(readonly, copy, nonatomic) CR_SKAdNetworkParameters *skAdNetworkParameters;
@@ -66,6 +67,7 @@
                            ttl:(NSTimeInterval)ttl
                       creative:(NSString *)creative  // creative is an useless legacy field
                     displayUrl:(NSString *)displayUrl
+                       isVideo:(BOOL)isVideo
                     insertTime:(NSDate *)insertTime  // TODO: Move this to a state object
                   nativeAssets:(CR_NativeAssets *)nativeAssets
                   impressionId:(NSString *)impressionId

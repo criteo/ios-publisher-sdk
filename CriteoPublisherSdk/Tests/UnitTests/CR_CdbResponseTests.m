@@ -45,6 +45,7 @@
                    creative:nil
                  displayUrl:
                      @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
+                    isVideo:NO
                  insertTime:self.testDate
                nativeAssets:nil
                impressionId:nil
@@ -60,6 +61,7 @@
                    creative:nil
                  displayUrl:
                      @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
+                    isVideo:NO
                  insertTime:self.testDate
                nativeAssets:nil
                impressionId:nil

@@ -865,6 +865,7 @@
                                             ttl:26
                                        creative:@"THIS IS USELESS LEGACY"
                                      displayUrl:displayURL
+                                        isVideo:NO
                                      insertTime:[NSDate date]
                                    nativeAssets:nil
                                    impressionId:nil
