@@ -170,6 +170,7 @@
 				5431C7E423D7231D002F0282 /* Resources */,
 				FD10B7B83960E406F6111B00 /* [CP] Copy Pods Resources */,
 				91B54FF324F7B67900E94932 /* Embed Frameworks */,
+				0AAB3DF86A4B5CB698E596BA /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -229,6 +230,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0AAB3DF86A4B5CB698E596BA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CriteoMoPubAdapterTestApp/Pods-CriteoMoPubAdapterTestApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CriteoMoPubAdapterTestApp/Pods-CriteoMoPubAdapterTestApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CriteoMoPubAdapterTestApp/Pods-CriteoMoPubAdapterTestApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		B9D93DB177C497A5CB5C8AF0 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
