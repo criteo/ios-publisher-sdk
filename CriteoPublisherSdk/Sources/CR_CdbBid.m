@@ -18,7 +18,6 @@
 //
 
 #import "CR_CdbBid.h"
-#import "CR_Logging.h"
 #import "NSObject+Criteo.h"
 #import "NSString+Criteo.h"
 #import "CRConstants.h"
@@ -42,6 +41,7 @@ static CR_CdbBid *emptyBid;
                                              ttl:0
                                         creative:nil
                                       displayUrl:nil
+                                         isVideo:NO
                                       insertTime:nil
                                     nativeAssets:nil
                                     impressionId:nil
@@ -62,6 +62,7 @@ static CR_CdbBid *emptyBid;
                            ttl:(NSTimeInterval)ttl
                       creative:(NSString *)creative
                     displayUrl:(NSString *)displayUrl
+                       isVideo:(BOOL)isVideo
                     insertTime:(NSDate *)insertTime
                   nativeAssets:(CR_NativeAssets *)nativeAssets
                   impressionId:(NSString *)impressionId
@@ -76,6 +77,7 @@ static CR_CdbBid *emptyBid;
     _creative = creative;
     _ttl = ttl;
     _displayUrl = displayUrl;
+    _isVideo = isVideo;
     _insertTime = insertTime;
     _nativeAssets = [nativeAssets copy];
     _impressionId = impressionId;
@@ -100,6 +102,7 @@ static CR_CdbBid *emptyBid;
     NSTimeInterval ttl =
         (slot && slot[@"ttl"]) ? [slot[@"ttl"] doubleValue] : CRITEO_DEFAULT_BID_TTL_IN_SECONDS;
     NSString *displayUrl = [NSString cr_StringWithStringOrNil:slot[@"displayUrl"]];
+    BOOL isVideo = [slot[@"isVideo"] boolValue];
     NSDictionary *assetsDict = slot[@"native"];
     CR_NativeAssets *nativeAssets =
         assetsDict ? [[CR_NativeAssets alloc] initWithDict:assetsDict] : nil;
@@ -115,6 +118,7 @@ static CR_CdbBid *emptyBid;
                                          ttl:ttl
                                     creative:creative
                                   displayUrl:displayUrl
+                                     isVideo:isVideo
                                   insertTime:receivedAt
                                 nativeAssets:nativeAssets
                                 impressionId:impId
@@ -123,22 +127,20 @@ static CR_CdbBid *emptyBid;
   return self;
 }
 
-// Hash values of two CR_NativeAssets objects must be the same if the objects are equal. The reverse
-// is not guaranteed (nor does it need to be).
 - (NSUInteger)hash {
-  NSUInteger hash = 0;
-  hash ^= _zoneId.hash;
-  hash ^= _placementId.hash;
-  hash ^= _cpm.hash;
-  hash ^= _currency.hash;
-  hash ^= _width.hash;
-  hash ^= _height.hash;
-  hash ^= _creative.hash;
-  hash ^= _displayUrl.hash;
-  hash ^= (NSUInteger)_ttl;
-  hash ^= _insertTime.hash;
-  hash ^= _nativeAssets.hash;
-  hash ^= _impressionId.hash;
+  NSUInteger hash = _placementId.hash;
+  hash = hash * 31u + _zoneId.hash;
+  hash = hash * 31u + _cpm.hash;
+  hash = hash * 31u + _currency.hash;
+  hash = hash * 31u + _width.hash;
+  hash = hash * 31u + _height.hash;
+  hash = hash * 31u + @(_ttl).hash;
+  hash = hash * 31u + _creative.hash;
+  hash = hash * 31u + _displayUrl.hash;
+  hash = hash * 31u + _impressionId.hash;
+  hash = hash * 31u + _isVideo;
+  hash = hash * 31u + _insertTime.hash;
+  hash = hash * 31u + _nativeAssets.hash;
   return hash;
 }
 
@@ -156,6 +158,7 @@ static CR_CdbBid *emptyBid;
   result &= [NSObject cr_object:_height isEqualTo:otherCdbBid.height];
   result &= [NSObject cr_object:_creative isEqualTo:otherCdbBid.creative];
   result &= [NSObject cr_object:_displayUrl isEqualTo:otherCdbBid.displayUrl];
+  result &= _isVideo == otherCdbBid.isVideo;
   result &= _ttl == otherCdbBid.ttl;
   result &= [NSObject cr_object:_insertTime isEqualTo:otherCdbBid.insertTime];
   result &= [NSObject cr_object:_nativeAssets isEqualTo:otherCdbBid.nativeAssets];
@@ -181,6 +184,7 @@ static CR_CdbBid *emptyBid;
                                                   ttl:self.ttl
                                              creative:self.creative
                                            displayUrl:self.displayUrl
+                                              isVideo:self.isVideo
                                            insertTime:self.insertTime
                                          nativeAssets:self.nativeAssets
                                          impressionId:self.impressionId

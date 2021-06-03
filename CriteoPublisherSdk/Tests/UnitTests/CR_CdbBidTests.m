@@ -284,6 +284,7 @@
                    creative:nil
                  displayUrl:
                      @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
+                    isVideo:NO
                  insertTime:testDate
                nativeAssets:nil
                impressionId:nil
@@ -300,6 +301,7 @@
                    creative:nil
                  displayUrl:
                      @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
+                    isVideo:NO
                  insertTime:testDate
                nativeAssets:nil
                impressionId:nil
@@ -316,6 +318,7 @@
                    creative:nil
                  displayUrl:
                      @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
+                    isVideo:NO
                  insertTime:testDate
                nativeAssets:nil
                impressionId:nil
@@ -332,6 +335,24 @@
                    creative:nil
                  displayUrl:
                      @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
+                    isVideo:NO
+                 insertTime:testDate
+               nativeAssets:nil
+               impressionId:nil
+      skAdNetworkParameters:nil];
+
+  CR_CdbBid *testBid_5 = [[CR_CdbBid alloc]
+             initWithZoneId:@(497747)
+                placementId:@"adunitid_5"
+                        cpm:@"1.12"
+                   currency:@"EUR"
+                      width:@(300)
+                     height:@(250)
+                        ttl:600
+                   creative:nil
+                 displayUrl:
+                     @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
+                    isVideo:NO
                  insertTime:testDate
                nativeAssets:nil
                impressionId:nil
@@ -339,17 +360,19 @@
 
   // Json response from CDB
   // The cpm is a number
-  NSString *rawJsonCdbResponse =
-      @"{\"slots\":[{\"placementId\": \"adunitid_1\",\"zoneId\": 497747,\"cpm\":1.12,\"currency\":\"EUR\", \"ttl\":600, \"width\": 300,\"height\": 250,\"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"},\
+  NSString *rawJsonCdbResponse = @"{\"slots\":[\
+    {\"placementId\": \"adunitid_1\",\"zoneId\": 497747,\"cpm\":1.12,\"currency\":\"EUR\", \"ttl\":600, \"width\": 300,\"height\": 250,\"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"},\
     {\"placementId\": \"adunitid_2\",\"zoneId\": 1234567,\"cpm\":5.12,\"currency\":\"EUR\",\"width\": 300,\"height\": 250,\"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />\"},\
     {\"placementId\": \"adunitid_3\",\"zoneId\": 497747,\"cpm\":1.12,\"currency\":\"EUR\", \"ttl\":600, \"width\": 300,\"height\": 250,\"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"},\
-    {\"placementId\": \"adunitid_4\",\"zoneId\": 497747,\"currency\":\"EUR\", \"ttl\":600, \"width\": 300,\"height\": 250,\"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"}]}";
+    {\"placementId\": \"adunitid_4\",\"zoneId\": 497747,\"currency\":\"EUR\", \"ttl\":600, \"width\": 300,\"height\": 250,\"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\"},\
+    {\"placementId\": \"adunitid_5\",\"zoneId\": 497747,\"cpm\":1.12,\"currency\":\"EUR\", \"ttl\":600, \"width\": 300,\"height\": 250,\"displayUrl\": \"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />\",\"isVideo\": true}\
+   ]}";
 
   NSData *cdbApiResponse = [rawJsonCdbResponse dataUsingEncoding:NSUTF8StringEncoding];
 
   NSArray *testBids = [CR_CdbResponse responseWithData:cdbApiResponse receivedAt:testDate].cdbBids;
   XCTAssertNotNil(testBids);
-  XCTAssertEqual(4, [testBids count]);
+  XCTAssertEqual(5, [testBids count]);
   XCTAssertTrue([testBid_1 isEqual:testBids[0]]);
   // the json response is missing ttl
   XCTAssertFalse([testBid_2 isEqual:testBids[1]]);
@@ -357,6 +380,8 @@
   XCTAssertFalse([testBid_3 isEqual:testBids[2]]);
   // missing cpm
   XCTAssertFalse([testBid_4 isEqual:testBids[3]]);
+  // isVideo is different
+  XCTAssertFalse([testBid_5 isEqual:testBids[4]]);
 }
 
 - (void)testCdbBidsWithDataWhenCpmIsAString {
@@ -373,6 +398,7 @@
                    creative:nil
                  displayUrl:
                      @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
+                    isVideo:NO
                  insertTime:testDate
                nativeAssets:nil
                impressionId:nil
@@ -389,6 +415,7 @@
                    creative:nil
                  displayUrl:
                      @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
+                    isVideo:NO
                  insertTime:testDate
                nativeAssets:nil
                impressionId:nil
@@ -405,6 +432,7 @@
                    creative:nil
                  displayUrl:
                      @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
+                    isVideo:NO
                  insertTime:testDate
                nativeAssets:nil
                impressionId:nil
@@ -421,6 +449,7 @@
                    creative:nil
                  displayUrl:
                      @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
+                    isVideo:NO
                  insertTime:testDate
                nativeAssets:nil
                impressionId:nil
@@ -457,6 +486,7 @@
                                        ttl:ttl
                                   creative:nil
                                 displayUrl:@"https://someUrl.com"
+                                   isVideo:NO
                                 insertTime:[NSDate dateWithTimeIntervalSinceNow:diff]
                               nativeAssets:nil
                               impressionId:nil
@@ -520,6 +550,7 @@
                                                        ttl:0
                                                   creative:nil
                                                 displayUrl:@""
+                                                   isVideo:NO
                                                 insertTime:testDate
                                               nativeAssets:nil
                                               impressionId:nil
@@ -535,6 +566,7 @@
                                                        ttl:900
                                                   creative:nil
                                                 displayUrl:@""
+                                                   isVideo:NO
                                                 insertTime:testDate
                                               nativeAssets:nil
                                               impressionId:nil
@@ -550,6 +582,7 @@
                                                        ttl:0
                                                   creative:nil
                                                 displayUrl:@""
+                                                   isVideo:NO
                                                 insertTime:testDate
                                               nativeAssets:nil
                                               impressionId:nil
@@ -565,6 +598,7 @@
                                                        ttl:700
                                                   creative:nil
                                                 displayUrl:@""
+                                                   isVideo:NO
                                                 insertTime:testDate
                                               nativeAssets:nil
                                               impressionId:nil

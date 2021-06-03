@@ -101,6 +101,7 @@ NSString *CR_CdbBidBuilderImpressionIdValueDefault = @"thisIsImpId";
                                                  ttl:self.ttlValue
                                             creative:self.currencyValue
                                           displayUrl:self.displayUrlValue
+                                             isVideo:self.isVideoValue
                                           insertTime:self.insertTimeValue
                                         nativeAssets:self.nativeAssetsValue
                                         impressionId:self.impressionIdValue

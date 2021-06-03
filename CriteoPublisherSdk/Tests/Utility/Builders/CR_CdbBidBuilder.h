@@ -41,6 +41,7 @@ PROPERTY_DECLARATION(height, NSUInteger, assign);
 PROPERTY_DECLARATION(ttl, NSTimeInterval, assign);
 PROPERTY_DECLARATION(creative, NSString *_Nullable, copy);
 PROPERTY_DECLARATION(displayUrl, NSString *_Nullable, copy);
+PROPERTY_DECLARATION(isVideo, BOOL, assign);
 PROPERTY_DECLARATION(insertTime, NSDate *_Nullable, copy);
 PROPERTY_DECLARATION(nativeAssets, CR_NativeAssets *_Nullable, strong);
 PROPERTY_DECLARATION(impressionId, NSString *_Nullable, copy);
