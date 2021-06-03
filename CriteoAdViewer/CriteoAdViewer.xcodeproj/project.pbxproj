@@ -314,6 +314,7 @@
 				4077EBA2218BC48300C41E68 /* Resources */,
 				54CAF8C6232C05B10050D8D9 /* Embed Frameworks */,
 				FBC468A9BBED60E159789B4F /* [CP] Copy Pods Resources */,
+				2B45685D137F1CA42263147A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -402,6 +403,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2B45685D137F1CA42263147A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CriteoAdViewer/Pods-CriteoAdViewer-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CriteoAdViewer/Pods-CriteoAdViewer-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CriteoAdViewer/Pods-CriteoAdViewer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		CD19B3480BF07D422DEFCF36 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
