@@ -41,6 +41,8 @@ NSString *const PreprodBannerAdUnitId = @"test-PubSdk-Base";
 NSString *const PreprodInterstitialAdUnitId = @"test-PubSdk-Interstitial";
 NSString *const PreprodNativeAdUnitId = @"test-PubSdk-Native";
 
+NSString *const VideoInterstitialAdUnitId = @"test-PubSdk-Video";
+
 @implementation Criteo (Testing)
 
 - (CR_NetworkCaptor *)testing_networkCaptor {

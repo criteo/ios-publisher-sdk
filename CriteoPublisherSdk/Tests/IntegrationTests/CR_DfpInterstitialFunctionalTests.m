@@ -112,6 +112,25 @@
   XCTAssertFalse(renderedProperly);
 }
 
+- (void)test_givenVideoInterstitial_whenLoadingDfpInterstitial_thenDfpViewContainsCreative {
+  CRInterstitialAdUnit *adUnit = [CR_TestAdUnits videoInterstitial];
+  [self initCriteoWithAdUnits:@[ adUnit ]];
+  CR_DependencyProvider *dependencyProvider = self.criteo.dependencyProvider;
+  CR_CdbBid *bid = [dependencyProvider.cacheManager
+      getBidForAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit]];
+
+  [self enrichAdObject:self.request forAdUnit:adUnit];
+
+  NSString *expectedDisplayUrl = [[bid.displayUrl cr_urlEncode] cr_urlEncode];
+  NSDictionary *expected = @{
+    @"crt_cpm" : @"1.12",
+    @"crt_displayurl" : expectedDisplayUrl,
+    @"crt_format" : @"video",
+    @"crt_size" : @"320x480",
+  };
+  XCTAssertEqualObjects(self.request.customTargeting, expected);
+}
+
 #pragma mark - Header Bidding Size
 
 #define CRAssertCrtSizeOnSetBidRequest(_crtSize)                            \

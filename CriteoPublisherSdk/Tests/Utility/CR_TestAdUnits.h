@@ -31,6 +31,7 @@
 @property(class, nonatomic, readonly) CRInterstitialAdUnit *demoInterstitial;
 @property(class, nonatomic, readonly) CRInterstitialAdUnit *randomInterstitial;
 @property(class, nonatomic, readonly) CRInterstitialAdUnit *preprodInterstitial;
+@property(class, nonatomic, readonly) CRInterstitialAdUnit *videoInterstitial;
 
 @property(class, nonatomic, readonly) CRNativeAdUnit *randomNative;
 @property(class, nonatomic, readonly) CRNativeAdUnit *preprodNative;

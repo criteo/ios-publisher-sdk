@@ -31,9 +31,10 @@ FOUNDATION_EXPORT NSString *const DemoInterstitialAdUnitId;
 FOUNDATION_EXPORT NSString *const PreprodBannerAdUnitId;
 FOUNDATION_EXPORT NSString *const PreprodInterstitialAdUnitId;
 FOUNDATION_EXPORT NSString *const PreprodNativeAdUnitId;
+FOUNDATION_EXPORT NSString *const VideoInterstitialAdUnitId;
 
 @interface Criteo (Testing)
-/** An OCPartialMock set as an id (like in the OCMock library) for API conveniance. */
+/** An OCPartialMock set as an id (like in the OCMock library) for API convenience. */
 @property(nonatomic, readonly) id testing_networkManagerMock;
 @property(nonatomic, readonly) CR_NetworkCaptor *testing_networkCaptor;
 @property(nonatomic, readonly) CR_HttpContent *testing_lastBidHttpContent;
