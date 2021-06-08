@@ -23,7 +23,10 @@
 FOUNDATION_EXPORT NSString *const CR_TargetingKey_crtCpm;
 FOUNDATION_EXPORT NSString *const CR_TargetingKey_crtDisplayUrl;
 FOUNDATION_EXPORT NSString *const CR_TargetingKey_crtDfpDisplayUrl;
+FOUNDATION_EXPORT NSString *const CR_TargetingKey_crtFormat;
 FOUNDATION_EXPORT NSString *const CR_TargetingKey_crtSize;
+
+FOUNDATION_EXPORT NSString *const CR_TargetingValue_FormatVideo;
 
 // native asset keys
 FOUNDATION_EXPORT NSString *const CR_TargetingKey_crtnTitle;

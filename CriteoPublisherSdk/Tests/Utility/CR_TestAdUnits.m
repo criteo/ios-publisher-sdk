@@ -48,6 +48,10 @@
   return [self interstitialWithId:PreprodInterstitialAdUnitId];
 }
 
++ (CRInterstitialAdUnit *)videoInterstitial {
+  return [self interstitialWithId:VideoInterstitialAdUnitId];
+}
+
 + (CRNativeAdUnit *)randomNative {
   return [self nativeWithId:self.randomNativeAdUnitId];
 }

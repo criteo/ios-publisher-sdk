@@ -182,6 +182,10 @@ NSString *const CR_NetworkSessionEmptyBid =
     return result;
   }
 
+  if ([placementId isEqualToString:VideoInterstitialAdUnitId]) {
+    return [self videoSlotResponseForPayload:payload];
+  }
+
   return nil;
 }
 
@@ -236,7 +240,7 @@ NSString *const CR_NetworkSessionEmptyBid =
   return dict;
 }
 
-- (NSDictionary *)interstitialSlotResponseForPayload:(NSDictionary *)payload {
+- (NSMutableDictionary *)interstitialSlotResponseForPayload:(NSDictionary *)payload {
   NSArray *sizes = payload[CR_ApiQueryKeys.bidSlotsSizes];
   const CGSize size = [self sizeFromSlotSize:sizes[0]];
 
@@ -245,6 +249,14 @@ NSString *const CR_NetworkSessionEmptyBid =
   dict[@"height"] = @(size.height);
   dict[@"ttl"] = @(self.class.interstitialTtl);
   dict[@"displayUrl"] = CR_ViewCheckingHelper.preprodCreativeImageUrl;
+  return dict;
+}
+
+- (NSDictionary *)videoSlotResponseForPayload:(NSDictionary *)payload {
+  NSMutableDictionary *dict = [self interstitialSlotResponseForPayload:payload];
+  [dict addEntriesFromDictionary:@{
+    @"isVideo" : @YES,
+  }];
   return dict;
 }
 

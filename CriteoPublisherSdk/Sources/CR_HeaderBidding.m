@@ -207,13 +207,22 @@
         if (adUnit.adUnitType == CRAdUnitTypeInterstitial) {
           customTargeting[CR_TargetingKey_crtSize] = [self stringSizeForInterstitial];
 
-          // DFP is the whole screen even out of the safe area.
-          displayUrl = [self.displaySizeInjector injectFullScreenSizeInDisplayUrl:displayUrl];
+          if (!bid.isVideo) {
+            // DFP is the whole screen even out of the safe area.
+            displayUrl = [self.displaySizeInjector injectFullScreenSizeInDisplayUrl:displayUrl];
+          }
         } else if (adUnit.adUnitType == CRAdUnitTypeBanner) {
           customTargeting[CR_TargetingKey_crtSize] = [self stringSizeForBannerWithAdUnit:adUnit];
         }
 
-        NSString *dfpCompatibleString = [NSString cr_dfpCompatibleString:displayUrl];
+        NSString *dfpCompatibleString;
+        if (bid.isVideo) {
+          // No base64 encoding as there is no client javascript to decode
+          dfpCompatibleString = [[displayUrl cr_urlEncode] cr_urlEncode];
+          customTargeting[CR_TargetingKey_crtFormat] = CR_TargetingValue_FormatVideo;
+        } else {
+          dfpCompatibleString = [NSString cr_dfpCompatibleString:displayUrl];
+        }
         customTargeting[CR_TargetingKey_crtDfpDisplayUrl] = dfpCompatibleString;
       }
       NSDictionary *updatedDictionary = [NSDictionary dictionaryWithDictionary:customTargeting];
@@ -246,6 +255,9 @@
       if (adUnit.adUnitType == CRAdUnitTypeInterstitial) {
         displayUrl = [self.displaySizeInjector injectSafeScreenSizeInDisplayUrl:bid.displayUrl];
       }
+      if (bid.isVideo) {
+        displayUrl = [displayUrl cr_urlEncode];
+      }
 
       NSMutableString *keywords = [[NSMutableString alloc] initWithString:targeting];
       if ([keywords length] > 0) {
@@ -258,6 +270,13 @@
       [keywords appendString:CR_TargetingKey_crtDisplayUrl];
       [keywords appendString:@":"];
       [keywords appendString:displayUrl];
+
+      if (bid.isVideo) {
+        [keywords appendString:@","];
+        [keywords appendString:CR_TargetingKey_crtFormat];
+        [keywords appendString:@":"];
+        [keywords appendString:CR_TargetingValue_FormatVideo];
+      }
 
       if (adUnit.adUnitType == CRAdUnitTypeBanner) {
         NSString *sizeStr = [self stringSizeForBannerWithAdUnit:adUnit];
