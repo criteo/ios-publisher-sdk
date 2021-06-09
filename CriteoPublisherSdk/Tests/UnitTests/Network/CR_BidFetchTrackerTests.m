@@ -27,7 +27,7 @@
 @implementation CR_BidFetchTrackerTests
 
 - (void)testBidFetchTrackerCache {
-  CR_CacheAdUnit *cacheAdUnit = [CR_CacheAdUnit new];
+  CR_CacheAdUnit *cacheAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"" width:0 height:0];
   CR_BidFetchTracker *bidFetchTracker = [CR_BidFetchTracker new];
   XCTAssertTrue([bidFetchTracker trySetBidFetchInProgressForAdUnit:cacheAdUnit]);
   XCTAssertFalse([bidFetchTracker trySetBidFetchInProgressForAdUnit:cacheAdUnit]);
