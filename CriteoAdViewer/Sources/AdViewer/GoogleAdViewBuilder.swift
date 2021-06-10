@@ -37,7 +37,7 @@ class GoogleAdViewBuilder: AdViewBuilder {
         .banner(buildBanner(config: config, size: googleAdSize(size: size), criteo: criteo)))
     case .flexible(.native):
       completion(.banner(buildBanner(config: config, size: kGADAdSizeFluid, criteo: criteo)))
-    case .flexible(.interstitial):
+    case .flexible(.interstitial), .flexible(.video):
       buildInterstitial(config: config, criteo: criteo, completion: completion)
     case _:
       fatalError("Unsupported")

@@ -38,7 +38,7 @@ class MopubAdViewBuilder: AdViewBuilder {
     switch config.adFormat {
     case .sized(.banner, let size):
       completion(.banner(buildBanner(adUnit: config.adUnit, size: size, criteo: criteo)))
-    case .flexible(.interstitial):
+    case .flexible(.interstitial), .flexible(.video):
       completion(.interstitial(buildInterstitial(adUnit: config.adUnit, criteo: criteo)))
     case _:
       fatalError("Unsupported")
