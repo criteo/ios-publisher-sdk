@@ -78,11 +78,11 @@
   [self.interstitialDelegate interstitialUpdated:NO];
 }
 
-- (void)interstitialWillAppear:(MPInterstitialAdController *)interstitial {
+- (void)interstitialWillPresent:(MPInterstitialAdController *)interstitial {
   [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial];
 }
 
-- (void)interstitialDidAppear:(MPInterstitialAdController *)interstitial {
+- (void)interstitialDidPresent:(MPInterstitialAdController *)interstitial {
   [self.logManager logEvent:NSStringFromSelector(_cmd) info:interstitial];
 }
 
