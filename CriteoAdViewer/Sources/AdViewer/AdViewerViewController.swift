@@ -116,9 +116,6 @@ class AdViewerViewController: FormViewController {
       <<< SegmentedRow<AdType>(Tags.type.rawValue) {
         $0.options = defaultNetwork.types
         $0.value = $0.options?.first
-        $0.displayValueFor = {
-          $0?.label()
-        }
         $0.onChange { _ in
           self.updateAdConfig()
         }
@@ -126,9 +123,6 @@ class AdViewerViewController: FormViewController {
       <<< SegmentedRow<AdSize>(Tags.size.rawValue) {
         $0.options = defaultNetwork.sizes(type: .banner)
         $0.value = $0.options?.first
-        $0.displayValueFor = {
-          $0?.label()
-        }
         $0.hidden = .function([Tags.network.rawValue, Tags.type.rawValue]) { form in
           if let networkRow: SegmentedRow<AdNetwork> = self.form.rowBy(tag: Tags.network.rawValue),
             let typeRow: SegmentedRow<AdType> = self.form.rowBy(tag: Tags.type.rawValue),
