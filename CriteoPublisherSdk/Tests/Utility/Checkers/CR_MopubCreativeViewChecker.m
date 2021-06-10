@@ -127,7 +127,7 @@
   NSLog(@"MOPUB ERROR: interstitialDidFailToLoadAd: delegate invoked");
 }
 
-- (void)interstitialDidAppear:(MPInterstitialAdController *)interstitial {
+- (void)interstitialDidPresent:(MPInterstitialAdController *)interstitial {
   [self checkViewAndFulfillExpectation];
 }
 
