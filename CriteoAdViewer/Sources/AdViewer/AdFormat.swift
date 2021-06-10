@@ -17,27 +17,16 @@
 // limitations under the License.
 //
 
-enum AdType: Int {
+enum AdType: String {
   case banner, native, interstitial
-
-  func label() -> String {
-    switch self {
-    case .banner: return "Banner"
-    case .native: return "Native"
-    case .interstitial: return "Interstitial"
-    }
-  }
 }
 
-enum AdSize: Int {
-  case _320x50, _300x250
+extension AdType: CustomStringConvertible {
+  var description: String { rawValue.capitalized }
+}
 
-  func label() -> String {
-    switch self {
-    case ._320x50: return "320x50"
-    case ._300x250: return "300x250"
-    }
-  }
+enum AdSize: String {
+  case _320x50, _300x250
 
   func cgSize() -> CGSize {
     switch self {
@@ -47,6 +36,10 @@ enum AdSize: Int {
       return CGSize(width: 300, height: 250)
     }
   }
+}
+
+extension AdSize: CustomStringConvertible {
+  var description: String { String(rawValue.dropFirst()) }
 }
 
 enum AdFormat: Hashable {
