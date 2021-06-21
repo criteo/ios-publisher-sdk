@@ -1,5 +1,11 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
+## Version 4.4.0
+
+### Features
+- **Video ads**: Support VAST ads with Google and MoPub
+
+--------------------------------------------------------------------------------
 ## Version 4.3.3
 
 ### Fixes
