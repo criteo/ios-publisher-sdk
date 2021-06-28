@@ -86,10 +86,10 @@
   else if ([self.delegate respondsToSelector:@selector(customEventBanner:clickDidOccurInAd:)]) {
     [self.delegate customEventBanner:self clickDidOccurInAd:bannerView];
   }
-#pragma clang diagnostic pop
   if ([self.delegate respondsToSelector:@selector(customEventBannerWillLeaveApplication:)]) {
     [self.delegate customEventBannerWillLeaveApplication:self];
   }
+#pragma clang diagnostic pop
 }
 
 @end

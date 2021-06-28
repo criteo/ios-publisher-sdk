@@ -108,7 +108,10 @@
     [self.delegate customEventInterstitialWasClicked:self];
   }
   if ([self.delegate respondsToSelector:@selector(customEventInterstitialWillLeaveApplication:)]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     [self.delegate customEventInterstitialWillLeaveApplication:self];
+#pragma clang diagnostic pop
   }
 }
 
