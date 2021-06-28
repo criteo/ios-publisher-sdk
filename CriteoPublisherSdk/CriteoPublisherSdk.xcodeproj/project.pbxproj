@@ -41,7 +41,6 @@
 		4638C001249B8054007A8878 /* CR_SafeMediaDownloaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4638C000249B7EF6007A8878 /* CR_SafeMediaDownloaderTests.m */; };
 		4642C9C624CAD93E0080AC4F /* CR_IntegrationRegistry.h in Headers */ = {isa = PBXBuildFile; fileRef = 4642C9C424CAD93E0080AC4F /* CR_IntegrationRegistry.h */; };
 		4642C9C724CAD93E0080AC4F /* CR_IntegrationRegistry.m in Sources */ = {isa = PBXBuildFile; fileRef = 4642C9C524CAD93E0080AC4F /* CR_IntegrationRegistry.m */; };
-		4646EF192514CEF2009E4D16 /* CriteoPublisherSdk-Standalone.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 4646EF182514CEF2009E4D16 /* CriteoPublisherSdk-Standalone.xctestplan */; };
 		464D6FB925480925004502C4 /* SKAdNetworkInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464D6FB825480925004502C4 /* SKAdNetworkInfo.swift */; };
 		464D6FC1254812E5004502C4 /* SKAdNetworkInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464D6FC0254812E5004502C4 /* SKAdNetworkInfoTests.swift */; };
 		465052E6256FB4F3007D9CE7 /* XCTestExpectation+Criteo.m in Sources */ = {isa = PBXBuildFile; fileRef = 465052E5256FB4F3007D9CE7 /* XCTestExpectation+Criteo.m */; };
@@ -1852,7 +1851,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4646EF192514CEF2009E4D16 /* CriteoPublisherSdk-Standalone.xctestplan in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
