@@ -12,10 +12,10 @@ source "$SCRIPT_DIRECTORY"/base.sh
 
 crto-clean
 
-crto-fat-build Release
+crto-build-xcframework Release
 crto-archive
 
-crto-fat-build Debug
+crto-build-xcframework Debug
 crto-archive
 
 crto-echo "Archive completed."

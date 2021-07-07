@@ -5,7 +5,7 @@ export LANGUAGE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 export CRITEO_ARCHS='armv7 armv7s arm64'
-export CRITEO_SIM_ARCHS='i386 x86_64'
+export CRITEO_SIM_ARCHS='i386 x86_64 arm64'
 
 # Note: writes to STDERR to prevent breaking xcpretty
 function crto-printf() { printf "[🏔 crto] %s" "$@" 1>&2; }
@@ -34,6 +34,10 @@ function crto-build-simulator() {
     ARCHS="$CRITEO_SIM_ARCHS" \
     VALID_ARCHS="$CRITEO_SIM_ARCHS" \
     ONLY_ACTIVE_ARCH=NO \
+    OTHER_CFLAGS="-fembed-bitcode" \
+    BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
+    BITCODE_GENERATION_MODE="bitcode" \
+    ENABLE_BITCODE=YES \
     "$@"
 }
 
@@ -52,10 +56,13 @@ function crto-build-device() {
     CODE_SIGN_IDENTITY="" \
     CODE_SIGNING_REQUIRED=NO \
     OTHER_CFLAGS="-fembed-bitcode" \
+    BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
+    BITCODE_GENERATION_MODE="bitcode" \
+    ENABLE_BITCODE=YES \
     "$@"
 }
 
-function crto-fat-build() {
+function crto-build-xcframework() {
   CRITEO_CONFIGURATION=${1:-Debug}
   crto-echo "Building $CRITEO_CONFIGURATION..."
 
@@ -66,19 +73,23 @@ function crto-fat-build() {
   mkdir -p "$BUILD_PATH"/device
   crto-build-device build | crto-pretty
   cp -R "build/DerivedData/Build/Products/$CRITEO_CONFIGURATION-iphoneos/CriteoPublisherSdk.framework" "$BUILD_PATH"/device
-  cp -R "$BUILD_PATH"/device/CriteoPublisherSdk.framework "$BUILD_PATH"
-  rm "$BUILD_PATH"/CriteoPublisherSdk.framework/CriteoPublisherSdk
 
-  lipo -create -output "$BUILD_PATH"/CriteoPublisherSdk.framework/CriteoPublisherSdk "$BUILD_PATH"/simulator/CriteoPublisherSdk.framework/CriteoPublisherSdk "$BUILD_PATH"/device/CriteoPublisherSdk.framework/CriteoPublisherSdk
-  crto-echo "Fat Binary Contents for $CRITEO_CONFIGURATION Build:"
-  objdump -macho -universal-headers -arch all "$BUILD_PATH"/CriteoPublisherSdk.framework/CriteoPublisherSdk
+  crto-echo "Building xcframework..."
+  XCFRAMEWORK_PATH="$BUILD_PATH"/CriteoPublisherSdk.xcframework
+  rm -rf "$XCFRAMEWORK_PATH"
+  xcodebuild -create-xcframework \
+    -framework "$BUILD_PATH"/device/CriteoPublisherSdk.framework \
+    -framework "$BUILD_PATH"/simulator/CriteoPublisherSdk.framework \
+    -output "$XCFRAMEWORK_PATH"
 }
 
 function crto-archive() {
   cp LICENSE "$BUILD_PATH"
   pushd "$BUILD_PATH"
   crto-echo "Archiving..."
-  zip -r "CriteoPublisherSdk.$CRITEO_CONFIGURATION.zip" CriteoPublisherSdk.framework LICENSE
+  zip -r "CriteoPublisherSdk.$CRITEO_CONFIGURATION.zip" \
+    CriteoPublisherSdk.xcframework \
+    LICENSE
   popd
 }
 
