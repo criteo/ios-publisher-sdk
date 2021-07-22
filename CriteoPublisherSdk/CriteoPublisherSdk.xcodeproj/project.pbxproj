@@ -100,6 +100,9 @@
 		46D707D724A2456E0043D66F /* CR_StandaloneBannerFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 548AFCAC23B1113C003C9C29 /* CR_StandaloneBannerFunctionalTests.m */; };
 		46D707D824A245DB0043D66F /* NSString+GDPR.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB899DA2400126800948230 /* NSString+GDPR.m */; };
 		46D707DC24A284A00043D66F /* CR_NativeAdTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D321B1124743637006CBC4E /* CR_NativeAdTableViewCell.xib */; };
+		46E3478026B0641300A161B6 /* CR_CASDefaultDataSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E3477D26B0641300A161B6 /* CR_CASDefaultDataSerializer.m */; };
+		46E3478126B0641300A161B6 /* CR_CASDataSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 46E3477E26B0641300A161B6 /* CR_CASDataSerializer.h */; };
+		46E3478226B0641300A161B6 /* CR_CASDefaultDataSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 46E3477F26B0641300A161B6 /* CR_CASDefaultDataSerializer.h */; };
 		46F05ACE254881000009DCA6 /* skanValid.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 46F05AC9254880880009DCA6 /* skanValid.bundle */; };
 		46F05AD62548868A0009DCA6 /* skanInvalid.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 46F05AD5254883AC0009DCA6 /* skanInvalid.bundle */; };
 		46FF8F972583B1A6000CFCB5 /* CR_URLRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46FF8F962583B1A6000CFCB5 /* CR_URLRequestTests.m */; };
@@ -445,6 +448,9 @@
 		46C403F32578F3EC00E5179C /* CR_LoggingFunctionalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_LoggingFunctionalTests.m; sourceTree = "<group>"; };
 		46C87E6B24405B2A0022978C /* CR_DefaultFileManipulatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_DefaultFileManipulatorTests.swift; sourceTree = "<group>"; };
 		46D4642825A5B5AC0036A280 /* CR_LogHandlerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_LogHandlerTests.m; sourceTree = "<group>"; };
+		46E3477D26B0641300A161B6 /* CR_CASDefaultDataSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_CASDefaultDataSerializer.m; sourceTree = "<group>"; };
+		46E3477E26B0641300A161B6 /* CR_CASDataSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_CASDataSerializer.h; sourceTree = "<group>"; };
+		46E3477F26B0641300A161B6 /* CR_CASDefaultDataSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_CASDefaultDataSerializer.h; sourceTree = "<group>"; };
 		46E8A70324B74D69007103B9 /* CRConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRConstants.h; sourceTree = "<group>"; };
 		46F05AC9254880880009DCA6 /* skanValid.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = skanValid.bundle; sourceTree = "<group>"; };
 		46F05AD5254883AC0009DCA6 /* skanInvalid.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = skanInvalid.bundle; sourceTree = "<group>"; };
@@ -930,6 +936,9 @@
 			isa = PBXGroup;
 			children = (
 				4672E1D7251CDE02009F39EF /* Cassette.h */,
+				46E3477E26B0641300A161B6 /* CR_CASDataSerializer.h */,
+				46E3477F26B0641300A161B6 /* CR_CASDefaultDataSerializer.h */,
+				46E3477D26B0641300A161B6 /* CR_CASDefaultDataSerializer.m */,
 				4672E1DB251CDE02009F39EF /* CR_CASError.h */,
 				4672E1D4251CDE02009F39EF /* CR_CASError.m */,
 				4672E1D5251CDE02009F39EF /* CR_CASFileObjectQueue.h */,
@@ -1687,11 +1696,13 @@
 				54658897228C6DB1009746E0 /* CRInterstitialDelegate.h in Headers */,
 				7D167014246D4D5F0097880F /* CR_HeaderBidding.h in Headers */,
 				650915FD225565E6001D6673 /* CRBannerView.h in Headers */,
+				46E3478226B0641300A161B6 /* CR_CASDefaultDataSerializer.h in Headers */,
 				4672E1E6251CDE02009F39EF /* CR_CASObjectQueue.h in Headers */,
 				7D00672F243CD6F900E5D50D /* CR_CASObjectQueue+ArraySet.h in Headers */,
 				DF367C8A232974210044807B /* CRNativeAdUnit.h in Headers */,
 				7D4B4A8B24191E8E00E1E241 /* CR_ApiQueryKeys.h in Headers */,
 				46C403D2257542BA00E5179C /* CR_Session.h in Headers */,
+				46E3478126B0641300A161B6 /* CR_CASDataSerializer.h in Headers */,
 				25BD5B5B2220D16D004DE311 /* CriteoPublisherSdk.h in Headers */,
 				5472877E2411043900B62235 /* CR_FeedbackFileManager.h in Headers */,
 				46D5C3C4245AD3E100818D37 /* CRNativeAd.h in Headers */,
@@ -1998,6 +2009,7 @@
 				547287812411044000B62235 /* CR_FeedbackMessage.m in Sources */,
 				DF367C8B2329743C0044807B /* CRNativeAdUnit.m in Sources */,
 				542FCFAC242B6324000D9DA9 /* CR_CdbRequest.m in Sources */,
+				46E3478026B0641300A161B6 /* CR_CASDefaultDataSerializer.m in Sources */,
 				7D4B4A8A24191E8900E1E241 /* CR_ApiQueryKeys.m in Sources */,
 				5397C0B122A0AA6600BC72FE /* CR_CacheAdUnit.m in Sources */,
 				7D00672D243CD6F900E5D50D /* CR_CASObjectQueue+ArraySet.m in Sources */,

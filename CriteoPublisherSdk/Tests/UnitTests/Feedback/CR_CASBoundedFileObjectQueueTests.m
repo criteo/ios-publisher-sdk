@@ -54,7 +54,8 @@ static const NSUInteger CR_CASBoundedFileObjectQueueTestsMaxFileLength = 1024 * 
 
 - (void)tearDown {
   [super tearDown];
-  [self.queue clear];
+  NSError *error;
+  [self.queue clearAndReturnError:&error];
 }
 
 - (void)testInitWithoutError {
@@ -66,7 +67,8 @@ static const NSUInteger CR_CASBoundedFileObjectQueueTestsMaxFileLength = 1024 * 
   void *dummyBytes = malloc(dummyObjectSize);
   NSData *dummyObject = [NSData dataWithBytes:dummyBytes length:dummyObjectSize];
   for (int j = 0; j < size / dummyObjectSize; ++j) {
-    [queue add:dummyObject];
+    NSError *error;
+    [queue add:dummyObject error:&error];
   }
 }
 

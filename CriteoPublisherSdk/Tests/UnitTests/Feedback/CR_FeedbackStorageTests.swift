@@ -43,7 +43,7 @@ class CR_FeedbackStorageTests: XCTestCase {
     XCTAssertEqual(fileManagingMock.removeFileCallCount, 0)
   }
 
-  func test_initWithActiveMessages_ShouldBeMovedToSendingQueue() {
+  func test_initWithActiveMessages_ShouldBeMovedToSendingQueue() throws {
     fileManagingMock = CR_FeedbackFileManagingMock()
     fileManagingMock.allActiveFeedbackFilenamesResult = ["fn1", "fn2"]
     fileManagingMock.readFeedbackResults = [
@@ -54,18 +54,18 @@ class CR_FeedbackStorageTests: XCTestCase {
     XCTAssertEqual(queue.size(), 2)
     XCTAssertEqual(fileManagingMock.readFeedbackCallCount, 2)
     XCTAssertEqual(fileManagingMock.removeFileCallCount, 2)
-    XCTAssertEqual(getAllItemsFromQueue(), fileManagingMock.readFeedbackResults)
+    XCTAssertEqual(try getAllItemsFromQueue(), fileManagingMock.readFeedbackResults)
   }
 
-  func test_requestFor_ReadyToSendMessages_ShouldReturnEverythingFromQueue() {
-    queue.add(createMessageWithImpId("1"))
-    queue.add(createMessageWithImpId("3"))
-    XCTAssertEqual(getAllItemsFromQueue(), feedbackStorage.popMessagesToSend())
+  func test_requestFor_ReadyToSendMessages_ShouldReturnEverythingFromQueue() throws {
+    try queue.add(createMessageWithImpId("1"), error: ())
+    try queue.add(createMessageWithImpId("3"), error: ())
+    XCTAssertEqual(try getAllItemsFromQueue(), feedbackStorage.popMessagesToSend())
   }
 
-  func test_requestFor_ReadyToSendMessages_ShouldReturnEverythingFromQueue2() {
-    queue.add(createMessageWithImpId("1"))
-    queue.add(createMessageWithImpId("3"))
+  func test_requestFor_ReadyToSendMessages_ShouldReturnEverythingFromQueue2() throws {
+    try queue.add(createMessageWithImpId("1"), error: ())
+    try queue.add(createMessageWithImpId("3"), error: ())
     feedbackStorage.popMessagesToSend()
     XCTAssertEqual(queue.size(), 0)
   }
@@ -161,8 +161,8 @@ class CR_FeedbackStorageTests: XCTestCase {
     XCTAssertEqual(fileManagingMock.removeSendingQueueFileCount, 1)
   }
 
-  private func getAllItemsFromQueue() -> [CR_FeedbackMessage] {
-    return queue.peek(queue.size())
+  private func getAllItemsFromQueue() throws -> [CR_FeedbackMessage] {
+    return try queue.peek(queue.size(), error: ())
   }
 
   private func createMessageWithImpId(_ impId: String) -> CR_FeedbackMessage {
