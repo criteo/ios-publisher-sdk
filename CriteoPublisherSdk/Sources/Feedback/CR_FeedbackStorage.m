@@ -82,8 +82,9 @@ static NSUInteger const CR_FeedbackStorageSendingQueueMaxSize = 256 * 1024;
 - (NSArray<CR_FeedbackMessage *> *)popMessagesToSend {
   @synchronized(self) {
     NSUInteger size = [self.sendingQueue size];
-    NSArray<CR_FeedbackMessage *> *messages = [self.sendingQueue peek:size];
-    [self.sendingQueue pop:size];
+    NSError *error;
+    NSArray<CR_FeedbackMessage *> *messages = [self.sendingQueue peek:size error:&error];
+    [self.sendingQueue pop:size error:&error];
     return messages;
   }
 }

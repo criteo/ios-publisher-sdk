@@ -24,7 +24,8 @@
 - (void)addFeedbackMessage:(CR_FeedbackMessage *)message {
   NSAssert(![self containsFeedbackMessage:message], @"Add to the queue an existing element: %@",
            [self allFeedbackMessages]);
-  [self add:message];
+  NSError *error;
+  [self add:message error:&error];
 }
 
 - (BOOL)containsFeedbackMessage:(CR_FeedbackMessage *)message {
@@ -38,7 +39,8 @@
 }
 
 - (NSArray *)allFeedbackMessages {
-  return [self peek:NSUIntegerMax];
+  NSError *error;
+  return [self peek:NSUIntegerMax error:&error];
 }
 
 @end

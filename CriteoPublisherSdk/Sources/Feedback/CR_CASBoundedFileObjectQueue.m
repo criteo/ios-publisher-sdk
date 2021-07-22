@@ -47,11 +47,14 @@
   return self;
 }
 
-- (void)add:(id<NSCoding>)data {
-  [super add:data];
-  if (self.queueFile.fileLength > self.maxFileLength) {
-    [self pop];
+- (BOOL)add:(id<NSCoding>)data error:(NSError *__autoreleasing *_Nullable)error {
+  if ([super add:data error:error]) {
+    if (self.queueFile.fileLength > self.maxFileLength) {
+      return [self pop:1 error:error];
+    }
+    return YES;
   }
+  return NO;
 }
 
 @end

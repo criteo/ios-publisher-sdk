@@ -420,7 +420,8 @@
 }
 
 - (void)assertQueueOnlyContainsAll:(NSArray<CR_FeedbackMessage *> *)allExpected {
-  NSArray *feedbacks = [self.feedbackSendingQueue peek:NSUIntegerMax];
+  NSError *error;
+  NSArray *feedbacks = [self.feedbackSendingQueue peek:NSUIntegerMax error:&error];
   [self assertContainer:feedbacks onlyContainsAll:allExpected];
 }
 

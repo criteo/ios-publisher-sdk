@@ -67,8 +67,9 @@
   XCTAssertEqual(self.feedbackSendingQueue.size, 0);
   CR_FeedbackMessage *message1 = [[CR_FeedbackMessage alloc] init];
   CR_FeedbackMessage *message2 = [[CR_FeedbackMessage alloc] init];
-  [self.feedbackSendingQueue add:message1];
-  [self.feedbackSendingQueue add:message2];
+  NSError *error;
+  [self.feedbackSendingQueue add:message1 error:&error];
+  [self.feedbackSendingQueue add:message2 error:&error];
   [self fetchBidForAdUnit:self.adUnit];
 
   NSArray *messages = @[ message1, message2 ];
@@ -86,9 +87,10 @@
   message21.profileId = @(2);
   CR_FeedbackMessage *message22 = [[CR_FeedbackMessage alloc] init];
   message22.profileId = @(2);
-  [self.feedbackSendingQueue add:message1];
-  [self.feedbackSendingQueue add:message21];
-  [self.feedbackSendingQueue add:message22];
+  NSError *error;
+  [self.feedbackSendingQueue add:message1 error:&error];
+  [self.feedbackSendingQueue add:message21 error:&error];
+  [self.feedbackSendingQueue add:message22 error:&error];
 
   NSArray *messages1 = @[ message1 ];
   OCMExpect([self.apiHandlerMock sendFeedbackMessages:messages1
@@ -110,7 +112,8 @@
                                           profileId:[OCMArg any]
                                   completionHandler:[OCMArg invokeBlock]]);
   XCTAssertEqual(self.feedbackSendingQueue.size, 0);
-  [self.feedbackSendingQueue add:[[CR_FeedbackMessage alloc] init]];
+  NSError *error;
+  [self.feedbackSendingQueue add:[[CR_FeedbackMessage alloc] init] error:&error];
   [self fetchBidForAdUnit:self.adUnit];
 
   XCTAssertEqual(self.feedbackSendingQueue.size, 0);
@@ -124,7 +127,8 @@
                                           profileId:[OCMArg any]
                                   completionHandler:completeionWithError]);
   XCTAssertEqual(self.feedbackSendingQueue.size, 0);
-  [self.feedbackSendingQueue add:[[CR_FeedbackMessage alloc] init]];
+  NSError *addError;
+  [self.feedbackSendingQueue add:[[CR_FeedbackMessage alloc] init] error:&addError];
   [self fetchBidForAdUnit:self.adUnit];
 
   XCTAssertEqual(self.feedbackSendingQueue.size, 1);

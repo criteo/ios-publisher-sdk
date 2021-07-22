@@ -53,14 +53,16 @@ static NSUInteger const CR_RemoteLogStorageLogQueueMaxFileLength = 256 * 1024;
 
 - (void)pushRemoteLogRecord:(CR_RemoteLogRecord *)record {
   @synchronized(self) {
-    [self.logQueue add:record];
+    NSError *error;
+    [self.logQueue add:record error:&error];
   }
 }
 
 - (NSArray<CR_RemoteLogRecord *> *)popRemoteLogRecords:(NSUInteger)size {
   @synchronized(self) {
-    NSArray<CR_RemoteLogRecord *> *records = [self.logQueue peek:size];
-    [self.logQueue pop:size];
+    NSError *error;
+    NSArray<CR_RemoteLogRecord *> *records = [self.logQueue peek:size error:&error];
+    [self.logQueue pop:size error:&error];
     return records;
   }
 }
