@@ -36,7 +36,7 @@ certificate. It was generated mostly following [this post][ios-self-signed]
 ## Start wiremock
 
 ```sh
-java -jar wiremock.jar --https-port 9099 --root-dir wiremock --https-keystore wiremock/cert/wiremock.jks --keystore-password password
+java -jar wiremock.jar --https-port 9099 --root-dir wiremock --https-keystore wiremock/cert/wiremock.jks --keystore-password password --verbose --global-response-templating
 ```
 You can check it works on wiremock side
 ```sh
