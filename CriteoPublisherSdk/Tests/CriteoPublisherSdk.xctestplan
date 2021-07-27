@@ -26,8 +26,24 @@
     {
       "skippedTests" : [
         "CRInterstitialTests\/testWithRendering",
+        "CR_ContextualFunctionalTests",
+        "CR_DataConsentFunctionalTests",
+        "CR_DfpBannerFunctionalTests",
+        "CR_DfpInterstitialFunctionalTests",
         "CR_DfpInterstitialFunctionalTests\/test_givenValidInterstitial_whenLoadingDfpInterstitial_thenDfpViewContainsCreative",
-        "CR_StandaloneBannerFunctionalTests\/test_givenBannerWithAppStoreClickUrl_whenClickUrl_thenOpenStoreKitController"
+        "CR_DfpNativeFunctionalTests",
+        "CR_FeedbackMessageFunctionalTests",
+        "CR_HeaderBiddingDictionaryFunctionalTests",
+        "CR_InHouseFunctionalTests",
+        "CR_LoggingFunctionalTests",
+        "CR_MopubBannerFunctionalTests",
+        "CR_MopubInterstitialFunctionalTests",
+        "CR_NativeAdFunctionalTests",
+        "CR_ProfileIdFunctionalTests",
+        "CR_RegistrationFunctionalTests",
+        "CR_StandaloneBannerFunctionalTests",
+        "CR_StandaloneBannerFunctionalTests\/test_givenBannerWithAppStoreClickUrl_whenClickUrl_thenOpenStoreKitController",
+        "CR_URLResolverTests"
       ],
       "target" : {
         "containerPath" : "container:CriteoPublisherSdk.xcodeproj",

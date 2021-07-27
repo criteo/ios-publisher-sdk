@@ -42,7 +42,6 @@ jobs:
       - name: WireMock setup
         run: |
           curl https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-jre8-standalone/2.27.0/wiremock-jre8-standalone-2.27.0.jar -o wiremock.jar -s
-          bundle exec iostrust add ./wiremock/cert/wiremock.crt
           java -jar wiremock.jar --https-port 9099 --root-dir wiremock --https-keystore wiremock/cert/wiremock.jks --keystore-password password --verbose --global-response-templating &
 
       - name: Format check
@@ -58,7 +57,9 @@ jobs:
         if: failure()
         with:
           name: tests-reports
-          path: "fastlane/test_output"
+          path: |
+            fastlane/test_output
+            fastlane/functional_output
 
       # Publish additional steps to test job
       - name: Archive

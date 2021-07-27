@@ -18,8 +18,23 @@ adapter_google_dir = "CriteoGoogleAdapter"
 adapter_mopub_dir = "CriteoMoPubAdapter"
 
 platform :ios do
+
+  desc %(Install cert to simulator - for local testing using https)
+  sim_callback = lambda do |sim_udid|
+    puts "🔐 Add certificate to device #{sim_udid}"
+    sh("xcrun","simctl","keychain","#{sim_udid}", "add-root-cert", "./wiremock/cert/wiremock.crt")
+  end
+
   desc %(Run tests: Run Unit & Functional tests with retries)
   lane :test do
+    # ensure wiremock is up and reachable locally before testing
+    sh("nc", "-z", "-w5", "localhost", "9099",
+        log: false,
+        error_callback: lambda do |err|
+            UI.shell_error!("🚨 Please ensure running wiremock server to run the tests properly #{err}")
+        end
+    )
+
     scan(scheme: "CriteoAdViewer")
     scan(scheme: "CriteoGoogleAdapter")
     scan(scheme: "CriteoMoPubAdapter")
@@ -27,7 +42,17 @@ platform :ios do
       workspace: "CriteoPublisherSdk.xcworkspace",
       scheme: "CriteoPublisherSdk",
       testplan: "CriteoPublisherSdk",
-      try_count: 5, parallel_testrun_count: 2,
+      try_count: 5,
+      parallel_testrun_count: 2
+    )
+    multi_scan(
+      workspace: "CriteoPublisherSdk.xcworkspace",
+      scheme: "CriteoPublisherSdk",
+      testplan: "CriteoPublisherSdk-Functional",
+      try_count: 5,
+      parallel_testrun_count: 2,
+      output_directory: "./fastlane/functional_output",
+      simulator_started_callback: sim_callback
     )
     pod_lib_lint
   end
