@@ -12,8 +12,75 @@ env:
   DEVELOPER_DIR: /Applications/Xcode_12.5.app/Contents/Developer
 
 jobs:
+  lint:
+    runs-on: macos-11
+  
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Ruby & Bundle setup
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+          bundler-cache: true
+
+      - name: Cocoapods cache
+        uses: actions/cache@v2
+        with:
+          path: Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+      - name: Cocoapods install
+        run: |
+          bundle exec fastlane run cocoapods
+
+      - name: Format check
+        run: |
+          bundle exec fastlane format_check
+
   test:
     runs-on: macos-11
+    needs:
+      - lint
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Ruby & Bundle setup
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+          bundler-cache: true
+
+      - name: Cocoapods cache
+        uses: actions/cache@v2
+        with:
+          path: Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+      - name: Cocoapods install
+        run: |
+          bundle exec fastlane run cocoapods
+
+      - name: Test
+        run: |
+          bundle exec fastlane test
+
+      - name: Tests reports upload
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: tests-reports
+          path: |
+            fastlane/test_output
+  integration-test:
+    runs-on: macos-11
+    needs:
+      - lint
 
     steps:
       - name: Checkout
@@ -45,19 +112,14 @@ jobs:
           curl https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-jre8-standalone/2.27.0/wiremock-jre8-standalone-2.27.0.jar -o wiremock.jar -s
           java -jar wiremock.jar --https-port 9099 --root-dir wiremock --https-keystore wiremock/cert/wiremock.jks --keystore-password password --verbose --global-response-templating &
 
-      - name: Format check
-        run: |
-          bundle exec fastlane format_check
-
       - name: Test
         run: |
-          bundle exec fastlane test
+          bundle exec fastlane it_test
 
       - name: Tests reports upload
         uses: actions/upload-artifact@v2
         if: failure()
         with:
-          name: tests-reports
+          name: functional-tests-reports
           path: |
-            fastlane/test_output
             fastlane/functional_output

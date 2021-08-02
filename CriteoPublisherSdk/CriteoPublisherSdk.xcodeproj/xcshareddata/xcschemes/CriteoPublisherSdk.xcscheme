@@ -38,6 +38,9 @@
          <TestPlanReference
             reference = "container:Tests/CriteoPublisherSdk-Google.xctestplan">
          </TestPlanReference>
+         <TestPlanReference
+            reference = "container:Tests/CriteoPublisherSdk-Functional.xctestplan">
+         </TestPlanReference>
       </TestPlans>
       <Testables>
          <TestableReference

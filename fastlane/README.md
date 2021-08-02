@@ -20,9 +20,12 @@ or alternatively using `brew install fastlane`
 ```
 fastlane ios test
 ```
-Install cert to simulator - for local testing using https
-
 Run tests: Run Unit & Functional tests with retries
+### ios it_test
+```
+fastlane ios it_test
+```
+Run it_tests: Run Functional tests with retries
 ### ios format_check
 ```
 fastlane ios format_check
