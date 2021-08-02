@@ -35,18 +35,21 @@
 @implementation CR_URLOpenerTests
 
 - (void)testOpenAppStoreURLWithSKAdNetworkParameters {
-  CR_URLOpener *opener = OCMPartialMock([[CR_URLOpener alloc] init]);
-  OCMExpect([opener presentStoreKitControllerWithProductParameters:OCMArg.any
-                                                fromViewController:OCMArg.any
-                                                    withCompletion:OCMArg.any]);
-  OCMReject([opener openExternalURL:OCMArg.any withCompletion:OCMArg.any]);
-  [opener openExternalURL:[NSURL URLWithString:@"https://apps.apple.com/whatever"]
-      withSKAdNetworkParameters:[self buildParameters]
-                       fromView:[[UIView alloc] init]
-                     completion:^(BOOL success) {
-                       XCTAssertTrue(success);
-                     }];
-  OCMVerifyAll(opener);
+  // this assertions does not work for versions lower than 14, url will be opened otherwise
+  if (@available(iOS 14, *)) {
+    CR_URLOpener *opener = OCMPartialMock([[CR_URLOpener alloc] init]);
+    OCMExpect([opener presentStoreKitControllerWithProductParameters:OCMArg.any
+                                                  fromViewController:OCMArg.any
+                                                      withCompletion:OCMArg.any]);
+    OCMReject([opener openExternalURL:OCMArg.any withCompletion:OCMArg.any]);
+    [opener openExternalURL:[NSURL URLWithString:@"https://apps.apple.com/whatever"]
+        withSKAdNetworkParameters:[self buildParameters]
+                         fromView:[[UIView alloc] init]
+                       completion:^(BOOL success) {
+                         XCTAssertTrue(success);
+                       }];
+    OCMVerifyAll(opener);
+  }
 }
 
 - (void)testOpenAppStoreURLWithoutSKAdNetworkParameters {
