@@ -26,7 +26,8 @@
 @class Criteo;
 @protocol CR_URLOpening;
 
-@interface CRBannerView (Internal)
+@interface CRBannerView ()
+@property(nonatomic, strong) dispatch_queue_t delegateDispatchQueue;
 
 - (instancetype)initWithFrame:(CGRect)rect
                        criteo:(Criteo *)criteo
@@ -41,6 +42,15 @@
                    addWebView:(BOOL)addWebView
                        adUnit:(CRBannerAdUnit *)adUnit
                     urlOpener:(id<CR_URLOpening>)opener;
+
+/// For tests only, where using main dispatch queue is making test flaky
+- (instancetype)initWithFrame:(CGRect)rect
+                       criteo:(Criteo *)criteo
+                      webView:(WKWebView *)webView
+                   addWebView:(BOOL)addWebView
+                       adUnit:(CRBannerAdUnit *)adUnit
+                    urlOpener:(id<CR_URLOpening>)opener
+        delegateDispatchQueue:(dispatch_queue_t)dispatchQueue;
 
 - (instancetype)initWithAdUnit:(CRBannerAdUnit *)adUnit criteo:(Criteo *)criteo;
 
