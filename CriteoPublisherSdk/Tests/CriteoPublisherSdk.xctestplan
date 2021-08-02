@@ -39,6 +39,7 @@
         "CR_MopubBannerFunctionalTests",
         "CR_MopubInterstitialFunctionalTests",
         "CR_NativeAdFunctionalTests",
+        "CR_NetworkManagerTests",
         "CR_ProfileIdFunctionalTests",
         "CR_RegistrationFunctionalTests",
         "CR_StandaloneBannerFunctionalTests",
