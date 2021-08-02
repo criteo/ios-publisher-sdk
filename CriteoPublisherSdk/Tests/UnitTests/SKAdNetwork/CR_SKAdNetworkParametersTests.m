@@ -109,36 +109,39 @@
 
 #pragma mark - Load Product Parameters
 
-- (void)testToLoadProductParameters API_AVAILABLE(ios(14.0)) {
-  NSString *networkId = @"networkId";
-  NSString *version = @"2.0";
-  NSUUID *nonce = [NSUUID UUID];
-  NSNumber *campaignId = @(42);
-  NSNumber *iTunesItemId = @(12345678);
-  NSNumber *timestamp = @(123457890);
-  NSNumber *sourceAppId = @(87654321);
-  NSString *signature = @"signature";
-  CR_SKAdNetworkParameters *skAdNetworkParameters =
-      [[CR_SKAdNetworkParameters alloc] initWithNetworkId:networkId
-                                                  version:version
-                                               campaignId:campaignId
-                                             iTunesItemId:iTunesItemId
-                                                    nonce:nonce
-                                                timestamp:timestamp
-                                              sourceAppId:sourceAppId
-                                                signature:signature];
-  NSDictionary *loadProductParameters = skAdNetworkParameters.toLoadProductParameters;
-  NSDictionary *expected = @{
-    SKStoreProductParameterAdNetworkVersion : version,
-    SKStoreProductParameterAdNetworkIdentifier : networkId,
-    SKStoreProductParameterAdNetworkCampaignIdentifier : campaignId,
-    SKStoreProductParameterITunesItemIdentifier : iTunesItemId,
-    SKStoreProductParameterAdNetworkNonce : nonce,
-    SKStoreProductParameterAdNetworkSourceAppStoreIdentifier : sourceAppId,
-    SKStoreProductParameterAdNetworkTimestamp : timestamp,
-    SKStoreProductParameterAdNetworkAttributionSignature : signature,
-  };
-  XCTAssertEqualObjects(loadProductParameters, expected);
+- (void)testToLoadProductParameters {
+  // API_AVAILABLE does not work for testing, the test fails to succeed under iOS < 14
+  if (@available(iOS 14, *)) {
+    NSString *networkId = @"networkId";
+    NSString *version = @"2.0";
+    NSUUID *nonce = [NSUUID UUID];
+    NSNumber *campaignId = @(42);
+    NSNumber *iTunesItemId = @(12345678);
+    NSNumber *timestamp = @(123457890);
+    NSNumber *sourceAppId = @(87654321);
+    NSString *signature = @"signature";
+    CR_SKAdNetworkParameters *skAdNetworkParameters =
+        [[CR_SKAdNetworkParameters alloc] initWithNetworkId:networkId
+                                                    version:version
+                                                 campaignId:campaignId
+                                               iTunesItemId:iTunesItemId
+                                                      nonce:nonce
+                                                  timestamp:timestamp
+                                                sourceAppId:sourceAppId
+                                                  signature:signature];
+    NSDictionary *loadProductParameters = skAdNetworkParameters.toLoadProductParameters;
+    NSDictionary *expected = @{
+      SKStoreProductParameterAdNetworkVersion : version,
+      SKStoreProductParameterAdNetworkIdentifier : networkId,
+      SKStoreProductParameterAdNetworkCampaignIdentifier : campaignId,
+      SKStoreProductParameterITunesItemIdentifier : iTunesItemId,
+      SKStoreProductParameterAdNetworkNonce : nonce,
+      SKStoreProductParameterAdNetworkSourceAppStoreIdentifier : sourceAppId,
+      SKStoreProductParameterAdNetworkTimestamp : timestamp,
+      SKStoreProductParameterAdNetworkAttributionSignature : signature,
+    };
+    XCTAssertEqualObjects(loadProductParameters, expected);
+  }
 }
 
 @end
