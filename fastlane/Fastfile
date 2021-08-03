@@ -24,12 +24,21 @@ platform :ios do
     scan(scheme: "CriteoAdViewer")
     scan(scheme: "CriteoGoogleAdapter")
     scan(scheme: "CriteoMoPubAdapter")
-    multi_scan(
+    # split tests as they are breaking each others (probably due to mocking or global state)
+    scan(
       workspace: "CriteoPublisherSdk.xcworkspace",
       scheme: "CriteoPublisherSdk",
-      testplan: "CriteoPublisherSdk",
-      try_count: 5,
-      parallel_testrun_count: 2
+      testplan: "CriteoPublisherSdk"
+    )
+    scan(
+      workspace: "CriteoPublisherSdk.xcworkspace",
+      scheme: "CriteoPublisherSdk",
+      testplan: "FlakyTest"
+    )
+    scan(
+      workspace: "CriteoPublisherSdk.xcworkspace",
+      scheme: "CriteoPublisherSdk",
+      testplan: "LoggingTests"
     )
     pod_lib_lint
   end

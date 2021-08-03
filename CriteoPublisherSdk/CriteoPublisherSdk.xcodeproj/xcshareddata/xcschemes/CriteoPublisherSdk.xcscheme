@@ -41,12 +41,28 @@
          <TestPlanReference
             reference = "container:Tests/CriteoPublisherSdk-Functional.xctestplan">
          </TestPlanReference>
+         <TestPlanReference
+            reference = "container:Tests/FlakyTest.xctestplan">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:Tests/LoggingTests.xctestplan">
+         </TestPlanReference>
       </TestPlans>
       <Testables>
          <TestableReference
             skipped = "NO"
             parallelizable = "YES"
             testExecutionOrdering = "random">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E1F2736C21B5F08D00A2FBFA"
+               BuildableName = "CriteoPublisherSdkTests.xctest"
+               BlueprintName = "CriteoPublisherSdkTests"
+               ReferencedContainer = "container:CriteoPublisherSdk.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E1F2736C21B5F08D00A2FBFA"

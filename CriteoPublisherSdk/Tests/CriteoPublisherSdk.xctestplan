@@ -26,6 +26,9 @@
     {
       "skippedTests" : [
         "CRInterstitialTests\/testWithRendering",
+        "CR_BidManagerIntegrationTests",
+        "CR_BidManagerTests",
+        "CR_CacheManagerTests",
         "CR_ContextualFunctionalTests",
         "CR_DataConsentFunctionalTests",
         "CR_DfpBannerFunctionalTests",
@@ -36,6 +39,7 @@
         "CR_HeaderBiddingDictionaryFunctionalTests",
         "CR_InHouseFunctionalTests",
         "CR_LoggingFunctionalTests",
+        "CR_LoggingTests",
         "CR_MopubBannerFunctionalTests",
         "CR_MopubInterstitialFunctionalTests",
         "CR_NativeAdFunctionalTests",
