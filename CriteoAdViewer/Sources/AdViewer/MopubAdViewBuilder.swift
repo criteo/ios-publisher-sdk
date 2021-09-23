@@ -26,8 +26,8 @@ class MopubAdViewBuilder: AdViewBuilder {
     controller: AdViewController,
     adUnitIdForAppInitialization: String
   ) {
-    self.logger = MopubLogger(interstitialDelegate: controller)
-    self.contextData = defaultContextData()
+    logger = MopubLogger(interstitialDelegate: controller)
+    contextData = defaultContextData()
 
     // SDK Initialization
     let config = MPMoPubConfiguration(adUnitIdForAppInitialization: adUnitIdForAppInitialization)
@@ -36,16 +36,16 @@ class MopubAdViewBuilder: AdViewBuilder {
 
   func build(config: AdConfig, criteo: Criteo, completion: (AdView) -> Void) {
     switch config.adFormat {
-    case .sized(.banner, let size):
-      completion(.banner(buildBanner(adUnit: config.adUnit, size: size, criteo: criteo)))
+    case let .sized(.banner, size):
+      completion(.banner(buildBanner(config: config, size: size, criteo: criteo)))
     case .flexible(.interstitial), .flexible(.video):
-      completion(.interstitial(buildInterstitial(adUnit: config.adUnit, criteo: criteo)))
+      completion(.interstitial(buildInterstitial(config: config, criteo: criteo)))
     case _:
       fatalError("Unsupported")
     }
   }
 
-  // TODO handle height properly
+  // TODO: handle height properly
   private func mopubSize(size: AdSize) -> CGSize {
     switch size {
     case ._320x50: return CGSize(width: 320, height: 50)
@@ -53,26 +53,34 @@ class MopubAdViewBuilder: AdViewBuilder {
     }
   }
 
-  private func buildBanner(adUnit: CRAdUnit, size: AdSize, criteo: Criteo) -> MPAdView {
-    let adView = MPAdView(adUnitId: adUnit.adUnitId)!
+  private func buildBanner(config: AdConfig, size: AdSize, criteo: Criteo) -> MPAdView {
+    let adView = MPAdView(adUnitId: config.adUnit.adUnitId)!
     adView.maxAdSize = mopubSize(size: size)
     adView.frame = CGRect(origin: CGPoint(), size: mopubSize(size: size))
     adView.keywords = keywords
-    adView.delegate = self.logger
-    load(adView, adUnit: adUnit, criteo: criteo)
+    adView.delegate = logger
+    load(adView, config: config, criteo: criteo)
     return adView
   }
 
-  private func buildInterstitial(adUnit: CRAdUnit, criteo: Criteo) -> MPInterstitialAdController {
-    let adView = MPInterstitialAdController(forAdUnitId: adUnit.adUnitId)!
+  private func buildInterstitial(config: AdConfig, criteo: Criteo) -> MPInterstitialAdController {
+    let adView = MPInterstitialAdController(forAdUnitId: config.adUnit.adUnitId)!
     adView.keywords = keywords
-    adView.delegate = self.logger
-    load(adView, adUnit: adUnit, criteo: criteo)
+    adView.delegate = logger
+    load(adView, config: config, criteo: criteo)
     return adView
   }
 
-  private func load(_ ad: MPLoadableAd, adUnit: CRAdUnit, criteo: Criteo) {
-    criteo.loadBid(for: adUnit, withContext: contextData) { maybeBid in
+  private func load(_ ad: MPLoadableAd, config: AdConfig, criteo: Criteo) {
+    let criteoAdUnitId: CRAdUnit
+    if config.adFormat == .flexible(.video) {
+        // need to use a specific adUnitId to be able to load video ads properly
+      criteoAdUnitId = CRInterstitialAdUnit(
+        adUnitId: "/140800857/Endeavour_InterstitialVideo_320x480")
+    } else {
+      criteoAdUnitId = config.adUnit
+    }
+    criteo.loadBid(for: criteoAdUnitId, withContext: contextData) { maybeBid in
       if let bid = maybeBid {
         criteo.enrichAdObject(ad, with: bid)
         ad.loadAd()
@@ -87,7 +95,7 @@ protocol MPLoadableAd {
 
 extension MPInterstitialAdController: InterstitialView, MPLoadableAd {
   func present(viewController: UIViewController) {
-    self.show(from: viewController)
+    show(from: viewController)
   }
 }
 
