@@ -235,11 +235,14 @@
 #pragma mark - Private
 
 - (CRBannerView *)bannerViewWithWebView:(WKWebView *)webView {
-  return [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
-                                      criteo:self.criteo
-                                     webView:webView
-                                      adUnit:self.adUnit
-                                   urlOpener:self.urlOpener];
+  return [[CRBannerView alloc]
+              initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
+                     criteo:self.criteo
+                    webView:webView
+                 addWebView:NO
+                     adUnit:self.adUnit
+                  urlOpener:self.urlOpener
+      delegateDispatchQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)];
 }
 
 - (void)mockCriteoWithAdUnit:(CR_CacheAdUnit *)adUnit respondBid:(CR_CdbBid *)bid {

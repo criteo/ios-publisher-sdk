@@ -37,6 +37,7 @@
 @end
 
 @implementation CRBannerView
+@synthesize delegateDispatchQueue;
 
 - (instancetype)initWithAdUnit:(CRBannerAdUnit *)adUnit {
   return [self initWithAdUnit:adUnit criteo:[Criteo sharedCriteo]];
@@ -65,7 +66,8 @@
                      webView:webView
                   addWebView:YES
                       adUnit:adUnit
-                   urlOpener:opener];
+                   urlOpener:opener
+       delegateDispatchQueue:dispatch_get_main_queue()];
 }
 
 - (instancetype)initWithFrame:(CGRect)rect
@@ -74,6 +76,22 @@
                    addWebView:(BOOL)addWebView
                        adUnit:(CRBannerAdUnit *)adUnit
                     urlOpener:(id<CR_URLOpening>)opener {
+  return [self initWithFrame:rect
+                      criteo:criteo
+                     webView:webView
+                  addWebView:addWebView
+                      adUnit:adUnit
+                   urlOpener:opener
+       delegateDispatchQueue:dispatch_get_main_queue()];
+}
+
+- (instancetype)initWithFrame:(CGRect)rect
+                       criteo:(Criteo *)criteo
+                      webView:(WKWebView *)webView
+                   addWebView:(BOOL)addWebView
+                       adUnit:(CRBannerAdUnit *)adUnit
+                    urlOpener:(id<CR_URLOpening>)opener
+        delegateDispatchQueue:(dispatch_queue_t)dispatchQueue {
   CRLogInfo(@"BannerView", @"Initializing with Ad Unit:%@", adUnit);
   if (self = [super initWithFrame:rect]) {
     _criteo = criteo;
@@ -87,6 +105,7 @@
     }
     _adUnit = adUnit;
     _urlOpener = opener;
+    self.delegateDispatchQueue = dispatchQueue;
   }
   return self;
 }
@@ -114,7 +133,7 @@
 
 - (void)dispatchDidReceiveAdDelegate {
   CRLogInfo(@"BannerView", @"Received ad for Ad Unit:%@", self.adUnit);
-  dispatch_async(dispatch_get_main_queue(), ^{
+  dispatch_async(self.delegateDispatchQueue, ^{
     if ([self.delegate respondsToSelector:@selector(bannerDidReceiveAd:)]) {
       [self.delegate bannerDidReceiveAd:self];
     }

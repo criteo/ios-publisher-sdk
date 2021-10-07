@@ -556,6 +556,9 @@
 		6549B552228389930078F068 /* CRInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRInterstitialDelegate.h; sourceTree = "<group>"; };
 		65E3A56F2270CB7A004156E9 /* CR_InterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_InterstitialViewController.h; sourceTree = "<group>"; };
 		65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_InterstitialViewController.m; sourceTree = "<group>"; };
+		7B8F678826B03DC200C20CBF /* CriteoPublisherSdk-Functional.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "CriteoPublisherSdk-Functional.xctestplan"; sourceTree = "<group>"; };
+		7BF5E9DE26B9354A00690F70 /* FlakyTest.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = FlakyTest.xctestplan; sourceTree = "<group>"; };
+		7BF5E9DF26B9767600690F70 /* LoggingTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = LoggingTests.xctestplan; sourceTree = "<group>"; };
 		7D00672A243CD6F900E5D50D /* CR_CASObjectQueue+ArraySet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CR_CASObjectQueue+ArraySet.m"; sourceTree = "<group>"; };
 		7D00672B243CD6F900E5D50D /* CR_CASObjectQueue+ArraySet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CR_CASObjectQueue+ArraySet.h"; sourceTree = "<group>"; };
 		7D006732243DB74B00E5D50D /* CR_FeedbackMessageFunctionalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_FeedbackMessageFunctionalTests.m; sourceTree = "<group>"; };
@@ -1654,7 +1657,10 @@
 		E1F2737121B5F08D00A2FBFA /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				7BF5E9DF26B9767600690F70 /* LoggingTests.xctestplan */,
+				7BF5E9DE26B9354A00690F70 /* FlakyTest.xctestplan */,
 				4607BD0D24AF4F8300F18AF5 /* CriteoPublisherSdk.xctestplan */,
+				7B8F678826B03DC200C20CBF /* CriteoPublisherSdk-Functional.xctestplan */,
 				4646EF182514CEF2009E4D16 /* CriteoPublisherSdk-Standalone.xctestplan */,
 				466AA0E325E3FB61000673BB /* CriteoPublisherSdk-Google.xctestplan */,
 				54FE074123FEED2B0035A026 /* CriteoPublisherSdkTests-Bridging-Header.h */,

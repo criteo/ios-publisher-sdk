@@ -18,18 +18,58 @@ adapter_google_dir = "CriteoGoogleAdapter"
 adapter_mopub_dir = "CriteoMoPubAdapter"
 
 platform :ios do
+
   desc %(Run tests: Run Unit & Functional tests with retries)
   lane :test do
     scan(scheme: "CriteoAdViewer")
     scan(scheme: "CriteoGoogleAdapter")
     scan(scheme: "CriteoMoPubAdapter")
+    # split tests as they are breaking each others (probably due to mocking or global state)
     multi_scan(
       workspace: "CriteoPublisherSdk.xcworkspace",
       scheme: "CriteoPublisherSdk",
       testplan: "CriteoPublisherSdk",
-      try_count: 5, parallel_testrun_count: 2,
+      try_count: 5,
+      parallel_testrun_count: 2,
+    )
+    multi_scan(
+      workspace: "CriteoPublisherSdk.xcworkspace",
+      scheme: "CriteoPublisherSdk",
+      testplan: "FlakyTest",
+      try_count: 5,
+      parallel_testrun_count: 2,
+    )
+    multi_scan(
+      workspace: "CriteoPublisherSdk.xcworkspace",
+      scheme: "CriteoPublisherSdk",
+      testplan: "LoggingTests",
+      try_count: 5,
+      parallel_testrun_count: 2,
     )
     pod_lib_lint
+  end
+  
+  desc %(Run it_tests: Run Functional tests with retries)
+  lane :it_test do
+    # ensure wiremock is up and reachable locally before testing
+    sh("nc", "-z", "-w5", "localhost", "9099",
+        log: false,
+        error_callback: lambda do |err|
+            UI.shell_error!("🚨 Please ensure running wiremock server to run the tests properly #{err}")
+        end
+    )
+    multi_scan(
+      workspace: "CriteoPublisherSdk.xcworkspace",
+      scheme: "CriteoPublisherSdk",
+      testplan: "CriteoPublisherSdk-Functional",
+      try_count: 5,
+      parallel_testrun_count: 2,
+      output_directory: "./fastlane/functional_output",
+      simulator_started_callback: lambda do |sim_udid|
+        puts "🔐 Add certificate to device #{sim_udid}"
+        sh("xcrun","simctl","keychain","#{sim_udid}", "add-root-cert", "./wiremock/cert/wiremock.crt")
+      end
+    )
   end
 
   desc %(Check code format)
