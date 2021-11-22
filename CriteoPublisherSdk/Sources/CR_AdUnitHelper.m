@@ -52,6 +52,10 @@ static const CGSize nativeSize = {2.0, 2.0};
       return [[CR_CacheAdUnit alloc] initWithAdUnitId:adUnit.adUnitId
                                                  size:nativeSize
                                            adUnitType:CRAdUnitTypeNative];
+    case CRAdUnitTypeRewarded:
+      return [[CR_CacheAdUnit alloc] initWithAdUnitId:adUnit.adUnitId
+                                                 size:nativeSize
+                                           adUnitType:CRAdUnitTypeRewarded];
     default:
       CRLogWarn(@"AdUnit", @"Unexpected AdUnitType %@", adUnit);
       return nil;

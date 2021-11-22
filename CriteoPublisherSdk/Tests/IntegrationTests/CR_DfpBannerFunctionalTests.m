@@ -86,7 +86,7 @@
   CRBannerAdUnit *bannerAdUnit = [CR_TestAdUnits preprodBanner320x50];
   [self initCriteoWithAdUnits:@[ bannerAdUnit ]];
   CR_DfpCreativeViewChecker *dfpViewChecker =
-      [[CR_DfpCreativeViewChecker alloc] initWithBannerWithSize:kGADAdSizeBanner
+      [[CR_DfpCreativeViewChecker alloc] initWithBannerWithSize:GADAdSizeBanner
                                                    withAdUnitId:CR_TestAdUnits.dfpBanner50AdUnitId];
 
   [self enrichAdObject:self.request forAdUnit:bannerAdUnit];
@@ -103,7 +103,7 @@
   CRBannerAdUnit *bannerAdUnitRandom = [CR_TestAdUnits randomBanner320x50];
   [self initCriteoWithAdUnits:@[ bannerAdUnit ]];
   CR_DfpCreativeViewChecker *dfpViewChecker =
-      [[CR_DfpCreativeViewChecker alloc] initWithBannerWithSize:kGADAdSizeBanner
+      [[CR_DfpCreativeViewChecker alloc] initWithBannerWithSize:GADAdSizeBanner
                                                    withAdUnitId:CR_TestAdUnits.dfpBanner50AdUnitId];
 
   [self enrichAdObject:self.request forAdUnit:bannerAdUnitRandom];

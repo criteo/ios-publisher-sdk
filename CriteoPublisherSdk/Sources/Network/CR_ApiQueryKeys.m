@@ -39,6 +39,9 @@
 + (NSString *)bidSlotsIsNative {
   return @"isNative";
 }
++ (NSString *)bidSlotsIsRewarded {
+  return @"isRewarded";
+}
 + (NSString *)bidSlotsPlacementId {
   return @"placementId";
 }

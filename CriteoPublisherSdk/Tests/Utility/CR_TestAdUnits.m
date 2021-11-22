@@ -60,6 +60,10 @@
   return [self nativeWithId:PreprodNativeAdUnitId];
 }
 
++ (CRRewardedAdUnit *)randomRewarded {
+  return [self rewardedWithId:self.randomRewardedAdUnitId];
+}
+
 + (NSString *)dfpBanner50AdUnitId {
   return @"/140800857/Endeavour_320x50";
 }
@@ -92,6 +96,10 @@
   return @"Random-Native-Ad-Unit";
 }
 
++ (NSString *)randomRewardedAdUnitId {
+  return @"Random-Rewarded-Ad-Unit";
+}
+
 + (CRBannerAdUnit *)banner320x50WithId:(NSString *)adUnitId {
   return [[CRBannerAdUnit alloc] initWithAdUnitId:adUnitId size:CGSizeMake(320, 50)];
 }
@@ -104,6 +112,10 @@
 
 + (CRNativeAdUnit *)nativeWithId:(NSString *)adUnitId {
   return [[CRNativeAdUnit alloc] initWithAdUnitId:adUnitId];
+}
+
++ (CRRewardedAdUnit *)rewardedWithId:(NSString *)adUnitId {
+  return [[CRRewardedAdUnit alloc] initWithAdUnitId:adUnitId];
 }
 
 @end
