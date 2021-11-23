@@ -1,5 +1,5 @@
 //
-//  CRInterstitialAdUnit.m
+//  CRRewardedAdUnit.m
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -29,7 +29,7 @@
 }
 
 - (NSUInteger)hash {
-  return super.hash ^ (NSUInteger)14559042078869117629ull;
+  return super.hash ^ (NSUInteger)14559065388869353629ull;
 }
 
 - (BOOL)isEqual:(id)object {
