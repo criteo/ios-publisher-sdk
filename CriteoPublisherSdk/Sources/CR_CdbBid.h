@@ -42,6 +42,7 @@
 @property(readonly, copy, nonatomic) CR_SKAdNetworkParameters *skAdNetworkParameters;
 @property(readonly) BOOL isValid;
 @property(nonatomic, assign, readonly) BOOL isInSilenceMode;
+@property(readonly) BOOL isRewarded;
 
 /**
  * YES if a new bid can be fetched for the AdUnit
@@ -68,6 +69,7 @@
                       creative:(NSString *)creative  // creative is an useless legacy field
                     displayUrl:(NSString *)displayUrl
                        isVideo:(BOOL)isVideo
+                    isRewarded:(BOOL)isRewarded
                     insertTime:(NSDate *)insertTime  // TODO: Move this to a state object
                   nativeAssets:(CR_NativeAssets *)nativeAssets
                   impressionId:(NSString *)impressionId

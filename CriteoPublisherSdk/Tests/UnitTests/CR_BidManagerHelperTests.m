@@ -54,6 +54,7 @@
                  displayUrl:
                      @"https://publisherdirect.criteo.com/publishertag/preprodtest/FakeAJS.js"
                     isVideo:NO
+                 isRewarded:NO
                  insertTime:[NSDate date]
                nativeAssets:nil
                impressionId:nil

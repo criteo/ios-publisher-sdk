@@ -66,6 +66,7 @@ NSString *CR_CdbBidBuilderImpressionIdValueDefault = @"thisIsImpId";
       weakSelf.placementIdValue = value.adUnitId;
       weakSelf.widthValue = value.size.width;
       weakSelf.heightValue = value.size.height;
+      weakSelf.isRewarded = value.adUnitType == CRAdUnitTypeRewarded;
       return weakSelf;
     };
     _noBid = ^CR_CdbBidBuilder *(void) {
@@ -102,6 +103,7 @@ NSString *CR_CdbBidBuilderImpressionIdValueDefault = @"thisIsImpId";
                                             creative:self.currencyValue
                                           displayUrl:self.displayUrlValue
                                              isVideo:self.isVideoValue
+                                          isRewarded:self.isRewarded
                                           insertTime:self.insertTimeValue
                                         nativeAssets:self.nativeAssetsValue
                                         impressionId:self.impressionIdValue

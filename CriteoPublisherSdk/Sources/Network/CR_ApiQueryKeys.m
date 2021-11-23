@@ -40,7 +40,7 @@
   return @"isNative";
 }
 + (NSString *)bidSlotsIsRewarded {
-  return @"isRewarded";
+  return @"rewarded";
 }
 + (NSString *)bidSlotsPlacementId {
   return @"placementId";
