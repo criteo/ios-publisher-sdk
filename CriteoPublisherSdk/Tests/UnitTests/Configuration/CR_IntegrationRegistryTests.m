@@ -143,4 +143,35 @@ FOUNDATION_EXPORT NSString *const NSUserDefaultsIntegrationKey;
   XCTAssertFalse(isPresent);
 }
 
+- (void)testFilterAdUnits_GivenProfileIdNotGAM_RemoveRewardedAdUnit {
+  [self.integrationRegistry declare:CR_IntegrationInHouse];
+  CR_CacheAdUnit *rewardedUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"rewardedAdUnit"
+                                                                     size:CGSizeMake(2, 2)
+                                                               adUnitType:CRAdUnitTypeRewarded];
+  CR_CacheAdUnit *bannerUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adUnit"
+                                                                   size:CGSizeMake(2, 2)
+                                                             adUnitType:CRAdUnitTypeBanner];
+  CR_CacheAdUnitArray *validAdUnits =
+      [self.integrationRegistry filterAdUnits:@[ rewardedUnit, bannerUnit ]];
+
+  XCTAssertEqual(validAdUnits.count, 1);
+  XCTAssertTrue([validAdUnits containsObject:bannerUnit]);
+}
+
+- (void)testFilterAdUnits_GivenProfileIdIsGAM_KeepRewardedAdUnit {
+  [self.integrationRegistry declare:CR_IntegrationGamAppBidding];
+  CR_CacheAdUnit *rewardedUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"rewardedAdUnit"
+                                                                     size:CGSizeMake(2, 2)
+                                                               adUnitType:CRAdUnitTypeRewarded];
+  CR_CacheAdUnit *bannerUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adUnit"
+                                                                   size:CGSizeMake(2, 2)
+                                                             adUnitType:CRAdUnitTypeBanner];
+  CR_CacheAdUnitArray *validAdUnits =
+      [self.integrationRegistry filterAdUnits:@[ rewardedUnit, bannerUnit ]];
+
+  XCTAssertEqual(validAdUnits.count, 2);
+  XCTAssertTrue([validAdUnits containsObject:bannerUnit]);
+  XCTAssertTrue([validAdUnits containsObject:rewardedUnit]);
+}
+
 @end

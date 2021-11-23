@@ -18,6 +18,7 @@
 //
 
 #import "CR_IntegrationRegistry.h"
+#import "CR_Logging.h"
 
 NSString *const NSUserDefaultsIntegrationKey = @"CRITEO_ProfileId";
 
@@ -80,4 +81,21 @@ NSString *const NSUserDefaultsIntegrationKey = @"CRITEO_ProfileId";
          NSProtocolFromString(@"GADCustomEventBanner") != nil;
 }
 
+- (CR_CacheAdUnitArray *)filterAdUnits:(CR_CacheAdUnitArray *)units {
+  return [units
+      filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id _Nullable adUnit,
+                                                                        NSDictionary<NSString *, id>
+                                                                            *_Nullable bindings) {
+        if ([adUnit adUnitType] != CRAdUnitTypeRewarded) {
+          return YES;
+        }
+        if ([self.profileId isEqual:@(CR_IntegrationGamAppBidding)]) {
+          return YES;
+        } else {
+          CRLogWarn(@"Bidding", @"RewardedAdUnit %@ can only be used with GAM app bidding",
+                    [adUnit adUnitId]);
+          return NO;
+        }
+      }]];
+}
 @end

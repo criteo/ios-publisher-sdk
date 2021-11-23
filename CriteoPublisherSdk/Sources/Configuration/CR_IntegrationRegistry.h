@@ -18,6 +18,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CR_CacheAdUnit.h"
 
 typedef NS_ENUM(NSInteger, CR_IntegrationType) {
   CR_IntegrationFallback = 235,
@@ -42,6 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithUserDefaults:(NSUserDefaults *)userDefaults NS_DESIGNATED_INITIALIZER;
 
 - (void)declare:(CR_IntegrationType)integrationType;
+
+- (CR_CacheAdUnitArray *)filterAdUnits:(CR_CacheAdUnitArray *)units;
 
 @end
 

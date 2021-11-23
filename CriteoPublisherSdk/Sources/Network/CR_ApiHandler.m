@@ -121,7 +121,8 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
               context:(CRContextData *)contextData
         beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
     completionHandler:(CR_CdbCompletionHandler)completionHandler {
-  CR_CacheAdUnitArray *requestAdUnits = [self filterRequestAdUnitsAndSetProgressFlags:adUnits];
+  CR_CacheAdUnitArray *filteredAdUnits = [self.integrationRegistry filterAdUnits:adUnits];
+  CR_CacheAdUnitArray *requestAdUnits = [self filterRequestAdUnitsAndSetProgressFlags:filteredAdUnits];
   if (requestAdUnits.count == 0) {
     return;
   }
