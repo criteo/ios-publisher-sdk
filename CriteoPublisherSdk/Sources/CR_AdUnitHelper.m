@@ -25,6 +25,7 @@
 #import "Criteo.h"
 #import "Criteo+Internal.h"
 #import "CR_DependencyProvider.h"
+#import "CR_IntegrationRegistry.h"
 
 @implementation CR_AdUnitHelper
 
@@ -34,7 +35,10 @@ static const CGSize nativeSize = {2.0, 2.0};
 + (CR_CacheAdUnitArray *)cacheAdUnitsForAdUnits:(NSArray<CRAdUnit *> *)adUnits {
   NSMutableArray<CR_CacheAdUnit *> *cacheAdUnits = [NSMutableArray new];
   for (int i = 0; i < [adUnits count]; i++) {
-    [cacheAdUnits addObject:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnits[i]]];
+    CR_CacheAdUnit *unit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnits[i]];
+    if (unit != nil) {
+      [cacheAdUnits addObject:unit];
+    }
   }
   return [cacheAdUnits copy];
 }
@@ -53,6 +57,11 @@ static const CGSize nativeSize = {2.0, 2.0};
                                                  size:nativeSize
                                            adUnitType:CRAdUnitTypeNative];
     case CRAdUnitTypeRewarded:
+      if (![self.integrationRegistry.profileId isEqual:@(CR_IntegrationGamAppBidding)]) {
+        CRLogWarn(@"Bidding", @"RewardedAdUnit %@ can only be used with GAM app bidding",
+                  [adUnit adUnitId]);
+        return nil;
+      }
       return [[CR_CacheAdUnit alloc] initWithAdUnitId:adUnit.adUnitId
                                                  size:self.deviceInfo.screenSize
                                            adUnitType:CRAdUnitTypeRewarded];
@@ -63,9 +72,14 @@ static const CGSize nativeSize = {2.0, 2.0};
 }
 
 #pragma - Private
+// TODO inject these dependencies instead of accessing it statically
 
 + (CR_DeviceInfo *)deviceInfo {
   return Criteo.sharedCriteo.dependencyProvider.deviceInfo;
+}
+
++ (CR_IntegrationRegistry *)integrationRegistry {
+  return Criteo.sharedCriteo.dependencyProvider.integrationRegistry;
 }
 
 @end
