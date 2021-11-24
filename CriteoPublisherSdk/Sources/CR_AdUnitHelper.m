@@ -54,7 +54,7 @@ static const CGSize nativeSize = {2.0, 2.0};
                                            adUnitType:CRAdUnitTypeNative];
     case CRAdUnitTypeRewarded:
       return [[CR_CacheAdUnit alloc] initWithAdUnitId:adUnit.adUnitId
-                                                 size:nativeSize
+                                                 size:self.deviceInfo.screenSize
                                            adUnitType:CRAdUnitTypeRewarded];
     default:
       CRLogWarn(@"AdUnit", @"Unexpected AdUnitType %@", adUnit);
