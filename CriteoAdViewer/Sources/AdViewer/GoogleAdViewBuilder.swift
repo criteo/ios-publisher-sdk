@@ -39,6 +39,8 @@ class GoogleAdViewBuilder: AdViewBuilder {
       completion(.banner(buildBanner(config: config, size: kGADAdSizeFluid, criteo: criteo)))
     case .flexible(.interstitial), .flexible(.video):
       buildInterstitial(config: config, criteo: criteo, completion: completion)
+    case .flexible(.rewarded):
+      buildRewarded(config: config, criteo: criteo, completion: completion)
     case _:
       fatalError("Unsupported")
     }
@@ -93,10 +95,38 @@ class GoogleAdViewBuilder: AdViewBuilder {
       }
     }
   }
+
+  private func buildRewarded(
+    config: AdConfig, criteo: Criteo, completion: @escaping (AdView) -> Void
+  ) {
+    let adUnit = config.adUnit
+    loadAdView(criteo: criteo, adUnit: adUnit) { request in
+      GADRewardedAd.load(withAdUnitID: adUnit.adUnitId, request: request) {
+        maybeAd, maybeError in
+        if let error = maybeError {
+          print("Failed to load rewarded ad with error: \(error.localizedDescription)")
+        }
+        if let ad = maybeAd {
+          ad.fullScreenContentDelegate = self.logger
+          completion(.interstitial(ad))
+        }
+      }
+    }
+  }
 }
 
 extension GAMInterstitialAd: InterstitialView {
   func present(viewController: UIViewController) {
     self.present(fromRootViewController: viewController)
+  }
+}
+
+extension GADRewardedAd: InterstitialView {
+  func present(viewController: UIViewController) {
+    self.present(
+      fromRootViewController: viewController,
+      userDidEarnRewardHandler: {
+        print("User did earn reward \(self.adReward)")
+      })
   }
 }

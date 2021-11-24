@@ -18,7 +18,7 @@
 //
 
 enum AdType: String {
-  case banner, native, interstitial, video
+  case banner, native, interstitial, video, rewarded
 }
 
 extension AdType: CustomStringConvertible {
@@ -51,4 +51,5 @@ enum AdFormat: Hashable {
   static let native = AdFormat.flexible(.native)
   static let interstitial = AdFormat.flexible(.interstitial)
   static let video = AdFormat.flexible(.video)
+  static let rewarded = AdFormat.flexible(.rewarded)
 }

@@ -36,6 +36,8 @@ struct AdConfig {
       return CRNativeAdUnit(adUnitId: adUnitId)
     case .flexible(.interstitial), .flexible(.video):
       return CRInterstitialAdUnit(adUnitId: adUnitId)
+    case .flexible(.rewarded):
+      return CRRewardedAdUnit(adUnitId: adUnitId)
     case _:
       fatalError("Unsupported")
     }
