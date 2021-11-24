@@ -174,6 +174,7 @@
 		6540470F22581D32009235A1 /* MockWKWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6540470E22581D32009235A1 /* MockWKWebView.m */; };
 		654858AA226538D500DC471A /* CRInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 654858A6226538D500DC471A /* CRInterstitial.m */; };
 		65E3A5742270CB7A004156E9 /* CR_InterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */; };
+		7B8AF7F5274E37D000698667 /* CRRewardedAdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BCD15C0274BA64300F38B51 /* CRRewardedAdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7BCD15C2274BA6F200F38B51 /* CRRewardedAdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BCD15C1274BA6F200F38B51 /* CRRewardedAdUnit.m */; };
 		7D00672D243CD6F900E5D50D /* CR_CASObjectQueue+ArraySet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D00672A243CD6F900E5D50D /* CR_CASObjectQueue+ArraySet.m */; };
 		7D00672F243CD6F900E5D50D /* CR_CASObjectQueue+ArraySet.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D00672B243CD6F900E5D50D /* CR_CASObjectQueue+ArraySet.h */; };
@@ -1713,6 +1714,7 @@
 				46D5C3C4245AD3E100818D37 /* CRNativeAd.h in Headers */,
 				545A39F422A8794F00648957 /* CRInterstitial.h in Headers */,
 				CFA4C0E324487ED4003FC46B /* CR_FeedbackController.h in Headers */,
+				7B8AF7F5274E37D000698667 /* CRRewardedAdUnit.h in Headers */,
 				7DDEF657242CD8BE00BC129F /* CR_BidRequestSerializer.h in Headers */,
 				4660614324754E8100690E27 /* CR_SafeMediaDownloader.h in Headers */,
 				7D80F6202406B18F005B7BA3 /* CR_Gdpr.h in Headers */,
