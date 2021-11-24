@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)declare:(CR_IntegrationType)integrationType;
 
-- (CR_CacheAdUnitArray *)filterAdUnits:(CR_CacheAdUnitArray *)units;
+- (CR_CacheAdUnitArray *)keepSupportedAdUnits:(CR_CacheAdUnitArray *)units;
 
 @end
 

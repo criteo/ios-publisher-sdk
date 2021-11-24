@@ -81,21 +81,20 @@ NSString *const NSUserDefaultsIntegrationKey = @"CRITEO_ProfileId";
          NSProtocolFromString(@"GADCustomEventBanner") != nil;
 }
 
-- (CR_CacheAdUnitArray *)filterAdUnits:(CR_CacheAdUnitArray *)units {
+- (CR_CacheAdUnitArray *)keepSupportedAdUnits:(CR_CacheAdUnitArray *)units {
   return [units
       filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id _Nullable adUnit,
                                                                         NSDictionary<NSString *, id>
                                                                             *_Nullable bindings) {
-        if ([adUnit adUnitType] != CRAdUnitTypeRewarded) {
-          return YES;
-        }
-        if ([self.profileId isEqual:@(CR_IntegrationGamAppBidding)]) {
-          return YES;
-        } else {
+        // Rewarded ad units are only supported for GAM app bidding (DPP-3644)
+        if ([adUnit adUnitType] == CRAdUnitTypeRewarded &&
+            ![self.profileId isEqual:@(CR_IntegrationGamAppBidding)]) {
           CRLogWarn(@"Bidding", @"RewardedAdUnit %@ can only be used with GAM app bidding",
                     [adUnit adUnitId]);
           return NO;
         }
+
+        return YES;
       }]];
 }
 @end

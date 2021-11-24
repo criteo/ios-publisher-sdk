@@ -152,7 +152,7 @@ FOUNDATION_EXPORT NSString *const NSUserDefaultsIntegrationKey;
                                                                    size:CGSizeMake(2, 2)
                                                              adUnitType:CRAdUnitTypeBanner];
   CR_CacheAdUnitArray *validAdUnits =
-      [self.integrationRegistry filterAdUnits:@[ rewardedUnit, bannerUnit ]];
+      [self.integrationRegistry keepSupportedAdUnits:@[ rewardedUnit, bannerUnit ]];
 
   XCTAssertEqual(validAdUnits.count, 1);
   XCTAssertTrue([validAdUnits containsObject:bannerUnit]);
@@ -167,7 +167,7 @@ FOUNDATION_EXPORT NSString *const NSUserDefaultsIntegrationKey;
                                                                    size:CGSizeMake(2, 2)
                                                              adUnitType:CRAdUnitTypeBanner];
   CR_CacheAdUnitArray *validAdUnits =
-      [self.integrationRegistry filterAdUnits:@[ rewardedUnit, bannerUnit ]];
+      [self.integrationRegistry keepSupportedAdUnits:@[ rewardedUnit, bannerUnit ]];
 
   XCTAssertEqual(validAdUnits.count, 2);
   XCTAssertTrue([validAdUnits containsObject:bannerUnit]);
