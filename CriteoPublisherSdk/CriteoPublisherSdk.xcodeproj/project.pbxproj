@@ -174,6 +174,7 @@
 		6540470F22581D32009235A1 /* MockWKWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6540470E22581D32009235A1 /* MockWKWebView.m */; };
 		654858AA226538D500DC471A /* CRInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 654858A6226538D500DC471A /* CRInterstitial.m */; };
 		65E3A5742270CB7A004156E9 /* CR_InterstitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */; };
+		7B8A21DA27577EAE00400695 /* CR_DfpRewardedFunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B8A21D927577EAE00400695 /* CR_DfpRewardedFunctionalTests.m */; };
 		7B8AF7F5274E37D000698667 /* CRRewardedAdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BCD15C0274BA64300F38B51 /* CRRewardedAdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7BCD15C2274BA6F200F38B51 /* CRRewardedAdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BCD15C1274BA6F200F38B51 /* CRRewardedAdUnit.m */; };
 		7D00672D243CD6F900E5D50D /* CR_CASObjectQueue+ArraySet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D00672A243CD6F900E5D50D /* CR_CASObjectQueue+ArraySet.m */; };
@@ -558,6 +559,7 @@
 		6549B552228389930078F068 /* CRInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRInterstitialDelegate.h; sourceTree = "<group>"; };
 		65E3A56F2270CB7A004156E9 /* CR_InterstitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_InterstitialViewController.h; sourceTree = "<group>"; };
 		65E3A5702270CB7A004156E9 /* CR_InterstitialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_InterstitialViewController.m; sourceTree = "<group>"; };
+		7B8A21D927577EAE00400695 /* CR_DfpRewardedFunctionalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_DfpRewardedFunctionalTests.m; sourceTree = "<group>"; };
 		7BCD15C0274BA64300F38B51 /* CRRewardedAdUnit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRRewardedAdUnit.h; sourceTree = "<group>"; };
 		7BCD15C1274BA6F200F38B51 /* CRRewardedAdUnit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRRewardedAdUnit.m; sourceTree = "<group>"; };
 		7D00672A243CD6F900E5D50D /* CR_CASObjectQueue+ArraySet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CR_CASObjectQueue+ArraySet.m"; sourceTree = "<group>"; };
@@ -1104,6 +1106,7 @@
 				54680B692395222B00DB5A37 /* CR_DfpBannerFunctionalTests.m */,
 				5E065AD8DCA877B2A1928681 /* CR_DfpInterstitialFunctionalTests.m */,
 				5E0656551EC4DAFCC6DF7D79 /* CR_DfpNativeFunctionalTests.m */,
+				7B8A21D927577EAE00400695 /* CR_DfpRewardedFunctionalTests.m */,
 				7D006732243DB74B00E5D50D /* CR_FeedbackMessageFunctionalTests.m */,
 				7D321B062472E9B0006CBC4E /* CR_HeaderBiddingDictionaryFunctionalTests.m */,
 				5E0656CED6370CB240092ECC /* CR_HttpTests.m */,
@@ -2208,6 +2211,7 @@
 				7DFB2B14247E9302007CDFF3 /* CR_URLOpenerMock.m in Sources */,
 				54E0C239238D75AC004F9353 /* Criteo+Testing.m in Sources */,
 				7D3E422223915B6600BAF673 /* NSObject+CriteoTests.m in Sources */,
+				7B8A21DA27577EAE00400695 /* CR_DfpRewardedFunctionalTests.m in Sources */,
 				54680B7E2397E55200DB5A37 /* CR_TestAdUnits.m in Sources */,
 				46BC3960246EDA5200F0B2F1 /* CRNativeAdViewTests.m in Sources */,
 				6540470F22581D32009235A1 /* MockWKWebView.m in Sources */,
