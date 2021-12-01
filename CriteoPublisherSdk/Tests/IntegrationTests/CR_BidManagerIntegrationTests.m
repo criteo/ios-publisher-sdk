@@ -37,6 +37,7 @@
 #import "CRConstants.h"
 #import "CR_CdbBidBuilder.h"
 #import "CRContextData.h"
+#import "CR_IntegrationRegistry.h"
 
 @interface CR_BidManagerIntegrationTests : XCTestCase
 
@@ -50,6 +51,7 @@
 @property(nonatomic, strong) CRBannerAdUnit *adUnit1;
 @property(nonatomic, strong) CR_CacheAdUnit *cacheAdUnit1;
 @property(nonatomic, strong) CR_CacheAdUnit *cacheAdUnit2;
+@property(nonatomic, strong) CR_CacheAdUnit *cacheAdUnit3;
 @property(nonatomic, strong) CRContextData *contextData;
 
 @end
@@ -67,6 +69,9 @@
   self.adUnit1 = [CR_TestAdUnits preprodBanner320x50];
   self.cacheAdUnit1 = [CR_AdUnitHelper cacheAdUnitForAdUnit:[CR_TestAdUnits preprodBanner320x50]];
   self.cacheAdUnit2 = [CR_AdUnitHelper cacheAdUnitForAdUnit:[CR_TestAdUnits preprodInterstitial]];
+  [Criteo.sharedCriteo.dependencyProvider.integrationRegistry declare:CR_IntegrationGamAppBidding];
+  self.cacheAdUnit3 = [CR_AdUnitHelper cacheAdUnitForAdUnit:[CR_TestAdUnits preprodInterstitial]];
+  [Criteo.sharedCriteo.dependencyProvider.integrationRegistry declare:CR_IntegrationFallback];
   self.contextData = CRContextData.new;
   self.loggingMock = OCMPartialMock(CR_Logging.sharedInstance);
 }
@@ -78,13 +83,15 @@
 }
 
 // Prefetch should populate cache with given ad units
-- (void)test_given2AdUnits_whenPrefetchBid_thenGet2Bids {
-  [self.bidManager prefetchBidsForAdUnits:@[ self.cacheAdUnit1, self.cacheAdUnit2 ]
-                              withContext:self.contextData];
+- (void)test_given3AdUnits_whenPrefetchBid_thenGet3Bids {
+  [self.bidManager
+      prefetchBidsForAdUnits:@[ self.cacheAdUnit1, self.cacheAdUnit2, self.cacheAdUnit3 ]
+                 withContext:self.contextData];
 
-  [self _waitNetworkCallForBids:@[ self.cacheAdUnit1, self.cacheAdUnit2 ]];
+  [self _waitNetworkCallForBids:@[ self.cacheAdUnit1, self.cacheAdUnit2, self.cacheAdUnit3 ]];
   XCTAssertNotNil([self.bidManager getBidThenFetch:self.cacheAdUnit1 withContext:self.contextData]);
   XCTAssertNotNil([self.bidManager getBidThenFetch:self.cacheAdUnit2 withContext:self.contextData]);
+  XCTAssertNotNil([self.bidManager getBidThenFetch:self.cacheAdUnit3 withContext:self.contextData]);
 }
 
 // Initializing criteo object should call prefetch

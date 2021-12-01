@@ -37,22 +37,20 @@
 
 @implementation CR_DfpRewardedFunctionalTests
 
-
 #pragma mark - rewarded
 
--(void)setUp{
-    // WARNING AdUnitHelper does use singleton object (no DI in here)
-  [Criteo.sharedCriteo.dependencyProvider.integrationRegistry declare:CR_IntegrationGamAppBidding ];
+- (void)setUp {
+  // WARNING AdUnitHelper does use singleton object (no DI in here)
+  [Criteo.sharedCriteo.dependencyProvider.integrationRegistry declare:CR_IntegrationGamAppBidding];
 }
 
--(void)tearDown{
-    [Criteo.sharedCriteo.dependencyProvider.integrationRegistry declare:CR_IntegrationFallback];
+- (void)tearDown {
+  [Criteo.sharedCriteo.dependencyProvider.integrationRegistry declare:CR_IntegrationFallback];
 }
-
 
 - (void)test_givenRewarded_whenLoad_thenFailToReceiveAd {
   CRRewardedAdUnit *adUnit = [CR_TestAdUnits randomRewarded];
-    
+
   self.criteo = [Criteo testing_criteoWithNetworkCaptor];
   [self.criteo testing_registerWithAdUnits:@[ adUnit ]];
 
@@ -61,9 +59,8 @@
   [self enrichAdObject:request forAdUnit:adUnit];
 
   BOOL finished = [self.criteo testing_waitForRegisterHTTPResponses];
-  XCTAssert(
-      finished,
-      "There are prefetch requests issued as the adUnit type is only supported for GAM");
+  XCTAssert(finished,
+            "There are prefetch requests issued as the adUnit type is only supported for GAM");
 }
 
 @end
