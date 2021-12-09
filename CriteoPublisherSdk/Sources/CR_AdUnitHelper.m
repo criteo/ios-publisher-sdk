@@ -72,7 +72,7 @@ static const CGSize nativeSize = {2.0, 2.0};
 }
 
 #pragma - Private
-// TODO inject these dependencies instead of accessing it statically
+// TODO inject these dependencies instead of accessing it statically (see DPP-3734)
 
 + (CR_DeviceInfo *)deviceInfo {
   return Criteo.sharedCriteo.dependencyProvider.deviceInfo;

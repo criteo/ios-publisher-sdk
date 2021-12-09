@@ -64,6 +64,10 @@
   return [self rewardedWithId:self.randomRewardedAdUnitId];
 }
 
++ (CRRewardedAdUnit *)rewarded {
+  return [self rewardedWithId:RewardedAdUnitId];
+}
+
 + (NSString *)dfpBanner50AdUnitId {
   return @"/140800857/Endeavour_320x50";
 }

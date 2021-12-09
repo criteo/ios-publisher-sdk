@@ -69,6 +69,7 @@
   self.adUnit1 = [CR_TestAdUnits preprodBanner320x50];
   self.cacheAdUnit1 = [CR_AdUnitHelper cacheAdUnitForAdUnit:[CR_TestAdUnits preprodBanner320x50]];
   self.cacheAdUnit2 = [CR_AdUnitHelper cacheAdUnitForAdUnit:[CR_TestAdUnits preprodInterstitial]];
+  // TODO get rid of this once AdUnitHelper is injected DPP-3734
   [Criteo.sharedCriteo.dependencyProvider.integrationRegistry declare:CR_IntegrationGamAppBidding];
   self.cacheAdUnit3 = [CR_AdUnitHelper cacheAdUnitForAdUnit:[CR_TestAdUnits preprodInterstitial]];
   [Criteo.sharedCriteo.dependencyProvider.integrationRegistry declare:CR_IntegrationFallback];

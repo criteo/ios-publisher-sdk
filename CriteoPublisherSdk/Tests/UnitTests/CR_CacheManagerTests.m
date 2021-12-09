@@ -144,6 +144,22 @@
   XCTAssertNil(adUnit);
 }
 
+- (void)testSetBidForRewarded {
+  CR_DeviceInfo *deviceInfo = [self mockDeviceInfo];
+  OCMStub(deviceInfo.screenSize).andReturn(CGSizeMake(320, 50));
+
+  [self createAdUnitAndTestBidWithSize:CGSizeMake(320, 50)
+                            adUnitType:CRAdUnitTypeRewarded
+                          nativeAssets:nil];
+
+  [self.cacheManager setBid:self.testBid];
+  XCTAssertTrue([[self.cacheManager getBidForAdUnit:self.adUnit] isEqual:self.testBid]);
+
+  OCMStub(deviceInfo.screenSize).andReturn(CGSizeMake(50, 320));
+  [self.cacheManager setBid:self.testBid];
+  XCTAssertTrue([[self.cacheManager getBidForAdUnit:self.adUnit] isEqual:self.testBid]);
+}
+
 - (void)testSetInvalidBid_ShouldNotSetBid {
   NSDictionary *badAssetsDict = @{
     @"products" : @[ self.productDict1, self.productDict2 ],
