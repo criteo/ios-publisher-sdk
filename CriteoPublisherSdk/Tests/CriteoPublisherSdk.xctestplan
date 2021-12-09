@@ -20,7 +20,8 @@
       "containerPath" : "container:CriteoPublisherSdk.xcodeproj",
       "identifier" : "25BD5B562220D16D004DE311",
       "name" : "CriteoPublisherSdk"
-    }
+    },
+    "testRepetitionMode" : "retryOnFailure"
   },
   "testTargets" : [
     {

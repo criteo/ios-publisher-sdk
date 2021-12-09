@@ -42,6 +42,7 @@ NSString *const PreprodInterstitialAdUnitId = @"test-PubSdk-Interstitial";
 NSString *const PreprodNativeAdUnitId = @"test-PubSdk-Native";
 
 NSString *const VideoInterstitialAdUnitId = @"test-PubSdk-Video";
+NSString *const RewardedAdUnitId = @"test-PubSdk-Rewarded";
 
 @implementation Criteo (Testing)
 

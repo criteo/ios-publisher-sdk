@@ -37,12 +37,15 @@
     NSString *sizes = slot[CR_ApiQueryKeys.bidSlotsSizes][0];
     NSNumber *isNative = [slot objectForKey:CR_ApiQueryKeys.bidSlotsIsNative];
     NSNumber *isInterstitial = [slot objectForKey:CR_ApiQueryKeys.bidSlotsIsInterstitial];
+    NSNumber *isRewarded = [slot objectForKey:CR_ApiQueryKeys.bidSlotsIsRewarded];
     const BOOL isExpectedAdUnitId = [cacheAdUnit.adUnitId isEqualToString:placementId];
     const BOOL isExpectedSize = [[cacheAdUnit cdbSize] isEqualToString:sizes];
     const BOOL hasNativeWellSet = (cacheAdUnit.adUnitType != CRAdUnitTypeNative) || isNative;
     const BOOL hasInterstitialWellSet =
         (cacheAdUnit.adUnitType != CRAdUnitTypeInterstitial) || isInterstitial;
-    if (isExpectedAdUnitId && isExpectedSize && hasNativeWellSet && hasInterstitialWellSet) {
+    const BOOL hasRewardedWellSet = (cacheAdUnit.adUnitType != CRAdUnitTypeRewarded) || isRewarded;
+    if (isExpectedAdUnitId && isExpectedSize && hasNativeWellSet && hasInterstitialWellSet &&
+        hasRewardedWellSet) {
       return YES;
     }
   }

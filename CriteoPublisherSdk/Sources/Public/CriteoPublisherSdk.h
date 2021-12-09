@@ -36,4 +36,5 @@
 #import <CriteoPublisherSdk/CRNativeAdView.h>
 #import <CriteoPublisherSdk/CRNativeAdUnit.h>
 #import <CriteoPublisherSdk/CRNativeLoader.h>
+#import <CriteoPublisherSdk/CRRewardedAdUnit.h>
 #import <CriteoPublisherSdk/Criteo.h>

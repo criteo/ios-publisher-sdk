@@ -138,4 +138,18 @@
   XCTAssertEqualObjects(dictionary, expectedMap);
 }
 
+#pragma mark - rewarded ads
+
+- (void)testRewardedSlotForRequest {
+  CR_CacheAdUnit *rewardedAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"testRewardedAdUnit"
+                                                                       size:CGSizeMake(2, 2)
+                                                                 adUnitType:CRAdUnitTypeRewarded];
+  CR_CdbRequest *cdbRequest = [[CR_CdbRequest alloc] initWithProfileId:@42
+                                                               adUnits:@[ rewardedAdUnit ]];
+  NSArray *slots = [self.serializer slotsWithCdbRequest:cdbRequest];
+  XCTAssertTrue([slots[0][@"placementId"] isEqualToString:rewardedAdUnit.adUnitId]);
+  XCTAssertTrue([slots[0][@"sizes"] isEqual:@[ rewardedAdUnit.cdbSize ]]);
+  XCTAssertTrue(slots[0][@"rewarded"]);
+}
+
 @end

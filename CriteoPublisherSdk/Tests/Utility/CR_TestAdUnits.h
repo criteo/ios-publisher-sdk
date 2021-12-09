@@ -21,6 +21,7 @@
 #import "CRInterstitialAdUnit.h"
 #import "CRBannerAdUnit.h"
 #import "CRNativeAdUnit.h"
+#import "CRRewardedAdUnit.h"
 
 @interface CR_TestAdUnits : NSObject
 
@@ -36,6 +37,9 @@
 @property(class, nonatomic, readonly) CRNativeAdUnit *randomNative;
 @property(class, nonatomic, readonly) CRNativeAdUnit *preprodNative;
 
+@property(class, nonatomic, readonly) CRRewardedAdUnit *randomRewarded;
+@property(class, nonatomic, readonly) CRRewardedAdUnit *rewarded;
+
 @property(class, nonatomic, readonly) NSString *dfpBanner50AdUnitId;
 @property(class, nonatomic, readonly) NSString *dfpInterstitialAdUnitId;
 @property(class, nonatomic, readonly) NSString *dfpNativeId;
@@ -46,6 +50,7 @@
 @property(class, nonatomic, readonly) NSString *randomBannerAdUnitId;
 @property(class, nonatomic, readonly) NSString *randomInterstitialAdUnitId;
 @property(class, nonatomic, readonly) NSString *randomNativeAdUnitId;
+@property(class, nonatomic, readonly) NSString *randomRewardedAdUnitId;
 
 + (CRBannerAdUnit *)banner320x50WithId:(NSString *)adUnitId;
 

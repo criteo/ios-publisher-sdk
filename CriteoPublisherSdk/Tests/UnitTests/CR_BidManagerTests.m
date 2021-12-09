@@ -61,6 +61,9 @@
 @property(nonatomic, strong) CR_CacheAdUnit *adUnit2;
 @property(nonatomic, strong) CR_CdbBid *bid2;
 
+@property(nonatomic, strong) CR_CacheAdUnit *adUnitRewarded;
+@property(nonatomic, strong) CR_CdbBid *bidRewarded;
+
 @property(nonatomic, strong) CR_CacheAdUnit *adUnitForEmptyBid;
 @property(nonatomic, strong) CR_CacheAdUnit *adUnitUncached;
 
@@ -105,6 +108,11 @@
   self.adUnit2 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adUnit2" width:200 height:100];
   self.bid2 =
       CR_CdbBidBuilder.new.adUnit(self.adUnit2).cpm(@"0.5").displayUrl(@"bid2.displayUrl").build;
+
+  self.adUnitRewarded = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adUnitRewarded"
+                                                            size:CGSizeMake(200, 100)
+                                                      adUnitType:CRAdUnitTypeRewarded];
+  self.bidRewarded = CR_CdbBidBuilder.new.adUnit(self.adUnitRewarded).build;
   self.adUnitForEmptyBid = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"adUnitForEmptyBid"
                                                               width:300
                                                              height:250];
@@ -115,6 +123,7 @@
   self.cacheManager.bidCache[self.adUnit1] = self.bid1;
   self.cacheManager.bidCache[self.adUnit2] = self.bid2;
   self.cacheManager.bidCache[self.adUnitForEmptyBid] = [CR_CdbBid emptyBid];
+  self.cacheManager.bidCache[self.adUnitRewarded] = self.bidRewarded;
 
   self.request = [[GAMRequest alloc] init];
   self.request.customTargeting = @{@"key_1" : @"object 1", @"key_2" : @"object_2"};
@@ -149,11 +158,15 @@
 - (void)testGetBidForCachedAdUnits {
   CR_CdbBid *bid1 = [self.bidManager getBidThenFetch:self.adUnit1 withContext:self.contextData];
   CR_CdbBid *bid2 = [self.bidManager getBidThenFetch:self.adUnit2 withContext:self.contextData];
+  CR_CdbBid *rewardedBid = [self.bidManager getBidThenFetch:self.adUnitRewarded
+                                                withContext:self.contextData];
 
   XCTAssertEqualObjects(self.bid1, bid1);
   XCTAssertEqualObjects(self.bid2, bid2);
+  XCTAssertEqualObjects(self.bidRewarded, rewardedBid);
   CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
   CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit2 ]);
+  CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnitRewarded ]);
 }
 
 - (void)testGetBidForUncachedAdUnit {

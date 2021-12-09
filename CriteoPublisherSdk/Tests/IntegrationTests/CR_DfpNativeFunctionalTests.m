@@ -93,7 +93,7 @@
   GAMRequest *bannerDfpRequest = [[GAMRequest alloc] init];
 
   CR_DfpCreativeViewChecker *dfpViewChecker =
-      [[CR_DfpCreativeViewChecker alloc] initWithBannerWithSize:kGADAdSizeFluid
+      [[CR_DfpCreativeViewChecker alloc] initWithBannerWithSize:GADAdSizeFluid
                                                    withAdUnitId:CR_TestAdUnits.dfpNativeId];
 
   [self enrichAdObject:(id)bannerDfpRequest forAdUnit:bannerAdUnit];

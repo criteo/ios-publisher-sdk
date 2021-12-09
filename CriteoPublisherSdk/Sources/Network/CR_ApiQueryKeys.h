@@ -27,6 +27,7 @@
 @property(class, nonatomic, readonly) NSString *bidSlotsImpressionId;
 @property(class, nonatomic, readonly) NSString *bidSlotsIsInterstitial;
 @property(class, nonatomic, readonly) NSString *bidSlotsIsNative;
+@property(class, nonatomic, readonly) NSString *bidSlotsIsRewarded;
 @property(class, nonatomic, readonly) NSString *bidSlotsPlacementId;
 @property(class, nonatomic, readonly) NSString *bidSlotsSizes;
 @property(class, nonatomic, readonly) NSString *bundleId;

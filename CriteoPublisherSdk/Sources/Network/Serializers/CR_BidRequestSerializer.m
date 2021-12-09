@@ -151,6 +151,8 @@
       slotDict[CR_ApiQueryKeys.bidSlotsIsNative] = @(YES);
     } else if (adUnit.adUnitType == CRAdUnitTypeInterstitial) {
       slotDict[CR_ApiQueryKeys.bidSlotsIsInterstitial] = @(YES);
+    } else if (adUnit.adUnitType == CRAdUnitTypeRewarded) {
+      slotDict[CR_ApiQueryKeys.bidSlotsIsRewarded] = @(YES);
     }
     [slots addObject:slotDict];
   }

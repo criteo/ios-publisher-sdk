@@ -28,6 +28,12 @@
 NSString *const CR_NetworkManagerSimulatorDefaultDisplayUrl =
     @"https://localhost:9099/cdb-stubs/delivery/ajs.php?width=320&height=50";
 
+NSString *const CR_NetworkManagerSimulatorVideoDisplayUrl =
+    @"https://localhost:9099/cdb-stubs/delivery/vast.php";
+
+NSString *const CR_NetworkManagerSimulatorRewardedDisplayUrl =
+    @"https://localhost:9099/cdb-stubs/delivery/vast.php?rewarded=1";
+
 NSString *const CR_NetworkManagerSimulatorDefaultCpm = @"1.12";
 
 NSString *const CR_NetworkSessionReplayerKillSwitchFalse =
@@ -185,6 +191,9 @@ NSString *const CR_NetworkSessionEmptyBid =
   if ([placementId isEqualToString:VideoInterstitialAdUnitId]) {
     return [self videoSlotResponseForPayload:payload];
   }
+  if ([placementId isEqualToString:RewardedAdUnitId]) {
+    return [self rewardedSlotResponseForPayload:payload];
+  }
 
   return nil;
 }
@@ -256,6 +265,17 @@ NSString *const CR_NetworkSessionEmptyBid =
   NSMutableDictionary *dict = [self interstitialSlotResponseForPayload:payload];
   [dict addEntriesFromDictionary:@{
     @"isVideo" : @YES,
+    @"displayUrl" : CR_NetworkManagerSimulatorVideoDisplayUrl
+  }];
+  return dict;
+}
+
+- (NSDictionary *)rewardedSlotResponseForPayload:(NSDictionary *)payload {
+  NSMutableDictionary *dict = [self interstitialSlotResponseForPayload:payload];
+  [dict addEntriesFromDictionary:@{
+    @"isVideo" : @YES,
+    @"isRewarded" : @YES,
+    @"displayUrl" : CR_NetworkManagerSimulatorRewardedDisplayUrl
   }];
   return dict;
 }

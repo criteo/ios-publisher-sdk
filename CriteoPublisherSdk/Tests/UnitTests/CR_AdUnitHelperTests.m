@@ -24,9 +24,11 @@
 #import "CRBannerAdUnit.h"
 #import "CRInterstitialAdUnit.h"
 #import "CRNativeAdUnit.h"
+#import "CRRewardedAdUnit.h"
 #import "CR_DeviceInfo.h"
 #import "CR_AdUnitHelper.h"
 #import "CR_DependencyProvider.h"
+#import "CR_IntegrationRegistry.h"
 
 @interface CR_AdUnitHelperTests : XCTestCase
 
@@ -100,6 +102,41 @@
   CR_DeviceInfo *deviceInfo = OCMClassMock([CR_DeviceInfo class]);
   Criteo.sharedCriteo.dependencyProvider.deviceInfo = deviceInfo;
   return deviceInfo;
+}
+
+- (CR_IntegrationRegistry *)mockIntegrationRegistry {
+  CR_IntegrationRegistry *integrationRegistry = OCMClassMock(([CR_IntegrationRegistry class]));
+  Criteo.sharedCriteo.dependencyProvider.integrationRegistry = integrationRegistry;
+  return integrationRegistry;
+}
+
+- (void)testFilterAdUnits_GivenProfileIdNotGAM_RemoveRewardedAdUnit {
+  CR_IntegrationRegistry *integrationRegistry = [self mockIntegrationRegistry];
+  OCMStub([integrationRegistry profileId]).andReturn(@(CR_IntegrationInHouse));
+
+  CRRewardedAdUnit *rewardedAdUnit = [[CRRewardedAdUnit alloc] initWithAdUnitId:@"rewardedAdUnit"];
+  CRBannerAdUnit *bannerUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"adUnit"
+                                                                   size:CGSizeMake(2, 3)];
+  CR_CacheAdUnitArray *validAdUnits =
+      [CR_AdUnitHelper cacheAdUnitsForAdUnits:@[ rewardedAdUnit, bannerUnit ]];
+
+  XCTAssertEqual(validAdUnits.count, 1);
+  XCTAssertTrue([validAdUnits.firstObject.adUnitId isEqual:bannerUnit.adUnitId]);
+}
+
+- (void)testFilterAdUnits_GivenProfileIdIsGAM_KeepRewardedAdUnit {
+  CR_IntegrationRegistry *integrationRegistry = [self mockIntegrationRegistry];
+  OCMStub([integrationRegistry profileId]).andReturn(@(CR_IntegrationGamAppBidding));
+
+  CRRewardedAdUnit *rewardedAdUnit = [[CRRewardedAdUnit alloc] initWithAdUnitId:@"rewardedAdUnit"];
+  CRBannerAdUnit *bannerUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"adUnit"
+                                                                   size:CGSizeMake(2, 3)];
+  CR_CacheAdUnitArray *validAdUnits =
+      [CR_AdUnitHelper cacheAdUnitsForAdUnits:@[ rewardedAdUnit, bannerUnit ]];
+
+  XCTAssertEqual(validAdUnits.count, 2);
+  XCTAssertTrue([validAdUnits.firstObject.adUnitId isEqual:rewardedAdUnit.adUnitId]);
+  XCTAssertTrue([validAdUnits.lastObject.adUnitId isEqual:bannerUnit.adUnitId]);
 }
 
 @end

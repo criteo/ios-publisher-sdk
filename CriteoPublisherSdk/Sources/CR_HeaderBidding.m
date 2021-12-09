@@ -205,12 +205,14 @@
       } else {
         NSString *displayUrl = bid.displayUrl;
         if (adUnit.adUnitType == CRAdUnitTypeInterstitial) {
-          customTargeting[CR_TargetingKey_crtSize] = [self stringSizeForInterstitial];
+          customTargeting[CR_TargetingKey_crtSize] = [self stringSizeForFullscreen];
 
           if (!bid.isVideo) {
             // DFP is the whole screen even out of the safe area.
             displayUrl = [self.displaySizeInjector injectFullScreenSizeInDisplayUrl:displayUrl];
           }
+        } else if (adUnit.adUnitType == CRAdUnitTypeRewarded) {
+          customTargeting[CR_TargetingKey_crtSize] = [self stringSizeForFullscreen];
         } else if (adUnit.adUnitType == CRAdUnitTypeBanner) {
           customTargeting[CR_TargetingKey_crtSize] = [self stringSizeForBannerWithAdUnit:adUnit];
         }
@@ -309,13 +311,13 @@
   return sizeStr;
 }
 
-- (NSString *)stringSizeForInterstitial {
-  CGSize size = [self sizeForInterstitial];
+- (NSString *)stringSizeForFullscreen {
+  CGSize size = [self sizeForFullscreen];
   NSString *str = [self stringFromSize:size];
   return str;
 }
 
-- (CGSize)sizeForInterstitial {
+- (CGSize)sizeForFullscreen {
   if ([self.device isPhone] || [self isSmallScreen]) {
     if ([self.device isInPortrait]) {
       return (CGSize){320.f, 480.f};

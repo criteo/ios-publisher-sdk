@@ -1,5 +1,5 @@
 //
-//  CRAdUnit+Internal.h
+//  CRRewardedAdUnit.h
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -17,26 +17,18 @@
 // limitations under the License.
 //
 
-#ifndef CRAdUnit_Internal_h
-#define CRAdUnit_Internal_h
-
-// TODO: Make sure we only pass valid Enum values when initializing
-typedef NS_ENUM(NSInteger, CRAdUnitType) {
-  CRAdUnitTypeInterstitial,
-  CRAdUnitTypeBanner,
-  CRAdUnitTypeNative,
-  CRAdUnitTypeRewarded
-};
+#import <CriteoPublisherSdk/CRAdUnit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CRAdUnit ()
+@interface CRRewardedAdUnit : CRAdUnit
 
-@property(nonatomic, readonly) CRAdUnitType adUnitType;
-- (instancetype)initWithAdUnitId:(NSString *)adUnitId adUnitType:(CRAdUnitType)adUnitType;
+- (instancetype)initWithAdUnitId:(NSString *)adUnitId;
+
+- (NSUInteger)hash;
+- (BOOL)isEqual:(nullable id)object;
+- (BOOL)isEqualToRewardedAdUnit:(CRRewardedAdUnit *)adUnit;
 
 @end
-
-#endif /* CRAdUnit_Internal_h */
 
 NS_ASSUME_NONNULL_END

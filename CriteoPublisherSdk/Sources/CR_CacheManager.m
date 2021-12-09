@@ -37,6 +37,9 @@
   if (bid.nativeAssets) {
     return CRAdUnitTypeNative;
   }
+  if (bid.isRewarded) {
+    return CRAdUnitTypeRewarded;
+  }
   if ([self.deviceInfo validScreenSize:CGSizeMake(bid.width.floatValue, bid.height.floatValue)]) {
     return CRAdUnitTypeInterstitial;
   }

@@ -18,6 +18,7 @@
 //
 
 #import "CR_IntegrationRegistry.h"
+#import "CR_Logging.h"
 
 NSString *const NSUserDefaultsIntegrationKey = @"CRITEO_ProfileId";
 

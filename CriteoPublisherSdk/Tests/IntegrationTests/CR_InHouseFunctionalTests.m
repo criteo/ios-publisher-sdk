@@ -19,6 +19,7 @@
 
 #import "XCTestCase+Criteo.h"
 #import "Criteo.h"
+#import "Criteo+Testing.h"
 #import "CRBannerView.h"
 #import "CRInterstitial.h"
 #import "CR_IntegrationsTestBase.h"
@@ -192,6 +193,18 @@ static NSString *creativeUrl2 = @"www.apple.com";
                 }];
 
   [self cr_waitForExpectations:@[ checker.failToReceiveAdExpectation ]];
+}
+
+#pragma mark - rewarded
+
+- (void)test_givenRewarded_whenLoad_thenFailToReceiveAd {
+  CRRewardedAdUnit *adUnit = [CR_TestAdUnits randomRewarded];
+  self.criteo = [Criteo testing_criteoWithNetworkCaptor];
+  [self.criteo testing_registerWithAdUnits:@[ adUnit ]];
+  BOOL finished = [self.criteo testing_waitForRegisterHTTPResponses];
+  XCTAssertFalse(
+      finished,
+      "There are no prefetch request issued as the adUnit type is only supported for GAM");
 }
 
 @end

@@ -18,6 +18,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CR_CacheAdUnit.h"
 
 typedef NS_ENUM(NSInteger, CR_IntegrationType) {
   CR_IntegrationFallback = 235,

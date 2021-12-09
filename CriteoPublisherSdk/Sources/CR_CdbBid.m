@@ -42,6 +42,7 @@ static CR_CdbBid *emptyBid;
                                         creative:nil
                                       displayUrl:nil
                                          isVideo:NO
+                                      isRewarded:NO
                                       insertTime:nil
                                     nativeAssets:nil
                                     impressionId:nil
@@ -63,6 +64,7 @@ static CR_CdbBid *emptyBid;
                       creative:(NSString *)creative
                     displayUrl:(NSString *)displayUrl
                        isVideo:(BOOL)isVideo
+                    isRewarded:(BOOL)isRewarded
                     insertTime:(NSDate *)insertTime
                   nativeAssets:(CR_NativeAssets *)nativeAssets
                   impressionId:(NSString *)impressionId
@@ -78,6 +80,7 @@ static CR_CdbBid *emptyBid;
     _ttl = ttl;
     _displayUrl = displayUrl;
     _isVideo = isVideo;
+    _isRewarded = isRewarded;
     _insertTime = insertTime;
     _nativeAssets = [nativeAssets copy];
     _impressionId = impressionId;
@@ -103,6 +106,7 @@ static CR_CdbBid *emptyBid;
         (slot && slot[@"ttl"]) ? [slot[@"ttl"] doubleValue] : CRITEO_DEFAULT_BID_TTL_IN_SECONDS;
     NSString *displayUrl = [NSString cr_StringWithStringOrNil:slot[@"displayUrl"]];
     BOOL isVideo = [slot[@"isVideo"] boolValue];
+    BOOL isRewarded = [slot[@"isRewarded"] boolValue];
     NSDictionary *assetsDict = slot[@"native"];
     CR_NativeAssets *nativeAssets =
         assetsDict ? [[CR_NativeAssets alloc] initWithDict:assetsDict] : nil;
@@ -119,6 +123,7 @@ static CR_CdbBid *emptyBid;
                                     creative:creative
                                   displayUrl:displayUrl
                                      isVideo:isVideo
+                                  isRewarded:isRewarded
                                   insertTime:receivedAt
                                 nativeAssets:nativeAssets
                                 impressionId:impId
@@ -185,6 +190,7 @@ static CR_CdbBid *emptyBid;
                                              creative:self.creative
                                            displayUrl:self.displayUrl
                                               isVideo:self.isVideo
+                                           isRewarded:self.isRewarded
                                            insertTime:self.insertTime
                                          nativeAssets:self.nativeAssets
                                          impressionId:self.impressionId

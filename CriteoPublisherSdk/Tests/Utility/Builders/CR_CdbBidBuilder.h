@@ -57,6 +57,7 @@ PROPERTY_DECLARATION(skAdNetworkParameters, CR_SKAdNetworkParameters *_Nullable,
 @property(nonatomic, readonly, copy) CR_CdbBidBuilder * (^immediate)(void);
 
 @property(nonatomic, readonly, strong) CR_CdbBid *build;
+@property(nonatomic) BOOL isRewarded;
 
 @end
 

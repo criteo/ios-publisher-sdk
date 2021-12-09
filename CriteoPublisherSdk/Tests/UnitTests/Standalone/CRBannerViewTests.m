@@ -397,6 +397,7 @@
                                   creative:@"THIS IS USELESS LEGACY"
                                 displayUrl:displayURL
                                    isVideo:NO
+                                isRewarded:NO
                                 insertTime:[NSDate date]
                               nativeAssets:assets
                               impressionId:nil

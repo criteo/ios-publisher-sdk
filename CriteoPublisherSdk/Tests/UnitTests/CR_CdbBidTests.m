@@ -285,6 +285,7 @@
                  displayUrl:
                      @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
                     isVideo:NO
+                 isRewarded:NO
                  insertTime:testDate
                nativeAssets:nil
                impressionId:nil
@@ -302,6 +303,7 @@
                  displayUrl:
                      @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
                     isVideo:NO
+                 isRewarded:NO
                  insertTime:testDate
                nativeAssets:nil
                impressionId:nil
@@ -319,6 +321,7 @@
                  displayUrl:
                      @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
                     isVideo:NO
+                 isRewarded:NO
                  insertTime:testDate
                nativeAssets:nil
                impressionId:nil
@@ -336,6 +339,7 @@
                  displayUrl:
                      @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
                     isVideo:NO
+                 isRewarded:NO
                  insertTime:testDate
                nativeAssets:nil
                impressionId:nil
@@ -353,6 +357,7 @@
                  displayUrl:
                      @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
                     isVideo:NO
+                 isRewarded:NO
                  insertTime:testDate
                nativeAssets:nil
                impressionId:nil
@@ -399,6 +404,7 @@
                  displayUrl:
                      @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
                     isVideo:NO
+                 isRewarded:NO
                  insertTime:testDate
                nativeAssets:nil
                impressionId:nil
@@ -416,6 +422,7 @@
                  displayUrl:
                      @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
                     isVideo:NO
+                 isRewarded:NO
                  insertTime:testDate
                nativeAssets:nil
                impressionId:nil
@@ -433,6 +440,7 @@
                  displayUrl:
                      @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
                     isVideo:NO
+                 isRewarded:NO
                  insertTime:testDate
                nativeAssets:nil
                impressionId:nil
@@ -450,6 +458,7 @@
                  displayUrl:
                      @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative_2.png' width='300' height='250' />"
                     isVideo:NO
+                 isRewarded:NO
                  insertTime:testDate
                nativeAssets:nil
                impressionId:nil
@@ -487,6 +496,7 @@
                                   creative:nil
                                 displayUrl:@"https://someUrl.com"
                                    isVideo:NO
+                                isRewarded:NO
                                 insertTime:[NSDate dateWithTimeIntervalSinceNow:diff]
                               nativeAssets:nil
                               impressionId:nil
@@ -551,6 +561,7 @@
                                                   creative:nil
                                                 displayUrl:@""
                                                    isVideo:NO
+                                                isRewarded:NO
                                                 insertTime:testDate
                                               nativeAssets:nil
                                               impressionId:nil
@@ -567,6 +578,7 @@
                                                   creative:nil
                                                 displayUrl:@""
                                                    isVideo:NO
+                                                isRewarded:NO
                                                 insertTime:testDate
                                               nativeAssets:nil
                                               impressionId:nil
@@ -583,6 +595,7 @@
                                                   creative:nil
                                                 displayUrl:@""
                                                    isVideo:NO
+                                                isRewarded:NO
                                                 insertTime:testDate
                                               nativeAssets:nil
                                               impressionId:nil
@@ -599,6 +612,7 @@
                                                   creative:nil
                                                 displayUrl:@""
                                                    isVideo:NO
+                                                isRewarded:NO
                                                 insertTime:testDate
                                               nativeAssets:nil
                                               impressionId:nil
@@ -726,6 +740,27 @@
 - (void)testIsRenewableWithSilenceModeExpired {
   CR_CdbBid *bid = CR_CdbBidBuilder.new.silenced().expired().build;
   XCTAssertTrue(bid.isRenewable);
+}
+
+#pragma mark isRewarded
+- (void)testIsRewarded_GivenNothing_returnFalse {
+  NSMutableDictionary *dict = [self createMutableDictionaryFromJSONFileWithNative:NO];
+  [dict removeObjectForKey:@"isRewarded"];
+  CR_CdbBid *bid = [[CR_CdbBid alloc] initWithDict:dict receivedAt:self.now];
+  XCTAssertFalse(bid.isRewarded);
+}
+
+- (void)testIsRewarded_GivenFalse_returnFalse {
+  NSMutableDictionary *dict = [self createMutableDictionaryFromJSONFileWithNative:NO];
+  dict[@"isRewarded"] = @"false";
+  CR_CdbBid *bid = [[CR_CdbBid alloc] initWithDict:dict receivedAt:self.now];
+  XCTAssertFalse(bid.isRewarded);
+}
+- (void)testIsRewarded_GivenTrue_returnFalse {
+  NSMutableDictionary *dict = [self createMutableDictionaryFromJSONFileWithNative:NO];
+  dict[@"isRewarded"] = @"true";
+  CR_CdbBid *bid = [[CR_CdbBid alloc] initWithDict:dict receivedAt:self.now];
+  XCTAssertTrue(bid.isRewarded);
 }
 
 @end

@@ -866,6 +866,7 @@
                  displayUrl:
                      @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative.png' width='300' height='250' />"
                     isVideo:NO
+                 isRewarded:NO
                  insertTime:[NSDate date]
                nativeAssets:nil
                impressionId:nil
@@ -886,6 +887,7 @@
                  displayUrl:
                      @"<img src='https://demo.criteo.com/publishertag/preprodtest/creative2.png' width='300' height='250' />"
                     isVideo:NO
+                 isRewarded:NO
                  insertTime:[NSDate date]
                nativeAssets:nil
                impressionId:nil
