@@ -98,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param object The object to enrich, supports GAM and MoPub
  * @param bid The bid obtained from Criteo
  */
-- (void)enrichAdObject:(id)object withBid:(CRBid *)bid;
+- (void)enrichAdObject:(id)object withBid:(CRBid *_Nullable)bid;
 
 #pragma mark - Debug
 

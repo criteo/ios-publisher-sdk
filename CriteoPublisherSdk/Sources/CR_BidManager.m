@@ -345,6 +345,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 }
 
 - (void)enrichUnsafelyAdObject:(id)object withBid:(CRBid *)bid {
+  [self.headerBidding detectIntegration:object];
   CR_CdbBid *cdbBid = [bid consume];
   if (cdbBid) {
     CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:bid.adUnit];

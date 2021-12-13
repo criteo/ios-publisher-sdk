@@ -51,7 +51,7 @@
   return self;
 }
 
-- (void)enrichRequest:(id)adRequest withBid:(CR_CdbBid *)bid adUnit:(CR_CacheAdUnit *)adUnit {
+- (void)detectIntegration:(id)adRequest {
   if ([self isDfpRequest:adRequest]) {
     [self.integrationRegistry declare:CR_IntegrationGamAppBidding];
   } else if ([self isMoPubRequest:adRequest]) {
@@ -61,8 +61,12 @@
     [self removeCriteoBidsFromMoPubRequest:adRequest];
   } else if ([self isCustomRequest:adRequest]) {
     [self.integrationRegistry declare:CR_IntegrationCustomAppBidding];
+  } else {
+    CRLogError(@"AppBidding", @"Cannot detect integration user for ad request: %@", adRequest);
   }
+}
 
+- (void)enrichRequest:(id)adRequest withBid:(CR_CdbBid *)bid adUnit:(CR_CacheAdUnit *)adUnit {
   if ([bid isEmpty]) {
     CRLogInfo(@"AppBidding", @"No bid found while enriching request for Ad Unit: %@", adUnit);
     return;

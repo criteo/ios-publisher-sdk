@@ -50,11 +50,8 @@ class GoogleAdViewBuilder: AdViewBuilder {
     criteo: Criteo, adUnit: CRAdUnit, load: @escaping (_ request: GAMRequest?) -> Void
   ) {
     criteo.loadBid(for: adUnit, withContext: contextData) { maybeBid in
-      let request: GAMRequest? = maybeBid.map { bid in
-        let request = GAMRequest()
-        criteo.enrichAdObject(request, with: bid)
-        return request
-      }
+      let request = GAMRequest()
+      criteo.enrichAdObject(request, with: maybeBid)
       return load(request)
     }
   }

@@ -97,7 +97,7 @@ private func googleNetwork(_ controller: AdViewController) -> AdNetwork {
       AdFormat.native: "/140800857/Endeavour_Native",
       AdFormat.interstitial: "/140800857/Endeavour_Interstitial_320x480",
       AdFormat.video: "/140800857/Endeavour_InterstitialVideo_320x480",
-      AdFormat.rewarded: "/140800857/Endeavour_InterstitialVideo_320x480",
+      AdFormat.rewarded: "/140800857/Endeavour_RewardedVideo",  // "ca-app-pub-3940256099942544/1712485313"
     ], adViewBuilder: GoogleAdViewBuilder(controller: controller))
 }
 
