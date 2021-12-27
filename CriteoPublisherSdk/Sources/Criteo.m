@@ -157,7 +157,7 @@ static dispatch_once_t onceToken;
 
 #pragma mark App bidding
 
-- (void)enrichAdObject:(id)object withBid:(CRBid *)bid {
+- (void)enrichAdObject:(id)object withBid:(CRBid *_Nullable)bid {
   [self.bidManager enrichAdObject:object withBid:bid];
 }
 

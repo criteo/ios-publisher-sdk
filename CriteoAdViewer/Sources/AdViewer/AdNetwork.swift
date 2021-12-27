@@ -18,20 +18,24 @@
 //
 
 struct AdNetwork: Equatable {
+  typealias AdUnitPair = (criteoId: String, externalId: String)
   let name: String
   let supportedFormats: [AdFormat]
   let defaultAdUnits: [AdFormat: String]
+  let specificAdUnits: [AdFormat: AdUnitPair]
   let adViewBuilder: AdViewBuilder
 
   init(
     name: String,
     supportedFormats: [AdFormat],
     defaultAdUnits: [AdFormat: String],
+    specificAdUnits: [AdFormat: AdUnitPair] = [:],
     adViewBuilder: AdViewBuilder
   ) {
     self.name = name
     self.supportedFormats = supportedFormats
     self.defaultAdUnits = defaultAdUnits
+    self.specificAdUnits = specificAdUnits
     self.adViewBuilder = adViewBuilder
   }
 
@@ -89,6 +93,7 @@ private func googleNetwork(_ controller: AdViewController) -> AdNetwork {
       AdFormat.native,
       AdFormat.interstitial,
       AdFormat.video,
+      AdFormat.rewarded,
     ],
     defaultAdUnits: [
       AdFormat.banner320x50: "/140800857/Endeavour_320x50",
@@ -96,7 +101,14 @@ private func googleNetwork(_ controller: AdViewController) -> AdNetwork {
       AdFormat.native: "/140800857/Endeavour_Native",
       AdFormat.interstitial: "/140800857/Endeavour_Interstitial_320x480",
       AdFormat.video: "/140800857/Endeavour_InterstitialVideo_320x480",
-    ], adViewBuilder: GoogleAdViewBuilder(controller: controller))
+    ],
+    specificAdUnits: [
+      AdFormat.rewarded: (
+        criteoId: "/140800857/Endeavour_RewardedVideo",
+        externalId: "/140800857/Endeavour_InterstitialVideo_320x480"
+      )
+    ],
+    adViewBuilder: GoogleAdViewBuilder(controller: controller))
 }
 
 let mopubBanner320x50AdUnitId = "bb0577af6858451d8191c2058fe59d03"

@@ -195,6 +195,12 @@ class AdViewerViewController: FormViewController {
           publisherId: publisherId,
           adUnitId: adUnitId,
           adFormat: format)
+      } else if let adUnitPair = network.specificAdUnits[format] {
+        return AdConfig(
+          publisherId: publisherId,
+          adUnitId: adUnitPair.criteoId,
+          externalAdUnitId: adUnitPair.externalId,
+          adFormat: format)
       } else {
         return .none
       }

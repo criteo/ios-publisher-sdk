@@ -43,6 +43,13 @@ NS_ASSUME_NONNULL_BEGIN
     NS_DESIGNATED_INITIALIZER;
 
 /**
+ * Analyze the header bidding request to detect the integration that is used by the caller.
+ *
+ * @param request is the header bidding request to use
+ */
+- (void)detectIntegration:(id)request;
+
+/**
  * Add the Criteo bid to the request.
  *
  * @param request is the header bidding request to enrich.

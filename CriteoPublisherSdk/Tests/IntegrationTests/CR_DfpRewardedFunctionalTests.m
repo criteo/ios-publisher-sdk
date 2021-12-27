@@ -35,6 +35,9 @@
 
 @interface CR_DfpRewardedFunctionalTests : CR_IntegrationsTestBase
 
+// to be able to restore
+@property(strong, nonatomic) CR_IntegrationRegistry *oldIntegrationRegistry;
+
 @end
 
 @implementation CR_DfpRewardedFunctionalTests
@@ -43,26 +46,29 @@
 
 - (void)setUp {
   // WARNING AdUnitHelper does use singleton object (no DI in here) should be changed with DPP-3734
-  [Criteo.sharedCriteo.dependencyProvider.integrationRegistry declare:CR_IntegrationGamAppBidding];
+  self.oldIntegrationRegistry = Criteo.sharedCriteo.dependencyProvider.integrationRegistry;
 }
 
 - (void)tearDown {
-  [Criteo.sharedCriteo.dependencyProvider.integrationRegistry declare:CR_IntegrationFallback];
+  Criteo.sharedCriteo.dependencyProvider.integrationRegistry = self.oldIntegrationRegistry;
 }
 
-- (void)test_givenRewarded_whenLoad_thenFailToReceiveAd {
+- (void)test_givenRewarded_noIntegrationDeclared_whenLoadThreeTimes_adLoaded {
   CRRewardedAdUnit *adUnit = [CR_TestAdUnits rewarded];
 
-  self.criteo = [Criteo testing_criteoWithNetworkCaptor];
+  [self setupCriteo_andReplaceIntegrationRegistry];
+
+  // register here fails as integration is not yet detected
   [self.criteo testing_registerWithAdUnits:@[ adUnit ]];
 
   GAMRequest *request = [[GAMRequest alloc] init];
 
+  // this one make the detection logic discover GAM integration
   [self enrichAdObject:request forAdUnit:adUnit];
+
+  [self warmCacheThenEnrich:adUnit request:request];
+
   CR_DependencyProvider *dependencyProvider = self.criteo.dependencyProvider;
-
-  [self enrichAdObject:request forAdUnit:adUnit];
-
   CR_CdbBid *bid = [dependencyProvider.cacheManager
       getBidForAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit]];
   NSDictionary *targeting = request.customTargeting;
@@ -79,6 +85,54 @@
   XCTAssertEqualObjects(bid.displayUrl, decodedUrl);
   BOOL finished = [self.criteo testing_waitForRegisterHTTPResponses];
   XCTAssert(finished, "Failed to receive all prefetch requests");
+}
+
+- (void)test_givenRewarded_GAMIntegrationDeclared_whenLoadTwoTimes_adLoaded {
+  CRRewardedAdUnit *adUnit = [CR_TestAdUnits rewarded];
+
+  CR_IntegrationRegistry *integrationRegistry = [self setupCriteo_andReplaceIntegrationRegistry];
+  [integrationRegistry declare:CR_IntegrationGamAppBidding];
+
+  // GAM is declared so adUnit can be properly built
+  [self.criteo testing_registerWithAdUnits:@[ adUnit ]];
+
+  GAMRequest *request = [[GAMRequest alloc] init];
+
+  [self warmCacheThenEnrich:adUnit request:request];
+  CR_DependencyProvider *dependencyProvider = self.criteo.dependencyProvider;
+  CR_CdbBid *bid = [dependencyProvider.cacheManager
+      getBidForAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit]];
+  NSDictionary *targeting = request.customTargeting;
+
+  XCTAssertEqualObjects(targeting[CR_TargetingKey_crtCpm], @"1.12");
+  XCTAssertEqual(targeting[CR_TargetingKey_crtFormat], @"video");
+  XCTAssertEqualObjects(targeting[CR_TargetingKey_crtSize], @"320x480");
+
+  // as this is a "video" url is not base64ed
+  NSString *encodedUrl = targeting[CR_TargetingKey_crtDfpDisplayUrl];
+  NSString *decodedUrl =
+      [[encodedUrl stringByRemovingPercentEncoding] stringByRemovingPercentEncoding];
+
+  XCTAssertEqualObjects(bid.displayUrl, decodedUrl);
+  BOOL finished = [self.criteo testing_waitForRegisterHTTPResponses];
+  XCTAssert(finished, "Failed to receive all prefetch requests");
+}
+
+- (CR_IntegrationRegistry *)setupCriteo_andReplaceIntegrationRegistry {
+  self.criteo = [Criteo testing_criteoWithNetworkCaptor];
+  // use same integrationRegistry in test criteo object and global instance (see DPP-3734)
+  CR_IntegrationRegistry *integrationRegistry = [[CR_IntegrationRegistry alloc] init];
+  self.criteo.dependencyProvider.integrationRegistry = integrationRegistry;
+  Criteo.sharedCriteo.dependencyProvider.integrationRegistry = integrationRegistry;
+  return integrationRegistry;
+}
+
+- (void)warmCacheThenEnrich:(CRRewardedAdUnit *)adUnit request:(GAMRequest *)request {
+  // this one warms up the cache
+  [self enrichAdObject:request forAdUnit:adUnit];
+
+  // this one passes properly
+  [self enrichAdObject:request forAdUnit:adUnit];
 }
 
 @end

@@ -157,7 +157,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 
 - (void)testEmptyBidWithDictionary {
   NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-
+  [self.headerBidding detectIntegration:dictionary];
   [self.headerBidding enrichRequest:dictionary withBid:[CR_CdbBid emptyBid] adUnit:self.adUnit1];
   OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
                                 return [logMessage.tag isEqualToString:@"AppBidding"] &&
@@ -170,7 +170,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 
 - (void)testEmptyBidWithGadRequest {
   GADRequest *request = [[GADRequest alloc] init];
-
+  [self.headerBidding detectIntegration:request];
   [self.headerBidding enrichRequest:request withBid:[CR_CdbBid emptyBid] adUnit:self.adUnit1];
   OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
                                 return [logMessage.tag isEqualToString:@"AppBidding"] &&
@@ -184,7 +184,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 - (void)testEmptyBidWithMoPubRequest {
   MPAdView *request = [[MPAdView alloc] init];
   request.keywords = @"k:v";
-
+  [self.headerBidding detectIntegration:request];
   [self.headerBidding enrichRequest:request withBid:[CR_CdbBid emptyBid] adUnit:self.adUnit1];
   OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
                                 return [logMessage.tag isEqualToString:@"AppBidding"] &&
@@ -205,6 +205,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
     kSizeKey : @"300x250"
   };
 
+  [self.headerBidding detectIntegration:dictionary];
   [self.headerBidding enrichRequest:dictionary withBid:self.bid1 adUnit:self.adUnit1];
   OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
                                 return [logMessage.tag isEqualToString:@"AppBidding"] &&
@@ -223,7 +224,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
     kCpmKey : self.bid1.cpm,
     kSizeKey : @"1x2"
   };
-
+  [self.headerBidding detectIntegration:dictionary];
   [self.headerBidding enrichRequest:dictionary withBid:self.bid1 adUnit:self.interstitialAdUnit];
 
   XCTAssertEqualObjects(dictionary, expected);
@@ -234,7 +235,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 
 - (void)testUnsupportedAdRequest {
   NSArray *array = [[NSArray alloc] init];
-
+  [self.headerBidding detectIntegration:array];
   [self.headerBidding enrichRequest:array withBid:self.bid1 adUnit:self.adUnit1];
   OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
                                 return logMessage.severity == CR_LogSeverityError &&
@@ -288,7 +289,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 - (void)testGADRequest {
   GADRequest *request = [[GADRequest alloc] init];
   self.device.mock_screenSize = (CGSize){300, 250};
-
+  [self.headerBidding detectIntegration:request];
   [self.headerBidding enrichRequest:request withBid:self.bid1 adUnit:self.adUnit1];
 
   NSDictionary *targeting = request.customTargeting;
@@ -303,7 +304,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 - (void)testGamRequest {
   GAMRequest *request = [[GAMRequest alloc] init];
   self.device.mock_screenSize = (CGSize){300, 250};
-
+  [self.headerBidding detectIntegration:request];
   [self.headerBidding enrichRequest:request withBid:self.bid1 adUnit:self.adUnit1];
   OCMVerify([self.loggingMock
       logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
@@ -329,7 +330,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 
   OCMStub([self.displaySizeInjector injectFullScreenSizeInDisplayUrl:self.bid1.displayUrl])
       .andReturn(@"display.url");
-
+  [self.headerBidding detectIntegration:request];
   [self.headerBidding enrichRequest:request withBid:self.bid1 adUnit:self.interstitialAdUnit];
 
   NSDictionary *targeting = request.customTargeting;
@@ -346,7 +347,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
                                                          adUnitType:CRAdUnitTypeNative];
   CR_CdbBid *nativeBid = [[CR_CdbBid alloc] initWithDict:self.mutableJsonDict
                                               receivedAt:[NSDate date]];
-
+  [self.headerBidding detectIntegration:self.request];
   [self.headerBidding enrichRequest:self.request withBid:nativeBid adUnit:adUnit];
 
   CR_NativeAssets *nativeAssets = nativeBid.nativeAssets;
@@ -374,7 +375,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   self.mutableJsonDict[@"native"][@"privacy"][@"longLegalText"] = nil;
   CR_CdbBid *nativeBid = [[CR_CdbBid alloc] initWithDict:self.mutableJsonDict
                                               receivedAt:[NSDate date]];
-
+  [self.headerBidding detectIntegration:self.request];
   [self.headerBidding enrichRequest:self.request withBid:nativeBid adUnit:adUnit];
 
   NSDictionary *dfpTargeting = self.request.customTargeting;
@@ -437,7 +438,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 
   OCMStub([self.displaySizeInjector injectSafeScreenSizeInDisplayUrl:self.bid1.displayUrl])
       .andReturn(@"display.url");
-
+  [self.headerBidding detectIntegration:controller];
   [self.headerBidding enrichRequest:controller withBid:self.bid1 adUnit:self.interstitialAdUnit];
 
   NSDictionary *keywords = [controller.keywords testing_moPubKeywordDictionary];
@@ -455,7 +456,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
     kDictionaryDisplayUrlKey : self.bid1.displayUrl,
     kSizeKey : @"300x250"
   };
-
+  [self.headerBidding detectIntegration:request];
   [self.headerBidding enrichRequest:request withBid:self.bid1 adUnit:self.adUnit1];
   OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
                                 return [logMessage.tag isEqualToString:@"AppBidding"] &&
@@ -474,6 +475,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 - (void)testLoadMopubInterstitial {
   MPInterstitialAdController *request = [[MPInterstitialAdController alloc] init];
   request.keywords = @"key_1:object_1,key_2:object_2";
+  [self.headerBidding detectIntegration:request];
   [self.headerBidding enrichRequest:request withBid:self.bid1 adUnit:self.adUnit1];
   NSDictionary *expected = @{
     @"key_1" : @"object_1",
@@ -501,6 +503,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
       .andReturn(@"display.url.1");
   OCMStub([self.displaySizeInjector injectSafeScreenSizeInDisplayUrl:self.bid2.displayUrl])
       .andReturn(@"display.url.2");
+  [self.headerBidding detectIntegration:request];
 
   [self.headerBidding enrichRequest:request withBid:self.bid1 adUnit:self.interstitialAdUnit];
   [self.headerBidding enrichRequest:request withBid:self.bid2 adUnit:self.interstitialAdUnit];
@@ -514,7 +517,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 - (void)testRemoveCriteoBidForMoPub {
   MPAdView *request = [[MPAdView alloc] init];
   request.keywords = @"crt_k1:v1,k:v2,crt_k2:v3";
-
+  [self.headerBidding detectIntegration:request];
   [self.headerBidding enrichRequest:request withBid:[CR_CdbBid emptyBid] adUnit:self.adUnit2];
 
   XCTAssertEqualObjects(request.keywords, @"k:v2");
@@ -582,7 +585,7 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   self.device.mock_isPhone = deviceType == CR_DeviceTypeIphone;
   self.device.mock_isInPortrait = orientation == CR_DeviceOrientationPortrait;
   self.device.mock_screenSize = screenSize;
-
+  [self.headerBidding detectIntegration:self.request];
   [self.headerBidding enrichRequest:self.request withBid:bid adUnit:adUnit];
 
   NSDictionary *target = self.request.customTargeting;

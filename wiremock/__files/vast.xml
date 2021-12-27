@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VAST version="3.0">
+  <Ad id="38000">
+    <InLine>
+      <AdSystem version="1.0">Criteo</AdSystem>
+      <AdTitle>Criteo Video Ad</AdTitle>
+      <Impression><![CDATA[https://localhost:9099/pixel?event=video_impression]]></Impression>
+      <Creatives>
+        <Creative sequence="1" id="1">
+          <Linear>
+            <Duration>00:00:20</Duration>
+            <TrackingEvents>
+              <Tracking event="start"><![CDATA[https://localhost:9099/pixel?event=video_start]]></Tracking>
+              <Tracking event="firstQuartile"><![CDATA[https://localhost:9099/pixel?event=video_firstQuartile]]></Tracking>
+              <Tracking event="midpoint"><![CDATA[https://localhost:9099/pixel?event=video_midpoint]]></Tracking>
+              <Tracking event="thirdQuartile"><![CDATA[https://localhost:9099/pixel?event=video_thirdQuartile]]></Tracking>
+              <Tracking event="complete"><![CDATA[https://localhost:9099/pixel?event=video_complete]]></Tracking>
+            </TrackingEvents>
+            <VideoClicks>
+              <ClickThrough><![CDATA[https://criteo.com/]]></ClickThrough>
+              <ClickTracking><![CDATA[https://localhost:9099/pixel?event=video_click_1]]></ClickTracking>
+              <ClickTracking><![CDATA[https://localhost:9099/pixel?event=video_click_2]]></ClickTracking>
+            </VideoClicks>
+            <MediaFiles>
+              <MediaFile id="Criteo_mp4_ABC" delivery="progressive" width="1280" height="720" type="video/mp4" bitrate="1349" scalable="true" maintainAspectRatio="true">
+                <![CDATA[https://publisherdirect.criteo.com/publishertag/preprodtest/creative-video.mp4]]>
+              </MediaFile>
+            </MediaFiles>
+          </Linear>
+        </Creative>
+        <Creative sequence="1" id="2">
+          <CompanionAds>
+            <Companion id="endCard" width="320" height="480">
+              <StaticResource creativeType="image/png"><![CDATA[$STUB_CREATIVE_IMAGE]]></StaticResource>
+              <CompanionClickThrough><![CDATA[https://google.com/]]></CompanionClickThrough>
+              <CompanionClickTracking><![CDATA[https://localhost:9099/pixel?event=companion_click_1]]></CompanionClickTracking>
+              <CompanionClickTracking><![CDATA[https://localhost:9099/pixel?event=companion_click_2]]></CompanionClickTracking>
+              <TrackingEvents>
+                <Tracking event="creativeView"><![CDATA[https://localhost:9099/pixel?event=companion_creativeView]]></Tracking>
+              </TrackingEvents>
+            </Companion>
+          </CompanionAds>
+        </Creative>
+      </Creatives>
+    </InLine>
+  </Ad>
+</VAST>

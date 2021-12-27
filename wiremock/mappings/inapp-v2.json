@@ -1,0 +1,31 @@
+{
+    "request": {
+        "urlPath": "/inapp/v2",
+        "bodyPatterns": [ {
+ "equalToJson": "{ \"slots\" : [ { \"rewarded\" : true } ] }",
+ "ignoreArrayOrder": true,
+"ignoreExtraElements": true
+}]
+    },
+    "response": {
+        "jsonBody": {
+            "slots": [{
+                  "impId": "{{ jsonPath request.body '$.slots[0].impId' }}",
+                  "placementId": "{{ jsonPath request.body '$.slots[0].placementId' }}",
+                  "arbitrageId": "arbitrage_id",
+                  "zoneId": 0,
+                  "cpm": "1.12",
+                  "currency": "EUR",
+                  "width": 390,
+                  "height": 844,
+                  "ttl": 3600,
+                  "displayUrl": "https://localhost:9099/delivery/vast.php",
+                  "isVideo": true,
+                  "rewarded": true
+                }],
+            "requestId": "{{ jsonPath request.body '$.id'}}",
+            "consentGiven": true
+        },
+        "transformers": ["response-template"]
+    }
+}
