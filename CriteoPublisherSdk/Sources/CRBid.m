@@ -17,6 +17,8 @@
 // limitations under the License.
 //
 
+#import "CRAdUnit.h"
+#import "CRAdUnit+Internal.h"
 #import "CRBid+Internal.h"
 #import "CR_CdbBid.h"
 
@@ -29,6 +31,13 @@
     _cdbBid = cdbBid;
   }
   return self;
+}
+
+- (CR_CdbBid *)consumeFor:(CRAdUnitType)type {
+  if (type == self.adUnit.adUnitType) {
+    return [self consume];
+  }
+  return nil;
 }
 
 - (CR_CdbBid *)consume {

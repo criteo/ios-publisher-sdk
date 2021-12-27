@@ -28,6 +28,8 @@
 
 - (instancetype)init NS_UNAVAILABLE;
 
+- (instancetype)initWithCriteo:(Criteo *)criteo;
+
 - (instancetype)initWithAdUnit:(CRAdUnit *)adUnit criteo:(Criteo *)criteo;
 
 @property(strong, nonatomic, readonly) UIWindow *uiWindow;
@@ -44,9 +46,9 @@
 
 - (void)resetBannerView;
 
-- (void)injectBidWithExpectedCreativeUrl:(NSString *)creativeUrl;
+- (void)injectBidWithExpectedCreativeUrl:(NSString *)creativeUrl forAdUnit:(CRAdUnit *)adUnit;
 
-- (void)injectBidWithAppStoreClickUrl;
+- (void)injectBidWithAppStoreClickUrl:(CRAdUnit *)adUnit;
 - (void)clickUrl;
 
 @end

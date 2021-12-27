@@ -38,6 +38,10 @@
 
 @implementation CRBannerView
 
+- (instancetype)init {
+  return [self initWithAdUnit:[CRBannerAdUnit alloc]];
+}
+
 - (instancetype)initWithAdUnit:(CRBannerAdUnit *)adUnit {
   return [self initWithAdUnit:adUnit criteo:[Criteo sharedCriteo]];
 }
@@ -159,11 +163,16 @@
     return;
   }
 
-  CR_CdbBid *cdbBid = bid.consume;
+  CR_CdbBid *cdbBid = [bid consumeFor:CRAdUnitTypeBanner];
   if (!cdbBid) {
     [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
     return;
   }
+
+  CGFloat width = [cdbBid.width floatValue];
+  CGFloat height = [cdbBid.height floatValue];
+  self.frame = CGRectMake(0, 0, width, height);
+  self.webView.frame = CGRectMake(0, 0, width, height);
 
   [self loadAdWithCdbBid:cdbBid];
 }

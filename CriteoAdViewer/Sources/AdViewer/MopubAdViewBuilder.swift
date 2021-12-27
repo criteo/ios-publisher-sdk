@@ -74,7 +74,7 @@ class MopubAdViewBuilder: AdViewBuilder {
   private func load(_ ad: MPLoadableAd, config: AdConfig, criteo: Criteo) {
     let criteoAdUnitId: CRAdUnit
     if config.adFormat == .flexible(.video) {
-        // need to use a specific adUnitId to be able to load video ads properly
+      // need to use a specific adUnitId to be able to load video ads properly
       criteoAdUnitId = CRInterstitialAdUnit(
         adUnitId: "/140800857/Endeavour_InterstitialVideo_320x480")
     } else {
