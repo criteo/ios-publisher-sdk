@@ -56,11 +56,7 @@
 - (void)test_givenRewarded_noIntegrationDeclared_whenLoadThreeTimes_adLoaded {
   CRRewardedAdUnit *adUnit = [CR_TestAdUnits rewarded];
 
-  self.criteo = [Criteo testing_criteoWithNetworkCaptor];
-  // use same integrationRegistry in test criteo object and global instance (see DPP-3734)
-  CR_IntegrationRegistry *integrationRegistry = [[CR_IntegrationRegistry alloc] init];
-  self.criteo.dependencyProvider.integrationRegistry = integrationRegistry;
-  Criteo.sharedCriteo.dependencyProvider.integrationRegistry = integrationRegistry;
+  [self setupCriteo_andReplaceIntegrationRegistry];
 
   // register here fails as integration is not yet detected
   [self.criteo testing_registerWithAdUnits:@[ adUnit ]];
@@ -70,14 +66,7 @@
   // this one make the detection logic discover GAM integration
   [self enrichAdObject:request forAdUnit:adUnit];
 
-  // register is now ok due to GAM being detected
-  [self.criteo testing_registerWithAdUnits:@[ adUnit ]];
-
-  // this one warms up the cache
-  [self enrichAdObject:request forAdUnit:adUnit];
-
-  // this one passes properly
-  [self enrichAdObject:request forAdUnit:adUnit];
+  [self warmCacheThenEnrich:adUnit request:request];
 
   CR_DependencyProvider *dependencyProvider = self.criteo.dependencyProvider;
   CR_CdbBid *bid = [dependencyProvider.cacheManager
@@ -101,26 +90,15 @@
 - (void)test_givenRewarded_GAMIntegrationDeclared_whenLoadTwoTimes_adLoaded {
   CRRewardedAdUnit *adUnit = [CR_TestAdUnits rewarded];
 
-  self.criteo = [Criteo testing_criteoWithNetworkCaptor];
-  // use same integrationRegistry in test criteo object and global instance (see DPP-3734)
-  CR_IntegrationRegistry *integrationRegistry = [[CR_IntegrationRegistry alloc] init];
+  CR_IntegrationRegistry *integrationRegistry = [self setupCriteo_andReplaceIntegrationRegistry];
   [integrationRegistry declare:CR_IntegrationGamAppBidding];
-  self.criteo.dependencyProvider.integrationRegistry = integrationRegistry;
-  Criteo.sharedCriteo.dependencyProvider.integrationRegistry = integrationRegistry;
 
   // GAM is declared so adUnit can be properly built
   [self.criteo testing_registerWithAdUnits:@[ adUnit ]];
 
   GAMRequest *request = [[GAMRequest alloc] init];
 
-  [self.criteo testing_registerWithAdUnits:@[ adUnit ]];
-
-  // this one warms up the cache
-  [self enrichAdObject:request forAdUnit:adUnit];
-
-  // this one passes properly
-  [self enrichAdObject:request forAdUnit:adUnit];
-
+  [self warmCacheThenEnrich:adUnit request:request];
   CR_DependencyProvider *dependencyProvider = self.criteo.dependencyProvider;
   CR_CdbBid *bid = [dependencyProvider.cacheManager
       getBidForAdUnit:[CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit]];
@@ -138,6 +116,23 @@
   XCTAssertEqualObjects(bid.displayUrl, decodedUrl);
   BOOL finished = [self.criteo testing_waitForRegisterHTTPResponses];
   XCTAssert(finished, "Failed to receive all prefetch requests");
+}
+
+- (CR_IntegrationRegistry *)setupCriteo_andReplaceIntegrationRegistry {
+  self.criteo = [Criteo testing_criteoWithNetworkCaptor];
+  // use same integrationRegistry in test criteo object and global instance (see DPP-3734)
+  CR_IntegrationRegistry *integrationRegistry = [[CR_IntegrationRegistry alloc] init];
+  self.criteo.dependencyProvider.integrationRegistry = integrationRegistry;
+  Criteo.sharedCriteo.dependencyProvider.integrationRegistry = integrationRegistry;
+  return integrationRegistry;
+}
+
+- (void)warmCacheThenEnrich:(CRRewardedAdUnit *)adUnit request:(GAMRequest *)request {
+  // this one warms up the cache
+  [self enrichAdObject:request forAdUnit:adUnit];
+
+  // this one passes properly
+  [self enrichAdObject:request forAdUnit:adUnit];
 }
 
 @end

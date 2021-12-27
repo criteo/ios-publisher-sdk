@@ -68,7 +68,7 @@ class GoogleAdViewBuilder: AdViewBuilder {
     let adView = GAMBannerView(adSize: size)
     adView.delegate = self.logger
     adView.adSizeDelegate = self.logger
-    adView.adUnitID = adUnit.adUnitId
+    adView.adUnitID = config.externalAdUnitId
     adView.rootViewController = self.controller
     loadAdView(criteo: criteo, adUnit: adUnit, load: adView.load)
     return adView
@@ -80,7 +80,7 @@ class GoogleAdViewBuilder: AdViewBuilder {
     let adUnit = config.adUnit
 
     loadAdView(criteo: criteo, adUnit: adUnit) { request in
-      GAMInterstitialAd.load(withAdManagerAdUnitID: adUnit.adUnitId, request: request) {
+      GAMInterstitialAd.load(withAdManagerAdUnitID: config.externalAdUnitId, request: request) {
         maybeAd, maybeError in
         if let error = maybeError {
           print("Failed to load interstitial ad with error: \(error.localizedDescription)")

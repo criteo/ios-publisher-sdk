@@ -1,6 +1,11 @@
 {
     "request": {
-        "urlPath": "/inapp/v2"
+        "urlPath": "/inapp/v2",
+        "bodyPatterns": [ {
+ "equalToJson": "{ \"slots\" : [ { \"rewarded\" : true } ] }",
+ "ignoreArrayOrder": true,
+"ignoreExtraElements": true
+}]
     },
     "response": {
         "jsonBody": {
