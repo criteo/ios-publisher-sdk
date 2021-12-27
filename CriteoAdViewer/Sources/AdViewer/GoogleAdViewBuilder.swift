@@ -98,7 +98,7 @@ class GoogleAdViewBuilder: AdViewBuilder {
   ) {
     let adUnit = config.adUnit
     loadAdView(criteo: criteo, adUnit: adUnit) { request in
-      GADRewardedAd.load(withAdUnitID: adUnit.adUnitId, request: request) {
+      GADRewardedAd.load(withAdUnitID: config.externalAdUnitId, request: request) {
         maybeAd, maybeError in
         if let error = maybeError {
           print("Failed to load rewarded ad with error: \(error.localizedDescription)")

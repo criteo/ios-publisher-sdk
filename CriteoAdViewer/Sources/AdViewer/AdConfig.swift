@@ -20,11 +20,13 @@
 struct AdConfig {
   let publisherId: String
   let adUnit: CRAdUnit
+  let externalAdUnitId: String
   let adFormat: AdFormat
 
-  init(publisherId: String, adUnitId: String, adFormat: AdFormat) {
+  init(publisherId: String, adUnitId: String, externalAdUnitId: String? = nil, adFormat: AdFormat) {
     self.publisherId = publisherId
     self.adUnit = AdConfig.buildAdUnit(adFormat: adFormat, adUnitId: adUnitId)
+    self.externalAdUnitId = externalAdUnitId ?? adUnitId
     self.adFormat = adFormat
   }
 
