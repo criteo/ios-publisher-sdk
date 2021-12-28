@@ -1,5 +1,12 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
+
+## Version 4.5.0
+
+### Fixes
+ - **In house**: allow init of `CRBannerView` without specifying the adUnitId
+
+--------------------------------------------------------------------------------
 ## Version 4.4.0
 
 ### Features

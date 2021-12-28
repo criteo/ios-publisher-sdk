@@ -41,6 +41,19 @@ static NSString *appStoreDisplay = @"https://localhost:9099/display/app-store";
 
 @implementation CR_CreativeViewChecker
 
+- (instancetype)initWithCriteo:(Criteo *)criteo {
+  if (self = [super init]) {
+    [self resetExpectations];
+    _uiWindow = [self createUIWindow];
+    _criteo = criteo;
+    [self resetBannerView];
+    _interstitial = [[CRInterstitial alloc] init];
+    _interstitial.delegate = self;
+    _expectedCreativeUrl = [CR_ViewCheckingHelper preprodCreativeImageUrl];
+  }
+  return self;
+}
+
 - (instancetype)initWithAdUnit:(CRAdUnit *)adUnit criteo:(Criteo *)criteo {
   if (self = [super init]) {
     [self resetExpectations];
@@ -60,12 +73,13 @@ static NSString *appStoreDisplay = @"https://localhost:9099/display/app-store";
 }
 
 - (void)injectBidWithExpectedCreativeUrl:(NSString *)creativeUrl
-               withSkAdNetworkParameters:(BOOL)withSkAdNetworkParameters {
+               withSkAdNetworkParameters:(BOOL)withSkAdNetworkParameters
+                               forAdUnit:(CRAdUnit *)adUnit {
   self.expectedCreativeUrl = creativeUrl;
   CR_DependencyProvider *dependencyProvider = self.criteo.dependencyProvider;
 
   // Inject bid in cache for cache bidding strategy
-  CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:self.adUnit];
+  CR_CacheAdUnit *cacheAdUnit = [CR_AdUnitHelper cacheAdUnitForAdUnit:adUnit];
   CR_CdbBidBuilder *bidBuilder =
       CR_CdbBidBuilder.new.adUnit(cacheAdUnit).cpm(@"15.00").displayUrl(creativeUrl);
   if (withSkAdNetworkParameters) {
@@ -97,12 +111,14 @@ static NSString *appStoreDisplay = @"https://localhost:9099/display/app-store";
   dependencyProvider.apiHandler = apiHandler;
 }
 
-- (void)injectBidWithExpectedCreativeUrl:(NSString *)creativeUrl {
-  [self injectBidWithExpectedCreativeUrl:creativeUrl withSkAdNetworkParameters:NO];
+- (void)injectBidWithExpectedCreativeUrl:(NSString *)creativeUrl forAdUnit:(CRAdUnit *)adUnit {
+  [self injectBidWithExpectedCreativeUrl:creativeUrl withSkAdNetworkParameters:NO forAdUnit:adUnit];
 }
 
-- (void)injectBidWithAppStoreClickUrl {
-  [self injectBidWithExpectedCreativeUrl:appStoreDisplay withSkAdNetworkParameters:YES];
+- (void)injectBidWithAppStoreClickUrl:(CRAdUnit *)adUnit {
+  [self injectBidWithExpectedCreativeUrl:appStoreDisplay
+               withSkAdNetworkParameters:YES
+                               forAdUnit:adUnit];
 }
 
 - (void)dealloc {
@@ -154,20 +170,23 @@ static NSString *appStoreDisplay = @"https://localhost:9099/display/app-store";
 }
 
 - (void)resetBannerView {
-  NSAssert(self.isBannerAdUnit, @"This can be called only when testing banners");
   [_bannerView removeFromSuperview];
   // NOTE: bannerView was created with frame (0; 50; w; h) because with (0; 0; ...) banner is
   // displayed wrong.
   // TODO: Find a way to render banner with (0;0; ...).
-  CRBannerAdUnit *adUnit = (CRBannerAdUnit *)self.adUnit;
-  CGSize size = adUnit.size;
-  _bannerView = [[CRBannerView alloc]
-      initWithFrame:CGRectMake(.0, 50.0, size.width, size.height)
-             criteo:self.criteo
-            webView:[[WKWebView alloc] initWithFrame:CGRectMake(.0, .0, size.width, size.height)]
-             adUnit:adUnit
-          urlOpener:[[CR_URLOpener alloc] init]];
-
+  if (self.adUnit == nil) {
+    _bannerView = [[CRBannerView alloc] init];
+  } else {
+    NSAssert(self.isBannerAdUnit, @"This can be called only when testing banners");
+    CRBannerAdUnit *adUnit = (CRBannerAdUnit *)self.adUnit;
+    CGSize size = adUnit.size;
+    _bannerView = [[CRBannerView alloc]
+        initWithFrame:CGRectMake(.0, 50.0, size.width, size.height)
+               criteo:self.criteo
+              webView:[[WKWebView alloc] initWithFrame:CGRectMake(.0, .0, size.width, size.height)]
+               adUnit:adUnit
+            urlOpener:[[CR_URLOpener alloc] init]];
+  }
   _bannerView.delegate = self;
   _bannerView.backgroundColor = UIColor.orangeColor;
   [_uiWindow.rootViewController.view addSubview:_bannerView];

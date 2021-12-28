@@ -47,12 +47,15 @@ class CriteoAdViewBuilder: AdViewBuilder {
   }
 
   private func buildBanner(_ adUnit: CRBannerAdUnit, _ criteo: Criteo) -> CRBannerView {
-    let adView = CRBannerView(adUnit: adUnit, criteo: criteo)!
-    adView.delegate = logger
+    var adView: CRBannerView
     switch adType {
     case .standalone:
+      adView = CRBannerView(adUnit: adUnit, criteo: criteo)!
+      adView.delegate = logger
       adView.loadAd(withContext: contextData)
     case .inHouse:
+      adView = CRBannerView()
+      adView.delegate = logger
       criteo.loadBid(for: adUnit, withContext: contextData) { maybeBid in
         if let bid = maybeBid {
           adView.loadAd(with: bid)
@@ -64,12 +67,15 @@ class CriteoAdViewBuilder: AdViewBuilder {
 
   private func buildInterstitial(_ adUnit: CRInterstitialAdUnit, _ criteo: Criteo) -> CRInterstitial
   {
-    let adView = CRInterstitial(adUnit: adUnit, criteo: criteo)!
-    adView.delegate = logger
+    var adView: CRInterstitial
     switch adType {
     case .standalone:
+      adView = CRInterstitial(adUnit: adUnit, criteo: criteo)!
+      adView.delegate = logger
       adView.loadAd(withContext: contextData)
     case .inHouse:
+      adView = CRInterstitial()
+      adView.delegate = logger
       criteo.loadBid(for: adUnit, withContext: contextData) { maybeBid in
         if let bid = maybeBid {
           adView.loadAd(with: bid)

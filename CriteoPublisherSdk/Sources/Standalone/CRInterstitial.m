@@ -59,6 +59,10 @@
   return self;
 }
 
+- (instancetype)init {
+  return [self initWithAdUnit:[CRInterstitialAdUnit alloc]];
+}
+
 - (instancetype)initWithAdUnit:(CRInterstitialAdUnit *)adUnit {
   return [self initWithAdUnit:adUnit criteo:[Criteo sharedCriteo]];
 }
@@ -177,7 +181,7 @@
     return;
   }
 
-  CR_CdbBid *cdbBid = bid.consume;
+  CR_CdbBid *cdbBid = [bid consumeFor:CRAdUnitTypeInterstitial];
   if (!cdbBid) {
     [self safelyNotifyAdLoadFail:CRErrorCodeNoFill];
     self.isAdLoading = NO;

@@ -21,6 +21,8 @@
 #define CRBid_Internal_h
 
 #import <CriteoPublisherSdk/CRBid.h>
+#import "CRAdUnit.h"
+#import "CRAdUnit+Internal.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -34,6 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) CR_CdbBid *_Nullable cdbBid;
 
 - (instancetype)initWithCdbBid:(CR_CdbBid *)cdbBid adUnit:(CRAdUnit *)adUnit;
+
+- (CR_CdbBid *)consumeFor:(CRAdUnitType)type;
 
 - (CR_CdbBid *_Nullable)consume;
 
