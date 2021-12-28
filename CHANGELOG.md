@@ -3,6 +3,9 @@
 
 ## Version 4.5.0
 
+### Features
+- **Google Ads**: add Rewarded ads support
+
 ### Fixes
  - **In house**: allow init of `CRBannerView` without specifying the adUnitId
 
