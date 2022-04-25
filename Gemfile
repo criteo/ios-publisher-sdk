@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 gem "cocoapods"
-gem "fastlane"
+gem "fastlane", '2.198.1'
 gem "iostrust"
 
 plugins_path = File.join(File.dirname(__FILE__), 'fastlane', 'Pluginfile')
