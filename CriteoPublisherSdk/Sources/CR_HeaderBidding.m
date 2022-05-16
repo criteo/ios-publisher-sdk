@@ -24,7 +24,6 @@
 #import "CR_NativeAssets.h"
 #import "CR_NativeProduct.h"
 #import "CRAdUnit+Internal.h"
-#import "CR_BidManagerHelper.h"
 #import "NSString+CriteoUrl.h"
 #import "CR_DisplaySizeInjector.h"
 #import "CR_IntegrationRegistry.h"
@@ -54,11 +53,6 @@
 - (void)detectIntegration:(id)adRequest {
   if ([self isDfpRequest:adRequest]) {
     [self.integrationRegistry declare:CR_IntegrationGamAppBidding];
-  } else if ([self isMoPubRequest:adRequest]) {
-    [self.integrationRegistry declare:CR_IntegrationMopubAppBidding];
-
-    // Reset the keywords in the request in case there is empty bid (EE-412).
-    [self removeCriteoBidsFromMoPubRequest:adRequest];
   } else if ([self isCustomRequest:adRequest]) {
     [self.integrationRegistry declare:CR_IntegrationCustomAppBidding];
   } else {
@@ -74,8 +68,6 @@
 
   if ([self isDfpRequest:adRequest]) {
     [self addCriteoBidToDfpRequest:adRequest withBid:bid adUnit:adUnit];
-  } else if ([self isMoPubRequest:adRequest]) {
-    [self addCriteoBidToMopubRequest:adRequest withBid:bid adUnit:adUnit];
   } else if ([self isCustomRequest:adRequest]) {
     [self addCriteoBidToDictionary:adRequest withBid:bid adUnit:adUnit];
   } else {
@@ -85,18 +77,6 @@
 }
 
 #pragma mark - Private
-
-- (void)removeCriteoBidsFromMoPubRequest:(id)adRequest {
-  NSAssert([self isMoPubRequest:adRequest], @"Given object isn't from MoPub API: %@", adRequest);
-  // For now, this method is a class method because it is used
-  // in NSObject+Criteo load for swizzling.
-  [CR_BidManagerHelper removeCriteoBidsFromMoPubRequest:adRequest];
-}
-
-- (BOOL)isMoPubRequest:(id)request {
-  return [self is:request kindOfClassByName:@"MPAdView"] ||
-         [self is:request kindOfClassByName:@"MPInterstitialAdController"];
-}
 
 - (BOOL)isCustomRequest:(id)request {
   return [request isKindOfClass:NSMutableDictionary.class];
@@ -235,65 +215,6 @@
       [adRequest performSelector:dfpSetCustomTargeting withObject:updatedDictionary];
       CRLogInfo(@"AppBidding", @"Enriching DFP request for Ad Unit: %@, set bid as: %@", adUnit,
                 updatedDictionary);
-#pragma clang diagnostic pop
-    }
-  }
-}
-
-- (void)addCriteoBidToMopubRequest:(id)adRequest
-                           withBid:(CR_CdbBid *)bid
-                            adUnit:(CR_CacheAdUnit *)adUnit {
-  [self removeCriteoBidsFromMoPubRequest:adRequest];
-  SEL mopubKeywords = NSSelectorFromString(@"keywords");
-  if ([adRequest respondsToSelector:mopubKeywords]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-    id targeting = [adRequest performSelector:mopubKeywords];
-
-    if (targeting == nil) {
-      targeting = @"";
-    }
-
-    if ([targeting isKindOfClass:[NSString class]]) {
-      NSString *displayUrl = bid.displayUrl;
-
-      // MoPub interstitial restrains itself to the safe area.
-      if (adUnit.adUnitType == CRAdUnitTypeInterstitial) {
-        displayUrl = [self.displaySizeInjector injectSafeScreenSizeInDisplayUrl:bid.displayUrl];
-      }
-      if (bid.isVideo) {
-        displayUrl = [displayUrl cr_urlEncode];
-      }
-
-      NSMutableString *keywords = [[NSMutableString alloc] initWithString:targeting];
-      if ([keywords length] > 0) {
-        [keywords appendString:@","];
-      }
-      [keywords appendString:CR_TargetingKey_crtCpm];
-      [keywords appendString:@":"];
-      [keywords appendString:bid.cpm];
-      [keywords appendString:@","];
-      [keywords appendString:CR_TargetingKey_crtDisplayUrl];
-      [keywords appendString:@":"];
-      [keywords appendString:displayUrl];
-
-      if (bid.isVideo) {
-        [keywords appendString:@","];
-        [keywords appendString:CR_TargetingKey_crtFormat];
-        [keywords appendString:@":"];
-        [keywords appendString:CR_TargetingValue_FormatVideo];
-      }
-
-      if (adUnit.adUnitType == CRAdUnitTypeBanner) {
-        NSString *sizeStr = [self stringSizeForBannerWithAdUnit:adUnit];
-        [keywords appendString:@","];
-        [keywords appendString:CR_TargetingKey_crtSize];
-        [keywords appendString:@":"];
-        [keywords appendString:sizeStr];
-      }
-      [adRequest setValue:keywords forKey:@"keywords"];
-      CRLogInfo(@"AppBidding", @"Enriching MoPub request for Ad Unit: %@, set bid as: %@", adUnit,
-                keywords);
 #pragma clang diagnostic pop
     }
   }

@@ -3,12 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		198CD02A344ACEC28DFD3FC1 /* MopubAdViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198CD514D8EC12FAA2A05967 /* MopubAdViewBuilder.swift */; };
-		198CD039922C1F7B3CDF8314 /* MopubLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 198CD671D01D703762C2CC20 /* MopubLogger.m */; };
 		198CD052283377223FCC725E /* GoogleAdViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198CDF9CA007F85D34B51EA5 /* GoogleAdViewBuilder.swift */; };
 		198CD1A2C254D0AA046AAE80 /* AdNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198CD830A58C6E2A29AE18D7 /* AdNetwork.swift */; };
 		198CD402321085699A33FEF8 /* StandaloneLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 198CD785D04E229CBDE9E544 /* StandaloneLogger.m */; };
@@ -66,13 +64,10 @@
 		198CD1615965A5E039286CB4 /* AdFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdFormat.swift; sourceTree = "<group>"; };
 		198CD20560ED9CCF03D83BF3 /* AdvancedNativeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvancedNativeView.swift; sourceTree = "<group>"; };
 		198CD20A4B30A50C6D562506 /* InterstitialUpdateDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterstitialUpdateDelegate.h; sourceTree = "<group>"; };
-		198CD514D8EC12FAA2A05967 /* MopubAdViewBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MopubAdViewBuilder.swift; sourceTree = "<group>"; };
-		198CD671D01D703762C2CC20 /* MopubLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MopubLogger.m; sourceTree = "<group>"; };
 		198CD785D04E229CBDE9E544 /* StandaloneLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StandaloneLogger.m; sourceTree = "<group>"; };
 		198CD830A58C6E2A29AE18D7 /* AdNetwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdNetwork.swift; sourceTree = "<group>"; };
 		198CDA0A7F408237FDF8C5E9 /* AdConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdConfig.swift; sourceTree = "<group>"; };
 		198CDB33AF8D5AFDA0670CE3 /* StandaloneLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StandaloneLogger.h; sourceTree = "<group>"; };
-		198CDBC606F70054B8627178 /* MopubLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MopubLogger.h; sourceTree = "<group>"; };
 		198CDF4848FDB0545CBB170C /* AdViewRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdViewRow.swift; sourceTree = "<group>"; };
 		198CDF8D630812D8072F12AB /* CriteoAdViewBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriteoAdViewBuilder.swift; sourceTree = "<group>"; };
 		198CDF9CA007F85D34B51EA5 /* GoogleAdViewBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleAdViewBuilder.swift; sourceTree = "<group>"; };
@@ -178,7 +173,6 @@
 				7D03F10623F1949900CB5D8B /* NativeAd */,
 				54B579122369CE09004DF616 /* Common */,
 				54B578EF23682A31004DF616 /* Standalone */,
-				54CAF8CF232C5E8B0050D8D9 /* MopubHB */,
 				25022DE6220A72D300FF8ACE /* Criteo */,
 				404AC9482196509E008C6267 /* GoogleDFP */,
 				4077EBD9218CB5C000C41E68 /* Splash */,
@@ -218,7 +212,6 @@
 				198CDA0A7F408237FDF8C5E9 /* AdConfig.swift */,
 				462A60752417E56900E36D33 /* AdViewBuilder.swift */,
 				198CDF9CA007F85D34B51EA5 /* GoogleAdViewBuilder.swift */,
-				198CD514D8EC12FAA2A05967 /* MopubAdViewBuilder.swift */,
 				198CDF8D630812D8072F12AB /* CriteoAdViewBuilder.swift */,
 				198CDF4848FDB0545CBB170C /* AdViewRow.swift */,
 				462A60722417DB5000E36D33 /* AdViewerViewController.swift */,
@@ -263,15 +256,6 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
-		54CAF8CF232C5E8B0050D8D9 /* MopubHB */ = {
-			isa = PBXGroup;
-			children = (
-				198CD671D01D703762C2CC20 /* MopubLogger.m */,
-				198CDBC606F70054B8627178 /* MopubLogger.h */,
-			);
-			path = MopubHB;
-			sourceTree = "<group>";
-		};
 		7D03F10623F1949900CB5D8B /* NativeAd */ = {
 			isa = PBXGroup;
 			children = (
@@ -313,8 +297,6 @@
 				4077EBA1218BC48300C41E68 /* Frameworks */,
 				4077EBA2218BC48300C41E68 /* Resources */,
 				54CAF8C6232C05B10050D8D9 /* Embed Frameworks */,
-				FBC468A9BBED60E159789B4F /* [CP] Copy Pods Resources */,
-				2B45685D137F1CA42263147A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -403,23 +385,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2B45685D137F1CA42263147A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CriteoAdViewer/Pods-CriteoAdViewer-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CriteoAdViewer/Pods-CriteoAdViewer-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CriteoAdViewer/Pods-CriteoAdViewer-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		CD19B3480BF07D422DEFCF36 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -442,23 +407,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FBC468A9BBED60E159789B4F /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CriteoAdViewer/Pods-CriteoAdViewer-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CriteoAdViewer/Pods-CriteoAdViewer-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CriteoAdViewer/Pods-CriteoAdViewer-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -474,13 +422,11 @@
 				462A60662417A6C100E36D33 /* GoogleDFPLogger.m in Sources */,
 				462A60762417E56900E36D33 /* AdViewBuilder.swift in Sources */,
 				46872655240EA31B0090489E /* LogManager.m in Sources */,
-				198CD039922C1F7B3CDF8314 /* MopubLogger.m in Sources */,
 				462A60732417DB5000E36D33 /* AdViewerViewController.swift in Sources */,
 				46505306256FE544007D9CE7 /* AppDelegate.swift in Sources */,
 				198CD402321085699A33FEF8 /* StandaloneLogger.m in Sources */,
 				198CDA414DD3208D6D93F1EC /* AdConfig.swift in Sources */,
 				198CD052283377223FCC725E /* GoogleAdViewBuilder.swift in Sources */,
-				198CD02A344ACEC28DFD3FC1 /* MopubAdViewBuilder.swift in Sources */,
 				198CD1A2C254D0AA046AAE80 /* AdNetwork.swift in Sources */,
 				198CDDAB5CB799E07E1DC055 /* AdFormat.swift in Sources */,
 				7DE88E5B248FA35B00F15D74 /* AdTableViewController.swift in Sources */,
@@ -661,7 +607,6 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/mopub-ios-sdk\"",
 					"$(SRCROOT)/**",
 					"$(PROJECT_DIR)/**",
 				);
@@ -702,7 +647,6 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/mopub-ios-sdk\"",
 					"$(SRCROOT)/**",
 					"$(PROJECT_DIR)/**",
 				);
@@ -735,7 +679,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"\"${PODS_ROOT}/Google-Mobile-Ads-SDK/Frameworks/frameworks\"",
-					"\"${PODS_ROOT}/mopub-ios-sdk/MoPubSDK/Viewability/MOAT\"",
 				);
 				INFOPLIST_FILE = UITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -761,7 +704,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"\"${PODS_ROOT}/Google-Mobile-Ads-SDK/Frameworks/frameworks\"",
-					"\"${PODS_ROOT}/mopub-ios-sdk/MoPubSDK/Viewability/MOAT\"",
 				);
 				INFOPLIST_FILE = UITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

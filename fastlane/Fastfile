@@ -15,14 +15,12 @@ default_platform(:ios)
 project_dir = "CriteoPublisherSdk"
 ad_viewer_dir = "CriteoAdViewer"
 adapter_google_dir = "CriteoGoogleAdapter"
-adapter_mopub_dir = "CriteoMoPubAdapter"
 
 platform :ios do
   desc %(Run tests: Run Unit & Functional tests with retries)
   lane :test do
     scan(scheme: "CriteoAdViewer")
     scan(scheme: "CriteoGoogleAdapter")
-    scan(scheme: "CriteoMoPubAdapter")
     multi_scan(
       workspace: "CriteoPublisherSdk.xcworkspace",
       scheme: "CriteoPublisherSdk",
@@ -37,7 +35,7 @@ platform :ios do
     run_clang_format(
       script_path: "tools/clang-format/run-clang-format.py",
       extensions: "h,m",
-      paths: [project_dir, ad_viewer_dir, adapter_google_dir, adapter_mopub_dir],
+      paths: [project_dir, ad_viewer_dir, adapter_google_dir],
       executable: "tools/clang-format/clang-format",
     )
     # FIXME swift-format check for CI enforcement
@@ -49,8 +47,7 @@ platform :ios do
     files = Dir.chdir("..") do
       Dir.glob("#{project_dir}/**/*.{h,m}") +
       Dir.glob("#{ad_viewer_dir}/**/*.{h,m}") +
-      Dir.glob("#{adapter_google_dir}/**/*.{h,m}") +
-      Dir.glob("#{adapter_mopub_dir}/**/*.{h,m}")
+      Dir.glob("#{adapter_google_dir}/**/*.{h,m}")
     end
 
     clang_format(
@@ -105,11 +102,6 @@ platform :ios do
       marketing_version: marketing_version,
       bundle_version: bundle_version,
       xcodeproj: "CriteoGoogleAdapter/CriteoGoogleAdapter.xcodeproj",
-    )
-    set_versions(
-      marketing_version: marketing_version,
-      bundle_version: bundle_version,
-      xcodeproj: "CriteoMoPubAdapter/CriteoMoPubAdapter.xcodeproj",
     )
     file_replace("CriteoPublisherSdk.podspec",
                  /(spec.version.*)".*"/, "\\1\"#{version}\"")

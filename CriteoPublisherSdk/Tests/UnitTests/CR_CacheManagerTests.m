@@ -40,6 +40,7 @@
 @property(strong) NSDictionary *impressionPixelDict2;
 @property(strong) NSDictionary *advertiserDict;
 @property(strong) NSDictionary *privacyDict;
+@property(strong) CR_DeviceInfo *originDeviceInfo;
 
 @end
 
@@ -123,6 +124,7 @@
   OCMStub(deviceInfo.screenSize).andReturn(CGSizeMake(50, 320));
   [self.cacheManager setBid:self.testBid];
   XCTAssertTrue([[self.cacheManager getBidForAdUnit:self.adUnit] isEqual:self.testBid]);
+  Criteo.sharedCriteo.dependencyProvider.deviceInfo = _originDeviceInfo;
 }
 
 - (void)testSetBidForNative {
@@ -158,6 +160,7 @@
   OCMStub(deviceInfo.screenSize).andReturn(CGSizeMake(50, 320));
   [self.cacheManager setBid:self.testBid];
   XCTAssertTrue([[self.cacheManager getBidForAdUnit:self.adUnit] isEqual:self.testBid]);
+  Criteo.sharedCriteo.dependencyProvider.deviceInfo = _originDeviceInfo;
 }
 
 - (void)testSetInvalidBid_ShouldNotSetBid {
@@ -212,8 +215,8 @@
 }
 
 - (CR_DeviceInfo *)mockDeviceInfo {
-  CR_DeviceInfo *realDeviceInfo = Criteo.sharedCriteo.dependencyProvider.deviceInfo;
-  CR_DeviceInfo *deviceInfo = OCMPartialMock(realDeviceInfo);
+  _originDeviceInfo = Criteo.sharedCriteo.dependencyProvider.deviceInfo;
+  CR_DeviceInfo *deviceInfo = OCMPartialMock(_originDeviceInfo);
   Criteo.sharedCriteo.dependencyProvider.deviceInfo = deviceInfo;
   return deviceInfo;
 }

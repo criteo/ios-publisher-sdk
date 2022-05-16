@@ -42,16 +42,5 @@ Pod::Spec.new do |spec|
     adapter.user_target_xcconfig  = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64 arm64e armv7 armv7s i386', 'EXCLUDED_ARCHS[sdk=iphoneos*]' => 'i386 x86_64' }
   end
 
-  spec.subspec "MoPubAdapter" do |adapter|
-    adapter.source_files     = "CriteoMoPubAdapter/Sources/**/*.{h,m}"
-    adapter.exclude_files    = "CriteoMoPubAdapter/Sources/CriteoMoPubAdapterTestApp"
-    adapter.dependency         "CriteoPublisherSdk/Sdk"
-    adapter.dependency         "mopub-ios-sdk", "~> 5.13"
-    adapter.ios.deployment_target = "10.0"
-
-    # Xcode 12 workaround: https://github.com/CocoaPods/CocoaPods/issues/10065
-    adapter.pod_target_xcconfig   = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64 arm64e armv7 armv7s', 'EXCLUDED_ARCHS[sdk=iphoneos*]' => 'i386 x86_64' }
-    adapter.user_target_xcconfig  = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64 arm64e armv7 armv7s', 'EXCLUDED_ARCHS[sdk=iphoneos*]' => 'i386 x86_64' }
-  end
 
 end

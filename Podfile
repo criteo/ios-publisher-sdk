@@ -8,22 +8,20 @@ end
 
 target 'CriteoPublisherSdkTests' do
   project 'CriteoPublisherSdk/CriteoPublisherSdk'
-  platform :ios, '10.0' # iOS 10 required by MoPub
+  platform :ios, '10.0'
 
   # Test libs
   pod 'OCMock', '~> 3.6'
   pod 'FunctionalObjC', '~> 1.0'
 
   # Third party SDKs
-  pod 'mopub-ios-sdk/Core'
   pod 'Google-Mobile-Ads-SDK'
 end
 
 target 'CriteoAdViewer' do
   project 'CriteoAdViewer/CriteoAdViewer'
-  platform :ios, '10.0' # iOS 10 required by MoPub
+  platform :ios, '10.0'
 
-  pod 'mopub-ios-sdk/Core'
   pod 'Google-Mobile-Ads-SDK'
   pod 'Eureka'
 end
@@ -43,27 +41,6 @@ target 'CriteoGoogleAdapterTests' do
 
   # Test libs
   pod 'OCMock', '~> 3.6'
-end
-
-target 'CriteoMoPubAdapter' do
-  project 'CriteoMoPubAdapter/CriteoMoPubAdapter'
-  platform :ios, '10.0' # iOS 10 required by MoPub
-
-  pod 'mopub-ios-sdk'
-end
-
-target 'CriteoMoPubAdapterTests' do
-  project 'CriteoMoPubAdapter/CriteoMoPubAdapter'
-
-  # Test libs
-  pod 'OCMock', '~> 3.6'
-end
-
-target 'CriteoMoPubAdapterTestApp' do
-  project 'CriteoMoPubAdapterTestApp/CriteoMoPubAdapterTestApp'
-  platform :ios, '10.0' # iOS 10 required by MoPub
-
-  pod 'mopub-ios-sdk'
 end
 
 # Development tools

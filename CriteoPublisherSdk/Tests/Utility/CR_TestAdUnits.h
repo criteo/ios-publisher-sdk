@@ -44,9 +44,6 @@
 @property(class, nonatomic, readonly) NSString *dfpInterstitialAdUnitId;
 @property(class, nonatomic, readonly) NSString *dfpNativeId;
 
-@property(class, nonatomic, readonly) NSString *mopubBanner50AdUnitId;
-@property(class, nonatomic, readonly) NSString *mopubInterstitialAdUnitId;
-
 @property(class, nonatomic, readonly) NSString *randomBannerAdUnitId;
 @property(class, nonatomic, readonly) NSString *randomInterstitialAdUnitId;
 @property(class, nonatomic, readonly) NSString *randomNativeAdUnitId;

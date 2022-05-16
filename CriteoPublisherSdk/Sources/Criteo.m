@@ -123,8 +123,8 @@ static dispatch_once_t onceToken;
   self.bidManager.consent.usPrivacyCriteoState = state;
 }
 
-- (void)setMopubConsent:(NSString *)mopubConsent {
-  self.bidManager.consent.mopubConsent = mopubConsent;
+- (void)setMopubConsent:(NSString *)mopubConsent __deprecated {
+  CRLogWarn(@"MoPub", @"The MoPub API usage is now deprecated and does nothing");
 }
 
 #pragma mark - User data

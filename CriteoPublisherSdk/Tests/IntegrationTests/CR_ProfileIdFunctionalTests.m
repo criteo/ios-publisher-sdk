@@ -36,8 +36,6 @@
 #import "CRNativeLoader+Internal.h"
 #import "CR_URLOpenerMock.h"
 #import "DFPRequestClasses.h"
-#import "MPAdView.h"
-#import "MPInterstitialAdController.h"
 #import "CRContextData.h"
 
 @interface CR_ProfileIdFunctionalTests : XCTestCase
@@ -240,24 +238,6 @@
   [self prepareUsedSdkWithInHouse:adUnit];
   [self expectAppBiddingIntegrationType:CR_IntegrationGamAppBidding
                  afterEnrichingAdObject:GAMRequest.new
-                              forAdUnit:adUnit];
-}
-
-- (void)testMopubAppBiddingBanner_GivenAnyPreviousIntegration_UseMopubAppBiddingProfileId {
-  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
-
-  [self prepareUsedSdkWithInHouse:adUnit];
-  [self expectAppBiddingIntegrationType:CR_IntegrationMopubAppBidding
-                 afterEnrichingAdObject:MPAdView.new
-                              forAdUnit:adUnit];
-}
-
-- (void)testMopubAppBiddingInterstitial_GivenAnyPreviousIntegration_UseCustomAppBiddingProfileId {
-  CRBannerAdUnit *adUnit = [CR_TestAdUnits preprodBanner320x50];
-
-  [self prepareUsedSdkWithInHouse:adUnit];
-  [self expectAppBiddingIntegrationType:CR_IntegrationMopubAppBidding
-                 afterEnrichingAdObject:MPInterstitialAdController.new
                               forAdUnit:adUnit];
 }
 

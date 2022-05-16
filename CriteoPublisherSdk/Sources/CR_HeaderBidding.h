@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Enrich and clean the header bidding requests with the Criteo Bid.
  *
- * It handles MoPub classes, Google Classes and NSMutableDictionary.
+ * It handles Google Classes and NSMutableDictionary.
  */
 @interface CR_HeaderBidding : NSObject
 

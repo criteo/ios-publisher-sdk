@@ -64,7 +64,6 @@
 @property(class, nonatomic, readonly) NSString *impId;
 @property(class, nonatomic, readonly) NSString *isTimeout;
 @property(class, nonatomic, readonly) NSString *trackingAuthorizationStatus;
-@property(class, nonatomic, readonly) NSString *mopubConsent;
 @property(class, nonatomic, readonly) NSString *profile_id;
 @property(class, nonatomic, readonly) NSString *profileId;
 @property(class, nonatomic, readonly) NSString *publisher;

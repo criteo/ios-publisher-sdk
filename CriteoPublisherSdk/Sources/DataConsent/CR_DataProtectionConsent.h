@@ -24,13 +24,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-FOUNDATION_EXTERN NSString *const CR_DataProtectionConsentMopubConsentKey;
 FOUNDATION_EXTERN NSString *const CR_DataProtectionConsentGivenKey;
 
 /**
  Aggregate logics regarding the privacy of the user.
 
- e.g GDPR, CCPA, Mopub consent, Criteo consent
+ e.g GDPR, CCPA consent, Criteo consent
  */
 @interface CR_DataProtectionConsent : NSObject
 
@@ -47,16 +46,8 @@ FOUNDATION_EXTERN NSString *const CR_DataProtectionConsentGivenKey;
 @property(readonly, nonatomic, nullable) NSNumber *trackingAuthorizationStatus;
 
 /**
- Store dedicated consent for mopub.
- Spec: https://go.crto.in/publisher-sdk-gdpr-mopub-cmp
- CDB: https://go.crto.in/publisher-sdk-cdb-mopub-consent
- */
-@property(nonatomic, copy) NSString *mopubConsent;
-
-/**
- Send events if the user didn't opt out from the Us Privacy or from MoPub.
+ Send events if the user didn't opt out from the Us Privacy.
  US Privacy: https://go.crto.in/publisher-sdk-ccpa
- Mopub:      https://go.crto.in/publisher-sdk-mopub-consent
  */
 @property(nonatomic, assign, readonly) BOOL shouldSendAppEvent;
 

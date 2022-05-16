@@ -107,8 +107,4 @@
   return @"uspIab";
 }
 
-+ (NSString *)mopubConsent {
-  return @"mopubConsent";
-}
-
 @end

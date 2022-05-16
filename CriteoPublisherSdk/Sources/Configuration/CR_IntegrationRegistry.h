@@ -26,10 +26,8 @@ typedef NS_ENUM(NSInteger, CR_IntegrationType) {
   CR_IntegrationStandalone = 295,
   CR_IntegrationInHouse = 296,
   // Mediation
-  CR_IntegrationMopubMediation = 297,
   CR_IntegrationAdmobMediation = 298,
   // AppBidding
-  CR_IntegrationMopubAppBidding = 299,
   CR_IntegrationGamAppBidding = 300,
   CR_IntegrationCustomAppBidding = 301
 };

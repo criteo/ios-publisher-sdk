@@ -109,10 +109,6 @@
     userDict[CR_ApiQueryKeys.uspCriteoOptout] = @YES;
   }  // else if unknown we add nothing.
 
-  if (consent.mopubConsent.length > 0) {
-    userDict[CR_ApiQueryKeys.mopubConsent] = consent.mopubConsent;
-  }
-
   userDict[CR_ApiQueryKeys.ext] = [CR_BidRequestSerializer mergeToNestedStructure:@[
     [self.internalContextProvider fetchInternalUserContext], self.userDataHolder.userData.data
   ]];

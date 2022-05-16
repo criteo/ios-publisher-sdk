@@ -25,7 +25,6 @@ FOUNDATION_EXPORT NSString *const NSUserDefaultsIntegrationKey;
 
 @interface CR_IntegrationRegistry (Testing)
 
-@property(nonatomic, readonly) BOOL isMoPubMediationPresent;
 @property(nonatomic, readonly) BOOL isAdMobMediationPresent;
 
 @end
@@ -78,8 +77,6 @@ FOUNDATION_EXPORT NSString *const NSUserDefaultsIntegrationKey;
   [self testProfileId_GivenPreviouslyDeclaredOne_ForIntegration:CR_IntegrationStandalone];
   [self testProfileId_GivenPreviouslyDeclaredOne_ForIntegration:CR_IntegrationInHouse];
   [self testProfileId_GivenPreviouslyDeclaredOne_ForIntegration:CR_IntegrationAdmobMediation];
-  [self testProfileId_GivenPreviouslyDeclaredOne_ForIntegration:CR_IntegrationMopubMediation];
-  [self testProfileId_GivenPreviouslyDeclaredOne_ForIntegration:CR_IntegrationMopubAppBidding];
   [self testProfileId_GivenPreviouslyDeclaredOne_ForIntegration:CR_IntegrationGamAppBidding];
   [self testProfileId_GivenPreviouslyDeclaredOne_ForIntegration:CR_IntegrationCustomAppBidding];
 }
@@ -100,15 +97,6 @@ FOUNDATION_EXPORT NSString *const NSUserDefaultsIntegrationKey;
   XCTAssertEqualObjects(profileId, @(CR_IntegrationInHouse));
 }
 
-- (void)testProfileId_GivenStandaloneDeclaredButMoPubMediationIsDetected_ReturnMoPubMediation {
-  OCMStub(self.integrationRegistry.isMoPubMediationPresent).andReturn(YES);
-
-  [self.integrationRegistry declare:CR_IntegrationStandalone];
-  NSNumber *profileId = self.integrationRegistry.profileId;
-
-  XCTAssertEqualObjects(profileId, @(CR_IntegrationMopubMediation));
-}
-
 - (void)testProfileId_GivenStandaloneDeclaredButAdMobMediationIsDetected_ReturnAdMobMediation {
   OCMStub(self.integrationRegistry.isAdMobMediationPresent).andReturn(YES);
 
@@ -116,23 +104,6 @@ FOUNDATION_EXPORT NSString *const NSUserDefaultsIntegrationKey;
   NSNumber *profileId = self.integrationRegistry.profileId;
 
   XCTAssertEqualObjects(profileId, @(CR_IntegrationAdmobMediation));
-}
-
-- (void)testProfileId_GivenBothMediationAdaptersDetected_ReturnFallback {
-  OCMStub(self.integrationRegistry.isMoPubMediationPresent).andReturn(YES);
-  OCMStub(self.integrationRegistry.isAdMobMediationPresent).andReturn(YES);
-
-  NSNumber *profileId = self.integrationRegistry.profileId;
-
-  XCTAssertEqualObjects(profileId, @(CR_IntegrationFallback));
-}
-
-- (void)testIsMoPubMediationPresent_GivenMoPubMediationNotInRuntime_ReturnNo {
-  // Assume that no adapters are present in this runtime
-
-  BOOL isPresent = self.integrationRegistry.isMoPubMediationPresent;
-
-  XCTAssertFalse(isPresent);
 }
 
 - (void)testIsAdMobMediationPresent_GivenAdMobMediationNotInRuntime_ReturnNo {

@@ -205,43 +205,6 @@
   XCTAssertFalse([actualConsent boolValue]);
 }
 
-#pragma mark - Mopub Consent
-
-- (void)
-    testGivenMopubConsentNOTSet_whenCriteoRegister_thenBidDoesntIncludeMopubConsentAndAppEventSent {
-  Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
-
-  [criteo testing_registerBannerAndWaitForHTTPResponses];
-
-  NSString *actualConsent = [self _mopubConsentInLastBidRequestWithCriteo:criteo];
-  XCTAssertNil(actualConsent);
-}
-
-- (void)
-    testGivenMopubConsentDeclined_whenCriteoRegister_thenBidIncludesMopubConsentAndAppEventNotSent {
-  NSString *expected = @"EXPLICIT_NO";
-  Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
-  [criteo setMopubConsent:expected];
-
-  [criteo testing_registerBanner];
-  [self _waitForBidAndConfurationOnlyWithCriteo:criteo];  // Don't wait for the app event call.
-
-  NSString *actualConsent = [self _mopubConsentInLastBidRequestWithCriteo:criteo];
-  XCTAssertEqualObjects(actualConsent, expected);
-  CR_AssertDoNotContainsAppEventRequest(criteo.testing_networkCaptor.allRequests);
-}
-
-- (void)testGivenMopubConsentGiven_whenCriteoRegister_thenBidIncludesMopubConsentAndAppEventSent {
-  NSString *expected = @"EXPLICIT_YES";
-  Criteo *criteo = [Criteo testing_criteoWithNetworkCaptor];
-  [criteo setMopubConsent:expected];
-
-  [criteo testing_registerBannerAndWaitForHTTPResponses];
-
-  NSString *actualConsent = [self _mopubConsentInLastBidRequestWithCriteo:criteo];
-  XCTAssertEqualObjects(actualConsent, expected);
-}
-
 #pragma mark - Private methods
 
 - (NSDictionary *)gdprInBidRequest {
@@ -252,12 +215,6 @@
 - (NSString *)appEventUrlString {
   CR_HttpContent *request = self.criteo.testing_lastAppEventHttpContent;
   return request.url.absoluteString;
-}
-
-- (NSString *)_mopubConsentInLastBidRequestWithCriteo:(Criteo *)criteo {
-  CR_HttpContent *bidRequest = criteo.testing_lastBidHttpContent;
-  NSString *actualConsent = bidRequest.requestBody[NSString.userKey][NSString.mopubConsent];
-  return actualConsent;
 }
 
 - (NSNumber *)_criteoUsPrivacyConsentInLastBidRequestWithCriteo:(Criteo *)criteo {
