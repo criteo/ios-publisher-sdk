@@ -1,13 +1,22 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
 
+## Version [NEXT]
+
+### Features
+- Remove MoPub header bidding support
+
+### MoPub Adapter
+- remove MoPub adapter support
+
+--------------------------------------------------------------------------------
 ## Version 4.5.0
 
 ### Features
 - **Google Ads**: add Rewarded ads support
 
 ### Fixes
- - **In house**: allow init of `CRBannerView` without specifying the adUnitId
+- **In house**: allow init of `CRBannerView` without specifying the adUnitId
 
 --------------------------------------------------------------------------------
 ## Version 4.4.0
@@ -124,7 +133,6 @@ pod clients, you can:
 [gh_releases]: https://github.com/criteo/ios-publisher-sdk/releases
 [use_frameworks]: https://guides.cocoapods.org/syntax/podfile.html#tab_use_frameworks_bang
 
---------------------------------------------------------------------------------
 ## Version 3.10.0
 
 ### Features

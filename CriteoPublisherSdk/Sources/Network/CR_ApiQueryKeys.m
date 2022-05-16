@@ -114,9 +114,6 @@
 + (NSString *)trackingAuthorizationStatus {
   return @"trackingAuthorizationStatus";
 }
-+ (NSString *)mopubConsent {
-  return @"mopubConsent";
-}
 + (NSString *)profileId {
   return @"profileId";
 }

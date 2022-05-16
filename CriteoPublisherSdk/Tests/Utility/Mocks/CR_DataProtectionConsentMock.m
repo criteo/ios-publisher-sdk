@@ -26,7 +26,6 @@ NSString *const CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString = @
 
 @interface CR_DataProtectionConsentMock ()
 
-@property(nonatomic, copy, nullable) NSString *mopubConsent_mock;
 @property(nonatomic, assign) CR_CcpaCriteoState criteoState_mock;
 
 @end
@@ -56,14 +55,6 @@ NSString *const CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString = @
 }
 
 #pragma mark - Override for avoiding NSUserDefaults
-
-- (NSString *)mopubConsent {
-  return self.mopubConsent_mock;
-}
-
-- (void)setMopubConsent:(NSString *)mopubConsent {
-  self.mopubConsent_mock = mopubConsent;
-}
 
 - (CR_CcpaCriteoState)usPrivacyCriteoState {
   return self.criteoState_mock;

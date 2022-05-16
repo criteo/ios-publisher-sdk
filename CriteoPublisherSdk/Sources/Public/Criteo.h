@@ -62,8 +62,10 @@ NS_ASSUME_NONNULL_BEGIN
 /** Set a custom opt-out/opt-in with same behaviour as the CCPA (US Privacy). */
 - (void)setUsPrivacyOptOut:(BOOL)usPrivacyOptOut;
 
-/** Set the privacy consent string owned by the Mopub SDK. */
-- (void)setMopubConsent:(NSString *)mopubConsent;
+/** Set the privacy consent string owned by the Mopub SDK.
+ @deprecated Mopub SDK is not supported anymore
+ */
+- (void)setMopubConsent:(NSString *)mopubConsent __deprecated;
 
 #pragma mark - User data
 
@@ -95,7 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * App bidding API, enrich your ad object with Criteo metadata
- * @param object The object to enrich, supports GAM and MoPub
+ * @param object The object to enrich, supports GAM
  * @param bid The bid obtained from Criteo
  */
 - (void)enrichAdObject:(id)object withBid:(CRBid *_Nullable)bid;

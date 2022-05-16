@@ -25,12 +25,9 @@
 #import "CR_Logging.h"
 #import "NSUserDefaults+Criteo.h"
 
-NSString *const CR_DataProtectionConsentMopubConsentKey = @"MopubConsent_String";
 NSString *const CR_DataProtectionConsentGivenKey = @"CRITEO_ConsentGiven";
 
 @interface CR_DataProtectionConsent ()
-
-@property(class, nonatomic, strong, readonly) NSArray<NSString *> *mopubConsentDeclinedStrings;
 
 @property(nonatomic, strong, readonly) NSUserDefaults *userDefaults;
 @property(nonatomic, strong, readonly) CR_Ccpa *ccpa;
@@ -39,10 +36,6 @@ NSString *const CR_DataProtectionConsentGivenKey = @"CRITEO_ConsentGiven";
 @end
 
 @implementation CR_DataProtectionConsent
-
-+ (NSArray<NSString *> *)mopubConsentDeclinedStrings {
-  return @[ @"EXPLICIT_NO", @"POTENTIAL_WHITELIST", @"DNT" ];
-}
 
 - (instancetype)init {
   return [self initWithUserDefaults:[NSUserDefaults standardUserDefaults]];
@@ -79,24 +72,7 @@ NSString *const CR_DataProtectionConsentGivenKey = @"CRITEO_ConsentGiven";
 }
 
 - (BOOL)shouldSendAppEvent {
-  if ([self _isMopubConsentDeclined]) {
-    return NO;
-  }
   return self.ccpa.isOptIn;
-}
-
-- (void)setMopubConsent:(NSString *)mopubConsent {
-  [self.userDefaults setObject:mopubConsent forKey:CR_DataProtectionConsentMopubConsentKey];
-  CRLogInfo(@"Consent", @"MoPub consent set: %@", mopubConsent);
-}
-
-- (NSString *)mopubConsent {
-  return [self.userDefaults objectForKey:CR_DataProtectionConsentMopubConsentKey];
-}
-
-- (BOOL)_isMopubConsentDeclined {
-  NSString *uppercases = [self.mopubConsent uppercaseString];
-  return [self.class.mopubConsentDeclinedStrings containsObject:uppercases];
 }
 
 #pragma mark Consent given

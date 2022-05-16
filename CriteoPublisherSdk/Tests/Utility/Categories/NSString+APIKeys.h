@@ -56,7 +56,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(copy, nonatomic, class, readonly) NSString *uspCriteoOptout;
 @property(copy, nonatomic, class, readonly) NSString *uspIabKey;
-@property(copy, nonatomic, class, readonly) NSString *mopubConsent;
 
 @end
 

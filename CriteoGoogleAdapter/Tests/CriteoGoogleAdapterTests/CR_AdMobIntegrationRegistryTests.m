@@ -24,15 +24,6 @@
 
 @implementation CR_AdMobIntegrationRegistryTests
 
-- (void)testIsMoPubMediationPresent_GivenThisAdapterInRuntime_ReturnNo {
-  id integrationRegistry = [self newIntegrationRegistry];
-
-  BOOL isPresent = [[integrationRegistry valueForKey:@"isMoPubMediationPresent"] boolValue];
-
-  XCTAssertNotNil(integrationRegistry);
-  XCTAssertFalse(isPresent);
-}
-
 - (void)testIsAdMobMediationPresent_GivenThisAdapterInRuntime_ReturnYes {
   id integrationRegistry = [self newIntegrationRegistry];
 

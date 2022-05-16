@@ -161,16 +161,6 @@
                               }]]);
 }
 
-- (void)testCriteoSetMoPubConsent_ShouldBeLogged {
-  NSString *mopubConsent = @"MoPubConsent";
-  [self.criteo setMopubConsent:mopubConsent];
-  OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
-                                return [logMessage.tag isEqualToString:@"Consent"] &&
-                                       [logMessage.message containsString:@"MoPub"] &&
-                                       [logMessage.message containsString:mopubConsent];
-                              }]]);
-}
-
 - (void)testInit_WhenTCFData_ShouldBeLogged {
   NSString *consentString = @"TestConsentString";
   [self.userDefaults setObject:@YES forKey:@"IABConsent_SubjectToGDPR"];

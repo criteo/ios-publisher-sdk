@@ -24,14 +24,11 @@
 
 #import <UIKit/UIKit.h>
 
-#import <MoPub.h>
-
 #import <CriteoPublisherSdk/CriteoPublisherSdk.h>
 #import "Criteo+Internal.h"
 
 #import "LogManager.h"
 #import "GoogleDFPLogger.h"
-#import "MopubLogger.h"
 #import "StandaloneLogger.h"
 
 #import "InterstitialUpdateDelegate.h"

@@ -17,7 +17,6 @@
 // limitations under the License.
 //
 
-#import <MoPub.h>
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
 
@@ -29,7 +28,6 @@
 #import "CR_HeaderBidding.h"
 #import "CR_Logging.h"
 #import "CR_DeviceInfoMock.h"
-#import "NSString+Testing.h"
 #import "NSString+CriteoUrl.h"
 #import "CR_DisplaySizeInjector.h"
 #import "CR_IntegrationRegistry.h"
@@ -68,7 +66,6 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 @interface CR_HeaderBidding (Testing)
 
 - (BOOL)isDfpRequest:(id)request;
-- (BOOL)isMoPubRequest:(id)request;
 
 @end
 
@@ -82,18 +79,6 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 @end
 
 @implementation MyGAMRequest
-@end
-
-@interface MyMPAdView : MPAdView
-@end
-
-@implementation MyMPAdView
-@end
-
-@interface MyMPInterstitialAdController : MPInterstitialAdController
-@end
-
-@implementation MyMPInterstitialAdController
 @end
 
 @interface CR_HeaderBiddingTests : XCTestCase
@@ -179,20 +164,6 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
 
   XCTAssertEqual(request.customTargeting.count, 0);
   OCMVerify([self.integrationRegistry declare:CR_IntegrationGamAppBidding]);
-}
-
-- (void)testEmptyBidWithMoPubRequest {
-  MPAdView *request = [[MPAdView alloc] init];
-  request.keywords = @"k:v";
-  [self.headerBidding detectIntegration:request];
-  [self.headerBidding enrichRequest:request withBid:[CR_CdbBid emptyBid] adUnit:self.adUnit1];
-  OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
-                                return [logMessage.tag isEqualToString:@"AppBidding"] &&
-                                       [logMessage.message containsString:@"No bid found"];
-                              }]]);
-
-  XCTAssertEqual(request.keywords.length, 3);
-  OCMVerify([self.integrationRegistry declare:CR_IntegrationMopubAppBidding]);
 }
 
 #pragma mark - Dictionary
@@ -388,139 +359,6 @@ typedef NS_ENUM(NSInteger, CR_DeviceOrientation) {
   XCTAssertNil(dfpTargeting[@"crtn_prtext"]);
   XCTAssertEqual(nativeBid.cpm, dfpTargeting[kCpmKey]);
   [self checkMandatoryNativeAssets:self.request nativeBid:nativeBid];
-}
-
-#pragma mark - Mopub
-
-- (void)testIsMoPubRequest_GivenMoPubView_ReturnTrue {
-  id request = MPAdView.new;
-
-  BOOL isMoPubRequest = [self.headerBidding isMoPubRequest:request];
-
-  XCTAssertTrue(isMoPubRequest);
-}
-
-- (void)testIsMoPubRequest_GivenSubClassOfMoPubView_ReturnTrue {
-  id request = MyMPAdView.new;
-
-  BOOL isMoPubRequest = [self.headerBidding isMoPubRequest:request];
-
-  XCTAssertTrue(isMoPubRequest);
-}
-
-- (void)testIsMoPubRequest_GivenMoPubInterstitial_ReturnTrue {
-  id request = MPInterstitialAdController.new;
-
-  BOOL isMoPubRequest = [self.headerBidding isMoPubRequest:request];
-
-  XCTAssertTrue(isMoPubRequest);
-}
-
-- (void)testIsMoPubRequest_GivenSubClassOfMoPubInterstitialRequest_ReturnTrue {
-  id request = MyMPInterstitialAdController.new;
-
-  BOOL isMoPubRequest = [self.headerBidding isMoPubRequest:request];
-
-  XCTAssertTrue(isMoPubRequest);
-}
-
-- (void)testIsMoPubRequest_GivenUnrelatedObject_ReturnFalse {
-  id request = NSObject.new;
-
-  BOOL isMoPubRequest = [self.headerBidding isMoPubRequest:request];
-
-  XCTAssertFalse(isMoPubRequest);
-}
-
-- (void)testMPInterstitialAdController {
-  MPInterstitialAdController *controller = [MPInterstitialAdController new];
-  NSDictionary *expected = @{kCpmKey : self.bid1.cpm, kDictionaryDisplayUrlKey : @"display.url"};
-
-  OCMStub([self.displaySizeInjector injectSafeScreenSizeInDisplayUrl:self.bid1.displayUrl])
-      .andReturn(@"display.url");
-  [self.headerBidding detectIntegration:controller];
-  [self.headerBidding enrichRequest:controller withBid:self.bid1 adUnit:self.interstitialAdUnit];
-
-  NSDictionary *keywords = [controller.keywords testing_moPubKeywordDictionary];
-  XCTAssertEqualObjects(keywords, expected);
-  OCMVerify([self.integrationRegistry declare:CR_IntegrationMopubAppBidding]);
-}
-
-- (void)testMPAdView {
-  MPAdView *request = [[MPAdView alloc] init];
-  request.keywords = @"key_1:object_1,key_2:object_2";
-  NSDictionary *expected = @{
-    @"key_1" : @"object_1",
-    @"key_2" : @"object_2",
-    kCpmKey : self.bid1.cpm,
-    kDictionaryDisplayUrlKey : self.bid1.displayUrl,
-    kSizeKey : @"300x250"
-  };
-  [self.headerBidding detectIntegration:request];
-  [self.headerBidding enrichRequest:request withBid:self.bid1 adUnit:self.adUnit1];
-  OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
-                                return [logMessage.tag isEqualToString:@"AppBidding"] &&
-                                       [logMessage.message containsString:@"MoPub"] &&
-                                       [logMessage.message containsString:@"crt_cpm:2.0"] &&
-                                       [logMessage.message
-                                           containsString:@"crt_displayUrl:https://publi"] &&
-                                       [logMessage.message containsString:@"crt_size:300x250"];
-                              }]]);
-
-  NSDictionary *keywords = [request.keywords testing_moPubKeywordDictionary];
-  XCTAssertEqualObjects(keywords, expected);
-  OCMVerify([self.integrationRegistry declare:CR_IntegrationMopubAppBidding]);
-}
-
-- (void)testLoadMopubInterstitial {
-  MPInterstitialAdController *request = [[MPInterstitialAdController alloc] init];
-  request.keywords = @"key_1:object_1,key_2:object_2";
-  [self.headerBidding detectIntegration:request];
-  [self.headerBidding enrichRequest:request withBid:self.bid1 adUnit:self.adUnit1];
-  NSDictionary *expected = @{
-    @"key_1" : @"object_1",
-    @"key_2" : @"object_2",
-    // No criteo data because it is remove once the request is loaded.
-  };
-
-  [request loadAd];
-
-  NSDictionary *keywords = [request.keywords testing_moPubKeywordDictionary];
-  XCTAssertEqualObjects(keywords, expected);
-}
-
-- (void)testDuplicateEnrichment {
-  MPInterstitialAdController *request = [[MPInterstitialAdController alloc] init];
-  request.keywords = @"key_1:object_1,key_2:object_2";
-  NSDictionary *expected = @{
-    @"key_1" : @"object_1",
-    @"key_2" : @"object_2",
-    kCpmKey : self.bid2.cpm,
-    kDictionaryDisplayUrlKey : @"display.url.2"
-  };
-
-  OCMStub([self.displaySizeInjector injectSafeScreenSizeInDisplayUrl:self.bid1.displayUrl])
-      .andReturn(@"display.url.1");
-  OCMStub([self.displaySizeInjector injectSafeScreenSizeInDisplayUrl:self.bid2.displayUrl])
-      .andReturn(@"display.url.2");
-  [self.headerBidding detectIntegration:request];
-
-  [self.headerBidding enrichRequest:request withBid:self.bid1 adUnit:self.interstitialAdUnit];
-  [self.headerBidding enrichRequest:request withBid:self.bid2 adUnit:self.interstitialAdUnit];
-
-  NSDictionary *keywords = [request.keywords testing_moPubKeywordDictionary];
-  XCTAssertEqualObjects(keywords, expected);
-}
-
-#pragma Remove Previous Keys
-
-- (void)testRemoveCriteoBidForMoPub {
-  MPAdView *request = [[MPAdView alloc] init];
-  request.keywords = @"crt_k1:v1,k:v2,crt_k2:v3";
-  [self.headerBidding detectIntegration:request];
-  [self.headerBidding enrichRequest:request withBid:[CR_CdbBid emptyBid] adUnit:self.adUnit2];
-
-  XCTAssertEqualObjects(request.keywords, @"k:v2");
 }
 
 #pragma mark - Sizes

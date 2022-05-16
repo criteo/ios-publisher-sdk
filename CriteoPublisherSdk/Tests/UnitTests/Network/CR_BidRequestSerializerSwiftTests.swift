@@ -143,15 +143,6 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
     XCTAssertEqual(user[NSString.uspCriteoOptout]!, true)
   }
 
-  func testBodyWithMopubConsent() {
-    consent.mopubConsent = "Privacy consent for mopub"
-
-    let body = generateBody()
-
-    let user: [String: AnyHashable] = body[NSString.userKey]! as! [String: AnyHashable]
-    XCTAssertEqual(user[NSString.mopubConsent]!, "Privacy consent for mopub")
-  }
-
   func testBodyWithContext() {
     context = CRContextData(dictionary: [
       "a.a": "foo",

@@ -69,7 +69,6 @@ struct AdNetwork: Equatable {
 
 struct AdNetworks {
   let google: AdNetwork
-  let moPub: AdNetwork
   let standalone: AdNetwork
   let inHouse: AdNetwork
   let all: [AdNetwork]
@@ -77,10 +76,9 @@ struct AdNetworks {
 
   init(controller: AdViewController) {
     self.google = googleNetwork(controller)
-    self.moPub = moPubNetwork(controller: controller)
     self.standalone = standaloneNetwork(controller)
     self.inHouse = inHouseNetwork(controller: controller)
-    self.all = [google, moPub, standalone, inHouse]
+    self.all = [google, standalone, inHouse]
   }
 }
 
@@ -109,28 +107,6 @@ private func googleNetwork(_ controller: AdViewController) -> AdNetwork {
       )
     ],
     adViewBuilder: GoogleAdViewBuilder(controller: controller))
-}
-
-let mopubBanner320x50AdUnitId = "bb0577af6858451d8191c2058fe59d03"
-
-private func moPubNetwork(controller: AdViewController) -> AdNetwork {
-  AdNetwork(
-    name: "Mopub",
-    supportedFormats: [
-      AdFormat.banner320x50,
-      AdFormat.banner300x250,
-      AdFormat.interstitial,
-      AdFormat.video,
-    ],
-    defaultAdUnits: [
-      AdFormat.banner320x50: mopubBanner320x50AdUnitId,
-      AdFormat.banner300x250: "69942486c90c4cd4b3c627ba613509a3",
-      AdFormat.interstitial: "966fbbf95ba24ab990e5f037cc674bbc",
-      AdFormat.video: "3e16381b52994475b18470d2ffcf360e",
-    ],
-    adViewBuilder: MopubAdViewBuilder(
-      controller: controller,
-      adUnitIdForAppInitialization: mopubBanner320x50AdUnitId))
 }
 
 private func standaloneNetwork(_ controller: AdViewController) -> AdNetwork {
