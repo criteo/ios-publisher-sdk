@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Ruby & Bundle setup
         uses: ruby/setup-ruby@v1
@@ -25,7 +25,7 @@ jobs:
           bundler-cache: true
 
       - name: Cocoapods cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: Pods
           key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
@@ -37,7 +37,7 @@ jobs:
           bundle exec fastlane run cocoapods
 
       - name: Setup Java 11
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '11'
@@ -57,7 +57,7 @@ jobs:
           bundle exec fastlane test
 
       - name: Tests reports upload
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: failure()
         with:
           name: tests-reports
