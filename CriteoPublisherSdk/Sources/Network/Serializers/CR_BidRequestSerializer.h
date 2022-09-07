@@ -46,7 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
                              consent:(CR_DataProtectionConsent *)consent
                               config:(CR_Config *)config
                           deviceInfo:(CR_DeviceInfo *)deviceInfo
-                             context:(CRContextData *)contextData;
+                             context:(CRContextData *)contextData
+              childDirectedTreatment:(NSNumber *_Nullable)childDirectedTreatment;
 
 #pragma mark - Private but unit-tested (To be refactored)
 

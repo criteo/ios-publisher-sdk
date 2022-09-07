@@ -32,6 +32,7 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
   var consent: CR_DataProtectionConsentMock = CR_DataProtectionConsentMock()
   var deviceInfo: CR_DeviceInfoMock = CR_DeviceInfoMock()
   var context = CRContextData()
+  var childDirectedTreatment: NSNumber?
 
   let userDefaults = CR_InMemoryUserDefaults()
   let testIntegrationType = CR_IntegrationType.gamAppBidding
@@ -123,8 +124,45 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
     XCTAssertEqual(publisher?["ext"], expected)
   }
 
-  private func generateBody() -> [AnyHashable: Any] {
-    return serializer.body(with: request, consent: consent, config: config, deviceInfo: deviceInfo, context: context)
+  func testBodyWithChildDirectedTreatment() {
+
+    var body: Dictionary<String, AnyHashable>
+    var regsDictionary: Dictionary<String, AnyHashable>
+    var childDirectedTreatmentFromBody: NSNumber
+
+    // case nil - undefined
+    childDirectedTreatment = nil
+    body = generateBody()
+    XCTAssertFalse(body.keys.contains(CR_ApiQueryKeys.regs))
+
+    // case false
+    childDirectedTreatment = NSNumber(value: false)
+    body = generateBody()
+    XCTAssertTrue(body.keys.contains(CR_ApiQueryKeys.regs))
+    do {
+      regsDictionary = try XCTUnwrap(body[CR_ApiQueryKeys.regs] as? Dictionary<String, AnyHashable>)
+      childDirectedTreatmentFromBody = try XCTUnwrap(regsDictionary[CR_ApiQueryKeys.coppa] as? NSNumber)
+      XCTAssertFalse(childDirectedTreatmentFromBody.boolValue)
+    } catch {
+      XCTFail("Test failed for childDirectedTreatment with value false!")
+    }
+
+    // case true
+    childDirectedTreatment = NSNumber(value: true)
+    body = generateBody()
+    XCTAssertTrue(body.keys.contains(CR_ApiQueryKeys.regs))
+    do {
+      regsDictionary = try XCTUnwrap(body[CR_ApiQueryKeys.regs] as? Dictionary<String, AnyHashable>)
+      childDirectedTreatmentFromBody = try XCTUnwrap(regsDictionary[CR_ApiQueryKeys.coppa] as? NSNumber)
+      XCTAssertTrue(childDirectedTreatmentFromBody.boolValue)
+    } catch {
+      XCTFail("Test failed for childDirectedTreatment with value true!")
+    }
+  }
+
+  private func generateBody() -> Dictionary<String, AnyHashable> {
+    let body = serializer.body(with: request, consent: consent, config: config, deviceInfo: deviceInfo, context: context, childDirectedTreatment: childDirectedTreatment)
+    return body as? Dictionary<String, AnyHashable> ?? [:]
   }
 }
 

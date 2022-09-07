@@ -35,6 +35,8 @@
 
 @implementation Criteo
 
+@dynamic childDirectedTreatment;
+
 #pragma mark - Lifecycle
 
 - (void)setup {
@@ -138,6 +140,14 @@ static dispatch_once_t onceToken;
 }
 
 #pragma mark - Bidding
+
+- (NSNumber *_Nullable)childDirectedTreatment {
+  return self.bidManager.childDirectedTreatment;
+}
+
+- (void)setChildDirectedTreatment:(NSNumber *_Nullable)childDirectedTreatment {
+  self.bidManager.childDirectedTreatment = childDirectedTreatment;
+}
 
 - (void)loadBidForAdUnit:(CRAdUnit *)adUnit responseHandler:(CRBidResponseHandler)responseHandler {
   [self loadBidForAdUnit:adUnit withContext:CRContextData.new responseHandler:responseHandler];

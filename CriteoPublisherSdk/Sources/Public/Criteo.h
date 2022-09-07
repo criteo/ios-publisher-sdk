@@ -74,6 +74,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Bidding
 
+/// Set to true if you think that your mobile app is intended specifically for children, so we treat
+/// bidding as child-directed in whole or in part for the purposes of the Children's Online Privacy
+/// Protection Act (COPPA).
+@property(nonatomic) NSNumber *_Nullable childDirectedTreatment;
+
 /**
  * Request asynchronously a bid from Criteo
  * @param adUnit The ad unit to request

@@ -38,7 +38,7 @@ class CR_ApiHandlerMock: CR_ApiHandler {
   var callCdbBeforeCdbResponseBlock: (() -> Void)?
   var callCdbCdbResponse: CR_CdbResponse?
 
-  override func callCdb(_ adUnits: [CR_CacheAdUnit]!, consent: CR_DataProtectionConsent!, config: CR_Config!, deviceInfo: CR_DeviceInfo!, context contextData: CRContextData!, beforeCdbCall: CR_BeforeCdbCall!, completionHandler: CR_CdbCompletionHandler!) {
+  override func callCdb(_ adUnits: [CR_CacheAdUnit]!, consent: CR_DataProtectionConsent!, config: CR_Config!, deviceInfo: CR_DeviceInfo!, context contextData: CRContextData!, childDirectedTreatment: NSNumber!, beforeCdbCall: CR_BeforeCdbCall!, completionHandler: CR_CdbCompletionHandler!) {
     callCdbWasCalled = true
     callCdbAdUnits = adUnits
     callCdbBeforeCdbResponseBlock?()

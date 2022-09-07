@@ -29,7 +29,7 @@ class AdViewerViewController: FormViewController {
 
   // MARK: form helper properties
   private enum Tags: String {
-    case network, type, size, display, ads, publisherId
+    case network, type, size, display, ads, publisherId, childDirectedTreatment
   }
 
   private enum DisplayMode: CustomStringConvertible {
@@ -43,6 +43,25 @@ class AdViewerViewController: FormViewController {
       switch self {
       case .onScreen: return "Below"
       case .newView: return "New View"
+      }
+    }
+  }
+
+  private enum ChildDirectedTreatment: CustomStringConvertible {
+
+    case absent
+    case active
+    case inactive
+
+    static func all() -> Array<ChildDirectedTreatment> {
+      return [.absent, .active, .inactive]
+    }
+
+    var description: String {
+      switch self {
+      case .absent: return "Absent"
+      case .active: return "True"
+      case .inactive: return "False"
       }
     }
   }
@@ -61,6 +80,9 @@ class AdViewerViewController: FormViewController {
   }
   private var display: DisplayMode? {
     self.values[Tags.display.rawValue] as? DisplayMode
+  }
+  private var childDirectedTreatment: ChildDirectedTreatment? {
+    self.values[Tags.childDirectedTreatment.rawValue] as? ChildDirectedTreatment
   }
 
   override func viewDidLoad() {
@@ -106,6 +128,13 @@ class AdViewerViewController: FormViewController {
         $0.onChange { _ in
           self.updateAdConfig()
         }
+      }
+      <<< SegmentedRow<ChildDirectedTreatment>(Tags.childDirectedTreatment.rawValue) {
+        $0.displayValueFor = { $0?.description }
+        $0.options = ChildDirectedTreatment.all()
+        $0.onChange { [weak self] _ in self?.updateChildDirectedTreatment() }
+        $0.title = "Coppa"
+        $0.value = $0.options?.first
       }
   }
 
@@ -170,6 +199,17 @@ class AdViewerViewController: FormViewController {
     if let adConfig = buildAdConfig() {
       self.adConfig = adConfig
       self.criteo = buildCriteo(adConfig: adConfig)
+    }
+  }
+
+  private func updateChildDirectedTreatment() {
+    switch childDirectedTreatment {
+    case .active:
+      criteo?.childDirectedTreatment = NSNumber(booleanLiteral: true)
+    case .inactive:
+      criteo?.childDirectedTreatment = NSNumber(booleanLiteral: false)
+    default:
+      criteo?.childDirectedTreatment = nil
     }
   }
 

@@ -72,7 +72,8 @@
                              consent:(CR_DataProtectionConsent *)consent
                               config:(CR_Config *)config
                           deviceInfo:(CR_DeviceInfo *)deviceInfo
-                             context:(CRContextData *)contextData {
+                             context:(CRContextData *)contextData
+              childDirectedTreatment:(NSNumber *)childDirectedTreatment {
   NSMutableDictionary *postBody = [NSMutableDictionary new];
   postBody[CR_ApiQueryKeys.sdkVersion] = config.sdkVersion;
   postBody[CR_ApiQueryKeys.profileId] = cdbRequest.profileId;
@@ -83,6 +84,11 @@
   postBody[CR_ApiQueryKeys.user] = [self userWithConsent:consent
                                                   config:config
                                               deviceInfo:deviceInfo];
+  if (childDirectedTreatment != nil) {
+    postBody[CR_ApiQueryKeys.regs] = [NSDictionary dictionaryWithObject:childDirectedTreatment
+                                                                 forKey:CR_ApiQueryKeys.coppa];
+  }
+
   return postBody;
 }
 

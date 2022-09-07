@@ -67,12 +67,13 @@ typedef void (^CR_LogsCompletionHandler)(NSError *error);
  * adUnit must have an Id, width and length.
  */
 - (void)callCdb:(CR_CacheAdUnitArray *)adUnits
-              consent:(CR_DataProtectionConsent *)consent
-               config:(CR_Config *)config
-           deviceInfo:(CR_DeviceInfo *)deviceInfo
-              context:(__unused CRContextData *)contextData
-        beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
-    completionHandler:(CR_CdbCompletionHandler)completionHandler;
+                   consent:(CR_DataProtectionConsent *)consent
+                    config:(CR_Config *)config
+                deviceInfo:(CR_DeviceInfo *)deviceInfo
+                   context:(__unused CRContextData *)contextData
+    childDirectedTreatment:(NSNumber *)childDirectedTreatment
+             beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
+         completionHandler:(CR_CdbCompletionHandler)completionHandler;
 
 /**
  * Builds the CDB response for given Data. This method is intended to mock responses.

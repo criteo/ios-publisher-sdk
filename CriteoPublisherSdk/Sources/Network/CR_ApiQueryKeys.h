@@ -19,6 +19,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface CR_ApiQueryKeys : NSObject
 
 @property(class, nonatomic, readonly) NSString *appId;
@@ -76,5 +78,11 @@
 @property(class, nonatomic, readonly) NSString *uspCriteoOptout;
 @property(class, nonatomic, readonly) NSString *wrapperVersion;
 @property(class, nonatomic, readonly) NSString *zoneId;
+@property(class, nonatomic, readonly) NSString *regs;
+
+/// Used to map childDirectedTreatment property.
+@property(class, nonatomic, readonly) NSString *coppa;
 
 @end
+
+NS_ASSUME_NONNULL_END

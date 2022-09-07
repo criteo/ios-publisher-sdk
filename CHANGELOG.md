@@ -5,6 +5,7 @@
 
 ### Features
 - Remove MoPub header bidding support
+- Add ability to set Children's Online Privacy Protection Act ("COPPA") flag
 
 ### MoPub Adapter
 - remove MoPub adapter support

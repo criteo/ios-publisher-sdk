@@ -159,5 +159,11 @@
 + (NSString *)zoneId {
   return @"zoneId";
 }
++ (NSString *)regs {
+  return @"regs";
+}
++ (NSString *)coppa {
+  return @"coppa";
+}
 
 @end
