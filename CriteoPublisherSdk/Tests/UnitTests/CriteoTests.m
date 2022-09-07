@@ -35,12 +35,15 @@
 #import "CRBannerAdUnit.h"
 #import "XCTestCase+Criteo.h"
 #import "CR_AdUnitHelper.h"
+#import "CR_NetworkManagerMock.h"
+#import "CR_ApiQueryKeys.h"
 
 @interface CriteoTests : XCTestCase
 
 @property(strong, nonatomic) Criteo *criteo;
 @property(strong, nonatomic) CR_IntegrationRegistry *integrationRegistry;
 @property(strong, nonatomic) CR_UserDataHolder *userDataHolder;
+@property(strong, nonatomic) CR_NetworkManagerMock *networkManagerMock;
 @property(strong, nonatomic) id loggingMock;
 @end
 
@@ -50,6 +53,10 @@
 
 - (void)setUp {
   CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
+
+  self.networkManagerMock = [CR_NetworkManagerMock new];
+  dependencyProvider.networkManager = self.networkManagerMock;
+
   self.integrationRegistry = dependencyProvider.integrationRegistry;
   self.userDataHolder = dependencyProvider.userDataHolder;
   self.loggingMock = OCMPartialMock(CR_Logging.sharedInstance);
@@ -203,6 +210,87 @@
   OCMVerify([self.criteo loadBidForAdUnit:adUnit
                               withContext:contextDataMock
                           responseHandler:OCMArg.any]);
+}
+
+- (void)testChildDirectedTreatment {
+  // case nil - undefined
+  XCTAssertNil(self.criteo.childDirectedTreatment);
+  XCTAssertNil([self.criteo bidManager].childDirectedTreatment);
+
+  // case false
+  self.criteo.childDirectedTreatment = @NO;
+  XCTAssertFalse([[self.criteo bidManager].childDirectedTreatment boolValue]);
+
+  // case true
+  self.criteo.childDirectedTreatment = @YES;
+  XCTAssertTrue([[self.criteo bidManager].childDirectedTreatment boolValue]);
+}
+
+- (void)testChildDirectedTreatmentNilCdbCall {
+  CRBannerAdUnit *adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"adUnit"
+                                                               size:CGSizeMake(320, 50)];
+
+  XCTAssertNil(self.criteo.childDirectedTreatment);
+  XCTestExpectation *expectationNil =
+      [self expectationWithDescription:
+                [NSString stringWithFormat:@"CDB call should not have a %@ key in the body.",
+                                           CR_ApiQueryKeys.regs]];
+  [self.criteo loadBidForAdUnit:adUnit
+                responseHandler:^(CRBid *_Nullable bid) {
+                  XCTAssertFalse([self.networkManagerMock.lastPostBody.allKeys
+                      containsObject:CR_ApiQueryKeys.regs]);
+                  [expectationNil fulfill];
+                }];
+
+  [self cr_waitForExpectations:@[ expectationNil ]];
+}
+
+- (void)testChildDirectedTreatmentFalseCdbCall {
+  CRBannerAdUnit *adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"adUnit"
+                                                               size:CGSizeMake(320, 50)];
+
+  self.criteo.childDirectedTreatment = @NO;
+  XCTestExpectation *expectationFalse =
+      [self expectationWithDescription:
+                [NSString stringWithFormat:@"CDB call should have a %@.%@ key in the body.",
+                                           CR_ApiQueryKeys.regs, CR_ApiQueryKeys.coppa]];
+  [self.criteo loadBidForAdUnit:adUnit
+                responseHandler:^(CRBid *_Nullable bid) {
+                  XCTAssertTrue([self.networkManagerMock.lastPostBody.allKeys
+                      containsObject:CR_ApiQueryKeys.regs]);
+                  NSDictionary *regsDictionary =
+                      self.networkManagerMock.lastPostBody[CR_ApiQueryKeys.regs];
+                  XCTAssertTrue([regsDictionary.allKeys containsObject:CR_ApiQueryKeys.coppa]);
+                  NSNumber *childDirectedTreatmentFromBody = regsDictionary[CR_ApiQueryKeys.coppa];
+                  XCTAssertEqual(childDirectedTreatmentFromBody, @NO);
+                  [expectationFalse fulfill];
+                }];
+
+  [self cr_waitForExpectations:@[ expectationFalse ]];
+}
+
+- (void)testChildDirectedTreatmentTrueCdbCall {
+  CRBannerAdUnit *adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"adUnit"
+                                                               size:CGSizeMake(320, 50)];
+
+  self.criteo.childDirectedTreatment = @YES;
+  XCTestExpectation *expectationTrue =
+      [self expectationWithDescription:
+                [NSString stringWithFormat:@"CDB call should have a %@.%@ key in the body.",
+                                           CR_ApiQueryKeys.regs, CR_ApiQueryKeys.coppa]];
+  [self.criteo loadBidForAdUnit:adUnit
+                responseHandler:^(CRBid *_Nullable bid) {
+                  XCTAssertTrue([self.networkManagerMock.lastPostBody.allKeys
+                      containsObject:CR_ApiQueryKeys.regs]);
+                  NSDictionary *regsDictionary =
+                      self.networkManagerMock.lastPostBody[CR_ApiQueryKeys.regs];
+                  XCTAssertTrue([regsDictionary.allKeys containsObject:CR_ApiQueryKeys.coppa]);
+                  NSNumber *childDirectedTreatmentFromBody = regsDictionary[CR_ApiQueryKeys.coppa];
+                  XCTAssertEqual(childDirectedTreatmentFromBody, @YES);
+                  [expectationTrue fulfill];
+                }];
+
+  [self cr_waitForExpectations:@[ expectationTrue ]];
 }
 
 #pragma mark - User data

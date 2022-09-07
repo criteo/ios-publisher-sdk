@@ -4,6 +4,7 @@
 //
 
 #import "CR_ApiHandler.h"
+#import "CR_ApiQueryKeys.h"
 #import "CR_BidManager.h"
 #import "CR_BidManager+Testing.h"
 #import "CR_BidRequestSerializer.h"

@@ -500,6 +500,7 @@
                                 config:[OCMArg any]
                             deviceInfo:[OCMArg any]
                                context:[OCMArg any]
+                childDirectedTreatment:[OCMArg any]
                          beforeCdbCall:beforeCdbCall
                      completionHandler:completion]);
 }
@@ -511,6 +512,7 @@
                                 config:[OCMArg any]
                             deviceInfo:[OCMArg any]
                                context:[OCMArg any]
+                childDirectedTreatment:[OCMArg any]
                          beforeCdbCall:beforeCdbCall
                      completionHandler:[OCMArg any]]);
 }

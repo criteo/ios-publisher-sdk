@@ -92,21 +92,23 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 
 // Wrapper method to make the cdb call async
 - (void)callCdb:(CR_CacheAdUnitArray *)adUnits
-              consent:(CR_DataProtectionConsent *)consent
-               config:(CR_Config *)config
-           deviceInfo:(CR_DeviceInfo *)deviceInfo
-              context:(CRContextData *)contextData
-        beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
-    completionHandler:(CR_CdbCompletionHandler)completionHandler {
+                   consent:(CR_DataProtectionConsent *)consent
+                    config:(CR_Config *)config
+                deviceInfo:(CR_DeviceInfo *)deviceInfo
+                   context:(CRContextData *)contextData
+    childDirectedTreatment:(NSNumber *)childDirectedTreatment
+             beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
+         completionHandler:(CR_CdbCompletionHandler)completionHandler {
   [self.threadManager dispatchAsyncOnGlobalQueue:^{
     @try {
       [self doCdbApiCall:adUnits
-                    consent:consent
-                     config:config
-                 deviceInfo:deviceInfo
-                    context:contextData
-              beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
-          completionHandler:completionHandler];
+                         consent:consent
+                          config:config
+                      deviceInfo:deviceInfo
+                         context:contextData
+          childDirectedTreatment:childDirectedTreatment
+                   beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
+               completionHandler:completionHandler];
     } @catch (NSException *exception) {
       CRLogException(@"BidRequest", exception, @"Failed requesting bid");
     }
@@ -115,12 +117,13 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 
 // Method that makes the actual call to CDB
 - (void)doCdbApiCall:(CR_CacheAdUnitArray *)adUnits
-              consent:(CR_DataProtectionConsent *)consent
-               config:(CR_Config *)config
-           deviceInfo:(CR_DeviceInfo *)deviceInfo
-              context:(CRContextData *)contextData
-        beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
-    completionHandler:(CR_CdbCompletionHandler)completionHandler {
+                   consent:(CR_DataProtectionConsent *)consent
+                    config:(CR_Config *)config
+                deviceInfo:(CR_DeviceInfo *)deviceInfo
+                   context:(CRContextData *)contextData
+    childDirectedTreatment:(NSNumber *)childDirectedTreatment
+             beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
+         completionHandler:(CR_CdbCompletionHandler)completionHandler {
   CR_CacheAdUnitArray *requestAdUnits = [self filterRequestAdUnitsAndSetProgressFlags:adUnits];
   if (requestAdUnits.count == 0) {
     return;
@@ -142,7 +145,8 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
                                                                consent:consent
                                                                 config:config
                                                             deviceInfo:deviceInfo
-                                                               context:contextData];
+                                                               context:contextData
+                                                childDirectedTreatment:childDirectedTreatment];
     [self.networkManager postToUrl:url
                               body:body
                         logWithTag:@"BidRequest"

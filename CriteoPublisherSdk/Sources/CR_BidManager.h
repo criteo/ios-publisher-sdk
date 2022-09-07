@@ -50,6 +50,7 @@
 @property(nonatomic, readonly) CR_Config *config;
 @property(nonatomic, strong) CR_DataProtectionConsent *consent;
 @property(nonatomic, strong) CR_ThreadManager *threadManager;
+@property(nonatomic, strong) NSNumber *childDirectedTreatment;
 
 #pragma mark - Lifecycle
 

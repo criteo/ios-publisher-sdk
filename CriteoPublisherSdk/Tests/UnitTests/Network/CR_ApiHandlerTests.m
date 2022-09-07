@@ -88,26 +88,27 @@
   CR_CdbBid *testBid_1 = [self buildEuroBid];
   XCTestExpectation *expectation = [self expectationWithDescription:@"CDB call expectation"];
 
-  [self.apiHandler
-                callCdb:@[ [self buildCacheAdUnit] ]
-                consent:self.consentMock
-                 config:self.configMock
-             deviceInfo:self.deviceInfoMock
-                context:self.contextData
-          beforeCdbCall:nil
-      completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
-        XCTAssertNil(nil);
-        XCTAssertNotNil(cdbResponse.cdbBids);
-        NSLog(@"Data length is %lu", (unsigned long)[cdbResponse.cdbBids count]);
-        XCTAssertEqual(1, [cdbResponse.cdbBids count]);
-        CR_CdbBid *receivedBid = cdbResponse.cdbBids[0];
-        XCTAssertEqualObjects(testBid_1.placementId, receivedBid.placementId);
-        XCTAssertEqualObjects(testBid_1.width, receivedBid.width);
-        XCTAssertEqualObjects(testBid_1.height, receivedBid.height);
-        XCTAssertEqualObjects(testBid_1.cpm, receivedBid.cpm);
-        XCTAssertEqual(testBid_1.ttl, receivedBid.ttl);
-        [expectation fulfill];
-      }];
+  [self.apiHandler callCdb:@[ [self buildCacheAdUnit] ]
+                     consent:self.consentMock
+                      config:self.configMock
+                  deviceInfo:self.deviceInfoMock
+                     context:self.contextData
+      childDirectedTreatment:nil
+               beforeCdbCall:nil
+           completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse,
+                               NSError *error) {
+             XCTAssertNil(nil);
+             XCTAssertNotNil(cdbResponse.cdbBids);
+             NSLog(@"Data length is %lu", (unsigned long)[cdbResponse.cdbBids count]);
+             XCTAssertEqual(1, [cdbResponse.cdbBids count]);
+             CR_CdbBid *receivedBid = cdbResponse.cdbBids[0];
+             XCTAssertEqualObjects(testBid_1.placementId, receivedBid.placementId);
+             XCTAssertEqualObjects(testBid_1.width, receivedBid.width);
+             XCTAssertEqualObjects(testBid_1.height, receivedBid.height);
+             XCTAssertEqualObjects(testBid_1.cpm, receivedBid.cpm);
+             XCTAssertEqual(testBid_1.ttl, receivedBid.ttl);
+             [expectation fulfill];
+           }];
 
   [self cr_waitForExpectations:@[ expectation ]];
 }
@@ -126,17 +127,18 @@
       [self expectationWithDescription:@"beforeCdbCall callback invoked"];
   CR_CacheAdUnit *adUnit = [self buildCacheAdUnit];
   [self.apiHandler callCdb:@[ adUnit ]
-                   consent:self.consentMock
-                    config:self.configMock
-                deviceInfo:self.deviceInfoMock
-                   context:self.contextData
-             beforeCdbCall:^(CR_CdbRequest *cdbRequest) {
-               XCTAssertNotNil(cdbRequest);
-               XCTAssertEqual(cdbRequest.adUnits.count, 1);
-               XCTAssertEqualObjects(cdbRequest.adUnits[0], adUnit);
-               [expectation fulfill];
-             }
-         completionHandler:nil];
+                     consent:self.consentMock
+                      config:self.configMock
+                  deviceInfo:self.deviceInfoMock
+                     context:self.contextData
+      childDirectedTreatment:nil
+               beforeCdbCall:^(CR_CdbRequest *cdbRequest) {
+                 XCTAssertNotNil(cdbRequest);
+                 XCTAssertEqual(cdbRequest.adUnits.count, 1);
+                 XCTAssertEqualObjects(cdbRequest.adUnits[0], adUnit);
+                 [expectation fulfill];
+               }
+           completionHandler:nil];
   [self cr_waitForExpectations:@[ expectation ]];
 }
 
@@ -170,32 +172,57 @@
   CR_CdbBid *testBid_1 = [self buildEuroBid];
   CR_CdbBid *testBid_2 = [self buildDollarBid];
   [apiHandler callCdb:@[ testAdUnit_1, testAdUnit_2 ]
-                consent:self.consentMock
-                 config:self.configMock
-             deviceInfo:self.deviceInfoMock
-                context:self.contextData
-          beforeCdbCall:nil
-      completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
-        XCTAssertNotNil(cdbResponse.cdbBids);
-        NSLog(@"Data length is %lu", (unsigned long)[cdbResponse.cdbBids count]);
-        XCTAssertEqual(2, [cdbResponse.cdbBids count]);
+                     consent:self.consentMock
+                      config:self.configMock
+                  deviceInfo:self.deviceInfoMock
+                     context:self.contextData
+      childDirectedTreatment:nil
+               beforeCdbCall:nil
+           completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse,
+                               NSError *error) {
+             XCTAssertNotNil(cdbResponse.cdbBids);
+             NSLog(@"Data length is %lu", (unsigned long)[cdbResponse.cdbBids count]);
+             XCTAssertEqual(2, [cdbResponse.cdbBids count]);
 
-        CR_CdbBid *receivedBid1 = cdbResponse.cdbBids[0];
-        XCTAssertEqualObjects(testBid_1.placementId, receivedBid1.placementId);
-        XCTAssertEqualObjects(testBid_1.width, receivedBid1.width);
-        XCTAssertEqualObjects(testBid_1.height, receivedBid1.height);
-        XCTAssertEqualObjects(testBid_1.cpm, receivedBid1.cpm);
-        XCTAssertEqual(testBid_1.ttl, receivedBid1.ttl);
+             CR_CdbBid *receivedBid1 = cdbResponse.cdbBids[0];
+             XCTAssertEqualObjects(testBid_1.placementId, receivedBid1.placementId);
+             XCTAssertEqualObjects(testBid_1.width, receivedBid1.width);
+             XCTAssertEqualObjects(testBid_1.height, receivedBid1.height);
+             XCTAssertEqualObjects(testBid_1.cpm, receivedBid1.cpm);
+             XCTAssertEqual(testBid_1.ttl, receivedBid1.ttl);
 
-        CR_CdbBid *receivedBid2 = cdbResponse.cdbBids[1];
-        XCTAssertEqualObjects(testBid_2.placementId, receivedBid2.placementId);
-        XCTAssertEqualObjects(testBid_2.width, receivedBid2.width);
-        XCTAssertEqualObjects(testBid_2.height, receivedBid2.height);
-        XCTAssertEqualObjects(testBid_2.cpm, receivedBid2.cpm);
-        XCTAssertEqual(testBid_2.ttl, receivedBid2.ttl);
+             CR_CdbBid *receivedBid2 = cdbResponse.cdbBids[1];
+             XCTAssertEqualObjects(testBid_2.placementId, receivedBid2.placementId);
+             XCTAssertEqualObjects(testBid_2.width, receivedBid2.width);
+             XCTAssertEqualObjects(testBid_2.height, receivedBid2.height);
+             XCTAssertEqualObjects(testBid_2.cpm, receivedBid2.cpm);
+             XCTAssertEqual(testBid_2.ttl, receivedBid2.ttl);
 
-        [expectation fulfill];
-      }];
+             [expectation fulfill];
+           }];
+  [self cr_waitForExpectations:@[ expectation ]];
+}
+
+- (void)testCallCdbWithChildDirectedTreatment {
+  XCTAssertNil([self networkManagerMock].lastPostBody[CR_ApiQueryKeys.regs][CR_ApiQueryKeys.coppa]);
+  XCTestExpectation *expectation =
+      [self expectationWithDescription:@"beforeCdbCall callback invoked"];
+
+  [self.apiHandler callCdb:@[ [self buildCacheAdUnit] ]
+                     consent:self.consentMock
+                      config:self.configMock
+                  deviceInfo:self.deviceInfoMock
+                     context:self.contextData
+      childDirectedTreatment:@YES
+               beforeCdbCall:nil
+           completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse,
+                               NSError *error) {
+             XCTAssertEqual([self networkManagerMock]
+                                .lastPostBody[CR_ApiQueryKeys.regs][CR_ApiQueryKeys.coppa],
+                            @YES);
+             [expectation fulfill];
+           }];
+
   [self cr_waitForExpectations:@[ expectation ]];
 }
 
@@ -255,12 +282,13 @@
   CR_ApiHandler *apiHandler = [self buildApiHandler];
 
   [apiHandler callCdb:@[ testAdUnit ]
-                consent:nil
-                 config:nil
-             deviceInfo:nil
-                context:nil
-          beforeCdbCall:nil
-      completionHandler:nil];
+                     consent:nil
+                      config:nil
+                  deviceInfo:nil
+                     context:nil
+      childDirectedTreatment:nil
+               beforeCdbCall:nil
+           completionHandler:nil];
 }
 
 - (void)testCDBInvokedWhenBidFetchNotInProgress {
@@ -282,12 +310,13 @@
   CR_ApiHandler *apiHandler = [self buildApiHandler];
 
   [apiHandler callCdb:@[ testAdUnit ]
-                consent:nil
-                 config:nil
-             deviceInfo:nil
-                context:self.contextData
-          beforeCdbCall:nil
-      completionHandler:nil];
+                     consent:nil
+                      config:nil
+                  deviceInfo:nil
+                     context:self.contextData
+      childDirectedTreatment:nil
+               beforeCdbCall:nil
+           completionHandler:nil];
   OCMVerifyAllWithDelay(mockBidFetchTracker, 1);
   OCMVerifyAllWithDelay(mockNetworkManager, 1);
 }
@@ -312,12 +341,13 @@
   CR_ApiHandler *apiHandler = [self buildApiHandler];
 
   [apiHandler callCdb:@[ testAdUnit ]
-                consent:nil
-                 config:nil
-             deviceInfo:nil
-                context:self.contextData
-          beforeCdbCall:nil
-      completionHandler:nil];
+                     consent:nil
+                      config:nil
+                  deviceInfo:nil
+                     context:self.contextData
+      childDirectedTreatment:nil
+               beforeCdbCall:nil
+           completionHandler:nil];
   OCMVerifyAllWithDelay(mockBidFetchTracker, 1);
 }
 
@@ -340,12 +370,13 @@
   CR_ApiHandler *apiHandler = [self buildApiHandler];
 
   [apiHandler callCdb:@[ testAdUnit ]
-                consent:nil
-                 config:nil
-             deviceInfo:nil
-                context:self.contextData
-          beforeCdbCall:nil
-      completionHandler:nil];
+                     consent:nil
+                      config:nil
+                  deviceInfo:nil
+                     context:self.contextData
+      childDirectedTreatment:nil
+               beforeCdbCall:nil
+           completionHandler:nil];
   OCMVerifyAllWithDelay(mockBidFetchTracker, 1);
 }
 
@@ -353,15 +384,16 @@
   self.networkManagerMock.respondingToPost = NO;
 
   for (int i = 1; i <= 3; i++) {
-    [self.apiHandler
-                  callCdb:@[ [self buildCacheAdUnit] ]
-                  consent:self.consentMock
-                   config:self.configMock
-               deviceInfo:self.deviceInfoMock
-                  context:self.contextData
-            beforeCdbCall:nil
-        completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error){
-        }];
+    [self.apiHandler callCdb:@[ [self buildCacheAdUnit] ]
+                       consent:self.consentMock
+                        config:self.configMock
+                    deviceInfo:self.deviceInfoMock
+                       context:self.contextData
+        childDirectedTreatment:nil
+                 beforeCdbCall:nil
+             completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse,
+                                 NSError *error){
+             }];
   }
 
   [self.threadManager waiter_waitIdle];
@@ -682,18 +714,19 @@
       initWithDescription:
           @"Expect that completionHandler is invoked when network error is occurred"];
 
-  [self.apiHandler
-                callCdb:@[ [self buildCacheAdUnit] ]
-                consent:nil
-                 config:nil
-             deviceInfo:nil
-                context:self.contextData
-          beforeCdbCall:nil
-      completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
-        XCTAssertNil(cdbResponse);
-        XCTAssertEqual(error, expectedError);
-        [expectation fulfill];
-      }];
+  [self.apiHandler callCdb:@[ [self buildCacheAdUnit] ]
+                     consent:nil
+                      config:nil
+                  deviceInfo:nil
+                     context:self.contextData
+      childDirectedTreatment:nil
+               beforeCdbCall:nil
+           completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse,
+                               NSError *error) {
+             XCTAssertNil(cdbResponse);
+             XCTAssertEqual(error, expectedError);
+             [expectation fulfill];
+           }];
 
   [self cr_waitForExpectations:@[ expectation ]];
 }
@@ -791,19 +824,20 @@
 
 - (void)callCdbWithCompletionHandler:(CR_CdbCompletionHandler)completionHandler {
   XCTestExpectation *expectation = [[XCTestExpectation alloc] init];
-  [self.apiHandler
-                callCdb:@[ [self buildCacheAdUnit] ]
-                consent:self.consentMock
-                 config:self.configMock
-             deviceInfo:self.deviceInfoMock
-                context:self.contextData
-          beforeCdbCall:nil
-      completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse, NSError *error) {
-        if (completionHandler) {
-          completionHandler(cdbRequest, cdbResponse, error);
-        }
-        [expectation fulfill];
-      }];
+  [self.apiHandler callCdb:@[ [self buildCacheAdUnit] ]
+                     consent:self.consentMock
+                      config:self.configMock
+                  deviceInfo:self.deviceInfoMock
+                     context:self.contextData
+      childDirectedTreatment:nil
+               beforeCdbCall:nil
+           completionHandler:^(CR_CdbRequest *cdbRequest, CR_CdbResponse *cdbResponse,
+                               NSError *error) {
+             if (completionHandler) {
+               completionHandler(cdbRequest, cdbResponse, error);
+             }
+             [expectation fulfill];
+           }];
   [self cr_waitForExpectations:@[ expectation ]];
 }
 

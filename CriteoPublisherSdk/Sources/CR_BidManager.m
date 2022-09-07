@@ -92,6 +92,8 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
     _threadManager = threadManager;
     _headerBidding = headerBidding;
     _remoteLogHandler = remoteLogHandler;
+    _childDirectedTreatment = nil;  // nil is default value -> basically the same as false, but
+                                    // can't be set false because it needs to be set explicitly
   }
 
   return self;
@@ -272,6 +274,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
         config:self->config
         deviceInfo:self->deviceInfo
         context:contextData
+        childDirectedTreatment:self.childDirectedTreatment
         beforeCdbCall:^(CR_CdbRequest *cdbRequest) {
           [self beforeCdbCall:cdbRequest];
         }
