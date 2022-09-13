@@ -224,6 +224,8 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
                      return responseHandler([self consumeBidFromCacheForAdUnit:adUnit]);
                    } else if (![self isSlotSilent:adUnit]) {
                      [self cacheBidsFromResponse:cdbResponse];
+                     // FIXME: Should return responseHandler().
+                     // Leaving it as for now because bid caching will be removed in the future.
                    }
                  });
                }];

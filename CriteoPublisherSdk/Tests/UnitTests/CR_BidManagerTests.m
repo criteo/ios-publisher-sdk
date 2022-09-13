@@ -794,7 +794,7 @@
   self.dependencyProvider.config.liveBiddingTimeBudget = 3;
 
   // Request a fast bid with 0.1s
-  XCTestExpectation *fastBidExpectation = [self bidExpectationWithDelay:.1];
+  XCTestExpectation *fastBidExpectation = [self bidExpectationWithDelay:0.1];
 
   [self cr_waitShortlyForExpectationsWithOrder:@[ fastBidExpectation, slowBidExpectation ]];
 }
@@ -915,8 +915,8 @@
                          responseHandler:^(CR_CdbBid *bid) {
                            [expectation fulfill];
                            XCTAssertEqualObjects(bid, expectedBid);
+                           CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
                          }];
-  CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
   return expectation;
 }
 
