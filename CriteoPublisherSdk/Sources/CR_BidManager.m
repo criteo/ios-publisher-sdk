@@ -109,11 +109,11 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
                     withContext:contextData
                 responseHandler:emptyAsNilResponseHandler];
   } else {
-    emptyAsNilResponseHandler([self getBidThenFetch:adUnit withContext:contextData]);
+    emptyAsNilResponseHandler([self getBidThenFetch:adUnit withContext:contextData responseHandler: responseHandler]); // TODO: uncomment this
   }
 }
 
-- (CR_CdbBid *)getBidThenFetch:(CR_CacheAdUnit *)slot withContext:(CRContextData *)contextData {
+- (CR_CdbBid *)getBidThenFetch:(CR_CacheAdUnit *)slot withContext:(CRContextData *)contextData responseHandler:(CR_CdbBidResponseHandler)responseHandler {
   CR_CdbBid *bid = nil;
   @try {
     bid = [self getBid:slot
@@ -125,10 +125,16 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
                if (bid == nil || bid.isRenewable) {
                  [self prefetchBidForAdUnit:slot withContext:contextData];
                }
+               if (responseHandler != nil) {
+                 responseHandler(bid);
+               }
              }];
            }];
   } @catch (NSException *exception) {
     CRLogException(@"Bidding", exception, @"Failed getting bid for adUnit: %@", slot);
+    if (responseHandler != nil) {
+      responseHandler(nil);
+    }
   }
   return bid;
 }

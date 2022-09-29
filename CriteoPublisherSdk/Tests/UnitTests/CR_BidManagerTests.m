@@ -155,120 +155,9 @@
 #pragma mark - Tests
 #pragma mark Cache Bidding
 
-- (void)testGetBidForCachedAdUnits {
-  CR_CdbBid *bid1 = [self.bidManager getBidThenFetch:self.adUnit1 withContext:self.contextData];
-  CR_CdbBid *bid2 = [self.bidManager getBidThenFetch:self.adUnit2 withContext:self.contextData];
-  CR_CdbBid *rewardedBid = [self.bidManager getBidThenFetch:self.adUnitRewarded
-                                                withContext:self.contextData];
 
-  XCTAssertEqualObjects(self.bid1, bid1);
-  XCTAssertEqualObjects(self.bid2, bid2);
-  XCTAssertEqualObjects(self.bidRewarded, rewardedBid);
-  CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
-  CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit2 ]);
-  CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnitRewarded ]);
-}
 
-- (void)testGetBidForUncachedAdUnit {
-  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnitUncached
-                                        withContext:self.contextData];
-
-  CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnitUncached ]);
-  XCTAssert(bid.isEmpty);
-}
-
-- (void)testGetEmptyBid {
-  OCMReject([self.cacheManager removeBidForAdUnit:self.adUnitForEmptyBid]);
-
-  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnitForEmptyBid
-                                        withContext:self.contextData];
-
-  CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnitForEmptyBid ]);
-  XCTAssert(bid.isEmpty);
-}
-
-- (void)testGetBidUncachedAdUnitInSilentMode {
-  self.bidManager = [self.dependencyProvider bidManager];
-  [self givenUserSilenced];
-
-  CR_OCMockRejectCallCdb(self.apiHandlerMock, @[ self.adUnitUncached ]);
-
-  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnitUncached
-                                        withContext:self.contextData];
-
-  XCTAssert(bid.isEmpty);
-}
-
-- (void)testGetEmptyBidForAdUnitInSilentMode {
-  self.bidManager = [self.dependencyProvider bidManager];
-  [self givenUserSilenced];
-
-  CR_OCMockRejectCallCdb(self.apiHandlerMock, @[ self.adUnitForEmptyBid ]);
-
-  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnitForEmptyBid
-                                        withContext:self.contextData];
-
-  XCTAssert(bid.isEmpty);
-}
-
-- (void)testGetBidWhenBeforeTimeToNextCall {
-  self.bidManager = [self.dependencyProvider bidManager];
-  self.bidManager.cdbTimeToNextCall =
-      [[NSDate dateWithTimeIntervalSinceNow:360] timeIntervalSinceReferenceDate];
-  self.cacheManager.bidCache[self.adUnit1] = self.bid1;
-  self.cacheManager.bidCache[self.adUnit2] = self.bid2;
-
-  CR_OCMockRejectCallCdb(self.apiHandlerMock, [OCMArg any]);
-
-  CR_CdbBid *bid1 = [self.bidManager getBidThenFetch:self.adUnit1 withContext:self.contextData];
-  CR_CdbBid *bid2 = [self.bidManager getBidThenFetch:self.adUnit2 withContext:self.contextData];
-
-  XCTAssertEqualObjects(self.bid1, bid1);
-  XCTAssertEqualObjects(self.bid2, bid2);
-}
-
-- (void)testGetBidForAdUnitInSilenceMode {
-  self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).silenced().build;
-  self.cacheManager.bidCache[self.adUnit1] = self.bid1;
-  CR_OCMockRejectCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
-
-  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnit1 withContext:self.contextData];
-
-  XCTAssert(bid.isEmpty);
-}
-
-- (void)testGetBidForBidWithSilencedModeElapsed {
-  self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).silenced().expired().build;
-  self.cacheManager.bidCache[self.adUnit1] = self.bid1;
-
-  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnit1 withContext:self.contextData];
-
-  XCTAssert(bid.isEmpty);
-  CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
-}
-
-- (void)testGetBidWhenNoBid {
-  self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).noBid().build;
-  self.cacheManager.bidCache[self.adUnit1] = self.bid1;
-
-  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnit1 withContext:self.contextData];
-
-  XCTAssertTrue(bid.isEmpty);
-  CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ self.adUnit1 ]);
-}
-
-- (void)testGetBidWhenBidExpired {
-  self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).expired().build;
-  self.cacheManager.bidCache[self.adUnit1] = self.bid1;
-
-  CR_CdbBid *bid = [self.bidManager getBidThenFetch:self.adUnit1 withContext:self.contextData];
-
-  XCTAssertTrue(bid.isEmpty);
-}
-
-- (void)testInitDoNotRefreshConfiguration {
-  OCMReject([self.configManagerMock refreshConfig:[OCMArg any]]);
-}
+// #######################################################################################################
 
 - (void)testGetBid_GivenLiveBiddingIsEnabled_ThenFetchLiveBid {
   CR_CdbBidResponseHandler responseHandler = ^(CR_CdbBid *bid) {
@@ -286,6 +175,10 @@
                            withContext:self.contextData
                        responseHandler:responseHandler];
 }
+
+// #######################################################################################################
+
+
 
 - (void)testGetBid_GivenLiveBiddingIsDisabled_ThenGetBidThenFetch {
   CR_CdbBidResponseHandler responseHandler = ^(CR_CdbBid *bid) {

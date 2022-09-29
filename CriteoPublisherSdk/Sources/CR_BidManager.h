@@ -107,6 +107,13 @@
 
 - (void)enrichAdObject:(id)object withBid:(CRBid *)bid;
 
+
+// MARK: - Testing
+
+@property(nonatomic) NSTimeInterval cdbTimeToNextCall;
+
+- (CR_CdbBid *)getBidThenFetch:(CR_CacheAdUnit *)slot withContext:(CRContextData *)contextData responseHandler:(CR_CdbBidResponseHandler)responseHandler;
+
 @end
 
 #endif /* BidManager_h */
