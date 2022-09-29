@@ -1,5 +1,5 @@
 //
-//  CR_ConfigManagerMock.swift
+//  CR_CdbResponseMock.swift
 //  CriteoPublisherSdkTests
 //
 //  Copyright © 2018-2022 Criteo. All rights reserved.
@@ -17,35 +17,30 @@
 // limitations under the License.
 //
 
-import CriteoPublisherSdk
+import Foundation
 
-class CR_ConfigManagerMock: CR_ConfigManager {
-
-
-  // MARK: - Life Cycle
-
-  convenience init(dependencyProvider: CR_DependencyProvider) {
-    self.init(apiHandler: dependencyProvider.apiHandler, integrationRegistry: dependencyProvider.integrationRegistry, deviceInfo: dependencyProvider.deviceInfo)
-  }
+class CR_CdbResponseMock: CR_CdbResponse {
 
 
   // MARK: - Overrides
 
-  var refreshConfigWasCalled = false
+  private var cdbBidsOverride: Array<CR_CdbBid>? = nil
 
-  override func refreshConfig(_ config: CR_Config) {
-    self.refreshConfig(config)
+  override var cdbBids: Array<CR_CdbBid> {
+    get {
+      return cdbBidsOverride ?? super.cdbBids
+    }
+    set {
+      super.cdbBids = newValue
+    }
   }
 }
-
 
 // MARK: - MockProtocol
 
-extension CR_ConfigManagerMock: MockProtocol {
+extension CR_CdbResponseMock: MockProtocol {
 
   func reset() {
-    refreshConfigWasCalled = false
+    cdbBidsOverride = nil
   }
 }
-
-

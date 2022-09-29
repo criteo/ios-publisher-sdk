@@ -109,7 +109,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
                     withContext:contextData
                 responseHandler:emptyAsNilResponseHandler];
   } else {
-    emptyAsNilResponseHandler([self getBidThenFetch:adUnit withContext:contextData responseHandler: responseHandler]); // TODO: uncomment this
+    emptyAsNilResponseHandler([self getBidThenFetch:adUnit withContext:contextData responseHandler: responseHandler]);
   }
 }
 

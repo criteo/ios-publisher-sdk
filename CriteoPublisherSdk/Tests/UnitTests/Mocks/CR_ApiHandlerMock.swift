@@ -34,11 +34,12 @@ class CR_ApiHandlerMock: CR_ApiHandler {
 
   var callCdbWasCalled = false
   var callCdbAdUnits: Array<CR_CacheAdUnit>?
+  var callCdbCdbResponse: CR_CdbResponse? = nil
 
   override func callCdb(_ adUnits: [CR_CacheAdUnit]!, consent: CR_DataProtectionConsent!, config: CR_Config!, deviceInfo: CR_DeviceInfo!, context contextData: CRContextData!, beforeCdbCall: CR_BeforeCdbCall!) async throws -> (CR_CdbRequest?, CR_CdbResponse?) {
     callCdbWasCalled = true
     callCdbAdUnits = adUnits
-    return (nil, nil)
+    return (nil, callCdbCdbResponse)
   }
 }
 
@@ -50,5 +51,6 @@ extension CR_ApiHandlerMock: MockProtocol {
   func reset() {
     callCdbWasCalled = false
     callCdbAdUnits = nil
+    callCdbCdbResponse = nil
   }
 }

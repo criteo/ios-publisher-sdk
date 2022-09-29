@@ -152,50 +152,7 @@
   [self.dependencyProvider.feedbackStorage popMessagesToSend];
 }
 
-#pragma mark - Tests
-#pragma mark Cache Bidding
 
-
-
-// #######################################################################################################
-
-- (void)testGetBid_GivenLiveBiddingIsEnabled_ThenFetchLiveBid {
-  CR_CdbBidResponseHandler responseHandler = ^(CR_CdbBid *bid) {
-    XCTAssertNil(bid);
-  };
-  self.bidManager = OCMPartialMock(self.bidManager);
-  self.dependencyProvider.config.liveBiddingEnabled = YES;
-
-  OCMExpect([self.bidManager fetchLiveBidForAdUnit:self.adUnit1
-                                       withContext:self.contextData
-                                   responseHandler:responseHandler]);
-  OCMReject([self.bidManager getBidThenFetch:self.adUnit1 withContext:self.contextData]);
-
-  [self.bidManager loadCdbBidForAdUnit:self.adUnit1
-                           withContext:self.contextData
-                       responseHandler:responseHandler];
-}
-
-// #######################################################################################################
-
-
-
-- (void)testGetBid_GivenLiveBiddingIsDisabled_ThenGetBidThenFetch {
-  CR_CdbBidResponseHandler responseHandler = ^(CR_CdbBid *bid) {
-    XCTAssertNil(bid);
-  };
-  self.bidManager = OCMPartialMock(self.bidManager);
-  self.dependencyProvider.config.liveBiddingEnabled = NO;
-
-  OCMExpect([self.bidManager getBidThenFetch:self.adUnit1 withContext:self.contextData]);
-  OCMReject([self.bidManager fetchLiveBidForAdUnit:self.adUnit1
-                                       withContext:self.contextData
-                                   responseHandler:responseHandler]);
-
-  [self.bidManager loadCdbBidForAdUnit:self.adUnit1
-                           withContext:self.contextData
-                       responseHandler:responseHandler];
-}
 
 #pragma mark - Live Bidding
 #pragma mark Helpers
@@ -232,12 +189,12 @@
   [self.bidManager fetchLiveBidForAdUnit:adUnit
                              withContext:self.contextData
                          responseHandler:^(CR_CdbBid *bid) {
-                           if (bidResponded) {
-                             XCTAssertEqualObjects(bid, bidResponded);
-                           } else {
-                             XCTAssertTrue(!bid || bid.isEmpty);
-                           }
-                         }];
+    if (bidResponded) {
+      XCTAssertEqualObjects(bid, bidResponded);
+    } else {
+      XCTAssertTrue(!bid || bid.isEmpty);
+    }
+  }];
   if (cdbCalled) {
     CR_OCMockVerifyCallCdb(self.apiHandlerMock, @[ adUnit ]);
   }
@@ -272,8 +229,7 @@
                            bidConsumed:bidResponded
                           bidResponded:bidResponded];
 }
-
-#pragma mark Basic
+// #######################################################################################################
 
 - (void)testLiveBid_GivenResponseBeforeTimeBudget_ThenBidFromResponseGiven {
   CR_CdbBid *liveBid = [self givenApiHandlerRespondValidImmediateBid];
@@ -284,6 +240,12 @@
 
   XCTAssertNotEqual(self.cacheManager.bidCache[self.adUnit1], liveBid);
 }
+
+// #######################################################################################################
+
+
+#pragma mark Basic
+
 
 - (void)testLiveBid_GivenResponseAfterTimeBudget_ThenBidFromCacheGiven {
   CR_CdbBid *liveBid = [self givenApiHandlerRespondValidImmediateBid];

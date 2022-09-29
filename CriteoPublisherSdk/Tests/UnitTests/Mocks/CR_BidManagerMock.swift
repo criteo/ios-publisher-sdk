@@ -35,13 +35,14 @@ class CR_BidManagerMock: CR_BidManager {
 
   override func fetchLiveBid(for adUnit: CR_CacheAdUnit!, withContext contextData: CRContextData!, responseHandler: CR_CdbBidResponseHandler!) {
     fetchLiveBidWasCalled = true
+    super.fetchLiveBid(for: adUnit, withContext: contextData, responseHandler: responseHandler)
   }
 
   var getBidThenFetchWasCalled = false
 
   override func getBidThenFetch(_ slot: CR_CacheAdUnit!, withContext contextData: CRContextData!, responseHandler: CR_CdbBidResponseHandler!) -> CR_CdbBid! {
     getBidThenFetchWasCalled = true
-    return nil
+    return super.getBidThenFetch(slot, withContext: contextData, responseHandler: responseHandler)
   }
 }
 
