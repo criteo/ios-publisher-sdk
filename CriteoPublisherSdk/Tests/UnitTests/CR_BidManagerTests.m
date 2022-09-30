@@ -229,6 +229,11 @@
                            bidConsumed:bidResponded
                           bidResponded:bidResponded];
 }
+
+
+#pragma mark Basic
+
+
 // #######################################################################################################
 
 - (void)testLiveBid_GivenResponseBeforeTimeBudget_ThenBidFromResponseGiven {
@@ -242,9 +247,6 @@
 }
 
 // #######################################################################################################
-
-
-#pragma mark Basic
 
 
 - (void)testLiveBid_GivenResponseAfterTimeBudget_ThenBidFromCacheGiven {
@@ -780,7 +782,9 @@
 }
 
 - (CR_CdbBid *)validImmediateCdbBidForAdUnit:(CR_CacheAdUnit *)adUnit {
-  return CR_CdbBidBuilder.new.adUnit(adUnit).immediate().build;
+  CR_CdbBid *toPrint = CR_CdbBidBuilder.new.adUnit(adUnit).immediate().build;
+  return toPrint;
+//  return CR_CdbBidBuilder.new.adUnit(adUnit).immediate().build;
 }
 
 - (CRBid *)validBid {

@@ -88,6 +88,12 @@ class CR_BidManagerTestsSwift: XCTestCase {
 
   lazy var dependencyProvider: CR_DependencyProvider = { return CR_DependencyProvider.testing() }()
 
+  lazy var feedbackDelegateMock: CR_FeedbackDelegateMock = {
+    let feedbackDelegateMock = CR_FeedbackDelegateMock()
+    dependencyProvider.feedbackDelegate = feedbackDelegateMock
+    return feedbackDelegateMock
+  }()
+
   lazy var synchronousThreadManager: CR_SynchronousThreadManager = {
     let synchronousThreadManager = CR_SynchronousThreadManager()
     dependencyProvider.threadManager = synchronousThreadManager
@@ -400,16 +406,71 @@ class CR_BidManagerTestsSwift: XCTestCase {
   //
   //  }
 
+  private func fetchLiveBid(adUnit: CR_CacheAdUnit, callCdbShouldBeCalled: Bool, bidCached: CR_CdbBid?, bidConsumed: CR_CdbBid?, bidResponded: CR_CdbBid?) -> XCTestExpectation {
+
+    let cacheManagerMockSetBidShouldBeCalled = bidCached != nil
+
+    let _ = feedbackDelegateMock
+    let feedbackDelegateMockOnBidCachedShouldBeCalled = bidCached != nil
+    let feedbackDelegateMockOnBidConsumedShouldBeCalled = bidConsumed != nil
+
+    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [weak self] bid in
+
+      fetchLiveBidExpectation.fulfill()
+
+      guard let selfUnwrapped = self else {
+        XCTFail("Self was nil inside \(#function)")
+        return
+      }
+
+      if let bidResponded = bidResponded {
+        XCTAssertEqual(bid, bidResponded)
+      } else {
+        XCTAssertTrue(bid?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil
+      }
+
+      if callCdbShouldBeCalled {
+        XCTAssertTrue(selfUnwrapped.apiHandlerMock.callCdbWasCalled)
+        XCTAssertEqual(selfUnwrapped.apiHandlerMock.callCdbAdUnits, [adUnit])
+      } else {
+        XCTAssertFalse(selfUnwrapped.apiHandlerMock.callCdbWasCalled)
+      }
+
+      if cacheManagerMockSetBidShouldBeCalled {
+        XCTAssertTrue(selfUnwrapped.cacheManagerMock.setBidWasCalled)
+      } else {
+        XCTAssertFalse(selfUnwrapped.cacheManagerMock.setBidWasCalled)
+      }
+
+      if feedbackDelegateMockOnBidCachedShouldBeCalled {
+        XCTAssertTrue(selfUnwrapped.feedbackDelegateMock.onBidCachedWasCalled)
+      } else {
+        XCTAssertFalse(selfUnwrapped.feedbackDelegateMock.onBidCachedWasCalled)
+      }
+
+      if feedbackDelegateMockOnBidConsumedShouldBeCalled {
+        XCTAssertTrue(selfUnwrapped.feedbackDelegateMock.onBidConsumedWasCalled)
+      } else {
+        XCTAssertFalse(selfUnwrapped.feedbackDelegateMock.onBidConsumedWasCalled)
+      }
+    }
+
+    return fetchLiveBidExpectation
+  }
+
 
   // MARK: - Tests for Live Bidding
 
+  /// Having an existing cached bid, when fetching a live bid, the expectation is to get a different bid than the initial cached bid.
   func testLiveBid_GivenResponseBeforeTimeBudget_ThenBidFromResponseGiven() {
 
-    dependencyProvider.cacheManager.bidCache[adUnit1] = bid1
+    cacheManagerMock.bidCache[adUnit1] = bid1
     cdbResponseMock.cdbBids = [bidImmediate1]
     synchronousThreadManager.isTimeout = false
 
-//    fetch
+    let fetchLiveBidExpectation = fetchLiveBid(adUnit: adUnit1, callCdbShouldBeCalled: true, bidCached: nil, bidConsumed: bidImmediate1, bidResponded: bidImmediate1)
+    wait(for: [fetchLiveBidExpectation], timeout: timeout)
 
     do {
       let cachedBid = try XCTUnwrap(dependencyProvider.cacheManager.bidCache[adUnit1] as? CR_CdbBid)

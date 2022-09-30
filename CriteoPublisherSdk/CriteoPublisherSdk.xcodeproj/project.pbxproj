@@ -341,6 +341,7 @@
 		DF367CE023307AFB0044807B /* NSString+Criteo.m in Sources */ = {isa = PBXBuildFile; fileRef = DF367CDD233079660044807B /* NSString+Criteo.m */; };
 		DF367CE5233087740044807B /* NSURL+Criteo.m in Sources */ = {isa = PBXBuildFile; fileRef = DF367CE22330864F0044807B /* NSURL+Criteo.m */; };
 		DF3E3D4123233936009E8CB5 /* NSArray+Criteo.m in Sources */ = {isa = PBXBuildFile; fileRef = DF3E3D3923232C80009E8CB5 /* NSArray+Criteo.m */; };
+		E324099F28E71403009ACF75 /* CR_FeedbackDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E324099E28E71403009ACF75 /* CR_FeedbackDelegateMock.swift */; };
 		E355111D28E1A26200A2C07D /* CR_BidManagerTestsSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = E355111B28E1A26200A2C07D /* CR_BidManagerTestsSwift.swift */; };
 		E355111F28E3353300A2C07D /* CR_ApiHandlerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E355111E28E3353300A2C07D /* CR_ApiHandlerMock.swift */; };
 		E355112228E3606600A2C07D /* CR_CacheManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E355112128E3606600A2C07D /* CR_CacheManagerMock.swift */; };
@@ -805,6 +806,7 @@
 		E1F273BA21C9733800A2FBFA /* CR_BidManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_BidManager.m; sourceTree = "<group>"; };
 		E1F273C021C9763E00A2FBFA /* CR_CacheManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_CacheManager.h; sourceTree = "<group>"; };
 		E1F273C121C9765100A2FBFA /* CR_CacheManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_CacheManager.m; sourceTree = "<group>"; };
+		E324099E28E71403009ACF75 /* CR_FeedbackDelegateMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_FeedbackDelegateMock.swift; sourceTree = "<group>"; };
 		E355111B28E1A26200A2C07D /* CR_BidManagerTestsSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_BidManagerTestsSwift.swift; sourceTree = "<group>"; };
 		E355111E28E3353300A2C07D /* CR_ApiHandlerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_ApiHandlerMock.swift; sourceTree = "<group>"; };
 		E355112128E3606600A2C07D /* CR_CacheManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_CacheManagerMock.swift; sourceTree = "<group>"; };
@@ -1673,6 +1675,7 @@
 				E355112128E3606600A2C07D /* CR_CacheManagerMock.swift */,
 				E37F067D28E5BFF0003C54C7 /* CR_CdbResponseMock.swift */,
 				E3CBBF1928E48E1D00622566 /* CR_ConfigManagerMock.swift */,
+				E324099E28E71403009ACF75 /* CR_FeedbackDelegateMock.swift */,
 				E3CBBF1B28E49A4700622566 /* MockProtocol.swift */,
 			);
 			path = Mocks;
@@ -2096,6 +2099,7 @@
 				7DB5F90E23AA2B2500EF5602 /* CR_NetworkWaiter.m in Sources */,
 				7D321B072472E9B0006CBC4E /* CR_HeaderBiddingDictionaryFunctionalTests.m in Sources */,
 				463791FF256D38A800DC65B4 /* UIView+CriteoTests.m in Sources */,
+				E324099F28E71403009ACF75 /* CR_FeedbackDelegateMock.swift in Sources */,
 				54680B7623969D5C00DB5A37 /* CR_IntegrationsTestBase.m in Sources */,
 				46328886256EB4AE001494FA /* CR_URLOpenerTests.m in Sources */,
 				7D60F459242CE8F4008F6260 /* CR_BidRequestSerializerTests.m in Sources */,

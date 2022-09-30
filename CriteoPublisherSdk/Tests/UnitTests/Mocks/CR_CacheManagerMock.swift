@@ -31,6 +31,12 @@ class CR_CacheManagerMock: CR_CacheManager {
     removeBidWasCalled = true
     super.removeBid(for: adUnit)
   }
+
+  var setBidWasCalled = false
+  override func setBid(_ bid: CR_CdbBid!) -> CR_CacheAdUnit! {
+    setBidWasCalled = true
+    return super.setBid(bid)
+  }
 }
 
 
@@ -40,5 +46,6 @@ extension CR_CacheManagerMock: MockProtocol {
 
   func reset() {
     removeBidWasCalled = false
+    setBidWasCalled = false
   }
 }

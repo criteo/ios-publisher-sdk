@@ -34,6 +34,7 @@ class CR_ConfigManagerMock: CR_ConfigManager {
   var refreshConfigWasCalled = false
 
   override func refreshConfig(_ config: CR_Config) {
+    refreshConfigWasCalled = true
     self.refreshConfig(config)
   }
 }
