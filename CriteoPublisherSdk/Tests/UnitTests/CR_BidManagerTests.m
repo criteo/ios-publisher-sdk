@@ -236,32 +236,6 @@
 
 // #######################################################################################################
 
-- (void)testLiveBid_GivenResponseBeforeTimeBudget_ThenBidFromResponseGiven {
-  CR_CdbBid *liveBid = [self givenApiHandlerRespondValidImmediateBid];
-  [self givenApiHandlerRespondBid:liveBid];
-  self.synchronousThreadManager.isTimeout = NO;
-
-  [self fetchLiveBidAndExpectBidCached:nil bidConsumed:liveBid bidResponded:liveBid];
-
-  XCTAssertNotEqual(self.cacheManager.bidCache[self.adUnit1], liveBid);
-}
-
-// #######################################################################################################
-
-
-- (void)testLiveBid_GivenResponseAfterTimeBudget_ThenBidFromCacheGiven {
-  CR_CdbBid *liveBid = [self givenApiHandlerRespondValidImmediateBid];
-  [self givenTimeBudgetExceeded];
-
-  [self fetchLiveBidAndExpectBidCached:liveBid bidConsumedAndResponded:self.bid1];
-}
-
-- (void)testLiveBid_GivenResponseError_ThenBidFromCacheGiven {
-  [self givenApiHandlerRespondError];
-
-  [self fetchLiveBidAndExpectBidCached:nil bidConsumedAndResponded:self.bid1];
-}
-
 - (void)testLiveBid_GivenResponseAfterTimeBudgetAndNoBidInCache_ThenNoBidGiven {
   CR_CdbBid *liveBid = [self givenApiHandlerRespondValidBid];
   [self givenTimeBudgetExceeded];
@@ -271,6 +245,12 @@
                   bidConsumed:nil
                  bidResponded:nil];
 }
+
+// #######################################################################################################
+
+
+
+
 
 - (void)testLiveBid_GivenResponseErrorAfterTimeBudgetAndNoBidInCache_ThenNoBidGiven {
   [self givenApiHandlerRespondError];
