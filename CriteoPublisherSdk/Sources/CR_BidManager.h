@@ -114,6 +114,8 @@
 
 - (CR_CdbBid *)getBidThenFetch:(CR_CacheAdUnit *)slot withContext:(CRContextData *)contextData responseHandler:(CR_CdbBidResponseHandler)responseHandler;
 
+- (BOOL)isInSilenceMode;
+
 @end
 
 #endif /* BidManager_h */

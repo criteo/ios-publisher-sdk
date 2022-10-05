@@ -231,210 +231,14 @@
 }
 
 
-#pragma mark Basic
-
-
-// #######################################################################################################
-
-- (void)testLiveBid_GivenResponseAfterTimeBudgetAndNoBidInCache_ThenNoBidGiven {
-  CR_CdbBid *liveBid = [self givenApiHandlerRespondValidBid];
-  [self givenTimeBudgetExceeded];
-
-  [self fetchLiveBidForAdUnit:self.adUnitForEmptyBid
-           andExpectBidCached:liveBid
-                  bidConsumed:nil
-                 bidResponded:nil];
-}
-
-// #######################################################################################################
-
-
-
-
-
-- (void)testLiveBid_GivenResponseErrorAfterTimeBudgetAndNoBidInCache_ThenNoBidGiven {
-  [self givenApiHandlerRespondError];
-  [self givenTimeBudgetExceeded];
-
-  [self fetchLiveBidForAdUnit:self.adUnitForEmptyBid
-           andExpectBidCached:nil
-                  bidConsumed:nil
-                 bidResponded:nil];
-}
-
-- (void)testLiveBid_GivenResponseErrorAndNoBidInCache_ThenNoBidGiven {
-  [self givenApiHandlerRespondError];
-
-  [self fetchLiveBidForAdUnit:self.adUnitForEmptyBid
-           andExpectBidCached:nil
-                  bidConsumed:nil
-                 bidResponded:nil];
-}
-
-- (void)testLiveBid_GivenResponseAfterTimeBudgetAndExpiredBidInCache_ThenNoBidGiven {
-  self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).expired().build;
-  self.cacheManager.bidCache[self.adUnit1] = self.bid1;
-
-  CR_CdbBid *liveBid = [self givenApiHandlerRespondValidBid];
-  [self givenTimeBudgetExceeded];
-
-  [self fetchLiveBidAndExpectBidCached:liveBid bidConsumed:self.bid1 bidResponded:nil];
-}
-
-- (void)testLiveBid_GivenResponseErrorAndExpiredBidInCache_ThenNoBidGiven {
-  self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).expired().build;
-  self.cacheManager.bidCache[self.adUnit1] = self.bid1;
-
-  [self givenApiHandlerRespondError];
-
-  [self fetchLiveBidAndExpectBidCached:nil bidConsumed:self.bid1 bidResponded:nil];
-}
-
-- (void)testLiveBid_GivenResponseErrorAfterTimeBudgetAndExpiredBidInCache_ThenNoBidGiven {
-  self.bid1 = CR_CdbBidBuilder.new.adUnit(self.adUnit1).expired().build;
-  self.cacheManager.bidCache[self.adUnit1] = self.bid1;
-
-  [self givenApiHandlerRespondError];
-  [self givenTimeBudgetExceeded];
-
-  [self fetchLiveBidAndExpectBidCached:nil bidConsumed:self.bid1 bidResponded:nil];
-}
-
 #pragma mark Silent user
-
-- (void)testLiveBid_GivenSilentMode_ThenCdbNotCalled_AndNoResponseGiven {
-  [self givenUserSilenced];
-
-  [self fetchLiveBidForAdUnit:self.adUnitForEmptyBid
-             andExpectCdbCall:NO
-                    bidCached:nil
-                  bidConsumed:nil
-                 bidResponded:nil];
-}
-
-- (void)testLiveBid_GivenSilentModeAndValidBidInCache_ThenCdbNotCalled_AndResponseGiven {
-  [self givenUserSilenced];
-
-  [self fetchLiveBidForAdUnit:self.adUnit1
-             andExpectCdbCall:NO
-                    bidCached:nil
-                  bidConsumed:self.bid1
-                 bidResponded:self.bid1];
-}
-
-- (void)testLiveBid_GivenSilentModeAndExpiredBidInCache_ThenCdbNotCalled_AndNoResponseGiven {
-  [self givenUserSilenced];
-  CR_CdbBid *expiredBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).expired().build;
-  self.bid1 = expiredBid;
-  self.cacheManager.bidCache[self.adUnit1] = self.bid1;
-
-  [self fetchLiveBidForAdUnit:self.adUnit1
-             andExpectCdbCall:NO
-                    bidCached:nil
-                  bidConsumed:expiredBid
-                 bidResponded:nil];
-}
-
-- (void)testLiveBid_GivenSilentModeAndNoBidInCache_ThenCdbNotCalled_AndNoResponseGiven {
-  [self givenUserSilenced];
-  CR_CdbBid *noBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).noBid().build;
-  self.bid1 = noBid;
-  self.cacheManager.bidCache[self.adUnit1] = self.bid1;
-
-  [self fetchLiveBidForAdUnit:self.adUnit1
-             andExpectCdbCall:NO
-                    bidCached:nil
-                  bidConsumed:noBid
-                 bidResponded:nil];
-}
-
-- (void)testLiveBid_GivenSilentModeAndEmptyCache_ThenCdbNotCalled_AndNoResponseGiven {
-  [self givenUserSilenced];
-
-  [self fetchLiveBidForAdUnit:self.adUnitForEmptyBid
-             andExpectCdbCall:NO
-                    bidCached:nil
-                  bidConsumed:nil
-                 bidResponded:nil];
-}
-
-- (void)testLiveBid_GivenSilentModeAndSilentBidInCache_ThenCdbNotCalled_AndNoResponseGiven {
-  [self givenUserSilenced];
-  CR_CdbBid *silentBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).silenced().build;
-  self.bid1 = silentBid;
-  self.cacheManager.bidCache[self.adUnit1] = self.bid1;
-
-  [self fetchLiveBidForAdUnit:self.adUnitForEmptyBid
-             andExpectCdbCall:NO
-                    bidCached:nil
-                  bidConsumed:nil
-                 bidResponded:nil];
-
-  XCTAssertEqual(self.cacheManager.bidCache[self.adUnit1], silentBid);
-}
-
-- (void)testLiveBid_GivenExpiredSilentMode_ThenCdbCalled_AndResponseGiven {
-  // Expired user silent, 1s before now
-  self.bidManager.cdbTimeToNextCall =
-      [[NSDate dateWithTimeIntervalSinceNow:-1] timeIntervalSinceReferenceDate];
-
-  [self fetchLiveBidAndExpectBidCached:nil bidConsumed:nil bidResponded:self.bid1];
-}
-
-- (void)testLiveBid_GivenResponseErrorAndSilentModeAndValidBidInCache_ThenResponseGiven {
-  [self givenApiHandlerRespondError:NSError.new
-              doingBeforeResponding:^{
-                [self givenUserSilenced];
-              }];
-
-  [self fetchLiveBidAndExpectBidCached:nil bidConsumedAndResponded:self.bid1];
-}
 
 - (void)givenApiHandlerRespondWithUserSilence {
   CR_CdbResponse *cdbResponseMock = OCMClassMock(CR_CdbResponse.class);
   OCMStub(cdbResponseMock.timeToNextCall).andReturn(123);
   [self givenApiHandlerRespond:cdbResponseMock
          doingBeforeResponding:^{
-         }];
-}
-
-- (void)testLiveBid_GivenSilentUserResponse_ThenUserSilenceUpdated {
-  [self givenApiHandlerRespondWithUserSilence];
-
-  [self fetchLiveBidForAdUnit:self.adUnit1];
-
-  XCTAssertTrue(self.bidManager.isInSilenceMode);
-}
-
-- (void)testLiveBid_GivenSilentUserResponseAfterTimeBudget_ThenUserSilenceUpdated {
-  [self givenApiHandlerRespondWithUserSilence];
-  [self givenTimeBudgetExceeded];
-
-  [self fetchLiveBidForAdUnit:self.adUnit1];
-
-  XCTAssertTrue(self.bidManager.isInSilenceMode);
-}
-
-- (void)testLiveBid_GivenNotSilentUserResponse_ThenUserSilenceNotUpdated {
-  [self givenApiHandlerRespondBid:[self validCdbBidForAdUnit:self.adUnit1]
-            doingBeforeResponding:^{
-              [self givenUserSilenced];
-            }];
-
-  [self fetchLiveBidForAdUnit:self.adUnit1];
-
-  XCTAssertTrue(self.bidManager.isInSilenceMode);
-}
-
-- (void)testLiveBid_GivenNotSilentUserResponseAfterTimeBudget_ThenUserSilenceNotUpdated {
-  [self givenApiHandlerRespondBid:[self validCdbBidForAdUnit:self.adUnit1]
-            doingBeforeResponding:^{
-              [self givenUserSilenced];
-            }];
-
-  [self fetchLiveBidForAdUnit:self.adUnit1];
-
-  XCTAssertTrue(self.bidManager.isInSilenceMode);
+  }];
 }
 
 #pragma mark Consent Given
@@ -444,8 +248,28 @@
   OCMStub(cdbResponseMock.consentGiven).andReturn(consentGiven);
   [self givenApiHandlerRespond:cdbResponseMock
          doingBeforeResponding:^{
-         }];
+  }];
 }
+
+
+// MARK: ####################################################################
+
+
+// MARK: ####################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 - (void)testLiveBid_GivenConsentGivenResponse_ThenConsentGivenUpdated {
   self.consent.consentGiven = NO;

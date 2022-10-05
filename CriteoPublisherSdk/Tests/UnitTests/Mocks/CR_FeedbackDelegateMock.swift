@@ -25,7 +25,9 @@ class CR_FeedbackDelegateMock {
   var onCdbCallWasCalled = false
   var onCdbCallFailureWasCalled = false
   var onBidCachedWasCalled = false
+  var onBidCachedWasCalledWithBid: CR_CdbBid?
   var onBidConsumedWasCalled = false
+  var onBidConsumedWasCalledWithBid: CR_CdbBid?
   var sendFeedbackBatchWasCalled = false
 }
 
@@ -48,10 +50,12 @@ extension CR_FeedbackDelegateMock: CR_FeedbackDelegate {
 
   func onBidCached(_ bid: CR_CdbBid!) {
     onBidCachedWasCalled = true
+    onBidCachedWasCalledWithBid = bid
   }
 
   func onBidConsumed(_ consumedBid: CR_CdbBid!) {
     onBidConsumedWasCalled = true
+    onBidConsumedWasCalledWithBid = consumedBid
   }
 
   func sendFeedbackBatch() {
@@ -71,7 +75,9 @@ extension CR_FeedbackDelegateMock: MockProtocol {
     onCdbCallWasCalled = false
     onCdbCallFailureWasCalled = false
     onBidCachedWasCalled = false
+    onBidCachedWasCalledWithBid = nil
     onBidConsumedWasCalled = false
+    onBidConsumedWasCalledWithBid = nil
     sendFeedbackBatchWasCalled = false
   }
 }

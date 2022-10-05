@@ -283,6 +283,8 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
             if (responseHandler) {
               responseHandler(cdbResponse);
             }
+          } else if (responseHandler) {
+            responseHandler(nil);
           }
         }];
     CRLogDebug(@"Bidding", @"Fetching bids for ad units: %@", adUnits);

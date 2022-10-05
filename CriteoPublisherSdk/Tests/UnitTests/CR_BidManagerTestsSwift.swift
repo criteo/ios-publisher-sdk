@@ -88,7 +88,7 @@ class CR_BidManagerTestsSwift: XCTestCase {
   override func tearDown() {
 
 //      [self.loggingMock stopMocking];
-//      [self.dependencyProvider.feedbackStorage popMessagesToSend];
+    dependencyProvider.feedbackStorage.popMessagesToSend()
 
     super.tearDown()
   }
@@ -183,16 +183,14 @@ class CR_BidManagerTestsSwift: XCTestCase {
     let adUnit = createAdUnit()
 
     apiHandlerMock.reset()
-    XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
-    XCTAssertNil(apiHandlerMock.callCdbAdUnits)
     let bidFetchExpectation = expectation(description: "Bid fetch finish expectation")
     let responseHandler: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation.fulfill() }
-    let bid = dependencyProvider.bidManager.getBidThenFetch(adUnit, withContext: contextData, responseHandler: responseHandler)
+    let bidReceived = dependencyProvider.bidManager.getBidThenFetch(adUnit, withContext: contextData, responseHandler: responseHandler)
     wait(for: [bidFetchExpectation], timeout: timeout)
     XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
     XCTAssertEqual(apiHandlerMock.callCdbAdUnits?.first, adUnit)
     do {
-      let isEmpty = try XCTUnwrap(bid?.isEmpty())
+      let isEmpty = try XCTUnwrap(bidReceived?.isEmpty())
       XCTAssertTrue(isEmpty)
     } catch {
       XCTFail("Variable bid is nil!")
@@ -205,19 +203,17 @@ class CR_BidManagerTestsSwift: XCTestCase {
     let adUnit = createAdUnit()
 
     apiHandlerMock.reset()
-    XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
-    XCTAssertNil(apiHandlerMock.callCdbAdUnits)
     cacheManagerMock.reset()
     XCTAssertFalse(cacheManagerMock.removeBidWasCalled)
     let bidFetchExpectation = expectation(description: "Bid fetch finish expectation")
     let responseHandler: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation.fulfill() }
-    let bid = dependencyProvider.bidManager.getBidThenFetch(adUnit, withContext: contextData, responseHandler: responseHandler)
+    let bidReceived = dependencyProvider.bidManager.getBidThenFetch(adUnit, withContext: contextData, responseHandler: responseHandler)
     wait(for: [bidFetchExpectation], timeout: timeout)
     XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
     XCTAssertEqual(apiHandlerMock.callCdbAdUnits?.first, adUnit)
     XCTAssertFalse(cacheManagerMock.removeBidWasCalled)
     do {
-      let isEmpty = try XCTUnwrap(bid?.isEmpty())
+      let isEmpty = try XCTUnwrap(bidReceived?.isEmpty())
       XCTAssertTrue(isEmpty)
     } catch {
       XCTFail("Variable bid is nil!")
@@ -231,16 +227,14 @@ class CR_BidManagerTestsSwift: XCTestCase {
     dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity // silence user
 
     apiHandlerMock.reset()
-    XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
-    XCTAssertNil(apiHandlerMock.callCdbAdUnits)
     let bidFetchExpectation = expectation(description: "Bid fetch finish expectation")
     let responseHandler: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation.fulfill() }
-    let bid = dependencyProvider.bidManager.getBidThenFetch(adUnit, withContext: contextData, responseHandler: responseHandler)
+    let bidReceived = dependencyProvider.bidManager.getBidThenFetch(adUnit, withContext: contextData, responseHandler: responseHandler)
     wait(for: [bidFetchExpectation], timeout: timeout)
     XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
     XCTAssertNil(apiHandlerMock.callCdbAdUnits)
     do {
-      let isEmpty = try XCTUnwrap(bid?.isEmpty())
+      let isEmpty = try XCTUnwrap(bidReceived?.isEmpty())
       XCTAssertTrue(isEmpty)
     } catch {
       XCTFail("Variable bid is nil!")
@@ -260,8 +254,6 @@ class CR_BidManagerTestsSwift: XCTestCase {
     dependencyProvider.cacheManager.bidCache[adUnit2] = bid2
 
     apiHandlerMock.reset()
-    XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
-    XCTAssertNil(apiHandlerMock.callCdbAdUnits)
     let bidFetchExpectation1 = expectation(description: "Bid fetch finish expectation")
     let responseHandler1: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation1.fulfill() }
     let bid1Received = dependencyProvider.bidManager.getBidThenFetch(adUnit1, withContext: contextData, responseHandler: responseHandler1)
@@ -287,16 +279,14 @@ class CR_BidManagerTestsSwift: XCTestCase {
     dependencyProvider.cacheManager.bidCache[adUnit] = bidSilenced
 
     apiHandlerMock.reset()
-    XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
-    XCTAssertNil(apiHandlerMock.callCdbAdUnits)
     let bidFetchExpectation = expectation(description: "Bid fetch finish expectation")
     let responseHandler: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation.fulfill() }
-    let bid = dependencyProvider.bidManager.getBidThenFetch(adUnit, withContext: contextData, responseHandler: responseHandler)
+    let bidReceived = dependencyProvider.bidManager.getBidThenFetch(adUnit, withContext: contextData, responseHandler: responseHandler)
     wait(for: [bidFetchExpectation], timeout: timeout)
     XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
     XCTAssertNil(apiHandlerMock.callCdbAdUnits)
     do {
-      let isEmpty = try XCTUnwrap(bid?.isEmpty())
+      let isEmpty = try XCTUnwrap(bidReceived?.isEmpty())
       XCTAssertTrue(isEmpty)
     } catch {
       XCTFail("Variable bid is nil!")
@@ -311,16 +301,14 @@ class CR_BidManagerTestsSwift: XCTestCase {
     dependencyProvider.cacheManager.bidCache[adUnit] = bidExpired
 
     apiHandlerMock.reset()
-    XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
-    XCTAssertNil(apiHandlerMock.callCdbAdUnits)
     let bidFetchExpectation = expectation(description: "Bid fetch finish expectation")
     let responseHandler: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation.fulfill() }
-    let bid = dependencyProvider.bidManager.getBidThenFetch(adUnit, withContext: contextData, responseHandler: responseHandler)
+    let bidReceived = dependencyProvider.bidManager.getBidThenFetch(adUnit, withContext: contextData, responseHandler: responseHandler)
     wait(for: [bidFetchExpectation], timeout: timeout)
     XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
     XCTAssertEqual(apiHandlerMock.callCdbAdUnits?.first, adUnit)
     do {
-      let isEmpty = try XCTUnwrap(bid?.isEmpty())
+      let isEmpty = try XCTUnwrap(bidReceived?.isEmpty())
       XCTAssertTrue(isEmpty)
     } catch {
       XCTFail("Variable bid is nil!")
@@ -335,16 +323,14 @@ class CR_BidManagerTestsSwift: XCTestCase {
     dependencyProvider.cacheManager.bidCache[adUnit] = bidNoBid
 
     apiHandlerMock.reset()
-    XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
-    XCTAssertNil(apiHandlerMock.callCdbAdUnits)
     let bidFetchExpectation = expectation(description: "Bid fetch finish expectation")
     let responseHandler: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation.fulfill() }
-    let bid = dependencyProvider.bidManager.getBidThenFetch(adUnit, withContext: contextData, responseHandler: responseHandler)
+    let bidReceived = dependencyProvider.bidManager.getBidThenFetch(adUnit, withContext: contextData, responseHandler: responseHandler)
     wait(for: [bidFetchExpectation], timeout: timeout)
     XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
     XCTAssertEqual(apiHandlerMock.callCdbAdUnits?.first, adUnit)
     do {
-      let isEmpty = try XCTUnwrap(bid?.isEmpty())
+      let isEmpty = try XCTUnwrap(bidReceived?.isEmpty())
       XCTAssertTrue(isEmpty)
     } catch {
       XCTFail("Variable bid is nil!")
@@ -363,12 +349,12 @@ class CR_BidManagerTestsSwift: XCTestCase {
     XCTAssertNil(apiHandlerMock.callCdbAdUnits)
     let bidFetchExpectation = expectation(description: "Bid fetch finish expectation")
     let responseHandler: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation.fulfill() }
-    let bid = dependencyProvider.bidManager.getBidThenFetch(adUnit, withContext: contextData, responseHandler: responseHandler)
+    let bidReceived = dependencyProvider.bidManager.getBidThenFetch(adUnit, withContext: contextData, responseHandler: responseHandler)
     wait(for: [bidFetchExpectation], timeout: timeout)
     XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
     XCTAssertEqual(apiHandlerMock.callCdbAdUnits?.first, adUnit)
     do {
-      let isEmpty = try XCTUnwrap(bid?.isEmpty())
+      let isEmpty = try XCTUnwrap(bidReceived?.isEmpty())
       XCTAssertTrue(isEmpty)
     } catch {
       XCTFail("Variable bid is nil!")
@@ -421,87 +407,51 @@ class CR_BidManagerTestsSwift: XCTestCase {
   }
 
 
-  // MARK: - Helpers for Live Bidding
-
-  /// Helper function used for live bidding tests.
-  /// - parameter adUnit: Ad unit to be used for fetch request.
-  /// - parameter callCdbShouldBeCalled: Adds an assert with the expectation of a request to CDB was or wasn't made.
-  /// - parameter bidCached: Adds an assert with the expectation of a bid to be cached. Also adds an assert with the expectation of the feedback manager on bid cached call.
-  /// - parameter bidConsumed: Adds an assert with the expectation of the feedback manager on bid consumed call.
-  /// - parameter bidResponded: Adds an assert with the expectation of the returned bid to be equal. If nil, the responded bid should also be nil or empty.
-  private func fetchLiveBid(adUnit: CR_CacheAdUnit, callCdbShouldBeCalled: Bool, bidCached: CR_CdbBid?, bidConsumed: CR_CdbBid?, bidResponded: CR_CdbBid?) -> XCTestExpectation {
-
-    let cacheManagerMockSetBidShouldBeCalled = bidCached != nil
-
-    let _ = feedbackDelegateMock
-    let feedbackDelegateMockOnBidCachedShouldBeCalled = bidCached != nil
-    let feedbackDelegateMockOnBidConsumedShouldBeCalled = bidConsumed != nil
-
-    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [weak self] bid in
-
-      fetchLiveBidExpectation.fulfill()
-
-      guard let selfUnwrapped = self else {
-        XCTFail("Self was nil inside \(#function)")
-        return
-      }
-
-      if let bidResponded = bidResponded {
-        XCTAssertEqual(bid, bidResponded)
-      } else {
-        XCTAssertTrue(bid?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil
-      }
-
-      if callCdbShouldBeCalled {
-        XCTAssertTrue(selfUnwrapped.apiHandlerMock.callCdbWasCalled)
-        XCTAssertEqual(selfUnwrapped.apiHandlerMock.callCdbAdUnits, [adUnit])
-      } else {
-        XCTAssertFalse(selfUnwrapped.apiHandlerMock.callCdbWasCalled)
-      }
-
-      if cacheManagerMockSetBidShouldBeCalled {
-        XCTAssertTrue(selfUnwrapped.cacheManagerMock.setBidWasCalled)
-      } else {
-        XCTAssertFalse(selfUnwrapped.cacheManagerMock.setBidWasCalled)
-      }
-
-      if feedbackDelegateMockOnBidCachedShouldBeCalled {
-        XCTAssertTrue(selfUnwrapped.feedbackDelegateMock.onBidCachedWasCalled)
-      } else {
-        XCTAssertFalse(selfUnwrapped.feedbackDelegateMock.onBidCachedWasCalled)
-      }
-
-      if feedbackDelegateMockOnBidConsumedShouldBeCalled {
-        XCTAssertTrue(selfUnwrapped.feedbackDelegateMock.onBidConsumedWasCalled)
-      } else {
-        XCTAssertFalse(selfUnwrapped.feedbackDelegateMock.onBidConsumedWasCalled)
-      }
-    }
-
-    return fetchLiveBidExpectation
-  }
-
-
   // MARK: - Tests for Live Bidding
 
-  /// Having an existing cached bid, when fetching a live bid, the expectation is to get a different bid than the initial cached bid.
+  /// Having a cached bid, when fetching a live bid, the expectation is to get a different bid than the initial cached bid.
   func testLiveBid_GivenResponseBeforeTimeBudget_ThenBidFromResponseGiven() {
 
     let adUnit = createAdUnit()
-    let bid = createBid(adUnit: adUnit)
+    let bidCached = createBid(adUnit: adUnit)
     let bidImmediate = createBid(adUnit: adUnit, type: .immediate)
 
-    cacheManagerMock.bidCache[adUnit] = bid
+    apiHandlerMock.reset()
+    cacheManagerMock.bidCache[adUnit] = bidCached
     cdbResponseMock.cdbBids = [bidImmediate]
+    feedbackDelegateMock.reset()
     synchronousThreadManager.isTimeout = false
 
-    let fetchLiveBidExpectation = fetchLiveBid(adUnit: adUnit, callCdbShouldBeCalled: true, bidCached: nil, bidConsumed: bidImmediate, bidResponded: bidImmediate)
+    let currentQueue = OperationQueue.current?.underlyingQueue
+
+    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+
+      currentQueue?.async { [unowned self] in
+
+        fetchLiveBidExpectation.fulfill()
+
+        XCTAssertEqual(bidReceived, bidImmediate)
+
+        XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
+        XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
+
+        XCTAssertFalse(cacheManagerMock.setBidWasCalled)
+        XCTAssertNil(cacheManagerMock.setBidWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidCachedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidCachedWasCalledWithBid)
+
+        XCTAssertTrue(feedbackDelegateMock.onBidConsumedWasCalled)
+        XCTAssertEqual(feedbackDelegateMock.onBidConsumedWasCalledWithBid, bidImmediate)
+      }
+    }
+
     wait(for: [fetchLiveBidExpectation], timeout: timeout)
 
     do {
-      let cachedBid = try XCTUnwrap(dependencyProvider.cacheManager.bidCache[adUnit] as? CR_CdbBid)
-      XCTAssertNotEqual(cachedBid, bidImmediate)
+      let bidCached = try XCTUnwrap(dependencyProvider.cacheManager.bidCache[adUnit] as? CR_CdbBid)
+      XCTAssertNotEqual(bidCached, bidImmediate)
     } catch {
       XCTFail("Failed to retrieve cached bid!")
     }
@@ -511,28 +461,810 @@ class CR_BidManagerTestsSwift: XCTestCase {
   func testLiveBid_GivenResponseAfterTimeBudget_ThenBidFromCacheGiven() {
 
     let adUnit = createAdUnit()
+    let bidCached = createBid(adUnit: adUnit)
     let bidImmediate = createBid(adUnit: adUnit, type: .immediate)
+
+    apiHandlerMock.reset()
     cdbResponseMock.cdbBids = [bidImmediate]
+    cacheManagerMock.bidCache[adUnit] = bidCached
+    feedbackDelegateMock.reset()
     synchronousThreadManager.isTimeout = true
 
-    let fetchLiveBidExpectation = fetchLiveBid(adUnit: adUnit, callCdbShouldBeCalled: true, bidCached: bidImmediate, bidConsumed: bidImmediate, bidResponded: bidImmediate)
+    let currentQueue = OperationQueue.current?.underlyingQueue
+
+    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+
+      currentQueue?.async { [unowned self] in
+
+        fetchLiveBidExpectation.fulfill()
+
+        XCTAssertEqual(bidReceived, bidCached)
+
+        XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
+        XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
+
+        XCTAssertTrue(cacheManagerMock.setBidWasCalled)
+        XCTAssertEqual(cacheManagerMock.setBidWasCalledWithBid, bidImmediate)
+
+        XCTAssertTrue(feedbackDelegateMock.onBidCachedWasCalled)
+        XCTAssertEqual(feedbackDelegateMock.onBidCachedWasCalledWithBid, bidImmediate)
+
+        XCTAssertTrue(feedbackDelegateMock.onBidConsumedWasCalled)
+        XCTAssertEqual(feedbackDelegateMock.onBidConsumedWasCalledWithBid, bidCached)
+      }
+    }
+
     wait(for: [fetchLiveBidExpectation], timeout: timeout)
   }
 
-  /// Having an existing cached bid, and having no bid returned from fetching, the expectation is to use the initial cached bid.
+  /// Having a cached bid, having no bid returned from fetching, the expectation is to use the initial cached bid.
   func testLiveBid_GivenResponseError_ThenBidFromCacheGiven() {
 
     let adUnit = createAdUnit()
-    let bid = createBid(adUnit: adUnit)
+    let bidCached = createBid(adUnit: adUnit)
 
+    apiHandlerMock.reset()
     XCTAssertNil(apiHandlerMock.callCdbCdbResponse)
-    cacheManagerMock.bidCache[adUnit] = bid
-    let fetchLiveBidExpectation = fetchLiveBid(adUnit: adUnit, callCdbShouldBeCalled: true, bidCached: nil, bidConsumed: bid, bidResponded: bid)
+    cacheManagerMock.bidCache[adUnit] = bidCached
+    feedbackDelegateMock.reset()
+
+    let currentQueue = OperationQueue.current?.underlyingQueue
+
+    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+
+      currentQueue?.async { [unowned self] in
+
+        fetchLiveBidExpectation.fulfill()
+
+        XCTAssertEqual(bidReceived, bidCached)
+
+        XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
+        XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
+
+        XCTAssertFalse(cacheManagerMock.setBidWasCalled)
+        XCTAssertNil(cacheManagerMock.setBidWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidCachedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidCachedWasCalledWithBid)
+
+        XCTAssertTrue(feedbackDelegateMock.onBidConsumedWasCalled)
+        XCTAssertEqual(feedbackDelegateMock.onBidConsumedWasCalledWithBid, bidCached)
+      }
+    }
+
     wait(for: [fetchLiveBidExpectation], timeout: timeout)
   }
 
+  /// Having no cached bid, having a bid returned from fetching, the expectation is to cache the fetched bid.
   func testLiveBid_GivenResponseAfterTimeBudgetAndNoBidInCache_ThenNoBidGiven() {
 
+    let adUnit1 = createAdUnit()
+    let adUnit2 = createAdUnit()
+    let bidLive = createBid(adUnit: adUnit1)
+
+    apiHandlerMock.reset()
+    cacheManagerMock.reset()
+    cdbResponseMock.cdbBids = [bidLive]
+    feedbackDelegateMock.reset()
     synchronousThreadManager.isTimeout = true
+
+    let currentQueue = OperationQueue.current?.underlyingQueue
+
+    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit2, withContext: contextData) { [unowned self] bidReceived in
+
+      currentQueue?.async { [unowned self] in
+
+        fetchLiveBidExpectation.fulfill()
+
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true)  // By having "?? true" basically means the bid is nil or empty
+
+        XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
+        XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit2])
+
+        XCTAssertTrue(cacheManagerMock.setBidWasCalled)
+        XCTAssertEqual(cacheManagerMock.setBidWasCalledWithBid, bidLive)
+
+        XCTAssertTrue(feedbackDelegateMock.onBidCachedWasCalled)
+        XCTAssertEqual(feedbackDelegateMock.onBidCachedWasCalledWithBid, bidLive)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidConsumedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidConsumedWasCalledWithBid)
+      }
+    }
+
+    wait(for: [fetchLiveBidExpectation], timeout: timeout)
   }
+
+  /// Having no cached bid, having no bid returned from fetching, the expectation is to receive no bid, cache no bid, consume no bid.
+  func testLiveBid_GivenResponseErrorAfterTimeBudgetAndNoBidInCache_ThenNoBidGiven() {
+
+    let adUnit = createAdUnit()
+
+    apiHandlerMock.reset()
+    XCTAssertNil(apiHandlerMock.callCdbCdbResponse)
+    cacheManagerMock.reset()
+    feedbackDelegateMock.reset()
+    synchronousThreadManager.isTimeout = true
+
+    let currentQueue = OperationQueue.current?.underlyingQueue
+
+    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+
+      currentQueue?.async { [unowned self] in
+
+        fetchLiveBidExpectation.fulfill()
+
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true)  // By having "?? true" basically means the bid is nil or empty
+
+        XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
+        XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
+
+        XCTAssertFalse(cacheManagerMock.setBidWasCalled)
+        XCTAssertNil(cacheManagerMock.setBidWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidCachedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidCachedWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidConsumedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidConsumedWasCalledWithBid)
+      }
+    }
+
+    wait(for: [fetchLiveBidExpectation], timeout: timeout)
+  }
+
+  /// Having no cached bid, having no bid returned from fetching, the expectation is to receive no bid, cache no bid, consume no bid.
+  func testLiveBid_GivenResponseErrorAndNoBidInCache_ThenNoBidGiven() {
+
+    let adUnit = createAdUnit()
+
+    apiHandlerMock.reset()
+    XCTAssertNil(apiHandlerMock.callCdbCdbResponse)
+    cacheManagerMock.reset()
+    feedbackDelegateMock.reset()
+
+    let currentQueue = OperationQueue.current?.underlyingQueue
+
+    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+
+      currentQueue?.async { [unowned self] in
+
+        fetchLiveBidExpectation.fulfill()
+
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+
+        XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
+        XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
+
+        XCTAssertFalse(cacheManagerMock.setBidWasCalled)
+        XCTAssertNil(cacheManagerMock.setBidWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidCachedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidCachedWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidConsumedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidConsumedWasCalledWithBid)
+      }
+    }
+
+    wait(for: [fetchLiveBidExpectation], timeout: timeout)
+  }
+
+  /// Having an expired cached bid, when fetching a live bid, the expectation is to get a new bid and consume the initial cached expired bid.
+  func testLiveBid_GivenResponseAfterTimeBudgetAndExpiredBidInCache_ThenNoBidGiven() {
+
+    let adUnit = createAdUnit()
+    let bidCachedExpired = createBid(adUnit: adUnit, type: .expired)
+    let bidValid = createBid(adUnit: adUnit)
+
+    apiHandlerMock.reset()
+    cacheManagerMock.bidCache[adUnit] = bidCachedExpired
+    cdbResponseMock.cdbBids = [bidValid]
+    feedbackDelegateMock.reset()
+    synchronousThreadManager.isTimeout = true
+
+    let currentQueue = OperationQueue.current?.underlyingQueue
+
+    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+
+      currentQueue?.async { [unowned self] in
+
+        fetchLiveBidExpectation.fulfill()
+
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+
+        XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
+        XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
+
+        XCTAssertTrue(cacheManagerMock.setBidWasCalled)
+        XCTAssertEqual(cacheManagerMock.setBidWasCalledWithBid, bidValid)
+
+        XCTAssertTrue(feedbackDelegateMock.onBidCachedWasCalled)
+        XCTAssertEqual(feedbackDelegateMock.onBidCachedWasCalledWithBid, bidValid)
+
+        XCTAssertTrue(feedbackDelegateMock.onBidConsumedWasCalled)
+        XCTAssertEqual(feedbackDelegateMock.onBidConsumedWasCalledWithBid, bidCachedExpired)
+      }
+    }
+
+    wait(for: [fetchLiveBidExpectation], timeout: timeout)
+  }
+
+  /// Having an expired cached bid, having no bid returned from fetching, the expectation is to receive no bid, cache no bid and consume the initial cached expired bid.
+  func testLiveBid_GivenResponseErrorAndExpiredBidInCache_ThenNoBidGiven() {
+
+    let adUnit = createAdUnit()
+    let bidCachedExpired = createBid(adUnit: adUnit, type: .expired)
+
+    apiHandlerMock.reset()
+    XCTAssertNil(apiHandlerMock.callCdbCdbResponse)
+    cacheManagerMock.bidCache[adUnit] = bidCachedExpired
+    feedbackDelegateMock.reset()
+
+    let currentQueue = OperationQueue.current?.underlyingQueue
+
+    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+
+      currentQueue?.async { [unowned self] in
+
+        fetchLiveBidExpectation.fulfill()
+
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+
+        XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
+        XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
+
+        XCTAssertFalse(cacheManagerMock.setBidWasCalled)
+        XCTAssertNil(cacheManagerMock.setBidWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidCachedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidCachedWasCalledWithBid)
+
+        XCTAssertTrue(feedbackDelegateMock.onBidConsumedWasCalled)
+        XCTAssertEqual(feedbackDelegateMock.onBidConsumedWasCalledWithBid, bidCachedExpired)
+      }
+    }
+
+    wait(for: [fetchLiveBidExpectation], timeout: timeout)
+  }
+
+  /// Having an expired cached bid, having no bid returned from fetching, the expectation is to receive no bid, cache no bid and consume the initial cached expired bid.
+  func testLiveBid_GivenResponseErrorAfterTimeBudgetAndExpiredBidInCache_ThenNoBidGiven() {
+
+    let adUnit = createAdUnit()
+    let bidCachedExpired = createBid(adUnit: adUnit, type: .expired)
+
+    apiHandlerMock.reset()
+    XCTAssertNil(apiHandlerMock.callCdbCdbResponse)
+    cacheManagerMock.bidCache[adUnit] = bidCachedExpired
+    feedbackDelegateMock.reset()
+    synchronousThreadManager.isTimeout = true
+
+    let currentQueue = OperationQueue.current?.underlyingQueue
+
+    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+
+      currentQueue?.async { [unowned self] in
+
+        fetchLiveBidExpectation.fulfill()
+
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+
+        XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
+        XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
+
+        XCTAssertFalse(cacheManagerMock.setBidWasCalled)
+        XCTAssertNil(cacheManagerMock.setBidWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidCachedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidCachedWasCalledWithBid)
+
+        XCTAssertTrue(feedbackDelegateMock.onBidConsumedWasCalled)
+        XCTAssertEqual(feedbackDelegateMock.onBidConsumedWasCalledWithBid, bidCachedExpired)
+      }
+    }
+
+    wait(for: [fetchLiveBidExpectation], timeout: timeout)
+  }
+
+
+  // MARK: - Tests for Silent User
+
+  /// Having a silenced user, when fetching a live bid, the expectation is to receive no bid, cache no bid, consume no bid.
+  func testLiveBid_GivenSilentMode_ThenCdbNotCalled_AndNoResponseGiven() {
+
+    let adUnit = createAdUnit()
+
+    apiHandlerMock.reset()
+    cacheManagerMock.reset()
+    feedbackDelegateMock.reset()
+    dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity // silence user
+
+    let currentQueue = OperationQueue.current?.underlyingQueue
+
+    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+
+      currentQueue?.async { [unowned self] in
+
+        fetchLiveBidExpectation.fulfill()
+
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+
+        XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
+        XCTAssertNil(apiHandlerMock.callCdbAdUnits)
+
+        XCTAssertFalse(cacheManagerMock.setBidWasCalled)
+        XCTAssertNil(cacheManagerMock.setBidWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidCachedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidCachedWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidConsumedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidConsumedWasCalledWithBid)
+      }
+    }
+
+    wait(for: [fetchLiveBidExpectation], timeout: timeout)
+  }
+
+  /// Having a silenced user, having a cached bid, when fetching a live bid, the expectation is to receive the cached bid and consume the cached bid.
+  func testLiveBid_GivenSilentModeAndValidBidInCache_ThenCdbNotCalled_AndResponseGiven() {
+
+    let adUnit = createAdUnit()
+    let bidCached = createBid(adUnit: adUnit)
+
+    apiHandlerMock.reset()
+    cacheManagerMock.bidCache[adUnit] = bidCached
+    feedbackDelegateMock.reset()
+    dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity // silence user
+
+    let currentQueue = OperationQueue.current?.underlyingQueue
+
+    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+
+      currentQueue?.async { [unowned self] in
+
+        fetchLiveBidExpectation.fulfill()
+
+        XCTAssertEqual(bidReceived, bidCached)
+
+        XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
+        XCTAssertNil(apiHandlerMock.callCdbAdUnits)
+
+        XCTAssertFalse(cacheManagerMock.setBidWasCalled)
+        XCTAssertNil(cacheManagerMock.setBidWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidCachedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidCachedWasCalledWithBid)
+
+        XCTAssertTrue(feedbackDelegateMock.onBidConsumedWasCalled)
+        XCTAssertEqual(feedbackDelegateMock.onBidConsumedWasCalledWithBid, bidCached)
+      }
+    }
+
+    wait(for: [fetchLiveBidExpectation], timeout: timeout)
+  }
+
+  /// Having a silenced user, having an expired cached bid, when fetching a live bid, the expectation is to consume the cached bid.
+  func testLiveBid_GivenSilentModeAndExpiredBidInCache_ThenCdbNotCalled_AndNoResponseGiven() {
+
+    let adUnit = createAdUnit()
+    let bidCachedExpired = createBid(adUnit: adUnit, type: .expired)
+
+    apiHandlerMock.reset()
+    cacheManagerMock.bidCache[adUnit] = bidCachedExpired
+    feedbackDelegateMock.reset()
+    dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity // silence user
+
+    let currentQueue = OperationQueue.current?.underlyingQueue
+
+    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+
+      currentQueue?.async { [unowned self] in
+
+        fetchLiveBidExpectation.fulfill()
+
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+
+        XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
+        XCTAssertNil(apiHandlerMock.callCdbAdUnits)
+
+        XCTAssertFalse(cacheManagerMock.setBidWasCalled)
+        XCTAssertNil(cacheManagerMock.setBidWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidCachedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidCachedWasCalledWithBid)
+
+        XCTAssertTrue(feedbackDelegateMock.onBidConsumedWasCalled)
+        XCTAssertEqual(feedbackDelegateMock.onBidConsumedWasCalledWithBid, bidCachedExpired)
+      }
+    }
+
+    wait(for: [fetchLiveBidExpectation], timeout: timeout)
+  }
+
+  /// Having a silenced user, having a no-bid cached bid, when fetching a live bid, the expectation is to consume the cached bid.
+  func testLiveBid_GivenSilentModeAndNoBidInCache_ThenCdbNotCalled_AndNoResponseGiven() {
+
+    let adUnit = createAdUnit()
+    let bidNoBid = createBid(adUnit: adUnit, type: .noBid)
+
+    apiHandlerMock.reset()
+    cacheManagerMock.bidCache[adUnit] = bidNoBid
+    feedbackDelegateMock.reset()
+    dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity // silence user
+
+    let currentQueue = OperationQueue.current?.underlyingQueue
+
+    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+
+      currentQueue?.async { [unowned self] in
+
+        fetchLiveBidExpectation.fulfill()
+
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+
+        XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
+        XCTAssertNil(apiHandlerMock.callCdbAdUnits)
+
+        XCTAssertFalse(cacheManagerMock.setBidWasCalled)
+        XCTAssertNil(cacheManagerMock.setBidWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidCachedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidCachedWasCalledWithBid)
+
+        XCTAssertTrue(feedbackDelegateMock.onBidConsumedWasCalled)
+        XCTAssertEqual(feedbackDelegateMock.onBidConsumedWasCalledWithBid, bidNoBid)
+      }
+    }
+
+    wait(for: [fetchLiveBidExpectation], timeout: timeout)
+  }
+
+  /// Having a silenced user, having no cached bid, when fetching a live bid, the expectation is to receive no bid, cache no bid and consume no bid.
+  func testLiveBid_GivenSilentModeAndEmptyCache_ThenCdbNotCalled_AndNoResponseGiven() {
+
+    let adUnit = createAdUnit()
+
+    apiHandlerMock.reset()
+    cacheManagerMock.reset()
+    feedbackDelegateMock.reset()
+    dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity // silence user
+
+    let currentQueue = OperationQueue.current?.underlyingQueue
+
+    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+
+      currentQueue?.async { [unowned self] in
+
+        fetchLiveBidExpectation.fulfill()
+
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+
+        XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
+        XCTAssertNil(apiHandlerMock.callCdbAdUnits)
+
+        XCTAssertFalse(cacheManagerMock.setBidWasCalled)
+        XCTAssertNil(cacheManagerMock.setBidWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidCachedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidCachedWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidConsumedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidConsumedWasCalledWithBid)
+      }
+    }
+
+    wait(for: [fetchLiveBidExpectation], timeout: timeout)
+  }
+
+  /// Having a silenced user, having a silenced cached bid, when fetching a live bid, the expectation is to receive no bid, cache no bid and consume no bid.
+  func testLiveBid_GivenSilentModeAndSilentBidInCache_ThenCdbNotCalled_AndNoResponseGiven() {
+
+    let adUnit = createAdUnit()
+    let bidSilenced = createBid(adUnit: adUnit, type: .silenced)
+
+    apiHandlerMock.reset()
+    cacheManagerMock.bidCache[adUnit] = bidSilenced
+    feedbackDelegateMock.reset()
+    dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity // silence user
+
+    let currentQueue = OperationQueue.current?.underlyingQueue
+
+    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+
+      currentQueue?.async { [unowned self] in
+
+        fetchLiveBidExpectation.fulfill()
+
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+
+        XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
+        XCTAssertNil(apiHandlerMock.callCdbAdUnits)
+
+        XCTAssertFalse(cacheManagerMock.setBidWasCalled)
+        XCTAssertNil(cacheManagerMock.setBidWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidCachedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidCachedWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidConsumedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidConsumedWasCalledWithBid)
+      }
+    }
+
+    wait(for: [fetchLiveBidExpectation], timeout: timeout)
+
+    do {
+      let bidCached = try XCTUnwrap(dependencyProvider.cacheManager.bidCache[adUnit] as? CR_CdbBid)
+      XCTAssertEqual(bidCached, bidSilenced)
+    } catch {
+      XCTFail("Failed to retrieve cached bid!")
+    }
+  }
+
+  /// Having a de-silenced user, having a cached bid, when fetching a live bid, the expectation is to receive the cached bid.
+  func testLiveBid_GivenExpiredSilentMode_ThenCdbCalled_AndResponseGiven() {
+
+    let adUnit = createAdUnit()
+    let bidValid = createBid(adUnit: adUnit)
+
+    apiHandlerMock.reset()
+    cacheManagerMock.bidCache[adUnit] = bidValid
+    dependencyProvider.bidManager.cdbTimeToNextCall = Date(timeIntervalSinceNow: -1).timeIntervalSinceReferenceDate // expired user silent, 1s before now
+    feedbackDelegateMock.reset()
+
+    let currentQueue = OperationQueue.current?.underlyingQueue
+
+    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+
+      currentQueue?.async { [unowned self] in
+
+        fetchLiveBidExpectation.fulfill()
+
+        XCTAssertEqual(bidReceived, bidValid)
+
+        XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
+        XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
+
+        XCTAssertFalse(cacheManagerMock.setBidWasCalled)
+        XCTAssertNil(cacheManagerMock.setBidWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidCachedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidCachedWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidConsumedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidConsumedWasCalledWithBid)
+      }
+    }
+
+    wait(for: [fetchLiveBidExpectation], timeout: timeout)
+  }
+
+  /// Having a cached bid, having no bid returned from fetching, the expectation is to receive the cached bid.
+  func testLiveBid_GivenResponseErrorAndSilentModeAndValidBidInCache_ThenResponseGiven() {
+
+    let adUnit = createAdUnit()
+    let bidValid = createBid(adUnit: adUnit)
+
+    apiHandlerMock.reset()
+    XCTAssertNil(apiHandlerMock.callCdbCdbResponse)
+    apiHandlerMock.callCdbBeforeCdbResponseBlock = { [unowned self] in
+      dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity // silence user
+    }
+    cacheManagerMock.bidCache[adUnit] = bidValid
+    feedbackDelegateMock.reset()
+
+    let currentQueue = OperationQueue.current?.underlyingQueue
+
+    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+
+      currentQueue?.async { [unowned self] in
+
+        fetchLiveBidExpectation.fulfill()
+
+        XCTAssertEqual(bidReceived, bidValid)
+
+        XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
+        XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
+
+        XCTAssertFalse(cacheManagerMock.setBidWasCalled)
+        XCTAssertNil(cacheManagerMock.setBidWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidCachedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidCachedWasCalledWithBid)
+
+        XCTAssertTrue(feedbackDelegateMock.onBidConsumedWasCalled)
+        XCTAssertEqual(feedbackDelegateMock.onBidConsumedWasCalledWithBid, bidValid)
+      }
+    }
+
+    wait(for: [fetchLiveBidExpectation], timeout: timeout)
+  }
+
+  /// Having the user silenced with the next fetch, the expectation is to receive, cache, consume no bid and update the bid manager accordingly.
+  func testLiveBid_GivenSilentUserResponse_ThenUserSilenceUpdated() {
+
+    let adUnit = createAdUnit()
+
+    cacheManagerMock.reset()
+    cdbResponseMock.timeToNextCall = 123 // silence user starting with the next fetch
+    feedbackDelegateMock.reset()
+
+    let currentQueue = OperationQueue.current?.underlyingQueue
+
+    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+
+      currentQueue?.async { [unowned self] in
+
+        fetchLiveBidExpectation.fulfill()
+
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+
+        XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
+        XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
+
+        XCTAssertFalse(cacheManagerMock.setBidWasCalled)
+        XCTAssertNil(cacheManagerMock.setBidWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidCachedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidCachedWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidConsumedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidConsumedWasCalledWithBid)
+      }
+    }
+
+    wait(for: [fetchLiveBidExpectation], timeout: timeout)
+
+    XCTAssertTrue(dependencyProvider.bidManager.isInSilenceMode())
+  }
+
+  /// Having the user silenced with the next fetch, having time elapsed, the expectation is to receive, cache, consume no bid and update the bid manager accordingly.
+  func testLiveBid_GivenSilentUserResponseAfterTimeBudget_ThenUserSilenceUpdated() {
+
+    let adUnit = createAdUnit()
+
+    cacheManagerMock.reset()
+    cdbResponseMock.timeToNextCall = 123 // silence user starting with the next fetch
+    feedbackDelegateMock.reset()
+    synchronousThreadManager.isTimeout = true
+
+    let currentQueue = OperationQueue.current?.underlyingQueue
+
+    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+
+      currentQueue?.async { [unowned self] in
+
+        fetchLiveBidExpectation.fulfill()
+
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+
+        XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
+        XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
+
+        XCTAssertFalse(cacheManagerMock.setBidWasCalled)
+        XCTAssertNil(cacheManagerMock.setBidWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidCachedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidCachedWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidConsumedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidConsumedWasCalledWithBid)
+      }
+    }
+
+    wait(for: [fetchLiveBidExpectation], timeout: timeout)
+
+    XCTAssertTrue(dependencyProvider.bidManager.isInSilenceMode())
+  }
+
+  /// Having the user silenced midway fetching, when fetching a live bid and receiving a valid bid, the expectation is to consume the received bid and update the bid manager accordingly.
+  func testLiveBid_GivenNotSilentUserResponse_ThenUserSilenceNotUpdated() {
+
+    let adUnit = createAdUnit()
+    let bidValid = createBid(adUnit: adUnit)
+
+    apiHandlerMock.reset()
+    apiHandlerMock.callCdbBeforeCdbResponseBlock = { [unowned self] in
+      dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity // silence user
+    }
+    cdbResponseMock.cdbBids = [bidValid]
+    cacheManagerMock.reset()
+    feedbackDelegateMock.reset()
+
+    let currentQueue = OperationQueue.current?.underlyingQueue
+
+    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+
+      currentQueue?.async { [unowned self] in
+
+        fetchLiveBidExpectation.fulfill()
+
+        XCTAssertEqual(bidReceived, bidValid)
+
+        XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
+        XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
+
+        XCTAssertFalse(cacheManagerMock.setBidWasCalled)
+        XCTAssertNil(cacheManagerMock.setBidWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidCachedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidCachedWasCalledWithBid)
+
+        XCTAssertTrue(feedbackDelegateMock.onBidConsumedWasCalled)
+        XCTAssertEqual(feedbackDelegateMock.onBidConsumedWasCalledWithBid, bidValid)
+      }
+    }
+
+    wait(for: [fetchLiveBidExpectation], timeout: timeout)
+
+    XCTAssertTrue(dependencyProvider.bidManager.isInSilenceMode())
+  }
+
+  /// Having the user silenced midway fetching, when fetching a live bid and receiving a valid bid, the expectation is to consume the received bid and update the bid manager accordingly.
+  func testLiveBid_GivenNotSilentUserResponseAfterTimeBudget_ThenUserSilenceNotUpdated() {
+
+    let adUnit = createAdUnit()
+    let bidValid = createBid(adUnit: adUnit)
+
+    apiHandlerMock.reset()
+    apiHandlerMock.callCdbBeforeCdbResponseBlock = { [unowned self] in
+      dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity // silence user
+    }
+    cdbResponseMock.cdbBids = [bidValid]
+    cacheManagerMock.reset()
+    feedbackDelegateMock.reset()
+
+    let currentQueue = OperationQueue.current?.underlyingQueue
+
+    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+
+      currentQueue?.async { [unowned self] in
+
+        fetchLiveBidExpectation.fulfill()
+
+        XCTAssertEqual(bidReceived, bidValid)
+
+        XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
+        XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
+
+        XCTAssertFalse(cacheManagerMock.setBidWasCalled)
+        XCTAssertNil(cacheManagerMock.setBidWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidCachedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidCachedWasCalledWithBid)
+
+        XCTAssertTrue(feedbackDelegateMock.onBidConsumedWasCalled)
+        XCTAssertEqual(feedbackDelegateMock.onBidConsumedWasCalledWithBid, bidValid)
+      }
+    }
+
+    wait(for: [fetchLiveBidExpectation], timeout: timeout)
+
+    XCTAssertTrue(dependencyProvider.bidManager.isInSilenceMode())
+  }
+
+
+  // MARK: - Tests for Consent Given
 }
