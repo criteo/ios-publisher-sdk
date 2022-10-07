@@ -252,92 +252,12 @@
 }
 
 
-// MARK: ####################################################################
-
-
-// MARK: ####################################################################
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-- (void)testLiveBid_GivenConsentGivenResponse_ThenConsentGivenUpdated {
-  self.consent.consentGiven = NO;
-  [self givenApiHandlerRespondWithConsentGiven:@YES];
-
-  [self fetchLiveBidForAdUnit:self.adUnit1];
-
-  XCTAssertTrue(self.consent.isConsentGiven);
-}
-
-- (void)testLiveBid_GivenNoConsentGivenResponse_ThenConsentGivenUpdated {
-  self.consent.consentGiven = YES;
-  [self givenApiHandlerRespondWithConsentGiven:@NO];
-
-  [self fetchLiveBidForAdUnit:self.adUnit1];
-
-  XCTAssertFalse(self.consent.isConsentGiven);
-}
-
-- (void)testLiveBid_GivenConsentAndNotInResponse_ThenConsentGivenNotUpdated {
-  self.consent.consentGiven = YES;
-  [self givenApiHandlerRespondWithConsentGiven:nil];
-
-  [self fetchLiveBidForAdUnit:self.adUnit1];
-
-  XCTAssertTrue(self.consent.isConsentGiven);
-}
-
-- (void)testLiveBid_GivenNoConsentAndNotInResponse_ThenConsentGivenNotUpdated {
-  self.consent.consentGiven = NO;
-  [self givenApiHandlerRespondWithConsentGiven:nil];
-
-  [self fetchLiveBidForAdUnit:self.adUnit1];
-
-  XCTAssertFalse(self.consent.isConsentGiven);
-}
-
-- (void)testLiveBid_GivenConsentGivenResponseAfterTimeBudget_ThenConsentGivenUpdated {
-  self.consent.consentGiven = NO;
-  [self givenApiHandlerRespondWithConsentGiven:@YES];
-  [self givenTimeBudgetExceeded];
-
-  [self fetchLiveBidForAdUnit:self.adUnit1];
-
-  XCTAssertTrue(self.consent.isConsentGiven);
-}
 
 #pragma mark Silent slot
 
-- (void)testLiveBid_GivenSilentBidInCache_ThenCdbNotCalledAndNoResponseGiven {
-  CR_CdbBid *silentBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).silenced().build;
-  self.bid1 = silentBid;
-  self.cacheManager.bidCache[self.adUnit1] = self.bid1;
-  [self givenApiHandlerRespondValidBid];
-
-  [self fetchLiveBidForAdUnit:self.adUnit1
-             andExpectCdbCall:NO
-                    bidCached:nil
-                  bidConsumed:nil
-                 bidResponded:nil];
-
-  // Silent bid not consumed from cache
-  XCTAssertEqual(self.cacheManager.bidCache[self.adUnit1], silentBid);
-}
-
 - (void)testLiveBid_GivenExpiredSilentBidInCache_ThenBidFromResponseGiven {
   CR_CdbBid *expiredSilentBid =
-      CR_CdbBidBuilder.new.adUnit(self.adUnit1).silenced().expired().build;
+  CR_CdbBidBuilder.new.adUnit(self.adUnit1).silenced().expired().build;
   self.bid1 = expiredSilentBid;
   self.cacheManager.bidCache[self.adUnit1] = self.bid1;
   CR_CdbBid *liveBid = [self givenApiHandlerRespondValidBid];
@@ -348,19 +268,29 @@
   XCTAssertNil(self.cacheManager.bidCache[self.adUnit1]);
 }
 
+// MARK: ####################################################################
+
 - (void)testLiveBid_GivenSilentBid_ThenNoResponseGivenAndSlotSilenced {
   CR_CdbBid *silentBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).silenced().build;
   [self givenApiHandlerRespondBid:silentBid];
 
   [self fetchLiveBidAndExpectBidCached:silentBid bidConsumed:nil bidResponded:nil];
   OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
-                                return [logMessage.tag isEqualToString:@"SilentMode"] &&
-                                       [logMessage.message
-                                           containsString:@"Silent mode enabled for slot"] &&
-                                       [logMessage.message containsString:self.adUnit1.adUnitId] &&
-                                       [logMessage.message containsString:@"300"];
-                              }]]);
+    return [logMessage.tag isEqualToString:@"SilentMode"] &&
+    [logMessage.message
+     containsString:@"Silent mode enabled for slot"] &&
+    [logMessage.message containsString:self.adUnit1.adUnitId] &&
+    [logMessage.message containsString:@"300"];
+  }]]);
 }
+
+// MARK: ####################################################################
+
+
+
+
+
+
 
 - (void)testLiveBid_GivenSilentBidPutInCache_ThenBidFromResponseGiven {
   CR_CdbBid *silentBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).silenced().build;

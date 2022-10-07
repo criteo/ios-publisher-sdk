@@ -31,6 +31,7 @@
 #import "CR_InMemoryUserDefaults.h"
 #import "CR_IntegrationRegistry.h"
 #import "CR_InternalContextProvider.h"
+#import "CR_LogHandler.h"
 #import "CR_RemoteLogStorage+Internal.h"
 #import "CR_Session.h"
 #import "CR_SynchronousThreadManager.h"

@@ -1,5 +1,5 @@
 //
-//  CR_ConfigManagerMock.swift
+//  CR_LogHandlerMock.swift
 //  CriteoPublisherSdkTests
 //
 //  Copyright © 2018-2022 Criteo. All rights reserved.
@@ -17,37 +17,41 @@
 // limitations under the License.
 //
 
-import CriteoPublisherSdk
+import Foundation
 
 
-class CR_ConfigManagerMock: CR_ConfigManager {
-
-
-  // MARK: - Life Cycle
-
-  convenience init(dependencyProvider: CR_DependencyProvider) {
-    self.init(apiHandler: dependencyProvider.apiHandler, integrationRegistry: dependencyProvider.integrationRegistry, deviceInfo: dependencyProvider.deviceInfo)
-  }
+class CR_LogHandlerMock: NSObject {
 
 
   // MARK: - Overrides
 
-  var refreshConfigWasCalled = false
+  var logMessageWasCalled = false
+  var logMessageWasCalledWithMessage: CR_LogMessage? = nil
+}
 
-  override func refreshConfig(_ config: CR_Config) {
-    refreshConfigWasCalled = true
-    self.refreshConfig(config)
+
+// MARK: - CR_LogHandler
+
+extension CR_LogHandlerMock: CR_LogHandler {
+
+  var consoleLogHandler: CR_ConsoleLogHandler! {
+    return CR_ConsoleLogHandler()
+  }
+
+  func logMessage(_ message: CR_LogMessage!) {
+    logMessageWasCalled = true
+    logMessageWasCalledWithMessage = message
   }
 }
 
 
 // MARK: - MockProtocol
 
-extension CR_ConfigManagerMock: MockProtocol {
+extension CR_LogHandlerMock: MockProtocol {
 
   func reset() {
-    refreshConfigWasCalled = false
+
+    logMessageWasCalled = false
+    logMessageWasCalledWithMessage = nil
   }
 }
-
-

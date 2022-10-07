@@ -19,6 +19,7 @@
 
 import Foundation
 
+
 protocol MockProtocol {
 
   /// Changes the stored variables from mocking to their default value.

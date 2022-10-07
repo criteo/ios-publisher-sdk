@@ -349,6 +349,8 @@
 		E3BEF58128E4A1B7008F42C3 /* CR_BidManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BEF58028E4A1B7008F42C3 /* CR_BidManagerMock.swift */; };
 		E3CBBF1A28E48E1E00622566 /* CR_ConfigManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBBF1928E48E1D00622566 /* CR_ConfigManagerMock.swift */; };
 		E3CBBF1C28E49A4700622566 /* MockProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBBF1B28E49A4700622566 /* MockProtocol.swift */; };
+		E3CEC11928EECCA60075771B /* CR_LoggingMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CEC11828EECCA60075771B /* CR_LoggingMock.swift */; };
+		E3CEC11B28EED5C10075771B /* CR_LogHandlerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CEC11A28EED5C10075771B /* CR_LogHandlerMock.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -814,6 +816,8 @@
 		E3BEF58028E4A1B7008F42C3 /* CR_BidManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_BidManagerMock.swift; sourceTree = "<group>"; };
 		E3CBBF1928E48E1D00622566 /* CR_ConfigManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_ConfigManagerMock.swift; sourceTree = "<group>"; };
 		E3CBBF1B28E49A4700622566 /* MockProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockProtocol.swift; sourceTree = "<group>"; };
+		E3CEC11828EECCA60075771B /* CR_LoggingMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_LoggingMock.swift; sourceTree = "<group>"; };
+		E3CEC11A28EED5C10075771B /* CR_LogHandlerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_LogHandlerMock.swift; sourceTree = "<group>"; };
 		E593B589465B7029941A63DF /* Pods-CriteoPublisherSdk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoPublisherSdk.release.xcconfig"; path = "Target Support Files/Pods-CriteoPublisherSdk/Pods-CriteoPublisherSdk.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1676,6 +1680,8 @@
 				E37F067D28E5BFF0003C54C7 /* CR_CdbResponseMock.swift */,
 				E3CBBF1928E48E1D00622566 /* CR_ConfigManagerMock.swift */,
 				E324099E28E71403009ACF75 /* CR_FeedbackDelegateMock.swift */,
+				E3CEC11828EECCA60075771B /* CR_LoggingMock.swift */,
+				E3CEC11A28EED5C10075771B /* CR_LogHandlerMock.swift */,
 				E3CBBF1B28E49A4700622566 /* MockProtocol.swift */,
 			);
 			path = Mocks;
@@ -2123,6 +2129,7 @@
 				7D3E424223915B6600BAF673 /* CRNativeAdUnitTests.m in Sources */,
 				46C403F42578F3EC00E5179C /* CR_LoggingFunctionalTests.m in Sources */,
 				7D3E423723915B6600BAF673 /* CR_BidFetchTrackerTests.m in Sources */,
+				E3CEC11B28EED5C10075771B /* CR_LogHandlerMock.swift in Sources */,
 				7D54813B244F643C005FB742 /* CR_InMemoryUserDefaults.m in Sources */,
 				E355112228E3606600A2C07D /* CR_CacheManagerMock.swift in Sources */,
 				7D3E422523915B6600BAF673 /* CR_DeviceInfoTests.m in Sources */,
@@ -2209,6 +2216,7 @@
 				C07ABE4119C225312438484B /* CR_DefaultMediaDownloaderTests.m in Sources */,
 				C07ABAA1393B946F538A802C /* CR_ImageCacheTests.m in Sources */,
 				C07AB22678B6CBC62B23F559 /* UIImage+Testing.m in Sources */,
+				E3CEC11928EECCA60075771B /* CR_LoggingMock.swift in Sources */,
 				464D6FC1254812E5004502C4 /* SKAdNetworkInfoTests.swift in Sources */,
 				C07AB9F7F2A6BB33242A47D5 /* CR_DisplaySizeInjectorTests.m in Sources */,
 				C07ABD165AFA5B3044B8AAD3 /* CR_RemoteConfigRequestTests.m in Sources */,

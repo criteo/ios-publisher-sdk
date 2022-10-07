@@ -17,7 +17,8 @@
 // limitations under the License.
 //
 
-import Foundation
+import CriteoPublisherSdk
+
 
 class CR_CdbResponseMock: CR_CdbResponse {
 
@@ -35,6 +36,7 @@ class CR_CdbResponseMock: CR_CdbResponse {
     }
   }
 }
+
 
 // MARK: - MockProtocol
 

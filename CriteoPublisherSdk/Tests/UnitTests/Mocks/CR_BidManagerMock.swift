@@ -19,6 +19,7 @@
 
 import CriteoPublisherSdk
 
+
 class CR_BidManagerMock: CR_BidManager {
 
 
