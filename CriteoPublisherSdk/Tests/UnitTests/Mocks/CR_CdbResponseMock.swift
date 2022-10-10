@@ -32,7 +32,7 @@ class CR_CdbResponseMock: CR_CdbResponse {
       return cdbBidsOverride ?? super.cdbBids
     }
     set {
-      super.cdbBids = newValue
+      cdbBidsOverride = newValue
     }
   }
 }

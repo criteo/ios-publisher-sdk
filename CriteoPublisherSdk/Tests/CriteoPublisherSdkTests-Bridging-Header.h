@@ -20,6 +20,7 @@
 #import "CR_DependencyProvider.h"
 #import "CR_DependencyProvider+Testing.h"
 #import "CR_DeviceInfoMock.h"
+#import "CR_DisplaySizeInjector.h"
 #import "CR_FeedbackController.h"
 #import "CR_FeedbackFileManager.h"
 #import "CR_FeedbackMessage.h"

@@ -211,7 +211,6 @@
 		7D3E423923915B6600BAF673 /* CR_AppEventsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E420F23915B6600BAF673 /* CR_AppEventsTests.m */; };
 		7D3E423A23915B6600BAF673 /* CRBannerAdUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E421023915B6600BAF673 /* CRBannerAdUnitTests.m */; };
 		7D3E423D23915B6600BAF673 /* CR_CacheManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E421423915B6600BAF673 /* CR_CacheManagerTests.m */; };
-		7D3E423E23915B6600BAF673 /* CR_BidManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E421523915B6600BAF673 /* CR_BidManagerTests.m */; };
 		7D3E423F23915B6600BAF673 /* CR_CdbResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E421623915B6600BAF673 /* CR_CdbResponseTests.m */; };
 		7D3E424023915B6600BAF673 /* CRInterstitialAdUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E421723915B6600BAF673 /* CRInterstitialAdUnitTests.m */; };
 		7D3E424123915B6600BAF673 /* CR_CacheAdUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3E421923915B6600BAF673 /* CR_CacheAdUnitTests.m */; };
@@ -351,6 +350,7 @@
 		E3CBBF1C28E49A4700622566 /* MockProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CBBF1B28E49A4700622566 /* MockProtocol.swift */; };
 		E3CEC11928EECCA60075771B /* CR_LoggingMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CEC11828EECCA60075771B /* CR_LoggingMock.swift */; };
 		E3CEC11B28EED5C10075771B /* CR_LogHandlerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CEC11A28EED5C10075771B /* CR_LogHandlerMock.swift */; };
+		E3CEC11D28F43C530075771B /* CR_HeaderBiddingMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CEC11C28F43C530075771B /* CR_HeaderBiddingMock.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -612,7 +612,6 @@
 		7D3E420F23915B6600BAF673 /* CR_AppEventsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_AppEventsTests.m; sourceTree = "<group>"; };
 		7D3E421023915B6600BAF673 /* CRBannerAdUnitTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRBannerAdUnitTests.m; sourceTree = "<group>"; };
 		7D3E421423915B6600BAF673 /* CR_CacheManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_CacheManagerTests.m; sourceTree = "<group>"; };
-		7D3E421523915B6600BAF673 /* CR_BidManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_BidManagerTests.m; sourceTree = "<group>"; };
 		7D3E421623915B6600BAF673 /* CR_CdbResponseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_CdbResponseTests.m; sourceTree = "<group>"; };
 		7D3E421723915B6600BAF673 /* CRInterstitialAdUnitTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialAdUnitTests.m; sourceTree = "<group>"; };
 		7D3E421823915B6600BAF673 /* DFPRequestClasses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DFPRequestClasses.h; sourceTree = "<group>"; };
@@ -818,6 +817,7 @@
 		E3CBBF1B28E49A4700622566 /* MockProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockProtocol.swift; sourceTree = "<group>"; };
 		E3CEC11828EECCA60075771B /* CR_LoggingMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_LoggingMock.swift; sourceTree = "<group>"; };
 		E3CEC11A28EED5C10075771B /* CR_LogHandlerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_LogHandlerMock.swift; sourceTree = "<group>"; };
+		E3CEC11C28F43C530075771B /* CR_HeaderBiddingMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_HeaderBiddingMock.swift; sourceTree = "<group>"; };
 		E593B589465B7029941A63DF /* Pods-CriteoPublisherSdk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoPublisherSdk.release.xcconfig"; path = "Target Support Files/Pods-CriteoPublisherSdk/Pods-CriteoPublisherSdk.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1212,7 +1212,6 @@
 				7D3E422123915B6600BAF673 /* CR_AdUnitHelperTests.m */,
 				54BF56B0242F5677006ACC65 /* CR_BidManagerFeedbackSendingTests.m */,
 				542FCFAF242BD06C000D9DA9 /* CR_BidManagerFeedbackTests.m */,
-				7D3E421523915B6600BAF673 /* CR_BidManagerTests.m */,
 				E355111B28E1A26200A2C07D /* CR_BidManagerTestsSwift.swift */,
 				7D3E421923915B6600BAF673 /* CR_CacheAdUnitTests.m */,
 				7D3E421423915B6600BAF673 /* CR_CacheManagerTests.m */,
@@ -1680,6 +1679,7 @@
 				E37F067D28E5BFF0003C54C7 /* CR_CdbResponseMock.swift */,
 				E3CBBF1928E48E1D00622566 /* CR_ConfigManagerMock.swift */,
 				E324099E28E71403009ACF75 /* CR_FeedbackDelegateMock.swift */,
+				E3CEC11C28F43C530075771B /* CR_HeaderBiddingMock.swift */,
 				E3CEC11828EECCA60075771B /* CR_LoggingMock.swift */,
 				E3CEC11A28EED5C10075771B /* CR_LogHandlerMock.swift */,
 				E3CBBF1B28E49A4700622566 /* MockProtocol.swift */,
@@ -2080,7 +2080,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7D80F61C24059E2D005B7BA3 /* CR_GdprMock.swift in Sources */,
-				7D3E423E23915B6600BAF673 /* CR_BidManagerTests.m in Sources */,
 				7D3E422323915B6600BAF673 /* CR_ConfigManagerTests.m in Sources */,
 				7D3E422E23915B6600BAF673 /* NSArray+CriteoTests.m in Sources */,
 				7D49F9D8243B782400CF3941 /* WKWebView+Testing.m in Sources */,
@@ -2189,6 +2188,7 @@
 				46BC3960246EDA5200F0B2F1 /* CRNativeAdViewTests.m in Sources */,
 				E37F067E28E5BFF0003C54C7 /* CR_CdbResponseMock.swift in Sources */,
 				E355111F28E3353300A2C07D /* CR_ApiHandlerMock.swift in Sources */,
+				E3CEC11D28F43C530075771B /* CR_HeaderBiddingMock.swift in Sources */,
 				6540470F22581D32009235A1 /* MockWKWebView.m in Sources */,
 				7DA2F5BD23A0D9E400B35524 /* CR_DataProtectionConsentMock.m in Sources */,
 				7D3E424123915B6600BAF673 /* CR_CacheAdUnitTests.m in Sources */,
