@@ -61,6 +61,11 @@ static Criteo *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
 + (instancetype)sharedCriteo {
+
+  if (sharedInstance != nil) {
+    return sharedInstance; // Used for mocking Criteo's testing dependency provider
+  }
+
   // The initialization step of the SDK involves logger which need the sharedCriteo.
   // To handle the circular dependency, the pure instantiation is separated from the initialization.
   __block BOOL wasInstantiated = NO;
@@ -233,6 +238,12 @@ static dispatch_once_t onceToken;
 
 + (void)setVerboseLogsEnabled:(BOOL)enabled {
   [CR_Logging setConsoleSeverityThreshold:enabled ? CR_LogSeverityInfo : CR_LogSeverityWarning];
+}
+
+#pragma mark - Testing
+
++ (void)setSharedInstance:(Criteo *)instance {
+  sharedInstance = instance;
 }
 
 #pragma mark - Intended for manual tests

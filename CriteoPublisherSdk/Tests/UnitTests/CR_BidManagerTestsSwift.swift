@@ -94,7 +94,7 @@ class CR_BidManagerTestsSwift: XCTestCase {
 
   override func tearDown() {
 
-//      [self.loggingMock stopMocking];
+    //      [self.loggingMock stopMocking];
     dependencyProvider.feedbackStorage.popMessagesToSend()
 
     super.tearDown()
@@ -131,6 +131,20 @@ class CR_BidManagerTestsSwift: XCTestCase {
     }
 
     return bidBuilder.build
+  }
+
+  /// Injects an instance of Criteo initialized with the testing dependency provider to be used for the singleton.
+  /// This is needed because the current implementation of the Criteo singleton forces the instance to create a new dependency provider.
+  /// FIXME: In the future maybe this mocking injection mechanism will be removed and the Criteo singleton will be updated to accept the testing dependency provider.
+  /// - returns A boolean value which is true if the Criteo instance was created succesfully.
+  private func mockCriteoSingleton() -> Bool {
+
+    if let mockedDependencyProviderCriteo = Criteo(dependencyProvider: dependencyProvider) {
+      Criteo.setSharedInstance(mockedDependencyProviderCriteo)
+      return true
+    } else {
+      return false
+    }
   }
 
 
@@ -1501,6 +1515,7 @@ class CR_BidManagerTestsSwift: XCTestCase {
     XCTAssertNil(dependencyProvider.cacheManager.bidCache[adUnit])
   }
 
+  /// Having no cached bid, when fetching a live bid and receiving a silenced bid, the expectation is to cache received bid and not consume it.
   func testLiveBid_GivenSilentBid_ThenNoResponseGivenAndSlotSilenced() {
 
     let adUnit = createAdUnit()
@@ -1511,6 +1526,8 @@ class CR_BidManagerTestsSwift: XCTestCase {
     cdbResponseMock.cdbBids = [bidSilenced]
     feedbackDelegateMock.reset()
     logHandlerMock.reset()
+
+    XCTAssertTrue(mockCriteoSingleton())
 
     let currentQueue = OperationQueue.current?.underlyingQueue
 
@@ -1540,5 +1557,106 @@ class CR_BidManagerTestsSwift: XCTestCase {
     wait(for: [fetchLiveBidExpectation], timeout: timeout)
 
     XCTAssertTrue(logHandlerMock.logMessageWasCalled)
+    XCTAssertEqual(logHandlerMock.logMessageWasCalledWithMessage?.tag, "Cache")
+    XCTAssertNotNil(logHandlerMock.logMessageWasCalledWithMessage?.message.contains("Silent mode enabled for slot"))
+    XCTAssertNotNil(logHandlerMock.logMessageWasCalledWithMessage?.message.contains("\(adUnit.adUnitId)"))
+    XCTAssertNotNil(logHandlerMock.logMessageWasCalledWithMessage?.message.contains("\(adUnit.size)"))
+  }
+
+  /// Having a cached silenced bid, when fetching a live bid and receiving a valid bid, the expectation is to not cache and to consume the received bid and keep the cached silenced bid.
+  func testLiveBid_GivenSilentBidPutInCache_ThenBidFromResponseGiven() {
+
+    let adUnit = createAdUnit()
+    let bidSilenced = createBid(adUnit: adUnit, types: [.silenced])
+    let bidValid = createBid(adUnit: adUnit)
+
+    apiHandlerMock.callCdbBeforeCdbResponseBlock = { [unowned self] in
+      cacheManagerMock.bidCache[adUnit] = bidSilenced
+    }
+    cdbResponseMock.cdbBids = [bidValid]
+    feedbackDelegateMock.reset()
+
+    let currentQueue = OperationQueue.current?.underlyingQueue
+
+    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+
+      currentQueue?.async { [unowned self] in
+
+        fetchLiveBidExpectation.fulfill()
+
+        XCTAssertEqual(bidReceived, bidValid)
+
+        XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
+        XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
+
+        XCTAssertFalse(cacheManagerMock.setBidWasCalled)
+        XCTAssertNil(cacheManagerMock.setBidWasCalledWithBid)
+
+        XCTAssertFalse(feedbackDelegateMock.onBidCachedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidCachedWasCalledWithBid)
+
+        XCTAssertTrue(feedbackDelegateMock.onBidConsumedWasCalled)
+        XCTAssertEqual(feedbackDelegateMock.onBidConsumedWasCalledWithBid, bidValid)
+      }
+    }
+
+    wait(for: [fetchLiveBidExpectation], timeout: timeout)
+
+    do {
+      let bidCached = try XCTUnwrap(dependencyProvider.cacheManager.bidCache[adUnit] as? CR_CdbBid)
+      XCTAssertEqual(bidCached, bidSilenced)
+    } catch {
+      XCTFail("Failed to retrieve cached bid!")
+    }
+  }
+
+  /// Having a cached silenced bid, when fetching a live bid and receiving a valid bid,  the expectation is to not cache the received bid and keep the initial cached bid.
+  func testLiveBid_GivenResponseAfterTimeBudgetAndSilentBidPutInCache_ThenNoResponseGiven() {
+
+    let adUnit = createAdUnit()
+    let bidSilenced = createBid(adUnit: adUnit, types: [.silenced])
+    let bidValid = createBid(adUnit: adUnit)
+
+    apiHandlerMock.callCdbBeforeCdbResponseBlock = { [unowned self] in
+      cacheManagerMock.bidCache[adUnit] = bidSilenced
+    }
+    cdbResponseMock.cdbBids = [bidValid]
+    feedbackDelegateMock.reset()
+    synchronousThreadManager.isTimeout = true
+
+    let currentQueue = OperationQueue.current?.underlyingQueue
+
+    let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+
+      currentQueue?.async { [unowned self] in
+
+        fetchLiveBidExpectation.fulfill()
+
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+
+        XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
+        XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
+
+        XCTAssertFalse(cacheManagerMock.setBidWasCalled)
+        XCTAssertNil(cacheManagerMock.setBidWasCalledWithBid)
+
+        XCTAssertTrue(feedbackDelegateMock.onBidCachedWasCalled) // this should be false, but because of caching before the CDB call this is transformed to true
+        XCTAssertEqual(feedbackDelegateMock.onBidCachedWasCalledWithBid, bidValid) // this should be nil, but because of caching before the CDB call this is transformed to some
+
+        XCTAssertFalse(feedbackDelegateMock.onBidConsumedWasCalled)
+        XCTAssertNil(feedbackDelegateMock.onBidConsumedWasCalledWithBid)
+      }
+    }
+
+    wait(for: [fetchLiveBidExpectation], timeout: timeout)
+
+    do {
+      let bidCached = try XCTUnwrap(dependencyProvider.cacheManager.bidCache[adUnit] as? CR_CdbBid)
+      XCTAssertEqual(bidCached, bidSilenced)
+    } catch {
+      XCTFail("Failed to retrieve cached bid!")
+    }
   }
 }

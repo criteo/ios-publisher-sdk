@@ -255,34 +255,9 @@
 
 #pragma mark Silent slot
 
-- (void)testLiveBid_GivenExpiredSilentBidInCache_ThenBidFromResponseGiven {
-  CR_CdbBid *expiredSilentBid =
-  CR_CdbBidBuilder.new.adUnit(self.adUnit1).silenced().expired().build;
-  self.bid1 = expiredSilentBid;
-  self.cacheManager.bidCache[self.adUnit1] = self.bid1;
-  CR_CdbBid *liveBid = [self givenApiHandlerRespondValidBid];
-
-  [self fetchLiveBidAndExpectBidCached:nil bidConsumed:expiredSilentBid bidResponded:liveBid];
-
-  // Silent bid has been removed from cache
-  XCTAssertNil(self.cacheManager.bidCache[self.adUnit1]);
-}
-
 // MARK: ####################################################################
 
-- (void)testLiveBid_GivenSilentBid_ThenNoResponseGivenAndSlotSilenced {
-  CR_CdbBid *silentBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).silenced().build;
-  [self givenApiHandlerRespondBid:silentBid];
 
-  [self fetchLiveBidAndExpectBidCached:silentBid bidConsumed:nil bidResponded:nil];
-  OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
-    return [logMessage.tag isEqualToString:@"SilentMode"] &&
-    [logMessage.message
-     containsString:@"Silent mode enabled for slot"] &&
-    [logMessage.message containsString:self.adUnit1.adUnitId] &&
-    [logMessage.message containsString:@"300"];
-  }]]);
-}
 
 // MARK: ####################################################################
 
@@ -292,34 +267,7 @@
 
 
 
-- (void)testLiveBid_GivenSilentBidPutInCache_ThenBidFromResponseGiven {
-  CR_CdbBid *silentBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).silenced().build;
-  void (^silenceSlot)(void) = ^{
-    self.bid1 = silentBid;
-    self.cacheManager.bidCache[self.adUnit1] = self.bid1;
-  };
-  CR_CdbBid *liveBid = [self givenApiHandlerRespondBid:[self validCdbBidForAdUnit:self.adUnit1]
-                                 doingBeforeResponding:silenceSlot];
 
-  [self fetchLiveBidAndExpectBidCached:nil bidConsumedAndResponded:liveBid];
-
-  XCTAssertEqual(self.cacheManager.bidCache[self.adUnit1], silentBid);
-}
-
-- (void)testLiveBid_GivenResponseAfterTimeBudgetAndSilentBidPutInCache_ThenNoResponseGiven {
-  CR_CdbBid *silentBid = CR_CdbBidBuilder.new.adUnit(self.adUnit1).silenced().build;
-  void (^silenceSlot)(void) = ^{
-    self.bid1 = silentBid;
-    self.cacheManager.bidCache[self.adUnit1] = self.bid1;
-  };
-  [self givenApiHandlerRespondBid:[self validCdbBidForAdUnit:self.adUnit1]
-            doingBeforeResponding:silenceSlot];
-  [self givenTimeBudgetExceeded];
-
-  [self fetchLiveBidAndExpectBidCached:nil bidConsumed:nil bidResponded:nil];
-
-  XCTAssertEqual(self.cacheManager.bidCache[self.adUnit1], silentBid);
-}
 
 - (void)testLiveBid_GivenResponseAfterTimeBudgetAndExpiredSilentBidPutInCache_ThenNoResponseGiven {
   CR_CdbBid *expiredSilentBid =
