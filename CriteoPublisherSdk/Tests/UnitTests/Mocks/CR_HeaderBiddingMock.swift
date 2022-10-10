@@ -37,7 +37,6 @@ class CR_HeaderBiddingMock: CR_HeaderBidding {
   var enrichRequestWasCalledWithAdUnit: CR_CacheAdUnit? = nil
 
   override func enrichRequest(_ request: Any, with bid: CR_CdbBid, adUnit: CR_CacheAdUnit) {
-
     enrichRequestWasCalled = true
     enrichRequestWasCalledWithRequest = request
     enrichRequestWasCalledWithAdUnit = adUnit
@@ -50,7 +49,6 @@ class CR_HeaderBiddingMock: CR_HeaderBidding {
 extension CR_HeaderBiddingMock: MockProtocol {
 
   func reset() {
-
     enrichRequestWasCalled = false
     enrichRequestWasCalledWithRequest = nil
     enrichRequestWasCalledWithAdUnit = nil

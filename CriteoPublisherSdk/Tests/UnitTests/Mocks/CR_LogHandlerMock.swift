@@ -50,7 +50,6 @@ extension CR_LogHandlerMock: CR_LogHandler {
 extension CR_LogHandlerMock: MockProtocol {
 
   func reset() {
-
     logMessageWasCalled = false
     logMessageWasCalledWithMessage = nil
   }

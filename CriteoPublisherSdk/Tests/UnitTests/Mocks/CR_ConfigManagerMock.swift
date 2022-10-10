@@ -46,6 +46,7 @@ class CR_ConfigManagerMock: CR_ConfigManager {
 extension CR_ConfigManagerMock: MockProtocol {
 
   func reset() {
+    
     refreshConfigWasCalled = false
   }
 }

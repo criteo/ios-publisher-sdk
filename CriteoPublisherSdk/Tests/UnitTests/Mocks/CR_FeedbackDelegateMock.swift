@@ -70,7 +70,6 @@ extension CR_FeedbackDelegateMock: CR_FeedbackDelegate {
 extension CR_FeedbackDelegateMock: MockProtocol {
 
   func reset() {
-
     onCdbCallStartedWasCalled = false
     onCdbCallWasCalled = false
     onCdbCallFailureWasCalled = false
