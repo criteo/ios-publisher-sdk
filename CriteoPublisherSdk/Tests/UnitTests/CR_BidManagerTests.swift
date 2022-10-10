@@ -1,5 +1,5 @@
 //
-//  CR_BidManagerTestsSwift.swift
+//  CR_BidManagerTests.swift
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2022 Criteo. All rights reserved.
@@ -23,7 +23,7 @@ import GoogleMobileAds
 import XCTest
 
 
-class CR_BidManagerTestsSwift: XCTestCase {
+class CR_BidManagerTests: XCTestCase {
 
 
   // MARK: - Variables
