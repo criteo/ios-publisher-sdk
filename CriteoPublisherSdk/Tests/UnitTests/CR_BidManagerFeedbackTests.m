@@ -253,7 +253,7 @@
 
   [self prefetchBidWithMockedResponseForAdUnit:self.adUnit];
 
-  [self.bidManager getBidThenFetch:self.adUnit withContext:self.contextData];
+  [self.bidManager getBidThenFetch:self.adUnit withContext:self.contextData responseHandler:nil];
 
   CR_FeedbackMessage *message = self.lastSentMessages[0];
   XCTAssertEqualObjects(message, expected);
@@ -274,7 +274,7 @@
   self.cdbResponse.cdbBids = @[ expired ];
   [self prefetchBidWithMockedResponseForAdUnit:self.adUnit];
 
-  [self.bidManager getBidThenFetch:self.adUnit withContext:self.contextData];
+  [self.bidManager getBidThenFetch:self.adUnit withContext:self.contextData responseHandler:nil];
 
   CR_FeedbackMessage *message = self.lastSentMessages[0];
   XCTAssertEqualObjects(message, expected);
@@ -290,7 +290,7 @@
                                         error:nil];
   [self.bidManager prefetchBidForAdUnit:self.adUnit withContext:self.contextData];
 
-  [self.bidManager getBidThenFetch:self.adUnit withContext:self.contextData];
+  [self.bidManager getBidThenFetch:self.adUnit withContext:self.contextData responseHandler:nil];
 
   CR_FeedbackMessage *message = self.lastSentMessages[0];
   XCTAssertEqualObjects(message, expected);
@@ -394,7 +394,7 @@
 - (void)testReadyToSendOnBidConsumed {
   [self prefetchBidWithMockedResponseForAdUnit:self.adUnit];
 
-  [self.bidManager getBidThenFetch:self.adUnit withContext:self.contextData];
+  [self.bidManager getBidThenFetch:self.adUnit withContext:self.contextData responseHandler:nil];
 
   XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 1);
   XCTAssertEqual(self.lastSentMessages.count, 1);
@@ -404,7 +404,7 @@
   CR_CdbBid *expiredBid = CR_CdbBidBuilder.new.adUnit(self.adUnit).expired().build;
   self.cacheManager.bidCache[self.adUnit] = expiredBid;
 
-  [self.bidManager getBidThenFetch:self.adUnit withContext:self.contextData];
+  [self.bidManager getBidThenFetch:self.adUnit withContext:self.contextData responseHandler:nil];
 
   XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
   XCTAssertEqual(self.lastSentMessages.count, 1);
@@ -418,7 +418,7 @@
   [self.bidManager prefetchBidForAdUnit:self.adUnit withContext:self.contextData];
   self.lastSentMessages = nil;
 
-  [self.bidManager getBidThenFetch:self.adUnit withContext:self.contextData];
+  [self.bidManager getBidThenFetch:self.adUnit withContext:self.contextData responseHandler:nil];
 
   XCTAssertEqual(self.feedbackFileManagingMock.readWriteDictionary.count, 0);
   XCTAssertEqual([self.feedbackSendingQueue size], 0);

@@ -1,5 +1,8 @@
 disabled_rules:
+  - file_length # Violated by long test files, like CR_BidManagerTests
   - line_length # Violated because it can be enabled on-demand from Xcode > Preferences > Text Editing > Wrap lines to editor width
   - syntactic_sugar # Violated because Dictionary<AnyHashable, String> is easier to read than [AnyHashable:String]
+  - todo # Violated because some of the comments are caused by the Objective-C to Swift conversion
   - type_name # Violated by class names with underline, like CR_FeedbackStorageTests
+  - type_body_length # Violated by long test files, like CR_BidManagerTests
   - vertical_whitespace # Violated by 2-empty line spacing before protocol conformances, MARK, FIXME

@@ -30,7 +30,9 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
 
 - (void)prefetchBidForAdUnit:(CR_CacheAdUnit *)adUnit withContext:(CRContextData *)contextData;
 
-- (CR_CdbBid *)getBidThenFetch:(CR_CacheAdUnit *)slot withContext:(CRContextData *)contextData;
+- (CR_CdbBid *)getBidThenFetch:(CR_CacheAdUnit *)slot
+                   withContext:(CRContextData *)contextData
+               responseHandler:(CR_CdbBidResponseHandler _Nullable)responseHandler;
 
 - (void)fetchBidsForAdUnits:(CR_CacheAdUnitArray *)adUnits
                 withContext:(CRContextData *)contextData
