@@ -106,6 +106,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)setVerboseLogsEnabled:(BOOL)enabled;
 
+#pragma mark - Testing
+
++ (void)setSharedInstance:(Criteo *)instance;
+
 @end
 NS_ASSUME_NONNULL_END
 
