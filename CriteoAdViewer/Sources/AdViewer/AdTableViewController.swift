@@ -31,13 +31,14 @@ class AdTableViewController: UITableViewController {
   private let numberOfCells = 50
 
   private enum CellType: String {
-    case basic, ad
+    case typeBasic
+    case typeAd
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    tableView.register(UITableViewCell.self, forCellReuseIdentifier: CellType.basic.rawValue)
-    tableView.register(UITableViewCell.self, forCellReuseIdentifier: CellType.ad.rawValue)
+    tableView.register(UITableViewCell.self, forCellReuseIdentifier: CellType.typeBasic.rawValue)
+    tableView.register(UITableViewCell.self, forCellReuseIdentifier: CellType.typeAd.rawValue)
   }
 
   // MARK: - Table view data source
@@ -50,17 +51,15 @@ class AdTableViewController: UITableViewController {
     return numberOfCells
   }
 
-  override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
-  {
+  override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return tableView.frame.size.height / CGFloat(adCellIndexPath.row / 2)
   }
 
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath)
-    -> UITableViewCell
-  {
+    -> UITableViewCell {
     if indexPath == adCellIndexPath {
       let cell = tableView.dequeueReusableCell(
-        withIdentifier: CellType.ad.rawValue,
+        withIdentifier: CellType.typeAd.rawValue,
         for: indexPath)
       if let adView = adView {
         adView.frame = CGRect(
@@ -74,7 +73,7 @@ class AdTableViewController: UITableViewController {
     }
 
     let cell = tableView.dequeueReusableCell(
-      withIdentifier: CellType.basic.rawValue,
+      withIdentifier: CellType.typeBasic.rawValue,
       for: indexPath)
     cell.textLabel?.text = "Cell \(indexPath.row + 1)"
     return cell

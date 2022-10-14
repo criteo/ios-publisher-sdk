@@ -81,8 +81,7 @@ public final class AdViewRow<ViewType: UIView>: Row<AdViewCell<ViewType, String>
     //  Deal with the case where the caller did not add their custom view to the containerView in a
     //  backwards compatible manner.
     if let view = cell.view,
-      view.superview != cell.contentView
-    {
+      view.superview != cell.contentView {
       view.backgroundColor = AdViewConstants.backgroundColor
       view.removeFromSuperview()
       cell.contentView.addSubview(view)

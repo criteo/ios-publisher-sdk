@@ -47,9 +47,9 @@ class AdvancedNativeView: UIView {
 }
 
 extension AdvancedNativeView: CRNativeLoaderDelegate {
-  public func nativeLoader(_ loader: CRNativeLoader, didReceive ad: CRNativeAd) {
-    delegate?.nativeLoader?(loader, didReceive: ad)
-    adView!.nativeLoader(loader, didReceive: ad)
+  public func nativeLoader(_ loader: CRNativeLoader, didReceive nativeAd: CRNativeAd) {
+    delegate?.nativeLoader?(loader, didReceive: nativeAd)
+    adView!.nativeLoader(loader, didReceive: nativeAd)
   }
 
   public func nativeLoader(_ loader: CRNativeLoader, didFailToReceiveAdWithError error: Error) {

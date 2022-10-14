@@ -45,10 +45,8 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
       internalContextProvider: internalContextProvider)
     request = CR_CdbRequest(
       profileId: testProfileId,
-      adUnits: [
-        CR_CacheAdUnit(adUnitId: "1", width: 1, height: 1),
-        CR_CacheAdUnit(adUnitId: "2", width: 2, height: 2),
-      ])
+      adUnits: [CR_CacheAdUnit(adUnitId: "1", width: 1, height: 1),
+                CR_CacheAdUnit(adUnitId: "2", width: 2, height: 2)])
     config.criteoPublisherId = "Test Published Id"
   }
 
@@ -61,115 +59,72 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
 
   func testBodyWithSdkVersion() {
     let body = generateBody()
-
-    let sdkVersion = body[NSString.sdkVersionKey]! as! String
-    XCTAssertEqual(sdkVersion, config.sdkVersion)
+    XCTAssertEqual(body[NSString.sdkVersionKey] as? String, config.sdkVersion)
   }
 
   func testBodyWithProfileId() {
     let body = generateBody()
-
-    let profileId = body[NSString.profileIdKey]! as! NSNumber
-    XCTAssertEqual(profileId, testProfileId)
+    XCTAssertEqual(body[NSString.profileIdKey] as? NSNumber, testProfileId)
   }
 
   func testBodyWithRequestGroupId() {
     let body = generateBody()
-
-    let requestGroupId = body["id"]! as! String
-    XCTAssertEqual(requestGroupId, request.requestGroupId)
+    XCTAssertEqual(body["id"] as? String, request.requestGroupId)
   }
 
   func testBodyWithPublisher() {
-    let expected =
-      [
-        NSString.bundleIdKey: config.appId,
-        NSString.cpIdKey: config.criteoPublisherId!,
-        "ext": [:] as [String: AnyHashable],
-      ] as [String: AnyHashable]
-
+    let expected: NSDictionary = [NSString.bundleIdKey: config.appId, NSString.cpIdKey: config.criteoPublisherId!, "ext": NSDictionary()]
     let body = generateBody()
-
-    let publisher: [String: AnyHashable] = body[NSString.publisherKey]! as! [String: AnyHashable]
-    XCTAssertEqual(publisher, expected)
+    XCTAssertEqual(body[NSString.publisherKey] as? NSDictionary, expected)
   }
 
   // MARK: User in body
 
   func testBodyWithUser() {
     let body = generateBody()
-
-    let user: [String: AnyHashable] = body[NSString.userKey]! as! [String: AnyHashable]
-    XCTAssertEqual(user.count, 8)
-    XCTAssertEqual(user[NSString.userAgentKey], deviceInfo.userAgent)
-    XCTAssertEqual(user[NSString.deviceIdKey], deviceInfo.deviceId)
-    XCTAssertEqual(user[NSString.deviceOsKey], config.deviceOs)
-    XCTAssertEqual(user[NSString.deviceModelKey], config.deviceModel)
-    XCTAssertEqual(user[NSString.deviceIdTypeKey], NSString.deviceIdTypeValue)
-    XCTAssertEqual(user[NSString.uspIabKey], consent.usPrivacyIabConsentString!)
-    XCTAssertEqual(user["ext"], [:] as [String: AnyHashable])
-    XCTAssertEqual(
-      user["skAdNetwork"],
-      [
-        "version": "2.0",
-        "skAdNetworkIds": ["hs6bdukanm.skadnetwork"],
-      ] as [String: AnyHashable])
+    let user: NSDictionary? = body[NSString.userKey] as? NSDictionary
+    XCTAssertEqual(user?.count, 8)
+    XCTAssertEqual(user?[NSString.userAgentKey] as? String, deviceInfo.userAgent)
+    XCTAssertEqual(user?[NSString.deviceIdKey] as? String, deviceInfo.deviceId)
+    XCTAssertEqual(user?[NSString.deviceOsKey] as? String, config.deviceOs)
+    XCTAssertEqual(user?[NSString.deviceModelKey] as? String, config.deviceModel)
+    XCTAssertEqual(user?[NSString.deviceIdTypeKey] as? String, NSString.deviceIdTypeValue)
+    XCTAssertEqual(user?[NSString.uspIabKey] as? String, consent.usPrivacyIabConsentString!)
+    XCTAssertEqual(user?["ext"] as? NSDictionary, NSDictionary())
+    XCTAssertEqual(user?["skAdNetwork"] as? NSDictionary, ["version": "2.0", "skAdNetworkIds": ["hs6bdukanm.skadnetwork"]] as? NSDictionary)
   }
 
   func testBodyWithUsPrivacyConsentString() {
     consent.usPrivacyIabConsentString_mock = "US Privacy String"
-
     let body = generateBody()
-
-    let user: [String: AnyHashable] = body[NSString.userKey]! as! [String: AnyHashable]
-    XCTAssertEqual(user[NSString.uspIabKey]!, "US Privacy String")
+    let user = body[NSString.userKey] as? Dictionary<String, AnyHashable>
+    XCTAssertEqual(user?[NSString.uspIabKey]!, "US Privacy String")
   }
 
   func testBodyWithCriteoPrivacyOpIn() {
     consent.usPrivacyCriteoState = .optIn
-
     let body = generateBody()
-
-    let user: [String: AnyHashable] = body[NSString.userKey]! as! [String: AnyHashable]
-    XCTAssertEqual(user[NSString.uspCriteoOptout]!, false)
+    let user = body[NSString.userKey] as? Dictionary<String, AnyHashable>
+    XCTAssertEqual(user?[NSString.uspCriteoOptout], false)
   }
 
   func testBodyWithCriteoPrivacyOpOut() {
     consent.usPrivacyCriteoState = .optOut
-
     let body = generateBody()
-
-    let user: [String: AnyHashable] = body[NSString.userKey]! as! [String: AnyHashable]
-    XCTAssertEqual(user[NSString.uspCriteoOptout]!, true)
+    let user = body[NSString.userKey] as? Dictionary<String, AnyHashable>
+    XCTAssertEqual(user?[NSString.uspCriteoOptout], true)
   }
 
   func testBodyWithContext() {
-    context = CRContextData(dictionary: [
-      "a.a": "foo",
-      "b": "bar",
-    ])
-
-    let expected =
-      [
-        "a": [
-          "a": "foo"
-        ],
-        "b": "bar",
-      ] as [String: AnyHashable]
-
+    context = CRContextData(dictionary: ["a.a": "foo", "b": "bar"])
+    let expected = ["a": ["a": "foo"], "b": "bar"] as [String: AnyHashable]
     let body = generateBody()
-
-    let publisher = body["publisher"]! as! [String: AnyHashable]
-    XCTAssertEqual(publisher["ext"], expected)
+    let publisher = body["publisher"] as? Dictionary<String, AnyHashable>
+    XCTAssertEqual(publisher?["ext"], expected)
   }
 
-  private func generateBody() -> [String: AnyHashable] {
-    return serializer.body(
-      with: request,
-      consent: consent,
-      config: config,
-      deviceInfo: deviceInfo,
-      context: context) as! [String: AnyHashable]
+  private func generateBody() -> [AnyHashable: Any] {
+    return serializer.body(with: request, consent: consent, config: config, deviceInfo: deviceInfo, context: context)
   }
 }
 

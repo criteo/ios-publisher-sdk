@@ -43,8 +43,7 @@ class LogTableViewController: UITableViewController {
   }
 
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath)
-    -> UITableViewCell
-  {
+    -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "LogEntryCell", for: indexPath)
 
     let logEntry = logManager.logs[indexPath.row]

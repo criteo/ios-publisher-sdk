@@ -44,7 +44,7 @@ target 'CriteoGoogleAdapterTests' do
 end
 
 # Development tools
-pod 'SwiftLint'
+pod 'SwiftLint', '~> 0.45.0'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

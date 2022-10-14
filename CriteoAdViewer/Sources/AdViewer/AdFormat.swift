@@ -26,13 +26,14 @@ extension AdType: CustomStringConvertible {
 }
 
 enum AdSize: String {
-  case _320x50, _300x250
+  case size320x50
+  case size300x250
 
   func cgSize() -> CGSize {
     switch self {
-    case ._320x50:
+    case .size320x50:
       return CGSize(width: 320, height: 50)
-    case ._300x250:
+    case .size300x250:
       return CGSize(width: 300, height: 250)
     }
   }
@@ -46,8 +47,8 @@ enum AdFormat: Hashable {
   case sized(AdType, AdSize)
   case flexible(AdType)
 
-  static let banner320x50 = AdFormat.sized(.banner, ._320x50)
-  static let banner300x250 = AdFormat.sized(.banner, ._300x250)
+  static let banner320x50 = AdFormat.sized(.banner, .size320x50)
+  static let banner300x250 = AdFormat.sized(.banner, .size300x250)
   static let native = AdFormat.flexible(.native)
   static let interstitial = AdFormat.flexible(.interstitial)
   static let video = AdFormat.flexible(.video)

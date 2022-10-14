@@ -91,14 +91,14 @@ private func googleNetwork(_ controller: AdViewController) -> AdNetwork {
       AdFormat.native,
       AdFormat.interstitial,
       AdFormat.video,
-      AdFormat.rewarded,
+      AdFormat.rewarded
     ],
     defaultAdUnits: [
       AdFormat.banner320x50: "/140800857/Endeavour_320x50",
       AdFormat.banner300x250: "/140800857/Endeavour_300x250",
       AdFormat.native: "/140800857/Endeavour_Native",
       AdFormat.interstitial: "/140800857/Endeavour_Interstitial_320x480",
-      AdFormat.video: "/140800857/Endeavour_InterstitialVideo_320x480",
+      AdFormat.video: "/140800857/Endeavour_InterstitialVideo_320x480"
     ],
     specificAdUnits: [
       AdFormat.rewarded: (
@@ -115,12 +115,12 @@ private func standaloneNetwork(_ controller: AdViewController) -> AdNetwork {
     supportedFormats: [
       AdFormat.banner320x50,
       AdFormat.interstitial,
-      AdFormat.native,
+      AdFormat.native
     ],
     defaultAdUnits: [
       AdFormat.banner320x50: "30s6zt3ayypfyemwjvmp",
       AdFormat.interstitial: "6yws53jyfjgoq1ghnuqb",
-      AdFormat.native: "190tsfngohsvfkh3hmkm",
+      AdFormat.native: "190tsfngohsvfkh3hmkm"
     ], adViewBuilder: CriteoAdViewBuilder(controller: controller, type: .standalone))
 }
 
@@ -129,10 +129,10 @@ private func inHouseNetwork(controller: AdViewController) -> AdNetwork {
     name: "InHouse",
     supportedFormats: [
       AdFormat.banner320x50,
-      AdFormat.interstitial,
+      AdFormat.interstitial
     ],
     defaultAdUnits: [
       AdFormat.banner320x50: "30s6zt3ayypfyemwjvmp",
-      AdFormat.interstitial: "6yws53jyfjgoq1ghnuqb",
+      AdFormat.interstitial: "6yws53jyfjgoq1ghnuqb"
     ], adViewBuilder: CriteoAdViewBuilder(controller: controller, type: .inHouse))
 }

@@ -61,8 +61,8 @@ class CR_DefaultFileManipulatorTests: XCTestCase {
     try self.fileManager.createDirectory(atPath: self.testPath, withIntermediateDirectories: false)
     let bytes = malloc(fileSize)!
     let dummyData = Data(bytes: bytes, count: fileSize)
-    for i in 1...fileCount {
-      let dummyPath = (self.testPath as NSString).appendingPathComponent("dummy\(i)")
+    for count in 1...fileCount {
+      let dummyPath = (self.testPath as NSString).appendingPathComponent("dummy\(count)")
       try NSData(data: dummyData).write(toFile: dummyPath)
     }
   }

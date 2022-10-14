@@ -112,9 +112,7 @@ class FileManipulatorMock: NSObject, CR_FileManipulating {
 class CorruptedRemoteLogStorage: CR_RemoteLogStorage {
   var crashedOnce = false
 
-  @objc override func buildQueue(withAbsolutePath: String, maxFileLength: UInt)
-    -> CR_CASObjectQueue<CR_RemoteLogRecord>
-  {
+  @objc override func buildQueue(withAbsolutePath: String, maxFileLength: UInt) -> CR_CASObjectQueue<CR_RemoteLogRecord> {
     if !crashedOnce {
       crashedOnce = true
       NSException(name: NSExceptionName.rangeException, reason: "ノಠ益ಠノ彡┻━┻").raise()
