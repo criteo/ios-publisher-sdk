@@ -36,58 +36,55 @@ class CR_FeedbackFileManagerTests: XCTestCase {
   }
 
   func testReadMissingFile() {
-    let x = self.feedbackFileManager.readFeedback(forFilename: "")
-    XCTAssertNil(x)
+    let feedbackMessage = self.feedbackFileManager.readFeedback(forFilename: "")
+    XCTAssertNil(feedbackMessage)
   }
 
   func testWriteThenRead() {
-    let x = CR_FeedbackMessage()
-    x.cdbCallStartTimestamp = now()
+    let feedbackMessage1 = CR_FeedbackMessage()
+    feedbackMessage1.cdbCallStartTimestamp = now()
 
-    self.feedbackFileManager.writeFeedback(x, forFilename: "")
-    let x1 = self.feedbackFileManager.readFeedback(forFilename: "")
+    self.feedbackFileManager.writeFeedback(feedbackMessage1, forFilename: "")
+    let feedbackMessage2 = self.feedbackFileManager.readFeedback(forFilename: "")
 
-    XCTAssertEqual(x, x1)
+    XCTAssertEqual(feedbackMessage1, feedbackMessage2)
   }
 
   func testOverwriteThenRead() {
-    let x = CR_FeedbackMessage()
+    let feedbackMessage1 = CR_FeedbackMessage()
 
-    x.cdbCallStartTimestamp = now()
-    self.feedbackFileManager.writeFeedback(x, forFilename: "")
+    feedbackMessage1.cdbCallStartTimestamp = now()
+    self.feedbackFileManager.writeFeedback(feedbackMessage1, forFilename: "")
 
-    x.cdbCallStartTimestamp = now()
-    x.cdbCallEndTimestamp = now()
-    self.feedbackFileManager.writeFeedback(x, forFilename: "")
-    let x1 = self.feedbackFileManager.readFeedback(forFilename: "")
+    feedbackMessage1.cdbCallStartTimestamp = now()
+    feedbackMessage1.cdbCallEndTimestamp = now()
+    self.feedbackFileManager.writeFeedback(feedbackMessage1, forFilename: "")
+    let feedbackMessage2 = self.feedbackFileManager.readFeedback(forFilename: "")
 
-    XCTAssertEqual(x, x1)
+    XCTAssertEqual(feedbackMessage1, feedbackMessage2)
   }
 
   func testRemoveMissingFile() {
     self.feedbackFileManager.removeFile(forFilename: "")
-    let x = self.feedbackFileManager.readFeedback(forFilename: "")
-    XCTAssertNil(x)
+    let feedbackMessage = self.feedbackFileManager.readFeedback(forFilename: "")
+    XCTAssertNil(feedbackMessage)
   }
 
   func testRemoveExistingFile() {
     self.feedbackFileManager.writeFeedback(CR_FeedbackMessage(), forFilename: "")
-    let x = self.feedbackFileManager.readFeedback(forFilename: "")
-    XCTAssertNotNil(x)
+    let feedbackMessage1 = self.feedbackFileManager.readFeedback(forFilename: "")
+    XCTAssertNotNil(feedbackMessage1)
 
     self.feedbackFileManager.removeFile(forFilename: "")
-    let x1 = self.feedbackFileManager.readFeedback(forFilename: "")
-    XCTAssertNil(x1)
+    let feedbackMessage2 = self.feedbackFileManager.readFeedback(forFilename: "")
+    XCTAssertNil(feedbackMessage2)
   }
 
   func testInitialisationFailedBecauseNoRootDirectory() {
     let mock = self.fileManipulatingMock!
     mock.rootPaths = []
-    let x =
-      CR_FeedbackFileManager(
-        fileManipulating: mock,
-        activeMetricsMaxFileSize: testsActiveMetricsMaxFileSize) as CR_FeedbackFileManager?
-    XCTAssertNil(x)
+    let feedbackFileManager: CR_FeedbackFileManager? = CR_FeedbackFileManager(fileManipulating: mock, activeMetricsMaxFileSize: testsActiveMetricsMaxFileSize)
+    XCTAssertNil(feedbackFileManager)
   }
 
   func testDirectoryExists_ShouldNotCallCreateDirectory() {
@@ -112,11 +109,9 @@ class CR_FeedbackFileManagerTests: XCTestCase {
     let mock = self.fileManipulatingMock!
     mock.sizeOfDirectory = activeMetricsMaxFileSize
     mock.fileExistsResponse = false
-    self.feedbackFileManager = CR_FeedbackFileManager(
-      fileManipulating: mock,
-      activeMetricsMaxFileSize: activeMetricsMaxFileSize)
-    let x = CR_FeedbackMessage()
-    self.feedbackFileManager.writeFeedback(x, forFilename: "")
+    self.feedbackFileManager = CR_FeedbackFileManager(fileManipulating: mock, activeMetricsMaxFileSize: activeMetricsMaxFileSize)
+    let feedbackMessage = CR_FeedbackMessage()
+    self.feedbackFileManager.writeFeedback(feedbackMessage, forFilename: "")
     XCTAssertNil(mock.message, "Feedback should not be written on maxFileSize bound")
   }
 

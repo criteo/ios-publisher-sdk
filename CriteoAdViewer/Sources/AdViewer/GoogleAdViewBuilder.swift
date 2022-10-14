@@ -58,8 +58,8 @@ class GoogleAdViewBuilder: AdViewBuilder {
 
   private func googleAdSize(size: AdSize) -> GADAdSize {
     switch size {
-    case ._320x50: return GADAdSizeBanner
-    case ._300x250: return GADAdSizeMediumRectangle
+    case .size320x50: return GADAdSizeBanner
+    case .size300x250: return GADAdSizeMediumRectangle
     }
   }
 
@@ -74,38 +74,32 @@ class GoogleAdViewBuilder: AdViewBuilder {
     return adView
   }
 
-  private func buildInterstitial(
-    config: AdConfig, criteo: Criteo, completion: @escaping (AdView) -> Void
-  ) {
+  private func buildInterstitial(config: AdConfig, criteo: Criteo, completion: @escaping (AdView) -> Void) {
     let adUnit = config.adUnit
 
     loadAdView(criteo: criteo, adUnit: adUnit) { request in
-      GAMInterstitialAd.load(withAdManagerAdUnitID: config.externalAdUnitId, request: request) {
-        maybeAd, maybeError in
+      GAMInterstitialAd.load(withAdManagerAdUnitID: config.externalAdUnitId, request: request) { maybeAd, maybeError in
         if let error = maybeError {
           print("Failed to load interstitial ad with error: \(error.localizedDescription)")
         }
-        if let ad = maybeAd {
-          ad.fullScreenContentDelegate = self.logger
-          completion(.interstitial(ad))
+        if let maybeAd = maybeAd {
+          maybeAd.fullScreenContentDelegate = self.logger
+          completion(.interstitial(maybeAd))
         }
       }
     }
   }
 
-  private func buildRewarded(
-    config: AdConfig, criteo: Criteo, completion: @escaping (AdView) -> Void
-  ) {
+  private func buildRewarded(config: AdConfig, criteo: Criteo, completion: @escaping (AdView) -> Void) {
     let adUnit = config.adUnit
     loadAdView(criteo: criteo, adUnit: adUnit) { request in
-      GADRewardedAd.load(withAdUnitID: config.externalAdUnitId, request: request) {
-        maybeAd, maybeError in
+      GADRewardedAd.load(withAdUnitID: config.externalAdUnitId, request: request) { maybeAd, maybeError in
         if let error = maybeError {
           print("Failed to load rewarded ad with error: \(error.localizedDescription)")
         }
-        if let ad = maybeAd {
-          ad.fullScreenContentDelegate = self.logger
-          completion(.interstitial(ad))
+        if let maybeAd = maybeAd {
+          maybeAd.fullScreenContentDelegate = self.logger
+          completion(.interstitial(maybeAd))
         }
       }
     }

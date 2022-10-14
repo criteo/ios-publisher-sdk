@@ -35,14 +35,8 @@ class CR_FeedbackSerializerTests: XCTestCase {
   }
 
   func testMessagesCount() {
-    let messages = [
-      CR_FeedbackMessage(),
-      CR_FeedbackMessage(),
-      CR_FeedbackMessage(),
-    ]
-    let body =
-      self.serializer.postBody(forCsm: messages, config: config, profileId: profileId)
-      as NSDictionary
+    let messages = [CR_FeedbackMessage(), CR_FeedbackMessage(), CR_FeedbackMessage()]
+    let body = self.serializer.postBody(forCsm: messages, config: config, profileId: profileId) as NSDictionary
     let feedbacks = body["feedbacks"] as? NSArray
     XCTAssertEqual(feedbacks?.count, messages.count)
   }
@@ -91,28 +85,33 @@ class CR_FeedbackSerializerTests: XCTestCase {
     message.zoneId = 42
 
     let feedback = serializeSingleMessage(message: message)
-    let slot = (feedback["slots"] as! NSArray)[0] as! NSDictionary
+    let slots = feedback["slots"] as? NSArray
+    let firstSlot = slots?.firstObject as? NSDictionary
 
-    XCTAssertEqual(slot["cachedBidUsed"] as? Bool, true)
-    XCTAssertEqual(slot["impressionId"] as? String, impressionId)
-    XCTAssertEqual(slot["zoneId"] as? Int, 42)
+    XCTAssertEqual(firstSlot?["cachedBidUsed"] as? Bool, true)
+    XCTAssertEqual(firstSlot?["impressionId"] as? String, impressionId)
+    XCTAssertEqual(firstSlot?["zoneId"] as? Int, 42)
   }
 
   func testEmptyMessage_SlotPart() {
     let feedback = serializeSingleMessage(message: CR_FeedbackMessage())
-    let slot = (feedback["slots"] as! NSArray)[0] as! NSDictionary
+    let slots = feedback["slots"] as? NSArray
+    let firstSlot = slots?.firstObject as? NSDictionary
 
-    XCTAssertEqual(slot["cachedBidUsed"] as? Bool, false)
-    XCTAssertNil(slot["impressionId"] as? String)
-    XCTAssertNil(slot["zoneId"] as? Int)
+    XCTAssertEqual(firstSlot?["cachedBidUsed"] as? Bool, false)
+    XCTAssertNil(firstSlot?["impressionId"] as? String)
+    XCTAssertNil(firstSlot?["zoneId"] as? Int)
   }
 
   private func serializeSingleMessage(message: CR_FeedbackMessage) -> NSDictionary {
-    let body =
-      self.serializer.postBody(forCsm: [message], config: config, profileId: profileId)
-      as NSDictionary
-    let feedbacks = body["feedbacks"] as! NSArray
-    let feedback = feedbacks[0] as! NSDictionary
-    return feedback
+    let body = self.serializer.postBody(forCsm: [message], config: config, profileId: profileId)
+    let feedbacks = body["feedbacks"] as? NSArray
+    do {
+      let firstFeedback = try XCTUnwrap(feedbacks?.firstObject as? NSDictionary)
+      return firstFeedback
+    } catch {
+      XCTFail("Failed to extract first feedback!")
+    }
+    return NSDictionary()
   }
 }

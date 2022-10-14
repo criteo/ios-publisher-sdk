@@ -79,9 +79,9 @@ NS_ASSUME_NONNULL_BEGIN
  * ad.
  *
  * @param loader Native loader invoking the callback
- * @param ad native ad with the data that may be used to render it
+ * @param nativeAd Native ad with the data that may be used to render it
  */
-- (void)nativeLoader:(CRNativeLoader *)loader didReceiveAd:(CRNativeAd *)ad;
+- (void)nativeLoader:(CRNativeLoader *)loader didReceiveAd:(CRNativeAd *)nativeAd;
 
 /**
  * Callback invoked when the SDK fails to provide a native ad.

@@ -103,11 +103,9 @@ class CR_FeedbackMessageTests: XCTestCase {
     return result
   }
 
-  private func assertTwoMessagesObjectAndHashEquality(
-    _ a: CR_FeedbackMessage, _ b: CR_FeedbackMessage, file: StaticString = #file, line: UInt = #line
-  ) {
-    XCTAssertEqual(a, b, file: file, line: line)
-    XCTAssertTrue(a.hash == b.hash, file: file, line: line)
+  private func assertTwoMessagesObjectAndHashEquality(_ lhs: CR_FeedbackMessage, _ rhs: CR_FeedbackMessage, file: StaticString = #file, line: UInt = #line) {
+    XCTAssertEqual(lhs, rhs, file: file, line: line)
+    XCTAssertTrue(lhs.hash == rhs.hash, file: file, line: line)
   }
 
   private func assertMessageEqualityAfterEncodingAndDecoding(
@@ -132,6 +130,12 @@ class CR_FeedbackMessageTests: XCTestCase {
 
   private func archiveAndUnarchiveObsoleteWay(message: CR_FeedbackMessage) -> CR_FeedbackMessage {
     let data = NSKeyedArchiver.archivedData(withRootObject: message)
-    return NSKeyedUnarchiver.unarchiveObject(with: data) as! CR_FeedbackMessage
+    do {
+      let feedbackMessage = try XCTUnwrap(NSKeyedUnarchiver.unarchiveObject(with: data) as? CR_FeedbackMessage)
+      return feedbackMessage
+    } catch {
+      XCTFail("Failed to unarchiveObject!")
+    }
+    return CR_FeedbackMessage()
   }
 }

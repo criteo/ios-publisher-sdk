@@ -37,7 +37,7 @@ class CR_GdprSerializerTests: XCTestCase {
     let expected: [String: AnyHashable]? = [
       NSString.gdprVersionKey: 1,
       NSString.gdprConsentDataKey: NSString.gdprConsentStringForTcf1_1,
-      NSString.gdprAppliesKey: true,
+      NSString.gdprAppliesKey: true
     ]
 
     let actual = self.serializer.dictionary(for: self.gdpr)
@@ -51,7 +51,7 @@ class CR_GdprSerializerTests: XCTestCase {
     let expected: [String: AnyHashable]? = [
       NSString.gdprVersionKey: 2,
       NSString.gdprConsentDataKey: NSString.gdprConsentStringForTcf2_0,
-      NSString.gdprAppliesKey: true,
+      NSString.gdprAppliesKey: true
     ]
 
     let actual = self.serializer.dictionary(for: self.gdpr)
@@ -64,7 +64,7 @@ class CR_GdprSerializerTests: XCTestCase {
     self.gdpr.consentStringValue = nil
     let expected: [String: AnyHashable]? = [
       NSString.gdprVersionKey: 2,
-      NSString.gdprAppliesKey: true,
+      NSString.gdprAppliesKey: true
         // No NSString.gdprConsentDataKey
     ]
 
@@ -78,7 +78,7 @@ class CR_GdprSerializerTests: XCTestCase {
     self.gdpr.appliesValue = nil
     let expected: [String: AnyHashable]? = [
       NSString.gdprVersionKey: 2,
-      NSString.gdprConsentDataKey: NSString.gdprConsentStringForTcf2_0,
+      NSString.gdprConsentDataKey: NSString.gdprConsentStringForTcf2_0
       // No NSString.gdprAppliesKey
     ]
 

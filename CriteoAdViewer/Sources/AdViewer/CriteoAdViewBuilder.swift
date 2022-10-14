@@ -65,8 +65,7 @@ class CriteoAdViewBuilder: AdViewBuilder {
     return adView
   }
 
-  private func buildInterstitial(_ adUnit: CRInterstitialAdUnit, _ criteo: Criteo) -> CRInterstitial
-  {
+  private func buildInterstitial(_ adUnit: CRInterstitialAdUnit, _ criteo: Criteo) -> CRInterstitial {
     var adView: CRInterstitial
     switch adType {
     case .standalone:
