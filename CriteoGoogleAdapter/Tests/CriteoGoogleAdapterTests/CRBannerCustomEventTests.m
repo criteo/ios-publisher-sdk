@@ -78,7 +78,7 @@
   OCMStub([mockCriteo sharedCriteo]).andReturn(mockCriteo);
   OCMStub([mockCriteo registerCriteoPublisherId:@"testCpId" withAdUnits:@[ bannerAdUnit ]]);
 
-  [customEvent requestBannerAd:kGADAdSizeBanner
+  [customEvent requestBannerAd:GADAdSizeBanner
                      parameter:SERVER_PARAMETER
                          label:nil
                        request:[GADCustomEventRequest new]];
