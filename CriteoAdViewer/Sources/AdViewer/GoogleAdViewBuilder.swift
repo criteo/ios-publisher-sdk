@@ -36,7 +36,7 @@ class GoogleAdViewBuilder: AdViewBuilder {
       completion(
         .banner(buildBanner(config: config, size: googleAdSize(size: size), criteo: criteo)))
     case .flexible(.native):
-      completion(.banner(buildBanner(config: config, size: kGADAdSizeFluid, criteo: criteo)))
+      completion(.banner(buildBanner(config: config, size: GADAdSizeFluid, criteo: criteo)))
     case .flexible(.interstitial), .flexible(.video):
       buildInterstitial(config: config, criteo: criteo, completion: completion)
     case .flexible(.rewarded):
@@ -58,8 +58,8 @@ class GoogleAdViewBuilder: AdViewBuilder {
 
   private func googleAdSize(size: AdSize) -> GADAdSize {
     switch size {
-    case ._320x50: return kGADAdSizeBanner
-    case ._300x250: return kGADAdSizeMediumRectangle
+    case ._320x50: return GADAdSizeBanner
+    case ._300x250: return GADAdSizeMediumRectangle
     }
   }
 
