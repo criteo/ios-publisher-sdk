@@ -1,8 +1,8 @@
 //
-//  CRCustomBannerEvent.h
-//  CriteoMoPubAdapter
+//  CRCustomEventInterstitial.h
+//  CriteoGoogleAdapter
 //
-//  Copyright © 2018-2020 Criteo. All rights reserved.
+// Copyright © 2018-2020 Criteo. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,25 +16,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if __has_include(<MoPub/MoPub.h>)
-#import <MoPub/MoPub.h>
-#elif __has_include(<MoPubSDK/MoPub.h>)
-#import <MoPubSDK/MoPub.h>
-#elif __has_include(<MoPubSDKFramework/MoPub.h>)
-#import <MoPubSDKFramework/MoPub.h>
-#else
-#import "MoPub.h"
-#import "MPInlineAdAdapter.h"
-#endif
-
 #import <Foundation/Foundation.h>
 #import <CriteoPublisherSdk/CriteoPublisherSdk.h>
-#import "CRCriteoAdapterConfiguration.h"
+@import GoogleMobileAds;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CRBannerCustomEvent
-    : MPInlineAdAdapter <CRBannerViewDelegate, MPThirdPartyInlineAdAdapter>
+@interface CRCustomEventInterstitial : NSObject <GADCustomEventInterstitial, CRInterstitialDelegate>
+@property(nonatomic, weak, nullable) id<GADCustomEventInterstitialDelegate> delegate;
+
+- (void)requestInterstitialAdWithParameter:(nullable NSString *)serverParameter
+                                     label:(nullable NSString *)serverLabel
+                                   request:(nonnull GADCustomEventRequest *)request;
+
+- (void)presentFromRootViewController:(nonnull UIViewController *)rootViewController;
+
 @end
 
 NS_ASSUME_NONNULL_END

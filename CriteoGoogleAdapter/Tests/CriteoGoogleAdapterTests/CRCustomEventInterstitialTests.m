@@ -1,5 +1,5 @@
 //
-//  CRInterstitialCustomEventTests.m
+//  CRCustomEventInterstitialTests.m
 //  CriteoGoogleAdapterTests
 //
 // Copyright © 2018-2020 Criteo. All rights reserved.
@@ -18,28 +18,28 @@
 
 #import <XCTest/XCTest.h>
 #import <OCMock.h>
-#import "CRInterstitialCustomEvent.h"
+#import "CRCustomEventInterstitial.h"
 
-@interface CRInterstitialCustomEventTests : XCTestCase
+@interface CRCustomEventInterstitialTests : XCTestCase
 
 @end
 
-// Private property (duplicates code in CRInterstitialCustomEvent.m so that we can use it in
+// Private property (duplicates code in CRCustomEventInterstitial.m so that we can use it in
 // testing)
-@interface CRInterstitialCustomEvent ()
+@interface CRCustomEventInterstitial ()
 
 @property(nonatomic, strong) CRInterstitial *interstitial;
 
 @end
 
 // Test-only initializer
-@interface CRInterstitialCustomEvent (Test)
+@interface CRCustomEventInterstitial (Test)
 
 - (instancetype)initWithInterstitial:(CRInterstitial *)interstitial;
 
 @end
 
-@implementation CRInterstitialCustomEvent (Test)
+@implementation CRCustomEventInterstitial (Test)
 
 - (instancetype)initWithInterstitial:(CRInterstitial *)interstitial {
   if (self = [super init]) {
@@ -52,10 +52,10 @@
 
 #define SERVER_PARAMETER @"{\"cpId\":\"testCpId\",\"adUnitId\":\"testAdUnitId\"}"
 
-@implementation CRInterstitialCustomEventTests
+@implementation CRCustomEventInterstitialTests
 
 - (void)testCustomEventDelegateFailWhenParametersIsNil {
-  CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
+  CRCustomEventInterstitial *customEvent = [CRCustomEventInterstitial new];
   id mockGADInterstitialDelegate =
       OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
   OCMExpect([mockGADInterstitialDelegate
@@ -75,8 +75,8 @@
   CRInterstitial *mockCRInterstitial = OCMStrictClassMock([CRInterstitial class]);
   CRInterstitialAdUnit *interstitialAdUnit =
       [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"testAdUnitId"];
-  CRInterstitialCustomEvent *customEvent =
-      [[CRInterstitialCustomEvent alloc] initWithInterstitial:mockCRInterstitial];
+  CRCustomEventInterstitial *customEvent =
+      [[CRCustomEventInterstitial alloc] initWithInterstitial:mockCRInterstitial];
 
   OCMStub([mockCRInterstitial loadAd]);
   OCMStub([mockCRInterstitial setDelegate:customEvent]);
@@ -101,7 +101,7 @@
 #pragma mark CRInterstitial Delegate tests
 
 - (void)testDidFailToReceiveAdDelegate {
-  CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
+  CRCustomEventInterstitial *customEvent = [CRCustomEventInterstitial new];
   id mockGADInterstitialDelegate =
       OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
   NSError *CriteoError =
@@ -121,7 +121,7 @@
 }
 
 - (void)testWillAppearDelegate {
-  CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
+  CRCustomEventInterstitial *customEvent = [CRCustomEventInterstitial new];
   id mockGADInterstitialDelegate =
       OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
   OCMExpect([mockGADInterstitialDelegate customEventInterstitialWillPresent:customEvent]);
@@ -132,7 +132,7 @@
 }
 
 - (void)testWillDisappearDelegate {
-  CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
+  CRCustomEventInterstitial *customEvent = [CRCustomEventInterstitial new];
   id mockGADInterstitialDelegate =
       OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
   OCMExpect([mockGADInterstitialDelegate customEventInterstitialWillDismiss:customEvent]);
@@ -143,7 +143,7 @@
 }
 
 - (void)testDidDisappearDelegate {
-  CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
+  CRCustomEventInterstitial *customEvent = [CRCustomEventInterstitial new];
   id mockGADInterstitialDelegate =
       OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
   OCMExpect([mockGADInterstitialDelegate customEventInterstitialDidDismiss:customEvent]);
@@ -154,7 +154,7 @@
 }
 
 - (void)testWillLeaveApplicationDelegate {
-  CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
+  CRCustomEventInterstitial *customEvent = [CRCustomEventInterstitial new];
   id mockGADInterstitialDelegate =
       OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
   OCMExpect([mockGADInterstitialDelegate customEventInterstitialWasClicked:customEvent]);
@@ -166,7 +166,7 @@
 }
 
 - (void)testInterstitialDidReceiveAdDelegate {
-  CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
+  CRCustomEventInterstitial *customEvent = [CRCustomEventInterstitial new];
   id mockGADInterstitialDelegate =
       OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
   OCMExpect([mockGADInterstitialDelegate customEventInterstitialDidReceiveAd:customEvent]);
@@ -177,7 +177,7 @@
 }
 
 - (void)testInterstitialDidFailToReceiveAdContentWithErrorDelegate {
-  CRInterstitialCustomEvent *customEvent = [CRInterstitialCustomEvent new];
+  CRCustomEventInterstitial *customEvent = [CRCustomEventInterstitial new];
   id mockGADInterstitialDelegate =
       OCMStrictProtocolMock(@protocol(GADCustomEventInterstitialDelegate));
   OCMExpect([mockGADInterstitialDelegate customEventInterstitial:customEvent

@@ -1,5 +1,5 @@
 //
-//  CRInterstitialCustomEvent.m
+//  CRCustomEventInterstitial.m
 //  CriteoGoogleAdapter
 //
 // Copyright © 2018-2020 Criteo. All rights reserved.
@@ -16,17 +16,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "CRInterstitialCustomEvent.h"
+#import "CRCustomEventInterstitial.h"
 #import "CRGoogleMediationParameters.h"
 
 // Private property
-@interface CRInterstitialCustomEvent ()
+@interface CRCustomEventInterstitial ()
 
 @property(nonatomic, strong) CRInterstitial *interstitial;
 
 @end
 
-@implementation CRInterstitialCustomEvent
+@implementation CRCustomEventInterstitial
 
 - (void)presentFromRootViewController:(nonnull UIViewController *)rootViewController {
   [self.interstitial presentFromRootViewController:rootViewController];

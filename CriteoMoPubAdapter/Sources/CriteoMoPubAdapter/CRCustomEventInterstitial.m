@@ -1,5 +1,5 @@
 //
-//  CRInterstitialCustomEvent.m
+//  CRCustomEventInterstitial.m
 //  CriteoMoPubAdapter
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -17,17 +17,17 @@
 // limitations under the License.
 
 #import <Foundation/Foundation.h>
-#import "CRInterstitialCustomEvent.h"
+#import "CRCustomEventInterstitial.h"
 #import "CRCustomEventHelper.h"
 #import "NSString+MPConsentStatus.h"
 
-@interface CRInterstitialCustomEvent ()
+@interface CRCustomEventInterstitial ()
 
 @property(nonatomic, strong) CRInterstitial *interstitial;
 
 @end
 
-@implementation CRInterstitialCustomEvent
+@implementation CRCustomEventInterstitial
 
 @synthesize delegate;
 @synthesize localExtras;

@@ -1,5 +1,5 @@
 //
-//  CRBannerCustomEvent.m
+//  CRCustomEventBanner.m
 //  CriteoGoogleAdapter
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -14,17 +14,17 @@
 //  express or implied. See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#import "CRBannerCustomEvent.h"
+#import "CRCustomEventBanner.h"
 #import "CRGoogleMediationParameters.h"
 
 // Private property
-@interface CRBannerCustomEvent ()
+@interface CRCustomEventBanner ()
 
 @property(nonatomic, strong) CRBannerView *bannerView;
 
 @end
 
-@implementation CRBannerCustomEvent
+@implementation CRCustomEventBanner
 
 @synthesize delegate;
 
@@ -39,7 +39,7 @@
       [CRGoogleMediationParameters parametersFromJSONString:serverParameter error:&error];
   if (params == nil) {
     if ([self.delegate respondsToSelector:@selector(customEventBanner:didFailAd:)]) {
-      __block CRBannerCustomEvent *blocksafeSelf = self;
+      __block CRCustomEventBanner *blocksafeSelf = self;
       dispatch_async(dispatch_get_main_queue(), ^{
         [blocksafeSelf.delegate customEventBanner:blocksafeSelf didFailAd:error];
       });

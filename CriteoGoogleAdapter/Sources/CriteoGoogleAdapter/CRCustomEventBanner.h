@@ -1,5 +1,5 @@
 //
-//  CRBannerCustomEvent.h
+//  CRCustomEventBanner.h
 //  CriteoGoogleAdapter
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -14,8 +14,8 @@
 //  express or implied. See the License for the specific language governing permissions and
 //  limitations under the License.
 
-#ifndef CRBannerCustomEvent_h
-#define CRBannerCustomEvent_h
+#ifndef CRCustomEventBanner_h
+#define CRCustomEventBanner_h
 
 #import <Foundation/Foundation.h>
 @import GoogleMobileAds;
@@ -23,9 +23,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CRBannerCustomEvent : NSObject <GADCustomEventBanner, CRBannerViewDelegate>
+@interface CRCustomEventBanner : NSObject <GADCustomEventBanner, CRBannerViewDelegate>
 @end
 
 NS_ASSUME_NONNULL_END
 
-#endif /* CRBannerCustomEvent_h */
+#endif /* CRCustomEventBanner_h */

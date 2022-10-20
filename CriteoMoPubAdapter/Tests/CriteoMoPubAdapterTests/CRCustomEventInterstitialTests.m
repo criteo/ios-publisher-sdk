@@ -1,5 +1,5 @@
 //
-//  CRInterstitialCustomEventTests.m
+//  CRCustomEventInterstitialTests.m
 //  CriteoMoPubAdapterTests
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -18,15 +18,15 @@
 
 #import <XCTest/XCTest.h>
 #import <OCMock.h>
-#import "CRInterstitialCustomEvent.h"
+#import "CRCustomEventInterstitial.h"
 
-@interface CRInterstitialCustomEvent ()
+@interface CRCustomEventInterstitial ()
 
 @property(nonatomic, strong) CRInterstitial *interstitial;
 
 @end
 
-@interface CRInterstitialCustomEvent (Test)
+@interface CRCustomEventInterstitial (Test)
 
 @property(nonatomic, weak) id<MPFullscreenAdAdapterDelegate> delegate;
 
@@ -34,7 +34,7 @@
 
 @end
 
-@implementation CRInterstitialCustomEvent (Test)
+@implementation CRCustomEventInterstitial (Test)
 
 - (void)requestAdWithAdapterInfo:(NSDictionary *)info {
   [self requestAdWithAdapterInfo:info adMarkup:nil];
@@ -53,16 +53,16 @@ static void *DelegateAssociationKey;
 
 @end
 
-@interface CRInterstitialCustomEventTests : XCTestCase
+@interface CRCustomEventInterstitialTests : XCTestCase
 @end
 
-@implementation CRInterstitialCustomEventTests {
+@implementation CRCustomEventInterstitialTests {
   NSString *adUnitId;
   NSDictionary *info;
   NSString *publisherId;
   id mockInterstitial;
   id mockDelegate;
-  CRInterstitialCustomEvent *event;
+  CRCustomEventInterstitial *event;
 }
 
 - (void)setUp {
@@ -71,7 +71,7 @@ static void *DelegateAssociationKey;
   info = @{@"cpId" : publisherId, @"adUnitId" : adUnitId};
   mockInterstitial = OCMClassMock([CRInterstitial class]);
   mockDelegate = OCMStrictProtocolMock(@protocol(MPFullscreenAdAdapterDelegate));
-  event = [[CRInterstitialCustomEvent alloc] init];
+  event = [[CRCustomEventInterstitial alloc] init];
   event.interstitial = mockInterstitial;
   event.delegate = mockDelegate;
 }

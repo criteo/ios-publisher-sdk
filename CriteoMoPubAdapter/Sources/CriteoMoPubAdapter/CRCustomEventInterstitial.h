@@ -32,7 +32,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CRInterstitialCustomEvent
+@interface CRCustomEventInterstitial
     : MPFullscreenAdAdapter <CRInterstitialDelegate, MPThirdPartyFullscreenAdAdapter>
 @end
 

@@ -10,16 +10,16 @@
 		174087F82C298114175BCBB5 /* libPods-CriteoGoogleAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 26D9C65D4FFAA50128EE5DB4 /* libPods-CriteoGoogleAdapter.a */; };
 		463D09452548DAB400086944 /* CriteoGoogleAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463D09442548DAB400086944 /* CriteoGoogleAdapterTests.swift */; };
 		467CC31B24F818FD000021D1 /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF6AE25D24CEB22F00E00CDA /* CriteoPublisherSdk.framework */; };
-		5474B966230F0E3600CBD47E /* CRInterstitialCustomEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 54865DA022FA1BA1001F9A67 /* CRInterstitialCustomEventTests.m */; };
-		54FC7DBC22F4147100202164 /* CRInterstitialCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 54FC7DBA22F4147100202164 /* CRInterstitialCustomEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		54FC7DBD22F4147100202164 /* CRInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 54FC7DBB22F4147100202164 /* CRInterstitialCustomEvent.m */; };
+		5474B966230F0E3600CBD47E /* CRCustomEventInterstitialTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 54865DA022FA1BA1001F9A67 /* CRCustomEventInterstitialTests.m */; };
+		54FC7DBC22F4147100202164 /* CRCustomEventInterstitial.h in Headers */ = {isa = PBXBuildFile; fileRef = 54FC7DBA22F4147100202164 /* CRCustomEventInterstitial.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		54FC7DBD22F4147100202164 /* CRCustomEventInterstitial.m in Sources */ = {isa = PBXBuildFile; fileRef = 54FC7DBB22F4147100202164 /* CRCustomEventInterstitial.m */; };
 		A36837911ADA01CEDFA729A9 /* libPods-CriteoGoogleAdapterTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF43AF45DE0BEECB9A9247A6 /* libPods-CriteoGoogleAdapterTests.a */; };
 		C07ABB57E4BA18C3A8A35B47 /* CR_AdMobIntegrationRegistryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB1B8BF317626BD709C00 /* CR_AdMobIntegrationRegistryTests.m */; };
 		CF6AE25E24CEB22F00E00CDA /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF6AE25D24CEB22F00E00CDA /* CriteoPublisherSdk.framework */; };
-		DF4356A8230485FA0051AC45 /* CRBannerCustomEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DF4356A7230485FA0051AC45 /* CRBannerCustomEventTests.m */; };
+		DF4356A8230485FA0051AC45 /* CRCustomEventBannerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DF4356A7230485FA0051AC45 /* CRCustomEventBannerTests.m */; };
 		DF4356B12304E7B30051AC45 /* CriteoGoogleAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54FC7DA022F4136100202164 /* CriteoGoogleAdapter.framework */; };
-		DFC3F49B23035A9200318644 /* CRBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = DFC3F49923035A9100318644 /* CRBannerCustomEvent.m */; };
-		DFC3F49C23035A9200318644 /* CRBannerCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = DFC3F49A23035A9100318644 /* CRBannerCustomEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DFC3F49B23035A9200318644 /* CRCustomEventBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = DFC3F49923035A9100318644 /* CRCustomEventBanner.m */; };
+		DFC3F49C23035A9200318644 /* CRCustomEventBanner.h in Headers */ = {isa = PBXBuildFile; fileRef = DFC3F49A23035A9100318644 /* CRCustomEventBanner.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DFC3F4A023035AF800318644 /* CRGoogleMediationParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = DFC3F49D23035AF800318644 /* CRGoogleMediationParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DFC3F4A223035AF800318644 /* CRGoogleMediationParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = DFC3F49F23035AF800318644 /* CRGoogleMediationParameters.m */; };
 		DFC3F4AE230370F700318644 /* CRGoogleMediationParametersTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DFC3F4AD230370F700318644 /* CRGoogleMediationParametersTests.m */; };
@@ -41,20 +41,20 @@
 		17D99DE9CD54BBC14D6A4D45 /* Pods-CriteoGoogleAdapterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapterTests.debug.xcconfig"; path = "Target Support Files/Pods-CriteoGoogleAdapterTests/Pods-CriteoGoogleAdapterTests.debug.xcconfig"; sourceTree = "<group>"; };
 		26D9C65D4FFAA50128EE5DB4 /* libPods-CriteoGoogleAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoGoogleAdapter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		463D09442548DAB400086944 /* CriteoGoogleAdapterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CriteoGoogleAdapterTests.swift; sourceTree = "<group>"; };
-		54865DA022FA1BA1001F9A67 /* CRInterstitialCustomEventTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialCustomEventTests.m; sourceTree = "<group>"; };
+		54865DA022FA1BA1001F9A67 /* CRCustomEventInterstitialTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRCustomEventInterstitialTests.m; sourceTree = "<group>"; };
 		54FC7DA022F4136100202164 /* CriteoGoogleAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CriteoGoogleAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		54FC7DA422F4136100202164 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54FC7DA922F4136100202164 /* CriteoGoogleAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CriteoGoogleAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		54FC7DB022F4136100202164 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		54FC7DBA22F4147100202164 /* CRInterstitialCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRInterstitialCustomEvent.h; sourceTree = "<group>"; };
-		54FC7DBB22F4147100202164 /* CRInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialCustomEvent.m; sourceTree = "<group>"; };
+		54FC7DBA22F4147100202164 /* CRCustomEventInterstitial.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRCustomEventInterstitial.h; sourceTree = "<group>"; };
+		54FC7DBB22F4147100202164 /* CRCustomEventInterstitial.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRCustomEventInterstitial.m; sourceTree = "<group>"; };
 		BF43AF45DE0BEECB9A9247A6 /* libPods-CriteoGoogleAdapterTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoGoogleAdapterTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C07AB1B8BF317626BD709C00 /* CR_AdMobIntegrationRegistryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_AdMobIntegrationRegistryTests.m; sourceTree = "<group>"; };
 		CF6AE25D24CEB22F00E00CDA /* CriteoPublisherSdk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CriteoPublisherSdk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6D6F0BAD5AE72930DD2A529 /* Pods-CriteoGoogleAdapterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapterTests.release.xcconfig"; path = "Target Support Files/Pods-CriteoGoogleAdapterTests/Pods-CriteoGoogleAdapterTests.release.xcconfig"; sourceTree = "<group>"; };
-		DF4356A7230485FA0051AC45 /* CRBannerCustomEventTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRBannerCustomEventTests.m; sourceTree = "<group>"; };
-		DFC3F49923035A9100318644 /* CRBannerCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRBannerCustomEvent.m; sourceTree = "<group>"; };
-		DFC3F49A23035A9100318644 /* CRBannerCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRBannerCustomEvent.h; sourceTree = "<group>"; };
+		DF4356A7230485FA0051AC45 /* CRCustomEventBannerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRCustomEventBannerTests.m; sourceTree = "<group>"; };
+		DFC3F49923035A9100318644 /* CRCustomEventBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRCustomEventBanner.m; sourceTree = "<group>"; };
+		DFC3F49A23035A9100318644 /* CRCustomEventBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRCustomEventBanner.h; sourceTree = "<group>"; };
 		DFC3F49D23035AF800318644 /* CRGoogleMediationParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRGoogleMediationParameters.h; sourceTree = "<group>"; };
 		DFC3F49F23035AF800318644 /* CRGoogleMediationParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRGoogleMediationParameters.m; sourceTree = "<group>"; };
 		DFC3F4AD230370F700318644 /* CRGoogleMediationParametersTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRGoogleMediationParametersTests.m; sourceTree = "<group>"; };
@@ -130,10 +130,10 @@
 			children = (
 				DFC3F49D23035AF800318644 /* CRGoogleMediationParameters.h */,
 				DFC3F49F23035AF800318644 /* CRGoogleMediationParameters.m */,
-				DFC3F49A23035A9100318644 /* CRBannerCustomEvent.h */,
-				DFC3F49923035A9100318644 /* CRBannerCustomEvent.m */,
-				54FC7DBA22F4147100202164 /* CRInterstitialCustomEvent.h */,
-				54FC7DBB22F4147100202164 /* CRInterstitialCustomEvent.m */,
+				DFC3F49A23035A9100318644 /* CRCustomEventBanner.h */,
+				DFC3F49923035A9100318644 /* CRCustomEventBanner.m */,
+				54FC7DBA22F4147100202164 /* CRCustomEventInterstitial.h */,
+				54FC7DBB22F4147100202164 /* CRCustomEventInterstitial.m */,
 				54FC7DA422F4136100202164 /* Info.plist */,
 			);
 			name = CriteoGoogleAdapter;
@@ -146,8 +146,8 @@
 				54FC7DB022F4136100202164 /* Info.plist */,
 				463D09442548DAB400086944 /* CriteoGoogleAdapterTests.swift */,
 				DFC3F4AD230370F700318644 /* CRGoogleMediationParametersTests.m */,
-				DF4356A7230485FA0051AC45 /* CRBannerCustomEventTests.m */,
-				54865DA022FA1BA1001F9A67 /* CRInterstitialCustomEventTests.m */,
+				DF4356A7230485FA0051AC45 /* CRCustomEventBannerTests.m */,
+				54865DA022FA1BA1001F9A67 /* CRCustomEventInterstitialTests.m */,
 				C07AB1B8BF317626BD709C00 /* CR_AdMobIntegrationRegistryTests.m */,
 			);
 			name = CriteoGoogleAdapterTests;
@@ -161,8 +161,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54FC7DBC22F4147100202164 /* CRInterstitialCustomEvent.h in Headers */,
-				DFC3F49C23035A9200318644 /* CRBannerCustomEvent.h in Headers */,
+				54FC7DBC22F4147100202164 /* CRCustomEventInterstitial.h in Headers */,
+				DFC3F49C23035A9200318644 /* CRCustomEventBanner.h in Headers */,
 				DFC3F4A023035AF800318644 /* CRGoogleMediationParameters.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -322,8 +322,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DFC3F49B23035A9200318644 /* CRBannerCustomEvent.m in Sources */,
-				54FC7DBD22F4147100202164 /* CRInterstitialCustomEvent.m in Sources */,
+				DFC3F49B23035A9200318644 /* CRCustomEventBanner.m in Sources */,
+				54FC7DBD22F4147100202164 /* CRCustomEventInterstitial.m in Sources */,
 				DFC3F4A223035AF800318644 /* CRGoogleMediationParameters.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -332,8 +332,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5474B966230F0E3600CBD47E /* CRInterstitialCustomEventTests.m in Sources */,
-				DF4356A8230485FA0051AC45 /* CRBannerCustomEventTests.m in Sources */,
+				5474B966230F0E3600CBD47E /* CRCustomEventInterstitialTests.m in Sources */,
+				DF4356A8230485FA0051AC45 /* CRCustomEventBannerTests.m in Sources */,
 				463D09452548DAB400086944 /* CriteoGoogleAdapterTests.swift in Sources */,
 				DFC3F4AE230370F700318644 /* CRGoogleMediationParametersTests.m in Sources */,
 				C07ABB57E4BA18C3A8A35B47 /* CR_AdMobIntegrationRegistryTests.m in Sources */,

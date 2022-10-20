@@ -1,5 +1,5 @@
 //
-//  CRBannerCustomEventTests.m
+//  CRCustomEventBannerTests.m
 //  CriteoGoogleAdapterTests
 //
 //  Copyright © 2018-2020 Criteo. All rights reserved.
@@ -15,28 +15,28 @@
 //  limitations under the License.
 
 #import <XCTest/XCTest.h>
-#import "CRBannerCustomEvent.h"
+#import "CRCustomEventBanner.h"
 #import <OCMock.h>
 
-@interface CRBannerCustomEventTests : XCTestCase
+@interface CRCustomEventBannerTests : XCTestCase
 
 @end
 
 // Private property
-@interface CRBannerCustomEvent ()
+@interface CRCustomEventBanner ()
 
 @property(nonatomic, strong) CRBannerView *bannerView;
 
 @end
 
 // Test-only initializer
-@interface CRBannerCustomEvent (Test)
+@interface CRCustomEventBanner (Test)
 
 - (instancetype)initWithBannerView:(CRBannerView *)bannerView;
 
 @end
 
-@implementation CRBannerCustomEvent (Test)
+@implementation CRCustomEventBanner (Test)
 
 - (instancetype)initWithBannerView:(CRBannerView *)bannerView {
   if (self = [super init]) {
@@ -62,14 +62,14 @@
 
 #define SERVER_PARAMETER @"{\"cpId\":\"testCpId\",\"adUnitId\":\"testAdUnitId\"}"
 
-@implementation CRBannerCustomEventTests
+@implementation CRCustomEventBannerTests
 
 - (void)testRequestBannerAdSuccess {
   CRBannerView *mockCRBannerView = OCMStrictClassMock([CRBannerView class]);
   CRBannerAdUnit *bannerAdUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"testAdUnitId"
                                                                      size:CGSizeMake(320, 50)];
-  CRBannerCustomEvent *customEvent =
-      [[CRBannerCustomEvent alloc] initWithBannerView:mockCRBannerView];
+  CRCustomEventBanner *customEvent =
+      [[CRCustomEventBanner alloc] initWithBannerView:mockCRBannerView];
 
   OCMStub([mockCRBannerView loadAd]);
   OCMStub([mockCRBannerView setDelegate:customEvent]);
@@ -89,7 +89,7 @@
 }
 
 - (void)testRequestBannerAdFail {
-  CRBannerCustomEvent *customEvent = [CRBannerCustomEvent new];
+  CRCustomEventBanner *customEvent = [CRCustomEventBanner new];
   id mockGADBannerDelegate = OCMStrictProtocolMock(@protocol(GADCustomEventBannerDelegate));
   OCMExpect([mockGADBannerDelegate
       customEventBanner:customEvent
@@ -106,7 +106,7 @@
 #pragma mark CRBannerViewDelegate tests
 
 - (void)testDidReceiveAdDelegate {
-  CRBannerCustomEvent *customEvent = [CRBannerCustomEvent new];
+  CRCustomEventBanner *customEvent = [CRCustomEventBanner new];
   CRBannerView *bannerView = [CRBannerView new];
   id mockGADBannerDelegate = OCMStrictProtocolMock(@protocol(GADCustomEventBannerDelegate));
   OCMExpect([mockGADBannerDelegate customEventBanner:customEvent didReceiveAd:bannerView]);
@@ -116,7 +116,7 @@
 }
 
 - (void)testDidFailToReceiveAdDelegate {
-  CRBannerCustomEvent *customEvent = [CRBannerCustomEvent new];
+  CRCustomEventBanner *customEvent = [CRCustomEventBanner new];
   id mockGADBannerDelegate = OCMStrictProtocolMock(@protocol(GADCustomEventBannerDelegate));
   NSError *criteoError =
       [NSError errorWithDomain:@"test domain"
@@ -135,7 +135,7 @@
 }
 
 - (void)testWillLeaveApplicationDelegate {
-  CRBannerCustomEvent *customEvent = [CRBannerCustomEvent new];
+  CRCustomEventBanner *customEvent = [CRCustomEventBanner new];
   id mockGADBannerDelegate = OCMStrictProtocolMock(@protocol(GADCustomEventBannerDelegate));
   OCMExpect([mockGADBannerDelegate customEventBannerWasClicked:customEvent]);
   OCMExpect([mockGADBannerDelegate customEventBannerWillLeaveApplication:customEvent]);
@@ -145,7 +145,7 @@
 }
 
 - (void)testWillLeaveApplicationDelegateDeprecated {
-  CRBannerCustomEvent *customEvent = [CRBannerCustomEvent new];
+  CRCustomEventBanner *customEvent = [CRCustomEventBanner new];
   id mockGADBannerDelegate =
       OCMStrictProtocolMock(@protocol(GADCustomEventBannerDelegateDeprecated));
   CRBannerView *bannerView = [CRBannerView new];

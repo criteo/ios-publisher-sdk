@@ -65,7 +65,7 @@ NSString *const NSUserDefaultsIntegrationKey = @"CRITEO_ProfileId";
 }
 
 - (BOOL)isAdMobMediationPresent {
-  return NSClassFromString(@"CRBannerCustomEvent") != nil &&
+  return NSClassFromString(@"CRCustomEventBanner") != nil &&
          NSProtocolFromString(@"GADCustomEventBanner") != nil;
 }
 

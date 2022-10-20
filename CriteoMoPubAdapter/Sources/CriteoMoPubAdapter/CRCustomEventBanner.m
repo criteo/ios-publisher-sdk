@@ -16,18 +16,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import "CRBannerCustomEvent.h"
+#import "CRCustomEventBanner.h"
 #import "CRCustomEventHelper.h"
 #import "NSString+MPConsentStatus.h"
 
 // Private properties
-@interface CRBannerCustomEvent ()
+@interface CRCustomEventBanner ()
 
 @property(nonatomic, strong) CRBannerView *bannerView;
 
 @end
 
-@implementation CRBannerCustomEvent
+@implementation CRCustomEventBanner
 
 @synthesize delegate;
 @synthesize localExtras;
