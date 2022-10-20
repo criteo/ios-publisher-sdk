@@ -99,7 +99,7 @@
   NSString *invalid = @"{\"cpIDD\":\"testCpId\"}";
   customEvent.delegate = mockGADBannerDelegate;
   GADCustomEventRequest *request = [GADCustomEventRequest new];
-  [customEvent requestBannerAd:kGADAdSizeLargeBanner parameter:invalid label:nil request:request];
+  [customEvent requestBannerAd:GADAdSizeLargeBanner parameter:invalid label:nil request:request];
   OCMVerifyAllWithDelay(mockGADBannerDelegate, 1);
 }
 
