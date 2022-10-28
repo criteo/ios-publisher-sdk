@@ -15,7 +15,7 @@ target 'CriteoPublisherSdkTests' do
   pod 'FunctionalObjC', '~> 1.0'
 
   # Third party SDKs
-  pod 'Google-Mobile-Ads-SDK'
+  pod 'Google-Mobile-Ads-SDK', '~> 9.10.0'
 end
 
 target 'CriteoAdViewer' do

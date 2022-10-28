@@ -1,8 +1,8 @@
 //
-//  CriteoGoogleAdapterTests.swift
-//  CriteoGoogleAdapterTests
+//  CRBannerViewExtension.swift
+//  CriteoGoogleAdapter
 //
-//  Copyright © 2018-2020 Criteo. All rights reserved.
+//  Copyright © 2018-2022 Criteo. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,20 @@
 // limitations under the License.
 //
 
-import Foundation
 
-// NOTE: this file is required by Xcode to link swift runtime
+import CriteoPublisherSdk
+import GoogleMobileAds
+
+
+// MARK: - GADMediationBannerAd
+
+extension CRBannerView: GADMediationBannerAd {
+
+  public var view: UIView {
+    return self
+  }
+
+  public func changeSize(to adSize: GADAdSize) {
+    // TODO: This is not required, maybe add support in the future
+  }
+}
