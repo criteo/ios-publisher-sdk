@@ -1,5 +1,5 @@
 //
-//  CRBannerViewExtension.swift
+//  CRServerParams.swift
 //  CriteoGoogleAdapter
 //
 //  Copyright © 2018-2022 Criteo. All rights reserved.
@@ -17,17 +17,19 @@
 // limitations under the License.
 //
 
-
-import CriteoPublisherSdk
+import Foundation
 import GoogleMobileAds
 
-// MARK: - GADMediationBannerAd
-extension CRBannerView: GADMediationBannerAd {
-    public var view: UIView {
-        return self
-    }
+struct CRServerParams {
+    let adUnitId: String
+    let publisherId: String
 
-    public func changeSize(to adSize: GADAdSize) {
-        // TODO: This is not required, maybe add support in the future
+    init?(with credentials: GADMediationCredentials) {
+        guard
+            let adUnitId = credentials.settings[CRConstants.adUnitId] as? String,
+            let publisherId = credentials.settings[CRConstants.publisherId] as? String
+        else { return nil }
+        self.adUnitId = adUnitId
+        self.publisherId = publisherId
     }
 }

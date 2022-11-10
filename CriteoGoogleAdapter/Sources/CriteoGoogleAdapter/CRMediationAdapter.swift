@@ -23,14 +23,7 @@ import Foundation
 
 class CRMediationAdapter: NSObject {
     // MARK: - Variables
-    var banner: CRBannerView?
-    // weak var delegate: GADMediationInterstitialAdEventDelegate?
-
-    weak var delegateBanner: CRBannerViewDelegate?
-    weak var delegateInterstitial: CRInterstitialDelegate?
-    //  weak war delegateNative: NativeDelegate? // TODO: Implement or remove this
-
-    var interstitial: CRInterstitial?
+    fileprivate var banner: CRBannerCustomEvent?
 
     // MARK: - Life Cycle
     required override init() {
@@ -54,43 +47,19 @@ extension CRMediationAdapter: GADMediationAdapter {
 
     static func setUpWith(_ configuration: GADMediationServerConfiguration,
                           completionHandler: @escaping GADMediationAdapterSetUpCompletionBlock) {
-        debugPrint(#file)
-        debugPrint(#function)
-        debugPrint(configuration)
         completionHandler(nil)
     }
 
     func loadBanner(for adConfiguration: GADMediationBannerAdConfiguration,
                     completionHandler: @escaping GADMediationBannerLoadCompletionHandler) {
+        banner = CRBannerCustomEvent()
+        banner?.loadBanner(for: adConfiguration,
+                           completionHandler: completionHandler)
 
-        if let childDirectedTreatment = adConfiguration.childDirectedTreatment {
-            Criteo.shared().childDirectedTreatment = childDirectedTreatment
-        }
-
-        let adUnit = CRBannerAdUnit(gadMediationBannerAdConfiguration: adConfiguration)
-        Criteo.shared().registerPublisherId("", with: [adUnit]) // TODO: Find a way to get criteoPublisherId
-//        banner = banner ?? CRBannerView(adUnit: adUnit)
-//        banner?.delegate = delegateBanner
-//        banner?.loadAd()
-//        banner?.delegate = completionHandler(banner!, nil)
-        let delegate = completionHandler(banner!, nil)
-        debugPrint(#file)
-        debugPrint(#function)
-        debugPrint(adConfiguration)
-        completionHandler(nil, NSError(domain: "criteo", code: 20))
     }
 
-    func loadInterstitial(for adConfiguration: GADMediationInterstitialAdConfiguration, completionHandler: @escaping GADMediationInterstitialLoadCompletionHandler) {
+    func loadInterstitial(for adConfiguration: GADMediationInterstitialAdConfiguration,
+                          completionHandler: @escaping GADMediationInterstitialLoadCompletionHandler) {
 
-        // TODO: Extract this if let to separate ticket DPP-4127 https://criteo.atlassian.net/browse/DPP-4127
-        if let childDirectedTreatment = adConfiguration.childDirectedTreatment {
-            Criteo.shared().childDirectedTreatment = childDirectedTreatment
-        }
-
-        let adUnit = CRInterstitialAdUnit(gadMediationInterstitialAdConfiguration: adConfiguration)
-        Criteo.shared().registerPublisherId("", with: [adUnit]) // TODO: Find a way to get criteoPublisherId
-        interstitial = interstitial ?? CRInterstitial(adUnit: adUnit)
-        interstitial?.delegate = delegateInterstitial
-        interstitial?.loadAd()
     }
 }

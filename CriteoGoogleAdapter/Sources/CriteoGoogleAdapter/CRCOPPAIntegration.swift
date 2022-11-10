@@ -1,5 +1,5 @@
 //
-//  CRBannerAdUnitExtension.swift
+//  CRCOPPAIntegration.swift
 //  CriteoGoogleAdapter
 //
 //  Copyright © 2018-2022 Criteo. All rights reserved.
@@ -17,13 +17,17 @@
 // limitations under the License.
 //
 
-
+import Foundation
 import CriteoPublisherSdk
 import GoogleMobileAds
 
-extension CRBannerAdUnit {
-    convenience init(gadMediationBannerAdConfiguration configuration: GADMediationBannerAdConfiguration) {
-//        let adUnitId: String = configuration.bid
-        self.init(adUnitId: "", size: configuration.adSize.size)
+protocol CRCOPPAIntegration {
+    func set(childDirectedTreatment config: GADMediationAdConfiguration)
+}
+
+extension CRCOPPAIntegration {
+    func set(childDirectedTreatment config: GADMediationAdConfiguration) {
+        guard let childDirectedTreatment = config.childDirectedTreatment else { return }
+        Criteo.shared().childDirectedTreatment = childDirectedTreatment
     }
 }
