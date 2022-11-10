@@ -54,7 +54,6 @@ PODS:
 DEPENDENCIES:
   - Eureka
   - FunctionalObjC (~> 1.0)
-  - Google-Mobile-Ads-SDK
   - Google-Mobile-Ads-SDK (~> 9.10.0)
   - OCMock (~> 3.6)
   - SwiftLint (~> 0.45.0)
@@ -84,6 +83,6 @@ SPEC CHECKSUMS:
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   SwiftLint: e5c7f1fba68eccfc51509d5b2ce1699f5502e0c7
 
-PODFILE CHECKSUM: bbac6260a7ce2bd5b29a6f91daf869a27fd8c063
+PODFILE CHECKSUM: 48f4d7a054dbd785d1ad40243ac2f2ca7fc8c45a
 
 COCOAPODS: 1.11.2

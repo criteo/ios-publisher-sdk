@@ -22,7 +22,7 @@ target 'CriteoAdViewer' do
   project 'CriteoAdViewer/CriteoAdViewer'
   platform :ios, '10.0'
 
-  pod 'Google-Mobile-Ads-SDK'
+  pod 'Google-Mobile-Ads-SDK', '~> 9.10.0'
   pod 'Eureka'
 end
 
@@ -33,7 +33,7 @@ target 'CriteoGoogleAdapter' do
   # https://github.com/CocoaPods/CocoaPods/issues/10106
   platform :ios, '10.0'
 
-  pod 'Google-Mobile-Ads-SDK'
+  pod 'Google-Mobile-Ads-SDK', '~> 9.10.0'
 end
 
 target 'CriteoGoogleAdapterTests' do

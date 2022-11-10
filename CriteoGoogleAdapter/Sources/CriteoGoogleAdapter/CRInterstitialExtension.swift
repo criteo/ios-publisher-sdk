@@ -21,11 +21,8 @@
 import CriteoPublisherSdk
 import GoogleMobileAds
 
-
 // MARK: - GADMediationInterstitialAd
-
 extension CRInterstitial: GADMediationInterstitialAd {
-
   public func present(from viewController: UIViewController) {
     present(fromRootViewController: viewController)
   }

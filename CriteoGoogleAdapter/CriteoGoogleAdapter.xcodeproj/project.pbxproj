@@ -10,6 +10,14 @@
 		174087F82C298114175BCBB5 /* libPods-CriteoGoogleAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 26D9C65D4FFAA50128EE5DB4 /* libPods-CriteoGoogleAdapter.a */; };
 		467CC31B24F818FD000021D1 /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF6AE25D24CEB22F00E00CDA /* CriteoPublisherSdk.framework */; };
 		A36837911ADA01CEDFA729A9 /* libPods-CriteoGoogleAdapterTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF43AF45DE0BEECB9A9247A6 /* libPods-CriteoGoogleAdapterTests.a */; };
+		A82B5779291CE380001BCEAB /* CRBannerCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = A82B5778291CE380001BCEAB /* CRBannerCustomEvent.h */; };
+		A82B577C291CE3C5001BCEAB /* CRBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A82B577B291CE3C5001BCEAB /* CRBannerCustomEvent.m */; };
+		A82B5780291CE411001BCEAB /* GoogleMediationParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = A82B577E291CE411001BCEAB /* GoogleMediationParameters.h */; };
+		A82B5781291CE411001BCEAB /* GoogleMediationParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = A82B577F291CE411001BCEAB /* GoogleMediationParameters.m */; };
+		A82B5785291CE476001BCEAB /* CRInterstitialCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = A82B5783291CE476001BCEAB /* CRInterstitialCustomEvent.h */; };
+		A82B5786291CE476001BCEAB /* CRInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A82B5784291CE476001BCEAB /* CRInterstitialCustomEvent.m */; };
+		A82B5788291CE4E1001BCEAB /* CRBannerCustomEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A82B5787291CE4E1001BCEAB /* CRBannerCustomEventTests.m */; };
+		A8D784722913C63C007631A8 /* GADVersionNumberExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D784712913C63C007631A8 /* GADVersionNumberExtension.swift */; };
 		C07ABB57E4BA18C3A8A35B47 /* CR_AdMobIntegrationRegistryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB1B8BF317626BD709C00 /* CR_AdMobIntegrationRegistryTests.m */; };
 		CF6AE25E24CEB22F00E00CDA /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF6AE25D24CEB22F00E00CDA /* CriteoPublisherSdk.framework */; };
 		DF4356B12304E7B30051AC45 /* CriteoGoogleAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54FC7DA022F4136100202164 /* CriteoGoogleAdapter.framework */; };
@@ -44,6 +52,14 @@
 		54FC7DA422F4136100202164 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54FC7DA922F4136100202164 /* CriteoGoogleAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CriteoGoogleAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		54FC7DB022F4136100202164 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A82B5778291CE380001BCEAB /* CRBannerCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRBannerCustomEvent.h; sourceTree = "<group>"; };
+		A82B577B291CE3C5001BCEAB /* CRBannerCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRBannerCustomEvent.m; sourceTree = "<group>"; };
+		A82B577E291CE411001BCEAB /* GoogleMediationParameters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleMediationParameters.h; sourceTree = "<group>"; };
+		A82B577F291CE411001BCEAB /* GoogleMediationParameters.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoogleMediationParameters.m; sourceTree = "<group>"; };
+		A82B5783291CE476001BCEAB /* CRInterstitialCustomEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRInterstitialCustomEvent.h; sourceTree = "<group>"; };
+		A82B5784291CE476001BCEAB /* CRInterstitialCustomEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialCustomEvent.m; sourceTree = "<group>"; };
+		A82B5787291CE4E1001BCEAB /* CRBannerCustomEventTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRBannerCustomEventTests.m; sourceTree = "<group>"; };
+		A8D784712913C63C007631A8 /* GADVersionNumberExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GADVersionNumberExtension.swift; sourceTree = "<group>"; };
 		BF43AF45DE0BEECB9A9247A6 /* libPods-CriteoGoogleAdapterTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoGoogleAdapterTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C07AB1B8BF317626BD709C00 /* CR_AdMobIntegrationRegistryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_AdMobIntegrationRegistryTests.m; sourceTree = "<group>"; };
 		CF6AE25D24CEB22F00E00CDA /* CriteoPublisherSdk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CriteoPublisherSdk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -123,12 +139,16 @@
 		54FC7DA222F4136100202164 /* CriteoGoogleAdapter */ = {
 			isa = PBXGroup;
 			children = (
+				A82B5782291CE464001BCEAB /* CRInterstitialCustomEvent */,
+				A82B577D291CE3F5001BCEAB /* GoogleMediationParameters */,
+				A82B577A291CE38A001BCEAB /* CRBannerCustomEvent */,
 				E3631C1E290BCBA30073A97C /* CRBannerAdUnitExtension.swift */,
 				E3631C21290C04780073A97C /* CRBannerViewExtension.swift */,
 				E355111828D9BCEA00A2C07D /* CRInterstitialAdUnitExtension.swift */,
 				E3631C24290C051A0073A97C /* CRInterstitialExtension.swift */,
 				E355111228D8693100A2C07D /* CRMediationAdapter.swift */,
 				54FC7DA422F4136100202164 /* Info.plist */,
+				A8D784712913C63C007631A8 /* GADVersionNumberExtension.swift */,
 			);
 			name = CriteoGoogleAdapter;
 			path = Sources/CriteoGoogleAdapter;
@@ -139,9 +159,37 @@
 			children = (
 				54FC7DB022F4136100202164 /* Info.plist */,
 				C07AB1B8BF317626BD709C00 /* CR_AdMobIntegrationRegistryTests.m */,
+				A82B5787291CE4E1001BCEAB /* CRBannerCustomEventTests.m */,
 			);
 			name = CriteoGoogleAdapterTests;
 			path = Tests/CriteoGoogleAdapterTests;
+			sourceTree = "<group>";
+		};
+		A82B577A291CE38A001BCEAB /* CRBannerCustomEvent */ = {
+			isa = PBXGroup;
+			children = (
+				A82B5778291CE380001BCEAB /* CRBannerCustomEvent.h */,
+				A82B577B291CE3C5001BCEAB /* CRBannerCustomEvent.m */,
+			);
+			path = CRBannerCustomEvent;
+			sourceTree = "<group>";
+		};
+		A82B577D291CE3F5001BCEAB /* GoogleMediationParameters */ = {
+			isa = PBXGroup;
+			children = (
+				A82B577E291CE411001BCEAB /* GoogleMediationParameters.h */,
+				A82B577F291CE411001BCEAB /* GoogleMediationParameters.m */,
+			);
+			path = GoogleMediationParameters;
+			sourceTree = "<group>";
+		};
+		A82B5782291CE464001BCEAB /* CRInterstitialCustomEvent */ = {
+			isa = PBXGroup;
+			children = (
+				A82B5783291CE476001BCEAB /* CRInterstitialCustomEvent.h */,
+				A82B5784291CE476001BCEAB /* CRInterstitialCustomEvent.m */,
+			);
+			path = CRInterstitialCustomEvent;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,6 +199,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A82B5785291CE476001BCEAB /* CRInterstitialCustomEvent.h in Headers */,
+				A82B5780291CE411001BCEAB /* GoogleMediationParameters.h in Headers */,
+				A82B5779291CE380001BCEAB /* CRBannerCustomEvent.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,6 +265,7 @@
 				TargetAttributes = {
 					54FC7D9F22F4136100202164 = {
 						CreatedOnToolsVersion = 10.2.1;
+						LastSwiftMigration = 1400;
 					};
 					54FC7DA822F4136100202164 = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -310,10 +362,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				E3631C25290C051A0073A97C /* CRInterstitialExtension.swift in Sources */,
+				A82B5781291CE411001BCEAB /* GoogleMediationParameters.m in Sources */,
 				E3631C22290C04780073A97C /* CRBannerViewExtension.swift in Sources */,
 				E355111328D8693100A2C07D /* CRMediationAdapter.swift in Sources */,
 				E355111928D9BCEA00A2C07D /* CRInterstitialAdUnitExtension.swift in Sources */,
+				A8D784722913C63C007631A8 /* GADVersionNumberExtension.swift in Sources */,
+				A82B5786291CE476001BCEAB /* CRInterstitialCustomEvent.m in Sources */,
 				E3631C1F290BCBA30073A97C /* CRBannerAdUnitExtension.swift in Sources */,
+				A82B5788291CE4E1001BCEAB /* CRBannerCustomEventTests.m in Sources */,
+				A82B577C291CE3C5001BCEAB /* CRBannerCustomEvent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,6 +523,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 08A4B8154184ED488B3A6FF9 /* Pods-CriteoGoogleAdapter.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -490,6 +548,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Criteo.CriteoGoogleAdapter;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -499,6 +558,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 070A3881D330CC1D58923631 /* Pods-CriteoGoogleAdapter.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;

@@ -1,5 +1,5 @@
 //
-//  CRBannerAdUnitExtension.swift
+//  GADVersionNumberExtension.swift
 //  CriteoGoogleAdapter
 //
 //  Copyright © 2018-2022 Criteo. All rights reserved.
@@ -17,13 +17,20 @@
 // limitations under the License.
 //
 
-
-import CriteoPublisherSdk
+import Foundation
 import GoogleMobileAds
 
-extension CRBannerAdUnit {
-    convenience init(gadMediationBannerAdConfiguration configuration: GADMediationBannerAdConfiguration) {
-//        let adUnitId: String = configuration.bid
-        self.init(adUnitId: "", size: configuration.adSize.size)
+extension GADVersionNumber {
+    init(with versionNumber: String) {
+        let versionNumberSplit = versionNumber.split(separator: ".")
+        if versionNumberSplit.count == 3 {
+            self.init(majorVersion: Int(versionNumberSplit[0]) ?? 1,
+                      minorVersion: Int(versionNumberSplit[1]) ?? 1,
+                      patchVersion: Int(versionNumberSplit[2]) ?? 1)
+        } else {
+            self.init(majorVersion: 1,
+                      minorVersion: 1,
+                      patchVersion: 1)
+        }
     }
 }

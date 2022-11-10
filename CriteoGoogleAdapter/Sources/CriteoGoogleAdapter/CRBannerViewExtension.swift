@@ -21,11 +21,8 @@
 import CriteoPublisherSdk
 import GoogleMobileAds
 
-
 // MARK: - GADMediationBannerAd
-
 extension CRBannerView: GADMediationBannerAd {
-
   public var view: UIView {
     return self
   }

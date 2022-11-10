@@ -72,7 +72,7 @@
   [self.logManager logEvent:NSStringFromSelector(_cmd) info:ad error:error];
 }
 
-- (void)adDidPresentFullScreenContent:(id)ad {
+- (void)adWillPresentFullScreenContent:(id)ad {
   [self.logManager logEvent:NSStringFromSelector(_cmd) info:ad];
 }
 

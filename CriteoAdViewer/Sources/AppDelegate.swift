@@ -20,50 +20,65 @@
 import AppTrackingTransparency
 import UIKit
 import StoreKit
+import GoogleMobileAds
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-  var window: UIWindow?
+    var window: UIWindow?
 
-  func application(
-    _ application: UIApplication,
-    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-  ) -> Bool {
-    if #available(iOS 14, *) {
-      ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
-        print("Tracking Authorization: \(status.rawValue)")
-      })
-      SKAdNetwork.registerAppForAdNetworkAttribution()
-    }
-    return true
-  }
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
+        if #available(iOS 14, *) {
+            ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
+                print("Tracking Authorization: \(status.rawValue)")
+            })
+            SKAdNetwork.registerAppForAdNetworkAttribution()
+        }
 
-  func applicationWillTerminate(_ application: UIApplication) {
-    let userDefaults = UserDefaults.standard
-    userDefaults.removeObject(forKey: "IABConsent_SubjectToGDPR")
-    userDefaults.removeObject(forKey: "IABConsent_ConsentString")
-    userDefaults.removeObject(forKey: "IABConsent_ParsedVendorConsents")
-  }
+        let ads = GADMobileAds.sharedInstance()
+        ads.start { status in
+            // Optional: Log each adapter's initialization latency.
+            let adapterStatuses = status.adapterStatusesByClassName
+            for adapter in adapterStatuses {
+                let adapterStatus = adapter.value
+                NSLog("Adapter Name: %@, Description: %@, Latency: %f", adapter.key,
+                      adapterStatus.description, adapterStatus.latency)
+            }
 
-  func application(
-    _ application: UIApplication,
-    open url: URL,
-    options: [UIApplication.OpenURLOptionsKey: Any] = [:]
-  ) -> Bool {
-    guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true),
-      let action = components.host,
-      let queryItems = components.queryItems
-    else {
-      print("Invalid URL")
-      return false
+            // Start loading ads here...
+        }
+
+        return true
     }
-    let parameters = Dictionary(uniqueKeysWithValues: queryItems.map({ ($0.name, $0.value) }))
-    switch action {
-    case "loadProduct":
-      Criteo.loadProduct(
-        withParameters: parameters as [AnyHashable: Any], from: window?.rootViewController)
-    default: print("Invalid Action")
+
+    func applicationWillTerminate(_ application: UIApplication) {
+        let userDefaults = UserDefaults.standard
+        userDefaults.removeObject(forKey: "IABConsent_SubjectToGDPR")
+        userDefaults.removeObject(forKey: "IABConsent_ConsentString")
+        userDefaults.removeObject(forKey: "IABConsent_ParsedVendorConsents")
     }
-    return false
-  }
+
+    func application(
+        _ application: UIApplication,
+        open url: URL,
+        options: [UIApplication.OpenURLOptionsKey: Any] = [:]
+    ) -> Bool {
+        guard let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true),
+              let action = components.host,
+              let queryItems = components.queryItems
+        else {
+            print("Invalid URL")
+            return false
+        }
+        let parameters = Dictionary(uniqueKeysWithValues: queryItems.map({ ($0.name, $0.value) }))
+        switch action {
+        case "loadProduct":
+            Criteo.loadProduct(
+                withParameters: parameters as [AnyHashable: Any], from: window?.rootViewController)
+        default: print("Invalid Action")
+        }
+        return false
+    }
 }
