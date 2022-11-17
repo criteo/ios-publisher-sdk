@@ -43,8 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let adapterStatuses = status.adapterStatusesByClassName
             for adapter in adapterStatuses {
                 let adapterStatus = adapter.value
-                NSLog("Adapter Name: %@, Description: %@, Latency: %f", adapter.key,
-                      adapterStatus.description, adapterStatus.latency)
+                NSLog("Adapter Name: %@, Description: %@", adapter.key, adapterStatus.description)
             }
 
             // Start loading ads here...

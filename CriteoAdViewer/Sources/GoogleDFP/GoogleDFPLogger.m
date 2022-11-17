@@ -47,6 +47,7 @@
 }
 
 - (void)bannerViewDidReceiveAd:(GADBannerView *)bannerView {
+    NSLog(@"adNetworkClassName: %@", bannerView.responseInfo.adNetworkClassName);
   [self.logManager logEvent:NSStringFromSelector(_cmd) info:bannerView];
 }
 

@@ -19,6 +19,46 @@
 
 import GoogleMobileAds
 
+class GAMAdViewBuilder: AdViewBuilder {
+    private let controller: AdViewController
+    private let logger: GoogleDFPLogger
+    private let contextData: CRContextData
+
+    init(controller: AdViewController) {
+      self.controller = controller
+      self.logger = GoogleDFPLogger(interstitialDelegate: controller)
+      self.contextData = defaultContextData()
+    }
+
+    func build(config: AdConfig, criteo: Criteo, completion: @escaping (AdView) -> Void) {
+      switch config.adFormat {
+      case .sized(.banner, let size):
+        completion(
+          .banner(buildBanner(config: config, size: googleAdSize(size: size))))
+      default: break
+      }
+    }
+
+    private func buildBanner(config: AdConfig, size: GADAdSize) -> GADBannerView {
+      let adView = GADBannerView(adSize: size);
+      adView.delegate = self.logger
+      adView.adSizeDelegate = self.logger
+      adView.adUnitID = "ca-app-pub-8459323526901202/5005871401"
+      adView.rootViewController = self.controller
+      adView.load(GADRequest())
+      return adView
+    }
+
+    private func googleAdSize(size: AdSize) -> GADAdSize {
+      switch size {
+      case .size320x50: return GADAdSizeBanner
+      case .size300x250: return GADAdSizeMediumRectangle
+      }
+    }
+}
+
+
+
 class GoogleAdViewBuilder: AdViewBuilder {
   private let controller: AdViewController
   private let logger: GoogleDFPLogger
