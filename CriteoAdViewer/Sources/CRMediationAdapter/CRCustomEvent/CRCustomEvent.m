@@ -45,4 +45,11 @@
     completionHandler(nil);
 }
 
+- (NSError *)noFillError: (NSError *)error {
+    return [NSError errorWithDomain:GADErrorDomain
+                               code:GADErrorNoFill
+                           userInfo:[NSDictionary dictionaryWithObject:error.description
+                                                                forKey:NSLocalizedDescriptionKey]];
+}
+
 @end

@@ -30,6 +30,7 @@
     // The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
     id<GADMediationBannerAdEventDelegate> _delegate;
 }
+
 @end
 
 @implementation CRBannerCustomEvent
@@ -40,28 +41,33 @@
     __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
     __block GADMediationBannerLoadCompletionHandler originalCompletionHandler = [completionHandler copy];
     _completionHandler = ^id<GADMediationBannerAdEventDelegate>(
-                                                                          _Nullable id<GADMediationBannerAd> ad, NSError *_Nullable error) {
-                                                                              // Only allow completion handler to be called once.
-                                                                              if (atomic_flag_test_and_set(&completionHandlerCalled)) {
-                                                                                  return nil;
-                                                                              }
+                                                                _Nullable id<GADMediationBannerAd> ad, NSError *_Nullable error) {
+                                                                    // Only allow completion handler to be called once.
+                                                                    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+                                                                        return nil;
+                                                                    }
 
-                                                                              id<GADMediationBannerAdEventDelegate> delegate = nil;
-                                                                              if (originalCompletionHandler) {
-                                                                                  // Call original handler and hold on to its return value.
-                                                                                  delegate = originalCompletionHandler(ad, error);
-                                                                              }
+                                                                    id<GADMediationBannerAdEventDelegate> delegate = nil;
+                                                                    if (originalCompletionHandler) {
+                                                                        // Call original handler and hold on to its return value.
+                                                                        delegate = originalCompletionHandler(ad, error);
+                                                                    }
 
-                                                                              // Release reference to handler. Objects retained by the handler will also be released.
-                                                                              originalCompletionHandler = nil;
+                                                                    // Release reference to handler. Objects retained by the handler will also be released.
+                                                                    originalCompletionHandler = nil;
 
-                                                                              return delegate;
-                                                                          };
+                                                                    return delegate;
+                                                                };
 
     /// Extract ad unit id from the ad configuration.
     NSString *json = adConfiguration.credentials.settings[@"parameter"];
+    NSError *jsonError;
     CRGoogleMediationParameters *params = [CRGoogleMediationParameters parametersFromJSONString:json
-                                                                                          error:nil];
+                                                                                          error:&jsonError];
+    if (jsonError) {
+        _delegate = completionHandler(nil, [self noFillError: jsonError]);
+        return;
+    }
     /// Create an ad unit
     CRBannerAdUnit *adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:params.adUnitId
                                                                  size:adConfiguration.adSize.size];
@@ -88,10 +94,7 @@
 }
 
 - (void)banner:(CRBannerView *)bannerView didFailToReceiveAdWithError:(NSError *)error {
-    NSError *bannerError = [NSError errorWithDomain:GADErrorDomain
-                                               code:GADErrorNoFill
-                                           userInfo:[NSDictionary dictionaryWithObject:error.description
-                                                                                forKey:NSLocalizedDescriptionKey]];
+    NSError *bannerError = [self noFillError:error];
     _delegate = _completionHandler(nil, bannerError);
 }
 

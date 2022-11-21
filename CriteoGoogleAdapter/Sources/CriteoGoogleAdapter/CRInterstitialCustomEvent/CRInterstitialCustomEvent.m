@@ -61,8 +61,13 @@
 
     /// Extract ad unit id from the ad configuration.
     NSString *json = adConfiguration.credentials.settings[@"parameter"];
+    NSError *jsonError;
     CRGoogleMediationParameters *params = [CRGoogleMediationParameters parametersFromJSONString:json
-                                                                                          error:nil];
+                                                                                          error:&jsonError];
+    if (jsonError) {
+        _delegate = completionHandler(nil, [self noFillError: jsonError]);
+        return;
+    }
     /// Create the ad unit
     CRInterstitialAdUnit *adUnit =
     [[CRInterstitialAdUnit alloc] initWithAdUnitId:params.adUnitId];
@@ -97,12 +102,8 @@
  }
 
  - (void)interstitial:(CRInterstitial *)interstitial didFailToReceiveAdWithError:(NSError *)error {
-     NSDictionary *userInfo = [NSDictionary dictionaryWithObject:error.description
-                                                          forKey:NSLocalizedDescriptionKey];
-     NSError *crError = [NSError errorWithDomain:GADErrorDomain
-                                            code:GADErrorNoFill
-                                        userInfo:userInfo];
-     _delegate = _completionHandler(nil, crError);
+     NSError *interstitialError = [self noFillError:error];
+     _delegate = _completionHandler(nil, interstitialError);
  }
 
  - (void)interstitialWillAppear:(CRInterstitial *)interstitial {
