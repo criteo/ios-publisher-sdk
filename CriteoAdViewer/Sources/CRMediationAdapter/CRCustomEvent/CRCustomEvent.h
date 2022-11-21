@@ -1,6 +1,6 @@
 //
-//  CRBannerViewExtension.swift
-//  CriteoGoogleAdapter
+//  CRCustomEvent.h
+//  CriteoAdViewer
 //
 //  Copyright © 2018-2022 Criteo. All rights reserved.
 //
@@ -17,17 +17,13 @@
 // limitations under the License.
 //
 
+#import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-import CriteoPublisherSdk
-import GoogleMobileAds
+NS_ASSUME_NONNULL_BEGIN
 
-// MARK: - GADMediationBannerAd
-extension CRBannerView: GADMediationBannerAd {
-    public var view: UIView {
-        return self
-    }
+@interface CRCustomEvent : NSObject <GADMediationAdapter>
 
-    public func changeSize(to adSize: GADAdSize) {
-        // TODO: This is not required, maybe add support in the future
-    }
-}
+@end
+
+NS_ASSUME_NONNULL_END

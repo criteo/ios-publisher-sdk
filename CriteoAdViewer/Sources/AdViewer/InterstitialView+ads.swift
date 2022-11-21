@@ -1,6 +1,6 @@
 //
-//  CRCOPPAIntegration.swift
-//  CriteoGoogleAdapter
+//  InterstitialView+ads.swift
+//  CriteoAdViewer
 //
 //  Copyright © 2018-2022 Criteo. All rights reserved.
 //
@@ -18,16 +18,20 @@
 //
 
 import Foundation
-import CriteoPublisherSdk
 import GoogleMobileAds
 
-protocol CRCOPPAIntegration {
-    func set(childDirectedTreatment config: GADMediationAdConfiguration)
+extension GADInterstitialAd: InterstitialView {
+    func present(viewController: UIViewController) {
+        self.present(fromRootViewController: viewController)
+    }
 }
 
-extension CRCOPPAIntegration {
-    func set(childDirectedTreatment config: GADMediationAdConfiguration) {
-        guard let childDirectedTreatment = config.childDirectedTreatment else { return }
-        Criteo.shared().childDirectedTreatment = childDirectedTreatment
+extension GADRewardedAd: InterstitialView {
+    func present(viewController: UIViewController) {
+        self.present(
+            fromRootViewController: viewController,
+            userDidEarnRewardHandler: {
+                print("User did earn reward \(self.adReward)")
+            })
     }
 }

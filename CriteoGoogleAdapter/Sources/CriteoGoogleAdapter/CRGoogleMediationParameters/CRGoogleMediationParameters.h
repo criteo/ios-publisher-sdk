@@ -1,6 +1,6 @@
 //
-//  CRCOPPAIntegration.swift
-//  CriteoGoogleAdapter
+//  CRGoogleMediationParameters.h
+//  CriteoAdViewer
 //
 //  Copyright © 2018-2022 Criteo. All rights reserved.
 //
@@ -17,17 +17,20 @@
 // limitations under the License.
 //
 
-import Foundation
-import CriteoPublisherSdk
-import GoogleMobileAds
+#import <Foundation/Foundation.h>
 
-protocol CRCOPPAIntegration {
-    func set(childDirectedTreatment config: GADMediationAdConfiguration)
-}
+NS_ASSUME_NONNULL_BEGIN
 
-extension CRCOPPAIntegration {
-    func set(childDirectedTreatment config: GADMediationAdConfiguration) {
-        guard let childDirectedTreatment = config.childDirectedTreatment else { return }
-        Criteo.shared().childDirectedTreatment = childDirectedTreatment
-    }
-}
+@interface CRGoogleMediationParameters : NSObject
+
+- (instancetype)init NS_UNAVAILABLE;
+- (id)initWithPublisherId:(NSString *)publisherId adUnitId:(NSString *)adUnitId;
++ (nullable CRGoogleMediationParameters *)parametersFromJSONString:(NSString *)jsonString
+                                                             error:(NSError **)outError;
+
+@property(copy, readonly) NSString *publisherId;
+@property(copy, readonly) NSString *adUnitId;
+
+@end
+
+NS_ASSUME_NONNULL_END

@@ -1,5 +1,5 @@
 //
-//  CRCustomEvent.h
+//  CRInterstitialCustomEvent.h
 //  CriteoAdViewer
 //
 //  Copyright © 2018-2022 Criteo. All rights reserved.
@@ -17,12 +17,11 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
-#import <GoogleMobileAds/GoogleMobileAds.h>
+#import "CRCustomEvent.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CRCustomEvent : NSObject <GADMediationAdapter, GADMediationBannerAd>
+@interface CRInterstitialCustomEvent : CRCustomEvent
 
 @end
 

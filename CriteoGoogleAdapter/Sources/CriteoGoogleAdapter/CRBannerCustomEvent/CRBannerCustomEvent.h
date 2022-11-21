@@ -1,6 +1,6 @@
 //
-//  CRBannerCustomEvent.swift
-//  CriteoGoogleAdapter
+//  CRBannerCustomEvent.h
+//  CriteoAdViewer
 //
 //  Copyright © 2018-2022 Criteo. All rights reserved.
 //
@@ -17,10 +17,12 @@
 // limitations under the License.
 //
 
-//import Foundation
-//import GoogleMobileAds
-//import CriteoPublisherSdk
-//
-//class CRBannerCustomEvent: CRCustomEvent {
-//
-//}
+#import "CRCustomEvent.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface CRBannerCustomEvent : CRCustomEvent
+
+@end
+
+NS_ASSUME_NONNULL_END

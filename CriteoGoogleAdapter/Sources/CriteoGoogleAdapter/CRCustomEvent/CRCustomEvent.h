@@ -1,6 +1,6 @@
 //
-//  CRInterstitialExtension.swift
-//  CriteoGoogleAdapter
+//  CRCustomEvent.h
+//  CriteoAdViewer
 //
 //  Copyright © 2018-2022 Criteo. All rights reserved.
 //
@@ -17,13 +17,13 @@
 // limitations under the License.
 //
 
+#import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
-import CriteoPublisherSdk
-import GoogleMobileAds
+NS_ASSUME_NONNULL_BEGIN
 
-// MARK: - GADMediationInterstitialAd
-extension CRInterstitial: GADMediationInterstitialAd {
-  public func present(from viewController: UIViewController) {
-    present(fromRootViewController: viewController)
-  }
-}
+@interface CRCustomEvent : NSObject <GADMediationAdapter>
+
+@end
+
+NS_ASSUME_NONNULL_END

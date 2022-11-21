@@ -1,5 +1,5 @@
 //
-//  CRBannerCustomEvent.m
+//  CRInterstitialCustomEvent.h
 //  CriteoAdViewer
 //
 //  Copyright © 2018-2022 Criteo. All rights reserved.
@@ -17,8 +17,12 @@
 // limitations under the License.
 //
 
-#import "CRBannerCustomEvent.h"
+#import "CRCustomEvent.h"
 
-@implementation CRBannerCustomEvent
+NS_ASSUME_NONNULL_BEGIN
+
+@interface CRInterstitialCustomEvent : CRCustomEvent
 
 @end
+
+NS_ASSUME_NONNULL_END
