@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CRCustomEvent : NSObject <GADMediationAdapter>
 
-- (NSError *)noFillError: (NSError *)error;
+- (NSError *)noFillError:(NSError *)error;
 
 @end
 

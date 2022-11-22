@@ -22,34 +22,34 @@
 
 @implementation CRCustomEvent
 + (GADVersionNumber)adSDKVersion {
-    NSArray *versionComponents = [CRITEO_PUBLISHER_SDK_VERSION componentsSeparatedByString:@"."];
-    GADVersionNumber version = {0};
-    if (versionComponents.count >= 3) {
-        version.majorVersion = [versionComponents[0] integerValue];
-        version.minorVersion = [versionComponents[1] integerValue];
-        version.patchVersion = [versionComponents[2] integerValue];
-    }
-    return version;
+  NSArray *versionComponents = [CRITEO_PUBLISHER_SDK_VERSION componentsSeparatedByString:@"."];
+  GADVersionNumber version = {0};
+  if (versionComponents.count >= 3) {
+    version.majorVersion = [versionComponents[0] integerValue];
+    version.minorVersion = [versionComponents[1] integerValue];
+    version.patchVersion = [versionComponents[2] integerValue];
+  }
+  return version;
 }
 
 + (GADVersionNumber)adapterVersion {
-    return [CRCustomEvent adSDKVersion];
+  return [CRCustomEvent adSDKVersion];
 }
 
 + (nullable Class<GADAdNetworkExtras>)networkExtrasClass {
-    return Nil;
+  return Nil;
 }
 
 + (void)setUpWithConfiguration:(GADMediationServerConfiguration *)configuration
              completionHandler:(GADMediationAdapterSetUpCompletionBlock)completionHandler {
-    completionHandler(nil);
+  completionHandler(nil);
 }
 
-- (NSError *)noFillError: (NSError *)error {
-    return [NSError errorWithDomain:GADErrorDomain
-                               code:GADErrorNoFill
-                           userInfo:[NSDictionary dictionaryWithObject:error.description
-                                                                forKey:NSLocalizedDescriptionKey]];
+- (NSError *)noFillError:(NSError *)error {
+  return [NSError errorWithDomain:GADErrorDomain
+                             code:GADErrorNoFill
+                         userInfo:[NSDictionary dictionaryWithObject:error.description
+                                                              forKey:NSLocalizedDescriptionKey]];
 }
 
 @end

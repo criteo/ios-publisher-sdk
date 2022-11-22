@@ -23,12 +23,12 @@
 @import CriteoPublisherSdk;
 
 @interface CRBannerCustomEvent () <GADMediationBannerAd, CRBannerViewDelegate> {
-    //  The banner ad.
-    CRBannerView *_ad;
-    //  The banner completion handler to call when the ad loading succeeds or fails.
-    GADMediationBannerLoadCompletionHandler _completionHandler;
-    // The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
-    id<GADMediationBannerAdEventDelegate> _delegate;
+  //  The banner ad.
+  CRBannerView *_ad;
+  //  The banner completion handler to call when the ad loading succeeds or fails.
+  GADMediationBannerLoadCompletionHandler _completionHandler;
+  // The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
+  id<GADMediationBannerAdEventDelegate> _delegate;
 }
 
 @end
@@ -38,68 +38,68 @@
 #pragma mark GADMediationAdapter implementation for Banner ad.
 - (void)loadBannerForAdConfiguration:(GADMediationBannerAdConfiguration *)adConfiguration
                    completionHandler:(GADMediationBannerLoadCompletionHandler)completionHandler {
-    __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
-    __block GADMediationBannerLoadCompletionHandler originalCompletionHandler = [completionHandler copy];
-    _completionHandler = ^id<GADMediationBannerAdEventDelegate>(
-                                                                _Nullable id<GADMediationBannerAd> ad, NSError *_Nullable error) {
-                                                                    // Only allow completion handler to be called once.
-                                                                    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
-                                                                        return nil;
-                                                                    }
-
-                                                                    id<GADMediationBannerAdEventDelegate> delegate = nil;
-                                                                    if (originalCompletionHandler) {
-                                                                        // Call original handler and hold on to its return value.
-                                                                        delegate = originalCompletionHandler(ad, error);
-                                                                    }
-
-                                                                    // Release reference to handler. Objects retained by the handler will also be released.
-                                                                    originalCompletionHandler = nil;
-
-                                                                    return delegate;
-                                                                };
-
-    /// Extract ad unit id from the ad configuration.
-    NSString *json = adConfiguration.credentials.settings[@"parameter"];
-    NSError *jsonError;
-    CRGoogleMediationParameters *params = [CRGoogleMediationParameters parametersFromJSONString:json
-                                                                                          error:&jsonError];
-    if (jsonError) {
-        _delegate = completionHandler(nil, [self noFillError: jsonError]);
-        return;
+  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADMediationBannerLoadCompletionHandler originalCompletionHandler =
+      [completionHandler copy];
+  _completionHandler = ^id<GADMediationBannerAdEventDelegate>(_Nullable id<GADMediationBannerAd> ad,
+                                                              NSError *_Nullable error) {
+    // Only allow completion handler to be called once.
+    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+      return nil;
     }
-    /// Create an ad unit
-    CRBannerAdUnit *adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:params.adUnitId
-                                                                 size:adConfiguration.adSize.size];
-    /// Set the publicher id to
-    [Criteo.sharedCriteo registerCriteoPublisherId:params.publisherId
-                                       withAdUnits:@[ adUnit ]];
-    /// Set child directed treatment flag to Criteo SDK.
-    [Criteo.sharedCriteo setChildDirectedTreatment:adConfiguration.childDirectedTreatment];
-    _ad = [[CRBannerView alloc] initWithAdUnit:adUnit];
-    _ad.delegate = self;
-    [_ad loadAd];
+
+    id<GADMediationBannerAdEventDelegate> delegate = nil;
+    if (originalCompletionHandler) {
+      // Call original handler and hold on to its return value.
+      delegate = originalCompletionHandler(ad, error);
+    }
+
+    // Release reference to handler. Objects retained by the handler will also be released.
+    originalCompletionHandler = nil;
+
+    return delegate;
+  };
+
+  /// Extract ad unit id from the ad configuration.
+  NSString *json = adConfiguration.credentials.settings[@"parameter"];
+  NSError *jsonError;
+  CRGoogleMediationParameters *params =
+      [CRGoogleMediationParameters parametersFromJSONString:json error:&jsonError];
+  if (jsonError) {
+    _delegate = completionHandler(nil, [self noFillError:jsonError]);
+    return;
+  }
+  /// Create an ad unit
+  CRBannerAdUnit *adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:params.adUnitId
+                                                               size:adConfiguration.adSize.size];
+  /// Set the publicher id to
+  [Criteo.sharedCriteo registerCriteoPublisherId:params.publisherId withAdUnits:@[ adUnit ]];
+  /// Set child directed treatment flag to Criteo SDK.
+  [Criteo.sharedCriteo setChildDirectedTreatment:adConfiguration.childDirectedTreatment];
+  _ad = [[CRBannerView alloc] initWithAdUnit:adUnit];
+  _ad.delegate = self;
+  [_ad loadAd];
 }
 
 #pragma mark GADMediationBannerAd implementation
 
 - (nonnull UIView *)view {
-    return _ad;
+  return _ad;
 }
 
 #pragma mark CRBannerViewDelegate implementation
 
 - (void)bannerDidReceiveAd:(CRBannerView *)bannerView {
-    _delegate = _completionHandler(self, nil);
+  _delegate = _completionHandler(self, nil);
 }
 
 - (void)banner:(CRBannerView *)bannerView didFailToReceiveAdWithError:(NSError *)error {
-    NSError *bannerError = [self noFillError:error];
-    _delegate = _completionHandler(nil, bannerError);
+  NSError *bannerError = [self noFillError:error];
+  _delegate = _completionHandler(nil, bannerError);
 }
 
 - (void)bannerWillLeaveApplication:(CRBannerView *)bannerView {
-    [_delegate reportClick];
+  [_delegate reportClick];
 }
 
 @end

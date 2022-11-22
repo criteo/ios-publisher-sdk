@@ -20,25 +20,25 @@
 #import "CRGoogleMediationParameters.h"
 @import GoogleMobileAds;
 
- static NSString *const criteoGoogleMediationPublisherIdKey = @"cpId";
- static NSString *const criteoGoogleMediationAdUnitIdKey = @"adUnitId";
+static NSString *const criteoGoogleMediationPublisherIdKey = @"cpId";
+static NSString *const criteoGoogleMediationAdUnitIdKey = @"adUnitId";
 
- static void setJSONParsingError(NSError **error) {
-   if (error != nil) {
-     *error = [NSError errorWithDomain:GADErrorDomain code:GADErrorInvalidArgument userInfo:nil];
-   }
- }
+static void setJSONParsingError(NSError **error) {
+  if (error != nil) {
+    *error = [NSError errorWithDomain:GADErrorDomain code:GADErrorInvalidArgument userInfo:nil];
+  }
+}
 
- static NSString *nonEmptyStringFromObj(id obj) {
-   if (obj == nil || ![obj isKindOfClass:[NSString class]]) {
-     return nil;
-   }
-   NSString *str = (NSString *)obj;
-   if (str.length == 0) {
-     return nil;
-   }
-   return str;
- }
+static NSString *nonEmptyStringFromObj(id obj) {
+  if (obj == nil || ![obj isKindOfClass:[NSString class]]) {
+    return nil;
+  }
+  NSString *str = (NSString *)obj;
+  if (str.length == 0) {
+    return nil;
+  }
+  return str;
+}
 
 @implementation CRGoogleMediationParameters
 
