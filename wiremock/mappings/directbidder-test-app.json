@@ -1,7 +1,7 @@
 {
   "name": "directbidder-test-app",
   "metadata": {
-    "origin": "http://directbidder-test-app.par.preprod.crto.in/inapp/v2"
+    "origin": "http://directbidder-test-app.preprod.crto.in/inapp/v2"
   },
   "request": {
     "url": "/directbidder-test-app/inapp/v2",
