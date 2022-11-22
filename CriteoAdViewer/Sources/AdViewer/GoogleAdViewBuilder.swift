@@ -20,88 +20,94 @@
 import GoogleMobileAds
 
 class GoogleAdViewBuilder: AdViewBuilder {
-    private let controller: AdViewController
-    private let logger: GoogleDFPLogger
-    private let contextData: CRContextData
+  private let controller: AdViewController
+  private let logger: GoogleDFPLogger
+  private let contextData: CRContextData
 
-    init(controller: AdViewController) {
-        self.controller = controller
-        self.logger = GoogleDFPLogger(interstitialDelegate: controller)
-        self.contextData = defaultContextData()
+  init(controller: AdViewController) {
+    self.controller = controller
+    self.logger = GoogleDFPLogger(interstitialDelegate: controller)
+    self.contextData = defaultContextData()
+  }
+
+  func build(config: AdConfig, criteo: Criteo, completion: @escaping (AdView) -> Void) {
+    switch config.adFormat {
+    case .sized(.banner, let size):
+      completion(
+        .banner(buildBanner(config: config, size: googleAdSize(size: size), criteo: criteo)))
+    case .flexible(.native):
+      completion(.banner(buildBanner(config: config, size: GADAdSizeFluid, criteo: criteo)))
+    case .flexible(.interstitial), .flexible(.video):
+      buildInterstitial(config: config, criteo: criteo, completion: completion)
+    case .flexible(.rewarded):
+      buildRewarded(config: config, criteo: criteo, completion: completion)
+    case _:
+      fatalError("Unsupported")
     }
+  }
 
-    func build(config: AdConfig, criteo: Criteo, completion: @escaping (AdView) -> Void) {
-        switch config.adFormat {
-        case .sized(.banner, let size):
-            completion(
-                .banner(buildBanner(config: config, size: googleAdSize(size: size), criteo: criteo)))
-        case .flexible(.native):
-            completion(.banner(buildBanner(config: config, size: GADAdSizeFluid, criteo: criteo)))
-        case .flexible(.interstitial), .flexible(.video):
-            buildInterstitial(config: config, criteo: criteo, completion: completion)
-        case .flexible(.rewarded):
-            buildRewarded(config: config, criteo: criteo, completion: completion)
-        case _:
-            fatalError("Unsupported")
+  private func loadAdView(
+    criteo: Criteo, adUnit: CRAdUnit, load: @escaping (_ request: GAMRequest?) -> Void
+  ) {
+    criteo.loadBid(for: adUnit, withContext: contextData) { maybeBid in
+      let request = GAMRequest()
+      criteo.enrichAdObject(request, with: maybeBid)
+      return load(request)
+    }
+  }
+
+  private func googleAdSize(size: AdSize) -> GADAdSize {
+    switch size {
+    case .size320x50: return GADAdSizeBanner
+    case .size300x250: return GADAdSizeMediumRectangle
+    }
+  }
+
+  private func buildBanner(config: AdConfig, size: GADAdSize, criteo: Criteo) -> GAMBannerView {
+    let adUnit = config.adUnit
+    let adView = GAMBannerView(adSize: size)
+    adView.delegate = self.logger
+    adView.adSizeDelegate = self.logger
+    adView.adUnitID = config.externalAdUnitId
+    adView.rootViewController = self.controller
+    loadAdView(criteo: criteo, adUnit: adUnit, load: adView.load)
+    return adView
+  }
+
+  private func buildInterstitial(
+    config: AdConfig, criteo: Criteo, completion: @escaping (AdView) -> Void
+  ) {
+    let adUnit = config.adUnit
+
+    loadAdView(criteo: criteo, adUnit: adUnit) { request in
+      GAMInterstitialAd.load(withAdManagerAdUnitID: config.externalAdUnitId, request: request) {
+        maybeAd, maybeError in
+        if let error = maybeError {
+          print("Failed to load interstitial ad with error: \(error.localizedDescription)")
         }
-    }
-
-    private func loadAdView(
-        criteo: Criteo, adUnit: CRAdUnit, load: @escaping (_ request: GAMRequest?) -> Void
-    ) {
-        criteo.loadBid(for: adUnit, withContext: contextData) { maybeBid in
-            let request = GAMRequest()
-            criteo.enrichAdObject(request, with: maybeBid)
-            return load(request)
+        if let maybeAd = maybeAd {
+          maybeAd.fullScreenContentDelegate = self.logger
+          completion(.interstitial(maybeAd))
         }
+      }
     }
+  }
 
-    private func googleAdSize(size: AdSize) -> GADAdSize {
-        switch size {
-        case .size320x50: return GADAdSizeBanner
-        case .size300x250: return GADAdSizeMediumRectangle
+  private func buildRewarded(
+    config: AdConfig, criteo: Criteo, completion: @escaping (AdView) -> Void
+  ) {
+    let adUnit = config.adUnit
+    loadAdView(criteo: criteo, adUnit: adUnit) { request in
+      GADRewardedAd.load(withAdUnitID: config.externalAdUnitId, request: request) {
+        maybeAd, maybeError in
+        if let error = maybeError {
+          print("Failed to load rewarded ad with error: \(error.localizedDescription)")
         }
-    }
-
-    private func buildBanner(config: AdConfig, size: GADAdSize, criteo: Criteo) -> GAMBannerView {
-        let adUnit = config.adUnit
-        let adView = GAMBannerView(adSize: size)
-        adView.delegate = self.logger
-        adView.adSizeDelegate = self.logger
-        adView.adUnitID = config.externalAdUnitId
-        adView.rootViewController = self.controller
-        loadAdView(criteo: criteo, adUnit: adUnit, load: adView.load)
-        return adView
-    }
-
-    private func buildInterstitial(config: AdConfig, criteo: Criteo, completion: @escaping (AdView) -> Void) {
-        let adUnit = config.adUnit
-
-        loadAdView(criteo: criteo, adUnit: adUnit) { request in
-            GAMInterstitialAd.load(withAdManagerAdUnitID: config.externalAdUnitId, request: request) { maybeAd, maybeError in
-                if let error = maybeError {
-                    print("Failed to load interstitial ad with error: \(error.localizedDescription)")
-                }
-                if let maybeAd = maybeAd {
-                    maybeAd.fullScreenContentDelegate = self.logger
-                    completion(.interstitial(maybeAd))
-                }
-            }
+        if let maybeAd = maybeAd {
+          maybeAd.fullScreenContentDelegate = self.logger
+          completion(.interstitial(maybeAd))
         }
+      }
     }
-
-    private func buildRewarded(config: AdConfig, criteo: Criteo, completion: @escaping (AdView) -> Void) {
-        let adUnit = config.adUnit
-        loadAdView(criteo: criteo, adUnit: adUnit) { request in
-            GADRewardedAd.load(withAdUnitID: config.externalAdUnitId, request: request) { maybeAd, maybeError in
-                if let error = maybeError {
-                    print("Failed to load rewarded ad with error: \(error.localizedDescription)")
-                }
-                if let maybeAd = maybeAd {
-                    maybeAd.fullScreenContentDelegate = self.logger
-                    completion(.interstitial(maybeAd))
-                }
-            }
-        }
-    }
+  }
 }

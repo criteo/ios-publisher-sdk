@@ -21,17 +21,17 @@ import Foundation
 import GoogleMobileAds
 
 extension GADInterstitialAd: InterstitialView {
-    func present(viewController: UIViewController) {
-        self.present(fromRootViewController: viewController)
-    }
+  func present(viewController: UIViewController) {
+    self.present(fromRootViewController: viewController)
+  }
 }
 
 extension GADRewardedAd: InterstitialView {
-    func present(viewController: UIViewController) {
-        self.present(
-            fromRootViewController: viewController,
-            userDidEarnRewardHandler: {
-                print("User did earn reward \(self.adReward)")
-            })
-    }
+  func present(viewController: UIViewController) {
+    self.present(
+      fromRootViewController: viewController,
+      userDidEarnRewardHandler: {
+        print("User did earn reward \(self.adReward)")
+      })
+  }
 }

@@ -68,7 +68,7 @@ struct AdNetwork: Equatable {
 }
 
 struct AdNetworks {
-    let mediation: AdNetwork
+  let mediation: AdNetwork
   let google: AdNetwork
   let standalone: AdNetwork
   let inHouse: AdNetwork
@@ -79,7 +79,7 @@ struct AdNetworks {
     self.google = googleNetwork(controller)
     self.standalone = standaloneNetwork(controller)
     self.inHouse = inHouseNetwork(controller: controller)
-      self.mediation = googleMediationNetwork(controller)
+    self.mediation = googleMediationNetwork(controller)
     self.all = [mediation, google, standalone, inHouse]
   }
 }

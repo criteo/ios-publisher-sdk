@@ -53,7 +53,7 @@ class AdViewerViewController: FormViewController {
     case active
     case inactive
 
-    static func all() -> Array<ChildDirectedTreatment> {
+    static func all() -> [ChildDirectedTreatment] {
       return [.absent, .active, .inactive]
     }
 

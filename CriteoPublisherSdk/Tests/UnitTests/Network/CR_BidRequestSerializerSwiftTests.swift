@@ -46,8 +46,10 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
       internalContextProvider: internalContextProvider)
     request = CR_CdbRequest(
       profileId: testProfileId,
-      adUnits: [CR_CacheAdUnit(adUnitId: "1", width: 1, height: 1),
-                CR_CacheAdUnit(adUnitId: "2", width: 2, height: 2)])
+      adUnits: [
+        CR_CacheAdUnit(adUnitId: "1", width: 1, height: 1),
+        CR_CacheAdUnit(adUnitId: "2", width: 2, height: 2)
+      ])
     config.criteoPublisherId = "Test Published Id"
   }
 
@@ -74,7 +76,10 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
   }
 
   func testBodyWithPublisher() {
-    let expected: NSDictionary = [NSString.bundleIdKey: config.appId, NSString.cpIdKey: config.criteoPublisherId!, "ext": NSDictionary()]
+    let expected: NSDictionary = [
+      NSString.bundleIdKey: config.appId, NSString.cpIdKey: config.criteoPublisherId!,
+      "ext": NSDictionary()
+    ]
     let body = generateBody()
     XCTAssertEqual(body[NSString.publisherKey] as? NSDictionary, expected)
   }
@@ -92,27 +97,29 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
     XCTAssertEqual(user?[NSString.deviceIdTypeKey] as? String, NSString.deviceIdTypeValue)
     XCTAssertEqual(user?[NSString.uspIabKey] as? String, consent.usPrivacyIabConsentString!)
     XCTAssertEqual(user?["ext"] as? NSDictionary, NSDictionary())
-    XCTAssertEqual(user?["skAdNetwork"] as? NSDictionary, ["version": "2.0", "skAdNetworkIds": ["hs6bdukanm.skadnetwork"]] as? NSDictionary)
+    XCTAssertEqual(
+      user?["skAdNetwork"] as? NSDictionary,
+      ["version": "2.0", "skAdNetworkIds": ["hs6bdukanm.skadnetwork"]] as? NSDictionary)
   }
 
   func testBodyWithUsPrivacyConsentString() {
     consent.usPrivacyIabConsentString_mock = "US Privacy String"
     let body = generateBody()
-    let user = body[NSString.userKey] as? Dictionary<String, AnyHashable>
+    let user = body[NSString.userKey] as? [String: AnyHashable]
     XCTAssertEqual(user?[NSString.uspIabKey]!, "US Privacy String")
   }
 
   func testBodyWithCriteoPrivacyOpIn() {
     consent.usPrivacyCriteoState = .optIn
     let body = generateBody()
-    let user = body[NSString.userKey] as? Dictionary<String, AnyHashable>
+    let user = body[NSString.userKey] as? [String: AnyHashable]
     XCTAssertEqual(user?[NSString.uspCriteoOptout], false)
   }
 
   func testBodyWithCriteoPrivacyOpOut() {
     consent.usPrivacyCriteoState = .optOut
     let body = generateBody()
-    let user = body[NSString.userKey] as? Dictionary<String, AnyHashable>
+    let user = body[NSString.userKey] as? [String: AnyHashable]
     XCTAssertEqual(user?[NSString.uspCriteoOptout], true)
   }
 
@@ -120,14 +127,14 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
     context = CRContextData(dictionary: ["a.a": "foo", "b": "bar"])
     let expected = ["a": ["a": "foo"], "b": "bar"] as [String: AnyHashable]
     let body = generateBody()
-    let publisher = body["publisher"] as? Dictionary<String, AnyHashable>
+    let publisher = body["publisher"] as? [String: AnyHashable]
     XCTAssertEqual(publisher?["ext"], expected)
   }
 
   func testBodyWithChildDirectedTreatment() {
 
-    var body: Dictionary<String, AnyHashable>
-    var regsDictionary: Dictionary<String, AnyHashable>
+    var body: [String: AnyHashable]
+    var regsDictionary: [String: AnyHashable]
     var childDirectedTreatmentFromBody: NSNumber
 
     // case nil - undefined
@@ -140,8 +147,9 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
     body = generateBody()
     XCTAssertTrue(body.keys.contains(CR_ApiQueryKeys.regs))
     do {
-      regsDictionary = try XCTUnwrap(body[CR_ApiQueryKeys.regs] as? Dictionary<String, AnyHashable>)
-      childDirectedTreatmentFromBody = try XCTUnwrap(regsDictionary[CR_ApiQueryKeys.coppa] as? NSNumber)
+      regsDictionary = try XCTUnwrap(body[CR_ApiQueryKeys.regs] as? [String: AnyHashable])
+      childDirectedTreatmentFromBody = try XCTUnwrap(
+        regsDictionary[CR_ApiQueryKeys.coppa] as? NSNumber)
       XCTAssertFalse(childDirectedTreatmentFromBody.boolValue)
     } catch {
       XCTFail("Test failed for childDirectedTreatment with value false!")
@@ -152,17 +160,20 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
     body = generateBody()
     XCTAssertTrue(body.keys.contains(CR_ApiQueryKeys.regs))
     do {
-      regsDictionary = try XCTUnwrap(body[CR_ApiQueryKeys.regs] as? Dictionary<String, AnyHashable>)
-      childDirectedTreatmentFromBody = try XCTUnwrap(regsDictionary[CR_ApiQueryKeys.coppa] as? NSNumber)
+      regsDictionary = try XCTUnwrap(body[CR_ApiQueryKeys.regs] as? [String: AnyHashable])
+      childDirectedTreatmentFromBody = try XCTUnwrap(
+        regsDictionary[CR_ApiQueryKeys.coppa] as? NSNumber)
       XCTAssertTrue(childDirectedTreatmentFromBody.boolValue)
     } catch {
       XCTFail("Test failed for childDirectedTreatment with value true!")
     }
   }
 
-  private func generateBody() -> Dictionary<String, AnyHashable> {
-    let body = serializer.body(with: request, consent: consent, config: config, deviceInfo: deviceInfo, context: context, childDirectedTreatment: childDirectedTreatment)
-    return body as? Dictionary<String, AnyHashable> ?? [:]
+  private func generateBody() -> [String: AnyHashable] {
+    let body = serializer.body(
+      with: request, consent: consent, config: config, deviceInfo: deviceInfo, context: context,
+      childDirectedTreatment: childDirectedTreatment)
+    return body as? [String: AnyHashable] ?? [:]
   }
 }
 

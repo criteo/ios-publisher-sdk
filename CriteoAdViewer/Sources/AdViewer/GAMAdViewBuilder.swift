@@ -21,56 +21,58 @@ import Foundation
 import GoogleMobileAds
 
 class GAMAdViewBuilder: AdViewBuilder {
-    private let controller: AdViewController
-    private let logger: GoogleDFPLogger
-    private let contextData: CRContextData
+  private let controller: AdViewController
+  private let logger: GoogleDFPLogger
+  private let contextData: CRContextData
 
-    init(controller: AdViewController) {
-        self.controller = controller
-        self.logger = GoogleDFPLogger(interstitialDelegate: controller)
-        self.contextData = defaultContextData()
-    }
+  init(controller: AdViewController) {
+    self.controller = controller
+    self.logger = GoogleDFPLogger(interstitialDelegate: controller)
+    self.contextData = defaultContextData()
+  }
 
-    func build(config: AdConfig, criteo: Criteo, completion: @escaping (AdView) -> Void) {
-        switch config.adFormat {
-        case .sized(.banner, let size):
-            completion(
-                .banner(buildBanner(config: config, size: googleAdSize(size: size))))
-        case .flexible(.interstitial):
-            buildInterstitial(config: config, completion: completion)
-        default: break
-        }
+  func build(config: AdConfig, criteo: Criteo, completion: @escaping (AdView) -> Void) {
+    switch config.adFormat {
+    case .sized(.banner, let size):
+      completion(
+        .banner(buildBanner(config: config, size: googleAdSize(size: size))))
+    case .flexible(.interstitial):
+      buildInterstitial(config: config, completion: completion)
+    default: break
     }
+  }
 
-    private func buildBanner(config: AdConfig, size: GADAdSize) -> GADBannerView {
-        let adView = GADBannerView(adSize: size);
-        adView.delegate = self.logger
-        adView.adSizeDelegate = self.logger
-        adView.adUnitID = config.externalAdUnitId
-        adView.rootViewController = self.controller
-        adView.load(GADRequest())
-        return adView
-    }
+  private func buildBanner(config: AdConfig, size: GADAdSize) -> GADBannerView {
+    let adView = GADBannerView(adSize: size)
+    adView.delegate = self.logger
+    adView.adSizeDelegate = self.logger
+    adView.adUnitID = config.externalAdUnitId
+    adView.rootViewController = self.controller
+    adView.load(GADRequest())
+    return adView
+  }
 
-    private func googleAdSize(size: AdSize) -> GADAdSize {
-        switch size {
-        case .size320x50: return GADAdSizeBanner
-        case .size300x250: return GADAdSizeMediumRectangle
-        }
+  private func googleAdSize(size: AdSize) -> GADAdSize {
+    switch size {
+    case .size320x50: return GADAdSizeBanner
+    case .size300x250: return GADAdSizeMediumRectangle
     }
+  }
 
-    private func buildInterstitial(config: AdConfig, completion: @escaping (AdView) -> Void) {
-        let request = GADRequest()
-        GADInterstitialAd.load(withAdUnitID: config.externalAdUnitId,
-                               request: request) { [weak self] ad, error in
-            if let error = error {
-                print("Failed to load interstitial ad with error: \(error.localizedDescription)")
-                return
-            }
-            if let ad = ad {
-                ad.fullScreenContentDelegate = self?.logger
-                completion(.interstitial(ad))
-            }
-        }
+  private func buildInterstitial(config: AdConfig, completion: @escaping (AdView) -> Void) {
+    let request = GADRequest()
+    GADInterstitialAd.load(
+      withAdUnitID: config.externalAdUnitId,
+      request: request
+    ) { [weak self] ad, error in
+      if let error = error {
+        print("Failed to load interstitial ad with error: \(error.localizedDescription)")
+        return
+      }
+      if let ad = ad {
+        ad.fullScreenContentDelegate = self?.logger
+        completion(.interstitial(ad))
+      }
     }
+  }
 }
