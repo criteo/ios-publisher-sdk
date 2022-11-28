@@ -24,16 +24,37 @@
 @import CriteoPublisherSdk;
 
 @interface CRInterstitialCustomEvent () <CRInterstitialDelegate, GADMediationInterstitialAd> {
-  CRInterstitial *_ad;
-  /// The completion handler to call when the ad loading succeeds or fails.
-  GADMediationInterstitialLoadCompletionHandler _completionHandler;
-
-  /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
-  id<GADMediationInterstitialAdEventDelegate> _delegate;
+    /// The completion handler to call when the ad loading succeeds or fails.
+    GADMediationInterstitialLoadCompletionHandler _completionHandler;
+    /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
+    id<GADMediationInterstitialAdEventDelegate> _delegate;
 }
+
+@property(nonatomic, strong) CRInterstitial *interstitial;
+
+- (void)loadInterstitialForAdUnit:(CRInterstitialAdUnit *)adUnit
+                  adConfiguration:(CRGoogleMediationParameters *)params
+           childDirectedTreatment:(NSNumber *)childDirectedTreatment;
 @end
 
 @implementation CRInterstitialCustomEvent
+
+#pragma mark Private methods.
+- (void)loadInterstitialForAdUnit:(CRInterstitialAdUnit *)adUnit
+                  adConfiguration:(CRGoogleMediationParameters *)params
+           childDirectedTreatment:(NSNumber *)childDirectedTreatment {
+
+    [Criteo.sharedCriteo registerCriteoPublisherId:params.publisherId withAdUnits:@[ adUnit ]];
+    /// Set child directed treatment flag to Criteo SDK.
+    [Criteo.sharedCriteo setChildDirectedTreatment:childDirectedTreatment];
+    if (!self.interstitial) {
+      self.interstitial = [[CRInterstitial alloc] initWithAdUnit:adUnit];
+    }
+    [self.interstitial setDelegate:self];
+    [self.interstitial loadAd];
+}
+
+#pragma mark GADMediationAdapter implementation for Interstitial ad.
 - (void)loadInterstitialForAdConfiguration:
             (GADMediationInterstitialAdConfiguration *)adConfiguration
                          completionHandler:
@@ -72,18 +93,16 @@
   }
   /// Create the ad unit
   CRInterstitialAdUnit *adUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:params.adUnitId];
-  [Criteo.sharedCriteo registerCriteoPublisherId:params.publisherId withAdUnits:@[ adUnit ]];
-  /// Set child directed treatment flag to Criteo SDK.
-  [Criteo.sharedCriteo setChildDirectedTreatment:adConfiguration.childDirectedTreatment];
-  _ad = [[CRInterstitial alloc] initWithAdUnit:adUnit];
-  _ad.delegate = self;
-  [_ad loadAd];
+  /// Load Interstitial ad.
+  [self loadInterstitialForAdUnit:adUnit
+                  adConfiguration:params
+           childDirectedTreatment:adConfiguration.childDirectedTreatment];
 }
 
 #pragma mark GADMediationInterstitialAd implementation
 - (void)presentFromViewController:(nonnull UIViewController *)viewController {
-  if ([_ad isAdLoaded]) {
-    [_ad presentFromRootViewController:viewController];
+  if ([self.interstitial isAdLoaded]) {
+    [self.interstitial presentFromRootViewController:viewController];
   } else {
     NSDictionary *userInfo = [[NSDictionary alloc] init];
     [userInfo setValue:@"The interstitial ad failed to present because the ad was not loaded."

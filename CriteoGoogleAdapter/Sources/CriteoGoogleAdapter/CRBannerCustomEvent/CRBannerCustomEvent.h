@@ -22,7 +22,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CRBannerCustomEvent : CRCustomEvent
-
 @end
 
 NS_ASSUME_NONNULL_END
