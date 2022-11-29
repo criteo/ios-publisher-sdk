@@ -67,8 +67,8 @@
       [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"testAdUnitId"];
   CRInterstitialCustomEvent *customEvent =
       [[CRInterstitialCustomEvent alloc] initWithInterstitial:mockCRInterstitial];
-  CRGoogleMediationParameters *params = [CRGoogleMediationParameters parametersFromJSONString:SERVER_PARAMETER
-                                                                                        error:NULL];
+  CRGoogleMediationParameters *params =
+      [CRGoogleMediationParameters parametersFromJSONString:SERVER_PARAMETER error:NULL];
   OCMStub([mockCRInterstitial loadAd]);
   OCMStub([mockCRInterstitial setDelegate:customEvent]);
   UIViewController *realVC = [UIViewController new];

@@ -36,8 +36,8 @@
 
 - (instancetype)initWithBanner:(CRBannerView *)ad;
 - (void)loadBannerForAdUnit:(CRBannerAdUnit *)adUnit
-                   mediationParams:(CRGoogleMediationParameters *)params
-     childDirectedTreatment: (NSNumber *)childDirectedTreatment;
+            mediationParams:(CRGoogleMediationParameters *)params
+     childDirectedTreatment:(NSNumber *)childDirectedTreatment;
 
 @end
 
@@ -62,8 +62,8 @@
   CRBannerAdUnit *bannerAdUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"testAdUnitId"
                                                                      size:CGSizeMake(320, 50)];
   CRBannerCustomEvent *customEvent = [[CRBannerCustomEvent alloc] initWithBanner:mockCRBannerView];
-  CRGoogleMediationParameters *params = [CRGoogleMediationParameters parametersFromJSONString:SERVER_PARAMETER
-                                                                                        error:NULL];
+  CRGoogleMediationParameters *params =
+      [CRGoogleMediationParameters parametersFromJSONString:SERVER_PARAMETER error:NULL];
 
   OCMStub([mockCRBannerView loadAd]);
   OCMStub([mockCRBannerView setDelegate:customEvent]);

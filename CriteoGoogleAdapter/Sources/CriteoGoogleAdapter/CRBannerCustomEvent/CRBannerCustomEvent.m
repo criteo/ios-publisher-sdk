@@ -23,10 +23,10 @@
 @import CriteoPublisherSdk;
 
 @interface CRBannerCustomEvent () <GADMediationBannerAd, CRBannerViewDelegate> {
-    //  The banner completion handler to call when the ad loading succeeds or fails.
-    GADMediationBannerLoadCompletionHandler _completionHandler;
-    // The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
-    id<GADMediationBannerAdEventDelegate> _delegate;
+  //  The banner completion handler to call when the ad loading succeeds or fails.
+  GADMediationBannerLoadCompletionHandler _completionHandler;
+  // The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
+  id<GADMediationBannerAdEventDelegate> _delegate;
 }
 
 @property(nonatomic, strong) CRBannerView *bannerView;
@@ -41,17 +41,17 @@
 
 #pragma mark Private methods.
 - (void)loadBannerForAdUnit:(CRBannerAdUnit *)adUnit
-                   mediationParams:(CRGoogleMediationParameters *)params
-     childDirectedTreatment: (NSNumber *)childDirectedTreatment {
-    /// Set the publicher id to
-    [Criteo.sharedCriteo registerCriteoPublisherId:params.publisherId withAdUnits:@[ adUnit ]];
-    /// Set child directed treatment flag to Criteo SDK.
-    [Criteo.sharedCriteo setChildDirectedTreatment:childDirectedTreatment];
-    if (self.bannerView == nil) {
-        self.bannerView = [[CRBannerView alloc] initWithAdUnit:adUnit];
-    }
-    [self.bannerView setDelegate:self];
-    [self.bannerView loadAd];
+            mediationParams:(CRGoogleMediationParameters *)params
+     childDirectedTreatment:(NSNumber *)childDirectedTreatment {
+  /// Set the publicher id to
+  [Criteo.sharedCriteo registerCriteoPublisherId:params.publisherId withAdUnits:@[ adUnit ]];
+  /// Set child directed treatment flag to Criteo SDK.
+  [Criteo.sharedCriteo setChildDirectedTreatment:childDirectedTreatment];
+  if (self.bannerView == nil) {
+    self.bannerView = [[CRBannerView alloc] initWithAdUnit:adUnit];
+  }
+  [self.bannerView setDelegate:self];
+  [self.bannerView loadAd];
 }
 
 #pragma mark GADMediationAdapter implementation for Banner ad.
@@ -88,13 +88,13 @@
     _delegate = completionHandler(nil, [self noFillError:jsonError]);
     return;
   }
-    /// Create an ad unit
-    CRBannerAdUnit *adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:params.adUnitId
-                                                                 size:adConfiguration.adSize.size];
-    /// Load ad banner
-    [self loadBannerForAdUnit:adUnit
-              mediationParams:params
-       childDirectedTreatment:adConfiguration.childDirectedTreatment];
+  /// Create an ad unit
+  CRBannerAdUnit *adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:params.adUnitId
+                                                               size:adConfiguration.adSize.size];
+  /// Load ad banner
+  [self loadBannerForAdUnit:adUnit
+             mediationParams:params
+      childDirectedTreatment:adConfiguration.childDirectedTreatment];
 }
 
 #pragma mark GADMediationBannerAd implementation
