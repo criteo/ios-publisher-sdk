@@ -1,6 +1,6 @@
 //
 //  CRBannerCustomEvent.h
-//  CriteoAdViewer
+//  CriteoGoogleAdapter
 //
 //  Copyright © 2018-2022 Criteo. All rights reserved.
 //
