@@ -21,7 +21,6 @@
 #import "CRGoogleMediationParameters.h"
 #include <stdatomic.h>
 @import GoogleMobileAds;
-@import CriteoPublisherSdk;
 
 @interface CRInterstitialCustomEvent () <CRInterstitialDelegate, GADMediationInterstitialAd> {
   /// The completion handler to call when the ad loading succeeds or fails.
