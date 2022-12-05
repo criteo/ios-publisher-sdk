@@ -28,7 +28,10 @@
       "skippedTests" : [
         "CRInterstitialTests\/testWithRendering",
         "CR_DfpInterstitialFunctionalTests\/test_givenValidInterstitial_whenLoadingDfpInterstitial_thenDfpViewContainsCreative",
-        "CR_StandaloneBannerFunctionalTests\/test_givenBannerWithAppStoreClickUrl_whenClickUrl_thenOpenStoreKitController"
+        "CR_NativeAdFunctionalTests\/testAdCellFilledWithDataInTableViewWithPreProdContent",
+        "CR_StandaloneBannerFunctionalTests\/test_givenBannerWithAppStoreClickUrl_whenClickUrl_thenOpenStoreKitController",
+        "CriteoTests\/testChildDirectedTreatmentTrueCdbCall",
+        "CriteoTests\/testLoadBidForAdUnit_GivenNoContext_UseEmptyOne"
       ],
       "target" : {
         "containerPath" : "container:CriteoPublisherSdk.xcodeproj",
