@@ -17,6 +17,8 @@
 #import <XCTest/XCTest.h>
 #import "CRBannerCustomEvent.h"
 #import <OCMock.h>
+#import "CRGoogleMediationParameters.h"
+@import CriteoPublisherSdk;
 
 @interface CRBannerCustomEventTests : XCTestCase
 
@@ -29,35 +31,25 @@
 
 @end
 
-// Test-only initializer
+// Test-only
 @interface CRBannerCustomEvent (Test)
 
-- (instancetype)initWithBannerView:(CRBannerView *)bannerView;
+- (instancetype)initWithBanner:(CRBannerView *)ad;
+- (void)loadBannerForAdUnit:(CRBannerAdUnit *)adUnit
+            mediationParams:(CRGoogleMediationParameters *)params
+     childDirectedTreatment:(NSNumber *)childDirectedTreatment;
 
 @end
 
 @implementation CRBannerCustomEvent (Test)
 
-- (instancetype)initWithBannerView:(CRBannerView *)bannerView {
+- (instancetype)initWithBanner:(CRBannerView *)ad {
   if (self = [super init]) {
-    self.bannerView = bannerView;
+    self.bannerView = ad;
   }
   return self;
 }
 
-@end
-
-@protocol GADCustomEventBannerDelegateDeprecated <NSObject>
-- (void)customEventBanner:(id<GADCustomEventBanner>)customEvent didReceiveAd:(UIView *)view;
-- (void)customEventBanner:(id<GADCustomEventBanner>)customEvent didFailAd:(nullable NSError *)error;
-@property(nonatomic, readonly) UIViewController *viewControllerForPresentingModalView;
-- (void)customEventBannerWillPresentModal:(id<GADCustomEventBanner>)customEvent;
-- (void)customEventBannerWillDismissModal:(id<GADCustomEventBanner>)customEvent;
-- (void)customEventBannerDidDismissModal:(id<GADCustomEventBanner>)customEvent;
-- (void)customEventBannerWillLeaveApplication:(id<GADCustomEventBanner>)customEvent;
-- (void)customEventBanner:(id<GADCustomEventBanner>)customEvent
-        clickDidOccurInAd:(UIView *)view
-    GAD_DEPRECATED_MSG_ATTRIBUTE("Use customEventBannerWasClicked:.");
 @end
 
 #define SERVER_PARAMETER @"{\"cpId\":\"testCpId\",\"adUnitId\":\"testAdUnitId\"}"
@@ -65,11 +57,13 @@
 @implementation CRBannerCustomEventTests
 
 - (void)testRequestBannerAdSuccess {
+  NSNumber *mockChildDirectedTreatment = @YES;
   CRBannerView *mockCRBannerView = OCMStrictClassMock([CRBannerView class]);
   CRBannerAdUnit *bannerAdUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"testAdUnitId"
                                                                      size:CGSizeMake(320, 50)];
-  CRBannerCustomEvent *customEvent =
-      [[CRBannerCustomEvent alloc] initWithBannerView:mockCRBannerView];
+  CRBannerCustomEvent *customEvent = [[CRBannerCustomEvent alloc] initWithBanner:mockCRBannerView];
+  CRGoogleMediationParameters *params =
+      [CRGoogleMediationParameters parametersFromJSONString:SERVER_PARAMETER error:NULL];
 
   OCMStub([mockCRBannerView loadAd]);
   OCMStub([mockCRBannerView setDelegate:customEvent]);
@@ -77,83 +71,16 @@
   id mockCriteo = OCMClassMock([Criteo class]);
   OCMStub([mockCriteo sharedCriteo]).andReturn(mockCriteo);
   OCMStub([mockCriteo registerCriteoPublisherId:@"testCpId" withAdUnits:@[ bannerAdUnit ]]);
+  OCMStub([mockCriteo setChildDirectedTreatment:mockChildDirectedTreatment]);
 
-  [customEvent requestBannerAd:GADAdSizeBanner
-                     parameter:SERVER_PARAMETER
-                         label:nil
-                       request:[GADCustomEventRequest new]];
+  [customEvent loadBannerForAdUnit:bannerAdUnit
+                   mediationParams:params
+            childDirectedTreatment:mockChildDirectedTreatment];
 
   OCMVerify([mockCRBannerView loadAd]);
   OCMVerify([mockCRBannerView setDelegate:customEvent]);
   OCMVerify([mockCriteo registerCriteoPublisherId:@"testCpId" withAdUnits:@[ bannerAdUnit ]]);
-}
-
-- (void)testRequestBannerAdFail {
-  CRBannerCustomEvent *customEvent = [CRBannerCustomEvent new];
-  id mockGADBannerDelegate = OCMStrictProtocolMock(@protocol(GADCustomEventBannerDelegate));
-  OCMExpect([mockGADBannerDelegate
-      customEventBanner:customEvent
-              didFailAd:[NSError errorWithDomain:GADErrorDomain
-                                            code:GADErrorInvalidArgument
-                                        userInfo:nil]]);
-  NSString *invalid = @"{\"cpIDD\":\"testCpId\"}";
-  customEvent.delegate = mockGADBannerDelegate;
-  GADCustomEventRequest *request = [GADCustomEventRequest new];
-  [customEvent requestBannerAd:GADAdSizeLargeBanner parameter:invalid label:nil request:request];
-  OCMVerifyAllWithDelay(mockGADBannerDelegate, 1);
-}
-
-#pragma mark CRBannerViewDelegate tests
-
-- (void)testDidReceiveAdDelegate {
-  CRBannerCustomEvent *customEvent = [CRBannerCustomEvent new];
-  CRBannerView *bannerView = [CRBannerView new];
-  id mockGADBannerDelegate = OCMStrictProtocolMock(@protocol(GADCustomEventBannerDelegate));
-  OCMExpect([mockGADBannerDelegate customEventBanner:customEvent didReceiveAd:bannerView]);
-  customEvent.delegate = mockGADBannerDelegate;
-  [customEvent bannerDidReceiveAd:bannerView];
-  OCMVerifyAll(mockGADBannerDelegate);
-}
-
-- (void)testDidFailToReceiveAdDelegate {
-  CRBannerCustomEvent *customEvent = [CRBannerCustomEvent new];
-  id mockGADBannerDelegate = OCMStrictProtocolMock(@protocol(GADCustomEventBannerDelegate));
-  NSError *criteoError =
-      [NSError errorWithDomain:@"test domain"
-                          code:0
-                      userInfo:[NSDictionary dictionaryWithObject:@"test description"
-                                                           forKey:NSLocalizedDescriptionKey]];
-  NSError *expectedError =
-      [NSError errorWithDomain:GADErrorDomain
-                          code:GADErrorNoFill
-                      userInfo:[NSDictionary dictionaryWithObject:criteoError.description
-                                                           forKey:NSLocalizedDescriptionKey]];
-  OCMExpect([mockGADBannerDelegate customEventBanner:customEvent didFailAd:expectedError]);
-  customEvent.delegate = mockGADBannerDelegate;
-  [customEvent banner:[CRBannerView new] didFailToReceiveAdWithError:criteoError];
-  OCMVerifyAll(mockGADBannerDelegate);
-}
-
-- (void)testWillLeaveApplicationDelegate {
-  CRBannerCustomEvent *customEvent = [CRBannerCustomEvent new];
-  id mockGADBannerDelegate = OCMStrictProtocolMock(@protocol(GADCustomEventBannerDelegate));
-  OCMExpect([mockGADBannerDelegate customEventBannerWasClicked:customEvent]);
-  OCMExpect([mockGADBannerDelegate customEventBannerWillLeaveApplication:customEvent]);
-  customEvent.delegate = mockGADBannerDelegate;
-  [customEvent bannerWillLeaveApplication:[CRBannerView new]];
-  OCMVerifyAll(mockGADBannerDelegate);
-}
-
-- (void)testWillLeaveApplicationDelegateDeprecated {
-  CRBannerCustomEvent *customEvent = [CRBannerCustomEvent new];
-  id mockGADBannerDelegate =
-      OCMStrictProtocolMock(@protocol(GADCustomEventBannerDelegateDeprecated));
-  CRBannerView *bannerView = [CRBannerView new];
-  OCMExpect([mockGADBannerDelegate customEventBanner:customEvent clickDidOccurInAd:bannerView]);
-  OCMExpect([mockGADBannerDelegate customEventBannerWillLeaveApplication:customEvent]);
-  customEvent.delegate = mockGADBannerDelegate;
-  [customEvent bannerWillLeaveApplication:bannerView];
-  OCMVerifyAll(mockGADBannerDelegate);
+  OCMVerify([mockCriteo setChildDirectedTreatment:mockChildDirectedTreatment]);
 }
 
 @end
