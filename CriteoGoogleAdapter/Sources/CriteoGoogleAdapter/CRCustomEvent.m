@@ -18,7 +18,6 @@
 //
 
 #import "CRCustomEvent.h"
-@import CriteoPublisherSdk;
 
 @implementation CRCustomEvent
 + (GADVersionNumber)adSDKVersion {

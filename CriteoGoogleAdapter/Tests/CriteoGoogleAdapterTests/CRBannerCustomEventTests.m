@@ -18,7 +18,6 @@
 #import "CRBannerCustomEvent.h"
 #import <OCMock.h>
 #import "CRGoogleMediationParameters.h"
-@import CriteoPublisherSdk;
 
 @interface CRBannerCustomEventTests : XCTestCase
 

@@ -20,7 +20,6 @@
 #import "CRBannerCustomEvent.h"
 #include <stdatomic.h>
 #import "CRGoogleMediationParameters.h"
-@import CriteoPublisherSdk;
 
 @interface CRBannerCustomEvent () <GADMediationBannerAd, CRBannerViewDelegate> {
   //  The banner completion handler to call when the ad loading succeeds or fails.

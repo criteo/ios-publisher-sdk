@@ -20,7 +20,6 @@
 #import <OCMock.h>
 #import "CRInterstitialCustomEvent.h"
 #import "CRGoogleMediationParameters.h"
-@import CriteoPublisherSdk;
 
 @interface CRInterstitialCustomEventTests : XCTestCase
 
