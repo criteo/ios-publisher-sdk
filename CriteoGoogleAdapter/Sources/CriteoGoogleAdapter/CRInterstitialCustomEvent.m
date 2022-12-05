@@ -2,7 +2,7 @@
 //  CRInterstitialCustomEvent.m
 //  CriteoGoogleAdapter
 //
-// Copyright © 2018-2020 Criteo. All rights reserved.
+//  Copyright © 2018-2022 Criteo. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,104 +15,130 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+//
 
 #import "CRInterstitialCustomEvent.h"
 #import "CRGoogleMediationParameters.h"
+#include <stdatomic.h>
+@import GoogleMobileAds;
+@import CriteoPublisherSdk;
 
-// Private property
-@interface CRInterstitialCustomEvent ()
+@interface CRInterstitialCustomEvent () <CRInterstitialDelegate, GADMediationInterstitialAd> {
+  /// The completion handler to call when the ad loading succeeds or fails.
+  GADMediationInterstitialLoadCompletionHandler _completionHandler;
+  /// The ad event delegate to forward ad rendering events to the Google Mobile Ads SDK.
+  id<GADMediationInterstitialAdEventDelegate> _delegate;
+}
 
 @property(nonatomic, strong) CRInterstitial *interstitial;
 
+- (void)loadInterstitialForAdUnit:(CRInterstitialAdUnit *)adUnit
+                  adConfiguration:(CRGoogleMediationParameters *)params
+           childDirectedTreatment:(NSNumber *)childDirectedTreatment;
 @end
 
 @implementation CRInterstitialCustomEvent
 
-- (void)presentFromRootViewController:(nonnull UIViewController *)rootViewController {
-  [self.interstitial presentFromRootViewController:rootViewController];
-}
-
-- (void)requestInterstitialAdWithParameter:(nullable NSString *)serverParameter
-                                     label:(nullable NSString *)serverLabel
-                                   request:(nonnull GADCustomEventRequest *)request {
-  NSError *jsonError = nil;
-  CRGoogleMediationParameters *parameters =
-      [CRGoogleMediationParameters parametersFromJSONString:serverParameter error:&jsonError];
-  if (jsonError) {
-    dispatch_async(dispatch_get_main_queue(), ^{
-      if ([self.delegate respondsToSelector:@selector(customEventInterstitial:didFailAd:)]) {
-        [self.delegate customEventInterstitial:self didFailAd:jsonError];
-      }
-    });
-    return;
+#pragma mark Private methods.
+- (void)loadInterstitialForAdUnit:(CRInterstitialAdUnit *)adUnit
+                  adConfiguration:(CRGoogleMediationParameters *)params
+           childDirectedTreatment:(NSNumber *)childDirectedTreatment {
+  [Criteo.sharedCriteo registerCriteoPublisherId:params.publisherId withAdUnits:@[ adUnit ]];
+  /// Set child directed treatment flag to Criteo SDK.
+  [Criteo.sharedCriteo setChildDirectedTreatment:childDirectedTreatment];
+  if (!self.interstitial) {
+    self.interstitial = [[CRInterstitial alloc] initWithAdUnit:adUnit];
   }
-  CRInterstitialAdUnit *interstitialAdUnit =
-      [[CRInterstitialAdUnit alloc] initWithAdUnitId:parameters.adUnitId];
-  [Criteo.sharedCriteo registerCriteoPublisherId:parameters.publisherId
-                                     withAdUnits:@[ interstitialAdUnit ]];
-  if (!_interstitial) {
-    self.interstitial = [[CRInterstitial alloc] initWithAdUnit:interstitialAdUnit];
-  }
-  self.interstitial.delegate = self;
+  [self.interstitial setDelegate:self];
   [self.interstitial loadAd];
 }
 
-#pragma mark CRInterstitialDelegate Implementation
+#pragma mark GADMediationAdapter implementation for Interstitial ad.
+- (void)loadInterstitialForAdConfiguration:
+            (GADMediationInterstitialAdConfiguration *)adConfiguration
+                         completionHandler:
+                             (GADMediationInterstitialLoadCompletionHandler)completionHandler {
+  __block atomic_flag completionHandlerCalled = ATOMIC_FLAG_INIT;
+  __block GADMediationInterstitialLoadCompletionHandler originalCompletionHandler =
+      [completionHandler copy];
+
+  _completionHandler = ^id<GADMediationInterstitialAdEventDelegate>(
+      _Nullable id<GADMediationInterstitialAd> ad, NSError *_Nullable error) {
+    // Only allow completion handler to be called once.
+    if (atomic_flag_test_and_set(&completionHandlerCalled)) {
+      return nil;
+    }
+
+    id<GADMediationInterstitialAdEventDelegate> delegate = nil;
+    if (originalCompletionHandler) {
+      // Call original handler and hold on to its return value.
+      delegate = originalCompletionHandler(ad, error);
+    }
+
+    // Release reference to handler. Objects retained by the handler will also be released.
+    originalCompletionHandler = nil;
+
+    return delegate;
+  };
+
+  /// Extract ad unit id from the ad configuration.
+  NSString *json = adConfiguration.credentials.settings[@"parameter"];
+  NSError *jsonError;
+  CRGoogleMediationParameters *params =
+      [CRGoogleMediationParameters parametersFromJSONString:json error:&jsonError];
+  if (jsonError) {
+    _delegate = completionHandler(nil, [self noFillError:jsonError]);
+    return;
+  }
+  /// Create the ad unit
+  CRInterstitialAdUnit *adUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:params.adUnitId];
+  /// Load Interstitial ad.
+  [self loadInterstitialForAdUnit:adUnit
+                  adConfiguration:params
+           childDirectedTreatment:adConfiguration.childDirectedTreatment];
+}
+
+#pragma mark GADMediationInterstitialAd implementation
+- (void)presentFromViewController:(nonnull UIViewController *)viewController {
+  if ([self.interstitial isAdLoaded]) {
+    [self.interstitial presentFromRootViewController:viewController];
+  } else {
+    NSDictionary *userInfo = [[NSDictionary alloc] init];
+    [userInfo setValue:@"The interstitial ad failed to present because the ad was not loaded."
+                forKey:NSLocalizedDescriptionKey];
+    NSError *error = [NSError errorWithDomain:GADErrorDomain
+                                         code:GADErrorInvalidArgument
+                                     userInfo:userInfo];
+    _delegate = _completionHandler(nil, error);
+  }
+}
+
+#pragma mark CRInterstitialDelegate implementation
 // These callbacks are called on the main thread from the Criteo SDK
 - (void)interstitialDidReceiveAd:(CRInterstitial *)interstitial {
-  if ([self.delegate respondsToSelector:@selector(customEventInterstitialDidReceiveAd:)]) {
-    [self.delegate customEventInterstitialDidReceiveAd:self];
-  }
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-  else if ([self.delegate respondsToSelector:@selector(customEventInterstitial:didReceiveAd:)]) {
-    [self.delegate customEventInterstitial:self didReceiveAd:interstitial];
-  }
-#pragma clang diagnostic pop
+  _delegate = _completionHandler(self, nil);
 }
 
 - (void)interstitial:(CRInterstitial *)interstitial didFailToReceiveAdWithError:(NSError *)error {
-  if ([self.delegate respondsToSelector:@selector(customEventInterstitial:didFailAd:)]) {
-    [self.delegate
-        customEventInterstitial:self
-                      didFailAd:
-                          [NSError
-                              errorWithDomain:GADErrorDomain
-                                         code:GADErrorNoFill
-                                     userInfo:[NSDictionary
-                                                  dictionaryWithObject:error.description
-                                                                forKey:NSLocalizedDescriptionKey]]];
-  }
+  NSError *interstitialError = [self noFillError:error];
+  _delegate = _completionHandler(nil, interstitialError);
 }
 
 - (void)interstitialWillAppear:(CRInterstitial *)interstitial {
-  if ([self.delegate respondsToSelector:@selector(customEventInterstitialWillPresent:)]) {
-    [self.delegate customEventInterstitialWillPresent:self];
-  }
+  [_delegate willPresentFullScreenView];
+  [_delegate reportImpression];
 }
 
 - (void)interstitialWillDisappear:(CRInterstitial *)interstitial {
-  if ([self.delegate respondsToSelector:@selector(customEventInterstitialWillDismiss:)]) {
-    [self.delegate customEventInterstitialWillDismiss:self];
-  }
+  [_delegate willDismissFullScreenView];
 }
 
 - (void)interstitialDidDisappear:(CRInterstitial *)interstitial {
-  if ([self.delegate respondsToSelector:@selector(customEventInterstitialDidDismiss:)]) {
-    [self.delegate customEventInterstitialDidDismiss:self];
-  }
+  [_delegate didDismissFullScreenView];
 }
 
 - (void)interstitialWillLeaveApplication:(CRInterstitial *)interstitial {
-  if ([self.delegate respondsToSelector:@selector(customEventInterstitialWasClicked:)]) {
-    [self.delegate customEventInterstitialWasClicked:self];
-  }
-  if ([self.delegate respondsToSelector:@selector(customEventInterstitialWillLeaveApplication:)]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    [self.delegate customEventInterstitialWillLeaveApplication:self];
-#pragma clang diagnostic pop
-  }
+  [_delegate reportClick];
 }
 
 @end
