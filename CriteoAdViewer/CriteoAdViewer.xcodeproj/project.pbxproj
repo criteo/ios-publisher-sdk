@@ -34,12 +34,12 @@
 		7DADDB6423F57C7A00DD82E7 /* CRVNativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DADDB6323F57C7A00DD82E7 /* CRVNativeAdView.xib */; };
 		7DC4A1D523EC73A20027DB5E /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CAF8C9232C2F990050D8D9 /* CriteoPublisherSdk.framework */; };
 		7DE88E5B248FA35B00F15D74 /* AdTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE88E5A248FA35B00F15D74 /* AdTableViewController.swift */; };
+		A828E82A293F52C6006AD697 /* CRGoogleMediationParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = A828E825293F52C6006AD697 /* CRGoogleMediationParameters.m */; };
+		A828E82B293F52C6006AD697 /* CRInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A828E826293F52C6006AD697 /* CRInterstitialCustomEvent.m */; };
+		A828E82C293F52C6006AD697 /* CRCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A828E827293F52C6006AD697 /* CRCustomEvent.m */; };
+		A828E82D293F52C6006AD697 /* CRBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A828E828293F52C6006AD697 /* CRBannerCustomEvent.m */; };
 		A8808446292B786200E9C626 /* InterstitialView+ads.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8808445292B786200E9C626 /* InterstitialView+ads.swift */; };
 		A8808448292B789C00E9C626 /* GAMAdViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8808447292B789C00E9C626 /* GAMAdViewBuilder.swift */; };
-		A880848B292B84BA00E9C626 /* CRGoogleMediationParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = A8808480292B84BA00E9C626 /* CRGoogleMediationParameters.m */; };
-		A880848C292B84BA00E9C626 /* CRCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A8808484292B84BA00E9C626 /* CRCustomEvent.m */; };
-		A880848D292B84BA00E9C626 /* CRBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A8808486292B84BA00E9C626 /* CRBannerCustomEvent.m */; };
-		A880848E292B84BA00E9C626 /* CRInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A880848A292B84BA00E9C626 /* CRInterstitialCustomEvent.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,16 +112,16 @@
 		7D0622F023F2EA950082F027 /* CRVNativeAdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRVNativeAdView.m; sourceTree = "<group>"; };
 		7DADDB6323F57C7A00DD82E7 /* CRVNativeAdView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CRVNativeAdView.xib; sourceTree = "<group>"; };
 		7DE88E5A248FA35B00F15D74 /* AdTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdTableViewController.swift; sourceTree = "<group>"; };
+		A828E822293F52C6006AD697 /* CRCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRCustomEvent.h; sourceTree = "<group>"; };
+		A828E823293F52C6006AD697 /* CRInterstitialCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRInterstitialCustomEvent.h; sourceTree = "<group>"; };
+		A828E824293F52C6006AD697 /* CRBannerCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRBannerCustomEvent.h; sourceTree = "<group>"; };
+		A828E825293F52C6006AD697 /* CRGoogleMediationParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRGoogleMediationParameters.m; sourceTree = "<group>"; };
+		A828E826293F52C6006AD697 /* CRInterstitialCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialCustomEvent.m; sourceTree = "<group>"; };
+		A828E827293F52C6006AD697 /* CRCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRCustomEvent.m; sourceTree = "<group>"; };
+		A828E828293F52C6006AD697 /* CRBannerCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRBannerCustomEvent.m; sourceTree = "<group>"; };
+		A828E829293F52C6006AD697 /* CRGoogleMediationParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRGoogleMediationParameters.h; sourceTree = "<group>"; };
 		A8808445292B786200E9C626 /* InterstitialView+ads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InterstitialView+ads.swift"; sourceTree = "<group>"; };
 		A8808447292B789C00E9C626 /* GAMAdViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GAMAdViewBuilder.swift; sourceTree = "<group>"; };
-		A8808480292B84BA00E9C626 /* CRGoogleMediationParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRGoogleMediationParameters.m; sourceTree = "<group>"; };
-		A8808481292B84BA00E9C626 /* CRGoogleMediationParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRGoogleMediationParameters.h; sourceTree = "<group>"; };
-		A8808483292B84BA00E9C626 /* CRCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRCustomEvent.h; sourceTree = "<group>"; };
-		A8808484292B84BA00E9C626 /* CRCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRCustomEvent.m; sourceTree = "<group>"; };
-		A8808486292B84BA00E9C626 /* CRBannerCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRBannerCustomEvent.m; sourceTree = "<group>"; };
-		A8808487292B84BA00E9C626 /* CRBannerCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRBannerCustomEvent.h; sourceTree = "<group>"; };
-		A8808489292B84BA00E9C626 /* CRInterstitialCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRInterstitialCustomEvent.h; sourceTree = "<group>"; };
-		A880848A292B84BA00E9C626 /* CRInterstitialCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialCustomEvent.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -295,49 +295,17 @@
 			path = ../Pods;
 			sourceTree = "<group>";
 		};
-		A880847F292B84BA00E9C626 /* CRGoogleMediationParameters */ = {
-			isa = PBXGroup;
-			children = (
-				A8808480292B84BA00E9C626 /* CRGoogleMediationParameters.m */,
-				A8808481292B84BA00E9C626 /* CRGoogleMediationParameters.h */,
-			);
-			path = CRGoogleMediationParameters;
-			sourceTree = "<group>";
-		};
-		A8808482292B84BA00E9C626 /* CRCustomEvent */ = {
-			isa = PBXGroup;
-			children = (
-				A8808483292B84BA00E9C626 /* CRCustomEvent.h */,
-				A8808484292B84BA00E9C626 /* CRCustomEvent.m */,
-			);
-			path = CRCustomEvent;
-			sourceTree = "<group>";
-		};
-		A8808485292B84BA00E9C626 /* CRBannerCustomEvent */ = {
-			isa = PBXGroup;
-			children = (
-				A8808486292B84BA00E9C626 /* CRBannerCustomEvent.m */,
-				A8808487292B84BA00E9C626 /* CRBannerCustomEvent.h */,
-			);
-			path = CRBannerCustomEvent;
-			sourceTree = "<group>";
-		};
-		A8808488292B84BA00E9C626 /* CRInterstitialCustomEvent */ = {
-			isa = PBXGroup;
-			children = (
-				A8808489292B84BA00E9C626 /* CRInterstitialCustomEvent.h */,
-				A880848A292B84BA00E9C626 /* CRInterstitialCustomEvent.m */,
-			);
-			path = CRInterstitialCustomEvent;
-			sourceTree = "<group>";
-		};
 		A8A190512923A0920048918D /* CRMediationAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				A8808485292B84BA00E9C626 /* CRBannerCustomEvent */,
-				A8808482292B84BA00E9C626 /* CRCustomEvent */,
-				A880847F292B84BA00E9C626 /* CRGoogleMediationParameters */,
-				A8808488292B84BA00E9C626 /* CRInterstitialCustomEvent */,
+				A828E824293F52C6006AD697 /* CRBannerCustomEvent.h */,
+				A828E828293F52C6006AD697 /* CRBannerCustomEvent.m */,
+				A828E822293F52C6006AD697 /* CRCustomEvent.h */,
+				A828E827293F52C6006AD697 /* CRCustomEvent.m */,
+				A828E829293F52C6006AD697 /* CRGoogleMediationParameters.h */,
+				A828E825293F52C6006AD697 /* CRGoogleMediationParameters.m */,
+				A828E823293F52C6006AD697 /* CRInterstitialCustomEvent.h */,
+				A828E826293F52C6006AD697 /* CRInterstitialCustomEvent.m */,
 			);
 			path = CRMediationAdapter;
 			sourceTree = "<group>";
@@ -480,24 +448,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A880848E292B84BA00E9C626 /* CRInterstitialCustomEvent.m in Sources */,
 				467A28E924168A1B00CEF5C7 /* EventLogEntry.m in Sources */,
 				4687264E240E9D7E0090489E /* LogTableViewController.swift in Sources */,
 				46151AB2240EC74100D514BE /* LogEntryViewController.swift in Sources */,
 				46151AB8240FC10F00D514BE /* ResponseLogEntry.m in Sources */,
-				A880848C292B84BA00E9C626 /* CRCustomEvent.m in Sources */,
 				46151AB5240FB8A500D514BE /* RequestLogEntry.m in Sources */,
-				A880848B292B84BA00E9C626 /* CRGoogleMediationParameters.m in Sources */,
+				A828E82C293F52C6006AD697 /* CRCustomEvent.m in Sources */,
+				A828E82A293F52C6006AD697 /* CRGoogleMediationParameters.m in Sources */,
 				462A60662417A6C100E36D33 /* GoogleDFPLogger.m in Sources */,
 				462A60762417E56900E36D33 /* AdViewBuilder.swift in Sources */,
 				46872655240EA31B0090489E /* LogManager.m in Sources */,
 				462A60732417DB5000E36D33 /* AdViewerViewController.swift in Sources */,
 				A8808446292B786200E9C626 /* InterstitialView+ads.swift in Sources */,
 				A8808448292B789C00E9C626 /* GAMAdViewBuilder.swift in Sources */,
+				A828E82B293F52C6006AD697 /* CRInterstitialCustomEvent.m in Sources */,
 				46505306256FE544007D9CE7 /* AppDelegate.swift in Sources */,
 				198CD402321085699A33FEF8 /* StandaloneLogger.m in Sources */,
 				198CDA414DD3208D6D93F1EC /* AdConfig.swift in Sources */,
 				198CD052283377223FCC725E /* GoogleAdViewBuilder.swift in Sources */,
+				A828E82D293F52C6006AD697 /* CRBannerCustomEvent.m in Sources */,
 				198CD1A2C254D0AA046AAE80 /* AdNetwork.swift in Sources */,
 				198CDDAB5CB799E07E1DC055 /* AdFormat.swift in Sources */,
 				7DE88E5B248FA35B00F15D74 /* AdTableViewController.swift in Sources */,
@@ -505,7 +474,6 @@
 				198CDBBD19505CE769C375C5 /* CriteoAdViewBuilder.swift in Sources */,
 				7D0622F123F2EA950082F027 /* CRVNativeAdView.m in Sources */,
 				198CD92AB7B891196874B7B2 /* AdvancedNativeView.swift in Sources */,
-				A880848D292B84BA00E9C626 /* CRBannerCustomEvent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

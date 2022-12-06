@@ -1,6 +1,6 @@
 //
-//  CRBannerCustomEvent.h
-//  CriteoAdViewer
+//  CRGoogleMediationParameters.h
+//  CriteoGoogleAdapter
 //
 //  Copyright © 2018-2022 Criteo. All rights reserved.
 //
@@ -17,11 +17,19 @@
 // limitations under the License.
 //
 
-#import "CRCustomEvent.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CRBannerCustomEvent : CRCustomEvent
+@interface CRGoogleMediationParameters : NSObject
+
+- (instancetype)init NS_UNAVAILABLE;
+- (id)initWithPublisherId:(NSString *)publisherId adUnitId:(NSString *)adUnitId;
++ (nullable CRGoogleMediationParameters *)parametersFromJSONString:(NSString *)jsonString
+                                                             error:(NSError **)outError;
+
+@property(copy, readonly) NSString *publisherId;
+@property(copy, readonly) NSString *adUnitId;
 
 @end
 

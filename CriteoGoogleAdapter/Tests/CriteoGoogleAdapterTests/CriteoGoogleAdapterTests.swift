@@ -1,8 +1,8 @@
 //
-//  CRBannerCustomEvent.h
-//  CriteoAdViewer
+//  CriteoGoogleAdapterTests.swift
+//  CriteoGoogleAdapterTests
 //
-//  Copyright © 2018-2022 Criteo. All rights reserved.
+//  Copyright © 2018-2020 Criteo. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,12 +17,6 @@
 // limitations under the License.
 //
 
-#import "CRCustomEvent.h"
+import Foundation
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface CRBannerCustomEvent : CRCustomEvent
-
-@end
-
-NS_ASSUME_NONNULL_END
+// NOTE: this file is required by Xcode to link swift runtime

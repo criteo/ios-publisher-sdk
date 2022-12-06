@@ -107,7 +107,7 @@
 
 #pragma mark - GADInterstitialDelegate methods
 
-- (void)adWillPresentFullScreenContent:(nonnull id<GADFullScreenPresentingAd>)ad {
+- (void)adWillPresentFullScreenContent:(id<GADFullScreenPresentingAd>)ad {
   [CR_Timer scheduledTimerWithTimeInterval:1
                                    repeats:NO
                                      block:^(NSTimer *_Nonnull timer) {

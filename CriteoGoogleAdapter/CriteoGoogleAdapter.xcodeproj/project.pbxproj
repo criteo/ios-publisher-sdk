@@ -10,23 +10,19 @@
 		174087F82C298114175BCBB5 /* libPods-CriteoGoogleAdapter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 26D9C65D4FFAA50128EE5DB4 /* libPods-CriteoGoogleAdapter.a */; };
 		467CC31B24F818FD000021D1 /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF6AE25D24CEB22F00E00CDA /* CriteoPublisherSdk.framework */; };
 		A36837911ADA01CEDFA729A9 /* libPods-CriteoGoogleAdapterTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF43AF45DE0BEECB9A9247A6 /* libPods-CriteoGoogleAdapterTests.a */; };
-		A8808455292B7D0900E9C626 /* CRBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A880844A292B7D0900E9C626 /* CRBannerCustomEvent.m */; };
-		A8808456292B7D0900E9C626 /* CRBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A880844A292B7D0900E9C626 /* CRBannerCustomEvent.m */; };
-		A8808459292B7D0900E9C626 /* CRGoogleMediationParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = A880844C292B7D0900E9C626 /* CRGoogleMediationParameters.m */; };
-		A880845A292B7D0900E9C626 /* CRGoogleMediationParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = A880844C292B7D0900E9C626 /* CRGoogleMediationParameters.m */; };
-		A880845B292B7D0900E9C626 /* CRCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = A880844D292B7D0900E9C626 /* CRCustomEvent.h */; };
-		A880845C292B7D0900E9C626 /* CRCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = A880844D292B7D0900E9C626 /* CRCustomEvent.h */; };
-		A880845F292B7D0900E9C626 /* CRInterstitialCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = A880844F292B7D0900E9C626 /* CRInterstitialCustomEvent.h */; };
-		A8808460292B7D0900E9C626 /* CRInterstitialCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = A880844F292B7D0900E9C626 /* CRInterstitialCustomEvent.h */; };
-		A8808463292B7D0900E9C626 /* CRBannerCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = A8808451292B7D0900E9C626 /* CRBannerCustomEvent.h */; };
-		A8808464292B7D0900E9C626 /* CRBannerCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = A8808451292B7D0900E9C626 /* CRBannerCustomEvent.h */; };
-		A8808465292B7D0900E9C626 /* CRCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A8808452292B7D0900E9C626 /* CRCustomEvent.m */; };
-		A8808466292B7D0900E9C626 /* CRCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A8808452292B7D0900E9C626 /* CRCustomEvent.m */; };
-		A8808467292B7D0900E9C626 /* CRGoogleMediationParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = A8808453292B7D0900E9C626 /* CRGoogleMediationParameters.h */; };
-		A8808468292B7D0900E9C626 /* CRGoogleMediationParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = A8808453292B7D0900E9C626 /* CRGoogleMediationParameters.h */; };
-		A8808469292B7D0900E9C626 /* CRInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A8808454292B7D0900E9C626 /* CRInterstitialCustomEvent.m */; };
-		A880846A292B7D0900E9C626 /* CRInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A8808454292B7D0900E9C626 /* CRInterstitialCustomEvent.m */; };
-		C07ABB57E4BA18C3A8A35B47 /* CR_AdMobIntegrationRegistryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB1B8BF317626BD709C00 /* CR_AdMobIntegrationRegistryTests.m */; };
+		A828E81A293F52A3006AD697 /* CRInterstitialCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = A828E812293F52A3006AD697 /* CRInterstitialCustomEvent.h */; };
+		A828E81B293F52A3006AD697 /* CRInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A828E813293F52A3006AD697 /* CRInterstitialCustomEvent.m */; };
+		A828E81C293F52A3006AD697 /* CRCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = A828E814293F52A3006AD697 /* CRCustomEvent.h */; };
+		A828E81D293F52A3006AD697 /* CRGoogleMediationParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = A828E815293F52A3006AD697 /* CRGoogleMediationParameters.h */; };
+		A828E81E293F52A3006AD697 /* CRCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A828E816293F52A3006AD697 /* CRCustomEvent.m */; };
+		A828E81F293F52A3006AD697 /* CRBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A828E817293F52A3006AD697 /* CRBannerCustomEvent.m */; };
+		A828E820293F52A3006AD697 /* CRBannerCustomEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = A828E818293F52A3006AD697 /* CRBannerCustomEvent.h */; };
+		A828E821293F52A3006AD697 /* CRGoogleMediationParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = A828E819293F52A3006AD697 /* CRGoogleMediationParameters.m */; };
+		A828E833293F53CA006AD697 /* CriteoGoogleAdapterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A828E82E293F53CA006AD697 /* CriteoGoogleAdapterTests.swift */; };
+		A828E834293F53CA006AD697 /* CRBannerCustomEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A828E82F293F53CA006AD697 /* CRBannerCustomEventTests.m */; };
+		A828E835293F53CA006AD697 /* CR_AdMobIntegrationRegistryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A828E830293F53CA006AD697 /* CR_AdMobIntegrationRegistryTests.m */; };
+		A828E836293F53CA006AD697 /* CRGoogleMediationParametersTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A828E831293F53CA006AD697 /* CRGoogleMediationParametersTests.m */; };
+		A828E837293F53CA006AD697 /* CRInterstitialCustomEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A828E832293F53CA006AD697 /* CRInterstitialCustomEventTests.m */; };
 		CF6AE25E24CEB22F00E00CDA /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF6AE25D24CEB22F00E00CDA /* CriteoPublisherSdk.framework */; };
 		DF4356B12304E7B30051AC45 /* CriteoGoogleAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54FC7DA022F4136100202164 /* CriteoGoogleAdapter.framework */; };
 /* End PBXBuildFile section */
@@ -50,16 +46,20 @@
 		54FC7DA422F4136100202164 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54FC7DA922F4136100202164 /* CriteoGoogleAdapterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CriteoGoogleAdapterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		54FC7DB022F4136100202164 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A880844A292B7D0900E9C626 /* CRBannerCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRBannerCustomEvent.m; sourceTree = "<group>"; };
-		A880844C292B7D0900E9C626 /* CRGoogleMediationParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRGoogleMediationParameters.m; sourceTree = "<group>"; };
-		A880844D292B7D0900E9C626 /* CRCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRCustomEvent.h; sourceTree = "<group>"; };
-		A880844F292B7D0900E9C626 /* CRInterstitialCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRInterstitialCustomEvent.h; sourceTree = "<group>"; };
-		A8808451292B7D0900E9C626 /* CRBannerCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRBannerCustomEvent.h; sourceTree = "<group>"; };
-		A8808452292B7D0900E9C626 /* CRCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRCustomEvent.m; sourceTree = "<group>"; };
-		A8808453292B7D0900E9C626 /* CRGoogleMediationParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRGoogleMediationParameters.h; sourceTree = "<group>"; };
-		A8808454292B7D0900E9C626 /* CRInterstitialCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialCustomEvent.m; sourceTree = "<group>"; };
+		A828E812293F52A3006AD697 /* CRInterstitialCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRInterstitialCustomEvent.h; sourceTree = "<group>"; };
+		A828E813293F52A3006AD697 /* CRInterstitialCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialCustomEvent.m; sourceTree = "<group>"; };
+		A828E814293F52A3006AD697 /* CRCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRCustomEvent.h; sourceTree = "<group>"; };
+		A828E815293F52A3006AD697 /* CRGoogleMediationParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRGoogleMediationParameters.h; sourceTree = "<group>"; };
+		A828E816293F52A3006AD697 /* CRCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRCustomEvent.m; sourceTree = "<group>"; };
+		A828E817293F52A3006AD697 /* CRBannerCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRBannerCustomEvent.m; sourceTree = "<group>"; };
+		A828E818293F52A3006AD697 /* CRBannerCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRBannerCustomEvent.h; sourceTree = "<group>"; };
+		A828E819293F52A3006AD697 /* CRGoogleMediationParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRGoogleMediationParameters.m; sourceTree = "<group>"; };
+		A828E82E293F53CA006AD697 /* CriteoGoogleAdapterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CriteoGoogleAdapterTests.swift; sourceTree = "<group>"; };
+		A828E82F293F53CA006AD697 /* CRBannerCustomEventTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRBannerCustomEventTests.m; sourceTree = "<group>"; };
+		A828E830293F53CA006AD697 /* CR_AdMobIntegrationRegistryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_AdMobIntegrationRegistryTests.m; sourceTree = "<group>"; };
+		A828E831293F53CA006AD697 /* CRGoogleMediationParametersTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRGoogleMediationParametersTests.m; sourceTree = "<group>"; };
+		A828E832293F53CA006AD697 /* CRInterstitialCustomEventTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialCustomEventTests.m; sourceTree = "<group>"; };
 		BF43AF45DE0BEECB9A9247A6 /* libPods-CriteoGoogleAdapterTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoGoogleAdapterTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C07AB1B8BF317626BD709C00 /* CR_AdMobIntegrationRegistryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CR_AdMobIntegrationRegistryTests.m; sourceTree = "<group>"; };
 		CF6AE25D24CEB22F00E00CDA /* CriteoPublisherSdk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CriteoPublisherSdk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6D6F0BAD5AE72930DD2A529 /* Pods-CriteoGoogleAdapterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoGoogleAdapterTests.release.xcconfig"; path = "Target Support Files/Pods-CriteoGoogleAdapterTests/Pods-CriteoGoogleAdapterTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -132,10 +132,14 @@
 		54FC7DA222F4136100202164 /* CriteoGoogleAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				A880846E292B7EC300E9C626 /* CRGoogleMediationParameters */,
-				A880846D292B7EB700E9C626 /* CRCustomEvent */,
-				A880846C292B7EA800E9C626 /* CRInterstitialCustomEvent */,
-				A880846B292B7E8100E9C626 /* CRBannerCustomEvent */,
+				A828E818293F52A3006AD697 /* CRBannerCustomEvent.h */,
+				A828E817293F52A3006AD697 /* CRBannerCustomEvent.m */,
+				A828E814293F52A3006AD697 /* CRCustomEvent.h */,
+				A828E816293F52A3006AD697 /* CRCustomEvent.m */,
+				A828E815293F52A3006AD697 /* CRGoogleMediationParameters.h */,
+				A828E819293F52A3006AD697 /* CRGoogleMediationParameters.m */,
+				A828E812293F52A3006AD697 /* CRInterstitialCustomEvent.h */,
+				A828E813293F52A3006AD697 /* CRInterstitialCustomEvent.m */,
 				54FC7DA422F4136100202164 /* Info.plist */,
 			);
 			name = CriteoGoogleAdapter;
@@ -145,47 +149,15 @@
 		54FC7DAD22F4136100202164 /* CriteoGoogleAdapterTests */ = {
 			isa = PBXGroup;
 			children = (
+				A828E830293F53CA006AD697 /* CR_AdMobIntegrationRegistryTests.m */,
+				A828E82F293F53CA006AD697 /* CRBannerCustomEventTests.m */,
+				A828E831293F53CA006AD697 /* CRGoogleMediationParametersTests.m */,
+				A828E832293F53CA006AD697 /* CRInterstitialCustomEventTests.m */,
+				A828E82E293F53CA006AD697 /* CriteoGoogleAdapterTests.swift */,
 				54FC7DB022F4136100202164 /* Info.plist */,
-				C07AB1B8BF317626BD709C00 /* CR_AdMobIntegrationRegistryTests.m */,
 			);
 			name = CriteoGoogleAdapterTests;
 			path = Tests/CriteoGoogleAdapterTests;
-			sourceTree = "<group>";
-		};
-		A880846B292B7E8100E9C626 /* CRBannerCustomEvent */ = {
-			isa = PBXGroup;
-			children = (
-				A8808451292B7D0900E9C626 /* CRBannerCustomEvent.h */,
-				A880844A292B7D0900E9C626 /* CRBannerCustomEvent.m */,
-			);
-			path = CRBannerCustomEvent;
-			sourceTree = "<group>";
-		};
-		A880846C292B7EA800E9C626 /* CRInterstitialCustomEvent */ = {
-			isa = PBXGroup;
-			children = (
-				A880844F292B7D0900E9C626 /* CRInterstitialCustomEvent.h */,
-				A8808454292B7D0900E9C626 /* CRInterstitialCustomEvent.m */,
-			);
-			path = CRInterstitialCustomEvent;
-			sourceTree = "<group>";
-		};
-		A880846D292B7EB700E9C626 /* CRCustomEvent */ = {
-			isa = PBXGroup;
-			children = (
-				A880844D292B7D0900E9C626 /* CRCustomEvent.h */,
-				A8808452292B7D0900E9C626 /* CRCustomEvent.m */,
-			);
-			path = CRCustomEvent;
-			sourceTree = "<group>";
-		};
-		A880846E292B7EC300E9C626 /* CRGoogleMediationParameters */ = {
-			isa = PBXGroup;
-			children = (
-				A880844C292B7D0900E9C626 /* CRGoogleMediationParameters.m */,
-				A8808453292B7D0900E9C626 /* CRGoogleMediationParameters.h */,
-			);
-			path = CRGoogleMediationParameters;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -195,10 +167,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A880845B292B7D0900E9C626 /* CRCustomEvent.h in Headers */,
-				A8808463292B7D0900E9C626 /* CRBannerCustomEvent.h in Headers */,
-				A880845F292B7D0900E9C626 /* CRInterstitialCustomEvent.h in Headers */,
-				A8808467292B7D0900E9C626 /* CRGoogleMediationParameters.h in Headers */,
+				A828E81D293F52A3006AD697 /* CRGoogleMediationParameters.h in Headers */,
+				A828E81A293F52A3006AD697 /* CRInterstitialCustomEvent.h in Headers */,
+				A828E81C293F52A3006AD697 /* CRCustomEvent.h in Headers */,
+				A828E820293F52A3006AD697 /* CRBannerCustomEvent.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,10 +178,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A880845C292B7D0900E9C626 /* CRCustomEvent.h in Headers */,
-				A8808464292B7D0900E9C626 /* CRBannerCustomEvent.h in Headers */,
-				A8808460292B7D0900E9C626 /* CRInterstitialCustomEvent.h in Headers */,
-				A8808468292B7D0900E9C626 /* CRGoogleMediationParameters.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,7 +238,7 @@
 					};
 					54FC7DA822F4136100202164 = {
 						CreatedOnToolsVersion = 10.2.1;
-						LastSwiftMigration = 1210;
+						LastSwiftMigration = 1410;
 					};
 				};
 			};
@@ -362,10 +330,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A8808459292B7D0900E9C626 /* CRGoogleMediationParameters.m in Sources */,
-				A8808469292B7D0900E9C626 /* CRInterstitialCustomEvent.m in Sources */,
-				A8808455292B7D0900E9C626 /* CRBannerCustomEvent.m in Sources */,
-				A8808465292B7D0900E9C626 /* CRCustomEvent.m in Sources */,
+				A828E821293F52A3006AD697 /* CRGoogleMediationParameters.m in Sources */,
+				A828E81E293F52A3006AD697 /* CRCustomEvent.m in Sources */,
+				A828E81F293F52A3006AD697 /* CRBannerCustomEvent.m in Sources */,
+				A828E81B293F52A3006AD697 /* CRInterstitialCustomEvent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,11 +341,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A8808456292B7D0900E9C626 /* CRBannerCustomEvent.m in Sources */,
-				A880846A292B7D0900E9C626 /* CRInterstitialCustomEvent.m in Sources */,
-				C07ABB57E4BA18C3A8A35B47 /* CR_AdMobIntegrationRegistryTests.m in Sources */,
-				A880845A292B7D0900E9C626 /* CRGoogleMediationParameters.m in Sources */,
-				A8808466292B7D0900E9C626 /* CRCustomEvent.m in Sources */,
+				A828E836293F53CA006AD697 /* CRGoogleMediationParametersTests.m in Sources */,
+				A828E835293F53CA006AD697 /* CR_AdMobIntegrationRegistryTests.m in Sources */,
+				A828E837293F53CA006AD697 /* CRInterstitialCustomEventTests.m in Sources */,
+				A828E834293F53CA006AD697 /* CRBannerCustomEventTests.m in Sources */,
+				A828E833293F53CA006AD697 /* CriteoGoogleAdapterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

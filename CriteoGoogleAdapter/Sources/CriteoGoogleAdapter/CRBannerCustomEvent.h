@@ -1,6 +1,6 @@
 //
-//  CRInterstitialCustomEvent.h
-//  CriteoAdViewer
+//  CRBannerCustomEvent.h
+//  CriteoGoogleAdapter
 //
 //  Copyright © 2018-2022 Criteo. All rights reserved.
 //
@@ -21,8 +21,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CRInterstitialCustomEvent : CRCustomEvent
-
+@interface CRBannerCustomEvent : CRCustomEvent
 @end
 
 NS_ASSUME_NONNULL_END

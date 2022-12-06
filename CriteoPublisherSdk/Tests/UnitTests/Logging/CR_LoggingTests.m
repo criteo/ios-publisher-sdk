@@ -38,6 +38,7 @@
 - (void)setUp {
   [super setUp];
 
+  [Criteo resetSharedCriteo];
   self.dependencyProvider = OCMPartialMock(CR_DependencyProvider.testing_dependencyProvider);
   OCMStub([(id)self.dependencyProvider new]).andReturn(self.dependencyProvider);
 }
