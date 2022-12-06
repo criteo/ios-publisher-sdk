@@ -68,6 +68,7 @@ struct AdNetwork: Equatable {
 }
 
 struct AdNetworks {
+  let mediation: AdNetwork
   let google: AdNetwork
   let standalone: AdNetwork
   let inHouse: AdNetwork
@@ -78,8 +79,26 @@ struct AdNetworks {
     self.google = googleNetwork(controller)
     self.standalone = standaloneNetwork(controller)
     self.inHouse = inHouseNetwork(controller: controller)
-    self.all = [google, standalone, inHouse]
+    self.mediation = googleMediationNetwork(controller)
+    self.all = [mediation, google, standalone, inHouse]
   }
+}
+
+private func googleMediationNetwork(_ controller: AdViewController) -> AdNetwork {
+  AdNetwork(
+    name: "Mediation",
+    supportedFormats: [
+      AdFormat.banner320x50,
+      AdFormat.banner300x250,
+      AdFormat.interstitial
+    ],
+    defaultAdUnits: [
+      AdFormat.banner320x50: "ca-app-pub-8459323526901202/5005871401",
+      AdFormat.banner300x250: "ca-app-pub-8459323526901202/5005871401",
+      AdFormat.interstitial: "ca-app-pub-8459323526901202/8006659012"
+    ],
+    specificAdUnits: [:],
+    adViewBuilder: GAMAdViewBuilder(controller: controller))
 }
 
 private func googleNetwork(_ controller: AdViewController) -> AdNetwork {

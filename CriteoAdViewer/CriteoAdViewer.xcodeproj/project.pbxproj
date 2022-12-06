@@ -34,6 +34,12 @@
 		7DADDB6423F57C7A00DD82E7 /* CRVNativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DADDB6323F57C7A00DD82E7 /* CRVNativeAdView.xib */; };
 		7DC4A1D523EC73A20027DB5E /* CriteoPublisherSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54CAF8C9232C2F990050D8D9 /* CriteoPublisherSdk.framework */; };
 		7DE88E5B248FA35B00F15D74 /* AdTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE88E5A248FA35B00F15D74 /* AdTableViewController.swift */; };
+		A828E839293F7803006AD697 /* GAMAdViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A828E838293F7803006AD697 /* GAMAdViewBuilder.swift */; };
+		A828E83B293F7849006AD697 /* InterstitialView+ads.swift in Sources */ = {isa = PBXBuildFile; fileRef = A828E83A293F7849006AD697 /* InterstitialView+ads.swift */; };
+		A828E845293F7978006AD697 /* CRBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A828E83D293F7978006AD697 /* CRBannerCustomEvent.m */; };
+		A828E846293F7978006AD697 /* CRGoogleMediationParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = A828E83E293F7978006AD697 /* CRGoogleMediationParameters.m */; };
+		A828E847293F7978006AD697 /* CRCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A828E842293F7978006AD697 /* CRCustomEvent.m */; };
+		A828E848293F7978006AD697 /* CRInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A828E844293F7978006AD697 /* CRInterstitialCustomEvent.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +112,16 @@
 		7D0622F023F2EA950082F027 /* CRVNativeAdView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRVNativeAdView.m; sourceTree = "<group>"; };
 		7DADDB6323F57C7A00DD82E7 /* CRVNativeAdView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CRVNativeAdView.xib; sourceTree = "<group>"; };
 		7DE88E5A248FA35B00F15D74 /* AdTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdTableViewController.swift; sourceTree = "<group>"; };
+		A828E838293F7803006AD697 /* GAMAdViewBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GAMAdViewBuilder.swift; sourceTree = "<group>"; };
+		A828E83A293F7849006AD697 /* InterstitialView+ads.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "InterstitialView+ads.swift"; sourceTree = "<group>"; };
+		A828E83D293F7978006AD697 /* CRBannerCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRBannerCustomEvent.m; sourceTree = "<group>"; };
+		A828E83E293F7978006AD697 /* CRGoogleMediationParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRGoogleMediationParameters.m; sourceTree = "<group>"; };
+		A828E83F293F7978006AD697 /* CRCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRCustomEvent.h; sourceTree = "<group>"; };
+		A828E840293F7978006AD697 /* CRInterstitialCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRInterstitialCustomEvent.h; sourceTree = "<group>"; };
+		A828E841293F7978006AD697 /* CRBannerCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRBannerCustomEvent.h; sourceTree = "<group>"; };
+		A828E842293F7978006AD697 /* CRCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRCustomEvent.m; sourceTree = "<group>"; };
+		A828E843293F7978006AD697 /* CRGoogleMediationParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRGoogleMediationParameters.h; sourceTree = "<group>"; };
+		A828E844293F7978006AD697 /* CRInterstitialCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialCustomEvent.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +185,7 @@
 		4077EBA6218BC48300C41E68 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				A828E83C293F7978006AD697 /* CriteoGoogleAdapter */,
 				462A60712417DB1C00E36D33 /* AdViewer */,
 				7D03F10623F1949900CB5D8B /* NativeAd */,
 				54B579122369CE09004DF616 /* Common */,
@@ -212,7 +229,9 @@
 				198CDA0A7F408237FDF8C5E9 /* AdConfig.swift */,
 				462A60752417E56900E36D33 /* AdViewBuilder.swift */,
 				198CDF9CA007F85D34B51EA5 /* GoogleAdViewBuilder.swift */,
+				A828E838293F7803006AD697 /* GAMAdViewBuilder.swift */,
 				198CDF8D630812D8072F12AB /* CriteoAdViewBuilder.swift */,
+				A828E83A293F7849006AD697 /* InterstitialView+ads.swift */,
 				198CDF4848FDB0545CBB170C /* AdViewRow.swift */,
 				462A60722417DB5000E36D33 /* AdViewerViewController.swift */,
 				198CD20560ED9CCF03D83BF3 /* AdvancedNativeView.swift */,
@@ -274,6 +293,21 @@
 			);
 			name = Pods;
 			path = ../Pods;
+			sourceTree = "<group>";
+		};
+		A828E83C293F7978006AD697 /* CriteoGoogleAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				A828E83D293F7978006AD697 /* CRBannerCustomEvent.m */,
+				A828E83E293F7978006AD697 /* CRGoogleMediationParameters.m */,
+				A828E83F293F7978006AD697 /* CRCustomEvent.h */,
+				A828E840293F7978006AD697 /* CRInterstitialCustomEvent.h */,
+				A828E841293F7978006AD697 /* CRBannerCustomEvent.h */,
+				A828E842293F7978006AD697 /* CRCustomEvent.m */,
+				A828E843293F7978006AD697 /* CRGoogleMediationParameters.h */,
+				A828E844293F7978006AD697 /* CRInterstitialCustomEvent.m */,
+			);
+			path = CriteoGoogleAdapter;
 			sourceTree = "<group>";
 		};
 		AEB379A3E47D7093DEBA6DA1 /* Frameworks */ = {
@@ -414,14 +448,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A828E848293F7978006AD697 /* CRInterstitialCustomEvent.m in Sources */,
+				A828E846293F7978006AD697 /* CRGoogleMediationParameters.m in Sources */,
 				467A28E924168A1B00CEF5C7 /* EventLogEntry.m in Sources */,
 				4687264E240E9D7E0090489E /* LogTableViewController.swift in Sources */,
 				46151AB2240EC74100D514BE /* LogEntryViewController.swift in Sources */,
 				46151AB8240FC10F00D514BE /* ResponseLogEntry.m in Sources */,
+				A828E847293F7978006AD697 /* CRCustomEvent.m in Sources */,
 				46151AB5240FB8A500D514BE /* RequestLogEntry.m in Sources */,
+				A828E83B293F7849006AD697 /* InterstitialView+ads.swift in Sources */,
+				A828E839293F7803006AD697 /* GAMAdViewBuilder.swift in Sources */,
 				462A60662417A6C100E36D33 /* GoogleDFPLogger.m in Sources */,
 				462A60762417E56900E36D33 /* AdViewBuilder.swift in Sources */,
 				46872655240EA31B0090489E /* LogManager.m in Sources */,
+				A828E845293F7978006AD697 /* CRBannerCustomEvent.m in Sources */,
 				462A60732417DB5000E36D33 /* AdViewerViewController.swift in Sources */,
 				46505306256FE544007D9CE7 /* AppDelegate.swift in Sources */,
 				198CD402321085699A33FEF8 /* StandaloneLogger.m in Sources */,
