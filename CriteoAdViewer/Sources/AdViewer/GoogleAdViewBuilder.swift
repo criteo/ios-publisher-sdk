@@ -74,11 +74,14 @@ class GoogleAdViewBuilder: AdViewBuilder {
     return adView
   }
 
-  private func buildInterstitial(config: AdConfig, criteo: Criteo, completion: @escaping (AdView) -> Void) {
+  private func buildInterstitial(
+    config: AdConfig, criteo: Criteo, completion: @escaping (AdView) -> Void
+  ) {
     let adUnit = config.adUnit
 
     loadAdView(criteo: criteo, adUnit: adUnit) { request in
-      GAMInterstitialAd.load(withAdManagerAdUnitID: config.externalAdUnitId, request: request) { maybeAd, maybeError in
+      GAMInterstitialAd.load(withAdManagerAdUnitID: config.externalAdUnitId, request: request) {
+        maybeAd, maybeError in
         if let error = maybeError {
           print("Failed to load interstitial ad with error: \(error.localizedDescription)")
         }
@@ -90,10 +93,13 @@ class GoogleAdViewBuilder: AdViewBuilder {
     }
   }
 
-  private func buildRewarded(config: AdConfig, criteo: Criteo, completion: @escaping (AdView) -> Void) {
+  private func buildRewarded(
+    config: AdConfig, criteo: Criteo, completion: @escaping (AdView) -> Void
+  ) {
     let adUnit = config.adUnit
     loadAdView(criteo: criteo, adUnit: adUnit) { request in
-      GADRewardedAd.load(withAdUnitID: config.externalAdUnitId, request: request) { maybeAd, maybeError in
+      GADRewardedAd.load(withAdUnitID: config.externalAdUnitId, request: request) {
+        maybeAd, maybeError in
         if let error = maybeError {
           print("Failed to load rewarded ad with error: \(error.localizedDescription)")
         }
@@ -103,21 +109,5 @@ class GoogleAdViewBuilder: AdViewBuilder {
         }
       }
     }
-  }
-}
-
-extension GAMInterstitialAd: InterstitialView {
-  func present(viewController: UIViewController) {
-    self.present(fromRootViewController: viewController)
-  }
-}
-
-extension GADRewardedAd: InterstitialView {
-  func present(viewController: UIViewController) {
-    self.present(
-      fromRootViewController: viewController,
-      userDidEarnRewardHandler: {
-        print("User did earn reward \(self.adReward)")
-      })
   }
 }

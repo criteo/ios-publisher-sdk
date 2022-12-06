@@ -20,6 +20,7 @@
 import AppTrackingTransparency
 import UIKit
 import StoreKit
+import GoogleMobileAds
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -35,6 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       })
       SKAdNetwork.registerAppForAdNetworkAttribution()
     }
+
+    GADMobileAds.sharedInstance().start()
     return true
   }
 
