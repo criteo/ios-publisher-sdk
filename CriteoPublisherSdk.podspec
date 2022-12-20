@@ -35,7 +35,7 @@ Pod::Spec.new do |spec|
   spec.subspec "GoogleAdapter" do |adapter|
     adapter.source_files     = "CriteoGoogleAdapter/Sources/**/*.{h,m}"
     adapter.dependency         "CriteoPublisherSdk/Sdk"
-    adapter.dependency         "Google-Mobile-Ads-SDK", "~> 8.0"
+    adapter.dependency         "Google-Mobile-Ads-SDK", "~> 9.0"
 
     # Xcode 12 workaround: https://github.com/CocoaPods/CocoaPods/issues/10065
     adapter.pod_target_xcconfig   = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64 arm64e armv7 armv7s i386', 'EXCLUDED_ARCHS[sdk=iphoneos*]' => 'i386 x86_64' }
