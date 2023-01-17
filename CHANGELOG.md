@@ -1,9 +1,10 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
 
-## Version [NEXT]
+## Version [4.6.0]
 
 ### Features
+- Google Ads SDK v9 support, updated mediation adapters.
 - Remove MoPub header bidding support
 - Add ability to set Children's Online Privacy Protection Act ("COPPA") flag
 
