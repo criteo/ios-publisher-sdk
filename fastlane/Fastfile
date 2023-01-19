@@ -21,7 +21,12 @@ platform :ios do
   lane :test do
     scan(scheme: "CriteoAdViewer")
     scan(scheme: "CriteoGoogleAdapter")
-    scan(scheme: "CriteoPublisherSdk")
+    multi_scan(
+      workspace: "CriteoPublisherSdk.xcworkspace",
+      scheme: "CriteoPublisherSdk",
+      testplan: "CriteoPublisherSdk",
+      try_count: 5,  parallel_testrun_count: 6,
+    )
     pod_lib_lint
   end
 
