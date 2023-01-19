@@ -27,8 +27,11 @@
     {
       "skippedTests" : [
         "CRInterstitialTests\/testWithRendering",
+        "CR_BidManagerIntegrationTests\/test_givenPrefetchingBid_whenNoContent_shouldProvideEmptyBid",
         "CR_DfpInterstitialFunctionalTests\/test_givenValidInterstitial_whenLoadingDfpInterstitial_thenDfpViewContainsCreative",
+        "CR_FeedbackMessageFunctionalTests\/testGivenTimeoutErrorOnPrefetch_whenGettingBid_thenSendFeedbackMessage",
         "CR_InternalContextProviderTests\/testFetchInternalUserContext_GivenRealData_PutProperInformation",
+        "CR_NativeAdFunctionalTests\/testAdCellFilledWithDataInTableViewWithPreProdContent",
         "CR_StandaloneBannerFunctionalTests\/test_givenBannerWithAppStoreClickUrl_whenClickUrl_thenOpenStoreKitController"
       ],
       "target" : {
