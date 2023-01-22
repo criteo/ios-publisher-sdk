@@ -173,14 +173,14 @@
 }
 
 - (void)testNetworkManagerFailedSerialization {
-    NSURL *url;
-    NSData *body;
-    [self.networkManager postToUrl:url
-                              body:body
-                   responseHandler:^(NSData * _Nullable data, NSError * _Nullable error) {
-        XCTAssertNotNil(error);
-        XCTAssertNil(data);
-    }];
+  NSURL *url;
+  NSData *body;
+  [self.networkManager postToUrl:url
+                            body:body
+                 responseHandler:^(NSData *_Nullable data, NSError *_Nullable error) {
+                   XCTAssertNotNil(error);
+                   XCTAssertNil(data);
+                 }];
 }
 
 #pragma mark - Private methods
