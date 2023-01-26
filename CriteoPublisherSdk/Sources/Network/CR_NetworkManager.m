@@ -21,6 +21,7 @@
 #import "CR_Logging.h"
 #import "CR_ThreadManager.h"
 #import "CR_URLRequest.h"
+#import "NSError+Criteo.h"
 
 @interface CR_NetworkManager ()
 
@@ -123,9 +124,26 @@
   [postRequest setHTTPMethod:@"POST"];
 
   NSError *jsonError;
-  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:body
-                                                     options:NSJSONWritingPrettyPrinted
-                                                       error:&jsonError];
+  NSData *jsonData;
+  @try {
+    jsonData = [NSJSONSerialization dataWithJSONObject:body
+                                               options:NSJSONWritingPrettyPrinted
+                                                 error:&jsonError];
+    if (jsonError) {
+      if (logTag) {
+        CRLogInfo(logTag, @"⬇️ Error: %@", jsonError);
+      }
+      responseHandler(nil, jsonError);
+      return;
+    }
+  } @catch (NSException *exception) {
+    CRLogException(@"Network", exception, @"Failed to create URL Request");
+    NSError *error =
+        [NSError cr_errorWithCode:CRErrorCodeInternalError
+                      description:@"Failed to serialize body content for POST request"];
+    responseHandler(nil, error);
+    return;
+  }
 
   [postRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
   [postRequest setHTTPBody:jsonData];
