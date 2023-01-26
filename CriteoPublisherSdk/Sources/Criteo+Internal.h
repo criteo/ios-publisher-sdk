@@ -25,6 +25,7 @@
 #import "CRAdUnit.h"
 #import "CRAdUnit+Internal.h"
 #import "Criteo.h"
+#import "CRMRAIDUtils.h"
 
 @class CR_CdbBid;
 @class CR_Config;
