@@ -175,12 +175,16 @@
 - (void)testNetworkManagerFailedSerialization {
   NSURL *url;
   NSData *body;
+  XCTestExpectation *expectation = [self expectationWithDescription:@"POST to URL with null body generates an error"];
   [self.networkManager postToUrl:url
                             body:body
                  responseHandler:^(NSData *_Nullable data, NSError *_Nullable error) {
-                   XCTAssertNotNil(error);
-                   XCTAssertNil(data);
+      if (error && data == nil) {
+          [expectation fulfill];
+      }
+
                  }];
+    [self cr_waitForExpectations:@[ expectation ]];
 }
 
 #pragma mark - Private methods
