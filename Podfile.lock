@@ -80,11 +80,11 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   CriteoMRAID:
-    :commit: 88e3534d9c7d603813490889659e28e4aeb6173e
+    :commit: a3cd2ab4035fe716245defa0faa979963c4748b1
     :git: https://github.com/criteo/mraid-bridge
 
 SPEC CHECKSUMS:
-  CriteoMRAID: b2abe9990fed7614593ce45ff983543e03e98c8f
+  CriteoMRAID: 0427bad7ffd7167186c67da6f4999ca10bc90457
   Eureka: fadaa9fa3d6e402d3c60f78f24edf3d7bafc9c29
   FunctionalObjC: bd6aaa4b69abea0a5ac0e860a052c1ebebd5311c
   Google-Mobile-Ads-SDK: 465532d33dfc878f2f9aca281fddbcd4bf9c0197
