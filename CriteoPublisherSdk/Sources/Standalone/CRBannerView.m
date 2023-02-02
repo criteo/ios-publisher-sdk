@@ -115,12 +115,15 @@
      stringByReplacingOccurrencesOfString:config.displayURLMacro
      withString:displayUrl];
 
-    [_webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"https://criteo.com"]];
+    NSString *mraidHtml = [CRBannerView insertMraid:htmlString];
+    NSLog(@"html: %@", htmlString);
+
+    [_webView loadHTMLString:mraidHtml baseURL:[NSURL URLWithString:@"https://criteo.com"]];
 }
 
 - (void)loadMraid:(NSString *)htmlTestAd {
-    NSLog(@"mraid: %@", htmlTestAd);
-    [_webView loadHTMLString:htmlTestAd baseURL:nil];
+    NSURL *mraidFileURL = [[NSBundle mainBundle] URLForResource:htmlTestAd withExtension:@"html"];
+    [_webView loadFileURL:mraidFileURL allowingReadAccessToURL:mraidFileURL];
 }
 
 - (void)dispatchDidReceiveAdDelegate {
@@ -213,7 +216,6 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 - (void)webView:(WKWebView *)webView
 decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
 decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
-    NSLog(@"navigationAction: %@", navigationAction.debugDescription);
     [self handlePotentialClickForNavigationAction:navigationAction
                                   decisionHandler:decisionHandler
                             allowedNavigationType:WKNavigationTypeLinkActivated];
@@ -224,8 +226,12 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 (nullable void (^)(WKNavigationActionPolicy))decisionHandler
                           allowedNavigationType:(WKNavigationType)allowedNavigationType {
     NSLog(@"navigation type: %ld", (long)navigationAction.navigationType);
-    NSLog(@"url: %@", navigationAction.request.URL);
+    NSLog(@"url: %@", navigationAction.request.URL.absoluteString);
     NSLog(@"http body: %@", navigationAction.request.HTTPBody);
+
+    if (navigationAction.navigationType == WKNavigationTypeOther) {
+        NSLog(@"nav : %@", navigationAction.request.description);
+    }
 
     if (navigationAction.navigationType == allowedNavigationType &&
         navigationAction.request.URL != nil) {
@@ -251,6 +257,26 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     if (decisionHandler) {
         decisionHandler(WKNavigationActionPolicyAllow);
     }
+}
+
++ (NSString *)insertMraid:(NSString *)html {
+    NSMutableString *mraidHtml = [NSMutableString stringWithString:html];
+    NSRange bodyRange = [mraidHtml rangeOfString:@"<body>"];
+    if (bodyRange.location == NSNotFound) {
+        return  html;
+    }
+
+    NSArray *paths = [[NSBundle mainBundle] pathsForResourcesOfType:@"bundle" inDirectory:NULL];
+    NSLog(@"paths: %@", paths);
+    NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"CriteoMRAID-CriteoMRAIDResource" ofType: NULL];
+    NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
+    NSURL *mraidUrl = [bundle URLForResource:@"mraid" withExtension:@"ts"];
+    NSLog(@"url %@", mraidUrl);
+
+    NSBundle *crBundle = [NSBundle bundleForClass:self.class];
+//    NSString *crPath = [crBundle pathForResource:@"CriteoMRAID-CriteoMRAIDResource" ofType:@"bundle"];
+    NSLog(@"crPaths %@", [crBundle pathsForResourcesOfType:@"bundle" inDirectory:NULL]);
+    return html;
 }
 
 // Delegate errors that occur during web view navigation

@@ -1799,6 +1799,7 @@
 				25BD5B542220D16D004DE311 /* Frameworks */,
 				25BD5B552220D16D004DE311 /* Resources */,
 				E399768528F5A9E000F60EFB /* ShellScript */,
+				FE91E3A81B45A47866CF5DD3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2019,6 +2020,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint --config ../.swiftlint.yml\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		FE91E3A81B45A47866CF5DD3 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CriteoPublisherSdk/Pods-CriteoPublisherSdk-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CriteoPublisherSdk/Pods-CriteoPublisherSdk-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CriteoPublisherSdk/Pods-CriteoPublisherSdk-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 

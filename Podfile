@@ -1,9 +1,10 @@
-platform :ios, '9.0'
+platform :ios, '10.0'
 
 workspace 'CriteoPublisherSdk'
 
 target 'CriteoPublisherSdk' do
   project 'CriteoPublisherSdk/CriteoPublisherSdk'
+  pod 'CriteoMRAID', :git => 'https://github.com/criteo/mraid-bridge', :branch => 'ios-cocoapod-setup'
 end
 
 target 'CriteoPublisherSdkTests' do

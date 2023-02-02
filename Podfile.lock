@@ -1,4 +1,5 @@
 PODS:
+  - CriteoMRAID (1.0.0)
   - Eureka (5.4.0)
   - FunctionalObjC (1.0.2)
   - Google-Mobile-Ads-SDK (9.13.0):
@@ -52,6 +53,7 @@ PODS:
   - SwiftLint (0.45.1)
 
 DEPENDENCIES:
+  - CriteoMRAID (from `https://github.com/criteo/mraid-bridge`, branch `ios-cocoapod-setup`)
   - Eureka
   - FunctionalObjC (~> 1.0)
   - Google-Mobile-Ads-SDK
@@ -71,7 +73,18 @@ SPEC REPOS:
     - PromisesObjC
     - SwiftLint
 
+EXTERNAL SOURCES:
+  CriteoMRAID:
+    :branch: ios-cocoapod-setup
+    :git: https://github.com/criteo/mraid-bridge
+
+CHECKOUT OPTIONS:
+  CriteoMRAID:
+    :commit: 88e3534d9c7d603813490889659e28e4aeb6173e
+    :git: https://github.com/criteo/mraid-bridge
+
 SPEC CHECKSUMS:
+  CriteoMRAID: b2abe9990fed7614593ce45ff983543e03e98c8f
   Eureka: fadaa9fa3d6e402d3c60f78f24edf3d7bafc9c29
   FunctionalObjC: bd6aaa4b69abea0a5ac0e860a052c1ebebd5311c
   Google-Mobile-Ads-SDK: 465532d33dfc878f2f9aca281fddbcd4bf9c0197
@@ -83,6 +96,6 @@ SPEC CHECKSUMS:
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   SwiftLint: 06ac37e4d38c7068e0935bb30cda95f093bec761
 
-PODFILE CHECKSUM: b08b1509f28bd00cef095a5df88596c5db3f3ecc
+PODFILE CHECKSUM: 1e9f68a97676b7c081723478e4e071843f2daaaa
 
 COCOAPODS: 1.11.2

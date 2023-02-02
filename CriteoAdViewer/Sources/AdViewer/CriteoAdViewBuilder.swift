@@ -52,16 +52,16 @@ class CriteoAdViewBuilder: AdViewBuilder {
     case .standalone:
       adView = CRBannerView(adUnit: adUnit, criteo: criteo)!
       adView.delegate = logger
-      adView.loadAd(withContext: contextData)
+        adView.loadMraid("MraidScriptTag")
+//      adView.loadAd(withContext: contextData)
     case .inHouse:
       adView = CRBannerView()
       adView.delegate = logger
-        adView.loadMraid(MraidLoader.getHtmlWithDocumentWriteMraidScriptTag())
-//      criteo.loadBid(for: adUnit, withContext: contextData) { maybeBid in
-//        if let bid = maybeBid {
-//          adView.loadAd(with: bid)
-//        }
-//      }
+      criteo.loadBid(for: adUnit, withContext: contextData) { maybeBid in
+        if let bid = maybeBid {
+          adView.loadAd(with: bid)
+        }
+      }
     }
     return adView
   }
