@@ -37,4 +37,24 @@
     return [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:NULL];
 }
 
++ (NSString *)insertMraid:(NSString *)html {
+    NSMutableString *mraidHtml = [NSMutableString stringWithString:html];
+    NSRange bodyRange = [mraidHtml rangeOfString:@"<body>"];
+
+    if (bodyRange.location == NSNotFound) {
+        return  mraidHtml;
+    }
+
+    NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"CriteoMRAIDResource" ofType: @"bundle"];
+    NSBundle *bundle = [NSBundle bundleWithPath: bundlePath];
+    NSURL *mraidUrl = [bundle URLForResource:@"mraid" withExtension:@"ts"];
+    if (mraidUrl) {
+        NSInteger insertIndex = bodyRange.location + bodyRange.length;
+        NSString *mraid = [NSString stringWithFormat: @"<script src=\"%@\"></script>", mraidUrl];
+        [mraidHtml insertString:mraid atIndex:insertIndex];
+    }
+
+    return mraidHtml;
+}
+
 @end

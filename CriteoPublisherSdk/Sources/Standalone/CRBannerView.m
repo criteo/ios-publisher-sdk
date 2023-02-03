@@ -25,6 +25,7 @@
 #import "CR_DependencyProvider.h"
 #import "CR_Logging.h"
 #import "NSError+Criteo.h"
+#import "CRMRAIDUtils.h"
 
 @interface CRBannerView () <WKNavigationDelegate, WKUIDelegate>
 @property(nonatomic) BOOL isResponseValid;
@@ -112,7 +113,7 @@
      stringByReplacingOccurrencesOfString:config.displayURLMacro
      withString:displayUrl];
 
-    htmlString = [CRBannerView insertMraid:htmlString];
+    htmlString = [CRMRAIDUtils insertMraid:htmlString];
 
     [_webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"https://criteo.com"]];
 }
@@ -240,26 +241,6 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     if (decisionHandler) {
         decisionHandler(WKNavigationActionPolicyAllow);
     }
-}
-
-+ (NSString *)insertMraid:(NSString *)html {
-    NSMutableString *mraidHtml = [NSMutableString stringWithString:html];
-    NSRange bodyRange = [mraidHtml rangeOfString:@"<body>"];
-
-    if (bodyRange.location == NSNotFound) {
-        return  mraidHtml;
-    }
-
-    NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"CriteoMRAIDResource" ofType: @"bundle"];
-    NSBundle *bundle = [NSBundle bundleWithPath: bundlePath];
-    NSURL *mraidUrl = [bundle URLForResource:@"mraid" withExtension:@"ts"];
-    if (mraidUrl) {
-        NSInteger insertIndex = bodyRange.location + bodyRange.length;
-        NSString *mraid = [NSString stringWithFormat: @"<script src=\"%@\"></script>", mraidUrl];
-        [mraidHtml insertString:mraid atIndex:insertIndex];
-    }
-
-    return mraidHtml;
 }
 
 // Delegate errors that occur during web view navigation
