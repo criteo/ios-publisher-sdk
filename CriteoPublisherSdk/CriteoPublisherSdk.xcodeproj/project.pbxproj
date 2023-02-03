@@ -1837,6 +1837,7 @@
 				E1F2736A21B5F08D00A2FBFA /* Frameworks */,
 				E1F2736B21B5F08D00A2FBFA /* Resources */,
 				E396CC5F28F82B2D0039F3B1 /* ShellScript */,
+				00F4FC48FC2846D74828A2C2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1926,6 +1927,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		00F4FC48FC2846D74828A2C2 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CriteoPublisherSdkTests/Pods-CriteoPublisherSdkTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CriteoPublisherSdkTests/Pods-CriteoPublisherSdkTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CriteoPublisherSdkTests/Pods-CriteoPublisherSdkTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		2405EC4305DEEE189D9DD743 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

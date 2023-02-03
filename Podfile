@@ -4,7 +4,6 @@ workspace 'CriteoPublisherSdk'
 
 target 'CriteoPublisherSdk' do
   project 'CriteoPublisherSdk/CriteoPublisherSdk'
-  pod 'CriteoMRAID', :git => 'https://github.com/criteo/mraid-bridge', :branch => 'ios-cocoapod-setup'
 end
 
 target 'CriteoPublisherSdkTests' do
@@ -46,6 +45,7 @@ end
 
 # Development tools
 pod 'SwiftLint', '~> 0.45.0'
+pod 'CriteoMRAID', :git => 'https://github.com/criteo/mraid-bridge', :branch => 'ios-cocoapod-setup'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|

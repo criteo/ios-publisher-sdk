@@ -35,7 +35,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)loadAdWithContext:(CRContextData *)contextData;
 - (void)loadAdWithBid:(CRBid *)bid;
 - (void)loadAdWithDisplayData:(NSString *)displayData;
-- (void)loadMraid:(NSString *)htmlTestAd;
 
 @end
 

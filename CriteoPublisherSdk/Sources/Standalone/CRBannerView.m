@@ -26,7 +26,7 @@
 #import "CR_Logging.h"
 #import "NSError+Criteo.h"
 
-@interface CRBannerView () <WKNavigationDelegate, WKUIDelegate, WKURLSchemeHandler>
+@interface CRBannerView () <WKNavigationDelegate, WKUIDelegate>
 @property(nonatomic) BOOL isResponseValid;
 @property(nonatomic, strong) Criteo *criteo;
 @property(nonatomic, strong) WKWebView *webView;
@@ -49,9 +49,6 @@
 - (instancetype)initWithAdUnit:(CRBannerAdUnit *)adUnit criteo:(Criteo *)criteo {
     WKWebViewConfiguration *webViewConfiguration = [[WKWebViewConfiguration alloc] init];
     webViewConfiguration.allowsInlineMediaPlayback = YES;
-    if (@available(iOS 11.0, *)) {
-        [webViewConfiguration setURLSchemeHandler:self forURLScheme:@"mraid"];
-    }
     CGRect webViewRect = CGRectMake(.0, .0, adUnit.size.width, adUnit.size.height);
     return [self initWithFrame:CGRectMake(.0, .0, adUnit.size.width, adUnit.size.height)
                         criteo:criteo
@@ -115,15 +112,9 @@
      stringByReplacingOccurrencesOfString:config.displayURLMacro
      withString:displayUrl];
 
-    NSString *mraidHtml = [CRBannerView insertMraid:htmlString];
-    NSLog(@"html: %@", htmlString);
+    htmlString = [CRBannerView insertMraid:htmlString];
 
-    [_webView loadHTMLString:mraidHtml baseURL:[NSURL URLWithString:@"https://criteo.com"]];
-}
-
-- (void)loadMraid:(NSString *)htmlTestAd {
-    NSURL *mraidFileURL = [[NSBundle mainBundle] URLForResource:htmlTestAd withExtension:@"html"];
-    [_webView loadFileURL:mraidFileURL allowingReadAccessToURL:mraidFileURL];
+    [_webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"https://criteo.com"]];
 }
 
 - (void)dispatchDidReceiveAdDelegate {
@@ -225,14 +216,6 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
                                 decisionHandler:
 (nullable void (^)(WKNavigationActionPolicy))decisionHandler
                           allowedNavigationType:(WKNavigationType)allowedNavigationType {
-    NSLog(@"navigation type: %ld", (long)navigationAction.navigationType);
-    NSLog(@"url: %@", navigationAction.request.URL.absoluteString);
-    NSLog(@"http body: %@", navigationAction.request.HTTPBody);
-
-    if (navigationAction.navigationType == WKNavigationTypeOther) {
-        NSLog(@"nav : %@", navigationAction.request.description);
-    }
-
     if (navigationAction.navigationType == allowedNavigationType &&
         navigationAction.request.URL != nil) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -262,35 +245,35 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 + (NSString *)insertMraid:(NSString *)html {
     NSMutableString *mraidHtml = [NSMutableString stringWithString:html];
     NSRange bodyRange = [mraidHtml rangeOfString:@"<body>"];
+
     if (bodyRange.location == NSNotFound) {
-        return  html;
+        return  mraidHtml;
     }
 
-    NSArray *paths = [[NSBundle mainBundle] pathsForResourcesOfType:@"bundle" inDirectory:NULL];
-    NSLog(@"paths: %@", paths);
-    NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"CriteoMRAID-CriteoMRAIDResource" ofType: NULL];
-    NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
+    NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"CriteoMRAIDResource" ofType: @"bundle"];
+    NSBundle *bundle = [NSBundle bundleWithPath: bundlePath];
     NSURL *mraidUrl = [bundle URLForResource:@"mraid" withExtension:@"ts"];
-    NSLog(@"url %@", mraidUrl);
+    if (mraidUrl) {
+        NSInteger insertIndex = bodyRange.location + bodyRange.length;
+        NSString *mraid = [NSString stringWithFormat: @"<script src=\"%@\"></script>", mraidUrl];
+        [mraidHtml insertString:mraid atIndex:insertIndex];
+    }
 
-    NSBundle *crBundle = [NSBundle bundleForClass:self.class];
-//    NSString *crPath = [crBundle pathForResource:@"CriteoMRAID-CriteoMRAIDResource" ofType:@"bundle"];
-    NSLog(@"crPaths %@", [crBundle pathsForResourcesOfType:@"bundle" inDirectory:NULL]);
-    return html;
+    return mraidHtml;
 }
 
 // Delegate errors that occur during web view navigation
 - (void)webView:(WKWebView *)webView
 didFailNavigation:(WKNavigation *)navigation
       withError:(NSError *)error {
-    NSLog(@"didFailNavigation: %@ with error: %@", navigation, error);
+
 }
 
 // Delegate errors that occur while the web view is loading content.
 - (void)webView:(WKWebView *)webView
 didFailProvisionalNavigation:(WKNavigation *)navigation
       withError:(NSError *)error {
-    NSLog(@"failed provisional navigation: %@", error);
+
 }
 
 // Potential place for invoking didReceiveAd:
@@ -325,24 +308,6 @@ decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler {
 
 - (CR_IntegrationRegistry *)integrationRegistry {
     return self.criteo.dependencyProvider.integrationRegistry;
-}
-
-- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
-    NSLog(@"navigation: %@", navigation);
-}
-
-- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    
-}
-
-- (void)webView:(WKWebView *)webView startURLSchemeTask:(id <WKURLSchemeTask>)urlSchemeTask
-API_AVAILABLE(ios(11.0)) {
-    
-}
-
-- (void)webView:(WKWebView *)webView stopURLSchemeTask:(id <WKURLSchemeTask>)urlSchemeTask
-API_AVAILABLE(ios(11.0)) {
-
 }
 
 @end
