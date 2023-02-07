@@ -7,12 +7,12 @@ on:
       - '[0-9]+.[0-9]+.[0-9]+-[a-z]+[0-9]+'
 
 env:
-  DEVELOPER_DIR: /Applications/Xcode_12.5.app/Contents/Developer
+  DEVELOPER_DIR: /Applications/Xcode_14.2.app/Contents/Developer
 
 jobs:
   test-and-release:
     # Clone of main test workflow
-    runs-on: macos-11
+    runs-on: macos-12
 
     steps:
       - name: Checkout
@@ -51,10 +51,6 @@ jobs:
       - name: Format check
         run: |
           bundle exec fastlane format_check
-
-      - name: Test
-        run: |
-          bundle exec fastlane test
 
       - name: Tests reports upload
         uses: actions/upload-artifact@v3
