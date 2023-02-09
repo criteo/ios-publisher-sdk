@@ -47,7 +47,7 @@
 
     NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"CriteoMRAIDResource" ofType: @"bundle"];
     NSBundle *bundle = [NSBundle bundleWithPath: bundlePath];
-    NSURL *mraidUrl = [bundle URLForResource:@"mraid" withExtension:@"ts"];
+    NSURL *mraidUrl = [bundle URLForResource:@"criteo-mraid" withExtension:@"js "];
     if (mraidUrl) {
         NSInteger insertIndex = bodyRange.location + bodyRange.length;
         NSString *mraid = [NSString stringWithFormat: @"<script src=\"%@\"></script>", mraidUrl];
