@@ -213,6 +213,10 @@ decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
                             allowedNavigationType:WKNavigationTypeLinkActivated];
 }
 
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+    NSLog(@"webview did finish load the ad content with navigation: %@", navigation);
+}
+
 - (void)handlePotentialClickForNavigationAction:(WKNavigationAction *)navigationAction
                                 decisionHandler:
 (nullable void (^)(WKNavigationActionPolicy))decisionHandler
