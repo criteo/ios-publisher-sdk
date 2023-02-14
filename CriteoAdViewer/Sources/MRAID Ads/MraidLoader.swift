@@ -21,20 +21,20 @@ import Foundation
 
 struct MraidLoader {
 
-    static func getHtmlWithMraidScriptTag() -> String {
-        return load(mraid: "MraidScriptTag")
-    }
+  static func getHtmlWithMraidScriptTag() -> String {
+    return load(mraid: "MraidScriptTag")
+  }
 
-    static func getHtmlWithDocumentWriteMraidScriptTag() -> String {
-        return load(mraid: "MraidDocumentTag")
-    }
+  static func getHtmlWithDocumentWriteMraidScriptTag() -> String {
+    return load(mraid: "MraidDocumentTag")
+  }
 
-    static func getHtmlWithoutMraidScript() -> String {
-        return load(mraid: "NoMraidTag")
-    }
+  static func getHtmlWithoutMraidScript() -> String {
+    return load(mraid: "NoMraidTag")
+  }
 
-    static func load(mraid file: String) -> String {
-        let path = Bundle.main.path(forResource: file, ofType: "html") ?? "</>"
-        return (try? String(contentsOfFile: path)) ?? "-"
-    }
+  static func load(mraid file: String) -> String {
+    let path = Bundle.main.path(forResource: file, ofType: "html") ?? "</>"
+    return (try? String(contentsOfFile: path)) ?? "-"
+  }
 }

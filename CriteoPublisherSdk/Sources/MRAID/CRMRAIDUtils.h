@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)getHtmlWithMraidScriptTag;
 + (NSString *)getHtmlWithDocumentWriteMraidScriptTag;
 + (NSString *)getHtmlWithoutMraidScript;
-+ (NSString *)insertMraid: (NSString *)html;
++ (NSString *)insertMraid:(NSString *)html;
 
 @end
 

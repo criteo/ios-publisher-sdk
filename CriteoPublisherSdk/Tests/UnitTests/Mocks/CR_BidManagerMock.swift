@@ -17,37 +17,45 @@
 // limitations under the License.
 //
 
-
 import CriteoPublisherSdk
 
-
 class CR_BidManagerMock: CR_BidManager {
-
 
   // MARK: - Life Cycle
 
   convenience init(dependencyProvider: CR_DependencyProvider) {
-    self.init(apiHandler: dependencyProvider.apiHandler, cacheManager: dependencyProvider.cacheManager, config: dependencyProvider.config, deviceInfo: dependencyProvider.deviceInfo, consent: dependencyProvider.consent, networkManager: dependencyProvider.networkManager, headerBidding: dependencyProvider.headerBidding, feedbackDelegate: dependencyProvider.feedbackDelegate, threadManager: dependencyProvider.threadManager, remoteLogHandler: dependencyProvider.remoteLogHandler)
+    self.init(
+      apiHandler: dependencyProvider.apiHandler, cacheManager: dependencyProvider.cacheManager,
+      config: dependencyProvider.config, deviceInfo: dependencyProvider.deviceInfo,
+      consent: dependencyProvider.consent, networkManager: dependencyProvider.networkManager,
+      headerBidding: dependencyProvider.headerBidding,
+      feedbackDelegate: dependencyProvider.feedbackDelegate,
+      threadManager: dependencyProvider.threadManager,
+      remoteLogHandler: dependencyProvider.remoteLogHandler)
   }
-
 
   // MARK: - Overrides
 
   var fetchLiveBidWasCalled = false
 
-  override func fetchLiveBid(for adUnit: CR_CacheAdUnit!, withContext contextData: CRContextData!, responseHandler: CR_CdbBidResponseHandler!) {
+  override func fetchLiveBid(
+    for adUnit: CR_CacheAdUnit!, withContext contextData: CRContextData!,
+    responseHandler: CR_CdbBidResponseHandler!
+  ) {
     fetchLiveBidWasCalled = true
     super.fetchLiveBid(for: adUnit, withContext: contextData, responseHandler: responseHandler)
   }
 
   var getBidThenFetchWasCalled = false
 
-  override func getBidThenFetch(_ slot: CR_CacheAdUnit, withContext contextData: CRContextData, responseHandler: CR_CdbBidResponseHandler?) -> CR_CdbBid {
+  override func getBidThenFetch(
+    _ slot: CR_CacheAdUnit, withContext contextData: CRContextData,
+    responseHandler: CR_CdbBidResponseHandler?
+  ) -> CR_CdbBid {
     getBidThenFetchWasCalled = true
     return super.getBidThenFetch(slot, withContext: contextData, responseHandler: responseHandler)
   }
 }
-
 
 // MARK: - MockProtocol
 
