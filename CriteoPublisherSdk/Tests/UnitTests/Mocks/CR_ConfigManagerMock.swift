@@ -17,19 +17,18 @@
 // limitations under the License.
 //
 
-
 import CriteoPublisherSdk
 
-
 class CR_ConfigManagerMock: CR_ConfigManager {
-
 
   // MARK: - Life Cycle
 
   convenience init(dependencyProvider: CR_DependencyProvider) {
-    self.init(apiHandler: dependencyProvider.apiHandler, integrationRegistry: dependencyProvider.integrationRegistry, deviceInfo: dependencyProvider.deviceInfo)
+    self.init(
+      apiHandler: dependencyProvider.apiHandler,
+      integrationRegistry: dependencyProvider.integrationRegistry,
+      deviceInfo: dependencyProvider.deviceInfo)
   }
-
 
   // MARK: - Overrides
 
@@ -40,7 +39,6 @@ class CR_ConfigManagerMock: CR_ConfigManager {
     self.refreshConfig(config)
   }
 }
-
 
 // MARK: - MockProtocol
 

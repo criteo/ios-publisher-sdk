@@ -46,7 +46,9 @@ class CR_FeedbackStorageTests: XCTestCase {
   func test_initWithActiveMessages_ShouldBeMovedToSendingQueue() throws {
     fileManagingMock = CR_FeedbackFileManagingMock()
     fileManagingMock.allActiveFeedbackFilenamesResult = ["fn1", "fn2"]
-    fileManagingMock.readFeedbackResults = [createMessageWithImpId("1"), createMessageWithImpId("2")]
+    fileManagingMock.readFeedbackResults = [
+      createMessageWithImpId("1"), createMessageWithImpId("2")
+    ]
     feedbackStorage = CR_FeedbackStorage(fileManager: fileManagingMock, with: queue)
 
     XCTAssertEqual(queue.size(), 2)
@@ -130,7 +132,9 @@ class CR_FeedbackStorageTests: XCTestCase {
   }
 
   func test_updateDifferentObjects() {
-    fileManagingMock.readFeedbackResults = [createMessageWithImpId(impressionId1), createMessageWithImpId(impressionId2)]
+    fileManagingMock.readFeedbackResults = [
+      createMessageWithImpId(impressionId1), createMessageWithImpId(impressionId2)
+    ]
     feedbackStorage.updateMessage(withImpressionId: impressionId1) {
       $0.cdbCallStartTimestamp = self.timestamp1
     }
@@ -138,7 +142,8 @@ class CR_FeedbackStorageTests: XCTestCase {
       $0.cdbCallStartTimestamp = self.timestamp2
     }
     XCTAssertEqual(fileManagingMock.writeFeedbackResults.count, 2)
-    XCTAssertNotEqual(fileManagingMock.writeFeedbackResults[0], fileManagingMock.writeFeedbackResults[1])
+    XCTAssertNotEqual(
+      fileManagingMock.writeFeedbackResults[0], fileManagingMock.writeFeedbackResults[1])
   }
 
   func test_updateMessageToRTS_messageShouldBeMovedToSendingQueue() {
@@ -244,7 +249,8 @@ class CR_FeedbackFileManagingMock: NSObject, CR_FeedbackFileManaging {
 class CR_FeedbackCorruptedStorage: CR_FeedbackStorage {
   var crashedOnce = false
 
-  @objc override func buildSendingQueue(withMaxSize: UInt, fileManager: CR_FeedbackFileManager!) -> CR_CASObjectQueue<CR_FeedbackMessage> {
+  @objc override func buildSendingQueue(withMaxSize: UInt, fileManager: CR_FeedbackFileManager!)
+    -> CR_CASObjectQueue<CR_FeedbackMessage> {
     if !crashedOnce {
       crashedOnce = true
       NSException(name: NSExceptionName.rangeException, reason: "ノಠ益ಠノ彡┻━┻").raise()

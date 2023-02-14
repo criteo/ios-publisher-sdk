@@ -36,7 +36,9 @@ class CR_FeedbackSerializerTests: XCTestCase {
 
   func testMessagesCount() {
     let messages = [CR_FeedbackMessage(), CR_FeedbackMessage(), CR_FeedbackMessage()]
-    let body = self.serializer.postBody(forCsm: messages, config: config, profileId: profileId) as NSDictionary
+    let body =
+      self.serializer.postBody(forCsm: messages, config: config, profileId: profileId)
+      as NSDictionary
     let feedbacks = body["feedbacks"] as? NSArray
     XCTAssertEqual(feedbacks?.count, messages.count)
   }

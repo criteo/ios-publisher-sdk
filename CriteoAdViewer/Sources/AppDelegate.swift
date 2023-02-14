@@ -18,9 +18,9 @@
 //
 
 import AppTrackingTransparency
-import UIKit
-import StoreKit
 import GoogleMobileAds
+import StoreKit
+import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
