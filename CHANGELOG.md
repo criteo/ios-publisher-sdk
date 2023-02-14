@@ -1,11 +1,17 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
+## Version [4.7.0]
 
-## Version [NEXT]
+### Features
+- Xcode 14 support.
+
+--------------------------------------------------------------------------------
+## Version [4.6.0]
 
 ### Features
 - Remove MoPub header bidding support
 - Add ability to set Children's Online Privacy Protection Act ("COPPA") flag
+- **Google Adapter**: Updating Google-Mobile-Ads-SDK to v9
 
 ### MoPub Adapter
 - remove MoPub adapter support
