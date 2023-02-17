@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -273,6 +273,9 @@
 		90D0C9A36EF9136F4CC9E877 /* libPods-CriteoPublisherSdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CDD7544323F61638E0E8B7F /* libPods-CriteoPublisherSdk.a */; };
 		A84F0D252982B02600756E68 /* CRMRAIDUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = A84F0D232982B02600756E68 /* CRMRAIDUtils.h */; };
 		A84F0D262982B02600756E68 /* CRMRAIDUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A84F0D242982B02600756E68 /* CRMRAIDUtils.m */; };
+		A8E967D3299F45F100BE226A /* CRMRAIDHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = A8E967D1299F45F100BE226A /* CRMRAIDHandler.h */; };
+		A8E967D4299F45F100BE226A /* CRMRAIDHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = A8E967D2299F45F100BE226A /* CRMRAIDHandler.m */; };
+		A8E967D6299F4B3D00BE226A /* CRMRAIDConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = A8E967D5299F4B3D00BE226A /* CRMRAIDConstants.h */; };
 		B1BD859C4CDDB6DB1B906C62 /* libPods-CriteoPublisherSdkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92039F91AE1122C08CF8EC36 /* libPods-CriteoPublisherSdkTests.a */; };
 		C07AB0222733EAA918843728 /* CR_NativeAssets+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABBC696D95F756547DA86 /* CR_NativeAssets+Testing.m */; };
 		C07AB058AEB4030B2EBD4D15 /* CR_RemoteLogRecordSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = C07AB0DC260182010824A534 /* CR_RemoteLogRecordSerializer.h */; };
@@ -708,6 +711,9 @@
 		92039F91AE1122C08CF8EC36 /* libPods-CriteoPublisherSdkTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoPublisherSdkTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A84F0D232982B02600756E68 /* CRMRAIDUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRMRAIDUtils.h; sourceTree = "<group>"; };
 		A84F0D242982B02600756E68 /* CRMRAIDUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRMRAIDUtils.m; sourceTree = "<group>"; };
+		A8E967D1299F45F100BE226A /* CRMRAIDHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRMRAIDHandler.h; sourceTree = "<group>"; };
+		A8E967D2299F45F100BE226A /* CRMRAIDHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRMRAIDHandler.m; sourceTree = "<group>"; };
+		A8E967D5299F4B3D00BE226A /* CRMRAIDConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRMRAIDConstants.h; sourceTree = "<group>"; };
 		C07AB093A865F67283614A5D /* CRMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRMediaView.m; sourceTree = "<group>"; };
 		C07AB0DC260182010824A534 /* CR_RemoteLogRecordSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_RemoteLogRecordSerializer.h; sourceTree = "<group>"; };
 		C07AB0F74CBE74DC33F6ED1C /* CR_RemoteLogRecordTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CR_RemoteLogRecordTests.m; path = Logging/CR_RemoteLogRecordTests.m; sourceTree = "<group>"; };
@@ -1512,10 +1518,29 @@
 		A84F0D222982AFF100756E68 /* MRAID */ = {
 			isa = PBXGroup;
 			children = (
+				A8E967D0299F45CA00BE226A /* CRMRAIDUtils */,
+				A8E967CF299F45C100BE226A /* CRMRAIDHandler */,
+				A8E967D5299F4B3D00BE226A /* CRMRAIDConstants.h */,
+			);
+			path = MRAID;
+			sourceTree = "<group>";
+		};
+		A8E967CF299F45C100BE226A /* CRMRAIDHandler */ = {
+			isa = PBXGroup;
+			children = (
+				A8E967D1299F45F100BE226A /* CRMRAIDHandler.h */,
+				A8E967D2299F45F100BE226A /* CRMRAIDHandler.m */,
+			);
+			path = CRMRAIDHandler;
+			sourceTree = "<group>";
+		};
+		A8E967D0299F45CA00BE226A /* CRMRAIDUtils */ = {
+			isa = PBXGroup;
+			children = (
 				A84F0D232982B02600756E68 /* CRMRAIDUtils.h */,
 				A84F0D242982B02600756E68 /* CRMRAIDUtils.m */,
 			);
-			path = MRAID;
+			path = CRMRAIDUtils;
 			sourceTree = "<group>";
 		};
 		C07AB38F2A2F69B44E029B87 /* Context */ = {
@@ -1728,6 +1753,7 @@
 				7D167014246D4D5F0097880F /* CR_HeaderBidding.h in Headers */,
 				650915FD225565E6001D6673 /* CRBannerView.h in Headers */,
 				46E3478226B0641300A161B6 /* CR_CASDefaultDataSerializer.h in Headers */,
+				A8E967D6299F4B3D00BE226A /* CRMRAIDConstants.h in Headers */,
 				4672E1E6251CDE02009F39EF /* CR_CASObjectQueue.h in Headers */,
 				7D00672F243CD6F900E5D50D /* CR_CASObjectQueue+ArraySet.h in Headers */,
 				DF367C8A232974210044807B /* CRNativeAdUnit.h in Headers */,
@@ -1743,6 +1769,7 @@
 				7DDEF657242CD8BE00BC129F /* CR_BidRequestSerializer.h in Headers */,
 				4660614324754E8100690E27 /* CR_SafeMediaDownloader.h in Headers */,
 				7D80F6202406B18F005B7BA3 /* CR_Gdpr.h in Headers */,
+				A8E967D3299F45F100BE226A /* CRMRAIDHandler.h in Headers */,
 				4642C9C624CAD93E0080AC4F /* CR_IntegrationRegistry.h in Headers */,
 				4672E1E1251CDE02009F39EF /* CR_CASQueueFile.h in Headers */,
 				542FCFB4242D08EE000D9DA9 /* CR_FeedbacksSerializer.h in Headers */,
@@ -2070,6 +2097,7 @@
 				25BD5B5F2220D183004DE311 /* CR_AppEvents.m in Sources */,
 				46C403D3257542BA00E5179C /* CR_Session.m in Sources */,
 				DF367CBB232B397F0044807B /* CR_NativeAssets.m in Sources */,
+				A8E967D4299F45F100BE226A /* CRMRAIDHandler.m in Sources */,
 				7D3E427023915E7900BAF673 /* NSUserDefaults+Criteo.m in Sources */,
 				4672E1E2251CDE02009F39EF /* CR_CASError.m in Sources */,
 				5496876022A5C774007D2578 /* CR_AdUnitHelper.m in Sources */,

@@ -20,6 +20,8 @@
 #import "CRMRAIDUtils.h"
 
 @implementation CRMRAIDUtils
+
+#pragma mark - Testing ads
 + (NSString *)getHtmlWithMraidScriptTag {
   return [CRMRAIDUtils loadMraidFrom:@"MraidScriptTag.html"];
 }
@@ -37,6 +39,7 @@
   return [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:NULL];
 }
 
+#pragma mark - mraid script injection
 + (NSString *)insertMraid:(NSString *)html {
   NSMutableString *mraidHtml = [NSMutableString stringWithString:html];
   NSRange bodyRange = [mraidHtml rangeOfString:@"<body>"];

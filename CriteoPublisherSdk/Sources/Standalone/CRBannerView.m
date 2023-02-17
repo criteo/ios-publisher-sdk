@@ -25,7 +25,8 @@
 #import "CR_DependencyProvider.h"
 #import "CR_Logging.h"
 #import "NSError+Criteo.h"
-#import "CRMRAIDUtils.h"
+#import "CRMRAIDHandler.h"
+#import "CRMRAIDConstants.h"
 
 @interface CRBannerView () <WKNavigationDelegate, WKUIDelegate>
 @property(nonatomic) BOOL isResponseValid;
@@ -34,6 +35,7 @@
 @property(nonatomic, readonly) CRBannerAdUnit *adUnit;
 @property(nonatomic, readonly) id<CR_URLOpening> urlOpener;
 @property(nonatomic, strong) CR_SKAdNetworkParameters *skAdNetworkParameters;
+@property(nonatomic, strong) CRMRAIDHandler *mraidHandler;
 
 @end
 
@@ -91,6 +93,7 @@
     }
     _adUnit = adUnit;
     _urlOpener = opener;
+    _mraidHandler = [[CRMRAIDHandler alloc] initWithWebView:webView];
   }
   return self;
 }
@@ -214,7 +217,7 @@
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    NSLog(@"webview did finish load the ad content with navigation: %@", navigation);
+    [_mraidHandler onAdLoadFinishWithPlacement:CR_MRAID_PLACEMENT_BANNER];
 }
 
 - (void)handlePotentialClickForNavigationAction:(WKNavigationAction *)navigationAction

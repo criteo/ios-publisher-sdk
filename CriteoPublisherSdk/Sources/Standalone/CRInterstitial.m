@@ -31,11 +31,14 @@
 #import "CR_DisplaySizeInjector.h"
 #import "CR_IntegrationRegistry.h"
 #import "CR_Logging.h"
+#import "CRMRAIDHandler.h"
+#import "CRMRAIDConstants.h"
 
 @interface CRInterstitial () <WKNavigationDelegate, WKUIDelegate>
 
 @property(strong, nonatomic) id<CR_URLOpening> urlOpener;
 @property(nonatomic, strong) CR_SKAdNetworkParameters *skAdNetworkParameters;
+@property(nonatomic, strong) CRMRAIDHandler *mraidHandler;
 
 @end
 
@@ -55,6 +58,7 @@
     _isAdLoaded = isAdLoaded;
     _adUnit = adUnit;
     _urlOpener = urlOpener;
+    _mraidHandler = [[CRMRAIDHandler alloc] initWithWebView:viewController.webView];
   }
   return self;
 }
@@ -211,6 +215,7 @@
   if (self.isResponseValid) {
     self.isAdLoaded = YES;
     [self dispatchDidReceiveAdDelegate];
+    [_mraidHandler onAdLoadFinishWithPlacement:CR_MRAID_PLACEMENT_INTERSTITIAL];
   } else {
     [self safelyNotifyAdLoadFail:CRErrorCodeNetworkError];
   }
