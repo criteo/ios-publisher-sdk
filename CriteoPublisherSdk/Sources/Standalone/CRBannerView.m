@@ -25,6 +25,8 @@
 #import "CR_DependencyProvider.h"
 #import "CR_Logging.h"
 #import "NSError+Criteo.h"
+#import "CRMRAIDHandler.h"
+#import "CRMRAIDConstants.h"
 
 @interface CRBannerView () <WKNavigationDelegate, WKUIDelegate>
 @property(nonatomic) BOOL isResponseValid;
@@ -33,6 +35,7 @@
 @property(nonatomic, readonly) CRBannerAdUnit *adUnit;
 @property(nonatomic, readonly) id<CR_URLOpening> urlOpener;
 @property(nonatomic, strong) CR_SKAdNetworkParameters *skAdNetworkParameters;
+@property(nonatomic, strong) CRMRAIDHandler *mraidHandler;
 
 @end
 
@@ -50,7 +53,6 @@
   WKWebViewConfiguration *webViewConfiguration = [[WKWebViewConfiguration alloc] init];
   webViewConfiguration.allowsInlineMediaPlayback = YES;
   CGRect webViewRect = CGRectMake(.0, .0, adUnit.size.width, adUnit.size.height);
-
   return [self initWithFrame:CGRectMake(.0, .0, adUnit.size.width, adUnit.size.height)
                       criteo:criteo
                      webView:[[WKWebView alloc] initWithFrame:webViewRect
@@ -91,6 +93,7 @@
     }
     _adUnit = adUnit;
     _urlOpener = opener;
+    _mraidHandler = [[CRMRAIDHandler alloc] initWithWebView:webView];
   }
   return self;
 }
@@ -112,6 +115,8 @@
                                                       withString:viewportWidth]
           stringByReplacingOccurrencesOfString:config.displayURLMacro
                                     withString:displayUrl];
+
+  htmlString = [CRMRAIDUtils insertMraid:htmlString fromBundle:[CRMRAIDUtils mraidResourceBundle]];
 
   [_webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"https://criteo.com"]];
 }
@@ -209,6 +214,10 @@
   [self handlePotentialClickForNavigationAction:navigationAction
                                 decisionHandler:decisionHandler
                           allowedNavigationType:WKNavigationTypeLinkActivated];
+}
+
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+  [_mraidHandler onAdLoadFinishWithPlacement:CR_MRAID_PLACEMENT_BANNER];
 }
 
 - (void)handlePotentialClickForNavigationAction:(WKNavigationAction *)navigationAction

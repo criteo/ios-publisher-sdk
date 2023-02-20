@@ -1,8 +1,8 @@
 //
-//  MockProtocol.swift
-//  CriteoPublisherSdkTests
+//  CRMRAIDHandler.h
+//  CriteoPublisherSdk
 //
-//  Copyright © 2018-2022 Criteo. All rights reserved.
+//  Copyright © 2018-2023 Criteo. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,10 +17,17 @@
 // limitations under the License.
 //
 
-import Foundation
+#import <Foundation/Foundation.h>
+#import <WebKit/WebKit.h>
 
-protocol MockProtocol {
+NS_ASSUME_NONNULL_BEGIN
 
-  /// Changes the stored variables from mocking to their default value.
-  func reset()
-}
+@interface CRMRAIDHandler : NSObject
+
+- (instancetype)initWithWebView:(WKWebView *)webview;
+- (void)onAdLoadFinishWithPlacement:(NSString *)placementType;
+- (void)sendError:(NSString *)error action:(NSString *)action;
+
+@end
+
+NS_ASSUME_NONNULL_END

@@ -17,35 +17,41 @@
 // limitations under the License.
 //
 
-
 import CriteoPublisherSdk
 
-
 class CR_ApiHandlerMock: CR_ApiHandler {
-
 
   // MARK: - Life Cycle
 
   convenience init(dependencyProvider: CR_DependencyProvider) {
-    self.init(networkManager: dependencyProvider.networkManager, bidFetchTracker: dependencyProvider.bidFetchTracker, threadManager: dependencyProvider.threadManager, integrationRegistry: dependencyProvider.integrationRegistry, userDataHolder: dependencyProvider.userDataHolder, internalContextProvider: dependencyProvider.internalContextProvider)
+    self.init(
+      networkManager: dependencyProvider.networkManager,
+      bidFetchTracker: dependencyProvider.bidFetchTracker,
+      threadManager: dependencyProvider.threadManager,
+      integrationRegistry: dependencyProvider.integrationRegistry,
+      userDataHolder: dependencyProvider.userDataHolder,
+      internalContextProvider: dependencyProvider.internalContextProvider)
   }
-
 
   // MARK: - Overrides
 
   var callCdbWasCalled = false
-  var callCdbAdUnits: Array<CR_CacheAdUnit>?
+  var callCdbAdUnits: [CR_CacheAdUnit]?
   var callCdbBeforeCdbResponseBlock: (() -> Void)?
   var callCdbCdbResponse: CR_CdbResponse?
 
-  override func callCdb(_ adUnits: [CR_CacheAdUnit]!, consent: CR_DataProtectionConsent!, config: CR_Config!, deviceInfo: CR_DeviceInfo!, context contextData: CRContextData!, childDirectedTreatment: NSNumber!, beforeCdbCall: CR_BeforeCdbCall!, completionHandler: CR_CdbCompletionHandler!) {
+  override func callCdb(
+    _ adUnits: [CR_CacheAdUnit]!, consent: CR_DataProtectionConsent!, config: CR_Config!,
+    deviceInfo: CR_DeviceInfo!, context contextData: CRContextData!,
+    childDirectedTreatment: NSNumber!, beforeCdbCall: CR_BeforeCdbCall!,
+    completionHandler: CR_CdbCompletionHandler!
+  ) {
     callCdbWasCalled = true
     callCdbAdUnits = adUnits
     callCdbBeforeCdbResponseBlock?()
     completionHandler?(nil, callCdbCdbResponse, nil)
   }
 }
-
 
 // MARK: - MockProtocol
 

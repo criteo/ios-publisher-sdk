@@ -17,19 +17,15 @@
 // limitations under the License.
 //
 
-
 import Foundation
 
-
 class CR_LogHandlerMock: NSObject {
-
 
   // MARK: - Overrides
 
   var logMessageWasCalled = false
   var logMessageWasCalledWithMessage: CR_LogMessage?
 }
-
 
 // MARK: - CR_LogHandler
 
@@ -44,7 +40,6 @@ extension CR_LogHandlerMock: CR_LogHandler {
     logMessageWasCalledWithMessage = message
   }
 }
-
 
 // MARK: - MockProtocol
 
