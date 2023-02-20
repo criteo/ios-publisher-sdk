@@ -31,20 +31,21 @@
 @implementation CR_MraidTests
 
 - (void)testMraidInjectScript {
-    NSBundle *mraidBundle = [self mraidBundle];
-    NSString *mraid = [CRMRAIDUtils loadMraidFromBundle:mraidBundle];
-    NSString *html = @"<html><head></head><body></body></html>";
-    html = [CRMRAIDUtils insertMraid:html fromBundle:mraidBundle];
-    XCTAssertTrue([html containsString:mraid]);
+  NSBundle *mraidBundle = [self mraidBundle];
+  NSString *mraid = [CRMRAIDUtils loadMraidFromBundle:mraidBundle];
+  NSString *html = @"<html><head></head><body></body></html>";
+  html = [CRMRAIDUtils insertMraid:html fromBundle:mraidBundle];
+  XCTAssertTrue([html containsString:mraid]);
 }
 
 - (NSBundle *)mraidBundle {
-    for (NSBundle *bundle in [NSBundle allBundles]) {
-        if ([[bundle bundlePath] hasSuffix:@"xctest"]) {
-            return [NSBundle bundleWithPath: [bundle pathForResource:CR_MRAID_BUNDLE ofType:CR_MRAID_BUNDLE_EXTENSION]];
-        }
+  for (NSBundle *bundle in [NSBundle allBundles]) {
+    if ([[bundle bundlePath] hasSuffix:@"xctest"]) {
+      return [NSBundle bundleWithPath:[bundle pathForResource:CR_MRAID_BUNDLE
+                                                       ofType:CR_MRAID_BUNDLE_EXTENSION]];
     }
-    return NULL;
+  }
+  return NULL;
 }
 
 @end

@@ -24,15 +24,16 @@
 
 #pragma mark - mraid script injection
 + (NSString *)loadMraidFromBundle:(NSBundle *)bundle {
-    NSURL *mraidUrl = [bundle URLForResource:CR_MRAID_FILE_NAME withExtension:CR_MRAID_FILE_EXTENSION];
-    NSError *error;
-    NSString *mraid = [NSString stringWithContentsOfURL:mraidUrl
-                                               encoding:NSUTF8StringEncoding
-                                                  error:&error];
-    if (error) {
-        return NULL;
-    }
-    return mraid;
+  NSURL *mraidUrl = [bundle URLForResource:CR_MRAID_FILE_NAME
+                             withExtension:CR_MRAID_FILE_EXTENSION];
+  NSError *error;
+  NSString *mraid = [NSString stringWithContentsOfURL:mraidUrl
+                                             encoding:NSUTF8StringEncoding
+                                                error:&error];
+  if (error) {
+    return NULL;
+  }
+  return mraid;
 }
 
 + (NSString *)insertMraid:(NSString *)html fromBundle:(NSBundle *)bundle {
@@ -40,11 +41,11 @@
   NSRange bodyRange = [mraidHtml rangeOfString:CR_MRAID_INJECT_TARGET];
 
   if (bodyRange.location == NSNotFound) {
-      return mraidHtml;
+    return mraidHtml;
   }
 
   NSString *mraidContent = [CRMRAIDUtils loadMraidFromBundle:bundle];
-    
+
   if (mraidContent) {
     NSInteger insertIndex = bodyRange.location + bodyRange.length;
     NSString *mraid = [NSString stringWithFormat:CR_MRAID_SCRIPT, mraidContent];
@@ -55,8 +56,9 @@
 }
 
 + (NSBundle *)mraidResourceBundle {
-    return [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:CR_MRAID_BUNDLE
-                                                                    ofType:CR_MRAID_BUNDLE_EXTENSION]];
+  return
+      [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:CR_MRAID_BUNDLE
+                                                               ofType:CR_MRAID_BUNDLE_EXTENSION]];
 }
 
 @end

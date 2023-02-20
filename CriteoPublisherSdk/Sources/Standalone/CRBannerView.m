@@ -217,7 +217,7 @@
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    [_mraidHandler onAdLoadFinishWithPlacement:CR_MRAID_PLACEMENT_BANNER];
+  [_mraidHandler onAdLoadFinishWithPlacement:CR_MRAID_PLACEMENT_BANNER];
 }
 
 - (void)handlePotentialClickForNavigationAction:(WKNavigationAction *)navigationAction
