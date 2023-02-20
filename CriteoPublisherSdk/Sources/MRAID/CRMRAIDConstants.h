@@ -23,4 +23,11 @@
 #define CR_MRAID_PLACEMENT_BANNER @"inline"
 #define CR_MRAID_PLACEMENT_INTERSTITIAL @"interstitial"
 
+#define CR_MRAID_FILE_NAME @"criteo-mraid"
+#define CR_MRAID_FILE_EXTENSION @"js"
+#define CR_MRAID_BUNDLE @"CriteoMRAIDResource"
+#define CR_MRAID_BUNDLE_EXTENSION @"bundle"
+#define CR_MRAID_SCRIPT @"<script type=\"text/javascript\">%@</script>"
+#define CR_MRAID_INJECT_TARGET @"<body>"
+
 #endif /* CRMRAIDConstants_h */

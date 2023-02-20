@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -40,10 +40,6 @@
 		A828E846293F7978006AD697 /* CRGoogleMediationParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = A828E83E293F7978006AD697 /* CRGoogleMediationParameters.m */; };
 		A828E847293F7978006AD697 /* CRCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A828E842293F7978006AD697 /* CRCustomEvent.m */; };
 		A828E848293F7978006AD697 /* CRInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A828E844293F7978006AD697 /* CRInterstitialCustomEvent.m */; };
-		A84F0D352982B2A500756E68 /* MraidScriptTag.html in Resources */ = {isa = PBXBuildFile; fileRef = A84F0D322982B2A500756E68 /* MraidScriptTag.html */; };
-		A84F0D362982B2A500756E68 /* NoMraidTag.html in Resources */ = {isa = PBXBuildFile; fileRef = A84F0D332982B2A500756E68 /* NoMraidTag.html */; };
-		A84F0D372982B2A500756E68 /* MraidDocumentTag.html in Resources */ = {isa = PBXBuildFile; fileRef = A84F0D342982B2A500756E68 /* MraidDocumentTag.html */; };
-		A84F0D392982B70B00756E68 /* MraidLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84F0D382982B70B00756E68 /* MraidLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,10 +122,6 @@
 		A828E842293F7978006AD697 /* CRCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRCustomEvent.m; sourceTree = "<group>"; };
 		A828E843293F7978006AD697 /* CRGoogleMediationParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRGoogleMediationParameters.h; sourceTree = "<group>"; };
 		A828E844293F7978006AD697 /* CRInterstitialCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialCustomEvent.m; sourceTree = "<group>"; };
-		A84F0D322982B2A500756E68 /* MraidScriptTag.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = MraidScriptTag.html; sourceTree = "<group>"; };
-		A84F0D332982B2A500756E68 /* NoMraidTag.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = NoMraidTag.html; sourceTree = "<group>"; };
-		A84F0D342982B2A500756E68 /* MraidDocumentTag.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = MraidDocumentTag.html; sourceTree = "<group>"; };
-		A84F0D382982B70B00756E68 /* MraidLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MraidLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,7 +185,6 @@
 		4077EBA6218BC48300C41E68 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				A84F0D312982B25D00756E68 /* MRAID Ads */,
 				A828E83C293F7978006AD697 /* CriteoGoogleAdapter */,
 				462A60712417DB1C00E36D33 /* AdViewer */,
 				7D03F10623F1949900CB5D8B /* NativeAd */,
@@ -319,17 +310,6 @@
 			path = CriteoGoogleAdapter;
 			sourceTree = "<group>";
 		};
-		A84F0D312982B25D00756E68 /* MRAID Ads */ = {
-			isa = PBXGroup;
-			children = (
-				A84F0D342982B2A500756E68 /* MraidDocumentTag.html */,
-				A84F0D322982B2A500756E68 /* MraidScriptTag.html */,
-				A84F0D332982B2A500756E68 /* NoMraidTag.html */,
-				A84F0D382982B70B00756E68 /* MraidLoader.swift */,
-			);
-			path = "MRAID Ads";
-			sourceTree = "<group>";
-		};
 		AEB379A3E47D7093DEBA6DA1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -423,12 +403,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A84F0D362982B2A500756E68 /* NoMraidTag.html in Resources */,
 				4077EBB4218BC48300C41E68 /* LaunchScreen.storyboard in Resources */,
 				4077EBB1218BC48300C41E68 /* Assets.xcassets in Resources */,
-				A84F0D372982B2A500756E68 /* MraidDocumentTag.html in Resources */,
 				7DADDB6423F57C7A00DD82E7 /* CRVNativeAdView.xib in Resources */,
-				A84F0D352982B2A500756E68 /* MraidScriptTag.html in Resources */,
 				4077EBAF218BC48300C41E68 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -502,7 +479,6 @@
 				462A60662417A6C100E36D33 /* GoogleDFPLogger.m in Sources */,
 				462A60762417E56900E36D33 /* AdViewBuilder.swift in Sources */,
 				46872655240EA31B0090489E /* LogManager.m in Sources */,
-				A84F0D392982B70B00756E68 /* MraidLoader.swift in Sources */,
 				A828E845293F7978006AD697 /* CRBannerCustomEvent.m in Sources */,
 				462A60732417DB5000E36D33 /* AdViewerViewController.swift in Sources */,
 				46505306256FE544007D9CE7 /* AppDelegate.swift in Sources */,

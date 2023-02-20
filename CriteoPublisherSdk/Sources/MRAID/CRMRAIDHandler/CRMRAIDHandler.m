@@ -21,7 +21,7 @@
 
 @interface CRMRAIDHandler ()
 @property(nonatomic, strong) WKWebView *webView;
-- (void)fireReadyEventWithPlacement:(NSString *)placementType;
+- (void)sendReadyEventWithPlacement:(NSString *)placementType;
 @end
 
 
@@ -36,16 +36,18 @@
 
 #pragma mark - mraid js interaction
 - (void)onAdLoadFinishWithPlacement:(NSString *)placementType {
-    [self fireReadyEventWithPlacement:placementType];
+    [self sendReadyEventWithPlacement:placementType];
+}
+
+- (void)sendError:(NSString *)error action:(NSString *)action {
+    NSString *errorCommand = [NSString stringWithFormat:@"window.mraid.notifyError(\"%@\",\"%@\");", error, action];
+    [_webView evaluateJavaScript:errorCommand completionHandler:NULL];
 }
 
 #pragma mark - internal utilities
-- (void)fireMRAIDEvent:(NSString *)eventName {
-
+- (void)sendReadyEventWithPlacement:(NSString *)placementType {
+    NSString *jsCommand = [NSString stringWithFormat:@"window.mraid.notifyReady(\"%@\");", placementType];
+    [_webView evaluateJavaScript: jsCommand completionHandler:NULL];
 }
 
-- (void)fireReadyEventWithPlacement:(NSString *)placementType {
-    NSString *jsCall = [NSString stringWithFormat:@"window.mraid.notifyReady(\"%@\");", placementType];
-    [_webView evaluateJavaScript: jsCall completionHandler:NULL];
-}
 @end

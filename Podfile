@@ -16,6 +16,7 @@ target 'CriteoPublisherSdkTests' do
 
   # Third party SDKs
   pod 'Google-Mobile-Ads-SDK'
+  pod 'CriteoMRAID', :git => 'https://github.com/criteo/mraid-bridge', :branch => 'mraid-auto-generate-test'
 end
 
 target 'CriteoAdViewer' do

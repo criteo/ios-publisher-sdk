@@ -23,10 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CRMRAIDUtils : NSObject
 
-+ (NSString *)getHtmlWithMraidScriptTag;
-+ (NSString *)getHtmlWithDocumentWriteMraidScriptTag;
-+ (NSString *)getHtmlWithoutMraidScript;
-+ (NSString *)insertMraid:(NSString *)html;
++ (NSString *)loadMraidFromBundle:(NSBundle *)bundle;
++ (NSString *)insertMraid:(NSString *)html fromBundle:(NSBundle *)bundle;
++ (NSBundle *)mraidResourceBundle;
 
 @end
 

@@ -18,47 +18,45 @@
 //
 
 #import "CRMRAIDUtils.h"
+#import "CRMRAIDConstants.h"
 
 @implementation CRMRAIDUtils
 
-#pragma mark - Testing ads
-+ (NSString *)getHtmlWithMraidScriptTag {
-  return [CRMRAIDUtils loadMraidFrom:@"MraidScriptTag.html"];
-}
-
-+ (NSString *)getHtmlWithDocumentWriteMraidScriptTag {
-  return [CRMRAIDUtils loadMraidFrom:@"MraidDocumentTag.html"];
-}
-
-+ (NSString *)getHtmlWithoutMraidScript {
-  return [CRMRAIDUtils loadMraidFrom:@"NoMraidTag.html"];
-}
-
-+ (NSString *)loadMraidFrom:(NSString *)file {
-  NSString *filePath = [[NSBundle mainBundle] pathForResource:file ofType:@"html"];
-  return [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:NULL];
-}
-
 #pragma mark - mraid script injection
-+ (NSString *)insertMraid:(NSString *)html {
++ (NSString *)loadMraidFromBundle:(NSBundle *)bundle {
+    NSURL *mraidUrl = [bundle URLForResource:CR_MRAID_FILE_NAME withExtension:CR_MRAID_FILE_EXTENSION];
+    NSError *error;
+    NSString *mraid = [NSString stringWithContentsOfURL:mraidUrl
+                                               encoding:NSUTF8StringEncoding
+                                                  error:&error];
+    if (error) {
+        return NULL;
+    }
+    return mraid;
+}
+
++ (NSString *)insertMraid:(NSString *)html fromBundle:(NSBundle *)bundle {
   NSMutableString *mraidHtml = [NSMutableString stringWithString:html];
-  NSRange bodyRange = [mraidHtml rangeOfString:@"<body>"];
+  NSRange bodyRange = [mraidHtml rangeOfString:CR_MRAID_INJECT_TARGET];
 
   if (bodyRange.location == NSNotFound) {
-    return mraidHtml;
+      return mraidHtml;
   }
 
-  NSString *bundlePath = [[NSBundle mainBundle] pathForResource:@"CriteoMRAIDResource"
-                                                         ofType:@"bundle"];
-  NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
-  NSURL *mraidUrl = [bundle URLForResource:@"criteo-mraid" withExtension:@"js "];
-  if (mraidUrl) {
+  NSString *mraidContent = [CRMRAIDUtils loadMraidFromBundle:bundle];
+    
+  if (mraidContent) {
     NSInteger insertIndex = bodyRange.location + bodyRange.length;
-    NSString *mraid = [NSString stringWithFormat:@"<script src=\"%@\"></script>", mraidUrl];
+    NSString *mraid = [NSString stringWithFormat:CR_MRAID_SCRIPT, mraidContent];
     [mraidHtml insertString:mraid atIndex:insertIndex];
   }
 
   return mraidHtml;
+}
+
++ (NSBundle *)mraidResourceBundle {
+    return [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:CR_MRAID_BUNDLE
+                                                                    ofType:CR_MRAID_BUNDLE_EXTENSION]];
 }
 
 @end

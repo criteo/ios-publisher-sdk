@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithWebView:(WKWebView *)webview;
 - (void)onAdLoadFinishWithPlacement:(NSString *)placementType;
+- (void)sendError:(NSString *)error action:(NSString *)action;
 
 @end
 
