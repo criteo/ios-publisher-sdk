@@ -31,7 +31,6 @@
 #import "CR_DisplaySizeInjector.h"
 #import "CR_IntegrationRegistry.h"
 #import "CR_Logging.h"
-#import "CRMRAIDHandler.h"
 #import "CRMRAIDConstants.h"
 
 @interface CRInterstitial () <WKNavigationDelegate, WKUIDelegate>
@@ -58,7 +57,7 @@
     _isAdLoaded = isAdLoaded;
     _adUnit = adUnit;
     _urlOpener = urlOpener;
-    _mraidHandler = [[CRMRAIDHandler alloc] initWithWebView:viewController.webView];
+    _mraidHandler = [[CRMRAIDHandler alloc] initWith:viewController.webView];
   }
   return self;
 }
@@ -215,7 +214,7 @@
   if (self.isResponseValid) {
     self.isAdLoaded = YES;
     [self dispatchDidReceiveAdDelegate];
-    [_mraidHandler onAdLoadFinishWithPlacement:CR_MRAID_PLACEMENT_INTERSTITIAL];
+    [_mraidHandler onAdLoadWith:CR_MRAID_PLACEMENT_INTERSTITIAL];
   } else {
     [self safelyNotifyAdLoadFail:CRErrorCodeNetworkError];
   }

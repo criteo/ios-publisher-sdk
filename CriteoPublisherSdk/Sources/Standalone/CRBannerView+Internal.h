@@ -23,6 +23,12 @@
 #import <WebKit/WebKit.h>
 #import "CRBannerView.h"
 
+#if __has_include("CriteoPublisherSdk-Swift.h")
+#import "CriteoPublisherSdk-Swift.h"
+#else
+#import <CriteoPublisherSdk/CriteoPublisherSdk-Swift.h>
+#endif
+
 @class Criteo;
 @protocol CR_URLOpening;
 

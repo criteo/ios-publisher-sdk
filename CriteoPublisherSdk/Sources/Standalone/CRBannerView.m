@@ -25,7 +25,6 @@
 #import "CR_DependencyProvider.h"
 #import "CR_Logging.h"
 #import "NSError+Criteo.h"
-#import "CRMRAIDHandler.h"
 #import "CRMRAIDConstants.h"
 
 @interface CRBannerView () <WKNavigationDelegate, WKUIDelegate>
@@ -93,9 +92,23 @@
     }
     _adUnit = adUnit;
     _urlOpener = opener;
-    _mraidHandler = [[CRMRAIDHandler alloc] initWithWebView:webView];
+    _mraidHandler = [[CRMRAIDHandler alloc] initWith:webView];
   }
   return self;
+}
+
+#pragma mark - mraid viewability measurement
+- (void)setNeedsDisplay {
+    [super setNeedsDisplay];
+     NSLog(@"setNeedsDisplay: %@ %@", [NSDate new], _webView.URL);
+}
+
+- (void)didMoveToWindow {
+    NSLog(@"didMoveToWindow: %@", [NSDate new]);
+}
+
+- (void)didMoveToSuperview {
+    NSLog(@"didMoveToSuperview: %@", [NSDate new]);
 }
 
 - (void)safelyLoadWebViewWithDisplayUrl:(NSString *)displayUrl {
@@ -217,7 +230,7 @@
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-  [_mraidHandler onAdLoadFinishWithPlacement:CR_MRAID_PLACEMENT_BANNER];
+    [_mraidHandler onAdLoadWith:CR_MRAID_PLACEMENT_BANNER];
 }
 
 - (void)handlePotentialClickForNavigationAction:(WKNavigationAction *)navigationAction
