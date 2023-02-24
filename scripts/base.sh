@@ -37,7 +37,7 @@ function crto-build-simulator() {
     OTHER_CFLAGS="-fembed-bitcode" \
     BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
     BITCODE_GENERATION_MODE="bitcode" \
-    ENABLE_BITCODE=YES \
+    ENABLE_BITCODE=NO \
     "$@"
 }
 
@@ -58,7 +58,7 @@ function crto-build-device() {
     OTHER_CFLAGS="-fembed-bitcode" \
     BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
     BITCODE_GENERATION_MODE="bitcode" \
-    ENABLE_BITCODE=YES \
+    ENABLE_BITCODE=NO \
     "$@"
 }
 

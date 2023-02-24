@@ -83,7 +83,8 @@ class CR_FeedbackFileManagerTests: XCTestCase {
   func testInitialisationFailedBecauseNoRootDirectory() {
     let mock = self.fileManipulatingMock!
     mock.rootPaths = []
-    let feedbackFileManager: CR_FeedbackFileManager? = CR_FeedbackFileManager(fileManipulating: mock, activeMetricsMaxFileSize: testsActiveMetricsMaxFileSize)
+    let feedbackFileManager: CR_FeedbackFileManager? = CR_FeedbackFileManager(
+      fileManipulating: mock, activeMetricsMaxFileSize: testsActiveMetricsMaxFileSize)
     XCTAssertNil(feedbackFileManager)
   }
 
@@ -109,7 +110,8 @@ class CR_FeedbackFileManagerTests: XCTestCase {
     let mock = self.fileManipulatingMock!
     mock.sizeOfDirectory = activeMetricsMaxFileSize
     mock.fileExistsResponse = false
-    self.feedbackFileManager = CR_FeedbackFileManager(fileManipulating: mock, activeMetricsMaxFileSize: activeMetricsMaxFileSize)
+    self.feedbackFileManager = CR_FeedbackFileManager(
+      fileManipulating: mock, activeMetricsMaxFileSize: activeMetricsMaxFileSize)
     let feedbackMessage = CR_FeedbackMessage()
     self.feedbackFileManager.writeFeedback(feedbackMessage, forFilename: "")
     XCTAssertNil(mock.message, "Feedback should not be written on maxFileSize bound")

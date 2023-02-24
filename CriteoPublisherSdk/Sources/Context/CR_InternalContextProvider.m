@@ -73,7 +73,8 @@
     if (networkInfo == nil) {
       networkInfo = [[CTTelephonyNetworkInfo alloc] init];
     }
-    NSString *accessTechnology = networkInfo.currentRadioAccessTechnology;
+    NSString *accessTechnology =
+        networkInfo.serviceCurrentRadioAccessTechnology.allValues.firstObject;
     if ([accessTechnology isEqualToString:CTRadioAccessTechnologyGPRS] ||
         [accessTechnology isEqualToString:CTRadioAccessTechnologyEdge] ||
         [accessTechnology isEqualToString:CTRadioAccessTechnologyCDMA1x] ||

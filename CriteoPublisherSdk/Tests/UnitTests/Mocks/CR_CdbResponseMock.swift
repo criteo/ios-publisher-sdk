@@ -17,18 +17,15 @@
 // limitations under the License.
 //
 
-
 import CriteoPublisherSdk
-
 
 class CR_CdbResponseMock: CR_CdbResponse {
 
-
   // MARK: - Overrides
 
-  private var cdbBidsOverride: Array<CR_CdbBid>?
+  private var cdbBidsOverride: [CR_CdbBid]?
 
-  override var cdbBids: Array<CR_CdbBid> {
+  override var cdbBids: [CR_CdbBid] {
     get {
       return cdbBidsOverride ?? super.cdbBids
     }
@@ -37,7 +34,6 @@ class CR_CdbResponseMock: CR_CdbResponse {
     }
   }
 }
-
 
 // MARK: - MockProtocol
 
