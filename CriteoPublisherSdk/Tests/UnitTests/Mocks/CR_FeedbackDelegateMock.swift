@@ -17,9 +17,7 @@
 // limitations under the License.
 //
 
-
 import CriteoPublisherSdk
-
 
 class CR_FeedbackDelegateMock {
 
@@ -32,7 +30,6 @@ class CR_FeedbackDelegateMock {
   var onBidConsumedWasCalledWithBid: CR_CdbBid?
   var sendFeedbackBatchWasCalled = false
 }
-
 
 // MARK: - CR_FeedbackDelegate
 
@@ -64,7 +61,6 @@ extension CR_FeedbackDelegateMock: CR_FeedbackDelegate {
     sendFeedbackBatchWasCalled = true
   }
 }
-
 
 // MARK: - MockProtocol
 

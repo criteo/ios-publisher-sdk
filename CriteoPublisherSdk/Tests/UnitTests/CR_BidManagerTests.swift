@@ -17,14 +17,11 @@
 // limitations under the License.
 //
 
-
 import CriteoPublisherSdk
 import GoogleMobileAds
 import XCTest
 
-
 class CR_BidManagerTests: XCTestCase {
-
 
   // MARK: - Variables
 
@@ -95,7 +92,6 @@ class CR_BidManagerTests: XCTestCase {
 
   lazy var timeout: TimeInterval = 10
 
-
   // MARK: - Life Cycle
 
   override func setUp() {
@@ -112,13 +108,13 @@ class CR_BidManagerTests: XCTestCase {
     super.tearDown()
   }
 
-
   // MARK: - Helper Private Functions
 
   private func createAdUnit(type: CRAdUnitType = .banner) -> CR_CacheAdUnit {
 
     let adUnitId = "adUnit_\(UUID().uuidString)"
-    return CR_CacheAdUnit(adUnitId: adUnitId, size: CGSize(width: 300, height: 250), adUnitType: type)
+    return CR_CacheAdUnit(
+      adUnitId: adUnitId, size: CGSize(width: 300, height: 250), adUnitType: type)
   }
 
   private func createBannerAdUnit() -> CRBannerAdUnit {
@@ -135,9 +131,9 @@ class CR_BidManagerTests: XCTestCase {
     case silenced
   }
 
-  private func createBid(adUnit: CR_CacheAdUnit, types: Array<CR_CdbBidType> = []) -> CR_CdbBid {
+  private func createBid(adUnit: CR_CacheAdUnit, types: [CR_CdbBidType] = []) -> CR_CdbBid {
 
-    var bidBuilder = CR_CdbBidBuilder() // FIXME: for some reason it gets nil unless stored as a separate variable
+    var bidBuilder = CR_CdbBidBuilder()  // FIXME: for some reason it gets nil unless stored as a separate variable
     bidBuilder = bidBuilder.adUnit(adUnit)
 
     for type in types {
@@ -156,7 +152,9 @@ class CR_BidManagerTests: XCTestCase {
   private func createBid() -> CRBid {
 
     let adUnitBanner = createBannerAdUnit()
-    let bidCdbValid = createBid(adUnit: CR_CacheAdUnit(adUnitId: adUnitBanner.adUnitId, size: adUnitBanner.size, adUnitType: .banner))
+    let bidCdbValid = createBid(
+      adUnit: CR_CacheAdUnit(
+        adUnitId: adUnitBanner.adUnitId, size: adUnitBanner.size, adUnitType: .banner))
     return CRBid(cdbBid: bidCdbValid, adUnit: adUnitBanner)
   }
 
@@ -173,7 +171,6 @@ class CR_BidManagerTests: XCTestCase {
       return false
     }
   }
-
 
   // MARK: - Tests for Cache Bidding
 
@@ -195,8 +192,10 @@ class CR_BidManagerTests: XCTestCase {
     XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
     XCTAssertNil(apiHandlerMock.callCdbAdUnits)
     let bidFetchExpectation1 = expectation(description: "Bid fetch finish expectation")
-    let responseHandler1: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation1.fulfill() }
-    let bid1Received = dependencyProvider.bidManager.getBidThenFetch(adUnit1, withContext: contextData, responseHandler: responseHandler1)
+    let responseHandler1: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation1.fulfill()
+    }
+    let bid1Received = dependencyProvider.bidManager.getBidThenFetch(
+      adUnit1, withContext: contextData, responseHandler: responseHandler1)
     XCTAssertEqual(bid1Received, bid1)
     wait(for: [bidFetchExpectation1], timeout: timeout)
     XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
@@ -206,8 +205,10 @@ class CR_BidManagerTests: XCTestCase {
     XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
     XCTAssertNil(apiHandlerMock.callCdbAdUnits)
     let bidFetchExpectation2 = expectation(description: "Bid fetch finish expectation")
-    let responseHandler2: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation2.fulfill() }
-    let bid2Received = dependencyProvider.bidManager.getBidThenFetch(adUnit2, withContext: contextData, responseHandler: responseHandler2)
+    let responseHandler2: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation2.fulfill()
+    }
+    let bid2Received = dependencyProvider.bidManager.getBidThenFetch(
+      adUnit2, withContext: contextData, responseHandler: responseHandler2)
     XCTAssertEqual(bid2Received, bid2)
     wait(for: [bidFetchExpectation2], timeout: timeout)
     XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
@@ -217,8 +218,10 @@ class CR_BidManagerTests: XCTestCase {
     XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
     XCTAssertNil(apiHandlerMock.callCdbAdUnits)
     let bidFetchExpectation3 = expectation(description: "Bid fetch finish expectation")
-    let responseHandler3: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation3.fulfill() }
-    let bidRewardedReceived = dependencyProvider.bidManager.getBidThenFetch(adUnitRewarded, withContext: contextData, responseHandler: responseHandler3)
+    let responseHandler3: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation3.fulfill()
+    }
+    let bidRewardedReceived = dependencyProvider.bidManager.getBidThenFetch(
+      adUnitRewarded, withContext: contextData, responseHandler: responseHandler3)
     XCTAssertEqual(bidRewardedReceived, bidRewarded)
     wait(for: [bidFetchExpectation3], timeout: timeout)
     XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
@@ -233,7 +236,8 @@ class CR_BidManagerTests: XCTestCase {
     apiHandlerMock.reset()
     let bidFetchExpectation = expectation(description: "Bid fetch finish expectation")
     let responseHandler: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation.fulfill() }
-    let bidReceived = dependencyProvider.bidManager.getBidThenFetch(adUnit, withContext: contextData, responseHandler: responseHandler)
+    let bidReceived = dependencyProvider.bidManager.getBidThenFetch(
+      adUnit, withContext: contextData, responseHandler: responseHandler)
     wait(for: [bidFetchExpectation], timeout: timeout)
     XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
     XCTAssertEqual(apiHandlerMock.callCdbAdUnits?.first, adUnit)
@@ -250,7 +254,8 @@ class CR_BidManagerTests: XCTestCase {
     XCTAssertFalse(cacheManagerMock.removeBidWasCalled)
     let bidFetchExpectation = expectation(description: "Bid fetch finish expectation")
     let responseHandler: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation.fulfill() }
-    let bidReceived = dependencyProvider.bidManager.getBidThenFetch(adUnit, withContext: contextData, responseHandler: responseHandler)
+    let bidReceived = dependencyProvider.bidManager.getBidThenFetch(
+      adUnit, withContext: contextData, responseHandler: responseHandler)
     wait(for: [bidFetchExpectation], timeout: timeout)
     XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
     XCTAssertEqual(apiHandlerMock.callCdbAdUnits?.first, adUnit)
@@ -262,12 +267,13 @@ class CR_BidManagerTests: XCTestCase {
   func testGetBidUncachedAdUnitInSilentMode() {
 
     let adUnit = createAdUnit()
-    dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity // silence user
+    dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity  // silence user
 
     apiHandlerMock.reset()
     let bidFetchExpectation = expectation(description: "Bid fetch finish expectation")
     let responseHandler: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation.fulfill() }
-    let bidReceived = dependencyProvider.bidManager.getBidThenFetch(adUnit, withContext: contextData, responseHandler: responseHandler)
+    let bidReceived = dependencyProvider.bidManager.getBidThenFetch(
+      adUnit, withContext: contextData, responseHandler: responseHandler)
     wait(for: [bidFetchExpectation], timeout: timeout)
     XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
     XCTAssertNil(apiHandlerMock.callCdbAdUnits)
@@ -282,22 +288,27 @@ class CR_BidManagerTests: XCTestCase {
     let bid1 = createBid(adUnit: adUnit1)
     let bid2 = createBid(adUnit: adUnit2)
 
-    dependencyProvider.bidManager.cdbTimeToNextCall = Date(timeIntervalSinceNow: 360).timeIntervalSinceReferenceDate
+    dependencyProvider.bidManager.cdbTimeToNextCall =
+      Date(timeIntervalSinceNow: 360).timeIntervalSinceReferenceDate
     dependencyProvider.cacheManager.bidCache[adUnit1] = bid1
     dependencyProvider.cacheManager.bidCache[adUnit2] = bid2
 
     apiHandlerMock.reset()
     let bidFetchExpectation1 = expectation(description: "Bid fetch finish expectation")
-    let responseHandler1: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation1.fulfill() }
-    let bid1Received = dependencyProvider.bidManager.getBidThenFetch(adUnit1, withContext: contextData, responseHandler: responseHandler1)
+    let responseHandler1: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation1.fulfill()
+    }
+    let bid1Received = dependencyProvider.bidManager.getBidThenFetch(
+      adUnit1, withContext: contextData, responseHandler: responseHandler1)
     XCTAssertEqual(bid1Received, bid1)
     wait(for: [bidFetchExpectation1], timeout: timeout)
     XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
     XCTAssertNil(apiHandlerMock.callCdbAdUnits)
 
     let bidFetchExpectation2 = expectation(description: "Bid fetch finish expectation")
-    let responseHandler2: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation2.fulfill() }
-    let bid2Received = dependencyProvider.bidManager.getBidThenFetch(adUnit2, withContext: contextData, responseHandler: responseHandler2)
+    let responseHandler2: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation2.fulfill()
+    }
+    let bid2Received = dependencyProvider.bidManager.getBidThenFetch(
+      adUnit2, withContext: contextData, responseHandler: responseHandler2)
     wait(for: [bidFetchExpectation2], timeout: timeout)
     XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
     XCTAssertNil(apiHandlerMock.callCdbAdUnits)
@@ -314,7 +325,8 @@ class CR_BidManagerTests: XCTestCase {
     apiHandlerMock.reset()
     let bidFetchExpectation = expectation(description: "Bid fetch finish expectation")
     let responseHandler: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation.fulfill() }
-    let bidReceived = dependencyProvider.bidManager.getBidThenFetch(adUnit, withContext: contextData, responseHandler: responseHandler)
+    let bidReceived = dependencyProvider.bidManager.getBidThenFetch(
+      adUnit, withContext: contextData, responseHandler: responseHandler)
     wait(for: [bidFetchExpectation], timeout: timeout)
     XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
     XCTAssertNil(apiHandlerMock.callCdbAdUnits)
@@ -331,7 +343,8 @@ class CR_BidManagerTests: XCTestCase {
     apiHandlerMock.reset()
     let bidFetchExpectation = expectation(description: "Bid fetch finish expectation")
     let responseHandler: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation.fulfill() }
-    let bidReceived = dependencyProvider.bidManager.getBidThenFetch(adUnit, withContext: contextData, responseHandler: responseHandler)
+    let bidReceived = dependencyProvider.bidManager.getBidThenFetch(
+      adUnit, withContext: contextData, responseHandler: responseHandler)
     wait(for: [bidFetchExpectation], timeout: timeout)
     XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
     XCTAssertEqual(apiHandlerMock.callCdbAdUnits?.first, adUnit)
@@ -348,7 +361,8 @@ class CR_BidManagerTests: XCTestCase {
     apiHandlerMock.reset()
     let bidFetchExpectation = expectation(description: "Bid fetch finish expectation")
     let responseHandler: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation.fulfill() }
-    let bidReceived = dependencyProvider.bidManager.getBidThenFetch(adUnit, withContext: contextData, responseHandler: responseHandler)
+    let bidReceived = dependencyProvider.bidManager.getBidThenFetch(
+      adUnit, withContext: contextData, responseHandler: responseHandler)
     wait(for: [bidFetchExpectation], timeout: timeout)
     XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
     XCTAssertEqual(apiHandlerMock.callCdbAdUnits?.first, adUnit)
@@ -367,7 +381,8 @@ class CR_BidManagerTests: XCTestCase {
     XCTAssertNil(apiHandlerMock.callCdbAdUnits)
     let bidFetchExpectation = expectation(description: "Bid fetch finish expectation")
     let responseHandler: CR_CdbBidResponseHandler = { (_) -> Void in bidFetchExpectation.fulfill() }
-    let bidReceived = dependencyProvider.bidManager.getBidThenFetch(adUnit, withContext: contextData, responseHandler: responseHandler)
+    let bidReceived = dependencyProvider.bidManager.getBidThenFetch(
+      adUnit, withContext: contextData, responseHandler: responseHandler)
     wait(for: [bidFetchExpectation], timeout: timeout)
     XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
     XCTAssertEqual(apiHandlerMock.callCdbAdUnits?.first, adUnit)
@@ -393,7 +408,8 @@ class CR_BidManagerTests: XCTestCase {
     bidManagerMock.reset()
     XCTAssertFalse(bidManagerMock.fetchLiveBidWasCalled)
     XCTAssertFalse(bidManagerMock.getBidThenFetchWasCalled)
-    dependencyProvider.bidManager.loadCdbBid(for: adUnit, withContext: contextData, responseHandler: responseHandler)
+    dependencyProvider.bidManager.loadCdbBid(
+      for: adUnit, withContext: contextData, responseHandler: responseHandler)
     XCTAssertTrue(bidManagerMock.fetchLiveBidWasCalled)
     XCTAssertFalse(bidManagerMock.getBidThenFetchWasCalled)
     wait(for: [loadBidExpectation], timeout: timeout)
@@ -413,12 +429,12 @@ class CR_BidManagerTests: XCTestCase {
     bidManagerMock.reset()
     XCTAssertFalse(bidManagerMock.fetchLiveBidWasCalled)
     XCTAssertFalse(bidManagerMock.getBidThenFetchWasCalled)
-    dependencyProvider.bidManager.loadCdbBid(for: adUnit, withContext: contextData, responseHandler: responseHandler)
+    dependencyProvider.bidManager.loadCdbBid(
+      for: adUnit, withContext: contextData, responseHandler: responseHandler)
     XCTAssertFalse(bidManagerMock.fetchLiveBidWasCalled)
     XCTAssertTrue(bidManagerMock.getBidThenFetchWasCalled)
     wait(for: [loadBidExpectation], timeout: timeout)
   }
-
 
   // MARK: - Tests for Live Bidding
 
@@ -438,7 +454,8 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
@@ -486,7 +503,8 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
@@ -525,7 +543,8 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
@@ -566,7 +585,8 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit2, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit2, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
@@ -605,7 +625,8 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
@@ -643,13 +664,14 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
         fetchLiveBidExpectation.fulfill()
 
-        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true)  // By having "?? true" basically means the bid is nil or empty
 
         XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
         XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
@@ -684,13 +706,14 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
         fetchLiveBidExpectation.fulfill()
 
-        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true)  // By having "?? true" basically means the bid is nil or empty
 
         XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
         XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
@@ -723,13 +746,14 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
         fetchLiveBidExpectation.fulfill()
 
-        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true)  // By having "?? true" basically means the bid is nil or empty
 
         XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
         XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
@@ -763,13 +787,14 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
         fetchLiveBidExpectation.fulfill()
 
-        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true)  // By having "?? true" basically means the bid is nil or empty
 
         XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
         XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
@@ -788,7 +813,6 @@ class CR_BidManagerTests: XCTestCase {
     wait(for: [fetchLiveBidExpectation], timeout: timeout)
   }
 
-
   // MARK: - Tests for Silent User
 
   /// Having a silenced user, when fetching a live bid, the expectation is to receive no bid, cache no bid, consume no bid.
@@ -799,18 +823,19 @@ class CR_BidManagerTests: XCTestCase {
     apiHandlerMock.reset()
     cacheManagerMock.reset()
     feedbackDelegateMock.reset()
-    dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity // silence user
+    dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity  // silence user
 
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
         fetchLiveBidExpectation.fulfill()
 
-        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true)  // By having "?? true" basically means the bid is nil or empty
 
         XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
         XCTAssertNil(apiHandlerMock.callCdbAdUnits)
@@ -838,12 +863,13 @@ class CR_BidManagerTests: XCTestCase {
     apiHandlerMock.reset()
     cacheManagerMock.bidCache[adUnit] = bidCached
     feedbackDelegateMock.reset()
-    dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity // silence user
+    dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity  // silence user
 
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
@@ -877,18 +903,19 @@ class CR_BidManagerTests: XCTestCase {
     apiHandlerMock.reset()
     cacheManagerMock.bidCache[adUnit] = bidCachedExpired
     feedbackDelegateMock.reset()
-    dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity // silence user
+    dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity  // silence user
 
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
         fetchLiveBidExpectation.fulfill()
 
-        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true)  // By having "?? true" basically means the bid is nil or empty
 
         XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
         XCTAssertNil(apiHandlerMock.callCdbAdUnits)
@@ -916,18 +943,19 @@ class CR_BidManagerTests: XCTestCase {
     apiHandlerMock.reset()
     cacheManagerMock.bidCache[adUnit] = bidNoBid
     feedbackDelegateMock.reset()
-    dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity // silence user
+    dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity  // silence user
 
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
         fetchLiveBidExpectation.fulfill()
 
-        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true)  // By having "?? true" basically means the bid is nil or empty
 
         XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
         XCTAssertNil(apiHandlerMock.callCdbAdUnits)
@@ -954,18 +982,19 @@ class CR_BidManagerTests: XCTestCase {
     apiHandlerMock.reset()
     cacheManagerMock.reset()
     feedbackDelegateMock.reset()
-    dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity // silence user
+    dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity  // silence user
 
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
         fetchLiveBidExpectation.fulfill()
 
-        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true)  // By having "?? true" basically means the bid is nil or empty
 
         XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
         XCTAssertNil(apiHandlerMock.callCdbAdUnits)
@@ -993,18 +1022,19 @@ class CR_BidManagerTests: XCTestCase {
     apiHandlerMock.reset()
     cacheManagerMock.bidCache[adUnit] = bidSilenced
     feedbackDelegateMock.reset()
-    dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity // silence user
+    dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity  // silence user
 
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
         fetchLiveBidExpectation.fulfill()
 
-        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true)  // By having "?? true" basically means the bid is nil or empty
 
         XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
         XCTAssertNil(apiHandlerMock.callCdbAdUnits)
@@ -1038,13 +1068,15 @@ class CR_BidManagerTests: XCTestCase {
 
     apiHandlerMock.reset()
     cacheManagerMock.bidCache[adUnit] = bidValid
-    dependencyProvider.bidManager.cdbTimeToNextCall = Date(timeIntervalSinceNow: -1).timeIntervalSinceReferenceDate // expired user silent, 1s before now
+    dependencyProvider.bidManager.cdbTimeToNextCall =
+      Date(timeIntervalSinceNow: -1).timeIntervalSinceReferenceDate  // expired user silent, 1s before now
     feedbackDelegateMock.reset()
 
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
@@ -1078,7 +1110,7 @@ class CR_BidManagerTests: XCTestCase {
     apiHandlerMock.reset()
     XCTAssertNil(apiHandlerMock.callCdbCdbResponse)
     apiHandlerMock.callCdbBeforeCdbResponseBlock = { [unowned self] in
-      dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity // silence user
+      dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity  // silence user
     }
     cacheManagerMock.bidCache[adUnit] = bidValid
     feedbackDelegateMock.reset()
@@ -1086,7 +1118,8 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
@@ -1117,19 +1150,20 @@ class CR_BidManagerTests: XCTestCase {
     let adUnit = createAdUnit()
 
     cacheManagerMock.reset()
-    cdbResponseMock.timeToNextCall = 123 // silence user starting with the next fetch
+    cdbResponseMock.timeToNextCall = 123  // silence user starting with the next fetch
     feedbackDelegateMock.reset()
 
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
         fetchLiveBidExpectation.fulfill()
 
-        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true)  // By having "?? true" basically means the bid is nil or empty
 
         XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
         XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
@@ -1156,20 +1190,21 @@ class CR_BidManagerTests: XCTestCase {
     let adUnit = createAdUnit()
 
     cacheManagerMock.reset()
-    cdbResponseMock.timeToNextCall = 123 // silence user starting with the next fetch
+    cdbResponseMock.timeToNextCall = 123  // silence user starting with the next fetch
     feedbackDelegateMock.reset()
     synchronousThreadManager.isTimeout = true
 
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
         fetchLiveBidExpectation.fulfill()
 
-        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true)  // By having "?? true" basically means the bid is nil or empty
 
         XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
         XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
@@ -1198,7 +1233,7 @@ class CR_BidManagerTests: XCTestCase {
 
     apiHandlerMock.reset()
     apiHandlerMock.callCdbBeforeCdbResponseBlock = { [unowned self] in
-      dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity // silence user
+      dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity  // silence user
     }
     cacheManagerMock.reset()
     cdbResponseMock.cdbBids = [bidValid]
@@ -1207,7 +1242,8 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
@@ -1242,7 +1278,7 @@ class CR_BidManagerTests: XCTestCase {
 
     apiHandlerMock.reset()
     apiHandlerMock.callCdbBeforeCdbResponseBlock = { [unowned self] in
-      dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity // silence user
+      dependencyProvider.bidManager.cdbTimeToNextCall = TimeInterval.infinity  // silence user
     }
     cdbResponseMock.cdbBids = [bidValid]
     cacheManagerMock.reset()
@@ -1251,7 +1287,8 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
@@ -1278,7 +1315,6 @@ class CR_BidManagerTests: XCTestCase {
     XCTAssertTrue(dependencyProvider.bidManager.isInSilenceMode)
   }
 
-
   // MARK: - Tests for Consent Given
 
   /// Having no current consent, when fetching a live bid and receiving consent, current consent should be updated.
@@ -1292,7 +1328,8 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] _ in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] _ in
 
       currentQueue?.async { [unowned self] in
 
@@ -1319,7 +1356,8 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] _ in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] _ in
 
       currentQueue?.async { [unowned self] in
 
@@ -1346,7 +1384,8 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] _ in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] _ in
 
       currentQueue?.async { [unowned self] in
 
@@ -1373,7 +1412,8 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] _ in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] _ in
 
       currentQueue?.async { [unowned self] in
 
@@ -1401,7 +1441,8 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] _ in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] _ in
 
       currentQueue?.async { [unowned self] in
 
@@ -1416,7 +1457,6 @@ class CR_BidManagerTests: XCTestCase {
 
     XCTAssertTrue(dependencyProvider.consent.isConsentGiven)
   }
-
 
   // MARK: - Tests for Silent Slot
 
@@ -1433,13 +1473,14 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
         fetchLiveBidExpectation.fulfill()
 
-        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true)  // By having "?? true" basically means the bid is nil or empty
 
         XCTAssertFalse(apiHandlerMock.callCdbWasCalled)
         XCTAssertNil(apiHandlerMock.callCdbAdUnits)
@@ -1480,7 +1521,8 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
@@ -1524,13 +1566,14 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
         fetchLiveBidExpectation.fulfill()
 
-        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true)  // By having "?? true" basically means the bid is nil or empty
 
         XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
         XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
@@ -1550,9 +1593,13 @@ class CR_BidManagerTests: XCTestCase {
 
     XCTAssertTrue(logHandlerMock.logMessageWasCalled)
     XCTAssertEqual(logHandlerMock.logMessageWasCalledWithMessage?.tag, "Cache")
-    XCTAssertNotNil(logHandlerMock.logMessageWasCalledWithMessage?.message.contains("Silent mode enabled for slot"))
-    XCTAssertNotNil(logHandlerMock.logMessageWasCalledWithMessage?.message.contains("\(adUnit.adUnitId)"))
-    XCTAssertNotNil(logHandlerMock.logMessageWasCalledWithMessage?.message.contains("\(adUnit.size)"))
+    XCTAssertNotNil(
+      logHandlerMock.logMessageWasCalledWithMessage?.message.contains(
+        "Silent mode enabled for slot"))
+    XCTAssertNotNil(
+      logHandlerMock.logMessageWasCalledWithMessage?.message.contains("\(adUnit.adUnitId)"))
+    XCTAssertNotNil(
+      logHandlerMock.logMessageWasCalledWithMessage?.message.contains("\(adUnit.size)"))
   }
 
   /// Having a cached silenced bid, when fetching a live bid and receiving a valid bid, the expectation is to not cache and to consume the received bid and keep the cached bid.
@@ -1571,7 +1618,8 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
@@ -1620,13 +1668,14 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
         fetchLiveBidExpectation.fulfill()
 
-        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true)  // By having "?? true" basically means the bid is nil or empty
 
         XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
         XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
@@ -1634,8 +1683,8 @@ class CR_BidManagerTests: XCTestCase {
         XCTAssertFalse(cacheManagerMock.setBidWasCalled)
         XCTAssertNil(cacheManagerMock.setBidWasCalledWithBid)
 
-        XCTAssertTrue(feedbackDelegateMock.onBidCachedWasCalled) // this should be false, but because of caching before the CDB call this is transformed to true
-        XCTAssertEqual(feedbackDelegateMock.onBidCachedWasCalledWithBid, bidValid) // this should be nil, but because of caching before the CDB call this is transformed to some
+        XCTAssertTrue(feedbackDelegateMock.onBidCachedWasCalled)  // this should be false, but because of caching before the CDB call this is transformed to true
+        XCTAssertEqual(feedbackDelegateMock.onBidCachedWasCalledWithBid, bidValid)  // this should be nil, but because of caching before the CDB call this is transformed to some
 
         XCTAssertFalse(feedbackDelegateMock.onBidConsumedWasCalled)
         XCTAssertNil(feedbackDelegateMock.onBidConsumedWasCalledWithBid)
@@ -1670,13 +1719,14 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
         fetchLiveBidExpectation.fulfill()
 
-        XCTAssertTrue(bidReceived?.isEmpty() ?? true) // By having "?? true" basically means the bid is nil or empty
+        XCTAssertTrue(bidReceived?.isEmpty() ?? true)  // By having "?? true" basically means the bid is nil or empty
 
         XCTAssertTrue(apiHandlerMock.callCdbWasCalled)
         XCTAssertEqual(apiHandlerMock.callCdbAdUnits, [adUnit])
@@ -1695,7 +1745,6 @@ class CR_BidManagerTests: XCTestCase {
     wait(for: [fetchLiveBidExpectation], timeout: timeout)
   }
 
-
   // MARK: - Tests for Invalid Response
 
   // Having a cached bid, when fetching a live bid and receiving an invalid bid, the expectation is to not cache the received bid and to consume the cached bid.
@@ -1713,7 +1762,8 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
@@ -1754,7 +1804,8 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
@@ -1797,7 +1848,8 @@ class CR_BidManagerTests: XCTestCase {
     let currentQueue = OperationQueue.current?.underlyingQueue
 
     let fetchLiveBidExpectation = expectation(description: "Fetch live bid finish expectation")
-    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) { [unowned self] bidReceived in
+    dependencyProvider.bidManager.fetchLiveBid(for: adUnit, withContext: contextData) {
+      [unowned self] bidReceived in
 
       currentQueue?.async { [unowned self] in
 
@@ -1829,14 +1881,13 @@ class CR_BidManagerTests: XCTestCase {
     }
   }
 
-
   // MARK: - Tests for Header Bidding
 
   func testAddCriteoBidToNonBiddableObjectsDoesNotCrash() {
 
     let bidValid = createBid()
 
-    dependencyProvider.bidManager.enrichAdObject(Dictionary<AnyHashable, Any>(), with: bidValid)
+    dependencyProvider.bidManager.enrichAdObject([AnyHashable: Any](), with: bidValid)
     dependencyProvider.bidManager.enrichAdObject(Set<AnyHashable>(), with: bidValid)
     dependencyProvider.bidManager.enrichAdObject("AnyString", with: bidValid)
     dependencyProvider.bidManager.enrichAdObject(nil, with: bidValid)
@@ -1853,6 +1904,7 @@ class CR_BidManagerTests: XCTestCase {
 
     XCTAssertTrue(headerBiddingMock.enrichRequestWasCalled)
     XCTAssertEqual(headerBiddingMock.enrichRequestWasCalledWithRequest as? GAMRequest, request)
-    XCTAssertEqual(headerBiddingMock.enrichRequestWasCalledWithAdUnit?.adUnitId, bidValid.adUnit.adUnitId)
+    XCTAssertEqual(
+      headerBiddingMock.enrichRequestWasCalledWithAdUnit?.adUnitId, bidValid.adUnit.adUnitId)
   }
 }

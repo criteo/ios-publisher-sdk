@@ -17,12 +17,9 @@
 // limitations under the License.
 //
 
-
 import CriteoPublisherSdk
 
-
 class CR_CacheManagerMock: CR_CacheManager {
-
 
   // MARK: - Overrides
 
@@ -42,7 +39,6 @@ class CR_CacheManagerMock: CR_CacheManager {
     return super.setBid(bid)
   }
 }
-
 
 // MARK: - MockProtocol
 

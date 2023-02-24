@@ -17,19 +17,18 @@
 // limitations under the License.
 //
 
-
 import CriteoPublisherSdk
 
-
 class CR_HeaderBiddingMock: CR_HeaderBidding {
-
 
   // MARK: - Life Cycle
 
   convenience init(dependencyProvider: CR_DependencyProvider) {
-    self.init(device: dependencyProvider.deviceInfo, displaySizeInjector: dependencyProvider.displaySizeInjector, integrationRegistry: dependencyProvider.integrationRegistry)
+    self.init(
+      device: dependencyProvider.deviceInfo,
+      displaySizeInjector: dependencyProvider.displaySizeInjector,
+      integrationRegistry: dependencyProvider.integrationRegistry)
   }
-
 
   // MARK: - Overrides
 
@@ -43,7 +42,6 @@ class CR_HeaderBiddingMock: CR_HeaderBidding {
     enrichRequestWasCalledWithAdUnit = adUnit
   }
 }
-
 
 // MARK: - MockProtocol
 
