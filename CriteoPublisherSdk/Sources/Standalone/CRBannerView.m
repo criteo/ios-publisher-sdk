@@ -99,16 +99,16 @@
 
 #pragma mark - mraid viewability measurement
 - (void)setNeedsDisplay {
-    [super setNeedsDisplay];
-     NSLog(@"setNeedsDisplay: %@ %@", [NSDate new], _webView.URL);
+  [super setNeedsDisplay];
+  NSLog(@"setNeedsDisplay: %@ %@", [NSDate new], _webView.URL);
 }
 
 - (void)didMoveToWindow {
-    NSLog(@"didMoveToWindow: %@", [NSDate new]);
+  NSLog(@"didMoveToWindow: %@", [NSDate new]);
 }
 
 - (void)didMoveToSuperview {
-    NSLog(@"didMoveToSuperview: %@", [NSDate new]);
+  NSLog(@"didMoveToSuperview: %@", [NSDate new]);
 }
 
 - (void)safelyLoadWebViewWithDisplayUrl:(NSString *)displayUrl {
@@ -230,7 +230,7 @@
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    [_mraidHandler onAdLoadWith:CR_MRAID_PLACEMENT_BANNER];
+  [_mraidHandler onAdLoadWith:CR_MRAID_PLACEMENT_BANNER];
 }
 
 - (void)handlePotentialClickForNavigationAction:(WKNavigationAction *)navigationAction

@@ -21,77 +21,78 @@ import Foundation
 import WebKit
 
 private struct CRMRAIDHandlerConstants {
-    static let viewabilityRefreshTime: Double = 0.2
+  static let viewabilityRefreshTime: Double = 0.2
 }
 
 @objc
 public class CRMRAIDHandler: NSObject {
-    private let webView: WKWebView
-    private var timer: Timer?
-    private var isViewVisible: Bool = false
+  private let webView: WKWebView
+  private var timer: Timer?
+  private var isViewVisible: Bool = false
 
-    @objc
-    public init(with webView: WKWebView) {
-        self.webView = webView
-    }
+  @objc
+  public init(with webView: WKWebView) {
+    self.webView = webView
+  }
 
-    @objc
-    public func onAdLoad(with placementType: String) {
-        sendReadyEvent(with: placementType)
-        startViabilityNotifier()
-    }
+  @objc
+  public func onAdLoad(with placementType: String) {
+    sendReadyEvent(with: placementType)
+    startViabilityNotifier()
+  }
 
-    @objc
-    public func send(error: String, action: String) {
-        let js = "window.mraid.notifyError(\"\(error)\",\"\(action)\");"
-        webView.evaluateJavaScript(js, completionHandler: handleJSCallback)
-    }
+  @objc
+  public func send(error: String, action: String) {
+    let js = "window.mraid.notifyError(\"\(error)\",\"\(action)\");"
+    webView.evaluateJavaScript(js, completionHandler: handleJSCallback)
+  }
 
-    @objc
-    public func setIsViewable(visible: Bool) {
-        let js = "window.mraid.setIsViewable(\"\(visible.stringValue)\");"
-        webView.evaluateJavaScript(js, completionHandler: handleJSCallback)
-    }
+  @objc
+  public func setIsViewable(visible: Bool) {
+    let js = "window.mraid.setIsViewable(\"\(visible.stringValue)\");"
+    webView.evaluateJavaScript(js, completionHandler: handleJSCallback)
+  }
 
-    @objc
-    public func startViabilityNotifier() {
-        timer = Timer.scheduledTimer(timeInterval: CRMRAIDHandlerConstants.viewabilityRefreshTime,
-                                     target: self,
-                                     selector: #selector(viewabilityCheck),
-                                     userInfo: nil,
-                                     repeats: true)
-        timer?.fire()
-    }
+  @objc
+  public func startViabilityNotifier() {
+    timer = Timer.scheduledTimer(
+      timeInterval: CRMRAIDHandlerConstants.viewabilityRefreshTime,
+      target: self,
+      selector: #selector(viewabilityCheck),
+      userInfo: nil,
+      repeats: true)
+    timer?.fire()
+  }
 
-    @objc
-    public func stopViabilityNotifier() {
-        timer?.invalidate()
-        timer = nil
-        debugPrint(#function)
-    }
+  @objc
+  public func stopViabilityNotifier() {
+    timer?.invalidate()
+    timer = nil
+    debugPrint(#function)
+  }
 
-    deinit {
-        stopViabilityNotifier()
-    }
+  deinit {
+    stopViabilityNotifier()
+  }
 }
 
 // MARK: - Private methods
-private extension CRMRAIDHandler {
-    func sendReadyEvent(with placement: String) {
-        let js = "window.mraid.notifyReady(\"\(placement)\");"
-        webView.evaluateJavaScript(js, completionHandler: handleJSCallback)
-    }
+extension CRMRAIDHandler {
+  fileprivate func sendReadyEvent(with placement: String) {
+    let js = "window.mraid.notifyReady(\"\(placement)\");"
+    webView.evaluateJavaScript(js, completionHandler: handleJSCallback)
+  }
 
-    func handleJSCallback(_ agent: Any?, _ error: Error?) {
-        debugPrint("error on js call: \(error.debugDescription)")
-    }
+  fileprivate func handleJSCallback(_ agent: Any?, _ error: Error?) {
+    debugPrint("error on js call: \(error.debugDescription)")
+  }
 
-    @objc
-    func viewabilityCheck() {
-        let isWebViewVisible = webView.isVisibleToUser
-        guard isWebViewVisible != isViewVisible else { return }
+  @objc
+  fileprivate func viewabilityCheck() {
+    let isWebViewVisible = webView.isVisibleToUser
+    guard isWebViewVisible != isViewVisible else { return }
 
-        isViewVisible = isWebViewVisible
-        setIsViewable(visible: isWebViewVisible)
-    }
+    isViewVisible = isWebViewVisible
+    setIsViewable(visible: isWebViewVisible)
+  }
 }

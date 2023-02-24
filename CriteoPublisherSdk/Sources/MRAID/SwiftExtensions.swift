@@ -19,39 +19,38 @@
 
 import UIKit
 
-public extension UIView {
-    var isVisibleToUser: Bool {
+extension UIView {
+  public var isVisibleToUser: Bool {
 
-        if isHidden || alpha == 0 || superview == nil {
-            return false
-        }
-
-        guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
-            return false
-        }
-
-        let viewFrame = convert(bounds, to: rootViewController.view)
-
-        let topSafeArea: CGFloat
-        let bottomSafeArea: CGFloat
-
-        if #available(iOS 11.0, *) {
-            topSafeArea = rootViewController.view.safeAreaInsets.top
-            bottomSafeArea = rootViewController.view.safeAreaInsets.bottom
-        } else {
-            topSafeArea = rootViewController.topLayoutGuide.length
-            bottomSafeArea = rootViewController.bottomLayoutGuide.length
-        }
-
-        return viewFrame.minX >= 0 &&
-            viewFrame.maxX <= rootViewController.view.bounds.width &&
-            viewFrame.minY >= topSafeArea &&
-            viewFrame.maxY <= rootViewController.view.bounds.height - bottomSafeArea
+    if isHidden || alpha == 0 || superview == nil {
+      return false
     }
+
+    guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
+      return false
+    }
+
+    let viewFrame = convert(bounds, to: rootViewController.view)
+
+    let topSafeArea: CGFloat
+    let bottomSafeArea: CGFloat
+
+    if #available(iOS 11.0, *) {
+      topSafeArea = rootViewController.view.safeAreaInsets.top
+      bottomSafeArea = rootViewController.view.safeAreaInsets.bottom
+    } else {
+      topSafeArea = rootViewController.topLayoutGuide.length
+      bottomSafeArea = rootViewController.bottomLayoutGuide.length
+    }
+
+    return viewFrame.minX >= 0 && viewFrame.maxX <= rootViewController.view.bounds.width
+      && viewFrame.minY >= topSafeArea
+      && viewFrame.maxY <= rootViewController.view.bounds.height - bottomSafeArea
+  }
 }
 
-public extension Bool {
-    var stringValue: String {
-        return self == true ? "true" : "false"
-    }
+extension Bool {
+  public var stringValue: String {
+    return self == true ? "true" : "false"
+  }
 }
