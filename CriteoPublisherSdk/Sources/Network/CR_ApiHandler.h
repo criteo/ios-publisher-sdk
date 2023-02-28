@@ -112,12 +112,6 @@ typedef void (^CR_LogsCompletionHandler)(NSError *error);
 - (void)sendLogs:(NSArray<CR_RemoteLogRecord *> *)records
                config:(CR_Config *)config
     completionHandler:(CR_CsmCompletionHandler)completionHandler;
-
-/**
- * Exposed for testing only
- */
-- (CR_CacheAdUnitArray *)filterRequestAdUnitsAndSetProgressFlags:(CR_CacheAdUnitArray *)adUnits;
-
 @end
 
 #endif /* CR_ApiHandler_h */
