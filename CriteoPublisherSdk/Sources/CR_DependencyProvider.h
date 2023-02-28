@@ -32,7 +32,6 @@
 @class CR_CacheManager;
 @class CR_ApiHandler;
 @class CR_NetworkManager;
-@class CR_BidFetchTracker;
 @class CR_BidManager;
 @class CR_ImageCache;
 @class CR_DisplaySizeInjector;
@@ -51,7 +50,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) NSUserDefaults *userDefaults;
 @property(nonatomic, strong) NSNotificationCenter *notificationCenter;
 @property(nonatomic, strong) CR_ThreadManager *threadManager;
-@property(nonatomic, strong) CR_BidFetchTracker *bidFetchTracker;
 @property(nonatomic, strong) CR_NetworkManager *networkManager;
 @property(nonatomic, strong) CR_ApiHandler *apiHandler;
 @property(nonatomic, strong) CR_CacheManager *cacheManager;
