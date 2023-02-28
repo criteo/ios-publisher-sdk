@@ -208,6 +208,7 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
     responseHandler([self consumeBidFromCacheForAdUnit:adUnit]);
     return;
   }
+
   if ([self isSlotSilent:adUnit]) {
     responseHandler(nil);
     return;
