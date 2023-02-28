@@ -60,7 +60,6 @@
 @property(nonatomic, strong) CR_ThreadManager *threadManager;
 @property(nonatomic, strong) CR_IntegrationRegistry *integrationRegistry;
 @property(nonatomic, strong) CRContextData *contextData;
-@property(nonatomic, strong) CR_BidFetchTracker *bidFetchTracker;
 
 // overridden properties
 @property(strong, nonatomic, readonly, nullable) NSDictionary *cdbPayload;
@@ -79,7 +78,6 @@
   self.integrationRegistry = OCMClassMock(CR_IntegrationRegistry.class);
   OCMStub([self.integrationRegistry profileId]).andReturn(@42);
   self.contextData = CRContextData.new;
-  self.bidFetchTracker = CR_BidFetchTracker.new;
 
   self.apiHandler = [self buildApiHandler];
 }
@@ -265,121 +263,6 @@
   [self cr_waitForExpectations:@[ expectation ]];
 }
 
-- (void)testCDBNotInvokedWhenBidFetchInProgress {
-  CR_CacheAdUnit *testAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"testAdUnit"
-                                                                  width:300
-                                                                 height:250];
-  id mockBidFetchTracker = OCMStrictClassMock([CR_BidFetchTracker class]);
-  self.bidFetchTracker = mockBidFetchTracker;
-  OCMStub([mockBidFetchTracker trySetBidFetchInProgressForAdUnit:testAdUnit]).andReturn(NO);
-  OCMReject([mockBidFetchTracker clearBidFetchInProgressForAdUnit:testAdUnit]);
-  id mockNetworkManager = OCMStrictClassMock([CR_NetworkManager class]);
-  self.networkManager = mockNetworkManager;
-  OCMReject([mockNetworkManager postToUrl:[OCMArg any]
-                                     body:[OCMArg any]
-                          responseHandler:([OCMArg any])]);
-
-  CR_ApiHandler *apiHandler = [self buildApiHandler];
-
-  [apiHandler callCdb:@[ testAdUnit ]
-                     consent:nil
-                      config:nil
-                  deviceInfo:nil
-                     context:nil
-      childDirectedTreatment:nil
-               beforeCdbCall:nil
-           completionHandler:nil];
-}
-
-- (void)testCDBInvokedWhenBidFetchNotInProgress {
-  CR_CacheAdUnit *testAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"testAdUnit"
-                                                                  width:300
-                                                                 height:250];
-  id mockBidFetchTracker = OCMStrictClassMock([CR_BidFetchTracker class]);
-  self.bidFetchTracker = mockBidFetchTracker;
-  OCMStub([mockBidFetchTracker trySetBidFetchInProgressForAdUnit:testAdUnit]).andReturn(YES);
-  OCMExpect([mockBidFetchTracker clearBidFetchInProgressForAdUnit:testAdUnit]);
-  id mockNetworkManager = OCMStrictClassMock([CR_NetworkManager class]);
-  self.networkManager = mockNetworkManager;
-  OCMExpect([mockNetworkManager
-            postToUrl:[OCMArg isKindOfClass:[NSURL class]]
-                 body:[OCMArg isKindOfClass:[NSDictionary class]]
-           logWithTag:[OCMArg any]
-      responseHandler:([OCMArg invokeBlockWithArgs:[NSNull null], [NSNull null], nil])]);
-
-  CR_ApiHandler *apiHandler = [self buildApiHandler];
-
-  [apiHandler callCdb:@[ testAdUnit ]
-                     consent:nil
-                      config:nil
-                  deviceInfo:nil
-                     context:self.contextData
-      childDirectedTreatment:nil
-               beforeCdbCall:nil
-           completionHandler:nil];
-  OCMVerifyAllWithDelay(mockBidFetchTracker, 1);
-  OCMVerifyAllWithDelay(mockNetworkManager, 1);
-}
-
-- (void)testBidFetchTrackerCacheClearedWhenCDBFailsWithError {
-  CR_CacheAdUnit *testAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"testAdUnit"
-                                                                  width:300
-                                                                 height:250];
-  id mockBidFetchTracker = OCMStrictClassMock([CR_BidFetchTracker class]);
-  self.bidFetchTracker = mockBidFetchTracker;
-  OCMStub([mockBidFetchTracker trySetBidFetchInProgressForAdUnit:testAdUnit]).andReturn(YES);
-  OCMExpect([mockBidFetchTracker clearBidFetchInProgressForAdUnit:testAdUnit]);
-  CR_NetworkManager *mockNetworkManager = OCMStrictClassMock([CR_NetworkManager class]);
-  self.networkManager = mockNetworkManager;
-  NSData *responseData = [@"testSlot" dataUsingEncoding:NSUTF8StringEncoding];
-  NSError *error = [NSError errorWithDomain:@"testDomain" code:1 userInfo:nil];
-  OCMStub([mockNetworkManager postToUrl:[OCMArg isKindOfClass:[NSURL class]]
-                                   body:[OCMArg isKindOfClass:[NSDictionary class]]
-                             logWithTag:[OCMArg any]
-                        responseHandler:([OCMArg invokeBlockWithArgs:responseData, error, nil])]);
-
-  CR_ApiHandler *apiHandler = [self buildApiHandler];
-
-  [apiHandler callCdb:@[ testAdUnit ]
-                     consent:nil
-                      config:nil
-                  deviceInfo:nil
-                     context:self.contextData
-      childDirectedTreatment:nil
-               beforeCdbCall:nil
-           completionHandler:nil];
-  OCMVerifyAllWithDelay(mockBidFetchTracker, 1);
-}
-
-- (void)testBidFetchTrackerCacheClearedWhenCDBReturnsNoData {
-  CR_CacheAdUnit *testAdUnit = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"testAdUnit"
-                                                                  width:300
-                                                                 height:250];
-  id mockBidFetchTracker = OCMStrictClassMock([CR_BidFetchTracker class]);
-  self.bidFetchTracker = mockBidFetchTracker;
-  OCMStub([mockBidFetchTracker trySetBidFetchInProgressForAdUnit:testAdUnit]).andReturn(YES);
-  OCMExpect([mockBidFetchTracker clearBidFetchInProgressForAdUnit:testAdUnit]);
-  CR_NetworkManager *mockNetworkManager = OCMStrictClassMock([CR_NetworkManager class]);
-  self.networkManager = mockNetworkManager;
-  OCMStub([mockNetworkManager
-            postToUrl:[OCMArg isKindOfClass:[NSURL class]]
-                 body:[OCMArg isKindOfClass:[NSDictionary class]]
-           logWithTag:[OCMArg any]
-      responseHandler:([OCMArg invokeBlockWithArgs:[NSNull null], [NSNull null], nil])]);
-
-  CR_ApiHandler *apiHandler = [self buildApiHandler];
-
-  [apiHandler callCdb:@[ testAdUnit ]
-                     consent:nil
-                      config:nil
-                  deviceInfo:nil
-                     context:self.contextData
-      childDirectedTreatment:nil
-               beforeCdbCall:nil
-           completionHandler:nil];
-  OCMVerifyAllWithDelay(mockBidFetchTracker, 1);
-}
-
 - (void)testDisregardBidRequestAlreadyInProgress {
   self.networkManagerMock.respondingToPost = NO;
 
@@ -398,45 +281,6 @@
 
   [self.threadManager waiter_waitIdle];
   XCTAssertEqual(self.networkManagerMock.numberOfPostCall, 1);
-}
-
-- (void)testFilterRequestAdUnitsAndSetProgressFlags {
-  // Make a bunch of CR_CacheAdUnit
-  CR_CacheAdUnit *adUnit1 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@""
-                                                               width:10
-                                                              height:20];  // Bad
-  CR_CacheAdUnit *adUnit2 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"slot1"
-                                                               width:0
-                                                              height:21];  // Bad
-  CR_CacheAdUnit *adUnit3 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"slot1"
-                                                               width:10
-                                                              height:0];  // Bad
-  CR_CacheAdUnit *adUnit4 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"slot1" width:42 height:33];
-  CR_CacheAdUnit *adUnit5 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"slot2" width:42 height:33];
-  CR_CacheAdUnit *adUnit6 = [[CR_CacheAdUnit alloc] initWithAdUnitId:@"slot2" width:43 height:33];
-
-  [self.bidFetchTracker trySetBidFetchInProgressForAdUnit:adUnit4];
-
-  CR_ApiHandler *apiHandler = [self buildApiHandler];
-
-  CR_CacheAdUnitArray *adUnits1 = @[ adUnit1, adUnit2, adUnit3, adUnit4 ];
-  CR_CacheAdUnitArray *filteredAdUnits1 =
-      [apiHandler filterRequestAdUnitsAndSetProgressFlags:adUnits1];
-  XCTAssertEqual(filteredAdUnits1.count, 0);
-
-  CR_CacheAdUnitArray *adUnits2 = @[ adUnit1, adUnit2, adUnit3, adUnit4, adUnit5, adUnit6 ];
-  CR_CacheAdUnitArray *expectedFilteredAdUnits2 = @[ adUnit5, adUnit6 ];
-  CR_CacheAdUnitArray *filteredAdUnits2 =
-      [apiHandler filterRequestAdUnitsAndSetProgressFlags:adUnits2];
-  XCTAssertTrue([filteredAdUnits2 isEqualToArray:expectedFilteredAdUnits2]);
-
-  [self.bidFetchTracker clearBidFetchInProgressForAdUnit:adUnit4];
-  CR_CacheAdUnitArray *expectedFilteredAdUnits3 =
-      @[ adUnit4 ];  // adUnit5 and adUnit6 had their progress flags
-                     // set in the previous call to filterRequest...
-  CR_CacheAdUnitArray *filteredAdUnits3 =
-      [apiHandler filterRequestAdUnitsAndSetProgressFlags:adUnits2];
-  XCTAssertTrue([filteredAdUnits3 isEqualToArray:expectedFilteredAdUnits3]);
 }
 
 #pragma mark - CDB call
@@ -917,7 +761,6 @@
 
 - (CR_ApiHandler *)buildApiHandler {
   return [[CR_ApiHandler alloc] initWithNetworkManager:self.networkManagerMock
-                                       bidFetchTracker:self.bidFetchTracker
                                          threadManager:self.threadManager
                                    integrationRegistry:self.integrationRegistry
                                         userDataHolder:CR_UserDataHolder.new
