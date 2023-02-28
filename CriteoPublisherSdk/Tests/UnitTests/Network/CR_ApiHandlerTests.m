@@ -280,7 +280,7 @@
   }
 
   [self.threadManager waiter_waitIdle];
-  XCTAssertEqual(self.networkManagerMock.numberOfPostCall, 1);
+  XCTAssertEqual(self.networkManagerMock.numberOfPostCall, 3);
 }
 
 #pragma mark - CDB call
