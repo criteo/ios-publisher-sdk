@@ -49,14 +49,12 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 @implementation CR_ApiHandler
 
 - (instancetype)initWithNetworkManager:(CR_NetworkManager *)networkManager
-                       bidFetchTracker:(CR_BidFetchTracker *)bidFetchTracker
                          threadManager:(CR_ThreadManager *)threadManager
                    integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry
                         userDataHolder:(CR_UserDataHolder *)userDataHolder
                internalContextProvider:(CR_InternalContextProvider *)internalContextProvider {
   if (self = [super init]) {
     _networkManager = networkManager;
-    _bidFetchTracker = bidFetchTracker;
     _threadManager = threadManager;
     _gdprSerializer = [[CR_GdprSerializer alloc] init];
     _integrationRegistry = integrationRegistry;

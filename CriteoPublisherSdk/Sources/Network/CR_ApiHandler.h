@@ -29,7 +29,6 @@
 #import "CR_Config.h"
 #import "CR_DataProtectionConsent.h"
 #import "CR_DeviceInfo.h"
-#import "CR_BidFetchTracker.h"
 #import "CR_FeedbackMessage.h"
 #import "CR_UserDataHolder.h"
 #import "CR_InternalContextProvider.h"
@@ -51,11 +50,9 @@ typedef void (^CR_LogsCompletionHandler)(NSError *error);
 
 @interface CR_ApiHandler : NSObject
 @property(strong, nonatomic) CR_NetworkManager *networkManager;
-@property(strong, nonatomic) CR_BidFetchTracker *bidFetchTracker;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithNetworkManager:(CR_NetworkManager *)networkManager
-                       bidFetchTracker:(CR_BidFetchTracker *)bidFetchTracker
                          threadManager:(CR_ThreadManager *)threadManager
                    integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry
                         userDataHolder:(CR_UserDataHolder *)userDataHolder
