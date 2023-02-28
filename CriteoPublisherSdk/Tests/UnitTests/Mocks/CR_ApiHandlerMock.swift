@@ -26,7 +26,6 @@ class CR_ApiHandlerMock: CR_ApiHandler {
   convenience init(dependencyProvider: CR_DependencyProvider) {
     self.init(
       networkManager: dependencyProvider.networkManager,
-      bidFetchTracker: dependencyProvider.bidFetchTracker,
       threadManager: dependencyProvider.threadManager,
       integrationRegistry: dependencyProvider.integrationRegistry,
       userDataHolder: dependencyProvider.userDataHolder,
