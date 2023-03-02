@@ -1,5 +1,14 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
+## Version [4.8.0]
+
+### Features
+- Support simultaneously run multiple bid requests with the same ad unit.
+- Updated Google-Mobile-Ads-SDK to v10.
+- Disabled bitcode.
+- Bumped min iOS version to iOS 12
+
+--------------------------------------------------------------------------------
 ## Version [4.7.0]
 
 ### Features
