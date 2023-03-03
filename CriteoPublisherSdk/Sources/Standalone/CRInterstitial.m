@@ -98,7 +98,6 @@
 
   self.isAdLoading = YES;
   self.isAdLoaded = NO;
-  self.isResponseValid = NO;
   return YES;
 }
 
@@ -206,12 +205,8 @@
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
   self.isAdLoading = NO;
-  if (self.isResponseValid) {
-    self.isAdLoaded = YES;
-    [self dispatchDidReceiveAdDelegate];
-  } else {
-    [self safelyNotifyAdLoadFail:CRErrorCodeNetworkError];
-  }
+  self.isAdLoaded = YES;
+  [self dispatchDidReceiveAdDelegate];
 }
 
 - (void)presentFromRootViewController:(UIViewController *)rootViewController {
@@ -320,10 +315,7 @@
   if ([navigationResponse.response isKindOfClass:[NSHTTPURLResponse class]]) {
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)navigationResponse.response;
     if (httpResponse.statusCode >= 400) {
-      self.isResponseValid = NO;
-      self.isAdLoading = NO;
-    } else {
-      self.isResponseValid = YES;
+        CRLogError(@"Interstitial", @"Invalid response code: \"%@\" for ad unit: \"%@\"", httpResponse.statusCode, _adUnit.adUnitId);
     }
   }
   decisionHandler(WKNavigationResponsePolicyAllow);
