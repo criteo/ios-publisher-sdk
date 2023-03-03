@@ -32,7 +32,6 @@
 
 @property(nonatomic) BOOL isAdLoading;
 @property(nonatomic, readwrite) BOOL isAdLoaded;
-@property(nonatomic) BOOL isResponseValid;
 @property(nonatomic, strong) Criteo *criteo;
 @property(nonatomic, strong) CR_InterstitialViewController *viewController;
 @property(nonatomic, readonly) CRInterstitialAdUnit *adUnit;
