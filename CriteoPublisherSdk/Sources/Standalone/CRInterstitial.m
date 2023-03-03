@@ -315,8 +315,7 @@
   if ([navigationResponse.response isKindOfClass:[NSHTTPURLResponse class]]) {
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)navigationResponse.response;
     if (httpResponse.statusCode >= 400) {
-      CRLogError(@"Interstitial", @"Invalid response code: \"%@\" for ad unit: \"%@\"",
-                 httpResponse.statusCode, _adUnit.adUnitId);
+      CRLogError(@"Interstitial", @"Invalid response code: \"%d\"", httpResponse.statusCode);
     }
   }
   decisionHandler(WKNavigationResponsePolicyAllow);
