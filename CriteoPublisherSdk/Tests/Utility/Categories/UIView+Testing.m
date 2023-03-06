@@ -21,11 +21,6 @@
 
 @implementation UIView (Testing)
 
-- (UIWebView *)testing_findFirstWebView {
-  NSMutableArray *arr = [self testing_findAllElementsOfClass:UIWebView.class];
-  return arr.count > 0 ? arr[0] : nil;
-}
-
 - (WKWebView *)testing_findFirstWKWebView {
   NSMutableArray *arr = [self testing_findAllElementsOfClass:WKWebView.class];
   return arr.count > 0 ? arr[0] : nil;

@@ -101,7 +101,6 @@
 
   self.isAdLoading = YES;
   self.isAdLoaded = NO;
-  self.isResponseValid = NO;
   return YES;
 }
 
@@ -157,7 +156,6 @@
                                                       withString:viewportWidth]
           stringByReplacingOccurrencesOfString:config.displayURLMacro
                                     withString:displayURL];
-
   htmlString = [CRMRAIDUtils insertMraid:htmlString fromBundle:[CRMRAIDUtils mraidResourceBundle]];
 
   [self.viewController.webView loadHTMLString:htmlString
@@ -211,13 +209,9 @@
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
   self.isAdLoading = NO;
-  if (self.isResponseValid) {
-    self.isAdLoaded = YES;
-    [self dispatchDidReceiveAdDelegate];
-    [_mraidHandler onAdLoadWith:CR_MRAID_PLACEMENT_INTERSTITIAL];
-  } else {
-    [self safelyNotifyAdLoadFail:CRErrorCodeNetworkError];
-  }
+  self.isAdLoaded = YES;
+  [self dispatchDidReceiveAdDelegate];
+  [_mraidHandler onAdLoadWith:CR_MRAID_PLACEMENT_INTERSTITIAL];
 }
 
 - (void)presentFromRootViewController:(UIViewController *)rootViewController {
@@ -326,10 +320,7 @@
   if ([navigationResponse.response isKindOfClass:[NSHTTPURLResponse class]]) {
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)navigationResponse.response;
     if (httpResponse.statusCode >= 400) {
-      self.isResponseValid = NO;
-      self.isAdLoading = NO;
-    } else {
-      self.isResponseValid = YES;
+      CRLogError(@"Interstitial", @"Invalid response code: \"%d\"", httpResponse.statusCode);
     }
   }
   decisionHandler(WKNavigationResponsePolicyAllow);

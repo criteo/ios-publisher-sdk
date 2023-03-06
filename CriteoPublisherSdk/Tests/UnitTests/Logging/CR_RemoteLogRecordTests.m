@@ -51,8 +51,12 @@
 }
 
 - (CR_RemoteLogRecord *)archiveAndUnarchiveRemoteLogRecord:(CR_RemoteLogRecord *)remoteLogRecord {
-  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:remoteLogRecord];
-  return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:remoteLogRecord
+                                       requiringSecureCoding:NO
+                                                       error:NULL];
+  return [NSKeyedUnarchiver unarchivedObjectOfClass:[CR_RemoteLogRecord class]
+                                           fromData:data
+                                              error:NULL];
 }
 
 @end

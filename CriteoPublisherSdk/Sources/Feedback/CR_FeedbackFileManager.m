@@ -67,24 +67,15 @@ static NSUInteger const CR_FeedbackFileManagerActiveMetricsMaxFileSize = 256 * 1
 - (nullable CR_FeedbackMessage *)readFeedbackForFilename:(NSString *)filename {
   NSData *content =
       [self.fileManipulating readDataForAbsolutePath:[self buildAbsolutePathByFilename:filename]];
-  if (@available(iOS 11.0, *)) {
-    return [NSKeyedUnarchiver unarchivedObjectOfClass:CR_FeedbackMessage.class
-                                             fromData:content
-                                                error:nil];
-  } else {
-    return [NSKeyedUnarchiver unarchiveObjectWithData:content];
-  }
+  return [NSKeyedUnarchiver unarchivedObjectOfClass:CR_FeedbackMessage.class
+                                           fromData:content
+                                              error:nil];
 }
 
 - (void)writeFeedback:(CR_FeedbackMessage *)feedback forFilename:(NSString *)filename {
-  NSData *content = nil;
-  if (@available(iOS 11.0, *)) {
-    content = [NSKeyedArchiver archivedDataWithRootObject:feedback
-                                    requiringSecureCoding:NO
-                                                    error:nil];
-  } else {
-    content = [NSKeyedArchiver archivedDataWithRootObject:feedback];
-  }
+  NSData *content = [NSKeyedArchiver archivedDataWithRootObject:feedback
+                                          requiringSecureCoding:NO
+                                                          error:nil];
 
   NSString *feedbackPath = [self buildAbsolutePathByFilename:filename];
   if ([self.fileManipulating fileExistsAtPath:feedbackPath isDirectory:nil] ||

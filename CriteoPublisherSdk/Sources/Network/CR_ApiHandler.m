@@ -49,14 +49,12 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
 @implementation CR_ApiHandler
 
 - (instancetype)initWithNetworkManager:(CR_NetworkManager *)networkManager
-                       bidFetchTracker:(CR_BidFetchTracker *)bidFetchTracker
                          threadManager:(CR_ThreadManager *)threadManager
                    integrationRegistry:(CR_IntegrationRegistry *)integrationRegistry
                         userDataHolder:(CR_UserDataHolder *)userDataHolder
                internalContextProvider:(CR_InternalContextProvider *)internalContextProvider {
   if (self = [super init]) {
     _networkManager = networkManager;
-    _bidFetchTracker = bidFetchTracker;
     _threadManager = threadManager;
     _gdprSerializer = [[CR_GdprSerializer alloc] init];
     _integrationRegistry = integrationRegistry;
@@ -68,26 +66,6 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
     _logSerializer = [[CR_RemoteLogRecordSerializer alloc] init];
   }
   return self;
-}
-
-// Filter out bad ad units, or ones that are already being fetched. The ones that pass have their
-// "BidFetchInProgress" flags set in bidFetchTracker.
-- (CR_CacheAdUnitArray *)filterRequestAdUnitsAndSetProgressFlags:(CR_CacheAdUnitArray *)adUnits {
-  MutableCR_CacheAdUnitArray *requestAdUnits = [MutableCR_CacheAdUnitArray new];
-  for (CR_CacheAdUnit *adUnit in adUnits) {
-    if (adUnit.isValid) {
-      if ([self.bidFetchTracker trySetBidFetchInProgressForAdUnit:adUnit]) {
-        [requestAdUnits addObject:adUnit];
-      }
-    } else {
-      CRLogWarn(
-          @"Bidding",
-          @"AdUnit is missing one of the following required values adUnitId = %@, width = %f, height = %f",
-          adUnit.adUnitId, adUnit.size.width, adUnit.size.height);
-    }
-  }
-
-  return requestAdUnits;
 }
 
 // Wrapper method to make the cdb call async
@@ -124,14 +102,9 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
     childDirectedTreatment:(NSNumber *)childDirectedTreatment
              beforeCdbCall:(CR_BeforeCdbCall)beforeCdbCall
          completionHandler:(CR_CdbCompletionHandler)completionHandler {
-  CR_CacheAdUnitArray *requestAdUnits = [self filterRequestAdUnitsAndSetProgressFlags:adUnits];
-  if (requestAdUnits.count == 0) {
-    return;
-  }
-
   NSNumber *profileId = self.integrationRegistry.profileId;
   NSArray<CR_CacheAdUnitArray *> *adUnitChunks =
-      [requestAdUnits cr_splitIntoChunks:maxAdUnitsPerCdbRequest];
+      [adUnits cr_splitIntoChunks:maxAdUnitsPerCdbRequest];
   for (CR_CacheAdUnitArray *adUnitChunk in adUnitChunks) {
     CR_CdbRequest *cdbRequest = [[CR_CdbRequest alloc] initWithProfileId:profileId
                                                                  adUnits:adUnitChunk];
@@ -160,9 +133,6 @@ static NSUInteger const maxAdUnitsPerCdbRequest = 8;
                        if (completionHandler) {
                          completionHandler(cdbRequest, nil, error);
                        }
-                     }
-                     for (CR_CacheAdUnit *adUnit in adUnitChunk) {
-                       [self.bidFetchTracker clearBidFetchInProgressForAdUnit:adUnit];
                      }
                    }];
   }
