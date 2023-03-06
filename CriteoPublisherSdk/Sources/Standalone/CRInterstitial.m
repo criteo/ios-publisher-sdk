@@ -31,14 +31,11 @@
 #import "CR_DisplaySizeInjector.h"
 #import "CR_IntegrationRegistry.h"
 #import "CR_Logging.h"
-#import "CRMRAIDHandler.h"
-#import "CRMRAIDConstants.h"
 
 @interface CRInterstitial () <WKNavigationDelegate, WKUIDelegate>
 
 @property(strong, nonatomic) id<CR_URLOpening> urlOpener;
 @property(nonatomic, strong) CR_SKAdNetworkParameters *skAdNetworkParameters;
-@property(nonatomic, strong) CRMRAIDHandler *mraidHandler;
 
 @end
 
@@ -58,7 +55,6 @@
     _isAdLoaded = isAdLoaded;
     _adUnit = adUnit;
     _urlOpener = urlOpener;
-    _mraidHandler = [[CRMRAIDHandler alloc] initWithWebView:viewController.webView];
   }
   return self;
 }
@@ -102,7 +98,6 @@
 
   self.isAdLoading = YES;
   self.isAdLoaded = NO;
-  self.isResponseValid = NO;
   return YES;
 }
 
@@ -159,8 +154,6 @@
           stringByReplacingOccurrencesOfString:config.displayURLMacro
                                     withString:displayURL];
 
-  htmlString = [CRMRAIDUtils insertMraid:htmlString fromBundle:[CRMRAIDUtils mraidResourceBundle]];
-
   [self.viewController.webView loadHTMLString:htmlString
                                       baseURL:[NSURL URLWithString:@"https://criteo.com"]];
 }
@@ -212,13 +205,8 @@
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
   self.isAdLoading = NO;
-  if (self.isResponseValid) {
-    self.isAdLoaded = YES;
-    [self dispatchDidReceiveAdDelegate];
-    [_mraidHandler onAdLoadFinishWithPlacement:CR_MRAID_PLACEMENT_INTERSTITIAL];
-  } else {
-    [self safelyNotifyAdLoadFail:CRErrorCodeNetworkError];
-  }
+  self.isAdLoaded = YES;
+  [self dispatchDidReceiveAdDelegate];
 }
 
 - (void)presentFromRootViewController:(UIViewController *)rootViewController {
@@ -327,10 +315,7 @@
   if ([navigationResponse.response isKindOfClass:[NSHTTPURLResponse class]]) {
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)navigationResponse.response;
     if (httpResponse.statusCode >= 400) {
-      self.isResponseValid = NO;
-      self.isAdLoading = NO;
-    } else {
-      self.isResponseValid = YES;
+      CRLogError(@"Interstitial", @"Invalid response code: \"%d\"", httpResponse.statusCode);
     }
   }
   decisionHandler(WKNavigationResponsePolicyAllow);

@@ -208,14 +208,16 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
     responseHandler([self consumeBidFromCacheForAdUnit:adUnit]);
     return;
   }
+
   if ([self isSlotSilent:adUnit]) {
     responseHandler(nil);
     return;
   }
 
+  NSArray *adUnits = adUnit == nil ? [NSArray new] : [NSArray arrayWithObject:adUnit];
   [self.threadManager dispatchAsyncOnGlobalQueueWithTimeout:timeBudget
       operationHandler:^void(void (^completionHandler)(dispatchWithTimeoutHandler)) {
-        [self fetchBidsForAdUnits:@[ adUnit ]
+        [self fetchBidsForAdUnits:adUnits
                       withContext:contextData
                cdbResponseHandler:^(CR_CdbResponse *cdbResponse) {
                  completionHandler(^(BOOL handled) {

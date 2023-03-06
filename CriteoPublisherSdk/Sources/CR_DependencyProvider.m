@@ -59,10 +59,6 @@
   return CR_LAZY(_threadManager, [[CR_ThreadManager alloc] init]);
 }
 
-- (CR_BidFetchTracker *)bidFetchTracker {
-  return CR_LAZY(_bidFetchTracker, [[CR_BidFetchTracker alloc] init]);
-}
-
 - (CR_NetworkManager *)networkManager {
   return CR_LAZY(_networkManager, ({
                    NSURLSessionConfiguration *configuration =
@@ -77,7 +73,6 @@
 - (CR_ApiHandler *)apiHandler {
   return CR_LAZY(_apiHandler,
                  [[CR_ApiHandler alloc] initWithNetworkManager:self.networkManager
-                                               bidFetchTracker:self.bidFetchTracker
                                                  threadManager:self.threadManager
                                            integrationRegistry:self.integrationRegistry
                                                 userDataHolder:self.userDataHolder

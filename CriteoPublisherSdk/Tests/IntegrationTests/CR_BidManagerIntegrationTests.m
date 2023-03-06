@@ -135,7 +135,7 @@
                    responseHandler:nil];
   [self.dependencyProvider.threadManager waiter_waitIdle];
 
-  XCTAssertEqual(networkManager.numberOfPostCall, 1);
+  XCTAssertEqual(networkManager.numberOfPostCall, 2);
 }
 
 - (void)test_givenPrefetchingBid_whenGetImmediateBid_shouldProvideBidWithTtlSetToDefaultOne {

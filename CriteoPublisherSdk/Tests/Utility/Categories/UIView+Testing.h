@@ -23,7 +23,6 @@
 
 @interface UIView (Testing)
 
-- (UIWebView *)testing_findFirstWebView;
 - (WKWebView *)testing_findFirstWKWebView;
 - (NSMutableArray *)testing_findAllElementsOfClass:(Class)class;
 
