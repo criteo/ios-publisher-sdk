@@ -26,7 +26,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CRLogUtil : NSObject <MRAIDLogHandlerDelegate>
+@interface CRLogUtil : NSObject <CRMRAIDLogger>
 
 @end
 

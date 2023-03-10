@@ -32,9 +32,10 @@ public class CRMRAIDHandler: NSObject {
   private let messageHandler: MRAIDMessageHandler
 
   @objc
-  public init(with webView: WKWebView, delegate: MRAIDLogHandlerDelegate) {
+  public init(with webView: WKWebView, criteoLogger: CRMRAIDLogger) {
     self.webView = webView
-    self.messageHandler = MRAIDMessageHandler(logHandler: MRAIDLogHandler(delegate: delegate))
+    self.messageHandler = MRAIDMessageHandler(
+      logHandler: MRAIDLogHandler(criteoLogger: criteoLogger))
     super.init()
     self.webView.configuration.userContentController.add(self, name: "criteoMraidBridge")
   }

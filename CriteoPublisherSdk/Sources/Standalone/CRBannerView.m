@@ -93,7 +93,7 @@
     }
     _adUnit = adUnit;
     _urlOpener = opener;
-    _mraidHandler = [[CRMRAIDHandler alloc] initWith:_webView delegate:[CRLogUtil new]];
+    _mraidHandler = [[CRMRAIDHandler alloc] initWith:_webView criteoLogger:[CRLogUtil new]];
   }
   return self;
 }
