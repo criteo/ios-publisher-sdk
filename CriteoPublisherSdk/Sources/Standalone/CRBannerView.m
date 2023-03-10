@@ -26,8 +26,9 @@
 #import "CR_Logging.h"
 #import "NSError+Criteo.h"
 #import "CRMRAIDConstants.h"
+#import "CRLogUtil.h"
 
-@interface CRBannerView () <WKNavigationDelegate, WKUIDelegate>
+@interface CRBannerView () <WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler>
 @property(nonatomic) BOOL isResponseValid;
 @property(nonatomic, strong) Criteo *criteo;
 @property(nonatomic, strong) WKWebView *webView;
@@ -92,7 +93,7 @@
     }
     _adUnit = adUnit;
     _urlOpener = opener;
-    _mraidHandler = [[CRMRAIDHandler alloc] initWith:webView];
+    _mraidHandler = [[CRMRAIDHandler alloc] initWith:_webView delegate:[CRLogUtil new]];
   }
   return self;
 }
@@ -309,4 +310,8 @@
   return self.criteo.dependencyProvider.integrationRegistry;
 }
 
+#pragma WKScriptMessageHandler
+- (void)userContentController:(WKUserContentController *)userContentController
+      didReceiveScriptMessage:(WKScriptMessage *)message {
+}
 @end

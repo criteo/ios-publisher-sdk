@@ -268,6 +268,13 @@
 		7DFB2B11247E75E5007CDFF3 /* CR_URLOpener.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFB2B10247E75E5007CDFF3 /* CR_URLOpener.m */; };
 		7DFB2B14247E9302007CDFF3 /* CR_URLOpenerMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFB2B13247E9302007CDFF3 /* CR_URLOpenerMock.m */; };
 		90D0C9A36EF9136F4CC9E877 /* libPods-CriteoPublisherSdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CDD7544323F61638E0E8B7F /* libPods-CriteoPublisherSdk.a */; };
+		A83BB58A29BAEB69002A63B6 /* ActionRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83BB58929BAEB69002A63B6 /* ActionRepresentable.swift */; };
+		A83BB58C29BAEBC9002A63B6 /* MRAIDLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83BB58B29BAEBC9002A63B6 /* MRAIDLog.swift */; };
+		A83BB58E29BAEC17002A63B6 /* LogLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83BB58D29BAEC17002A63B6 /* LogLevel.swift */; };
+		A83BB59029BAECEA002A63B6 /* MRAIDLogHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83BB58F29BAECEA002A63B6 /* MRAIDLogHandler.swift */; };
+		A83BB59329BAEFCD002A63B6 /* MRAIDMessaheHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83BB59229BAEFCD002A63B6 /* MRAIDMessaheHandler.swift */; };
+		A83BB59829BB1F77002A63B6 /* CRLogUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = A83BB59629BB1F77002A63B6 /* CRLogUtil.h */; };
+		A83BB59929BB1F77002A63B6 /* CRLogUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = A83BB59729BB1F77002A63B6 /* CRLogUtil.m */; };
 		A84F0D252982B02600756E68 /* CRMRAIDUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = A84F0D232982B02600756E68 /* CRMRAIDUtils.h */; };
 		A84F0D262982B02600756E68 /* CRMRAIDUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A84F0D242982B02600756E68 /* CRMRAIDUtils.m */; };
 		A879179329A7230F00A3B798 /* CRMRAIDHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A879179229A7230F00A3B798 /* CRMRAIDHandler.swift */; };
@@ -702,6 +709,13 @@
 		82E54E419D05E3CF7FA80F60 /* Pods-CriteoPublisherSdkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoPublisherSdkTests.debug.xcconfig"; path = "Target Support Files/Pods-CriteoPublisherSdkTests/Pods-CriteoPublisherSdkTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8702B3BA4117B77A890D5F06 /* Pods-CriteoPublisherSdk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoPublisherSdk.debug.xcconfig"; path = "Target Support Files/Pods-CriteoPublisherSdk/Pods-CriteoPublisherSdk.debug.xcconfig"; sourceTree = "<group>"; };
 		92039F91AE1122C08CF8EC36 /* libPods-CriteoPublisherSdkTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoPublisherSdkTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A83BB58929BAEB69002A63B6 /* ActionRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionRepresentable.swift; sourceTree = "<group>"; };
+		A83BB58B29BAEBC9002A63B6 /* MRAIDLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDLog.swift; sourceTree = "<group>"; };
+		A83BB58D29BAEC17002A63B6 /* LogLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogLevel.swift; sourceTree = "<group>"; };
+		A83BB58F29BAECEA002A63B6 /* MRAIDLogHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDLogHandler.swift; sourceTree = "<group>"; };
+		A83BB59229BAEFCD002A63B6 /* MRAIDMessaheHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDMessaheHandler.swift; sourceTree = "<group>"; };
+		A83BB59629BB1F77002A63B6 /* CRLogUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRLogUtil.h; sourceTree = "<group>"; };
+		A83BB59729BB1F77002A63B6 /* CRLogUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRLogUtil.m; sourceTree = "<group>"; };
 		A84F0D232982B02600756E68 /* CRMRAIDUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRMRAIDUtils.h; sourceTree = "<group>"; };
 		A84F0D242982B02600756E68 /* CRMRAIDUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRMRAIDUtils.m; sourceTree = "<group>"; };
 		A879179229A7230F00A3B798 /* CRMRAIDHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRMRAIDHandler.swift; sourceTree = "<group>"; };
@@ -878,6 +892,8 @@
 				7D3E41D52387EE8000BAF673 /* NSUserDefaults+Criteo.m */,
 				463791F7256D2B3100DC65B4 /* UIView+Criteo.h */,
 				463791F8256D2B3100DC65B4 /* UIView+Criteo.m */,
+				A83BB59629BB1F77002A63B6 /* CRLogUtil.h */,
+				A83BB59729BB1F77002A63B6 /* CRLogUtil.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -1505,9 +1521,30 @@
 			path = Serializers;
 			sourceTree = "<group>";
 		};
+		A83BB58829BAEB3A002A63B6 /* Logging */ = {
+			isa = PBXGroup;
+			children = (
+				A83BB58929BAEB69002A63B6 /* ActionRepresentable.swift */,
+				A83BB58B29BAEBC9002A63B6 /* MRAIDLog.swift */,
+				A83BB58D29BAEC17002A63B6 /* LogLevel.swift */,
+			);
+			path = Logging;
+			sourceTree = "<group>";
+		};
+		A83BB59129BAEE5F002A63B6 /* MessageHandlers */ = {
+			isa = PBXGroup;
+			children = (
+				A83BB58F29BAECEA002A63B6 /* MRAIDLogHandler.swift */,
+				A83BB59229BAEFCD002A63B6 /* MRAIDMessaheHandler.swift */,
+			);
+			path = MessageHandlers;
+			sourceTree = "<group>";
+		};
 		A84F0D222982AFF100756E68 /* MRAID */ = {
 			isa = PBXGroup;
 			children = (
+				A83BB59129BAEE5F002A63B6 /* MessageHandlers */,
+				A83BB58829BAEB3A002A63B6 /* Logging */,
 				A879179429A7719A00A3B798 /* Utils */,
 				A8E967D0299F45CA00BE226A /* CRMRAIDUtils */,
 				A8E967D5299F4B3D00BE226A /* CRMRAIDConstants.h */,
@@ -1739,6 +1776,7 @@
 				46B6115724C9DBD4002896F8 /* CRConstants.h in Headers */,
 				7DB899DC2400126800948230 /* NSString+GDPR.h in Headers */,
 				7D1A17CE242A796600816D32 /* CR_GdprVersion.h in Headers */,
+				A83BB59829BB1F77002A63B6 /* CRLogUtil.h in Headers */,
 				5397C0AF22A0AA3D00BC72FE /* CRAdUnit.h in Headers */,
 				4672E1E4251CDE02009F39EF /* CR_CASInMemoryObjectQueue.h in Headers */,
 				A84F0D252982B02600756E68 /* CRMRAIDUtils.h in Headers */,
@@ -2089,6 +2127,7 @@
 			files = (
 				A879179629A771CF00A3B798 /* SwiftExtensions.swift in Sources */,
 				DF367CAD232B310D0044807B /* CR_NativePrivacy.m in Sources */,
+				A83BB59929BB1F77002A63B6 /* CRLogUtil.m in Sources */,
 				7DFB2B11247E75E5007CDFF3 /* CR_URLOpener.m in Sources */,
 				DF367CC3232DC53A0044807B /* NSDictionary+Criteo.m in Sources */,
 				5472877D2411043700B62235 /* CR_DefaultFileManipulator.m in Sources */,
@@ -2116,6 +2155,7 @@
 				4672E1E0251CDE02009F39EF /* CR_CASObjectQueue.m in Sources */,
 				5472877F2411043C00B62235 /* CR_FeedbackFileManager.m in Sources */,
 				654858AA226538D500DC471A /* CRInterstitial.m in Sources */,
+				A83BB59329BAEFCD002A63B6 /* MRAIDMessaheHandler.swift in Sources */,
 				46813BF32472EA5D00CD8E59 /* CR_DefaultMediaDownloader.m in Sources */,
 				547287812411044000B62235 /* CR_FeedbackMessage.m in Sources */,
 				DF367C8B2329743C0044807B /* CRNativeAdUnit.m in Sources */,
@@ -2139,7 +2179,9 @@
 				7D80F6222406B18F005B7BA3 /* CR_Gdpr.m in Sources */,
 				DF367C9B232AE8510044807B /* CR_NativeImage.m in Sources */,
 				25BD5B6E2220D201004DE311 /* NSString+CriteoUrl.m in Sources */,
+				A83BB59029BAECEA002A63B6 /* MRAIDLogHandler.swift in Sources */,
 				460C0FAE25542BC90016988D /* CR_URLResolver.m in Sources */,
+				A83BB58E29BAEC17002A63B6 /* LogLevel.swift in Sources */,
 				4668FEF52459BD3A00D207AE /* CRNativeLoader.m in Sources */,
 				25BD5B6D2220D1F0004DE311 /* CR_NetworkManager.m in Sources */,
 				548968192332F319005B2659 /* CR_NativeProduct.m in Sources */,
@@ -2165,6 +2207,7 @@
 				A84F0D262982B02600756E68 /* CRMRAIDUtils.m in Sources */,
 				547287832411044400B62235 /* CR_FeedbackStorage.m in Sources */,
 				650915F82255622E001D6673 /* CRBannerView.m in Sources */,
+				A83BB58C29BAEBC9002A63B6 /* MRAIDLog.swift in Sources */,
 				DF367CE023307AFB0044807B /* NSString+Criteo.m in Sources */,
 				547287892411096400B62235 /* CR_FeedbackStorage+MessageUpdating.m in Sources */,
 				7BCD15C2274BA6F200F38B51 /* CRRewardedAdUnit.m in Sources */,
@@ -2189,6 +2232,7 @@
 				C07ABC27F834AD2EEADE400F /* CR_RemoteLogRecord.m in Sources */,
 				C07ABEDECA4A63ABA2E8ADCC /* CR_RemoteLogStorage.m in Sources */,
 				C07AB1F348E5C6DB752A783C /* CR_RemoteLogHandler.m in Sources */,
+				A83BB58A29BAEB69002A63B6 /* ActionRepresentable.swift in Sources */,
 				C07AB722CEB2B9263B6400D2 /* CR_RemoteLogRecordSerializer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2410,6 +2454,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.sdk.publisher;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2438,6 +2483,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.criteo.sdk.publisher;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2540,6 +2586,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -2599,6 +2646,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

@@ -32,6 +32,7 @@
 #import "CR_IntegrationRegistry.h"
 #import "CR_Logging.h"
 #import "CRMRAIDConstants.h"
+#import "CRLogUtil.h"
 
 @interface CRInterstitial () <WKNavigationDelegate, WKUIDelegate>
 
@@ -57,7 +58,8 @@
     _isAdLoaded = isAdLoaded;
     _adUnit = adUnit;
     _urlOpener = urlOpener;
-    _mraidHandler = [[CRMRAIDHandler alloc] initWith:viewController.webView];
+    _mraidHandler = [[CRMRAIDHandler alloc] initWith:viewController.webView
+                                            delegate:[CRLogUtil new]];
   }
   return self;
 }
