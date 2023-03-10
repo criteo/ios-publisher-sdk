@@ -29,10 +29,12 @@ public class CRMRAIDHandler: NSObject {
   private let webView: WKWebView
   private var timer: Timer?
   private var isViewVisible: Bool = false
+  private let messageHandler: MRAIDMessageHandler
 
   @objc
-  public init(with webView: WKWebView) {
+  public init(with webView: WKWebView, delegate: MRAIDLogHandlerDelegate) {
     self.webView = webView
+    self.messageHandler = MRAIDMessageHandler(logHandler: MRAIDLogHandler(delegate: delegate))
     super.init()
     self.webView.configuration.userContentController.add(self, name: "criteoMraidBridge")
   }
@@ -80,10 +82,10 @@ public class CRMRAIDHandler: NSObject {
 // MARK: - JS message handler
 extension CRMRAIDHandler: WKScriptMessageHandler {
   public func userContentController(
-    _ userContentController: WKUserContentController, didReceive message: WKScriptMessage
+    _ userContentController: WKUserContentController,
+    didReceive message: WKScriptMessage
   ) {
-    guard let dict = message.body as? [String: AnyObject] else { return }
-    debugPrint("message -> : \(dict)")
+    messageHandler.handle(message: message.body)
   }
 }
 
