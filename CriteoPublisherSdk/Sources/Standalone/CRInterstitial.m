@@ -59,7 +59,7 @@
     _adUnit = adUnit;
     _urlOpener = urlOpener;
     _mraidHandler = [[CRMRAIDHandler alloc] initWith:viewController.webView
-                                            delegate:[CRLogUtil new]];
+                                        criteoLogger:[CRLogUtil new]];
   }
   return self;
 }

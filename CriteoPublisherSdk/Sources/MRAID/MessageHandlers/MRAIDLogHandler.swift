@@ -20,7 +20,7 @@
 import Foundation
 
 @objc
-public protocol MRAIDLogHandlerDelegate {
+public protocol CRMRAIDLogger {
   func mraidLog(error: String)
   func mraidLog(warning: String)
   func mraidLog(debug: String)
@@ -31,18 +31,18 @@ typealias MRAIDMessage = [String: String]
 
 @objc
 public class MRAIDLogHandler: NSObject {
-  private weak var delegate: MRAIDLogHandlerDelegate
+  private let logger: CRMRAIDLogger
 
-  public init(delegate: MRAIDLogHandlerDelegate) {
-    self.delegate = delegate
+  public init(criteoLogger: CRMRAIDLogger) {
+    logger = criteoLogger
   }
 
   func handle(log: MRAIDLog) {
     switch log.logLevel {
-    case .error: delegate.mraidLog(error: log.message)
-    case .warning: delegate.mraidLog(warning: log.message)
-    case .debug: delegate.mraidLog(debug: log.message)
-    case .info: delegate.mraidLog(info: log.message)
+    case .error: logger.mraidLog(error: log.message)
+    case .warning: logger.mraidLog(warning: log.message)
+    case .debug: logger.mraidLog(debug: log.message)
+    case .info: logger.mraidLog(info: log.message)
     }
   }
 }
