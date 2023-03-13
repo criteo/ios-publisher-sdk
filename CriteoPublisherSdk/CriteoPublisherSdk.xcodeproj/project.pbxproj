@@ -275,6 +275,7 @@
 		A83BB59329BAEFCD002A63B6 /* MRAIDMessaheHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83BB59229BAEFCD002A63B6 /* MRAIDMessaheHandler.swift */; };
 		A83BB59829BB1F77002A63B6 /* CRLogUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = A83BB59629BB1F77002A63B6 /* CRLogUtil.h */; };
 		A83BB59929BB1F77002A63B6 /* CRLogUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = A83BB59729BB1F77002A63B6 /* CRLogUtil.m */; };
+		A83BB59B29BF6B3F002A63B6 /* MRAIDURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83BB59A29BF6B3F002A63B6 /* MRAIDURLHandler.swift */; };
 		A84F0D252982B02600756E68 /* CRMRAIDUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = A84F0D232982B02600756E68 /* CRMRAIDUtils.h */; };
 		A84F0D262982B02600756E68 /* CRMRAIDUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A84F0D242982B02600756E68 /* CRMRAIDUtils.m */; };
 		A879179329A7230F00A3B798 /* CRMRAIDHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A879179229A7230F00A3B798 /* CRMRAIDHandler.swift */; };
@@ -716,6 +717,7 @@
 		A83BB59229BAEFCD002A63B6 /* MRAIDMessaheHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDMessaheHandler.swift; sourceTree = "<group>"; };
 		A83BB59629BB1F77002A63B6 /* CRLogUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRLogUtil.h; sourceTree = "<group>"; };
 		A83BB59729BB1F77002A63B6 /* CRLogUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRLogUtil.m; sourceTree = "<group>"; };
+		A83BB59A29BF6B3F002A63B6 /* MRAIDURLHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDURLHandler.swift; sourceTree = "<group>"; };
 		A84F0D232982B02600756E68 /* CRMRAIDUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRMRAIDUtils.h; sourceTree = "<group>"; };
 		A84F0D242982B02600756E68 /* CRMRAIDUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRMRAIDUtils.m; sourceTree = "<group>"; };
 		A879179229A7230F00A3B798 /* CRMRAIDHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRMRAIDHandler.swift; sourceTree = "<group>"; };
@@ -1536,6 +1538,7 @@
 			children = (
 				A83BB58F29BAECEA002A63B6 /* MRAIDLogHandler.swift */,
 				A83BB59229BAEFCD002A63B6 /* MRAIDMessaheHandler.swift */,
+				A83BB59A29BF6B3F002A63B6 /* MRAIDURLHandler.swift */,
 			);
 			path = MessageHandlers;
 			sourceTree = "<group>";
@@ -2217,6 +2220,7 @@
 				C07AB0B23BDBEA53346DD6CC /* CR_FeedbackController.m in Sources */,
 				C07AB779584EBF6DBACED48F /* NSUserDefaults+CR_Config.m in Sources */,
 				C07AB936F1DBBE6CC8C2644E /* CRMediaContent.m in Sources */,
+				A83BB59B29BF6B3F002A63B6 /* MRAIDURLHandler.swift in Sources */,
 				C07AB5492FE17D797F4C1306 /* CRMediaView.m in Sources */,
 				4642C9C724CAD93E0080AC4F /* CR_IntegrationRegistry.m in Sources */,
 				C07ABC0F6A8997CD78597D6B /* CR_ImageCache.m in Sources */,

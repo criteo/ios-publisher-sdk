@@ -45,4 +45,13 @@ public class MRAIDLogHandler: NSObject {
     case .info: logger.mraidLog(info: log.message)
     }
   }
+
+    func handle(data: Data) {
+        do {
+            let log = try JSONDecoder().decode(MRAIDLog.self, from: data)
+            handle(log: log)
+        } catch {
+            logger.mraidLog(error: error.localizedDescription)
+        }
+    }
 }
