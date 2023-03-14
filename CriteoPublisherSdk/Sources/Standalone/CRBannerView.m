@@ -28,7 +28,7 @@
 #import "CRMRAIDConstants.h"
 #import "CRLogUtil.h"
 
-@interface CRBannerView () <WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler>
+@interface CRBannerView () <WKNavigationDelegate, WKUIDelegate, CRExternalURLOpener>
 @property(nonatomic) BOOL isResponseValid;
 @property(nonatomic, strong) Criteo *criteo;
 @property(nonatomic, strong) WKWebView *webView;
@@ -93,7 +93,9 @@
     }
     _adUnit = adUnit;
     _urlOpener = opener;
-    _mraidHandler = [[CRMRAIDHandler alloc] initWith:_webView criteoLogger:[CRLogUtil new]];
+    _mraidHandler = [[CRMRAIDHandler alloc] initWith:_webView
+                                        criteoLogger:[CRLogUtil new]
+                                           urlOpener:self];
   }
   return self;
 }
@@ -310,8 +312,15 @@
   return self.criteo.dependencyProvider.integrationRegistry;
 }
 
-#pragma WKScriptMessageHandler
-- (void)userContentController:(WKUserContentController *)userContentController
-      didReceiveScriptMessage:(WKScriptMessage *)message {
+#pragma CRExternalURLOpener
+- (void)openWithUrl:(NSURL *)url {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self.urlOpener openExternalURL:url
+          withSKAdNetworkParameters:self.skAdNetworkParameters
+                           fromView:self
+                         completion:^(BOOL success){
+                         }];
+  });
 }
+
 @end

@@ -20,25 +20,25 @@
 import Foundation
 
 struct MRAIDMessageHandler {
-    private let logHandler: MRAIDLogHandler
-    private let urlHandler: MRAIDURLHandler
+  private let logHandler: MRAIDLogHandler
+  private let urlHandler: MRAIDURLHandler
 
-    init(logHandler: MRAIDLogHandler, urlHandler: MRAIDURLHandler) {
-        self.logHandler = logHandler
-        self.urlHandler = urlHandler
+  init(logHandler: MRAIDLogHandler, urlHandler: MRAIDURLHandler) {
+    self.logHandler = logHandler
+    self.urlHandler = urlHandler
+  }
+
+  func handle(message: Any) {
+    do {
+      let data = try JSONSerialization.data(withJSONObject: message)
+      let actionMessage = try JSONDecoder().decode(MRAIDActionMessage.self, from: data)
+
+      switch actionMessage.action {
+      case .log: logHandler.handle(data: data)
+      case .open: urlHandler.handle(data: data)
+      }
+    } catch {
+      debugPrint("message handle error: \(error)")
     }
-
-    func handle(message: Any) {
-        do {
-            let data = try JSONSerialization.data(withJSONObject: message)
-            let actionMessage = try JSONDecoder().decode(MRAIDActionMessage.self, from: data)
-
-            switch actionMessage.action {
-            case .log: logHandler.handle(data: data)
-            case .open: urlHandler.handle(data: data)
-            }
-        } catch {
-            debugPrint("message handle error: \(error)")
-        }
-    }
+  }
 }

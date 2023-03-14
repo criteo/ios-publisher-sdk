@@ -20,7 +20,7 @@
 import Foundation
 
 struct MRAIDActionMessage: ActionRepresentable, Decodable {
-    let action: Action
+  let action: Action
 }
 
 struct MRAIDLog: ActionRepresentable, Decodable {
