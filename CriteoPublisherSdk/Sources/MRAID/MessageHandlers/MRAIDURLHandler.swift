@@ -20,45 +20,42 @@
 import Foundation
 import SafariServices
 
+@objc
+public protocol CRExternalURLOpener {
+  func open(url: URL)
+}
+
 protocol MRAIDURLHandler {
-    func open(url: URL)
-    func handle(data: Data)
+  func handle(data: Data)
 }
 
 private struct MRAIDOpenURLAction: Decodable {
-    let url: String
+  let url: String
 }
 
 final class CRMRAIDURLHandler: MRAIDURLHandler {
-    private let logger: CRMRAIDLogger
-    private var topViewController: UIViewController? {
-        return UIApplication.shared.keyWindow?.rootViewController
-    }
+  private let logger: CRMRAIDLogger
+  private let urlOpener: CRExternalURLOpener
 
-    init(with logger: CRMRAIDLogger) {
-        self.logger = logger
-    }
+  private var topViewController: UIViewController? {
+    return UIApplication.shared.keyWindow?.rootViewController
+  }
 
-    func open(url: URL) {
-        let config = SFSafariViewController.Configuration()
-        let safariViewController = SFSafariViewController(url: url, configuration: config)
-        guard let viewController = topViewController else {
-            logger.mraidLog(error: "Top ViewController is nil, cannot present SFSafariViewController")
-            return
-        }
-        viewController.present(safariViewController, animated: true)
-    }
+  init(with logger: CRMRAIDLogger, urlOpener: CRExternalURLOpener) {
+    self.logger = logger
+    self.urlOpener = urlOpener
+  }
 
-    func handle(data: Data) {
-        do {
-            let urlMessage = try JSONDecoder().decode(MRAIDOpenURLAction.self, from: data)
-            guard let url = URL(string: urlMessage.url) else {
-                logger.mraidLog(error: "Could not create an URL with given string representation")
-                return
-            }
-            open(url: url)
-        } catch {
-            logger.mraidLog(error: error.localizedDescription)
-        }
+  func handle(data: Data) {
+    do {
+      let urlMessage = try JSONDecoder().decode(MRAIDOpenURLAction.self, from: data)
+      guard let url = URL(string: urlMessage.url) else {
+        logger.mraidLog(error: "Could not create an URL with given string representation")
+        return
+      }
+      urlOpener.open(url: url)
+    } catch {
+      logger.mraidLog(error: error.localizedDescription)
     }
+  }
 }

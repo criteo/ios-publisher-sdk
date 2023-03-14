@@ -34,7 +34,7 @@
 #import "CRMRAIDConstants.h"
 #import "CRLogUtil.h"
 
-@interface CRInterstitial () <WKNavigationDelegate, WKUIDelegate>
+@interface CRInterstitial () <WKNavigationDelegate, WKUIDelegate, CRExternalURLOpener>
 
 @property(strong, nonatomic) id<CR_URLOpening> urlOpener;
 @property(nonatomic, strong) CR_SKAdNetworkParameters *skAdNetworkParameters;
@@ -59,7 +59,8 @@
     _adUnit = adUnit;
     _urlOpener = urlOpener;
     _mraidHandler = [[CRMRAIDHandler alloc] initWith:viewController.webView
-                                        criteoLogger:[CRLogUtil new]];
+                                        criteoLogger:[CRLogUtil new]
+                                           urlOpener:self];
   }
   return self;
 }
@@ -353,6 +354,17 @@
 
 - (CR_IntegrationRegistry *)integrationRegistry {
   return _criteo.dependencyProvider.integrationRegistry;
+}
+
+#pragma CRExternalURLOpener
+- (void)openWithUrl:(NSURL *)url {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self.urlOpener openExternalURL:url
+          withSKAdNetworkParameters:self.skAdNetworkParameters
+                 fromViewController:self.rootViewController
+                         completion:^(BOOL success){
+                         }];
+  });
 }
 
 @end

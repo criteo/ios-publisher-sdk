@@ -46,12 +46,12 @@ public class MRAIDLogHandler: NSObject {
     }
   }
 
-    func handle(data: Data) {
-        do {
-            let log = try JSONDecoder().decode(MRAIDLog.self, from: data)
-            handle(log: log)
-        } catch {
-            logger.mraidLog(error: error.localizedDescription)
-        }
+  func handle(data: Data) {
+    do {
+      let log = try JSONDecoder().decode(MRAIDLog.self, from: data)
+      handle(log: log)
+    } catch {
+      logger.mraidLog(error: error.localizedDescription)
     }
+  }
 }
