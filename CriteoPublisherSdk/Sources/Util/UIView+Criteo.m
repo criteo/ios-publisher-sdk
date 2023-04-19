@@ -32,4 +32,12 @@
   return nil;
 }
 
+- (UIViewController *_Nullable)cr_rootViewController {
+  UIViewController *parent = [self cr_parentViewController];
+  while (parent.parentViewController != nil) {
+    parent = parent.parentViewController;
+  }
+  return parent;
+}
+
 @end

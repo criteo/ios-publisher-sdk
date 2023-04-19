@@ -60,7 +60,8 @@
     _urlOpener = urlOpener;
     _mraidHandler = [[CRMRAIDHandler alloc] initWith:viewController.webView
                                         criteoLogger:[CRLogUtil new]
-                                           urlOpener:self];
+                                           urlOpener:self
+                                            delegate:NULL];
   }
   return self;
 }

@@ -20,8 +20,15 @@
 import Foundation
 import WebKit
 
+public typealias VoidCompletion = () -> Void
+
 private struct CRMRAIDHandlerConstants {
   static let viewabilityRefreshTime: Double = 0.2
+}
+
+@objc
+public protocol CRMRAIDHandlerDelegate: AnyObject {
+  func expand(width: Int, height: Int, url: URL?, completion: VoidCompletion?)
 }
 
 @objc
@@ -29,20 +36,30 @@ public class CRMRAIDHandler: NSObject {
   private let webView: WKWebView
   private var timer: Timer?
   private var isViewVisible: Bool = false
-  private let messageHandler: MRAIDMessageHandler
+  private var messageHandler: MRAIDMessageHandler
+  private weak var delegate: CRMRAIDHandlerDelegate?
+  private var state: MRAIDState = .default
 
   @objc
-  public init(with webView: WKWebView, criteoLogger: CRMRAIDLogger, urlOpener: CRExternalURLOpener) {
+  public init(
+    with webView: WKWebView,
+    criteoLogger: CRMRAIDLogger,
+    urlOpener: CRExternalURLOpener,
+    delegate: CRMRAIDHandlerDelegate?
+  ) {
     self.webView = webView
     self.messageHandler = MRAIDMessageHandler(
       logHandler: MRAIDLogHandler(criteoLogger: criteoLogger),
       urlHandler: CRMRAIDURLHandler(with: criteoLogger, urlOpener: urlOpener))
     super.init()
+    self.delegate = delegate
+    self.messageHandler.delegate = self
     self.webView.configuration.userContentController.add(self, name: "criteoMraidBridge")
   }
 
   @objc
   public func onAdLoad(with placementType: String) {
+    state = .loading
     sendReadyEvent(with: placementType)
     startViabilityNotifier()
   }
@@ -79,6 +96,11 @@ public class CRMRAIDHandler: NSObject {
   deinit {
     stopViabilityNotifier()
   }
+
+  @objc
+  public func canLoadAd() -> Bool {
+    return state == .default
+  }
 }
 
 // MARK: - JS message handler
@@ -109,5 +131,17 @@ extension CRMRAIDHandler {
 
     isViewVisible = isWebViewVisible
     setIsViewable(visible: isWebViewVisible)
+  }
+}
+
+// MARK: - MRAID Message delegate
+extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
+  public func didReceive(expand action: MRAIDExpandMessage) {
+    //        delegate?.expand(width: action.width, height: action.width, url: action.url) { [weak self] in
+    guard state != .expanded else { return }
+    state = .expanded
+    delegate?.expand(width: 300, height: 200, url: action.url) { [weak self] in
+      self?.state = .default
+    }
   }
 }

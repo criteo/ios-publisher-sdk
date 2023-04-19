@@ -27,8 +27,12 @@
 #import "NSError+Criteo.h"
 #import "CRMRAIDConstants.h"
 #import "CRLogUtil.h"
+#import "UIView+Criteo.h"
 
-@interface CRBannerView () <WKNavigationDelegate, WKUIDelegate, CRExternalURLOpener>
+@interface CRBannerView () <WKNavigationDelegate,
+                            WKUIDelegate,
+                            CRExternalURLOpener,
+                            CRMRAIDHandlerDelegate>
 @property(nonatomic) BOOL isResponseValid;
 @property(nonatomic, strong) Criteo *criteo;
 @property(nonatomic, strong) WKWebView *webView;
@@ -89,13 +93,14 @@
     _webView.navigationDelegate = self;
     _webView.UIDelegate = self;
     if (addWebView) {
-      [self addSubview:webView];
+      [self addSubview:_webView];
     }
     _adUnit = adUnit;
     _urlOpener = opener;
     _mraidHandler = [[CRMRAIDHandler alloc] initWith:_webView
                                         criteoLogger:[CRLogUtil new]
-                                           urlOpener:self];
+                                           urlOpener:self
+                                            delegate:self];
   }
   return self;
 }
@@ -151,6 +156,9 @@
 }
 
 - (void)loadAdWithContext:(CRContextData *)contextData {
+  if (![_mraidHandler canLoadAd]) {
+    return;
+  }
   CRLogInfo(@"BannerView", @"Loading ad for Ad Unit:%@", self.adUnit);
   [self.integrationRegistry declare:CR_IntegrationStandalone];
 
@@ -176,6 +184,9 @@
 }
 
 - (void)loadAdWithBid:(CRBid *)bid {
+  if (![_mraidHandler canLoadAd]) {
+    return;
+  }
   [self.integrationRegistry declare:CR_IntegrationInHouse];
   self.isResponseValid = NO;
 
@@ -323,4 +334,20 @@
   });
 }
 
+#pragma CRMRAIDHandlerDelegate
+- (void)expandWithWidth:(NSInteger)width
+                 height:(NSInteger)height
+                    url:(NSURL *)url
+             completion:(void (^)(void))completion {
+  UIViewController *webViewViewController = _webView.cr_rootViewController;
+  UIViewController *mraidFullScreenContainer =
+      [[CRFulllScreenContainer alloc] initWith:_webView
+                                          size:CGSizeMake(width, height)
+                             dismissCompletion:completion];
+  mraidFullScreenContainer.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+  mraidFullScreenContainer.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+  [webViewViewController presentViewController:mraidFullScreenContainer
+                                      animated:YES
+                                    completion:NULL];
+}
 @end

@@ -1,8 +1,8 @@
 //
-//  UIView+Criteo.h
+//  MRAIDState.swift
 //  CriteoPublisherSdk
 //
-//  Copyright © 2018-2020 Criteo. All rights reserved.
+//  Copyright © 2018-2023 Criteo. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,15 +17,11 @@
 // limitations under the License.
 //
 
-#import <UIKit/UIKit.h>
+import Foundation
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface UIView (Criteo)
-
-- (UIViewController *_Nullable)cr_parentViewController;
-- (UIViewController *_Nullable)cr_rootViewController;
-
-@end
-
-NS_ASSUME_NONNULL_END
+public enum MRAIDState: String, Decodable {
+  case loading
+  case `default`
+  case expanded
+  case hidden
+}

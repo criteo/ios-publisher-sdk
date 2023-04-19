@@ -26,4 +26,5 @@ protocol ActionRepresentable {
 enum Action: String, Decodable {
   case log
   case `open`
+  case expand
 }
