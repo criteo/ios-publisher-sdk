@@ -23,125 +23,177 @@ import WebKit
 public typealias VoidCompletion = () -> Void
 
 private struct CRMRAIDHandlerConstants {
-  static let viewabilityRefreshTime: Double = 0.2
+    static let viewabilityRefreshTime: Double = 0.2
 }
 
 @objc
 public protocol CRMRAIDHandlerDelegate: AnyObject {
-  func expand(width: Int, height: Int, url: URL?, completion: VoidCompletion?)
+    @objc optional
+    func expand(width: Int, height: Int, url: URL?, completion: VoidCompletion?)
+    func close(completion: VoidCompletion?)
 }
 
 @objc
 public class CRMRAIDHandler: NSObject {
-  private let webView: WKWebView
-  private var timer: Timer?
-  private var isViewVisible: Bool = false
-  private var messageHandler: MRAIDMessageHandler
-  private weak var delegate: CRMRAIDHandlerDelegate?
-  private var state: MRAIDState = .default
+    private let webView: WKWebView
+    private var timer: Timer?
+    private var isViewVisible: Bool = false
+    private var messageHandler: MRAIDMessageHandler
+    private weak var delegate: CRMRAIDHandlerDelegate?
+    private var state: MRAIDState = .default
 
-  @objc
-  public init(
-    with webView: WKWebView,
-    criteoLogger: CRMRAIDLogger,
-    urlOpener: CRExternalURLOpener,
-    delegate: CRMRAIDHandlerDelegate?
-  ) {
-    self.webView = webView
-    self.messageHandler = MRAIDMessageHandler(
-      logHandler: MRAIDLogHandler(criteoLogger: criteoLogger),
-      urlHandler: CRMRAIDURLHandler(with: criteoLogger, urlOpener: urlOpener))
-    super.init()
-    self.delegate = delegate
-    self.messageHandler.delegate = self
-    self.webView.configuration.userContentController.add(self, name: "criteoMraidBridge")
-  }
+    @objc
+    public init(
+        with webView: WKWebView,
+        criteoLogger: CRMRAIDLogger,
+        urlOpener: CRExternalURLOpener,
+        delegate: CRMRAIDHandlerDelegate?
+    ) {
+        self.webView = webView
+        self.messageHandler = MRAIDMessageHandler(
+            logHandler: MRAIDLogHandler(criteoLogger: criteoLogger),
+            urlHandler: CRMRAIDURLHandler(with: criteoLogger, urlOpener: urlOpener))
+        super.init()
+        self.delegate = delegate
+        self.messageHandler.delegate = self
+        self.webView.configuration.userContentController.add(self, name: "criteoMraidBridge")
 
-  @objc
-  public func onAdLoad(with placementType: String) {
-    state = .loading
-    sendReadyEvent(with: placementType)
-    startViabilityNotifier()
-  }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 15) {
+//            self.evaluate(js: "window.mraid.close();")
+            self.didReceiveCloseAction()
+        }
+    }
 
-  @objc
-  public func send(error: String, action: String) {
-    let js = "window.mraid.notifyError(\"\(error)\",\"\(action)\");"
-    webView.evaluateJavaScript(js, completionHandler: handleJSCallback)
-  }
+    @objc
+    public func onAdLoad(with placementType: String) {
+        state = .loading
+        setMax(size: UIScreen.main.bounds.size)
+        sendReadyEvent(with: placementType)
+        startViabilityNotifier()
+    }
 
-  @objc
-  public func setIsViewable(visible: Bool) {
-    let js = "window.mraid.setIsViewable(\"\(visible.stringValue)\");"
-    webView.evaluateJavaScript(js, completionHandler: handleJSCallback)
-  }
+    @objc
+    public func send(error: String, action: String) {
+        evaluate(js: "window.mraid.notifyError(\"\(error)\",\"\(action)\");")
+    }
 
-  @objc
-  public func startViabilityNotifier() {
-    timer = Timer.scheduledTimer(
-      timeInterval: CRMRAIDHandlerConstants.viewabilityRefreshTime,
-      target: self,
-      selector: #selector(viewabilityCheck),
-      userInfo: nil,
-      repeats: true)
-    timer?.fire()
-  }
+    @objc
+    public func startViabilityNotifier() {
+        timer = Timer.scheduledTimer(
+            timeInterval: CRMRAIDHandlerConstants.viewabilityRefreshTime,
+            target: self,
+            selector: #selector(viewabilityCheck),
+            userInfo: nil,
+            repeats: true)
+        timer?.fire()
+    }
 
-  @objc
-  public func stopViabilityNotifier() {
-    timer?.invalidate()
-    timer = nil
-  }
+    deinit {
+        stopViabilityNotifier()
+    }
 
-  deinit {
-    stopViabilityNotifier()
-  }
+    @objc
+    public func canLoadAd() -> Bool {
+        return state == .default
+    }
 
-  @objc
-  public func canLoadAd() -> Bool {
-    return state == .default
-  }
+    @objc
+    public func isExpanded() -> Bool {
+        return state == .expanded
+    }
 }
 
 // MARK: - JS message handler
 extension CRMRAIDHandler: WKScriptMessageHandler {
-  public func userContentController(
-    _ userContentController: WKUserContentController,
-    didReceive message: WKScriptMessage
-  ) {
-    messageHandler.handle(message: message.body)
-  }
+    public func userContentController(
+        _ userContentController: WKUserContentController,
+        didReceive message: WKScriptMessage
+    ) {
+        messageHandler.handle(message: message.body)
+    }
 }
 
 // MARK: - Private methods
-extension CRMRAIDHandler {
-  fileprivate func sendReadyEvent(with placement: String) {
-    let js = "window.mraid.notifyReady(\"\(placement)\");"
-    webView.evaluateJavaScript(js, completionHandler: handleJSCallback)
-  }
+private extension CRMRAIDHandler {
 
-  fileprivate func handleJSCallback(_ agent: Any?, _ error: Error?) {
-    debugPrint("error on js call: \(error.debugDescription)")
-  }
+    func stopViabilityNotifier() {
+        timer?.invalidate()
+        timer = nil
+    }
 
-  @objc
-  fileprivate func viewabilityCheck() {
-    let isWebViewVisible = webView.isVisibleToUser
-    guard isWebViewVisible != isViewVisible else { return }
+    func setMax(size: CGSize) {
+        evaluate(js: "window.mraid.setMaxSize(\(size.width), \(size.height), \(UIScreen.main.scale));")
+    }
 
-    isViewVisible = isWebViewVisible
-    setIsViewable(visible: isWebViewVisible)
-  }
+    @objc func setIsViewable(visible: Bool) {
+        evaluate(js: "window.mraid.setIsViewable(\"\(visible.stringValue)\");")
+    }
+
+    @objc func viewabilityCheck() {
+        let isWebViewVisible = webView.isVisibleToUser
+        guard isWebViewVisible != isViewVisible else { return }
+
+        isViewVisible = isWebViewVisible
+        setIsViewable(visible: isWebViewVisible)
+    }
+
+    func sendReadyEvent(with placement: String) {
+        evaluate(js: "window.mraid.notifyReady(\"\(placement)\");")
+    }
+
+    func setCurrent(position: CGRect){
+        evaluate(js: "window.mraid.setCurrentPosition({x:\(position.minX), y:\(position.minY), width:\(position.width), height:\(position.height)});")
+    }
+
+    func evaluate(js: String) {
+        webView.evaluateJavaScript(js, completionHandler: handleJSCallback)
+    }
+
+    func handleJSCallback(_ agent: Any?, _ error: Error?) {
+        if let error = error {
+            debugPrint("error on js call: \(error)")
+            debugPrint("agent: \(agent)")
+        } else {
+            debugPrint("no error on js callback")
+        }
+    }
+
+    func notifyExpanded() {
+        evaluate(js: "window.mraid.notifyExpanded();")
+    }
+
+    func notifyClosed() {
+        evaluate(js: "window.mraid.notifyClosed();")
+    }
+
+    func onSuccessClose() {
+        debugPrint(#function)
+        notifyClosed()
+        state = .default
+    }
 }
 
 // MARK: - MRAID Message delegate
 extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
-  public func didReceive(expand action: MRAIDExpandMessage) {
-    //        delegate?.expand(width: action.width, height: action.width, url: action.url) { [weak self] in
-    guard state != .expanded else { return }
-    state = .expanded
-    delegate?.expand(width: 300, height: 200, url: action.url) { [weak self] in
-      self?.state = .default
+    public func didReceive(expand action: MRAIDExpandMessage) {
+        guard state != .expanded else { return }
+
+//        delegate?.expand(width: action.width, height: action.width, url: action.url) { [weak self] in
+        delegate?.expand?(width: 300, height: 200, url: action.url) { [weak self] in
+            self?.onSuccessClose()
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+            self.state = .expanded
+            self.notifyExpanded()
+        }
     }
-  }
+
+    public func didReceiveCloseAction() {
+//        if state == .expanded {
+            delegate?.close() { [weak self] in
+                self?.onSuccessClose()
+            }
+//        }
+    }
 }

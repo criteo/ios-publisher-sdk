@@ -350,4 +350,15 @@
                                       animated:YES
                                     completion:NULL];
 }
+
+- (void)closeWithCompletion:(void (^)(void))completion {
+    if ([_mraidHandler isExpanded]) {
+        CRFulllScreenContainer *fullScreenContainer = (CRFulllScreenContainer *)_webView.cr_rootViewController;
+        [fullScreenContainer closeWith:completion];
+    } else {
+        NSURLRequest *blankRequest = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"about:blank"]];
+        [_webView loadRequest:blankRequest];
+    }
+}
+
 @end

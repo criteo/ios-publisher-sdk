@@ -31,117 +31,122 @@
 - (instancetype)initWithWebView:(WKWebView *)webView
                            view:(UIView *)view
                    interstitial:(CRInterstitial *)interstitial {
-  if (self = [super init]) {
-    _webView = webView;
-    [self setUpWebView];
-    _interstitial = interstitial;
-    if (view) {
-      self.view = view;
+    if (self = [super init]) {
+        _webView = webView;
+        [self setUpWebView];
+        _interstitial = interstitial;
+        if (view) {
+            self.view = view;
+        }
     }
-  }
-  return self;
+    return self;
 }
 
 - (void)setUpWebView {
-  _webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-  _webView.scrollView.scrollEnabled = false;
-  _webView.frame = [UIScreen mainScreen].bounds;
-  _webView.navigationDelegate = self.interstitial;
+    _webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    _webView.scrollView.scrollEnabled = false;
+    _webView.frame = [UIScreen mainScreen].bounds;
+    _webView.navigationDelegate = self.interstitial;
 }
 
 - (void)initWebViewIfNeeded {
-  if (!_webView) {
-    _webView = [WKWebView new];
-    [self setUpWebView];
-  }
+    if (!_webView) {
+        _webView = [WKWebView new];
+        [self setUpWebView];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-  [super viewDidAppear:animated];
-  _webView.frame = self.view.bounds;
-  [self initCloseButton];
-  [self.view addSubview:_webView];
-  [self applySafeAreaConstraintsToWebView:_webView];
-  [self.view addSubview:self.closeButton];
-  [self applySafeAreaConstraintsToCloseButton:self.closeButton];
-  [self.webView layoutIfNeeded];
-  _hasBeenDismissed = NO;
+    [super viewDidAppear:animated];
+    _webView.frame = self.view.bounds;
+    [self initCloseButton];
+    [self.view addSubview:_webView];
+    [self applySafeAreaConstraintsToWebView:_webView];
+    [self.view addSubview:self.closeButton];
+    [self applySafeAreaConstraintsToCloseButton:self.closeButton];
+    [self.webView layoutIfNeeded];
+    _hasBeenDismissed = NO;
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
-  [super viewDidDisappear:animated];
-  [self.closeButton removeFromSuperview];
-  [self setCloseButton:nil];
-  [self.webView stopLoading];
-  [self.webView removeFromSuperview];
-  [self.webView setNavigationDelegate:nil];
-  [self setWebView:nil];
-  [self.interstitial setIsAdLoaded:NO];
+    [super viewDidDisappear:animated];
+    [self.closeButton removeFromSuperview];
+    [self setCloseButton:nil];
+    [self.webView stopLoading];
+    [self.webView removeFromSuperview];
+    [self.webView setNavigationDelegate:nil];
+    [self setWebView:nil];
+    [self.interstitial setIsAdLoaded:NO];
 }
 
 - (void)initCloseButton {
-  self.closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-  [self.closeButton addTarget:self
-                       action:@selector(closeButtonPressed)
-             forControlEvents:UIControlEventTouchUpInside];
-  CGRect circleBounds = CGRectMake(10, 10, 25, 25);
-  [self.closeButton.layer addSublayer:[self circleLayerInBounds:circleBounds]];
-  [self.closeButton.layer addSublayer:[self xLayerInBounds:circleBounds]];
+    self.closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.closeButton addTarget:self
+                         action:@selector(closeButtonPressed)
+               forControlEvents:UIControlEventTouchUpInside];
+    CGRect circleBounds = CGRectMake(10, 10, 25, 25);
+    [self.closeButton.layer addSublayer:[self circleLayerInBounds:circleBounds]];
+    [self.closeButton.layer addSublayer:[self xLayerInBounds:circleBounds]];
 }
 
 - (CAShapeLayer *)circleLayerInBounds:(CGRect)bounds {
-  CAShapeLayer *circleLayer = [CAShapeLayer layer];
-  UIBezierPath *circle = [UIBezierPath bezierPathWithOvalInRect:bounds];
-  circleLayer.path = circle.CGPath;
-  circleLayer.fillColor = [UIColor blackColor].CGColor;
-  circleLayer.strokeColor = [UIColor whiteColor].CGColor;
-  circleLayer.lineWidth = 1.0;
-  return circleLayer;
+    CAShapeLayer *circleLayer = [CAShapeLayer layer];
+    UIBezierPath *circle = [UIBezierPath bezierPathWithOvalInRect:bounds];
+    circleLayer.path = circle.CGPath;
+    circleLayer.fillColor = [UIColor blackColor].CGColor;
+    circleLayer.strokeColor = [UIColor whiteColor].CGColor;
+    circleLayer.lineWidth = 1.0;
+    return circleLayer;
 }
 
 - (CAShapeLayer *)xLayerInBounds:(CGRect)bounds {
-  CAShapeLayer *xLayer = [CAShapeLayer layer];
-  UIBezierPath *x = [UIBezierPath new];
-  CGFloat gap = 0.3 * bounds.size.width;
-  [x moveToPoint:CGPointMake(bounds.origin.x + (bounds.size.width - gap),
-                             bounds.origin.y + bounds.size.height - gap)];
-  [x addLineToPoint:CGPointMake(bounds.origin.x + gap, bounds.origin.y + gap)];
-  [x moveToPoint:CGPointMake(bounds.origin.x + gap, bounds.origin.y + bounds.size.height - gap)];
-  [x addLineToPoint:CGPointMake(bounds.origin.x + (bounds.size.width - gap),
-                                bounds.origin.y + gap)];
-  xLayer.path = x.CGPath;
-  xLayer.strokeColor = [UIColor whiteColor].CGColor;
-  xLayer.lineWidth = 3.0;
-  return xLayer;
+    CAShapeLayer *xLayer = [CAShapeLayer layer];
+    UIBezierPath *x = [UIBezierPath new];
+    CGFloat gap = 0.3 * bounds.size.width;
+    [x moveToPoint:CGPointMake(bounds.origin.x + (bounds.size.width - gap),
+                               bounds.origin.y + bounds.size.height - gap)];
+    [x addLineToPoint:CGPointMake(bounds.origin.x + gap, bounds.origin.y + gap)];
+    [x moveToPoint:CGPointMake(bounds.origin.x + gap, bounds.origin.y + bounds.size.height - gap)];
+    [x addLineToPoint:CGPointMake(bounds.origin.x + (bounds.size.width - gap),
+                                  bounds.origin.y + gap)];
+    xLayer.path = x.CGPath;
+    xLayer.strokeColor = [UIColor whiteColor].CGColor;
+    xLayer.lineWidth = 3.0;
+    return xLayer;
 }
 
 - (void)closeButtonPressed {
-  [self dismissViewController];
+    [self dismissViewController];
 }
 
 - (void)dismissViewController {
-  @synchronized(self) {
-    if (_hasBeenDismissed) {
-      return;
+    [self dismissViewControllerWithCompletion:^{ }];
+}
+
+- (void)dismissViewControllerWithCompletion:(void (^)(void))completion {
+    @synchronized(self) {
+        if (_hasBeenDismissed) {
+            return;
+        }
+        _hasBeenDismissed = YES;
     }
-    _hasBeenDismissed = YES;
-  }
-  dispatch_async(dispatch_get_main_queue(), ^{
-    if ([self.interstitial.delegate respondsToSelector:@selector(interstitialWillDisappear:)]) {
-      [self.interstitial.delegate interstitialWillDisappear:self.interstitial];
-    }
-  });
-  [self.presentingViewController
-      dismissViewControllerAnimated:YES
-                         completion:^{
-                           dispatch_async(dispatch_get_main_queue(), ^{
-                             if ([self.interstitial.delegate
-                                     respondsToSelector:@selector(interstitialDidDisappear:)]) {
-                               [self.interstitial.delegate
-                                   interstitialDidDisappear:self.interstitial];
-                             }
-                           });
-                         }];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([self.interstitial.delegate respondsToSelector:@selector(interstitialWillDisappear:)]) {
+            [self.interstitial.delegate interstitialWillDisappear:self.interstitial];
+        }
+    });
+    [self.presentingViewController
+     dismissViewControllerAnimated:YES
+     completion:^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ([self.interstitial.delegate
+                 respondsToSelector:@selector(interstitialDidDisappear:)]) {
+                [self.interstitial.delegate
+                 interstitialDidDisappear:self.interstitial];
+            }
+            completion();
+        });
+    }];
 }
 
 - (void)applySafeAreaConstraintsToWebView:(WKWebView *)webView {
@@ -221,6 +226,11 @@
 
   [NSLayoutConstraint
       activateConstraints:@[ widthConstraint, heightConstraint, topConstraint, leftConstraint ]];
+}
+
+#pragma CRMRAIDHandlerDelegate
+- (void)closeWithCompletion:(void (^)(void))completion {
+    [self dismissViewControllerWithCompletion:completion];
 }
 
 @end

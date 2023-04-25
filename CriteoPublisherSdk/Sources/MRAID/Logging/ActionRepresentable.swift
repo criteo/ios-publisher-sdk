@@ -27,4 +27,6 @@ enum Action: String, Decodable {
   case log
   case `open`
   case expand
+  case close
+  case none
 }

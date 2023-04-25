@@ -21,6 +21,7 @@ import Foundation
 
 public protocol MRAIDMessageHandlerDelegate: AnyObject {
   func didReceive(expand action: MRAIDExpandMessage)
+  func didReceiveCloseAction()
 }
 
 struct MRAIDMessageHandler {
@@ -41,23 +42,33 @@ struct MRAIDMessageHandler {
       case .log: logHandler.handle(data: data)
       case .open: urlHandler.handle(data: data)
       case .expand: handleExpand(message: data)
+      case .close: delegate?.didReceiveCloseAction()
+      case .none: break
       }
     } catch {
-      debugPrint("message handle error: \(error)")
+        logHandler.handle(
+          log: .init(
+            logId: nil,
+            message: "Could not deserialise the action message from \(message)",
+            logLevel: .error,
+            action: .none))
+      }
     }
-  }
+}
 
-  private func handleExpand(message data: Data) {
-    do {
-      let expandMessage = try JSONDecoder().decode(MRAIDExpandMessage.self, from: data)
-      delegate?.didReceive(expand: expandMessage)
-    } catch {
-      logHandler.handle(
-        log: .init(
-          logId: nil,
-          message: error.localizedDescription,
-          logLevel: .error,
-          action: .expand))
+// MARK: - Private methods
+private extension MRAIDMessageHandler {
+    func handleExpand(message data: Data) {
+      do {
+        let expandMessage = try JSONDecoder().decode(MRAIDExpandMessage.self, from: data)
+        delegate?.didReceive(expand: expandMessage)
+      } catch {
+        logHandler.handle(
+          log: .init(
+            logId: nil,
+            message: error.localizedDescription,
+            logLevel: .error,
+            action: .expand))
+      }
     }
-  }
 }

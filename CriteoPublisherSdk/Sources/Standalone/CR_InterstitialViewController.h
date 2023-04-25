@@ -18,12 +18,17 @@
 //
 
 #import <WebKit/WebKit.h>
+#if __has_include("CriteoPublisherSdk-Swift.h")
+#import "CriteoPublisherSdk-Swift.h"
+#else
+#import <CriteoPublisherSdk/CriteoPublisherSdk-Swift.h>
+#endif
 
 @class CRInterstitial;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CR_InterstitialViewController : UIViewController
+@interface CR_InterstitialViewController : UIViewController <CRMRAIDHandlerDelegate>
 
 @property(nonatomic, strong, nullable) WKWebView *webView;
 @property(nonatomic, strong, nullable) UIButton *closeButton;
