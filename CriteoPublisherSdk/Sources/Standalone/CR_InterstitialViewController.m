@@ -120,10 +120,10 @@
 }
 
 - (void)dismissViewController {
-    [self dismissViewControllerWithCompletion:^{ }];
+    [self dismissViewControllerWithCompletion: _dismissCompletion];
 }
 
-- (void)dismissViewControllerWithCompletion:(void (^)(void))completion {
+- (void)dismissViewControllerWithCompletion:(void (^_Nullable)(void))completion {
     @synchronized(self) {
         if (_hasBeenDismissed) {
             return;
@@ -144,7 +144,9 @@
                 [self.interstitial.delegate
                  interstitialDidDisappear:self.interstitial];
             }
-            completion();
+            if (completion) {
+                completion();
+            }
         });
     }];
 }

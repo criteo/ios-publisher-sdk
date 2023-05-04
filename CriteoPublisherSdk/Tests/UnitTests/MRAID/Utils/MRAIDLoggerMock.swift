@@ -1,6 +1,6 @@
 //
-//  LogLevel.swift
-//  CriteoPublisherSdk
+//  MRAIDLoggerMock.swift
+//  CriteoPublisherSdkTests
 //
 //  Copyright © 2018-2023 Criteo. All rights reserved.
 //
@@ -17,11 +17,32 @@
 // limitations under the License.
 //
 
-import Foundation
+import CriteoPublisherSdk
 
-public enum LogLevel: String, Decodable {
-  case debug = "Debug"
-  case info = "Info"
-  case warning = "Warning"
-  case error = "Error"
+typealias LogBlock = ((LogLevel, String) -> Void)
+
+class MRAIDLoggerMock: CRMRAIDLogger {
+    var logBlock: LogBlock?
+
+    init(logBlock: LogBlock? = nil) {
+        self.logBlock = logBlock
+    }
+
+    func mraidLog(error: String) {
+        logBlock?(.error, error)
+    }
+
+    func mraidLog(warning: String) {
+        logBlock?(.warning, warning)
+    }
+
+    func mraidLog(debug: String) {
+        logBlock?(.debug, debug)
+    }
+
+    func mraidLog(info: String) {
+        logBlock?(.info, info)
+    }
 }
+
+

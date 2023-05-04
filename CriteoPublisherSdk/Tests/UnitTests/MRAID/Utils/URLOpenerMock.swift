@@ -1,6 +1,6 @@
 //
-//  LogLevel.swift
-//  CriteoPublisherSdk
+//  URLOpenerMock.swift
+//  CriteoPublisherSdkTests
 //
 //  Copyright © 2018-2023 Criteo. All rights reserved.
 //
@@ -17,11 +17,16 @@
 // limitations under the License.
 //
 
-import Foundation
+typealias URLOpenerBlock = (URL) -> Void
 
-public enum LogLevel: String, Decodable {
-  case debug = "Debug"
-  case info = "Info"
-  case warning = "Warning"
-  case error = "Error"
+class URLOpenerMock: CRExternalURLOpener {
+    var openBlock: URLOpenerBlock?
+
+    init(openBlock: URLOpenerBlock?) {
+        self.openBlock = openBlock
+    }
+
+    func open(url: URL) {
+        openBlock?(url)
+    }
 }

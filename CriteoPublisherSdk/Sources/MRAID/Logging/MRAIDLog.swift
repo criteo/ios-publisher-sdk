@@ -19,13 +19,13 @@
 
 import Foundation
 
-struct MRAIDActionMessage: ActionRepresentable, Decodable {
-  let action: Action
+public struct MRAIDActionMessage: ActionRepresentable, Decodable {
+  public let action: Action
 }
 
-struct MRAIDLog: ActionRepresentable, Decodable {
-  let logId: String?
-  let message: String
-  let logLevel: LogLevel
-  let action: Action
+public struct MRAIDLog: ActionRepresentable, Decodable {
+  public let logId: String?
+  public let message: String
+  public let logLevel: LogLevel
+  public let action: Action
 }

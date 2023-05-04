@@ -19,11 +19,11 @@
 
 import Foundation
 
-protocol ActionRepresentable {
+public protocol ActionRepresentable {
   var action: Action { get }
 }
 
-enum Action: String, Decodable {
+public enum Action: String, Decodable {
   case log
   case `open`
   case expand

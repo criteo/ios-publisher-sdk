@@ -268,6 +268,11 @@
 		7DFB2B11247E75E5007CDFF3 /* CR_URLOpener.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFB2B10247E75E5007CDFF3 /* CR_URLOpener.m */; };
 		7DFB2B14247E9302007CDFF3 /* CR_URLOpenerMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFB2B13247E9302007CDFF3 /* CR_URLOpenerMock.m */; };
 		90D0C9A36EF9136F4CC9E877 /* libPods-CriteoPublisherSdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CDD7544323F61638E0E8B7F /* libPods-CriteoPublisherSdk.a */; };
+		A82D7DE22A025811001302A8 /* MRAIDLogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A82D7DE12A025811001302A8 /* MRAIDLogTests.swift */; };
+		A82D7DE42A027DB2001302A8 /* MRAIDHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A82D7DE32A027DB2001302A8 /* MRAIDHandlerTests.swift */; };
+		A82D7DE72A027FB2001302A8 /* MRAIDLoggerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A82D7DE62A027FB2001302A8 /* MRAIDLoggerMock.swift */; };
+		A82D7DE92A027FCC001302A8 /* URLOpenerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A82D7DE82A027FCC001302A8 /* URLOpenerMock.swift */; };
+		A82D7DEB2A02819D001302A8 /* MRAIDLoadUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A82D7DEA2A02819D001302A8 /* MRAIDLoadUtils.swift */; };
 		A83BB58A29BAEB69002A63B6 /* ActionRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83BB58929BAEB69002A63B6 /* ActionRepresentable.swift */; };
 		A83BB58C29BAEBC9002A63B6 /* MRAIDLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83BB58B29BAEBC9002A63B6 /* MRAIDLog.swift */; };
 		A83BB58E29BAEC17002A63B6 /* LogLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83BB58D29BAEC17002A63B6 /* LogLevel.swift */; };
@@ -713,6 +718,11 @@
 		82E54E419D05E3CF7FA80F60 /* Pods-CriteoPublisherSdkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoPublisherSdkTests.debug.xcconfig"; path = "Target Support Files/Pods-CriteoPublisherSdkTests/Pods-CriteoPublisherSdkTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8702B3BA4117B77A890D5F06 /* Pods-CriteoPublisherSdk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoPublisherSdk.debug.xcconfig"; path = "Target Support Files/Pods-CriteoPublisherSdk/Pods-CriteoPublisherSdk.debug.xcconfig"; sourceTree = "<group>"; };
 		92039F91AE1122C08CF8EC36 /* libPods-CriteoPublisherSdkTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoPublisherSdkTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A82D7DE12A025811001302A8 /* MRAIDLogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDLogTests.swift; sourceTree = "<group>"; };
+		A82D7DE32A027DB2001302A8 /* MRAIDHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDHandlerTests.swift; sourceTree = "<group>"; };
+		A82D7DE62A027FB2001302A8 /* MRAIDLoggerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDLoggerMock.swift; sourceTree = "<group>"; };
+		A82D7DE82A027FCC001302A8 /* URLOpenerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLOpenerMock.swift; sourceTree = "<group>"; };
+		A82D7DEA2A02819D001302A8 /* MRAIDLoadUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDLoadUtils.swift; sourceTree = "<group>"; };
 		A83BB58929BAEB69002A63B6 /* ActionRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionRepresentable.swift; sourceTree = "<group>"; };
 		A83BB58B29BAEBC9002A63B6 /* MRAIDLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDLog.swift; sourceTree = "<group>"; };
 		A83BB58D29BAEC17002A63B6 /* LogLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogLevel.swift; sourceTree = "<group>"; };
@@ -1529,6 +1539,16 @@
 			path = Serializers;
 			sourceTree = "<group>";
 		};
+		A82D7DE52A027F9F001302A8 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				A82D7DE62A027FB2001302A8 /* MRAIDLoggerMock.swift */,
+				A82D7DE82A027FCC001302A8 /* URLOpenerMock.swift */,
+				A82D7DEA2A02819D001302A8 /* MRAIDLoadUtils.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		A83BB58829BAEB3A002A63B6 /* Logging */ = {
 			isa = PBXGroup;
 			children = (
@@ -1593,7 +1613,10 @@
 		A8E967D929A3A4B300BE226A /* MRAID */ = {
 			isa = PBXGroup;
 			children = (
+				A82D7DE52A027F9F001302A8 /* Utils */,
+				A82D7DE12A025811001302A8 /* MRAIDLogTests.swift */,
 				A8E967DA29A3A4F200BE226A /* CR_MraidTests.m */,
+				A82D7DE32A027DB2001302A8 /* MRAIDHandlerTests.swift */,
 			);
 			path = MRAID;
 			sourceTree = "<group>";
@@ -2278,6 +2301,7 @@
 				7D80F61C24059E2D005B7BA3 /* CR_GdprMock.swift in Sources */,
 				7D3E422323915B6600BAF673 /* CR_ConfigManagerTests.m in Sources */,
 				7D3E422E23915B6600BAF673 /* NSArray+CriteoTests.m in Sources */,
+				A82D7DE72A027FB2001302A8 /* MRAIDLoggerMock.swift in Sources */,
 				7D49F9D8243B782400CF3941 /* WKWebView+Testing.m in Sources */,
 				7DD76EB5247D008F0090BCDC /* CR_CustomNativeAdView.m in Sources */,
 				7D58582A23E1E6BB0039AC56 /* CR_ThreadManagerWaiter.m in Sources */,
@@ -2349,6 +2373,7 @@
 				7D3E422C23915B6600BAF673 /* CR_NativeAdvertiserTests.m in Sources */,
 				7D523C7923DB31CD00E79C88 /* CR_HttpContent.m in Sources */,
 				465D3CF92434D3D500BD36AC /* CR_UniqueIdGeneratorTests.swift in Sources */,
+				A82D7DEB2A02819D001302A8 /* MRAIDLoadUtils.swift in Sources */,
 				7DB4E9132397AB6B008DE5E3 /* CR_RegistrationFunctionalTests.m in Sources */,
 				7D0FD304242E0CCC007154E0 /* CR_BidRequestSerializerSwiftTests.swift in Sources */,
 				465052E6256FB4F3007D9CE7 /* XCTestExpectation+Criteo.m in Sources */,
@@ -2360,6 +2385,7 @@
 				7D3E423623915B6600BAF673 /* CR_NetworkManagerTests.m in Sources */,
 				46FF8F972583B1A6000CFCB5 /* CR_URLRequestTests.m in Sources */,
 				46D707D224A245450043D66F /* CR_NativeAdTableViewController.m in Sources */,
+				A82D7DE22A025811001302A8 /* MRAIDLogTests.swift in Sources */,
 				7D3E423A23915B6600BAF673 /* CRBannerAdUnitTests.m in Sources */,
 				7D0441CF2428EBA600D36C65 /* NSString+APIKeys.m in Sources */,
 				54F1E6BB239FA1A800985D09 /* CR_DfpCreativeViewChecker.m in Sources */,
@@ -2384,6 +2410,7 @@
 				46BC3960246EDA5200F0B2F1 /* CRNativeAdViewTests.m in Sources */,
 				E37F067E28E5BFF0003C54C7 /* CR_CdbResponseMock.swift in Sources */,
 				E355111F28E3353300A2C07D /* CR_ApiHandlerMock.swift in Sources */,
+				A82D7DE42A027DB2001302A8 /* MRAIDHandlerTests.swift in Sources */,
 				E3CEC11D28F43C530075771B /* CR_HeaderBiddingMock.swift in Sources */,
 				6540470F22581D32009235A1 /* MockWKWebView.m in Sources */,
 				7DA2F5BD23A0D9E400B35524 /* CR_DataProtectionConsentMock.m in Sources */,
@@ -2396,6 +2423,7 @@
 				7D73EF5F23C39A030086CBDC /* CR_AppEventsIntegrationTests.m in Sources */,
 				E3CBBF1A28E48E1E00622566 /* CR_ConfigManagerMock.swift in Sources */,
 				46A667D725AD951500522C6D /* CR_RemoteLogStorageTests.swift in Sources */,
+				A82D7DE92A027FCC001302A8 /* URLOpenerMock.swift in Sources */,
 				5E06522A02F2F6A13136E48D /* CR_HttpTests.m in Sources */,
 				5E065D27D22F2032CA976719 /* CR_DfpInterstitialFunctionalTests.m in Sources */,
 				5E0656E334784BCDB32052A4 /* CR_DfpNativeFunctionalTests.m in Sources */,

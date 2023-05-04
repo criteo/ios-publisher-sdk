@@ -40,7 +40,7 @@ public class CRMRAIDHandler: NSObject {
     private var isViewVisible: Bool = false
     private var messageHandler: MRAIDMessageHandler
     private weak var delegate: CRMRAIDHandlerDelegate?
-    private var state: MRAIDState = .default
+    private var state: MRAIDState = .loading
 
     @objc
     public init(
@@ -57,19 +57,22 @@ public class CRMRAIDHandler: NSObject {
         self.delegate = delegate
         self.messageHandler.delegate = self
         self.webView.configuration.userContentController.add(self, name: "criteoMraidBridge")
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 15) {
-//            self.evaluate(js: "window.mraid.close();")
-            self.didReceiveCloseAction()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            self.evaluate(js: "window.mraid.expand();")
         }
+//
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 15) {
+//            self.evaluate(js: "window.mraid.close();")
+//        }
     }
 
     @objc
     public func onAdLoad(with placementType: String) {
-        state = .loading
+        state = .default
         setMax(size: UIScreen.main.bounds.size)
         sendReadyEvent(with: placementType)
         startViabilityNotifier()
+        registerDeviceOrientationListener()
     }
 
     @objc
@@ -90,16 +93,23 @@ public class CRMRAIDHandler: NSObject {
 
     deinit {
         stopViabilityNotifier()
+        unregisterDeviceOrientationListener()
     }
 
     @objc
     public func canLoadAd() -> Bool {
-        return state == .default
+        return state == .loading
     }
 
     @objc
     public func isExpanded() -> Bool {
         return state == .expanded
+    }
+
+    @objc
+    public func onSuccessClose() {
+        notifyClosed()
+        state = state == .expanded ? .default : .hidden
     }
 }
 
@@ -152,7 +162,6 @@ private extension CRMRAIDHandler {
     func handleJSCallback(_ agent: Any?, _ error: Error?) {
         if let error = error {
             debugPrint("error on js call: \(error)")
-            debugPrint("agent: \(agent)")
         } else {
             debugPrint("no error on js callback")
         }
@@ -166,19 +175,26 @@ private extension CRMRAIDHandler {
         evaluate(js: "window.mraid.notifyClosed();")
     }
 
-    func onSuccessClose() {
-        debugPrint(#function)
-        notifyClosed()
-        state = .default
+    func registerDeviceOrientationListener() {
+        NotificationCenter.default.addObserver(self, selector: #selector(deviceOrientationDidChange), name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+
+    @objc func deviceOrientationDidChange() {
+        setMax(size: UIScreen.main.bounds.size)
+    }
+
+    func unregisterDeviceOrientationListener() {
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
     }
 }
 
 // MARK: - MRAID Message delegate
 extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
     public func didReceive(expand action: MRAIDExpandMessage) {
+        debugPrint(#function)
         guard state != .expanded else { return }
 
-//        delegate?.expand(width: action.width, height: action.width, url: action.url) { [weak self] in
+        //        delegate?.expand(width: action.width, height: action.width, url: action.url) { [weak self] in
         delegate?.expand?(width: 300, height: 200, url: action.url) { [weak self] in
             self?.onSuccessClose()
         }
@@ -190,10 +206,13 @@ extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
     }
 
     public func didReceiveCloseAction() {
-//        if state == .expanded {
-            delegate?.close() { [weak self] in
-                self?.onSuccessClose()
-            }
-//        }
+        guard state == .default || state == .expanded else {
+            // notify error
+            return
+        }
+
+        delegate?.close() { [weak self] in
+            self?.onSuccessClose()
+        }
     }
 }

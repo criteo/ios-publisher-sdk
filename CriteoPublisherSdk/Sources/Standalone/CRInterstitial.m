@@ -62,6 +62,10 @@
                                         criteoLogger:[CRLogUtil new]
                                            urlOpener:self
                                             delegate:self];
+      __weak typeof(self) weakSelf = self;
+      _viewController.dismissCompletion = ^{
+          [weakSelf.mraidHandler onSuccessClose];
+      };
   }
   return self;
 }

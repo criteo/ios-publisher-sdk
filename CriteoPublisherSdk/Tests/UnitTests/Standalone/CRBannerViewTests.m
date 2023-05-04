@@ -37,6 +37,11 @@
 #define TEST_DISPLAY_URL \
   @"https://rdi.eu.criteo.com/delivery/rtb/demo/ajs?zoneid=1417086&width=300&height=250&ibva=0"
 
+
+@interface CRBannerView (Testing)
+@property(nonatomic, strong) CRMRAIDHandler *mraidHandler;
+@end
+
 @interface CRBannerViewTests : XCTestCase <WKNavigationDelegate>
 
 @property(nonatomic, copy) void (^webViewDidLoadBlock)(void);
@@ -421,6 +426,28 @@
            [logMessage.message containsString:string] &&
            [logMessage.message containsString:self.adUnit.description];
   }];
+}
+
+- (void)testExpandMRAIDAction {
+    WKWebView *mockWebView = [WKWebView new];
+
+    CRBannerView *bannerView =
+        [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
+                                     criteo:self.criteo
+                                    webView:mockWebView
+                                 addWebView:NO
+                                     adUnit:nil
+                                  urlOpener:self.urlOpener];
+    XCTestExpectation *bannerReceiveExpandAction =
+        [[XCTestExpectation alloc] initWithDescription:@"expand action is received"];
+    [mockWebView evaluateJavaScript:@"window.mraid.notifyExpanded();" completionHandler:NULL];
+    dispatch_time_t afterTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC));
+    dispatch_after(afterTime, dispatch_get_main_queue(), ^{
+        XCTAssertTrue(bannerView.mraidHandler.isExpanded);
+        [bannerReceiveExpandAction fulfill];
+      });
+    [self cr_waitForExpectations:@[ bannerReceiveExpandAction ]];
+    OCMVerifyAll(mockWebView);
 }
 
 @end

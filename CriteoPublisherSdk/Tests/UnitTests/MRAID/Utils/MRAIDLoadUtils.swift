@@ -1,6 +1,6 @@
 //
-//  LogLevel.swift
-//  CriteoPublisherSdk
+//  MRAIDLoadUtils.swift
+//  CriteoPublisherSdkTests
 //
 //  Copyright © 2018-2023 Criteo. All rights reserved.
 //
@@ -19,9 +19,12 @@
 
 import Foundation
 
-public enum LogLevel: String, Decodable {
-  case debug = "Debug"
-  case info = "Info"
-  case warning = "Warning"
-  case error = "Error"
+func mraidBundle() -> Bundle? {
+    for bundle in Bundle.allBundles {
+        if bundle.bundlePath.hasSuffix("xctest"), let path = bundle.path(forResource: "CriteoMRAIDResource", ofType: "bundle") {
+            return Bundle.init(path: path)
+        }
+    }
+
+    return nil
 }
