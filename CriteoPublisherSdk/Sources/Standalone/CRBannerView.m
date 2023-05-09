@@ -97,10 +97,12 @@
     }
     _adUnit = adUnit;
     _urlOpener = opener;
-    _mraidHandler = [[CRMRAIDHandler alloc] initWith:_webView
-                                        criteoLogger:[CRLogUtil new]
-                                           urlOpener:self
-                                            delegate:self];
+      if (criteo.config.isMRAIDEnabled) {
+          _mraidHandler = [[CRMRAIDHandler alloc] initWith:_webView
+                                              criteoLogger:[CRLogUtil new]
+                                                 urlOpener:self
+                                                  delegate:self];
+      }
   }
   return self;
 }
@@ -136,9 +138,7 @@
                                                       withString:viewportWidth]
           stringByReplacingOccurrencesOfString:config.displayURLMacro
                                     withString:displayUrl];
-
-    htmlString = [CRMRAIDUtils buildWithHtml:htmlString
-                                        from: [CRMRAIDUtils mraidResourceBundle]];
+    htmlString = _mraidHandler ? [_mraidHandler injectInto:htmlString]: htmlString;
   [_webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"https://criteo.com"]];
 }
 
@@ -156,7 +156,7 @@
 }
 
 - (void)loadAdWithContext:(CRContextData *)contextData {
-  if (![_mraidHandler canLoadAd]) {
+  if (_mraidHandler && ![_mraidHandler canLoadAd]) {
     return;
   }
   CRLogInfo(@"BannerView", @"Loading ad for Ad Unit:%@", self.adUnit);
@@ -184,9 +184,9 @@
 }
 
 - (void)loadAdWithBid:(CRBid *)bid {
-  if (![_mraidHandler canLoadAd]) {
-    return;
-  }
+    if (_mraidHandler && ![_mraidHandler canLoadAd]) {
+      return;
+    }
   [self.integrationRegistry declare:CR_IntegrationInHouse];
   self.isResponseValid = NO;
 

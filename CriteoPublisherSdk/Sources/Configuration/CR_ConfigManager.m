@@ -97,6 +97,10 @@
                config.remoteLogLevel = CR_LogSeverityNone;
              }
            }
+          if (configValues[@"mraidEnabled"] &&
+              [configValues[@"mraidEnabled"] isKindOfClass:NSNumber.class]) {
+              config.mraidEnabled = ((NSNumber *)configValues[@"mraidEnabled"]).boolValue;
+          }
          }];
 }
 

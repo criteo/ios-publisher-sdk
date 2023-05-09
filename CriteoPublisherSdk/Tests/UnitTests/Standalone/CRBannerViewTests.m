@@ -357,6 +357,33 @@
   OCMVerifyAll(mockWebView);
 }
 
+- (CRBannerView *)testbannerViewWithMRAID:(BOOL)mraidFlag {
+    CR_Config *config = [CR_Config new];
+    config.adTagUrlMode = @"Good Morning, my width is #WEEDTH# and my URL is ˆURLˆ";
+    config.displayURLMacro = @"ˆURLˆ";
+    config.mraidEnabled = mraidFlag;
+    self.criteo.dependencyProvider.config = config;
+
+    WKWebView *mockWebView = OCMPartialMock([WKWebView new]);
+    CR_CdbBid *cdbBid = [self cdbBidWithDisplayUrl:TEST_DISPLAY_URL];
+    CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:self.adUnit];
+    CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView];
+    [bannerView loadAdWithBid:bid];
+    return bannerView;
+}
+
+- (void)testMRAIDOffOnConfig {
+  CRBannerView *bannerView = [self testbannerViewWithMRAID:NO];
+  XCTAssertNil(bannerView.mraidHandler);
+}
+
+- (void)testMRAIDActiveOnConfig {
+  CRBannerView *bannerView = [self testbannerViewWithMRAID:YES];
+  XCTAssertNotNil(bannerView.mraidHandler);
+}
+
+
+
 #pragma mark - Private
 
 // To avoid warning for avoiding retain cycle in blocks

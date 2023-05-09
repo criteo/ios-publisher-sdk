@@ -16,7 +16,8 @@
               "liveBiddingEnabled": true,
               "liveBiddingTimeBudgetInMillis": 8000,
               "prefetchOnInitEnabled": true,
-              "remoteLogLevel": "Warning"
+              "remoteLogLevel": "Warning",
+              "mraidEnabled": false,
             }
 }
 }
