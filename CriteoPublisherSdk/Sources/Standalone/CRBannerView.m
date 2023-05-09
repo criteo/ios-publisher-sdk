@@ -137,8 +137,8 @@
           stringByReplacingOccurrencesOfString:config.displayURLMacro
                                     withString:displayUrl];
 
-  htmlString = [CRMRAIDUtils insertMraid:htmlString fromBundle:[CRMRAIDUtils mraidResourceBundle]];
-
+    htmlString = [CRMRAIDUtils buildWithHtml:htmlString
+                                        from: [CRMRAIDUtils mraidResourceBundle]];
   [_webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"https://criteo.com"]];
 }
 

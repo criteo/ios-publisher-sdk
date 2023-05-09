@@ -1,5 +1,5 @@
 //
-//  MRAIDLoadUtils.swift
+//  CR_MRAIDUtils.swift
 //  CriteoPublisherSdkTests
 //
 //  Copyright © 2018-2023 Criteo. All rights reserved.
@@ -19,12 +19,16 @@
 
 import Foundation
 
-func mraidBundle() -> Bundle? {
-    for bundle in Bundle.allBundles {
-        if bundle.bundlePath.hasSuffix("xctest"), let path = bundle.path(forResource: "CriteoMRAIDResource", ofType: "bundle") {
-            return Bundle.init(path: path)
+@objc
+public class CR_MRAIDUtils: NSObject {
+    @objc
+    public static func mraidBundle() -> Bundle? {
+        for bundle in Bundle.allBundles {
+            if bundle.bundlePath.hasSuffix("xctest"), let path = bundle.path(forResource: "CriteoMRAIDResource", ofType: "bundle") {
+                return Bundle.init(path: path)
+            }
         }
-    }
 
-    return nil
+        return nil
+    }
 }

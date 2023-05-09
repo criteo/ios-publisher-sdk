@@ -19,28 +19,29 @@
 
 import CriteoPublisherSdk
 
-typealias LogBlock = ((LogLevel, String) -> Void)
+public typealias LogBlock = ((LogLevel, String) -> Void)
 
-class MRAIDLoggerMock: CRMRAIDLogger {
-    var logBlock: LogBlock?
+@objc
+public class MRAIDLoggerMock: NSObject, CRMRAIDLogger {
+    public var logBlock: LogBlock?
 
-    init(logBlock: LogBlock? = nil) {
+    public init(logBlock: LogBlock? = nil) {
         self.logBlock = logBlock
     }
 
-    func mraidLog(error: String) {
+    public func mraidLog(error: String) {
         logBlock?(.error, error)
     }
 
-    func mraidLog(warning: String) {
+    public func mraidLog(warning: String) {
         logBlock?(.warning, warning)
     }
 
-    func mraidLog(debug: String) {
+    public func mraidLog(debug: String) {
         logBlock?(.debug, debug)
     }
 
-    func mraidLog(info: String) {
+    public func mraidLog(info: String) {
         logBlock?(.info, info)
     }
 }

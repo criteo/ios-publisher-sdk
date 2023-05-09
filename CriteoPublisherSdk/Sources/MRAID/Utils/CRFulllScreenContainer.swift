@@ -52,6 +52,7 @@ public class CRFulllScreenContainer: UIViewController {
     public func close(with completion: VoidCompletion?) {
         // 1. remove webview from container
         guard let container = webViewBannerContainer else { return }
+        closeButton.isHidden = true
         webView.removeConstraints(webView.constraints)
         webView.removeFromSuperview()
         // 2. add webview back to banner container
