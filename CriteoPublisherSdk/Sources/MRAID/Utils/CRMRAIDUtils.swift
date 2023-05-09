@@ -21,45 +21,50 @@ import Foundation
 
 @objc
 public class CRMRAIDUtils: NSObject {
-    private enum Constants {
-        static let fileName = "criteo-mraid"
-        static let fileExtension = "js"
-        static let bundle = "CriteoMRAIDResource"
-        static let bundleExtension = "bundle"
-        static let script = "<script type=\"text/javascript\">%@</script>"
-        static let scriptInjectTarget = "<body>"
+  private enum Constants {
+    static let fileName = "criteo-mraid"
+    static let fileExtension = "js"
+    static let bundle = "CriteoMRAIDResource"
+    static let bundleExtension = "bundle"
+    static let script = "<script type=\"text/javascript\">%@</script>"
+    static let scriptInjectTarget = "<body>"
+  }
+
+  @objc
+  public static func loadMraid(from bundle: Bundle?) -> String? {
+    guard
+      let mraidURL = bundle?.url(
+        forResource: Constants.fileName,
+        withExtension: Constants.fileExtension)
+    else {
+      return nil
     }
 
-    @objc
-    public static func loadMraid(from bundle: Bundle?) -> String? {
-        guard let mraidURL = bundle?.url(forResource: Constants.fileName,
-                                         withExtension: Constants.fileExtension) else {
-            return nil
-        }
+    return try? String(contentsOf: mraidURL, encoding: .utf8)
+  }
 
-        return try? String(contentsOf: mraidURL, encoding: .utf8)
+  @objc
+  public static func build(html: String, from bundle: Bundle?) -> String {
+    var mraidHTML = html
+    guard
+      let bodyRange = mraidHTML.range(of: Constants.scriptInjectTarget),
+      let mraid = CRMRAIDUtils.loadMraid(from: bundle)
+    else {
+      return mraidHTML
     }
 
-    @objc
-    public static func build(html: String, from bundle: Bundle?) -> String {
-        var mraidHTML = html
-        guard
-            let bodyRange = mraidHTML.range(of: Constants.scriptInjectTarget),
-            let mraid = CRMRAIDUtils.loadMraid(from: bundle)
-        else {
-            return mraidHTML
-        }
+    let script = String(format: Constants.script, mraid)
+    mraidHTML.insert(contentsOf: script, at: bodyRange.upperBound)
+    return mraidHTML
+  }
 
-        let script = String(format: Constants.script, mraid)
-        mraidHTML.insert(contentsOf: script, at: bodyRange.upperBound)
-        return mraidHTML
+  @objc
+  public static func mraidResourceBundle() -> Bundle? {
+    guard
+      let path = Bundle.main.path(forResource: Constants.bundle, ofType: Constants.bundleExtension)
+    else {
+      return nil
     }
-
-    @objc
-    public static func mraidResourceBundle() -> Bundle? {
-        guard let path = Bundle.main.path(forResource: Constants.bundle, ofType: Constants.bundleExtension) else {
-            return nil
-        }
-        return Bundle(path: path)
-    }
+    return Bundle(path: path)
+  }
 }

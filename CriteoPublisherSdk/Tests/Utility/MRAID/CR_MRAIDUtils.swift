@@ -21,14 +21,15 @@ import Foundation
 
 @objc
 public class CR_MRAIDUtils: NSObject {
-    @objc
-    public static func mraidBundle() -> Bundle? {
-        for bundle in Bundle.allBundles {
-            if bundle.bundlePath.hasSuffix("xctest"), let path = bundle.path(forResource: "CriteoMRAIDResource", ofType: "bundle") {
-                return Bundle.init(path: path)
-            }
-        }
-
-        return nil
+  @objc
+  public static func mraidBundle() -> Bundle? {
+    for bundle in Bundle.allBundles {
+      if bundle.bundlePath.hasSuffix("xctest"),
+        let path = bundle.path(forResource: "CriteoMRAIDResource", ofType: "bundle") {
+        return Bundle.init(path: path)
+      }
     }
+
+    return nil
+  }
 }

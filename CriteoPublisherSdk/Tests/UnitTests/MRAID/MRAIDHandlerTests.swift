@@ -17,25 +17,26 @@
 // limitations under the License.
 //
 
-import XCTest
 import CriteoPublisherSdk
 import WebKit
+import XCTest
 
 final class MRAIDHandlerTests: XCTestCase {
-    func testOpenAction() {
-        let webView = WKWebView()
-        let logger = MRAIDLoggerMock()
-        let urlOpener = URLOpenerMock() { url in
+  func testOpenAction() {
+    let webView = WKWebView()
+    let logger = MRAIDLoggerMock()
+    let urlOpener = URLOpenerMock { _ in
 
-        }
-
-        let mraidHandler = CRMRAIDHandler(with: webView, criteoLogger: logger, urlOpener: urlOpener, delegate: nil)
-//        webView.evaluateJavaScript()
-
-//        NSBundle *mraidBundle = [self mraidBundle];
-//        NSString *mraid = [CRMRAIDUtils loadMraidFromBundle:mraidBundle];
-//        NSString *html = @"<html><head></head><body></body></html>";
-//        html = [CRMRAIDUtils insertMraid:html fromBundle:mraidBundle];
-//        XCTAssertTrue([html containsString:mraid]);
     }
+
+    let mraidHandler = CRMRAIDHandler(
+      with: webView, criteoLogger: logger, urlOpener: urlOpener, delegate: nil)
+    //        webView.evaluateJavaScript()
+
+    //        NSBundle *mraidBundle = [self mraidBundle];
+    //        NSString *mraid = [CRMRAIDUtils loadMraidFromBundle:mraidBundle];
+    //        NSString *html = @"<html><head></head><body></body></html>";
+    //        html = [CRMRAIDUtils insertMraid:html fromBundle:mraidBundle];
+    //        XCTAssertTrue([html containsString:mraid]);
+  }
 }

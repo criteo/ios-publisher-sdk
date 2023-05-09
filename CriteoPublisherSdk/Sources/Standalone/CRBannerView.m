@@ -97,12 +97,12 @@
     }
     _adUnit = adUnit;
     _urlOpener = opener;
-      if (criteo.config.isMRAIDEnabled) {
-          _mraidHandler = [[CRMRAIDHandler alloc] initWith:_webView
-                                              criteoLogger:[CRLogUtil new]
-                                                 urlOpener:self
-                                                  delegate:self];
-      }
+    if (criteo.config.isMRAIDEnabled) {
+      _mraidHandler = [[CRMRAIDHandler alloc] initWith:_webView
+                                          criteoLogger:[CRLogUtil new]
+                                             urlOpener:self
+                                              delegate:self];
+    }
   }
   return self;
 }
@@ -138,7 +138,7 @@
                                                       withString:viewportWidth]
           stringByReplacingOccurrencesOfString:config.displayURLMacro
                                     withString:displayUrl];
-    htmlString = _mraidHandler ? [_mraidHandler injectInto:htmlString]: htmlString;
+  htmlString = _mraidHandler ? [_mraidHandler injectInto:htmlString] : htmlString;
   [_webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"https://criteo.com"]];
 }
 
@@ -184,9 +184,9 @@
 }
 
 - (void)loadAdWithBid:(CRBid *)bid {
-    if (_mraidHandler && ![_mraidHandler canLoadAd]) {
-      return;
-    }
+  if (_mraidHandler && ![_mraidHandler canLoadAd]) {
+    return;
+  }
   [self.integrationRegistry declare:CR_IntegrationInHouse];
   self.isResponseValid = NO;
 
@@ -352,13 +352,15 @@
 }
 
 - (void)closeWithCompletion:(void (^)(void))completion {
-    if ([_mraidHandler isExpanded]) {
-        CRFulllScreenContainer *fullScreenContainer = (CRFulllScreenContainer *)_webView.cr_rootViewController;
-        [fullScreenContainer closeWith:completion];
-    } else {
-        NSURLRequest *blankRequest = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"about:blank"]];
-        [_webView loadRequest:blankRequest];
-    }
+  if ([_mraidHandler isExpanded]) {
+    CRFulllScreenContainer *fullScreenContainer =
+        (CRFulllScreenContainer *)_webView.cr_rootViewController;
+    [fullScreenContainer closeWith:completion];
+  } else {
+    NSURLRequest *blankRequest =
+        [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"about:blank"]];
+    [_webView loadRequest:blankRequest];
+  }
 }
 
 @end

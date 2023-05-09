@@ -23,5 +23,4 @@
 #define CR_MRAID_PLACEMENT_BANNER @"inline"
 #define CR_MRAID_PLACEMENT_INTERSTITIAL @"interstitial"
 
-
 #endif /* CRMRAIDConstants_h */

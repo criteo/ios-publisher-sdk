@@ -46,29 +46,29 @@ struct MRAIDMessageHandler {
       case .none: break
       }
     } catch {
-        logHandler.handle(
-          log: .init(
-            logId: nil,
-            message: "Could not deserialise the action message from \(message)",
-            logLevel: .error,
-            action: .none))
-      }
+      logHandler.handle(
+        log: .init(
+          logId: nil,
+          message: "Could not deserialise the action message from \(message)",
+          logLevel: .error,
+          action: .none))
     }
+  }
 }
 
 // MARK: - Private methods
-private extension MRAIDMessageHandler {
-    func handleExpand(message data: Data) {
-      do {
-        let expandMessage = try JSONDecoder().decode(MRAIDExpandMessage.self, from: data)
-        delegate?.didReceive(expand: expandMessage)
-      } catch {
-        logHandler.handle(
-          log: .init(
-            logId: nil,
-            message: error.localizedDescription,
-            logLevel: .error,
-            action: .expand))
-      }
+extension MRAIDMessageHandler {
+  fileprivate func handleExpand(message data: Data) {
+    do {
+      let expandMessage = try JSONDecoder().decode(MRAIDExpandMessage.self, from: data)
+      delegate?.didReceive(expand: expandMessage)
+    } catch {
+      logHandler.handle(
+        log: .init(
+          logId: nil,
+          message: error.localizedDescription,
+          logLevel: .error,
+          action: .expand))
     }
+  }
 }

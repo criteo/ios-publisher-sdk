@@ -34,7 +34,10 @@
 #import "CRMRAIDConstants.h"
 #import "CRLogUtil.h"
 
-@interface CRInterstitial () <WKNavigationDelegate, WKUIDelegate, CRExternalURLOpener, CRMRAIDHandlerDelegate>
+@interface CRInterstitial () <WKNavigationDelegate,
+                              WKUIDelegate,
+                              CRExternalURLOpener,
+                              CRMRAIDHandlerDelegate>
 
 @property(strong, nonatomic) id<CR_URLOpening> urlOpener;
 @property(nonatomic, strong) CR_SKAdNetworkParameters *skAdNetworkParameters;
@@ -58,16 +61,16 @@
     _isAdLoaded = isAdLoaded;
     _adUnit = adUnit;
     _urlOpener = urlOpener;
-      if (criteo.config.isMRAIDEnabled) {
-          _mraidHandler = [[CRMRAIDHandler alloc] initWith:viewController.webView
-                                              criteoLogger:[CRLogUtil new]
-                                                 urlOpener:self
-                                                  delegate:self];
-          __weak typeof(self) weakSelf = self;
-          _viewController.dismissCompletion = ^{
-              [weakSelf.mraidHandler onSuccessClose];
-          };
-      }
+    if (criteo.config.isMRAIDEnabled) {
+      _mraidHandler = [[CRMRAIDHandler alloc] initWith:viewController.webView
+                                          criteoLogger:[CRLogUtil new]
+                                             urlOpener:self
+                                              delegate:self];
+      __weak typeof(self) weakSelf = self;
+      _viewController.dismissCompletion = ^{
+        [weakSelf.mraidHandler onSuccessClose];
+      };
+    }
   }
   return self;
 }
@@ -166,9 +169,9 @@
                                                       withString:viewportWidth]
           stringByReplacingOccurrencesOfString:config.displayURLMacro
                                     withString:displayURL];
-    if (config.isMRAIDEnabled) {
-        htmlString = [CRMRAIDUtils buildWithHtml:htmlString from: [CRMRAIDUtils mraidResourceBundle]];
-    }
+  if (config.isMRAIDEnabled) {
+    htmlString = [CRMRAIDUtils buildWithHtml:htmlString from:[CRMRAIDUtils mraidResourceBundle]];
+  }
 
   [self.viewController.webView loadHTMLString:htmlString
                                       baseURL:[NSURL URLWithString:@"https://criteo.com"]];
@@ -377,8 +380,8 @@
 }
 
 #pragma CRMRAIDHandlerDelegate
--(void)closeWithCompletion:(void (^)(void))completion {
-    [self.viewController dismissViewController];
+- (void)closeWithCompletion:(void (^)(void))completion {
+  [self.viewController dismissViewController];
 }
 
 @end

@@ -53,9 +53,9 @@ class CriteoAdViewBuilder: AdViewBuilder {
       adView = CRBannerView(adUnit: adUnit, criteo: criteo)!
       adView.delegate = logger
       adView.loadAd(withContext: contextData)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            adView.loadAd(withContext: self.contextData)
-        }
+      DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+        adView.loadAd(withContext: self.contextData)
+      }
     case .inHouse:
       adView = CRBannerView()
       adView.delegate = logger

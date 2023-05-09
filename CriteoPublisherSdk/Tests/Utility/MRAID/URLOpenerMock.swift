@@ -20,13 +20,13 @@
 typealias URLOpenerBlock = (URL) -> Void
 
 class URLOpenerMock: CRExternalURLOpener {
-    var openBlock: URLOpenerBlock?
+  var openBlock: URLOpenerBlock?
 
-    init(openBlock: URLOpenerBlock?) {
-        self.openBlock = openBlock
-    }
+  init(openBlock: URLOpenerBlock?) {
+    self.openBlock = openBlock
+  }
 
-    func open(url: URL) {
-        openBlock?(url)
-    }
+  func open(url: URL) {
+    openBlock?(url)
+  }
 }
