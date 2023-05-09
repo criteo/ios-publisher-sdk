@@ -57,13 +57,6 @@ public class CRMRAIDHandler: NSObject {
         self.delegate = delegate
         self.messageHandler.delegate = self
         self.webView.configuration.userContentController.add(self, name: "criteoMraidBridge")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            self.evaluate(js: "window.mraid.expand();")
-        }
-//
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 15) {
-//            self.evaluate(js: "window.mraid.close();")
-//        }
     }
 
     @objc
@@ -110,6 +103,11 @@ public class CRMRAIDHandler: NSObject {
     public func onSuccessClose() {
         notifyClosed()
         state = state == .expanded ? .default : .hidden
+    }
+
+    @objc
+    public func inject(into html: String) -> String {
+        return CRMRAIDUtils.build(html: html, from: CRMRAIDUtils.mraidResourceBundle())
     }
 }
 

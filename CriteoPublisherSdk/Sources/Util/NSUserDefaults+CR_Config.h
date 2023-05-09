@@ -49,6 +49,8 @@
 
 - (void)cr_setValueForRemoteLogLevel:(CR_LogSeverity)logLevel;
 
+- (BOOL)cr_valueForMRAID;
+
 @end
 
 #endif /* NSUserDefaults_CR_Config_H */

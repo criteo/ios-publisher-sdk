@@ -72,6 +72,7 @@ NSString *const CR_ConfigConfigurationUrl = @"https://bidder.criteo.com/config/a
     _liveBiddingTimeBudget = [userDefaults cr_valueForLiveBiddingTimeBudget];
     _remoteLogLevel = [userDefaults cr_valueForRemoteLogLevel];
     _userDefaults = userDefaults;
+      _mraidEnabled = [userDefaults cr_valueForMRAID];
   }
   return self;
 }

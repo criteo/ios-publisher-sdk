@@ -71,6 +71,9 @@ FOUNDATION_EXTERN NSString *const CR_ConfigConfigurationUrl;
 @property(nonatomic, readonly) NSString *deviceOs;
 @property(nonatomic, readonly) NSString *configUrl;
 
+#pragma mark - MRAID
+@property(assign, nonatomic, getter=isMRAIDEnabled) BOOL mraidEnabled;
+
 #pragma mark - Lifecycle
 
 - (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId
