@@ -23,27 +23,25 @@ public typealias LogBlock = ((LogLevel, String) -> Void)
 
 @objc
 public class MRAIDLoggerMock: NSObject, CRMRAIDLogger {
-    public var logBlock: LogBlock?
+  public var logBlock: LogBlock?
 
-    public init(logBlock: LogBlock? = nil) {
-        self.logBlock = logBlock
-    }
+  public init(logBlock: LogBlock? = nil) {
+    self.logBlock = logBlock
+  }
 
-    public func mraidLog(error: String) {
-        logBlock?(.error, error)
-    }
+  public func mraidLog(error: String) {
+    logBlock?(.error, error)
+  }
 
-    public func mraidLog(warning: String) {
-        logBlock?(.warning, warning)
-    }
+  public func mraidLog(warning: String) {
+    logBlock?(.warning, warning)
+  }
 
-    public func mraidLog(debug: String) {
-        logBlock?(.debug, debug)
-    }
+  public func mraidLog(debug: String) {
+    logBlock?(.debug, debug)
+  }
 
-    public func mraidLog(info: String) {
-        logBlock?(.info, info)
-    }
+  public func mraidLog(info: String) {
+    logBlock?(.info, info)
+  }
 }
-
-

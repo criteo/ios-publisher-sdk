@@ -35,7 +35,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, weak) CRInterstitial *interstitial;
 @property(nonatomic, copy) void (^dismissCompletion)(void);
 
-
 - (instancetype)initWithWebView:(WKWebView *)webView
                            view:(nullable UIView *)view
                    interstitial:(nullable CRInterstitial *)interstitial;

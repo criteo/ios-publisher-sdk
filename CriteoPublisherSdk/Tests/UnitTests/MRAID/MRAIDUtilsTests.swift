@@ -18,25 +18,27 @@
 //
 
 import XCTest
+
 @testable import CriteoPublisherSdk
 
 final class MRAIDUtilsTests: XCTestCase {
-    func testMRAIDBundle() {
-        let mraidBundle = CR_MRAIDUtils.mraidBundle()
-        XCTAssertNotNil(mraidBundle)
-        XCTAssert(mraidBundle!.bundlePath.contains("CriteoMRAIDResource.bundle"))
-    }
+  func testMRAIDBundle() {
+    let mraidBundle = CR_MRAIDUtils.mraidBundle()
+    XCTAssertNotNil(mraidBundle)
+    XCTAssert(mraidBundle!.bundlePath.contains("CriteoMRAIDResource.bundle"))
+  }
 
-    func testMraidInjectScript() {
-        let mraidBundle = CR_MRAIDUtils.mraidBundle()
-        let mraidString = CRMRAIDUtils.loadMraid(from: mraidBundle)
-        let html = CRMRAIDUtils.build(html: "<html><head></head><body></body></html>", from: mraidBundle)
-        XCTAssertTrue(html.contains(mraidString!))
-    }
+  func testMraidInjectScript() {
+    let mraidBundle = CR_MRAIDUtils.mraidBundle()
+    let mraidString = CRMRAIDUtils.loadMraid(from: mraidBundle)
+    let html = CRMRAIDUtils.build(
+      html: "<html><head></head><body></body></html>", from: mraidBundle)
+    XCTAssertTrue(html.contains(mraidString!))
+  }
 
-    func testMRAIDLoad() {
-        let mraidBundle = CR_MRAIDUtils.mraidBundle()
-        let mraidString = CRMRAIDUtils.loadMraid(from: mraidBundle)
-        XCTAssertNotNil(mraidString)
-    }
+  func testMRAIDLoad() {
+    let mraidBundle = CR_MRAIDUtils.mraidBundle()
+    let mraidString = CRMRAIDUtils.loadMraid(from: mraidBundle)
+    XCTAssertNotNil(mraidString)
+  }
 }
