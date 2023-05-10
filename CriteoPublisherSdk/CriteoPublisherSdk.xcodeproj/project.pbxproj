@@ -268,6 +268,12 @@
 		7DFB2B11247E75E5007CDFF3 /* CR_URLOpener.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFB2B10247E75E5007CDFF3 /* CR_URLOpener.m */; };
 		7DFB2B14247E9302007CDFF3 /* CR_URLOpenerMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFB2B13247E9302007CDFF3 /* CR_URLOpenerMock.m */; };
 		90D0C9A36EF9136F4CC9E877 /* libPods-CriteoPublisherSdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CDD7544323F61638E0E8B7F /* libPods-CriteoPublisherSdk.a */; };
+		A82D7E142A1CFA4D001302A8 /* CriteoPublisherSdkMC8.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = A82D7E0E2A1CFA4C001302A8 /* CriteoPublisherSdkMC8.xctestplan */; };
+		A82D7E152A1CFA4D001302A8 /* CriteoPublisherSdkMC9.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = A82D7E0F2A1CFA4C001302A8 /* CriteoPublisherSdkMC9.xctestplan */; };
+		A82D7E162A1CFA4D001302A8 /* CriteoPublisherSdkMC5.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = A82D7E102A1CFA4C001302A8 /* CriteoPublisherSdkMC5.xctestplan */; };
+		A82D7E172A1CFA4D001302A8 /* CriteoPublisherSdkMC6.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = A82D7E112A1CFA4C001302A8 /* CriteoPublisherSdkMC6.xctestplan */; };
+		A82D7E182A1CFA4D001302A8 /* CriteoPublisherSdkMC4.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = A82D7E122A1CFA4C001302A8 /* CriteoPublisherSdkMC4.xctestplan */; };
+		A82D7E192A1CFA4D001302A8 /* CriteoPublisherSdkMC7.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = A82D7E132A1CFA4C001302A8 /* CriteoPublisherSdkMC7.xctestplan */; };
 		B1BD859C4CDDB6DB1B906C62 /* libPods-CriteoPublisherSdkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92039F91AE1122C08CF8EC36 /* libPods-CriteoPublisherSdkTests.a */; };
 		C07AB0222733EAA918843728 /* CR_NativeAssets+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABBC696D95F756547DA86 /* CR_NativeAssets+Testing.m */; };
 		C07AB058AEB4030B2EBD4D15 /* CR_RemoteLogRecordSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = C07AB0DC260182010824A534 /* CR_RemoteLogRecordSerializer.h */; };
@@ -378,7 +384,6 @@
 		25BD5B572220D16D004DE311 /* CriteoPublisherSdk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CriteoPublisherSdk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		25BD5B592220D16D004DE311 /* CriteoPublisherSdk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CriteoPublisherSdk.h; sourceTree = "<group>"; };
 		25BD5B5A2220D16D004DE311 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4607BD0D24AF4F8300F18AF5 /* CriteoPublisherSdk.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CriteoPublisherSdk.xctestplan; sourceTree = "<group>"; };
 		460C0FAB25542BC90016988D /* CR_URLResolver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_URLResolver.h; sourceTree = "<group>"; };
 		460C0FAC25542BC90016988D /* CR_URLResolver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_URLResolver.m; sourceTree = "<group>"; };
 		460C0FB5255458900016988D /* CR_URLResolverTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_URLResolverTests.m; sourceTree = "<group>"; };
@@ -696,6 +701,16 @@
 		82E54E419D05E3CF7FA80F60 /* Pods-CriteoPublisherSdkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoPublisherSdkTests.debug.xcconfig"; path = "Target Support Files/Pods-CriteoPublisherSdkTests/Pods-CriteoPublisherSdkTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8702B3BA4117B77A890D5F06 /* Pods-CriteoPublisherSdk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoPublisherSdk.debug.xcconfig"; path = "Target Support Files/Pods-CriteoPublisherSdk/Pods-CriteoPublisherSdk.debug.xcconfig"; sourceTree = "<group>"; };
 		92039F91AE1122C08CF8EC36 /* libPods-CriteoPublisherSdkTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CriteoPublisherSdkTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A82D7E062A1CE9AC001302A8 /* CriteoPublisherSdkMC1.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC1.xctestplan; sourceTree = "<group>"; };
+		A82D7E072A1CE9AC001302A8 /* CriteoPublisherSdkMC3.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC3.xctestplan; sourceTree = "<group>"; };
+		A82D7E082A1CE9AC001302A8 /* CriteoPublisherSdkMC0.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC0.xctestplan; sourceTree = "<group>"; };
+		A82D7E092A1CE9AC001302A8 /* CriteoPublisherSdkMC2.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC2.xctestplan; sourceTree = "<group>"; };
+		A82D7E0E2A1CFA4C001302A8 /* CriteoPublisherSdkMC8.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC8.xctestplan; sourceTree = "<group>"; };
+		A82D7E0F2A1CFA4C001302A8 /* CriteoPublisherSdkMC9.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC9.xctestplan; sourceTree = "<group>"; };
+		A82D7E102A1CFA4C001302A8 /* CriteoPublisherSdkMC5.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC5.xctestplan; sourceTree = "<group>"; };
+		A82D7E112A1CFA4C001302A8 /* CriteoPublisherSdkMC6.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC6.xctestplan; sourceTree = "<group>"; };
+		A82D7E122A1CFA4C001302A8 /* CriteoPublisherSdkMC4.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC4.xctestplan; sourceTree = "<group>"; };
+		A82D7E132A1CFA4C001302A8 /* CriteoPublisherSdkMC7.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC7.xctestplan; sourceTree = "<group>"; };
 		C07AB093A865F67283614A5D /* CRMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRMediaView.m; sourceTree = "<group>"; };
 		C07AB0DC260182010824A534 /* CR_RemoteLogRecordSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_RemoteLogRecordSerializer.h; sourceTree = "<group>"; };
 		C07AB0F74CBE74DC33F6ED1C /* CR_RemoteLogRecordTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CR_RemoteLogRecordTests.m; path = Logging/CR_RemoteLogRecordTests.m; sourceTree = "<group>"; };
@@ -1492,6 +1507,23 @@
 			path = Serializers;
 			sourceTree = "<group>";
 		};
+		A82D7E052A1CE9AC001302A8 /* TestPlans */ = {
+			isa = PBXGroup;
+			children = (
+				A82D7E122A1CFA4C001302A8 /* CriteoPublisherSdkMC4.xctestplan */,
+				A82D7E102A1CFA4C001302A8 /* CriteoPublisherSdkMC5.xctestplan */,
+				A82D7E112A1CFA4C001302A8 /* CriteoPublisherSdkMC6.xctestplan */,
+				A82D7E132A1CFA4C001302A8 /* CriteoPublisherSdkMC7.xctestplan */,
+				A82D7E0E2A1CFA4C001302A8 /* CriteoPublisherSdkMC8.xctestplan */,
+				A82D7E0F2A1CFA4C001302A8 /* CriteoPublisherSdkMC9.xctestplan */,
+				A82D7E062A1CE9AC001302A8 /* CriteoPublisherSdkMC1.xctestplan */,
+				A82D7E072A1CE9AC001302A8 /* CriteoPublisherSdkMC3.xctestplan */,
+				A82D7E082A1CE9AC001302A8 /* CriteoPublisherSdkMC0.xctestplan */,
+				A82D7E092A1CE9AC001302A8 /* CriteoPublisherSdkMC2.xctestplan */,
+			);
+			path = TestPlans;
+			sourceTree = "<group>";
+		};
 		C07AB38F2A2F69B44E029B87 /* Context */ = {
 			isa = PBXGroup;
 			children = (
@@ -1642,7 +1674,7 @@
 		E1F2737121B5F08D00A2FBFA /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				4607BD0D24AF4F8300F18AF5 /* CriteoPublisherSdk.xctestplan */,
+				A82D7E052A1CE9AC001302A8 /* TestPlans */,
 				4646EF182514CEF2009E4D16 /* CriteoPublisherSdk-Standalone.xctestplan */,
 				466AA0E325E3FB61000673BB /* CriteoPublisherSdk-Google.xctestplan */,
 				54FE074123FEED2B0035A026 /* CriteoPublisherSdkTests-Bridging-Header.h */,
@@ -1867,6 +1899,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A82D7E182A1CFA4D001302A8 /* CriteoPublisherSdkMC4.xctestplan in Resources */,
+				A82D7E172A1CFA4D001302A8 /* CriteoPublisherSdkMC6.xctestplan in Resources */,
+				A82D7E162A1CFA4D001302A8 /* CriteoPublisherSdkMC5.xctestplan in Resources */,
+				A82D7E152A1CFA4D001302A8 /* CriteoPublisherSdkMC9.xctestplan in Resources */,
+				A82D7E192A1CFA4D001302A8 /* CriteoPublisherSdkMC7.xctestplan in Resources */,
+				A82D7E142A1CFA4D001302A8 /* CriteoPublisherSdkMC8.xctestplan in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

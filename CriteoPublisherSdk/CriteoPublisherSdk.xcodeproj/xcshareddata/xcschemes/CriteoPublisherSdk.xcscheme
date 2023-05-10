@@ -29,14 +29,41 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:Tests/CriteoPublisherSdk.xctestplan"
+            reference = "container:Tests/CriteoPublisherSdk-Standalone.xctestplan"
             default = "YES">
          </TestPlanReference>
          <TestPlanReference
-            reference = "container:Tests/CriteoPublisherSdk-Standalone.xctestplan">
+            reference = "container:Tests/CriteoPublisherSdk-Google.xctestplan">
          </TestPlanReference>
          <TestPlanReference
-            reference = "container:Tests/CriteoPublisherSdk-Google.xctestplan">
+            reference = "container:Tests/TestPlans/CriteoPublisherSdkMC1.xctestplan">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:Tests/TestPlans/CriteoPublisherSdkMC3.xctestplan">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:Tests/TestPlans/CriteoPublisherSdkMC0.xctestplan">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:Tests/TestPlans/CriteoPublisherSdkMC2.xctestplan">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:Tests/TestPlans/CriteoPublisherSdkMC4.xctestplan">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:Tests/TestPlans/CriteoPublisherSdkMC5.xctestplan">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:Tests/TestPlans/CriteoPublisherSdkMC6.xctestplan">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:Tests/TestPlans/CriteoPublisherSdkMC7.xctestplan">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:Tests/TestPlans/CriteoPublisherSdkMC8.xctestplan">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:Tests/TestPlans/CriteoPublisherSdkMC9.xctestplan">
          </TestPlanReference>
       </TestPlans>
       <Testables>

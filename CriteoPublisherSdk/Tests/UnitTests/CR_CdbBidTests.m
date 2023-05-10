@@ -83,7 +83,7 @@
   XCTAssertNotNil(self.bannerBid);
 }
 
-- (BOOL)testHashAndIsEqualForUnequalObjects:(NSDictionary *)dict key:(id)key modValue:(id)modValue {
+- (void)testHashAndIsEqualForUnequalObjects:(NSDictionary *)dict key:(id)key modValue:(id)modValue {
   NSDictionary *modDict = [dict cr_dictionaryWithNewValue:modValue forKey:key];
   NSDictionary *dictWithNil1 = [dict cr_dictionaryWithNewValue:nil forKey:key];
   NSDictionary *dictWithNil2 = [dict cr_dictionaryWithNewValue:nil forKey:key];
