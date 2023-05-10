@@ -106,15 +106,13 @@ typedef void (^CR_CdbResponseHandler)(CR_CdbResponse *response);
   void (^emptyAsNilResponseHandler)(CR_CdbBid *) = ^(CR_CdbBid *bid) {
     responseHandler(bid.isEmpty ? nil : bid);
   };
-    
+
   if (config.liveBiddingEnabled) {
     [self fetchLiveBidForAdUnit:adUnit
                     withContext:contextData
                 responseHandler:emptyAsNilResponseHandler];
   } else {
-      [self getBidThenFetch:adUnit
-                withContext:contextData
-            responseHandler:emptyAsNilResponseHandler];
+    [self getBidThenFetch:adUnit withContext:contextData responseHandler:emptyAsNilResponseHandler];
   }
 }
 
