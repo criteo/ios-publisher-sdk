@@ -187,6 +187,7 @@
   XCTAssertNotEqualObjects(assetsWithNil1, assets);
   XCTAssertEqualObjects(assetsWithNil1, assetsWithNil2);
   XCTAssertEqualObjects(assetsWithNil2, assetsWithNil1);
+  return NO;
 }
 
 - (void)checkIsAllNormal:(CR_NativeAssets *)assets {

@@ -127,6 +127,7 @@
 
   XCTAssertNotEqualObjects(bid, nil);
   XCTAssertNotEqualObjects(bid, @"astring");
+  return NO;
 }
 
 - (void)testInitialization {

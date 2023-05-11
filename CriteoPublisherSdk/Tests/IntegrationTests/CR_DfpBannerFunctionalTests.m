@@ -97,8 +97,7 @@
   XCTAssert(renderedProperly);
 }
 
-- (void)
-    test_givenGoodBannerRegistered_whenLoadingDfpBannerWithRandomAdUnitId_thenDfpViewDoNotContainCreative {
+- (void)test_givenGoodBannerRegistered_whenLoadingDfpBannerWithRandomAdUnitId_thenDfpViewDoNotContainCreative {
   CRBannerAdUnit *bannerAdUnit = [CR_TestAdUnits preprodBanner320x50];
   CRBannerAdUnit *bannerAdUnitRandom = [CR_TestAdUnits randomBanner320x50];
   [self initCriteoWithAdUnits:@[ bannerAdUnit ]];

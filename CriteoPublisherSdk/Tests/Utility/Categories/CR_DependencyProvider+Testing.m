@@ -29,10 +29,16 @@
 @implementation CR_DependencyProvider (Testing)
 
 + (instancetype)testing_dependencyProvider {
-  return CR_DependencyProvider.new.withIsolatedUserDefaults.withIsolatedDeviceInfo
-      .withWireMockConfiguration.withListenedNetworkManager.withIsolatedNotificationCenter
-      .withIsolatedFeedbackStorage.withIsolatedIntegrationRegistry.withShortLiveBidTimeBudget
-      .withConsentGiven;
+  return CR_DependencyProvider.new
+        .withIsolatedUserDefaults
+        .withIsolatedDeviceInfo
+        .withWireMockConfiguration
+        .withListenedNetworkManager
+        .withIsolatedNotificationCenter
+        .withIsolatedFeedbackStorage
+        .withIsolatedIntegrationRegistry
+        .withShortLiveBidTimeBudget
+        .withConsentGiven;
 }
 
 - (CR_DependencyProvider *)withListenedNetworkManagerWithDelay:(NSTimeInterval)delay {

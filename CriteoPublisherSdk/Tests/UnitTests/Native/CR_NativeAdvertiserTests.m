@@ -94,6 +94,7 @@
   XCTAssertNotEqualObjects(advertiserWithNil1, advertiser);
   XCTAssertEqualObjects(advertiserWithNil1, advertiserWithNil2);
   XCTAssertEqualObjects(advertiserWithNil2, advertiserWithNil1);
+  return NO;
 }
 
 - (void)checkIsAllNormal:(CR_NativeAdvertiser *)advertiser {

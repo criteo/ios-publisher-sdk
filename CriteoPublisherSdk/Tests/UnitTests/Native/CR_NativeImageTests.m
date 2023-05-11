@@ -77,6 +77,7 @@
   XCTAssertNotEqualObjects(imageWithNil1, image);
   XCTAssertEqualObjects(imageWithNil1, imageWithNil2);
   XCTAssertEqualObjects(imageWithNil2, imageWithNil1);
+  return NO;
 }
 
 - (void)checkIsAllNormal:(CR_NativeImage *)image {

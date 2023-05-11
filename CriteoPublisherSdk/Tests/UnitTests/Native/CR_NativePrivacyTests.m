@@ -88,6 +88,7 @@
   XCTAssertNotEqualObjects(privacyWithNil1, privacy);
   XCTAssertEqualObjects(privacyWithNil1, privacyWithNil2);
   XCTAssertEqualObjects(privacyWithNil2, privacyWithNil1);
+  return NO;
 }
 
 - (void)checkIsAllNormal:(CR_NativePrivacy *)privacy {
