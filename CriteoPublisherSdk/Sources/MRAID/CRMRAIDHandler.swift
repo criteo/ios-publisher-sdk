@@ -74,7 +74,7 @@ public class CRMRAIDHandler: NSObject {
 
   @objc
   public func send(error: String, action: String) {
-    evaluate(js: "window.mraid.notifyError(\"\(error)\",\"\(action)\");")
+    evaluate(javascript: "window.mraid.notifyError(\"\(error)\",\"\(action)\");")
   }
 
   @objc
@@ -138,12 +138,12 @@ extension CRMRAIDHandler {
       let size: CGSize =
         self?.webView.cr_parentViewController()?.view.bounds.size ?? UIScreen.main.bounds.size
       self?.evaluate(
-        js: "window.mraid.setMaxSize(\(size.width), \(size.height), \(UIScreen.main.scale));")
+        javascript: "window.mraid.setMaxSize(\(size.width), \(size.height), \(UIScreen.main.scale));")
     }
   }
 
   @objc fileprivate func setIsViewable(visible: Bool) {
-    evaluate(js: "window.mraid.setIsViewable(\"\(visible.stringValue)\");")
+    evaluate(javascript: "window.mraid.setIsViewable(\"\(visible.stringValue)\");")
   }
 
   @objc fileprivate func viewabilityCheck() {
@@ -155,18 +155,18 @@ extension CRMRAIDHandler {
   }
 
   fileprivate func sendReadyEvent(with placement: String) {
-    evaluate(js: "window.mraid.notifyReady(\"\(placement)\");")
+    evaluate(javascript: "window.mraid.notifyReady(\"\(placement)\");")
   }
 
   fileprivate func setCurrent(position: CGRect) {
     evaluate(
-      js:
+      javascript:
         "window.mraid.setCurrentPosition({x:\(position.minX), y:\(position.minY), width:\(position.width), height:\(position.height)});"
     )
   }
 
-  fileprivate func evaluate(js: String) {
-    webView.evaluateJavaScript(js, completionHandler: handleJSCallback)
+  fileprivate func evaluate(javascript: String) {
+    webView.evaluateJavaScript(javascript, completionHandler: handleJSCallback)
   }
 
   fileprivate func handleJSCallback(_ agent: Any?, _ error: Error?) {
@@ -178,11 +178,11 @@ extension CRMRAIDHandler {
   }
 
   fileprivate func notifyExpanded() {
-    evaluate(js: "window.mraid.notifyExpanded();")
+    evaluate(javascript: "window.mraid.notifyExpanded();")
   }
 
   fileprivate func notifyClosed() {
-    evaluate(js: "window.mraid.notifyClosed();")
+    evaluate(javascript: "window.mraid.notifyClosed();")
   }
 
   fileprivate func registerDeviceOrientationListener() {
