@@ -94,25 +94,25 @@ extension CRFulllScreenContainer {
 
   fileprivate func xLayerInBounds(in bounds: CGRect) -> CAShapeLayer {
     let layer = CAShapeLayer()
-    let x = UIBezierPath()
+    let xPos = UIBezierPath()
     let gap: CGFloat = 0.3 * bounds.size.width
-    x.move(
+    xPos.move(
       to: CGPoint(
         x: bounds.origin.x + (bounds.size.width - gap),
         y: bounds.origin.y + (bounds.size.height - gap)))
-    x.addLine(
+    xPos.addLine(
       to: CGPoint(
         x: bounds.origin.x + gap,
         y: bounds.origin.y + gap))
-    x.move(
+    xPos.move(
       to: CGPoint(
         x: bounds.origin.x + gap,
         y: bounds.origin.y + bounds.size.height - gap))
-    x.addLine(
+    xPos.addLine(
       to: CGPoint(
         x: bounds.origin.x + (bounds.size.width - gap),
         y: bounds.origin.y + gap))
-    layer.path = x.cgPath
+    layer.path = xPos.cgPath
     layer.strokeColor = UIColor.white.cgColor
     layer.lineWidth = 1.0
     return layer
