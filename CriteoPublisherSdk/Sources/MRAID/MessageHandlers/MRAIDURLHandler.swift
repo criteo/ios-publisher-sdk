@@ -50,7 +50,8 @@ final class CRMRAIDURLHandler: MRAIDURLHandler {
     do {
       let urlMessage = try JSONDecoder().decode(MRAIDOpenURLAction.self, from: data)
       guard let url = URL(string: urlMessage.url) else {
-        logger.mraidLog(error: "Could not create an URL with given string representation")
+        logger.mraidLog(
+          error: "Could not create an URL with given string representation: \(urlMessage.url)")
         return
       }
       urlOpener.open(url: url)
