@@ -42,6 +42,8 @@ public class CRMRAIDHandler: NSObject {
   private var messageHandler: MRAIDMessageHandler
   private weak var delegate: CRMRAIDHandlerDelegate?
   private var state: MRAIDState = .loading
+  private let logger: CRMRAIDLogger
+  private static let updateDelay: CGFloat = 0.05
 
   @objc
   public init(
@@ -50,6 +52,7 @@ public class CRMRAIDHandler: NSObject {
     urlOpener: CRExternalURLOpener,
     delegate: CRMRAIDHandlerDelegate?
   ) {
+    self.logger = criteoLogger
     self.webView = webView
     self.messageHandler = MRAIDMessageHandler(
       logHandler: MRAIDLogHandler(criteoLogger: criteoLogger),
@@ -63,7 +66,7 @@ public class CRMRAIDHandler: NSObject {
   @objc
   public func onAdLoad(with placementType: String) {
     state = .default
-    setMax(size: UIScreen.main.bounds.size)
+    setMaxSize()
     sendReadyEvent(with: placementType)
     startViabilityNotifier()
     registerDeviceOrientationListener()
@@ -92,7 +95,7 @@ public class CRMRAIDHandler: NSObject {
 
   @objc
   public func canLoadAd() -> Bool {
-    return state == .loading
+    return state != .expanded
   }
 
   @objc
@@ -130,8 +133,13 @@ extension CRMRAIDHandler {
     timer = nil
   }
 
-  fileprivate func setMax(size: CGSize) {
-    evaluate(js: "window.mraid.setMaxSize(\(size.width), \(size.height), \(UIScreen.main.scale));")
+  fileprivate func setMaxSize() {
+    DispatchQueue.main.asyncAfter(deadline: .now() + CRMRAIDHandler.updateDelay) { [weak self] in
+      let size: CGSize =
+        self?.webView.cr_parentViewController()?.view.bounds.size ?? UIScreen.main.bounds.size
+      self?.evaluate(
+        js: "window.mraid.setMaxSize(\(size.width), \(size.height), \(UIScreen.main.scale));")
+    }
   }
 
   @objc fileprivate func setIsViewable(visible: Bool) {
@@ -184,7 +192,7 @@ extension CRMRAIDHandler {
   }
 
   @objc fileprivate func deviceOrientationDidChange() {
-    setMax(size: UIScreen.main.bounds.size)
+    setMaxSize()
   }
 
   fileprivate func unregisterDeviceOrientationListener() {
@@ -196,15 +204,13 @@ extension CRMRAIDHandler {
 // MARK: - MRAID Message delegate
 extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
   public func didReceive(expand action: MRAIDExpandMessage) {
-    debugPrint(#function)
     guard state != .expanded else { return }
 
-    //        delegate?.expand(width: action.width, height: action.width, url: action.url) { [weak self] in
-    delegate?.expand?(width: 300, height: 200, url: action.url) { [weak self] in
+    delegate?.expand?(width: action.width, height: action.width, url: action.url) { [weak self] in
       self?.onSuccessClose()
     }
 
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + CRMRAIDHandler.updateDelay) {
       self.state = .expanded
       self.notifyExpanded()
     }
@@ -212,7 +218,7 @@ extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
 
   public func didReceiveCloseAction() {
     guard state == .default || state == .expanded else {
-      // notify error
+      logger.mraidLog(error: "Close action is not valid in current state: \(state)")
       return
     }
 

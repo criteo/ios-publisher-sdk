@@ -47,6 +47,27 @@ extension UIView {
       && viewFrame.minY >= topSafeArea
       && viewFrame.maxY <= rootViewController.view.bounds.height - bottomSafeArea
   }
+
+  @objc
+  public func cr_parentViewController() -> UIViewController? {
+    var responder: UIResponder? = self
+    while responder != nil {
+      if responder is UIViewController {
+        return responder as? UIViewController
+      }
+      responder = responder?.next
+    }
+    return nil
+  }
+
+  @objc
+  public func cr_rootViewController() -> UIViewController? {
+    var controller: UIViewController? = cr_parentViewController()
+    while controller?.parent != nil {
+      controller = controller?.parent
+    }
+    return controller
+  }
 }
 
 extension Bool {

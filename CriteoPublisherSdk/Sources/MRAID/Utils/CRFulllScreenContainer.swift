@@ -135,13 +135,32 @@ extension CRFulllScreenContainer {
   }
 
   fileprivate func applyConstraints(to webView: UIView, width: CGFloat, height: CGFloat) {
+
     webView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       webView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-      webView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-      webView.widthAnchor.constraint(equalToConstant: width),
-      webView.heightAnchor.constraint(equalToConstant: height)
+      webView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
     ])
+
+    if width > 0 {
+      NSLayoutConstraint.activate([
+        webView.widthAnchor.constraint(equalToConstant: width)
+      ])
+    } else {
+      NSLayoutConstraint.activate([
+        webView.widthAnchor.constraint(equalTo: view.widthAnchor)
+      ])
+    }
+
+    if height > 0 {
+      NSLayoutConstraint.activate([
+        webView.heightAnchor.constraint(equalToConstant: height)
+      ])
+    } else {
+      NSLayoutConstraint.activate([
+        webView.heightAnchor.constraint(equalTo: view.heightAnchor)
+      ])
+    }
   }
 
   fileprivate func setup() {
