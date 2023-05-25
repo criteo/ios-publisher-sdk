@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name              = "CriteoPublisherSdk"
-  spec.version           = "4.8.0"
+  spec.version           = "4.9.0"
   spec.summary           = "Criteo Publisher SDK for iOS"
 
   spec.description       = <<-DESC
