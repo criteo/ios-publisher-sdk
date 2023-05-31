@@ -139,6 +139,7 @@
           stringByReplacingOccurrencesOfString:config.displayURLMacro
                                     withString:displayUrl];
   htmlString = _mraidHandler ? [_mraidHandler injectInto:htmlString] : htmlString;
+  NSLog(@"html string: %@", htmlString);
   [_webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"https://criteo.com"]];
 }
 

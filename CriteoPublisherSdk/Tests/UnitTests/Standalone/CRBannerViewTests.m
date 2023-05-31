@@ -454,7 +454,7 @@
 
 - (void)testExpandMRAIDAction {
   WKWebView *mockWebView = [WKWebView new];
-
+  self.criteo.dependencyProvider.config.mraidEnabled = YES;
   CRBannerView *bannerView =
       [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                    criteo:self.criteo
