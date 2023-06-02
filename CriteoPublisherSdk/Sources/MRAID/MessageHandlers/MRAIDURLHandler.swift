@@ -25,7 +25,7 @@ public protocol CRExternalURLOpener {
   func open(url: URL)
 }
 
-protocol MRAIDURLHandler {
+public protocol MRAIDURLHandler {
   func handle(data: Data)
 }
 
@@ -33,7 +33,7 @@ private struct MRAIDOpenURLAction: Decodable {
   let url: String
 }
 
-final class CRMRAIDURLHandler: MRAIDURLHandler {
+public final class CRMRAIDURLHandler: MRAIDURLHandler {
   private let logger: CRMRAIDLogger
   private let urlOpener: CRExternalURLOpener
 
@@ -41,12 +41,12 @@ final class CRMRAIDURLHandler: MRAIDURLHandler {
     return UIApplication.shared.keyWindow?.rootViewController
   }
 
-  init(with logger: CRMRAIDLogger, urlOpener: CRExternalURLOpener) {
+  public init(with logger: CRMRAIDLogger, urlOpener: CRExternalURLOpener) {
     self.logger = logger
     self.urlOpener = urlOpener
   }
 
-  func handle(data: Data) {
+  public func handle(data: Data) {
     do {
       let urlMessage = try JSONDecoder().decode(MRAIDOpenURLAction.self, from: data)
       guard let url = URL(string: urlMessage.url) else {

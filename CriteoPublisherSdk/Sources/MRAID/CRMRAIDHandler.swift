@@ -23,207 +23,216 @@ import WebKit
 public typealias VoidCompletion = () -> Void
 
 private struct CRMRAIDHandlerConstants {
-  static let viewabilityRefreshTime: Double = 0.2
+    static let viewabilityRefreshTime: Double = 0.2
 }
 
 @objc
 public protocol CRMRAIDHandlerDelegate: AnyObject {
-  @objc
-  optional
+    @objc
+    optional
     func expand(width: Int, height: Int, url: URL?, completion: VoidCompletion?)
-  func close(completion: VoidCompletion?)
+    func close(completion: VoidCompletion?)
 }
 
 @objc
 public class CRMRAIDHandler: NSObject {
-  private let webView: WKWebView
-  private var timer: Timer?
-  private var isViewVisible: Bool = false
-  private var messageHandler: MRAIDMessageHandler
-  private weak var delegate: CRMRAIDHandlerDelegate?
-  private var state: MRAIDState = .loading
-  private let logger: CRMRAIDLogger
-  private static let updateDelay: CGFloat = 0.05
+    private let webView: WKWebView
+    private var timer: Timer?
+    private var isViewVisible: Bool = false
+    private var messageHandler: MRAIDMessageHandler
+    private weak var delegate: CRMRAIDHandlerDelegate?
+    private var state: MRAIDState = .loading
+    private let logger: CRMRAIDLogger
+    private static let updateDelay: CGFloat = 0.05
+    private var mraidBundle: Bundle? = CRMRAIDUtils.mraidResourceBundle()
 
-  @objc
-  public init(
-    with webView: WKWebView,
-    criteoLogger: CRMRAIDLogger,
-    urlOpener: CRExternalURLOpener,
-    delegate: CRMRAIDHandlerDelegate?
-  ) {
-    self.logger = criteoLogger
-    self.webView = webView
-    self.messageHandler = MRAIDMessageHandler(
-      logHandler: MRAIDLogHandler(criteoLogger: criteoLogger),
-      urlHandler: CRMRAIDURLHandler(with: criteoLogger, urlOpener: urlOpener))
-    super.init()
-    self.delegate = delegate
-    self.messageHandler.delegate = self
-    self.webView.configuration.userContentController.add(self, name: "criteoMraidBridge")
-  }
+    @objc
+    public init(
+        with webView: WKWebView,
+        criteoLogger: CRMRAIDLogger,
+        urlOpener: CRExternalURLOpener,
+        delegate: CRMRAIDHandlerDelegate?
+    ) {
+        self.logger = criteoLogger
+        self.webView = webView
+        self.messageHandler = MRAIDMessageHandler(
+            logHandler: MRAIDLogHandler(criteoLogger: criteoLogger),
+            urlHandler: CRMRAIDURLHandler(with: criteoLogger, urlOpener: urlOpener))
+        super.init()
+        self.delegate = delegate
+        self.messageHandler.delegate = self
+        DispatchQueue.main.async {
+            self.webView.configuration.userContentController.add(self, name: "criteoMraidBridge")
+        }
+    }
 
-  @objc
-  public func onAdLoad(with placementType: String) {
-    state = .default
-    setMaxSize()
-    sendReadyEvent(with: placementType)
-    startViabilityNotifier()
-    registerDeviceOrientationListener()
-  }
+    @objc
+    public func onAdLoad(with placementType: String) {
+        state = .default
+        setMaxSize()
+        sendReadyEvent(with: placementType)
+        startViabilityNotifier()
+        registerDeviceOrientationListener()
+    }
 
-  @objc
-  public func send(error: String, action: String) {
-    evaluate(javascript: "window.mraid.notifyError(\"\(error)\",\"\(action)\");")
-  }
+    @objc
+    public func send(error: String, action: String) {
+        evaluate(javascript: "window.mraid.notifyError(\"\(error)\",\"\(action)\");")
+    }
 
-  @objc
-  public func startViabilityNotifier() {
-    timer = Timer.scheduledTimer(
-      timeInterval: CRMRAIDHandlerConstants.viewabilityRefreshTime,
-      target: self,
-      selector: #selector(viewabilityCheck),
-      userInfo: nil,
-      repeats: true)
-    timer?.fire()
-  }
+    @objc
+    public func startViabilityNotifier() {
+        timer = Timer.scheduledTimer(
+            timeInterval: CRMRAIDHandlerConstants.viewabilityRefreshTime,
+            target: self,
+            selector: #selector(viewabilityCheck),
+            userInfo: nil,
+            repeats: true)
+        timer?.fire()
+    }
 
-  deinit {
-    stopViabilityNotifier()
-    unregisterDeviceOrientationListener()
-  }
+    deinit {
+        stopViabilityNotifier()
+        unregisterDeviceOrientationListener()
+    }
 
-  @objc
-  public func canLoadAd() -> Bool {
-    return state != .expanded
-  }
+    @objc
+    public func canLoadAd() -> Bool {
+        return state != .expanded
+    }
 
-  @objc
-  public func isExpanded() -> Bool {
-    return state == .expanded
-  }
+    @objc
+    public func isExpanded() -> Bool {
+        return state == .expanded
+    }
 
-  @objc
-  public func onSuccessClose() {
-    notifyClosed()
-    state = state == .expanded ? .default : .hidden
-  }
+    @objc
+    public func onSuccessClose() {
+        notifyClosed()
+        state = state == .expanded ? .default : .hidden
+    }
 
-  @objc
-  public func inject(into html: String) -> String {
-    return CRMRAIDUtils.build(html: html, from: CRMRAIDUtils.mraidResourceBundle())
-  }
+    @objc
+    public func inject(into html: String) -> String {
+        return CRMRAIDUtils.build(html: html, from: mraidBundle)
+    }
+
+    @objc
+    public func updateMraid(bundle: Bundle?) {
+        self.mraidBundle = bundle
+    }
 }
 
 // MARK: - JS message handler
 extension CRMRAIDHandler: WKScriptMessageHandler {
-  public func userContentController(
-    _ userContentController: WKUserContentController,
-    didReceive message: WKScriptMessage
-  ) {
-    messageHandler.handle(message: message.body)
-  }
+    public func userContentController(
+        _ userContentController: WKUserContentController,
+        didReceive message: WKScriptMessage
+    ) {
+        messageHandler.handle(message: message.body)
+    }
 }
 
 // MARK: - Private methods
 extension CRMRAIDHandler {
 
-  fileprivate func stopViabilityNotifier() {
-    timer?.invalidate()
-    timer = nil
-  }
-
-  fileprivate func setMaxSize() {
-    DispatchQueue.main.asyncAfter(deadline: .now() + CRMRAIDHandler.updateDelay) { [weak self] in
-      let size: CGSize =
-        self?.webView.cr_parentViewController()?.view.bounds.size ?? UIScreen.main.bounds.size
-      self?.evaluate(
-        javascript: "window.mraid.setMaxSize(\(size.width), \(size.height), \(UIScreen.main.scale));")
+    fileprivate func stopViabilityNotifier() {
+        timer?.invalidate()
+        timer = nil
     }
-  }
 
-  @objc fileprivate func setIsViewable(visible: Bool) {
-    evaluate(javascript: "window.mraid.setIsViewable(\"\(visible.stringValue)\");")
-  }
-
-  @objc fileprivate func viewabilityCheck() {
-    let isWebViewVisible = webView.isVisibleToUser
-    guard isWebViewVisible != isViewVisible else { return }
-
-    isViewVisible = isWebViewVisible
-    setIsViewable(visible: isWebViewVisible)
-  }
-
-  fileprivate func sendReadyEvent(with placement: String) {
-    evaluate(javascript: "window.mraid.notifyReady(\"\(placement)\");")
-  }
-
-  fileprivate func setCurrent(position: CGRect) {
-    evaluate(
-      javascript:
-        "window.mraid.setCurrentPosition({x:\(position.minX), y:\(position.minY), width:\(position.width), height:\(position.height)});"
-    )
-  }
-
-  fileprivate func evaluate(javascript: String) {
-    webView.evaluateJavaScript(javascript, completionHandler: handleJSCallback)
-  }
-
-  fileprivate func handleJSCallback(_ agent: Any?, _ error: Error?) {
-    if let error = error {
-      debugPrint("error on js call: \(error)")
-    } else {
-      debugPrint("no error on js callback")
+    fileprivate func setMaxSize() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + CRMRAIDHandler.updateDelay) { [weak self] in
+            let size: CGSize =
+            self?.webView.cr_parentViewController()?.view.bounds.size ?? UIScreen.main.bounds.size
+            self?.evaluate(
+                javascript:
+                    "window.mraid.setMaxSize(\(size.width), \(size.height), \(UIScreen.main.scale));")
+        }
     }
-  }
 
-  fileprivate func notifyExpanded() {
-    evaluate(javascript: "window.mraid.notifyExpanded();")
-  }
+    @objc fileprivate func setIsViewable(visible: Bool) {
+        evaluate(javascript: "window.mraid.setIsViewable(\"\(visible.stringValue)\");")
+    }
 
-  fileprivate func notifyClosed() {
-    evaluate(javascript: "window.mraid.notifyClosed();")
-  }
+    @objc fileprivate func viewabilityCheck() {
+        let isWebViewVisible = webView.isVisibleToUser
+        guard isWebViewVisible != isViewVisible else { return }
 
-  fileprivate func registerDeviceOrientationListener() {
-    NotificationCenter.default.addObserver(
-      self, selector: #selector(deviceOrientationDidChange),
-      name: UIDevice.orientationDidChangeNotification, object: nil)
-  }
+        isViewVisible = isWebViewVisible
+        setIsViewable(visible: isWebViewVisible)
+    }
 
-  @objc fileprivate func deviceOrientationDidChange() {
-    setMaxSize()
-  }
+    fileprivate func sendReadyEvent(with placement: String) {
+        evaluate(javascript: "window.mraid.notifyReady(\"\(placement)\");")
+    }
 
-  fileprivate func unregisterDeviceOrientationListener() {
-    NotificationCenter.default.removeObserver(
-      self, name: UIDevice.orientationDidChangeNotification, object: nil)
-  }
+    fileprivate func setCurrent(position: CGRect) {
+        evaluate(
+            javascript:
+                "window.mraid.setCurrentPosition({x:\(position.minX), y:\(position.minY), width:\(position.width), height:\(position.height)});"
+        )
+    }
+
+    fileprivate func evaluate(javascript: String) {
+        webView.evaluateJavaScript(javascript, completionHandler: handleJSCallback)
+    }
+
+    fileprivate func handleJSCallback(_ agent: Any?, _ error: Error?) {
+        if let error = error {
+            debugPrint("error on js call: \(error)")
+        } else {
+            debugPrint("no error on js callback")
+        }
+    }
+
+    fileprivate func notifyExpanded() {
+        evaluate(javascript: "window.mraid.notifyExpanded();")
+    }
+
+    fileprivate func notifyClosed() {
+        evaluate(javascript: "window.mraid.notifyClosed();")
+    }
+
+    fileprivate func registerDeviceOrientationListener() {
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(deviceOrientationDidChange),
+            name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+
+    @objc fileprivate func deviceOrientationDidChange() {
+        setMaxSize()
+    }
+
+    fileprivate func unregisterDeviceOrientationListener() {
+        NotificationCenter.default.removeObserver(
+            self, name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
 }
 
 // MARK: - MRAID Message delegate
 extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
-  public func didReceive(expand action: MRAIDExpandMessage) {
-    guard state != .expanded else { return }
+    public func didReceive(expand action: MRAIDExpandMessage) {
+        guard state != .expanded else { return }
 
-    delegate?.expand?(width: action.width, height: action.width, url: action.url) { [weak self] in
-      self?.onSuccessClose()
+        delegate?.expand?(width: action.width, height: action.width, url: action.url) { [weak self] in
+            self?.onSuccessClose()
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + CRMRAIDHandler.updateDelay) {
+            self.state = .expanded
+            self.notifyExpanded()
+        }
     }
 
-    DispatchQueue.main.asyncAfter(deadline: .now() + CRMRAIDHandler.updateDelay) {
-      self.state = .expanded
-      self.notifyExpanded()
-    }
-  }
+    public func didReceiveCloseAction() {
+        guard state == .default || state == .expanded else {
+            logger.mraidLog(error: "Close action is not valid in current state: \(state)")
+            return
+        }
 
-  public func didReceiveCloseAction() {
-    guard state == .default || state == .expanded else {
-      logger.mraidLog(error: "Close action is not valid in current state: \(state)")
-      return
+        delegate?.close { [weak self] in
+            self?.onSuccessClose()
+        }
     }
-
-    delegate?.close { [weak self] in
-      self?.onSuccessClose()
-    }
-  }
 }

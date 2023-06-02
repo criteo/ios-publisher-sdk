@@ -21,22 +21,95 @@ import CriteoPublisherSdk
 import WebKit
 import XCTest
 
-final class MRAIDHandlerTests: XCTestCase {
-  func testOpenAction() {
-    let webView = WKWebView()
-    let logger = MRAIDLoggerMock()
-    let urlOpener = URLOpenerMock { _ in
+class MockMessageDelegate: MRAIDMessageHandlerDelegate {
+    typealias ExpandBlock = (Int, Int, URL?) -> Void
+    typealias CloseBlock = () -> Void
 
+    var expandBlock: ExpandBlock?
+    var closeBlock: CloseBlock?
+
+    func didReceive(expand action: MRAIDExpandMessage) {
+        expandBlock?(action.width, action.height, action.url)
     }
 
-    let mraidHandler = CRMRAIDHandler(
-      with: webView, criteoLogger: logger, urlOpener: urlOpener, delegate: nil)
-    //        webView.evaluateJavaScript()
+    func didReceiveCloseAction() {
+        closeBlock?()
+    }
+}
 
-    //        NSBundle *mraidBundle = [self mraidBundle];
-    //        NSString *mraid = [CRMRAIDUtils loadMraidFromBundle:mraidBundle];
-    //        NSString *html = @"<html><head></head><body></body></html>";
-    //        html = [CRMRAIDUtils insertMraid:html fromBundle:mraidBundle];
-    //        XCTAssertTrue([html containsString:mraid]);
-  }
+
+final class MRAIDHandlerTests: XCTestCase {
+    var logger: MRAIDLoggerMock!
+    var urlOpener: URLOpenerMock!
+    var messageHandler: MRAIDMessageHandler!
+    var urlHandler: MRAIDURLHandler!
+    var logHandler: MRAIDLogHandler!
+    var messageDelegate: MockMessageDelegate!
+
+    override func setUp() async throws {
+        logger = MRAIDLoggerMock()
+        urlOpener = URLOpenerMock(openBlock: nil)
+        urlHandler = CRMRAIDURLHandler(with: logger, urlOpener: urlOpener)
+        logHandler = MRAIDLogHandler(criteoLogger: logger)
+        messageHandler = MRAIDMessageHandler(logHandler: logHandler, urlHandler: urlHandler)
+        messageDelegate = MockMessageDelegate()
+    }
+
+    override func tearDown() async throws {
+        logger = nil
+        urlOpener = nil
+        urlHandler = nil
+        messageHandler = nil
+        logHandler = nil
+    }
+
+    func testOpenAction() {
+        let urlString = "https://criteo.com"
+        let expectation = XCTestExpectation(description: "url to match")
+        urlOpener.openBlock = { url in
+            if url.absoluteString == urlString {
+                expectation.fulfill()
+            }
+        }
+        messageHandler.handle(message: [
+            "action" : Action.open.rawValue,
+            "url": urlString
+        ])
+
+        wait(for: [expectation], timeout: 0.1)
+    }
+
+    func testExpandAction() {
+        let urlString = "https://criteo.com"
+        messageHandler.delegate = messageDelegate
+        let expectation = XCTestExpectation(description: "expand action to be received with all data")
+        messageDelegate.expandBlock = { width, height, url in
+            if width == 200, height == 100, url?.absoluteString == urlString {
+                expectation.fulfill()
+            }
+        }
+
+        messageHandler.handle(message: [
+            "action": Action.expand.rawValue,
+            "width": 200,
+            "height": 100,
+            "url": urlString
+        ] as [String : Any])
+
+        wait(for: [expectation], timeout: 0.1)
+    }
+
+    func testCloseAction() {
+        let expectation = XCTestExpectation(description: "close action is received")
+        messageDelegate.closeBlock = {
+            expectation.fulfill()
+        }
+
+        messageHandler.delegate = messageDelegate
+        messageHandler.handle(message: [
+            "action": Action.close.rawValue
+        ])
+
+        wait(for: [expectation], timeout: 0.1)
+    }
 }

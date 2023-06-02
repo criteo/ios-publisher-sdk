@@ -24,17 +24,17 @@ public protocol MRAIDMessageHandlerDelegate: AnyObject {
   func didReceiveCloseAction()
 }
 
-struct MRAIDMessageHandler {
+public struct MRAIDMessageHandler {
   private let logHandler: MRAIDLogHandler
   private let urlHandler: MRAIDURLHandler
-  weak var delegate: MRAIDMessageHandlerDelegate?
+  public weak var delegate: MRAIDMessageHandlerDelegate?
 
-  init(logHandler: MRAIDLogHandler, urlHandler: MRAIDURLHandler) {
+  public init(logHandler: MRAIDLogHandler, urlHandler: MRAIDURLHandler) {
     self.logHandler = logHandler
     self.urlHandler = urlHandler
   }
 
-  func handle(message: Any) {
+  public func handle(message: Any) {
     do {
       let data = try JSONSerialization.data(withJSONObject: message)
       let actionMessage = try JSONDecoder().decode(MRAIDActionMessage.self, from: data)

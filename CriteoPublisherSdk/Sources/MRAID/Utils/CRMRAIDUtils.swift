@@ -28,6 +28,8 @@ public class CRMRAIDUtils: NSObject {
     static let bundleExtension = "bundle"
     static let script = "<script type=\"text/javascript\">%@</script>"
     static let scriptInjectTarget = "<body>"
+    static let testBundle = "CriteoPublisherSdkTests"
+    static let testBundleExtension = "xctest"
   }
 
   @objc
@@ -66,5 +68,10 @@ public class CRMRAIDUtils: NSObject {
       return nil
     }
     return Bundle(path: path)
+  }
+
+  @objc
+  public static func mraidTestResourceBundle() -> Bundle? {
+    return Bundle.allBundles.first(where: { $0.bundlePath.contains(Constants.testBundle) })
   }
 }

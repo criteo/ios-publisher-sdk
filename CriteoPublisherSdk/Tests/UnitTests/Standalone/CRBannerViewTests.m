@@ -32,10 +32,16 @@
 #import "XCTestCase+Criteo.h"
 #import "CR_NativeAssets+Testing.h"
 
+#if __has_include("CriteoPublisherSdkTests-Swift.h")
+#import "CriteoPublisherSdkTests-Swift.h"
+#else
+#import <CriteoPublisherSdk/CriteoPublisherSdkTests-Swift.h>
+#endif
+
 #import <WebKit/WebKit.h>
 
 #define TEST_DISPLAY_URL \
-  @"https://rdi.eu.criteo.com/delivery/rtb/demo/ajs?zoneid=1417086&width=300&height=250&ibva=0"
+  @"https://ssp-ads.fr3.eu.criteo.com/delivery/tpd/ajs.php?mkpid=M1BEX0FETV9LRVlfMzNlYzM5MjU1ODU4NDRjZGEyYzc1ZDRmY2FkNTliYTJfNjQ3ODcxZGE2Y2RiZDdjNzU1MjY0OWE1MjFlZDc4NjM=&w=320&h=50"
 
 @interface CRBannerView (Testing)
 @property(nonatomic, strong) CRMRAIDHandler *mraidHandler;
@@ -462,16 +468,30 @@
                                addWebView:NO
                                    adUnit:nil
                                 urlOpener:self.urlOpener];
+  CR_CdbBid *cdbBid = [self cdbBidWithDisplayUrl:TEST_DISPLAY_URL];
+  CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:self.adUnit];
+
+  [bannerView.mraidHandler updateMraidWithBundle:[CR_MRAIDUtils mraidBundle]];
+  [bannerView loadAdWithBid:bid];
+
   XCTestExpectation *bannerReceiveExpandAction =
       [[XCTestExpectation alloc] initWithDescription:@"expand action is received"];
-  [mockWebView evaluateJavaScript:@"window.mraid.notifyExpanded();" completionHandler:NULL];
-  dispatch_time_t afterTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC));
+
+  dispatch_time_t jsTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC));
+  dispatch_after(jsTime, dispatch_get_main_queue(), ^{
+    [mockWebView evaluateJavaScript:@"window.mraid.expand();"
+                  completionHandler:^(id _Nullable object, NSError *_Nullable error) {
+                    NSLog(@"->>>: %@ ", error);
+                  }];
+  });
+
+  dispatch_time_t afterTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.5 * NSEC_PER_SEC));
   dispatch_after(afterTime, dispatch_get_main_queue(), ^{
-    XCTAssertTrue(bannerView.mraidHandler.isExpanded);
+    XCTAssertTrue([bannerView.mraidHandler isInExpandendMode]);
     [bannerReceiveExpandAction fulfill];
   });
+
   [self cr_waitForExpectations:@[ bannerReceiveExpandAction ]];
-  OCMVerifyAll(mockWebView);
 }
 
 @end

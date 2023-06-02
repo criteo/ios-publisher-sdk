@@ -1918,7 +1918,7 @@
 				25BD5B542220D16D004DE311 /* Frameworks */,
 				25BD5B552220D16D004DE311 /* Resources */,
 				E399768528F5A9E000F60EFB /* ShellScript */,
-				2405EC4305DEEE189D9DD743 /* [CP] Copy Pods Resources */,
+				D7B0C894085CAEC7B45FB9A3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1956,7 +1956,7 @@
 				E1F2736A21B5F08D00A2FBFA /* Frameworks */,
 				E1F2736B21B5F08D00A2FBFA /* Resources */,
 				E396CC5F28F82B2D0039F3B1 /* ShellScript */,
-				637F7D38A81A30809C5DE36B /* [CP] Copy Pods Resources */,
+				D3636D2862D3EACE6A97D00D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2046,23 +2046,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2405EC4305DEEE189D9DD743 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CriteoPublisherSdk/Pods-CriteoPublisherSdk-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CriteoPublisherSdk/Pods-CriteoPublisherSdk-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CriteoPublisherSdk/Pods-CriteoPublisherSdk-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		2A33ED979BC0CD8D80259A7B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2085,23 +2068,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		637F7D38A81A30809C5DE36B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CriteoPublisherSdkTests/Pods-CriteoPublisherSdkTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CriteoPublisherSdkTests/Pods-CriteoPublisherSdkTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CriteoPublisherSdkTests/Pods-CriteoPublisherSdkTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		89DCBF6F7C3AA39849F39E70 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2122,6 +2088,40 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D3636D2862D3EACE6A97D00D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CriteoPublisherSdkTests/Pods-CriteoPublisherSdkTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CriteoPublisherSdkTests/Pods-CriteoPublisherSdkTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CriteoPublisherSdkTests/Pods-CriteoPublisherSdkTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D7B0C894085CAEC7B45FB9A3 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CriteoPublisherSdk/Pods-CriteoPublisherSdk-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CriteoPublisherSdk/Pods-CriteoPublisherSdk-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CriteoPublisherSdk/Pods-CriteoPublisherSdk-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E396CC5F28F82B2D0039F3B1 /* ShellScript */ = {
