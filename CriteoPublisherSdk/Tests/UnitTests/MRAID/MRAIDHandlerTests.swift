@@ -46,7 +46,7 @@ final class MRAIDHandlerTests: XCTestCase {
     var logHandler: MRAIDLogHandler!
     var messageDelegate: MockMessageDelegate!
 
-    override func setUp() async throws {
+    override func setUp() {
         logger = MRAIDLoggerMock()
         urlOpener = URLOpenerMock(openBlock: nil)
         urlHandler = CRMRAIDURLHandler(with: logger, urlOpener: urlOpener)
@@ -55,7 +55,7 @@ final class MRAIDHandlerTests: XCTestCase {
         messageDelegate = MockMessageDelegate()
     }
 
-    override func tearDown() async throws {
+    override func tearDown() {
         logger = nil
         urlOpener = nil
         urlHandler = nil

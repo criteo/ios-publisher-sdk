@@ -487,7 +487,7 @@
 
   dispatch_time_t afterTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.5 * NSEC_PER_SEC));
   dispatch_after(afterTime, dispatch_get_main_queue(), ^{
-    XCTAssertTrue([bannerView.mraidHandler isInExpandendMode]);
+    XCTAssertTrue([bannerView.mraidHandler isExpanded]);
     [bannerReceiveExpandAction fulfill];
   });
 
