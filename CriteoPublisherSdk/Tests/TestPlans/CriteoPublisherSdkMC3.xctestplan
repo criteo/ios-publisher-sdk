@@ -99,6 +99,7 @@
         "CR_FeedbackMessageFunctionalTests\/testGivenTimeoutErrorOnPrefetch_whenLiveBidTimeBudgetExceeded_thenSendFeedbackMessage",
         "CR_FeedbackSerializerTests\/testAnyMessageContainsSlotsField()",
         "CR_FeedbackSerializerTests\/testConfigValuesPassed()",
+        "CR_FeedbackSerializerTests\/testEmptyMessage()",
         "CR_FeedbackStorageTests\/test_initWithActiveMessages_ShouldBeMovedToSendingQueue()",
         "CR_FeedbackStorageTests\/test_requestFor_ReadyToSendMessages_ShouldReturnEverythingFromQueue()",
         "CR_FeedbackStorageTests\/test_updateByDifferentAdUnit_shouldReadByDifferentFilename()",
