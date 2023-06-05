@@ -43,7 +43,7 @@ final class MRAIDHandlerTests: XCTestCase {
   var messageHandler: MRAIDMessageHandler!
   var urlHandler: MRAIDURLHandler!
   var logHandler: MRAIDLogHandler!
-  weak var messageDelegate: MockMessageDelegate!
+  var messageMockListener: MockMessageDelegate!
 
   override func setUp() {
     logger = MRAIDLoggerMock()
@@ -51,7 +51,7 @@ final class MRAIDHandlerTests: XCTestCase {
     urlHandler = CRMRAIDURLHandler(with: logger, urlOpener: urlOpener)
     logHandler = MRAIDLogHandler(criteoLogger: logger)
     messageHandler = MRAIDMessageHandler(logHandler: logHandler, urlHandler: urlHandler)
-    messageDelegate = MockMessageDelegate()
+    messageMockListener = MockMessageDelegate()
   }
 
   override func tearDown() {
@@ -80,9 +80,9 @@ final class MRAIDHandlerTests: XCTestCase {
 
   func testExpandAction() {
     let urlString = "https://criteo.com"
-    messageHandler.delegate = messageDelegate
+    messageHandler.delegate = messageMockListener
     let expectation = XCTestExpectation(description: "expand action to be received with all data")
-    messageDelegate.expandBlock = { width, height, url in
+    messageMockListener.expandBlock = { width, height, url in
       if width == 200, height == 100, url?.absoluteString == urlString {
         expectation.fulfill()
       }
@@ -101,11 +101,11 @@ final class MRAIDHandlerTests: XCTestCase {
 
   func testCloseAction() {
     let expectation = XCTestExpectation(description: "close action is received")
-    messageDelegate.closeBlock = {
+    messageMockListener.closeBlock = {
       expectation.fulfill()
     }
 
-    messageHandler.delegate = messageDelegate
+    messageHandler.delegate = messageMockListener
     messageHandler.handle(message: [
       "action": Action.close.rawValue
     ])
