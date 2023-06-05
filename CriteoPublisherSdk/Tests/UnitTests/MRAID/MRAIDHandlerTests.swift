@@ -22,94 +22,94 @@ import WebKit
 import XCTest
 
 class MockMessageDelegate: MRAIDMessageHandlerDelegate {
-    typealias ExpandBlock = (Int, Int, URL?) -> Void
-    typealias CloseBlock = () -> Void
+  typealias ExpandBlock = (Int, Int, URL?) -> Void
+  typealias CloseBlock = () -> Void
 
-    var expandBlock: ExpandBlock?
-    var closeBlock: CloseBlock?
+  var expandBlock: ExpandBlock?
+  var closeBlock: CloseBlock?
 
-    func didReceive(expand action: MRAIDExpandMessage) {
-        expandBlock?(action.width, action.height, action.url)
-    }
+  func didReceive(expand action: MRAIDExpandMessage) {
+    expandBlock?(action.width, action.height, action.url)
+  }
 
-    func didReceiveCloseAction() {
-        closeBlock?()
-    }
+  func didReceiveCloseAction() {
+    closeBlock?()
+  }
 }
 
-
 final class MRAIDHandlerTests: XCTestCase {
-    var logger: MRAIDLoggerMock!
-    var urlOpener: URLOpenerMock!
-    var messageHandler: MRAIDMessageHandler!
-    var urlHandler: MRAIDURLHandler!
-    var logHandler: MRAIDLogHandler!
-    var messageDelegate: MockMessageDelegate!
+  var logger: MRAIDLoggerMock!
+  var urlOpener: URLOpenerMock!
+  var messageHandler: MRAIDMessageHandler!
+  var urlHandler: MRAIDURLHandler!
+  var logHandler: MRAIDLogHandler!
+  weak var messageDelegate: MockMessageDelegate!
 
-    override func setUp() {
-        logger = MRAIDLoggerMock()
-        urlOpener = URLOpenerMock(openBlock: nil)
-        urlHandler = CRMRAIDURLHandler(with: logger, urlOpener: urlOpener)
-        logHandler = MRAIDLogHandler(criteoLogger: logger)
-        messageHandler = MRAIDMessageHandler(logHandler: logHandler, urlHandler: urlHandler)
-        messageDelegate = MockMessageDelegate()
+  override func setUp() {
+    logger = MRAIDLoggerMock()
+    urlOpener = URLOpenerMock(openBlock: nil)
+    urlHandler = CRMRAIDURLHandler(with: logger, urlOpener: urlOpener)
+    logHandler = MRAIDLogHandler(criteoLogger: logger)
+    messageHandler = MRAIDMessageHandler(logHandler: logHandler, urlHandler: urlHandler)
+    messageDelegate = MockMessageDelegate()
+  }
+
+  override func tearDown() {
+    logger = nil
+    urlOpener = nil
+    urlHandler = nil
+    messageHandler = nil
+    logHandler = nil
+  }
+
+  func testOpenAction() {
+    let urlString = "https://criteo.com"
+    let expectation = XCTestExpectation(description: "url to match")
+    urlOpener.openBlock = { url in
+      if url.absoluteString == urlString {
+        expectation.fulfill()
+      }
+    }
+    messageHandler.handle(message: [
+      "action": Action.open.rawValue,
+      "url": urlString
+    ])
+
+    wait(for: [expectation], timeout: 0.1)
+  }
+
+  func testExpandAction() {
+    let urlString = "https://criteo.com"
+    messageHandler.delegate = messageDelegate
+    let expectation = XCTestExpectation(description: "expand action to be received with all data")
+    messageDelegate.expandBlock = { width, height, url in
+      if width == 200, height == 100, url?.absoluteString == urlString {
+        expectation.fulfill()
+      }
     }
 
-    override func tearDown() {
-        logger = nil
-        urlOpener = nil
-        urlHandler = nil
-        messageHandler = nil
-        logHandler = nil
+    messageHandler.handle(
+      message: [
+        "action": Action.expand.rawValue,
+        "width": 200,
+        "height": 100,
+        "url": urlString
+      ] as [String: Any])
+
+    wait(for: [expectation], timeout: 0.1)
+  }
+
+  func testCloseAction() {
+    let expectation = XCTestExpectation(description: "close action is received")
+    messageDelegate.closeBlock = {
+      expectation.fulfill()
     }
 
-    func testOpenAction() {
-        let urlString = "https://criteo.com"
-        let expectation = XCTestExpectation(description: "url to match")
-        urlOpener.openBlock = { url in
-            if url.absoluteString == urlString {
-                expectation.fulfill()
-            }
-        }
-        messageHandler.handle(message: [
-            "action" : Action.open.rawValue,
-            "url": urlString
-        ])
+    messageHandler.delegate = messageDelegate
+    messageHandler.handle(message: [
+      "action": Action.close.rawValue
+    ])
 
-        wait(for: [expectation], timeout: 0.1)
-    }
-
-    func testExpandAction() {
-        let urlString = "https://criteo.com"
-        messageHandler.delegate = messageDelegate
-        let expectation = XCTestExpectation(description: "expand action to be received with all data")
-        messageDelegate.expandBlock = { width, height, url in
-            if width == 200, height == 100, url?.absoluteString == urlString {
-                expectation.fulfill()
-            }
-        }
-
-        messageHandler.handle(message: [
-            "action": Action.expand.rawValue,
-            "width": 200,
-            "height": 100,
-            "url": urlString
-        ] as [String : Any])
-
-        wait(for: [expectation], timeout: 0.1)
-    }
-
-    func testCloseAction() {
-        let expectation = XCTestExpectation(description: "close action is received")
-        messageDelegate.closeBlock = {
-            expectation.fulfill()
-        }
-
-        messageHandler.delegate = messageDelegate
-        messageHandler.handle(message: [
-            "action": Action.close.rawValue
-        ])
-
-        wait(for: [expectation], timeout: 0.1)
-    }
+    wait(for: [expectation], timeout: 0.1)
+  }
 }

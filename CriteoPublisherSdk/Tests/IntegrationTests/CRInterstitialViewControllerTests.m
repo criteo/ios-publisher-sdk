@@ -33,6 +33,8 @@
 #import "CR_Timer.h"
 #import "CR_URLOpenerMock.h"
 #import "XCTestCase+Criteo.h"
+#import "CR_IntegrationRegistry.h"
+#import "CR_DependencyProvider+Testing.h"
 
 @interface CR_InterstitialViewController () {
   BOOL _hasBeenDismissed;
@@ -46,13 +48,25 @@
 
 @property(nonatomic, strong) CRInterstitialAdUnit *adUnit;
 @property(nonatomic, strong) CR_CacheAdUnit *cacheAdUnit;
+@property(strong, nonatomic) Criteo *criteo;
+@property(strong, nonatomic) CR_IntegrationRegistry *integrationRegistry;
 
 @end
 
 @implementation CRInterstitialViewControllerTests
 
 - (void)setUp {
-  _adUnit = nil;
+  self.adUnit = nil;
+  self.integrationRegistry = OCMClassMock([CR_IntegrationRegistry class]);
+
+  CR_DependencyProvider *dependencyProvider = CR_DependencyProvider.testing_dependencyProvider;
+  dependencyProvider.integrationRegistry = self.integrationRegistry;
+
+  self.criteo = OCMPartialMock([Criteo.alloc initWithDependencyProvider:dependencyProvider]);
+}
+
+- (void)tearDown {
+  self.criteo = nil;
 }
 
 - (CRInterstitialAdUnit *)adUnit {
@@ -85,13 +99,16 @@
 }
 
 - (void)testCloseButtonClick {
-  Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+  CR_Config *config = [CR_Config new];
+  config.displayURLMacro = @"ˆURLˆ";
+  config.mraidEnabled = YES;
+  self.criteo.dependencyProvider.config = config;
   CR_InterstitialViewController *interstitialVC =
       [[CR_InterstitialViewController alloc] initWithWebView:[WKWebView new]
                                                         view:nil
                                                 interstitial:nil];
   CRInterstitial *interstitial =
-      [[CRInterstitial alloc] initWithCriteo:mockCriteo
+      [[CRInterstitial alloc] initWithCriteo:self.criteo
                               viewController:interstitialVC
                                   isAdLoaded:YES
                                       adUnit:self.adUnit
@@ -143,13 +160,16 @@
 }
 
 - (void)testDismissCompletion {
-  Criteo *mockCriteo = OCMStrictClassMock([Criteo class]);
+  CR_Config *config = [CR_Config new];
+  config.displayURLMacro = @"ˆURLˆ";
+  config.mraidEnabled = YES;
+  self.criteo.dependencyProvider.config = config;
   CR_InterstitialViewController *interstitialVC =
       [[CR_InterstitialViewController alloc] initWithWebView:[WKWebView new]
                                                         view:nil
                                                 interstitial:nil];
   CRInterstitial *interstitial =
-      [[CRInterstitial alloc] initWithCriteo:mockCriteo
+      [[CRInterstitial alloc] initWithCriteo:self.criteo
                               viewController:interstitialVC
                                   isAdLoaded:YES
                                       adUnit:self.adUnit
