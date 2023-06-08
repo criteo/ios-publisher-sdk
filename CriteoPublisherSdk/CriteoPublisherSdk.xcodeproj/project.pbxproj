@@ -285,6 +285,10 @@
 		A83BB59B29BF6B3F002A63B6 /* MRAIDURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83BB59A29BF6B3F002A63B6 /* MRAIDURLHandler.swift */; };
 		A879179329A7230F00A3B798 /* CRMRAIDHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A879179229A7230F00A3B798 /* CRMRAIDHandler.swift */; };
 		A879179629A771CF00A3B798 /* SwiftExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A879179529A771CF00A3B798 /* SwiftExtensions.swift */; };
+		A89F657E2A31CE3800ABBFF7 /* FlakyTest.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = A89F657D2A31CE3800ABBFF7 /* FlakyTest.xctestplan */; };
+		A89F65802A31CF2C00ABBFF7 /* CriteoPublisherSdk-Functional.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = A89F657F2A31CF2C00ABBFF7 /* CriteoPublisherSdk-Functional.xctestplan */; };
+		A89F65822A31CF8F00ABBFF7 /* LoggingTests.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = A89F65812A31CF8F00ABBFF7 /* LoggingTests.xctestplan */; };
+		A89F65842A31CFF700ABBFF7 /* CriteoPublisherSdk.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = A89F65832A31CFF700ABBFF7 /* CriteoPublisherSdk.xctestplan */; };
 		A8E22E1B29DD75DF0094FFA4 /* MRAIDExpandMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E22E1A29DD75DF0094FFA4 /* MRAIDExpandMessage.swift */; };
 		A8E22E1D29DEFD4A0094FFA4 /* MRAIDState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E22E1C29DEFD4A0094FFA4 /* MRAIDState.swift */; };
 		A8E22E1F29DF06250094FFA4 /* CRFulllScreenContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E22E1E29DF06250094FFA4 /* CRFulllScreenContainer.swift */; };
@@ -723,16 +727,6 @@
 		A82D7DEF2A04FD05001302A8 /* CR_MRAIDUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CR_MRAIDUtils.swift; sourceTree = "<group>"; };
 		A82D7DF12A04FEAB001302A8 /* CRMRAIDUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRMRAIDUtils.swift; sourceTree = "<group>"; };
 		A82D7DF32A0A3ED4001302A8 /* MRAIDUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDUtilsTests.swift; sourceTree = "<group>"; };
-		A82D7E1D2A20B28E001302A8 /* CriteoPublisherSdkMC1.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC1.xctestplan; sourceTree = "<group>"; };
-		A82D7E1E2A20B28E001302A8 /* CriteoPublisherSdkMC9.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC9.xctestplan; sourceTree = "<group>"; };
-		A82D7E1F2A20B28E001302A8 /* CriteoPublisherSdkMC4.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC4.xctestplan; sourceTree = "<group>"; };
-		A82D7E202A20B28E001302A8 /* CriteoPublisherSdkMC3.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC3.xctestplan; sourceTree = "<group>"; };
-		A82D7E212A20B28E001302A8 /* CriteoPublisherSdkMC6.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC6.xctestplan; sourceTree = "<group>"; };
-		A82D7E222A20B28E001302A8 /* CriteoPublisherSdkMC8.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC8.xctestplan; sourceTree = "<group>"; };
-		A82D7E232A20B28E001302A8 /* CriteoPublisherSdkMC5.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC5.xctestplan; sourceTree = "<group>"; };
-		A82D7E242A20B28E001302A8 /* CriteoPublisherSdkMC0.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC0.xctestplan; sourceTree = "<group>"; };
-		A82D7E252A20B28E001302A8 /* CriteoPublisherSdkMC7.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC7.xctestplan; sourceTree = "<group>"; };
-		A82D7E262A20B28E001302A8 /* CriteoPublisherSdkMC2.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC2.xctestplan; sourceTree = "<group>"; };
 		A83BB58929BAEB69002A63B6 /* ActionRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionRepresentable.swift; sourceTree = "<group>"; };
 		A83BB58B29BAEBC9002A63B6 /* MRAIDLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDLog.swift; sourceTree = "<group>"; };
 		A83BB58D29BAEC17002A63B6 /* LogLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogLevel.swift; sourceTree = "<group>"; };
@@ -743,6 +737,20 @@
 		A83BB59A29BF6B3F002A63B6 /* MRAIDURLHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDURLHandler.swift; sourceTree = "<group>"; };
 		A879179229A7230F00A3B798 /* CRMRAIDHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRMRAIDHandler.swift; sourceTree = "<group>"; };
 		A879179529A771CF00A3B798 /* SwiftExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftExtensions.swift; sourceTree = "<group>"; };
+		A89F65672A31CD4500ABBFF7 /* CriteoPublisherSdkMC1.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC1.xctestplan; sourceTree = "<group>"; };
+		A89F65682A31CD4500ABBFF7 /* CriteoPublisherSdkMC9.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC9.xctestplan; sourceTree = "<group>"; };
+		A89F65692A31CD4500ABBFF7 /* CriteoPublisherSdkMC4.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC4.xctestplan; sourceTree = "<group>"; };
+		A89F656A2A31CD4500ABBFF7 /* CriteoPublisherSdkMC3.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC3.xctestplan; sourceTree = "<group>"; };
+		A89F656B2A31CD4500ABBFF7 /* CriteoPublisherSdkMC6.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC6.xctestplan; sourceTree = "<group>"; };
+		A89F656C2A31CD4500ABBFF7 /* CriteoPublisherSdkMC8.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC8.xctestplan; sourceTree = "<group>"; };
+		A89F656D2A31CD4500ABBFF7 /* CriteoPublisherSdkMC5.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC5.xctestplan; sourceTree = "<group>"; };
+		A89F656E2A31CD4500ABBFF7 /* CriteoPublisherSdkMC0.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC0.xctestplan; sourceTree = "<group>"; };
+		A89F656F2A31CD4500ABBFF7 /* CriteoPublisherSdkMC7.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC7.xctestplan; sourceTree = "<group>"; };
+		A89F65702A31CD4500ABBFF7 /* CriteoPublisherSdkMC2.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC2.xctestplan; sourceTree = "<group>"; };
+		A89F657D2A31CE3800ABBFF7 /* FlakyTest.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FlakyTest.xctestplan; sourceTree = "<group>"; };
+		A89F657F2A31CF2C00ABBFF7 /* CriteoPublisherSdk-Functional.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "CriteoPublisherSdk-Functional.xctestplan"; sourceTree = "<group>"; };
+		A89F65812A31CF8F00ABBFF7 /* LoggingTests.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LoggingTests.xctestplan; sourceTree = "<group>"; };
+		A89F65832A31CFF700ABBFF7 /* CriteoPublisherSdk.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdk.xctestplan; sourceTree = "<group>"; };
 		A8E22E1A29DD75DF0094FFA4 /* MRAIDExpandMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDExpandMessage.swift; sourceTree = "<group>"; };
 		A8E22E1C29DEFD4A0094FFA4 /* MRAIDState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDState.swift; sourceTree = "<group>"; };
 		A8E22E1E29DF06250094FFA4 /* CRFulllScreenContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRFulllScreenContainer.swift; sourceTree = "<group>"; };
@@ -1560,16 +1568,8 @@
 		A82D7E1C2A20B28E001302A8 /* TestPlans */ = {
 			isa = PBXGroup;
 			children = (
-				A82D7E1D2A20B28E001302A8 /* CriteoPublisherSdkMC1.xctestplan */,
-				A82D7E1E2A20B28E001302A8 /* CriteoPublisherSdkMC9.xctestplan */,
-				A82D7E1F2A20B28E001302A8 /* CriteoPublisherSdkMC4.xctestplan */,
-				A82D7E202A20B28E001302A8 /* CriteoPublisherSdkMC3.xctestplan */,
-				A82D7E212A20B28E001302A8 /* CriteoPublisherSdkMC6.xctestplan */,
-				A82D7E222A20B28E001302A8 /* CriteoPublisherSdkMC8.xctestplan */,
-				A82D7E232A20B28E001302A8 /* CriteoPublisherSdkMC5.xctestplan */,
-				A82D7E242A20B28E001302A8 /* CriteoPublisherSdkMC0.xctestplan */,
-				A82D7E252A20B28E001302A8 /* CriteoPublisherSdkMC7.xctestplan */,
-				A82D7E262A20B28E001302A8 /* CriteoPublisherSdkMC2.xctestplan */,
+				A89F657B2A31CDD700ABBFF7 /* flaky tests */,
+				A89F65662A31CD4500ABBFF7 /* bulk test plans */,
 			);
 			path = TestPlans;
 			sourceTree = "<group>";
@@ -1615,6 +1615,34 @@
 				A82D7DF12A04FEAB001302A8 /* CRMRAIDUtils.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		A89F65662A31CD4500ABBFF7 /* bulk test plans */ = {
+			isa = PBXGroup;
+			children = (
+				A89F65672A31CD4500ABBFF7 /* CriteoPublisherSdkMC1.xctestplan */,
+				A89F65682A31CD4500ABBFF7 /* CriteoPublisherSdkMC9.xctestplan */,
+				A89F65692A31CD4500ABBFF7 /* CriteoPublisherSdkMC4.xctestplan */,
+				A89F656A2A31CD4500ABBFF7 /* CriteoPublisherSdkMC3.xctestplan */,
+				A89F656B2A31CD4500ABBFF7 /* CriteoPublisherSdkMC6.xctestplan */,
+				A89F656C2A31CD4500ABBFF7 /* CriteoPublisherSdkMC8.xctestplan */,
+				A89F656D2A31CD4500ABBFF7 /* CriteoPublisherSdkMC5.xctestplan */,
+				A89F656E2A31CD4500ABBFF7 /* CriteoPublisherSdkMC0.xctestplan */,
+				A89F656F2A31CD4500ABBFF7 /* CriteoPublisherSdkMC7.xctestplan */,
+				A89F65702A31CD4500ABBFF7 /* CriteoPublisherSdkMC2.xctestplan */,
+			);
+			path = "bulk test plans";
+			sourceTree = "<group>";
+		};
+		A89F657B2A31CDD700ABBFF7 /* flaky tests */ = {
+			isa = PBXGroup;
+			children = (
+				A89F65832A31CFF700ABBFF7 /* CriteoPublisherSdk.xctestplan */,
+				A89F65812A31CF8F00ABBFF7 /* LoggingTests.xctestplan */,
+				A89F657F2A31CF2C00ABBFF7 /* CriteoPublisherSdk-Functional.xctestplan */,
+				A89F657D2A31CE3800ABBFF7 /* FlakyTest.xctestplan */,
+			);
+			path = "flaky tests";
 			sourceTree = "<group>";
 		};
 		A8E22E1929DD75CC0094FFA4 /* Data */ = {
@@ -2036,8 +2064,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				46D707DC24A284A00043D66F /* CR_NativeAdTableViewCell.xib in Resources */,
+				A89F65802A31CF2C00ABBFF7 /* CriteoPublisherSdk-Functional.xctestplan in Resources */,
 				7D3E423223915B6600BAF673 /* SampleBid.json in Resources */,
 				5E06565BD091B87AB797194F /* NativeAssetsFromCdb.json in Resources */,
+				A89F657E2A31CE3800ABBFF7 /* FlakyTest.xctestplan in Resources */,
+				A89F65842A31CFF700ABBFF7 /* CriteoPublisherSdk.xctestplan in Resources */,
+				A89F65822A31CF8F00ABBFF7 /* LoggingTests.xctestplan in Resources */,
 				C07AB1B2CF62822B6B95E9F9 /* image.png in Resources */,
 				C07ABEC7592E4D7732580700 /* image.jpeg in Resources */,
 			);

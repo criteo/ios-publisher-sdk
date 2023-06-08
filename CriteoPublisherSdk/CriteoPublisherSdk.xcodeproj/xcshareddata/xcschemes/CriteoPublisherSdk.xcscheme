@@ -65,6 +65,18 @@
          <TestPlanReference
             reference = "container:Tests/TestPlans/CriteoPublisherSdkMC9.xctestplan">
          </TestPlanReference>
+         <TestPlanReference
+            reference = "container:Tests/TestPlans/flaky tests/FlakyTest.xctestplan">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:Tests/TestPlans/flaky tests/CriteoPublisherSdk-Functional.xctestplan">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:Tests/TestPlans/flaky tests/LoggingTests.xctestplan">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:Tests/TestPlans/bulk test plans/CriteoPublisherSdkMC0.xctestplan">
+         </TestPlanReference>
       </TestPlans>
       <Testables>
          <TestableReference

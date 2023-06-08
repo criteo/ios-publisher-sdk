@@ -1,0 +1,62 @@
+{
+  "configurations" : [
+    {
+      "id" : "91667446-33C4-4473-998E-B6C8F291B9F7",
+      "name" : "Default",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "commandLineArgumentEntries" : [
+      {
+        "argument" : "-CriteoPublisherSdkVerboseLogs"
+      }
+    ],
+    "language" : "fr-CA",
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:CriteoPublisherSdk.xcodeproj",
+      "identifier" : "25BD5B562220D16D004DE311",
+      "name" : "CriteoPublisherSdk"
+    }
+  },
+  "testTargets" : [
+    {
+      "skippedTests" : [
+        "CRInterstitialTests\/testWithRendering",
+        "CR_BidManagerIntegrationTests",
+        "CR_BidManagerTests",
+        "CR_CacheManagerTests",
+        "CR_ContextualFunctionalTests",
+        "CR_DataConsentFunctionalTests",
+        "CR_DfpBannerFunctionalTests",
+        "CR_DfpInterstitialFunctionalTests",
+        "CR_DfpInterstitialFunctionalTests\/test_givenValidInterstitial_whenLoadingDfpInterstitial_thenDfpViewContainsCreative",
+        "CR_DfpNativeFunctionalTests",
+        "CR_DfpRewardedFunctionalTests",
+        "CR_FeedbackMessageFunctionalTests",
+        "CR_HeaderBiddingDictionaryFunctionalTests",
+        "CR_InHouseFunctionalTests",
+        "CR_LoggingFunctionalTests",
+        "CR_LoggingTests",
+        "CR_MopubBannerFunctionalTests",
+        "CR_MopubInterstitialFunctionalTests",
+        "CR_NativeAdFunctionalTests",
+        "CR_NetworkManagerTests",
+        "CR_ProfileIdFunctionalTests",
+        "CR_RegistrationFunctionalTests",
+        "CR_StandaloneBannerFunctionalTests",
+        "CR_StandaloneBannerFunctionalTests\/test_givenBannerWithAppStoreClickUrl_whenClickUrl_thenOpenStoreKitController",
+        "CR_URLResolverTests"
+      ],
+      "target" : {
+        "containerPath" : "container:CriteoPublisherSdk.xcodeproj",
+        "identifier" : "E1F2736C21B5F08D00A2FBFA",
+        "name" : "CriteoPublisherSdkTests"
+      }
+    }
+  ],
+  "version" : 1
+}
