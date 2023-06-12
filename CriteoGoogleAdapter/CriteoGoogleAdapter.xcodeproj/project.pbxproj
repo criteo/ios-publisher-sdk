@@ -193,7 +193,7 @@
 				54FC7D9C22F4136100202164 /* Sources */,
 				54FC7D9D22F4136100202164 /* Frameworks */,
 				54FC7D9E22F4136100202164 /* Resources */,
-				870464BADE6D745C1AFD2114 /* [CP] Copy Pods Resources */,
+				6B040F1CB13A36B308DAA78E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -213,7 +213,7 @@
 				54FC7DA522F4136100202164 /* Sources */,
 				54FC7DA622F4136100202164 /* Frameworks */,
 				54FC7DA722F4136100202164 /* Resources */,
-				866CABEABD3377256D64E569 /* [CP] Copy Pods Resources */,
+				B54890CB2AA6F31CCE5C9643 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -324,24 +324,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		866CABEABD3377256D64E569 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CriteoGoogleAdapterTests/Pods-CriteoGoogleAdapterTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CriteoGoogleAdapterTests/Pods-CriteoGoogleAdapterTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CriteoGoogleAdapterTests/Pods-CriteoGoogleAdapterTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		870464BADE6D745C1AFD2114 /* [CP] Copy Pods Resources */ = {
+		6B040F1CB13A36B308DAA78E /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -356,6 +339,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CriteoGoogleAdapter/Pods-CriteoGoogleAdapter-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B54890CB2AA6F31CCE5C9643 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CriteoGoogleAdapterTests/Pods-CriteoGoogleAdapterTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CriteoGoogleAdapterTests/Pods-CriteoGoogleAdapterTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CriteoGoogleAdapterTests/Pods-CriteoGoogleAdapterTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
