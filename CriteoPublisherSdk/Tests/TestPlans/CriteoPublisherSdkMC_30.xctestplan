@@ -93,7 +93,6 @@
         "CR_DisplaySizeInjectorTests",
         "CR_FeedbackControllerTests",
         "CR_FeedbackControllerTests\/testOnCdbCallFailure_GivenTimeoutError_UpdateAllForTimeout",
-        "CR_FeedbackFeatureGuardTests",
         "CR_FeedbackFileManagerTests",
         "CR_FeedbackMessageFunctionalTests",
         "CR_FeedbackMessageFunctionalTests\/testGivenFeedbackRequestError_whenLiveBidsTimeBudgetExceeded_thenFeedbackRequest",
@@ -197,10 +196,18 @@
         "CR_UniqueIdGeneratorTests",
         "Criteo",
         "CriteoTests",
-        "CriteoTests\/testChildDirectedTreatmentFalseCdbCall",
         "CriteoTests\/testChildDirectedTreatmentTrueCdbCall",
         "CriteoTests\/testRegister_GivenPrefetchEnabled_ShouldPrefetch",
-        "NSArray_CriteoTests"
+        "MRAIDHandlerTests",
+        "MRAIDLogTests",
+        "MRAIDUtilsTests",
+        "NSArray_CriteoTests",
+        "NSDictionary_CriteoTests",
+        "NSError_CriteoTests",
+        "NSObject_CriteoTests",
+        "NSString_CriteoUrlTests",
+        "SKAdNetworkInfoTests",
+        "UIView_CriteoTests"
       ],
       "target" : {
         "containerPath" : "container:CriteoPublisherSdk.xcodeproj",
