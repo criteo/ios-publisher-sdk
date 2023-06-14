@@ -21,12 +21,12 @@ platform :ios do
   lane :test do
     scan(scheme: "CriteoAdViewer")
     scan(scheme: "CriteoGoogleAdapter")
-    test_plans = 0..9
+    test_plans = 0..90
     test_plans.each do |test_plan|
         run_tests(workspace: "CriteoPublisherSdk.xcworkspace",
             devices: ["iPhone 14"],
             scheme: "CriteoPublisherSdk",
-            testplan: "CriteoPublisherSdkMC#{test_plan}",
+            testplan: "CriteoPublisherSdkMC_#{test_plan}",
             app_identifier: "CriteoPublisherSdk",
             number_of_retries: 5,
             concurrent_workers: 2,

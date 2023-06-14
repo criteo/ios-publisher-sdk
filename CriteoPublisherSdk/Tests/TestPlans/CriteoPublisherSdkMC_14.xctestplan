@@ -74,7 +74,6 @@
         "CR_CASBoundedFileObjectQueueTests",
         "CR_CacheAdUnitTests",
         "CR_CacheManagerTests",
-        "CR_CdbBidTests",
         "CR_CdbResponseTests",
         "CR_ConfigManagerTests",
         "CR_ConfigTests",
@@ -197,9 +196,18 @@
         "CR_UniqueIdGeneratorTests",
         "Criteo",
         "CriteoTests",
-        "CriteoTests\/testChildDirectedTreatmentFalseCdbCall",
         "CriteoTests\/testChildDirectedTreatmentTrueCdbCall",
-        "CriteoTests\/testRegister_GivenPrefetchEnabled_ShouldPrefetch"
+        "CriteoTests\/testRegister_GivenPrefetchEnabled_ShouldPrefetch",
+        "MRAIDHandlerTests",
+        "MRAIDLogTests",
+        "MRAIDUtilsTests",
+        "NSArray_CriteoTests",
+        "NSDictionary_CriteoTests",
+        "NSError_CriteoTests",
+        "NSObject_CriteoTests",
+        "NSString_CriteoUrlTests",
+        "SKAdNetworkInfoTests",
+        "UIView_CriteoTests"
       ],
       "target" : {
         "containerPath" : "container:CriteoPublisherSdk.xcodeproj",
