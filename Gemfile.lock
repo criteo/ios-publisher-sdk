@@ -295,6 +295,7 @@ DEPENDENCIES
   fastlane-plugin-clang_format
   fastlane-plugin-test_center
   iostrust
+  unf_ext (= 0.0.8.2)
 
 BUNDLED WITH
    2.3.11
