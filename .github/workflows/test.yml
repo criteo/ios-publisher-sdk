@@ -19,9 +19,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         
-      - name: homebrew & fastlane
-        run: export HOMEBREW_NO_INSTALL_CLEANUP=TRUE && export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=TRUE && /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)" && brew update && brew install fastlane
-
+      - name: Ruby & Bundle setup
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+          bundler-cache: true
+          
       - name: Cocoapods cache
         uses: actions/cache@v3
         with:
@@ -48,11 +51,11 @@ jobs:
 
       - name: Format check
         run: |
-          fastlane format_check
+          bundle exec fastlane format_check
 
       - name: Test
         run: |
-          fastlane test
+          bundle exec fastlane test
 
       - name: Tests reports upload
         uses: actions/upload-artifact@v3
