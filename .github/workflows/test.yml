@@ -32,7 +32,7 @@ jobs:
 
       - name: Cocoapods install
         run: |
-          fastlane run cocoapods
+          bundle exec fastlane run cocoapods
 
       - name: Setup Java 11
         uses: actions/setup-java@v3
