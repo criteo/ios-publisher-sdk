@@ -291,7 +291,7 @@ PLATFORMS
 
 DEPENDENCIES
   cocoapods
-  fastlane
+  fastlane (= 2.198.1)
   fastlane-plugin-clang_format
   fastlane-plugin-test_center
   iostrust
