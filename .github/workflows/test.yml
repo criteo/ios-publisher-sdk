@@ -18,12 +18,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Ruby & Bundle setup
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.6
-          bundler-cache: true
+        
+      - name: homebrew & fastlane
+        run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)" && brew update && brew install fastlane
 
       - name: Cocoapods cache
         uses: actions/cache@v3
@@ -35,7 +32,7 @@ jobs:
 
       - name: Cocoapods install
         run: |
-          bundle exec fastlane run cocoapods
+          fastlane run cocoapods
 
       - name: Setup Java 11
         uses: actions/setup-java@v3
@@ -51,11 +48,11 @@ jobs:
 
       - name: Format check
         run: |
-          bundle exec fastlane format_check
+          fastlane format_check
 
       - name: Test
         run: |
-          bundle exec fastlane test
+          fastlane test
 
       - name: Tests reports upload
         uses: actions/upload-artifact@v3
