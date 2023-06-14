@@ -290,8 +290,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  cocoapods (= 1.11.2)
-  fastlane (= 2.198.1)
+  cocoapods
+  fastlane
   fastlane-plugin-clang_format
   fastlane-plugin-test_center
   iostrust
