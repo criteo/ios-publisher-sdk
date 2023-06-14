@@ -252,6 +252,7 @@ GEM
       CFPropertyList
       naturally
     sqlite3 (1.6.3-arm64-darwin)
+    sqlite3 (1.6.3-x86_64-darwin)
     terminal-notifier (2.0.0)
     terminal-table (1.8.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
@@ -286,6 +287,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-21
+  x86_64-darwin-20
 
 DEPENDENCIES
   cocoapods
