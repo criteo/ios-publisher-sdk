@@ -22,4 +22,4 @@ Please refer to the [iOS Sample App](https://github.com/criteo/ios-publisher-sdk
 Please contact your technical support representative for any questions about the SDK.
 
 ## License
-[Apache License v2.0](LICENSE)
+[Apache License v2.0] (LICENSE)
