@@ -31,11 +31,17 @@
 #import "CR_DisplaySizeInjector.h"
 #import "CR_IntegrationRegistry.h"
 #import "CR_Logging.h"
+#import "CRMRAIDConstants.h"
+#import "CRLogUtil.h"
 
-@interface CRInterstitial () <WKNavigationDelegate, WKUIDelegate>
+@interface CRInterstitial () <WKNavigationDelegate,
+                              WKUIDelegate,
+                              CRExternalURLOpener,
+                              CRMRAIDHandlerDelegate>
 
 @property(strong, nonatomic) id<CR_URLOpening> urlOpener;
 @property(nonatomic, strong) CR_SKAdNetworkParameters *skAdNetworkParameters;
+@property(nonatomic, strong) CRMRAIDHandler *mraidHandler;
 
 @end
 
@@ -55,6 +61,16 @@
     _isAdLoaded = isAdLoaded;
     _adUnit = adUnit;
     _urlOpener = urlOpener;
+    if (criteo.config.isMRAIDEnabled) {
+      _mraidHandler = [[CRMRAIDHandler alloc] initWith:viewController.webView
+                                          criteoLogger:[CRLogUtil new]
+                                             urlOpener:self
+                                              delegate:self];
+      __weak typeof(self) weakSelf = self;
+      _viewController.dismissCompletion = ^{
+        [weakSelf.mraidHandler onSuccessClose];
+      };
+    }
   }
   return self;
 }
@@ -153,6 +169,9 @@
                                                       withString:viewportWidth]
           stringByReplacingOccurrencesOfString:config.displayURLMacro
                                     withString:displayURL];
+  if (config.isMRAIDEnabled) {
+    htmlString = [CRMRAIDUtils buildWithHtml:htmlString from:[CRMRAIDUtils mraidResourceBundle]];
+  }
 
   [self.viewController.webView loadHTMLString:htmlString
                                       baseURL:[NSURL URLWithString:@"https://criteo.com"]];
@@ -207,6 +226,7 @@
   self.isAdLoading = NO;
   self.isAdLoaded = YES;
   [self dispatchDidReceiveAdDelegate];
+  [_mraidHandler onAdLoadWith:CR_MRAID_PLACEMENT_INTERSTITIAL];
 }
 
 - (void)presentFromRootViewController:(UIViewController *)rootViewController {
@@ -346,6 +366,22 @@
 
 - (CR_IntegrationRegistry *)integrationRegistry {
   return _criteo.dependencyProvider.integrationRegistry;
+}
+
+#pragma CRExternalURLOpener
+- (void)openWithUrl:(NSURL *)url {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self.urlOpener openExternalURL:url
+          withSKAdNetworkParameters:self.skAdNetworkParameters
+                 fromViewController:self.rootViewController
+                         completion:^(BOOL success){
+                         }];
+  });
+}
+
+#pragma CRMRAIDHandlerDelegate
+- (void)closeWithCompletion:(void (^)(void))completion {
+  [self.viewController dismissViewController];
 }
 
 @end

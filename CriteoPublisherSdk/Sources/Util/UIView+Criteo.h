@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UIView (Criteo)
 
 - (UIViewController *_Nullable)cr_parentViewController;
+- (UIViewController *_Nullable)cr_rootViewController;
 
 @end
 

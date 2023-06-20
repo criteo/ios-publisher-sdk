@@ -120,6 +120,10 @@
 }
 
 - (void)dismissViewController {
+  [self dismissViewControllerWithCompletion:_dismissCompletion];
+}
+
+- (void)dismissViewControllerWithCompletion:(void (^_Nullable)(void))completion {
   @synchronized(self) {
     if (_hasBeenDismissed) {
       return;
@@ -139,6 +143,9 @@
                                      respondsToSelector:@selector(interstitialDidDisappear:)]) {
                                [self.interstitial.delegate
                                    interstitialDidDisappear:self.interstitial];
+                             }
+                             if (completion) {
+                               completion();
                              }
                            });
                          }];
@@ -221,6 +228,11 @@
 
   [NSLayoutConstraint
       activateConstraints:@[ widthConstraint, heightConstraint, topConstraint, leftConstraint ]];
+}
+
+#pragma CRMRAIDHandlerDelegate
+- (void)closeWithCompletion:(void (^)(void))completion {
+  [self dismissViewControllerWithCompletion:completion];
 }
 
 @end

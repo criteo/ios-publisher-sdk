@@ -199,8 +199,7 @@
         "CriteoTests",
         "CriteoTests\/testChildDirectedTreatmentFalseCdbCall",
         "CriteoTests\/testChildDirectedTreatmentTrueCdbCall",
-        "CriteoTests\/testRegister_GivenPrefetchEnabled_ShouldPrefetch",
-        "NSArray_CriteoTests"
+        "CriteoTests\/testRegister_GivenPrefetchEnabled_ShouldPrefetch"
       ],
       "target" : {
         "containerPath" : "container:CriteoPublisherSdk.xcodeproj",

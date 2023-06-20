@@ -27,9 +27,12 @@
     {
       "skippedTests" : [
         "CRBannerViewTests\/testAllowNavigationActionPolicyForWebView",
+        "CRBannerViewTests\/testExpandMRAIDAction",
         "CRBannerViewTests\/testWithRendering",
         "CRInterstitialDelegateTests\/testCacheHasAdButAdContentFetchFailed",
+        "CRInterstitialDelegateTests\/testInterstitialAdFetchFail",
         "CRInterstitialDelegateTests\/testInterstitialDidReceiveAd",
+        "CRInterstitialDelegateTests\/testInterstitialLoadFailWhenBidIsNil",
         "CRInterstitialDelegateTests\/testInterstitialWillAndDidAppear",
         "CRInterstitialDelegateTests\/testInterstitialWillandDidDisappear",
         "CRInterstitialDelegateTests\/testNoDelegateMethodCalledInDecidePolicyForNavigationResponse",
@@ -190,6 +193,9 @@
         "CriteoTests\/testChildDirectedTreatmentFalseCdbCall",
         "CriteoTests\/testChildDirectedTreatmentTrueCdbCall",
         "CriteoTests\/testRegister_GivenPrefetchEnabled_ShouldPrefetch",
+        "MRAIDHandlerTests",
+        "MRAIDLogTests",
+        "MRAIDUtilsTests",
         "NSArray_CriteoTests",
         "NSDictionary_CriteoTests",
         "NSError_CriteoTests",

@@ -25,14 +25,21 @@
 #import "CR_DependencyProvider.h"
 #import "CR_Logging.h"
 #import "NSError+Criteo.h"
+#import "CRMRAIDConstants.h"
+#import "CRLogUtil.h"
+#import "UIView+Criteo.h"
 
-@interface CRBannerView () <WKNavigationDelegate, WKUIDelegate>
+@interface CRBannerView () <WKNavigationDelegate,
+                            WKUIDelegate,
+                            CRExternalURLOpener,
+                            CRMRAIDHandlerDelegate>
 @property(nonatomic) BOOL isResponseValid;
 @property(nonatomic, strong) Criteo *criteo;
 @property(nonatomic, strong) WKWebView *webView;
 @property(nonatomic, readonly) CRBannerAdUnit *adUnit;
 @property(nonatomic, readonly) id<CR_URLOpening> urlOpener;
 @property(nonatomic, strong) CR_SKAdNetworkParameters *skAdNetworkParameters;
+@property(nonatomic, strong) CRMRAIDHandler *mraidHandler;
 
 @end
 
@@ -50,7 +57,6 @@
   WKWebViewConfiguration *webViewConfiguration = [[WKWebViewConfiguration alloc] init];
   webViewConfiguration.allowsInlineMediaPlayback = YES;
   CGRect webViewRect = CGRectMake(.0, .0, adUnit.size.width, adUnit.size.height);
-
   return [self initWithFrame:CGRectMake(.0, .0, adUnit.size.width, adUnit.size.height)
                       criteo:criteo
                      webView:[[WKWebView alloc] initWithFrame:webViewRect
@@ -87,12 +93,32 @@
     _webView.navigationDelegate = self;
     _webView.UIDelegate = self;
     if (addWebView) {
-      [self addSubview:webView];
+      [self addSubview:_webView];
     }
     _adUnit = adUnit;
     _urlOpener = opener;
+    if (criteo.config.isMRAIDEnabled) {
+      _mraidHandler = [[CRMRAIDHandler alloc] initWith:_webView
+                                          criteoLogger:[CRLogUtil new]
+                                             urlOpener:self
+                                              delegate:self];
+    }
   }
   return self;
+}
+
+#pragma mark - mraid viewability measurement
+- (void)setNeedsDisplay {
+  [super setNeedsDisplay];
+  NSLog(@"setNeedsDisplay: %@ %@", [NSDate new], _webView.URL);
+}
+
+- (void)didMoveToWindow {
+  NSLog(@"didMoveToWindow: %@", [NSDate new]);
+}
+
+- (void)didMoveToSuperview {
+  NSLog(@"didMoveToSuperview: %@", [NSDate new]);
 }
 
 - (void)safelyLoadWebViewWithDisplayUrl:(NSString *)displayUrl {
@@ -112,7 +138,7 @@
                                                       withString:viewportWidth]
           stringByReplacingOccurrencesOfString:config.displayURLMacro
                                     withString:displayUrl];
-
+  htmlString = _mraidHandler ? [_mraidHandler injectInto:htmlString] : htmlString;
   [_webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"https://criteo.com"]];
 }
 
@@ -130,6 +156,9 @@
 }
 
 - (void)loadAdWithContext:(CRContextData *)contextData {
+  if (_mraidHandler && ![_mraidHandler canLoadAd]) {
+    return;
+  }
   CRLogInfo(@"BannerView", @"Loading ad for Ad Unit:%@", self.adUnit);
   [self.integrationRegistry declare:CR_IntegrationStandalone];
 
@@ -155,6 +184,9 @@
 }
 
 - (void)loadAdWithBid:(CRBid *)bid {
+  if (_mraidHandler && ![_mraidHandler canLoadAd]) {
+    return;
+  }
   [self.integrationRegistry declare:CR_IntegrationInHouse];
   self.isResponseValid = NO;
 
@@ -209,6 +241,10 @@
   [self handlePotentialClickForNavigationAction:navigationAction
                                 decisionHandler:decisionHandler
                           allowedNavigationType:WKNavigationTypeLinkActivated];
+}
+
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+  [_mraidHandler onAdLoadWith:CR_MRAID_PLACEMENT_BANNER];
 }
 
 - (void)handlePotentialClickForNavigationAction:(WKNavigationAction *)navigationAction
@@ -285,6 +321,46 @@
 
 - (CR_IntegrationRegistry *)integrationRegistry {
   return self.criteo.dependencyProvider.integrationRegistry;
+}
+
+#pragma CRExternalURLOpener
+- (void)openWithUrl:(NSURL *)url {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self.urlOpener openExternalURL:url
+          withSKAdNetworkParameters:self.skAdNetworkParameters
+                           fromView:self
+                         completion:^(BOOL success){
+                         }];
+  });
+}
+
+#pragma CRMRAIDHandlerDelegate
+- (void)expandWithWidth:(NSInteger)width
+                 height:(NSInteger)height
+                    url:(NSURL *)url
+             completion:(void (^)(void))completion {
+  UIViewController *webViewViewController = _webView.cr_rootViewController;
+  UIViewController *mraidFullScreenContainer =
+      [[CRFulllScreenContainer alloc] initWith:_webView
+                                          size:CGSizeMake(width, height)
+                             dismissCompletion:completion];
+  mraidFullScreenContainer.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+  mraidFullScreenContainer.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+  [webViewViewController presentViewController:mraidFullScreenContainer
+                                      animated:YES
+                                    completion:NULL];
+}
+
+- (void)closeWithCompletion:(void (^)(void))completion {
+  if ([_mraidHandler isExpanded]) {
+    CRFulllScreenContainer *fullScreenContainer =
+        (CRFulllScreenContainer *)_webView.cr_rootViewController;
+    [fullScreenContainer closeWith:completion];
+  } else {
+    NSURLRequest *blankRequest =
+        [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"about:blank"]];
+    [_webView loadRequest:blankRequest];
+  }
 }
 
 @end

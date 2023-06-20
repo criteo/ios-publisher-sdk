@@ -41,6 +41,7 @@
   [userDefaults removeObjectForKey:NSUserDefaultsLiveBiddingEnabledKey];
   [userDefaults removeObjectForKey:NSUserDefaultsLiveBiddingTimeBudgetKey];
   [userDefaults removeObjectForKey:NSUserDefaultsRemoteLogLevelKey];
+  [userDefaults removeObjectForKey:NSUserDefaultsMRAIDKey];
 
   [super tearDown];
 }
@@ -195,6 +196,15 @@
   XCTAssertFalse(newConfig.csmEnabled);
   XCTAssertTrue([userDefaults cr_containsKey:NSUserDefaultsCsmEnabledKey]);
   XCTAssertFalse([userDefaults boolForKey:NSUserDefaultsCsmEnabledKey]);
+}
+
+- (void)testInit_GivenUserDefaultWithMRAIDEnabled {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+  [userDefaults setBool:YES forKey:NSUserDefaultsMRAIDKey];
+
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertTrue(config.isMRAIDEnabled);
 }
 
 #pragma mark - Prefetch on init Enabled

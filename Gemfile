@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "cocoapods"
+gem "cocoapods", '1.11.2'
 gem "fastlane", '2.198.1'
 gem "iostrust"
 

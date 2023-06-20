@@ -32,10 +32,20 @@
 #import "XCTestCase+Criteo.h"
 #import "CR_NativeAssets+Testing.h"
 
+#if __has_include("CriteoPublisherSdkTests-Swift.h")
+#import "CriteoPublisherSdkTests-Swift.h"
+#else
+#import <CriteoPublisherSdk/CriteoPublisherSdkTests-Swift.h>
+#endif
+
 #import <WebKit/WebKit.h>
 
 #define TEST_DISPLAY_URL \
-  @"https://rdi.eu.criteo.com/delivery/rtb/demo/ajs?zoneid=1417086&width=300&height=250&ibva=0"
+  @"https://ssp-ads.fr3.eu.criteo.com/delivery/tpd/ajs.php?mkpid=M1BEX0FETV9LRVlfMzNlYzM5MjU1ODU4NDRjZGEyYzc1ZDRmY2FkNTliYTJfNjQ3ODcxZGE2Y2RiZDdjNzU1MjY0OWE1MjFlZDc4NjM=&w=320&h=50"
+
+@interface CRBannerView (Testing)
+@property(nonatomic, strong) CRMRAIDHandler *mraidHandler;
+@end
 
 @interface CRBannerViewTests : XCTestCase <WKNavigationDelegate>
 
@@ -352,6 +362,31 @@
   OCMVerifyAll(mockWebView);
 }
 
+- (CRBannerView *)testbannerViewWithMRAID:(BOOL)mraidFlag {
+  CR_Config *config = [CR_Config new];
+  config.adTagUrlMode = @"Good Morning, my width is #WEEDTH# and my URL is ˆURLˆ";
+  config.displayURLMacro = @"ˆURLˆ";
+  config.mraidEnabled = mraidFlag;
+  self.criteo.dependencyProvider.config = config;
+
+  WKWebView *mockWebView = OCMPartialMock([WKWebView new]);
+  CR_CdbBid *cdbBid = [self cdbBidWithDisplayUrl:TEST_DISPLAY_URL];
+  CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:self.adUnit];
+  CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView];
+  [bannerView loadAdWithBid:bid];
+  return bannerView;
+}
+
+- (void)testMRAIDOffOnConfig {
+  CRBannerView *bannerView = [self testbannerViewWithMRAID:NO];
+  XCTAssertNil(bannerView.mraidHandler);
+}
+
+- (void)testMRAIDActiveOnConfig {
+  CRBannerView *bannerView = [self testbannerViewWithMRAID:YES];
+  XCTAssertNotNil(bannerView.mraidHandler);
+}
+
 #pragma mark - Private
 
 // To avoid warning for avoiding retain cycle in blocks
@@ -421,6 +456,42 @@
            [logMessage.message containsString:string] &&
            [logMessage.message containsString:self.adUnit.description];
   }];
+}
+
+- (void)testExpandMRAIDAction {
+  WKWebView *mockWebView = [WKWebView new];
+  self.criteo.dependencyProvider.config.mraidEnabled = YES;
+  CRBannerView *bannerView =
+      [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
+                                   criteo:self.criteo
+                                  webView:mockWebView
+                               addWebView:NO
+                                   adUnit:nil
+                                urlOpener:self.urlOpener];
+  CR_CdbBid *cdbBid = [self cdbBidWithDisplayUrl:TEST_DISPLAY_URL];
+  CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:self.adUnit];
+
+  [bannerView.mraidHandler updateMraidWithBundle:[CR_MRAIDUtils mraidBundle]];
+  [bannerView loadAdWithBid:bid];
+
+  XCTestExpectation *bannerReceiveExpandAction =
+      [[XCTestExpectation alloc] initWithDescription:@"expand action is received"];
+
+  dispatch_time_t jsTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC));
+  dispatch_after(jsTime, dispatch_get_main_queue(), ^{
+    [mockWebView evaluateJavaScript:@"window.mraid.expand();"
+                  completionHandler:^(id _Nullable object, NSError *_Nullable error) {
+                    NSLog(@"->>>: %@ ", error);
+                  }];
+  });
+
+  dispatch_time_t afterTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.5 * NSEC_PER_SEC));
+  dispatch_after(afterTime, dispatch_get_main_queue(), ^{
+    XCTAssertTrue([bannerView.mraidHandler isExpanded]);
+    [bannerReceiveExpandAction fulfill];
+  });
+
+  [self cr_waitForExpectations:@[ bannerReceiveExpandAction ]];
 }
 
 @end
