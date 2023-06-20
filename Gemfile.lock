@@ -293,7 +293,7 @@ PLATFORMS
   x86_64-darwin-20
 
 DEPENDENCIES
-  cocoapods (= 1.11.2)
+  cocoapods
   fastlane (= 2.198.1)
   fastlane-plugin-clang_format
   fastlane-plugin-test_center
