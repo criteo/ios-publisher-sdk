@@ -180,6 +180,7 @@
         "CR_RemoteConfigRequestTests",
         "CR_StandaloneBannerFunctionalTests\/test_givenBannerWithAppStoreClickUrl_whenClickUrl_thenOpenStoreKitController",
         "CR_StandaloneBannerFunctionalTests\/test_givenBannerWithGoodAdUnitId_whenLoadAd_thenAdIsLoadedProperly",
+        "CR_StandaloneBannerFunctionalTests\/test_givenTwoAdRenderings_whenRecreateBannerView_thenTwoAdsPresented",
         "CR_URLRequestTests",
         "CR_URLResolverTests",
         "CR_URLResolverTests\/testResolutionToAppStoreURLWithRedirects",
