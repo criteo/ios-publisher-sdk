@@ -122,6 +122,7 @@
         "CR_HeaderBiddingTests",
         "CR_InHouseFunctionalTests\/test_givenInterstitialLoadWrongBid_whenLoadGoodBid_thenReceiveAd",
         "CR_InHouseFunctionalTests\/test_givenInterstitial_whenLoadBid_thenReceiveAd",
+        "CR_InHouseFunctionalTests\/test_givenInterstitial_whenLoadBid_thenReceiveAd_legacyTestAdUnitInCtor",
         "CR_InHouseFunctionalTests\/test_givenInterstitial_whenLoadWrongBid_thenFailToReceiveAd",
         "CR_InternalContextProviderTests\/testFetchInternalUserContext_GivenRealData_PutProperInformation",
         "CR_NativeAdFunctionalTests",
