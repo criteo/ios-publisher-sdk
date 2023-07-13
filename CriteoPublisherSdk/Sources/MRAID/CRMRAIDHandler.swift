@@ -69,8 +69,10 @@ public class CRMRAIDHandler: NSObject {
   @objc
   public func onAdLoad(with placementType: String) {
     state = .default
-    setMaxSize()
-    sendReadyEvent(with: placementType)
+    DispatchQueue.main.async { [weak self] in
+        self?.setMaxSize()
+        self?.sendReadyEvent(with: placementType)
+    }
     startViabilityNotifier()
     registerDeviceOrientationListener()
   }
@@ -117,6 +119,19 @@ public class CRMRAIDHandler: NSObject {
     return CRMRAIDUtils.build(html: html, from: mraidBundle)
   }
 
+ @objc
+    public func injectMRAID() {
+        guard let mraid = CRMRAIDUtils.loadMraid(from: mraidBundle) else {
+            logger.mraidLog(error: "could not load mraid")
+            return
+        }
+
+        let mraidScript = WKUserScript(source: mraid, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
+        DispatchQueue.main.async { [weak self] in
+            self?.webView.configuration.userContentController.addUserScript(mraidScript)
+        }
+    }
+
   @objc
   public func updateMraid(bundle: Bundle?) {
     self.mraidBundle = bundle
@@ -135,20 +150,17 @@ extension CRMRAIDHandler: WKScriptMessageHandler {
 
 // MARK: - Private methods
 extension CRMRAIDHandler {
-
   fileprivate func stopViabilityNotifier() {
     timer?.invalidate()
     timer = nil
   }
 
   fileprivate func setMaxSize() {
-    DispatchQueue.main.asyncAfter(deadline: .now() + CRMRAIDHandler.updateDelay) { [weak self] in
       let size: CGSize =
-        self?.webView.cr_parentViewController()?.view.bounds.size ?? UIScreen.main.bounds.size
-      self?.evaluate(
+        self.webView.cr_parentViewController()?.view.bounds.size ?? UIScreen.main.bounds.size
+      self.evaluate(
         javascript:
           "window.mraid.setMaxSize(\(size.width), \(size.height), \(UIScreen.main.scale));")
-    }
   }
 
   @objc fileprivate func setIsViewable(visible: Bool) {
@@ -164,7 +176,7 @@ extension CRMRAIDHandler {
   }
 
   fileprivate func sendReadyEvent(with placement: String) {
-    evaluate(javascript: "window.mraid.notifyReady(\"\(placement)\");")
+      self.evaluate(javascript: "window.mraid.notifyReady(\"\(placement)\");")
   }
 
   fileprivate func setCurrent(position: CGRect) {
@@ -175,6 +187,7 @@ extension CRMRAIDHandler {
   }
 
   fileprivate func evaluate(javascript: String) {
+    debugPrint("js: \(javascript)")
     webView.evaluateJavaScript(javascript, completionHandler: handleJSCallback)
   }
 
