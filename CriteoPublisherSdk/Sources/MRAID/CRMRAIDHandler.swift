@@ -70,8 +70,8 @@ public class CRMRAIDHandler: NSObject {
   public func onAdLoad(with placementType: String) {
     state = .default
     DispatchQueue.main.async { [weak self] in
-        self?.setMaxSize()
-        self?.sendReadyEvent(with: placementType)
+      self?.setMaxSize()
+      self?.sendReadyEvent(with: placementType)
     }
     startViabilityNotifier()
     registerDeviceOrientationListener()
@@ -119,22 +119,23 @@ public class CRMRAIDHandler: NSObject {
     return CRMRAIDUtils.build(html: html, from: mraidBundle)
   }
 
- @objc
-    public func injectMRAID() {
-        guard let mraid = CRMRAIDUtils.loadMraid(from: mraidBundle) else {
-            logger.mraidLog(error: "could not load mraid")
-            return
-        }
-
-        let mraidScript = WKUserScript(source: mraid, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
-        DispatchQueue.main.async { [weak self] in
-            self?.webView.configuration.userContentController.addUserScript(mraidScript)
-        }
+  @objc
+  public func injectMRAID() {
+    guard let mraid = CRMRAIDUtils.loadMraid(from: mraidBundle) else {
+      logger.mraidLog(error: "could not load mraid")
+      return
     }
+
+    let mraidScript = WKUserScript(
+      source: mraid, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
+    DispatchQueue.main.async { [weak self] in
+      self?.webView.configuration.userContentController.addUserScript(mraidScript)
+    }
+  }
 
   @objc
   public func updateMraid(bundle: Bundle?) {
-    self.mraidBundle = bundle
+    mraidBundle = bundle
   }
 }
 
@@ -156,11 +157,11 @@ extension CRMRAIDHandler {
   }
 
   fileprivate func setMaxSize() {
-      let size: CGSize =
-        self.webView.cr_parentViewController()?.view.bounds.size ?? UIScreen.main.bounds.size
-      self.evaluate(
-        javascript:
-          "window.mraid.setMaxSize(\(size.width), \(size.height), \(UIScreen.main.scale));")
+    let size: CGSize =
+      webView.cr_parentViewController()?.view.bounds.size ?? UIScreen.main.bounds.size
+    evaluate(
+      javascript:
+        "window.mraid.setMaxSize(\(size.width), \(size.height), \(UIScreen.main.scale));")
   }
 
   @objc fileprivate func setIsViewable(visible: Bool) {
@@ -176,7 +177,7 @@ extension CRMRAIDHandler {
   }
 
   fileprivate func sendReadyEvent(with placement: String) {
-      self.evaluate(javascript: "window.mraid.notifyReady(\"\(placement)\");")
+    evaluate(javascript: "window.mraid.notifyReady(\"\(placement)\");")
   }
 
   fileprivate func setCurrent(position: CGRect) {
@@ -187,7 +188,6 @@ extension CRMRAIDHandler {
   }
 
   fileprivate func evaluate(javascript: String) {
-    debugPrint("js: \(javascript)")
     webView.evaluateJavaScript(javascript, completionHandler: handleJSCallback)
   }
 
