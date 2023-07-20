@@ -170,7 +170,7 @@
           stringByReplacingOccurrencesOfString:config.displayURLMacro
                                     withString:displayURL];
   if (_mraidHandler) {
-      [_mraidHandler injectMRAID];
+    [_mraidHandler injectMRAID];
   }
 
   [self.viewController.webView loadHTMLString:htmlString

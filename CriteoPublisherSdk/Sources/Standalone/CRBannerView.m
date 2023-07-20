@@ -138,9 +138,9 @@
                                                       withString:viewportWidth]
           stringByReplacingOccurrencesOfString:config.displayURLMacro
                                     withString:displayUrl];
-    if (_mraidHandler) {
-        [_mraidHandler injectMRAID];
-    }
+  if (_mraidHandler) {
+    [_mraidHandler injectMRAID];
+  }
   [_webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:@"https://criteo.com"]];
 }
 
