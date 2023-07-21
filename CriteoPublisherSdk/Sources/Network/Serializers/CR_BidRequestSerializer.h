@@ -51,6 +51,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Private but unit-tested (To be refactored)
 
+- (NSArray *)slotsWithCdbRequest:(CR_CdbRequest *)cdbRequest
+                          config:(CR_Config *)config;
+
 - (NSArray *)slotsWithCdbRequest:(CR_CdbRequest *)cdbRequest;
 
 @end

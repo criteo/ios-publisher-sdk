@@ -165,5 +165,11 @@
 + (NSString *)coppa {
   return @"coppa";
 }
++ (NSString *)banner {
+  return @"banner";
+}
++ (NSString *)api {
+  return @"api";
+}
 
 @end

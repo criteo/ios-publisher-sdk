@@ -83,6 +83,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// Used to map childDirectedTreatment property.
 @property(class, nonatomic, readonly) NSString *coppa;
 
+/// MRAID
+@property(class, nonatomic, readonly) NSString *banner;
+@property(class, nonatomic, readonly) NSString *api;
+
 @end
 
 NS_ASSUME_NONNULL_END
