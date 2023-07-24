@@ -35,11 +35,9 @@
   OCMStub(config.deviceModel).andReturn(@"myDeviceModel");
   OCMStub(config.deviceOs).andReturn(@"myDeviceOs");
   NSNumber *profileId = @42;
-  NSString *deviceId = @"123-456";
 
   CR_RemoteConfigRequest *request = [CR_RemoteConfigRequest requestWithConfig:config
-                                                                    profileId:profileId
-                                                                     deviceId:deviceId];
+                                                                    profileId:profileId];
   NSDictionary *postBody = request.postBody;
 
   NSDictionary *expected = @{
@@ -47,7 +45,6 @@
     @"bundleId" : @"myAppId",
     @"sdkVersion" : @"1.3.3.7",
     @"rtbProfileId" : profileId,
-    @"deviceId" : deviceId,
     @"deviceModel" : @"myDeviceModel",
     @"deviceOs" : @"myDeviceOs"
   };

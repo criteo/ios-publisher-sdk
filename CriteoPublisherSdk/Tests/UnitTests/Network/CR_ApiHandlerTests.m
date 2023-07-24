@@ -249,8 +249,7 @@
   OCMStub([mockConfig deviceOs]).andReturn(@"deviceOs");
 
   CR_RemoteConfigRequest *request = [CR_RemoteConfigRequest requestWithConfig:mockConfig
-                                                                    profileId:@42
-                                                                     deviceId:@"123-456"];
+                                                                    profileId:@42];
 
   CR_ApiHandler *apiHandler = [self buildApiHandler];
 

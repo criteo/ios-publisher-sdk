@@ -29,8 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(copy, nonatomic, readonly) NSDictionary *postBody;
 
 + (instancetype)requestWithConfig:(CR_Config *)config
-                        profileId:(NSNumber *)profileId
-                         deviceId:(NSString *)deviceId;
+                        profileId:(NSNumber *)profileId;
 
 @end
 
