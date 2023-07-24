@@ -156,7 +156,7 @@
     } else if (adUnit.adUnitType == CRAdUnitTypeRewarded) {
       slotDict[CR_ApiQueryKeys.bidSlotsIsRewarded] = @(YES);
     }
-    if (config.isMRAIDEnabled) {
+    if (config.isMRAIDEnabled && (adUnit.adUnitType == CRAdUnitTypeBanner || adUnit.adUnitType == CRAdUnitTypeInterstitial)) {
       NSMutableDictionary *mraidDict = [NSMutableDictionary new];
       mraidDict[CR_ApiQueryKeys.api] = @(3);
       slotDict[CR_ApiQueryKeys.banner] = mraidDict;
