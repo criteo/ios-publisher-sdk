@@ -28,7 +28,6 @@
 @property(copy, nonatomic) NSNumber *profileId;
 @property(copy, nonatomic) NSString *deviceModel;
 @property(copy, nonatomic) NSString *deviceOs;
-@property(copy, nonatomic) NSString *deviceId;
 
 - (instancetype)initWithCriteoPublisherId:(NSString *)criteoPublisherId
                                sdkVersion:(NSString *)sdkVersion
@@ -36,7 +35,6 @@
                                 profileId:(NSNumber *)profileId
                               deviceModel:(NSString *)deviceModel
                                  deviceOs:(NSString *)deviceOs
-                                 deviceId:(NSString *)deviceId
                                 configUrl:(NSString *)configUrl;
 
 @end
@@ -44,15 +42,13 @@
 @implementation CR_RemoteConfigRequest
 
 + (instancetype)requestWithConfig:(CR_Config *)config
-                        profileId:(NSNumber *)profileId
-                         deviceId:(NSString *)deviceId {
+                        profileId:(NSNumber *)profileId {
   return [CR_RemoteConfigRequest.alloc initWithCriteoPublisherId:config.criteoPublisherId
                                                       sdkVersion:config.sdkVersion
                                                            appId:config.appId
                                                        profileId:profileId
                                                      deviceModel:config.deviceModel
                                                         deviceOs:config.deviceOs
-                                                        deviceId:deviceId
                                                        configUrl:config.configUrl];
 }
 
@@ -62,7 +58,6 @@
                                 profileId:(NSNumber *)profileId
                               deviceModel:(NSString *)deviceModel
                                  deviceOs:(NSString *)deviceOs
-                                 deviceId:(NSString *)deviceId
                                 configUrl:(NSString *)configUrl {
   if (self = [super init]) {
     _criteoPublisherId = criteoPublisherId;
@@ -71,7 +66,6 @@
     _profileId = profileId;
     _deviceModel = deviceModel;
     _deviceOs = deviceOs;
-    _deviceId = deviceId;
     _configUrl = configUrl;
   }
   return self;
@@ -84,8 +78,7 @@
     @"sdkVersion" : self.sdkVersion,
     @"rtbProfileId" : self.profileId,
     @"deviceModel" : self.deviceModel,
-    @"deviceOs" : self.deviceOs,
-    @"deviceId" : self.deviceId
+    @"deviceOs" : self.deviceOs
   };
 }
 
