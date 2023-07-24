@@ -16,7 +16,7 @@ target 'CriteoPublisherSdkTests' do
 
   # Third party SDKs
   pod 'Google-Mobile-Ads-SDK'
-  pod 'CriteoMRAID'
+  pod 'CriteoMRAID', '~> 1.0.1'
 end
 
 target 'CriteoAdViewer' do
@@ -46,7 +46,7 @@ end
 
 # Development tools
 pod 'SwiftLint', '~> 0.45.0'
-pod 'CriteoMRAID'
+pod 'CriteoMRAID', '~> 1.0.1'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
