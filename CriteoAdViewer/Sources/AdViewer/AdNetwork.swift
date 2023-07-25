@@ -72,6 +72,7 @@ struct AdNetworks {
   let google: AdNetwork
   let standalone: AdNetwork
   let inHouse: AdNetwork
+  let mraid: AdNetwork
   let all: [AdNetwork]
   static let defaultPublisherId = "B-056946"
 
@@ -80,7 +81,8 @@ struct AdNetworks {
     self.standalone = standaloneNetwork(controller)
     self.inHouse = inHouseNetwork(controller: controller)
     self.mediation = googleMediationNetwork(controller)
-    self.all = [mediation, google, standalone, inHouse]
+    self.mraid = standaloneMRAIDNetwork(controller)
+    self.all = [mediation, google, standalone, inHouse, mraid]
   }
 }
 
@@ -140,6 +142,19 @@ private func standaloneNetwork(_ controller: AdViewController) -> AdNetwork {
       AdFormat.banner320x50: "30s6zt3ayypfyemwjvmp",
       AdFormat.interstitial: "6yws53jyfjgoq1ghnuqb",
       AdFormat.native: "190tsfngohsvfkh3hmkm"
+    ], adViewBuilder: CriteoAdViewBuilder(controller: controller, type: .standalone))
+}
+
+private func standaloneMRAIDNetwork(_ controller: AdViewController) -> AdNetwork {
+  AdNetwork(
+    name: "MRAID",
+    supportedFormats: [
+      AdFormat.banner300x250,
+      AdFormat.interstitial
+    ],
+    defaultAdUnits: [
+      AdFormat.banner300x250: "7fspp28x445grwm378ck",
+      AdFormat.interstitial: "7fspp28x445grwm378ck"
     ], adViewBuilder: CriteoAdViewBuilder(controller: controller, type: .standalone))
 }
 

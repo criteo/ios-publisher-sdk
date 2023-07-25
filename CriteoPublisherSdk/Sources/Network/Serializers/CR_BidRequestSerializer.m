@@ -80,7 +80,7 @@
   postBody[CR_ApiQueryKeys.id] = cdbRequest.requestGroupId;
   postBody[CR_ApiQueryKeys.publisher] = [self publisherWithConfig:config context:contextData];
   postBody[CR_ApiQueryKeys.gdprConsent] = [self.gdprSerializer dictionaryForGdpr:consent.gdpr];
-  postBody[CR_ApiQueryKeys.bidSlots] = [self slotsWithCdbRequest:cdbRequest];
+  postBody[CR_ApiQueryKeys.bidSlots] = [self slotsWithCdbRequest:cdbRequest config:config];
   postBody[CR_ApiQueryKeys.user] = [self userWithConsent:consent
                                                   config:config
                                               deviceInfo:deviceInfo];
@@ -139,7 +139,7 @@
   return publisher;
 }
 
-- (NSArray *)slotsWithCdbRequest:(CR_CdbRequest *)cdbRequest {
+- (NSArray *)slotsWithCdbRequest:(CR_CdbRequest *)cdbRequest config:(CR_Config *)config {
   NSMutableArray *slots = [NSMutableArray new];
   for (CR_CacheAdUnit *adUnit in cdbRequest.adUnits) {
     NSMutableDictionary *slotDict = [NSMutableDictionary new];
@@ -156,9 +156,20 @@
     } else if (adUnit.adUnitType == CRAdUnitTypeRewarded) {
       slotDict[CR_ApiQueryKeys.bidSlotsIsRewarded] = @(YES);
     }
+    if (config.isMRAIDEnabled && (adUnit.adUnitType == CRAdUnitTypeBanner ||
+                                  adUnit.adUnitType == CRAdUnitTypeInterstitial)) {
+      NSMutableDictionary *mraidDict = [NSMutableDictionary new];
+      mraidDict[CR_ApiQueryKeys.api] = @(3);
+      slotDict[CR_ApiQueryKeys.banner] = mraidDict;
+    }
+
     [slots addObject:slotDict];
   }
   return slots;
+}
+
+- (NSArray *)slotsWithCdbRequest:(CR_CdbRequest *)cdbRequest {
+  return [self slotsWithCdbRequest:cdbRequest config:[CR_Config new]];
 }
 
 + (NSDictionary<NSString *, id> *)mergeToNestedStructure:

@@ -169,8 +169,8 @@
                                                       withString:viewportWidth]
           stringByReplacingOccurrencesOfString:config.displayURLMacro
                                     withString:displayURL];
-  if (config.isMRAIDEnabled) {
-    htmlString = [CRMRAIDUtils buildWithHtml:htmlString from:[CRMRAIDUtils mraidResourceBundle]];
+  if (_mraidHandler) {
+    [_mraidHandler injectMRAID];
   }
 
   [self.viewController.webView loadHTMLString:htmlString

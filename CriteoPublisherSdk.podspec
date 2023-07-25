@@ -25,7 +25,7 @@ Pod::Spec.new do |spec|
 
   spec.requires_arc      = true
   spec.default_subspecs  = "Sdk"
-  spec.dependency          "CriteoMRAID"
+  spec.dependency          "CriteoMRAID", "~> 1.0.1"
 
   spec.subspec "Sdk" do |sdk|
     sdk.source_files         = "CriteoPublisherSdk/Sources/**/*.{h,m,swift}"
