@@ -41,8 +41,7 @@
 
 - (void)refreshConfig:(CR_Config *)config {
   CR_RemoteConfigRequest *request =
-      [CR_RemoteConfigRequest requestWithConfig:config
-                                      profileId:_integrationRegistry.profileId];
+      [CR_RemoteConfigRequest requestWithConfig:config profileId:_integrationRegistry.profileId];
   [_apiHandler getConfig:request
          ahConfigHandler:^(NSDictionary *configValues) {
            if (configValues[@"killSwitch"] &&
