@@ -148,7 +148,7 @@ public class CRMRAIDHandler: NSObject {
 
     @objc
     public func setScreen(size: CGSize) {
-
+        evaluate(javascript: "window.mraid.setScreenSize(\(size.width),\(size.height));")
     }
 }
 
