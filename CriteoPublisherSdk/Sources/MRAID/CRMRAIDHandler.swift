@@ -71,6 +71,7 @@ public class CRMRAIDHandler: NSObject {
     state = .default
     DispatchQueue.main.async { [weak self] in
       self?.setMaxSize()
+      self?.setSupportedFeatures()
       self?.sendReadyEvent(with: placementType)
     }
     startViabilityNotifier()
@@ -188,6 +189,7 @@ extension CRMRAIDHandler {
   }
 
   fileprivate func evaluate(javascript: String) {
+      debugPrint("js: -> \(javascript)")
     webView.evaluateJavaScript(javascript, completionHandler: handleJSCallback)
   }
 
@@ -221,6 +223,16 @@ extension CRMRAIDHandler {
     NotificationCenter.default.removeObserver(
       self, name: UIDevice.orientationDidChangeNotification, object: nil)
   }
+
+    fileprivate func setSupportedFeatures() {
+        guard
+            let data = try? JSONEncoder().encode(MRAIDFeatures()),
+            let supportedFeaturesString = String(data: data, encoding: .utf8) else {
+            logger.mraidLog(error: "Could not set supported features")
+            return
+        }
+        evaluate(javascript: "window.mraid.setSupports(\(supportedFeaturesString);")
+    }
 }
 
 // MARK: - MRAID Message delegate
