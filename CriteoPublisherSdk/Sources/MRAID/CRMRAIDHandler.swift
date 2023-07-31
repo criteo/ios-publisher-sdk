@@ -70,7 +70,8 @@ public class CRMRAIDHandler: NSObject {
   public func onAdLoad(with placementType: String) {
     state = .default
     DispatchQueue.main.async { [weak self] in
-      self?.setMaxSize()
+      self?.setMax(size: self?.webView.cr_parentViewController()?.view.bounds.size ?? UIScreen.main.bounds.size)
+      self?.setScreen(size: UIScreen.main.bounds.size)
       self?.sendReadyEvent(with: placementType)
     }
     startViabilityNotifier()
@@ -137,6 +138,18 @@ public class CRMRAIDHandler: NSObject {
   public func updateMraid(bundle: Bundle?) {
     mraidBundle = bundle
   }
+
+    @objc
+    public func setMax(size: CGSize) {
+      evaluate(
+        javascript:
+          "window.mraid.setMaxSize(\(size.width), \(size.height), \(UIScreen.main.scale));")
+    }
+
+    @objc
+    public func setScreen(size: CGSize) {
+
+    }
 }
 
 // MARK: - JS message handler
@@ -154,14 +167,6 @@ extension CRMRAIDHandler {
   fileprivate func stopViabilityNotifier() {
     timer?.invalidate()
     timer = nil
-  }
-
-  fileprivate func setMaxSize() {
-    let size: CGSize =
-      webView.cr_parentViewController()?.view.bounds.size ?? UIScreen.main.bounds.size
-    evaluate(
-      javascript:
-        "window.mraid.setMaxSize(\(size.width), \(size.height), \(UIScreen.main.scale));")
   }
 
   @objc fileprivate func setIsViewable(visible: Bool) {
@@ -214,7 +219,10 @@ extension CRMRAIDHandler {
   }
 
   @objc fileprivate func deviceOrientationDidChange() {
-    setMaxSize()
+      DispatchQueue.main.async { [ weak self] in
+          self?.setMax(size: self?.webView.cr_parentViewController()?.view.bounds.size ?? UIScreen.main.bounds.size)
+          self?.setScreen(size: UIScreen.main.bounds.size)
+      }
   }
 
   fileprivate func unregisterDeviceOrientationListener() {
@@ -232,9 +240,9 @@ extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
       self?.onSuccessClose()
     }
 
-    DispatchQueue.main.asyncAfter(deadline: .now() + CRMRAIDHandler.updateDelay) {
-      self.state = .expanded
-      self.notifyExpanded()
+    DispatchQueue.main.asyncAfter(deadline: .now() + CRMRAIDHandler.updateDelay) { [weak self] in
+      self?.state = .expanded
+      self?.notifyExpanded()
     }
   }
 
