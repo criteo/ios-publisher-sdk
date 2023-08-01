@@ -18,13 +18,11 @@
 //
 
 import Foundation
-import CoreTelephony
+import MessageUI
 
 public struct MRAIDFeatures: Codable {
     var sms: Bool = false
     var tel: Bool = false
-    var calendar: Bool = true
-    var storePicture: Bool = false
     var inlineVideo: Bool = true
 
     public init() {
@@ -34,9 +32,7 @@ public struct MRAIDFeatures: Codable {
             self.tel = true
         }
 
-        if
-            let smsURL = URL(string: "sms://"),
-            UIApplication.shared.canOpenURL(smsURL) {
+        if MFMessageComposeViewController.canSendText() {
             self.sms = true
         }
     }

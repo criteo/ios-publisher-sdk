@@ -189,7 +189,6 @@ extension CRMRAIDHandler {
   }
 
   fileprivate func evaluate(javascript: String) {
-      debugPrint("js: -> \(javascript)")
     webView.evaluateJavaScript(javascript, completionHandler: handleJSCallback)
   }
 
@@ -231,7 +230,7 @@ extension CRMRAIDHandler {
             logger.mraidLog(error: "Could not set supported features")
             return
         }
-        evaluate(javascript: "window.mraid.setSupports(\(supportedFeaturesString);")
+        evaluate(javascript: "window.mraid.setSupports(\(supportedFeaturesString));")
     }
 }
 
