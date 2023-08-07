@@ -107,18 +107,9 @@
   return self;
 }
 
-#pragma mark - mraid viewability measurement
-- (void)setNeedsDisplay {
-  [super setNeedsDisplay];
-  NSLog(@"setNeedsDisplay: %@ %@", [NSDate new], _webView.URL);
-}
-
-- (void)didMoveToWindow {
-  NSLog(@"didMoveToWindow: %@", [NSDate new]);
-}
-
-- (void)didMoveToSuperview {
-  NSLog(@"didMoveToSuperview: %@", [NSDate new]);
+- (void)layoutSubviews {
+  [super layoutSubviews];
+  [_mraidHandler setCurrentPosition];
 }
 
 - (void)safelyLoadWebViewWithDisplayUrl:(NSString *)displayUrl {
