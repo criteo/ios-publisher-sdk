@@ -3,7 +3,9 @@
 ## Version [5.0.2]
 
 ### Features
-- MRAID 1.0 bug fixes.
+- Send SDK MRAID capability
+- Fix MRAID iframe issues
+- Do not send deviceId in config request
 
 --------------------------------------------------------------------------------
 ## Version [5.0.1]
