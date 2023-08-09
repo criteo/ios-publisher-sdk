@@ -22,6 +22,7 @@ import WebKit
 import XCTest
 
 class MockMessageDelegate: MRAIDMessageHandlerDelegate {
+
   typealias ExpandBlock = (Int, Int, URL?) -> Void
   typealias CloseBlock = () -> Void
 
@@ -34,6 +35,10 @@ class MockMessageDelegate: MRAIDMessageHandlerDelegate {
 
   func didReceiveCloseAction() {
     closeBlock?()
+  }
+
+  func didReceivePlayVideoAction(with url: String) {
+    debugPrint("play video from url: \(url)")
   }
 }
 
