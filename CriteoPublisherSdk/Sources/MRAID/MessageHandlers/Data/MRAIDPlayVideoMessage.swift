@@ -1,5 +1,5 @@
 //
-//  ActionRepresentable.swift
+//  MRAIDPlayVideoMessage.swift
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2023 Criteo. All rights reserved.
@@ -19,15 +19,7 @@
 
 import Foundation
 
-public protocol ActionRepresentable {
-  var action: Action { get }
-}
-
-public enum Action: String, Decodable {
-  case log
-  case `open`
-  case expand
-  case close
-  case none
-  case playVideo
+public struct MRAIDPlayVideoMessage: Decodable {
+    let action: Action
+    let url: String
 }

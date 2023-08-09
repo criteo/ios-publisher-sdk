@@ -19,6 +19,7 @@
 
 import Foundation
 import WebKit
+import AVKit
 
 public typealias VoidCompletion = () -> Void
 
@@ -248,4 +249,21 @@ extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
       self?.onSuccessClose()
     }
   }
+
+    public func didReceivePlayVideoAction(with url: String) {
+        guard
+            let parentViewController = webView.cr_rootViewController(),
+            let videoURL = URL(string: url)
+        else {
+            logger.mraidLog(error: "Could not play video with url: \(url)")
+            return
+        }
+
+        let playerViewController = AVPlayerViewController()
+        playerViewController.player = AVPlayer(url: videoURL)
+
+        parentViewController.present(playerViewController, animated: true) {
+            playerViewController.player?.play()
+        }
+    }
 }

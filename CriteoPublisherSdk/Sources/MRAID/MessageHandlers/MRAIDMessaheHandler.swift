@@ -22,9 +22,18 @@ import Foundation
 public protocol MRAIDMessageHandlerDelegate: AnyObject {
   func didReceive(expand action: MRAIDExpandMessage)
   func didReceiveCloseAction()
+  func didReceivePlayVideoAction(with url: String)
+}
+
+private class MRAIDJSONDecoder: JSONDecoder {
+    override init() {
+        super.init()
+        keyDecodingStrategy = .convertFromSnakeCase
+    }
 }
 
 public struct MRAIDMessageHandler {
+  private let decoder = MRAIDJSONDecoder()
   private let logHandler: MRAIDLogHandler
   private let urlHandler: MRAIDURLHandler
   public weak var delegate: MRAIDMessageHandlerDelegate?
@@ -37,12 +46,13 @@ public struct MRAIDMessageHandler {
   public func handle(message: Any) {
     do {
       let data = try JSONSerialization.data(withJSONObject: message)
-      let actionMessage = try JSONDecoder().decode(MRAIDActionMessage.self, from: data)
+      let actionMessage = try decoder.decode(MRAIDActionMessage.self, from: data)
       switch actionMessage.action {
       case .log: logHandler.handle(data: data)
       case .open: urlHandler.handle(data: data)
       case .expand: handleExpand(message: data)
       case .close: delegate?.didReceiveCloseAction()
+      case .playVideo: handlePlayVideo(message: data)
       case .none: break
       }
     } catch {
@@ -57,10 +67,10 @@ public struct MRAIDMessageHandler {
 }
 
 // MARK: - Private methods
-extension MRAIDMessageHandler {
-  fileprivate func handleExpand(message data: Data) {
+fileprivate extension MRAIDMessageHandler {
+  func handleExpand(message data: Data) {
     do {
-      let expandMessage = try JSONDecoder().decode(MRAIDExpandMessage.self, from: data)
+      let expandMessage = try decoder.decode(MRAIDExpandMessage.self, from: data)
       delegate?.didReceive(expand: expandMessage)
     } catch {
       logHandler.handle(
@@ -71,4 +81,18 @@ extension MRAIDMessageHandler {
           action: .expand))
     }
   }
+
+    func handlePlayVideo(message data: Data) {
+        do {
+            let playVideoMessage = try decoder.decode(MRAIDPlayVideoMessage.self, from: data)
+            delegate?.didReceivePlayVideoAction(with: playVideoMessage.url)
+        } catch {
+            logHandler.handle(
+              log: .init(
+                logId: nil,
+                message: error.localizedDescription,
+                logLevel: .error,
+                action: .playVideo))
+          }
+    }
 }
