@@ -29,5 +29,5 @@ public enum Action: String, Decodable {
   case expand
   case close
   case none
-  case playVideo
+  case playVideo = "play_video"
 }

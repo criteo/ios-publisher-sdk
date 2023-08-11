@@ -19,6 +19,7 @@
 
 import Foundation
 import WebKit
+import AVKit
 
 public typealias VoidCompletion = () -> Void
 
@@ -61,6 +62,7 @@ public class CRMRAIDHandler: NSObject {
         super.init()
         self.delegate = delegate
         self.messageHandler.delegate = self
+
         DispatchQueue.main.async {
             self.webView.configuration.userContentController.add(self, name: "criteoMraidBridge")
         }
@@ -259,7 +261,7 @@ fileprivate extension CRMRAIDHandler {
 
 // MARK: - MRAID Message delegate
 extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
-    func didReceive(expand action: MRAIDExpandMessage) {
+    public func didReceive(expand action: MRAIDExpandMessage) {
         guard state != .expanded else { return }
 
         delegate?.expand?(width: action.width, height: action.width, url: action.url) { [weak self] in
@@ -273,7 +275,7 @@ extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
         }
     }
 
-    func didReceiveCloseAction() {
+    public func didReceiveCloseAction() {
         guard state == .default || state == .expanded else {
             logger.mraidLog(error: "Close action is not valid in current state: \(state)")
             return
@@ -284,7 +286,7 @@ extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
         }
     }
 
-    func didReceivePlayVideoAction(with url: String) {
+    public func didReceivePlayVideoAction(with url: String) {
         guard
             let parentViewController = webView.cr_rootViewController(),
             let videoURL = URL(string: url)
