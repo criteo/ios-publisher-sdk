@@ -1,8 +1,8 @@
 //
-//  CRConstants.h
+//  MRAIDFeature.swift
 //  CriteoPublisherSdk
 //
-//  Copyright © 2018-2020 Criteo. All rights reserved.
+//  Copyright © 2018-2023 Criteo. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,13 +17,23 @@
 // limitations under the License.
 //
 
-#ifndef CRConstants_h
-#define CRConstants_h
+import Foundation
+import MessageUI
 
-#define CRITEO_PUBLISHER_SDK_VERSION @"5.0.2"
+public struct MRAIDFeatures: Codable {
+    var sms: Bool = false
+    var tel: Bool = false
+    var inlineVideo: Bool = true
 
-#define CRITEO_DEFAULT_REQUEST_TIMEOUT_IN_SECONDS 60
-#define CRITEO_DEFAULT_BID_TTL_IN_SECONDS 15 * 60
-#define CRITEO_DEFAULT_LIVE_BID_TIME_BUDGET_IN_SECONDS 8.0f
+    public init() {
+        if
+            let telURL = URL(string: "tel://"),
+            UIApplication.shared.canOpenURL(telURL) {
+            self.tel = true
+        }
 
-#endif /* CRConstants_h */
+        if MFMessageComposeViewController.canSendText() {
+            self.sms = true
+        }
+    }
+}

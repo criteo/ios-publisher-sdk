@@ -107,6 +107,11 @@
   return self;
 }
 
+- (void)layoutSubviews {
+  [super layoutSubviews];
+  [_mraidHandler setCurrentPosition];
+}
+
 - (void)safelyLoadWebViewWithDisplayUrl:(NSString *)displayUrl {
   dispatch_async(dispatch_get_main_queue(), ^{
     [self loadWebViewWithDisplayUrl:displayUrl];
