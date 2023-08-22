@@ -1,5 +1,5 @@
 //
-//  MRAIDState.swift
+//  MRAIDCustomClosePosition.swift
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2023 Criteo. All rights reserved.
@@ -19,10 +19,12 @@
 
 import Foundation
 
-public enum MRAIDState: String, Decodable {
-  case loading
-  case `default`
-  case expanded
-  case hidden
-  case resized
+enum MRAIDCustomClosePosition: String, Decodable {
+    case topLeft = "top-left"
+    case topRight = "top-right"
+    case center
+    case bottomLeft = "bottom-left"
+    case bottomRight = "bottom-right"
+    case topCenter = "top-center"
+    case bottomCenter = "bottom-center"
 }

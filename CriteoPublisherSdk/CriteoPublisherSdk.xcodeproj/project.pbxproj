@@ -287,10 +287,15 @@
 		A83C4A2B2A80EDAB0033687C /* MRAIDPlayVideoMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83C4A2A2A80EDAB0033687C /* MRAIDPlayVideoMessage.swift */; };
 		A879179329A7230F00A3B798 /* CRMRAIDHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A879179229A7230F00A3B798 /* CRMRAIDHandler.swift */; };
 		A879179629A771CF00A3B798 /* SwiftExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A879179529A771CF00A3B798 /* SwiftExtensions.swift */; };
+		A8C3DF392A8E062100B6A4BE /* MRAIDResizeMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8C3DF382A8E062100B6A4BE /* MRAIDResizeMessage.swift */; };
+		A8C3DF3D2A8E071700B6A4BE /* MRAIDCustomClosePosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8C3DF3C2A8E071700B6A4BE /* MRAIDCustomClosePosition.swift */; };
+		A8C3DF3F2A935D1C00B6A4BE /* MRAIDResizeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8C3DF3E2A935D1C00B6A4BE /* MRAIDResizeHandler.swift */; };
+		A8C3DF412A94EE3F00B6A4BE /* MRAIDResizeContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8C3DF402A94EE3F00B6A4BE /* MRAIDResizeContainerView.swift */; };
+		A8C3DF432A94FE4800B6A4BE /* CRPlacementType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8C3DF422A94FE4800B6A4BE /* CRPlacementType.swift */; };
+		A8C3DF452A94FE6800B6A4BE /* CRMRAIDHandlerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8C3DF442A94FE6800B6A4BE /* CRMRAIDHandlerDelegate.swift */; };
 		A8E22E1B29DD75DF0094FFA4 /* MRAIDExpandMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E22E1A29DD75DF0094FFA4 /* MRAIDExpandMessage.swift */; };
 		A8E22E1D29DEFD4A0094FFA4 /* MRAIDState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E22E1C29DEFD4A0094FFA4 /* MRAIDState.swift */; };
 		A8E22E1F29DF06250094FFA4 /* CRFulllScreenContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E22E1E29DF06250094FFA4 /* CRFulllScreenContainer.swift */; };
-		A8E967D6299F4B3D00BE226A /* CRMRAIDConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = A8E967D5299F4B3D00BE226A /* CRMRAIDConstants.h */; };
 		B1BD859C4CDDB6DB1B906C62 /* libPods-CriteoPublisherSdkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92039F91AE1122C08CF8EC36 /* libPods-CriteoPublisherSdkTests.a */; };
 		C07AB0222733EAA918843728 /* CR_NativeAssets+Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABBC696D95F756547DA86 /* CR_NativeAssets+Testing.m */; };
 		C07AB058AEB4030B2EBD4D15 /* CR_RemoteLogRecordSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = C07AB0DC260182010824A534 /* CR_RemoteLogRecordSerializer.h */; };
@@ -747,10 +752,15 @@
 		A83C4A2A2A80EDAB0033687C /* MRAIDPlayVideoMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDPlayVideoMessage.swift; sourceTree = "<group>"; };
 		A879179229A7230F00A3B798 /* CRMRAIDHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRMRAIDHandler.swift; sourceTree = "<group>"; };
 		A879179529A771CF00A3B798 /* SwiftExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftExtensions.swift; sourceTree = "<group>"; };
+		A8C3DF382A8E062100B6A4BE /* MRAIDResizeMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDResizeMessage.swift; sourceTree = "<group>"; };
+		A8C3DF3C2A8E071700B6A4BE /* MRAIDCustomClosePosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDCustomClosePosition.swift; sourceTree = "<group>"; };
+		A8C3DF3E2A935D1C00B6A4BE /* MRAIDResizeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDResizeHandler.swift; sourceTree = "<group>"; };
+		A8C3DF402A94EE3F00B6A4BE /* MRAIDResizeContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDResizeContainerView.swift; sourceTree = "<group>"; };
+		A8C3DF422A94FE4800B6A4BE /* CRPlacementType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRPlacementType.swift; sourceTree = "<group>"; };
+		A8C3DF442A94FE6800B6A4BE /* CRMRAIDHandlerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRMRAIDHandlerDelegate.swift; sourceTree = "<group>"; };
 		A8E22E1A29DD75DF0094FFA4 /* MRAIDExpandMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDExpandMessage.swift; sourceTree = "<group>"; };
 		A8E22E1C29DEFD4A0094FFA4 /* MRAIDState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDState.swift; sourceTree = "<group>"; };
 		A8E22E1E29DF06250094FFA4 /* CRFulllScreenContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRFulllScreenContainer.swift; sourceTree = "<group>"; };
-		A8E967D5299F4B3D00BE226A /* CRMRAIDConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRMRAIDConstants.h; sourceTree = "<group>"; };
 		C07AB093A865F67283614A5D /* CRMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRMediaView.m; sourceTree = "<group>"; };
 		C07AB0DC260182010824A534 /* CR_RemoteLogRecordSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CR_RemoteLogRecordSerializer.h; sourceTree = "<group>"; };
 		C07AB0F74CBE74DC33F6ED1C /* CR_RemoteLogRecordTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CR_RemoteLogRecordTests.m; path = Logging/CR_RemoteLogRecordTests.m; sourceTree = "<group>"; };
@@ -1602,13 +1612,15 @@
 		A84F0D222982AFF100756E68 /* MRAID */ = {
 			isa = PBXGroup;
 			children = (
+				A8C3DF3B2A8E070500B6A4BE /* Resize */,
 				A83BB59129BAEE5F002A63B6 /* MessageHandlers */,
 				A83BB58829BAEB3A002A63B6 /* Logging */,
 				A879179429A7719A00A3B798 /* Utils */,
-				A8E967D5299F4B3D00BE226A /* CRMRAIDConstants.h */,
 				A879179229A7230F00A3B798 /* CRMRAIDHandler.swift */,
 				A879179529A771CF00A3B798 /* SwiftExtensions.swift */,
 				A8304F522A77D11A00ABB951 /* MRAIDFeature.swift */,
+				A8C3DF422A94FE4800B6A4BE /* CRPlacementType.swift */,
+				A8C3DF442A94FE6800B6A4BE /* CRMRAIDHandlerDelegate.swift */,
 			);
 			path = MRAID;
 			sourceTree = "<group>";
@@ -1622,12 +1634,31 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		A8C3DF3A2A8E062600B6A4BE /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				A83C4A2A2A80EDAB0033687C /* MRAIDPlayVideoMessage.swift */,
+				A8C3DF382A8E062100B6A4BE /* MRAIDResizeMessage.swift */,
+				A8E22E1A29DD75DF0094FFA4 /* MRAIDExpandMessage.swift */,
+			);
+			path = Message;
+			sourceTree = "<group>";
+		};
+		A8C3DF3B2A8E070500B6A4BE /* Resize */ = {
+			isa = PBXGroup;
+			children = (
+				A8C3DF3C2A8E071700B6A4BE /* MRAIDCustomClosePosition.swift */,
+				A8C3DF3E2A935D1C00B6A4BE /* MRAIDResizeHandler.swift */,
+				A8C3DF402A94EE3F00B6A4BE /* MRAIDResizeContainerView.swift */,
+			);
+			path = Resize;
+			sourceTree = "<group>";
+		};
 		A8E22E1929DD75CC0094FFA4 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				A8E22E1A29DD75DF0094FFA4 /* MRAIDExpandMessage.swift */,
+				A8C3DF3A2A8E062600B6A4BE /* Message */,
 				A8E22E1C29DEFD4A0094FFA4 /* MRAIDState.swift */,
-				A83C4A2A2A80EDAB0033687C /* MRAIDPlayVideoMessage.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1852,7 +1883,6 @@
 				7D167014246D4D5F0097880F /* CR_HeaderBidding.h in Headers */,
 				650915FD225565E6001D6673 /* CRBannerView.h in Headers */,
 				46E3478226B0641300A161B6 /* CR_CASDefaultDataSerializer.h in Headers */,
-				A8E967D6299F4B3D00BE226A /* CRMRAIDConstants.h in Headers */,
 				4672E1E6251CDE02009F39EF /* CR_CASObjectQueue.h in Headers */,
 				7D00672F243CD6F900E5D50D /* CR_CASObjectQueue+ArraySet.h in Headers */,
 				DF367C8A232974210044807B /* CRNativeAdUnit.h in Headers */,
@@ -2190,6 +2220,7 @@
 			files = (
 				A879179629A771CF00A3B798 /* SwiftExtensions.swift in Sources */,
 				DF367CAD232B310D0044807B /* CR_NativePrivacy.m in Sources */,
+				A8C3DF452A94FE6800B6A4BE /* CRMRAIDHandlerDelegate.swift in Sources */,
 				A83BB59929BB1F77002A63B6 /* CRLogUtil.m in Sources */,
 				7DFB2B11247E75E5007CDFF3 /* CR_URLOpener.m in Sources */,
 				A8E22E1F29DF06250094FFA4 /* CRFulllScreenContainer.swift in Sources */,
@@ -2212,6 +2243,7 @@
 				4660614424754E8100690E27 /* CR_SafeMediaDownloader.m in Sources */,
 				5397C0B022A0AA5600BC72FE /* CRAdUnit.m in Sources */,
 				46507F80246C2F6900B1DA78 /* CRNativeAdView.m in Sources */,
+				A8C3DF432A94FE4800B6A4BE /* CRPlacementType.swift in Sources */,
 				25BD5B672220D1CC004DE311 /* CR_DeviceInfo.m in Sources */,
 				7D07DA1F23DAF6DD00ECCF02 /* CR_Ccpa.m in Sources */,
 				7D58583223E1F1EC0039AC56 /* CR_ThreadManager.m in Sources */,
@@ -2239,6 +2271,7 @@
 				A83C4A2B2A80EDAB0033687C /* MRAIDPlayVideoMessage.swift in Sources */,
 				7D3E426F23915E4200BAF673 /* CR_DependencyProvider.m in Sources */,
 				25BD5B6C2220D1EC004DE311 /* CR_CdbResponse.m in Sources */,
+				A8C3DF392A8E062100B6A4BE /* MRAIDResizeMessage.swift in Sources */,
 				5397C0B222A0AA6900BC72FE /* CRBannerAdUnit.m in Sources */,
 				7D1A17D4242A7A1100816D32 /* CR_GdprVersion.m in Sources */,
 				46C403E0257682D200E5179C /* CR_Logging.m in Sources */,
@@ -2253,6 +2286,7 @@
 				4668FEF52459BD3A00D207AE /* CRNativeLoader.m in Sources */,
 				25BD5B6D2220D1F0004DE311 /* CR_NetworkManager.m in Sources */,
 				548968192332F319005B2659 /* CR_NativeProduct.m in Sources */,
+				A8C3DF3D2A8E071700B6A4BE /* MRAIDCustomClosePosition.swift in Sources */,
 				25BD5B6A2220D1DD004DE311 /* CR_DataProtectionConsent.m in Sources */,
 				463791BC256D006F00DC65B4 /* CR_SkAdNetworkParameters.m in Sources */,
 				25BD5B662220D1C6004DE311 /* CR_ConfigManager.m in Sources */,
@@ -2266,6 +2300,7 @@
 				DF367CA5232B20F90044807B /* CR_NativeAdvertiser.m in Sources */,
 				464D6FB925480925004502C4 /* SKAdNetworkInfo.swift in Sources */,
 				46C403EB2577BADD00E5179C /* CR_LogMessage.m in Sources */,
+				A8C3DF412A94EE3F00B6A4BE /* MRAIDResizeContainerView.swift in Sources */,
 				DF3E3D4123233936009E8CB5 /* NSArray+Criteo.m in Sources */,
 				53BDFDBE22EA763E0051EB40 /* NSObject+Criteo.m in Sources */,
 				46678031257FD82000D14B51 /* CRSKAdNetworkInfo.m in Sources */,
@@ -2290,6 +2325,7 @@
 				4642C9C724CAD93E0080AC4F /* CR_IntegrationRegistry.m in Sources */,
 				C07ABC0F6A8997CD78597D6B /* CR_ImageCache.m in Sources */,
 				C07AB11AEFF7DFF4A4638A4F /* CR_RemoteConfigRequest.m in Sources */,
+				A8C3DF3F2A935D1C00B6A4BE /* MRAIDResizeHandler.swift in Sources */,
 				C07AB1021EE9DC0423DB6A20 /* CR_DisplaySizeInjector.m in Sources */,
 				4672E1DF251CDE02009F39EF /* CR_CASQueueFile.m in Sources */,
 				C07AB5076241BAE89085C9A8 /* CRContextData.m in Sources */,

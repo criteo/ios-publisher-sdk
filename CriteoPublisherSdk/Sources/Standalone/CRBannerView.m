@@ -25,7 +25,6 @@
 #import "CR_DependencyProvider.h"
 #import "CR_Logging.h"
 #import "NSError+Criteo.h"
-#import "CRMRAIDConstants.h"
 #import "CRLogUtil.h"
 #import "UIView+Criteo.h"
 
@@ -98,10 +97,11 @@
     _adUnit = adUnit;
     _urlOpener = opener;
     if (criteo.config.isMRAIDEnabled) {
-      _mraidHandler = [[CRMRAIDHandler alloc] initWith:_webView
-                                          criteoLogger:[CRLogUtil new]
-                                             urlOpener:self
-                                              delegate:self];
+      _mraidHandler = [[CRMRAIDHandler alloc] initWithPlacementType:CRPlacementTypeBanner
+                                                               webView:_webView
+                                                       criteoLogger:[CRLogUtil new]
+                                                          urlOpener:self
+                                                           delegate:self];
     }
   }
   return self;
@@ -237,7 +237,7 @@
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-  [_mraidHandler onAdLoadWith:CR_MRAID_PLACEMENT_BANNER];
+  [_mraidHandler onAdLoad];
 }
 
 - (void)handlePotentialClickForNavigationAction:(WKNavigationAction *)navigationAction

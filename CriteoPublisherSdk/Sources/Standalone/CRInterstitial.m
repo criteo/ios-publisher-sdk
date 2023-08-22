@@ -31,7 +31,6 @@
 #import "CR_DisplaySizeInjector.h"
 #import "CR_IntegrationRegistry.h"
 #import "CR_Logging.h"
-#import "CRMRAIDConstants.h"
 #import "CRLogUtil.h"
 
 @interface CRInterstitial () <WKNavigationDelegate,
@@ -62,10 +61,11 @@
     _adUnit = adUnit;
     _urlOpener = urlOpener;
     if (criteo.config.isMRAIDEnabled) {
-      _mraidHandler = [[CRMRAIDHandler alloc] initWith:viewController.webView
-                                          criteoLogger:[CRLogUtil new]
-                                             urlOpener:self
-                                              delegate:self];
+        _mraidHandler = [[CRMRAIDHandler alloc] initWithPlacementType: CRPlacementTypeInterstitial
+                                                              webView:viewController.webView
+                                                         criteoLogger:[CRLogUtil new]
+                                                            urlOpener:self
+                                                             delegate:self];
       __weak typeof(self) weakSelf = self;
       _viewController.dismissCompletion = ^{
         [weakSelf.mraidHandler onSuccessClose];
@@ -226,7 +226,7 @@
   self.isAdLoading = NO;
   self.isAdLoaded = YES;
   [self dispatchDidReceiveAdDelegate];
-  [_mraidHandler onAdLoadWith:CR_MRAID_PLACEMENT_INTERSTITIAL];
+  [_mraidHandler onAdLoad];
 }
 
 - (void)presentFromRootViewController:(UIViewController *)rootViewController {

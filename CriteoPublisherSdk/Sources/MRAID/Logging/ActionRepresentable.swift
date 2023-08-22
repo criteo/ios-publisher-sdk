@@ -30,4 +30,5 @@ public enum Action: String, Decodable {
   case close
   case none
   case playVideo = "play_video"
+  case resize
 }
