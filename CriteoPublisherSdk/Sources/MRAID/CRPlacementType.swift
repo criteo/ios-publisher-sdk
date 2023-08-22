@@ -1,5 +1,5 @@
 //
-//  CRMRAIDConstants.h
+//  CRPlacementType.swift
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2023 Criteo. All rights reserved.
@@ -17,10 +17,17 @@
 // limitations under the License.
 //
 
-#ifndef CRMRAIDConstants_h
-#define CRMRAIDConstants_h
+import Foundation
 
-#define CR_MRAID_PLACEMENT_BANNER @"inline"
-#define CR_MRAID_PLACEMENT_INTERSTITIAL @"interstitial"
+@objc
+public enum CRPlacementType: Int {
+    case banner
+    case interstitial
 
-#endif /* CRMRAIDConstants_h */
+    var placementTypeString: String {
+        switch self {
+        case .banner: return "inline"
+        case .interstitial: return "interstitial"
+        }
+    }
+}

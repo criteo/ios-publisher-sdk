@@ -28,14 +28,6 @@ private struct CRMRAIDHandlerConstants {
 }
 
 @objc
-public protocol CRMRAIDHandlerDelegate: AnyObject {
-    @objc
-    optional
-    func expand(width: Int, height: Int, url: URL?, completion: VoidCompletion?)
-    func close(completion: VoidCompletion?)
-}
-
-@objc
 public class CRMRAIDHandler: NSObject {
     private let webView: WKWebView
     private var timer: Timer?
@@ -46,14 +38,17 @@ public class CRMRAIDHandler: NSObject {
     private let logger: CRMRAIDLogger
     private static let updateDelay: CGFloat = 0.05
     private var mraidBundle: Bundle? = CRMRAIDUtils.mraidResourceBundle()
+    private let placementType: CRPlacementType
 
     @objc
     public init(
-        with webView: WKWebView,
+        placementType: CRPlacementType,
+        webView: WKWebView,
         criteoLogger: CRMRAIDLogger,
         urlOpener: CRExternalURLOpener,
         delegate: CRMRAIDHandlerDelegate?
     ) {
+        self.placementType = placementType
         self.logger = criteoLogger
         self.webView = webView
         self.messageHandler = MRAIDMessageHandler(
@@ -66,17 +61,23 @@ public class CRMRAIDHandler: NSObject {
         DispatchQueue.main.async {
             self.webView.configuration.userContentController.add(self, name: "criteoMraidBridge")
         }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            let resizeMessage = MRAIDResizeMessage(action: .resize, width: 300, height: 300, offsetX: 50, offsetY: 50, customClosePosition: .topLeft, allowOffscreen: false)
+            self.didReceive(resize: resizeMessage)
+        }
     }
 
     @objc
-    public func onAdLoad(with placementType: String) {
+    public func onAdLoad() {
         state = .default
         DispatchQueue.main.async { [weak self] in
-            self?.setMaxSize()
-            self?.setScreen(size: UIScreen.main.bounds.size)
-            self?.setCurrentPosition()
-            self?.setSupportedFeatures()
-            self?.sendReadyEvent(with: placementType)
+            guard let self = self else { return }
+            self.setMaxSize()
+            self.setScreen(size: UIScreen.main.bounds.size)
+            self.setCurrentPosition()
+            self.setSupportedFeatures()
+            self.sendReadyEvent(with: self.placementType.placementTypeString)
         }
         startViabilityNotifier()
         registerDeviceOrientationListener()
@@ -159,7 +160,7 @@ public class CRMRAIDHandler: NSObject {
 
     @objc
     public func setScreen(size: CGSize) {
-      evaluate(javascript: "window.mraid.setScreenSize(\(size.width),\(size.height));")
+        evaluate(javascript: "window.mraid.setScreenSize(\(size.width),\(size.height));")
     }
 }
 
@@ -301,5 +302,32 @@ extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
         parentViewController.present(playerViewController, animated: true) {
             playerViewController.player?.play()
         }
+    }
+
+    public func didReceive(resize action: MRAIDResizeMessage) {
+        guard placementType == .banner else {
+            logger.mraidLog(error: "Resize action can be execute only for banner ad type")
+            return
+
+        }
+
+        let resizeHandler = MRAIDResizeHandler(webView: webView, resizeMessage: action, mraidState: state)
+        guard resizeHandler.canResize() else {
+            logger.mraidLog(error: "Resize action can be execute only on default or resized states")
+            return
+        }
+
+        do {
+            try resizeHandler.resize(delegate: self)
+            state = .resized
+        } catch {
+            logger.mraidLog(error: "Could not resize ad.")
+        }
+    }
+}
+
+extension CRMRAIDHandler: MRAIDResizeHandlerDelegate {
+    func didCloseResizedAdView() {
+        
     }
 }

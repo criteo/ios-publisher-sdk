@@ -1,5 +1,5 @@
 //
-//  MRAIDState.swift
+//  CRMRAIDHandlerDelegate.swift
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2023 Criteo. All rights reserved.
@@ -19,10 +19,14 @@
 
 import Foundation
 
-public enum MRAIDState: String, Decodable {
-  case loading
-  case `default`
-  case expanded
-  case hidden
-  case resized
+@objc
+public protocol CRMRAIDHandlerDelegate: AnyObject {
+    @objc
+    optional
+    func expand(width: Int, height: Int, url: URL?, completion: VoidCompletion?)
+    func close(completion: VoidCompletion?)
+
+//    @objc
+//    optional
+//    func resize(with: MRAIDResizeMessage)
 }

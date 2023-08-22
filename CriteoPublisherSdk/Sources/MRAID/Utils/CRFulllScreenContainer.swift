@@ -57,12 +57,7 @@ public class CRFulllScreenContainer: UIViewController {
     webView.removeFromSuperview()
     // 2. add webview back to banner container
     container.addSubview(webView)
-    NSLayoutConstraint.activate([
-      webView.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 1),
-      webView.heightAnchor.constraint(equalTo: container.heightAnchor, multiplier: 1),
-      webView.centerXAnchor.constraint(equalTo: container.centerXAnchor),
-      webView.centerYAnchor.constraint(equalTo: container.centerYAnchor)
-    ])
+    webView.fill(in: container)
     // 3. dismiss full screen controller
     dismiss(animated: true, completion: completion)
   }

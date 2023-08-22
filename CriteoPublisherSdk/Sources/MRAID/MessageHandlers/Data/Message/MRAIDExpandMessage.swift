@@ -20,8 +20,8 @@
 import Foundation
 
 public struct MRAIDExpandMessage: Decodable {
-  public let action: Action
-  public let width: Int
-  public let height: Int
-  public let url: URL?
+  let action: Action
+  let width: Int
+  let height: Int
+  let url: URL?
 }

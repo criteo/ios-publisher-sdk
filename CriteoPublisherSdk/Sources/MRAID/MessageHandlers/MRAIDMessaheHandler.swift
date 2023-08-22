@@ -20,9 +20,10 @@
 import Foundation
 
 public protocol MRAIDMessageHandlerDelegate: AnyObject {
-  func didReceive(expand action: MRAIDExpandMessage)
-  func didReceiveCloseAction()
-  func didReceivePlayVideoAction(with url: String)
+    func didReceive(expand action: MRAIDExpandMessage)
+    func didReceiveCloseAction()
+    func didReceivePlayVideoAction(with url: String)
+    func didReceive(resize action: MRAIDResizeMessage)
 }
 
 private class MRAIDJSONDecoder: JSONDecoder {
@@ -33,66 +34,68 @@ private class MRAIDJSONDecoder: JSONDecoder {
 }
 
 public struct MRAIDMessageHandler {
-  private let decoder = MRAIDJSONDecoder()
-  private let logHandler: MRAIDLogHandler
-  private let urlHandler: MRAIDURLHandler
-  public weak var delegate: MRAIDMessageHandlerDelegate?
+    private let decoder = MRAIDJSONDecoder()
+    private let logHandler: MRAIDLogHandler
+    private let urlHandler: MRAIDURLHandler
+    public weak var delegate: MRAIDMessageHandlerDelegate?
 
-  public init(logHandler: MRAIDLogHandler, urlHandler: MRAIDURLHandler) {
-    self.logHandler = logHandler
-    self.urlHandler = urlHandler
-  }
-
-  public func handle(message: Any) {
-    do {
-      let data = try JSONSerialization.data(withJSONObject: message)
-      let actionMessage = try decoder.decode(MRAIDActionMessage.self, from: data)
-      switch actionMessage.action {
-      case .log: logHandler.handle(data: data)
-      case .open: urlHandler.handle(data: data)
-      case .expand: handleExpand(message: data)
-      case .close: delegate?.didReceiveCloseAction()
-      case .playVideo: handlePlayVideo(message: data)
-      case .none: break
-      }
-    } catch {
-      logHandler.handle(
-        log: .init(
-          logId: nil,
-          message: "Could not deserialise the action message from \(message)",
-          logLevel: .error,
-          action: .none))
+    public init(logHandler: MRAIDLogHandler, urlHandler: MRAIDURLHandler) {
+        self.logHandler = logHandler
+        self.urlHandler = urlHandler
     }
-  }
+
+    public func handle(message: Any) {
+        do {
+            let data = try JSONSerialization.data(withJSONObject: message)
+            let actionMessage = try decoder.decode(MRAIDActionMessage.self, from: data)
+            switch actionMessage.action {
+            case .log: logHandler.handle(data: data)
+            case .open: urlHandler.handle(data: data)
+            case .close: delegate?.didReceiveCloseAction()
+            case .expand: handleExpand(message: data, action: actionMessage.action)
+            case .playVideo: handlePlayVideo(message: data, action: actionMessage.action)
+            case .resize: handleResize(message: data, action: actionMessage.action)
+            case .none: break
+            }
+        } catch {
+            logHandler.handle(
+                log: .init(
+                    logId: nil,
+                    message: "Could not deserialise the action message from \(message)",
+                    logLevel: .error,
+                    action: .none))
+        }
+    }
 }
 
 // MARK: - Private methods
 fileprivate extension MRAIDMessageHandler {
-  func handleExpand(message data: Data) {
-    do {
-      let expandMessage = try decoder.decode(MRAIDExpandMessage.self, from: data)
-      delegate?.didReceive(expand: expandMessage)
-    } catch {
-      logHandler.handle(
-        log: .init(
-          logId: nil,
-          message: error.localizedDescription,
-          logLevel: .error,
-          action: .expand))
+    func handleExpand(message data: Data, action: Action) {
+        guard let expandMessage: MRAIDExpandMessage = extractMessage(from: data, action: action) else { return }
+        delegate?.didReceive(expand: expandMessage)
     }
-  }
 
-    func handlePlayVideo(message data: Data) {
+    func handlePlayVideo(message data: Data, action: Action) {
+        guard let playVideoMessage: MRAIDPlayVideoMessage = extractMessage(from: data, action: action) else { return }
+        delegate?.didReceivePlayVideoAction(with: playVideoMessage.url)
+    }
+
+    func handleResize(message data: Data, action: Action) {
+        guard let resizeMessage: MRAIDResizeMessage = extractMessage(from: data, action: action) else { return }
+        delegate?.didReceive(resize: resizeMessage)
+    }
+
+    func extractMessage<T: Decodable>(from data: Data, action: Action) -> T? {
         do {
-            let playVideoMessage = try decoder.decode(MRAIDPlayVideoMessage.self, from: data)
-            delegate?.didReceivePlayVideoAction(with: playVideoMessage.url)
+            return try decoder.decode(T.self, from: data)
         } catch {
             logHandler.handle(
-              log: .init(
-                logId: nil,
-                message: error.localizedDescription,
-                logLevel: .error,
-                action: .playVideo))
-          }
+                log: .init(
+                    logId: nil,
+                    message: error.localizedDescription,
+                    logLevel: .error,
+                    action: action))
+        }
+        return nil
     }
 }
