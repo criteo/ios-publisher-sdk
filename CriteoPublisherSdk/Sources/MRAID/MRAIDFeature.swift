@@ -23,7 +23,6 @@ import MessageUI
 public struct MRAIDFeatures: Codable {
     var sms: Bool = false
     var tel: Bool = false
-    var inlineVideo: Bool = true
 
     public init() {
         if
