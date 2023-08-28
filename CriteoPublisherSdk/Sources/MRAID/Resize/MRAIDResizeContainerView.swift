@@ -28,14 +28,13 @@ final class MRAIDResizeContainerView: UIView {
 
     private let resizeMessage: MRAIDResizeMessage
     private let webView: WKWebView
-    private let closeAreaView: UIView
+    private weak var closeAreaView: UIView?
     private weak var webViewBannerContainer: UIView?
     private let delegate: MRAIDResizeHandlerDelegate
 
     public init(with resizeMessage: MRAIDResizeMessage, webView: WKWebView, delegate: MRAIDResizeHandlerDelegate) throws {
         self.resizeMessage = resizeMessage
         self.webView = webView
-        self.closeAreaView = UIView()
         self.delegate = delegate
         super.init(frame: .zero)
 
@@ -86,47 +85,54 @@ private extension MRAIDResizeContainerView {
     }
 
     func initCloseAreaView() {
-        addSubview(closeAreaView)
-        closeAreaView.backgroundColor = .red
+        closeAreaView = injectCloseArea(into: self, customClosePosition: resizeMessage.customClosePosition)
+        closeAreaView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(close)))
+    }
+
+    func injectCloseArea(into container: UIView, customClosePosition: MRAIDCustomClosePosition) -> UIView {
+        let closeAreaView = UIView()
         closeAreaView.translatesAutoresizingMaskIntoConstraints = false
+        container.addSubview(closeAreaView)
+        closeAreaView.backgroundColor = .clear
+
         /// set the dimension of the close area
         NSLayoutConstraint.activate([
             closeAreaView.heightAnchor.constraint(equalToConstant: Constants.closeAreaHeight),
             closeAreaView.widthAnchor.constraint(equalToConstant: Constants.closeAreaWidth)
         ])
         /// set the position according to custom close position
-        switch resizeMessage.customClosePosition {
+        switch customClosePosition {
         case .topLeft: NSLayoutConstraint.activate([
-            closeAreaView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            closeAreaView.topAnchor.constraint(equalTo: topAnchor)
+            closeAreaView.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            closeAreaView.topAnchor.constraint(equalTo: container.topAnchor)
         ])
         case .topRight: NSLayoutConstraint.activate([
-            closeAreaView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            closeAreaView.topAnchor.constraint(equalTo: topAnchor)
+            closeAreaView.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+            closeAreaView.topAnchor.constraint(equalTo: container.topAnchor)
         ])
         case .center: NSLayoutConstraint.activate([
-            closeAreaView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            closeAreaView.centerYAnchor.constraint(equalTo: centerYAnchor)
+            closeAreaView.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+            closeAreaView.centerYAnchor.constraint(equalTo: container.centerYAnchor)
         ])
         case .bottomLeft: NSLayoutConstraint.activate([
-            closeAreaView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            closeAreaView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            closeAreaView.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            closeAreaView.bottomAnchor.constraint(equalTo: container.bottomAnchor)
         ])
         case .bottomRight: NSLayoutConstraint.activate([
-            closeAreaView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            closeAreaView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            closeAreaView.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+            closeAreaView.bottomAnchor.constraint(equalTo: container.bottomAnchor)
         ])
         case .topCenter: NSLayoutConstraint.activate([
-            closeAreaView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            closeAreaView.topAnchor.constraint(equalTo: topAnchor)
+            closeAreaView.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+            closeAreaView.topAnchor.constraint(equalTo: container.topAnchor)
         ])
         case .bottomCenter: NSLayoutConstraint.activate([
-            closeAreaView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            closeAreaView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            closeAreaView.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+            closeAreaView.bottomAnchor.constraint(equalTo: container.bottomAnchor)
         ])
         }
-        /// setup the tap recognizer
-        closeAreaView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(close)))
+
+        return closeAreaView
     }
 
     @objc
@@ -139,7 +145,7 @@ private extension MRAIDResizeContainerView {
         container.addSubview(webView)
         webView.fill(in: container)
         /// remove resized container from parent view and notify mraid handler about close completion
-        delegate.didCloseResizedAdView()
         removeFromSuperview()
+        delegate.didCloseResizedAdView()
     }
 }

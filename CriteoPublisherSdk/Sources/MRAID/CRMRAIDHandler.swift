@@ -118,7 +118,8 @@ public class CRMRAIDHandler: NSObject {
     public func onSuccessClose() {
         setCurrentPosition()
         notifyClosed()
-        state = state == .expanded ? .default : .hidden
+        /// default state is set to default only if the ad is in expanded or resized state otherwise set it to hidden.
+        state = (state == .expanded || state == .resized) ? .default : .hidden
     }
 
     @objc
@@ -328,6 +329,6 @@ extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
 
 extension CRMRAIDHandler: MRAIDResizeHandlerDelegate {
     func didCloseResizedAdView() {
-        
+        onSuccessClose()
     }
 }
