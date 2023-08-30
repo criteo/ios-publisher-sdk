@@ -33,7 +33,7 @@ struct MRAIDResizeHandler {
         case closeAreaOutOfBounds
     }
 
-    private enum Constants {
+    public enum Constants {
         static let minHeight: Int = 50
         static let minWidth: Int = 50
     }
@@ -61,10 +61,7 @@ struct MRAIDResizeHandler {
                                  autoRotate: rootViewController.shouldAutorotate)
         try MRAIDResizeContainerView.show(webView: webView, with: resizeMessage, delegate: delegate)
     }
-}
 
-// MARK: - Private methods
-private extension MRAIDResizeHandler {
     func verifyMinSize(message: MRAIDResizeMessage) throws {
         guard
             resizeMessage.height >= Constants.minWidth,
@@ -96,12 +93,7 @@ private extension MRAIDResizeHandler {
     }
 
     func verifyCloseAreaOutOfBounds(container size: CGSize, message: MRAIDResizeMessage, autoRotate: Bool) throws {
-        func rectContains(corners: [CGPoint], rect: CGRect) -> Bool {
-            return corners.filter({ !rect.contains($0)}).isEmpty
-        }
-
-        let caPosition = closeAreaPosition(for: message)
-        let caTopLeftCorner: CGPoint = .init(x: caPosition.x + CGFloat(message.offsetX), y: caPosition.y + CGFloat(message.offsetY))
+        let caTopLeftCorner: CGPoint = closeAreaPosition(for: message)
         let caTopRightCorner: CGPoint = .init(x: caTopLeftCorner.x + CGFloat(Constants.minWidth), y: caTopLeftCorner.y)
         let caBottomLeftCorner: CGPoint = .init(x: caTopLeftCorner.x, y: caTopLeftCorner.y + CGFloat(Constants.minHeight))
         let caBottomRightCorner: CGPoint = .init(x: caTopRightCorner.x, y: caTopRightCorner.y + CGFloat(Constants.minHeight))
@@ -110,21 +102,27 @@ private extension MRAIDResizeHandler {
         let closeAreaCorners: [CGPoint] = [caTopLeftCorner, caTopRightCorner, caBottomLeftCorner, caBottomRightCorner]
 
         /// verify that all corners of the close are view are in the container's frame
-        guard rectContains(corners: closeAreaCorners, rect: bounds) else {
+        guard bounds.contains(points: closeAreaCorners) else {
             throw ResizeError.closeAreaOutOfBounds
         }
 
         /// verify that all corners of the close are are in the container's frame when orientation changes
-        guard autoRotate, rectContains(corners: closeAreaCorners, rect: .init(origin: .zero, size: .init(width: size.height, height: size.width))) else {
+        let rotatedBounds = CGRect(origin: .zero, size: .init(width: size.height, height: size.width))
+        guard autoRotate, rotatedBounds.contains(points: closeAreaCorners) else {
             throw ResizeError.closeAreaOutOfBounds
         }
     }
 
     func closeAreaPosition(for resizeMessage: MRAIDResizeMessage) -> CGPoint {
-        switch resizeMessage.customClosePosition {
+        let embededCloseAreaPosition = closeAreaPositionInAdContainer(for: resizeMessage.customClosePosition)
+        return CGPoint(x: embededCloseAreaPosition.x + CGFloat(resizeMessage.offsetX), y: embededCloseAreaPosition.y + CGFloat(resizeMessage.offsetY))
+    }
+
+    func closeAreaPositionInAdContainer(for customClosePosition: MRAIDCustomClosePosition) -> CGPoint {
+        switch customClosePosition {
         case .topLeft: return .init(x: 0,
                                     y: 0)
-        case .topRight: return .init(x: resizeMessage.offsetX - Constants.minWidth,
+        case .topRight: return .init(x: resizeMessage.width - Constants.minWidth,
                                      y: 0)
         case .center: return .init(x: resizeMessage.width / 2 - Constants.minWidth / 2,
                                    y: resizeMessage.height / 2 - Constants.minHeight / 2)
