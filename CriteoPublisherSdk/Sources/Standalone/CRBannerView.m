@@ -98,7 +98,7 @@
     _urlOpener = opener;
     if (criteo.config.isMRAIDEnabled) {
       _mraidHandler = [[CRMRAIDHandler alloc] initWithPlacementType:CRPlacementTypeBanner
-                                                               webView:_webView
+                                                            webView:_webView
                                                        criteoLogger:[CRLogUtil new]
                                                           urlOpener:self
                                                            delegate:self];

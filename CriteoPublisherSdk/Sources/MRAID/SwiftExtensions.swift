@@ -88,3 +88,9 @@ extension Bool {
         return self == true ? "true" : "false"
     }
 }
+
+extension CGRect {
+    public func contains(points: [CGPoint]) -> Bool {
+        return points.filter({ !contains($0)}).isEmpty
+    }
+}

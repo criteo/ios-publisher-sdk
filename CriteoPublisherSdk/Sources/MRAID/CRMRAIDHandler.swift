@@ -61,11 +61,6 @@ public class CRMRAIDHandler: NSObject {
         DispatchQueue.main.async {
             self.webView.configuration.userContentController.add(self, name: "criteoMraidBridge")
         }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            let resizeMessage = MRAIDResizeMessage(action: .resize, width: 300, height: 300, offsetX: 50, offsetY: 50, customClosePosition: .topLeft, allowOffscreen: false)
-            self.didReceive(resize: resizeMessage)
-        }
     }
 
     @objc
