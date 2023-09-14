@@ -336,8 +336,9 @@
   UIViewController *mraidFullScreenContainer =
       [[CRFulllScreenContainer alloc] initWith:_webView
                                           size:CGSizeMake(width, height)
+                                  mraidHandler:_mraidHandler
                              dismissCompletion:completion];
-  mraidFullScreenContainer.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+  mraidFullScreenContainer.modalPresentationStyle = UIModalPresentationOverFullScreen;
   mraidFullScreenContainer.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
   [webViewViewController presentViewController:mraidFullScreenContainer
                                       animated:YES

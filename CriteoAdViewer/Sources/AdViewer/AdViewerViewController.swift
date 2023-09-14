@@ -104,6 +104,14 @@ class AdViewerViewController: FormViewController {
     self.updateAdConfig()
   }
 
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .landscape
+    }
+
+    override var shouldAutorotate: Bool {
+        return false
+    }
+
   private func advancedSection() -> Section {
     Section("Advanced options") {
       $0.hidden = .function(
