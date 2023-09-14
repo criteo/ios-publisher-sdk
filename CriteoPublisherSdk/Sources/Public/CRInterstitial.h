@@ -41,6 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)presentFromRootViewController:(UIViewController *)rootViewController;
 
+- (BOOL)shouldAutorotate;
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations;
 @end
 
 NS_ASSUME_NONNULL_END

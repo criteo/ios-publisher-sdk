@@ -39,6 +39,7 @@ public class CRMRAIDHandler: NSObject {
     private static let updateDelay: CGFloat = 0.05
     private var mraidBundle: Bundle? = CRMRAIDUtils.mraidResourceBundle()
     private let placementType: CRPlacementType
+    private var orientationProperties: MRAIDOrientationProperties?
 
     @objc
     public init(
@@ -61,6 +62,12 @@ public class CRMRAIDHandler: NSObject {
         DispatchQueue.main.async {
             self.webView.configuration.userContentController.add(self, name: "criteoMraidBridge")
         }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            self.didReceive(orientation: MRAIDOrientationPropertiesMessage(action: .orientationPropertiesUpdate,
+                                                                           allowOrientationChange: false,
+                                                                           forceOrientation: .landscape))
+        }
     }
 
     @objc
@@ -68,6 +75,7 @@ public class CRMRAIDHandler: NSObject {
         state = .default
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
+            self.setDefaultSupportedOrientationMask()
             self.setMaxSize()
             self.setScreen(size: UIScreen.main.bounds.size)
             self.setCurrentPosition()
@@ -158,6 +166,18 @@ public class CRMRAIDHandler: NSObject {
     public func setScreen(size: CGSize) {
         evaluate(javascript: "window.mraid.setScreenSize(\(size.width),\(size.height));")
     }
+
+    @objc
+    public func shouldAdAutoRotate() -> Bool {
+        guard let orientationProperties = self.orientationProperties else { return true }
+        return orientationProperties.allowOrientationChange
+    }
+
+    @objc
+    public func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        guard let orientationProperties = self.orientationProperties else { return .all }
+        return orientationProperties.orientationMask
+    }
 }
 
 // MARK: - JS message handler
@@ -172,6 +192,26 @@ extension CRMRAIDHandler: WKScriptMessageHandler {
 
 // MARK: - Private methods
 fileprivate extension CRMRAIDHandler {
+    func setDefaultSupportedOrientationMask() {
+        func setOrientationProperties(from viewController: UIViewController) {
+            orientationProperties = MRAIDOrientationProperties(allowOrientationChange: viewController.shouldAutorotate,
+                                                               orientationMask: viewController.supportedInterfaceOrientations)
+        }
+
+        switch placementType {
+        case .banner:
+            guard let viewController = webView.cr_rootViewController() else { return }
+            setOrientationProperties(from: viewController)
+        case .interstitial:
+            guard
+                let interstitialViewController = webView.cr_parentViewController(),
+                let viewController = interstitialViewController.presentingViewController else {
+                break
+            }
+            setOrientationProperties(from: viewController)
+        }
+    }
+
     func stopViabilityNotifier() {
         timer?.invalidate()
         timer = nil
@@ -318,6 +358,22 @@ extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
             state = .resized
         } catch {
             logger.mraidLog(error: "Could not resize ad.")
+        }
+    }
+
+    public func didReceive(orientation properties: MRAIDOrientationPropertiesMessage) {
+        orientationProperties = MRAIDOrientationProperties(allowOrientationChange: properties.allowOrientationChange,
+                                                           forceOrientation: properties.forceOrientation)
+        guard
+            (placementType == .interstitial || state == .expanded),
+            let parentViewController = webView.cr_parentViewController()
+        else { return }
+
+        if #available(iOS 16.0, *) {
+            parentViewController.setNeedsUpdateOfSupportedInterfaceOrientations()
+        } else if let interfaceOrientation = properties.forceOrientation.interfaceOrientation {
+            UIDevice.current.setValue(interfaceOrientation.rawValue, forKey: "orientation")
+            UIViewController.attemptRotationToDeviceOrientation()
         }
     }
 }

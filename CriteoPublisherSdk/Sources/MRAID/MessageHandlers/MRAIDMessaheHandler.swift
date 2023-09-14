@@ -24,6 +24,7 @@ public protocol MRAIDMessageHandlerDelegate: AnyObject {
     func didReceiveCloseAction()
     func didReceivePlayVideoAction(with url: String)
     func didReceive(resize action: MRAIDResizeMessage)
+    func didReceive(orientation properties: MRAIDOrientationPropertiesMessage)
 }
 
 private class MRAIDJSONDecoder: JSONDecoder {
@@ -55,6 +56,7 @@ public struct MRAIDMessageHandler {
             case .expand: handleExpand(message: data, action: actionMessage.action)
             case .playVideo: handlePlayVideo(message: data, action: actionMessage.action)
             case .resize: handleResize(message: data, action: actionMessage.action)
+            case .orientationPropertiesUpdate: handleOrientationPropertiesUpdate(message: data, action: actionMessage.action)
             case .none: break
             }
         } catch {
@@ -83,6 +85,11 @@ fileprivate extension MRAIDMessageHandler {
     func handleResize(message data: Data, action: Action) {
         guard let resizeMessage: MRAIDResizeMessage = extractMessage(from: data, action: action) else { return }
         delegate?.didReceive(resize: resizeMessage)
+    }
+
+    func handleOrientationPropertiesUpdate(message data: Data, action: Action) {
+        guard let message: MRAIDOrientationPropertiesMessage = extractMessage(from: data, action: action) else { return }
+        delegate?.didReceive(orientation: message)
     }
 
     func extractMessage<T: Decodable>(from data: Data, action: Action) -> T? {

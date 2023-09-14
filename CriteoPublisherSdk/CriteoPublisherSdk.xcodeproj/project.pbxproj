@@ -276,6 +276,8 @@
 		A82D7DF22A04FEAB001302A8 /* CRMRAIDUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A82D7DF12A04FEAB001302A8 /* CRMRAIDUtils.swift */; };
 		A82D7DF42A0A3ED4001302A8 /* MRAIDUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A82D7DF32A0A3ED4001302A8 /* MRAIDUtilsTests.swift */; };
 		A8304F532A77D11A00ABB951 /* MRAIDFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8304F522A77D11A00ABB951 /* MRAIDFeature.swift */; };
+		A8341B3F2AB09A34004AF48E /* MRAIDDeviceOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8341B3E2AB09A34004AF48E /* MRAIDDeviceOrientation.swift */; };
+		A8341B432AB09F09004AF48E /* MRAIDOrientationPropertiesMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8341B422AB09F09004AF48E /* MRAIDOrientationPropertiesMessage.swift */; };
 		A83BB58A29BAEB69002A63B6 /* ActionRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83BB58929BAEB69002A63B6 /* ActionRepresentable.swift */; };
 		A83BB58C29BAEBC9002A63B6 /* MRAIDLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83BB58B29BAEBC9002A63B6 /* MRAIDLog.swift */; };
 		A83BB58E29BAEC17002A63B6 /* LogLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83BB58D29BAEC17002A63B6 /* LogLevel.swift */; };
@@ -742,6 +744,8 @@
 		A82D7E252A20B28E001302A8 /* CriteoPublisherSdkMC7.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC7.xctestplan; sourceTree = "<group>"; };
 		A82D7E262A20B28E001302A8 /* CriteoPublisherSdkMC2.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC2.xctestplan; sourceTree = "<group>"; };
 		A8304F522A77D11A00ABB951 /* MRAIDFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDFeature.swift; sourceTree = "<group>"; };
+		A8341B3E2AB09A34004AF48E /* MRAIDDeviceOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDDeviceOrientation.swift; sourceTree = "<group>"; };
+		A8341B422AB09F09004AF48E /* MRAIDOrientationPropertiesMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDOrientationPropertiesMessage.swift; sourceTree = "<group>"; };
 		A83BB58929BAEB69002A63B6 /* ActionRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionRepresentable.swift; sourceTree = "<group>"; };
 		A83BB58B29BAEBC9002A63B6 /* MRAIDLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDLog.swift; sourceTree = "<group>"; };
 		A83BB58D29BAEC17002A63B6 /* LogLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogLevel.swift; sourceTree = "<group>"; };
@@ -1590,6 +1594,15 @@
 			path = TestPlans;
 			sourceTree = "<group>";
 		};
+		A8341B3D2AB09A1D004AF48E /* OrientationProperties */ = {
+			isa = PBXGroup;
+			children = (
+				A8341B3E2AB09A34004AF48E /* MRAIDDeviceOrientation.swift */,
+				A8341B422AB09F09004AF48E /* MRAIDOrientationPropertiesMessage.swift */,
+			);
+			path = OrientationProperties;
+			sourceTree = "<group>";
+		};
 		A83BB58829BAEB3A002A63B6 /* Logging */ = {
 			isa = PBXGroup;
 			children = (
@@ -1614,6 +1627,7 @@
 		A84F0D222982AFF100756E68 /* MRAID */ = {
 			isa = PBXGroup;
 			children = (
+				A8341B3D2AB09A1D004AF48E /* OrientationProperties */,
 				A8C3DF3B2A8E070500B6A4BE /* Resize */,
 				A83BB59129BAEE5F002A63B6 /* MessageHandlers */,
 				A83BB58829BAEB3A002A63B6 /* Logging */,
@@ -2281,6 +2295,7 @@
 				463791FA256D2B3100DC65B4 /* UIView+Criteo.m in Sources */,
 				25BD5B642220D1B3004DE311 /* CR_CdbBid.m in Sources */,
 				7D80F6222406B18F005B7BA3 /* CR_Gdpr.m in Sources */,
+				A8341B432AB09F09004AF48E /* MRAIDOrientationPropertiesMessage.swift in Sources */,
 				DF367C9B232AE8510044807B /* CR_NativeImage.m in Sources */,
 				25BD5B6E2220D201004DE311 /* NSString+CriteoUrl.m in Sources */,
 				A83BB59029BAECEA002A63B6 /* MRAIDLogHandler.swift in Sources */,
@@ -2333,6 +2348,7 @@
 				4672E1DF251CDE02009F39EF /* CR_CASQueueFile.m in Sources */,
 				C07AB5076241BAE89085C9A8 /* CRContextData.m in Sources */,
 				C07AB9F79CF1495A3E493B8B /* CRUserData.m in Sources */,
+				A8341B3F2AB09A34004AF48E /* MRAIDDeviceOrientation.swift in Sources */,
 				C07AB14F9DCFC0B80FADB2F1 /* CR_UserDataHolder.m in Sources */,
 				C07AB3BECD246E49571BD23B /* CREmailHasher.m in Sources */,
 				461A876D2589008000BB527B /* CR_LogHandler.m in Sources */,
