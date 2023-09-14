@@ -32,12 +32,17 @@ public class CRFulllScreenContainer: UIViewController {
   weak var delegate: CRFulllScreenContainerDelegate?
   private weak var webViewBannerContainer: UIView?
   private var dismissCompletion: VoidCompletion?
+  private let mraidHandler: CRMRAIDHandler
 
   @objc
-  public init(with webView: WKWebView, size: CGSize, dismissCompletion: VoidCompletion?) {
+  public init(with webView: WKWebView,
+              size: CGSize,
+              mraidHandler: CRMRAIDHandler,
+              dismissCompletion: VoidCompletion?) {
     self.closeButton = UIButton(type: .custom)
     self.webView = webView
     self.webViewSize = size
+    self.mraidHandler = mraidHandler
     self.dismissCompletion = dismissCompletion
     super.init(nibName: nil, bundle: nil)
 
@@ -61,6 +66,14 @@ public class CRFulllScreenContainer: UIViewController {
     // 3. dismiss full screen controller
     dismiss(animated: true, completion: completion)
   }
+
+    public override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return mraidHandler.supportedInterfaceOrientations()
+    }
+
+    public override var shouldAutorotate: Bool {
+        return mraidHandler.shouldAdAutoRotate()
+    }
 }
 
 // MARK: - Private methods

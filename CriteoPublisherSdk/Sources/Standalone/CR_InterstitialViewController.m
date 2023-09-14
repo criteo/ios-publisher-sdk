@@ -235,4 +235,13 @@
   [self dismissViewControllerWithCompletion:completion];
 }
 
+#pragma CRMRAID Orientation Properties
+- (BOOL)shouldAutorotate {
+    return [_interstitial shouldAutorotate];
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return [_interstitial supportedInterfaceOrientations];
+}
+
 @end
