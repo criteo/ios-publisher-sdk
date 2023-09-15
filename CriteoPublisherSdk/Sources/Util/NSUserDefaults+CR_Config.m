@@ -48,7 +48,7 @@ NSString *const NSUserDefaultsMRAIDKey = @"CRITEO_MRAID";
 }
 
 - (BOOL)cr_valueForPrefetchOnInitEnabled {
-  return [self boolForKey:NSUserDefaultsPrefetchOnInitEnabledKey withDefaultValue:YES];
+  return [self boolForKey:NSUserDefaultsPrefetchOnInitEnabledKey withDefaultValue:NO];
 }
 
 - (void)cr_setValueForPrefetchOnInitEnabled:(BOOL)prefetchOnInitEnabled {
@@ -56,7 +56,7 @@ NSString *const NSUserDefaultsMRAIDKey = @"CRITEO_MRAID";
 }
 
 - (BOOL)cr_valueForLiveBiddingEnabled {
-  return [self boolForKey:NSUserDefaultsLiveBiddingEnabledKey withDefaultValue:NO];
+  return [self boolForKey:NSUserDefaultsLiveBiddingEnabledKey withDefaultValue:YES];
 }
 
 - (void)cr_setValueForLiveBiddingEnabled:(BOOL)liveBiddingEnabled {
