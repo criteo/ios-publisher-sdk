@@ -313,7 +313,7 @@
 
 #pragma mark - Private
 
-- (void)eregisterWithMockedDependencyProvider:(void (^)(CR_DependencyProvider *))testBlock {
+- (void)registerWithMockedDependencyProvider:(void (^)(CR_DependencyProvider *))testBlock {
   CR_DependencyProvider *dependencyProviderMock = OCMClassMock(CR_DependencyProvider.class);
   CR_ThreadManager *threadManager = CR_SynchronousThreadManager.new;
   OCMStub(dependencyProviderMock.threadManager).andReturn(threadManager);
