@@ -35,6 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(weak, nonatomic, readonly) CR_DependencyProvider *withIsolatedIntegrationRegistry;
 @property(weak, nonatomic, readonly) CR_DependencyProvider *withShortLiveBidTimeBudget;
 @property(weak, nonatomic, readonly) CR_DependencyProvider *withConsentGiven;
+@property(weak, nonatomic, readonly) CR_DependencyProvider *withPrefetchOnInitEnabled;
+@property(weak, nonatomic, readonly) CR_DependencyProvider *withLiveBiddingDisabled;
 
 + (instancetype)testing_dependencyProvider;
 

@@ -110,4 +110,14 @@
   return self;
 }
 
+- (CR_DependencyProvider *)withPrefetchOnInitEnabled {
+  self.config.prefetchOnInitEnabled = YES;
+  return self;
+}
+
+- (CR_DependencyProvider *)withLiveBiddingDisabled {
+  self.config.liveBiddingEnabled = NO;
+  return self;
+}
+
 @end
