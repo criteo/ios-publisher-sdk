@@ -90,6 +90,9 @@ NSString *const RewardedAdUnitId = @"test-PubSdk-Rewarded";
 + (Criteo *)testing_criteoWithNetworkCaptor {
   CR_DependencyProvider *dependencyProvider = [CR_DependencyProvider testing_dependencyProvider];
   Criteo *criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProvider];
+  /// Set prefetch on init as true & live bidding to NO to avoid breaking existing tests.
+  [criteo.config setPrefetchOnInitEnabled:YES];
+  [criteo.config setLiveBiddingEnabled:NO];
   return criteo;
 }
 
