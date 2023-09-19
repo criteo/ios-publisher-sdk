@@ -73,6 +73,8 @@
   self.integrationRegistry = dependencyProvider.integrationRegistry;
 
   self.criteo = OCMPartialMock([Criteo.alloc initWithDependencyProvider:dependencyProvider]);
+  self.criteo.config.liveBiddingEnabled = NO;
+  self.criteo.config.prefetchOnInitEnabled = YES;
   self.loggingMock = OCMPartialMock(CR_Logging.sharedInstance);
 }
 
