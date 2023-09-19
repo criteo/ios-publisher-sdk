@@ -27,7 +27,7 @@ public protocol MRAIDMessageHandlerDelegate: AnyObject {
     func didReceive(orientation properties: MRAIDOrientationPropertiesMessage)
 }
 
-private class MRAIDJSONDecoder: JSONDecoder {
+class MRAIDJSONDecoder: JSONDecoder {
     override init() {
         super.init()
         keyDecodingStrategy = .convertFromSnakeCase

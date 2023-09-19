@@ -62,12 +62,6 @@ public class CRMRAIDHandler: NSObject {
         DispatchQueue.main.async {
             self.webView.configuration.userContentController.add(self, name: "criteoMraidBridge")
         }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            self.didReceive(orientation: MRAIDOrientationPropertiesMessage(action: .orientationPropertiesUpdate,
-                                                                           allowOrientationChange: false,
-                                                                           forceOrientation: .landscape))
-        }
     }
 
     @objc
@@ -192,11 +186,14 @@ extension CRMRAIDHandler: WKScriptMessageHandler {
 
 // MARK: - Private methods
 fileprivate extension CRMRAIDHandler {
+    func setOrientationProperties(from viewController: UIViewController) {
+        orientationProperties = MRAIDOrientationProperties(allowOrientationChange: viewController.shouldAutorotate,
+                                                           orientationMask: viewController.supportedInterfaceOrientations)
+    }
+
     func setDefaultSupportedOrientationMask() {
-        func setOrientationProperties(from viewController: UIViewController) {
-            orientationProperties = MRAIDOrientationProperties(allowOrientationChange: viewController.shouldAutorotate,
-                                                               orientationMask: viewController.supportedInterfaceOrientations)
-        }
+        /// Avoid overriding the already set orientation properties
+        guard orientationProperties == nil else { return }
 
         switch placementType {
         case .banner:
