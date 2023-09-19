@@ -22,12 +22,13 @@ import WebKit
 import XCTest
 
 class MockMessageDelegate: MRAIDMessageHandlerDelegate {
-
     typealias ExpandBlock = (Int, Int, URL?) -> Void
     typealias CloseBlock = () -> Void
+    typealias OrientationPropertiesBlock = (MRAIDOrientationPropertiesMessage) -> Void
 
     var expandBlock: ExpandBlock?
     var closeBlock: CloseBlock?
+    var orientationPropertiesBlock: OrientationPropertiesBlock?
 
     func didReceive(expand action: MRAIDExpandMessage) {
         expandBlock?(action.width, action.height, action.url)
@@ -43,6 +44,10 @@ class MockMessageDelegate: MRAIDMessageHandlerDelegate {
 
     func didReceive(resize action: MRAIDResizeMessage) {
         debugPrint(#function)
+    }
+
+    func didReceive(orientation properties: MRAIDOrientationPropertiesMessage) {
+        orientationPropertiesBlock?(properties)
     }
 }
 
@@ -69,6 +74,7 @@ final class MRAIDHandlerTests: XCTestCase {
         urlHandler = nil
         messageHandler = nil
         logHandler = nil
+        messageMockListener = nil
     }
 
     func testOpenAction() {
