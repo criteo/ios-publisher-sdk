@@ -237,11 +237,11 @@
 
 #pragma CRMRAID Orientation Properties
 - (BOOL)shouldAutorotate {
-    return [_interstitial shouldAutorotate];
+  return [_interstitial shouldAutorotate];
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return [_interstitial supportedInterfaceOrientations];
+  return [_interstitial supportedInterfaceOrientations];
 }
 
 @end
