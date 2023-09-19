@@ -386,11 +386,11 @@
 
 #pragma CRMRAID Orientation Properties
 - (BOOL)shouldAutorotate {
-    return [_mraidHandler shouldAdAutoRotate];
+  return [_mraidHandler shouldAdAutoRotate];
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return [_mraidHandler supportedInterfaceOrientations];
+  return [_mraidHandler supportedInterfaceOrientations];
 }
 
 @end
