@@ -1,5 +1,12 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
+## Version [5.0.3]
+
+### Features
+- Disabled prefetch on publisher register action (initialization).
+- Set default value of live bidding to true.
+
+--------------------------------------------------------------------------------
 ## Version [5.0.2]
 
 ### Features
