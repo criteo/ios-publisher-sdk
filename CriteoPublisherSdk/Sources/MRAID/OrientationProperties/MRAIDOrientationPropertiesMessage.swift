@@ -23,22 +23,11 @@ public struct MRAIDOrientationPropertiesMessage: Decodable {
     let action: Action
     let allowOrientationChange: Bool
     let forceOrientation: MRAIDDeviceOrientation
-
-    enum CodingKeys: String, CodingKey {
-        case action
-        case allowOrientationChange = "allow_orientation_change"
-        case forceOrientation = "force_orientation"
-    }
 }
 
 public struct MRAIDOrientationProperties {
     let allowOrientationChange: Bool
     let orientationMask: UIInterfaceOrientationMask
-
-    enum CodingKeys: String, CodingKey {
-        case allowOrientationChange = "allow_orientation_change"
-        case forceOrientation = "force_orientation"
-    }
 
     public init(allowOrientationChange: Bool, forceOrientation: MRAIDDeviceOrientation) {
         self.allowOrientationChange = allowOrientationChange
