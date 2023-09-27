@@ -122,7 +122,7 @@
   NSArray<NSString *> *skAdNetworkIds = [CRSKAdNetworkInfo skAdNetworkIds];
   if (skAdNetworkIds.count > 0) {
     userDict[CR_ApiQueryKeys.skAdNetwork] = @{
-      CR_ApiQueryKeys.skAdNetworkVersion : @"2.0",
+      CR_ApiQueryKeys.skAdNetworkVersion : @[@"2.0", @"2.1"],
       CR_ApiQueryKeys.skAdNetworkIds : skAdNetworkIds
     };
   }
