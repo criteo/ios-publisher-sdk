@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -285,6 +285,7 @@
 		A83BB59B29BF6B3F002A63B6 /* MRAIDURLHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83BB59A29BF6B3F002A63B6 /* MRAIDURLHandler.swift */; };
 		A879179329A7230F00A3B798 /* CRMRAIDHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A879179229A7230F00A3B798 /* CRMRAIDHandler.swift */; };
 		A879179629A771CF00A3B798 /* SwiftExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A879179529A771CF00A3B798 /* SwiftExtensions.swift */; };
+		A8ABDE432AC6BE4100E82CDE /* CR_OSVersionUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = A8ABDE422AC6BE4100E82CDE /* CR_OSVersionUtils.h */; };
 		A8E22E1B29DD75DF0094FFA4 /* MRAIDExpandMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E22E1A29DD75DF0094FFA4 /* MRAIDExpandMessage.swift */; };
 		A8E22E1D29DEFD4A0094FFA4 /* MRAIDState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E22E1C29DEFD4A0094FFA4 /* MRAIDState.swift */; };
 		A8E22E1F29DF06250094FFA4 /* CRFulllScreenContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E22E1E29DF06250094FFA4 /* CRFulllScreenContainer.swift */; };
@@ -743,6 +744,7 @@
 		A83BB59A29BF6B3F002A63B6 /* MRAIDURLHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDURLHandler.swift; sourceTree = "<group>"; };
 		A879179229A7230F00A3B798 /* CRMRAIDHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRMRAIDHandler.swift; sourceTree = "<group>"; };
 		A879179529A771CF00A3B798 /* SwiftExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftExtensions.swift; sourceTree = "<group>"; };
+		A8ABDE422AC6BE4100E82CDE /* CR_OSVersionUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_OSVersionUtils.h; sourceTree = "<group>"; };
 		A8E22E1A29DD75DF0094FFA4 /* MRAIDExpandMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDExpandMessage.swift; sourceTree = "<group>"; };
 		A8E22E1C29DEFD4A0094FFA4 /* MRAIDState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDState.swift; sourceTree = "<group>"; };
 		A8E22E1E29DF06250094FFA4 /* CRFulllScreenContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRFulllScreenContainer.swift; sourceTree = "<group>"; };
@@ -919,6 +921,7 @@
 				463791F8256D2B3100DC65B4 /* UIView+Criteo.m */,
 				A83BB59629BB1F77002A63B6 /* CRLogUtil.h */,
 				A83BB59729BB1F77002A63B6 /* CRLogUtil.m */,
+				A8ABDE422AC6BE4100E82CDE /* CR_OSVersionUtils.h */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -1877,6 +1880,7 @@
 				7D58583023E1F1EC0039AC56 /* CR_ThreadManager.h in Headers */,
 				5E0658FBA75D85CA465F4A37 /* CR_FeedbackStorage+Internal.h in Headers */,
 				4672E1E7251CDE02009F39EF /* CR_CASPrivateConstants.h in Headers */,
+				A8ABDE432AC6BE4100E82CDE /* CR_OSVersionUtils.h in Headers */,
 				46D5C3C3245AD3B200818D37 /* CRNativeLoader.h in Headers */,
 				198CD4A32B7B46B6F1FAC786 /* CR_CASBoundedFileObjectQueue.h in Headers */,
 				C07ABD881B3EF50E277BBEAC /* CR_FeedbackFeatureGuard.h in Headers */,
