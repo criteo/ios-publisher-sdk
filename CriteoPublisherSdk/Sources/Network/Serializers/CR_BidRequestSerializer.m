@@ -36,7 +36,6 @@
 #import "CRUserData+Internal.h"
 #import "CR_InternalContextProvider.h"
 #import "CR_Logging.h"
-#import "CR_OSVersionUtils.h"
 
 @interface CR_BidRequestSerializer ()
 
@@ -237,16 +236,16 @@
 }
 
 - (NSArray *)skadNetworkSupportedVersions {
-    NSMutableArray *versions = [NSMutableArray arrayWithObject:@"2.0"];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14.0")) {
-        [versions addObject:@"2.1"];
-    }
+  NSMutableArray *versions = [NSMutableArray arrayWithObject:@"2.0"];
+  if (@available(iOS 14.0, *)) {
+    [versions addObject:@"2.1"];
+  }
 
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14.5")) {
-        [versions addObject:@"2.2"];
-    }
-    
-    return versions;
+  if (@available(iOS 14.5, *)) {
+    [versions addObject:@"2.2"];
+  }
+
+  return versions;
 }
 
 @end

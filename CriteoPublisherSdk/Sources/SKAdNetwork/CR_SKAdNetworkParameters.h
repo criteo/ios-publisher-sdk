@@ -41,7 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy, nullable) NSNumber *sourceAppId;
 /** Advertising network’s cryptographic signature used for install validation */
 @property(nonatomic, copy, nullable) NSString *signature;
-
+/** Fidelity types of the ad  */
+@property(nonatomic, strong) NSArray *fidelities;
 #pragma mark - Lifecycle
 
 - (instancetype)initWithDict:(NSDictionary *)dict;
@@ -52,7 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
                             nonce:(NSUUID *)nonce
                         timestamp:(NSNumber *)timestamp
                       sourceAppId:(NSNumber *)sourceAppId
-                        signature:(NSString *)signature;
+                        signature:(NSString *)signature
+                       fidelities:(NSArray *)fidelities;
 
 #pragma mark - Load Product
 

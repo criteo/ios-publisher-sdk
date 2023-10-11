@@ -31,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, readonly) BOOL isAdLoaded;
 @property(nullable, nonatomic, weak) id<CRInterstitialDelegate> delegate;
+//@property(nonatomic, strong) ska
 
 - (instancetype)initWithAdUnit:(CRInterstitialAdUnit *)adUnit;
 
@@ -41,6 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)presentFromRootViewController:(UIViewController *)rootViewController;
 
+- (void)startSKAdImpression API_AVAILABLE(ios(14.5));
+- (void)endSKAdImpression API_AVAILABLE(ios(14.5));
 @end
 
 NS_ASSUME_NONNULL_END

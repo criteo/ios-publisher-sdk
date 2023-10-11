@@ -28,6 +28,7 @@
 #import "CRMRAIDConstants.h"
 #import "CRLogUtil.h"
 #import "UIView+Criteo.h"
+#import "CR_SKAdNetworkHandler.h"
 
 @interface CRBannerView () <WKNavigationDelegate,
                             WKUIDelegate,
@@ -40,6 +41,7 @@
 @property(nonatomic, readonly) id<CR_URLOpening> urlOpener;
 @property(nonatomic, strong) CR_SKAdNetworkParameters *skAdNetworkParameters;
 @property(nonatomic, strong) CRMRAIDHandler *mraidHandler;
+@property(nonatomic, strong) CR_SKAdNetworkHandler *skadNetworkHandler API_AVAILABLE(ios(14.5));
 
 @end
 
@@ -105,20 +107,6 @@
     }
   }
   return self;
-}
-
-#pragma mark - mraid viewability measurement
-- (void)setNeedsDisplay {
-  [super setNeedsDisplay];
-  NSLog(@"setNeedsDisplay: %@ %@", [NSDate new], _webView.URL);
-}
-
-- (void)didMoveToWindow {
-  NSLog(@"didMoveToWindow: %@", [NSDate new]);
-}
-
-- (void)didMoveToSuperview {
-  NSLog(@"didMoveToSuperview: %@", [NSDate new]);
 }
 
 - (void)safelyLoadWebViewWithDisplayUrl:(NSString *)displayUrl {
@@ -212,6 +200,10 @@
 }
 
 - (void)loadAdWithCdbBid:(CR_CdbBid *)bid {
+  if (@available(iOS 14.5, *)) {
+    self.skadNetworkHandler =
+        [[CR_SKAdNetworkHandler alloc] initWithParameters:bid.skAdNetworkParameters];
+  }
   self.skAdNetworkParameters = bid.skAdNetworkParameters;
   [self loadAdWithDisplayData:bid.displayUrl];
 }
@@ -247,6 +239,9 @@
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
   [_mraidHandler onAdLoadWith:CR_MRAID_PLACEMENT_BANNER];
+  if (@available(iOS 14.5, *)) {
+    [_skadNetworkHandler startSKAdImpression];
+  }
 }
 
 - (void)handlePotentialClickForNavigationAction:(WKNavigationAction *)navigationAction
@@ -362,6 +357,14 @@
     NSURLRequest *blankRequest =
         [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"about:blank"]];
     [_webView loadRequest:blankRequest];
+  }
+}
+
+#pragma dealloc
+- (void)dealloc {
+  [_mraidHandler onDealloc];
+  if (@available(iOS 14.5, *)) {
+    [_skadNetworkHandler endSKAdImpression];
   }
 }
 

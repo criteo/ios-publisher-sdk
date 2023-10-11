@@ -22,6 +22,7 @@
 #import <StoreKit/StoreKit.h>
 #import "CR_Logging.h"
 #import "NSString+Criteo.h"
+#import "CR_SKAdNetworkFidelityParameter.h"
 
 @implementation CR_SKAdNetworkParameters
 
@@ -35,7 +36,8 @@
                            nonce:[[NSUUID alloc] initWithUUIDString:dict[@"nonce"]]
                        timestamp:@([dict[@"timestamp"] longLongValue])
                      sourceAppId:@([dict[@"sourceApp"] intValue])
-                       signature:[NSString cr_nonEmptyStringWithStringOrNil:dict[@"signature"]]];
+                       signature:[NSString cr_nonEmptyStringWithStringOrNil:dict[@"signature"]]
+                      fidelities:[self fidelitiesFromList:dict[@"fidelities"]]];
 }
 
 - (instancetype)initWithNetworkId:(NSString *)networkId
@@ -45,10 +47,11 @@
                             nonce:(NSUUID *)nonce
                         timestamp:(NSNumber *)timestamp
                       sourceAppId:(NSNumber *)sourceAppId
-                        signature:(NSString *)signature {
+                        signature:(NSString *)signature
+                       fidelities:(NSArray *)fidelities {
   if (networkId == nil || version == nil || campaignId == nil || campaignId.intValue == 0 ||
       iTunesItemId == nil || iTunesItemId.intValue == 0 || nonce == nil || timestamp == nil ||
-      timestamp.intValue == 0 || sourceAppId == nil || signature == nil) {
+      timestamp.intValue == 0 || sourceAppId == nil || signature == nil || fidelities == nil) {
     CRLogError(@"SKAdNetwork", @"Unsupported payload format");
     return nil;
   }
@@ -62,6 +65,7 @@
     self.timestamp = timestamp;
     self.sourceAppId = sourceAppId;
     self.signature = signature;
+    self.fidelities = fidelities;
   }
 
   return self;
@@ -100,6 +104,19 @@
   }
 
   return copy;
+}
+
+#pragma mark - Fidelity utils
+- (NSArray *)fidelitiesFromList:(NSArray *)list {
+  NSMutableArray *fidelities = [NSMutableArray new];
+  for (id item in list) {
+    CR_SKAdNetworkFidelityParameter *fidelity =
+        [[CR_SKAdNetworkFidelityParameter alloc] initWithDict:item];
+    if (fidelity) {
+      [fidelities addObject:fidelity];
+    }
+  }
+  return fidelities;
 }
 
 @end

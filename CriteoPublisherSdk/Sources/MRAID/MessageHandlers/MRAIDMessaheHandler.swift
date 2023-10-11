@@ -25,9 +25,9 @@ public protocol MRAIDMessageHandlerDelegate: AnyObject {
 }
 
 public struct MRAIDMessageHandler {
-  private let logHandler: MRAIDLogHandler
-  private let urlHandler: MRAIDURLHandler
-  public weak var delegate: MRAIDMessageHandlerDelegate?
+  private weak var logHandler: MRAIDLogHandler?
+  private weak var urlHandler: MRAIDURLHandler?
+  public unowned var delegate: MRAIDMessageHandlerDelegate!
 
   public init(logHandler: MRAIDLogHandler, urlHandler: MRAIDURLHandler) {
     self.logHandler = logHandler
@@ -39,14 +39,14 @@ public struct MRAIDMessageHandler {
       let data = try JSONSerialization.data(withJSONObject: message)
       let actionMessage = try JSONDecoder().decode(MRAIDActionMessage.self, from: data)
       switch actionMessage.action {
-      case .log: logHandler.handle(data: data)
-      case .open: urlHandler.handle(data: data)
+      case .log: logHandler?.handle(data: data)
+      case .open: urlHandler?.handle(data: data)
       case .expand: handleExpand(message: data)
-      case .close: delegate?.didReceiveCloseAction()
+      case .close: delegate.didReceiveCloseAction()
       case .none: break
       }
     } catch {
-      logHandler.handle(
+      logHandler?.handle(
         log: .init(
           logId: nil,
           message: "Could not deserialise the action message from \(message)",
@@ -61,9 +61,9 @@ extension MRAIDMessageHandler {
   fileprivate func handleExpand(message data: Data) {
     do {
       let expandMessage = try JSONDecoder().decode(MRAIDExpandMessage.self, from: data)
-      delegate?.didReceive(expand: expandMessage)
+      delegate.didReceive(expand: expandMessage)
     } catch {
-      logHandler.handle(
+      logHandler?.handle(
         log: .init(
           logId: nil,
           message: error.localizedDescription,

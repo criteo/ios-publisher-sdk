@@ -36,13 +36,17 @@ public protocol CRMRAIDHandlerDelegate: AnyObject {
 
 @objc
 public class CRMRAIDHandler: NSObject {
-  private let webView: WKWebView
+  private enum Constants {
+      static let updateDelay: CGFloat = 0.05
+      static let scriptHandlerName = "criteoMraidBridge"
+  }
+  private unowned var webView: WKWebView
+  private unowned var delegate: CRMRAIDHandlerDelegate
+  private unowned var logger: CRMRAIDLogger
   private var timer: Timer?
   private var isViewVisible: Bool = false
   private var messageHandler: MRAIDMessageHandler
-  private weak var delegate: CRMRAIDHandlerDelegate?
   private var state: MRAIDState = .loading
-  private let logger: CRMRAIDLogger
   private static let updateDelay: CGFloat = 0.05
   private var mraidBundle: Bundle? = CRMRAIDUtils.mraidResourceBundle()
 
@@ -51,18 +55,20 @@ public class CRMRAIDHandler: NSObject {
     with webView: WKWebView,
     criteoLogger: CRMRAIDLogger,
     urlOpener: CRExternalURLOpener,
-    delegate: CRMRAIDHandlerDelegate?
+    delegate: CRMRAIDHandlerDelegate
   ) {
     self.logger = criteoLogger
     self.webView = webView
     self.messageHandler = MRAIDMessageHandler(
       logHandler: MRAIDLogHandler(criteoLogger: criteoLogger),
       urlHandler: CRMRAIDURLHandler(with: criteoLogger, urlOpener: urlOpener))
-    super.init()
     self.delegate = delegate
+    
+    super.init()
+
     self.messageHandler.delegate = self
     DispatchQueue.main.async {
-      self.webView.configuration.userContentController.add(self, name: "criteoMraidBridge")
+        self.webView.configuration.userContentController.add(self, name: Constants.scriptHandlerName)
     }
   }
 
@@ -94,8 +100,7 @@ public class CRMRAIDHandler: NSObject {
   }
 
   deinit {
-    stopViabilityNotifier()
-    unregisterDeviceOrientationListener()
+    onDealloc()
   }
 
   @objc
@@ -137,6 +142,13 @@ public class CRMRAIDHandler: NSObject {
   public func updateMraid(bundle: Bundle?) {
     mraidBundle = bundle
   }
+
+    @objc
+    public func onDealloc() {
+        stopViabilityNotifier()
+        unregisterDeviceOrientationListener()
+        webView.configuration.userContentController.removeScriptMessageHandler(forName: Constants.scriptHandlerName)
+    }
 }
 
 // MARK: - JS message handler
@@ -228,7 +240,7 @@ extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
   public func didReceive(expand action: MRAIDExpandMessage) {
     guard state != .expanded else { return }
 
-    delegate?.expand?(width: action.width, height: action.width, url: action.url) { [weak self] in
+    delegate.expand?(width: action.width, height: action.width, url: action.url) { [weak self] in
       self?.onSuccessClose()
     }
 
@@ -244,7 +256,7 @@ extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
       return
     }
 
-    delegate?.close { [weak self] in
+    delegate.close { [weak self] in
       self?.onSuccessClose()
     }
   }

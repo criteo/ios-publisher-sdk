@@ -39,6 +39,11 @@ class AdTableViewController: UITableViewController {
     super.viewDidLoad()
     tableView.register(UITableViewCell.self, forCellReuseIdentifier: CellType.typeBasic.rawValue)
     tableView.register(UITableViewCell.self, forCellReuseIdentifier: CellType.typeAd.rawValue)
+
+      DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+          self.adView?.removeFromSuperview()
+          self.adView = nil
+      }
   }
 
   // MARK: - Table view data source

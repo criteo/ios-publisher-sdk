@@ -1,5 +1,5 @@
 //
-//  CR_OSVersionUtils.h
+//  CR_SKAdNetworkHandler.h
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2023 Criteo. All rights reserved.
@@ -17,9 +17,18 @@
 // limitations under the License.
 //
 
-#ifndef CR_OSVersionUtils_h
-#define CR_OSVersionUtils_h
+#import <Foundation/Foundation.h>
+#import "CR_SKAdNetworkParameters.h"
 
-#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+NS_ASSUME_NONNULL_BEGIN
 
-#endif /* CR_OSVersionUtils_h */
+@interface CR_SKAdNetworkHandler : NSObject
+
+- (instancetype)initWithParameters:(CR_SKAdNetworkParameters *)skAdNetworkParameters
+    API_AVAILABLE(ios(14.5));
+- (void)startSKAdImpression API_AVAILABLE(ios(14.5));
+- (void)endSKAdImpression API_AVAILABLE(ios(14.5));
+
+@end
+
+NS_ASSUME_NONNULL_END
