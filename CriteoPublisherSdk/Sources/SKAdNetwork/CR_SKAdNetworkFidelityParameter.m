@@ -34,8 +34,7 @@
                        timestamp:(NSNumber *)timestamp
                            nonce:(NSUUID *)nonce
                        signature:(NSString *)signature {
-  if (fidelity == nil || fidelity.intValue == 0 || nonce == nil || timestamp == nil ||
-      timestamp.intValue == 0 || signature == nil) {
+  if (fidelity == nil || nonce == nil || timestamp == nil || signature == nil) {
     CRLogError(@"SKAdNetwork", @"Unsupported payload format");
     return nil;
   }

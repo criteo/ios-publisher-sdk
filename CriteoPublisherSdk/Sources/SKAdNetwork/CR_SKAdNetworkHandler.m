@@ -93,7 +93,7 @@ API_AVAILABLE(ios(14.5))
   } else {
     SKAdImpression *impression = [[SKAdImpression alloc] init];
     impression.sourceAppStoreItemIdentifier = parameters.sourceAppId;
-    impression.sourceAppStoreItemIdentifier = parameters.iTunesItemId;
+    impression.advertisedAppStoreItemIdentifier = parameters.iTunesItemId;
     impression.adNetworkIdentifier = parameters.networkId;
     impression.adCampaignIdentifier = parameters.campaignId;
     impression.adImpressionIdentifier = fidelity.nonce.UUIDString;

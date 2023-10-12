@@ -91,7 +91,8 @@ static NSString *appStoreDisplay = @"https://localhost:9099/display/app-store";
                     nonce:[NSUUID UUID]
                 timestamp:@3
               sourceAppId:@4
-                signature:@"signature"]);
+                signature:@"signature"
+               fidelities:[NSArray new]]);
   }
   CR_CdbBid *bid = bidBuilder.build;
   dependencyProvider.cacheManager.bidCache[cacheAdUnit] = bid;

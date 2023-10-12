@@ -289,6 +289,7 @@
 		A8ABDE472ACC31DA00E82CDE /* CR_SKAdNetworkHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = A8ABDE452ACC31DA00E82CDE /* CR_SKAdNetworkHandler.m */; };
 		A8ABDE552AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.h in Headers */ = {isa = PBXBuildFile; fileRef = A8ABDE532AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.h */; };
 		A8ABDE562AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = A8ABDE542AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.m */; };
+		A8ABDE582AD7E36E00E82CDE /* CR_SKAdNetworkImpressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A8ABDE572AD7E36E00E82CDE /* CR_SKAdNetworkImpressionTests.m */; };
 		A8E22E1B29DD75DF0094FFA4 /* MRAIDExpandMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E22E1A29DD75DF0094FFA4 /* MRAIDExpandMessage.swift */; };
 		A8E22E1D29DEFD4A0094FFA4 /* MRAIDState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E22E1C29DEFD4A0094FFA4 /* MRAIDState.swift */; };
 		A8E22E1F29DF06250094FFA4 /* CRFulllScreenContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E22E1E29DF06250094FFA4 /* CRFulllScreenContainer.swift */; };
@@ -751,6 +752,7 @@
 		A8ABDE452ACC31DA00E82CDE /* CR_SKAdNetworkHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_SKAdNetworkHandler.m; sourceTree = "<group>"; };
 		A8ABDE532AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_SKAdNetworkFidelityParameter.h; sourceTree = "<group>"; };
 		A8ABDE542AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_SKAdNetworkFidelityParameter.m; sourceTree = "<group>"; };
+		A8ABDE572AD7E36E00E82CDE /* CR_SKAdNetworkImpressionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_SKAdNetworkImpressionTests.m; sourceTree = "<group>"; };
 		A8E22E1A29DD75DF0094FFA4 /* MRAIDExpandMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDExpandMessage.swift; sourceTree = "<group>"; };
 		A8E22E1C29DEFD4A0094FFA4 /* MRAIDState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDState.swift; sourceTree = "<group>"; };
 		A8E22E1E29DF06250094FFA4 /* CRFulllScreenContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRFulllScreenContainer.swift; sourceTree = "<group>"; };
@@ -1296,6 +1298,7 @@
 				7D58583323E2D5AD0039AC56 /* Threading */,
 				7D3E41FF23915B6600BAF673 /* Util */,
 				C07AB0F74CBE74DC33F6ED1C /* CR_RemoteLogRecordTests.m */,
+				A8ABDE572AD7E36E00E82CDE /* CR_SKAdNetworkImpressionTests.m */,
 			);
 			path = UnitTests;
 			sourceTree = "<group>";
@@ -2401,6 +2404,7 @@
 				7D3E424723915B6600BAF673 /* CRAdUnitTests.m in Sources */,
 				7D3E423D23915B6600BAF673 /* CR_CacheManagerTests.m in Sources */,
 				7D3E422C23915B6600BAF673 /* CR_NativeAdvertiserTests.m in Sources */,
+				A8ABDE582AD7E36E00E82CDE /* CR_SKAdNetworkImpressionTests.m in Sources */,
 				7D523C7923DB31CD00E79C88 /* CR_HttpContent.m in Sources */,
 				465D3CF92434D3D500BD36AC /* CR_UniqueIdGeneratorTests.swift in Sources */,
 				7DB4E9132397AB6B008DE5E3 /* CR_RegistrationFunctionalTests.m in Sources */,

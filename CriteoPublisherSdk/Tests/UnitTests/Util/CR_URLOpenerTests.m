@@ -72,7 +72,8 @@
                                                        nonce:[NSUUID UUID]
                                                    timestamp:@123567890
                                                  sourceAppId:@67890
-                                                   signature:@"tlkjlkj"];
+                                                   signature:@"tlkjlkj"
+                                                  fidelities:[NSArray new]];
 }
 
 @end
