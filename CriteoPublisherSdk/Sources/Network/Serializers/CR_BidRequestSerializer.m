@@ -156,16 +156,30 @@
     } else if (adUnit.adUnitType == CRAdUnitTypeRewarded) {
       slotDict[CR_ApiQueryKeys.bidSlotsIsRewarded] = @(YES);
     }
-    if (config.isMRAIDEnabled && (adUnit.adUnitType == CRAdUnitTypeBanner ||
-                                  adUnit.adUnitType == CRAdUnitTypeInterstitial)) {
+
+    NSNumber *mraidAPIVersion = [self mraidAPI:config];
+    if (config.isMRAIDGlobalEnabled &&
+        (adUnit.adUnitType == CRAdUnitTypeBanner ||
+         adUnit.adUnitType == CRAdUnitTypeInterstitial) &&
+        mraidAPIVersion) {
       NSMutableDictionary *mraidDict = [NSMutableDictionary new];
-      mraidDict[CR_ApiQueryKeys.api] = [NSArray arrayWithObject:@(3)];
+      mraidDict[CR_ApiQueryKeys.api] = [NSArray arrayWithObject:mraidAPIVersion];
       slotDict[CR_ApiQueryKeys.banner] = mraidDict;
     }
 
     [slots addObject:slotDict];
   }
   return slots;
+}
+
+- (NSNumber *)mraidAPI:(CR_Config *)config {
+  if (config.isMraidEnabled) {
+    return @(3);
+  }
+  if (config.isMraid2Enabled) {
+    return @(5);
+  }
+  return NULL;
 }
 
 - (NSArray *)slotsWithCdbRequest:(CR_CdbRequest *)cdbRequest {

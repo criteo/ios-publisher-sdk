@@ -60,7 +60,7 @@
     _isAdLoaded = isAdLoaded;
     _adUnit = adUnit;
     _urlOpener = urlOpener;
-    if (criteo.config.isMRAIDEnabled) {
+    if (criteo.config.isMRAIDGlobalEnabled) {
       _mraidHandler = [[CRMRAIDHandler alloc] initWithPlacementType:CRPlacementTypeInterstitial
                                                             webView:viewController.webView
                                                        criteoLogger:[CRLogUtil new]

@@ -28,6 +28,7 @@ NSString *const NSUserDefaultsLiveBiddingEnabledKey = @"CRITEO_LiveBiddingEnable
 NSString *const NSUserDefaultsLiveBiddingTimeBudgetKey = @"CRITEO_LiveBiddingTimeBudget";
 NSString *const NSUserDefaultsRemoteLogLevelKey = @"CRITEO_RemoteLogLevel";
 NSString *const NSUserDefaultsMRAIDKey = @"CRITEO_MRAID";
+NSString *const NSUserDefaultsMRAID2Key = @"CRITEO_MRAID2";
 
 @implementation NSUserDefaults (CR_Config)
 
@@ -83,6 +84,18 @@ NSString *const NSUserDefaultsMRAIDKey = @"CRITEO_MRAID";
 
 - (BOOL)cr_valueForMRAID {
   return [self boolForKey:NSUserDefaultsMRAIDKey withDefaultValue:NO];
+}
+
+- (BOOL)cr_valueForMRAID2 {
+  return [self boolForKey:NSUserDefaultsMRAID2Key withDefaultValue:NO];
+}
+
+- (void)cr_setValueForMRAID:(BOOL)mraidEnabled {
+  [self setBool:mraidEnabled forKey:NSUserDefaultsMRAIDKey];
+}
+
+- (void)cr_setValueForMRAID2:(BOOL)mraid2Enabled {
+  [self setBool:mraid2Enabled forKey:NSUserDefaultsMRAID2Key];
 }
 
 @end
