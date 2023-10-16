@@ -96,7 +96,7 @@
     }
     _adUnit = adUnit;
     _urlOpener = opener;
-    if (criteo.config.isMRAIDEnabled) {
+    if (criteo.config.isMRAIDGlobalEnabled) {
       _mraidHandler = [[CRMRAIDHandler alloc] initWithPlacementType:CRPlacementTypeBanner
                                                             webView:_webView
                                                        criteoLogger:[CRLogUtil new]

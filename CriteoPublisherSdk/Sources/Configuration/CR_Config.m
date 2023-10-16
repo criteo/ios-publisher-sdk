@@ -73,6 +73,8 @@ NSString *const CR_ConfigConfigurationUrl = @"https://bidder.criteo.com/config/a
     _remoteLogLevel = [userDefaults cr_valueForRemoteLogLevel];
     _userDefaults = userDefaults;
     _mraidEnabled = [userDefaults cr_valueForMRAID];
+    _mraid2Enabled = [userDefaults cr_valueForMRAID2];
+    _isMRAIDGlobalEnabled = _mraidEnabled || _mraid2Enabled;
   }
   return self;
 }
@@ -125,6 +127,16 @@ NSString *const CR_ConfigConfigurationUrl = @"https://bidder.criteo.com/config/a
 - (void)setRemoteLogLevel:(CR_LogSeverity)remoteLogLevel {
   _remoteLogLevel = remoteLogLevel;
   [self.userDefaults cr_setValueForRemoteLogLevel:remoteLogLevel];
+}
+
+- (void)setMraidEnabled:(BOOL)mraidEnabled {
+  _mraidEnabled = mraidEnabled;
+  [self.userDefaults cr_setValueForMRAID:mraidEnabled];
+}
+
+- (void)setMraid2Enabled:(BOOL)mraid2Enabled {
+  _mraid2Enabled = mraid2Enabled;
+  [self.userDefaults cr_setValueForMRAID2:mraid2Enabled];
 }
 
 + (NSDictionary *)getConfigValuesFromData:(NSData *)data {
