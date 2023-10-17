@@ -697,7 +697,7 @@
   OCMStub([mockConfig deviceOs]).andReturn(@"ios");
   OCMStub([mockConfig appEventsUrl]).andReturn(@"https://appevent.com");
   OCMStub([mockConfig appEventsSenderId]).andReturn(@"com.sdk.test");
-  OCMStub([mockConfig isMRAIDEnabled]).andReturn(NO);
+  OCMStub([mockConfig isMraidEnabled]).andReturn(NO);
   return mockConfig;
 }
 
