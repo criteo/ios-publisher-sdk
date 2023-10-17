@@ -204,7 +204,7 @@
 
   CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
 
-  XCTAssertTrue(config.isMRAIDEnabled);
+  XCTAssertTrue(config.isMraidEnabled);
 }
 
 #pragma mark - Prefetch on init Enabled
