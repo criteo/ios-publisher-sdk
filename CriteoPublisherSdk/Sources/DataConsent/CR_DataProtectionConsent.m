@@ -51,7 +51,7 @@ NSString *const CR_DataProtectionConsentGivenKey = @"CRITEO_ConsentGiven";
 }
 
 - (CR_Gdpr *)gdpr {
-    return [[CR_Gdpr alloc] initWithUserDefaults:_userDefaults];
+  return [[CR_Gdpr alloc] initWithUserDefaults:_userDefaults];
 }
 
 - (NSNumber *)trackingAuthorizationStatus {
