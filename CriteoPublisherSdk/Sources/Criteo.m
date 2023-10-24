@@ -55,7 +55,7 @@
     [self.class setVerboseLogsEnabled:YES];
   }
 
-  CR_Gdpr *gdpr = [self.dependencyProvider.consent gdpr];;
+  CR_Gdpr *gdpr = [self.dependencyProvider.consent gdpr];
   CRLogInfo(@"Consent", @"Initialized with TCF: %@", gdpr);
 }
 
