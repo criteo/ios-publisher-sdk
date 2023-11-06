@@ -73,7 +73,8 @@ struct AdNetworks {
   let standalone: AdNetwork
   let inHouse: AdNetwork
   let mraid: AdNetwork
-  let standaloneSKAdNetwork: AdNetwork
+  let skadNetworkStoreKitRedered: AdNetwork
+  let skadNetworkViewthrough: AdNetwork
   let all: [AdNetwork]
   static let defaultPublisherId = "B-056946"
 
@@ -83,8 +84,9 @@ struct AdNetworks {
     self.inHouse = inHouseNetwork(controller: controller)
     self.mediation = googleMediationNetwork(controller)
     self.mraid = standaloneMRAIDNetwork(controller)
-    self.standaloneSKAdNetwork = standaloneWithSKAdNetworkParams(controller)
-    self.all = [mediation, google, standalone, inHouse, mraid, standaloneSKAdNetwork]
+    self.skadNetworkStoreKitRedered = standaloneWithSKAdStoreKitRenderedAd(controller)
+    self.skadNetworkViewthrough = standaloneWithSKAdViewThroughAd(controller)
+    self.all = [mediation, google, standalone, inHouse, mraid, skadNetworkStoreKitRedered, skadNetworkViewthrough]
   }
 }
 
@@ -173,13 +175,24 @@ private func inHouseNetwork(controller: AdViewController) -> AdNetwork {
     ], adViewBuilder: CriteoAdViewBuilder(controller: controller, type: .inHouse))
 }
 
-private func standaloneWithSKAdNetworkParams(_ controller: AdViewController) -> AdNetwork {
+private func standaloneWithSKAdStoreKitRenderedAd(_ controller: AdViewController) -> AdNetwork {
     AdNetwork(
-      name: "Standalone - SKAdNetwork",
+      name: "Standalone - SKAd - Store Kit redered ad",
       supportedFormats: [
         AdFormat.banner320x50
       ],
       defaultAdUnits: [
         AdFormat.banner320x50: "31589da9edb442329e17"
+      ], adViewBuilder: CriteoAdViewBuilder(controller: controller, type: .standalone))
+  }
+
+private func standaloneWithSKAdViewThroughAd(_ controller: AdViewController) -> AdNetwork {
+    AdNetwork(
+      name: "Standalone - SKAd - View Through ad",
+      supportedFormats: [
+        AdFormat.banner320x50
+      ],
+      defaultAdUnits: [
+        AdFormat.banner320x50: "cea76256124bbdcd61e8"
       ], adViewBuilder: CriteoAdViewBuilder(controller: controller, type: .standalone))
   }

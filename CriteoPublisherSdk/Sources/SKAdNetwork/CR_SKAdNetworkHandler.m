@@ -23,8 +23,8 @@
 #import "CR_Logging.h"
 #import "CR_SKAdNetworkFidelityParameter.h"
 
-#define CR_SKAD_FIDELITY_VIEW_THROUGH_AD 1
-#define CR_SKAD_FIDELITY_STORE_KIT_AD 0
+#define CR_SKAD_FIDELITY_VIEW_THROUGH_AD 0
+#define CR_SKAD_FIDELITY_STORE_KIT_AD 1
 
 API_AVAILABLE(ios(14.5))
 @interface CR_SKAdNetworkHandler ()
