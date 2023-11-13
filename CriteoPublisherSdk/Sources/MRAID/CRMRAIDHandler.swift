@@ -40,9 +40,9 @@ public class CRMRAIDHandler: NSObject {
       static let updateDelay: CGFloat = 0.05
       static let scriptHandlerName = "criteoMraidBridge"
   }
-  private unowned var webView: WKWebView
-  private unowned var delegate: CRMRAIDHandlerDelegate
-  private unowned var logger: CRMRAIDLogger
+  private weak var webView: WKWebView?
+  private weak var delegate: CRMRAIDHandlerDelegate?
+  private weak var logger: CRMRAIDLogger?
   private var timer: Timer?
   private var isViewVisible: Bool = false
   private var messageHandler: MRAIDMessageHandler
@@ -68,7 +68,7 @@ public class CRMRAIDHandler: NSObject {
 
     self.messageHandler.delegate = self
     DispatchQueue.main.async {
-        self.webView.configuration.userContentController.add(self, name: Constants.scriptHandlerName)
+        self.webView?.configuration.userContentController.add(self, name: Constants.scriptHandlerName)
     }
   }
 
@@ -127,14 +127,14 @@ public class CRMRAIDHandler: NSObject {
   @objc
   public func injectMRAID() {
     guard let mraid = CRMRAIDUtils.loadMraid(from: mraidBundle) else {
-      logger.mraidLog(error: "could not load mraid")
+      logger?.mraidLog(error: "could not load mraid")
       return
     }
 
     let mraidScript = WKUserScript(
       source: mraid, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
     DispatchQueue.main.async { [weak self] in
-      self?.webView.configuration.userContentController.addUserScript(mraidScript)
+      self?.webView?.configuration.userContentController.addUserScript(mraidScript)
     }
   }
 
@@ -147,7 +147,7 @@ public class CRMRAIDHandler: NSObject {
     public func onDealloc() {
         stopViabilityNotifier()
         unregisterDeviceOrientationListener()
-        webView.configuration.userContentController.removeScriptMessageHandler(forName: Constants.scriptHandlerName)
+        webView?.configuration.userContentController.removeScriptMessageHandler(forName: Constants.scriptHandlerName)
     }
 }
 
@@ -170,7 +170,7 @@ extension CRMRAIDHandler {
 
   fileprivate func setMaxSize() {
     let size: CGSize =
-      webView.cr_parentViewController()?.view.bounds.size ?? UIScreen.main.bounds.size
+      webView?.cr_parentViewController()?.view.bounds.size ?? UIScreen.main.bounds.size
     evaluate(
       javascript:
         "window.mraid.setMaxSize(\(size.width), \(size.height), \(UIScreen.main.scale));")
@@ -181,7 +181,7 @@ extension CRMRAIDHandler {
   }
 
   @objc fileprivate func viewabilityCheck() {
-    let isWebViewVisible = webView.isVisibleToUser
+    let isWebViewVisible = webView?.isVisibleToUser ?? false
     guard isWebViewVisible != isViewVisible else { return }
 
     isViewVisible = isWebViewVisible
@@ -200,7 +200,7 @@ extension CRMRAIDHandler {
   }
 
   fileprivate func evaluate(javascript: String) {
-    webView.evaluateJavaScript(javascript, completionHandler: handleJSCallback)
+    webView?.evaluateJavaScript(javascript, completionHandler: handleJSCallback)
   }
 
   fileprivate func handleJSCallback(_ agent: Any?, _ error: Error?) {
@@ -240,7 +240,7 @@ extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
   public func didReceive(expand action: MRAIDExpandMessage) {
     guard state != .expanded else { return }
 
-    delegate.expand?(width: action.width, height: action.width, url: action.url) { [weak self] in
+    delegate?.expand?(width: action.width, height: action.width, url: action.url) { [weak self] in
       self?.onSuccessClose()
     }
 
@@ -252,11 +252,11 @@ extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
 
   public func didReceiveCloseAction() {
     guard state == .default || state == .expanded else {
-      logger.mraidLog(error: "Close action is not valid in current state: \(state)")
+      logger?.mraidLog(error: "Close action is not valid in current state: \(state)")
       return
     }
 
-    delegate.close { [weak self] in
+    delegate?.close { [weak self] in
       self?.onSuccessClose()
     }
   }
