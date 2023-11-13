@@ -62,10 +62,7 @@
   XCTAssertEqualObjects(parameters.networkId, networkId);
   XCTAssertEqualObjects(parameters.campaignId, campaignId);
   XCTAssertEqualObjects(parameters.iTunesItemId, iTunesItemId);
-  XCTAssertEqualObjects(parameters.nonce, nonce);
   XCTAssertEqualObjects(parameters.sourceAppId, sourceAppId);
-  XCTAssertEqualObjects(parameters.timestamp, timestamp);
-  XCTAssertEqualObjects(parameters.signature, signature);
   XCTAssertTrue(parameters.fidelities.count == 0);
 }
 
@@ -93,10 +90,7 @@
   XCTAssertEqualObjects(parameters.networkId, networkId);
   XCTAssertEqualObjects(parameters.campaignId, campaignId);
   XCTAssertEqualObjects(parameters.iTunesItemId, iTunesItemId);
-  XCTAssertEqualObjects(parameters.nonce, nonce);
   XCTAssertEqualObjects(parameters.sourceAppId, sourceAppId);
-  XCTAssertEqualObjects(parameters.timestamp, timestamp);
-  XCTAssertEqualObjects(parameters.signature, signature);
 }
 
 - (void)testInitWithDict_GivenNil_ReturnNil {
@@ -128,16 +122,18 @@
   NSNumber *timestamp = @(123457890);
   NSNumber *sourceAppId = @(87654321);
   NSString *signature = @"signature";
+  CR_SKAdNetworkFidelityParameter *fidelityParam =
+      [[CR_SKAdNetworkFidelityParameter alloc] initWithFidelity:@1
+                                                      timestamp:timestamp
+                                                          nonce:nonce
+                                                      signature:signature];
   CR_SKAdNetworkParameters *skAdNetworkParameters =
       [[CR_SKAdNetworkParameters alloc] initWithNetworkId:networkId
                                                   version:version
                                                campaignId:campaignId
                                              iTunesItemId:iTunesItemId
-                                                    nonce:nonce
-                                                timestamp:timestamp
                                               sourceAppId:sourceAppId
-                                                signature:signature
-                                               fidelities:[NSArray new]];
+                                               fidelities:[NSArray arrayWithObject:fidelityParam]];
   NSDictionary *loadProductParameters = skAdNetworkParameters.toLoadProductParameters;
   NSDictionary *expected = @{
     SKStoreProductParameterAdNetworkVersion : version,
@@ -155,21 +151,15 @@
 - (void)testInitWithDict_GivenEmptyFidelities {
   NSString *networkId = @"networkId";
   NSString *version = @"2.0";
-  NSUUID *nonce = [NSUUID UUID];
   NSNumber *campaignId = @(42);
   NSNumber *iTunesItemId = @(12345678);
-  NSNumber *timestamp = @(123457890);
   NSNumber *sourceAppId = @(87654321);
-  NSString *signature = @"signature";
   CR_SKAdNetworkParameters *skAdNetworkParameters =
       [[CR_SKAdNetworkParameters alloc] initWithNetworkId:networkId
                                                   version:version
                                                campaignId:campaignId
                                              iTunesItemId:iTunesItemId
-                                                    nonce:nonce
-                                                timestamp:timestamp
                                               sourceAppId:sourceAppId
-                                                signature:signature
                                                fidelities:[NSArray new]];
   XCTAssertTrue(skAdNetworkParameters.fidelities.count == 0);
 }

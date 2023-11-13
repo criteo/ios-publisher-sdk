@@ -57,10 +57,7 @@ API_AVAILABLE(ios(15.4))
                                                   version:version
                                                campaignId:campaignId
                                              iTunesItemId:iTunesItemId
-                                                    nonce:nonce
-                                                timestamp:timestamp
                                               sourceAppId:sourceAppId
-                                                signature:signature
                                                fidelities:[NSArray arrayWithObject:fidelity]];
   CR_SKAdNetworkHandler *handler =
       [[CR_SKAdNetworkHandler alloc] initWithParameters:skAdNetworkParameters];

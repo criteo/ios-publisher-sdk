@@ -59,10 +59,15 @@
             "network" : "network",
             "campaign" : "1",
             "itunesItem" : "2",
-            "nonce" : "ef50fece-faf4-4a5c-91b4-37e90b71a829",
             "sourceApp" : "3",
-            "timestamp" : "4",
-            "signature" : "signature"
+            "fidelities": [
+                {
+                    "fidelity": "1",
+                    "timestamp" : "4",
+                    "signature" : "signature",
+                    "nonce" : "ef50fece-faf4-4a5c-91b4-37e90b71a829"
+                }
+            ]
         }
     },
     {
