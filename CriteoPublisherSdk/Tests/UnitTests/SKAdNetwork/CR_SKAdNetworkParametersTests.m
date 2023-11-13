@@ -56,7 +56,7 @@
     @"sourceApp" : sourceAppId.stringValue,
     @"timestamp" : timestamp.stringValue,
     @"signature" : signature,
-    @"fidelities": fidelities
+    @"fidelities" : fidelities
   }];
   XCTAssertEqualObjects(parameters.version, version);
   XCTAssertEqualObjects(parameters.networkId, networkId);
@@ -153,40 +153,42 @@
 }
 
 - (void)testInitWithDict_GivenEmptyFidelities {
-    NSString *networkId = @"networkId";
-    NSString *version = @"2.0";
-    NSUUID *nonce = [NSUUID UUID];
-    NSNumber *campaignId = @(42);
-    NSNumber *iTunesItemId = @(12345678);
-    NSNumber *timestamp = @(123457890);
-    NSNumber *sourceAppId = @(87654321);
-    NSString *signature = @"signature";
-    CR_SKAdNetworkParameters *skAdNetworkParameters =
-        [[CR_SKAdNetworkParameters alloc] initWithNetworkId:networkId
-                                                    version:version
-                                                 campaignId:campaignId
-                                               iTunesItemId:iTunesItemId
-                                                      nonce:nonce
-                                                  timestamp:timestamp
-                                                sourceAppId:sourceAppId
-                                                  signature:signature
-                                                 fidelities:[NSArray new]];
-    XCTAssertTrue(skAdNetworkParameters.fidelities.count == 0);
+  NSString *networkId = @"networkId";
+  NSString *version = @"2.0";
+  NSUUID *nonce = [NSUUID UUID];
+  NSNumber *campaignId = @(42);
+  NSNumber *iTunesItemId = @(12345678);
+  NSNumber *timestamp = @(123457890);
+  NSNumber *sourceAppId = @(87654321);
+  NSString *signature = @"signature";
+  CR_SKAdNetworkParameters *skAdNetworkParameters =
+      [[CR_SKAdNetworkParameters alloc] initWithNetworkId:networkId
+                                                  version:version
+                                               campaignId:campaignId
+                                             iTunesItemId:iTunesItemId
+                                                    nonce:nonce
+                                                timestamp:timestamp
+                                              sourceAppId:sourceAppId
+                                                signature:signature
+                                               fidelities:[NSArray new]];
+  XCTAssertTrue(skAdNetworkParameters.fidelities.count == 0);
 }
 
 - (void)testFidelityInitWithDict {
-    CR_SKAdNetworkFidelityParameter *fidelityParameters = [[CR_SKAdNetworkFidelityParameter alloc] initWithDict: @{
-        @"fidelity": @(1),
-        @"timestamp": @"1594406341",
-        @"nonce": @"E621E1F8-C36C-495A-93FC-0C247A3E6E5F",
-        @"signature": @"MEQCIEQlmZRNfYz"
-    }];
+  CR_SKAdNetworkFidelityParameter *fidelityParameters =
+      [[CR_SKAdNetworkFidelityParameter alloc] initWithDict:@{
+        @"fidelity" : @(1),
+        @"timestamp" : @"1594406341",
+        @"nonce" : @"E621E1F8-C36C-495A-93FC-0C247A3E6E5F",
+        @"signature" : @"MEQCIEQlmZRNfYz"
+      }];
 
-    XCTAssertNotNil(fidelityParameters);
-    XCTAssertEqual(fidelityParameters.fidelity, @(1));
-    XCTAssertEqual(fidelityParameters.timestamp.intValue, 1594406341);
-    XCTAssertTrue([fidelityParameters.nonce.UUIDString isEqualToString:@"E621E1F8-C36C-495A-93FC-0C247A3E6E5F"]);
-    XCTAssertEqual(fidelityParameters.signature, @"MEQCIEQlmZRNfYz");
+  XCTAssertNotNil(fidelityParameters);
+  XCTAssertEqual(fidelityParameters.fidelity, @(1));
+  XCTAssertEqual(fidelityParameters.timestamp.intValue, 1594406341);
+  XCTAssertTrue([fidelityParameters.nonce.UUIDString
+      isEqualToString:@"E621E1F8-C36C-495A-93FC-0C247A3E6E5F"]);
+  XCTAssertEqual(fidelityParameters.signature, @"MEQCIEQlmZRNfYz");
 }
 
 @end

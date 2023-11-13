@@ -44,7 +44,8 @@
                       sourceAppId:(NSNumber *)sourceAppId
                        fidelities:(NSArray *)fidelities {
   if (networkId == nil || version == nil || campaignId == nil || campaignId.intValue == 0 ||
-      iTunesItemId == nil || iTunesItemId.intValue == 0 || sourceAppId == nil || fidelities == nil) {
+      iTunesItemId == nil || iTunesItemId.intValue == 0 || sourceAppId == nil ||
+      fidelities == nil) {
     CRLogError(@"SKAdNetwork", @"Unsupported payload format");
     return nil;
   }
@@ -64,7 +65,7 @@
 #pragma mark - Load Product
 
 - (NSDictionary *)toLoadProductParameters API_AVAILABLE(ios(14.0)) {
-    CR_SKAdNetworkFidelityParameter *fidelityParam = [self.fidelities firstObject];
+  CR_SKAdNetworkFidelityParameter *fidelityParam = [self.fidelities firstObject];
   return @{
     SKStoreProductParameterAdNetworkVersion : self.version,
     SKStoreProductParameterAdNetworkIdentifier : self.networkId,
