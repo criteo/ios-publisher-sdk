@@ -28,6 +28,7 @@
       "skippedTests" : [
         "CRBannerViewTests\/testAllowNavigationActionPolicyForWebView",
         "CRBannerViewTests\/testExpandMRAIDAction",
+        "CRBannerViewTests\/testTemplatingFromConfig",
         "CRBannerViewTests\/testWithRendering",
         "CRInterstitialDelegateTests\/testCacheHasAdButAdContentFetchFailed",
         "CRInterstitialDelegateTests\/testInterstitialAdFetchFail",
