@@ -98,6 +98,7 @@
         "CR_FeedbackMessageFunctionalTests\/testGivenTimeoutErrorOnPrefetch_whenGettingLiveBid_thenSendFeedbackMessage",
         "CR_FeedbackMessageFunctionalTests\/testGivenTimeoutErrorOnPrefetch_whenLiveBidTimeBudgetExceeded_thenSendFeedbackMessage",
         "CR_FeedbackMessageTests\/testFullyFilledObjectsAreEqual()",
+        "CR_FeedbackMessageTests\/testMessageWithTimeoutIsReadyToSend()",
         "CR_FeedbackSerializerTests\/testAnyMessageContainsSlotsField()",
         "CR_FeedbackSerializerTests\/testConfigValuesPassed()",
         "CR_FeedbackSerializerTests\/testEmptyMessage()",
