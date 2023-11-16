@@ -33,6 +33,7 @@ FOUNDATION_EXPORT NSString *const PreprodInterstitialAdUnitId;
 FOUNDATION_EXPORT NSString *const PreprodNativeAdUnitId;
 FOUNDATION_EXPORT NSString *const VideoInterstitialAdUnitId;
 FOUNDATION_EXPORT NSString *const RewardedAdUnitId;
+FOUNDATION_EXPORT NSString *const CriteoTestingStoreId;
 
 @interface Criteo (Testing)
 /** An OCPartialMock set as an id (like in the OCMock library) for API convenience. */

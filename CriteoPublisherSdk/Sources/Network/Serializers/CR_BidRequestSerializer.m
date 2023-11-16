@@ -136,6 +136,7 @@
   publisher[CR_ApiQueryKeys.cpId] = config.criteoPublisherId;
   publisher[CR_ApiQueryKeys.ext] =
       [CR_BidRequestSerializer mergeToNestedStructure:@[ contextData.data ]];
+  publisher[CR_ApiQueryKeys.storeId] = config.storeId;
   return publisher;
 }
 
