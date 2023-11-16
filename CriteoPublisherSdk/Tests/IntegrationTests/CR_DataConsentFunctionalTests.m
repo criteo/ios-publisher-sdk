@@ -62,6 +62,10 @@
 
 - (void)tearDown {
   [self.criteo.dependencyProvider.threadManager waiter_waitIdle];
+  self.criteo = nil;
+  [[NSUserDefaults standardUserDefaults]
+      removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
+  [NSUserDefaults resetStandardUserDefaults];
   [super tearDown];
 }
 

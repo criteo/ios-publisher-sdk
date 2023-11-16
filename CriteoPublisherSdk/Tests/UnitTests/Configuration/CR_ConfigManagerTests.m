@@ -59,9 +59,16 @@
 - (void)tearDown {
   mockApiHandler = nil;
   localConfig = nil;
+  mockIntegrationRegistry = nil;
+  mockDeviceInfo = nil;
 
   [self.userDefault removeObjectForKey:NSUserDefaultsKillSwitchKey];
   [self.userDefault removeObjectForKey:NSUserDefaultsCsmEnabledKey];
+  self.userDefault = nil;
+  [[NSUserDefaults standardUserDefaults]
+      removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
+  [NSUserDefaults resetStandardUserDefaults];
+  [super tearDown];
 }
 
 #pragma mark - Kill switch

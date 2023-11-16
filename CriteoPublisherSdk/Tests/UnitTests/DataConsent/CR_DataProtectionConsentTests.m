@@ -68,6 +68,14 @@ NSString *const CR_DataProtectionConsentTestsMalformed90CharsVendorString =
   self.consent2 = [[CR_DataProtectionConsent alloc] initWithUserDefaults:self.userDefaults];
 }
 
+- (void)tearDown {
+  self.userDefaults = nil;
+  [[NSUserDefaults standardUserDefaults]
+      removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
+  [NSUserDefaults resetStandardUserDefaults];
+  [super tearDown];
+}
+
 - (void)testGetUsPrivacyIABContent {
   [self.userDefaults setObject:CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString
                         forKey:CR_CcpaIabConsentStringKey];

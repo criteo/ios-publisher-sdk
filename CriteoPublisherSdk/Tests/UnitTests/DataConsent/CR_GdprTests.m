@@ -38,6 +38,15 @@
   [self.userDefaults clearGdpr];
 }
 
+- (void)tearDown {
+  self.gdpr = nil;
+  self.userDefaults = nil;
+  [[NSUserDefaults standardUserDefaults]
+      removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
+  [NSUserDefaults resetStandardUserDefaults];
+  [super tearDown];
+}
+
 #pragma mark - TCF Version
 
 - (void)testVersionUnknown {

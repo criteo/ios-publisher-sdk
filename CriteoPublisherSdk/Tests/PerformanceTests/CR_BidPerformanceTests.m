@@ -44,6 +44,10 @@
   self.criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProvider];
 }
 
+- (void)tearDown {
+  [super tearDown];
+}
+
 - (void)test500Bids {
   NSArray *adUnits = [self badAdUnitsWithCount:500];
 

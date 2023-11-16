@@ -48,6 +48,10 @@ FOUNDATION_EXPORT NSString *const NSUserDefaultsIntegrationKey;
 
 - (void)tearDown {
   [self.userDefault removeObjectForKey:NSUserDefaultsIntegrationKey];
+  self.userDefault = nil;
+  [[NSUserDefaults standardUserDefaults]
+      removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
+  [NSUserDefaults resetStandardUserDefaults];
 }
 
 - (void)testProfileId_GivenNoDeclaredOne_ReturnFallback {

@@ -61,6 +61,7 @@
 - (void)tearDown {
   CR_ThreadManager *threadManager = self.criteo.dependencyProvider.threadManager;
   [threadManager waiter_waitIdle];
+  self.criteo = nil;
   [super tearDown];
 }
 

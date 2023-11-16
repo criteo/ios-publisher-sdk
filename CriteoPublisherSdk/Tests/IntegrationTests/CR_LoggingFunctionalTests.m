@@ -75,6 +75,14 @@
 
 - (void)tearDown {
   [self.loggingMock stopMocking];
+  self.consoleLogHandlerMock = nil;
+  self.apiHandler = nil;
+  self.criteo = nil;
+  self.loggingMock = nil;
+  [[NSUserDefaults standardUserDefaults]
+      removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
+  [NSUserDefaults resetStandardUserDefaults];
+  [super tearDown];
 }
 
 #pragma mark - Tests

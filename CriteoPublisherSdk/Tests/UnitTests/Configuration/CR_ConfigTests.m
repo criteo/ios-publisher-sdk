@@ -42,6 +42,9 @@
   [userDefaults removeObjectForKey:NSUserDefaultsLiveBiddingTimeBudgetKey];
   [userDefaults removeObjectForKey:NSUserDefaultsRemoteLogLevelKey];
   [userDefaults removeObjectForKey:NSUserDefaultsMRAIDKey];
+  [[NSUserDefaults standardUserDefaults]
+      removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
+  [NSUserDefaults resetStandardUserDefaults];
 
   [super tearDown];
 }

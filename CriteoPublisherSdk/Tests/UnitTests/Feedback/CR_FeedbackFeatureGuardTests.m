@@ -51,6 +51,12 @@
   self.consent.consentGiven = YES;
 }
 
+- (void)tearDown {
+  [[NSUserDefaults standardUserDefaults]
+      removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
+  [NSUserDefaults resetStandardUserDefaults];
+}
+
 #pragma mark - CSM Enabled
 
 #pragma clang diagnostic push

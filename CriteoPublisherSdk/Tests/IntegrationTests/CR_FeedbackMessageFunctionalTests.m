@@ -82,6 +82,8 @@
   [threadManager waiter_waitIdle];
   [self.nsdateMock stopMocking];
   [self clearFileDisk];
+  self.dependencyProvider = nil;
+  self.criteo = nil;
   [super tearDown];
 }
 

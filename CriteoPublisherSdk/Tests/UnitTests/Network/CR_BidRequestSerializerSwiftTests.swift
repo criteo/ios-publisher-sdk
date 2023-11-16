@@ -53,6 +53,13 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
     config.criteoPublisherId = "Test Published Id"
   }
 
+    override func tearDown() {
+        gdprSerializer = nil
+        serializer = nil
+        UserDefaults.resetStandardUserDefaults()
+        UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier ?? "")
+    }
+
   func testUrl() {
     let expected = URL(string: "https://bidder.criteo.com/inapp/v2")
 

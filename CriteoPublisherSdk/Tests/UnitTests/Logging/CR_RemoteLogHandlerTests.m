@@ -78,6 +78,15 @@
   self.consent.consentGiven = YES;
 }
 
+- (void)tearDown {
+  self.handler = nil;
+  self.consent = nil;
+  self.userDefaults = nil;
+  [[NSUserDefaults standardUserDefaults]
+      removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
+  [NSUserDefaults resetStandardUserDefaults];
+}
+
 #pragma mark Init
 
 // Bug #198
