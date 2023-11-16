@@ -43,6 +43,7 @@ NSString *const CR_ConfigConfigurationUrl = @"https://bidder.criteo.com/config/a
 @implementation CR_Config
 
 - (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId
+                                  storeId:(nullable NSString *)storeId
                                    cdbUrl:(NSString *)cdbUrl
                              appEventsUrl:(NSString *)appEventsUrl
                                 configUrl:(NSString *)configUrl
@@ -73,12 +74,24 @@ NSString *const CR_ConfigConfigurationUrl = @"https://bidder.criteo.com/config/a
     _remoteLogLevel = [userDefaults cr_valueForRemoteLogLevel];
     _userDefaults = userDefaults;
     _mraidEnabled = [userDefaults cr_valueForMRAID];
+    _storeId = storeId;
   }
   return self;
 }
 
 - (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId {
   return [self initWithCriteoPublisherId:criteoPublisherId
+                                 storeId:nil
+                                  cdbUrl:CR_ConfigCdbUrl
+                            appEventsUrl:CR_ConfigAppEventsUrl
+                               configUrl:CR_ConfigConfigurationUrl
+                            userDefaults:[NSUserDefaults standardUserDefaults]];
+}
+
+- (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId
+                                  storeId:(nullable NSString *)storeId {
+  return [self initWithCriteoPublisherId:criteoPublisherId
+                                 storeId:storeId
                                   cdbUrl:CR_ConfigCdbUrl
                             appEventsUrl:CR_ConfigAppEventsUrl
                                configUrl:CR_ConfigConfigurationUrl
@@ -91,6 +104,7 @@ NSString *const CR_ConfigConfigurationUrl = @"https://bidder.criteo.com/config/a
 
 - (instancetype)initWithUserDefaults:(NSUserDefaults *)userDefaults {
   return [self initWithCriteoPublisherId:nil
+                                 storeId:nil
                                   cdbUrl:CR_ConfigCdbUrl
                             appEventsUrl:CR_ConfigAppEventsUrl
                                configUrl:CR_ConfigConfigurationUrl

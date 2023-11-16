@@ -42,6 +42,7 @@
 @property(nonatomic, strong) NSArray<CRAdUnit *> *adUnits;
 @property(nonatomic, strong) NSUserDefaults *userDefaults;
 @property(nonatomic, strong) CR_ApiHandler *apiHandler;
+@property(nonatomic, copy) NSString *storeId;
 @end
 
 @implementation CR_LoggingFunctionalTests
@@ -66,6 +67,7 @@
   dependencyProvider.logging = self.loggingMock;
 
   self.publisherId = @"testPublisherId";
+  self.storeId = @"testStoreId";
   self.adUnits = @[
     [[CRBannerAdUnit alloc] initWithAdUnitId:@"adUnitId1" size:CGSizeMake(42, 21)],
     [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"adUnitId2"],
@@ -131,7 +133,7 @@
 }
 
 - (void)testCriteoRegister_ShouldBeLogged {
-  [self.criteo registerCriteoPublisherId:self.publisherId withAdUnits:self.adUnits];
+  [self.criteo registerCriteoPublisherId:self.publisherId withStoreId:@"" withAdUnits:self.adUnits];
   OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
                                 NSString *message = logMessage.message;
                                 return [logMessage.tag isEqualToString:@"Registration"] &&
@@ -141,9 +143,13 @@
 }
 
 - (void)testCriteoRegisterTwice_ShouldBeLogged {
-  [self.criteo registerCriteoPublisherId:self.publisherId withAdUnits:self.adUnits];
+  [self.criteo registerCriteoPublisherId:self.publisherId
+                             withStoreId:self.storeId
+                             withAdUnits:self.adUnits];
   OCMVerify([self.loggingMock logMessage:[OCMArg any]]);
-  [self.criteo registerCriteoPublisherId:self.publisherId withAdUnits:self.adUnits];
+  [self.criteo registerCriteoPublisherId:self.publisherId
+                             withStoreId:self.storeId
+                             withAdUnits:self.adUnits];
   OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
                                 return [logMessage.tag isEqualToString:@"Registration"] &&
                                        logMessage.severity == CR_LogSeverityInfo &&

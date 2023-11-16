@@ -171,5 +171,8 @@
 + (NSString *)api {
   return @"api";
 }
++ (NSString *)storeId {
+  return @"storeId";
+}
 
 @end

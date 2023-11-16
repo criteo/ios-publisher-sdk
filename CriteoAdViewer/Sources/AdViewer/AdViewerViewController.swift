@@ -251,7 +251,7 @@ class AdViewerViewController: FormViewController {
     Criteo.resetSharedCriteo()
     let criteo = Criteo.shared()
     criteo.networkManagerDelegate = LogManager.sharedInstance()
-    criteo.registerPublisherId(publisherId, with: adUnits)
+    criteo.registerPublisherId(publisherId, withStoreId: "testStoreid", with: adUnits)
     return criteo
   }
 
