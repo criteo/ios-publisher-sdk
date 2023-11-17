@@ -76,7 +76,9 @@
 
   id mockCriteo = OCMStrictClassMock([Criteo class]);
   OCMStub([mockCriteo sharedCriteo]).andReturn(mockCriteo);
-  OCMStub([mockCriteo registerCriteoPublisherId:@"testCpId" withStoreId: @"testStoreId" withAdUnits:@[ interstitialAdUnit ]]);
+  OCMStub([mockCriteo registerCriteoPublisherId:@"testCpId"
+                                    withStoreId:@"testStoreId"
+                                    withAdUnits:@[ interstitialAdUnit ]]);
   OCMStub([mockCriteo setChildDirectedTreatment:mockChildDirectedTreatment]);
 
   [customEvent loadInterstitialForAdUnit:interstitialAdUnit
@@ -87,7 +89,9 @@
   OCMVerify([mockCRInterstitial loadAd]);
   OCMVerify([mockCRInterstitial setDelegate:customEvent]);
   OCMVerify([mockCRInterstitial presentFromRootViewController:realVC]);
-  OCMVerify([mockCriteo registerCriteoPublisherId:@"testCpId" withStoreId: @"testStoreId" withAdUnits:@[ interstitialAdUnit ]]);
+  OCMVerify([mockCriteo registerCriteoPublisherId:@"testCpId"
+                                      withStoreId:@"testStoreId"
+                                      withAdUnits:@[ interstitialAdUnit ]]);
   OCMVerify([mockCriteo setChildDirectedTreatment:mockChildDirectedTreatment]);
 }
 
