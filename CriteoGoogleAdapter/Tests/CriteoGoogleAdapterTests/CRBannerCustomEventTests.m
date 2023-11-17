@@ -51,7 +51,8 @@
 
 @end
 
-#define SERVER_PARAMETER @"{\"cpId\":\"testCpId\",\"adUnitId\":\"testAdUnitId\"}"
+#define SERVER_PARAMETER \
+  @"{\"cpId\":\"testCpId\",\"adUnitId\":\"testAdUnitId\",\"storeId\":\"testStoreId\"}"
 
 @implementation CRBannerCustomEventTests
 
