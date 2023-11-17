@@ -29,11 +29,12 @@
   NSError *error;
   CRGoogleMediationParameters *gmp = [CRGoogleMediationParameters
       parametersFromJSONString:
-          @"{\"cpId\":\"B-056946\", \"adUnitId\": \"/140800857/Endeavour_320x50\"}"
+          @"{\"cpId\":\"B-056946\", \"adUnitId\": \"/140800857/Endeavour_320x50\", \"storeId\": \"B-056946\"}"
                          error:&error];
   XCTAssertNotNil(gmp);
   XCTAssertEqualObjects(gmp.publisherId, @"B-056946");
   XCTAssertEqualObjects(gmp.adUnitId, @"/140800857/Endeavour_320x50");
+  XCTAssertEqualObjects(gmp.storeId, @"B-056946");
 }
 
 // Normal case - check that the error is set to nil
@@ -41,7 +42,7 @@
   NSError *error = [NSError new];
   CRGoogleMediationParameters *gmp = [CRGoogleMediationParameters
       parametersFromJSONString:
-          @"{\"cpId\":\"B-056946\", \"adUnitId\": \"/140800857/Endeavour_320x50\"}"
+          @"{\"cpId\":\"B-056946\", \"adUnitId\": \"/140800857/Endeavour_320x50\", \"storeId\": \"B-056946\"}"
                          error:&error];
   XCTAssertNil(error);
 }
@@ -50,11 +51,12 @@
 - (void)testGoogleMediationParametersNilError {
   CRGoogleMediationParameters *gmp = [CRGoogleMediationParameters
       parametersFromJSONString:
-          @"{\"cpId\":\"B-056946\", \"adUnitId\": \"/140800857/Endeavour_320x50\"}"
+          @"{\"cpId\":\"B-056946\", \"adUnitId\": \"/140800857/Endeavour_320x50\", \"storeId\": \"B-056946\"}"
                          error:nil];
   XCTAssertNotNil(gmp);
   XCTAssertEqualObjects(gmp.publisherId, @"B-056946");
   XCTAssertEqualObjects(gmp.adUnitId, @"/140800857/Endeavour_320x50");
+  XCTAssertEqualObjects(gmp.storeId, @"B-056946");
 }
 
 // Nil input string
