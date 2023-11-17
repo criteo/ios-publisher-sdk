@@ -69,7 +69,9 @@
 
   id mockCriteo = OCMClassMock([Criteo class]);
   OCMStub([mockCriteo sharedCriteo]).andReturn(mockCriteo);
-OCMStub([mockCriteo registerCriteoPublisherId:@"testCpId" withStoreId: @"testStoreId" withAdUnits:@[ bannerAdUnit ]]);
+  OCMStub([mockCriteo registerCriteoPublisherId:@"testCpId"
+                                    withStoreId:@"testStoreId"
+                                    withAdUnits:@[ bannerAdUnit ]]);
   OCMStub([mockCriteo setChildDirectedTreatment:mockChildDirectedTreatment]);
 
   [customEvent loadBannerForAdUnit:bannerAdUnit
@@ -78,7 +80,9 @@ OCMStub([mockCriteo registerCriteoPublisherId:@"testCpId" withStoreId: @"testSto
 
   OCMVerify([mockCRBannerView loadAd]);
   OCMVerify([mockCRBannerView setDelegate:customEvent]);
-  OCMVerify([mockCriteo registerCriteoPublisherId:@"testCpId" withStoreId: @"testStoreId" withAdUnits:@[ bannerAdUnit ]]);
+  OCMVerify([mockCriteo registerCriteoPublisherId:@"testCpId"
+                                      withStoreId:@"testStoreId"
+                                      withAdUnits:@[ bannerAdUnit ]]);
   OCMVerify([mockCriteo setChildDirectedTreatment:mockChildDirectedTreatment]);
 }
 
