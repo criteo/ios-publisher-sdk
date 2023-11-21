@@ -295,6 +295,7 @@
   NSDictionary *expected = @{
     CR_ApiQueryKeys.cpId : self.configMock.criteoPublisherId,
     CR_ApiQueryKeys.bundleId : self.configMock.appId,
+    CR_ApiQueryKeys.storeId : self.configMock.storeId,
     CR_ApiQueryKeys.ext : @{}
   };
 
@@ -698,6 +699,7 @@
   OCMStub([mockConfig appEventsUrl]).andReturn(@"https://appevent.com");
   OCMStub([mockConfig appEventsSenderId]).andReturn(@"com.sdk.test");
   OCMStub([mockConfig isMRAIDEnabled]).andReturn(NO);
+  OCMStub([mockConfig storeId]).andReturn(@("12"));
   return mockConfig;
 }
 

@@ -93,7 +93,8 @@
   CR_DependencyProvider *dependencyProviderMock = OCMClassMock(CR_DependencyProvider.class);
   Criteo *criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProviderMock];
   NSString *nilPublisherId = nil;
-  [criteo registerCriteoPublisherId:nilPublisherId withAdUnits:@[]];
+  NSString *nilStoreId = nil;
+  [criteo registerCriteoPublisherId:nilPublisherId withStoreId:nilStoreId withAdUnits:@[]];
 
   OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
                                 return logMessage.severity == CR_LogSeverityError &&
@@ -107,7 +108,8 @@
   CR_DependencyProvider *dependencyProviderMock = OCMClassMock(CR_DependencyProvider.class);
   Criteo *criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProviderMock];
   NSString *emptyPublisherId = @"";
-  [criteo registerCriteoPublisherId:emptyPublisherId withAdUnits:@[]];
+  NSString *emptyStoreId = @"";
+  [criteo registerCriteoPublisherId:emptyPublisherId withStoreId:emptyStoreId withAdUnits:@[]];
 
   OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
                                 return logMessage.severity == CR_LogSeverityError &&
@@ -319,7 +321,7 @@
   OCMStub(dependencyProviderMock.threadManager).andReturn(threadManager);
   testBlock(dependencyProviderMock);
   Criteo *criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProviderMock];
-  [criteo registerCriteoPublisherId:@"testPublisherId" withAdUnits:@[]];
+  [criteo registerCriteoPublisherId:@"testPublisherId" withStoreId:@"testStoreId" withAdUnits:@[]];
 }
 
 - (void)mockBidManagerWithAdUnit:(CR_CacheAdUnit *)adUnit respondBid:(CR_CdbBid *)bid {

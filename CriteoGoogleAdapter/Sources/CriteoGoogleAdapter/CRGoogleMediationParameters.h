@@ -24,12 +24,15 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CRGoogleMediationParameters : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
-- (id)initWithPublisherId:(NSString *)publisherId adUnitId:(NSString *)adUnitId;
+- (id)initWithPublisherId:(NSString *)publisherId
+                  storeId:(NSString *)storeId
+                 adUnitId:(NSString *)adUnitId;
 + (nullable CRGoogleMediationParameters *)parametersFromJSONString:(NSString *)jsonString
                                                              error:(NSError **)outError;
 
 @property(copy, readonly) NSString *publisherId;
 @property(copy, readonly) NSString *adUnitId;
+@property(copy, readonly) NSString *storeId;
 
 @end
 
