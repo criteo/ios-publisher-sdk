@@ -44,7 +44,7 @@
      childDirectedTreatment:(NSNumber *)childDirectedTreatment {
   /// Set the publicher id to
   [Criteo.sharedCriteo registerCriteoPublisherId:params.publisherId
-                                     withStoreId:@""
+                                     withStoreId:params.storeId
                                      withAdUnits:@[ adUnit ]];
   /// Set child directed treatment flag to Criteo SDK.
   [Criteo.sharedCriteo setChildDirectedTreatment:childDirectedTreatment];
