@@ -25,7 +25,7 @@ public protocol CRExternalURLOpener {
   func open(url: URL)
 }
 
-public protocol MRAIDURLHandler {
+public protocol MRAIDURLHandler: AnyObject {
   func handle(data: Data)
 }
 
@@ -35,7 +35,7 @@ private struct MRAIDOpenURLAction: Decodable {
 
 public final class CRMRAIDURLHandler: MRAIDURLHandler {
   private let logger: CRMRAIDLogger
-  private let urlOpener: CRExternalURLOpener
+  private unowned var urlOpener: CRExternalURLOpener
 
   private var topViewController: UIViewController? {
     return UIApplication.shared.keyWindow?.rootViewController

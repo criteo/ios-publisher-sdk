@@ -1,9 +1,26 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
+
+## Version [5.0.4]
+
+### Features
+- TCF 2.2 updates.
+
+--------------------------------------------------------------------------------
+
+## Version [5.0.3]
+
+### Features
+- Disabled prefetch on publisher register action (initialization).
+- Set default value of live bidding to true.
+
+--------------------------------------------------------------------------------
 ## Version [5.0.2]
 
 ### Features
-- MRAID 1.0 bug fixes.
+- Send SDK MRAID capability
+- Fix MRAID iframe issues
+- Do not send deviceId in config request
 
 --------------------------------------------------------------------------------
 ## Version [5.0.1]

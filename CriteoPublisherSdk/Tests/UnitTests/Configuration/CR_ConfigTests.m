@@ -234,7 +234,7 @@
 
   CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
 
-  XCTAssertTrue(config.isPrefetchOnInitEnabled);
+  XCTAssertFalse(config.isPrefetchOnInitEnabled);
 }
 
 - (void)testInit_GivenUserDefaultWithPrefetchOnInitEnabled_PrefetchOnInitIsEnabled {
@@ -261,7 +261,7 @@
 
   CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
 
-  XCTAssertTrue(config.isPrefetchOnInitEnabled);
+  XCTAssertFalse(config.isPrefetchOnInitEnabled);
 }
 
 - (void)testSetPrefetchOnInitEnabled_GivenNoUpdate_NothingIsWrittenInUserDefaults {
@@ -269,7 +269,7 @@
 
   CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
 
-  XCTAssertTrue(config.isPrefetchOnInitEnabled);
+  XCTAssertFalse(config.isPrefetchOnInitEnabled);
   XCTAssertFalse([userDefaults cr_containsKey:NSUserDefaultsPrefetchOnInitEnabledKey]);
 }
 
@@ -306,7 +306,7 @@
 
   CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
 
-  XCTAssertFalse(config.isLiveBiddingEnabled);
+  XCTAssertTrue(config.isLiveBiddingEnabled);
 }
 
 - (void)testInit_GivenUserDefaultWithLiveBiddingEnabled_LiveBiddingIsEnabled {
@@ -333,7 +333,7 @@
 
   CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
 
-  XCTAssertFalse(config.isLiveBiddingEnabled);
+  XCTAssertTrue(config.isLiveBiddingEnabled);
 }
 
 - (void)testSetLiveBiddingEnabled_GivenNoUpdate_NothingIsWrittenInUserDefaults {
@@ -341,7 +341,7 @@
 
   CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
 
-  XCTAssertFalse(config.isLiveBiddingEnabled);
+  XCTAssertTrue(config.isLiveBiddingEnabled);
   XCTAssertFalse([userDefaults cr_containsKey:NSUserDefaultsLiveBiddingEnabledKey]);
 }
 

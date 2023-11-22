@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -297,6 +297,11 @@
 		A8C3DF432A94FE4800B6A4BE /* CRPlacementType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8C3DF422A94FE4800B6A4BE /* CRPlacementType.swift */; };
 		A8C3DF452A94FE6800B6A4BE /* CRMRAIDHandlerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8C3DF442A94FE6800B6A4BE /* CRMRAIDHandlerDelegate.swift */; };
 		A8C3DF4F2A9E256200B6A4BE /* MRAIDResizeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8C3DF4E2A9E256200B6A4BE /* MRAIDResizeTests.swift */; };
+		A8ABDE462ACC31DA00E82CDE /* CR_SKAdNetworkHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = A8ABDE442ACC31DA00E82CDE /* CR_SKAdNetworkHandler.h */; };
+		A8ABDE472ACC31DA00E82CDE /* CR_SKAdNetworkHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = A8ABDE452ACC31DA00E82CDE /* CR_SKAdNetworkHandler.m */; };
+		A8ABDE552AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.h in Headers */ = {isa = PBXBuildFile; fileRef = A8ABDE532AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.h */; };
+		A8ABDE562AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = A8ABDE542AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.m */; };
+		A8ABDE582AD7E36E00E82CDE /* CR_SKAdNetworkImpressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A8ABDE572AD7E36E00E82CDE /* CR_SKAdNetworkImpressionTests.m */; };
 		A8E22E1B29DD75DF0094FFA4 /* MRAIDExpandMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E22E1A29DD75DF0094FFA4 /* MRAIDExpandMessage.swift */; };
 		A8E22E1D29DEFD4A0094FFA4 /* MRAIDState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E22E1C29DEFD4A0094FFA4 /* MRAIDState.swift */; };
 		A8E22E1F29DF06250094FFA4 /* CRFulllScreenContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E22E1E29DF06250094FFA4 /* CRFulllScreenContainer.swift */; };
@@ -766,6 +771,11 @@
 		A8C3DF422A94FE4800B6A4BE /* CRPlacementType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRPlacementType.swift; sourceTree = "<group>"; };
 		A8C3DF442A94FE6800B6A4BE /* CRMRAIDHandlerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRMRAIDHandlerDelegate.swift; sourceTree = "<group>"; };
 		A8C3DF4E2A9E256200B6A4BE /* MRAIDResizeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDResizeTests.swift; sourceTree = "<group>"; };
+		A8ABDE442ACC31DA00E82CDE /* CR_SKAdNetworkHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_SKAdNetworkHandler.h; sourceTree = "<group>"; };
+		A8ABDE452ACC31DA00E82CDE /* CR_SKAdNetworkHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_SKAdNetworkHandler.m; sourceTree = "<group>"; };
+		A8ABDE532AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_SKAdNetworkFidelityParameter.h; sourceTree = "<group>"; };
+		A8ABDE542AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_SKAdNetworkFidelityParameter.m; sourceTree = "<group>"; };
+		A8ABDE572AD7E36E00E82CDE /* CR_SKAdNetworkImpressionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_SKAdNetworkImpressionTests.m; sourceTree = "<group>"; };
 		A8E22E1A29DD75DF0094FFA4 /* MRAIDExpandMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDExpandMessage.swift; sourceTree = "<group>"; };
 		A8E22E1C29DEFD4A0094FFA4 /* MRAIDState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDState.swift; sourceTree = "<group>"; };
 		A8E22E1E29DF06250094FFA4 /* CRFulllScreenContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRFulllScreenContainer.swift; sourceTree = "<group>"; };
@@ -992,6 +1002,10 @@
 				463791B9256D006F00DC65B4 /* CR_SKAdNetworkParameters.h */,
 				463791BA256D006F00DC65B4 /* CR_SkAdNetworkParameters.m */,
 				464D6FB825480925004502C4 /* SKAdNetworkInfo.swift */,
+				A8ABDE442ACC31DA00E82CDE /* CR_SKAdNetworkHandler.h */,
+				A8ABDE452ACC31DA00E82CDE /* CR_SKAdNetworkHandler.m */,
+				A8ABDE532AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.h */,
+				A8ABDE542AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.m */,
 			);
 			path = SKAdNetwork;
 			sourceTree = "<group>";
@@ -1306,6 +1320,7 @@
 				7D58583323E2D5AD0039AC56 /* Threading */,
 				7D3E41FF23915B6600BAF673 /* Util */,
 				C07AB0F74CBE74DC33F6ED1C /* CR_RemoteLogRecordTests.m */,
+				A8ABDE572AD7E36E00E82CDE /* CR_SKAdNetworkImpressionTests.m */,
 			);
 			path = UnitTests;
 			sourceTree = "<group>";
@@ -1907,6 +1922,7 @@
 				7D00672F243CD6F900E5D50D /* CR_CASObjectQueue+ArraySet.h in Headers */,
 				DF367C8A232974210044807B /* CRNativeAdUnit.h in Headers */,
 				7D4B4A8B24191E8E00E1E241 /* CR_ApiQueryKeys.h in Headers */,
+				A8ABDE462ACC31DA00E82CDE /* CR_SKAdNetworkHandler.h in Headers */,
 				46C403D2257542BA00E5179C /* CR_Session.h in Headers */,
 				46E3478126B0641300A161B6 /* CR_CASDataSerializer.h in Headers */,
 				25BD5B5B2220D16D004DE311 /* CriteoPublisherSdk.h in Headers */,
@@ -1947,6 +1963,7 @@
 				4671BEB825599E2B0097D249 /* CR_URLRequest.h in Headers */,
 				C07ABADD3A4C59D7ACCC39CB /* CR_DisplaySizeInjector.h in Headers */,
 				C07AB2D5B72491EB58DD4114 /* CR_RemoteConfigRequest.h in Headers */,
+				A8ABDE552AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.h in Headers */,
 				C07ABA8551FB785329186C71 /* CRContextData.h in Headers */,
 				C07AB0603D0707B887DB5BE5 /* CRUserData.h in Headers */,
 				C07AB825779A15495508A590 /* CR_UserDataHolder.h in Headers */,
@@ -2282,6 +2299,7 @@
 				7D4B4A8A24191E8900E1E241 /* CR_ApiQueryKeys.m in Sources */,
 				5397C0B122A0AA6600BC72FE /* CR_CacheAdUnit.m in Sources */,
 				7D00672D243CD6F900E5D50D /* CR_CASObjectQueue+ArraySet.m in Sources */,
+				A8ABDE562AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.m in Sources */,
 				25BD5B6B2220D1E6004DE311 /* CR_ApiHandler.m in Sources */,
 				465E9172246C406700227D29 /* CR_AdChoice.m in Sources */,
 				542FCFB6242D08EE000D9DA9 /* CR_FeedbacksSerializer.m in Sources */,
@@ -2299,6 +2317,7 @@
 				25BD5B642220D1B3004DE311 /* CR_CdbBid.m in Sources */,
 				7D80F6222406B18F005B7BA3 /* CR_Gdpr.m in Sources */,
 				A8341B432AB09F09004AF48E /* MRAIDOrientationPropertiesMessage.swift in Sources */,
+				A8ABDE472ACC31DA00E82CDE /* CR_SKAdNetworkHandler.m in Sources */,
 				DF367C9B232AE8510044807B /* CR_NativeImage.m in Sources */,
 				25BD5B6E2220D201004DE311 /* NSString+CriteoUrl.m in Sources */,
 				A83BB59029BAECEA002A63B6 /* MRAIDLogHandler.swift in Sources */,
@@ -2452,6 +2471,7 @@
 				7D3E424723915B6600BAF673 /* CRAdUnitTests.m in Sources */,
 				7D3E423D23915B6600BAF673 /* CR_CacheManagerTests.m in Sources */,
 				7D3E422C23915B6600BAF673 /* CR_NativeAdvertiserTests.m in Sources */,
+				A8ABDE582AD7E36E00E82CDE /* CR_SKAdNetworkImpressionTests.m in Sources */,
 				7D523C7923DB31CD00E79C88 /* CR_HttpContent.m in Sources */,
 				465D3CF92434D3D500BD36AC /* CR_UniqueIdGeneratorTests.swift in Sources */,
 				7DB4E9132397AB6B008DE5E3 /* CR_RegistrationFunctionalTests.m in Sources */,

@@ -64,7 +64,7 @@
           // We don't want to isolate the tests from the disk
           //.withIsolatedFeedbackStorage
           .withIsolatedNotificationCenter.withIsolatedIntegrationRegistry.withShortLiveBidTimeBudget
-          .withConsentGiven;
+          .withConsentGiven.withPrefetchOnInitEnabled.withLiveBiddingDisabled;
 
   [self givenLiveBiddingEnabled:NO];  // Default legacy case
   self.criteo = [[Criteo alloc] initWithDependencyProvider:self.dependencyProvider];

@@ -25,6 +25,7 @@
 #import "CR_CdbResponse.h"
 #import "NSDictionary+Criteo.h"
 #import "NSString+CriteoUrl.h"
+#import "CR_SKAdNetworkFidelityParameter.h"
 
 @interface CR_CdbBidTests : XCTestCase
 
@@ -190,12 +191,14 @@
   XCTAssertEqualObjects(nativeBid.skAdNetworkParameters.networkId, @"network");
   XCTAssertEqualObjects(nativeBid.skAdNetworkParameters.campaignId, @1);
   XCTAssertEqualObjects(nativeBid.skAdNetworkParameters.iTunesItemId, @2);
-  XCTAssertEqualObjects(
-      nativeBid.skAdNetworkParameters.nonce,
-      [[NSUUID alloc] initWithUUIDString:@"ef50fece-faf4-4a5c-91b4-37e90b71a829"]);
   XCTAssertEqualObjects(nativeBid.skAdNetworkParameters.sourceAppId, @3);
-  XCTAssertEqualObjects(nativeBid.skAdNetworkParameters.timestamp, @4);
-  XCTAssertEqualObjects(nativeBid.skAdNetworkParameters.signature, @"signature");
+
+  CR_SKAdNetworkFidelityParameter *fidelity =
+      nativeBid.skAdNetworkParameters.fidelities.firstObject;
+  XCTAssertEqualObjects(fidelity.timestamp, @4);
+  XCTAssertEqualObjects(fidelity.signature, @"signature");
+  XCTAssertEqualObjects(
+      fidelity.nonce, [[NSUUID alloc] initWithUUIDString:@"ef50fece-faf4-4a5c-91b4-37e90b71a829"]);
 }
 
 - (void)testEmptyInitialization {

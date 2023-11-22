@@ -159,7 +159,7 @@ class AdViewerViewController: FormViewController {
         $0.options = defaultNetwork.sizes(type: .banner)
         $0.value = $0.options?.first
         $0.hidden = .function([Tags.network.rawValue, Tags.type.rawValue]) { form in
-          if let networkRow: SegmentedRow<AdNetwork> = self.form.rowBy(tag: Tags.network.rawValue),
+          if let networkRow: PickerInputRow<AdNetwork> = self.form.rowBy(tag: Tags.network.rawValue),
             let typeRow: SegmentedRow<AdType> = self.form.rowBy(tag: Tags.type.rawValue),
             let sizeRow: SegmentedRow<AdSize> = self.form.rowBy(tag: Tags.size.rawValue),
             let network = networkRow.value,
@@ -180,27 +180,27 @@ class AdViewerViewController: FormViewController {
 
   private func networkSection() -> Section {
     Section("Network")
-      <<< SegmentedRow<AdNetwork>(Tags.network.rawValue) {
-        $0.options = self.networks.all
-        $0.value = $0.options?.first
-        $0.displayValueFor = { network in
-          network?.name
-        }
-        $0.onChange { (row: SegmentedRow<AdNetwork>) in
-          if let network = row.value,
-            let typeRow: SegmentedRow<AdType> = self.form.rowBy(tag: Tags.type.rawValue),
-            let sizeRow: SegmentedRow<AdSize> = self.form.rowBy(tag: Tags.size.rawValue) {
-            typeRow.options = network.types
-            typeRow.value = typeRow.options?.first
-            typeRow.reload()
-            let sizes: [AdSize] = network.sizes(type: typeRow.value!)
-            sizeRow.options = sizes
-            sizeRow.value = sizeRow.options?.first
-            sizeRow.reload()
+      <<< PickerInputRow<AdNetwork>(Tags.network.rawValue){
+          $0.options = self.networks.all
+          $0.value = $0.options.first
+          $0.displayValueFor = { network in
+            network?.name
           }
-          self.updateAdConfig()
+          $0.onChange { (row: PickerInputRow<AdNetwork>) in
+              if let network = row.value,
+                let typeRow: SegmentedRow<AdType> = self.form.rowBy(tag: Tags.type.rawValue),
+                let sizeRow: SegmentedRow<AdSize> = self.form.rowBy(tag: Tags.size.rawValue) {
+                typeRow.options = network.types
+                typeRow.value = typeRow.options?.first
+                typeRow.reload()
+                let sizes: [AdSize] = network.sizes(type: typeRow.value!)
+                sizeRow.options = sizes
+                sizeRow.value = sizeRow.options?.first
+                sizeRow.reload()
+              }
+              self.updateAdConfig()
+          }
         }
-      }
   }
 
   private func updateAdConfig() {
@@ -259,7 +259,7 @@ class AdViewerViewController: FormViewController {
     Criteo.resetSharedCriteo()
     let criteo = Criteo.shared()
     criteo.networkManagerDelegate = LogManager.sharedInstance()
-    criteo.registerPublisherId(publisherId, with: adUnits)
+    criteo.registerPublisherId(publisherId, withStoreId: "testStoreid", with: adUnits)
     return criteo
   }
 

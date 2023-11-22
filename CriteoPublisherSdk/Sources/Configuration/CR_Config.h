@@ -38,7 +38,7 @@ FOUNDATION_EXTERN NSString *const CR_ConfigConfigurationUrl;
 @property(copy, nonatomic) NSString *adTagUrlMode;
 @property(copy, nonatomic) NSString *viewportWidthMacro;
 @property(copy, nonatomic) NSString *displayURLMacro;
-
+@property(copy, nonatomic, nullable) NSString *storeId;
 #pragma mark CSM
 
 @property(assign, nonatomic, getter=isCsmEnabled) BOOL csmEnabled;
@@ -79,10 +79,14 @@ FOUNDATION_EXTERN NSString *const CR_ConfigConfigurationUrl;
 #pragma mark - Lifecycle
 
 - (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId
+                                  storeId:(nullable NSString *)storeId
                                    cdbUrl:(NSString *)cdbUrl
                              appEventsUrl:(NSString *)appEventsUrl
                                 configUrl:(NSString *)configUrl
                              userDefaults:(NSUserDefaults *)userDefaults NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId
+                                  storeId:(nullable NSString *)storeId;
 
 - (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId;
 

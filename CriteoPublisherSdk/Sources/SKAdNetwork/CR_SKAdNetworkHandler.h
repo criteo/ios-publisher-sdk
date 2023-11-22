@@ -1,8 +1,8 @@
 //
-//  CRConstants.h
+//  CR_SKAdNetworkHandler.h
 //  CriteoPublisherSdk
 //
-//  Copyright © 2018-2020 Criteo. All rights reserved.
+//  Copyright © 2018-2023 Criteo. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,13 +17,18 @@
 // limitations under the License.
 //
 
-#ifndef CRConstants_h
-#define CRConstants_h
+#import <Foundation/Foundation.h>
+#import "CR_SKAdNetworkParameters.h"
 
-#define CRITEO_PUBLISHER_SDK_VERSION @"5.0.4"
+NS_ASSUME_NONNULL_BEGIN
 
-#define CRITEO_DEFAULT_REQUEST_TIMEOUT_IN_SECONDS 60
-#define CRITEO_DEFAULT_BID_TTL_IN_SECONDS 15 * 60
-#define CRITEO_DEFAULT_LIVE_BID_TIME_BUDGET_IN_SECONDS 8.0f
+@interface CR_SKAdNetworkHandler : NSObject
 
-#endif /* CRConstants_h */
+- (instancetype)initWithParameters:(CR_SKAdNetworkParameters *)skAdNetworkParameters
+    API_AVAILABLE(ios(14.5));
+- (void)startSKAdImpression API_AVAILABLE(ios(14.5));
+- (void)endSKAdImpression API_AVAILABLE(ios(14.5));
+
+@end
+
+NS_ASSUME_NONNULL_END

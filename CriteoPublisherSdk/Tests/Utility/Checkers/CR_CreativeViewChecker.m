@@ -88,10 +88,8 @@ static NSString *appStoreDisplay = @"https://localhost:9099/display/app-store";
                   version:@"2.0"
                campaignId:@1
              iTunesItemId:@2
-                    nonce:[NSUUID UUID]
-                timestamp:@3
               sourceAppId:@4
-                signature:@"signature"]);
+               fidelities:[NSArray new]]);
   }
   CR_CdbBid *bid = bidBuilder.build;
   dependencyProvider.cacheManager.bidCache[cacheAdUnit] = bid;

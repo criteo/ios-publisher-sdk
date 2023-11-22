@@ -56,6 +56,7 @@
 - (CR_DependencyProvider *)withWireMockConfiguration {
   self.config =
       [[CR_Config alloc] initWithCriteoPublisherId:CriteoTestingPublisherId
+                                           storeId:CriteoTestingStoreId
                                             cdbUrl:[self wireMockEndPoint:@"cdb"]
                                       appEventsUrl:[self wireMockEndPoint:@"gum/appevent/v1"]
                                          configUrl:[self wireMockEndPoint:@"cfg/v2.0/api/config"]
@@ -107,6 +108,16 @@
 
 - (CR_DependencyProvider *)withConsentGiven {
   self.consent.consentGiven = YES;
+  return self;
+}
+
+- (CR_DependencyProvider *)withPrefetchOnInitEnabled {
+  self.config.prefetchOnInitEnabled = YES;
+  return self;
+}
+
+- (CR_DependencyProvider *)withLiveBiddingDisabled {
+  self.config.liveBiddingEnabled = NO;
   return self;
 }
 

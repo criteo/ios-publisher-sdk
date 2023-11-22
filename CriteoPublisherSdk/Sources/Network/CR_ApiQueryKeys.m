@@ -136,7 +136,7 @@
   return @"skAdNetwork";
 }
 + (NSString *)skAdNetworkVersion {
-  return @"version";
+  return @"versions";
 }
 + (NSString *)skAdNetworkIds {
   return @"skAdNetworkIds";
@@ -170,6 +170,9 @@
 }
 + (NSString *)api {
   return @"api";
+}
++ (NSString *)storeId {
+  return @"storeId";
 }
 
 @end

@@ -32,15 +32,17 @@
 #import "CR_IntegrationRegistry.h"
 #import "CR_Logging.h"
 #import "CRLogUtil.h"
+#import "CR_SKAdNetworkHandler.h"
 
 @interface CRInterstitial () <WKNavigationDelegate,
                               WKUIDelegate,
                               CRExternalURLOpener,
                               CRMRAIDHandlerDelegate>
 
-@property(strong, nonatomic) id<CR_URLOpening> urlOpener;
+@property(nonatomic, strong) id<CR_URLOpening> urlOpener;
 @property(nonatomic, strong) CR_SKAdNetworkParameters *skAdNetworkParameters;
 @property(nonatomic, strong) CRMRAIDHandler *mraidHandler;
+@property(nonatomic, strong) CR_SKAdNetworkHandler *skadNetworkHandler API_AVAILABLE(ios(14.5));
 
 @end
 
@@ -210,6 +212,10 @@
 }
 
 - (void)loadAdWithCdbBid:(CR_CdbBid *)bid {
+  if (@available(iOS 14.5, *)) {
+    self.skadNetworkHandler =
+        [[CR_SKAdNetworkHandler alloc] initWithParameters:bid.skAdNetworkParameters];
+  }
   self.skAdNetworkParameters = bid.skAdNetworkParameters;
   [self loadAdWithDisplayData:bid.displayUrl];
 }
@@ -390,7 +396,17 @@
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-  return [_mraidHandler supportedInterfaceOrientations];
+    return [_mraidHandler supportedInterfaceOrientations];
+}
+
+#pragma SKAdImpression
+- (void)startSKAdImpression {
+  [_skadNetworkHandler startSKAdImpression];
+}
+
+- (void)endSKAdImpression {
+  [_mraidHandler onDealloc];
+  [_skadNetworkHandler endSKAdImpression];
 }
 
 @end

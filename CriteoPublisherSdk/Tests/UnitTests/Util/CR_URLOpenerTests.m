@@ -22,6 +22,7 @@
 
 #import "CR_URLOpener.h"
 #import "CR_SKAdNetworkParameters.h"
+#import "CR_SKAdNetworkFidelityParameter.h"
 
 @interface CR_URLOpenerTests : XCTestCase
 @end
@@ -65,14 +66,18 @@
 }
 
 - (CR_SKAdNetworkParameters *)buildParameters {
-  return [[CR_SKAdNetworkParameters alloc] initWithNetworkId:@"networkId"
-                                                     version:@"2.0"
-                                                  campaignId:@1
-                                                iTunesItemId:@12345
-                                                       nonce:[NSUUID UUID]
-                                                   timestamp:@123567890
-                                                 sourceAppId:@67890
-                                                   signature:@"tlkjlkj"];
+  CR_SKAdNetworkFidelityParameter *fidelityParam =
+      [[CR_SKAdNetworkFidelityParameter alloc] initWithFidelity:@1
+                                                      timestamp:@123567890
+                                                          nonce:[NSUUID UUID]
+                                                      signature:@"tlkjlkj"];
+  return
+      [[CR_SKAdNetworkParameters alloc] initWithNetworkId:@"networkId"
+                                                  version:@"2.0"
+                                               campaignId:@1
+                                             iTunesItemId:@12345
+                                              sourceAppId:@67890
+                                               fidelities:[NSArray arrayWithObject:fidelityParam]];
 }
 
 @end

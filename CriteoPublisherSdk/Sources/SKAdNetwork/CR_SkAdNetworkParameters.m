@@ -22,6 +22,7 @@
 #import <StoreKit/StoreKit.h>
 #import "CR_Logging.h"
 #import "NSString+Criteo.h"
+#import "CR_SKAdNetworkFidelityParameter.h"
 
 @implementation CR_SKAdNetworkParameters
 
@@ -32,23 +33,19 @@
                          version:[NSString cr_nonEmptyStringWithStringOrNil:dict[@"version"]]
                       campaignId:@([dict[@"campaign"] intValue])
                     iTunesItemId:@([dict[@"itunesItem"] intValue])
-                           nonce:[[NSUUID alloc] initWithUUIDString:dict[@"nonce"]]
-                       timestamp:@([dict[@"timestamp"] longLongValue])
                      sourceAppId:@([dict[@"sourceApp"] intValue])
-                       signature:[NSString cr_nonEmptyStringWithStringOrNil:dict[@"signature"]]];
+                      fidelities:[self fidelitiesFromList:dict[@"fidelities"]]];
 }
 
 - (instancetype)initWithNetworkId:(NSString *)networkId
                           version:(NSString *)version
                        campaignId:(NSNumber *)campaignId
                      iTunesItemId:(NSNumber *)iTunesItemId
-                            nonce:(NSUUID *)nonce
-                        timestamp:(NSNumber *)timestamp
                       sourceAppId:(NSNumber *)sourceAppId
-                        signature:(NSString *)signature {
+                       fidelities:(NSArray *)fidelities {
   if (networkId == nil || version == nil || campaignId == nil || campaignId.intValue == 0 ||
-      iTunesItemId == nil || iTunesItemId.intValue == 0 || nonce == nil || timestamp == nil ||
-      timestamp.intValue == 0 || sourceAppId == nil || signature == nil) {
+      iTunesItemId == nil || iTunesItemId.intValue == 0 || sourceAppId == nil ||
+      fidelities == nil) {
     CRLogError(@"SKAdNetwork", @"Unsupported payload format");
     return nil;
   }
@@ -58,10 +55,8 @@
     self.version = version;
     self.campaignId = campaignId;
     self.iTunesItemId = iTunesItemId;
-    self.nonce = nonce;
-    self.timestamp = timestamp;
     self.sourceAppId = sourceAppId;
-    self.signature = signature;
+    self.fidelities = fidelities;
   }
 
   return self;
@@ -70,15 +65,16 @@
 #pragma mark - Load Product
 
 - (NSDictionary *)toLoadProductParameters API_AVAILABLE(ios(14.0)) {
+  CR_SKAdNetworkFidelityParameter *fidelityParam = [self.fidelities firstObject];
   return @{
     SKStoreProductParameterAdNetworkVersion : self.version,
     SKStoreProductParameterAdNetworkIdentifier : self.networkId,
     SKStoreProductParameterAdNetworkCampaignIdentifier : self.campaignId,
     SKStoreProductParameterITunesItemIdentifier : self.iTunesItemId,
-    SKStoreProductParameterAdNetworkNonce : self.nonce,
+    SKStoreProductParameterAdNetworkNonce : fidelityParam.nonce,
     SKStoreProductParameterAdNetworkSourceAppStoreIdentifier : self.sourceAppId,
-    SKStoreProductParameterAdNetworkTimestamp : self.timestamp,
-    SKStoreProductParameterAdNetworkAttributionSignature : self.signature,
+    SKStoreProductParameterAdNetworkTimestamp : fidelityParam.timestamp,
+    SKStoreProductParameterAdNetworkAttributionSignature : fidelityParam.signature,
   };
 }
 
@@ -93,13 +89,24 @@
     copy.version = self.version;
     copy.campaignId = self.campaignId;
     copy.iTunesItemId = self.iTunesItemId;
-    copy.nonce = self.nonce;
-    copy.timestamp = self.timestamp;
     copy.sourceAppId = self.sourceAppId;
-    copy.signature = self.signature;
+    copy.fidelities = self.fidelities;
   }
 
   return copy;
+}
+
+#pragma mark - Fidelity utils
+- (NSArray *)fidelitiesFromList:(NSArray *)list {
+  NSMutableArray *fidelities = [NSMutableArray new];
+  for (id item in list) {
+    CR_SKAdNetworkFidelityParameter *fidelity =
+        [[CR_SKAdNetworkFidelityParameter alloc] initWithDict:item];
+    if (fidelity) {
+      [fidelities addObject:fidelity];
+    }
+  }
+  return fidelities;
 }
 
 @end

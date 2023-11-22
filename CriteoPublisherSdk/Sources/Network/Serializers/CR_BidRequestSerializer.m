@@ -79,7 +79,7 @@
   postBody[CR_ApiQueryKeys.profileId] = cdbRequest.profileId;
   postBody[CR_ApiQueryKeys.id] = cdbRequest.requestGroupId;
   postBody[CR_ApiQueryKeys.publisher] = [self publisherWithConfig:config context:contextData];
-  postBody[CR_ApiQueryKeys.gdprConsent] = [self.gdprSerializer dictionaryForGdpr:consent.gdpr];
+  postBody[CR_ApiQueryKeys.gdprConsent] = [self.gdprSerializer dictionaryForGdpr:[consent gdpr]];
   postBody[CR_ApiQueryKeys.bidSlots] = [self slotsWithCdbRequest:cdbRequest config:config];
   postBody[CR_ApiQueryKeys.user] = [self userWithConsent:consent
                                                   config:config
@@ -122,7 +122,7 @@
   NSArray<NSString *> *skAdNetworkIds = [CRSKAdNetworkInfo skAdNetworkIds];
   if (skAdNetworkIds.count > 0) {
     userDict[CR_ApiQueryKeys.skAdNetwork] = @{
-      CR_ApiQueryKeys.skAdNetworkVersion : @"2.0",
+      CR_ApiQueryKeys.skAdNetworkVersion : [self skadNetworkSupportedVersions],
       CR_ApiQueryKeys.skAdNetworkIds : skAdNetworkIds
     };
   }
@@ -136,6 +136,7 @@
   publisher[CR_ApiQueryKeys.cpId] = config.criteoPublisherId;
   publisher[CR_ApiQueryKeys.ext] =
       [CR_BidRequestSerializer mergeToNestedStructure:@[ contextData.data ]];
+  publisher[CR_ApiQueryKeys.storeId] = config.storeId;
   return publisher;
 }
 
@@ -247,6 +248,23 @@
     }
   }
   return NO;
+}
+
+- (NSArray *)skadNetworkSupportedVersions {
+  NSMutableArray *versions = [NSMutableArray arrayWithObject:@"2.0"];
+  if (@available(iOS 14.0, *)) {
+    [versions addObject:@"2.1"];
+  }
+
+  if (@available(iOS 14.5, *)) {
+    [versions addObject:@"2.2"];
+  }
+
+  if (@available(iOS 14.6, *)) {
+    [versions addObject:@"3.0"];
+  }
+
+  return versions;
 }
 
 @end

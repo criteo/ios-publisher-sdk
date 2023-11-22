@@ -43,7 +43,9 @@
             mediationParams:(CRGoogleMediationParameters *)params
      childDirectedTreatment:(NSNumber *)childDirectedTreatment {
   /// Set the publicher id to
-  [Criteo.sharedCriteo registerCriteoPublisherId:params.publisherId withAdUnits:@[ adUnit ]];
+  [Criteo.sharedCriteo registerCriteoPublisherId:params.publisherId
+                                     withStoreId:params.storeId
+                                     withAdUnits:@[ adUnit ]];
   /// Set child directed treatment flag to Criteo SDK.
   [Criteo.sharedCriteo setChildDirectedTreatment:childDirectedTreatment];
   if (self.bannerView == nil) {

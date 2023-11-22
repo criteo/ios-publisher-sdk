@@ -29,6 +29,12 @@ private struct CRMRAIDHandlerConstants {
 
 @objc
 public class CRMRAIDHandler: NSObject {
+    
+    private enum Constants {
+        static let updateDelay: CGFloat = 0.05
+        static let scriptHandlerName = "criteoMraidBridge"
+    }
+
     private let webView: WKWebView
     private var timer: Timer?
     private var isViewVisible: Bool = false
@@ -58,11 +64,82 @@ public class CRMRAIDHandler: NSObject {
         super.init()
         self.delegate = delegate
         self.messageHandler.delegate = self
-
+        
         DispatchQueue.main.async {
             self.webView.configuration.userContentController.add(self, name: "criteoMraidBridge")
         }
     }
+//=======
+//
+//  private unowned var webView: WKWebView
+//  private unowned var delegate: CRMRAIDHandlerDelegate
+//  private unowned var logger: CRMRAIDLogger
+//  private var timer: Timer?
+//  private var isViewVisible: Bool = false
+//  private var messageHandler: MRAIDMessageHandler
+//  private var state: MRAIDState = .loading
+//  private static let updateDelay: CGFloat = 0.05
+//  private var mraidBundle: Bundle? = CRMRAIDUtils.mraidResourceBundle()
+//
+//  @objc
+//  public init(
+//    with webView: WKWebView,
+//    criteoLogger: CRMRAIDLogger,
+//    urlOpener: CRExternalURLOpener,
+//    delegate: CRMRAIDHandlerDelegate
+//  ) {
+//    self.logger = criteoLogger
+//    self.webView = webView
+//    self.messageHandler = MRAIDMessageHandler(
+//      logHandler: MRAIDLogHandler(criteoLogger: criteoLogger),
+//      urlHandler: CRMRAIDURLHandler(with: criteoLogger, urlOpener: urlOpener))
+//    self.delegate = delegate
+//    
+//    super.init()
+//
+//    self.messageHandler.delegate = self
+//    DispatchQueue.main.async {
+//        self.webView.configuration.userContentController.add(self, name: Constants.scriptHandlerName)
+//    }
+//  }
+
+
+  @objc
+  public func send(error: String, action: String) {
+    evaluate(javascript: "window.mraid.notifyError(\"\(error)\",\"\(action)\");")
+  }
+
+  @objc
+  public func startViabilityNotifier() {
+    timer = Timer.scheduledTimer(
+      timeInterval: CRMRAIDHandlerConstants.viewabilityRefreshTime,
+      target: self,
+      selector: #selector(viewabilityCheck),
+      userInfo: nil,
+      repeats: true)
+    timer?.fire()
+  }
+
+  deinit {
+    onDealloc()
+  }
+
+  @objc
+  public func canLoadAd() -> Bool {
+    return state != .expanded
+  }
+
+  @objc
+  public func isExpanded() -> Bool {
+    return state == .expanded
+  }
+
+
+  @objc
+  public func inject(into html: String) -> String {
+    return CRMRAIDUtils.build(html: html, from: mraidBundle)
+  }
+
 
     @objc
     public func onAdLoad() {
@@ -80,36 +157,6 @@ public class CRMRAIDHandler: NSObject {
         registerDeviceOrientationListener()
     }
 
-    @objc
-    public func send(error: String, action: String) {
-        evaluate(javascript: "window.mraid.notifyError(\"\(error)\",\"\(action)\");")
-    }
-
-    @objc
-    public func startViabilityNotifier() {
-        timer = Timer.scheduledTimer(
-            timeInterval: CRMRAIDHandlerConstants.viewabilityRefreshTime,
-            target: self,
-            selector: #selector(viewabilityCheck),
-            userInfo: nil,
-            repeats: true)
-        timer?.fire()
-    }
-
-    deinit {
-        stopViabilityNotifier()
-        unregisterDeviceOrientationListener()
-    }
-
-    @objc
-    public func canLoadAd() -> Bool {
-        return state != .expanded
-    }
-
-    @objc
-    public func isExpanded() -> Bool {
-        return state == .expanded
-    }
 
     @objc
     public func onSuccessClose() {
@@ -119,10 +166,6 @@ public class CRMRAIDHandler: NSObject {
         state = (state == .expanded || state == .resized) ? .default : .hidden
     }
 
-    @objc
-    public func inject(into html: String) -> String {
-        return CRMRAIDUtils.build(html: html, from: mraidBundle)
-    }
 
     @objc
     public func injectMRAID() {
@@ -168,9 +211,17 @@ public class CRMRAIDHandler: NSObject {
     }
 
     @objc
-    public func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        guard let orientationProperties = self.orientationProperties else { return .all }
-        return orientationProperties.orientationMask
+      public func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+          guard let orientationProperties = self.orientationProperties else { return .all }
+          return orientationProperties.orientationMask
+      }
+
+
+    @objc
+    public func onDealloc() {
+        stopViabilityNotifier()
+        unregisterDeviceOrientationListener()
+        webView.configuration.userContentController.removeScriptMessageHandler(forName: Constants.scriptHandlerName)
     }
 }
 
@@ -378,5 +429,8 @@ extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
 extension CRMRAIDHandler: MRAIDResizeHandlerDelegate {
     func didCloseResizedAdView() {
         onSuccessClose()
+        delegate?.close { [weak self] in
+            self?.onSuccessClose()
+        }
     }
 }

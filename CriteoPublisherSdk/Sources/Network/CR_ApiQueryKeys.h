@@ -79,6 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(class, nonatomic, readonly) NSString *wrapperVersion;
 @property(class, nonatomic, readonly) NSString *zoneId;
 @property(class, nonatomic, readonly) NSString *regs;
+@property(class, nonatomic, readonly) NSString *storeId;
 
 /// Used to map childDirectedTreatment property.
 @property(class, nonatomic, readonly) NSString *coppa;

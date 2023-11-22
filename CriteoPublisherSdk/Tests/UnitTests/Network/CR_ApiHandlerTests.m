@@ -295,6 +295,7 @@
   NSDictionary *expected = @{
     CR_ApiQueryKeys.cpId : self.configMock.criteoPublisherId,
     CR_ApiQueryKeys.bundleId : self.configMock.appId,
+    CR_ApiQueryKeys.storeId : self.configMock.storeId,
     CR_ApiQueryKeys.ext : @{}
   };
 
@@ -314,7 +315,7 @@
     CR_ApiQueryKeys.userAgent : self.deviceInfoMock.userAgent,
     CR_ApiQueryKeys.uspIab : CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString,
     CR_ApiQueryKeys.skAdNetwork : @{
-      CR_ApiQueryKeys.skAdNetworkVersion : @"2.0",
+      CR_ApiQueryKeys.skAdNetworkVersion : @[ @"2.0", @"2.1", @"2.2", @"3.0" ],
       CR_ApiQueryKeys.skAdNetworkIds : @[ @"hs6bdukanm.skadnetwork" ]
     }
   };
@@ -337,7 +338,7 @@
     CR_ApiQueryKeys.userAgent : self.deviceInfoMock.userAgent,
     CR_ApiQueryKeys.uspIab : CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString,
     CR_ApiQueryKeys.skAdNetwork : @{
-      CR_ApiQueryKeys.skAdNetworkVersion : @"2.0",
+      CR_ApiQueryKeys.skAdNetworkVersion : @[ @"2.0", @"2.1", @"2.2", @"3.0" ],
       CR_ApiQueryKeys.skAdNetworkIds : @[ @"hs6bdukanm.skadnetwork" ]
     },
     CR_ApiQueryKeys.trackingAuthorizationStatus : @"3"
@@ -698,6 +699,8 @@
   OCMStub([mockConfig appEventsUrl]).andReturn(@"https://appevent.com");
   OCMStub([mockConfig appEventsSenderId]).andReturn(@"com.sdk.test");
   OCMStub([mockConfig isMraidEnabled]).andReturn(NO);
+  OCMStub([mockConfig isMraid2Enabled]).andReturn(NO);
+  OCMStub([mockConfig storeId]).andReturn(@("12"));
   return mockConfig;
 }
 

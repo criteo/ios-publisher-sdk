@@ -55,7 +55,7 @@
     [self.class setVerboseLogsEnabled:YES];
   }
 
-  CR_Gdpr *gdpr = self.dependencyProvider.consent.gdpr;
+  CR_Gdpr *gdpr = [self.dependencyProvider.consent gdpr];
   CRLogInfo(@"Consent", @"Initialized with TCF: %@", gdpr);
 }
 
@@ -93,16 +93,22 @@ static dispatch_once_t onceToken;
 }
 
 - (void)registerCriteoPublisherId:(NSString *)criteoPublisherId
+                      withStoreId:(NSString *)storeId
                       withAdUnits:(NSArray<CRAdUnit *> *)adUnits {
   if (criteoPublisherId == nil || criteoPublisherId.length == 0) {
     CRLogError(@"Registration", @"Invalid Criteo publisher ID: \"%@\"", criteoPublisherId);
+  }
+  if (storeId == nil || storeId.length == 0) {
+    CRLogError(@"Registration", @"Invalid store ID: \"%@\"", storeId);
   }
   @synchronized(self) {
     if (!self.isRegistered) {
       self.registered = true;
       @try {
         [self.dependencyProvider.threadManager dispatchAsyncOnGlobalQueue:^{
-          [self _registerCriteoPublisherId:criteoPublisherId withAdUnits:adUnits];
+          [self _registerCriteoPublisherId:criteoPublisherId
+                               withStoreId:storeId
+                               withAdUnits:adUnits];
           CRLogInfo(@"Registration",
                     @"Criteo SDK version %@ is registered with Publisher ID %@ and %d ad units: %@",
                     CRITEO_PUBLISHER_SDK_VERSION, criteoPublisherId, adUnits.count, adUnits);
@@ -187,8 +193,10 @@ static dispatch_once_t onceToken;
 }
 
 - (void)_registerCriteoPublisherId:(NSString *)criteoPublisherId
+                       withStoreId:(NSString *)storeId
                        withAdUnits:(NSArray<CRAdUnit *> *)adUnits {
   self.config.criteoPublisherId = criteoPublisherId;
+  self.config.storeId = storeId;
   [self.appEvents registerForIosEvents];
   [self.appEvents sendLaunchEvent];
   [self.configManager refreshConfig:self.config];

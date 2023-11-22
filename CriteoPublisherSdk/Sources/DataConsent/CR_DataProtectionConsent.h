@@ -34,11 +34,6 @@ FOUNDATION_EXTERN NSString *const CR_DataProtectionConsentGivenKey;
 @interface CR_DataProtectionConsent : NSObject
 
 /**
- Object that handle all the GDPR logic.
- */
-@property(strong, nonatomic, readonly) CR_Gdpr *gdpr;
-
-/**
  * Nullable ATTrackingManagerAuthorizationStatus
  *
  * Device before iOS 14 returns nil
@@ -68,6 +63,8 @@ FOUNDATION_EXTERN NSString *const CR_DataProtectionConsentGivenKey;
 
 - (instancetype)init;
 - (instancetype)initWithUserDefaults:(NSUserDefaults *)userDefaults NS_DESIGNATED_INITIALIZER;
+
+- (CR_Gdpr *)gdpr;
 
 @end
 
