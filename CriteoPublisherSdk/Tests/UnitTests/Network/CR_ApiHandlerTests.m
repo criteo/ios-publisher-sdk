@@ -315,7 +315,7 @@
     CR_ApiQueryKeys.userAgent : self.deviceInfoMock.userAgent,
     CR_ApiQueryKeys.uspIab : CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString,
     CR_ApiQueryKeys.skAdNetwork : @{
-      CR_ApiQueryKeys.skAdNetworkVersion : @[ @"2.0", @"2.1", @"2.2" ],
+      CR_ApiQueryKeys.skAdNetworkVersion : @[ @"2.0", @"2.1", @"2.2", @"3.0" ],
       CR_ApiQueryKeys.skAdNetworkIds : @[ @"hs6bdukanm.skadnetwork" ]
     }
   };
@@ -338,7 +338,7 @@
     CR_ApiQueryKeys.userAgent : self.deviceInfoMock.userAgent,
     CR_ApiQueryKeys.uspIab : CR_DataProtectionConsentMockDefaultUsPrivacyIabConsentString,
     CR_ApiQueryKeys.skAdNetwork : @{
-      CR_ApiQueryKeys.skAdNetworkVersion : @[ @"2.0", @"2.1", @"2.2" ],
+      CR_ApiQueryKeys.skAdNetworkVersion : @[ @"2.0", @"2.1", @"2.2", @"3.0" ],
       CR_ApiQueryKeys.skAdNetworkIds : @[ @"hs6bdukanm.skadnetwork" ]
     },
     CR_ApiQueryKeys.trackingAuthorizationStatus : @"3"
