@@ -246,6 +246,10 @@
     [versions addObject:@"2.2"];
   }
 
+  if (@available(iOS 14.6, *)) {
+    [versions addObject:@"3.0"];
+  }
+
   return versions;
 }
 
