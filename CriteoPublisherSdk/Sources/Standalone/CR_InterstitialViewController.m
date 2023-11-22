@@ -66,6 +66,10 @@
   [self applySafeAreaConstraintsToCloseButton:self.closeButton];
   [self.webView layoutIfNeeded];
   _hasBeenDismissed = NO;
+
+  if (@available(iOS 14.5, *)) {
+    [self.interstitial startSKAdImpression];
+  }
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -77,6 +81,10 @@
   [self.webView setNavigationDelegate:nil];
   [self setWebView:nil];
   [self.interstitial setIsAdLoaded:NO];
+
+  if (@available(iOS 14.5, *)) {
+    [self.interstitial endSKAdImpression];
+  }
 }
 
 - (void)initCloseButton {
@@ -135,6 +143,9 @@
       [self.interstitial.delegate interstitialWillDisappear:self.interstitial];
     }
   });
+  if (completion) {
+    completion();
+  }
   [self.presentingViewController
       dismissViewControllerAnimated:YES
                          completion:^{
@@ -143,9 +154,6 @@
                                      respondsToSelector:@selector(interstitialDidDisappear:)]) {
                                [self.interstitial.delegate
                                    interstitialDidDisappear:self.interstitial];
-                             }
-                             if (completion) {
-                               completion();
                              }
                            });
                          }];

@@ -25,9 +25,9 @@ public protocol MRAIDMessageHandlerDelegate: AnyObject {
 }
 
 public struct MRAIDMessageHandler {
-  private let logHandler: MRAIDLogHandler
-  private let urlHandler: MRAIDURLHandler
-  public weak var delegate: MRAIDMessageHandlerDelegate?
+  private unowned var logHandler: MRAIDLogHandler
+  private unowned var urlHandler: MRAIDURLHandler
+  public unowned var delegate: MRAIDMessageHandlerDelegate!
 
   public init(logHandler: MRAIDLogHandler, urlHandler: MRAIDURLHandler) {
     self.logHandler = logHandler
@@ -42,7 +42,7 @@ public struct MRAIDMessageHandler {
       case .log: logHandler.handle(data: data)
       case .open: urlHandler.handle(data: data)
       case .expand: handleExpand(message: data)
-      case .close: delegate?.didReceiveCloseAction()
+      case .close: delegate.didReceiveCloseAction()
       case .none: break
       }
     } catch {
@@ -61,7 +61,7 @@ extension MRAIDMessageHandler {
   fileprivate func handleExpand(message data: Data) {
     do {
       let expandMessage = try JSONDecoder().decode(MRAIDExpandMessage.self, from: data)
-      delegate?.didReceive(expand: expandMessage)
+      delegate.didReceive(expand: expandMessage)
     } catch {
       logHandler.handle(
         log: .init(

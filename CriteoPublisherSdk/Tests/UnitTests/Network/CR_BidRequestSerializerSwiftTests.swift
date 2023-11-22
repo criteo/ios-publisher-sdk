@@ -99,7 +99,7 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
     XCTAssertEqual(user?["ext"] as? NSDictionary, NSDictionary())
     XCTAssertEqual(
       user?["skAdNetwork"] as? NSDictionary,
-      ["version": "2.0", "skAdNetworkIds": ["hs6bdukanm.skadnetwork"]] as? NSDictionary)
+      ["versions": ["2.0", "2.1", "2.2"], "skAdNetworkIds": ["hs6bdukanm.skadnetwork"]] as? NSDictionary)
   }
 
   func testBodyWithUsPrivacyConsentString() {
