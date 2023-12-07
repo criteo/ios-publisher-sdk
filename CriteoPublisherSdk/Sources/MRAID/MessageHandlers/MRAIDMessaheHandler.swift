@@ -56,7 +56,8 @@ public struct MRAIDMessageHandler {
             case .expand: handleExpand(message: data, action: actionMessage.action)
             case .playVideo: handlePlayVideo(message: data, action: actionMessage.action)
             case .resize: handleResize(message: data, action: actionMessage.action)
-            case .orientationPropertiesUpdate: handleOrientationPropertiesUpdate(message: data, action: actionMessage.action)
+            case .orientationPropertiesUpdate, .orientationPropertiesSet:
+                handleOrientationPropertiesUpdate(message: data, action: actionMessage.action)
             case .none: break
             }
         } catch {

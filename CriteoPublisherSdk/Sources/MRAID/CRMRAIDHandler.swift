@@ -68,42 +68,12 @@ public class CRMRAIDHandler: NSObject {
         DispatchQueue.main.async {
             self.webView.configuration.userContentController.add(self, name: "criteoMraidBridge")
         }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.didReceive(resize: .init(action: .resize, width: 600, height: 400, offsetX: 30, offsetY: 30, customClosePosition: .topLeft, allowOffscreen: false))
+        }
     }
-//=======
-//
-//  private unowned var webView: WKWebView
-//  private unowned var delegate: CRMRAIDHandlerDelegate
-//  private unowned var logger: CRMRAIDLogger
-//  private var timer: Timer?
-//  private var isViewVisible: Bool = false
-//  private var messageHandler: MRAIDMessageHandler
-//  private var state: MRAIDState = .loading
-//  private static let updateDelay: CGFloat = 0.05
-//  private var mraidBundle: Bundle? = CRMRAIDUtils.mraidResourceBundle()
-//
-//  @objc
-//  public init(
-//    with webView: WKWebView,
-//    criteoLogger: CRMRAIDLogger,
-//    urlOpener: CRExternalURLOpener,
-//    delegate: CRMRAIDHandlerDelegate
-//  ) {
-//    self.logger = criteoLogger
-//    self.webView = webView
-//    self.messageHandler = MRAIDMessageHandler(
-//      logHandler: MRAIDLogHandler(criteoLogger: criteoLogger),
-//      urlHandler: CRMRAIDURLHandler(with: criteoLogger, urlOpener: urlOpener))
-//    self.delegate = delegate
-//    
-//    super.init()
-//
-//    self.messageHandler.delegate = self
-//    DispatchQueue.main.async {
-//        self.webView.configuration.userContentController.add(self, name: Constants.scriptHandlerName)
-//    }
-//  }
-
-
+    
   @objc
   public func send(error: String, action: String) {
     evaluate(javascript: "window.mraid.notifyError(\"\(error)\",\"\(action)\");")
@@ -216,7 +186,6 @@ public class CRMRAIDHandler: NSObject {
           return orientationProperties.orientationMask
       }
 
-
     @objc
     public func onDealloc() {
         stopViabilityNotifier()
@@ -326,6 +295,10 @@ fileprivate extension CRMRAIDHandler {
         evaluate(javascript: "window.mraid.notifyClosed();")
     }
 
+    func notifyResized() {
+        evaluate(javascript: "window.mraid.setResized();")
+    }
+
     func registerDeviceOrientationListener() {
         NotificationCenter.default.addObserver(
             self, selector: #selector(deviceOrientationDidChange),
@@ -404,6 +377,7 @@ extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
         do {
             try resizeHandler.resize(delegate: self)
             state = .resized
+            notifyResized()
         } catch {
             logger.mraidLog(error: "Could not resize ad.")
         }
@@ -428,7 +402,6 @@ extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
 
 extension CRMRAIDHandler: MRAIDResizeHandlerDelegate {
     func didCloseResizedAdView() {
-        onSuccessClose()
         delegate?.close { [weak self] in
             self?.onSuccessClose()
         }

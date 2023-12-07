@@ -32,4 +32,5 @@ public enum Action: String, Decodable {
   case playVideo = "play_video"
   case resize
   case orientationPropertiesUpdate = "orientation_properties_update"
+  case orientationPropertiesSet = "set_orientation_properties"
 }

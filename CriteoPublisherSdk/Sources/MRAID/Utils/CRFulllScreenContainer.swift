@@ -177,6 +177,7 @@ extension CRFulllScreenContainer {
     webViewBannerContainer = webView.superview
     // 2. remove all constraints
     webView.removeFromSuperview()
+    closeButton.removeFromSuperview()
     // 3. add webview to new container
     view.addSubview(webView)
     view.addSubview(closeButton)
@@ -196,6 +197,7 @@ extension CRFulllScreenContainer {
   }
 
   fileprivate func referenceViewForCloseButton(for size: CGSize) -> UIView {
+    if size.width <= 0 || size.height <= 0 { return view }
     return (view.frame.width < size.width || view.frame.height < webViewSize.height)
       ? view : webView
   }

@@ -396,7 +396,7 @@
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return [_mraidHandler supportedInterfaceOrientations];
+  return [_mraidHandler supportedInterfaceOrientations];
 }
 
 #pragma SKAdImpression
