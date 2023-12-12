@@ -34,8 +34,7 @@ extension UIView {
     }
 
     public var isVisibleToUser: Bool {
-
-        if isHidden || alpha == 0 || superview == nil {
+        if isHidden || alpha == 0 || superview == nil || window == nil {
             return false
         }
 
@@ -44,21 +43,9 @@ extension UIView {
         }
 
         let viewFrame = convert(bounds, to: rootViewController.view)
+        let rootRectange = CGRect(origin: .zero, size: rootViewController.view.bounds.size)
 
-        let topSafeArea: CGFloat
-        let bottomSafeArea: CGFloat
-
-        if #available(iOS 11.0, *) {
-            topSafeArea = rootViewController.view.safeAreaInsets.top
-            bottomSafeArea = rootViewController.view.safeAreaInsets.bottom
-        } else {
-            topSafeArea = rootViewController.topLayoutGuide.length
-            bottomSafeArea = rootViewController.bottomLayoutGuide.length
-        }
-
-        return viewFrame.minX >= 0 && viewFrame.maxX <= rootViewController.view.bounds.width
-        && viewFrame.minY >= topSafeArea
-        && viewFrame.maxY <= rootViewController.view.bounds.height - bottomSafeArea
+        return rootRectange.intersects(viewFrame)
     }
 
     @objc

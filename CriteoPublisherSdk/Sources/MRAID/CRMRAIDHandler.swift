@@ -68,10 +68,6 @@ public class CRMRAIDHandler: NSObject {
         DispatchQueue.main.async {
             self.webView.configuration.userContentController.add(self, name: "criteoMraidBridge")
         }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.didReceive(resize: .init(action: .resize, width: 600, height: 400, offsetX: 30, offsetY: 30, customClosePosition: .topLeft, allowOffscreen: false))
-        }
     }
     
   @objc
@@ -183,7 +179,7 @@ public class CRMRAIDHandler: NSObject {
     @objc
       public func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
           guard let orientationProperties = self.orientationProperties else { return .all }
-          return orientationProperties.orientationMask
+          return orientationProperties.supportedOrietationMask
       }
 
     @objc
@@ -296,7 +292,7 @@ fileprivate extension CRMRAIDHandler {
     }
 
     func notifyResized() {
-        evaluate(javascript: "window.mraid.setResized();")
+        evaluate(javascript: "window.mraid.notifyResized();")
     }
 
     func registerDeviceOrientationListener() {
@@ -330,6 +326,23 @@ extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
             self.state = .expanded
             self.setCurrentPosition()
             self.notifyExpanded()
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.onSetOrientation()
+        }
+    }
+
+    func onSetOrientation() {
+        if #available(iOS 16.0, *) {
+            if let window = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                window.requestGeometryUpdate(.iOS(interfaceOrientations: orientationProperties?.orientationMask ?? .all))
+            } else if let parentViewController = webView.cr_parentViewController() {
+                parentViewController.setNeedsUpdateOfSupportedInterfaceOrientations()
+            }
+        } else if let interfaceOrientation = orientationProperties?.orientationMask {
+            UIDevice.current.setValue(interfaceOrientation.rawValue, forKey: "orientation")
+            UIViewController.attemptRotationToDeviceOrientation()
         }
     }
 
@@ -386,24 +399,13 @@ extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
     public func didReceive(orientation properties: MRAIDOrientationPropertiesMessage) {
         orientationProperties = MRAIDOrientationProperties(allowOrientationChange: properties.allowOrientationChange,
                                                            forceOrientation: properties.forceOrientation)
-        guard
-            (placementType == .interstitial || state == .expanded),
-            let parentViewController = webView.cr_parentViewController()
-        else { return }
-
-        if #available(iOS 16.0, *) {
-            parentViewController.setNeedsUpdateOfSupportedInterfaceOrientations()
-        } else if let interfaceOrientation = properties.forceOrientation.interfaceOrientation {
-            UIDevice.current.setValue(interfaceOrientation.rawValue, forKey: "orientation")
-            UIViewController.attemptRotationToDeviceOrientation()
-        }
+        guard placementType == .interstitial || state == .expanded else { return }
+        onSetOrientation()
     }
 }
 
 extension CRMRAIDHandler: MRAIDResizeHandlerDelegate {
     func didCloseResizedAdView() {
-        delegate?.close { [weak self] in
-            self?.onSuccessClose()
-        }
+        onSuccessClose()
     }
 }

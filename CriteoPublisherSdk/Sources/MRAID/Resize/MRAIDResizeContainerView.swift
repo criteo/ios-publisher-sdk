@@ -41,10 +41,6 @@ final class MRAIDResizeContainerView: UIView {
         setup()
     }
 
-    deinit {
-        debugPrint(#function)
-    }
-
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -57,8 +53,8 @@ final class MRAIDResizeContainerView: UIView {
         NSLayoutConstraint.activate([
             resizeView.heightAnchor.constraint(equalToConstant: CGFloat(resizeMessage.height)),
             resizeView.widthAnchor.constraint(equalToConstant: CGFloat(resizeMessage.width)),
-            resizeView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: CGFloat(resizeMessage.offsetY)),
-            resizeView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: CGFloat(resizeMessage.offsetX))
+            resizeView.topAnchor.constraint(equalTo: containerView.safeAreaLayoutGuide.topAnchor, constant: CGFloat(resizeMessage.offsetY)),
+            resizeView.leadingAnchor.constraint(equalTo: containerView.safeAreaLayoutGuide.leadingAnchor, constant: CGFloat(resizeMessage.offsetX))
         ])
     }
 }
@@ -93,7 +89,8 @@ private extension MRAIDResizeContainerView {
         let closeAreaView = UIView()
         closeAreaView.translatesAutoresizingMaskIntoConstraints = false
         container.addSubview(closeAreaView)
-        closeAreaView.backgroundColor = .clear
+        closeAreaView.backgroundColor = .red
+        let safeAreaLayout = container.safeAreaLayoutGuide
 
         /// set the dimension of the close area
         NSLayoutConstraint.activate([
@@ -103,32 +100,32 @@ private extension MRAIDResizeContainerView {
         /// set the position according to custom close position
         switch customClosePosition {
         case .topLeft: NSLayoutConstraint.activate([
-            closeAreaView.leadingAnchor.constraint(equalTo: container.leadingAnchor),
-            closeAreaView.topAnchor.constraint(equalTo: container.topAnchor)
+            closeAreaView.leadingAnchor.constraint(equalTo: safeAreaLayout.leadingAnchor),
+            closeAreaView.topAnchor.constraint(equalTo: safeAreaLayout.topAnchor)
         ])
         case .topRight: NSLayoutConstraint.activate([
-            closeAreaView.trailingAnchor.constraint(equalTo: container.trailingAnchor),
-            closeAreaView.topAnchor.constraint(equalTo: container.topAnchor)
+            closeAreaView.trailingAnchor.constraint(equalTo: safeAreaLayout.trailingAnchor),
+            closeAreaView.topAnchor.constraint(equalTo: safeAreaLayout.topAnchor)
         ])
         case .center: NSLayoutConstraint.activate([
-            closeAreaView.centerXAnchor.constraint(equalTo: container.centerXAnchor),
-            closeAreaView.centerYAnchor.constraint(equalTo: container.centerYAnchor)
+            closeAreaView.centerXAnchor.constraint(equalTo: safeAreaLayout.centerXAnchor),
+            closeAreaView.centerYAnchor.constraint(equalTo: safeAreaLayout.centerYAnchor)
         ])
         case .bottomLeft: NSLayoutConstraint.activate([
-            closeAreaView.leadingAnchor.constraint(equalTo: container.leadingAnchor),
-            closeAreaView.bottomAnchor.constraint(equalTo: container.bottomAnchor)
+            closeAreaView.leadingAnchor.constraint(equalTo: safeAreaLayout.leadingAnchor),
+            closeAreaView.bottomAnchor.constraint(equalTo: safeAreaLayout.bottomAnchor)
         ])
         case .bottomRight: NSLayoutConstraint.activate([
-            closeAreaView.trailingAnchor.constraint(equalTo: container.trailingAnchor),
-            closeAreaView.bottomAnchor.constraint(equalTo: container.bottomAnchor)
+            closeAreaView.trailingAnchor.constraint(equalTo: safeAreaLayout.trailingAnchor),
+            closeAreaView.bottomAnchor.constraint(equalTo: safeAreaLayout.bottomAnchor)
         ])
         case .topCenter: NSLayoutConstraint.activate([
-            closeAreaView.centerXAnchor.constraint(equalTo: container.centerXAnchor),
-            closeAreaView.topAnchor.constraint(equalTo: container.topAnchor)
+            closeAreaView.centerXAnchor.constraint(equalTo: safeAreaLayout.centerXAnchor),
+            closeAreaView.topAnchor.constraint(equalTo: safeAreaLayout.topAnchor)
         ])
         case .bottomCenter: NSLayoutConstraint.activate([
-            closeAreaView.centerXAnchor.constraint(equalTo: container.centerXAnchor),
-            closeAreaView.bottomAnchor.constraint(equalTo: container.bottomAnchor)
+            closeAreaView.centerXAnchor.constraint(equalTo: safeAreaLayout.centerXAnchor),
+            closeAreaView.bottomAnchor.constraint(equalTo: safeAreaLayout.bottomAnchor)
         ])
         }
 

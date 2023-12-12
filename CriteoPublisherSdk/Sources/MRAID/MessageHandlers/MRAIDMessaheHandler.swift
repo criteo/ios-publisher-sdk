@@ -85,7 +85,7 @@ fileprivate extension MRAIDMessageHandler {
 
     func handleResize(message data: Data, action: Action) {
         guard let resizeMessage: MRAIDResizeMessage = extractMessage(from: data, action: action) else { return }
-        delegate?.didReceive(resize: resizeMessage)
+            delegate?.didReceive(resize: resizeMessage)
     }
 
     func handleOrientationPropertiesUpdate(message data: Data, action: Action) {

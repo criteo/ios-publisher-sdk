@@ -25,8 +25,4 @@ public protocol CRMRAIDHandlerDelegate: AnyObject {
     optional
     func expand(width: Int, height: Int, url: URL?, completion: VoidCompletion?)
     func close(completion: VoidCompletion?)
-
-//    @objc
-//    optional
-//    func resize(with: MRAIDResizeMessage)
 }

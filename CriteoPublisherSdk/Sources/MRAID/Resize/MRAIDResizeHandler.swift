@@ -56,10 +56,17 @@ struct MRAIDResizeHandler {
         }
 
         try verifyMinSize(message: resizeMessage)
-        try verifyOutOfTheBounds(container: topView.frame.size,
+        let offset = try verifyOutOfTheBounds(container: topView.frame.size,
                                  message: resizeMessage,
                                  autoRotate: rootViewController.shouldAutorotate)
-        try MRAIDResizeContainerView.show(webView: webView, with: resizeMessage, delegate: delegate)
+
+        let updatedResizeMessage = MRAIDResizeMessage(action: resizeMessage.action,
+                                                      width: resizeMessage.width,
+                                                      height: resizeMessage.height,
+                                                      offsetX: Int(offset.width), offsetY: Int(offset.height),
+                                                      customClosePosition: resizeMessage.customClosePosition,
+                                                      allowOffscreen: resizeMessage.allowOffscreen)
+        try MRAIDResizeContainerView.show(webView: webView, with: updatedResizeMessage, delegate: delegate)
     }
 
     func verifyMinSize(message: MRAIDResizeMessage) throws {
@@ -70,7 +77,7 @@ struct MRAIDResizeHandler {
         }
     }
 
-    func verifyOutOfTheBounds(container size: CGSize, message: MRAIDResizeMessage, autoRotate: Bool) throws {
+    func verifyOutOfTheBounds(container size: CGSize, message: MRAIDResizeMessage, autoRotate: Bool) throws -> CGSize {
         let containerHeight = Int(size.height)
         let containerWidth = Int(size.width)
 
@@ -78,17 +85,28 @@ struct MRAIDResizeHandler {
             try verifyCloseAreaOutOfBounds(container: size,
                                            message: message,
                                            autoRotate: autoRotate)
-        } else if autoRotate {
-            /// In case orientation change is supported check if the height doesn't exceed the width as well (same for width).
-            if
-                message.height > containerHeight ||
-                message.height > containerWidth ||
-                message.width > containerWidth ||
-                message.width > containerHeight {
-                    throw ResizeError.exceedingMaxSize
-                }
-        } else if message.height > containerHeight || message.width > containerWidth {
-            throw ResizeError.exceedingMaxSize
+            return .init(width: message.offsetX, height: message.offsetY)
+
+        } else {
+            /// verify if the new size exceeds the container size
+            /// ignore autoRotate because we cannot fix all position issues. in case it doesn't the container in one orientation then the ad will be partially off screen.
+            if message.height > containerHeight || message.width > containerWidth {
+                throw ResizeError.exceedingMaxSize
+            }
+
+            /// verify if the new position doesn't set the ad container off screen, in case it does then adjust the offset values.
+            var offsetX = message.offsetX < 0 ? 0 : message.offsetX
+            var offsetY = message.offsetY < 0 ? 0 : message.offsetY
+
+            if offsetX + message.width > containerWidth {
+                offsetX = offsetX - (offsetX + message.width - containerWidth)
+            }
+
+            if offsetY + message.height > containerHeight {
+                offsetY = offsetY - (offsetY + message.height - containerHeight)
+            }
+
+            return .init(width: offsetX, height: offsetY)
         }
     }
 

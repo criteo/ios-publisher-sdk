@@ -28,15 +28,19 @@ public struct MRAIDOrientationPropertiesMessage: Decodable {
 public struct MRAIDOrientationProperties {
     let allowOrientationChange: Bool
     let orientationMask: UIInterfaceOrientationMask
+    let supportedOrietationMask: UIInterfaceOrientationMask
 
     public init(allowOrientationChange: Bool, forceOrientation: MRAIDDeviceOrientation) {
         self.allowOrientationChange = allowOrientationChange
         self.orientationMask = MRAIDOrientationProperties.orientationMask(for: forceOrientation)
+        self.supportedOrietationMask = allowOrientationChange ? [.all] : MRAIDOrientationProperties.orientationMask(for: forceOrientation)
     }
 
     public init(allowOrientationChange: Bool, orientationMask: UIInterfaceOrientationMask) {
         self.allowOrientationChange = allowOrientationChange
         self.orientationMask = orientationMask
+        self.supportedOrietationMask = orientationMask
+
     }
 
     public static func orientationMask(for orientation: MRAIDDeviceOrientation) -> UIInterfaceOrientationMask {
