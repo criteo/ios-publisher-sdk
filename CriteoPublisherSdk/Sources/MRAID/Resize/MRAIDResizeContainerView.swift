@@ -53,8 +53,8 @@ final class MRAIDResizeContainerView: UIView {
         NSLayoutConstraint.activate([
             resizeView.heightAnchor.constraint(equalToConstant: CGFloat(resizeMessage.height)),
             resizeView.widthAnchor.constraint(equalToConstant: CGFloat(resizeMessage.width)),
-            resizeView.topAnchor.constraint(equalTo: containerView.safeAreaLayoutGuide.topAnchor, constant: CGFloat(resizeMessage.offsetY)),
-            resizeView.leadingAnchor.constraint(equalTo: containerView.safeAreaLayoutGuide.leadingAnchor, constant: CGFloat(resizeMessage.offsetX))
+            resizeView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: CGFloat(resizeMessage.offsetY)),
+            resizeView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: CGFloat(resizeMessage.offsetX))
         ])
     }
 }
