@@ -33,6 +33,7 @@ public class CRMRAIDHandler: NSObject {
     private enum Constants {
         static let updateDelay: CGFloat = 0.05
         static let scriptHandlerName = "criteoMraidBridge"
+        static let onLoadDelay: CGFloat = 0.2
     }
 
     private let webView: WKWebView
@@ -46,6 +47,8 @@ public class CRMRAIDHandler: NSObject {
     private var mraidBundle: Bundle? = CRMRAIDUtils.mraidResourceBundle()
     private let placementType: CRPlacementType
     private var orientationProperties: MRAIDOrientationProperties?
+    private var webViewContainer: UIView?
+    private var resizeHandler: MRAIDResizeHandler!
 
     @objc
     public init(
@@ -64,7 +67,8 @@ public class CRMRAIDHandler: NSObject {
         super.init()
         self.delegate = delegate
         self.messageHandler.delegate = self
-        
+        self.resizeHandler = MRAIDResizeHandler(webView: webView, delegate: self)
+
         DispatchQueue.main.async {
             self.webView.configuration.userContentController.add(self, name: "criteoMraidBridge")
         }
@@ -109,18 +113,20 @@ public class CRMRAIDHandler: NSObject {
 
     @objc
     public func onAdLoad() {
-        state = .default
-        DispatchQueue.main.async { [weak self] in
+        setDefaultSupportedOrientationMask()
+        registerDeviceOrientationListener()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + Constants.onLoadDelay) { [weak self] in
             guard let self = self else { return }
-            self.setDefaultSupportedOrientationMask()
+
+            self.state = .default
             self.setMaxSize()
             self.setScreen(size: UIScreen.main.bounds.size)
             self.setCurrentPosition()
             self.setSupportedFeatures()
             self.sendReadyEvent(with: self.placementType.placementTypeString)
+            self.startViabilityNotifier()
         }
-        startViabilityNotifier()
-        registerDeviceOrientationListener()
     }
 
 
@@ -272,6 +278,7 @@ fileprivate extension CRMRAIDHandler {
     }
 
     func evaluate(javascript: String) {
+        debugPrint("js: \(javascript)")
         webView.evaluateJavaScript(javascript, completionHandler: handleJSCallback)
     }
 
@@ -318,17 +325,18 @@ extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
     public func didReceive(expand action: MRAIDExpandMessage) {
         guard state != .expanded else { return }
 
+        if state == .resized {
+            resizeHandler.close()
+        }
+
         delegate?.expand?(width: action.width, height: action.width, url: action.url) { [weak self] in
             self?.onSuccessClose()
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + CRMRAIDHandler.updateDelay) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + Constants.updateDelay) {
             self.state = .expanded
             self.setCurrentPosition()
             self.notifyExpanded()
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.onSetOrientation()
         }
     }
@@ -381,14 +389,17 @@ extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
 
         }
 
-        let resizeHandler = MRAIDResizeHandler(webView: webView, resizeMessage: action, mraidState: state)
-        guard resizeHandler.canResize() else {
+        guard resizeHandler.canResize(mraidState: state) else {
             logger.mraidLog(error: "Resize action can be execute only on default or resized states")
             return
         }
 
+        if state == .default {
+            webViewContainer = webView.superview
+        }
+
         do {
-            try resizeHandler.resize(delegate: self)
+            try resizeHandler.resize(with: action, webViewContainer: webViewContainer)
             state = .resized
             notifyResized()
         } catch {
@@ -405,7 +416,7 @@ extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
 }
 
 extension CRMRAIDHandler: MRAIDResizeHandlerDelegate {
-    func didCloseResizedAdView() {
+    public func didCloseResizedAdView() {
         onSuccessClose()
     }
 }

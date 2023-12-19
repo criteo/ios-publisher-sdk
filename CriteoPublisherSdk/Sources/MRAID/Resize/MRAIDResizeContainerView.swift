@@ -20,7 +20,11 @@
 import UIKit
 import WebKit
 
-final class MRAIDResizeContainerView: UIView {
+protocol MRAIDClosableView {
+    func closeView()
+}
+
+final class MRAIDResizeContainerView: UIView, MRAIDClosableView {
     private enum Constants {
         static let closeAreaHeight: CGFloat = 50
         static let closeAreaWidth: CGFloat = 50
@@ -32,10 +36,14 @@ final class MRAIDResizeContainerView: UIView {
     private weak var webViewBannerContainer: UIView?
     private let delegate: MRAIDResizeHandlerDelegate
 
-    public init(with resizeMessage: MRAIDResizeMessage, webView: WKWebView, delegate: MRAIDResizeHandlerDelegate) throws {
+    public init(with resizeMessage: MRAIDResizeMessage,
+                webView: WKWebView,
+                delegate: MRAIDResizeHandlerDelegate,
+                webViewContainer: UIView?) throws {
         self.resizeMessage = resizeMessage
         self.webView = webView
         self.delegate = delegate
+        self.webViewBannerContainer = webViewContainer
         super.init(frame: .zero)
 
         setup()
@@ -45,9 +53,15 @@ final class MRAIDResizeContainerView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    static func show(webView: WKWebView, with resizeMessage: MRAIDResizeMessage, delegate: MRAIDResizeHandlerDelegate) throws {
+    static func show(webView: WKWebView, 
+                     with resizeMessage: MRAIDResizeMessage,
+                     delegate: MRAIDResizeHandlerDelegate,
+                     webViewContainer: UIView?) throws -> UIView {
         guard let containerView = webView.cr_rootViewController()?.view else { throw MRAIDResizeHandler.ResizeError.missingParentViewReference }
-        let resizeView = try MRAIDResizeContainerView(with: resizeMessage, webView: webView, delegate: delegate)
+        let resizeView = try MRAIDResizeContainerView(with: resizeMessage,
+                                                      webView: webView,
+                                                      delegate: delegate,
+                                                      webViewContainer: webViewContainer)
 
         containerView.addSubview(resizeView)
         NSLayoutConstraint.activate([
@@ -56,6 +70,21 @@ final class MRAIDResizeContainerView: UIView {
             resizeView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: CGFloat(resizeMessage.offsetY)),
             resizeView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: CGFloat(resizeMessage.offsetX))
         ])
+        return resizeView
+    }
+
+    @objc
+    func closeView() {
+        /// remove from current container
+        guard let container = webViewBannerContainer else { return }
+        webView.removeAllConstraints()
+        webView.removeFromSuperview()
+        /// add webView back to banner container
+        container.addSubview(webView)
+        webView.fill(in: container)
+        /// remove resized container from parent view and notify mraid handler about close completion
+        removeFromSuperview()
+        delegate.didCloseResizedAdView()
     }
 }
 
@@ -63,7 +92,6 @@ final class MRAIDResizeContainerView: UIView {
 private extension MRAIDResizeContainerView {
     func setup() {
         translatesAutoresizingMaskIntoConstraints = false
-        webViewBannerContainer = webView.superview
         /// remove from current container
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.removeAllConstraints()
@@ -82,7 +110,7 @@ private extension MRAIDResizeContainerView {
 
     func initCloseAreaView() {
         closeAreaView = injectCloseArea(into: self, customClosePosition: resizeMessage.customClosePosition)
-        closeAreaView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(close)))
+        closeAreaView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(closeView)))
     }
 
     func injectCloseArea(into container: UIView, customClosePosition: MRAIDCustomClosePosition) -> UIView {
@@ -130,19 +158,5 @@ private extension MRAIDResizeContainerView {
         }
 
         return closeAreaView
-    }
-
-    @objc
-    func close() {
-        /// remove from current container
-        guard let container = webViewBannerContainer else { return }
-        webView.removeAllConstraints()
-        webView.removeFromSuperview()
-        /// add webView back to banner container
-        container.addSubview(webView)
-        webView.fill(in: container)
-        /// remove resized container from parent view and notify mraid handler about close completion
-        removeFromSuperview()
-        delegate.didCloseResizedAdView()
     }
 }

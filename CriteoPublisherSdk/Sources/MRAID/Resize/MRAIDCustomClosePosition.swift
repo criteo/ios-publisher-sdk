@@ -19,7 +19,7 @@
 
 import Foundation
 
-enum MRAIDCustomClosePosition: String, Decodable {
+public enum MRAIDCustomClosePosition: String, Decodable {
     case topLeft = "top-left"
     case topRight = "top-right"
     case center

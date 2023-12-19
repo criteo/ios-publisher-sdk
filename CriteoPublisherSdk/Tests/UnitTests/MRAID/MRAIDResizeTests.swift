@@ -32,8 +32,8 @@ final class MRAIDResizeTests: XCTestCase {
     private var resizeMessage: MRAIDResizeMessage?
     private let containerWidth = 100
     private let containerHeight = 100
-    private let offsetX = 130
-    private let offsetY = 45
+    private let offsetX = 10
+    private let offsetY = 10
     private var webView: WKWebView?
     private var viewController: UIViewController?
 
@@ -67,26 +67,45 @@ final class MRAIDResizeTests: XCTestCase {
 
 
     func testCloseAreaPositionInAdContainer() throws {
-        let topLeftPosition = try XCTUnwrap(resizeHandler?.closeAreaPositionInAdContainer(for: .topLeft))
-        let topRightPosition = try XCTUnwrap(resizeHandler?.closeAreaPositionInAdContainer(for: .topRight))
-        let centerPosition = try XCTUnwrap(resizeHandler?.closeAreaPositionInAdContainer(for: .center))
-        let bottomLeftPosition = try XCTUnwrap(resizeHandler?.closeAreaPositionInAdContainer(for: .bottomLeft))
-        let bottomRightPosition = try XCTUnwrap(resizeHandler?.closeAreaPositionInAdContainer(for: .bottomRight))
-        let topCenterPosition = try XCTUnwrap(resizeHandler?.closeAreaPositionInAdContainer(for: .topCenter))
-        let bottomCenterPosition = try XCTUnwrap(resizeHandler?.closeAreaPositionInAdContainer(for: .bottomCenter))
+        let containerSize = CGSize(width: containerWidth, height: containerHeight)
+        let handler = try XCTUnwrap(resizeHandler)
+        let topLeftPosition = handler.closeAreaPositionInAdContainer(with: containerSize, for: .topLeft)
+        let topRightPosition = handler.closeAreaPositionInAdContainer(with: containerSize, for: .topRight)
+        let centerPosition = handler.closeAreaPositionInAdContainer(with: containerSize, for: .center)
+        let bottomLeftPosition = handler.closeAreaPositionInAdContainer(with: containerSize, for: .bottomLeft)
+        let bottomRightPosition = handler.closeAreaPositionInAdContainer(with: containerSize, for: .bottomRight)
+        let topCenterPosition = handler.closeAreaPositionInAdContainer(with: containerSize, for: .topCenter)
+        let bottomCenterPosition = handler.closeAreaPositionInAdContainer(with: containerSize, for: .bottomCenter)
 
+        let minWidth = Int(MRAIDResizeHandler.Constants.minWidth)
+        let minHeight = Int(MRAIDResizeHandler.Constants.minHeight)
         XCTAssertEqual(topLeftPosition, .init(x: 0, y: 0))
-        XCTAssertEqual(topRightPosition, .init(x: containerWidth - MRAIDResizeHandler.Constants.minWidth, y: 0))
-        XCTAssertEqual(centerPosition, .init(x: containerWidth / 2 - MRAIDResizeHandler.Constants.minWidth / 2, y: containerHeight / 2 - MRAIDResizeHandler.Constants.minHeight / 2))
-        XCTAssertEqual(bottomLeftPosition, .init(x: 0, y: containerHeight - MRAIDResizeHandler.Constants.minHeight))
-        XCTAssertEqual(bottomRightPosition, .init(x: containerWidth - MRAIDResizeHandler.Constants.minWidth, y: containerHeight - MRAIDResizeHandler.Constants.minHeight))
-        XCTAssertEqual(topCenterPosition, .init(x: containerWidth / 2 - MRAIDResizeHandler.Constants.minWidth / 2, y: 0))
-        XCTAssertEqual(bottomCenterPosition, .init(x: containerWidth / 2 - MRAIDResizeHandler.Constants.minWidth / 2, y: containerHeight - MRAIDResizeHandler.Constants.minHeight))
+        XCTAssertEqual(topRightPosition, .init(x: containerWidth - minWidth, y: 0))
+        XCTAssertEqual(centerPosition, .init(x: containerWidth / 2 - minWidth / 2, y: containerHeight / 2 - minHeight / 2))
+        XCTAssertEqual(bottomLeftPosition, .init(x: 0, y: containerHeight - minHeight))
+        XCTAssertEqual(bottomRightPosition, .init(x: containerWidth - minWidth, y: containerHeight - minHeight))
+        XCTAssertEqual(topCenterPosition, .init(x: containerWidth / 2 - minWidth / 2, y: 0))
+        XCTAssertEqual(bottomCenterPosition, .init(x: containerWidth / 2 - minWidth / 2, y: containerHeight - minHeight))
     }
 
-    func testCloseAreaPositionOnTopView() throws {
-        let bottomCenterPosition = try XCTUnwrap(resizeHandler?.closeAreaPosition(for: resizeMessage!))
-        XCTAssertEqual(bottomCenterPosition, .init(x: containerWidth / 2 - MRAIDResizeHandler.Constants.minWidth / 2 + offsetX, y: containerHeight - MRAIDResizeHandler.Constants.minHeight + offsetY))
+    func testCloseAreaOutOfBounds() throws {
+        let handler = try XCTUnwrap(resizeHandler)
+        let containerSize = CGSize(width: containerWidth, height: containerHeight)
+        let positionInContainer: CGPoint = .init(x: 60, y: 0)
+
+        let outOfBoundsResizeMessage = MRAIDResizeMessage(action: .resize,
+                                               width: containerWidth,
+                                               height: containerHeight,
+                                               offsetX: offsetX,
+                                               offsetY: offsetY,
+                                               customClosePosition: .topRight,
+                                               allowOffscreen: true)
+        XCTAssertNil(try? handler.verifyCloseAreaOutOfBounds(containerSize: containerSize,
+                                                             positionInContainer: positionInContainer,
+                                                             message: outOfBoundsResizeMessage,
+                                                             autoRotate: true))
+
+        
     }
 
     func testResizeState() {
