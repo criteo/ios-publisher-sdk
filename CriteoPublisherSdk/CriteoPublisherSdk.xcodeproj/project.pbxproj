@@ -746,6 +746,7 @@
 		A83BB59629BB1F77002A63B6 /* CRLogUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CRLogUtil.h; sourceTree = "<group>"; };
 		A83BB59729BB1F77002A63B6 /* CRLogUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CRLogUtil.m; sourceTree = "<group>"; };
 		A83BB59A29BF6B3F002A63B6 /* MRAIDURLHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDURLHandler.swift; sourceTree = "<group>"; };
+		A863B2D02B345281006E6476 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		A879179229A7230F00A3B798 /* CRMRAIDHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRMRAIDHandler.swift; sourceTree = "<group>"; };
 		A879179529A771CF00A3B798 /* SwiftExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftExtensions.swift; sourceTree = "<group>"; };
 		A8ABDE442ACC31DA00E82CDE /* CR_SKAdNetworkHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_SKAdNetworkHandler.h; sourceTree = "<group>"; };
@@ -1749,6 +1750,7 @@
 		E1F2736621B5F08D00A2FBFA /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				A863B2D02B345281006E6476 /* PrivacyInfo.xcprivacy */,
 				46E3EE1B254867E900F01C88 /* Public */,
 				25BD5B5A2220D16D004DE311 /* Info.plist */,
 				E1F2738A21BB12C300A2FBFA /* Criteo.m */,
