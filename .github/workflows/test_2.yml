@@ -1,0 +1,65 @@
+name: Test_2
+
+on:
+  push:
+    branches:
+      - main
+      - feature/*
+  pull_request:
+  workflow_dispatch:
+
+env:
+  DEVELOPER_DIR: /Applications/Xcode_14.2.app/Contents/Developer
+
+jobs:
+  test:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Ruby & Bundle setup
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+          bundler-cache: true
+
+      - name: Cocoapods cache
+        uses: actions/cache@v3
+        with:
+          path: Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      - name: Cocoapods install
+        run: |
+          bundle exec fastlane run cocoapods
+
+      - name: Setup Java 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: WireMock setup
+        run: |
+          curl https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-jre8-standalone/2.27.0/wiremock-jre8-standalone-2.27.0.jar -o wiremock.jar -s
+          bundle exec iostrust add ./wiremock/cert/wiremock.crt
+          java -jar wiremock.jar --https-port 9099 --root-dir wiremock --https-keystore wiremock/cert/wiremock.jks --keystore-password password --verbose --global-response-templating &
+
+      - name: Format check
+        run: |
+          bundle exec fastlane format_check
+
+      - name: Test
+        run: |
+          bundle exec fastlane test_2
+
+      - name: Tests reports upload
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: tests-reports
+          path: "fastlane/test_output"
