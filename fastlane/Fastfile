@@ -38,6 +38,53 @@ platform :ios do
     pod_lib_lint
   end
 
+  desc %(Run tests: Run Unit & Functional tests with retries)
+  lane :test_0 do
+    scan(scheme: "CriteoAdViewer")
+    scan(scheme: "CriteoGoogleAdapter")
+    run_tests(workspace: "CriteoPublisherSdk.xcworkspace",
+        devices: ["iPhone 14"],
+        scheme: "CriteoPublisherSdk",
+        testplan: "CriteoPublisherSdkMC0",
+        app_identifier: "CriteoPublisherSdk",
+        number_of_retries: 5,
+        concurrent_workers: 2,
+        reset_simulator: true,
+        clean: true,
+        reinstall_app: true
+    )
+  end
+
+  desc %(Run tests: Run Unit & Functional tests with retries)
+  lane :test_1 do
+    run_tests(workspace: "CriteoPublisherSdk.xcworkspace",
+        devices: ["iPhone 14"],
+        scheme: "CriteoPublisherSdk",
+        testplan: "CriteoPublisherSdkMC1",
+        app_identifier: "CriteoPublisherSdk",
+        number_of_retries: 5,
+        concurrent_workers: 2,
+        reset_simulator: true,
+        clean: true,
+        reinstall_app: true
+    )
+  end
+
+  desc %(Run tests: Run Unit & Functional tests with retries)
+  lane :test_2 do
+    run_tests(workspace: "CriteoPublisherSdk.xcworkspace",
+        devices: ["iPhone 14"],
+        scheme: "CriteoPublisherSdk",
+        testplan: "CriteoPublisherSdkMC2",
+        app_identifier: "CriteoPublisherSdk",
+        number_of_retries: 5,
+        concurrent_workers: 2,
+        reset_simulator: true,
+        clean: true,
+        reinstall_app: true
+    )
+  end
+
   desc %(Check code format)
   lane :format_check do
     run_clang_format(
