@@ -25,9 +25,9 @@ public protocol MRAIDMessageHandlerDelegate: AnyObject {
 }
 
 public struct MRAIDMessageHandler {
-  private unowned var logHandler: MRAIDLogHandler
-  private unowned var urlHandler: MRAIDURLHandler
-  public unowned var delegate: MRAIDMessageHandlerDelegate!
+  private var logHandler: MRAIDLogHandler
+  private var urlHandler: MRAIDURLHandler
+  public var delegate: MRAIDMessageHandlerDelegate!
 
   public init(logHandler: MRAIDLogHandler, urlHandler: MRAIDURLHandler) {
     self.logHandler = logHandler
