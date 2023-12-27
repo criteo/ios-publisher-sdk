@@ -57,6 +57,7 @@
 @property(strong, nonatomic) Criteo *criteo;
 @property(strong, nonatomic) CR_IntegrationRegistry *integrationRegistry;
 @property(nonatomic, strong) id loggingMock;
+@property(strong, nonatomic) CRBannerView *bannerView;
 @end
 
 @implementation CRBannerViewTests
@@ -84,6 +85,7 @@
   // Not sure why this is needed but without this testWithRendering is failing.
   // Maybe this come from OCMock not handling properly partial mock ???
   self.criteo = nil;
+  self.bannerView = nil;
   [self.loggingMock stopMocking];
 }
 
@@ -105,10 +107,10 @@
         [webViewLoadedExpectation fulfill];
       });
 
-  CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView];
+  _bannerView = [self bannerViewWithWebView:mockWebView];
   OCMVerify([self.loggingMock logMessage:[self checkMessageContainsString:@"Initializing"]]);
 
-  [bannerView loadAdWithContext:self.contextData];
+  [_bannerView loadAdWithContext:self.contextData];
   OCMVerify([self.loggingMock logMessage:[self checkMessageContainsString:@"Loading"]]);
   OCMVerify([self.loggingMock logMessage:[self checkMessageContainsString:@"Received"]]);
 
@@ -122,10 +124,9 @@
 
 - (void)testWebViewAddedToViewHierarchy {
   MockWKWebView *mockWebView = [MockWKWebView new];
+  _bannerView = [self bannerViewWithWebView:mockWebView addWebView:YES];
 
-  CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView addWebView:YES];
-
-  XCTAssertEqual(mockWebView, bannerView.subviews[0]);
+  XCTAssertEqual(mockWebView, _bannerView.subviews[0]);
 }
 
 - (void)testWithRendering {
@@ -134,9 +135,9 @@
   CR_CdbBid *bid = [self cdbBidWithDisplayUrl:@"-"];
   [self mockCriteoWithAdUnit:self.expectedCacheAdUnit respondBid:bid];
 
-  CRBannerView *bannerView = [self bannerViewWithWebView:realWebView];
+  _bannerView = [self bannerViewWithWebView:realWebView];
   realWebView.navigationDelegate = self;
-  [bannerView loadAdWithContext:self.contextData];
+  [_bannerView loadAdWithContext:self.contextData];
 
   XCTestExpectation __block *marginExpectation =
       [self expectationWithDescription:@"WebView body has 0px margin"];
@@ -180,8 +181,8 @@
   WKWebView *realWebView = [WKWebView new];
   [self mockCriteoWithAdUnit:self.expectedCacheAdUnit respondBid:nil];
 
-  CRBannerView *bannerView = [self bannerViewWithWebView:realWebView];
-  [bannerView loadAdWithContext:self.contextData];
+  _bannerView = [self bannerViewWithWebView:realWebView];
+  [_bannerView loadAdWithContext:self.contextData];
   OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
                                 return [logMessage.tag isEqualToString:@"BannerView"] &&
                                        [logMessage.message containsString:@"Failed"] &&
@@ -199,11 +200,11 @@
   /* Allow navigation Types other than Links from Mainframes in WebView.
    eg: Clicking images inside <a> tag generates WKNavigationTypeOther
    */
-  CRBannerView *bannerView = [self bannerViewWithWebView:nil];
+  _bannerView = [self bannerViewWithWebView:nil];
 
   WKNavigationAction *mockNavigationAction = OCMStrictClassMock([WKNavigationAction class]);
   OCMStub(mockNavigationAction.navigationType).andReturn(WKNavigationTypeOther);
-  [bannerView webView:nil
+  [_bannerView webView:nil
       decidePolicyForNavigationAction:mockNavigationAction
                       decisionHandler:^(WKNavigationActionPolicy actionPolicy) {
                         XCTAssertEqual(actionPolicy, WKNavigationActionPolicyAllow);
@@ -216,7 +217,7 @@
   OCMStub([mockFrame isMainFrame]).andReturn(YES);
   NSURLRequest *request = [[NSURLRequest alloc] init];
   OCMStub(mockNavigationAction.request).andReturn(request);
-  [bannerView webView:nil
+  [_bannerView webView:nil
       decidePolicyForNavigationAction:mockNavigationAction
                       decisionHandler:^(WKNavigationActionPolicy actionPolicy) {
                         XCTAssertEqual(actionPolicy, WKNavigationActionPolicyAllow);
@@ -237,8 +238,8 @@
   XCTestExpectation *openInBrowserExpectation =
       [self expectationWithDescription:@"URL opened in browser expectation"];
 
-  CRBannerView *bannerView = [self bannerViewWithWebView:nil];
-  [bannerView webView:nil
+  _bannerView = [self bannerViewWithWebView:nil];
+  [_bannerView webView:nil
       decidePolicyForNavigationAction:mockNavigationAction
                       decisionHandler:^(WKNavigationActionPolicy actionPolicy) {
                         XCTAssertEqual(actionPolicy, WKNavigationActionPolicyCancel);
@@ -270,8 +271,8 @@
   XCTestExpectation *openInBrowserExpectation =
       [self expectationWithDescription:@"URL opened in browser expectation"];
 
-  CRBannerView *bannerView = [self bannerViewWithWebView:realWebView];
-  [bannerView webView:realWebView
+  _bannerView = [self bannerViewWithWebView:realWebView];
+  [_bannerView webView:realWebView
       createWebViewWithConfiguration:nil
                  forNavigationAction:mockNavigationAction
                       windowFeatures:nil];
@@ -297,8 +298,8 @@
         [webViewLoadedExpectation fulfill];
       });
 
-  CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView];
-  [bannerView loadAdWithDisplayData:TEST_DISPLAY_URL];
+  _bannerView = [self bannerViewWithWebView:mockWebView];
+  [_bannerView loadAdWithDisplayData:TEST_DISPLAY_URL];
 
   [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
   OCMVerifyAll(mockWebView);
@@ -322,14 +323,13 @@
   CR_CdbBid *cdbBid = [self cdbBidWithDisplayUrl:TEST_DISPLAY_URL];
   CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:self.adUnit];
 
-  CRBannerView *bannerView =
-      [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
-                                   criteo:self.criteo
-                                  webView:mockWebView
-                               addWebView:NO
-                                   adUnit:nil
-                                urlOpener:self.urlOpener];
-  [bannerView loadAdWithBid:bid];
+  _bannerView = [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
+                                             criteo:self.criteo
+                                            webView:mockWebView
+                                         addWebView:NO
+                                             adUnit:nil
+                                          urlOpener:self.urlOpener];
+  [_bannerView loadAdWithBid:bid];
 
   [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
   OCMVerifyAll(mockWebView);
@@ -355,8 +355,8 @@
   CR_CdbBid *cdbBid = [self cdbBidWithDisplayUrl:displayURL];
   CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:self.adUnit];
 
-  CRBannerView *bannerView = [self bannerViewWithWebView:mockWebView];
-  [bannerView loadAdWithBid:bid];
+  _bannerView = [self bannerViewWithWebView:mockWebView];
+  [_bannerView loadAdWithBid:bid];
 
   [self cr_waitForExpectations:@[ webViewLoadedExpectation ]];
   OCMVerifyAll(mockWebView);
@@ -378,13 +378,13 @@
 }
 
 - (void)testMRAIDOffOnConfig {
-  CRBannerView *bannerView = [self testbannerViewWithMRAID:NO];
-  XCTAssertNil(bannerView.mraidHandler);
+  _bannerView = [self testbannerViewWithMRAID:NO];
+  XCTAssertNil(_bannerView.mraidHandler);
 }
 
 - (void)testMRAIDActiveOnConfig {
-  CRBannerView *bannerView = [self testbannerViewWithMRAID:YES];
-  XCTAssertNotNil(bannerView.mraidHandler);
+  _bannerView = [self testbannerViewWithMRAID:YES];
+  XCTAssertNotNil(_bannerView.mraidHandler);
 }
 
 #pragma mark - Private
