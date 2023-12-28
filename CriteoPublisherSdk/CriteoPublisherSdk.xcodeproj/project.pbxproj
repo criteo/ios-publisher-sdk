@@ -740,14 +740,7 @@
 		A82D7DF12A04FEAB001302A8 /* CRMRAIDUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRMRAIDUtils.swift; sourceTree = "<group>"; };
 		A82D7DF32A0A3ED4001302A8 /* MRAIDUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDUtilsTests.swift; sourceTree = "<group>"; };
 		A82D7E1D2A20B28E001302A8 /* CriteoPublisherSdkMC1.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC1.xctestplan; sourceTree = "<group>"; };
-		A82D7E1E2A20B28E001302A8 /* CriteoPublisherSdkMC9.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC9.xctestplan; sourceTree = "<group>"; };
-		A82D7E1F2A20B28E001302A8 /* CriteoPublisherSdkMC4.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC4.xctestplan; sourceTree = "<group>"; };
-		A82D7E202A20B28E001302A8 /* CriteoPublisherSdkMC3.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC3.xctestplan; sourceTree = "<group>"; };
-		A82D7E212A20B28E001302A8 /* CriteoPublisherSdkMC6.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC6.xctestplan; sourceTree = "<group>"; };
-		A82D7E222A20B28E001302A8 /* CriteoPublisherSdkMC8.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC8.xctestplan; sourceTree = "<group>"; };
-		A82D7E232A20B28E001302A8 /* CriteoPublisherSdkMC5.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC5.xctestplan; sourceTree = "<group>"; };
 		A82D7E242A20B28E001302A8 /* CriteoPublisherSdkMC0.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC0.xctestplan; sourceTree = "<group>"; };
-		A82D7E252A20B28E001302A8 /* CriteoPublisherSdkMC7.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC7.xctestplan; sourceTree = "<group>"; };
 		A82D7E262A20B28E001302A8 /* CriteoPublisherSdkMC2.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CriteoPublisherSdkMC2.xctestplan; sourceTree = "<group>"; };
 		A8304F522A77D11A00ABB951 /* MRAIDFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDFeature.swift; sourceTree = "<group>"; };
 		A8341B3E2AB09A34004AF48E /* MRAIDDeviceOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDDeviceOrientation.swift; sourceTree = "<group>"; };
@@ -762,6 +755,7 @@
 		A83BB59A29BF6B3F002A63B6 /* MRAIDURLHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDURLHandler.swift; sourceTree = "<group>"; };
 		A83C4A2A2A80EDAB0033687C /* MRAIDPlayVideoMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDPlayVideoMessage.swift; sourceTree = "<group>"; };
 		A84FF8922AB8892500DD3AE2 /* MRAIDOrientationPropertiesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDOrientationPropertiesTests.swift; sourceTree = "<group>"; };
+		A863B2D02B345281006E6476 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		A879179229A7230F00A3B798 /* CRMRAIDHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRMRAIDHandler.swift; sourceTree = "<group>"; };
 		A879179529A771CF00A3B798 /* SwiftExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftExtensions.swift; sourceTree = "<group>"; };
 		A8C3DF382A8E062100B6A4BE /* MRAIDResizeMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDResizeMessage.swift; sourceTree = "<group>"; };
@@ -1597,15 +1591,8 @@
 		A82D7E1C2A20B28E001302A8 /* TestPlans */ = {
 			isa = PBXGroup;
 			children = (
-				A82D7E1D2A20B28E001302A8 /* CriteoPublisherSdkMC1.xctestplan */,
-				A82D7E1E2A20B28E001302A8 /* CriteoPublisherSdkMC9.xctestplan */,
-				A82D7E1F2A20B28E001302A8 /* CriteoPublisherSdkMC4.xctestplan */,
-				A82D7E202A20B28E001302A8 /* CriteoPublisherSdkMC3.xctestplan */,
-				A82D7E212A20B28E001302A8 /* CriteoPublisherSdkMC6.xctestplan */,
-				A82D7E222A20B28E001302A8 /* CriteoPublisherSdkMC8.xctestplan */,
-				A82D7E232A20B28E001302A8 /* CriteoPublisherSdkMC5.xctestplan */,
 				A82D7E242A20B28E001302A8 /* CriteoPublisherSdkMC0.xctestplan */,
-				A82D7E252A20B28E001302A8 /* CriteoPublisherSdkMC7.xctestplan */,
+				A82D7E1D2A20B28E001302A8 /* CriteoPublisherSdkMC1.xctestplan */,
 				A82D7E262A20B28E001302A8 /* CriteoPublisherSdkMC2.xctestplan */,
 			);
 			path = TestPlans;
@@ -1806,6 +1793,7 @@
 		E1F2736621B5F08D00A2FBFA /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				A863B2D02B345281006E6476 /* PrivacyInfo.xcprivacy */,
 				46E3EE1B254867E900F01C88 /* Public */,
 				25BD5B5A2220D16D004DE311 /* Info.plist */,
 				E1F2738A21BB12C300A2FBFA /* Criteo.m */,

@@ -1,4 +1,4 @@
-name: Test
+name: Test_2
 
 on:
   push:
@@ -55,7 +55,7 @@ jobs:
 
       - name: Test
         run: |
-          bundle exec fastlane test
+          bundle exec fastlane test_2
 
       - name: Tests reports upload
         uses: actions/upload-artifact@v3

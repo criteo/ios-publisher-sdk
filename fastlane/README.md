@@ -21,6 +21,21 @@ or alternatively using `brew install fastlane`
 fastlane ios test
 ```
 Run tests: Run Unit & Functional tests with retries
+### ios test_0
+```
+fastlane ios test_0
+```
+Run tests: Run Unit & Functional tests with retries
+### ios test_1
+```
+fastlane ios test_1
+```
+Run tests: Run Unit & Functional tests with retries
+### ios test_2
+```
+fastlane ios test_2
+```
+Run tests: Run Unit & Functional tests with retries
 ### ios format_check
 ```
 fastlane ios format_check
