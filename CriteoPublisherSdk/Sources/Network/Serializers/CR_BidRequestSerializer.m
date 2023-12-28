@@ -158,13 +158,10 @@
       slotDict[CR_ApiQueryKeys.bidSlotsIsRewarded] = @(YES);
     }
 
-    NSNumber *mraidAPIVersion = [self mraidAPI:config];
-    if (config.isMRAIDGlobalEnabled &&
-        (adUnit.adUnitType == CRAdUnitTypeBanner ||
-         adUnit.adUnitType == CRAdUnitTypeInterstitial) &&
-        mraidAPIVersion) {
+    if (config.isMRAIDGlobalEnabled && (adUnit.adUnitType == CRAdUnitTypeBanner ||
+                                        adUnit.adUnitType == CRAdUnitTypeInterstitial)) {
       NSMutableDictionary *mraidDict = [NSMutableDictionary new];
-      mraidDict[CR_ApiQueryKeys.api] = [NSArray arrayWithObject:mraidAPIVersion];
+      mraidDict[CR_ApiQueryKeys.api] = [self mraidAPI:config];
       slotDict[CR_ApiQueryKeys.banner] = mraidDict;
     }
 
@@ -173,14 +170,15 @@
   return slots;
 }
 
-- (NSNumber *)mraidAPI:(CR_Config *)config {
+- (NSArray *)mraidAPI:(CR_Config *)config {
+  NSMutableArray *mraidVersions = [NSMutableArray new];
   if (config.isMraidEnabled) {
-    return @(3);
+    [mraidVersions addObject:@(3)];
   }
   if (config.isMraid2Enabled) {
-    return @(5);
+    [mraidVersions addObject:@(5)];
   }
-  return NULL;
+  return mraidVersions;
 }
 
 - (NSArray *)slotsWithCdbRequest:(CR_CdbRequest *)cdbRequest {

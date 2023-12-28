@@ -117,7 +117,7 @@ private extension MRAIDResizeContainerView {
         let closeAreaView = UIView()
         closeAreaView.translatesAutoresizingMaskIntoConstraints = false
         container.addSubview(closeAreaView)
-        closeAreaView.backgroundColor = .red
+        closeAreaView.backgroundColor = .clear
         let safeAreaLayout = container.safeAreaLayoutGuide
 
         /// set the dimension of the close area

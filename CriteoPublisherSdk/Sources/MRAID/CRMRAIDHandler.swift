@@ -309,9 +309,12 @@ fileprivate extension CRMRAIDHandler {
     }
 
     @objc func deviceOrientationDidChange() {
-        setCurrentPosition()
-        setMaxSize()
-        setScreen(size: UIScreen.main.bounds.size)
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            self.setCurrentPosition()
+            self.setMaxSize()
+            self.setScreen(size: UIScreen.main.bounds.size)
+        }
     }
 
     func unregisterDeviceOrientationListener() {
