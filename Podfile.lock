@@ -1,5 +1,5 @@
 PODS:
-  - CriteoMRAID (1.0.1)
+  - CriteoMRAID (2.0.0)
   - Eureka (5.4.0)
   - FunctionalObjC (1.0.2)
   - Google-Mobile-Ads-SDK (10.8.0):
@@ -53,7 +53,7 @@ PODS:
   - SwiftLint (0.45.1)
 
 DEPENDENCIES:
-  - CriteoMRAID (~> 1.0.1)
+  - CriteoMRAID (~> 2.0.0)
   - Eureka
   - FunctionalObjC (~> 1.0)
   - Google-Mobile-Ads-SDK
@@ -75,7 +75,7 @@ SPEC REPOS:
     - SwiftLint
 
 SPEC CHECKSUMS:
-  CriteoMRAID: a037bee17b929a8bede8a07279e01a269cd85210
+  CriteoMRAID: ed0541c7f49680a22fe4e704420c1436cbffe246
   Eureka: fadaa9fa3d6e402d3c60f78f24edf3d7bafc9c29
   FunctionalObjC: bd6aaa4b69abea0a5ac0e860a052c1ebebd5311c
   Google-Mobile-Ads-SDK: 69daa7fb42061b425340706e382e87fab3e666a3
@@ -87,6 +87,6 @@ SPEC CHECKSUMS:
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   SwiftLint: 06ac37e4d38c7068e0935bb30cda95f093bec761
 
-PODFILE CHECKSUM: 9c1567c5079d29487ac4dde74c7dd0ce58ab717b
+PODFILE CHECKSUM: 54d5470e7c2ea1832d07f974b0cd229dd19fbf3e
 
 COCOAPODS: 1.13.0
