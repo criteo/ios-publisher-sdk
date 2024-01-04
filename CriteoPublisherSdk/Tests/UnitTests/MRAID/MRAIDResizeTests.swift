@@ -36,6 +36,8 @@ final class MRAIDResizeTests: XCTestCase {
     private let offsetY = 10
     private var webView: WKWebView?
     private var viewController: UIViewController?
+    private var delegate: MockMRAIDResizeHandlerDelegate?
+    let container = UIView(frame: .init(x: 0, y: 0, width: 390, height: 800))
 
     override func setUpWithError() throws {
        try super.setUpWithError()
@@ -51,9 +53,8 @@ final class MRAIDResizeTests: XCTestCase {
         webView = WKWebView()
         viewController = UIViewController()
         viewController?.view.addSubview(webView!)
-        resizeHandler = MRAIDResizeHandler(webView: webView!,
-                                           resizeMessage: resizeMessage!,
-                                           mraidState: .default)
+        delegate = MockMRAIDResizeHandlerDelegate()
+        resizeHandler = MRAIDResizeHandler(webView: webView!, delegate: delegate!)
     }
 
     override func tearDownWithError() throws {
@@ -63,6 +64,7 @@ final class MRAIDResizeTests: XCTestCase {
         resizeHandler = nil
         viewController = nil
         webView = nil
+        delegate = nil
     }
 
 
@@ -110,40 +112,17 @@ final class MRAIDResizeTests: XCTestCase {
 
     func testResizeState() {
         /// ad can resize only in default or resized state
-        XCTAssertTrue(try XCTUnwrap(resizeHandler?.canResize()))
-        resizeHandler = MRAIDResizeHandler(webView: WKWebView(),
-                                           resizeMessage: resizeMessage!,
-                                           mraidState: .resized)
-        XCTAssertTrue(try XCTUnwrap(resizeHandler?.canResize()))
-
-        resizeHandler = MRAIDResizeHandler(webView: WKWebView(),
-                                           resizeMessage: resizeMessage!,
-                                           mraidState: .expanded)
-        XCTAssertFalse(try XCTUnwrap(resizeHandler?.canResize()))
-        resizeHandler = MRAIDResizeHandler(webView: WKWebView(),
-                                           resizeMessage: resizeMessage!,
-                                           mraidState: .loading)
-        XCTAssertFalse(try XCTUnwrap(resizeHandler?.canResize()))
-        resizeHandler = MRAIDResizeHandler(webView: WKWebView(),
-                                           resizeMessage: resizeMessage!,
-                                           mraidState: .hidden)
-        XCTAssertFalse(try XCTUnwrap(resizeHandler?.canResize()))
-    }
-
-    func testTopView() {
-        do {
-            try resizeHandler?.resize(delegate: MockMRAIDResizeHandlerDelegate())
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
+        XCTAssertTrue(try XCTUnwrap(resizeHandler?.canResize(mraidState: .resized)))
+        XCTAssertTrue(try XCTUnwrap(resizeHandler?.canResize(mraidState: .default)))
+        XCTAssertFalse(try XCTUnwrap(resizeHandler?.canResize(mraidState: .loading)))
+        XCTAssertFalse(try XCTUnwrap(resizeHandler?.canResize(mraidState: .hidden)))
+        XCTAssertFalse(try XCTUnwrap(resizeHandler?.canResize(mraidState: .expanded)))
     }
 
     func testMinSize(for resizeMessage: MRAIDResizeMessage) throws {
-        resizeHandler = MRAIDResizeHandler(webView: webView!,
-                                           resizeMessage: resizeMessage,
-                                           mraidState: .default)
+        resizeHandler =  MRAIDResizeHandler(webView: webView!, delegate: delegate!)
         do {
-            try resizeHandler?.resize(delegate: MockMRAIDResizeHandlerDelegate())
+            try resizeHandler?.resize(with: resizeMessage, webViewContainer: container)
             XCTFail("Resize shouldn't be possible if the width or hight are below min values")
         } catch {
             let resizeErro = try XCTUnwrap(error as? MRAIDResizeHandler.ResizeError)

@@ -49,7 +49,6 @@ public class MRAIDResizeHandler {
 
     public func canResize(mraidState: MRAIDState) -> Bool {
         guard mraidState == .default || mraidState == .resized else { return false }
-
         return true
     }
 
