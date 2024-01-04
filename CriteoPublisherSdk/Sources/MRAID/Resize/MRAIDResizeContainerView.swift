@@ -53,7 +53,7 @@ final class MRAIDResizeContainerView: UIView, MRAIDClosableView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    static func show(webView: WKWebView, 
+    static func show(webView: WKWebView,
                      with resizeMessage: MRAIDResizeMessage,
                      delegate: MRAIDResizeHandlerDelegate,
                      webViewContainer: UIView?) throws -> UIView {

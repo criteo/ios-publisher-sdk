@@ -104,11 +104,11 @@ public class MRAIDResizeHandler {
 
         if positionX + message.width > containerWidth {
             /// try to adjust offset x in order to fit the ad into container
-            positionX = positionX - (positionX + message.width - containerWidth)
+            positionX -= (positionX + message.width - containerWidth)
         }
 
         if positionY + message.height > containerHeight {
-            positionY = positionY - (positionY + message.height - containerHeight)
+            positionY -= (positionY + message.height - containerHeight)
         }
 
         return .init(action: message.action,
