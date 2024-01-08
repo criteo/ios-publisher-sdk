@@ -31,6 +31,7 @@
 #import "MockWKWebView.h"
 #import "XCTestCase+Criteo.h"
 #import "CR_NativeAssets+Testing.h"
+#import "NSUserDefaults+CR_Config.h"
 
 #if __has_include("CriteoPublisherSdkTests-Swift.h")
 #import "CriteoPublisherSdkTests-Swift.h"
@@ -367,6 +368,7 @@
   config.adTagUrlMode = @"Good Morning, my width is #WEEDTH# and my URL is ˆURLˆ";
   config.displayURLMacro = @"ˆURLˆ";
   config.mraidEnabled = mraidFlag;
+  config.mraid2Enabled = mraidFlag;
   self.criteo.dependencyProvider.config = config;
 
   WKWebView *mockWebView = OCMPartialMock([WKWebView new]);
@@ -460,7 +462,11 @@
 
 - (void)testExpandMRAIDAction {
   WKWebView *mockWebView = [WKWebView new];
-  self.criteo.dependencyProvider.config.mraidEnabled = YES;
+  NSUserDefaults *userdefaults = self.criteo.dependencyProvider.userDefaults;
+  [userdefaults cr_setValueForMRAID:YES];
+  [userdefaults cr_setValueForMRAID2:YES];
+
+  self.criteo.dependencyProvider.config = [[CR_Config alloc] initWithUserDefaults:userdefaults];
   CRBannerView *bannerView =
       [[CRBannerView alloc] initWithFrame:CGRectMake(13.0f, 17.0f, 47.0f, 57.0f)
                                    criteo:self.criteo
@@ -473,6 +479,7 @@
 
   [bannerView.mraidHandler updateMraidWithBundle:[CR_MRAIDUtils mraidBundle]];
   [bannerView loadAdWithBid:bid];
+  XCTAssertNotNil(bannerView.mraidHandler);
 
   XCTestExpectation *bannerReceiveExpandAction =
       [[XCTestExpectation alloc] initWithDescription:@"expand action is received"];
