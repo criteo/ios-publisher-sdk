@@ -364,13 +364,10 @@
 }
 
 - (CRBannerView *)testbannerViewWithMRAID:(BOOL)mraidFlag {
-  CR_Config *config = [CR_Config new];
-  config.adTagUrlMode = @"Good Morning, my width is #WEEDTH# and my URL is ˆURLˆ";
-  config.displayURLMacro = @"ˆURLˆ";
-  config.mraidEnabled = mraidFlag;
-  config.mraid2Enabled = mraidFlag;
-  self.criteo.dependencyProvider.config = config;
-
+  NSUserDefaults *userdefaults = self.criteo.dependencyProvider.userDefaults;
+  [userdefaults cr_setValueForMRAID:mraidFlag];
+  [userdefaults cr_setValueForMRAID2:mraidFlag];
+  self.criteo.dependencyProvider.config = [[CR_Config alloc] initWithUserDefaults:userdefaults];
   WKWebView *mockWebView = OCMPartialMock([WKWebView new]);
   CR_CdbBid *cdbBid = [self cdbBidWithDisplayUrl:TEST_DISPLAY_URL];
   CRBid *bid = [[CRBid alloc] initWithCdbBid:cdbBid adUnit:self.adUnit];
