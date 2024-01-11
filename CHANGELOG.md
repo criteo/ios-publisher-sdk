@@ -4,7 +4,7 @@
 
 ### Features
 - MRAID 2.0 support.
-- Privacy manifest.
+- Added Privacy manifest.
 - SKADNetwork 2.1, 2.2, 3.0 support.
 - Register method updated, storeId parameter added.
 
