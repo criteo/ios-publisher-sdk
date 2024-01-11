@@ -1,13 +1,20 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
+## Version [6.0.0]
 
+### Features
+- MRAID 2.0 support.
+- Privacy manifest.
+- SKADNetwork 2.1, 2.2, 3.0 support.
+- Register method updated, storeId parameter added.
+
+--------------------------------------------------------------------------------
 ## Version [5.0.4]
 
 ### Features
 - TCF 2.2 updates.
 
 --------------------------------------------------------------------------------
-
 ## Version [5.0.3]
 
 ### Features
