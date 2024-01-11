@@ -50,6 +50,7 @@
         "CRNativeAdUnitTests",
         "CRNativeAdViewTests",
         "CRNativeLoaderTests",
+        "CR_ApiHandlerTests",
         "CR_ApiHandlerTests\/testDisregardBidRequestAlreadyInProgress",
         "CR_AppEventsIntegrationTests\/testActiveEventSentIfCriteoRegister",
         "CR_AppEventsIntegrationTests\/testInactiveEventSentIfCriteoRegister",
