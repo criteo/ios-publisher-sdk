@@ -99,6 +99,10 @@
                [configValues[@"mraidEnabled"] isKindOfClass:NSNumber.class]) {
              config.mraidEnabled = ((NSNumber *)configValues[@"mraidEnabled"]).boolValue;
            }
+           if (configValues[@"mraid2Enabled"] &&
+               [configValues[@"mraid2Enabled"] isKindOfClass:NSNumber.class]) {
+             config.mraid2Enabled = ((NSNumber *)configValues[@"mraid2Enabled"]).boolValue;
+           }
          }];
 }
 

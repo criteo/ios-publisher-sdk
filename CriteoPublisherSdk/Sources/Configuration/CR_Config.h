@@ -72,7 +72,9 @@ FOUNDATION_EXTERN NSString *const CR_ConfigConfigurationUrl;
 @property(nonatomic, readonly) NSString *configUrl;
 
 #pragma mark - MRAID
-@property(assign, nonatomic, getter=isMRAIDEnabled) BOOL mraidEnabled;
+@property(assign, nonatomic, getter=isMraidEnabled) BOOL mraidEnabled;
+@property(assign, nonatomic, getter=isMraid2Enabled) BOOL mraid2Enabled;
+@property(nonatomic, readonly) BOOL isMRAIDGlobalEnabled;
 
 #pragma mark - Lifecycle
 

@@ -1,5 +1,5 @@
 //
-//  ActionRepresentable.swift
+//  MRAIDCustomClosePosition.swift
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2023 Criteo. All rights reserved.
@@ -19,18 +19,12 @@
 
 import Foundation
 
-public protocol ActionRepresentable {
-  var action: Action { get }
-}
-
-public enum Action: String, Decodable {
-  case log
-  case `open`
-  case expand
-  case close
-  case none
-  case playVideo = "play_video"
-  case resize
-  case orientationPropertiesUpdate = "orientation_properties_update"
-  case orientationPropertiesSet = "set_orientation_properties"
+public enum MRAIDCustomClosePosition: String, Decodable {
+    case topLeft = "top-left"
+    case topRight = "top-right"
+    case center
+    case bottomLeft = "bottom-left"
+    case bottomRight = "bottom-right"
+    case topCenter = "top-center"
+    case bottomCenter = "bottom-center"
 }

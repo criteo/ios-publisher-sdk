@@ -1,5 +1,5 @@
 //
-//  ActionRepresentable.swift
+//  MRAIDDeviceOrientation.swift
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2023 Criteo. All rights reserved.
@@ -19,18 +19,18 @@
 
 import Foundation
 
-public protocol ActionRepresentable {
-  var action: Action { get }
+public enum MRAIDDeviceOrientation: String, Decodable {
+    case portrait
+    case landscape
+    case `none`
 }
 
-public enum Action: String, Decodable {
-  case log
-  case `open`
-  case expand
-  case close
-  case none
-  case playVideo = "play_video"
-  case resize
-  case orientationPropertiesUpdate = "orientation_properties_update"
-  case orientationPropertiesSet = "set_orientation_properties"
+extension MRAIDDeviceOrientation {
+    var interfaceOrientation: UIInterfaceOrientation? {
+        switch self {
+        case .landscape: return .landscapeLeft
+        case .portrait: return .portrait
+        default: return nil
+        }
+    }
 }

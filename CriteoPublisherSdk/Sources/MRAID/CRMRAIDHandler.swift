@@ -19,70 +19,61 @@
 
 import Foundation
 import WebKit
+import AVKit
 
 public typealias VoidCompletion = () -> Void
 
 private struct CRMRAIDHandlerConstants {
-  static let viewabilityRefreshTime: Double = 0.2
-}
-
-@objc
-public protocol CRMRAIDHandlerDelegate: AnyObject {
-  @objc
-  optional
-    func expand(width: Int, height: Int, url: URL?, completion: VoidCompletion?)
-  func close(completion: VoidCompletion?)
+    static let viewabilityRefreshTime: Double = 0.2
 }
 
 @objc
 public class CRMRAIDHandler: NSObject {
-  private enum Constants {
-      static let updateDelay: CGFloat = 0.05
-      static let scriptHandlerName = "criteoMraidBridge"
-  }
-  private unowned var webView: WKWebView
-  private unowned var delegate: CRMRAIDHandlerDelegate
-  private unowned var logger: CRMRAIDLogger
-  private var timer: Timer?
-  private var isViewVisible: Bool = false
-  private var messageHandler: MRAIDMessageHandler
-  private var state: MRAIDState = .loading
-  private static let updateDelay: CGFloat = 0.05
-  private var mraidBundle: Bundle? = CRMRAIDUtils.mraidResourceBundle()
-
-  @objc
-  public init(
-    with webView: WKWebView,
-    criteoLogger: CRMRAIDLogger,
-    urlOpener: CRExternalURLOpener,
-    delegate: CRMRAIDHandlerDelegate
-  ) {
-    self.logger = criteoLogger
-    self.webView = webView
-    self.messageHandler = MRAIDMessageHandler(
-      logHandler: MRAIDLogHandler(criteoLogger: criteoLogger),
-      urlHandler: CRMRAIDURLHandler(with: criteoLogger, urlOpener: urlOpener))
-    self.delegate = delegate
     
-    super.init()
-
-    self.messageHandler.delegate = self
-    DispatchQueue.main.async {
-        self.webView.configuration.userContentController.add(self, name: Constants.scriptHandlerName)
+    private enum Constants {
+        static let updateDelay: CGFloat = 0.05
+        static let scriptHandlerName = "criteoMraidBridge"
+        static let onLoadDelay: CGFloat = 0.2
     }
-  }
 
-  @objc
-  public func onAdLoad(with placementType: String) {
-    state = .default
-    DispatchQueue.main.async { [weak self] in
-      self?.setMaxSize()
-      self?.sendReadyEvent(with: placementType)
+    private let webView: WKWebView
+    private var timer: Timer?
+    private var isViewVisible: Bool = false
+    private var messageHandler: MRAIDMessageHandler
+    private weak var delegate: CRMRAIDHandlerDelegate?
+    private var state: MRAIDState = .loading
+    private let logger: CRMRAIDLogger
+    private static let updateDelay: CGFloat = 0.05
+    private var mraidBundle: Bundle? = CRMRAIDUtils.mraidResourceBundle()
+    private let placementType: CRPlacementType
+    private var orientationProperties: MRAIDOrientationProperties?
+    private var webViewContainer: UIView?
+    private var resizeHandler: MRAIDResizeHandler!
+
+    @objc
+    public init(
+        placementType: CRPlacementType,
+        webView: WKWebView,
+        criteoLogger: CRMRAIDLogger,
+        urlOpener: CRExternalURLOpener,
+        delegate: CRMRAIDHandlerDelegate?
+    ) {
+        self.placementType = placementType
+        self.logger = criteoLogger
+        self.webView = webView
+        self.messageHandler = MRAIDMessageHandler(
+            logHandler: MRAIDLogHandler(criteoLogger: criteoLogger),
+            urlHandler: CRMRAIDURLHandler(with: criteoLogger, urlOpener: urlOpener))
+        super.init()
+        self.delegate = delegate
+        self.messageHandler.delegate = self
+        self.resizeHandler = MRAIDResizeHandler(webView: webView, delegate: self)
+
+        DispatchQueue.main.async {
+            self.webView.configuration.userContentController.add(self, name: "criteoMraidBridge")
+        }
     }
-    startViabilityNotifier()
-    registerDeviceOrientationListener()
-  }
-
+    
   @objc
   public func send(error: String, action: String) {
     evaluate(javascript: "window.mraid.notifyError(\"\(error)\",\"\(action)\");")
@@ -113,35 +104,89 @@ public class CRMRAIDHandler: NSObject {
     return state == .expanded
   }
 
-  @objc
-  public func onSuccessClose() {
-    notifyClosed()
-    state = state == .expanded ? .default : .hidden
-  }
 
   @objc
   public func inject(into html: String) -> String {
     return CRMRAIDUtils.build(html: html, from: mraidBundle)
   }
 
-  @objc
-  public func injectMRAID() {
-    guard let mraid = CRMRAIDUtils.loadMraid(from: mraidBundle) else {
-      logger.mraidLog(error: "could not load mraid")
-      return
+
+    @objc
+    public func onAdLoad() {
+        setDefaultSupportedOrientationMask()
+        registerDeviceOrientationListener()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + Constants.onLoadDelay) { [weak self] in
+            guard let self = self else { return }
+
+            self.state = .default
+            self.setMaxSize()
+            self.setScreen(size: UIScreen.main.bounds.size)
+            self.setCurrentPosition()
+            self.setSupportedFeatures()
+            self.sendReadyEvent(with: self.placementType.placementTypeString)
+            self.startViabilityNotifier()
+        }
     }
 
-    let mraidScript = WKUserScript(
-      source: mraid, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
-    DispatchQueue.main.async { [weak self] in
-      self?.webView.configuration.userContentController.addUserScript(mraidScript)
-    }
-  }
 
-  @objc
-  public func updateMraid(bundle: Bundle?) {
-    mraidBundle = bundle
-  }
+    @objc
+    public func onSuccessClose() {
+        setCurrentPosition()
+        notifyClosed()
+        /// default state is set to default only if the ad is in expanded or resized state otherwise set it to hidden.
+        state = (state == .expanded || state == .resized) ? .default : .hidden
+    }
+
+
+    @objc
+    public func injectMRAID() {
+        guard let mraid = CRMRAIDUtils.loadMraid(from: mraidBundle) else {
+            logger.mraidLog(error: "could not load mraid")
+            return
+        }
+
+        let mraidScript = WKUserScript(
+            source: mraid, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
+        DispatchQueue.main.async { [weak self] in
+            self?.webView.configuration.userContentController.addUserScript(mraidScript)
+        }
+    }
+
+    @objc
+    public func updateMraid(bundle: Bundle?) {
+        mraidBundle = bundle
+    }
+
+    @objc
+    public func setCurrentPosition() {
+        guard let parentView = webView.cr_parentViewController()?.view else {
+            logger.mraidLog(error: "Could not get the parent view reference")
+            return
+        }
+
+        let origin = webView.bounds.origin
+        let size = webView.bounds.size
+        let position = parentView.convert(origin, from: webView)
+        setCurrent(position: CGRect(origin: position, size: size))
+    }
+
+    @objc
+    public func setScreen(size: CGSize) {
+        evaluate(javascript: "window.mraid.setScreenSize(\(size.width),\(size.height));")
+    }
+
+    @objc
+    public func shouldAdAutoRotate() -> Bool {
+        guard let orientationProperties = self.orientationProperties else { return true }
+        return orientationProperties.allowOrientationChange
+    }
+
+    @objc
+      public func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+          guard let orientationProperties = self.orientationProperties else { return .all }
+          return orientationProperties.supportedOrietationMask
+      }
 
     @objc
     public func onDealloc() {
@@ -153,111 +198,228 @@ public class CRMRAIDHandler: NSObject {
 
 // MARK: - JS message handler
 extension CRMRAIDHandler: WKScriptMessageHandler {
-  public func userContentController(
-    _ userContentController: WKUserContentController,
-    didReceive message: WKScriptMessage
-  ) {
-    messageHandler.handle(message: message.body)
-  }
+    public func userContentController(
+        _ userContentController: WKUserContentController,
+        didReceive message: WKScriptMessage
+    ) {
+        messageHandler.handle(message: message.body)
+    }
 }
 
 // MARK: - Private methods
-extension CRMRAIDHandler {
-  fileprivate func stopViabilityNotifier() {
-    timer?.invalidate()
-    timer = nil
-  }
-
-  fileprivate func setMaxSize() {
-    let size: CGSize =
-      webView.cr_parentViewController()?.view.bounds.size ?? UIScreen.main.bounds.size
-    evaluate(
-      javascript:
-        "window.mraid.setMaxSize(\(size.width), \(size.height), \(UIScreen.main.scale));")
-  }
-
-  @objc fileprivate func setIsViewable(visible: Bool) {
-    evaluate(javascript: "window.mraid.setIsViewable(\"\(visible.stringValue)\");")
-  }
-
-  @objc fileprivate func viewabilityCheck() {
-    let isWebViewVisible = webView.isVisibleToUser
-    guard isWebViewVisible != isViewVisible else { return }
-
-    isViewVisible = isWebViewVisible
-    setIsViewable(visible: isWebViewVisible)
-  }
-
-  fileprivate func sendReadyEvent(with placement: String) {
-    evaluate(javascript: "window.mraid.notifyReady(\"\(placement)\");")
-  }
-
-  fileprivate func setCurrent(position: CGRect) {
-    evaluate(
-      javascript:
-        "window.mraid.setCurrentPosition({x:\(position.minX), y:\(position.minY), width:\(position.width), height:\(position.height)});"
-    )
-  }
-
-  fileprivate func evaluate(javascript: String) {
-    webView.evaluateJavaScript(javascript, completionHandler: handleJSCallback)
-  }
-
-  fileprivate func handleJSCallback(_ agent: Any?, _ error: Error?) {
-    if let error = error {
-      debugPrint("error on js call: \(error)")
-    } else {
-      debugPrint("no error on js callback")
+fileprivate extension CRMRAIDHandler {
+    func setOrientationProperties(from viewController: UIViewController) {
+        orientationProperties = MRAIDOrientationProperties(allowOrientationChange: viewController.shouldAutorotate,
+                                                           orientationMask: viewController.supportedInterfaceOrientations)
     }
-  }
 
-  fileprivate func notifyExpanded() {
-    evaluate(javascript: "window.mraid.notifyExpanded();")
-  }
+    func setDefaultSupportedOrientationMask() {
+        /// Avoid overriding the already set orientation properties
+        guard orientationProperties == nil else { return }
 
-  fileprivate func notifyClosed() {
-    evaluate(javascript: "window.mraid.notifyClosed();")
-  }
+        switch placementType {
+        case .banner:
+            guard let viewController = webView.cr_rootViewController() else { return }
+            setOrientationProperties(from: viewController)
+        case .interstitial:
+            guard
+                let interstitialViewController = webView.cr_parentViewController(),
+                let viewController = interstitialViewController.presentingViewController else {
+                break
+            }
+            setOrientationProperties(from: viewController)
+        }
+    }
 
-  fileprivate func registerDeviceOrientationListener() {
-    NotificationCenter.default.addObserver(
-      self, selector: #selector(deviceOrientationDidChange),
-      name: UIDevice.orientationDidChangeNotification, object: nil)
-  }
+    func stopViabilityNotifier() {
+        timer?.invalidate()
+        timer = nil
+    }
 
-  @objc fileprivate func deviceOrientationDidChange() {
-    setMaxSize()
-  }
+    func setMaxSize() {
+        let size: CGSize =
+        webView.cr_parentViewController()?.view.bounds.size ?? UIScreen.main.bounds.size
+        evaluate(
+            javascript:
+                "window.mraid.setMaxSize(\(size.width), \(size.height), \(UIScreen.main.scale));")
+    }
 
-  fileprivate func unregisterDeviceOrientationListener() {
-    NotificationCenter.default.removeObserver(
-      self, name: UIDevice.orientationDidChangeNotification, object: nil)
-  }
+    @objc func setIsViewable(visible: Bool) {
+        evaluate(javascript: "window.mraid.setIsViewable(\"\(visible.stringValue)\");")
+    }
+
+    @objc func viewabilityCheck() {
+        let isWebViewVisible = webView.isVisibleToUser
+        guard isWebViewVisible != isViewVisible else { return }
+
+        isViewVisible = isWebViewVisible
+        setIsViewable(visible: isWebViewVisible)
+    }
+
+    func sendReadyEvent(with placement: String) {
+        evaluate(javascript: "window.mraid.notifyReady(\"\(placement)\");")
+    }
+
+    func setCurrent(position: CGRect) {
+        evaluate(
+            javascript:
+                "window.mraid.setCurrentPosition(\(position.minX),\(position.minY),\(position.width),\(position.height));"
+        )
+    }
+
+    func setSupportedFeatures() {
+        guard
+            let data = try? JSONEncoder().encode(MRAIDFeatures()),
+            let supportedFeaturesString = String(data: data, encoding: .utf8) else {
+            logger.mraidLog(error: "Could not set supported features")
+            return
+        }
+        evaluate(javascript: "window.mraid.setSupports(\(supportedFeaturesString));")
+    }
+
+    func evaluate(javascript: String) {
+        debugPrint("js: \(javascript)")
+        webView.evaluateJavaScript(javascript, completionHandler: handleJSCallback)
+    }
+
+    func handleJSCallback(_ agent: Any?, _ error: Error?) {
+        if let error = error {
+            debugPrint("error on js call: \(error)")
+        } else {
+            debugPrint("no error on js callback")
+        }
+    }
+
+    func notifyExpanded() {
+        evaluate(javascript: "window.mraid.notifyExpanded();")
+    }
+
+    func notifyClosed() {
+        evaluate(javascript: "window.mraid.notifyClosed();")
+    }
+
+    func notifyResized() {
+        evaluate(javascript: "window.mraid.notifyResized();")
+    }
+
+    func registerDeviceOrientationListener() {
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(deviceOrientationDidChange),
+            name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+
+    @objc func deviceOrientationDidChange() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            self.setCurrentPosition()
+            self.setMaxSize()
+            self.setScreen(size: UIScreen.main.bounds.size)
+        }
+    }
+
+    func unregisterDeviceOrientationListener() {
+        NotificationCenter.default.removeObserver(
+            self, name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
 }
 
 // MARK: - MRAID Message delegate
 extension CRMRAIDHandler: MRAIDMessageHandlerDelegate {
-  public func didReceive(expand action: MRAIDExpandMessage) {
-    guard state != .expanded else { return }
+    public func didReceive(expand action: MRAIDExpandMessage) {
+        guard state != .expanded else { return }
 
-    delegate.expand?(width: action.width, height: action.width, url: action.url) { [weak self] in
-      self?.onSuccessClose()
+        if state == .resized {
+            resizeHandler.close()
+        }
+
+        delegate?.expand?(width: action.width, height: action.width, url: action.url) { [weak self] in
+            self?.onSuccessClose()
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + Constants.updateDelay) {
+            self.state = .expanded
+            self.setCurrentPosition()
+            self.notifyExpanded()
+            self.onSetOrientation()
+        }
     }
 
-    DispatchQueue.main.asyncAfter(deadline: .now() + CRMRAIDHandler.updateDelay) {
-      self.state = .expanded
-      self.notifyExpanded()
+    func onSetOrientation() {
+        if #available(iOS 16.0, *) {
+            if let window = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                window.requestGeometryUpdate(.iOS(interfaceOrientations: orientationProperties?.orientationMask ?? .all))
+            } else if let parentViewController = webView.cr_parentViewController() {
+                parentViewController.setNeedsUpdateOfSupportedInterfaceOrientations()
+            }
+        } else if let interfaceOrientation = orientationProperties?.orientationMask {
+            UIDevice.current.setValue(interfaceOrientation.rawValue, forKey: "orientation")
+            UIViewController.attemptRotationToDeviceOrientation()
+        }
     }
-  }
 
-  public func didReceiveCloseAction() {
-    guard state == .default || state == .expanded else {
-      logger.mraidLog(error: "Close action is not valid in current state: \(state)")
-      return
+    public func didReceiveCloseAction() {
+        guard state == .default || state == .expanded else {
+            logger.mraidLog(error: "Close action is not valid in current state: \(state)")
+            return
+        }
+
+        delegate?.close { [weak self] in
+            self?.onSuccessClose()
+        }
     }
 
-    delegate.close { [weak self] in
-      self?.onSuccessClose()
+    public func didReceivePlayVideoAction(with url: String) {
+        guard
+            let parentViewController = webView.cr_rootViewController(),
+            let videoURL = URL(string: url)
+        else {
+            logger.mraidLog(error: "Could not play video with url: \(url)")
+            return
+        }
+
+        let playerViewController = AVPlayerViewController()
+        playerViewController.player = AVPlayer(url: videoURL)
+
+        parentViewController.present(playerViewController, animated: true) {
+            playerViewController.player?.play()
+        }
     }
-  }
+
+    public func didReceive(resize action: MRAIDResizeMessage) {
+        guard placementType == .banner else {
+            logger.mraidLog(error: "Resize action can be execute only for banner ad type")
+            return
+
+        }
+
+        guard resizeHandler.canResize(mraidState: state) else {
+            logger.mraidLog(error: "Resize action can be execute only on default or resized states")
+            return
+        }
+
+        if state == .default {
+            webViewContainer = webView.superview
+        }
+
+        do {
+            try resizeHandler.resize(with: action, webViewContainer: webViewContainer)
+            state = .resized
+            notifyResized()
+        } catch {
+            logger.mraidLog(error: "Could not resize ad.")
+        }
+    }
+
+    public func didReceive(orientation properties: MRAIDOrientationPropertiesMessage) {
+        orientationProperties = MRAIDOrientationProperties(allowOrientationChange: properties.allowOrientationChange,
+                                                           forceOrientation: properties.forceOrientation)
+        guard placementType == .interstitial || state == .expanded else { return }
+        onSetOrientation()
+    }
+}
+
+extension CRMRAIDHandler: MRAIDResizeHandlerDelegate {
+    public func didCloseResizedAdView() {
+        onSuccessClose()
+    }
 }

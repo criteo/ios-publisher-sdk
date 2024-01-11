@@ -24,4 +24,5 @@ public enum MRAIDState: String, Decodable {
   case `default`
   case expanded
   case hidden
+  case resized
 }

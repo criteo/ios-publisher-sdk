@@ -51,6 +51,12 @@
 
 - (BOOL)cr_valueForMRAID;
 
+- (BOOL)cr_valueForMRAID2;
+
+- (void)cr_setValueForMRAID:(BOOL)mraidEnabled;
+
+- (void)cr_setValueForMRAID2:(BOOL)mraid2Enabled;
+
 @end
 
 #endif /* NSUserDefaults_CR_Config_H */

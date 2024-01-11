@@ -25,7 +25,6 @@
 #import "CR_DependencyProvider.h"
 #import "CR_Logging.h"
 #import "NSError+Criteo.h"
-#import "CRMRAIDConstants.h"
 #import "CRLogUtil.h"
 #import "UIView+Criteo.h"
 #import "CR_SKAdNetworkHandler.h"
@@ -99,14 +98,20 @@
     }
     _adUnit = adUnit;
     _urlOpener = opener;
-    if (criteo.config.isMRAIDEnabled) {
-      _mraidHandler = [[CRMRAIDHandler alloc] initWith:_webView
-                                          criteoLogger:[CRLogUtil new]
-                                             urlOpener:self
-                                              delegate:self];
+    if (criteo.config.isMRAIDGlobalEnabled) {
+      _mraidHandler = [[CRMRAIDHandler alloc] initWithPlacementType:CRPlacementTypeBanner
+                                                            webView:_webView
+                                                       criteoLogger:[CRLogUtil new]
+                                                          urlOpener:self
+                                                           delegate:self];
     }
   }
   return self;
+}
+
+- (void)layoutSubviews {
+  [super layoutSubviews];
+  [_mraidHandler setCurrentPosition];
 }
 
 - (void)safelyLoadWebViewWithDisplayUrl:(NSString *)displayUrl {
@@ -238,7 +243,7 @@
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-  [_mraidHandler onAdLoadWith:CR_MRAID_PLACEMENT_BANNER];
+  [_mraidHandler onAdLoad];
   if (@available(iOS 14.5, *)) {
     [_skadNetworkHandler startSKAdImpression];
   }
@@ -340,8 +345,9 @@
   UIViewController *mraidFullScreenContainer =
       [[CRFulllScreenContainer alloc] initWith:_webView
                                           size:CGSizeMake(width, height)
+                                  mraidHandler:_mraidHandler
                              dismissCompletion:completion];
-  mraidFullScreenContainer.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+  mraidFullScreenContainer.modalPresentationStyle = UIModalPresentationOverFullScreen;
   mraidFullScreenContainer.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
   [webViewViewController presentViewController:mraidFullScreenContainer
                                       animated:YES

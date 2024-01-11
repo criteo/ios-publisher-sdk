@@ -1,5 +1,5 @@
 //
-//  ActionRepresentable.swift
+//  MRAIDFeature.swift
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2023 Criteo. All rights reserved.
@@ -18,19 +18,21 @@
 //
 
 import Foundation
+import MessageUI
 
-public protocol ActionRepresentable {
-  var action: Action { get }
-}
+public struct MRAIDFeatures: Codable {
+    var sms: Bool = false
+    var tel: Bool = false
 
-public enum Action: String, Decodable {
-  case log
-  case `open`
-  case expand
-  case close
-  case none
-  case playVideo = "play_video"
-  case resize
-  case orientationPropertiesUpdate = "orientation_properties_update"
-  case orientationPropertiesSet = "set_orientation_properties"
+    public init() {
+        if
+            let telURL = URL(string: "tel://"),
+            UIApplication.shared.canOpenURL(telURL) {
+            self.tel = true
+        }
+
+        if MFMessageComposeViewController.canSendText() {
+            self.sms = true
+        }
+    }
 }

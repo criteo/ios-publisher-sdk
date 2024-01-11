@@ -31,7 +31,6 @@
 #import "CR_DisplaySizeInjector.h"
 #import "CR_IntegrationRegistry.h"
 #import "CR_Logging.h"
-#import "CRMRAIDConstants.h"
 #import "CRLogUtil.h"
 #import "CR_SKAdNetworkHandler.h"
 
@@ -63,11 +62,12 @@
     _isAdLoaded = isAdLoaded;
     _adUnit = adUnit;
     _urlOpener = urlOpener;
-    if (criteo.config.isMRAIDEnabled) {
-      _mraidHandler = [[CRMRAIDHandler alloc] initWith:viewController.webView
-                                          criteoLogger:[CRLogUtil new]
-                                             urlOpener:self
-                                              delegate:self];
+    if (criteo.config.isMRAIDGlobalEnabled) {
+      _mraidHandler = [[CRMRAIDHandler alloc] initWithPlacementType:CRPlacementTypeInterstitial
+                                                            webView:viewController.webView
+                                                       criteoLogger:[CRLogUtil new]
+                                                          urlOpener:self
+                                                           delegate:self];
       __weak typeof(self) weakSelf = self;
       _viewController.dismissCompletion = ^{
         [weakSelf.mraidHandler onSuccessClose];
@@ -232,7 +232,7 @@
   self.isAdLoading = NO;
   self.isAdLoaded = YES;
   [self dispatchDidReceiveAdDelegate];
-  [_mraidHandler onAdLoadWith:CR_MRAID_PLACEMENT_INTERSTITIAL];
+  [_mraidHandler onAdLoad];
 }
 
 - (void)presentFromRootViewController:(UIViewController *)rootViewController {
@@ -388,6 +388,15 @@
 #pragma CRMRAIDHandlerDelegate
 - (void)closeWithCompletion:(void (^)(void))completion {
   [self.viewController dismissViewController];
+}
+
+#pragma CRMRAID Orientation Properties
+- (BOOL)shouldAutorotate {
+  return [_mraidHandler shouldAdAutoRotate];
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+  return [_mraidHandler supportedInterfaceOrientations];
 }
 
 #pragma SKAdImpression

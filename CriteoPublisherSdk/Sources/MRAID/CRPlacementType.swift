@@ -1,5 +1,5 @@
 //
-//  ActionRepresentable.swift
+//  CRPlacementType.swift
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2023 Criteo. All rights reserved.
@@ -19,18 +19,15 @@
 
 import Foundation
 
-public protocol ActionRepresentable {
-  var action: Action { get }
-}
+@objc
+public enum CRPlacementType: Int {
+    case banner
+    case interstitial
 
-public enum Action: String, Decodable {
-  case log
-  case `open`
-  case expand
-  case close
-  case none
-  case playVideo = "play_video"
-  case resize
-  case orientationPropertiesUpdate = "orientation_properties_update"
-  case orientationPropertiesSet = "set_orientation_properties"
+    var placementTypeString: String {
+        switch self {
+        case .banner: return "inline"
+        case .interstitial: return "interstitial"
+        }
+    }
 }

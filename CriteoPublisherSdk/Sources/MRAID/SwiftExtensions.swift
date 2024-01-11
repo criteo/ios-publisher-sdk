@@ -20,58 +20,64 @@
 import UIKit
 
 extension UIView {
-  public var isVisibleToUser: Bool {
-
-    if isHidden || alpha == 0 || superview == nil {
-      return false
+    func fill(in container: UIView) {
+        NSLayoutConstraint.activate([
+          widthAnchor.constraint(equalTo: container.widthAnchor),
+          heightAnchor.constraint(equalTo: container.heightAnchor),
+          centerXAnchor.constraint(equalTo: container.centerXAnchor),
+          centerYAnchor.constraint(equalTo: container.centerYAnchor)
+        ])
     }
 
-    guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
-      return false
+    func removeAllConstraints() {
+        removeConstraints(constraints)
     }
 
-    let viewFrame = convert(bounds, to: rootViewController.view)
+    public var isVisibleToUser: Bool {
+        if isHidden || alpha == 0 || superview == nil || window == nil {
+            return false
+        }
 
-    let topSafeArea: CGFloat
-    let bottomSafeArea: CGFloat
+        guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
+            return false
+        }
 
-    if #available(iOS 11.0, *) {
-      topSafeArea = rootViewController.view.safeAreaInsets.top
-      bottomSafeArea = rootViewController.view.safeAreaInsets.bottom
-    } else {
-      topSafeArea = rootViewController.topLayoutGuide.length
-      bottomSafeArea = rootViewController.bottomLayoutGuide.length
+        let viewFrame = convert(bounds, to: rootViewController.view)
+        let rootRectange = CGRect(origin: .zero, size: rootViewController.view.bounds.size)
+
+        return rootRectange.intersects(viewFrame)
     }
 
-    return viewFrame.minX >= 0 && viewFrame.maxX <= rootViewController.view.bounds.width
-      && viewFrame.minY >= topSafeArea
-      && viewFrame.maxY <= rootViewController.view.bounds.height - bottomSafeArea
-  }
-
-  @objc
-  public func cr_parentViewController() -> UIViewController? {
-    var responder: UIResponder? = self
-    while responder != nil {
-      if responder is UIViewController {
-        return responder as? UIViewController
-      }
-      responder = responder?.next
+    @objc
+    public func cr_parentViewController() -> UIViewController? {
+        var responder: UIResponder? = self
+        while responder != nil {
+            if responder is UIViewController {
+                return responder as? UIViewController
+            }
+            responder = responder?.next
+        }
+        return nil
     }
-    return nil
-  }
 
-  @objc
-  public func cr_rootViewController() -> UIViewController? {
-    var controller: UIViewController? = cr_parentViewController()
-    while controller?.parent != nil {
-      controller = controller?.parent
+    @objc
+    public func cr_rootViewController() -> UIViewController? {
+        var controller: UIViewController? = cr_parentViewController()
+        while controller?.parent != nil {
+            controller = controller?.parent
+        }
+        return controller
     }
-    return controller
-  }
 }
 
 extension Bool {
-  public var stringValue: String {
-    return self == true ? "true" : "false"
-  }
+    public var stringValue: String {
+        return self == true ? "true" : "false"
+    }
+}
+
+extension CGRect {
+    public func contains(points: [CGPoint]) -> Bool {
+        return points.filter({ !contains($0)}).isEmpty
+    }
 }

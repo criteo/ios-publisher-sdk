@@ -42,6 +42,7 @@
   [userDefaults removeObjectForKey:NSUserDefaultsLiveBiddingTimeBudgetKey];
   [userDefaults removeObjectForKey:NSUserDefaultsRemoteLogLevelKey];
   [userDefaults removeObjectForKey:NSUserDefaultsMRAIDKey];
+  [userDefaults removeObjectForKey:NSUserDefaultsMRAID2Key];
 
   [super tearDown];
 }
@@ -201,10 +202,29 @@
 - (void)testInit_GivenUserDefaultWithMRAIDEnabled {
   NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
   [userDefaults setBool:YES forKey:NSUserDefaultsMRAIDKey];
+  [userDefaults setBool:YES forKey:NSUserDefaultsMRAID2Key];
 
   CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
 
-  XCTAssertTrue(config.isMRAIDEnabled);
+  XCTAssertTrue(config.isMraidEnabled);
+  XCTAssertTrue(config.isMraid2Enabled);
+  XCTAssertTrue(config.isMRAIDGlobalEnabled);
+}
+
+- (void)testInit_GivenUserDefaultWithMRAIDDisabled {
+  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
+  CR_Config *config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertFalse(config.isMraidEnabled);
+  XCTAssertFalse(config.isMraid2Enabled);
+  XCTAssertFalse(config.isMRAIDGlobalEnabled);
+
+  [userDefaults setBool:YES forKey:NSUserDefaultsMRAID2Key];
+  config = [[CR_Config alloc] initWithUserDefaults:userDefaults];
+
+  XCTAssertFalse(config.isMraidEnabled);
+  XCTAssertTrue(config.isMraid2Enabled);
+  XCTAssertTrue(config.isMRAIDGlobalEnabled);
 }
 
 #pragma mark - Prefetch on init Enabled

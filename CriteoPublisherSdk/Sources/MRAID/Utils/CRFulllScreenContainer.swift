@@ -32,12 +32,17 @@ public class CRFulllScreenContainer: UIViewController {
   weak var delegate: CRFulllScreenContainerDelegate?
   private weak var webViewBannerContainer: UIView?
   private var dismissCompletion: VoidCompletion?
+  private let mraidHandler: CRMRAIDHandler
 
   @objc
-  public init(with webView: WKWebView, size: CGSize, dismissCompletion: VoidCompletion?) {
+  public init(with webView: WKWebView,
+              size: CGSize,
+              mraidHandler: CRMRAIDHandler,
+              dismissCompletion: VoidCompletion?) {
     self.closeButton = UIButton(type: .custom)
     self.webView = webView
     self.webViewSize = size
+    self.mraidHandler = mraidHandler
     self.dismissCompletion = dismissCompletion
     super.init(nibName: nil, bundle: nil)
 
@@ -57,15 +62,18 @@ public class CRFulllScreenContainer: UIViewController {
     webView.removeFromSuperview()
     // 2. add webview back to banner container
     container.addSubview(webView)
-    NSLayoutConstraint.activate([
-      webView.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 1),
-      webView.heightAnchor.constraint(equalTo: container.heightAnchor, multiplier: 1),
-      webView.centerXAnchor.constraint(equalTo: container.centerXAnchor),
-      webView.centerYAnchor.constraint(equalTo: container.centerYAnchor)
-    ])
+    webView.fill(in: container)
     // 3. dismiss full screen controller
     dismiss(animated: true, completion: completion)
   }
+
+    public override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return mraidHandler.supportedInterfaceOrientations()
+    }
+
+    public override var shouldAutorotate: Bool {
+        return mraidHandler.shouldAdAutoRotate()
+    }
 }
 
 // MARK: - Private methods
@@ -169,6 +177,7 @@ extension CRFulllScreenContainer {
     webViewBannerContainer = webView.superview
     // 2. remove all constraints
     webView.removeFromSuperview()
+    closeButton.removeFromSuperview()
     // 3. add webview to new container
     view.addSubview(webView)
     view.addSubview(closeButton)
@@ -188,6 +197,7 @@ extension CRFulllScreenContainer {
   }
 
   fileprivate func referenceViewForCloseButton(for size: CGSize) -> UIView {
+    if size.width <= 0 || size.height <= 0 { return view }
     return (view.frame.width < size.width || view.frame.height < webViewSize.height)
       ? view : webView
   }

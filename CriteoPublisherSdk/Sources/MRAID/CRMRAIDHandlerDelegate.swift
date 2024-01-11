@@ -1,5 +1,5 @@
 //
-//  ActionRepresentable.swift
+//  CRMRAIDHandlerDelegate.swift
 //  CriteoPublisherSdk
 //
 //  Copyright © 2018-2023 Criteo. All rights reserved.
@@ -19,18 +19,10 @@
 
 import Foundation
 
-public protocol ActionRepresentable {
-  var action: Action { get }
-}
-
-public enum Action: String, Decodable {
-  case log
-  case `open`
-  case expand
-  case close
-  case none
-  case playVideo = "play_video"
-  case resize
-  case orientationPropertiesUpdate = "orientation_properties_update"
-  case orientationPropertiesSet = "set_orientation_properties"
+@objc
+public protocol CRMRAIDHandlerDelegate: AnyObject {
+    @objc
+    optional
+    func expand(width: Int, height: Int, url: URL?, completion: VoidCompletion?)
+    func close(completion: VoidCompletion?)
 }
