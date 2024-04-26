@@ -1,5 +1,11 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
+## Version [6.1.0]
+
+### Features
+- Added Privacy manifest to pod embedded resources
+
+--------------------------------------------------------------------------------
 ## Version [6.0.0]
 
 ### Features
