@@ -290,6 +290,11 @@
 		A84FF8932AB8892500DD3AE2 /* MRAIDOrientationPropertiesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84FF8922AB8892500DD3AE2 /* MRAIDOrientationPropertiesTests.swift */; };
 		A879179329A7230F00A3B798 /* CRMRAIDHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A879179229A7230F00A3B798 /* CRMRAIDHandler.swift */; };
 		A879179629A771CF00A3B798 /* SwiftExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A879179529A771CF00A3B798 /* SwiftExtensions.swift */; };
+		A8ABDE462ACC31DA00E82CDE /* CR_SKAdNetworkHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = A8ABDE442ACC31DA00E82CDE /* CR_SKAdNetworkHandler.h */; };
+		A8ABDE472ACC31DA00E82CDE /* CR_SKAdNetworkHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = A8ABDE452ACC31DA00E82CDE /* CR_SKAdNetworkHandler.m */; };
+		A8ABDE552AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.h in Headers */ = {isa = PBXBuildFile; fileRef = A8ABDE532AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.h */; };
+		A8ABDE562AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = A8ABDE542AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.m */; };
+		A8ABDE582AD7E36E00E82CDE /* CR_SKAdNetworkImpressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A8ABDE572AD7E36E00E82CDE /* CR_SKAdNetworkImpressionTests.m */; };
 		A8C3DF392A8E062100B6A4BE /* MRAIDResizeMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8C3DF382A8E062100B6A4BE /* MRAIDResizeMessage.swift */; };
 		A8C3DF3D2A8E071700B6A4BE /* MRAIDCustomClosePosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8C3DF3C2A8E071700B6A4BE /* MRAIDCustomClosePosition.swift */; };
 		A8C3DF3F2A935D1C00B6A4BE /* MRAIDResizeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8C3DF3E2A935D1C00B6A4BE /* MRAIDResizeHandler.swift */; };
@@ -297,11 +302,6 @@
 		A8C3DF432A94FE4800B6A4BE /* CRPlacementType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8C3DF422A94FE4800B6A4BE /* CRPlacementType.swift */; };
 		A8C3DF452A94FE6800B6A4BE /* CRMRAIDHandlerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8C3DF442A94FE6800B6A4BE /* CRMRAIDHandlerDelegate.swift */; };
 		A8C3DF4F2A9E256200B6A4BE /* MRAIDResizeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8C3DF4E2A9E256200B6A4BE /* MRAIDResizeTests.swift */; };
-		A8ABDE462ACC31DA00E82CDE /* CR_SKAdNetworkHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = A8ABDE442ACC31DA00E82CDE /* CR_SKAdNetworkHandler.h */; };
-		A8ABDE472ACC31DA00E82CDE /* CR_SKAdNetworkHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = A8ABDE452ACC31DA00E82CDE /* CR_SKAdNetworkHandler.m */; };
-		A8ABDE552AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.h in Headers */ = {isa = PBXBuildFile; fileRef = A8ABDE532AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.h */; };
-		A8ABDE562AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = A8ABDE542AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.m */; };
-		A8ABDE582AD7E36E00E82CDE /* CR_SKAdNetworkImpressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A8ABDE572AD7E36E00E82CDE /* CR_SKAdNetworkImpressionTests.m */; };
 		A8E22E1B29DD75DF0094FFA4 /* MRAIDExpandMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E22E1A29DD75DF0094FFA4 /* MRAIDExpandMessage.swift */; };
 		A8E22E1D29DEFD4A0094FFA4 /* MRAIDState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E22E1C29DEFD4A0094FFA4 /* MRAIDState.swift */; };
 		A8E22E1F29DF06250094FFA4 /* CRFulllScreenContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E22E1E29DF06250094FFA4 /* CRFulllScreenContainer.swift */; };
@@ -364,6 +364,7 @@
 		C07ABF0597CEB2DD36AE7B51 /* CR_FeedbackControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07ABBA46FCA43B62B82A2A0 /* CR_FeedbackControllerTests.m */; };
 		C07ABF991A19EF937114D960 /* CR_RemoteLogHandlerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C07AB53E83BAA3D26C8661A8 /* CR_RemoteLogHandlerTests.m */; };
 		CFA4C0E324487ED4003FC46B /* CR_FeedbackController.h in Headers */ = {isa = PBXBuildFile; fileRef = C07AB510AF4AF6C47D87E0F3 /* CR_FeedbackController.h */; };
+		DBB69F792BE404D00040DC89 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A863B2D02B345281006E6476 /* PrivacyInfo.xcprivacy */; };
 		DF367C8A232974210044807B /* CRNativeAdUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = DF367C84232971810044807B /* CRNativeAdUnit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DF367C8B2329743C0044807B /* CRNativeAdUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = DF367C85232971810044807B /* CRNativeAdUnit.m */; };
 		DF367C9B232AE8510044807B /* CR_NativeImage.m in Sources */ = {isa = PBXBuildFile; fileRef = DF367C97232AE8510044807B /* CR_NativeImage.m */; };
@@ -758,6 +759,11 @@
 		A863B2D02B345281006E6476 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		A879179229A7230F00A3B798 /* CRMRAIDHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRMRAIDHandler.swift; sourceTree = "<group>"; };
 		A879179529A771CF00A3B798 /* SwiftExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftExtensions.swift; sourceTree = "<group>"; };
+		A8ABDE442ACC31DA00E82CDE /* CR_SKAdNetworkHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_SKAdNetworkHandler.h; sourceTree = "<group>"; };
+		A8ABDE452ACC31DA00E82CDE /* CR_SKAdNetworkHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_SKAdNetworkHandler.m; sourceTree = "<group>"; };
+		A8ABDE532AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_SKAdNetworkFidelityParameter.h; sourceTree = "<group>"; };
+		A8ABDE542AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_SKAdNetworkFidelityParameter.m; sourceTree = "<group>"; };
+		A8ABDE572AD7E36E00E82CDE /* CR_SKAdNetworkImpressionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_SKAdNetworkImpressionTests.m; sourceTree = "<group>"; };
 		A8C3DF382A8E062100B6A4BE /* MRAIDResizeMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDResizeMessage.swift; sourceTree = "<group>"; };
 		A8C3DF3C2A8E071700B6A4BE /* MRAIDCustomClosePosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDCustomClosePosition.swift; sourceTree = "<group>"; };
 		A8C3DF3E2A935D1C00B6A4BE /* MRAIDResizeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDResizeHandler.swift; sourceTree = "<group>"; };
@@ -765,11 +771,6 @@
 		A8C3DF422A94FE4800B6A4BE /* CRPlacementType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRPlacementType.swift; sourceTree = "<group>"; };
 		A8C3DF442A94FE6800B6A4BE /* CRMRAIDHandlerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRMRAIDHandlerDelegate.swift; sourceTree = "<group>"; };
 		A8C3DF4E2A9E256200B6A4BE /* MRAIDResizeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDResizeTests.swift; sourceTree = "<group>"; };
-		A8ABDE442ACC31DA00E82CDE /* CR_SKAdNetworkHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_SKAdNetworkHandler.h; sourceTree = "<group>"; };
-		A8ABDE452ACC31DA00E82CDE /* CR_SKAdNetworkHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_SKAdNetworkHandler.m; sourceTree = "<group>"; };
-		A8ABDE532AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CR_SKAdNetworkFidelityParameter.h; sourceTree = "<group>"; };
-		A8ABDE542AD5460500E82CDE /* CR_SKAdNetworkFidelityParameter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_SKAdNetworkFidelityParameter.m; sourceTree = "<group>"; };
-		A8ABDE572AD7E36E00E82CDE /* CR_SKAdNetworkImpressionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CR_SKAdNetworkImpressionTests.m; sourceTree = "<group>"; };
 		A8E22E1A29DD75DF0094FFA4 /* MRAIDExpandMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDExpandMessage.swift; sourceTree = "<group>"; };
 		A8E22E1C29DEFD4A0094FFA4 /* MRAIDState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRAIDState.swift; sourceTree = "<group>"; };
 		A8E22E1E29DF06250094FFA4 /* CRFulllScreenContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRFulllScreenContainer.swift; sourceTree = "<group>"; };
@@ -2077,6 +2078,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DBB69F792BE404D00040DC89 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
