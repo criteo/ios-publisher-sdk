@@ -1,5 +1,11 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
+## Version [6.1.1]
+
+### Features
+- Added Privacy manifest to xcframework bundle
+
+--------------------------------------------------------------------------------
 ## Version [6.1.0]
 
 ### Features
