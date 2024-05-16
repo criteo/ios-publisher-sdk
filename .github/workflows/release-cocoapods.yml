@@ -9,7 +9,7 @@ env:
 
 jobs:
   release-cocoapods:
-    runs-on: macos-12
+    runs-on: macos-13-xlarge
 
     steps:
       - name: Checkout
