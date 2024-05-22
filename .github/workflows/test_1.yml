@@ -13,14 +13,14 @@ env:
 
 jobs:
   test:
-    runs-on: macos-12
+    runs-on: macos-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Ruby & Bundle setup
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v1.176.0
         with:
           ruby-version: 2.7
           bundler-cache: true
@@ -58,8 +58,8 @@ jobs:
           bundle exec fastlane test_1
 
       - name: Tests reports upload
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: tests-reports
+          name: tests-reports-${{ matrix.runs-on }}
           path: "fastlane/test_output"
