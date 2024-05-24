@@ -21,7 +21,7 @@ jobs:
       - name: Ruby & Bundle setup
         uses: ruby/setup-ruby@v1.176.0
         with:
-          ruby-version: 2.7
+          ruby-version: 3.2
           bundler-cache: true
 
       - name: Cocoapods cache
