@@ -144,7 +144,7 @@
 #pragma mark - Private
 
 - (UIImage *)imageWithWidth:(CGFloat)width {
-  return [UIImage imageWithSize:(CGSize){width, 0}];
+  return [UIImage imageWithSize:(CGSize){width, 1}];
 }
 
 - (CRMediaView *)buildMediaView {

@@ -741,9 +741,7 @@
   WKWebView *mockWebView = OCMClassMock([WKWebView class]);
   UIView *mockView = OCMClassMock([UIView class]);
   CR_InterstitialViewController *interstitialVC =
-      [[CR_InterstitialViewController alloc] initWithWebView:mockWebView
-                                                        view:mockView
-                                                interstitial:nil];
+      [[CR_InterstitialViewController alloc] initWithWebView:mockWebView view:nil interstitial:nil];
   CRInterstitialAdUnit *adUnit1 = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"Yo"];
   CRInterstitialAdUnit *adUnit2 = [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"Yo"];
   CRInterstitial *interstitial =
