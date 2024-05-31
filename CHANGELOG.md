@@ -1,5 +1,14 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
+## Version [6.1.2]
+
+### Features
+- Switch to macos-latest runner
+- Update checkout and upload actions to v4
+- Remove archs exclusion
+- Fix tests
+
+--------------------------------------------------------------------------------
 ## Version [6.1.1]
 
 ### Features

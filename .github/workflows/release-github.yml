@@ -7,16 +7,16 @@ on:
       - '[0-9]+.[0-9]+.[0-9]+-[a-z]+[0-9]+'
 
 env:
-  DEVELOPER_DIR: /Applications/Xcode_14.2.app/Contents/Developer
+  DEVELOPER_DIR: /Applications/Xcode.app/Contents/Developer
 
 jobs:
   test-and-release:
     # Clone of main test workflow
-    runs-on: macos-12
+    runs-on: macos-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Ruby & Bundle setup
         uses: ruby/setup-ruby@v1
@@ -53,10 +53,10 @@ jobs:
           bundle exec fastlane format_check
 
       - name: Tests reports upload
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: tests-reports
+          name: tests-reports-${{ matrix.runs-on }}
           path: "fastlane/test_output"
 
       # Publish additional steps to test job
