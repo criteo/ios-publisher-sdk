@@ -140,8 +140,13 @@
 }
 
 - (CGSize)safeScreenSize {
-  if (@available(iOS 11.0, *)) {
-    UIWindow *keyWindow = UIApplication.sharedApplication.keyWindow;
+  if (@available(iOS 13.0, *)) {
+    NSPredicate *filter =
+        [NSPredicate predicateWithBlock:^BOOL(UIWindow *window, NSDictionary *bindings) {
+          return [window isKeyWindow];
+        }];
+    NSArray *windows = [[UIApplication sharedApplication] windows];
+    UIWindow *keyWindow = [[windows filteredArrayUsingPredicate:filter] firstObject];
     return keyWindow.safeAreaLayoutGuide.layoutFrame.size;
   }
   return self.screenSize;
