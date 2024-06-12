@@ -1,5 +1,13 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
+## Version [6.2.0]
+
+### Features
+- Updated Google-Mobile-Ads-SDK to v11
+- Bumped min iOS version to iOS 13
+- Update AdViewer dependencies
+
+--------------------------------------------------------------------------------
 ## Version [6.1.2]
 
 ### Features

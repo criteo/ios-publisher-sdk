@@ -1,72 +1,35 @@
 PODS:
-  - CriteoPublisherSdk (4.3.0-rc1):
-    - CriteoPublisherSdk/Sdk (= 4.3.0-rc1)
-  - CriteoPublisherSdk/Sdk (4.3.0-rc1)
+  - CriteoMRAID (1.0.1)
+  - CriteoPublisherSdk (6.1.2):
+    - CriteoMRAID (~> 1.0.1)
+    - CriteoPublisherSdk/Sdk (= 6.1.2)
+  - CriteoPublisherSdk/Sdk (6.1.2):
+    - CriteoMRAID (~> 1.0.1)
   - Eureka (5.3.2)
-  - Google-Mobile-Ads-SDK (8.1.0):
-    - GoogleAppMeasurement (~> 7.0)
-    - GoogleUserMessagingPlatform (~> 1.1)
-  - GoogleAppMeasurement (7.7.0):
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.0)
-    - GoogleUtilities/MethodSwizzler (~> 7.0)
-    - GoogleUtilities/Network (~> 7.0)
-    - "GoogleUtilities/NSData+zlib (~> 7.0)"
-    - nanopb (~> 2.30907.0)
-  - GoogleUserMessagingPlatform (1.4.0)
-  - GoogleUtilities/AppDelegateSwizzler (7.2.2):
-    - GoogleUtilities/Environment
-    - GoogleUtilities/Logger
-    - GoogleUtilities/Network
-  - GoogleUtilities/Environment (7.2.2):
-    - PromisesObjC (~> 1.2)
-  - GoogleUtilities/Logger (7.2.2):
-    - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (7.2.2):
-    - GoogleUtilities/Logger
-  - GoogleUtilities/Network (7.2.2):
-    - GoogleUtilities/Logger
-    - "GoogleUtilities/NSData+zlib"
-    - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (7.2.2)"
-  - GoogleUtilities/Reachability (7.2.2):
-    - GoogleUtilities/Logger
-  - mopub-ios-sdk/Core (5.16.1)
-  - nanopb (2.30907.0):
-    - nanopb/decode (= 2.30907.0)
-    - nanopb/encode (= 2.30907.0)
-  - nanopb/decode (2.30907.0)
-  - nanopb/encode (2.30907.0)
-  - PromisesObjC (1.2.12)
+  - Google-Mobile-Ads-SDK (11.5.0):
+    - GoogleUserMessagingPlatform (>= 1.1)
+  - GoogleUserMessagingPlatform (2.4.0)
 
 DEPENDENCIES:
-  - CriteoPublisherSdk (~> 4.3.0-rc1)
+  - CriteoPublisherSdk (~> 6.1.2)
   - Eureka
   - Google-Mobile-Ads-SDK
-  - mopub-ios-sdk/Core
 
 SPEC REPOS:
   trunk:
+    - CriteoMRAID
     - CriteoPublisherSdk
     - Eureka
     - Google-Mobile-Ads-SDK
-    - GoogleAppMeasurement
     - GoogleUserMessagingPlatform
-    - GoogleUtilities
-    - mopub-ios-sdk
-    - nanopb
-    - PromisesObjC
 
 SPEC CHECKSUMS:
-  CriteoPublisherSdk: a41d7f9fa916e47d6308f427f67dcc26a27fd844
+  CriteoMRAID: a037bee17b929a8bede8a07279e01a269cd85210
+  CriteoPublisherSdk: 710001048da8bde09116fc9812c879d4cdfcd480
   Eureka: 1c2b8b5892bfb0e972d0fe05f8c09fd89f8625ec
-  Google-Mobile-Ads-SDK: efb7fb74595668fbbe680f0d1c06f9a8ff694c7c
-  GoogleAppMeasurement: 0c3b134b2c0a90c4c24833873894bfe0e42a0384
-  GoogleUserMessagingPlatform: b168e8c46cd8f92aa3e34b584c4ca78a411ce367
-  GoogleUtilities: 31c5b01f978a70c6cff2afc6272b3f1921614b43
-  mopub-ios-sdk: d207b434e6aef9c2f57423512e5eda1edf82930f
-  nanopb: 59221d7f958fb711001e6a449489542d92ae113e
-  PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
+  Google-Mobile-Ads-SDK: 7db2098033ad3bfcd72a11e7503b49700a93029e
+  GoogleUserMessagingPlatform: f131fa7978d2ba88d7426702b057c2cc318e6595
 
-PODFILE CHECKSUM: 2658a507d07fe992aa9ac24759a37553d5e74c1a
+PODFILE CHECKSUM: 12a302b23b5f4259f745dda32753c8951d5f0ed2
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.15.2

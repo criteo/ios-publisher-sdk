@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -36,10 +36,7 @@
 		7DE88E5B248FA35B00F15D74 /* AdTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE88E5A248FA35B00F15D74 /* AdTableViewController.swift */; };
 		A828E839293F7803006AD697 /* GAMAdViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A828E838293F7803006AD697 /* GAMAdViewBuilder.swift */; };
 		A828E83B293F7849006AD697 /* InterstitialView+ads.swift in Sources */ = {isa = PBXBuildFile; fileRef = A828E83A293F7849006AD697 /* InterstitialView+ads.swift */; };
-		A828E845293F7978006AD697 /* CRBannerCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A828E83D293F7978006AD697 /* CRBannerCustomEvent.m */; };
-		A828E846293F7978006AD697 /* CRGoogleMediationParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = A828E83E293F7978006AD697 /* CRGoogleMediationParameters.m */; };
-		A828E847293F7978006AD697 /* CRCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A828E842293F7978006AD697 /* CRCustomEvent.m */; };
-		A828E848293F7978006AD697 /* CRInterstitialCustomEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = A828E844293F7978006AD697 /* CRInterstitialCustomEvent.m */; };
+		DBDC5D192C122BBA003BFC1D /* CriteoGoogleAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBDC5D182C122BBA003BFC1D /* CriteoGoogleAdapter.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,19 +48,6 @@
 			remoteInfo = AdViewer;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		54CAF8C6232C05B10050D8D9 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		02AF9A62F91F0010DBFC28A3 /* Pods-CriteoAdViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CriteoAdViewer.debug.xcconfig"; path = "Target Support Files/Pods-CriteoAdViewer/Pods-CriteoAdViewer.debug.xcconfig"; sourceTree = "<group>"; };
@@ -114,14 +98,7 @@
 		7DE88E5A248FA35B00F15D74 /* AdTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdTableViewController.swift; sourceTree = "<group>"; };
 		A828E838293F7803006AD697 /* GAMAdViewBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GAMAdViewBuilder.swift; sourceTree = "<group>"; };
 		A828E83A293F7849006AD697 /* InterstitialView+ads.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "InterstitialView+ads.swift"; sourceTree = "<group>"; };
-		A828E83D293F7978006AD697 /* CRBannerCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRBannerCustomEvent.m; sourceTree = "<group>"; };
-		A828E83E293F7978006AD697 /* CRGoogleMediationParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRGoogleMediationParameters.m; sourceTree = "<group>"; };
-		A828E83F293F7978006AD697 /* CRCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRCustomEvent.h; sourceTree = "<group>"; };
-		A828E840293F7978006AD697 /* CRInterstitialCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRInterstitialCustomEvent.h; sourceTree = "<group>"; };
-		A828E841293F7978006AD697 /* CRBannerCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRBannerCustomEvent.h; sourceTree = "<group>"; };
-		A828E842293F7978006AD697 /* CRCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRCustomEvent.m; sourceTree = "<group>"; };
-		A828E843293F7978006AD697 /* CRGoogleMediationParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRGoogleMediationParameters.h; sourceTree = "<group>"; };
-		A828E844293F7978006AD697 /* CRInterstitialCustomEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRInterstitialCustomEvent.m; sourceTree = "<group>"; };
+		DBDC5D182C122BBA003BFC1D /* CriteoGoogleAdapter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CriteoGoogleAdapter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +107,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7DC4A1D523EC73A20027DB5E /* CriteoPublisherSdk.framework in Frameworks */,
+				DBDC5D192C122BBA003BFC1D /* CriteoGoogleAdapter.framework in Frameworks */,
 				1BA1F5FDF6FEA87C9F2FAC25 /* libPods-CriteoAdViewer.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -170,6 +148,7 @@
 				4077EBA5218BC48300C41E68 /* Products */,
 				AEB379A3E47D7093DEBA6DA1 /* Frameworks */,
 				A2CF8BAD22F57242F276594C /* Pods */,
+				DBF3D2302C18386100521898 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -185,7 +164,6 @@
 		4077EBA6218BC48300C41E68 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				A828E83C293F7978006AD697 /* CriteoGoogleAdapter */,
 				462A60712417DB1C00E36D33 /* AdViewer */,
 				7D03F10623F1949900CB5D8B /* NativeAd */,
 				54B579122369CE09004DF616 /* Common */,
@@ -295,21 +273,6 @@
 			path = ../Pods;
 			sourceTree = "<group>";
 		};
-		A828E83C293F7978006AD697 /* CriteoGoogleAdapter */ = {
-			isa = PBXGroup;
-			children = (
-				A828E83D293F7978006AD697 /* CRBannerCustomEvent.m */,
-				A828E83E293F7978006AD697 /* CRGoogleMediationParameters.m */,
-				A828E83F293F7978006AD697 /* CRCustomEvent.h */,
-				A828E840293F7978006AD697 /* CRInterstitialCustomEvent.h */,
-				A828E841293F7978006AD697 /* CRBannerCustomEvent.h */,
-				A828E842293F7978006AD697 /* CRCustomEvent.m */,
-				A828E843293F7978006AD697 /* CRGoogleMediationParameters.h */,
-				A828E844293F7978006AD697 /* CRInterstitialCustomEvent.m */,
-			);
-			path = CriteoGoogleAdapter;
-			sourceTree = "<group>";
-		};
 		AEB379A3E47D7093DEBA6DA1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -317,6 +280,14 @@
 				57CFA2BE9A79C9EB66122CD1 /* libPods-CriteoAdViewer.a */,
 			);
 			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		DBF3D2302C18386100521898 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				DBDC5D182C122BBA003BFC1D /* CriteoGoogleAdapter.framework */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -330,7 +301,6 @@
 				4077EBA0218BC48300C41E68 /* Sources */,
 				4077EBA1218BC48300C41E68 /* Frameworks */,
 				4077EBA2218BC48300C41E68 /* Resources */,
-				54CAF8C6232C05B10050D8D9 /* Embed Frameworks */,
 				06439DA2052675F0102C4A26 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -466,20 +436,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A828E848293F7978006AD697 /* CRInterstitialCustomEvent.m in Sources */,
-				A828E846293F7978006AD697 /* CRGoogleMediationParameters.m in Sources */,
 				467A28E924168A1B00CEF5C7 /* EventLogEntry.m in Sources */,
 				4687264E240E9D7E0090489E /* LogTableViewController.swift in Sources */,
 				46151AB2240EC74100D514BE /* LogEntryViewController.swift in Sources */,
 				46151AB8240FC10F00D514BE /* ResponseLogEntry.m in Sources */,
-				A828E847293F7978006AD697 /* CRCustomEvent.m in Sources */,
 				46151AB5240FB8A500D514BE /* RequestLogEntry.m in Sources */,
 				A828E83B293F7849006AD697 /* InterstitialView+ads.swift in Sources */,
 				A828E839293F7803006AD697 /* GAMAdViewBuilder.swift in Sources */,
 				462A60662417A6C100E36D33 /* GoogleDFPLogger.m in Sources */,
 				462A60762417E56900E36D33 /* AdViewBuilder.swift in Sources */,
 				46872655240EA31B0090489E /* LogManager.m in Sources */,
-				A828E845293F7978006AD697 /* CRBannerCustomEvent.m in Sources */,
 				462A60732417DB5000E36D33 /* AdViewerViewController.swift in Sources */,
 				46505306256FE544007D9CE7 /* AppDelegate.swift in Sources */,
 				198CD402321085699A33FEF8 /* StandaloneLogger.m in Sources */,
@@ -585,7 +551,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -639,7 +605,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -669,6 +635,7 @@
 					"$(PROJECT_DIR)/**",
 				);
 				INFOPLIST_FILE = Sources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -709,6 +676,7 @@
 					"$(PROJECT_DIR)/**",
 				);
 				INFOPLIST_FILE = Sources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
