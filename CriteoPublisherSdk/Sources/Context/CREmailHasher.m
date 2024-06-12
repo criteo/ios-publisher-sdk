@@ -28,7 +28,12 @@
   NSData *data = [lowered dataUsingEncoding:NSUTF8StringEncoding];
 
   NSMutableData *md5Data = [NSMutableData dataWithLength:CC_MD5_DIGEST_LENGTH];
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   CC_MD5(data.bytes, (CC_LONG)data.length, md5Data.mutableBytes);
+#pragma clang diagnostic pop
+
   NSString *md5HexRepresentation = [CREmailHasher hexRepresentation:md5Data];
   NSData *md5HexData = [md5HexRepresentation dataUsingEncoding:NSASCIIStringEncoding];
 

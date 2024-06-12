@@ -93,10 +93,12 @@
   }
   /// Create the ad unit
   CRInterstitialAdUnit *adUnit = [[CRInterstitialAdUnit alloc] initWithAdUnitId:params.adUnitId];
+  NSNumber *childDirectedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
   /// Load Interstitial ad.
   [self loadInterstitialForAdUnit:adUnit
                   adConfiguration:params
-           childDirectedTreatment:adConfiguration.childDirectedTreatment];
+           childDirectedTreatment:childDirectedTreatment];
 }
 
 #pragma mark GADMediationInterstitialAd implementation
