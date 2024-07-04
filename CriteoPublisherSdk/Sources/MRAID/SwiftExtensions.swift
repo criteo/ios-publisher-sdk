@@ -38,7 +38,8 @@ extension UIView {
             return false
         }
 
-        guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
+        let keyWindow = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) ?? UIApplication.shared.windows.first
+        guard let rootViewController = keyWindow?.rootViewController else {
             return false
         }
 
