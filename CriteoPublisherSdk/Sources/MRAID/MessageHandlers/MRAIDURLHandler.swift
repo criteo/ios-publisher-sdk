@@ -38,7 +38,12 @@ public final class CRMRAIDURLHandler: MRAIDURLHandler {
   private unowned var urlOpener: CRExternalURLOpener
 
   private var topViewController: UIViewController? {
-    let keyWindow = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) ?? UIApplication.shared.windows.first
+    let keyWindow = UIApplication
+      .shared
+      .connectedScenes
+      .compactMap { $0 as? UIWindowScene }
+      .flatMap { $0.windows }
+      .last { $0.isKeyWindow }
     return keyWindow?.rootViewController
   }
 

@@ -99,9 +99,9 @@ private func googleMediationNetwork(_ controller: AdViewController) -> AdNetwork
       AdFormat.interstitial
     ],
     defaultAdUnits: [
-      AdFormat.banner320x50: "ca-app-pub-8459323526901202/5005871401",
-      AdFormat.banner300x250: "ca-app-pub-8459323526901202/5005871401",
-      AdFormat.interstitial: "ca-app-pub-8459323526901202/8006659012"
+      AdFormat.banner320x50: "ca-app-pub-3940256099942544/2934735716",
+      AdFormat.banner300x250: "ca-app-pub-3940256099942544/2934735716",
+      AdFormat.interstitial: "ca-app-pub-3940256099942544/4411468910"
     ],
     specificAdUnits: [:],
     adViewBuilder: GAMAdViewBuilder(controller: controller))
@@ -119,16 +119,16 @@ private func googleNetwork(_ controller: AdViewController) -> AdNetwork {
       AdFormat.rewarded
     ],
     defaultAdUnits: [
-      AdFormat.banner320x50: "/140800857/Endeavour_320x50",
-      AdFormat.banner300x250: "/140800857/Endeavour_300x250",
-      AdFormat.native: "/140800857/Endeavour_Native",
-      AdFormat.interstitial: "/140800857/Endeavour_Interstitial_320x480",
-      AdFormat.video: "/140800857/Endeavour_InterstitialVideo_320x480"
+      AdFormat.banner320x50: "/6499/example/banner",
+      AdFormat.banner300x250: "/6499/example/banner",
+      AdFormat.native: "/6499/example/native",
+      AdFormat.interstitial: "/6499/example/interstitial",
+      AdFormat.video: "/6499/example/interstitial"
     ],
     specificAdUnits: [
       AdFormat.rewarded: (
-        criteoId: "/140800857/Endeavour_RewardedVideo",
-        externalId: "/140800857/Endeavour_InterstitialVideo_320x480"
+        criteoId: "/6499/example/rewarded",
+        externalId: "/21775744923/example/rewarded_interstitial"
       )
     ],
     adViewBuilder: GoogleAdViewBuilder(controller: controller))
