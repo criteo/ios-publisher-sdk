@@ -92,10 +92,12 @@
   /// Create an ad unit
   CRBannerAdUnit *adUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:params.adUnitId
                                                                size:adConfiguration.adSize.size];
+  NSNumber *childDirectedTreatment =
+      GADMobileAds.sharedInstance.requestConfiguration.tagForChildDirectedTreatment;
   /// Load ad banner
   [self loadBannerForAdUnit:adUnit
              mediationParams:params
-      childDirectedTreatment:adConfiguration.childDirectedTreatment];
+      childDirectedTreatment:childDirectedTreatment];
 }
 
 #pragma mark GADMediationBannerAd implementation

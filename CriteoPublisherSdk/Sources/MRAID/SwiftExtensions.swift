@@ -38,7 +38,14 @@ extension UIView {
             return false
         }
 
-        guard let rootViewController = UIApplication.shared.keyWindow?.rootViewController else {
+        let keyWindow = UIApplication
+            .shared
+            .connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .last { $0.isKeyWindow }
+
+        guard let rootViewController = keyWindow?.rootViewController else {
             return false
         }
 

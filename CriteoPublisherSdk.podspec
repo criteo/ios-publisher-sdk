@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name              = "CriteoPublisherSdk"
-  spec.version           = "6.1.2"
+  spec.version           = "6.2.0"
   spec.summary           = "Criteo Publisher SDK for iOS"
 
   spec.description       = <<-DESC
@@ -38,7 +38,7 @@ Pod::Spec.new do |spec|
   spec.subspec "GoogleAdapter" do |adapter|
     adapter.source_files     = "CriteoGoogleAdapter/Sources/**/*.{h,m}"
     adapter.dependency         "CriteoPublisherSdk/Sdk"
-    adapter.dependency         "Google-Mobile-Ads-SDK", "~> 10.1.0"
+    adapter.dependency         "Google-Mobile-Ads-SDK", "~> 11.1.0"
   end
 
 
