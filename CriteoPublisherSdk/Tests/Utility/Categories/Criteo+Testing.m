@@ -34,6 +34,7 @@
 // This publisherId B-056946 exists in production.
 NSString *const CriteoTestingPublisherId = @"B-000001";
 NSString *const CriteoTestingStoreId = @"testStoreId";
+NSString *const CriteoTestingInventoryGroupId = @"testInventoryGroupId";
 
 NSString *const DemoBannerAdUnitId = @"30s6zt3ayypfyemwjvmp";
 NSString *const DemoInterstitialAdUnitId = @"6yws53jyfjgoq1ghnuqb";
@@ -109,6 +110,7 @@ NSString *const RewardedAdUnitId = @"test-PubSdk-Rewarded";
 
 - (void)testing_registerWithAdUnits:(NSArray<CRAdUnit *> *)adUnits {
   [self registerCriteoPublisherId:CriteoTestingPublisherId
+                  withInventoryGroupId:CriteoTestingInventoryGroupId
                       withStoreId:CriteoTestingStoreId
                       withAdUnits:adUnits];
 }

@@ -52,7 +52,7 @@
 @end
 
 #define SERVER_PARAMETER \
-  @"{\"cpId\":\"testCpId\",\"adUnitId\":\"testAdUnitId\",\"storeId\":\"testStoreId\"}"
+  @"{\"cpId\":\"testCpId\",\"pubId\":\"testInventoryGroupId\",\"adUnitId\":\"testAdUnitId\",\"storeId\":\"testStoreId\"}"
 
 @implementation CRBannerCustomEventTests
 
@@ -71,6 +71,7 @@
   id mockCriteo = OCMClassMock([Criteo class]);
   OCMStub([mockCriteo sharedCriteo]).andReturn(mockCriteo);
   OCMStub([mockCriteo registerCriteoPublisherId:@"testCpId"
+                                withInventoryGroupId:@"testInventoryGroupId"
                                     withStoreId:@"testStoreId"
                                     withAdUnits:@[ bannerAdUnit ]]);
   OCMStub([mockCriteo setChildDirectedTreatment:mockChildDirectedTreatment]);
@@ -82,6 +83,7 @@
   OCMVerify([mockCRBannerView loadAd]);
   OCMVerify([mockCRBannerView setDelegate:customEvent]);
   OCMVerify([mockCriteo registerCriteoPublisherId:@"testCpId"
+                                  withInventoryGroupId:@"testInventoryGroupId"
                                       withStoreId:@"testStoreId"
                                       withAdUnits:@[ bannerAdUnit ]]);
   OCMVerify([mockCriteo setChildDirectedTreatment:mockChildDirectedTreatment]);

@@ -93,8 +93,12 @@
   CR_DependencyProvider *dependencyProviderMock = OCMClassMock(CR_DependencyProvider.class);
   Criteo *criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProviderMock];
   NSString *nilPublisherId = nil;
+  NSString *nilInventoryGroupId = nil;
   NSString *nilStoreId = nil;
-  [criteo registerCriteoPublisherId:nilPublisherId withStoreId:nilStoreId withAdUnits:@[]];
+  [criteo registerCriteoPublisherId:nilPublisherId
+                    withInventoryGroupId:nilInventoryGroupId
+                        withStoreId:nilStoreId
+                        withAdUnits:@[]];
 
   OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
                                 return logMessage.severity == CR_LogSeverityError &&
@@ -108,8 +112,12 @@
   CR_DependencyProvider *dependencyProviderMock = OCMClassMock(CR_DependencyProvider.class);
   Criteo *criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProviderMock];
   NSString *emptyPublisherId = @"";
+  NSString *emptyInventoryGroupId = @"";
   NSString *emptyStoreId = @"";
-  [criteo registerCriteoPublisherId:emptyPublisherId withStoreId:emptyStoreId withAdUnits:@[]];
+  [criteo registerCriteoPublisherId:emptyPublisherId
+                    withInventoryGroupId:emptyInventoryGroupId
+                        withStoreId:emptyStoreId
+                        withAdUnits:@[]];
 
   OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
                                 return logMessage.severity == CR_LogSeverityError &&
@@ -321,7 +329,10 @@
   OCMStub(dependencyProviderMock.threadManager).andReturn(threadManager);
   testBlock(dependencyProviderMock);
   Criteo *criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProviderMock];
-  [criteo registerCriteoPublisherId:@"testPublisherId" withStoreId:@"testStoreId" withAdUnits:@[]];
+  [criteo registerCriteoPublisherId:@"testPublisherId"
+                    withInventoryGroupId:@"testInventoryGroupId"
+                        withStoreId:@"testStoreId"
+                        withAdUnits:@[]];
 }
 
 - (void)mockBidManagerWithAdUnit:(CR_CacheAdUnit *)adUnit respondBid:(CR_CdbBid *)bid {

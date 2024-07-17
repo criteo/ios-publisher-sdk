@@ -49,6 +49,10 @@
   return @"cpId";
 }
 
++ (NSString *)pubIdKey {
+  return @"pubId";
+}
+
 #pragma mark - User
 
 + (NSString *)userAgentKey {

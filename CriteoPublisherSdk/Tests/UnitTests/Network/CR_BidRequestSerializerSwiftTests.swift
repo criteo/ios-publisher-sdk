@@ -51,6 +51,7 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
         CR_CacheAdUnit(adUnitId: "2", width: 2, height: 2)
       ])
     config.criteoPublisherId = "Test Published Id"
+    config.inventoryGroupId = "Inventory Id"
   }
 
   func testUrl() {
@@ -77,7 +78,9 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
 
   func testBodyWithPublisher() {
     let expected: NSDictionary = [
-      NSString.bundleIdKey: config.appId, NSString.cpIdKey: config.criteoPublisherId!,
+      NSString.bundleIdKey: config.appId,
+      NSString.cpIdKey: config.criteoPublisherId!,
+      NSString.pubIdKey: config.inventoryGroupId!,
       "ext": NSDictionary()
     ]
     let body = generateBody()

@@ -56,6 +56,7 @@
 - (CR_DependencyProvider *)withWireMockConfiguration {
   self.config =
       [[CR_Config alloc] initWithCriteoPublisherId:CriteoTestingPublisherId
+                                       inventoryGroupId:CriteoTestingInventoryGroupId
                                            storeId:CriteoTestingStoreId
                                             cdbUrl:[self wireMockEndPoint:@"cdb"]
                                       appEventsUrl:[self wireMockEndPoint:@"gum/appevent/v1"]

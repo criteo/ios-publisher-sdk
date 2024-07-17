@@ -43,6 +43,7 @@
                   adConfiguration:(CRGoogleMediationParameters *)params
            childDirectedTreatment:(NSNumber *)childDirectedTreatment {
   [Criteo.sharedCriteo registerCriteoPublisherId:params.publisherId
+                                 withInventoryGroupId:params.inventoryGroupId
                                      withStoreId:params.storeId
                                      withAdUnits:@[ adUnit ]];
   /// Set child directed treatment flag to Criteo SDK.

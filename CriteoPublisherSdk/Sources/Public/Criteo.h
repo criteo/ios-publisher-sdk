@@ -52,10 +52,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Initialize Criteo singleton
  * @param criteoPublisherId Publisher Identifier
+ * @param inventoryGroupId Inventory group identifier
  * @param storeId Publisher's app store id
  * @param adUnits AdUnits array
  */
 - (void)registerCriteoPublisherId:(NSString *)criteoPublisherId
+                  withInventoryGroupId:(NSString *)inventoryGroupId
                       withStoreId:(NSString *)storeId
                       withAdUnits:(NSArray<CRAdUnit *> *)adUnits;
 

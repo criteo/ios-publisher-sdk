@@ -29,10 +29,11 @@
   NSError *error;
   CRGoogleMediationParameters *gmp = [CRGoogleMediationParameters
       parametersFromJSONString:
-          @"{\"cpId\":\"B-056946\", \"adUnitId\": \"/140800857/Endeavour_320x50\", \"storeId\": \"B-056946\"}"
+          @"{\"cpId\":\"B-056946\", \"pubId\":\"testInventoryGroupId\", \"adUnitId\": \"/140800857/Endeavour_320x50\", \"storeId\": \"B-056946\"}"
                          error:&error];
   XCTAssertNotNil(gmp);
   XCTAssertEqualObjects(gmp.publisherId, @"B-056946");
+  XCTAssertEqualObjects(gmp.inventoryGroupId, @"testInventoryGroupId");
   XCTAssertEqualObjects(gmp.adUnitId, @"/140800857/Endeavour_320x50");
   XCTAssertEqualObjects(gmp.storeId, @"B-056946");
 }
@@ -42,7 +43,7 @@
   NSError *error = [NSError new];
   CRGoogleMediationParameters *gmp = [CRGoogleMediationParameters
       parametersFromJSONString:
-          @"{\"cpId\":\"B-056946\", \"adUnitId\": \"/140800857/Endeavour_320x50\", \"storeId\": \"B-056946\"}"
+          @"{\"cpId\":\"B-056946\", \"pubId\":\"testInventoryGroupId\", \"adUnitId\": \"/140800857/Endeavour_320x50\", \"storeId\": \"B-056946\"}"
                          error:&error];
   XCTAssertNil(error);
 }
@@ -51,10 +52,11 @@
 - (void)testGoogleMediationParametersNilError {
   CRGoogleMediationParameters *gmp = [CRGoogleMediationParameters
       parametersFromJSONString:
-          @"{\"cpId\":\"B-056946\", \"adUnitId\": \"/140800857/Endeavour_320x50\", \"storeId\": \"B-056946\"}"
+          @"{\"cpId\":\"B-056946\", \"pubId\":\"testInventoryGroupId\", \"adUnitId\": \"/140800857/Endeavour_320x50\", \"storeId\": \"B-056946\"}"
                          error:nil];
   XCTAssertNotNil(gmp);
   XCTAssertEqualObjects(gmp.publisherId, @"B-056946");
+  XCTAssertEqualObjects(gmp.inventoryGroupId, @"testInventoryGroupId");
   XCTAssertEqualObjects(gmp.adUnitId, @"/140800857/Endeavour_320x50");
   XCTAssertEqualObjects(gmp.storeId, @"B-056946");
 }

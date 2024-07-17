@@ -134,6 +134,7 @@
   NSMutableDictionary *publisher = [NSMutableDictionary new];
   publisher[CR_ApiQueryKeys.bundleId] = config.appId;
   publisher[CR_ApiQueryKeys.cpId] = config.criteoPublisherId;
+  publisher[CR_ApiQueryKeys.pubId] = config.inventoryGroupId;
   publisher[CR_ApiQueryKeys.ext] =
       [CR_BidRequestSerializer mergeToNestedStructure:@[ contextData.data ]];
   publisher[CR_ApiQueryKeys.storeId] = config.storeId;

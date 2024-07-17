@@ -174,5 +174,8 @@
 + (NSString *)storeId {
   return @"storeId";
 }
++ (NSString *)pubId {
+  return @"pubId";
+}
 
 @end
