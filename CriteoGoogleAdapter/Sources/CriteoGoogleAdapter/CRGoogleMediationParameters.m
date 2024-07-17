@@ -45,7 +45,7 @@ static NSString *nonEmptyStringFromObj(id obj) {
 @implementation CRGoogleMediationParameters
 
 - (id)initWithPublisherId:(NSString *)publisherId
-              inventoryGroupId:(NSString *)inventoryGroupId
+         inventoryGroupId:(NSString *)inventoryGroupId
                   storeId:(NSString *)storeId
                  adUnitId:(NSString *)adUnitId {
   self = [super init];
@@ -78,7 +78,8 @@ static NSString *nonEmptyStringFromObj(id obj) {
   NSString *pubId = nonEmptyStringFromObj(jsonDict[criteoGoogleMediationPublisherIdKey]);
   NSString *adId = nonEmptyStringFromObj(jsonDict[criteoGoogleMediationAdUnitIdKey]);
   NSString *storeId = nonEmptyStringFromObj(jsonDict[criteoGoogleMediationStoreIdKey]);
-  NSString *inventoryGroupId = nonEmptyStringFromObj(jsonDict[criteoGoogleMediationInventoryGroupIdKey]);
+  NSString *inventoryGroupId =
+      nonEmptyStringFromObj(jsonDict[criteoGoogleMediationInventoryGroupIdKey]);
   if (pubId == nil || adId == nil) {
     setJSONParsingError(error);
     return nil;
@@ -87,7 +88,7 @@ static NSString *nonEmptyStringFromObj(id obj) {
     *error = nil;
   }
   return [[CRGoogleMediationParameters alloc] initWithPublisherId:pubId
-                                                      inventoryGroupId:inventoryGroupId
+                                                 inventoryGroupId:inventoryGroupId
                                                           storeId:storeId
                                                          adUnitId:adId];
 }

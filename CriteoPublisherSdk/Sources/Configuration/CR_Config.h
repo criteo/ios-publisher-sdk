@@ -80,7 +80,7 @@ FOUNDATION_EXTERN NSString *const CR_ConfigConfigurationUrl;
 #pragma mark - Lifecycle
 
 - (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId
-                              inventoryGroupId:(nullable NSString *)inventoryGroupId
+                         inventoryGroupId:(nullable NSString *)inventoryGroupId
                                   storeId:(nullable NSString *)storeId
                                    cdbUrl:(NSString *)cdbUrl
                              appEventsUrl:(NSString *)appEventsUrl
@@ -88,11 +88,11 @@ FOUNDATION_EXTERN NSString *const CR_ConfigConfigurationUrl;
                              userDefaults:(NSUserDefaults *)userDefaults NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId
-                              inventoryGroupId:(nullable NSString *)inventoryGroupId
+                         inventoryGroupId:(nullable NSString *)inventoryGroupId
                                   storeId:(nullable NSString *)storeId;
 
 - (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId
-                              inventoryGroupId:(nullable NSString *)inventoryGroupId;
+                         inventoryGroupId:(nullable NSString *)inventoryGroupId;
 
 - (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId;
 

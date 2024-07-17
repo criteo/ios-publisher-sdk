@@ -43,7 +43,7 @@ NSString *const CR_ConfigConfigurationUrl = @"https://bidder.criteo.com/config/a
 @implementation CR_Config
 
 - (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId
-                              inventoryGroupId:(nullable NSString *)inventoryGroupId
+                         inventoryGroupId:(nullable NSString *)inventoryGroupId
                                   storeId:(nullable NSString *)storeId
                                    cdbUrl:(NSString *)cdbUrl
                              appEventsUrl:(NSString *)appEventsUrl
@@ -85,7 +85,7 @@ NSString *const CR_ConfigConfigurationUrl = @"https://bidder.criteo.com/config/a
 
 - (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId {
   return [self initWithCriteoPublisherId:criteoPublisherId
-                             inventoryGroupId:nil
+                        inventoryGroupId:nil
                                  storeId:nil
                                   cdbUrl:CR_ConfigCdbUrl
                             appEventsUrl:CR_ConfigAppEventsUrl
@@ -94,9 +94,9 @@ NSString *const CR_ConfigConfigurationUrl = @"https://bidder.criteo.com/config/a
 }
 
 - (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId
-                              inventoryGroupId:(nullable NSString *)inventoryGroupId {
+                         inventoryGroupId:(nullable NSString *)inventoryGroupId {
   return [self initWithCriteoPublisherId:criteoPublisherId
-                             inventoryGroupId:inventoryGroupId
+                        inventoryGroupId:inventoryGroupId
                                  storeId:nil
                                   cdbUrl:CR_ConfigCdbUrl
                             appEventsUrl:CR_ConfigAppEventsUrl
@@ -105,10 +105,10 @@ NSString *const CR_ConfigConfigurationUrl = @"https://bidder.criteo.com/config/a
 }
 
 - (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId
-                              inventoryGroupId:(nullable NSString *)inventoryGroupId
+                         inventoryGroupId:(nullable NSString *)inventoryGroupId
                                   storeId:(nullable NSString *)storeId {
   return [self initWithCriteoPublisherId:criteoPublisherId
-                             inventoryGroupId:inventoryGroupId
+                        inventoryGroupId:inventoryGroupId
                                  storeId:storeId
                                   cdbUrl:CR_ConfigCdbUrl
                             appEventsUrl:CR_ConfigAppEventsUrl
@@ -122,7 +122,7 @@ NSString *const CR_ConfigConfigurationUrl = @"https://bidder.criteo.com/config/a
 
 - (instancetype)initWithUserDefaults:(NSUserDefaults *)userDefaults {
   return [self initWithCriteoPublisherId:nil
-                             inventoryGroupId:nil
+                        inventoryGroupId:nil
                                  storeId:nil
                                   cdbUrl:CR_ConfigCdbUrl
                             appEventsUrl:CR_ConfigAppEventsUrl

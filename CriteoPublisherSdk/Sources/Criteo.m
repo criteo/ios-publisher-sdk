@@ -93,7 +93,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)registerCriteoPublisherId:(NSString *)criteoPublisherId
-                  withInventoryGroupId:(NSString *)inventoryGroupId
+             withInventoryGroupId:(NSString *)inventoryGroupId
                       withStoreId:(NSString *)storeId
                       withAdUnits:(NSArray<CRAdUnit *> *)adUnits {
   if (criteoPublisherId == nil || criteoPublisherId.length == 0) {
@@ -111,7 +111,7 @@ static dispatch_once_t onceToken;
       @try {
         [self.dependencyProvider.threadManager dispatchAsyncOnGlobalQueue:^{
           [self _registerCriteoPublisherId:criteoPublisherId
-                           withInventoryGroupId:inventoryGroupId
+                      withInventoryGroupId:inventoryGroupId
                                withStoreId:storeId
                                withAdUnits:adUnits];
           CRLogInfo(@"Registration",
@@ -198,7 +198,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)_registerCriteoPublisherId:(NSString *)criteoPublisherId
-                   withInventoryGroupId:(NSString *)inventoryGroupId
+              withInventoryGroupId:(NSString *)inventoryGroupId
                        withStoreId:(NSString *)storeId
                        withAdUnits:(NSArray<CRAdUnit *> *)adUnits {
   self.config.criteoPublisherId = criteoPublisherId;

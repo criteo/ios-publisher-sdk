@@ -96,7 +96,7 @@
   NSString *nilInventoryGroupId = nil;
   NSString *nilStoreId = nil;
   [criteo registerCriteoPublisherId:nilPublisherId
-                    withInventoryGroupId:nilInventoryGroupId
+               withInventoryGroupId:nilInventoryGroupId
                         withStoreId:nilStoreId
                         withAdUnits:@[]];
 
@@ -115,7 +115,7 @@
   NSString *emptyInventoryGroupId = @"";
   NSString *emptyStoreId = @"";
   [criteo registerCriteoPublisherId:emptyPublisherId
-                    withInventoryGroupId:emptyInventoryGroupId
+               withInventoryGroupId:emptyInventoryGroupId
                         withStoreId:emptyStoreId
                         withAdUnits:@[]];
 
@@ -330,7 +330,7 @@
   testBlock(dependencyProviderMock);
   Criteo *criteo = [[Criteo alloc] initWithDependencyProvider:dependencyProviderMock];
   [criteo registerCriteoPublisherId:@"testPublisherId"
-                    withInventoryGroupId:@"testInventoryGroupId"
+               withInventoryGroupId:@"testInventoryGroupId"
                         withStoreId:@"testStoreId"
                         withAdUnits:@[]];
 }

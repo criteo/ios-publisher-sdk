@@ -78,7 +78,7 @@
   id mockCriteo = OCMStrictClassMock([Criteo class]);
   OCMStub([mockCriteo sharedCriteo]).andReturn(mockCriteo);
   OCMStub([mockCriteo registerCriteoPublisherId:@"testCpId"
-                                withInventoryGroupId:@"testInventoryGroupId"
+                           withInventoryGroupId:@"testInventoryGroupId"
                                     withStoreId:@"testStoreId"
                                     withAdUnits:@[ interstitialAdUnit ]]);
   OCMStub([mockCriteo setChildDirectedTreatment:mockChildDirectedTreatment]);
@@ -92,7 +92,7 @@
   OCMVerify([mockCRInterstitial setDelegate:customEvent]);
   OCMVerify([mockCRInterstitial presentFromRootViewController:realVC]);
   OCMVerify([mockCriteo registerCriteoPublisherId:@"testCpId"
-                                  withInventoryGroupId:@"testInventoryGroupId"
+                             withInventoryGroupId:@"testInventoryGroupId"
                                       withStoreId:@"testStoreId"
                                       withAdUnits:@[ interstitialAdUnit ]]);
   OCMVerify([mockCriteo setChildDirectedTreatment:mockChildDirectedTreatment]);

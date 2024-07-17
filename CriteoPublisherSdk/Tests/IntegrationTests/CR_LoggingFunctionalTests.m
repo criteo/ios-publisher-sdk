@@ -136,7 +136,7 @@
 
 - (void)testCriteoRegister_ShouldBeLogged {
   [self.criteo registerCriteoPublisherId:self.publisherId
-                         withInventoryGroupId:@""
+                    withInventoryGroupId:@""
                              withStoreId:@""
                              withAdUnits:self.adUnits];
   OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
@@ -149,12 +149,12 @@
 
 - (void)testCriteoRegisterTwice_ShouldBeLogged {
   [self.criteo registerCriteoPublisherId:self.publisherId
-                         withInventoryGroupId:self.inventoryGroupId
+                    withInventoryGroupId:self.inventoryGroupId
                              withStoreId:self.storeId
                              withAdUnits:self.adUnits];
   OCMVerify([self.loggingMock logMessage:[OCMArg any]]);
   [self.criteo registerCriteoPublisherId:self.publisherId
-                         withInventoryGroupId:self.inventoryGroupId
+                    withInventoryGroupId:self.inventoryGroupId
                              withStoreId:self.storeId
                              withAdUnits:self.adUnits];
   OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {

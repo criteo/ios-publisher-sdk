@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 - (id)initWithPublisherId:(NSString *)publisherId
-              inventoryGroupId:(NSString *)inventoryGroupId
+         inventoryGroupId:(NSString *)inventoryGroupId
                   storeId:(NSString *)storeId
                  adUnitId:(NSString *)adUnitId;
 + (nullable CRGoogleMediationParameters *)parametersFromJSONString:(NSString *)jsonString

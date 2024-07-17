@@ -110,7 +110,7 @@ NSString *const RewardedAdUnitId = @"test-PubSdk-Rewarded";
 
 - (void)testing_registerWithAdUnits:(NSArray<CRAdUnit *> *)adUnits {
   [self registerCriteoPublisherId:CriteoTestingPublisherId
-                  withInventoryGroupId:CriteoTestingInventoryGroupId
+             withInventoryGroupId:CriteoTestingInventoryGroupId
                       withStoreId:CriteoTestingStoreId
                       withAdUnits:adUnits];
 }

@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param adUnits AdUnits array
  */
 - (void)registerCriteoPublisherId:(NSString *)criteoPublisherId
-                  withInventoryGroupId:(NSString *)inventoryGroupId
+             withInventoryGroupId:(NSString *)inventoryGroupId
                       withStoreId:(NSString *)storeId
                       withAdUnits:(NSArray<CRAdUnit *> *)adUnits;
 
