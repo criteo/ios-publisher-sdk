@@ -1,5 +1,11 @@
 # Criteo Publisher SDK Changelog
 --------------------------------------------------------------------------------
+## Version [7.0.0]
+
+### Features
+- Add InventoryGroupId parameter, update register method
+
+--------------------------------------------------------------------------------
 ## Version [6.2.0]
 
 ### Features

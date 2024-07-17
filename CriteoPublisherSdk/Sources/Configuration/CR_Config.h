@@ -34,6 +34,7 @@ FOUNDATION_EXTERN NSString *const CR_ConfigConfigurationUrl;
 #pragma mark - Properties
 
 @property(copy, nonatomic, nullable) NSString *criteoPublisherId;
+@property(copy, nonatomic, nullable) NSString *inventoryGroupId;
 @property(assign, nonatomic) BOOL killSwitch;
 @property(copy, nonatomic) NSString *adTagUrlMode;
 @property(copy, nonatomic) NSString *viewportWidthMacro;
@@ -79,6 +80,7 @@ FOUNDATION_EXTERN NSString *const CR_ConfigConfigurationUrl;
 #pragma mark - Lifecycle
 
 - (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId
+                         inventoryGroupId:(nullable NSString *)inventoryGroupId
                                   storeId:(nullable NSString *)storeId
                                    cdbUrl:(NSString *)cdbUrl
                              appEventsUrl:(NSString *)appEventsUrl
@@ -86,7 +88,11 @@ FOUNDATION_EXTERN NSString *const CR_ConfigConfigurationUrl;
                              userDefaults:(NSUserDefaults *)userDefaults NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId
+                         inventoryGroupId:(nullable NSString *)inventoryGroupId
                                   storeId:(nullable NSString *)storeId;
+
+- (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId
+                         inventoryGroupId:(nullable NSString *)inventoryGroupId;
 
 - (instancetype)initWithCriteoPublisherId:(nullable NSString *)criteoPublisherId;
 
