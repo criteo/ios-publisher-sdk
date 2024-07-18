@@ -52,6 +52,9 @@
 @end
 
 #define SERVER_PARAMETER \
+  @"{\"cpId\":\"testCpId\",\"adUnitId\":\"testAdUnitId\",\"storeId\":\"testStoreId\"}"
+
+#define SERVER_PARAMETER_WITH_INVENTORY_GROUP_ID \
   @"{\"cpId\":\"testCpId\",\"pubId\":\"testInventoryGroupId\",\"adUnitId\":\"testAdUnitId\",\"storeId\":\"testStoreId\"}"
 
 @implementation CRBannerCustomEventTests
@@ -64,6 +67,40 @@
   CRBannerCustomEvent *customEvent = [[CRBannerCustomEvent alloc] initWithBanner:mockCRBannerView];
   CRGoogleMediationParameters *params =
       [CRGoogleMediationParameters parametersFromJSONString:SERVER_PARAMETER error:NULL];
+
+  OCMStub([mockCRBannerView loadAd]);
+  OCMStub([mockCRBannerView setDelegate:customEvent]);
+
+  id mockCriteo = OCMClassMock([Criteo class]);
+  OCMStub([mockCriteo sharedCriteo]).andReturn(mockCriteo);
+  OCMStub([mockCriteo registerCriteoPublisherId:@"testCpId"
+                           withInventoryGroupId:nil
+                                    withStoreId:@"testStoreId"
+                                    withAdUnits:@[ bannerAdUnit ]]);
+  OCMStub([mockCriteo setChildDirectedTreatment:mockChildDirectedTreatment]);
+
+  [customEvent loadBannerForAdUnit:bannerAdUnit
+                   mediationParams:params
+            childDirectedTreatment:mockChildDirectedTreatment];
+
+  OCMVerify([mockCRBannerView loadAd]);
+  OCMVerify([mockCRBannerView setDelegate:customEvent]);
+  OCMVerify([mockCriteo registerCriteoPublisherId:@"testCpId"
+                             withInventoryGroupId:nil
+                                      withStoreId:@"testStoreId"
+                                      withAdUnits:@[ bannerAdUnit ]]);
+  OCMVerify([mockCriteo setChildDirectedTreatment:mockChildDirectedTreatment]);
+}
+
+- (void)testRequestBannerAdSuccessWithInventoryGroupId {
+  NSNumber *mockChildDirectedTreatment = @YES;
+  CRBannerView *mockCRBannerView = OCMStrictClassMock([CRBannerView class]);
+  CRBannerAdUnit *bannerAdUnit = [[CRBannerAdUnit alloc] initWithAdUnitId:@"testAdUnitId"
+                                                                     size:CGSizeMake(320, 50)];
+  CRBannerCustomEvent *customEvent = [[CRBannerCustomEvent alloc] initWithBanner:mockCRBannerView];
+  CRGoogleMediationParameters *params =
+      [CRGoogleMediationParameters parametersFromJSONString:SERVER_PARAMETER_WITH_INVENTORY_GROUP_ID
+                                                      error:NULL];
 
   OCMStub([mockCRBannerView loadAd]);
   OCMStub([mockCRBannerView setDelegate:customEvent]);

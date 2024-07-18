@@ -23,15 +23,15 @@
 @interface CR_RemoteConfigRequest ()
 
 @property(copy, nonatomic) NSString *criteoPublisherId;
-@property(copy, nonatomic) NSString *inventoryGroupId;
 @property(copy, nonatomic) NSString *sdkVersion;
 @property(copy, nonatomic) NSString *appId;
 @property(copy, nonatomic) NSNumber *profileId;
 @property(copy, nonatomic) NSString *deviceModel;
 @property(copy, nonatomic) NSString *deviceOs;
+@property(copy, nonatomic, nullable) NSString *inventoryGroupId;
 
 - (instancetype)initWithCriteoPublisherId:(NSString *)criteoPublisherId
-                         inventoryGroupId:(NSString *)inventoryGroupId
+                         inventoryGroupId:(nullable NSString *)inventoryGroupId
                                sdkVersion:(NSString *)sdkVersion
                                     appId:(NSString *)appId
                                 profileId:(NSNumber *)profileId
@@ -55,7 +55,7 @@
 }
 
 - (instancetype)initWithCriteoPublisherId:(NSString *)criteoPublisherId
-                         inventoryGroupId:(NSString *)inventoryGroupId
+                         inventoryGroupId:(nullable NSString *)inventoryGroupId
                                sdkVersion:(NSString *)sdkVersion
                                     appId:(NSString *)appId
                                 profileId:(NSNumber *)profileId
@@ -76,15 +76,20 @@
 }
 
 - (NSDictionary *)postBody {
-  return @{
+  NSMutableDictionary *body = [NSMutableDictionary dictionary];
+  NSDictionary *values = @{
     @"cpId" : self.criteoPublisherId,
-    @"pubId" : self.inventoryGroupId,
     @"bundleId" : self.appId,
     @"sdkVersion" : self.sdkVersion,
     @"rtbProfileId" : self.profileId,
     @"deviceModel" : self.deviceModel,
     @"deviceOs" : self.deviceOs
   };
+  [body setValuesForKeysWithDictionary:values];
+  if (self.inventoryGroupId != nil) {
+    [body setObject:self.inventoryGroupId forKey:@"pubId"];
+  }
+  return body;
 }
 
 @end

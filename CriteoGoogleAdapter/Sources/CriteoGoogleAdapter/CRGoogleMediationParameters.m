@@ -55,7 +55,9 @@ static NSString *nonEmptyStringFromObj(id obj) {
   _publisherId = [NSString stringWithString:publisherId];
   _adUnitId = [NSString stringWithString:adUnitId];
   _storeId = [NSString stringWithString:storeId];
-  _inventoryGroupId = [NSString stringWithString:inventoryGroupId];
+  if (inventoryGroupId != nil) {
+    _inventoryGroupId = [NSString stringWithString:inventoryGroupId];
+  }
   return self;
 }
 

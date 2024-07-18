@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(copy, readonly) NSString *publisherId;
 @property(copy, readonly) NSString *adUnitId;
 @property(copy, readonly) NSString *storeId;
-@property(copy, readonly) NSString *inventoryGroupId;
+@property(copy, nullable, readonly) NSString *inventoryGroupId;
 
 @end
 

@@ -135,8 +135,18 @@
 }
 
 - (void)testCriteoRegister_ShouldBeLogged {
+  [self.criteo registerCriteoPublisherId:self.publisherId withStoreId:@"" withAdUnits:self.adUnits];
+  OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+                                NSString *message = logMessage.message;
+                                return [logMessage.tag isEqualToString:@"Registration"] &&
+                                       [message containsString:self.publisherId] &&
+                                       [message containsString:self.adUnits.description];
+                              }]]);
+}
+
+- (void)testCriteoRegisterWithInventoryGroupId_ShouldBeLogged {
   [self.criteo registerCriteoPublisherId:self.publisherId
-                    withInventoryGroupId:@""
+                    withInventoryGroupId:self.inventoryGroupId
                              withStoreId:@""
                              withAdUnits:self.adUnits];
   OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
@@ -149,12 +159,10 @@
 
 - (void)testCriteoRegisterTwice_ShouldBeLogged {
   [self.criteo registerCriteoPublisherId:self.publisherId
-                    withInventoryGroupId:self.inventoryGroupId
                              withStoreId:self.storeId
                              withAdUnits:self.adUnits];
   OCMVerify([self.loggingMock logMessage:[OCMArg any]]);
   [self.criteo registerCriteoPublisherId:self.publisherId
-                    withInventoryGroupId:self.inventoryGroupId
                              withStoreId:self.storeId
                              withAdUnits:self.adUnits];
   OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {

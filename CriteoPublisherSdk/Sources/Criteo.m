@@ -96,11 +96,27 @@ static dispatch_once_t onceToken;
              withInventoryGroupId:(NSString *)inventoryGroupId
                       withStoreId:(NSString *)storeId
                       withAdUnits:(NSArray<CRAdUnit *> *)adUnits {
+  [self registerCriteoPublisherIdWrapper:criteoPublisherId
+                    withInventoryGroupId:inventoryGroupId
+                             withStoreId:storeId
+                             withAdUnits:adUnits];
+}
+
+- (void)registerCriteoPublisherId:(NSString *)criteoPublisherId
+                      withStoreId:(NSString *)storeId
+                      withAdUnits:(NSArray<CRAdUnit *> *)adUnits {
+  [self registerCriteoPublisherIdWrapper:criteoPublisherId
+                    withInventoryGroupId:nil
+                             withStoreId:storeId
+                             withAdUnits:adUnits];
+}
+
+- (void)registerCriteoPublisherIdWrapper:(NSString *)criteoPublisherId
+                    withInventoryGroupId:(NSString *)inventoryGroupId
+                             withStoreId:(NSString *)storeId
+                             withAdUnits:(NSArray<CRAdUnit *> *)adUnits {
   if (criteoPublisherId == nil || criteoPublisherId.length == 0) {
     CRLogError(@"Registration", @"Invalid Criteo publisher ID: \"%@\"", criteoPublisherId);
-  }
-  if (inventoryGroupId == nil || inventoryGroupId.length == 0) {
-    CRLogError(@"Registration", @"Invalid Inventory ID: \"%@\"", inventoryGroupId);
   }
   if (storeId == nil || storeId.length == 0) {
     CRLogError(@"Registration", @"Invalid store ID: \"%@\"", storeId);
