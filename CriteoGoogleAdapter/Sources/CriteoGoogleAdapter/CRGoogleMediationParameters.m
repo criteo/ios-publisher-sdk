@@ -23,7 +23,7 @@
 static NSString *const criteoGoogleMediationPublisherIdKey = @"cpId";
 static NSString *const criteoGoogleMediationAdUnitIdKey = @"adUnitId";
 static NSString *const criteoGoogleMediationStoreIdKey = @"storeId";
-static NSString *const criteoGoogleMediationInventoryGroupIdKey = @"pubId";
+static NSString *const criteoGoogleMediationInventoryGroupIdKey = @"inventoryGroupId";
 
 static void setJSONParsingError(NSError **error) {
   if (error != nil) {

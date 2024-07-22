@@ -174,8 +174,8 @@
 + (NSString *)storeId {
   return @"storeId";
 }
-+ (NSString *)pubId {
-  return @"pubId";
++ (NSString *)inventoryGroupId {
+  return @"inventoryGroupId";
 }
 
 @end

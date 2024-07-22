@@ -87,7 +87,7 @@
   };
   [body setValuesForKeysWithDictionary:values];
   if (self.inventoryGroupId != nil) {
-    [body setObject:self.inventoryGroupId forKey:@"pubId"];
+    [body setObject:self.inventoryGroupId forKey:@"inventoryGroupId"];
   }
   return body;
 }

@@ -59,7 +59,7 @@
   @"{\"cpId\":\"testCpId\",\"adUnitId\":\"testAdUnitId\",\"storeId\":\"testStoreId\"}"
 
 #define SERVER_PARAMETER_WITH_INVENTORY_GROUP_ID \
-  @"{\"cpId\":\"testCpId\",\"pubId\":\"testInventoryGroupId\",\"adUnitId\":\"testAdUnitId\",\"storeId\":\"testStoreId\"}"
+  @"{\"cpId\":\"testCpId\",\"inventoryGroupId\":\"testInventoryGroupId\",\"adUnitId\":\"testAdUnitId\",\"storeId\":\"testStoreId\"}"
 
 @implementation CRInterstitialCustomEventTests
 

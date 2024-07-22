@@ -56,7 +56,7 @@
 - (void)testToPostPayloadWithInventoryGroupId_GivenConfig {
   CR_Config *config = OCMClassMock([CR_Config class]);
   OCMStub(config.criteoPublisherId).andReturn(@"myCpId");
-  OCMStub(config.inventoryGroupId).andReturn(@"myPubId");
+  OCMStub(config.inventoryGroupId).andReturn(@"myInventoryGroupId");
   OCMStub(config.sdkVersion).andReturn(@"1.3.3.7");
   OCMStub(config.appId).andReturn(@"myAppId");
   OCMStub(config.deviceModel).andReturn(@"myDeviceModel");
@@ -69,7 +69,7 @@
 
   NSDictionary *expected = @{
     @"cpId" : @"myCpId",
-    @"pubId" : @"myPubId",
+    @"inventoryGroupId" : @"myInventoryGroupId",
     @"bundleId" : @"myAppId",
     @"sdkVersion" : @"1.3.3.7",
     @"rtbProfileId" : profileId,

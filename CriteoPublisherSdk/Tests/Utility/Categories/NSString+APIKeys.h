@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(copy, nonatomic, class, readonly) NSString *bundleIdKey;
 @property(copy, nonatomic, class, readonly) NSString *cpIdKey;
-@property(copy, nonatomic, class, readonly) NSString *pubIdKey;
+@property(copy, nonatomic, class, readonly) NSString *inventoryGroupIdKey;
 
 #pragma mark User
 

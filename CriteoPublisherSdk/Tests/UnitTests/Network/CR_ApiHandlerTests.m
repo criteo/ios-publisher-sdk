@@ -295,7 +295,7 @@
 - (void)testCdbCallContainsPublisherInfo {
   NSDictionary *expected = @{
     CR_ApiQueryKeys.cpId : self.configMock.criteoPublisherId,
-    CR_ApiQueryKeys.pubId : self.configMock.inventoryGroupId,
+    CR_ApiQueryKeys.inventoryGroupId : self.configMock.inventoryGroupId,
     CR_ApiQueryKeys.bundleId : self.configMock.appId,
     CR_ApiQueryKeys.storeId : self.configMock.storeId,
     CR_ApiQueryKeys.ext : @{}

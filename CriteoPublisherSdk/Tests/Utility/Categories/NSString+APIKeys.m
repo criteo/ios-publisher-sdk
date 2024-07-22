@@ -49,8 +49,8 @@
   return @"cpId";
 }
 
-+ (NSString *)pubIdKey {
-  return @"pubId";
++ (NSString *)inventoryGroupIdKey {
+  return @"inventoryGroupId";
 }
 
 #pragma mark - User

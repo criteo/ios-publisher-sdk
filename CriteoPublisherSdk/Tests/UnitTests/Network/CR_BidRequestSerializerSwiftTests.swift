@@ -80,7 +80,7 @@ class CR_BidRequestSerializerSwiftTests: XCTestCase {
     let expected: NSDictionary = [
       NSString.bundleIdKey: config.appId,
       NSString.cpIdKey: config.criteoPublisherId!,
-      NSString.pubIdKey: config.inventoryGroupId!,
+      NSString.inventoryGroupIdKey: config.inventoryGroupId!,
       "ext": NSDictionary()
     ]
     let body = generateBody()

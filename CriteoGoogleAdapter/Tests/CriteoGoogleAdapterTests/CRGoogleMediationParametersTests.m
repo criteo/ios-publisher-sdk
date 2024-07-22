@@ -29,7 +29,7 @@
   NSError *error;
   CRGoogleMediationParameters *gmp = [CRGoogleMediationParameters
       parametersFromJSONString:
-          @"{\"cpId\":\"B-056946\", \"pubId\":\"testInventoryGroupId\", \"adUnitId\": \"/140800857/Endeavour_320x50\", \"storeId\": \"B-056946\"}"
+          @"{\"cpId\":\"B-056946\", \"inventoryGroupId\":\"testInventoryGroupId\", \"adUnitId\": \"/140800857/Endeavour_320x50\", \"storeId\": \"B-056946\"}"
                          error:&error];
   XCTAssertNotNil(gmp);
   XCTAssertEqualObjects(gmp.publisherId, @"B-056946");
@@ -43,7 +43,7 @@
   NSError *error = [NSError new];
   CRGoogleMediationParameters *gmp = [CRGoogleMediationParameters
       parametersFromJSONString:
-          @"{\"cpId\":\"B-056946\", \"pubId\":\"testInventoryGroupId\", \"adUnitId\": \"/140800857/Endeavour_320x50\", \"storeId\": \"B-056946\"}"
+          @"{\"cpId\":\"B-056946\", \"inventoryGroupId\":\"testInventoryGroupId\", \"adUnitId\": \"/140800857/Endeavour_320x50\", \"storeId\": \"B-056946\"}"
                          error:&error];
   XCTAssertNil(error);
 }
@@ -52,7 +52,7 @@
 - (void)testGoogleMediationParametersNilError {
   CRGoogleMediationParameters *gmp = [CRGoogleMediationParameters
       parametersFromJSONString:
-          @"{\"cpId\":\"B-056946\", \"pubId\":\"testInventoryGroupId\", \"adUnitId\": \"/140800857/Endeavour_320x50\", \"storeId\": \"B-056946\"}"
+          @"{\"cpId\":\"B-056946\", \"inventoryGroupId\":\"testInventoryGroupId\", \"adUnitId\": \"/140800857/Endeavour_320x50\", \"storeId\": \"B-056946\"}"
                          error:nil];
   XCTAssertNotNil(gmp);
   XCTAssertEqualObjects(gmp.publisherId, @"B-056946");
@@ -150,12 +150,12 @@
   XCTAssertEqual(error.code, GADErrorInvalidArgument);
 }
 
-// Blank pubId
-- (void)testGoogleMediationParametersBlankPubId {
+// Blank inventoryGroupId
+- (void)testGoogleMediationParametersBlankInventoryGroupId {
   NSError *error;
   CRGoogleMediationParameters *gmp = [CRGoogleMediationParameters
       parametersFromJSONString:
-          @"{\"cpId\":\"B-056946\", \"pubId\":\"\", \"adUnitId\": \"/140800857/Endeavour_320x50\", \"storeId\": \"B-056946\"}"
+          @"{\"cpId\":\"B-056946\", \"inventoryGroupId\":\"\", \"adUnitId\": \"/140800857/Endeavour_320x50\", \"storeId\": \"B-056946\"}"
                          error:&error];
   XCTAssertNotNil(gmp);
   XCTAssertEqualObjects(gmp.publisherId, @"B-056946");
@@ -164,8 +164,8 @@
   XCTAssertEqualObjects(gmp.storeId, @"B-056946");
 }
 
-// Nil pubId
-- (void)testGoogleMediationParametersNilPubId {
+// Nil inventoryGroupId
+- (void)testGoogleMediationParametersNilInventoryGroupId {
   NSError *error;
   CRGoogleMediationParameters *gmp = [CRGoogleMediationParameters
       parametersFromJSONString:
@@ -178,12 +178,12 @@
   XCTAssertEqualObjects(gmp.storeId, @"B-056946");
 }
 
-// Non-string pubId
-- (void)testGoogleMediationParametersNonStringPubId {
+// Non-string inventoryGroupId
+- (void)testGoogleMediationParametersNonStringInventoryGroupId {
   NSError *error = [NSError new];
   CRGoogleMediationParameters *gmp = [CRGoogleMediationParameters
       parametersFromJSONString:
-          @"{\"cpId\":\"B-056946\", \"pubId\":1, \"adUnitID\": \"/140800857/Endeavour_320x50\", \"storeId\": \"B-056946\"}"
+          @"{\"cpId\":\"B-056946\", \"inventoryGroupId\":1, \"adUnitID\": \"/140800857/Endeavour_320x50\", \"storeId\": \"B-056946\"}"
                          error:&error];
   XCTAssertNil(gmp);
   XCTAssertEqual(error.code, GADErrorInvalidArgument);
