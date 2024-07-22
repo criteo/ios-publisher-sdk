@@ -28,8 +28,10 @@
 @property(copy, nonatomic) NSNumber *profileId;
 @property(copy, nonatomic) NSString *deviceModel;
 @property(copy, nonatomic) NSString *deviceOs;
+@property(copy, nonatomic, nullable) NSString *inventoryGroupId;
 
 - (instancetype)initWithCriteoPublisherId:(NSString *)criteoPublisherId
+                         inventoryGroupId:(nullable NSString *)inventoryGroupId
                                sdkVersion:(NSString *)sdkVersion
                                     appId:(NSString *)appId
                                 profileId:(NSNumber *)profileId
@@ -43,6 +45,7 @@
 
 + (instancetype)requestWithConfig:(CR_Config *)config profileId:(NSNumber *)profileId {
   return [CR_RemoteConfigRequest.alloc initWithCriteoPublisherId:config.criteoPublisherId
+                                                inventoryGroupId:config.inventoryGroupId
                                                       sdkVersion:config.sdkVersion
                                                            appId:config.appId
                                                        profileId:profileId
@@ -52,6 +55,7 @@
 }
 
 - (instancetype)initWithCriteoPublisherId:(NSString *)criteoPublisherId
+                         inventoryGroupId:(nullable NSString *)inventoryGroupId
                                sdkVersion:(NSString *)sdkVersion
                                     appId:(NSString *)appId
                                 profileId:(NSNumber *)profileId
@@ -60,6 +64,7 @@
                                 configUrl:(NSString *)configUrl {
   if (self = [super init]) {
     _criteoPublisherId = criteoPublisherId;
+    _inventoryGroupId = inventoryGroupId;
     _sdkVersion = sdkVersion;
     _appId = appId;
     _profileId = profileId;
@@ -71,7 +76,8 @@
 }
 
 - (NSDictionary *)postBody {
-  return @{
+  NSMutableDictionary *body = [NSMutableDictionary dictionary];
+  NSDictionary *values = @{
     @"cpId" : self.criteoPublisherId,
     @"bundleId" : self.appId,
     @"sdkVersion" : self.sdkVersion,
@@ -79,6 +85,11 @@
     @"deviceModel" : self.deviceModel,
     @"deviceOs" : self.deviceOs
   };
+  [body setValuesForKeysWithDictionary:values];
+  if (self.inventoryGroupId != nil) {
+    [body setObject:self.inventoryGroupId forKey:@"inventoryGroupId"];
+  }
+  return body;
 }
 
 @end

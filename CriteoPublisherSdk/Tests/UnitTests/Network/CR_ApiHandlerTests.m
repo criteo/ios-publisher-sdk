@@ -242,6 +242,7 @@
 
   CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
   OCMStub([mockConfig criteoPublisherId]).andReturn(@("1"));
+  OCMStub([mockConfig inventoryGroupId]).andReturn(@("1"));
   OCMStub([mockConfig sdkVersion]).andReturn(@"1.0");
   OCMStub([mockConfig appId]).andReturn(@"com.criteo.sdk.publisher");
   OCMStub([mockConfig configUrl]).andReturn(@"https://url-for-getting-config");
@@ -294,6 +295,7 @@
 - (void)testCdbCallContainsPublisherInfo {
   NSDictionary *expected = @{
     CR_ApiQueryKeys.cpId : self.configMock.criteoPublisherId,
+    CR_ApiQueryKeys.inventoryGroupId : self.configMock.inventoryGroupId,
     CR_ApiQueryKeys.bundleId : self.configMock.appId,
     CR_ApiQueryKeys.storeId : self.configMock.storeId,
     CR_ApiQueryKeys.ext : @{}
@@ -688,6 +690,7 @@
 - (CR_Config *)buildConfigMock {
   CR_Config *mockConfig = OCMStrictClassMock([CR_Config class]);
   OCMStub([mockConfig criteoPublisherId]).andReturn(@("1"));
+  OCMStub([mockConfig inventoryGroupId]).andReturn(@("1"));
   OCMStub([mockConfig sdkVersion]).andReturn(@"1.0");
   OCMStub([mockConfig cdbUrl]).andReturn(@"https://dummyCdb.com");
   OCMStub([mockConfig path]).andReturn(@"inApp");

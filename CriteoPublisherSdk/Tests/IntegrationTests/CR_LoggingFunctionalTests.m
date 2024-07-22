@@ -39,6 +39,7 @@
 @property(nonatomic, strong) CR_ConsoleLogHandler *consoleLogHandlerMock;
 @property(strong, nonatomic) Criteo *criteo;
 @property(nonatomic, copy) NSString *publisherId;
+@property(nonatomic, copy) NSString *inventoryGroupId;
 @property(nonatomic, strong) NSArray<CRAdUnit *> *adUnits;
 @property(nonatomic, strong) NSUserDefaults *userDefaults;
 @property(nonatomic, strong) CR_ApiHandler *apiHandler;
@@ -67,6 +68,7 @@
   dependencyProvider.logging = self.loggingMock;
 
   self.publisherId = @"testPublisherId";
+  self.inventoryGroupId = @"testInventoryGroupId";
   self.storeId = @"testStoreId";
   self.adUnits = @[
     [[CRBannerAdUnit alloc] initWithAdUnitId:@"adUnitId1" size:CGSizeMake(42, 21)],
@@ -134,6 +136,19 @@
 
 - (void)testCriteoRegister_ShouldBeLogged {
   [self.criteo registerCriteoPublisherId:self.publisherId withStoreId:@"" withAdUnits:self.adUnits];
+  OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
+                                NSString *message = logMessage.message;
+                                return [logMessage.tag isEqualToString:@"Registration"] &&
+                                       [message containsString:self.publisherId] &&
+                                       [message containsString:self.adUnits.description];
+                              }]]);
+}
+
+- (void)testCriteoRegisterWithInventoryGroupId_ShouldBeLogged {
+  [self.criteo registerCriteoPublisherId:self.publisherId
+                    withInventoryGroupId:self.inventoryGroupId
+                             withStoreId:@""
+                             withAdUnits:self.adUnits];
   OCMVerify([self.loggingMock logMessage:[OCMArg checkWithBlock:^BOOL(CR_LogMessage *logMessage) {
                                 NSString *message = logMessage.message;
                                 return [logMessage.tag isEqualToString:@"Registration"] &&

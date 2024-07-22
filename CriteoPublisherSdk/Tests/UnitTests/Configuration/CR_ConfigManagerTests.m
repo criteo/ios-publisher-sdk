@@ -43,7 +43,7 @@
 #pragma mark - Lifecycle
 
 - (void)setUp {
-  localConfig = [[CR_Config alloc] initWithCriteoPublisherId:@"1337"];
+  localConfig = [[CR_Config alloc] initWithCriteoPublisherId:@"1337" inventoryGroupId:@"test"];
   mockApiHandler = OCMStrictClassMock(CR_ApiHandler.class);
   mockIntegrationRegistry = OCMStrictClassMock(CR_IntegrationRegistry.class);
   OCMStub([mockIntegrationRegistry profileId]).andReturn(@42);

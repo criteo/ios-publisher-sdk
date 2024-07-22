@@ -58,6 +58,9 @@
 #define SERVER_PARAMETER \
   @"{\"cpId\":\"testCpId\",\"adUnitId\":\"testAdUnitId\",\"storeId\":\"testStoreId\"}"
 
+#define SERVER_PARAMETER_WITH_INVENTORY_GROUP_ID \
+  @"{\"cpId\":\"testCpId\",\"inventoryGroupId\":\"testInventoryGroupId\",\"adUnitId\":\"testAdUnitId\",\"storeId\":\"testStoreId\"}"
+
 @implementation CRInterstitialCustomEventTests
 
 - (void)testLoadAndPresentFromRootViewController {
@@ -78,6 +81,7 @@
   id mockCriteo = OCMStrictClassMock([Criteo class]);
   OCMStub([mockCriteo sharedCriteo]).andReturn(mockCriteo);
   OCMStub([mockCriteo registerCriteoPublisherId:@"testCpId"
+                           withInventoryGroupId:nil
                                     withStoreId:@"testStoreId"
                                     withAdUnits:@[ interstitialAdUnit ]]);
   OCMStub([mockCriteo setChildDirectedTreatment:mockChildDirectedTreatment]);
@@ -91,6 +95,46 @@
   OCMVerify([mockCRInterstitial setDelegate:customEvent]);
   OCMVerify([mockCRInterstitial presentFromRootViewController:realVC]);
   OCMVerify([mockCriteo registerCriteoPublisherId:@"testCpId"
+                             withInventoryGroupId:nil
+                                      withStoreId:@"testStoreId"
+                                      withAdUnits:@[ interstitialAdUnit ]]);
+  OCMVerify([mockCriteo setChildDirectedTreatment:mockChildDirectedTreatment]);
+}
+
+- (void)testLoadAndPresentFromRootViewControllerWithInventoryGroupId {
+  NSNumber *mockChildDirectedTreatment = @YES;
+  CRInterstitial *mockCRInterstitial = OCMStrictClassMock([CRInterstitial class]);
+  CRInterstitialAdUnit *interstitialAdUnit =
+      [[CRInterstitialAdUnit alloc] initWithAdUnitId:@"testAdUnitId"];
+  CRInterstitialCustomEvent *customEvent =
+      [[CRInterstitialCustomEvent alloc] initWithInterstitial:mockCRInterstitial];
+  CRGoogleMediationParameters *params =
+      [CRGoogleMediationParameters parametersFromJSONString:SERVER_PARAMETER_WITH_INVENTORY_GROUP_ID
+                                                      error:NULL];
+  OCMStub([mockCRInterstitial loadAd]);
+  OCMStub([mockCRInterstitial setDelegate:customEvent]);
+  UIViewController *realVC = [UIViewController new];
+  OCMStub([mockCRInterstitial presentFromRootViewController:realVC]);
+  OCMStub([mockCRInterstitial isAdLoaded]).andReturn(YES);
+
+  id mockCriteo = OCMStrictClassMock([Criteo class]);
+  OCMStub([mockCriteo sharedCriteo]).andReturn(mockCriteo);
+  OCMStub([mockCriteo registerCriteoPublisherId:@"testCpId"
+                           withInventoryGroupId:@"testInventoryGroupId"
+                                    withStoreId:@"testStoreId"
+                                    withAdUnits:@[ interstitialAdUnit ]]);
+  OCMStub([mockCriteo setChildDirectedTreatment:mockChildDirectedTreatment]);
+
+  [customEvent loadInterstitialForAdUnit:interstitialAdUnit
+                         adConfiguration:params
+                  childDirectedTreatment:mockChildDirectedTreatment];
+  [customEvent presentFromViewController:realVC];
+
+  OCMVerify([mockCRInterstitial loadAd]);
+  OCMVerify([mockCRInterstitial setDelegate:customEvent]);
+  OCMVerify([mockCRInterstitial presentFromRootViewController:realVC]);
+  OCMVerify([mockCriteo registerCriteoPublisherId:@"testCpId"
+                             withInventoryGroupId:@"testInventoryGroupId"
                                       withStoreId:@"testStoreId"
                                       withAdUnits:@[ interstitialAdUnit ]]);
   OCMVerify([mockCriteo setChildDirectedTreatment:mockChildDirectedTreatment]);

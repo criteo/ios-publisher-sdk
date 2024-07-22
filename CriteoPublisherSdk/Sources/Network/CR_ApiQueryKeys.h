@@ -36,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(class, nonatomic, readonly) NSString *cdbCallEndElapsed;
 @property(class, nonatomic, readonly) NSString *cdbCallStartElapsed;
 @property(class, nonatomic, readonly) NSString *cpId;
+@property(class, nonatomic, readonly) NSString *inventoryGroupId;
 @property(class, nonatomic, readonly) NSString *deviceModel;
 @property(class, nonatomic, readonly) NSString *deviceIdType;
 @property(class, nonatomic, readonly) NSString *deviceId;

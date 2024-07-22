@@ -49,6 +49,10 @@
   return @"cpId";
 }
 
++ (NSString *)inventoryGroupIdKey {
+  return @"inventoryGroupId";
+}
+
 #pragma mark - User
 
 + (NSString *)userAgentKey {

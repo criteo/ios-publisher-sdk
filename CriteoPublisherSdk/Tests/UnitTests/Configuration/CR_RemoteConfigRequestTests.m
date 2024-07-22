@@ -30,6 +30,7 @@
 - (void)testToPostPayload_GivenConfig {
   CR_Config *config = OCMClassMock([CR_Config class]);
   OCMStub(config.criteoPublisherId).andReturn(@"myCpId");
+  OCMStub(config.inventoryGroupId).andReturn(nil);
   OCMStub(config.sdkVersion).andReturn(@"1.3.3.7");
   OCMStub(config.appId).andReturn(@"myAppId");
   OCMStub(config.deviceModel).andReturn(@"myDeviceModel");
@@ -42,6 +43,33 @@
 
   NSDictionary *expected = @{
     @"cpId" : @"myCpId",
+    @"bundleId" : @"myAppId",
+    @"sdkVersion" : @"1.3.3.7",
+    @"rtbProfileId" : profileId,
+    @"deviceModel" : @"myDeviceModel",
+    @"deviceOs" : @"myDeviceOs"
+  };
+
+  XCTAssertEqualObjects(postBody, expected);
+}
+
+- (void)testToPostPayloadWithInventoryGroupId_GivenConfig {
+  CR_Config *config = OCMClassMock([CR_Config class]);
+  OCMStub(config.criteoPublisherId).andReturn(@"myCpId");
+  OCMStub(config.inventoryGroupId).andReturn(@"myInventoryGroupId");
+  OCMStub(config.sdkVersion).andReturn(@"1.3.3.7");
+  OCMStub(config.appId).andReturn(@"myAppId");
+  OCMStub(config.deviceModel).andReturn(@"myDeviceModel");
+  OCMStub(config.deviceOs).andReturn(@"myDeviceOs");
+  NSNumber *profileId = @42;
+
+  CR_RemoteConfigRequest *request = [CR_RemoteConfigRequest requestWithConfig:config
+                                                                    profileId:profileId];
+  NSDictionary *postBody = request.postBody;
+
+  NSDictionary *expected = @{
+    @"cpId" : @"myCpId",
+    @"inventoryGroupId" : @"myInventoryGroupId",
     @"bundleId" : @"myAppId",
     @"sdkVersion" : @"1.3.3.7",
     @"rtbProfileId" : profileId,
