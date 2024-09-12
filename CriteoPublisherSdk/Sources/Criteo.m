@@ -93,8 +93,28 @@ static dispatch_once_t onceToken;
 }
 
 - (void)registerCriteoPublisherId:(NSString *)criteoPublisherId
+             withInventoryGroupId:(NSString *)inventoryGroupId
                       withStoreId:(NSString *)storeId
                       withAdUnits:(NSArray<CRAdUnit *> *)adUnits {
+  [self registerCriteoPublisherIdWrapper:criteoPublisherId
+                    withInventoryGroupId:inventoryGroupId
+                             withStoreId:storeId
+                             withAdUnits:adUnits];
+}
+
+- (void)registerCriteoPublisherId:(NSString *)criteoPublisherId
+                      withStoreId:(NSString *)storeId
+                      withAdUnits:(NSArray<CRAdUnit *> *)adUnits {
+  [self registerCriteoPublisherIdWrapper:criteoPublisherId
+                    withInventoryGroupId:nil
+                             withStoreId:storeId
+                             withAdUnits:adUnits];
+}
+
+- (void)registerCriteoPublisherIdWrapper:(NSString *)criteoPublisherId
+                    withInventoryGroupId:(NSString *)inventoryGroupId
+                             withStoreId:(NSString *)storeId
+                             withAdUnits:(NSArray<CRAdUnit *> *)adUnits {
   if (criteoPublisherId == nil || criteoPublisherId.length == 0) {
     CRLogError(@"Registration", @"Invalid Criteo publisher ID: \"%@\"", criteoPublisherId);
   }
@@ -107,6 +127,7 @@ static dispatch_once_t onceToken;
       @try {
         [self.dependencyProvider.threadManager dispatchAsyncOnGlobalQueue:^{
           [self _registerCriteoPublisherId:criteoPublisherId
+                      withInventoryGroupId:inventoryGroupId
                                withStoreId:storeId
                                withAdUnits:adUnits];
           CRLogInfo(@"Registration",
@@ -193,9 +214,11 @@ static dispatch_once_t onceToken;
 }
 
 - (void)_registerCriteoPublisherId:(NSString *)criteoPublisherId
+              withInventoryGroupId:(NSString *)inventoryGroupId
                        withStoreId:(NSString *)storeId
                        withAdUnits:(NSArray<CRAdUnit *> *)adUnits {
   self.config.criteoPublisherId = criteoPublisherId;
+  self.config.inventoryGroupId = inventoryGroupId;
   self.config.storeId = storeId;
   [self.appEvents registerForIosEvents];
   [self.appEvents sendLaunchEvent];

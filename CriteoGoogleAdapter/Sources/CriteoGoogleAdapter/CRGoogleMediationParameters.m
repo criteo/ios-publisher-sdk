@@ -23,6 +23,7 @@
 static NSString *const criteoGoogleMediationPublisherIdKey = @"cpId";
 static NSString *const criteoGoogleMediationAdUnitIdKey = @"adUnitId";
 static NSString *const criteoGoogleMediationStoreIdKey = @"storeId";
+static NSString *const criteoGoogleMediationInventoryGroupIdKey = @"inventoryGroupId";
 
 static void setJSONParsingError(NSError **error) {
   if (error != nil) {
@@ -44,6 +45,7 @@ static NSString *nonEmptyStringFromObj(id obj) {
 @implementation CRGoogleMediationParameters
 
 - (id)initWithPublisherId:(NSString *)publisherId
+         inventoryGroupId:(NSString *)inventoryGroupId
                   storeId:(NSString *)storeId
                  adUnitId:(NSString *)adUnitId {
   self = [super init];
@@ -53,6 +55,9 @@ static NSString *nonEmptyStringFromObj(id obj) {
   _publisherId = [NSString stringWithString:publisherId];
   _adUnitId = [NSString stringWithString:adUnitId];
   _storeId = [NSString stringWithString:storeId];
+  if (inventoryGroupId != nil) {
+    _inventoryGroupId = [NSString stringWithString:inventoryGroupId];
+  }
   return self;
 }
 
@@ -75,6 +80,8 @@ static NSString *nonEmptyStringFromObj(id obj) {
   NSString *pubId = nonEmptyStringFromObj(jsonDict[criteoGoogleMediationPublisherIdKey]);
   NSString *adId = nonEmptyStringFromObj(jsonDict[criteoGoogleMediationAdUnitIdKey]);
   NSString *storeId = nonEmptyStringFromObj(jsonDict[criteoGoogleMediationStoreIdKey]);
+  NSString *inventoryGroupId =
+      nonEmptyStringFromObj(jsonDict[criteoGoogleMediationInventoryGroupIdKey]);
   if (pubId == nil || adId == nil) {
     setJSONParsingError(error);
     return nil;
@@ -83,6 +90,7 @@ static NSString *nonEmptyStringFromObj(id obj) {
     *error = nil;
   }
   return [[CRGoogleMediationParameters alloc] initWithPublisherId:pubId
+                                                 inventoryGroupId:inventoryGroupId
                                                           storeId:storeId
                                                          adUnitId:adId];
 }

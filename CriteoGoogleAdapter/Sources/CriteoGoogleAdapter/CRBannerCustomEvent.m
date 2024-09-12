@@ -42,8 +42,9 @@
 - (void)loadBannerForAdUnit:(CRBannerAdUnit *)adUnit
             mediationParams:(CRGoogleMediationParameters *)params
      childDirectedTreatment:(NSNumber *)childDirectedTreatment {
-  /// Set the publicher id to
+  /// Set the publisher id to
   [Criteo.sharedCriteo registerCriteoPublisherId:params.publisherId
+                            withInventoryGroupId:params.inventoryGroupId
                                      withStoreId:params.storeId
                                      withAdUnits:@[ adUnit ]];
   /// Set child directed treatment flag to Criteo SDK.

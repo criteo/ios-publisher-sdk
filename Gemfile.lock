@@ -263,7 +263,7 @@ GEM
     simctl (1.6.10)
       CFPropertyList
       naturally
-    sqlite3 (1.4.2)
+    sqlite3 (1.5.4)
     terminal-notifier (2.0.0)
     terminal-table (3.0.2)
       unicode-display_width (>= 1.1.1, < 3)

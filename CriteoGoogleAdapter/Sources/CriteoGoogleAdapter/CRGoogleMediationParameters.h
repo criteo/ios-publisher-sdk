@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 - (id)initWithPublisherId:(NSString *)publisherId
+         inventoryGroupId:(NSString *)inventoryGroupId
                   storeId:(NSString *)storeId
                  adUnitId:(NSString *)adUnitId;
 + (nullable CRGoogleMediationParameters *)parametersFromJSONString:(NSString *)jsonString
@@ -33,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(copy, readonly) NSString *publisherId;
 @property(copy, readonly) NSString *adUnitId;
 @property(copy, readonly) NSString *storeId;
+@property(copy, nullable, readonly) NSString *inventoryGroupId;
 
 @end
 
