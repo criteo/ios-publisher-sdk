@@ -3,6 +3,9 @@
 [![License](https://img.shields.io/github/license/criteo/ios-publisher-sdk.svg)]()
 [![iOS9](https://img.shields.io/badge/iOS-9.0%2B-lightgrey.svg)]()
 
+> [!WARNING]
+> **This repository is deprecated.** Criteo publisher SDK is deprecated as of September 30, 2025. Please contact your Criteo Commerce Grid point of contact for information on alternative integration methods.
+
 # Criteo Publisher SDK
 > Criteo Publisher SDK is meant for app publishers wanting to integrate in their app the Criteo
 > Direct Bidder product. Direct Bidder for App allows you to monetize your mobile apps by accessing
